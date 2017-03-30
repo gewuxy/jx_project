@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+
+        /**
+         * 在要统计的module里加上
+         * apply plugin: 'com.getkeepsafe.dexcount'
+         * 输出位置: {buildDir}/outputs/dexcount/${variant}* 可配置项请查阅 https://github.com/KeepSafe/dexcount-gradle-plugin
+         */
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
+
+        /**
+         * dex分包工具
+         */
+        classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.5.2'
+
+        /**
+         * 注解框架相关
+         */
+//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+//        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1' // 为了能在lib里面使用注解
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+
+    // 检查过时的一些方法, 有时间的话可以打开来一个个修改
+//    gradle.projectsEvaluated {
+//        tasks.withType(JavaCompile) {
+//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+//        }
+//    }
+}
+
+project.ext {
+    compileSdkVersion = 24
+    buildToolsVersion = "25.0.2"
+    minSdkVersion = 14
+    targetSdkVersion = 24
+    versionCode = 10000
+    versionName = "1.00.00"
+    abortOnError = false //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
