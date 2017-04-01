@@ -7,10 +7,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
+import lib.ys.util.JsonUtil;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Test;
+import yy.doctor.model.Test.ETest;
 
 public class MainActivity extends BaseActivity {
 
@@ -61,6 +69,17 @@ public class MainActivity extends BaseActivity {
 
         setOnClickListener(mTvAaaaa);
         setOnClickListener(R.id.tv);
+
+        Test t = JsonUtil.getEV(Test.class, new JSONObject());
+        int count = t.getInt(ETest.count);
+        for (int i = 0; i < count; ++i) {
+
+        }
+
+        mTvAaaaa.setText(t.getString(ETest.count));
+
+        Profile t2 = t.getEv(ETest.test);
+        List<Profile> l = t.getList(ETest.list);
     }
 
     @Override
