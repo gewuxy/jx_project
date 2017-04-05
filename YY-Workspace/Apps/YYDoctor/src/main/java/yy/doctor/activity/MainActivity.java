@@ -2,27 +2,18 @@ package yy.doctor.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.graphics.Canvas;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
-import org.json.JSONObject;
-
-import java.util.List;
-
-import lib.ys.util.JsonUtil;
+import lib.sliding.menu.SlidingMenu;
 import lib.ys.util.LaunchUtil;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Test;
-import yy.doctor.model.Test.ETest;
+import yy.doctor.frag.HomeFrag;
 
-public class MainActivity extends BaseActivity {
-
-    private TextView mTvAaaaa;
+public class MainActivity extends BaseVPActivity {
 
     public static void nav(Context context, String test) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -33,12 +24,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         getIntent().getStringExtra(Extra.KTestAble);
-    }
 
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_main;
+        add(new HomeFrag());
     }
 
     @Override
@@ -53,33 +40,40 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void findViews() {
-        mTvAaaaa = findView(R.id.tv);
+    public void setViewsValue() {
+        super.setViewsValue();
 
-        mTvAaaaa.setOnClickListener(new OnClickListener() {
+        SlidingMenu m = new SlidingMenu(this);
+        m.setMode(SlidingMenu.LEFT);
+        m.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        m.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        m.setShadowWidthRes(R.dimen.shadow_width);
+        m.setShadowDrawable(R.drawable.menu_shadow);
+        m.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        m.setFadeDegree(0.25f);
+        m.setBackgroundImage(R.mipmap.menu_bg);
+        m.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        m.setMenu(R.layout.layout_menu);
+
+        // 收缩动画 侧滑栏
+        m.setBehindCanvasTransformer(new SlidingMenu.CanvasTransformer() {
             @Override
-            public void onClick(View v) {
-
+            public void transformCanvas(Canvas canvas, float percentOpen) {
+                float scale = (float) (percentOpen * 0.25 + 0.75);
+                // 后两个数，是变化的中心点参数
+                canvas.scale(scale, scale, -canvas.getWidth() / 2,
+                        canvas.getHeight() / 2);
             }
         });
-    }
 
-    @Override
-    public void setViewsValue() {
-
-        setOnClickListener(mTvAaaaa);
-        setOnClickListener(R.id.tv);
-
-        Test t = JsonUtil.getEV(Test.class, new JSONObject());
-        int count = t.getInt(ETest.count);
-        for (int i = 0; i < count; ++i) {
-
-        }
-
-        mTvAaaaa.setText(t.getString(ETest.count));
-
-        Profile t2 = t.getEv(ETest.test);
-        List<Profile> l = t.getList(ETest.list);
+        // 收缩动画 主界面
+        m.setAboveCanvasTransformer(new SlidingMenu.CanvasTransformer() {
+            @Override
+            public void transformCanvas(Canvas canvas, float percentOpen) {
+                float scale = (float) (1 - percentOpen * 0.25);
+                canvas.scale(scale, scale, 0, canvas.getHeight() / 2);
+            }
+        });
     }
 
     @Override
