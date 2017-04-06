@@ -43,13 +43,17 @@ public class MainActivity extends BaseVPActivity {
     public void setViewsValue() {
         super.setViewsValue();
 
+        setMenu();
+    }
+
+    private void setMenu() {
         SlidingMenu m = new SlidingMenu(this);
         m.setMode(SlidingMenu.LEFT);
         m.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         m.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
         m.setShadowWidthRes(R.dimen.shadow_width);
-        m.setShadowDrawable(R.drawable.menu_shadow);
         m.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        m.setShadowDrawable(R.drawable.menu_shadow);
         m.setFadeDegree(0.25f);
         m.setBackgroundImage(R.mipmap.menu_bg);
         m.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);

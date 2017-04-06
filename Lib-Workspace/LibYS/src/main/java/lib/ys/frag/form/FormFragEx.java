@@ -117,10 +117,10 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         /**
          * 为了修复fragment在view pager切换的时候, 会自动滚到到最底部的bug
          */
-        ViewGroup parent = (ViewGroup) mSv.getParent();
-        parent.setFocusable(true);
-        parent.setFocusableInTouchMode(true);
-        parent.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+//        ViewGroup parent = (ViewGroup) mSv.getParent();
+//        parent.setFocusable(true);
+//        parent.setFocusableInTouchMode(true);
+//        parent.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
     }
 
     protected void addHeaderView(View v) {
@@ -501,5 +501,9 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
             mRemandItems.clear();
             mRemandItems = null;
         }
+    }
+
+    protected ViewGroup getLayoutItems(){
+        return mLayoutItems;
     }
 }

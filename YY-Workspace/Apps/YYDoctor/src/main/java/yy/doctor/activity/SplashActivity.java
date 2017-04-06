@@ -6,7 +6,7 @@ import lib.ys.activity.SplashActivityEx;
 import yy.doctor.R;
 
 /**
- * @author Administrator
+ * @author CaiXiang
  * @since 2017/4/5
  */
 public class SplashActivity extends SplashActivityEx {
