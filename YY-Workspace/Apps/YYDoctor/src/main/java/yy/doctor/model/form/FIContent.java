@@ -1,4 +1,4 @@
-package yy.doctor.model.form.menu;
+package yy.doctor.model.form;
 
 import android.support.annotation.NonNull;
 
@@ -10,28 +10,30 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class FIGroup extends FormItem {
+public class FIContent extends FormItem {
 
     @NonNull
     @Override
     public int getType() {
-        return MenuType.group;
+        return FormType.content;
     }
 
     @Override
     protected void refresh(FormItemVH holder) {
         super.refresh(holder);
 
-        //holder.getTvText().setText();
+        setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
+
+        holder.getTvText().setText(getString(TFormElem.text));
     }
 
     @Override
     public boolean check() {
-        return true;
+        return false;
     }
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_menu_group;
+        return R.layout.form_item_content;
     }
 }

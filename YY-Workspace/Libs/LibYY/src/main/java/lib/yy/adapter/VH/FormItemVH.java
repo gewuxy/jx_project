@@ -18,8 +18,12 @@ public class FormItemVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public TextView getTv() {
+    public TextView getTvName() {
         return getView(R.id.form_item_tv_name);
+    }
+
+    public TextView getTvText() {
+        return getView(R.id.form_item_tv_text);
     }
 
     public ImageView getIv() {

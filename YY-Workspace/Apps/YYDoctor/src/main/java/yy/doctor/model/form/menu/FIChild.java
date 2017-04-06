@@ -30,7 +30,8 @@ public class FIChild extends FormItem {
 
     @Override
     protected void refresh(FormItemVH holder) {
-        holder.getTv().setText(getString(TFormElem.name));
-        holder.getIv().setImageResource(getInt(TFormElem.drawable));
+        super.refresh(holder);
+
+        setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
     }
 }

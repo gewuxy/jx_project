@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <drawable name="item_focus">#e8e8e8</drawable>
+    <color name="item_focus">#e8e8e8</color>
+
+    <!--text-->
+    <color name="text_333">#333333</color>
+    <color name="text_1ba0cc">#1ba0cc</color>
+    <color name="text_0d5878">#0d5878</color>
+    <color name="text_tabhost">#f0f1f2</color>
 </resources>

@@ -1,11 +1,11 @@
-package yy.doctor.model.form.menu;
+package yy.doctor.model.form;
 
 import lib.ys.form.FormBuilder;
 import lib.yy.model.form.FormItem;
 
 /**
  * @author CaiXiang
- * @since 2017/4/5
+ * @since 2017/4/6
  */
 public class Builder extends FormBuilder<FormItem> {
 
@@ -18,16 +18,8 @@ public class Builder extends FormBuilder<FormItem> {
         FormItem item = null;
 
         switch (type) {
-            case MenuType.child: {
-                item = new FIChild();
-            }
-            break;
-            case MenuType.group: {
-                item=new FIGroup();
-            }
-            break;
-            case MenuType.divider: {
-                item = new FIDivider();
+            case FormType.content: {
+                item = new FIContent();
             }
             break;
         }
@@ -41,4 +33,5 @@ public class Builder extends FormBuilder<FormItem> {
     protected boolean initEnable() {
         return true;
     }
+
 }
