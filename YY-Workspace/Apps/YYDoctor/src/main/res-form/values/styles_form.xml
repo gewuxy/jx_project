@@ -9,7 +9,11 @@
     </style>
 
     <style name="divider.menu">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/line_menu</item>
+    </style>
+
+    <style name="divider.main">
+        <item name="android:background">@color/line_gray</item>
     </style>
 
 </resources>

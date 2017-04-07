@@ -22,6 +22,14 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FIContent();
             }
             break;
+            case FormType.divider: {
+                item = new FIDivider();
+            }
+            break;
+            case FormType.divider_large: {
+                item = new FIDividerLarge();
+            }
+            break;
         }
 
         saveItemValues(item);

@@ -10,9 +10,9 @@
     <LinearLayout
         android:id="@+id/main_layout_indicator"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_weight="0"
-        android:background="@color/gray"
+        android:background="@color/line_large"
         android:orientation="horizontal">
     </LinearLayout>
 

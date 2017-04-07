@@ -3,12 +3,15 @@ package yy.doctor.frag;
 import android.support.annotation.NonNull;
 
 import lib.yy.frag.base.BaseFrag;
+import yy.doctor.R;
 
 /**
  * @author CaiXiang
  * @since 2017/4/6
  */
 public class MeetingFrag extends BaseFrag {
+
+
     @Override
     public void initData() {
 
@@ -17,7 +20,7 @@ public class MeetingFrag extends BaseFrag {
     @NonNull
     @Override
     public int getContentViewId() {
-        return 0;
+        return R.layout.frag_meeting;
     }
 
     @Override

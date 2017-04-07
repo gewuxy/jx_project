@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import lib.ys.frag.FragEx;
 import yy.doctor.R;
+import yy.doctor.activity.MainActivity;
+import yy.doctor.util.Util;
 
 /**
  * @author Administrator
@@ -24,7 +26,7 @@ public class HomeFrag extends FragEx {
 
     @Override
     public void initTitleBar() {
-
+        Util.addMenuIcon(getTitleBar(), (MainActivity) getActivity());
     }
 
     @Override

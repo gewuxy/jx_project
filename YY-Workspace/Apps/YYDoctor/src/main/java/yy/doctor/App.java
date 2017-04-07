@@ -14,7 +14,7 @@ public class App extends BaseApp {
 
     @Override
     protected void setParams() {
-        TitleBarConfig.bgColor(Color.BLUE);
+        TitleBarConfig.bgColor(Color.WHITE);
         TitleBarConfig.heightDp(44);
 
         AppConfig.enableSwipeFinish(false);

@@ -20,6 +20,8 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.frag.DiscoverFrag;
 import yy.doctor.frag.HomeFrag;
+import yy.doctor.frag.MeFrag;
+import yy.doctor.frag.MeetingFrag;
 
 public class MainActivity extends BaseVPActivity {
 
@@ -32,9 +34,9 @@ public class MainActivity extends BaseVPActivity {
     private final float KFactor = 0.25f;
 
     private final int KTabRecommend = 0;
-    //    private final int KTabRecommend = 1;
+    private final int KTabMeeting = 1;
     private final int KTabDiscover = 2;
-//    private final int KTabRecommend = 3;
+    private final int KTabMe = 3;
 
 
     private SlidingMenu mMenu;
@@ -46,9 +48,9 @@ public class MainActivity extends BaseVPActivity {
         getIntent().getStringExtra(Extra.KTestAble);
 
         add(new HomeFrag());
-//        add(new MeetingFrag());
+        add(new MeetingFrag());
         add(new DiscoverFrag());
-//        add(new MeFrag());
+        add(new MeFrag());
     }
 
     @Override
@@ -111,6 +113,33 @@ public class MainActivity extends BaseVPActivity {
         });
     }
 
+    private void addIndicators() {
+        addIndicator(KTabRecommend, R.drawable.main_selector_recommend, "推荐");
+        addIndicator(KTabMeeting, R.drawable.main_selector_meeting, "会议");
+        addIndicator(KTabDiscover, R.drawable.main_selector_discover, "发现");
+        addIndicator(KTabMe, R.drawable.main_selector_me, "我");
+
+        setOnPageChangeListener(new OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mTabPrev != null) {
+                    mTabPrev.setSelected(false);
+                }
+                mTabPrev = mLayoutTab.getChildAt(position);
+                mTabPrev.setSelected(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
     private void addIndicator(final int index, @DrawableRes int drawableId, CharSequence text) {
         View v = inflate(R.layout.layout_main_indicator);
 
@@ -140,31 +169,6 @@ public class MainActivity extends BaseVPActivity {
         mLayoutTab.addView(v, p);
     }
 
-    private void addIndicators() {
-        addIndicator(KTabRecommend, R.drawable.main_selector_recommend, "推荐");
-        addIndicator(KTabDiscover, R.drawable.main_selector_discover, "发现");
-
-        setOnPageChangeListener(new OnPageChangeListener() {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (mTabPrev != null) {
-                    mTabPrev.setSelected(false);
-                }
-                mTabPrev = mLayoutTab.getChildAt(position);
-                mTabPrev.setSelected(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-
     /**
      * 开启关闭侧滑menu
      */
@@ -173,4 +177,5 @@ public class MainActivity extends BaseVPActivity {
             mMenu.toggle();
         }
     }
+
 }

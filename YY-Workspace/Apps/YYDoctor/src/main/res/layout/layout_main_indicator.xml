@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:layout_weight="1"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/main_selector_bg">
 
     <ImageView
         android:id="@+id/main_indicator_iv"
