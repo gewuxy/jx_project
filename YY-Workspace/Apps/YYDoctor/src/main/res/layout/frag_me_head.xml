@@ -6,10 +6,22 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/line_large"/>
+
+
     <RelativeLayout
         android:id="@+id/me_layout_head"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:onClick="onClick"
         android:background="@drawable/item_selector">
 
         <ImageView
@@ -32,7 +44,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/me_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/me_head_iv"
@@ -42,6 +54,7 @@
                 android:text="name"/>
 
             <TextView
+                android:id="@+id/me_hospital"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -79,10 +92,12 @@
             android:layout_weight="1"
             android:background="@drawable/item_selector"
             android:layout_height="match_parent"
+            android:onClick="onClick"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/attention_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -104,10 +119,12 @@
             android:layout_weight="1"
             android:background="@drawable/item_selector"
             android:layout_height="match_parent"
+            android:onClick="onClick"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/friends_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -129,10 +146,12 @@
             android:layout_weight="1"
             android:background="@drawable/item_selector"
             android:layout_height="match_parent"
+            android:onClick="onClick"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/fans_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
