@@ -2,9 +2,7 @@ package yy.doctor.frag;
 
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
@@ -21,8 +19,8 @@ import yy.doctor.util.Util;
 public class MeFrag extends BaseFormFrag {
 
     private RelativeLayout mHeadRy;
-    private LinearLayout mAttentionLy, mFriendsLy, mFansLy;
-    private TextView mAttentionNum, mFriendsNum, mFansNum;
+    //private LinearLayout mAttentionLy, mFriendsLy, mFansLy;
+    //private TextView mAttentionNum, mFriendsNum, mFansNum;
 
     @IntDef({
             RelatedId.my_elephant,
@@ -82,8 +80,8 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.set)
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.line_gray)
+        addItem(new Builder(FormType.divider_large)
+                .backgroundRes(R.color.line_large)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -99,13 +97,14 @@ public class MeFrag extends BaseFormFrag {
         super.findViews();
 
         mHeadRy = findView(R.id.me_layout_head);
-        mAttentionLy = findView(R.id.me_attention);
+
+        /*mAttentionLy = findView(R.id.me_attention);
         mFriendsLy = findView(R.id.me_friends);
         mFansLy = findView(R.id.me_fans);
 
         mAttentionNum = findView(R.id.attention_num);
         mFriendsNum = findView(R.id.friends_num);
-        mFansNum = findView(R.id.fans_num);
+        mFansNum = findView(R.id.fans_num);*/
 
     }
 
@@ -114,9 +113,10 @@ public class MeFrag extends BaseFormFrag {
         super.setViewsValue();
 
         mHeadRy.setOnClickListener(this);
-        mAttentionLy.setOnClickListener(this);
+
+        /*mAttentionLy.setOnClickListener(this);
         mFriendsLy.setOnClickListener(this);
-        mFansLy.setOnClickListener(this);
+        mFansLy.setOnClickListener(this);*/
 
     }
 
@@ -127,18 +127,6 @@ public class MeFrag extends BaseFormFrag {
         switch (id) {
             case R.id.me_layout_head: {
                 showToast("资料");
-            }
-            break;
-            case R.id.me_attention: {
-                showToast("已关注");
-            }
-            break;
-            case R.id.me_friends: {
-                showToast("好友");
-            }
-            break;
-            case R.id.me_fans: {
-                showToast("粉丝");
             }
             break;
         }

@@ -13,5 +13,6 @@ public class HomeMeeting extends Home {
     public void refresh(HomeVH holder) {
         HomeMeetingVH vh = holder.getHolderMeeting();
 
+        String url = getString(THome.headImg_url);
     }
 }

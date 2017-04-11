@@ -2,7 +2,167 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="10dp"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/home_mt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="科研成才之路"
+        android:textColor="@color/text_1ba0cc"
+        android:textSize="13dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="7dp"
+            android:src="@mipmap/home_ic_meeting_start_time"/>
+
+        <ImageView
+            android:id="@+id/home_mt_live_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_ic_meeting_live"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible"
+            android:layout_marginRight="7dp"/>
+
+        <TextView
+            android:id="@+id/home_mt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12月9日 16：30"
+            android:textColor="@color/text_999999"
+            android:textSize="9.3dp" />
+
+        <TextView
+            android:id="@+id/home_mt_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="时长1.5小时"
+            android:textColor="@color/text_999999"
+            android:textSize="9.3dp" />
+
+        <TextView
+            android:id="@+id/home_mt_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="进行中"
+            android:textColor="@color/text_999999"
+            android:textSize="9.3dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_large" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/home_mt_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/round_bg"
+            android:contentDescription="@null"
+            android:src="@mipmap/home_ic_default_meeting"/>
+
+
+        <TextView
+            android:id="@+id/home_mt_speaker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_toRightOf="@id/home_mt_pic"
+            android:text="王学"
+            android:textColor="@color/black"
+            android:textSize="13.3sp"/>
+
+        <TextView
+            android:id="@+id/home_mt_speaker_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/home_mt_speaker"
+            android:layout_alignBottom="@id/home_mt_speaker"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/home_mt_speaker"
+            android:text="主任医师"
+            android:textColor="@color/black"
+            android:textSize="9.3sp"/>
+
+        <TextView
+            android:id="@+id/home_mt_organization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_mt_speaker"
+            android:layout_marginBottom="6dp"
+            android:layout_toRightOf="@id/home_mt_pic"
+            android:ellipsize="end"
+            android:text="YaYa讲堂"
+            android:textColor="@color/text_555555"
+            android:textSize="9.3sp"/>
+
+        <TextView
+            android:id="@+id/home_mt_major"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_below="@id/home_mt_organization"
+            android:layout_toRightOf="@id/home_mt_pic"
+            android:background="@drawable/home_meeting_tx_bg"
+            android:gravity="center"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:text="骨科"
+            android:textColor="@android:color/white"
+            android:textSize="8sp"/>
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="1dp">
+
+            <ImageView
+                android:id="@+id/home_mt_state_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_toLeftOf="@+id/home_mt_state_tx"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/home_ic_meeting_ing"/>
+
+            <TextView
+                android:id="@+id/home_mt_state_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="进行中"
+                android:textColor="@color/text_1ba0cc"
+                android:textSize="10.7dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

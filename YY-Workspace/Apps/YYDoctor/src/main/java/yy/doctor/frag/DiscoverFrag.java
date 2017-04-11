@@ -21,7 +21,6 @@ public class DiscoverFrag extends BaseFormFrag {
         RelatedId.public_number,
         RelatedId.doctor,
         RelatedId.medicine_news,
-        RelatedId.circle,
         RelatedId.data_center,
         RelatedId.elephant_city,
     })
@@ -29,9 +28,8 @@ public class DiscoverFrag extends BaseFormFrag {
         int public_number=0;
         int doctor=1;
         int medicine_news=2;
-        int circle=3;
-        int data_center=4;
-        int elephant_city=5;
+        int data_center=3;
+        int elephant_city=4;
     }
 
     @Override
@@ -43,22 +41,22 @@ public class DiscoverFrag extends BaseFormFrag {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.line_gray)
-                .build());
-
         addItem(new Builder(FormType.divider_large)
                 .backgroundRes(R.color.line_large)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.line_dbdbdb)
                 .build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_public_number)
                 .related(RelatedId.public_number)
-                .name("公众号")
+                .name("单位号")
                 .build());
 
         addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.line_gray)
+                .backgroundRes(R.color.line_dbdbdb)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -67,8 +65,16 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("医者")
                 .build());
 
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.line_dbdbdb)
+                .build());
+
         addItem(new Builder(FormType.divider_large)
                 .backgroundRes(R.color.line_large)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.line_dbdbdb)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -78,17 +84,7 @@ public class DiscoverFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.line_gray)
-                .build());
-
-        addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_circle)
-                .related(RelatedId.circle)
-                .name("圈子")
-                .build());
-
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.line_large)
+                .backgroundRes(R.color.line_dbdbdb)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -97,14 +93,26 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("数据中心")
                 .build());
 
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.line_dbdbdb)
+                .build());
+
         addItem(new Builder(FormType.divider_large)
                 .backgroundRes(R.color.line_large)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.line_dbdbdb)
                 .build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_elephant_city)
                 .related(RelatedId.elephant_city)
                 .name("象城")
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.line_dbdbdb)
                 .build());
 
     }
@@ -123,10 +131,6 @@ public class DiscoverFrag extends BaseFormFrag {
             break;
             case RelatedId.medicine_news: {
                 showToast("医药新闻");
-            }
-            break;
-            case RelatedId.circle: {
-                showToast("圈子");
             }
             break;
             case RelatedId.data_center: {

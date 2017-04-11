@@ -1,0 +1,29 @@
+{
+  "content": [
+    {
+      "con_url": "http://www.medcn.cn:8080/recommen/advert.jsp?adv_id=14",
+      "image_url": "http://www.medcn.cn:8080/recommen/zhibo_201612228.png",
+      "s_image_url": "http://www.medcn.cn:8080/recommen/s_zhibo_201612228.png",
+      "title": "直播功能上线啦！"
+    },
+    {
+      "con_url": "http://www.medcn.cn:8080/recommen/advert.jsp?adv_id=15",
+      "image_url": "http://www.medcn.cn:8080/recommen/yimiao_20170227.jpg",
+      "s_image_url": "http://www.medcn.cn:8080/recommen/s_yimiao_20170227.jpg",
+      "title": "国家免疫规划疫苗儿童免疫程序及说明（2016年版）"
+    },
+    {
+      "con_url": "http://www.medcn.cn:8080/recommen/advert.jsp?adv_id=17",
+      "image_url": "http://www.medcn.cn:8080/recommen/yibao_20170227.jpg",
+      "s_image_url": "http://www.medcn.cn:8080/recommen/s_yibao_20170227.jpg",
+      "title": "人力资源社会保障部关于印发国家基本医疗保险、工伤保险和生育保险药品目录（2017年版）的通知"
+    },
+    {
+      "con_url": "http://www.medcn.cn:8080/recommen/advert.jsp?adv_id=19",
+      "image_url": "http://www.medcn.cn:8080/recommen/jiceng_20170323.jpg",
+      "s_image_url": "http://www.medcn.cn:8080/recommen/s_jiceng_20170323.jpg",
+      "title": "基层医生收藏的60个诊断经验"
+    }
+  ],
+  "status": "0"
+}

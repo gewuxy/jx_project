@@ -18,6 +18,16 @@ public class NetFactory {
                 .param("key", "val")
                 .build();
     }
+    public static NetworkRequest home2() {
+        return newPost(UrlMain.KTttttt)
+                .param("key", "val")
+                .build();
+    }
+    public static NetworkRequest home3() {
+        return newPost(UrlMain.KTttttt)
+                .param("key", "val")
+                .build();
+    }
 
     private static Builder newPost(String url) {
         return new Builder(url)

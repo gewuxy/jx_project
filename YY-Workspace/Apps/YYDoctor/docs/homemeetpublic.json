@@ -1,0 +1,53 @@
+{
+  "content": [
+    {
+      "headImg_url": "http://www.medcn.cn:8080//recommen/meeting//14421.jpg",
+      "lecturer_title": "主管医师\n",
+      "re_id": 14421,
+      "re_type": 1
+    },
+    {
+      "headImg_url": "http://www.medcn.cn:8080//recommen/meeting//14273.jpg",
+      "lecturer_title": "教授",
+      "re_id": 14273,
+      "re_type": 1
+    },
+    {
+      "headImg_url": "http://www.medcn.cn:8080//recommen/meeting//13849.jpg",
+      "lecturer_title": "教授",
+      "re_id": 13849,
+      "re_type": 1
+    },
+    {
+      "headImg_url": "http://www.medcn.cn:8080//recommen/meeting//14149.jpg",
+      "lecturer_title": "主治医师",
+      "re_id": 14149,
+      "re_type": 1
+    },
+    {
+      "headImg_url": "http://www.medcn.cn:8080//recommen/meeting//13145.jpg",
+      "lecturer_title": "公众号",
+      "re_id": 13145,
+      "re_type": 1
+    },
+    {
+      "headImg_url": "",
+      "lecturer_title": "",
+      "re_id": 928349,
+      "re_type": 2
+    },
+    {
+      "headImg_url": "",
+      "lecturer_title": "",
+      "re_id": 290080,
+      "re_type": 2
+    },
+    {
+      "headImg_url": "",
+      "lecturer_title": "",
+      "re_id": 624787,
+      "re_type": 2
+    }
+  ],
+  "status": "0"
+}

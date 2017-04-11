@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="42dp"
         android:background="@drawable/item_selector">
 
         <LinearLayout
@@ -17,9 +17,9 @@
 
             <ImageView
                 android:id="@id/form_item_iv"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="20dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_marginLeft="12dp"
                 android:src="@mipmap/form_ic_public_number"/>
 
             <TextView
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="18dp"
                 android:text="公众号"
                 android:textColor="@color/text_333333"
                 android:textSize="14dp"/>
@@ -53,7 +53,7 @@
                 android:layout_height="9dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="18dp"
                 android:src="@mipmap/ic_arrow_right"/>
         </LinearLayout>
     </RelativeLayout>

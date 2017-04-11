@@ -11,11 +11,10 @@
         android:layout_height="1px"
         android:background="@color/line_gray"/>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="12dp"
-        android:background="@color/line_large"/>
-
+        android:background="@color/line_large"/>-->
 
     <RelativeLayout
         android:id="@+id/me_layout_head"
@@ -76,7 +75,7 @@
 
     </RelativeLayout>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/line_gray"/>
@@ -167,6 +166,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 </LinearLayout>

@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:paddingBottom="11dp"
+    android:paddingLeft="9dp"
+    android:paddingTop="11dp">
 
-</LinearLayout>
+    <android.support.v4.widget.CircleImageView
+        android:id="@+id/home_public_num_iv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/home_ic_default_public_num"/>
+
+    <TextView
+        android:id="@+id/home_public_num_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@+id/home_public_num_iv"
+        android:text="YaYa专家讲堂"
+        android:textColor="@color/black"
+        android:textSize="14dp"/>
+
+    <TextView
+        android:id="@+id/home_public_num_fans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_public_num_name"
+        android:layout_toRightOf="@+id/home_public_num_iv"
+        android:text="632人关注"
+        android:textColor="@color/text_555555"
+        android:textSize="9dp"/>
+
+</RelativeLayout>

@@ -1,32 +1,44 @@
 package yy.doctor.frag;
 
-import org.json.JSONException;
+import android.support.annotation.NonNull;
 
-import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
-import lib.ys.adapter.recycler.RecyclerViewHolderEx;
-import lib.ys.network.resp.IListResponse;
-import lib.yy.frag.base.BaseSRListFrag;
-import yy.doctor.adapter.HomeAdapter;
-import yy.doctor.model.home.Home;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import lib.yy.frag.base.BaseFrag;
+import yy.doctor.R;
+import yy.doctor.activity.MainActivity;
+import yy.doctor.util.Util;
 
 /**
- * @author Administrator
+ * @author Administrator   extends BaseSRListFrag<Home>
  * @since 2017/4/5
  */
-public class HomeFrag extends BaseSRListFrag<Home> {
-
+public class HomeFrag extends BaseFrag {
     @Override
     public void initData() {
+
+    }
+
+    @NonNull
+    @Override
+    public int getContentViewId() {
+        return R.layout.frag_home;
     }
 
     @Override
     public void initTitleBar() {
+        Util.addMenuIcon(getTitleBar(), (MainActivity) getActivity());
+    }
+
+    @Override
+    public void findViews() {
 
     }
 
     @Override
+    public void setViewsValue() {
+
+    }
+
+    /*@Override
     public MultiRecyclerAdapterEx<Home, ? extends RecyclerViewHolderEx> createAdapter() {
         return new HomeAdapter();
     }
@@ -39,6 +51,6 @@ public class HomeFrag extends BaseSRListFrag<Home> {
     @Override
     public IListResponse<Home> parseNetworkResponse(int id, String text) throws JSONException {
         return JsonParser.home(text);
-    }
+    }*/
 
 }
