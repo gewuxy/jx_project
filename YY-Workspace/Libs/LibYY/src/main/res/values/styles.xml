@@ -9,4 +9,20 @@
         <item name="android:layout_weight">0</item>
     </style>
 
+    <!-- 对话框设计样式 -->
+    <style name="dialog_two_tx" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 没有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 背景  透明的-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 是否浮在界面之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否充满整个屏幕 -->
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
 </resources>

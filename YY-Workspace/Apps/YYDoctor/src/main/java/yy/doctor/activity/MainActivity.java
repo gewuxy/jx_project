@@ -32,6 +32,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     private final float KFactor = 0.25f;
+    private final float KSeven = 0.75f;
 
     private final int KTabRecommend = 0;
     private final int KTabMeeting = 1;

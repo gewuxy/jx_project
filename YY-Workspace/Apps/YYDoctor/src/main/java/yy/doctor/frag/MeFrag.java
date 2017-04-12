@@ -1,5 +1,6 @@
 package yy.doctor.frag;
 
+import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -7,7 +8,10 @@ import android.widget.RelativeLayout;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
+import yy.doctor.activity.AboutActivity;
 import yy.doctor.activity.MainActivity;
+import yy.doctor.activity.MyCollectionActivity;
+import yy.doctor.activity.SetActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
@@ -49,8 +53,16 @@ public class MeFrag extends BaseFormFrag {
     public void initData() {
         super.initData();
 
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
+                .build());
+
         addItem(new Builder(FormType.divider_large)
                 .backgroundRes(R.color.line_large)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -61,7 +73,7 @@ public class MeFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.line_gray)
+                .backgroundRes(R.color.divider)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -70,8 +82,16 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.my_collection)
                 .build());
 
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
+                .build());
+
         addItem(new Builder(FormType.divider_large)
                 .backgroundRes(R.color.line_large)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
                 .build());
 
         addItem(new Builder(FormType.content)
@@ -80,14 +100,26 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.set)
                 .build());
 
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
+                .build());
+
         addItem(new Builder(FormType.divider_large)
                 .backgroundRes(R.color.line_large)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
                 .build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_about)
                 .name("关于")
                 .related(RelatedId.about)
+                .build());
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
                 .build());
 
     }
@@ -141,15 +173,18 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.my_collection: {
-                showToast("收藏");
+                Intent intent=new Intent(getContext(), MyCollectionActivity.class);
+                startActivity(intent);
             }
             break;
             case RelatedId.set: {
-                showToast("设置");
+                Intent intent=new Intent(getContext(), SetActivity.class);
+                startActivity(intent);
             }
             break;
             case RelatedId.about: {
-                showToast("关于");
+                Intent intent=new Intent(getContext(), AboutActivity.class);
+                startActivity(intent);
             }
             break;
         }

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="app_bg">#f0f0f0</color>
 
-    <drawable name="item_focus">#e8e8e8</drawable>
+    <color name="divider">#dbdbdb</color>
+
     <color name="item_focus">#e8e8e8</color>
+    <drawable name="item_focus">#e8e8e8</drawable>
 
     <!--text-->
     <color name="text_333333">#333333</color>
     <color name="text_1ba0cc">#1ba0cc</color>
     <color name="text_0d5878">#0d5878</color>
     <color name="text_808080">#808080</color>
+    <color name="text_888888">#888888</color>
+    <color name="text_0882e7">#0882e7</color>
     <color name="text_999999">#999999</color>
     <color name="text_555555">#555555</color>
-    <color name="text_tabhost">#f0f1f2</color>
 
     <!--line-->
     <color name="line_menu">#021d39</color>
     <color name="line_gray">#e0e0e0</color>
-    <color name="line_dbdbdb">#dbdbdb</color>
     <color name="line_large">#f5f5f5</color>
 
     <!--main bg-->
     <color name="main_bg">#f5f5f5</color>
 
-    <!--main tab bg-->
-    <drawable name="main_tab_bg">#363e41</drawable>
-    <drawable name="main_tab_bg_focus">#1ba0cc</drawable>
+    <!--main tab text bg-->
+    <color name="main_text_bg">#999999</color>
+    <color name="main_text_bg_focus">#0882e7</color>
 
 </resources>

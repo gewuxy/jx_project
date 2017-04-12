@@ -14,11 +14,12 @@ public class App extends BaseApp {
 
     @Override
     protected void setParams() {
-        TitleBarConfig.bgColor(Color.WHITE);
+
+        TitleBarConfig.bgColor(Color.BLUE);
         TitleBarConfig.heightDp(44);
 
+        AppConfig.appBgColorId(R.color.app_bg);
         AppConfig.enableSwipeFinish(false);
-
 
     }
 

@@ -19,7 +19,7 @@
                 android:id="@id/form_item_iv"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="@dimen/margin_horizontal"
                 android:src="@mipmap/form_ic_public_number"/>
 
             <TextView
@@ -45,12 +45,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:textColor="@color/text_1ba0cc"
+                android:textColor="@color/text_888888"
                 android:textSize="12dp"/>
 
             <ImageView
-                android:layout_width="6dp"
-                android:layout_height="9dp"
+                android:layout_width="10dp"
+                android:layout_height="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"

@@ -30,6 +30,10 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FIDividerLarge();
             }
             break;
+            case FormType.content_no_img: {
+                item = new FIContentNoImg();
+            }
+            break;
         }
 
         saveItemValues(item);

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_dialog_two_tx"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_tx_one"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/item_selector"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="仅在WiF"
+        android:textColor="@color/text_333333"
+        android:textSize="14sp"/>
+
+    <View
+        style="@style/divider"/>
+
+    <TextView
+        android:id="@+id/dialog_tx_two"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/item_selector"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="从不"
+        android:textColor="@color/text_333333"
+        android:textSize="14sp"/>
+
+</LinearLayout>
