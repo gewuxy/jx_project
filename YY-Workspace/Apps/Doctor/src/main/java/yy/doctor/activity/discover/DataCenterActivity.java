@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.discover;
 
 import android.support.annotation.IntDef;
 import android.view.View;

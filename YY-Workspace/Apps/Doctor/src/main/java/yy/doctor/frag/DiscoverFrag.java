@@ -7,7 +7,7 @@ import android.view.View;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
-import yy.doctor.activity.DataCenterActivity;
+import yy.doctor.activity.discover.DataCenterActivity;
 import yy.doctor.activity.MainActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;

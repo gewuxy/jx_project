@@ -27,7 +27,7 @@
 
         <!--discover-->
         <activity
-            android:name=".activity.DataCenterActivity"
+            android:name=".activity.discover.DataCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
