@@ -67,7 +67,7 @@ public class MainActivity extends BaseVPActivity {
     public void findViews() {
         super.findViews();
 
-        mLayoutTab = findView(R.id.main_layout_indicator);
+        mLayoutTab = findView(R.id.main_layout_tab);
     }
 
     @Override
@@ -144,10 +144,10 @@ public class MainActivity extends BaseVPActivity {
     private void addIndicator(final int index, @DrawableRes int drawableId, CharSequence text) {
         View v = inflate(R.layout.layout_main_tab);
 
-        ImageView iv = (ImageView) v.findViewById(R.id.main_indicator_iv);
+        ImageView iv = (ImageView) v.findViewById(R.id.main_tab_iv);
         iv.setImageResource(drawableId);
 
-        TextView tv = (TextView) v.findViewById(R.id.main_indicator_tv);
+        TextView tv = (TextView) v.findViewById(R.id.main_tab_tv);
         tv.setText(text);
 
         v.setOnClickListener(new OnClickListener() {

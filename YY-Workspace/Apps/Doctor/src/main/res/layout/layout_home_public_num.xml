@@ -8,16 +8,15 @@
     android:paddingLeft="9dp"
     android:paddingTop="11dp">
 
-    <android.support.v4.widget.CircleImageView
+    <lib.ys.network.image.NetworkImageView
         android:id="@+id/home_public_num_iv"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="16dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/home_ic_default_public_num"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
-        android:id="@+id/home_public_num_name"
+        android:id="@+id/home_public_num_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -27,10 +26,10 @@
         android:textSize="14dp"/>
 
     <TextView
-        android:id="@+id/home_public_num_fans"
+        android:id="@+id/home_public_num_tv_fans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/home_public_num_name"
+        android:layout_below="@+id/home_public_num_tv_name"
         android:layout_toRightOf="@+id/home_public_num_iv"
         android:text="632人关注"
         android:textColor="@color/text_555"

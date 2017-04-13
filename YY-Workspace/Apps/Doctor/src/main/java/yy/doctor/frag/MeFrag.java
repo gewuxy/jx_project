@@ -3,9 +3,10 @@ package yy.doctor.frag;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.network.image.NetworkImageView;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.MainActivity;
@@ -23,9 +24,8 @@ import yy.doctor.util.Util;
  */
 public class MeFrag extends BaseFormFrag {
 
-    private RelativeLayout mHeadRy;
-    //private LinearLayout mAttentionLy, mFriendsLy, mFansLy;
-    //private TextView mAttentionNum, mFriendsNum, mFansNum;
+    private LinearLayout mLayoutHeader;
+    private NetworkImageView mIvAvatar;
 
     @IntDef({
             RelatedId.my_elephant,
@@ -59,7 +59,7 @@ public class MeFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.line_large)
+                .backgroundRes(R.color.main_bg)
                 .build());
 
         addItem(new Builder(FormType.divider)
@@ -88,7 +88,7 @@ public class MeFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.line_large)
+                .backgroundRes(R.color.main_bg)
                 .build());
 
         addItem(new Builder(FormType.divider)
@@ -106,7 +106,7 @@ public class MeFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.line_large)
+                .backgroundRes(R.color.main_bg)
                 .build());
 
         addItem(new Builder(FormType.divider)
@@ -129,15 +129,8 @@ public class MeFrag extends BaseFormFrag {
     public void findViews() {
         super.findViews();
 
-        mHeadRy = findView(R.id.me_layout_head);
-
-        /*mAttentionLy = findView(R.id.me_attention);
-        mFriendsLy = findView(R.id.me_friends);
-        mFansLy = findView(R.id.me_fans);
-
-        mAttentionNum = findView(R.id.attention_num);
-        mFriendsNum = findView(R.id.friends_num);
-        mFansNum = findView(R.id.fans_num);*/
+        mLayoutHeader = findView(R.id.me_layout_header);
+        mIvAvatar = findView(R.id.me_header_iv_avatar);
 
     }
 
@@ -145,11 +138,8 @@ public class MeFrag extends BaseFormFrag {
     public void setViewsValue() {
         super.setViewsValue();
 
-        mHeadRy.setOnClickListener(this);
-
-        /*mAttentionLy.setOnClickListener(this);
-        mFriendsLy.setOnClickListener(this);
-        mFansLy.setOnClickListener(this);*/
+        mLayoutHeader.setOnClickListener(this);
+        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head).load();
 
     }
 
@@ -158,7 +148,7 @@ public class MeFrag extends BaseFormFrag {
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.me_layout_head: {
+            case R.id.me_layout_header: {
                 showToast("资料");
             }
             break;

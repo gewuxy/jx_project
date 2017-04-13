@@ -19,4 +19,6 @@
         android:textColor="@color/text_333"
         android:textSize="14dp"/>
 
+    <View style="@style/divider"/>
+
 </LinearLayout>

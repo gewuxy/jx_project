@@ -1,17 +1,16 @@
 package yy.doctor.activity.me;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
+import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
@@ -22,8 +21,8 @@ import yy.doctor.model.form.FormType;
 public class SettingsActivity extends BaseFormActivity {
 
     private RelativeLayout mLayoutDownload;
+    private TextView mTvLoadApkCondition;
     private TextView mTvExit;
-    private TextView mTvWiFi;
 
     @IntDef({
             RelatedId.binding_sine,
@@ -103,9 +102,9 @@ public class SettingsActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mLayoutDownload = findView(R.id.setting_footer_layout_download);
-        mTvExit = findView(R.id.exit_account);
-        mTvWiFi = findView(R.id.load_apk_iswifi_tx);
+        mLayoutDownload = findView(R.id.settings_footer_layout_download);
+        mTvLoadApkCondition = findView(R.id.settings_footer_tv_download_conditiom);
+        mTvExit = findView(R.id.settings_footer_tv_exit_account);
 
     }
 
@@ -124,11 +123,11 @@ public class SettingsActivity extends BaseFormActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.setting_footer_layout_download: {
+            case R.id.settings_footer_layout_download: {
                 showDialog();
             }
             break;
-            case R.id.exit_account: {
+            case R.id.settings_footer_tv_exit_account: {
                 showToast("77");
             }
             break;
@@ -160,30 +159,26 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialog() {
 
-        final Dialog dialogLoad = new Dialog(this, R.style.dialog_two_tx);
-        Window windowLoad = dialogLoad.getWindow();
-        windowLoad.setContentView(R.layout.dialog_common);
-        final TextView textWifi = (TextView) windowLoad.findViewById(R.id.dialog_tx_one);
-        final TextView textNever = (TextView) windowLoad.findViewById(R.id.dialog_tx_two);
-        textWifi.setOnClickListener(new OnClickListener() {
+        final CommonDialog dialog = new CommonDialog(this);
+        dialog.addItem("仅在WiFi", new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTvWiFi.setText(textWifi.getText());
-                if (dialogLoad != null && dialogLoad.isShowing()) {
-                    dialogLoad.dismiss();
+                mTvLoadApkCondition.setText("仅在WiFi");
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
                 }
             }
         });
-        textNever.setOnClickListener(new OnClickListener() {
+        dialog.addItem("从不", new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTvWiFi.setText(textNever.getText());
-                if (dialogLoad != null && dialogLoad.isShowing()) {
-                    dialogLoad.dismiss();
+                mTvLoadApkCondition.setText("从不");
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
                 }
             }
         });
-        dialogLoad.show();
+        dialog.show();
 
     }
 

@@ -8,6 +8,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="12dp"
-        android:background="@color/line_large"/>
+        android:background="@color/main_bg"/>
 
 </LinearLayout>

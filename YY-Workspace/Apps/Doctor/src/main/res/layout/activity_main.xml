@@ -8,11 +8,11 @@
     <include layout="@layout/layout_viewpager"/>
 
     <LinearLayout
-        android:id="@+id/main_layout_indicator"
+        android:id="@+id/main_layout_tab"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_weight="0"
-        android:background="@color/line_large"
+        android:background="@color/main_bg"
         android:orientation="horizontal">
     </LinearLayout>
 

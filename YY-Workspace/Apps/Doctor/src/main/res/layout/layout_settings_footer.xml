@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/setting_footer_layout_download"
+        android:id="@+id/settings_footer_layout_download"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white">
@@ -23,7 +23,7 @@
             android:id="@+id/textView"/>
 
         <TextView
-            android:id="@+id/setting_footer_tv_download_apk"
+            android:id="@+id/settings_footer_tv_download_conditiom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -53,12 +53,12 @@
             android:textSize="14dp"/>
 
         <lib.ys.view.ToggleButton
-            android:id="@+id/setting_footer_iv_auto_play_switcher"
+            android:id="@+id/settings_footer_iv_switcher"
             android:layout_width="34dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"/>
+            android:layout_marginRight="@dimen/margin_vertical"/>
 
     </RelativeLayout>
 
@@ -74,7 +74,7 @@
         style="@style/divider"/>
 
     <TextView
-        android:id="@+id/exit_account"
+        android:id="@+id/settings_footer_tv_exit_account"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white"

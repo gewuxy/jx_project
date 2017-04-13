@@ -5,6 +5,7 @@ import android.graphics.Color;
 import lib.ys.config.AppConfig;
 import lib.ys.config.TitleBarConfig;
 import lib.yy.BaseApp;
+import yy.doctor.util.CacheUtil;
 
 /**
  * @author Administrator
@@ -25,6 +26,6 @@ public class App extends BaseApp {
 
     @Override
     protected String getNetworkImageCacheDir() {
-        return null;
+        return CacheUtil.getBmpCacheDir();
     }
 }

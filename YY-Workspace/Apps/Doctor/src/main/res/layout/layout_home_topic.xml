@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingBottom="8dp"
     android:paddingLeft="9dp"
     android:paddingRight="9dp"
     android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,23 +15,22 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/home_topic_head"
+            android:id="@+id/layout_home_topic_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp">
 
-            <android.support.v4.widget.CircleImageView
+            <lib.ys.view.photoViewer.NetworkPhotoView
                 android:id="@+id/home_topic_iv_avator"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="6dp"
-                android:src="@mipmap/home_ic_default_public_num"
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/home_topic_author"
+                android:id="@+id/home_topic_tx_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -43,11 +42,11 @@
                 android:textSize="13dp"/>
 
             <TextView
-                android:id="@+id/home_topic_time"
+                android:id="@+id/home_topic_tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/home_topic_author"
+                android:layout_toRightOf="@id/home_topic_tx_author"
                 android:ellipsize="end"
                 android:text="1分钟前"
                 android:textColor="@color/text_999"
@@ -62,7 +61,7 @@
                 android:layout_centerVertical="true">
 
                 <ImageView
-                    android:id="@+id/home_topic_praise_iv"
+                    android:id="@+id/home_topic_iv_praise"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
@@ -73,7 +72,7 @@
                     android:src="@mipmap/home_ic_hot_topic_unpraise"/>
 
                 <TextView
-                    android:id="@+id/home_topic_praise_num"
+                    android:id="@+id/home_topic_tv_praise_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="425"
@@ -84,22 +83,22 @@
         </RelativeLayout>
 
         <lib.ys.network.image.NetworkImageView
-            android:id="@+id/home_topic_iv"
+            android:id="@+id/home_topic_iv_content"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/home_topic_head"
+            android:layout_below="@id/layout_home_topic_header"
             android:layout_marginLeft="20dp"
             android:src="@mipmap/home_ic_default_meeting"/>
 
         <TextView
-            android:id="@+id/home_topic_images_count"
+            android:id="@+id/home_topic_tv_images_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:layout_marginBottom="1dp"
-            android:layout_alignRight="@id/home_topic_iv"
-            android:layout_alignBottom="@id/home_topic_iv"
+            android:layout_alignRight="@id/home_topic_iv_content"
+            android:layout_alignBottom="@id/home_topic_iv_content"
             android:gravity="center"
             android:background="@mipmap/home_ic_hot_topic_text_bg"
             android:textColor="@color/black"
@@ -107,12 +106,12 @@
             android:text="3"/>
 
         <TextView
-            android:id="@+id/home_topic_content"
+            android:id="@+id/home_topic_tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/home_topic_head"
+            android:layout_below="@id/layout_home_topic_header"
             android:layout_marginBottom="8dp"
-            android:layout_toLeftOf="@id/home_topic_iv"
+            android:layout_toLeftOf="@id/home_topic_iv_content"
             android:ellipsize="end"
             android:gravity="left"
             android:lineSpacingExtra="8dp"

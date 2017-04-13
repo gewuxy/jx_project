@@ -8,12 +8,12 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/main_indicator_iv"
+        android:id="@+id/main_tab_iv"
         android:layout_width="30dp"
         android:layout_height="34dp"/>
 
     <TextView
-        android:id="@+id/main_indicator_tv"
+        android:id="@+id/main_tab_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/main_selector_text_bg"/>

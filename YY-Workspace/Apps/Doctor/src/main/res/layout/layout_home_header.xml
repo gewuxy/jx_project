@@ -7,7 +7,7 @@
 
     <!--banner 容器-->
     <android.support.v4.view.ViewPager
-        android:id="@+id/home_banner"
+        android:id="@+id/home_header_banner"
         android:layout_width="match_parent"
         android:layout_height="140dp"/>
 
@@ -20,13 +20,13 @@
         android:background="@color/white">
 
         <RelativeLayout
-            android:id="@+id/home_layout_news"
+            android:id="@+id/home_header_layout_news"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/news_iv"
+                android:id="@+id/home_header_iv_news"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/news_iv"
+                android:layout_below="@+id/home_header_iv_news"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
                 android:text="新闻"
@@ -45,13 +45,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/home_layout_public"
+            android:id="@+id/home_header_layout_public_num"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/public_num_iv"
+                android:id="@+id/home_header_iv_public_num"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_centerHorizontal="true"
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/public_num_iv"
+                android:layout_below="@+id/home_header_iv_public_num"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
                 android:text="公众号"
@@ -70,13 +70,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/home_layout_knife"
+            android:id="@+id/home_header_layout_knife"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/knife_iv"
+                android:id="@+id/home_header_iv_knife"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_centerHorizontal="true"
@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/knife_iv"
+                android:layout_below="@+id/home_header_iv_knife"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
                 android:text="柳叶刀"
@@ -95,13 +95,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/home_layout_elephant"
+            android:id="@+id/home_header_layout_elephant_city"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/elephant_city_iv"
+                android:id="@+id/home_header_iv_elephant_city"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_centerHorizontal="true"
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/elephant_city_iv"
+                android:layout_below="@+id/home_header_iv_elephant_city"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
                 android:text="象城"

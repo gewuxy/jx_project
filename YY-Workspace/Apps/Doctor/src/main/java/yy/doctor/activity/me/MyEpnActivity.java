@@ -2,7 +2,6 @@ package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import lib.yy.activity.base.BaseActivity;
@@ -14,8 +13,8 @@ import yy.doctor.R;
  */
 public class MyEpnActivity extends BaseActivity {
 
-    private Button mTopUp_btn;
-    private TextView mInstruction_tx;
+    private TextView mTVTopUp;
+    private TextView mtVInstruction;
 
     @Override
     public void initData() {
@@ -36,16 +35,16 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTopUp_btn = findView(R.id.top_up_elephant);
-        mInstruction_tx = findView(R.id.my_elephant_instruction);
+        mTVTopUp = findView(R.id.my_epe_top_up_epe_tv);
+        mtVInstruction = findView(R.id.my_epe_instruction);
 
     }
 
     @Override
     public void setViewsValue() {
 
-        mTopUp_btn.setOnClickListener(this);
-        mInstruction_tx.setOnClickListener(this);
+        mTVTopUp.setOnClickListener(this);
+        mtVInstruction.setOnClickListener(this);
 
     }
 
@@ -55,11 +54,11 @@ public class MyEpnActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.top_up_elephant: {
+            case R.id.my_epe_top_up_epe_tv: {
                 showToast("00");
             }
             break;
-            case R.id.my_elephant_instruction: {
+            case R.id.my_epe_instruction: {
                 showToast("77");
             }
             break;

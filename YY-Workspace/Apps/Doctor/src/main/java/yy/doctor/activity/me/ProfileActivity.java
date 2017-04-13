@@ -35,7 +35,7 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     protected View createHeaderView() {
-        return inflate(R.layout.activity_my_data_header);
+        return inflate(R.layout.layout_profile_header);
     }
 
     @Override

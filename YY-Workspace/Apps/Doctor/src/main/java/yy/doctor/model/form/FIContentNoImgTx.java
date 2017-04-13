@@ -31,6 +31,6 @@ public class FIContentNoImgTx extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_content_no_img_tx;
+        return R.layout.form_item_content_no_img_tv;
     }
 }

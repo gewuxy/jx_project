@@ -9,6 +9,8 @@
     <lib.ys.view.CornerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         app:corner_radius="@dimen/radius"
         app:corner_useStroke="false">
 
@@ -16,10 +18,8 @@
             android:id="@+id/dialog_common_layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
-        </LinearLayout>
+            android:orientation="vertical"/>
+
     </lib.ys.view.CornerView>
 
 </LinearLayout>

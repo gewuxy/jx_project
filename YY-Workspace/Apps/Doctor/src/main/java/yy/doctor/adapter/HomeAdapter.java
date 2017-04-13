@@ -16,12 +16,12 @@ public class HomeAdapter extends MultiRecyclerAdapterEx<Home, HomeVH> {
 
     @IntDef({
             HomeType.meeting,
-            HomeType.title,
+            HomeType.tv_divider,
             HomeType.public_num,
     })
     public @interface HomeType {
         int meeting = 0;
-        int title = 1;
+        int tv_divider = 1;
         int public_num = 2;
     }
 
@@ -39,8 +39,8 @@ public class HomeAdapter extends MultiRecyclerAdapterEx<Home, HomeVH> {
                 id = R.layout.layout_home_meeting;
             }
             break;
-            case HomeType.title: {
-                id = R.layout.layout_home_title;
+            case HomeType.tv_divider: {
+                id = R.layout.layout_home_tv_divider;
             }
             break;
             case HomeType.public_num: {
