@@ -38,7 +38,19 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".activity.SetActivity"
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
+            android:name=".activity.ClearCacheActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
+            android:name=".activity.MyElephantNumActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
+            android:name=".activity.MyDataActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 

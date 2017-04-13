@@ -13,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
         FormType.content,
         FormType.divider,
         FormType.divider_large,
+        FormType.content_no_img_tx,
         FormType.content_no_img,
 })
 @Retention(RetentionPolicy.SOURCE)
@@ -20,5 +21,6 @@ public @interface FormType {
     int content = 0;
     int divider = 1;
     int divider_large = 2;
-    int content_no_img = 3;
+    int content_no_img_tx = 3;
+    int content_no_img = 4;
 }

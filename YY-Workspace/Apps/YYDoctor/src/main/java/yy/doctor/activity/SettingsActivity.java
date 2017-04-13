@@ -1,6 +1,7 @@
 package yy.doctor.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +19,7 @@ import yy.doctor.model.form.FormType;
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class SetActivity extends BaseFormActivity {
+public class SettingsActivity extends BaseFormActivity {
 
     private RelativeLayout mAuto_load_apk;
     private TextView mExit_account,mWiFi_tx;
@@ -27,7 +28,6 @@ public class SetActivity extends BaseFormActivity {
             RelatedId.binding_sine,
             RelatedId.change_password,
             RelatedId.clear_cache,
-
     })
     private @interface RelatedId {
         int binding_sine = 0;
@@ -56,7 +56,7 @@ public class SetActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img)
+        addItem(new Builder(FormType.content_no_img_tx)
                 .related(RelatedId.binding_sine)
                 .name("新浪微博绑定")
                 .build());
@@ -65,7 +65,7 @@ public class SetActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img)
+        addItem(new Builder(FormType.content_no_img_tx)
                 .related(RelatedId.change_password)
                 .name("修改密码")
                 .build());
@@ -74,7 +74,7 @@ public class SetActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img)
+        addItem(new Builder(FormType.content_no_img_tx)
                 .related(RelatedId.clear_cache)
                 .name("清理缓存")
                 .build());
@@ -95,7 +95,7 @@ public class SetActivity extends BaseFormActivity {
 
     @Override
     protected View createFooterView() {
-        return inflate(R.layout.activity_set_foot);
+        return inflate(R.layout.activity_settings_footer);
     }
 
     @Override
@@ -149,7 +149,8 @@ public class SetActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.clear_cache: {
-                showToast("2");
+                Intent intent=new Intent(this,ClearCacheActivity.class);
+                startActivity(intent);
             }
             break;
         }
@@ -160,7 +161,7 @@ public class SetActivity extends BaseFormActivity {
 
         final Dialog dialogLoad = new Dialog(this, R.style.dialog_two_tx);
         Window windowLoad = dialogLoad.getWindow();
-        windowLoad.setContentView(R.layout.activity_set_dialog);
+        windowLoad.setContentView(R.layout.dialog_common);
         final TextView textWifi = (TextView) windowLoad.findViewById(R.id.dialog_tx_one);
         final TextView textNever = (TextView) windowLoad.findViewById(R.id.dialog_tx_two);
         textWifi.setOnClickListener(new OnClickListener() {

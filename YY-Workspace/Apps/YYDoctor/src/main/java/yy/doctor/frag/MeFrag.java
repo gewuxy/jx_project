@@ -11,7 +11,8 @@ import yy.doctor.R;
 import yy.doctor.activity.AboutActivity;
 import yy.doctor.activity.MainActivity;
 import yy.doctor.activity.MyCollectionActivity;
-import yy.doctor.activity.SetActivity;
+import yy.doctor.activity.MyElephantNumActivity;
+import yy.doctor.activity.SettingsActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
@@ -169,7 +170,8 @@ public class MeFrag extends BaseFormFrag {
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.my_elephant: {
-                showToast("象数");
+                Intent intent=new Intent(getContext(), MyElephantNumActivity.class);
+                startActivity(intent);
             }
             break;
             case RelatedId.my_collection: {
@@ -178,7 +180,7 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.set: {
-                Intent intent=new Intent(getContext(), SetActivity.class);
+                Intent intent=new Intent(getContext(), SettingsActivity.class);
                 startActivity(intent);
             }
             break;

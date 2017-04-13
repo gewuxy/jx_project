@@ -10,19 +10,18 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class FIContentNoImg extends FormItem {
+public class FIContentNoImgTx extends FormItem {
 
     @NonNull
     @Override
     public int getType() {
-        return FormType.content_no_img;
+        return FormType.content_no_img_tx;
     }
 
     @Override
     protected void refresh(FormItemVH holder) {
         super.refresh(holder);
 
-        holder.getTvText().setText(getString(TFormElem.text));
     }
 
     @Override
@@ -32,7 +31,6 @@ public class FIContentNoImg extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_content_no_img;
+        return R.layout.form_item_content_no_img_tx;
     }
-
 }

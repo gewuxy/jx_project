@@ -14,8 +14,8 @@
         <item name="android:windowFrame">@null</item>
         <!-- 没有标题 -->
         <item name="android:windowNoTitle">true</item>
-        <!-- 背景  透明的-->
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 背景  透明的  @android:color/transparent-->
+        <item name="android:windowBackground">@color/transparent</item>
         <!-- 是否浮在界面之上 -->
         <item name="android:windowIsFloating">true</item>
         <!-- 是否充满整个屏幕 -->

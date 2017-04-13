@@ -44,7 +44,7 @@ public class MenuFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(MenuType.divider)
-                .background(getResources().getColor(R.color.line_menu))
+                .background(getResources().getColor(R.color.divider_menu))
                 .build());
 
         addItem(new Builder(MenuType.child)
@@ -72,7 +72,7 @@ public class MenuFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(MenuType.divider)
-                .background(getResources().getColor(R.color.line_menu))
+                .background(getResources().getColor(R.color.divider_menu))
                 .build());
 
         addItem(new Builder(MenuType.group)
@@ -80,7 +80,7 @@ public class MenuFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(MenuType.divider)
-                .background(getResources().getColor(R.color.line_menu))
+                .background(getResources().getColor(R.color.divider_menu))
                 .build());
 
         addItem(new Builder(MenuType.child)
