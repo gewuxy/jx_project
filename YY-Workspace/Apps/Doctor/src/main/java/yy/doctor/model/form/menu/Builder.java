@@ -23,7 +23,7 @@ public class Builder extends FormBuilder<FormItem> {
             }
             break;
             case MenuType.group: {
-                item=new FIGroup();
+                item = new FIGroup();
             }
             break;
             case MenuType.divider: {

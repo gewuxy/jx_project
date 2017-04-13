@@ -87,7 +87,7 @@ public class MainActivity extends BaseVPActivity {
         mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         mMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
         mMenu.setShadowWidthRes(R.dimen.shadow_width);
-        mMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
         mMenu.setShadowDrawable(R.drawable.menu_shadow);
         mMenu.setFadeDegree(0.25f);
         mMenu.setBackgroundImage(R.mipmap.menu_bg);
@@ -142,7 +142,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     private void addIndicator(final int index, @DrawableRes int drawableId, CharSequence text) {
-        View v = inflate(R.layout.layout_main_indicator);
+        View v = inflate(R.layout.layout_main_tab);
 
         ImageView iv = (ImageView) v.findViewById(R.id.main_indicator_iv);
         iv.setImageResource(drawableId);

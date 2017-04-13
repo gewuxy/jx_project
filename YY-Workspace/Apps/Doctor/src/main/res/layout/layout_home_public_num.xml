@@ -33,7 +33,7 @@
         android:layout_below="@+id/home_public_num_name"
         android:layout_toRightOf="@+id/home_public_num_iv"
         android:text="632人关注"
-        android:textColor="@color/text_555555"
+        android:textColor="@color/text_555"
         android:textSize="9dp"/>
 
 </RelativeLayout>

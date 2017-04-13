@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -12,7 +12,7 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/13
  */
-public class MyElephantNumActivity extends BaseActivity {
+public class MyEpnActivity extends BaseActivity {
 
     private Button mTopUp_btn;
     private TextView mInstruction_tx;
@@ -25,7 +25,7 @@ public class MyElephantNumActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_my_elephant_num;
+        return R.layout.activity_my_epn;
     }
 
     @Override
@@ -36,8 +36,8 @@ public class MyElephantNumActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTopUp_btn=findView(R.id.top_up_elephant);
-        mInstruction_tx=findView(R.id.my_elephant_instruction);
+        mTopUp_btn = findView(R.id.top_up_elephant);
+        mInstruction_tx = findView(R.id.my_elephant_instruction);
 
     }
 
@@ -53,8 +53,8 @@ public class MyElephantNumActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
 
-        int id=v.getId();
-        switch (id){
+        int id = v.getId();
+        switch (id) {
             case R.id.top_up_elephant: {
                 showToast("00");
             }

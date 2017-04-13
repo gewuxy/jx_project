@@ -33,7 +33,7 @@ public class HomeAdapter extends MultiRecyclerAdapterEx<Home, HomeVH> {
     @Override
     public int getConvertViewResId(int itemType) {
         int id = 0;
-        
+
         switch (itemType) {
             case HomeType.meeting: {
                 id = R.layout.layout_home_meeting;

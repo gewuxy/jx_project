@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.me;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,8 +21,9 @@ import yy.doctor.model.form.FormType;
  */
 public class SettingsActivity extends BaseFormActivity {
 
-    private RelativeLayout mAuto_load_apk;
-    private TextView mExit_account,mWiFi_tx;
+    private RelativeLayout mLayoutDownload;
+    private TextView mTvExit;
+    private TextView mTvWiFi;
 
     @IntDef({
             RelatedId.binding_sine,
@@ -95,16 +96,16 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     protected View createFooterView() {
-        return inflate(R.layout.activity_settings_footer);
+        return inflate(R.layout.layout_settings_footer);
     }
 
     @Override
     public void findViews() {
         super.findViews();
 
-        mAuto_load_apk=findView(R.id.layout_auto_load_apk);
-        mExit_account=findView(R.id.exit_account);
-        mWiFi_tx=findView(R.id.load_apk_iswifi_tx);
+        mLayoutDownload = findView(R.id.setting_footer_layout_download);
+        mTvExit = findView(R.id.exit_account);
+        mTvWiFi = findView(R.id.load_apk_iswifi_tx);
 
     }
 
@@ -112,8 +113,8 @@ public class SettingsActivity extends BaseFormActivity {
     public void setViewsValue() {
         super.setViewsValue();
 
-        mAuto_load_apk.setOnClickListener(this);
-        mExit_account.setOnClickListener(this);
+        mLayoutDownload.setOnClickListener(this);
+        mTvExit.setOnClickListener(this);
 
     }
 
@@ -121,9 +122,9 @@ public class SettingsActivity extends BaseFormActivity {
     public void onClick(View v) {
         super.onClick(v);
 
-        int id=v.getId();
-        switch (id){
-            case R.id.layout_auto_load_apk: {
+        int id = v.getId();
+        switch (id) {
+            case R.id.setting_footer_layout_download: {
                 showDialog();
             }
             break;
@@ -149,7 +150,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.clear_cache: {
-                Intent intent=new Intent(this,ClearCacheActivity.class);
+                Intent intent = new Intent(this, ClearCacheActivity.class);
                 startActivity(intent);
             }
             break;
@@ -157,7 +158,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     }
 
-    private void showDialog(){
+    private void showDialog() {
 
         final Dialog dialogLoad = new Dialog(this, R.style.dialog_two_tx);
         Window windowLoad = dialogLoad.getWindow();
@@ -167,8 +168,8 @@ public class SettingsActivity extends BaseFormActivity {
         textWifi.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWiFi_tx.setText(textWifi.getText());
-                if(dialogLoad != null && dialogLoad.isShowing()){
+                mTvWiFi.setText(textWifi.getText());
+                if (dialogLoad != null && dialogLoad.isShowing()) {
                     dialogLoad.dismiss();
                 }
             }
@@ -176,8 +177,8 @@ public class SettingsActivity extends BaseFormActivity {
         textNever.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWiFi_tx.setText(textNever.getText());
-                if(dialogLoad != null && dialogLoad.isShowing()){
+                mTvWiFi.setText(textNever.getText());
+                if (dialogLoad != null && dialogLoad.isShowing()) {
                     dialogLoad.dismiss();
                 }
             }

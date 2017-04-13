@@ -18,7 +18,7 @@
             android:id="@+id/home_topic_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp" >
+            android:layout_marginBottom="6dp">
 
             <android.support.v4.widget.CircleImageView
                 android:id="@+id/home_topic_iv_avator"
@@ -28,7 +28,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="6dp"
                 android:src="@mipmap/home_ic_default_public_num"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/home_topic_author"
@@ -40,7 +40,7 @@
                 android:ellipsize="end"
                 android:text="yaya"
                 android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:textSize="13dp"/>
 
             <TextView
                 android:id="@+id/home_topic_time"
@@ -50,8 +50,8 @@
                 android:layout_toRightOf="@id/home_topic_author"
                 android:ellipsize="end"
                 android:text="1分钟前"
-                android:textColor="@color/text_999999"
-                android:textSize="13dp" />
+                android:textColor="@color/text_999"
+                android:textSize="13dp"/>
 
             <LinearLayout
                 android:id="@+id/forum_topic_praise"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
-                android:layout_centerVertical="true" >
+                android:layout_centerVertical="true">
 
                 <ImageView
                     android:id="@+id/home_topic_praise_iv"
@@ -70,7 +70,7 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
-                    android:src="@mipmap/home_ic_hot_topic_unpraise" />
+                    android:src="@mipmap/home_ic_hot_topic_unpraise"/>
 
                 <TextView
                     android:id="@+id/home_topic_praise_num"
@@ -90,7 +90,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/home_topic_head"
             android:layout_marginLeft="20dp"
-            android:src="@mipmap/home_ic_default_meeting" />
+            android:src="@mipmap/home_ic_default_meeting"/>
 
         <TextView
             android:id="@+id/home_topic_images_count"
@@ -119,7 +119,7 @@
             android:maxLines="4"
             android:textColor="@color/black"
             android:text="阿斯蒂芬sag分爱使地方啊司法大案缩放苏杀跌萨芬股份爱使股份爱上发散sdaf 随风倒缩放斯蒂芬缩放爱上风寒阿飞安世高发甘氨酸发货及时分噶发售股份哈市规划法艾丝凡好sag分啊公司法噶事发萨斯发送"
-            android:textSize="12dp" />
+            android:textSize="12dp"/>
 
     </RelativeLayout>
 

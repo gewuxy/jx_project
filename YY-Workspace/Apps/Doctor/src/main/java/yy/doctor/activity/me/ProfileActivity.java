@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.me;
 
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -8,10 +8,12 @@ import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 
 /**
+ * 资料展示
+ *
  * @author CaiXiang
  * @since 2017/4/13
  */
-public class MyDataActivity extends BaseFormActivity {
+public class ProfileActivity extends BaseFormActivity {
 
     @IntDef({
             RelatedId.my_elephant,
@@ -33,7 +35,7 @@ public class MyDataActivity extends BaseFormActivity {
 
     @Override
     protected View createHeaderView() {
-        return inflate(R.layout.activity_my_data_head);
+        return inflate(R.layout.activity_my_data_header);
     }
 
     @Override

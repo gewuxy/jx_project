@@ -9,7 +9,7 @@
         android:id="@+id/layout_my_elephant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_titlebar_bg"
+        android:background="@color/app_title_bar_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -32,7 +32,7 @@
 
     </LinearLayout>
 
-    <Button
+    <TextView
         android:id="@+id/top_up_elephant"
         android:layout_width="match_parent"
         android:layout_height="42dp"
@@ -41,7 +41,7 @@
         android:layout_marginRight="10dp"
         android:layout_below="@+id/layout_my_elephant"
         android:gravity="center"
-        android:background="@drawable/shape_my_elephant_bt"
+        android:background="@drawable/my_elephant_btn"
         android:text="充值象数"
         android:textColor="@color/white"/>
 

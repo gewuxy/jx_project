@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.me;
 
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -39,7 +39,7 @@ public class AboutActivity extends BaseFormActivity {
 
     @Override
     protected View createHeaderView() {
-        return inflate(R.layout.activity_about_head);
+        return inflate(R.layout.activity_about_header);
     }
 
     @Override

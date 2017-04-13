@@ -8,11 +8,11 @@ import android.widget.RelativeLayout;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
-import yy.doctor.activity.AboutActivity;
 import yy.doctor.activity.MainActivity;
-import yy.doctor.activity.MyCollectionActivity;
-import yy.doctor.activity.MyElephantNumActivity;
-import yy.doctor.activity.SettingsActivity;
+import yy.doctor.activity.me.AboutActivity;
+import yy.doctor.activity.me.MyCollectionActivity;
+import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
@@ -47,7 +47,7 @@ public class MeFrag extends BaseFormFrag {
 
     @Override
     protected View createHeaderView() {
-        return inflate(R.layout.frag_me_head);
+        return inflate(R.layout.layout_me_header);
     }
 
     @Override
@@ -170,22 +170,22 @@ public class MeFrag extends BaseFormFrag {
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.my_elephant: {
-                Intent intent=new Intent(getContext(), MyElephantNumActivity.class);
+                Intent intent = new Intent(getContext(), MyEpnActivity.class);
                 startActivity(intent);
             }
             break;
             case RelatedId.my_collection: {
-                Intent intent=new Intent(getContext(), MyCollectionActivity.class);
+                Intent intent = new Intent(getContext(), MyCollectionActivity.class);
                 startActivity(intent);
             }
             break;
             case RelatedId.set: {
-                Intent intent=new Intent(getContext(), SettingsActivity.class);
+                Intent intent = new Intent(getContext(), SettingsActivity.class);
                 startActivity(intent);
             }
             break;
             case RelatedId.about: {
-                Intent intent=new Intent(getContext(), AboutActivity.class);
+                Intent intent = new Intent(getContext(), AboutActivity.class);
                 startActivity(intent);
             }
             break;

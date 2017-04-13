@@ -14,7 +14,7 @@
         android:onClick="onClick">
 
         <lib.ys.network.image.NetworkImageView
-            android:id="@+id/me_head_iv"
+            android:id="@+id/me_header_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="10dp"
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="name"
-                android:textColor="@color/text_333333"
+                android:textColor="@color/text_333"
                 android:textSize="14dp"/>
 
             <TextView

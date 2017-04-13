@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.me;
 
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -19,9 +19,9 @@ public class ClearCacheActivity extends BaseFormActivity {
             RelatedId.clear_img_cache,
             RelatedId.clear_sound_cache,
     })
-    private @interface RelatedId{
-        int clear_img_cache=0;
-        int clear_sound_cache=1;
+    private @interface RelatedId {
+        int clear_img_cache = 0;
+        int clear_sound_cache = 1;
     }
 
     @Override
@@ -71,8 +71,8 @@ public class ClearCacheActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
 
-        @RelatedId int relatedid=getItem(position).getInt(TFormElem.related);
-        switch (relatedid){
+        @RelatedId int relatedid = getItem(position).getInt(TFormElem.related);
+        switch (relatedid) {
             case RelatedId.clear_img_cache: {
                 showToast("88");
             }

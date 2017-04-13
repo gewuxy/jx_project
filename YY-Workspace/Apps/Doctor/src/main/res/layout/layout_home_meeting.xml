@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:text="科研成才之路"
         android:textColor="@color/text_1ba0cc"
-        android:textSize="13dp" />
+        android:textSize="13dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
         android:layout_marginTop="7dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="10dp"
@@ -44,8 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12月9日 16：30"
-            android:textColor="@color/text_999999"
-            android:textSize="9.3dp" />
+            android:textColor="@color/text_999"
+            android:textSize="9.3dp"/>
 
         <TextView
             android:id="@+id/home_mt_total_time"
@@ -53,8 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:text="时长1.5小时"
-            android:textColor="@color/text_999999"
-            android:textSize="9.3dp" />
+            android:textColor="@color/text_999"
+            android:textSize="9.3dp"/>
 
         <TextView
             android:id="@+id/home_mt_state"
@@ -62,14 +62,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:text="进行中"
-            android:textColor="@color/text_999999"
-            android:textSize="9.3dp" />
+            android:textColor="@color/text_999"
+            android:textSize="9.3dp"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_large" />
+        android:background="@color/line_large"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -83,10 +83,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/round_bg"
-            android:contentDescription="@null"
-            android:src="@mipmap/home_ic_default_meeting"/>
-
+            android:contentDescription="@null"/>
 
         <TextView
             android:id="@+id/home_mt_speaker"
@@ -120,7 +117,7 @@
             android:layout_toRightOf="@id/home_mt_pic"
             android:ellipsize="end"
             android:text="YaYa讲堂"
-            android:textColor="@color/text_555555"
+            android:textColor="@color/text_555"
             android:textSize="9.3sp"/>
 
         <TextView
@@ -129,7 +126,7 @@
             android:layout_height="16dp"
             android:layout_below="@id/home_mt_organization"
             android:layout_toRightOf="@id/home_mt_pic"
-            android:background="@drawable/home_meeting_tx_bg"
+            android:background="@drawable/home_meeting_tv_bg"
             android:gravity="center"
             android:paddingLeft="7dp"
             android:paddingRight="7dp"
