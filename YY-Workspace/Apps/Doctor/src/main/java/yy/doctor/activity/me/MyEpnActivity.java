@@ -1,5 +1,6 @@
 package yy.doctor.activity.me;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -13,8 +14,8 @@ import yy.doctor.R;
  */
 public class MyEpnActivity extends BaseActivity {
 
-    private TextView mTVTopUp;
-    private TextView mtVInstruction;
+    private TextView mTvTopUp;
+    private TextView mTvInstruction;
 
     @Override
     public void initData() {
@@ -35,16 +36,16 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTVTopUp = findView(R.id.my_epe_top_up_epe_tv);
-        mtVInstruction = findView(R.id.my_epe_instruction);
+        mTvTopUp = findView(R.id.my_epe_top_up_epe_tv);
+        mTvInstruction = findView(R.id.my_epe_instruction);
 
     }
 
     @Override
     public void setViewsValue() {
 
-        mTVTopUp.setOnClickListener(this);
-        mtVInstruction.setOnClickListener(this);
+        mTvTopUp.setOnClickListener(this);
+        mTvInstruction.setOnClickListener(this);
 
     }
 
@@ -55,7 +56,8 @@ public class MyEpnActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.my_epe_top_up_epe_tv: {
-                showToast("00");
+                Intent intent=new Intent(this,TopUpEpnActivty.class);
+                startActivity(intent);
             }
             break;
             case R.id.my_epe_instruction: {

@@ -56,6 +56,10 @@
             android:name=".activity.me.ClearCacheActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
+            android:name=".activity.me.TopUpEpnActivty"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
 
     </application>
 

@@ -24,6 +24,9 @@ public class SettingsActivity extends BaseFormActivity {
     private TextView mTvLoadApkCondition;
     private TextView mTvExit;
 
+    private CommonDialog mDialogAutoDownload;
+    private CommonDialog mDialogExit;
+
     @IntDef({
             RelatedId.binding_sine,
             RelatedId.change_password,
@@ -91,6 +94,9 @@ public class SettingsActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
+        initDialogAutoDownload();
+        initDialogExit();
+
     }
 
     @Override
@@ -124,11 +130,11 @@ public class SettingsActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.settings_footer_layout_download: {
-                showDialog();
+                mDialogAutoDownload.show();
             }
             break;
             case R.id.settings_footer_tv_exit_account: {
-                showToast("77");
+                mDialogExit.show();
             }
             break;
         }
@@ -157,28 +163,51 @@ public class SettingsActivity extends BaseFormActivity {
 
     }
 
-    private void showDialog() {
+    private void initDialogAutoDownload() {
 
-        final CommonDialog dialog = new CommonDialog(this);
-        dialog.addItem("仅在WiFi", new OnClickListener() {
+        mDialogAutoDownload = new CommonDialog(this);
+        mDialogAutoDownload.addItem("仅在WiFi", new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTvLoadApkCondition.setText("仅在WiFi");
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
+                if (mDialogAutoDownload != null && mDialogAutoDownload.isShowing()) {
+                    mDialogAutoDownload.dismiss();
                 }
             }
         });
-        dialog.addItem("从不", new OnClickListener() {
+        mDialogAutoDownload.addItem("从不", new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTvLoadApkCondition.setText("从不");
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
+                if (mDialogAutoDownload != null && mDialogAutoDownload.isShowing()) {
+                    mDialogAutoDownload.dismiss();
                 }
             }
         });
-        dialog.show();
+
+    }
+
+    private void initDialogExit() {
+
+        mDialogExit = new CommonDialog(this);
+        mDialogExit.addItem("退出当前账号", new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mDialogExit != null && mDialogExit.isShowing()) {
+                    mDialogExit.dismiss();
+                }
+            }
+        });
+        mDialogExit.addItem("关闭YaYa", new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mDialogExit != null && mDialogExit.isShowing()) {
+                    mDialogExit.dismiss();
+                }
+            }
+        });
 
     }
 

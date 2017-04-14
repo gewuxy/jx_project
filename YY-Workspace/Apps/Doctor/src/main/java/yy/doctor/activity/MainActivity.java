@@ -18,6 +18,7 @@ import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.frag.DiscoverFrag;
 import yy.doctor.frag.HomeFrag;
 import yy.doctor.frag.MeFrag;
@@ -43,6 +44,7 @@ public class MainActivity extends BaseVPActivity {
     private SlidingMenu mMenu;
     private LinearLayout mLayoutTab;
     private View mTabPrev;
+    private UpdateNoticeDialog mDialogUpdateNotice;
 
     @Override
     public void initData() {
@@ -52,6 +54,8 @@ public class MainActivity extends BaseVPActivity {
         add(new MeetingFrag());
         add(new DiscoverFrag());
         add(new MeFrag());
+
+        mDialogUpdateNotice=new UpdateNoticeDialog(this);
     }
 
     @Override
@@ -79,6 +83,8 @@ public class MainActivity extends BaseVPActivity {
 
         setOffscreenPageLimit(getCount());
         setScrollable(false);
+
+        mDialogUpdateNotice.show();
     }
 
     private void addMenu() {

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="3dp"
+            android:text="象数余额:"
+            android:textColor="@color/text_333"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/activity_top_up_tv_remain_epn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
+            android:text="5752"
+            android:textColor="@color/text_0882e7"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/white"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="充值象数"
+            android:textColor="@color/text_333"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/activity_top_up_epe_tv_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="0个象数"
+                android:textColor="@color/text_0882e7"
+                android:textSize="14dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="10个象数=1元"
+                android:textColor="@color/text_b3b3b3"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/white"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="支付金额"
+            android:textColor="@color/text_333"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/activity_top_up_tv_yuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="元"
+            android:textColor="@color/text_0882e7"
+            android:textSize="14dp" />
+
+        <EditText
+            android:id="@+id/activity_top_up_tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/activity_top_up_tv_yuan"
+            android:background="@null"
+            android:gravity="right"
+            android:inputType="number"
+            android:maxLength="5"
+            android:hint="输入整数"
+            android:textColor="@color/text_0882e7"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"/>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:paddingLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="支付方式"
+        android:textColor="@color/text_333"
+        android:textSize="10dp"/>
+
+    <View
+        style="@style/divider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/white"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
+
+        <ImageView
+            android:id="@+id/activity_top_up_iv_alipay"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/top_up_epn_ic_alipay"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:layout_toRightOf="@id/activity_top_up_iv_alipay"
+            android:text="支付宝"
+            android:textColor="@color/text_333"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/top_up_epn_ic_chose" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"/>
+
+    <TextView
+        android:id="@+id/top_up_epe_tv_pay"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/my_epe_tv_bg"
+        android:gravity="center"
+        android:text="确定充值"
+        android:textColor="@color/white"/>
+
+</LinearLayout>
