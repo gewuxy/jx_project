@@ -2,6 +2,7 @@ package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.TextView;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -11,6 +12,8 @@ import yy.doctor.R;
  * @since 2017/4/14
  */
 public class TopUpEpnActivty extends BaseActivity {
+
+    private TextView mTv;
 
     @Override
     public void initData() {
