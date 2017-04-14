@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
             android:textSize="12dp" />
 
         <TextView
-            android:id="@+id/activity_top_up_tv_remain_epn"
+            android:id="@+id/recharge_tv_remain_epn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -40,7 +40,7 @@
         android:layout_height="52dp"
         android:background="@android:color/white"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp" >
+        android:paddingRight="@dimen/margin" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/activity_top_up_epe_tv_total"
+                android:id="@+id/recharge_epn_tv_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -88,7 +88,7 @@
         android:layout_height="52dp"
         android:background="@android:color/white"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp" >
+        android:paddingRight="@dimen/margin" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:textSize="14dp" />
 
         <TextView
-            android:id="@+id/activity_top_up_tv_yuan"
+            android:id="@+id/recharge_epn_tv_yuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -110,12 +110,12 @@
             android:textSize="14dp" />
 
         <EditText
-            android:id="@+id/activity_top_up_tv_num"
+            android:id="@+id/recharge_epn_et_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/activity_top_up_tv_yuan"
+            android:layout_toLeftOf="@id/recharge_epn_tv_yuan"
             android:background="@null"
             android:gravity="right"
             android:inputType="number"
@@ -132,7 +132,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="18dp"
-        android:paddingLeft="12dp"
+        android:paddingLeft="@dimen/margin"
         android:gravity="center_vertical"
         android:text="支付方式"
         android:textColor="@color/text_333"
@@ -145,11 +145,11 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@android:color/white"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp" >
+        android:paddingLeft="@dimen/margin"
+        android:paddingRight="@dimen/margin" >
 
         <ImageView
-            android:id="@+id/activity_top_up_iv_alipay"
+            android:id="@+id/recharge_epn_iv_alipay"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_alignParentLeft="true"
@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
-            android:layout_toRightOf="@id/activity_top_up_iv_alipay"
+            android:layout_toRightOf="@id/recharge_epn_iv_alipay"
             android:text="支付宝"
             android:textColor="@color/text_333"
             android:textSize="14dp" />
@@ -181,7 +181,7 @@
         style="@style/divider"/>
 
     <TextView
-        android:id="@+id/top_up_epe_tv_pay"
+        android:id="@+id/recharge_epn_tv_pay"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="24dp"

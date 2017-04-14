@@ -22,7 +22,7 @@
             android:textColor="@color/text_4d000000"/>
 
         <TextView
-            android:id="@+id/my_epe_tv"
+            android:id="@+id/my_epn_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/my_epe_top_up_epe_tv"
+        android:id="@+id/my_epe_top_up_epn_tv"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="42dp"
@@ -62,7 +62,7 @@
             android:textColor="@color/text_808080"/>
 
         <TextView
-            android:id="@+id/my_epe_instruction"
+            android:id="@+id/my_epn_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"

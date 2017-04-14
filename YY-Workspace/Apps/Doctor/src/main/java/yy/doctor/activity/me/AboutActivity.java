@@ -39,12 +39,21 @@ public class AboutActivity extends BaseFormActivity {
 
     @Override
     protected View createHeaderView() {
-        return inflate(R.layout.activity_about_header);
+        return inflate(R.layout.layout_about_header);
     }
 
     @Override
     public void initData() {
         super.initData();
+
+        addItem(new Builder(FormType.divider)
+                .backgroundRes(R.color.divider)
+                .build());
+
+        addItem(new Builder(FormType.content)
+                .related(RelatedId.comment)
+                .name("检查版本更新")
+                .build());
 
         addItem(new Builder(FormType.divider)
                 .backgroundRes(R.color.divider)

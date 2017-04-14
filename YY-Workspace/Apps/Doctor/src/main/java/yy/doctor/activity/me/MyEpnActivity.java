@@ -35,8 +35,8 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTvTopUp = findView(R.id.my_epe_top_up_epe_tv);
-        mTvInstruction = findView(R.id.my_epe_instruction);
+        mTvTopUp = findView(R.id.my_epe_top_up_epn_tv);
+        mTvInstruction = findView(R.id.my_epn_instruction);
 
     }
 
@@ -54,11 +54,11 @@ public class MyEpnActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.my_epe_top_up_epe_tv: {
-                startActivity(TopUpEpnActivty.class);
+            case R.id.my_epe_top_up_epn_tv: {
+                startActivity(RechargeEpnActivity.class);
             }
             break;
-            case R.id.my_epe_instruction: {
+            case R.id.my_epn_instruction: {
                 showToast("77");
             }
             break;

@@ -6,6 +6,7 @@ import android.widget.TextView;
 import lib.ys.ConstantsEx;
 import lib.ys.form.FormItemEx;
 import lib.ys.util.UIUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormItemVH;
 
 /**
@@ -33,8 +34,15 @@ abstract public class FormItem extends FormItemEx<FormItemVH> {
      * 如果图片有效则设置
      */
     protected void setIvIfValid(ImageView iv, int drawableId) {
+        if (iv == null) {
+            return;
+        }
+
         if (drawableId != ConstantsEx.KInvalidValue) {
+            ViewUtil.showView(iv);
             iv.setImageResource(drawableId);
+        } else {
+            ViewUtil.goneView(iv);
         }
     }
 

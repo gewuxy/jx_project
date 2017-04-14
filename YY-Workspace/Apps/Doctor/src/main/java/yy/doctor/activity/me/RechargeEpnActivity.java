@@ -13,7 +13,7 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/14
  */
-public class TopUpEpnActivty extends BaseActivity {
+public class RechargeEpnActivity extends BaseActivity {
 
     private TextView mTv;
 
@@ -25,7 +25,7 @@ public class TopUpEpnActivty extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_top_up_epn;
+        return R.layout.activity_recharge_epn;
     }
 
     @Override

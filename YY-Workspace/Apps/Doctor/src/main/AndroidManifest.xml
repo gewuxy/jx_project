@@ -57,7 +57,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".activity.me.TopUpEpnActivty"
+            android:name=".activity.me.RechargeEpnActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 

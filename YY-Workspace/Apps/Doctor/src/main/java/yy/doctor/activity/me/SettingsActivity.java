@@ -24,9 +24,6 @@ public class SettingsActivity extends BaseFormActivity {
     private TextView mTvLoadApkCondition;
     private TextView mTvExit;
 
-    private CommonDialog mDialogAutoDownload;
-    private CommonDialog mDialogExit;
-
     @IntDef({
             RelatedId.binding_sine,
             RelatedId.change_password,
@@ -126,11 +123,11 @@ public class SettingsActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.settings_footer_layout_download: {
-                mDialogAutoDownload.show();
+                showDialogAutoDownload();
             }
             break;
             case R.id.settings_footer_tv_exit_account: {
-                mDialogExit.show();
+                showDialogExit();
             }
             break;
         }
@@ -159,31 +156,35 @@ public class SettingsActivity extends BaseFormActivity {
 
     }
 
-    private void initDialogAutoDownload() {
+    private void showDialogAutoDownload() {
 
-        mDialogAutoDownload = new CommonDialog(this);
-        mDialogAutoDownload.addItem("仅在WiFi", new OnClickListener() {
+        final CommonDialog dialog  = new CommonDialog(this);
+        dialog.addItem("仅在WiFi", new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTvLoadApkCondition.setText("仅在WiFi");
-                if (mDialogAutoDownload != null && mDialogAutoDownload.isShowing()) {
-                    mDialogAutoDownload.dismiss();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
                 }
             }
         });
-        mDialogAutoDownload.addItem("从不", new OnClickListener() {
+
+        dialog.addItem("从不", new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTvLoadApkCondition.setText("从不");
-                if (mDialogAutoDownload != null && mDialogAutoDownload.isShowing()) {
-                    mDialogAutoDownload.dismiss();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
                 }
             }
         });
+
+        dialog.show();
 
     }
 
     private void showDialogExit() {
+
         final CommonDialog dialog = new CommonDialog(this);
         dialog.addItem("退出当前账号", new OnClickListener() {
 
