@@ -58,7 +58,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_vertical"/>
+            android:layout_marginRight="@dimen/margin"/>
 
     </RelativeLayout>
 
@@ -67,7 +67,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_vertical"
+        android:layout_height="@dimen/margin"
         android:background="@color/app_bg"/>
 
     <View

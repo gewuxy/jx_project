@@ -45,7 +45,7 @@ public class ClearCacheActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img)
+        addItem(new Builder(FormType.content)
                 .name("清理图片缓存")
                 .related(RelatedId.clear_img_cache)
                 .text("88M")
@@ -55,7 +55,7 @@ public class ClearCacheActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img)
+        addItem(new Builder(FormType.content)
                 .name("清理声音缓存")
                 .related(RelatedId.clear_sound_cache)
                 .text("66M")

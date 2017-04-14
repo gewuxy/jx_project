@@ -59,7 +59,7 @@ public class SettingsActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.binding_sine)
                 .name("新浪微博绑定")
                 .build());
@@ -68,7 +68,7 @@ public class SettingsActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.change_password)
                 .name("修改密码")
                 .build());
@@ -77,7 +77,7 @@ public class SettingsActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.clear_cache)
                 .name("清理缓存")
                 .build());
@@ -93,10 +93,6 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider)
                 .backgroundRes(R.color.divider)
                 .build());
-
-        initDialogAutoDownload();
-        initDialogExit();
-
     }
 
     @Override
@@ -187,28 +183,29 @@ public class SettingsActivity extends BaseFormActivity {
 
     }
 
-    private void initDialogExit() {
+    private void showDialogExit() {
+        final CommonDialog dialog = new CommonDialog(this);
+        dialog.addItem("退出当前账号", new OnClickListener() {
 
-        mDialogExit = new CommonDialog(this);
-        mDialogExit.addItem("退出当前账号", new OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (mDialogExit != null && mDialogExit.isShowing()) {
-                    mDialogExit.dismiss();
-                }
-            }
-        });
-        mDialogExit.addItem("关闭YaYa", new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (mDialogExit != null && mDialogExit.isShowing()) {
-                    mDialogExit.dismiss();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
                 }
             }
         });
 
+        dialog.addItem("关闭YaYa", new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
     }
 
 }

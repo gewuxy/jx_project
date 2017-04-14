@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.MainActivity;
@@ -139,7 +140,9 @@ public class MeFrag extends BaseFormFrag {
         super.setViewsValue();
 
         mLayoutHeader.setOnClickListener(this);
-        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head).load();
+        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
+                .renderer(new CircleRenderer())
+                .load();
 
     }
 

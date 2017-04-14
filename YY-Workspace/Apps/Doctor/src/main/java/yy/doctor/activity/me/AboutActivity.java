@@ -50,7 +50,7 @@ public class AboutActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.comment)
                 .name("去评价")
                 .build());
@@ -59,7 +59,7 @@ public class AboutActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.feedback)
                 .name("意见反馈")
                 .build());
@@ -76,7 +76,7 @@ public class AboutActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.update_log)
                 .name("更新日志")
                 .build());
@@ -85,7 +85,7 @@ public class AboutActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.disclaimer)
                 .name("免责声明")
                 .build());
@@ -94,7 +94,7 @@ public class AboutActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.notice)
                 .name("征稿启事")
                 .build());
@@ -103,7 +103,7 @@ public class AboutActivity extends BaseFormActivity {
                 .backgroundRes(R.color.divider)
                 .build());
 
-        addItem(new Builder(FormType.content_no_img_tx)
+        addItem(new Builder(FormType.content)
                 .related(RelatedId.jingxin)
                 .name("敬信")
                 .build());

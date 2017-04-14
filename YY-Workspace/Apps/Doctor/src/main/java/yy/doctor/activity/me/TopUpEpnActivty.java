@@ -8,6 +8,8 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 
 /**
+ * 象数充值
+ *
  * @author CaiXiang
  * @since 2017/4/14
  */

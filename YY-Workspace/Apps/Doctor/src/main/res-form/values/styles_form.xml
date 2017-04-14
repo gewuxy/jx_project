@@ -3,9 +3,10 @@
 
     <style name="v.form">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_height">@dimen/form_item_height</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/item_selector</item>
     </style>
 
     <style name="divider.menu">
@@ -14,6 +15,36 @@
 
     <style name="divider.main">
         <item name="android:background">@color/divider_gray</item>
+    </style>
+
+    <style name="iv.arrow">
+        <item name="android:id">@id/form_item_iv_arrow</item>
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:src">@mipmap/ic_arrow_right</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="iv.arrow.align_right">
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="tv.form">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="tv.form.name">
+        <item name="android:id">@id/form_item_tv_name</item>
+        <item name="android:textColor">@color/text_333</item>
+    </style>
+
+    <style name="tv.form.text">
+        <item name="android:id">@id/form_item_tv_text</item>
+        <item name="android:textColor">@color/text_888</item>
     </style>
 
 </resources>

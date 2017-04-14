@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="margin_horizontal">12dp</dimen>
-    <dimen name="margin_vertical">12dp</dimen>
+    <dimen name="margin">12dp</dimen>
+    <dimen name="margin_large">18dp</dimen>
     <dimen name="radius">3dp</dimen>
+
+    <dimen name="form_item_height">42dp</dimen>
 
     <!--Sliding menu-->
     <dimen name="sliding_menu_offset">60dp</dimen>

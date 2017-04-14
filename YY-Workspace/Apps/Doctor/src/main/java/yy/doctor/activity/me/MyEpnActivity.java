@@ -1,6 +1,5 @@
 package yy.doctor.activity.me;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -56,8 +55,7 @@ public class MyEpnActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.my_epe_top_up_epe_tv: {
-                Intent intent=new Intent(this,TopUpEpnActivty.class);
-                startActivity(intent);
+                startActivity(TopUpEpnActivty.class);
             }
             break;
             case R.id.my_epe_instruction: {
