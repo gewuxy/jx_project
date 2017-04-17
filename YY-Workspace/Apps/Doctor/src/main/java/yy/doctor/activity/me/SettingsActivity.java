@@ -158,7 +158,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialogAutoDownload() {
 
-        final CommonDialog dialog  = new CommonDialog(this);
+        final CommonDialog dialog = new CommonDialog(this);
         dialog.addItem("仅在WiFi", new OnClickListener() {
             @Override
             public void onClick(View v) {

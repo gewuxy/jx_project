@@ -55,7 +55,7 @@ public class MainActivity extends BaseVPActivity {
         add(new DiscoverFrag());
         add(new MeFrag());
 
-        mDialogUpdateNotice=new UpdateNoticeDialog(this);
+        mDialogUpdateNotice = new UpdateNoticeDialog(this);
     }
 
     @Override
@@ -148,6 +148,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     private void addIndicator(final int index, @DrawableRes int drawableId, CharSequence text) {
+
         View v = inflate(R.layout.layout_main_tab);
 
         ImageView iv = (ImageView) v.findViewById(R.id.main_tab_iv);

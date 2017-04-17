@@ -14,6 +14,7 @@ import yy.doctor.activity.MainActivity;
 import yy.doctor.activity.me.AboutActivity;
 import yy.doctor.activity.me.MyCollectionActivity;
 import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -130,8 +131,8 @@ public class MeFrag extends BaseFormFrag {
     public void findViews() {
         super.findViews();
 
-        mLayoutHeader = findView(R.id.me_layout_header);
-        mIvAvatar = findView(R.id.me_header_iv_avatar);
+        mLayoutHeader = findView(R.id.layout_me_header);
+        mIvAvatar = findView(R.id.me_header_iv);
 
     }
 
@@ -142,6 +143,7 @@ public class MeFrag extends BaseFormFrag {
         mLayoutHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
                 .renderer(new CircleRenderer())
+                //.renderer(new CornerRenderer(fitDp(15)))  圆角
                 .load();
 
     }
@@ -151,8 +153,8 @@ public class MeFrag extends BaseFormFrag {
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.me_layout_header: {
-                showToast("资料");
+            case R.id.layout_me_header: {
+                startActivity(ProfileActivity.class);
             }
             break;
         }

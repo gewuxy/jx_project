@@ -2,6 +2,7 @@ package lib.yy.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,5 +33,9 @@ public class FormItemVH extends ViewHolderEx {
 
     public View getDivider() {
         return getView(R.id.form_item_divider);
+    }
+
+    public EditText getEt() {
+        return getView(R.id.form_item_et);
     }
 }

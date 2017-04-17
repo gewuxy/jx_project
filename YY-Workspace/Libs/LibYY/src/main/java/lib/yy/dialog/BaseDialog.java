@@ -13,4 +13,5 @@ abstract public class BaseDialog extends MatchScreenDialog {
     public BaseDialog(Context context) {
         super(context);
     }
+
 }

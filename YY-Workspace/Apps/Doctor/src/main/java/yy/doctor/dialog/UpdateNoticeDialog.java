@@ -35,8 +35,8 @@ public class UpdateNoticeDialog extends BaseDialog {
     @Override
     public void findViews() {
 
-        mTvRemindMeLater=findView(R.id.dialog_update_notice_tv_remind_me_later);
-        mTvDownloadNow=findView(R.id.dialog_update_notice_tv_download_now);
+        mTvRemindMeLater = findView(R.id.dialog_update_notice_tv_remind_me_later);
+        mTvDownloadNow = findView(R.id.dialog_update_notice_tv_download_now);
 
     }
 
@@ -51,9 +51,9 @@ public class UpdateNoticeDialog extends BaseDialog {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        
-        int id=v.getId();
-        switch (id){
+
+        int id = v.getId();
+        switch (id) {
             case R.id.dialog_update_notice_tv_remind_me_later: {
                 showToast("稍后提醒");
                 dismiss();
@@ -65,6 +65,6 @@ public class UpdateNoticeDialog extends BaseDialog {
             }
             break;
         }
-        
+
     }
 }

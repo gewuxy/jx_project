@@ -30,6 +30,14 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FIDividerLarge();
             }
             break;
+            case FormType.et: {
+                item = new FIEdit();
+            }
+            break;
+            case FormType.profile_checkbox: {
+                item = new FICheckBox();
+            }
+            break;
         }
 
         saveItemValues(item);

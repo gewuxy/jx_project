@@ -5,6 +5,8 @@
     <item name="form_item_tv_name" type="id"/>
     <item name="form_item_tv_text" type="id"/>
 
+    <item name="form_item_et" type="id"/>
+
     <item name="form_item_iv" type="id"/>
     <item name="form_item_iv_arrow" type="id"/>
 

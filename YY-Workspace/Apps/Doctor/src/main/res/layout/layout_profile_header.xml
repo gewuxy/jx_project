@@ -2,58 +2,43 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_profile_header"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/item_selector"
-        android:gravity="center_vertical">
+        android:background="@drawable/item_selector">
 
-        <lib.ys.network.image.NetworkImageView
-            android:id="@+id/profile_header_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="0"/>
-
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/margin"
+            android:text="头像"
+            android:textColor="@color/text_888"
+            android:textSize="14dp"/>
 
-            <TextView
-                android:id="@+id/profile_header_tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="name"
-                android:textColor="@color/text_333"
-                android:textSize="14dp"/>
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/profile_header_iv_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin"/>
 
-            <TextView
-                android:id="@+id/profile_header_tv_hospital"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/name"
-                android:layout_marginTop="8dp"
-                android:text="第一人民医院"
-                android:textColor="@color/text_808080"
-                android:textSize="11dp"/>
+    </RelativeLayout>
 
-        </LinearLayout>
+    <View
+        style="@style/divider"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:src="@mipmap/ic_arrow_right"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/app_bg"/>
 
-    </LinearLayout>
+    <View
+        style="@style/divider"/>
 
 </LinearLayout>

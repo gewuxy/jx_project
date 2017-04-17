@@ -2,30 +2,29 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/me_layout_header"
+        android:id="@+id/layout_me_header"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/item_selector"
-        android:gravity="center_vertical"
-        android:onClick="onClick">
+        android:gravity="center_vertical">
 
         <lib.ys.network.image.NetworkImageView
-            android:id="@+id/me_header_iv_avatar"
+            android:id="@+id/me_header_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -50,7 +49,6 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/me_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"

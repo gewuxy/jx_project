@@ -14,6 +14,10 @@ import java.lang.annotation.RetentionPolicy;
 
         FormType.divider,
         FormType.divider_large,
+
+        FormType.et,
+        FormType.profile_checkbox,
+
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -21,4 +25,8 @@ public @interface FormType {
 
     int divider = 10;
     int divider_large = 11;
+
+    int et = 20;
+    int profile_checkbox = 21;
+
 }

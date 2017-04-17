@@ -18,7 +18,7 @@
             android:layout_marginRight="3dp"
             android:text="象数余额:"
             android:textColor="@color/text_333"
-            android:textSize="12dp" />
+            android:textSize="12dp"/>
 
         <TextView
             android:id="@+id/recharge_tv_remain_epn"
@@ -28,7 +28,7 @@
             android:layout_marginRight="2dp"
             android:text="5752"
             android:textColor="@color/text_0882e7"
-            android:textSize="20dp" />
+            android:textSize="20dp"/>
 
     </LinearLayout>
 
@@ -40,7 +40,7 @@
         android:layout_height="52dp"
         android:background="@android:color/white"
         android:paddingLeft="12dp"
-        android:paddingRight="@dimen/margin" >
+        android:paddingRight="@dimen/margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,14 +49,14 @@
             android:layout_centerVertical="true"
             android:text="充值象数"
             android:textColor="@color/text_333"
-            android:textSize="14dp" />
+            android:textSize="14dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/recharge_epn_tv_total"
@@ -65,7 +65,7 @@
                 android:gravity="right"
                 android:text="0个象数"
                 android:textColor="@color/text_0882e7"
-                android:textSize="14dp" />
+                android:textSize="14dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:text="10个象数=1元"
                 android:textColor="@color/text_b3b3b3"
-                android:textSize="10dp" />
+                android:textSize="10dp"/>
 
         </LinearLayout>
 
@@ -88,7 +88,7 @@
         android:layout_height="52dp"
         android:background="@android:color/white"
         android:paddingLeft="12dp"
-        android:paddingRight="@dimen/margin" >
+        android:paddingRight="@dimen/margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_centerVertical="true"
             android:text="支付金额"
             android:textColor="@color/text_333"
-            android:textSize="14dp" />
+            android:textSize="14dp"/>
 
         <TextView
             android:id="@+id/recharge_epn_tv_yuan"
@@ -107,7 +107,7 @@
             android:layout_centerVertical="true"
             android:text="元"
             android:textColor="@color/text_0882e7"
-            android:textSize="14dp" />
+            android:textSize="14dp"/>
 
         <EditText
             android:id="@+id/recharge_epn_et_num"
@@ -122,13 +122,13 @@
             android:maxLength="5"
             android:hint="输入整数"
             android:textColor="@color/text_0882e7"
-            android:textSize="14dp" />
+            android:textSize="14dp"/>
 
     </RelativeLayout>
 
     <View
         style="@style/divider"/>
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="18dp"
@@ -146,7 +146,7 @@
         android:layout_height="52dp"
         android:background="@android:color/white"
         android:paddingLeft="@dimen/margin"
-        android:paddingRight="@dimen/margin" >
+        android:paddingRight="@dimen/margin">
 
         <ImageView
             android:id="@+id/recharge_epn_iv_alipay"
@@ -165,7 +165,7 @@
             android:layout_toRightOf="@id/recharge_epn_iv_alipay"
             android:text="支付宝"
             android:textColor="@color/text_333"
-            android:textSize="14dp" />
+            android:textSize="14dp"/>
 
         <ImageView
             android:layout_width="18dp"
@@ -173,7 +173,7 @@
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/top_up_epn_ic_chose" />
+            android:src="@mipmap/top_up_epn_ic_chose"/>
 
     </RelativeLayout>
 
