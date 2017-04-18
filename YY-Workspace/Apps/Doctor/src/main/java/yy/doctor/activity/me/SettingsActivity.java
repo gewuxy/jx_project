@@ -44,52 +44,36 @@ public class SettingsActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .related(RelatedId.binding_sine)
                 .name("新浪微博绑定")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .related(RelatedId.change_password)
                 .name("修改密码")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .related(RelatedId.clear_cache)
                 .name("清理缓存")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
     }
 
     @Override

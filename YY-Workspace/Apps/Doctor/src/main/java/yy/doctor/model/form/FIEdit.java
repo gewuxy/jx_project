@@ -28,7 +28,7 @@ public class FIEdit extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_profile;
+        return R.layout.form_item_edit;
     }
 
     @Override

@@ -56,17 +56,11 @@ public class MeFrag extends BaseFormFrag {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.main_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_myelephant)
@@ -75,9 +69,7 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.my_elephant)
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_mycollection)
@@ -85,13 +77,9 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.my_collection)
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.main_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.divider)
                 .backgroundRes(R.color.divider)
@@ -103,17 +91,11 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.set)
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.main_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_about)
@@ -121,9 +103,7 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.about)
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
     }
 

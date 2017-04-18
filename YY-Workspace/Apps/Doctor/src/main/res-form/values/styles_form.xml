@@ -14,7 +14,7 @@
     </style>
 
     <style name="divider.main">
-        <item name="android:background">@color/divider_gray</item>
+        <item name="android:background">@color/divider</item>
     </style>
 
     <style name="iv.arrow">

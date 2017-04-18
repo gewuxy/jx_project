@@ -43,9 +43,7 @@ public class MenuFrag extends BaseFormFrag {
                 .background(Color.TRANSPARENT)
                 .build());
 
-        addItem(new Builder(MenuType.divider)
-                .background(getResources().getColor(R.color.divider_menu))
-                .build());
+        addItem(new Builder(MenuType.divider).build());
 
         addItem(new Builder(MenuType.child)
                 .name("消息")
@@ -71,17 +69,13 @@ public class MenuFrag extends BaseFormFrag {
                 .related(RelatedId.friend)
                 .build());
 
-        addItem(new Builder(MenuType.divider)
-                .background(getResources().getColor(R.color.divider_menu))
-                .build());
+        addItem(new Builder(MenuType.divider).build());
 
         addItem(new Builder(MenuType.group)
                 .name("文件夹")
                 .build());
 
-        addItem(new Builder(MenuType.divider)
-                .background(getResources().getColor(R.color.divider_menu))
-                .build());
+        addItem(new Builder(MenuType.divider).build());
 
         addItem(new Builder(MenuType.child)
                 .name("我的文件")

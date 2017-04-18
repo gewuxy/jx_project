@@ -39,7 +39,7 @@ public class ProfileActivity extends BaseFormActivity {
             RelatedId.education_background,
             RelatedId.address,
 
-            RelatedId.isopen,
+            RelatedId.is_open,
     })
     private @interface RelatedId {
 
@@ -58,7 +58,7 @@ public class ProfileActivity extends BaseFormActivity {
         int education_background = 10;
         int address = 11;
 
-        int isopen = 20;
+        int is_open = 20;
 
     }
 
@@ -95,9 +95,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("科室")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.divider_large).build());
 
@@ -107,84 +105,62 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("昵称")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("手机号")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("电子邮箱")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.profile_checkbox)
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("职业资格证号")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("职称")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("职务")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("性别")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("学历")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .name("所在城市")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
     }
 

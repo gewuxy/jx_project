@@ -43,13 +43,9 @@ public class DiscoverFrag extends BaseFormFrag {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_public_number)
@@ -57,9 +53,7 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("单位号")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_doctor)
@@ -67,17 +61,11 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("医者")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_medicine_news)
@@ -85,9 +73,7 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("医药新闻")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_data_center)
@@ -95,17 +81,11 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("数据中心")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_elephant_city)
@@ -113,9 +93,7 @@ public class DiscoverFrag extends BaseFormFrag {
                 .name("象城")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
     }
 

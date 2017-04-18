@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/form_item_profile_checkbox_box"
+            android:id="@+id/form_item_checkbox"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="@dimen/margin"/>

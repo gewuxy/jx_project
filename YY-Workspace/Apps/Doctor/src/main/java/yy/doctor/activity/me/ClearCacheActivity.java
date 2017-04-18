@@ -5,7 +5,6 @@ import android.view.View;
 
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
-import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
@@ -33,17 +32,11 @@ public class ClearCacheActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.divider_large)
-                .backgroundRes(R.color.app_bg)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .name("清理图片缓存")
@@ -51,9 +44,7 @@ public class ClearCacheActivity extends BaseFormActivity {
                 .text("88M")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .name("清理声音缓存")
@@ -61,9 +52,7 @@ public class ClearCacheActivity extends BaseFormActivity {
                 .text("66M")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
     }
 
@@ -72,6 +61,7 @@ public class ClearCacheActivity extends BaseFormActivity {
         super.onFormItemClick(v, position);
 
         @RelatedId int relatedid = getItem(position).getInt(TFormElem.related);
+
         switch (relatedid) {
             case RelatedId.clear_img_cache: {
                 showToast("88");

@@ -84,7 +84,7 @@ public class MainActivity extends BaseVPActivity {
         setOffscreenPageLimit(getCount());
         setScrollable(false);
 
-        mDialogUpdateNotice.show();
+        //mDialogUpdateNotice.show();
     }
 
     private void addMenu() {
@@ -121,6 +121,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     private void addIndicators() {
+
         addIndicator(KTabRecommend, R.drawable.main_selector_recommend, "推荐");
         addIndicator(KTabMeeting, R.drawable.main_selector_meeting, "会议");
         addIndicator(KTabDiscover, R.drawable.main_selector_discover, "发现");

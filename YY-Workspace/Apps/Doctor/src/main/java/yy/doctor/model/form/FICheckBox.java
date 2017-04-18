@@ -24,7 +24,7 @@ public class FICheckBox extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_profile_checkbox;
+        return R.layout.form_item_checkbox;
     }
 
 }

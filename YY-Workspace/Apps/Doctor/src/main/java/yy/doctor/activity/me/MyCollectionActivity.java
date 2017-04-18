@@ -37,9 +37,7 @@ public class MyCollectionActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.data_center_ic_clinical_guide)
@@ -48,9 +46,7 @@ public class MyCollectionActivity extends BaseFormActivity {
                 .text("2")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.data_center_ic_drug_catalogue)
@@ -59,9 +55,7 @@ public class MyCollectionActivity extends BaseFormActivity {
                 .text("6")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.data_center_ic_physician_proposal)
@@ -70,9 +64,7 @@ public class MyCollectionActivity extends BaseFormActivity {
                 .text("8")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.data_center_ic_pharmacist_proposal)
@@ -81,9 +73,7 @@ public class MyCollectionActivity extends BaseFormActivity {
                 .text("0")
                 .build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
+        addItem(new Builder(FormType.divider).build());
 
     }
 
