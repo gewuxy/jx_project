@@ -16,6 +16,7 @@ import yy.doctor.model.form.FormType;
 public class AboutActivity extends BaseFormActivity {
 
     @IntDef({
+            RelatedId.check_version,
             RelatedId.comment,
             RelatedId.feedback,
             RelatedId.update_log,
@@ -24,12 +25,13 @@ public class AboutActivity extends BaseFormActivity {
             RelatedId.jingxin,
     })
     private @interface RelatedId {
-        int comment = 0;
-        int feedback = 1;
-        int update_log = 2;
-        int disclaimer = 3;
-        int notice = 4;
-        int jingxin = 5;
+        int check_version = 0;
+        int comment = 1;
+        int feedback = 2;
+        int update_log = 3;
+        int disclaimer = 4;
+        int notice = 5;
+        int jingxin = 6;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class AboutActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
-                .related(RelatedId.comment)
+                .related(RelatedId.check_version)
                 .name("检查版本更新")
                 .build());
 
@@ -109,6 +111,10 @@ public class AboutActivity extends BaseFormActivity {
 
         @RelatedId int relatedid = getItem(position).getInt(TFormElem.related);
         switch (relatedid) {
+            case RelatedId.check_version: {
+                showToast("检查版本更新");
+            }
+            break;
             case RelatedId.comment: {
                 showToast("去评论");
             }

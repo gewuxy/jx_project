@@ -38,4 +38,5 @@ public class FormItemVH extends ViewHolderEx {
     public EditText getEt() {
         return getView(R.id.form_item_et);
     }
+
 }

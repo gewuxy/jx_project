@@ -77,6 +77,7 @@ public class ProfileActivity extends BaseFormActivity {
         super.initData();
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.name)
                 .name("姓名")
                 .text("sdfsdf")
                 .enable(false)
@@ -85,6 +86,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_arrow_right)
                 .name("医院")
                 .build());
@@ -92,6 +94,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.major)
                 .name("科室")
                 .build());
 
@@ -102,59 +105,69 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.nickname)
                 .name("昵称")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.phone_number)
                 .name("手机号")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.email)
                 .name("电子邮箱")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.profile_checkbox)
+                .related(RelatedId.is_open)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.certification_number)
                 .name("职业资格证号")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.rank)
                 .name("职称")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.position)
                 .name("职务")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.sex)
                 .name("性别")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.education_background)
                 .name("学历")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
+                .related(RelatedId.address)
                 .name("所在城市")
                 .build());
 

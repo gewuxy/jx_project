@@ -13,6 +13,6 @@
         android:padding="6dp"
         android:text="推荐公众号"
         android:textColor="@color/black"
-        android:textSize="11sp"/>
+        android:textSize="11dp"/>
 
 </LinearLayout>

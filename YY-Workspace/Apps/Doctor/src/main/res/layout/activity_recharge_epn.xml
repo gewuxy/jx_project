@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@android:color/white"
-        android:paddingLeft="12dp"
+        android:paddingLeft="@dimen/margin"
         android:paddingRight="@dimen/margin">
 
         <TextView

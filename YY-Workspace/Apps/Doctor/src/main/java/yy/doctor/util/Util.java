@@ -25,6 +25,7 @@ public class Util extends BaseUtil {
 //    }
 
     public static void addMenuIcon(TitleBarEx titleBar, final MainActivity act) {
+
         titleBar.addImageViewLeft(R.mipmap.title_ic_menu, new OnClickListener() {
 
             @Override

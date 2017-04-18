@@ -25,15 +25,17 @@ public class FIContent extends FormItem {
         setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
 
         holder.getTvText().setText(getString(TFormElem.text));
+
     }
 
     @Override
     public boolean check() {
-        return false;
+        return true;
     }
 
     @Override
     public int getContentViewResId() {
         return R.layout.form_item_content;
     }
+
 }

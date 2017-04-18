@@ -7,6 +7,7 @@ import lib.ys.util.CacheUtilEx;
  */
 
 public class CacheUtil extends CacheUtilEx {
+
     private static final String KHomeDir = "/yaya/";
 
     private static final String KBmpCacheDef = KHomeDir + "cache/bmp/";
@@ -22,4 +23,5 @@ public class CacheUtil extends CacheUtilEx {
     public static String getBmpCacheDir() {
         return mBmpCacheDir;
     }
+
 }

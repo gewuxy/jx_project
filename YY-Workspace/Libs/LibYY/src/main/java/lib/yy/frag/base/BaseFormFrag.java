@@ -9,4 +9,5 @@ import lib.yy.model.form.FormItem;
  * @since 2017/4/5
  */
 abstract public class BaseFormFrag extends FormFragEx<FormItem, FormItemVH> {
+
 }
