@@ -6,7 +6,7 @@
     android:background="@drawable/white">
 
     <EditText
-        style="@style/common_edit"
+        style="@style/et.common"
         android:id="@id/form_item_et"
         android:layout_width="0dp"
         android:layout_weight="1"

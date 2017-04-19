@@ -57,7 +57,7 @@ public class FIEdit extends FormItem {
         super.refresh(holder);
 
         holder.getEt().setEnabled(getBoolean(TFormElem.enable));
-        holder.getEt().setText(getString(TFormElem.text));
+        holder.getEt().setText(getString(TFormElem.hint));
 
         int d = getInt(TFormElem.drawable);
         if (d != Constants.KInvalidValue) {
