@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import lib.ys.activity.SplashActivityEx;
+import yy.doctor.BuildConfig;
 import yy.doctor.R;
 
 /**
@@ -34,6 +35,10 @@ public class SplashActivity extends SplashActivityEx {
 
     @Override
     protected void goPast() {
-        startActivity(LoginActivity.class);
+        if (BuildConfig.TEST) {
+            startActivity(TestActivity.class);
+        } else {
+            startActivity(LoginActivity.class);
+        }
     }
 }

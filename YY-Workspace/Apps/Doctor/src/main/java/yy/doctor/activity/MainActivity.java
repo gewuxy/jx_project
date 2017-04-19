@@ -83,7 +83,6 @@ public class MainActivity extends BaseVPActivity {
 
         setOffscreenPageLimit(getCount());
         setScrollable(false);
-
         //mDialogUpdateNotice.show();
     }
 
