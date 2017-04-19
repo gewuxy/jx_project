@@ -8,9 +8,9 @@
     <ImageView
         android:layout_width="174dp"
         android:layout_height="48dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginBottom="42dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="42dp"
+        android:layout_marginTop="42dp"
         android:src="@mipmap/login_ic"/>
 
     <EditText
@@ -25,8 +25,8 @@
         android:hint="密码"/>
 
     <TextView
-        style="@style/common_text"
         android:id="@+id/login_tv"
+        style="@style/tv.common"
         android:layout_marginTop="24dp"
         android:text="登录"/>
 

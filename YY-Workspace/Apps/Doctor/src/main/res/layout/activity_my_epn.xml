@@ -34,17 +34,11 @@
     </LinearLayout>
 
     <TextView
+        style="@style/tv.common"
         android:id="@+id/my_epe_top_up_epn_tv"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
         android:layout_marginTop="42dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_below="@+id/layout_my_elephant"
-        android:gravity="center"
-        android:background="@drawable/common_tv_shape"
-        android:text="充值象数"
-        android:textColor="@color/white"/>
+        android:text="充值象数"/>
 
     <LinearLayout
         android:layout_width="match_parent"

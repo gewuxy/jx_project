@@ -34,6 +34,6 @@ public class SplashActivity extends SplashActivityEx {
 
     @Override
     protected void goPast() {
-        startActivity(MainActivity.class);
+        startActivity(LoginActivity.class);
     }
 }

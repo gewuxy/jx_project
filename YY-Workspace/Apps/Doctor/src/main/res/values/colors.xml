@@ -9,6 +9,10 @@
     <color name="item_focus">#e8e8e8</color>
     <drawable name="item_focus">#e8e8e8</drawable>
 
+    <!-- 普通按按下钮效果 -->
+    <color name="btn_bg">#0882e7</color>
+    <color name="btn_bg_focus">#0674cf</color>
+
     <!--text-->
     <color name="text_333">#333</color>
     <color name="text_1ba0cc">#1ba0cc</color>

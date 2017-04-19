@@ -23,46 +23,44 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
+
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:screenOrientation="portrait"/>
 
         <!-- discover -->
         <activity
             android:name=".activity.discover.DataCenterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:screenOrientation="portrait"/>
 
         <!-- me -->
         <activity
             android:name=".activity.me.AboutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.MyCollectionActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            />
         <activity
             android:name=".activity.me.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            />
         <activity
             android:name=".activity.me.MyEpnActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            />
         <activity
             android:name=".activity.me.ProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            />
         <activity
             android:name=".activity.me.ClearCacheActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            />
         <activity
             android:name=".activity.me.RechargeEpnActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            />
 
         <!-- register -->
         <activity
