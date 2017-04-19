@@ -10,6 +10,24 @@
         android:layout_height="48dp"
         android:layout_marginTop="42dp"
         android:layout_marginBottom="42dp"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/login_ic"/>
+
+    <EditText
+        style="@style/common_edit"
+        android:hint="电子邮箱"/>
+
+    <View
+        style="@style/divider"/>
+
+    <EditText
+        style="@style/common_edit"
+        android:hint="密码"/>
+
+    <TextView
+        style="@style/common_text"
+        android:id="@+id/login_tv"
+        android:layout_marginTop="24dp"
+        android:text="登录"/>
 
 </LinearLayout>

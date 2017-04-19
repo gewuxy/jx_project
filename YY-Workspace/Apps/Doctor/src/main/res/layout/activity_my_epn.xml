@@ -42,7 +42,7 @@
         android:layout_marginRight="10dp"
         android:layout_below="@+id/layout_my_elephant"
         android:gravity="center"
-        android:background="@drawable/my_epe_tv_bg"
+        android:background="@drawable/common_tv_shape"
         android:text="充值象数"
         android:textColor="@color/white"/>
 
