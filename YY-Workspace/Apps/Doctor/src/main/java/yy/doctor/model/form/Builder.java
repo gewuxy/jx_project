@@ -38,6 +38,10 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FICheckBox();
             }
             break;
+            case FormType.et_register: {
+                item = new FIEditRegister();
+            }
+            break;
         }
 
         saveItemValues(item);

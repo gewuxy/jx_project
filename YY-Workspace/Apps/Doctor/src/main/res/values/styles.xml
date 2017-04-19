@@ -12,7 +12,7 @@
         <item name="android:layout_marginRight">@dimen/margin</item>
     </style>
 
-    <!-- 普通按钮样式 -->
+    <!-- 普通输入框样式 -->
     <style name="common_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>

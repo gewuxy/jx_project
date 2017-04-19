@@ -1,45 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    style="@style/v.form"
+    android:layout_height="50dip"
+    android:background="@drawable/white">
 
-    <LinearLayout
-        style="@style/v.form"
-        android:background="@drawable/white">
+    <EditText
+        style="@style/common_edit"
+        android:id="@id/form_item_et"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:hint="未填写"/>
 
-        <TextView
-            style="@style/tv.form.name"
-            android:layout_marginLeft="@dimen/margin"
-            android:text="姓名"
-            android:textColor="@color/text_888"/>
+    <ImageView
+        android:id="@id/form_item_iv"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_marginRight="@dimen/margin"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@id/form_item_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin"
-                android:background="@drawable/transparent"
-                android:gravity="right"
-                android:hint="未填写"
-                android:textColor="@color/text_333"
-                android:textColorHint="@color/text_888"
-                android:textSize="14dp"/>
-
-            <ImageView
-                android:id="@id/form_item_iv"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_marginRight="@dimen/margin"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

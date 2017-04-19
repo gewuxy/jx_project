@@ -9,7 +9,6 @@
         android:label="${app_name}"
         android:supportsRtl="true"
         android:theme="@style/AppTheme_SwipeBack">
-
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -29,13 +28,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
-        <!--discover-->
+        <!-- discover -->
         <activity
             android:name=".activity.discover.DataCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
-        <!--me-->
+        <!-- me -->
         <activity
             android:name=".activity.me.AboutActivity"
             android:screenOrientation="portrait"
@@ -65,6 +64,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
+        <!-- register -->
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
 
     </application>
 
