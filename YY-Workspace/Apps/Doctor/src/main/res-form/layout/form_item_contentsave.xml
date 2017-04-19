@@ -17,19 +17,12 @@
                 android:id="@id/form_item_iv"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
-                android:layout_marginLeft="@dimen/margin_large"
-                android:layout_marginRight="@dimen/margin"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:background="@color/divider"/>
+                android:layout_marginLeft="@dimen/margin"/>
 
             <TextView
                 style="@style/tv.form.name"
                 android:layout_marginLeft="@dimen/margin"
                 android:text="清理缓存"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +39,7 @@
 
             <ImageView
                 style="@style/iv.arrow.align_right"
-                android:layout_marginRight="@dimen/margin_large"/>
+                android:layout_marginRight="@dimen/margin"/>
         </LinearLayout>
 
 

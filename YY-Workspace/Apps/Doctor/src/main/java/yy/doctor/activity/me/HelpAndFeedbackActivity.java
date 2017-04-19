@@ -13,7 +13,7 @@ import yy.doctor.model.form.FormType;
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class AboutActivity extends BaseFormActivity {
+public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @IntDef({
             RelatedId.check_version,

@@ -1,6 +1,5 @@
 package yy.doctor.frag;
 
-import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +10,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.MainActivity;
-import yy.doctor.activity.me.AboutActivity;
+import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.MyCollectionActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
@@ -30,16 +29,25 @@ public class MeFrag extends BaseFormFrag {
     private NetworkImageView mIvAvatar;
 
     @IntDef({
-            RelatedId.my_elephant,
+            RelatedId.my_attention,
             RelatedId.my_collection,
-            RelatedId.set,
-            RelatedId.about,
+
+            RelatedId.my_epn,
+            RelatedId.epc,
+
+            RelatedId.settings,
+            RelatedId.help_and_feedback,
     })
     private @interface RelatedId {
-        int my_elephant = 0;
+
+        int my_attention = 0;
         int my_collection = 1;
-        int set = 2;
-        int about = 3;
+
+        int my_epn = 2;
+        int epc = 3;
+
+        int settings = 4;
+        int help_and_feedback = 5;
     }
 
     @Override
@@ -56,54 +64,56 @@ public class MeFrag extends BaseFormFrag {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_myelephant)
-                .name("我的象数")
-                .text("1象数")
-                .related(RelatedId.my_elephant)
+                .drawable(R.mipmap.form_ic_my_attention)
+                .name("关注的单位号")
+                .related(RelatedId.my_attention)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_mycollection)
-                .name("我的收藏")
+                .drawable(R.mipmap.form_ic_my_collection)
+                .name("收藏会议")
                 .related(RelatedId.my_collection)
                 .build());
 
+        addItem(new Builder(FormType.divider_large).build());
+
+        addItem(new Builder(FormType.content)
+                .drawable(R.mipmap.form_ic_my_epn)
+                .name("我的象数")
+                .text("1象数")
+                .related(RelatedId.my_epn)
+                .build());
+
         addItem(new Builder(FormType.divider).build());
+
+        addItem(new Builder(FormType.content)
+                .drawable(R.mipmap.form_ic_epc)
+                .name("象城")
+                .related(RelatedId.epc)
+                .build());
+
 
         addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider)
-                .backgroundRes(R.color.divider)
-                .build());
 
         addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_set)
+                .drawable(R.mipmap.form_ic_settings)
                 .name("设置")
-                .related(RelatedId.set)
+                .related(RelatedId.settings)
                 .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_about)
-                .name("关于")
-                .related(RelatedId.about)
+                .drawable(R.mipmap.form_ic_help_and_feedback)
+                .name("帮助与反馈")
+                .related(RelatedId.help_and_feedback)
                 .build());
-
-        addItem(new Builder(FormType.divider).build());
 
     }
 
@@ -142,26 +152,32 @@ public class MeFrag extends BaseFormFrag {
 
     @Override
     protected void onFormItemClick(View v, int position) {
+
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
-            case RelatedId.my_elephant: {
-                Intent intent = new Intent(getContext(), MyEpnActivity.class);
-                startActivity(intent);
+
+            case RelatedId.my_attention: {
+                showToast("555");
             }
             break;
             case RelatedId.my_collection: {
-                Intent intent = new Intent(getContext(), MyCollectionActivity.class);
-                startActivity(intent);
+                startActivity(MyCollectionActivity.class);
             }
             break;
-            case RelatedId.set: {
-                Intent intent = new Intent(getContext(), SettingsActivity.class);
-                startActivity(intent);
+            case RelatedId.my_epn: {
+                startActivity(MyEpnActivity.class);
             }
             break;
-            case RelatedId.about: {
-                Intent intent = new Intent(getContext(), AboutActivity.class);
-                startActivity(intent);
+            case RelatedId.epc: {
+                showToast("999");
+            }
+            break;
+            case RelatedId.settings: {
+                startActivity(SettingsActivity.class);
+            }
+            break;
+            case RelatedId.help_and_feedback: {
+                startActivity(HelpAndFeedbackActivity.class);
             }
             break;
         }

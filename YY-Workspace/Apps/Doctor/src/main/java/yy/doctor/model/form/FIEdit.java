@@ -56,15 +56,16 @@ public class FIEdit extends FormItem {
     protected void refresh(FormItemVH holder) {
         super.refresh(holder);
 
+        int d = getInt(TFormElem.drawable);
+        if (d != Constants.KInvalidValue) {
+            holder.getIv().setOnClickListener(this);
+        }
+        setIvIfValid(holder.getIv(), d);
+
         holder.getEt().setEnabled(getBoolean(TFormElem.enable));
         holder.getEt().setText(getString(TFormElem.text));
         holder.getEt().setHint(getString(TFormElem.hint));
 
-        int d = getInt(TFormElem.drawable);
-        if (d != Constants.KInvalidValue) {
-            holder.getIv().setOnClickListener(this);
-            setIvIfValid(holder.getIv(), d);
-        }
     }
 
     @Override

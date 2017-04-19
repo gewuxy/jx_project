@@ -27,10 +27,9 @@
                 android:layout_marginRight="@dimen/margin"
                 android:background="@drawable/transparent"
                 android:gravity="right"
-                android:hint="未填写"
                 android:textColor="@color/text_333"
                 android:textColorHint="@color/text_888"
-                android:textSize="14dp"/>
+                android:textSize="@dimen/text_size"/>
 
             <ImageView
                 android:id="@id/form_item_iv"

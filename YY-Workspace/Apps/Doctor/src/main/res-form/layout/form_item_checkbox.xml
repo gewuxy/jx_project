@@ -13,10 +13,12 @@
 
         <CheckBox
             android:id="@+id/form_item_checkbox"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="@dimen/margin"/>
-        <!--android:button="@null"/-->
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:button="@color/transparent"
+            android:clickable="true"
+            android:background="@drawable/form_item_selector_checkbox"/>
 
         <TextView
             android:layout_width="wrap_content"

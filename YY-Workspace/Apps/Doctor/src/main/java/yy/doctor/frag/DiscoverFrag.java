@@ -88,7 +88,7 @@ public class DiscoverFrag extends BaseFormFrag {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_elephant_city)
+                .drawable(R.mipmap.form_ic_epc)
                 .related(RelatedId.elephant_city)
                 .name("象城")
                 .build());

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.yy.activity.base.BaseActivity;
+import yy.doctor.BuildConfig;
 import yy.doctor.R;
 
 /**
@@ -48,6 +49,10 @@ public class LoginActivity extends BaseActivity {
         mTvLogin.setOnClickListener(this);
         mTvRegister.setOnClickListener(this);
         mTvForgetPassword.setOnClickListener(this);
+
+        if (BuildConfig.TEST) {
+            //mTvLogin.setText("fsldfskldf");
+        }
 
     }
 

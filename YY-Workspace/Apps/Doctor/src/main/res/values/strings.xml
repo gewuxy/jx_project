@@ -4,6 +4,12 @@
     <!--toast-->
     <string name="toast_hint_tttt">YaYa新医师</string>
 
+    <!--hint-->
+    <string name="et_hint">未填写</string>
+
+
+    <string name="cancle">取消</string>
+
     <!-- register_text -->
     <string name="register_email">邮箱</string>
     <string name="register_name">姓名</string>
