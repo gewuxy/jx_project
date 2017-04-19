@@ -1,21 +1,81 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
 
     defaultConfig {
         applicationId "yy.doctor"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
+            keyAlias 'jx'
+            keyPassword '123456'
+            storeFile file('./jx.keystore')
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "DEBUG_LOG", "true"
+            buildConfigField "boolean", "DEBUG_NETWORK", "true"
+            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "true"
+            buildConfigField "boolean", "TEST", "true"
+
+            signingConfig signingConfigs.release
+
+            shrinkResources false
+            zipAlignEnabled false
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        alpha {
+            buildConfigField "boolean", "DEBUG_LOG", "true"
+            buildConfigField "boolean", "DEBUG_NETWORK", "true"
+            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "false"
+            buildConfigField "boolean", "TEST", "false"
+
+            signingConfig signingConfigs.release
+
+            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true
+        }
+        release {
+            buildConfigField "boolean", "DEBUG_LOG", "false"
+            buildConfigField "boolean", "DEBUG_NETWORK", "false"
+            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "false"
+            buildConfigField "boolean", "TEST", "false"
+
+            signingConfig signingConfigs.release
+
+            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true
+        }
+    }
+
+    productFlavors {
+        flavors_debug {
+            manifestPlaceholders = [
+                    app_name: "YaYa医师_编译",
+            ]
+        }
+        flavors_alpha {
+            manifestPlaceholders = [
+                    app_name: "YaYa医师_内测",
+            ]
+        }
+        flavors_release {
+            manifestPlaceholders = [
+                    app_name: "YaYa医师",
+            ]
         }
     }
 

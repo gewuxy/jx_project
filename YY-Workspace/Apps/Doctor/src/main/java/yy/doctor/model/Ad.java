@@ -4,6 +4,8 @@ import lib.ys.model.EVal;
 import yy.doctor.model.Ad.TAd;
 
 /**
+ * 广告类
+ *
  * @author CaiXiang
  * @since 2017/4/6
  */
