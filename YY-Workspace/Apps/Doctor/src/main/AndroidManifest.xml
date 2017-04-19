@@ -23,7 +23,6 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
-
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
@@ -39,35 +38,31 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.MyCollectionActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.SettingsActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.MyEpnActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ProfileActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ClearCacheActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.RechargeEpnActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
 
         <!-- register -->
         <activity
             android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
-
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".KeyExplainActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

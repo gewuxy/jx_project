@@ -1,0 +1,13 @@
+package yy.doctor;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class KeyExplainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_key_explain);
+    }
+}

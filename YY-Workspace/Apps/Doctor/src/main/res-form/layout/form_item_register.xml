@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/form_item_register"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="@dimen/margin">
+
+        <EditText
+            android:id="@+id/register_et_key"
+            style="@style/et.common"
+            android:layout_height="50dip"
+            android:hint="激活码"/>
+
+        <TextView
+            android:id="@+id/register_get_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin"
+            android:background="@drawable/captcha_view_selector"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:padding="10dip"
+            android:text="获取激活码"
+            android:textColor="@color/text_0882e7"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/register"
+        style="@style/tv.common"
+        android:layout_marginTop="30dp"
+        android:text="注册"/>
+
+</LinearLayout>
