@@ -174,7 +174,6 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.divider_large).build());
-
     }
 
     @Override

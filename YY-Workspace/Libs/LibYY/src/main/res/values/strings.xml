@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LibYY</string>
+
+    <string name="toast_hint_input">请输入</string>
 </resources>

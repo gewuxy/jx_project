@@ -122,9 +122,9 @@ public class MainActivity extends BaseVPActivity {
 
     private void addIndicators() {
 
-        addIndicator(KTabRecommend, R.drawable.main_selector_recommend, "推荐");
+        addIndicator(KTabRecommend, R.drawable.main_selector_recommend, "首页");
         addIndicator(KTabMeeting, R.drawable.main_selector_meeting, "会议");
-        addIndicator(KTabDiscover, R.drawable.main_selector_discover, "发现");
+        addIndicator(KTabDiscover, R.drawable.main_selector_discover, "数据");
         addIndicator(KTabMe, R.drawable.main_selector_me, "我");
 
         setOnPageChangeListener(new OnPageChangeListener() {

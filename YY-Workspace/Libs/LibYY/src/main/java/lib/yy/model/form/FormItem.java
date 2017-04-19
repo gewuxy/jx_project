@@ -6,7 +6,9 @@ import android.widget.TextView;
 import lib.ys.ConstantsEx;
 import lib.ys.form.FormItemEx;
 import lib.ys.util.UIUtil;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
+import lib.yy.R;
 import lib.yy.adapter.VH.FormItemVH;
 
 /**
@@ -48,22 +50,30 @@ abstract public class FormItem extends FormItemEx<FormItemVH> {
 
     abstract public boolean check();
 
-//    /**
-//     * 检测"请输入"选项
-//     *
-//     * @return
-//     */
-//    protected boolean checkInput() {
-//        if (isEmpty(getString(TFormElem.val))) {
-//            if (getString(TFormElem.toast).isEmpty()) {
-//                showToast(ResLoader.getString(R.string.toast_hint_input) + getString(TFormElem.name));
-//            } else {
-//                showToast(getString(TFormElem.toast));
-//            }
-//            return false;
-//        }
-//        return true;
-//    }
+    /**
+     * 检测"请输入"选项
+     *
+     * @return
+     */
+    protected boolean checkInput() {
+        if (isEmpty(getString(TFormElem.val))) {
+            if (getString(TFormElem.toast).isEmpty()) {
+                String name = getString(TFormElem.name);
+                String toast = null;
+                if (name.isEmpty()) {
+                    toast = getString(TFormElem.hint);
+                } else {
+                    toast = name;
+                }
+
+                showToast(ResLoader.getString(R.string.toast_hint_input) + toast);
+            } else {
+                showToast(getString(TFormElem.toast));
+            }
+            return false;
+        }
+        return true;
+    }
 //
 //    /**
 //     * 检测"请上传"选项

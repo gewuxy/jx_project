@@ -16,6 +16,8 @@ import java.lang.annotation.RetentionPolicy;
         FormType.divider_large,
 
         FormType.et,
+        FormType.et_register,
+
         FormType.profile_checkbox,
 
 })
@@ -27,6 +29,8 @@ public @interface FormType {
     int divider_large = 11;
 
     int et = 20;
-    int profile_checkbox = 21;
+    int et_register = 22;
+
+    int profile_checkbox = 30;
 
 }

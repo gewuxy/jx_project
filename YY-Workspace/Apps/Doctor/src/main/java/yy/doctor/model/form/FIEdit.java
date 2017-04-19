@@ -1,8 +1,9 @@
 package yy.doctor.model.form;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 import lib.yy.adapter.VH.FormItemVH;
 import lib.yy.model.form.FormItem;
@@ -23,12 +24,32 @@ public class FIEdit extends FormItem {
 
     @Override
     public boolean check() {
-        return true;
+        return checkInput();
     }
 
     @Override
     public int getContentViewResId() {
         return R.layout.form_item_edit;
+    }
+
+    @Override
+    protected void init(FormItemVH holder) {
+        super.init(holder);
+
+        holder.getEt().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                put(TFormElem.val, s.toString());
+            }
+        });
     }
 
     @Override
@@ -40,15 +61,13 @@ public class FIEdit extends FormItem {
 
         int d = getInt(TFormElem.drawable);
         if (d != Constants.KInvalidValue) {
-            holder.getIv().setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            holder.getIv().setOnClickListener(this);
+            setIvIfValid(holder.getIv(), d);
         }
+    }
 
-        setIvIfValid(holder.getIv(), d);
+    @Override
+    protected boolean onViewClick(View v) {
+        return super.onViewClick(v);
     }
 }
