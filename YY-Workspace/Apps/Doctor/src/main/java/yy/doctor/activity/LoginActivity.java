@@ -14,6 +14,8 @@ import yy.doctor.R;
 public class LoginActivity extends BaseActivity {
 
     private TextView mTvLogin;
+    private TextView mTvRegister;
+    private TextView mTvForgetPassword;
 
     @Override
     public void initData() {
@@ -35,6 +37,8 @@ public class LoginActivity extends BaseActivity {
     public void findViews() {
 
         mTvLogin=findView(R.id.login_tv);
+        mTvRegister=findView(R.id.login_tv_register);
+        mTvForgetPassword=findView(R.id.login_tv_forget_password);
 
     }
 
@@ -42,6 +46,8 @@ public class LoginActivity extends BaseActivity {
     public void setViewsValue() {
 
         mTvLogin.setOnClickListener(this);
+        mTvRegister.setOnClickListener(this);
+        mTvForgetPassword.setOnClickListener(this);
 
     }
 
@@ -52,9 +58,18 @@ public class LoginActivity extends BaseActivity {
         int id=v.getId();
         switch (id){
             case R.id.login_tv: {
+                startActivity(MainActivity.class);
+            }
+            break;
+            case R.id.login_tv_register: {
+                startActivity(RegisterActivity.class);
+            }
+            break;
+            case R.id.login_tv_forget_password: {
                 startActivity(RegisterActivity.class);
             }
             break;
         }
     }
+
 }

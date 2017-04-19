@@ -36,6 +36,8 @@
                 android:id="@id/form_item_iv"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
                 android:layout_marginRight="@dimen/margin"/>
 
         </LinearLayout>
