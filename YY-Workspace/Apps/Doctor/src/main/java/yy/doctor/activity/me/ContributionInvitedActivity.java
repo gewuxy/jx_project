@@ -6,6 +6,8 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 
 /**
+ * 征稿启事
+ *
  * @author CaiXiang
  * @since 2017/4/20
  */

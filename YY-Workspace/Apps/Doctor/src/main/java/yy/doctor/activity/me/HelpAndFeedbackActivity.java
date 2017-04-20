@@ -128,7 +128,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.jingxin: {
-                startActivity(JingXinActivity.class);
+                startActivity(JXActivity.class);
             }
             break;
         }

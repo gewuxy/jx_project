@@ -9,8 +9,6 @@ import lib.ys.LogMgr;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
-import yy.doctor.activity.MainActivity;
-import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
@@ -39,7 +37,7 @@ public class MeetingFrag extends BaseFrag {
 
     @Override
     public void initTitleBar() {
-        Util.addMenuIcon(getTitleBar(), (MainActivity) getActivity());
+//        Util.addMenuIcon(getTitleBar(), getActivity());
         View view = inflate(R.layout.layout_meeting_title_mid);
         getTitleBar().addViewMid(view, new View.OnClickListener() {
 

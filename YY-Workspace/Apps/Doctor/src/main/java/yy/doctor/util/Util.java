@@ -10,7 +10,6 @@ import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.util.BaseUtil;
 import yy.doctor.R;
-import yy.doctor.activity.MainActivity;
 
 /**
  * @author CaiXiang
@@ -43,19 +42,4 @@ public class Util extends BaseUtil {
             }
         });
     }
-
-
-    //侧滑菜单的开关
-    public static void addMenuIcon(TitleBarEx titleBar, final MainActivity act) {
-
-        titleBar.addImageViewLeft(R.mipmap.ic_back, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                act.toggleMenu();
-            }
-        });
-    }
-
-
 }

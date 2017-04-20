@@ -549,7 +549,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
      * @param resId view的id
      */
     protected void setOnClickListener(@IdRes int resId) {
-        setOnClickListener(findViewById(resId));
+        setOnClickListener(findView(resId));
     }
 
     protected void setOnClickListener(@NonNull View v) {

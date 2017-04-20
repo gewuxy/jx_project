@@ -3,7 +3,6 @@ package yy.doctor.activity.me;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -14,9 +13,6 @@ import yy.doctor.util.Util;
  * @since 2017/4/13
  */
 public class MyEpnActivity extends BaseActivity {
-
-    private TextView mTvTopUp;
-    private TextView mTvInstruction;
 
     @Override
     public void initData() {
@@ -46,18 +42,12 @@ public class MyEpnActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
-        mTvTopUp = findView(R.id.my_epe_recharge_epn_tv);
-        mTvInstruction = findView(R.id.my_epn_instruction);
-
     }
 
     @Override
     public void setViewsValue() {
-
-        mTvTopUp.setOnClickListener(this);
-        mTvInstruction.setOnClickListener(this);
-
+        setOnClickListener(R.id.my_epn_instruction);
+        setOnClickListener(R.id.my_epe_recharge_epn_tv);
     }
 
     @Override

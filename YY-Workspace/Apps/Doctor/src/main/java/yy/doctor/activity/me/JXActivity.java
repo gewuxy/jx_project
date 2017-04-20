@@ -9,7 +9,7 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/20
  */
-public class JingXinActivity extends BaseActivity {
+public class JXActivity extends BaseActivity {
 
     @Override
     public void initData() {
@@ -19,7 +19,7 @@ public class JingXinActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_jing_xin;
+        return R.layout.activity_jx;
     }
 
     @Override

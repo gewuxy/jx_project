@@ -23,6 +23,10 @@ import yy.doctor.model.form.FormType;
  */
 public class SettingsActivity extends BaseFormActivity {
 
+    private static final int KColorNormal = Color.parseColor("#666666");
+    private static final int KColorCancel = Color.parseColor("#01b557");
+
+
     private RelativeLayout mLayoutDownload;
     private TextView mTvLoadApkCondition;
     private TextView mTvExit;
@@ -86,7 +90,6 @@ public class SettingsActivity extends BaseFormActivity {
         mLayoutDownload = findView(R.id.settings_footer_layout_download);
         mTvLoadApkCondition = findView(R.id.settings_footer_tv_download_conditiom);
         mTvExit = findView(R.id.settings_footer_tv_exit_account);
-
     }
 
     @Override
@@ -191,13 +194,10 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
 
-    int color_normal = Color.parseColor("#666666");
-    int color_cancle = Color.parseColor("#01b557");
-
     private void showDialogClearImgCache() {
 
         final ClearCacheDialog dialog = new ClearCacheDialog(this);
-        dialog.addItem("清理图片缓存", color_normal, new OnClickListener() {
+        dialog.addItem("清理图片缓存", KColorNormal, new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -207,7 +207,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
         });
 
-        dialog.addItem("取消", color_cancle, new OnClickListener() {
+        dialog.addItem("取消", KColorCancel, new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -224,7 +224,7 @@ public class SettingsActivity extends BaseFormActivity {
     private void showDialogClearSoundCache() {
 
         final ClearCacheDialog dialog = new ClearCacheDialog(this);
-        dialog.addItem("清理声音缓存", color_normal, new OnClickListener() {
+        dialog.addItem("清理声音缓存", KColorNormal, new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -234,7 +234,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
         });
 
-        dialog.addItem("取消", color_cancle, new OnClickListener() {
+        dialog.addItem("取消", KColorCancel, new OnClickListener() {
 
             @Override
             public void onClick(View v) {

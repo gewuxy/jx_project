@@ -13,7 +13,7 @@
         android:hint="@string/hospital_location"
         android:paddingLeft="@dimen/margin"
         android:textColor="@color/text_888"
-        android:textSize="12sp"/>
+        android:textSize="12dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

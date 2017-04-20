@@ -64,7 +64,7 @@
             android:name=".activity.me.EpnUseRuleActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.JingXinActivity"
+            android:name=".activity.me.JXActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.DisclaimerActivity"
