@@ -11,12 +11,12 @@ import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
 /**
+ * 注册界面
+ *
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
- * 注册界面
  */
 public class RegisterActivity extends BaseFormActivity {
-
     private EditText mKey;
     private TextView mGetKey;
     private TextView mRegister;

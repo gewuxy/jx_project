@@ -6,9 +6,10 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 
 /**
+ * 获取激活码说明界面
+ *
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
- * 获取激活码说明界面
  */
 public class ActivationCodeExplainActivity extends BaseActivity {
 
