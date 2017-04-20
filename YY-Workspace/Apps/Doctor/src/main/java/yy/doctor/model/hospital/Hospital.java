@@ -11,6 +11,6 @@ public class Hospital extends EVal<Hospital.THospital> {
 
     public enum THospital {
         name,
-        locate,
+        initial,
     }
 }

@@ -11,13 +11,13 @@
         android:layout_marginTop="@dimen/margin">
 
         <EditText
-            android:id="@+id/register_et_key"
+            android:id="@+id/register_et_activation_code"
             style="@style/et.common"
             android:layout_height="50dip"
             android:hint="激活码"/>
 
         <TextView
-            android:id="@+id/register_get_key"
+            android:id="@+id/register_get_activation_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

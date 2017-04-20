@@ -17,8 +17,8 @@ public class GroupHospital {
         mChildren = new ArrayList<>();
     }
 
-    public void add(Hospital h) {
-        mChildren.add(h);
+    public void add(Hospital hospital) {
+        mChildren.add(hospital);
     }
 
     public Hospital getChild(int index) {

@@ -9,6 +9,7 @@ import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.activity.register.RegisterActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
+import yy.doctor.frag.MeetingFrag;
 
 /**
  * @auther yuansui
@@ -21,7 +22,6 @@ public class TestActivity extends BaseTestActivity {
     public void initData() {
         add("主页", MainActivity.class);
         add("医院",HospitalActivity.class);
-        add("注册", RegisterActivity.class);
         add("登录", LoginActivity.class);
         add("修改密码", ChangePwdActivity.class);
         add("忘记密码", ForgetPasswordActivity.class);

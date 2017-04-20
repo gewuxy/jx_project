@@ -1,7 +1,11 @@
 package yy.doctor.activity.register;
 
+import android.graphics.Color;
+import android.util.Log;
+
 import org.json.JSONException;
 
+import lib.ys.LogMgr;
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.resp.IListResponse;
@@ -35,19 +39,29 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         super.findViews();
 
         mSideBar = (SideBar) getDecorView().findViewById(R.id.side_bar);
+        initSideBar();
     }
 
     @Override
     public void initData() {
-        mSideBar.setSingleHeight(UIUtil.dpToPx(10.0F,HospitalActivity.this));
-        mSideBar.setPaintColor(R.color.text_888);
-        GroupHospital g = new GroupHospital();
+
+        GroupHospital groupHospital = new GroupHospital();
         for (int i = 0; i < 10; i++) {
-            Hospital h = new Hospital();
-            g.add(h);
+            Hospital hospital = new Hospital();
+            groupHospital.add(hospital);
         }
 
-        addItem(g);
+        addItem(groupHospital);
+        addItem(groupHospital);
+        addItem(groupHospital);
+    }
+
+    /**
+     * 初始化SideBar
+     */
+    private void initSideBar() {
+        mSideBar.setTextSize(UIUtil.dpToPx(10.0F,HospitalActivity.this));
+        mSideBar.setPaintColor(Color.parseColor("#888888"));
     }
 
     @Override

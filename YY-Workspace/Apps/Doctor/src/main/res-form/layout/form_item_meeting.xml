@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/meeting_item_title"
+            style="@style/meeting"
+            android:text="廣東省第29屆腫瘤病學年會專家預告"
+            android:textColor="@color/text_333"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_marginTop="14dp"
+            style="@style/meeting"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <!-- TODO:未设置宽高 -->
+            <ImageView
+                android:src="@mipmap/meeting_ic_tumour"
+                android:id="@+id/meeting_item_state_iv"
+                style="@style/meeting"/>
+
+            <TextView
+                android:id="@+id/meeting_item_state_tv"
+                style="@style/meeting.tv"
+                android:text="精彩回顧"
+                android:textColor="#5cb0de"/>
+            <!-- TODO:未设置宽高 -->
+            <ImageView
+                android:src="@mipmap/meeting_ic_tumour"
+                android:layout_marginLeft="8dip"
+                android:id="@+id/meeting_item_section_iv"
+                style="@style/meeting"/>
+
+            <TextView
+                android:id="@+id/meeting_item_section_tv"
+                style="@style/meeting.tv"
+                android:text="肿瘤科"/>
+
+            <TextView
+                android:id="@+id/meeting_item_time"
+                style="@style/meeting.tv"
+                android:layout_marginLeft="8dip"
+                android:text="2月9日16:30"/>
+
+            <TextView
+                android:id="@+id/meeting_item_data"
+                style="@style/meeting.tv"
+                android:text="时长:1.5小时"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dip"
+        android:layout_marginLeft="@dimen/margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <!-- TODO:未设置宽高 -->
+        <ImageView
+            android:src="@mipmap/meeting_ic_tumour"
+            style="@style/meeting"/>
+
+        <TextView
+            style="@style/meeting.tv"
+            android:layout_marginLeft="8dip"
+            android:text="广州CDC死因与肿瘤监测科"
+            android:textColor="@color/text_333"/>
+    </LinearLayout>
+</LinearLayout>

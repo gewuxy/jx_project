@@ -17,8 +17,9 @@ import yy.doctor.model.form.FormType;
  * 创建人 : guoxuan
  */
 public class RegisterActivity extends BaseFormActivity {
-    private EditText mKey;
-    private TextView mGetKey;
+
+    private EditText mActivationCode;
+    private TextView mGetActivationCode;
     private TextView mRegister;
     public static final int FromRegister = 1;
 
@@ -29,7 +30,7 @@ public class RegisterActivity extends BaseFormActivity {
             RelatedId.password_marksure,
             RelatedId.location,
             RelatedId.hospital,
-            RelatedId.key,
+            RelatedId.ActivationCode,
     })
     private @interface RelatedId {
         int email = 0;
@@ -38,7 +39,7 @@ public class RegisterActivity extends BaseFormActivity {
         int password_marksure = 3;
         int location = 4;
         int hospital = 5;
-        int key = 6;
+        int ActivationCode = 6;
     }
 
     @Override
@@ -97,27 +98,27 @@ public class RegisterActivity extends BaseFormActivity {
 
     @Override
     protected View createFooterView() {
-        return inflate(R.layout.form_item_register);
+        return inflate(R.layout.layout_register_footer);
     }
 
     @Override
     public void findViews() {
         super.findViews();
 
-        mKey = findView(R.id.register_et_key);
-        mGetKey = findView(R.id.register_get_key);
+        mActivationCode = findView(R.id.register_et_activation_code);
+        mGetActivationCode = findView(R.id.register_get_activation_code);
         mRegister = findView(R.id.register);
 
-        mGetKey.setOnClickListener(this);
+        mGetActivationCode.setOnClickListener(this);
         mRegister.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_et_key:
+            case R.id.register_et_activation_code:
                 break;
-            case R.id.register_get_key:
+            case R.id.register_get_activation_code:
                 startActivity(ActivationCodeExplainActivity.class);
                 break;
             case R.id.register:
