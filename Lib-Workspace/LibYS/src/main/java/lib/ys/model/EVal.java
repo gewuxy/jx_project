@@ -432,7 +432,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                     JSONArray array = new JSONArray();
                     List<EVal> list = getList(e);
                     for (int j = 0; j < list.size(); ++j) {
-                        EVal eVal =  list.get(j);
+                        EVal eVal = list.get(j);
                         array.put(eVal.toJsonObject());
                     }
                     obj.put(e.name(), array);

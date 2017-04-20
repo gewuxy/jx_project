@@ -28,14 +28,12 @@ import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.renderer.BaseRenderer;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.network.image.renderer.CornerRenderer;
+import lib.ys.util.TextUtil;
 
 /**
  * @author yuansui
  */
 public class FrescoProvider extends BaseProvider {
-
-    private static final String KPrefixStorage = "file:";
-    private static final String KPrefixRes = "res:///";
 
     private ControllerListener mCtrlListener;
     private PipelineDraweeControllerBuilder mBuilder;
@@ -63,7 +61,7 @@ public class FrescoProvider extends BaseProvider {
 
         DraweeController controller = null;
         if (getW() > 0 && getH() > 0) {
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(getUri())
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(getUri(getUrl()))
                     .setResizeOptions(new ResizeOptions(getW(), getH()))
                     .setRotationOptions(RotationOptions.autoRotate())
                     .build();
@@ -77,7 +75,7 @@ public class FrescoProvider extends BaseProvider {
             controller = mBuilder
                     .setOldController(mSdv.getController())
                     .setControllerListener(mCtrlListener)
-                    .setUri(getUri())
+                    .setUri(getUri(getUrl()))
                     .build();
         }
         mSdv.setController(controller);
@@ -149,37 +147,35 @@ public class FrescoProvider extends BaseProvider {
             }
         }
 
-        if (renderer == null) {
-            return;
-        }
+        if (renderer != null) {
+            if (mRendererKeeper != null && mRendererKeeper.equals(renderer)) {
+                // 相同的不用重复设置
+            } else {
+                if (renderer instanceof CircleRenderer) {
+                    RoundingParams rp = mSdv.getHierarchy().getRoundingParams();
+                    if (rp == null) {
+                        rp = RoundingParams.asCircle();
+                    } else {
+                        rp.setRoundAsCircle(true);
+                    }
 
-        if (mRendererKeeper == null || !mRendererKeeper.equals(renderer)) {
-            if (renderer instanceof CircleRenderer) {
-                RoundingParams rp = mSdv.getHierarchy().getRoundingParams();
-                if (rp == null) {
-                    rp = RoundingParams.asCircle();
-                } else {
-                    rp.setRoundAsCircle(true);
+                    CircleRenderer r = (CircleRenderer) renderer;
+                    rp.setBorder(r.getBorderColor(), r.getBorderWidth());
 
-
+                    mSdv.getHierarchy().setRoundingParams(rp);
+                } else if (renderer instanceof CornerRenderer) {
+                    CornerRenderer r = (CornerRenderer) renderer;
+                    RoundingParams rp = mSdv.getHierarchy().getRoundingParams();
+                    if (rp == null) {
+                        rp = RoundingParams.fromCornersRadius(r.getRadius());
+                    } else {
+                        rp.setCornersRadius(r.getRadius());
+                    }
+                    mSdv.getHierarchy().setRoundingParams(rp);
                 }
 
-                CircleRenderer r = (CircleRenderer) renderer;
-                rp.setBorder(r.getBorderColor(), r.getBorderWidth());
-
-                mSdv.getHierarchy().setRoundingParams(rp);
-            } else if (renderer instanceof CornerRenderer) {
-                CornerRenderer r = (CornerRenderer) renderer;
-                RoundingParams rp = mSdv.getHierarchy().getRoundingParams();
-                if (rp == null) {
-                    rp = RoundingParams.fromCornersRadius(r.getRadius());
-                } else {
-                    rp.setCornersRadius(r.getRadius());
-                }
-                mSdv.getHierarchy().setRoundingParams(rp);
+                mRendererKeeper = renderer;
             }
-
-            mRendererKeeper = renderer;
         }
     }
 
@@ -187,28 +183,31 @@ public class FrescoProvider extends BaseProvider {
      * Fresco 不支持 相对路径的URI. 所有的 URI 都必须是绝对路径，并且带上该 URI 的 scheme
      * <p>
      * 远程图片	http:, https:
-     * 本地文件	file:
+     * 本地文件	file://
      * asset目录下的资源	asset://
      * res目录下的资源	res://包名(任意包名或者不填)/ + R.drawable.xxx(或者是{@link lib.ys.util.res.ResLoader#getIdentifier(String, String)})
      * Uri中指定图片数据	data:mime/type;base64,	数据类型必须符合 rfc2397规定 (仅支持 UTF-8)
      * </p>
      *
-     * @return 经过处理的uri
+     * @param url
+     * @return
      */
-    private Uri getUri() {
-        Uri uri;
-        if (getHttpUrl() != null) {
-            uri = Uri.parse(getHttpUrl());
-        } else if (getStorageUrl() != null) {
-            uri = Uri.parse(KPrefixStorage + getStorageUrl());
-        } else if (getResUrl() != null) {
-            uri = Uri.parse(KPrefixRes + getResUrl());
-        } else if (getIdUrl() != null) {
-            uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, getIdUrl());
-        } else {
-            uri = Uri.EMPTY;
+    private Uri getUri(String url) {
+        if (TextUtil.isEmpty(url)) {
+            return Uri.EMPTY;
         }
 
+        Uri uri = null;
+        if (url.startsWith(Scheme.storage)) {
+            uri = Uri.parse("file:" + url);
+        } else if (url.startsWith(Scheme.http)) {
+            uri = Uri.parse(url);
+        } else if (url.startsWith(Scheme.res)) {
+            uri = Uri.parse(url);
+        } else {
+            // id格式的
+            uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, url);
+        }
         return uri;
     }
 }

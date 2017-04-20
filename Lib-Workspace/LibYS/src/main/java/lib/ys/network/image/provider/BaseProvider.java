@@ -3,7 +3,11 @@ package lib.ys.network.image.provider;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
+import android.support.annotation.StringDef;
 import android.widget.ImageView;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
@@ -14,17 +18,26 @@ import lib.ys.network.image.renderer.BaseRenderer;
  */
 abstract public class BaseProvider {
 
+    @StringDef({
+            Scheme.http,
+            Scheme.storage,
+            Scheme.res,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Scheme {
+        String http = "http";
+        String storage = "/storage";
+        String res = "res://";
+    }
+
+
     protected Context mContext;
     protected ImageView mIv;
 
     /**
      * 以下是详细属性
      */
-    private String mHttpUrl;
-    private String mStorageUrl;
-    private String mResUrl;
-    private String mIdUrl;
-
+    private String mUrl;
     private int mW;
     private int mH;
     @DrawableRes
@@ -41,19 +54,7 @@ abstract public class BaseProvider {
     }
 
     public void url(String url) {
-        mHttpUrl = url;
-    }
-
-    public void storage(String s) {
-        mStorageUrl = s;
-    }
-
-    public void res(String r) {
-        mResUrl = r;
-    }
-
-    public void id(String id) {
-        mIdUrl = id;
+        mUrl = url;
     }
 
     public void renderer(BaseRenderer renderer) {
@@ -77,20 +78,8 @@ abstract public class BaseProvider {
         mH = h;
     }
 
-    protected String getHttpUrl() {
-        return mHttpUrl;
-    }
-
-    protected String getStorageUrl() {
-        return mStorageUrl;
-    }
-
-    protected String getResUrl() {
-        return mResUrl;
-    }
-
-    protected String getIdUrl() {
-        return mIdUrl;
+    protected String getUrl() {
+        return mUrl;
     }
 
     protected int getW() {
