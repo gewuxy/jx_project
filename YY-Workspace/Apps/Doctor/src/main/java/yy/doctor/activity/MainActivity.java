@@ -19,7 +19,7 @@ import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.UpdateNoticeDialog;
-import yy.doctor.frag.DiscoverFrag;
+import yy.doctor.frag.DataFrag;
 import yy.doctor.frag.HomeFrag;
 import yy.doctor.frag.MeFrag;
 import yy.doctor.frag.MeetingFrag;
@@ -35,7 +35,7 @@ public class MainActivity extends BaseVPActivity {
     private final float KFactor = 0.25f;
     private final float KSeven = 0.75f;
 
-    private final int KTabRecommend = 0;
+    private final int KTabHome = 0;
     private final int KTabMeeting = 1;
     private final int KTabDiscover = 2;
     private final int KTabMe = 3;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseVPActivity {
 
         add(new HomeFrag());
         add(new MeetingFrag());
-        add(new DiscoverFrag());
+        add(new DataFrag());
         add(new MeFrag());
 
         mDialogUpdateNotice = new UpdateNoticeDialog(this);
@@ -121,9 +121,9 @@ public class MainActivity extends BaseVPActivity {
 
     private void addIndicators() {
 
-        addIndicator(KTabRecommend, R.drawable.main_selector_recommend, "首页");
+        addIndicator(KTabHome, R.drawable.main_selector_home, "首页");
         addIndicator(KTabMeeting, R.drawable.main_selector_meeting, "会议");
-        addIndicator(KTabDiscover, R.drawable.main_selector_discover, "数据");
+        addIndicator(KTabDiscover, R.drawable.main_selector_data, "数据");
         addIndicator(KTabMe, R.drawable.main_selector_me, "我");
 
         setOnPageChangeListener(new OnPageChangeListener() {
@@ -165,7 +165,7 @@ public class MainActivity extends BaseVPActivity {
             }
         });
 
-        if (index == KTabRecommend) {
+        if (index == KTabHome) {
             v.setSelected(true);
             mTabPrev = v;
         }

@@ -17,7 +17,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class DiscoverFrag extends BaseFormFrag {
+public class DataFrag extends BaseFormFrag {
 
     @IntDef({
             RelatedId.public_number,

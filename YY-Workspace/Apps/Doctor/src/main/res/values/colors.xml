@@ -16,6 +16,7 @@
     <!--text-->
     <color name="text_333">#333</color>
     <color name="text_1ba0cc">#1ba0cc</color>
+    <color name="text_1094f2">#1094f2</color>
     <color name="text_0d5878">#0d5878</color>
     <color name="text_808080">#808080</color>
     <color name="text_ffffff">#ffffff</color>
@@ -37,7 +38,7 @@
     <color name="divider_menu">#021d39</color>
 
     <!--main tab text bg-->
-    <color name="main_text_bg">#999999</color>
-    <color name="main_text_bg_focus">#0882e7</color>
+    <color name="main_text_bg">#888888</color>
+    <color name="main_text_bg_focus">#1094f2</color>
 
 </resources>
