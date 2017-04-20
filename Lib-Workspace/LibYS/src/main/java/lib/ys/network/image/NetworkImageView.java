@@ -52,21 +52,6 @@ public class NetworkImageView extends SimpleDraweeView {
         return this;
     }
 
-    public NetworkImageView storage(String s) {
-        mProvider.storage(s);
-        return this;
-    }
-
-    public NetworkImageView res(String r) {
-        mProvider.res(r);
-        return this;
-    }
-
-    public NetworkImageView id(String id) {
-        mProvider.id(id);
-        return this;
-    }
-
     public NetworkImageView renderer(BaseRenderer renderer) {
         mProvider.renderer(renderer);
         return this;

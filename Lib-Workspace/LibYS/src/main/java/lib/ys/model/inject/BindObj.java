@@ -9,7 +9,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * 申明为对象形式(目前只支持{@link lib.ys.model.EVal}的子类)
+ * 申明为对象形式(目前只支持{@link EVal}的子类)
  */
 @Target(FIELD)
 @Retention(RUNTIME)

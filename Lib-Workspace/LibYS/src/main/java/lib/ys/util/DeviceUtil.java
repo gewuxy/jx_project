@@ -200,8 +200,8 @@ public class DeviceUtil {
         }
     }
 
-    public static WifiInfo getWifiInfo(Context context) {
-        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    public static WifiInfo getWifiInfo() {
+        WifiManager wifi = (WifiManager) AppEx.ct().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         return info;
     }

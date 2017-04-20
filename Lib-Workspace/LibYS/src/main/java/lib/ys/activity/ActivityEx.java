@@ -109,9 +109,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFormat(PixelFormat.TRANSPARENT);
         super.onCreate(savedInstanceState);
-
-        // 数据的初始化提前, 可以根据数据来装载不同的view id
-        initData();
         setContentView(getContentViewId());
 
         if (enableSwipeFinish() == null) {
@@ -140,6 +137,9 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
+        // 数据的初始化提前, 可以根据数据来装载不同的view id
+        initData();
+
         mDecorView = new DecorViewEx(this, getTitleBarState(), getInitRefreshWay(), initLoadingDialog());
         mDecorView.setContentView(layoutResID, getContentHeaderViewId(), getContentFooterViewId());
         fit(mDecorView);
@@ -549,7 +549,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
      * @param resId view的id
      */
     protected void setOnClickListener(@IdRes int resId) {
-        setOnClickListener(findView(resId));
+        setOnClickListener(findViewById(resId));
     }
 
     protected void setOnClickListener(@NonNull View v) {
