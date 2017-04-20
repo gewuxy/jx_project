@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_clear_cache_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/form_item_height"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/text_666"
+        android:gravity="center"/>
+
+    <View
+        style="@style/divider"/>
+
+</LinearLayout>

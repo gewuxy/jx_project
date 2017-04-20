@@ -2,10 +2,12 @@ package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
@@ -30,12 +32,22 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void initTitleBar() {
 
+        Util.addBackIcon(getTitleBar(),"我的象城",this);
+
+        getTitleBar().addTextViewRight("明细", new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showToast("85654");
+            }
+        });
+
     }
 
     @Override
     public void findViews() {
 
-        mTvTopUp = findView(R.id.my_epe_top_up_epn_tv);
+        mTvTopUp = findView(R.id.my_epe_recharge_epn_tv);
         mTvInstruction = findView(R.id.my_epn_instruction);
 
     }
@@ -54,12 +66,12 @@ public class MyEpnActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.my_epe_top_up_epn_tv: {
+            case R.id.my_epe_recharge_epn_tv: {
                 startActivity(RechargeEpnActivity.class);
             }
             break;
             case R.id.my_epn_instruction: {
-                showToast("77");
+                startActivity(EpnUseRuleActivity.class);
             }
             break;
         }

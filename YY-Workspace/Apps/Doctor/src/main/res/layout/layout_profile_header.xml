@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/layout_profile_header"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="86dp"
         android:background="@drawable/item_selector">
 
         <TextView
@@ -17,8 +17,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
             android:text="头像"
-            android:textColor="@color/text_888"
-            android:textSize="14dp"/>
+            android:textColor="@color/text_666"
+            android:textSize="@dimen/text_size"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@+id/profile_header_iv_avatar"
@@ -31,14 +31,7 @@
     </RelativeLayout>
 
     <View
-        style="@style/divider"/>
-
-    <View
         android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:background="@color/app_bg"/>
-
-    <View
-        style="@style/divider"/>
+        android:layout_height="12dp"/>
 
 </LinearLayout>

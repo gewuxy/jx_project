@@ -3,15 +3,14 @@ package yy.doctor.frag;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
-import yy.doctor.activity.MainActivity;
-import yy.doctor.activity.discover.DataCenterActivity;
+import yy.doctor.activity.data.DataCenterActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
-import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
@@ -36,7 +35,15 @@ public class DataFrag extends BaseFormFrag {
 
     @Override
     public void initTitleBar() {
-        Util.addMenuIcon(getTitleBar(), (MainActivity) getActivity());
+
+        getTitleBar().addTextViewMid("数据中心");
+        getTitleBar().addImageViewRight(R.mipmap.ic_search, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("585");
+            }
+        });
+
     }
 
     @Override

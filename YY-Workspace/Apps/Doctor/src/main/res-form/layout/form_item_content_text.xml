@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        style="@style/v.form">
+
+        <TextView
+            style="@style/tv.form.name"
+            android:layout_marginLeft="@dimen/margin"
+            android:text="清理缓存"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/tv.form.text"
+                android:layout_marginRight="@dimen/margin"
+                android:text="100M"/>
+
+            <ImageView
+                style="@style/iv.arrow.align_right"
+                android:layout_marginRight="@dimen/margin_large"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

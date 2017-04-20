@@ -16,7 +16,7 @@
     <!-- 普通输入框样式 -->
     <style name="et.common">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">@dimen/edit_height</item>
         <item name="android:paddingLeft">@dimen/margin</item>
         <item name="android:background">@drawable/white</item>
         <item name="android:textColor">@color/text_666</item>
@@ -26,7 +26,7 @@
 
     <style name="tv.dialog">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_height">@dimen/form_item_height</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_01b557</item>
         <item name="android:textSize">@dimen/text_size</item>

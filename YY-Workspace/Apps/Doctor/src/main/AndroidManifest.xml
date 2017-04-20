@@ -29,10 +29,13 @@
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
-
-        <!-- discover -->
         <activity
-            android:name=".activity.discover.DataCenterActivity"
+            android:name=".activity.me.ForgetPasswordActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- data -->
+        <activity
+            android:name=".activity.data.DataCenterActivity"
             android:screenOrientation="portrait"/>
 
         <!-- me -->
@@ -52,11 +55,24 @@
             android:name=".activity.me.ProfileActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ClearCacheActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activity.me.RechargeEpnActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.ChangePwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.EpnUseRuleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.JingXinActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.DisclaimerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.ContributionInvitedActivity"
+            android:screenOrientation="portrait"/>
+
 
         <!-- register -->
         <activity
@@ -68,6 +84,7 @@
         <activity
             android:name=".activity.register.HospitalActivity"
             android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

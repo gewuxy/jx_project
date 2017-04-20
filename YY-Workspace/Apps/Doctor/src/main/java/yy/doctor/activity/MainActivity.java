@@ -78,45 +78,11 @@ public class MainActivity extends BaseVPActivity {
     public void setViewsValue() {
         super.setViewsValue();
 
-        addMenu();
+        //addMenu();
         addIndicators();
 
         setOffscreenPageLimit(getCount());
         setScrollable(false);
-        //mDialogUpdateNotice.show();
-    }
-
-    private void addMenu() {
-        mMenu = new SlidingMenu(this);
-        mMenu.setMode(SlidingMenu.LEFT);
-        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        mMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        mMenu.setShadowWidthRes(R.dimen.shadow_width);
-        mMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        mMenu.setShadowDrawable(R.drawable.menu_shadow);
-        mMenu.setFadeDegree(0.25f);
-        mMenu.setBackgroundImage(R.mipmap.menu_bg);
-        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        mMenu.setMenu(R.layout.layout_menu);
-
-        // 收缩动画 侧滑栏
-        mMenu.setBehindCanvasTransformer(new SlidingMenu.CanvasTransformer() {
-            @Override
-            public void transformCanvas(Canvas canvas, float percentOpen) {
-                float scale = (float) (percentOpen * KFactor + 0.75);
-                // 后两个数，是变化的中心点参数
-                canvas.scale(scale, scale, -canvas.getWidth() / 2, canvas.getHeight() / 2);
-            }
-        });
-
-        // 收缩动画 主界面
-        mMenu.setAboveCanvasTransformer(new SlidingMenu.CanvasTransformer() {
-            @Override
-            public void transformCanvas(Canvas canvas, float percentOpen) {
-                float scale = (float) (1 - percentOpen * KFactor);
-                canvas.scale(scale, scale, 0, canvas.getHeight() / 2);
-            }
-        });
     }
 
     private void addIndicators() {
@@ -175,6 +141,40 @@ public class MainActivity extends BaseVPActivity {
         LayoutParams p = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         p.weight = 1;
         mLayoutTab.addView(v, p);
+    }
+
+
+    private void addMenu() {
+        mMenu = new SlidingMenu(this);
+        mMenu.setMode(SlidingMenu.LEFT);
+        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mMenu.setShadowWidthRes(R.dimen.shadow_width);
+        mMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
+        mMenu.setShadowDrawable(R.drawable.menu_shadow);
+        mMenu.setFadeDegree(0.25f);
+        mMenu.setBackgroundImage(R.mipmap.menu_bg);
+        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        mMenu.setMenu(R.layout.layout_menu);
+
+        // 收缩动画 侧滑栏
+        mMenu.setBehindCanvasTransformer(new SlidingMenu.CanvasTransformer() {
+            @Override
+            public void transformCanvas(Canvas canvas, float percentOpen) {
+                float scale = (float) (percentOpen * KFactor + 0.75);
+                // 后两个数，是变化的中心点参数
+                canvas.scale(scale, scale, -canvas.getWidth() / 2, canvas.getHeight() / 2);
+            }
+        });
+
+        // 收缩动画 主界面
+        mMenu.setAboveCanvasTransformer(new SlidingMenu.CanvasTransformer() {
+            @Override
+            public void transformCanvas(Canvas canvas, float percentOpen) {
+                float scale = (float) (1 - percentOpen * KFactor);
+                canvas.scale(scale, scale, 0, canvas.getHeight() / 2);
+            }
+        });
     }
 
     /**

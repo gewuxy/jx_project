@@ -9,7 +9,6 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
-import yy.doctor.activity.MainActivity;
 import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.MyCollectionActivity;
 import yy.doctor.activity.me.MyEpnActivity;
@@ -17,7 +16,6 @@ import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
-import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
@@ -52,7 +50,9 @@ public class MeFrag extends BaseFormFrag {
 
     @Override
     public void initTitleBar() {
-        Util.addMenuIcon(getTitleBar(), (MainActivity) getActivity());
+
+        getTitleBar().addTextViewMid("个人中心");
+
     }
 
     @Override
@@ -63,8 +63,6 @@ public class MeFrag extends BaseFormFrag {
     @Override
     public void initData() {
         super.initData();
-
-        addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_attention)
@@ -99,7 +97,6 @@ public class MeFrag extends BaseFormFrag {
 
 
         addItem(new Builder(FormType.divider_large).build());
-
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_settings)

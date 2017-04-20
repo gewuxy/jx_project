@@ -101,11 +101,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.et_hint)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.divider_large).build());
-
-        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
@@ -129,13 +125,11 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.et_hint)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.profile_checkbox)
+        /*addItem(new Builder(FormType.profile_checkbox)
                 .related(RelatedId.is_open)
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
+                .build());*/
 
         addItem(new Builder(FormType.et)
                 .related(RelatedId.certification_number)
@@ -183,9 +177,8 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.et_hint)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.divider_large).build());
+        addItem(new Builder(FormType.divider_large)
+                .build());
     }
 
     @Override

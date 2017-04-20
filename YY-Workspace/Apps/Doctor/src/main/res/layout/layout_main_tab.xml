@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/main_tab_iv"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_marginTop="6dp"/>
 
     <TextView

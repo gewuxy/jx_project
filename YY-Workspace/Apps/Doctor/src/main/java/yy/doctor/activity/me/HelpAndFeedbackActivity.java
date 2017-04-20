@@ -41,67 +41,59 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @Override
     protected View createHeaderView() {
-        return inflate(R.layout.layout_about_header);
+        return inflate(R.layout.layout_help_and_feedback_header);
     }
 
     @Override
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.check_version)
                 .name("检查版本更新")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.comment)
                 .name("去评价")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.feedback)
                 .name("意见反馈")
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.update_log)
                 .name("更新日志")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.disclaimer)
                 .name("免责声明")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.notice)
                 .name("征稿启事")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.jingxin)
                 .name("敬信")
                 .build());
-
-        addItem(new Builder(FormType.divider).build());
 
     }
 
@@ -128,15 +120,15 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.disclaimer: {
-                showToast("免责声明");
+                startActivity(DisclaimerActivity.class);
             }
             break;
             case RelatedId.notice: {
-                showToast("征稿启事");
+                startActivity(ContributionInvitedActivity.class);
             }
             break;
             case RelatedId.jingxin: {
-                showToast("敬信");
+                startActivity(JingXinActivity.class);
             }
             break;
         }

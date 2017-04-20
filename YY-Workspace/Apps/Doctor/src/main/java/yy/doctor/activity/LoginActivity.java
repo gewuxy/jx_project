@@ -7,6 +7,7 @@ import android.widget.TextView;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.activity.me.ForgetPasswordActivity;
 import yy.doctor.activity.register.RegisterActivity;
 
 /**
@@ -40,7 +41,7 @@ public class LoginActivity extends BaseActivity {
 
         mTvLogin=findView(R.id.login_tv);
         mTvRegister=findView(R.id.login_tv_register);
-        mTvForgetPassword=findView(R.id.login_tv_forget_password);
+        mTvForgetPassword=findView(R.id.login_tv_forget_pwd);
 
     }
 
@@ -71,8 +72,8 @@ public class LoginActivity extends BaseActivity {
                 startActivity(RegisterActivity.class);
             }
             break;
-            case R.id.login_tv_forget_password: {
-                startActivity(RegisterActivity.class);
+            case R.id.login_tv_forget_pwd: {
+                startActivity(ForgetPasswordActivity.class);
             }
             break;
         }

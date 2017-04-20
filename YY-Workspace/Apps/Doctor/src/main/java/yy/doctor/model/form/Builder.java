@@ -18,10 +18,16 @@ public class Builder extends FormBuilder<FormItem> {
         FormItem item = null;
 
         switch (type) {
+
             case FormType.content: {
                 item = new FIContent();
             }
             break;
+            case FormType.content_text: {
+                item = new FIContentText();
+            }
+            break;
+
             case FormType.divider: {
                 item = new FIDivider();
             }
@@ -30,6 +36,7 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FIDividerLarge();
             }
             break;
+
             case FormType.et: {
                 item = new FIEdit();
             }
@@ -38,10 +45,12 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FICheckBox();
             }
             break;
+
             case FormType.et_register: {
                 item = new FIEditRegister();
             }
             break;
+
         }
 
         saveItemValues(item);

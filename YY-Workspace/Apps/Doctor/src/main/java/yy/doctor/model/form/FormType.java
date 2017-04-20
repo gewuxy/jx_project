@@ -11,6 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 @IntDef({
         FormType.content,
+        FormType.content_text,
 
         FormType.divider,
         FormType.divider_large,
@@ -24,6 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
     int content = 0;
+    int content_text = 1;
 
     int divider = 10;
     int divider_large = 11;

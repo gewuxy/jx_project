@@ -19,7 +19,7 @@
             android:layout_marginTop="30dp"
             android:text="我的象数"
             android:textSize="18dp"
-            android:textColor="@color/text_4d000000"/>
+            android:textColor="@color/text_80fff"/>
 
         <TextView
             android:id="@+id/my_epn_tv"
@@ -35,7 +35,7 @@
 
     <TextView
         style="@style/tv.common"
-        android:id="@+id/my_epe_top_up_epn_tv"
+        android:id="@+id/my_epe_recharge_epn_tv"
         android:layout_marginTop="42dp"
         android:layout_below="@+id/layout_my_elephant"
         android:text="充值象数"/>

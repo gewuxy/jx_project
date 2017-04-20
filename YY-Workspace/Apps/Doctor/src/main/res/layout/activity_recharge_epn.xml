@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:text="充值象数"
             android:textColor="@color/text_333"
-            android:textSize="14dp"/>
+            android:textSize="@dimen/text_size"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                 android:gravity="right"
                 android:text="0个象数"
                 android:textColor="@color/text_0882e7"
-                android:textSize="14dp"/>
+                android:textSize="@dimen/text_size"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@
             android:layout_centerVertical="true"
             android:text="支付金额"
             android:textColor="@color/text_333"
-            android:textSize="14dp"/>
+            android:textSize="@dimen/text_size"/>
 
         <TextView
             android:id="@+id/recharge_epn_tv_yuan"
@@ -121,8 +121,8 @@
             android:inputType="number"
             android:maxLength="5"
             android:hint="输入整数"
-            android:textColor="@color/text_0882e7"
-            android:textSize="14dp"/>
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size"/>
 
     </RelativeLayout>
 
@@ -135,7 +135,7 @@
         android:paddingLeft="@dimen/margin"
         android:gravity="center_vertical"
         android:text="支付方式"
-        android:textColor="@color/text_333"
+        android:textColor="@color/text_888"
         android:textSize="10dp"/>
 
     <View
@@ -165,7 +165,7 @@
             android:layout_toRightOf="@id/recharge_epn_iv_alipay"
             android:text="支付宝"
             android:textColor="@color/text_333"
-            android:textSize="14dp"/>
+            android:textSize="@dimen/text_size"/>
 
         <ImageView
             android:layout_width="18dp"

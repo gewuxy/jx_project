@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">YaYa新医师</string>
 
+    <string name="company_name">敬信•YaYa医师 V</string>
+
     <!--toast-->
     <string name="toast_hint_tttt">YaYa新医师</string>
 

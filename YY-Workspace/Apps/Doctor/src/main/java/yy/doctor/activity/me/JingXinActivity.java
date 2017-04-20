@@ -1,22 +1,15 @@
 package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.TextView;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.util.Util;
 
 /**
- * 象数充值
- *
  * @author CaiXiang
- * @since 2017/4/14
+ * @since 2017/4/20
  */
-public class RechargeEpnActivity extends BaseActivity {
-
-    private TextView mTv;
+public class JingXinActivity extends BaseActivity {
 
     @Override
     public void initData() {
@@ -26,13 +19,11 @@ public class RechargeEpnActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_recharge_epn;
+        return R.layout.activity_jing_xin;
     }
 
     @Override
     public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(),"象数充值",this);
 
     }
 
@@ -44,11 +35,6 @@ public class RechargeEpnActivity extends BaseActivity {
     @Override
     public void setViewsValue() {
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
     }
 
 }

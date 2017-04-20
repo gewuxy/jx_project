@@ -22,17 +22,14 @@
     <color name="text_ffffff">#ffffff</color>
     <color name="text_888">#888</color>
     <color name="text_0882e7">#0882e7</color>
-    <color name="text_006edb">#006edb</color>
+    <color name="text_006ebd">#006ebd</color>
     <color name="text_e5e5e5">#e5e5e5</color>
     <color name="text_999">#999</color>
     <color name="text_555">#555</color>
     <color name="text_666">#666</color>
     <color name="text_b3b3b3">#b3b3b3</color>
     <color name="text_01b557">#01b557</color>
-    <color name="text_4d000000">#4d000000</color>
-
-    <!-- 白色 30 % 透明度-->
-    <color name="white_alpha_per30">#4d000000</color>
+    <color name="text_80fff">#80ffffff</color>
 
     <!--line-->
     <color name="divider_menu">#021d39</color>

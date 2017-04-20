@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
-import yy.doctor.activity.MainActivity;
-import yy.doctor.util.Util;
 
 /**
  * @author Administrator   extends BaseSRListFrag<Home>
@@ -25,7 +23,7 @@ public class HomeFrag extends BaseFrag {
 
     @Override
     public void initTitleBar() {
-        Util.addMenuIcon(getTitleBar(), (MainActivity) getActivity());
+
     }
 
     @Override
