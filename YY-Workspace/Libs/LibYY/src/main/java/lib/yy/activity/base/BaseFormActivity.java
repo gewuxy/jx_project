@@ -8,5 +8,6 @@ import lib.yy.model.form.FormItem;
  * @author CaiXiang
  * @since 2017/4/12
  */
-abstract public class BaseFormActivity extends FormActivityEx<FormItem, FormItemVH>{
+abstract public class BaseFormActivity extends FormActivityEx<FormItem, FormItemVH> {
+
 }

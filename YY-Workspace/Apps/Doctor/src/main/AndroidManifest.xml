@@ -60,12 +60,14 @@
 
         <!-- register -->
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".activity.register.RegisterActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".KeyExplainActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:name=".activity.register.ActivationCodeExplainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.register.HospitalActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

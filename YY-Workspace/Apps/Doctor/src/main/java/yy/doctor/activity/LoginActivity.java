@@ -7,6 +7,7 @@ import android.widget.TextView;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.activity.register.RegisterActivity;
 
 /**
  * @author CaiXiang

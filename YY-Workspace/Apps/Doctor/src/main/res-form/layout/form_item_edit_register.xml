@@ -10,6 +10,8 @@
         android:id="@id/form_item_et"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:textColor="#666666"
+        android:textColorHint="#b3b3b3"
         android:hint="未填写"/>
 
     <ImageView

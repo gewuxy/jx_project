@@ -1,9 +1,8 @@
-package yy.doctor.activity;
+package yy.doctor.activity.register;
 
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.yy.activity.base.BaseFormActivity;
@@ -11,12 +10,17 @@ import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
+/**
+ * 日期 : 2017/4/19
+ * 创建人 : guoxuan
+ * 注册界面
+ */
 public class RegisterActivity extends BaseFormActivity {
 
-    private LinearLayout mFooterView;
     private EditText mKey;
     private TextView mGetKey;
     private TextView mRegister;
+    public static final int FromRegister = 1;
 
     @IntDef({
             RelatedId.email,
@@ -100,12 +104,12 @@ public class RegisterActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mFooterView = findView(R.id.form_item_register);
         mKey = findView(R.id.register_et_key);
         mGetKey = findView(R.id.register_get_key);
         mRegister = findView(R.id.register);
 
-        mFooterView.setOnClickListener(this);
+        mGetKey.setOnClickListener(this);
+        mRegister.setOnClickListener(this);
     }
 
     @Override
@@ -114,8 +118,10 @@ public class RegisterActivity extends BaseFormActivity {
             case R.id.register_et_key:
                 break;
             case R.id.register_get_key:
+                startActivity(ActivationCodeExplainActivity.class);
                 break;
             case R.id.register:
+                startActivityForResult(HospitalActivity.class, FromRegister);
                 break;
         }
     }

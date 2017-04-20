@@ -18,5 +18,11 @@
     <string name="register_location">广东 广州</string>
     <string name="register_hospital">医院名称</string>
     <string name="register_key">激活码</string>
+    <string name="activation_code_explain_one">YaYa医师激活码每个69.9元。</string>
+    <string name="activation_code_explain_two">您有三种方法获取激活码:</string>
+    <string name="activation_code_explain_three">
+        1、淘宝网搜索YaYa医师激活码购买;\n
+        2、YaYa医师每位用户均有10次免费分享激活码的机会;\n
+        3、发送您的姓名、医院名称、执业资格证号发送到app@medcn.cn，我们每天会送出20个激活码。</string>
 
 </resources>
