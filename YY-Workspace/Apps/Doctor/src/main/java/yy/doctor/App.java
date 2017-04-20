@@ -2,6 +2,7 @@ package yy.doctor;
 
 import android.graphics.Color;
 
+import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
 import lib.ys.config.TitleBarConfig;
 import lib.yy.BaseApp;
@@ -22,6 +23,7 @@ public class App extends BaseApp {
         AppConfig.appBgColorId(R.color.app_bg);
         AppConfig.enableSwipeFinish(false);
 
+        LogMgr.setDebugState(BuildConfig.DEBUG_LOG);
     }
 
     @Override

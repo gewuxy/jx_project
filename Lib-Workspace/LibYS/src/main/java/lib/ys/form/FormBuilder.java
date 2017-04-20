@@ -2,6 +2,7 @@ package lib.ys.form;
 
 import android.content.Intent;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
@@ -185,6 +186,11 @@ abstract public class FormBuilder<Item extends FormItemEx> {
 
     public <T extends FormBuilder<Item>> T background(@ColorInt int color) {
         mBgColor = color;
+        return (T) this;
+    }
+
+    public <T extends FormBuilder<Item>> T backgroundRes(@ColorRes int id) {
+        mBgColor = ResLoader.getColor(id);
         return (T) this;
     }
 

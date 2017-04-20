@@ -25,7 +25,6 @@ public class MeetingFrag extends BaseFrag {
 
     @Override
     public void initTitleBar() {
-
     }
 
     @Override
