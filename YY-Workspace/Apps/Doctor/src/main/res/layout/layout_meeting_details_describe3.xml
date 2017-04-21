@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="62dp"
+    android:layout_marginLeft="@dimen/margin"
+    android:layout_marginRight="@dimen/margin"
+    android:background="@drawable/meeting_details_intro"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_meeting_details">
+
+    <lib.ys.network.image.NetworkImageView
+        android:src="@mipmap/meeting_ic_guest_default"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/meeting_details_guest_name"
+            style="@style/meeting"
+            android:text="王学廉 副主任"
+            android:textColor="#757575"
+            android:textSize="@dimen/text_size"/>
+
+        <TextView
+            android:id="@+id/meeting_details_guest_hospital"
+            style="@style/meeting"
+            android:text="第四军医大学唐都医院"
+            android:textColor="@color/text_b3b3b3"
+            android:textSize="@dimen/margin"/>
+    </LinearLayout>
+
+</LinearLayout>

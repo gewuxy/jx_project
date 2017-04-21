@@ -32,14 +32,22 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
+    <!-- meeting -->
+    <style name="meeting">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- 主页-会议-条目-信息中的textview -->
     <style name="meeting.tv">
         <item name="android:layout_marginLeft">4dip</item>
         <item name="android:textSize">10dp</item>
     </style>
 
-    <style name="meeting">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
+    <!-- 会议详情播放前的textview -->
+    <style name="meeting.detail">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/text_ffffff</item>
+        </style>
 
 </resources>
