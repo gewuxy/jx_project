@@ -143,28 +143,30 @@ public class TitleBarEx extends RelativeLayout {
     /**
      * 添加左边的图标
      *
-     * @param iconResId
+     * @param drawableId
+     * @param lsn
      */
-    public void addImageViewLeft(int iconResId, OnClickListener lsn) {
-        View v = getIvWithClickBgColor(iconResId, lsn);
+    public void addViewLeft(@DrawableRes int drawableId, OnClickListener lsn) {
+        View v = getIvWithClickBgColor(drawableId, lsn);
         if (v != null) {
             mLayoutLeft.addView(v, getLinearParams());
             show();
         }
     }
 
-    /***
-     * 添加右边图标
+    /**
+     * 添加左边的图标-带文字
      *
-     * @param iconResId
+     * @param drawableId
+     * @param text
+     * @param lsn
      */
-    public View addImageViewRight(int iconResId, OnClickListener lsn) {
-        View v = getIvWithClickBgColor(iconResId, lsn);
+    public void addViewLeft(@DrawableRes int drawableId, CharSequence text, OnClickListener lsn) {
+        View v = getIvWithClickBgColor(drawableId, text, lsn);
         if (v != null) {
-            mLayoutRight.addView(v, getLinearParams());
+            mLayoutLeft.addView(v, getLinearParams());
             show();
         }
-        return v;
     }
 
     /**
@@ -181,6 +183,20 @@ public class TitleBarEx extends RelativeLayout {
         }
         mLayoutLeft.addView(v, params);
         show();
+    }
+
+    /***
+     * 添加右边图标
+     *
+     * @param drawableId
+     */
+    public View addViewRight(@DrawableRes int drawableId, OnClickListener lsn) {
+        View v = getIvWithClickBgColor(drawableId, lsn);
+        if (v != null) {
+            mLayoutRight.addView(v, getLinearParams());
+            show();
+        }
+        return v;
     }
 
     /**
@@ -238,16 +254,27 @@ public class TitleBarEx extends RelativeLayout {
     /**
      * 获取带有点击背景色的iv
      *
-     * @param iconResId
+     * @param drawableId
      * @return
      */
-    private RelativeLayout getIvWithClickBgColor(@DrawableRes int iconResId, OnClickListener lsn) {
-        if (iconResId == 0) {
-            return null;
+    private View getIvWithClickBgColor(@DrawableRes int drawableId, OnClickListener lsn) {
+        return getIvWithClickBgColor(drawableId, null, lsn);
+    }
+
+    /**
+     * 获取带有点击背景色的iv
+     *
+     * @param drawableId
+     * @return
+     */
+    private View getIvWithClickBgColor(@DrawableRes int drawableId, CharSequence text, OnClickListener lsn) {
+        View v = null;
+        if (drawableId == 0) {
+            return v;
         }
 
         // 先创建背景layout
-        RelativeLayout layout = new RelativeLayout(mContext);
+        RelativeLayout layout = new RelativeLayout(getContext());
         int iconPaddingDp = TitleBarConfig.getIconPaddingHorizontalDp();
         if (iconPaddingDp != 0) {
             int px = dpToPx(iconPaddingDp);
@@ -281,8 +308,8 @@ public class TitleBarEx extends RelativeLayout {
             iv.setScaleType(ScaleType.CENTER_INSIDE);
         }
 
-        if (iconResId != 0) {
-            iv.setImageResource(iconResId);
+        if (drawableId != 0) {
+            iv.setImageResource(drawableId);
         }
 
         params.addRule(CENTER_IN_PARENT);
@@ -292,7 +319,22 @@ public class TitleBarEx extends RelativeLayout {
             layout.setOnClickListener(lsn);
         }
 
-        return layout;
+        if (text != null) {
+            LinearLayout ll = new LinearLayout(getContext());
+            ll.setOrientation(LinearLayout.HORIZONTAL);
+            ll.setGravity(Gravity.CENTER);
+            ll.addView(layout, LayoutUtil.getLinearParams(LayoutUtil.WRAP_CONTENT, LayoutUtil.MATCH_PARENT));
+
+            TextView tv = getTvWithParams(TitleBarConfig.getTextSizeLeftDp(), TitleBarConfig.getTextColor(), 0, null);
+            tv.setText(text);
+            ll.addView(tv, LayoutUtil.getLinearParams(LayoutUtil.WRAP_CONTENT, LayoutUtil.WRAP_CONTENT));
+
+            v = ll;
+        } else {
+            v = layout;
+        }
+
+        return v;
     }
 
     /**
@@ -582,8 +624,8 @@ public class TitleBarEx extends RelativeLayout {
         ViewUtil.showView(this);
     }
 
-    private String getString(@StringRes int strResId) {
-        return mContext.getString(strResId);
+    private String getString(@StringRes int id) {
+        return mContext.getString(id);
     }
 
     /*************************************
@@ -593,10 +635,22 @@ public class TitleBarEx extends RelativeLayout {
     /**
      * 给activity的titlebar加入返回按钮及相应finish事件
      *
+     * @param drawableId
      * @param act
      */
-    public void addBackIcon(int backResId, final Activity act) {
-        addImageViewLeft(backResId, new OnClickListener() {
+    public void addBackIcon(@DrawableRes int drawableId, final Activity act) {
+        addBackIcon(drawableId, null, act);
+    }
+
+    /**
+     * 给activity的titlebar加入返回按钮及相应finish事件
+     *
+     * @param drawableId
+     * @param text
+     * @param act
+     */
+    public void addBackIcon(@DrawableRes int drawableId, CharSequence text, final Activity act) {
+        addViewLeft(drawableId, text, new OnClickListener() {
 
             @Override
             public void onClick(View v) {

@@ -26,12 +26,12 @@ public class App extends BaseApp {
         TitleBarConfig.bgColor(ResLoader.getColor(R.color.app_title_bar_bg));
         TitleBarConfig.iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp);
         TitleBarConfig.iconSizeDp(KTitleBarIconSizeDp);
-
         TitleBarConfig.textColor(ResLoader.getColor(R.color.white));
         TitleBarConfig.textMarginHorizontalDp(KTitleBarTextMarginHorizontalDp);
         TitleBarConfig.textSizeLeftDp(KTitleBarTextSize);
         TitleBarConfig.textSizeMidDp(KTitleBarTextSize);
         TitleBarConfig.textSizeRightDp(KTitleBarTextSize);
+        TitleBarConfig.viewClickBgColor(ResLoader.getColor(R.color.title_click_bg_focus));
 
         AppConfig.appBgColorId(R.color.app_bg);
         AppConfig.enableSwipeFinish(false);
