@@ -66,6 +66,7 @@
         style="@style/tv.common"
         android:id="@+id/settings_footer_tv_exit_account"
         android:layout_marginTop="30dp"
+        android:background="@drawable/btn_selector_red"
         android:text="退出账号"/>
 
 </LinearLayout>

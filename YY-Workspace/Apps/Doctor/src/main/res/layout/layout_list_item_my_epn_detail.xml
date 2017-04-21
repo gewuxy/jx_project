@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="支付："
             android:textSize="14dp"
-            android:textColor="@color/text_888"/>
+            android:textColor="@color/text_1094f2"/>
 
         <TextView
             android:id="@+id/list_item_my_epn_tv_num"
@@ -43,7 +43,7 @@
             android:layout_toRightOf="@+id/list_item_my_epn_tv_status"
             android:text="12"
             android:textSize="14dp"
-            android:textColor="@color/text_333"/>
+            android:textColor="@color/text_1094f2"/>
 
         <TextView
             android:id="@+id/form_item_my_epn_tv_remark"
@@ -53,7 +53,7 @@
             android:layout_marginTop="16dp"
             android:text="备注："
             android:textSize="14dp"
-            android:textColor="@color/text_888"/>
+            android:textColor="@color/text_1094f2"/>
 
         <TextView
             android:id="@+id/form_item_my_epn_tv_remark_content"
@@ -62,10 +62,10 @@
             android:layout_toRightOf="@+id/form_item_my_epn_tv_remark"
             android:layout_below="@+id/list_item_my_epn_tv_num"
             android:layout_marginTop="16dp"
-            android:lineSpacingExtra="16dp"
+            android:lineSpacingExtra="12dp"
             android:text="及时的发货及时看是的尽快发空间撒是的开放接口都是是的肌肤可使肌肤可是对方开始的减肥可见分开的肌肤"
             android:textSize="14dp"
-            android:textColor="@color/text_333"/>
+            android:textColor="@color/text_1094f2"/>
 
     </RelativeLayout>
 

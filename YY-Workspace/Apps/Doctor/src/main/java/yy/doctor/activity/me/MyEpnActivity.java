@@ -30,7 +30,7 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void initNavBar() {
 
-        Util.addBackIcon(getNavBar(), "我的象城", this);
+        Util.addBackIcon(getNavBar(), "我的象数", this);
 
         getNavBar().addTextViewRight("明细", new OnClickListener() {
 
