@@ -16,17 +16,19 @@
             style="@style/meeting"
             android:text="廣東省第29屆腫瘤病學年會專家預告"
             android:textColor="@color/text_333"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size"/>
 
         <LinearLayout
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="@dimen/text_size"
             style="@style/meeting"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-            <!-- TODO:未设置宽高 -->
+
             <ImageView
-                android:src="@mipmap/meeting_ic_tumour"
+                android:src="@mipmap/meeting_ic_retrospect"
                 android:id="@+id/meeting_item_state_iv"
+                android:layout_height="11dp"
+                android:layout_width="11dp"
                 style="@style/meeting"/>
 
             <TextView
@@ -34,10 +36,12 @@
                 style="@style/meeting.tv"
                 android:text="精彩回顧"
                 android:textColor="#5cb0de"/>
-            <!-- TODO:未设置宽高 -->
+            <!-- TODO:未设置宽高2套切图用哪套? -->
             <ImageView
                 android:src="@mipmap/meeting_ic_tumour"
                 android:layout_marginLeft="8dip"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:id="@+id/meeting_item_section_iv"
                 style="@style/meeting"/>
 
@@ -50,12 +54,12 @@
                 android:id="@+id/meeting_item_time"
                 style="@style/meeting.tv"
                 android:layout_marginLeft="8dip"
-                android:text="2月9日16:30"/>
+                android:text="@string/default_date"/>
 
             <TextView
                 android:id="@+id/meeting_item_data"
                 style="@style/meeting.tv"
-                android:text="时长:1.5小时"/>
+                android:text="@string/default_time"/>
         </LinearLayout>
 
     </LinearLayout>

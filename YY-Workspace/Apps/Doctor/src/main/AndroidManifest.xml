@@ -73,6 +73,10 @@
             android:name=".activity.me.ContributionInvitedActivity"
             android:screenOrientation="portrait"/>
 
+        <!-- meeting -->
+        <activity
+            android:name=".activity.MeetingDetailsActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- register -->
         <activity

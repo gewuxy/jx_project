@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="86dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin"
+    tools:showIn="@layout/activity_meeting_details">
+    <!--TODO:没有左边距 -->
+    <TextView
+        android:id="@+id/meeting_details_titles"
+        style="@style/meeting"
+        android:text="河北省第29届神经病报告"
+        android:textColor="@color/text_0882e7"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/meeting_details_award"
+        style="@style/meeting.detail"
+        android:layout_marginTop="@dimen/margin"
+        android:text="本次会议奖励象数:50,还有260人能够获得奖励."
+        android:textColor="@color/text_888"/>
+
+    <TextView
+        android:id="@+id/meeting_details_section"
+        style="@style/meeting.detail"
+        android:layout_marginTop="@dimen/margin"
+        android:text="内科"
+        android:textColor="@color/text_888"/>
+</LinearLayout>

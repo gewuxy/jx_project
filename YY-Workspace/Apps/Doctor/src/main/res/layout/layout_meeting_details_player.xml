@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="226dp"
+    tools:showIn="@layout/activity_meeting_details">
+    <!-- TODO:播放控件 -->
+    <lib.ys.network.image.NetworkImageView
+        android:id="@+id/meeting_details_play_niv"
+        android:layout_width="match_parent"
+        android:layout_height="226dp"/>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        android:background="#6b000000">
+        <!-- TODO:间距 -->
+        <TextView
+            android:id="@+id/meeting_details_date"
+            android:layout_marginRight="@dimen/margin"
+            style="@style/meeting.detail"
+            android:text="@string/default_date"/>
+
+        <TextView
+            android:id="@+id/meeting_details_time"
+            android:layout_marginRight="@dimen/margin"
+            style="@style/meeting.detail"
+            android:text="@string/default_time"/>
+    </LinearLayout>
+</RelativeLayout>
