@@ -37,7 +37,7 @@ public class DataFrag extends BaseFormFrag {
     public void initTitleBar() {
 
         getTitleBar().addTextViewMid("数据中心");
-        getTitleBar().addImageViewRight(R.mipmap.ic_search, new OnClickListener() {
+        getTitleBar().addViewRight(R.mipmap.ic_search, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("585");

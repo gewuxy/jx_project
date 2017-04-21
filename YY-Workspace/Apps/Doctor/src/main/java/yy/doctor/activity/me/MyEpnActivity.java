@@ -28,7 +28,7 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void initTitleBar() {
 
-        Util.addBackIcon(getTitleBar(),"我的象城",this);
+        Util.addBackIcon(getTitleBar(), "我的象城", this);
 
         getTitleBar().addTextViewRight("明细", new OnClickListener() {
 

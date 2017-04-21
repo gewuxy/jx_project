@@ -13,6 +13,9 @@
     <color name="btn_bg">#0882e7</color>
     <color name="btn_bg_focus">#0674cf</color>
 
+    <drawable name="title_click_bg_focus">#19000000</drawable>
+    <color name="title_click_bg_focus">#19000000</color>
+
     <!--text-->
     <color name="text_333">#333</color>
     <color name="text_1ba0cc">#1ba0cc</color>
