@@ -88,7 +88,7 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.et)
                 .related(RelatedId.hospital)
-                .drawable(R.mipmap.ic_more_hospital)
+                .drawable(R.mipmap.ic_more)
                 .name("医院")
                 .hint(R.string.et_hint)
                 .build());

@@ -13,12 +13,6 @@
     <string name="cancle">取消</string>
 
     <!-- register_text -->
-    <string name="register_email">邮箱</string>
-    <string name="register_name">姓名</string>
-    <string name="register_password">密码</string>
-    <string name="register_password_marksure">确认密码</string>
-    <string name="register_location">广东 广州</string>
-    <string name="register_hospital">医院名称</string>
     <string name="register_key">激活码</string>
     <string name="activation_code_explain_one">YaYa医师激活码每个69.9元。</string>
     <string name="activation_code_explain_two">您有三种方法获取激活码:</string>

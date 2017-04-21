@@ -1,11 +1,9 @@
 package yy.doctor.activity.register;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import org.json.JSONException;
 
-import lib.ys.LogMgr;
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.resp.IListResponse;
@@ -28,6 +26,8 @@ import yy.doctor.model.hospital.Hospital;
 public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
     private SideBar mSideBar;
+    private static final int KLetterColor = Color.parseColor("#888888");
+    private int KLetterSize;
 
     @Override
     public int getContentViewId() {
@@ -45,6 +45,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     @Override
     public void initData() {
 
+        //模拟数据
         GroupHospital groupHospital = new GroupHospital();
         for (int i = 0; i < 10; i++) {
             Hospital hospital = new Hospital();
@@ -60,13 +61,13 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
      * 初始化SideBar
      */
     private void initSideBar() {
-        mSideBar.setTextSize(UIUtil.dpToPx(10.0F,HospitalActivity.this));
-        mSideBar.setPaintColor(Color.parseColor("#888888"));
+        KLetterSize = UIUtil.dpToPx(10.0F, HospitalActivity.this);
+        mSideBar.setTextSize(KLetterSize);
+        mSideBar.setPaintColor(KLetterColor);
     }
 
     @Override
     public void initTitleBar() {
-//        Util.addBackIcon(getTitleBar(), 0, this);
     }
 
     @Override

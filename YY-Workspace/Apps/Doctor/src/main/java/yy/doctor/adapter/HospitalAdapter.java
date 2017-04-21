@@ -31,10 +31,6 @@ public class HospitalAdapter extends GroupAdapterEx<GroupHospital, HospitalVH> {
     @Override
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, HospitalVH holder) {
         Hospital item = getChild(groupPosition, childPosition);
-
-        item.put(Hospital.THospital.name, "");
-
-        item.getString(Hospital.THospital.name);
     }
 
     @Override

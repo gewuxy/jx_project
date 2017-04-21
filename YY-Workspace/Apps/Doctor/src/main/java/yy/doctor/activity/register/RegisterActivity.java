@@ -3,8 +3,10 @@ package yy.doctor.activity.register;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
@@ -12,7 +14,7 @@ import yy.doctor.model.form.FormType;
 
 /**
  * 注册界面
- *
+ * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
@@ -21,25 +23,25 @@ public class RegisterActivity extends BaseFormActivity {
     private EditText mActivationCode;
     private TextView mGetActivationCode;
     private TextView mRegister;
-    public static final int FromRegister = 1;
+    public static final int KFromRegister = 1;
 
     @IntDef({
             RelatedId.email,
             RelatedId.name,
-            RelatedId.password,
-            RelatedId.password_marksure,
+            RelatedId.pwd,
+            RelatedId.marksure_pwd,
             RelatedId.location,
             RelatedId.hospital,
-            RelatedId.ActivationCode,
+            RelatedId.activation_code,
     })
     private @interface RelatedId {
         int email = 0;
         int name = 1;
-        int password = 2;
-        int password_marksure = 3;
+        int pwd = 2;
+        int marksure_pwd = 3;
         int location = 4;
         int hospital = 5;
-        int ActivationCode = 6;
+        int activation_code = 6;
     }
 
     @Override
@@ -55,43 +57,43 @@ public class RegisterActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.email)
-                .hint(R.string.register_email)
+                .hint("邮箱")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.name)
-                .hint(R.string.register_name)
+                .hint("姓名")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et_register)
-                .related(RelatedId.password)
-                .hint(R.string.register_password)
+                .related(RelatedId.pwd)
+                .hint("密码")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et_register)
-                .related(RelatedId.password_marksure)
-                .hint(R.string.register_password_marksure)
+                .related(RelatedId.marksure_pwd)
+                .hint("确认密码")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.location)
-                .hint(R.string.register_location)
+                .hint("广东 广州")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.hospital)
-                .hint(R.string.register_hospital)
-                .drawable(R.mipmap.ic_more_hospital)
+                .hint("医院名称")
+                .drawable(R.mipmap.ic_more)
                 .build());
 
     }
@@ -122,8 +124,22 @@ public class RegisterActivity extends BaseFormActivity {
                 startActivity(ActivationCodeExplainActivity.class);
                 break;
             case R.id.register:
-                startActivityForResult(HospitalActivity.class, FromRegister);
                 break;
         }
+    }
+
+
+    @Override
+    protected void onFormViewClick(View v, int position, Object related) {
+
+        if (v instanceof ImageView) {
+            @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+            switch (relatedId) {
+                case RelatedId.hospital:
+                    startActivityForResult(HospitalActivity.class, KFromRegister);
+                    break;
+            }
+        }
+
     }
 }
