@@ -47,7 +47,7 @@ abstract public class DialogActivityEx extends ActivityEx {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
     }
 
     @Override

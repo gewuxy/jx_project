@@ -7,12 +7,13 @@ import yy.doctor.R;
 
 /**
  * 会议详情界面
- *
+ * <p>
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
 
 public class MeetingDetailsActivity extends ActivityEx {
+
     @Override
     public void initData() {
 
@@ -25,7 +26,7 @@ public class MeetingDetailsActivity extends ActivityEx {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
     }
 

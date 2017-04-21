@@ -84,7 +84,7 @@ abstract public class PopupWindowEx implements IInitialize, INetwork, IOption, O
     }
 
     @Override
-    public final void initTitleBar() {
+    public final void initNavBar() {
     }
 
     public View findViewById(int id) {

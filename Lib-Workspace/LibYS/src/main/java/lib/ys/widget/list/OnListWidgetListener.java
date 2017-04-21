@@ -6,7 +6,7 @@ import java.util.List;
 
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.OnAdapterClickListener;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.widget.list.mix.MixOnScrollListener;
 
 /**
@@ -142,9 +142,9 @@ public interface OnListWidgetListener<T> {
      * 此方法和{@link #setOnScrollListener(MixOnScrollListener)}冲突, 只能使用其中一个
      *
      * @param height   最大高度时alpha为255
-     * @param titleBar 需要改变的titleBar
+     * @param navBar 需要改变的titleBar
      */
-    void setTitleBarAutoAlphaByScroll(int height, TitleBarEx titleBar);
+    void setNavBarAutoAlphaByScroll(int height, NavBar navBar);
 
     void setDividerHeight(int height);
 }

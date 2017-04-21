@@ -36,9 +36,9 @@ public class ActivationCodeExplainActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "获取激活码", this);
+        Util.addBackIcon(getNavBar(), "获取激活码", this);
 
     }
 

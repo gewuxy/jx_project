@@ -43,10 +43,10 @@ import lib.ys.R;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.decor.DecorViewEx;
-import lib.ys.decor.DecorViewEx.TTitleBarState;
+import lib.ys.decor.DecorViewEx.TNavBarState;
 import lib.ys.decor.DecorViewEx.ViewState;
 import lib.ys.dialog.DialogEx;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.inst.LoadingDialogInst;
@@ -140,7 +140,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
         // 数据的初始化提前, 可以根据数据来装载不同的view id
         initData();
 
-        mDecorView = new DecorViewEx(this, getTitleBarState(), getInitRefreshWay(), initLoadingDialog());
+        mDecorView = new DecorViewEx(this, getNavBarState(), getInitRefreshWay(), initLoadingDialog());
         mDecorView.setContentView(layoutResID, getContentHeaderViewId(), getContentFooterViewId());
         fit(mDecorView);
 
@@ -149,7 +149,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
     }
 
     private void init() {
-        initTitleBar();
+        initNavBar();
         findViews();
         setViewsValue();
 
@@ -161,7 +161,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
      *
      * @return null表示使用整体设置
      */
-    protected TTitleBarState getTitleBarState() {
+    protected TNavBarState getNavBarState() {
         return null;
     }
 
@@ -278,11 +278,10 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
-
     }
 
-    protected TitleBarEx getTitleBar() {
-        return mDecorView.getTitleBarEx();
+    protected NavBar getNavBar() {
+        return mDecorView.getNavBar();
     }
 
     /**

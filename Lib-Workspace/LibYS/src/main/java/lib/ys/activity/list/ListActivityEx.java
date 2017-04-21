@@ -11,7 +11,7 @@ import lib.ys.activity.ActivityEx;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.OnAdapterClickListener;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.widget.list.ListWidget;
 import lib.ys.widget.list.OnListWidgetListener;
 import lib.ys.widget.list.mix.MixOnScrollListener;
@@ -242,8 +242,8 @@ abstract public class ListActivityEx<T> extends ActivityEx implements OnListWidg
     }
 
     @Override
-    public void setTitleBarAutoAlphaByScroll(int height, TitleBarEx titleBar) {
-        mListWidget.setTitleBarAutoAlphaByScroll(height, titleBar);
+    public void setNavBarAutoAlphaByScroll(int height, NavBar navBar) {
+        mListWidget.setNavBarAutoAlphaByScroll(height, navBar);
     }
 
     @Override

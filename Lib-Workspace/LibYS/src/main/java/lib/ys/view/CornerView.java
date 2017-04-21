@@ -57,7 +57,7 @@ public class CornerView extends RelativeLayout {
 
         ViewUtil.disableHardwareAcc(this, true);
 
-        mPathContent = new Path();
+
     }
 
     @Override
@@ -68,9 +68,18 @@ public class CornerView extends RelativeLayout {
             return;
         }
 
+        if (mPathContent != null) {
+            return;
+        }
+
         int w = getMeasuredWidth();
         int h = getMeasuredHeight();
 
+        if (w == 0 || h == 0) {
+            return;
+        }
+        
+        mPathContent = new Path();
         if (mUseStroke) {
             mRoundRectContent = new RectF(mStrokeWidth, mStrokeWidth, w - mStrokeWidth, h - mStrokeWidth);
 

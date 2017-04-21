@@ -49,9 +49,9 @@ public class MeFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        getTitleBar().addTextViewMid("个人中心");
+        getNavBar().addTextViewMid("个人中心");
 
     }
 

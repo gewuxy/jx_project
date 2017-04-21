@@ -26,10 +26,8 @@ public class EpnUseRuleActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(), "象数使用规则", this);
-
+    public void initNavBar() {
+        Util.addBackIcon(getNavBar(), "象数使用规则", this);
     }
 
     @Override

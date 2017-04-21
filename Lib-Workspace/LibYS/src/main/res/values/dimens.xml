@@ -2,13 +2,13 @@
 
     <dimen name="divider_height_1px">1px</dimen>
 
-    <!-- titlebar -->
-    <dimen name="titlebar_height">62dp</dimen>
-    <dimen name="titlebar_text_size_mid">18dp</dimen>
-    <dimen name="titlebar_text_size_right">17dp</dimen>
-    <dimen name="titlebar_icon_size">24dp</dimen>
-    <dimen name="titlebar_text_right_margin_right">22dp</dimen>
-    <dimen name="titlebar_icon_horizontal_margin">10dp</dimen>
+    <!-- nav bar -->
+    <dimen name="nav_bar_height">62dp</dimen>
+    <dimen name="nav_bar_text_size_mid">18dp</dimen>
+    <dimen name="nav_bar_text_size_right">17dp</dimen>
+    <dimen name="nav_bar_icon_size">24dp</dimen>
+    <dimen name="nav_bar_text_right_margin_right">22dp</dimen>
+    <dimen name="nav_bar_icon_horizontal_margin">10dp</dimen>
 
     <!-- list -->
     <dimen name="list_header_footer_text">16dp</dimen>

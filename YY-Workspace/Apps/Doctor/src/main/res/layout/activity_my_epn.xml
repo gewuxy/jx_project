@@ -9,7 +9,7 @@
         android:id="@+id/layout_my_elephant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_title_bar_bg"
+        android:background="@color/app_nav_bar_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 

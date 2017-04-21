@@ -28,7 +28,7 @@ abstract public class SplashActivityEx extends ActivityEx {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
     }
 
     @Override

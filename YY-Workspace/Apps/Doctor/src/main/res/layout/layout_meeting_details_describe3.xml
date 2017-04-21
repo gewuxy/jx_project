@@ -36,7 +36,7 @@
             android:id="@+id/meeting_details_guest_hospital"
             style="@style/meeting"
             android:text="第四军医大学唐都医院"
-            android:textColor="@color/text_b3b3b3"
+            android:textColor="@color/text_b3"
             android:textSize="@dimen/margin"/>
     </LinearLayout>
 

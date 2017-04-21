@@ -2,6 +2,7 @@ package yy.doctor.frag;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import lib.yy.frag.base.BaseFrag;
@@ -12,6 +13,7 @@ import yy.doctor.R;
  * @since 2017/4/5
  */
 public class HomeFrag extends BaseFrag {
+
     private EditText mEtSearch;
 
     @Override
@@ -26,9 +28,17 @@ public class HomeFrag extends BaseFrag {
     }
 
     @Override
-    public void initTitleBar() {
-        View v = inflate(R.layout.layout_home_title_bar);
-        getTitleBar().addViewMid(v);
+    public void initNavBar() {
+        View v = inflate(R.layout.layout_home_nav_bar);
+        getNavBar().addViewRight(v, null);
+
+        getNavBar().addViewRight(R.mipmap.nav_bar_ic_notice, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 

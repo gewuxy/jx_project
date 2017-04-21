@@ -6,7 +6,7 @@ import android.os.Build.VERSION_CODES;
 import android.view.View;
 
 import lib.ys.config.AppConfig;
-import lib.ys.config.TitleBarConfig;
+import lib.ys.config.NavBarConfig;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
@@ -22,7 +22,7 @@ public class ExUtil {
     @TargetApi(VERSION_CODES.JELLY_BEAN)
     public static int getFitHeaderHeight(View v, Context context) {
         int h = 0;
-        int heightDp = TitleBarConfig.getHeightDp();
+        int heightDp = NavBarConfig.inst().getHeightDp();
         if (heightDp != 0) {
             h += DpFitter.dp(heightDp);
         }

@@ -26,10 +26,8 @@ public class ContributionInvitedActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(), "征稿启事", this);
-
+    public void initNavBar() {
+        Util.addBackIcon(getNavBar(), "征稿启事", this);
     }
 
     @Override

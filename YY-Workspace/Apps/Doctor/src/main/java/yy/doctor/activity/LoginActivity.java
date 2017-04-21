@@ -34,7 +34,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
     }
 

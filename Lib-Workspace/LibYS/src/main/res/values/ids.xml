@@ -5,9 +5,9 @@
 
     <!--DecorViewEx-->
     <item name="flat_bar" type="id"/>
-    <item name="title_bar" type="id"/>
-    <item name="title_bar_mid" type="id"/>
-    <item name="title_divider" type="id"/>
+    <item name="nav_bar" type="id"/>
+    <item name="nav_bar_mid" type="id"/>
+    <item name="nav_bar_divider" type="id"/>
 
     <!--swipe refresh-->
     <item name="sr_list_view" type="id"/>

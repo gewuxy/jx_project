@@ -65,10 +65,10 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "我的资料", this);
-        getTitleBar().addTextViewRight("完成并保存", new OnClickListener() {
+        Util.addBackIcon(getNavBar(), "我的资料", this);
+        getNavBar().addTextViewRight("完成并保存", new OnClickListener() {
 
             @Override
             public void onClick(View v) {

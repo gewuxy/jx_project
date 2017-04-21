@@ -38,9 +38,9 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "帮助与反馈", this);
+        Util.addBackIcon(getNavBar(), "帮助与反馈", this);
 
     }
 

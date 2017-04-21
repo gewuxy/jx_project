@@ -30,10 +30,8 @@ public class ForgetPwdActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(), "忘记密码", this);
-
+    public void initNavBar() {
+        Util.addBackIcon(getNavBar(), "忘记密码", this);
     }
 
     @Override

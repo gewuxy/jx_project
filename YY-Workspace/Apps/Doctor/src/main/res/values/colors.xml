@@ -2,7 +2,7 @@
 <resources>
 
     <color name="app_bg">#f0f0f0</color>
-    <color name="app_title_bar_bg">#006ebd</color>
+    <color name="app_nav_bar_bg">#006ebd</color>
 
     <color name="divider">#dbdbdb</color>
 
@@ -16,13 +16,14 @@
     <drawable name="title_click_bg_focus">#19000000</drawable>
     <color name="title_click_bg_focus">#19000000</color>
 
+    <color name="title_text_focus">#19000000</color>
+
     <!--text-->
     <color name="text_333">#333</color>
     <color name="text_1ba0cc">#1ba0cc</color>
     <color name="text_1094f2">#1094f2</color>
     <color name="text_0d5878">#0d5878</color>
     <color name="text_808080">#808080</color>
-    <color name="text_ffffff">#ffffff</color>
     <color name="text_888">#888</color>
     <color name="text_0882e7">#0882e7</color>
     <color name="text_006ebd">#006ebd</color>
@@ -30,7 +31,7 @@
     <color name="text_999">#999</color>
     <color name="text_555">#555</color>
     <color name="text_666">#666</color>
-    <color name="text_b3b3b3">#b3b3b3</color>
+    <color name="text_b3">#b3b3b3</color>
     <color name="text_01b557">#01b557</color>
     <color name="text_80fff">#80ffffff</color>
     <color name="text_66fff">#66ffffff</color>

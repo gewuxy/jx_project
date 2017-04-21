@@ -92,7 +92,7 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
     }
 
 }

@@ -31,7 +31,7 @@ public class CollectionMeetingActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
     }
 

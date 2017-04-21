@@ -21,8 +21,8 @@ abstract public class BaseTestActivity extends BaseListActivity<Test> {
     }
 
     @Override
-    public void initTitleBar() {
-        getTitleBar().addTextViewMid("测试");
+    public void initNavBar() {
+        getNavBar().addTextViewMid("测试");
     }
 
     protected void add(String name, Class clz) {

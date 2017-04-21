@@ -26,10 +26,8 @@ public class DisclaimerActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(), "免责声明", this);
-
+    public void initNavBar() {
+        Util.addBackIcon(getNavBar(), "免责声明", this);
     }
 
     @Override

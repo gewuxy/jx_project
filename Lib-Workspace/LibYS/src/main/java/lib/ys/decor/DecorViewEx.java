@@ -13,9 +13,9 @@ import java.lang.annotation.RetentionPolicy;
 import lib.ys.R;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.config.TitleBarConfig;
+import lib.ys.config.NavBarConfig;
 import lib.ys.dialog.DialogEx;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.inst.ErrorDecorInst;
 import lib.ys.interfaces.OnRetryClickListener;
 import lib.ys.util.ReflectionUtil;
@@ -29,7 +29,7 @@ public class DecorViewEx extends RelativeLayout {
     private static final int MATCH_PARENT = LayoutParams.MATCH_PARENT;
     private static final int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
 
-    private TitleBarEx mTitleBar;
+    private NavBar mNavBar;
     private ErrorDecorEx mErrorDecor;
 
     private LoadingDecorEx mLoadingDecor;
@@ -58,20 +58,20 @@ public class DecorViewEx extends RelativeLayout {
     @ViewState
     private int mViewState = ViewState.normal;
 
-    public enum TTitleBarState {
+    public enum TNavBarState {
         linear, // 和界面平级
         above, // 在界面上层
     }
 
-    private TTitleBarState mTitleBarState = null;
+    private TNavBarState mNavBarState = null;
 
     @RefreshWay
     private int mInitRefreshWay = RefreshWay.un_know;
 
-    public DecorViewEx(Context context, TTitleBarState state, @RefreshWay int initRefreshWay, DialogEx loadingDialog) {
+    public DecorViewEx(Context context, TNavBarState state, @RefreshWay int initRefreshWay, DialogEx loadingDialog) {
         super(context);
 
-        mTitleBarState = state;
+        mNavBarState = state;
         mInitRefreshWay = initRefreshWay;
         mLoadingDialog = loadingDialog;
 
@@ -93,10 +93,10 @@ public class DecorViewEx extends RelativeLayout {
         }
 
         // 添加titleBar
-        mTitleBar = new TitleBarEx(context);
+        mNavBar = new NavBar(context);
         LayoutParams params = LayoutUtil.getRelativeParams(MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        addView(mTitleBar, params);
-        mTitleBar.gone();
+        addView(mNavBar, params);
+        mNavBar.gone();
     }
 
     public void setContentView(@LayoutRes int layoutResId, @LayoutRes int headerResId, @LayoutRes int footerResId) {
@@ -108,14 +108,14 @@ public class DecorViewEx extends RelativeLayout {
 		/*
          * 判断title bar的形式
 		 */
-        TTitleBarState state;
-        if (mTitleBarState == null) {
-            state = TitleBarConfig.getState();
+        TNavBarState state;
+        if (mNavBarState == null) {
+            state = NavBarConfig.inst().getState();
         } else {
-            state = mTitleBarState;
+            state = mNavBarState;
         }
 
-        isTitleAbove = state == TTitleBarState.above;
+        isTitleAbove = state == TNavBarState.above;
 
         // 添加content header view
         if (headerResId != 0) {
@@ -125,13 +125,13 @@ public class DecorViewEx extends RelativeLayout {
             if (isTitleAbove) {
                 addView(mHeaderView, 0, headerParams);
             } else {
-                headerParams.addRule(BELOW, mTitleBar.getId());
+                headerParams.addRule(BELOW, mNavBar.getId());
                 addView(mHeaderView, headerParams);
             }
             params.addRule(BELOW, mHeaderView.getId());
         } else {
             if (!isTitleAbove) {
-                params.addRule(BELOW, mTitleBar.getId());
+                params.addRule(BELOW, mNavBar.getId());
             }
         }
 
@@ -187,8 +187,8 @@ public class DecorViewEx extends RelativeLayout {
         setContentView(layoutResId, 0, 0);
     }
 
-    public TitleBarEx getTitleBarEx() {
-        return mTitleBar;
+    public NavBar getNavBar() {
+        return mNavBar;
     }
 
     public View getContentView() {

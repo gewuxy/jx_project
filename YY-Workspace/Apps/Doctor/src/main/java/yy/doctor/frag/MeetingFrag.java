@@ -38,9 +38,9 @@ public class MeetingFrag extends BaseFrag {
     }
 
     @Override
-    public void initTitleBar() {
-        View view = inflate(R.layout.layout_meeting_title_mid);
-        getTitleBar().addViewMid(view, new View.OnClickListener() {
+    public void initNavBar() {
+        View view = inflate(R.layout.layout_meeting_nav_bar);
+        getNavBar().addViewMid(view, new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

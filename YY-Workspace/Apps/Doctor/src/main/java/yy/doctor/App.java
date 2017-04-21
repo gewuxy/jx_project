@@ -2,8 +2,7 @@ package yy.doctor;
 
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
-import lib.ys.config.TitleBarConfig;
-import lib.ys.util.res.ResLoader;
+import lib.ys.config.NavBarConfig;
 import lib.yy.BaseApp;
 import yy.doctor.util.CacheUtil;
 
@@ -15,26 +14,26 @@ public class App extends BaseApp {
 
     private int KTitleBarHeightDp = 44;
     private int KTitleBarIconSizeDp = 16;
-    private int KTitleBarIconPaddingHorizontalDp = 18;
+    private int KTitleBarIconPaddingHorizontalDp = 12;
     private int KTitleBarTextMarginHorizontalDp = 12;
     private int KTitleBarTextSize = 16;
 
     @Override
     protected void setParams() {
 
-        TitleBarConfig.heightDp(KTitleBarHeightDp);
-        TitleBarConfig.bgColor(ResLoader.getColor(R.color.app_title_bar_bg));
-        TitleBarConfig.iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp);
-        TitleBarConfig.iconSizeDp(KTitleBarIconSizeDp);
-        TitleBarConfig.textColor(ResLoader.getColor(R.color.white));
-        TitleBarConfig.textMarginHorizontalDp(KTitleBarTextMarginHorizontalDp);
-        TitleBarConfig.textSizeLeftDp(KTitleBarTextSize);
-        TitleBarConfig.textSizeMidDp(KTitleBarTextSize);
-        TitleBarConfig.textSizeRightDp(KTitleBarTextSize);
-        TitleBarConfig.viewClickBgColor(ResLoader.getColor(R.color.title_click_bg_focus));
+        NavBarConfig.inst().inst().heightDp(KTitleBarHeightDp);
+        NavBarConfig.inst().bgRes(R.color.app_nav_bar_bg);
+        NavBarConfig.inst().iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp);
+        NavBarConfig.inst().iconSizeDp(KTitleBarIconSizeDp);
+        NavBarConfig.inst().textColorRes(R.color.nav_bar_text_selector);
+        NavBarConfig.inst().textMarginHorizontalDp(KTitleBarTextMarginHorizontalDp);
+        NavBarConfig.inst().textSizeLeftDp(KTitleBarTextSize);
+        NavBarConfig.inst().textSizeMidDp(KTitleBarTextSize);
+        NavBarConfig.inst().textSizeRightDp(KTitleBarTextSize);
+        NavBarConfig.inst().focusBgColorRes(R.color.title_click_bg_focus);
 
         AppConfig.appBgColorId(R.color.app_bg);
-        AppConfig.enableSwipeFinish(false);
+        AppConfig.enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE);
 
         LogMgr.setDebugState(BuildConfig.DEBUG_LOG);
     }

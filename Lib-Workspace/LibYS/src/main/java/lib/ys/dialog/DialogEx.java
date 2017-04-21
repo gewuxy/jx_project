@@ -197,8 +197,7 @@ abstract public class DialogEx implements OnClickListener,
     }
 
     @Override
-    public void initTitleBar() {
-        // 没有titlebar
+    public final void initNavBar() {
     }
 
     @Override

@@ -37,10 +37,10 @@ import lib.ys.R;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.decor.DecorViewEx;
-import lib.ys.decor.DecorViewEx.TTitleBarState;
+import lib.ys.decor.DecorViewEx.TNavBarState;
 import lib.ys.decor.DecorViewEx.ViewState;
 import lib.ys.dialog.DialogEx;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.inst.LoadingDialogInst;
@@ -195,12 +195,12 @@ abstract public class FragEx extends Fragment
         // 数据的初始化提前, 可以根据数据来装载不同的view id
         initData();
 
-        mDecorView = new DecorViewEx(getActivity(), getTitleBarState(), getInitRefreshWay(), initLoadingDialog());
+        mDecorView = new DecorViewEx(getActivity(), getNavBarState(), getInitRefreshWay(), initLoadingDialog());
         mDecorView.setContentView(getContentViewId(), getContentHeaderViewId(), getContentFooterViewId());
         fit(mDecorView);
 
         if (useLazyLoad()) {
-            initTitleBar();
+            initNavBar();
 
             // 如果这个时候只有一个fragment而且是显示的状态, 走到这里的时候已经过了onVisible的阶段了, 需要再这里走一遍init()
             if (getVisible()) {
@@ -220,7 +220,7 @@ abstract public class FragEx extends Fragment
 
     private void init() {
         if (!useLazyLoad()) {
-            initTitleBar();
+            initNavBar();
         }
 
         findViews();
@@ -241,7 +241,7 @@ abstract public class FragEx extends Fragment
      *
      * @return null表示使用整体设置
      */
-    protected TTitleBarState getTitleBarState() {
+    protected TNavBarState getNavBarState() {
         return null;
     }
 
@@ -345,8 +345,8 @@ abstract public class FragEx extends Fragment
         mNetworkExecutor.execute(id, request, listener);
     }
 
-    protected TitleBarEx getTitleBar() {
-        return mDecorView.getTitleBarEx();
+    protected NavBar getNavBar() {
+        return mDecorView.getNavBar();
     }
 
     /**

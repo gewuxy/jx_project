@@ -46,9 +46,9 @@ public interface IInitialize {
     int getContentFooterViewId();
 
     /**
-     * 初始化titleBar
+     * 初始化navBar
      */
-    void initTitleBar();
+    void initNavBar();
 
     /**
      * 是用findViewById的方法

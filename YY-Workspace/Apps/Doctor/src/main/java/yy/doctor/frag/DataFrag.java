@@ -34,10 +34,11 @@ public class DataFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        getTitleBar().addTextViewMid("数据中心");
-        getTitleBar().addViewRight(R.mipmap.ic_search, new OnClickListener() {
+        getNavBar().addTextViewMid("数据中心");
+        getNavBar().addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 showToast("585");

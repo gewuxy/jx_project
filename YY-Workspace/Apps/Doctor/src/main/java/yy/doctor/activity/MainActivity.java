@@ -64,7 +64,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
     }
 
     @Override

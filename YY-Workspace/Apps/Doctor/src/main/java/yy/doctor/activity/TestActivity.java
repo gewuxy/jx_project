@@ -31,5 +31,4 @@ public class TestActivity extends BaseTestActivity {
         add("更新对话框", new UpdateNoticeDialog(this));
         add("分享对话框", new ShareDialog(this));
     }
-
 }

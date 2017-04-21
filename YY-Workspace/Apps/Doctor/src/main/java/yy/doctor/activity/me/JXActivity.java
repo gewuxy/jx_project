@@ -26,9 +26,9 @@ public class JXActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "敬信", this);
+        Util.addBackIcon(getNavBar(), "敬信", this);
 
     }
 

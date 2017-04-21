@@ -28,11 +28,11 @@ public class MyEpnActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "我的象城", this);
+        Util.addBackIcon(getNavBar(), "我的象城", this);
 
-        getTitleBar().addTextViewRight("明细", new OnClickListener() {
+        getNavBar().addTextViewRight("明细", new OnClickListener() {
 
             @Override
             public void onClick(View v) {

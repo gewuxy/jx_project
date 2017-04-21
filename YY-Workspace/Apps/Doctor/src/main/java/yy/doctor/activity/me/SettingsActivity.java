@@ -44,9 +44,9 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "设置", this);
+        Util.addBackIcon(getNavBar(), "设置", this);
 
     }
 

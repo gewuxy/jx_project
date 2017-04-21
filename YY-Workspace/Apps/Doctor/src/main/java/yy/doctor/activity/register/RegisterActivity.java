@@ -46,9 +46,9 @@ public class RegisterActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "注册", this);
+        Util.addBackIcon(getNavBar(), "注册", this);
 
     }
 

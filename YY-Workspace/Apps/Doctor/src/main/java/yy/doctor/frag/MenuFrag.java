@@ -91,7 +91,7 @@ public class MenuFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
     }
 
     @Override

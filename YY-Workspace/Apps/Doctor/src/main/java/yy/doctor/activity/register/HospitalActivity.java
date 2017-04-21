@@ -31,19 +31,6 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     private int KLetterSize;
 
     @Override
-    public int getContentViewId() {
-        return R.layout.activity_hospital;
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-
-        mSideBar = (SideBar) getDecorView().findViewById(R.id.side_bar);
-        initSideBar();
-    }
-
-    @Override
     public void initData() {
 
         //模拟数据
@@ -58,6 +45,31 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         addItem(groupHospital);
     }
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_hospital;
+    }
+
+    @Override
+    public void initNavBar() {
+        Util.addBackIcon(getNavBar(), "医院", this);
+    }
+
+    @Override
+    public void findViews() {
+        super.findViews();
+
+        mSideBar = (SideBar) getDecorView().findViewById(R.id.side_bar);
+        initSideBar();
+    }
+
+    @Override
+    public void setViewsValue() {
+        super.setViewsValue();
+
+        expandAllGroup();
+    }
+
     /**
      * 初始化SideBar
      */
@@ -68,22 +80,8 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     }
 
     @Override
-    public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(), "医院", this);
-
-    }
-
-    @Override
     public MultiGroupAdapterEx<GroupHospital, ? extends ViewHolderEx> createAdapter() {
         return new HospitalAdapter();
-    }
-
-    @Override
-    public void setViewsValue() {
-        super.setViewsValue();
-
-        expandAllGroup();
     }
 
     @Override

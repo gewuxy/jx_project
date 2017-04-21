@@ -9,12 +9,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.StringRes;
-import android.support.annotation.XmlRes;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
@@ -30,15 +28,20 @@ import android.widget.TextView;
 import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.config.AppConfig;
-import lib.ys.config.TitleBarConfig;
+import lib.ys.config.NavBarConfig;
 import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.UIUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 
-public class TitleBarEx extends RelativeLayout {
+/**
+ * 导航栏
+ * navigation bar
+ */
+public class NavBar extends RelativeLayout {
 
     private static final int MATCH_PARENT = LayoutParams.MATCH_PARENT;
     private static final int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
@@ -51,33 +54,37 @@ public class TitleBarEx extends RelativeLayout {
 
     private View mDivider;
 
-    public TitleBarEx(Context context) {
+    private NavBarConfig mConfig;
+
+    public NavBar(Context context) {
         super(context);
         mContext = context;
         init(true);
     }
 
-    public TitleBarEx(Context context, AttributeSet attrs) {
+    public NavBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         init(false);
     }
 
     private void init(boolean useCustomId) {
+        mConfig = NavBarConfig.inst();
+
         if (useCustomId) {
-            setId(R.id.title_bar);
+            setId(R.id.nav_bar);
         }
 
         /**
          * 背景色, 先找背景图片, 再找背景颜色
          */
-        int bgDrawableId = TitleBarConfig.getBgDrawableId();
-        if (bgDrawableId != 0) {
-            setBackgroundResource(bgDrawableId);
+        @DrawableRes int bgRes = mConfig.getBgRes();
+        if (bgRes != 0) {
+            setBackgroundResource(bgRes);
         } else {
-            int bgColor = TitleBarConfig.getBgColor();
-            if (bgColor != 0) {
-                setBackgroundColor(bgColor);
+            @ColorRes int bgColorRes = mConfig.getBgColorRes();
+            if (bgColorRes != 0) {
+                setBackgroundColor(ResLoader.getColor(bgColorRes));
             }
         }
 
@@ -87,7 +94,7 @@ public class TitleBarEx extends RelativeLayout {
             flatBar = ViewUtil.inflateSpaceViewPx(heightPx);
             flatBar.setId(R.id.flat_bar);
             // flatBar.setBackgroundColor(bgColor); // 不能设置颜色, 会重叠
-            addView(flatBar, LayoutUtil.getRelativeParams(LayoutParams.MATCH_PARENT, heightPx));
+            addView(flatBar, LayoutUtil.getRelativeParams(MATCH_PARENT, heightPx));
         }
 
         // 添加左边布局
@@ -102,7 +109,7 @@ public class TitleBarEx extends RelativeLayout {
 
         // 添加中间布局
         mLayoutMid = new LinearLayout(mContext);
-        mLayoutMid.setId(R.id.title_bar_mid);
+        mLayoutMid.setId(R.id.nav_bar_mid);
         mLayoutMid.setOrientation(LinearLayout.HORIZONTAL);
         LayoutParams midParams = getRelativeParams();
         if (flatBar != null) {
@@ -123,31 +130,31 @@ public class TitleBarEx extends RelativeLayout {
         addView(mLayoutRight, rightParams);
 
         mDivider = null;
-        int dividerHeight = TitleBarConfig.getDividerHeightPx();
+        int dividerHeight = mConfig.getDividerHeightPx();
         if (dividerHeight != 0) {
             mDivider = ViewUtil.inflateSpaceViewPx(dividerHeight);
-            mDivider.setBackgroundColor(TitleBarConfig.getDividerColor());
-            mDivider.setId(R.id.title_divider);
-            LayoutParams dividerParams = LayoutUtil.getRelativeParams(LayoutParams.MATCH_PARENT, dividerHeight);
+            mDivider.setBackgroundColor(mConfig.getDividerColorRes());
+            mDivider.setId(R.id.nav_bar_divider);
+            LayoutParams dividerParams = LayoutUtil.getRelativeParams(MATCH_PARENT, dividerHeight);
             dividerParams.addRule(ALIGN_BOTTOM, mLayoutMid.getId());
             addView(mDivider, dividerParams);
         }
     }
 
-    public void setDividerColor(@ColorInt int color) {
+    public void setDividerColor(@ColorRes int id) {
         if (mDivider != null) {
-            mDivider.setBackgroundColor(color);
+            mDivider.setBackgroundColor(ResLoader.getColor(id));
         }
     }
 
     /**
      * 添加左边的图标
      *
-     * @param drawableId
+     * @param id
      * @param lsn
      */
-    public void addViewLeft(@DrawableRes int drawableId, OnClickListener lsn) {
-        View v = getIvWithClickBgColor(drawableId, lsn);
+    public void addViewLeft(@DrawableRes int id, OnClickListener lsn) {
+        View v = createImageView(id, lsn);
         if (v != null) {
             mLayoutLeft.addView(v, getLinearParams());
             show();
@@ -157,12 +164,12 @@ public class TitleBarEx extends RelativeLayout {
     /**
      * 添加左边的图标-带文字
      *
-     * @param drawableId
+     * @param id
      * @param text
      * @param lsn
      */
-    public void addViewLeft(@DrawableRes int drawableId, CharSequence text, OnClickListener lsn) {
-        View v = getIvWithClickBgColor(drawableId, text, lsn);
+    public void addViewLeft(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
+        View v = createImageView(id, text, lsn);
         if (v != null) {
             mLayoutLeft.addView(v, getLinearParams());
             show();
@@ -182,16 +189,17 @@ public class TitleBarEx extends RelativeLayout {
             v.setOnClickListener(lsn);
         }
         mLayoutLeft.addView(v, params);
+        LayoutFitter.fit(v);
         show();
     }
 
     /***
      * 添加右边图标
      *
-     * @param drawableId
+     * @param id
      */
-    public View addViewRight(@DrawableRes int drawableId, OnClickListener lsn) {
-        View v = getIvWithClickBgColor(drawableId, lsn);
+    public View addViewRight(@DrawableRes int id, OnClickListener lsn) {
+        View v = createImageView(id, lsn);
         if (v != null) {
             mLayoutRight.addView(v, getLinearParams());
             show();
@@ -212,6 +220,7 @@ public class TitleBarEx extends RelativeLayout {
             v.setOnClickListener(lsn);
         }
         mLayoutRight.addView(v, params);
+        LayoutFitter.fit(v);
         show();
     }
 
@@ -248,44 +257,45 @@ public class TitleBarEx extends RelativeLayout {
             v.setOnClickListener(lsn);
         }
         mLayoutMid.addView(v, params);
+        LayoutFitter.fit(v);
         show();
     }
 
     /**
      * 获取带有点击背景色的iv
      *
-     * @param drawableId
+     * @param id
      * @return
      */
-    private View getIvWithClickBgColor(@DrawableRes int drawableId, OnClickListener lsn) {
-        return getIvWithClickBgColor(drawableId, null, lsn);
+    private View createImageView(@DrawableRes int id, OnClickListener lsn) {
+        return createImageView(id, null, lsn);
     }
 
     /**
      * 获取带有点击背景色的iv
      *
-     * @param drawableId
+     * @param id
      * @return
      */
-    private View getIvWithClickBgColor(@DrawableRes int drawableId, CharSequence text, OnClickListener lsn) {
+    private View createImageView(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
         View v = null;
-        if (drawableId == 0) {
+        if (id == 0) {
             return v;
         }
 
         // 先创建背景layout
         RelativeLayout layout = new RelativeLayout(getContext());
-        int iconPaddingDp = TitleBarConfig.getIconPaddingHorizontalDp();
+        int iconPaddingDp = mConfig.getIconPaddingHorizontalDp();
         if (iconPaddingDp != 0) {
             int px = dpToPx(iconPaddingDp);
             layout.setPadding(px, 0, px, 0);
         }
 
-        if (TitleBarConfig.getViewClickBgColor() != 0) {
+        if (mConfig.getFocusBgColorRes() != 0) {
             StateListDrawable sd = new StateListDrawable();
 
             Drawable dNormal = new ColorDrawable(Color.TRANSPARENT);
-            Drawable dPressed = new ColorDrawable(TitleBarConfig.getViewClickBgColor());
+            Drawable dPressed = new ColorDrawable(mConfig.getFocusBgColorRes());
 
             int pressed = android.R.attr.state_pressed;
 
@@ -299,7 +309,7 @@ public class TitleBarEx extends RelativeLayout {
         ImageView iv = new ImageView(getContext());
         LayoutParams params = null;
 
-        int iconSizeDp = TitleBarConfig.getIconSizeDp();
+        int iconSizeDp = mConfig.getIconSizeDp();
         if (iconSizeDp != 0) {
             int px = dpToPx(iconSizeDp);
             params = LayoutUtil.getRelativeParams(px, px);
@@ -308,8 +318,8 @@ public class TitleBarEx extends RelativeLayout {
             iv.setScaleType(ScaleType.CENTER_INSIDE);
         }
 
-        if (drawableId != 0) {
-            iv.setImageResource(drawableId);
+        if (id != 0) {
+            iv.setImageResource(id);
         }
 
         params.addRule(CENTER_IN_PARENT);
@@ -323,11 +333,11 @@ public class TitleBarEx extends RelativeLayout {
             LinearLayout ll = new LinearLayout(getContext());
             ll.setOrientation(LinearLayout.HORIZONTAL);
             ll.setGravity(Gravity.CENTER);
-            ll.addView(layout, LayoutUtil.getLinearParams(LayoutUtil.WRAP_CONTENT, LayoutUtil.MATCH_PARENT));
+            ll.addView(layout, LayoutUtil.getLinearParams(WRAP_CONTENT, MATCH_PARENT));
 
-            TextView tv = getTvWithParams(TitleBarConfig.getTextSizeLeftDp(), TitleBarConfig.getTextColor(), 0, null);
+            TextView tv = createTextView(mConfig.getTextSizeLeftDp(), mConfig.getTextColor(), 0, null);
             tv.setText(text);
-            ll.addView(tv, LayoutUtil.getLinearParams(LayoutUtil.WRAP_CONTENT, LayoutUtil.WRAP_CONTENT));
+            ll.addView(tv, LayoutUtil.getLinearParams(WRAP_CONTENT, WRAP_CONTENT));
 
             v = ll;
         } else {
@@ -344,7 +354,7 @@ public class TitleBarEx extends RelativeLayout {
      */
     private LinearLayout.LayoutParams getLinearParams() {
         int height;
-        int titleBarHeightDp = TitleBarConfig.getHeightDp();
+        int titleBarHeightDp = mConfig.getHeightDp();
         if (titleBarHeightDp == 0) {
             height = WRAP_CONTENT;
         } else {
@@ -366,7 +376,7 @@ public class TitleBarEx extends RelativeLayout {
      */
     private LayoutParams getRelativeParams() {
         int height;
-        int titleBarHeightDp = TitleBarConfig.getHeightDp();
+        int titleBarHeightDp = mConfig.getHeightDp();
         if (titleBarHeightDp == 0) {
             height = WRAP_CONTENT;
         } else {
@@ -381,12 +391,12 @@ public class TitleBarEx extends RelativeLayout {
      * 根据属性创建TextView
      *
      * @param sizeDp
-     * @param color
+     * @param res
      * @param paddingHoriDp 左右的空隙
      * @param lsn
      * @return
      */
-    private TextView getTvWithParams(int sizeDp, @ColorInt int color, int paddingHoriDp, OnClickListener lsn) {
+    private TextView createTextView(int sizeDp, @ColorRes int res, int paddingHoriDp, OnClickListener lsn) {
         TextView tv = new TextView(mContext);
         tv.setGravity(Gravity.CENTER);
         tv.setSingleLine();
@@ -398,8 +408,8 @@ public class TitleBarEx extends RelativeLayout {
         }
 
         // 设置文字颜色
-        if (color != 0) {
-            tv.setTextColor(color);
+        if (res != 0) {
+            tv.setTextColor(ResLoader.getColorStateList(res));
         }
 
         if (paddingHoriDp != 0) {
@@ -423,7 +433,7 @@ public class TitleBarEx extends RelativeLayout {
 	/* 设置TextView left相关********************************************** */
 
     public TextView addTextViewLeft(CharSequence text, OnClickListener lsn) {
-        TextView tv = getTvWithParams(TitleBarConfig.getTextSizeLeftDp(), TitleBarConfig.getTextColor(), TitleBarConfig.getTextMarginHorizontalDp(), lsn);
+        TextView tv = createTextView(mConfig.getTextSizeLeftDp(), mConfig.getTextColor(), mConfig.getTextMarginHorizontalDp(), lsn);
         setTvText(text, tv);
         mLayoutLeft.addView(tv, getTextLinearParams());
         return tv;
@@ -436,24 +446,22 @@ public class TitleBarEx extends RelativeLayout {
     /**
      * 设置右边文字
      *
-     * @param strResId    R.string.xxx
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
+     * @param strRes   R.string.xxx
+     * @param colorRes R.color.xxx
      */
-    public TextView addTextViewLeft(@StringRes int strResId, @ColorRes int colorResId, boolean isStateList, OnClickListener lsn) {
-        return addTextViewLeft(getString(strResId), colorResId, isStateList, lsn);
+    public TextView addTextViewLeft(@StringRes int strRes, @ColorRes int colorRes, OnClickListener lsn) {
+        return addTextViewLeft(getString(strRes), colorRes, lsn);
     }
 
     /**
      * 设置右边文字
      *
-     * @param text        内容
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
+     * @param text     内容
+     * @param colorRes R.color.xxx
      */
-    public TextView addTextViewLeft(CharSequence text, @ColorRes int colorResId, boolean isStateList, OnClickListener lsn) {
-        TextView tv = getTvWithParams(TitleBarConfig.getTextSizeLeftDp(), 0, TitleBarConfig.getTextMarginHorizontalDp(), lsn);
-        setTvTextWithColor(tv, text, colorResId, isStateList);
+    public TextView addTextViewLeft(CharSequence text, @ColorRes int colorRes, OnClickListener lsn) {
+        TextView tv = createTextView(mConfig.getTextSizeLeftDp(), colorRes, mConfig.getTextMarginHorizontalDp(), lsn);
+        setTvText(text, tv);
         mLayoutLeft.addView(tv, getTextLinearParams());
         return tv;
     }
@@ -466,33 +474,33 @@ public class TitleBarEx extends RelativeLayout {
      * @param text 如果文本内容为null, 无效
      */
     public TextView addTextViewMid(CharSequence text) {
-        return addTextViewMid(text, TitleBarConfig.getTextColor());
+        return addTextViewMid(text, mConfig.getTextColor());
     }
 
     /**
      * 添加中间的文字
      *
      * @param text
-     * @param textColor
+     * @param id
      */
-    public TextView addTextViewMid(CharSequence text, @ColorInt int textColor) {
-        return addTextViewMid(text, textColor, 0);
+    public TextView addTextViewMid(CharSequence text, @ColorRes int id) {
+        return addTextViewMid(text, id, 0);
     }
 
     /**
      * 添加中间的文字
      *
      * @param text
-     * @param textColor
+     * @param id
      * @param maxLength
      */
-    public TextView addTextViewMid(CharSequence text, @ColorInt int textColor, int maxLength) {
+    public TextView addTextViewMid(CharSequence text, @ColorRes int id, int maxLength) {
         if (TextUtils.isEmpty(text)) {
             return null;
         }
-        TextView tv = getTvWithParams(TitleBarConfig.getTextSizeMidDp(), textColor, 0, null);
+        TextView tv = createTextView(mConfig.getTextSizeMidDp(), id, 0, null);
         if (maxLength != 0) {
-            tv.setMaxWidth((int) ((maxLength) * TitleBarConfig.getTextSizeMidDp() * DpFitter.getDensity()));
+            tv.setMaxWidth((int) ((maxLength) * mConfig.getTextSizeMidDp() * DpFitter.getDensity()));
             tv.setSingleLine();
             tv.setEllipsize(TruncateAt.END);
         }
@@ -504,84 +512,57 @@ public class TitleBarEx extends RelativeLayout {
     /**
      * 添加中间的文字
      *
-     * @param strResId
+     * @param id
      */
-    public TextView addTextViewMid(int strResId) {
-        return addTextViewMid(strResId, TitleBarConfig.getTextColor());
+    public TextView addTextViewMid(@StringRes int id) {
+        return addTextViewMid(id, mConfig.getTextColor());
     }
 
     /**
      * 添加中间的文字
      *
-     * @param strResId
-     * @param textColor 自定义颜色
+     * @param strId
+     * @param colorRes 自定义颜色
      */
-    public TextView addTextViewMid(@StringRes int strResId, @ColorInt int textColor) {
-        if (strResId == 0) {
+    public TextView addTextViewMid(@StringRes int strId, @ColorRes int colorRes) {
+        if (strId == 0) {
             return null;
         }
-        return addTextViewMid(getString(strResId), textColor);
-    }
-
-    /**
-     * 设置中间文字
-     *
-     * @param strResId    R.string.xxx
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
-     */
-    public TextView addTextViewMid(@StringRes int strResId, @ColorRes @XmlRes int colorResId, boolean isStateList) {
-        return addTextViewMid(getString(strResId), colorResId, isStateList);
-    }
-
-    /**
-     * 设置中间文字
-     *
-     * @param text        内容
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
-     */
-    public TextView addTextViewMid(CharSequence text, @ColorRes @XmlRes int colorResId, boolean isStateList) {
-        TextView tv = getTvWithParams(TitleBarConfig.getTextSizeMidDp(), 0, 0, null);
-        setTvTextWithColor(tv, text, colorResId, isStateList);
-        mLayoutMid.addView(tv, getTextLinearParams());
-        return tv;
+        return addTextViewMid(getString(strId), colorRes);
     }
 
 	/* 设置TextView right相关********************************************** */
 
     public TextView addTextViewRight(CharSequence text, OnClickListener lsn) {
-        TextView tv = getTvWithParams(TitleBarConfig.getTextSizeRightDp(), TitleBarConfig.getTextColor(), TitleBarConfig.getTextMarginHorizontalDp(), lsn);
+        TextView tv = createTextView(mConfig.getTextSizeRightDp(), mConfig.getTextColor(), mConfig.getTextMarginHorizontalDp(), lsn);
         setTvText(text, tv);
         mLayoutRight.addView(tv, getTextLinearParams());
         return tv;
     }
 
-    public TextView addTextViewRight(@StringRes int strResId, OnClickListener lsn) {
-        return addTextViewRight(getString(strResId), lsn);
+    public TextView addTextViewRight(@StringRes int id, OnClickListener lsn) {
+        return addTextViewRight(getString(id), lsn);
     }
 
     /**
      * 设置右边文字
      *
-     * @param strResId    R.string.xxx
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
+     * @param strId    R.string.xxx
+     * @param colorRes R.color.xxx
      */
-    public TextView addTextViewRight(@StringRes int strResId, @ColorRes @XmlRes int colorResId, boolean isStateList, OnClickListener lsn) {
-        return addTextViewRight(getString(strResId), colorResId, isStateList, lsn);
+    public TextView addTextViewRight(@StringRes int strId, @ColorRes int colorRes, OnClickListener lsn) {
+        return addTextViewRight(getString(strId), colorRes, lsn);
     }
 
     /**
      * 设置右边文字
      *
-     * @param text        内容
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
+     * @param text     内容
+     * @param colorRes R.color.xxx
      */
-    public TextView addTextViewRight(CharSequence text, @ColorRes @XmlRes int colorResId, boolean isStateList, OnClickListener lsn) {
-        TextView tv = getTvWithParams(TitleBarConfig.getTextSizeRightDp(), 0, TitleBarConfig.getTextMarginHorizontalDp(), lsn);
-        setTvTextWithColor(tv, text, colorResId, isStateList);
+    public TextView addTextViewRight(CharSequence text, @ColorRes int colorRes, OnClickListener lsn) {
+        TextView tv = createTextView(mConfig.getTextSizeRightDp(), colorRes, mConfig.getTextMarginHorizontalDp(), lsn);
+        setTvText(text, tv);
         mLayoutRight.addView(tv, getTextLinearParams());
         return tv;
     }
@@ -594,26 +575,6 @@ public class TitleBarEx extends RelativeLayout {
             tv.setText(text);
         }
         show();
-    }
-
-    /**
-     * 设置Textview字体内容及颜色
-     *
-     * @param text        内容
-     * @param colorResId  R.color.xxx
-     * @param isStateList 是否为带有消息判断的ColorStateList
-     */
-    private void setTvTextWithColor(TextView tv, CharSequence text, @ColorRes int colorResId, boolean isStateList) {
-        setTvText(text, tv);
-        setTvColor(tv, colorResId, isStateList);
-    }
-
-    private void setTvColor(TextView tv, @ColorRes int colorResId, boolean isStateList) {
-        if (isStateList) {
-            tv.setTextColor(ResLoader.getColorStateList(colorResId));
-        } else {
-            tv.setTextColor(ResLoader.getColor(colorResId));
-        }
     }
 
     public void gone() {
@@ -633,7 +594,7 @@ public class TitleBarEx extends RelativeLayout {
      ************************************* */
 
     /**
-     * 给activity的titlebar加入返回按钮及相应finish事件
+     * 给activity加入返回按钮及相应finish事件
      *
      * @param drawableId
      * @param act
@@ -643,7 +604,7 @@ public class TitleBarEx extends RelativeLayout {
     }
 
     /**
-     * 给activity的titlebar加入返回按钮及相应finish事件
+     * 给activity加入返回按钮及相应finish事件
      *
      * @param drawableId
      * @param text

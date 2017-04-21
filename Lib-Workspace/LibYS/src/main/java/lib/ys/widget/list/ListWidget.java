@@ -23,7 +23,7 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.OnAdapterClickListener;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.UIUtil;
 import lib.ys.util.view.LayoutUtil;
@@ -310,17 +310,17 @@ public class ListWidget<T> implements OnItemClickListener, OnItemLongClickListen
      * 根据高度自动变换titleBar的背景色透明度
      *
      * @param height
-     * @param titleBar
+     * @param navBar
      */
-    public void setTitleBarAutoAlphaByScroll(final int height, final TitleBarEx titleBar) {
-        int th = titleBar.getHeight();
-        if (th == 0 && titleBar.getVisibility() != View.GONE && titleBar.getViewTreeObserver().isAlive()) {
+    public void setNavBarAutoAlphaByScroll(final int height, final NavBar navBar) {
+        int th = navBar.getHeight();
+        if (th == 0 && navBar.getVisibility() != View.GONE && navBar.getViewTreeObserver().isAlive()) {
             // 调用的时机不对. 获取不到titleBar的高度
-            titleBar.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+            navBar.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 
                 @Override
                 public boolean onPreDraw() {
-                    int th = titleBar.getHeight();
+                    int th = navBar.getHeight();
                     if (th == 0) {
                         return true;
                     }
@@ -334,11 +334,11 @@ public class ListWidget<T> implements OnItemClickListener, OnItemLongClickListen
 
                         @Override
                         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                            computeTitleBarAlpha(view, firstVisibleItem, titleBar, h);
+                            computeTitleBarAlpha(view, firstVisibleItem, navBar, h);
                         }
                     });
 
-                    titleBar.getViewTreeObserver().removeOnPreDrawListener(this);
+                    navBar.getViewTreeObserver().removeOnPreDrawListener(this);
                     return true;
                 }
             });
@@ -351,24 +351,24 @@ public class ListWidget<T> implements OnItemClickListener, OnItemLongClickListen
 
                 @Override
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    computeTitleBarAlpha(view, firstVisibleItem, titleBar, h);
+                    computeTitleBarAlpha(view, firstVisibleItem, navBar, h);
                 }
             });
         }
     }
 
-    private void computeTitleBarAlpha(AbsListView view, int firstVisibleItem, TitleBarEx titleBar, int h) {
+    private void computeTitleBarAlpha(AbsListView view, int firstVisibleItem, NavBar navBar, int h) {
         if (firstVisibleItem == 0) {
             float top = -view.getChildAt(0).getTop();
             float rate = top / h;
             if (rate > 1) {
                 rate = 1;
             }
-            titleBar.setBackgroundAlpha((int) (rate * ConstantsEx.KAlphaMax));
+            navBar.setBackgroundAlpha((int) (rate * ConstantsEx.KAlphaMax));
         } else if (firstVisibleItem > 0) {
-            titleBar.setBackgroundAlpha(ConstantsEx.KAlphaMax);
+            navBar.setBackgroundAlpha(ConstantsEx.KAlphaMax);
         } else {
-            titleBar.setBackgroundAlpha(0);
+            navBar.setBackgroundAlpha(0);
         }
     }
 }

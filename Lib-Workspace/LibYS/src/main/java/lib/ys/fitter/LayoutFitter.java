@@ -246,7 +246,7 @@ public class LayoutFitter {
                 mSetFit.add(v);
             }
 
-            if (v.getId() == R.id.flat_bar || v.getId() == R.id.title_divider) {
+            if (v.getId() == R.id.flat_bar || v.getId() == R.id.nav_bar_divider) {
                 /**
                  * 跳过flatBar, 实际上flatBar的高度就是statusBar的高度, 获取的时候已经是fit后的px, 不可以再多处理一次
                  * 同样跳过titleBar的divider

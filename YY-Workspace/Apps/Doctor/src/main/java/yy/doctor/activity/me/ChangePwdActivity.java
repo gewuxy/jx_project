@@ -32,10 +32,8 @@ public class ChangePwdActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
-
-        Util.addBackIcon(getTitleBar(), "修改密码", this);
-
+    public void initNavBar() {
+        Util.addBackIcon(getNavBar(), "修改密码", this);
     }
 
     @Override

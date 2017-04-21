@@ -12,7 +12,7 @@ import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.OnAdapterClickListener;
-import lib.ys.ex.TitleBarEx;
+import lib.ys.ex.NavBar;
 import lib.ys.frag.FragEx;
 import lib.ys.view.FloatingGroupListView;
 import lib.ys.widget.list.GroupListWidget;
@@ -353,8 +353,8 @@ abstract public class GroupListFragEx<T> extends FragEx implements OnGroupListWi
     }
 
     @Override
-    public void setTitleBarAutoAlphaByScroll(int height, TitleBarEx titleBar) {
-        mListWidget.setTitleBarAutoAlphaByScroll(height, titleBar);
+    public void setNavBarAutoAlphaByScroll(int height, NavBar navBar) {
+        mListWidget.setNavBarAutoAlphaByScroll(height, navBar);
     }
 
     @Override

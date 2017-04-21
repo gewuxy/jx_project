@@ -30,9 +30,9 @@ public class RechargeEpnActivity extends BaseActivity {
     }
 
     @Override
-    public void initTitleBar() {
+    public void initNavBar() {
 
-        Util.addBackIcon(getTitleBar(), "象数充值", this);
+        Util.addBackIcon(getNavBar(), "象数充值", this);
 
     }
 
