@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * 征稿启事
@@ -26,6 +27,8 @@ public class ContributionInvitedActivity extends BaseActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "征稿启事", this);
 
     }
 

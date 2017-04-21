@@ -8,6 +8,8 @@ import yy.doctor.BuildConfig;
 import yy.doctor.R;
 
 /**
+ * 推广页面
+ *
  * @author CaiXiang
  * @since 2017/4/5
  */

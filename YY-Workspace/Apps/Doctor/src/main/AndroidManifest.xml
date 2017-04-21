@@ -30,7 +30,7 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ForgetPasswordActivity"
+            android:name=".activity.me.ForgetPwdActivity"
             android:screenOrientation="portrait"/>
 
         <!-- data -->
@@ -43,7 +43,7 @@
             android:name=".activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.MyCollectionActivity"
+            android:name=".activity.me.CollectionMeetingActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.SettingsActivity"

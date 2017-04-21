@@ -7,13 +7,13 @@
 
     <EditText
         style="@style/et.common"
-        android:id="@+id/forget_password_et"
+        android:id="@+id/forget_pwd_et"
         android:layout_marginTop="@dimen/margin"
         android:hint="电子邮箱"/>
 
     <TextView
         style="@style/tv.common"
-        android:id="@+id/forget_password_tv"
+        android:id="@+id/forget_pwd_tv"
         android:layout_marginTop="30dp"
         android:text="提交"/>
 

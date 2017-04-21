@@ -10,10 +10,12 @@ import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
 /**
+ * 收藏会议
+ *
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class MyCollectionActivity extends BaseFormActivity {
+public class CollectionMeetingActivity extends BaseFormActivity {
 
     @IntDef({
             RelatedId.post,

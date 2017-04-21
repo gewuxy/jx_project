@@ -30,6 +30,7 @@
     <color name="text_b3b3b3">#b3b3b3</color>
     <color name="text_01b557">#01b557</color>
     <color name="text_80fff">#80ffffff</color>
+    <color name="text_66fff">#66ffffff</color>
 
     <!--line-->
     <color name="divider_menu">#021d39</color>

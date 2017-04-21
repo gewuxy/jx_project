@@ -8,8 +8,11 @@ import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.util.Util;
 
 /**
+ * 帮助和反馈
+ *
  * @author CaiXiang
  * @since 2017/4/12
  */
@@ -36,6 +39,8 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "帮助与反馈", this);
 
     }
 

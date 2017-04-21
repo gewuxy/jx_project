@@ -10,7 +10,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.me.HelpAndFeedbackActivity;
-import yy.doctor.activity.me.MyCollectionActivity;
+import yy.doctor.activity.me.CollectionMeetingActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
@@ -158,7 +158,7 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.my_collection: {
-                startActivity(MyCollectionActivity.class);
+                startActivity(CollectionMeetingActivity.class);
             }
             break;
             case RelatedId.my_epn: {

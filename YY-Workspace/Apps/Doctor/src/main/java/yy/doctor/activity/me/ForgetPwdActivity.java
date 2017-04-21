@@ -9,16 +9,14 @@ import yy.doctor.R;
 import yy.doctor.util.Util;
 
 /**
- * 修改密码
+ * 忘记密码
  *
  * @author CaiXiang
  * @since 2017/4/20
  */
-public class ChangePwdActivity extends BaseActivity {
+public class ForgetPwdActivity extends BaseActivity {
 
-    private EditText mEtOldPwd;
-    private EditText mEtNewPwd;
-    private EditText mEtConfirmPwd;
+    private EditText mEt;
 
     @Override
     public void initData() {
@@ -28,29 +26,27 @@ public class ChangePwdActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_change_pwd;
+        return R.layout.activity_forget_pwd;
     }
 
     @Override
     public void initTitleBar() {
 
-        Util.addBackIcon(getTitleBar(), "修改密码", this);
+        Util.addBackIcon(getTitleBar(), "忘记密码", this);
 
     }
 
     @Override
     public void findViews() {
 
-        mEtOldPwd = findView(R.id.change_pwd_et_old);
-        mEtNewPwd = findView(R.id.change_pwd_et_new);
-        mEtConfirmPwd = findView(R.id.change_pwd_et_confirm);
+        mEt = findView(R.id.forget_pwd_et);
 
     }
 
     @Override
     public void setViewsValue() {
 
-        setOnClickListener(R.id.change_pwd_tv);
+        setOnClickListener(R.id.forget_pwd_tv);
 
     }
 
@@ -60,11 +56,10 @@ public class ChangePwdActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.change_pwd_tv: {
-                showToast("45564");
+            case R.id.forget_pwd_tv: {
+                showToast("123");
             }
             break;
         }
-
     }
 }

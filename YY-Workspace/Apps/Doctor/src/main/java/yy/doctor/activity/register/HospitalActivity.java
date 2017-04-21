@@ -15,6 +15,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital;
+import yy.doctor.util.Util;
 
 /**
  * 选择医院的界面
@@ -68,6 +69,9 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "医院", this);
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package yy.doctor.activity.me;
 
 import android.support.annotation.IntDef;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import lib.ys.form.FormItemEx.TFormElem;
@@ -11,9 +12,10 @@ import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.util.Util;
 
 /**
- * 资料展示
+ * 我的资料
  *
  * @author CaiXiang
  * @since 2017/4/13
@@ -64,6 +66,15 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "我的资料", this);
+        getTitleBar().addTextViewRight("完成并保存", new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showToast("85654");
+            }
+        });
 
     }
 

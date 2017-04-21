@@ -14,6 +14,7 @@ import yy.doctor.dialog.ClearCacheDialog;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.util.Util;
 
 /**
  * 设置页面
@@ -44,6 +45,8 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "设置", this);
 
     }
 

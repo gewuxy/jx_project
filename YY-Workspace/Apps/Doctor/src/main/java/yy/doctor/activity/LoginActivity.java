@@ -7,10 +7,12 @@ import android.widget.TextView;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
-import yy.doctor.activity.me.ForgetPasswordActivity;
+import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.register.RegisterActivity;
 
 /**
+ * 登录
+ *
  * @author CaiXiang
  * @since 2017/4/19
  */
@@ -73,7 +75,7 @@ public class LoginActivity extends BaseActivity {
             }
             break;
             case R.id.login_tv_forget_pwd: {
-                startActivity(ForgetPasswordActivity.class);
+                startActivity(ForgetPwdActivity.class);
             }
             break;
         }

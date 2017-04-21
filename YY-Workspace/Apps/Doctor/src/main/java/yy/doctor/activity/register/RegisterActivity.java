@@ -11,6 +11,7 @@ import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.util.Util;
 
 /**
  * 注册界面
@@ -46,6 +47,8 @@ public class RegisterActivity extends BaseFormActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "注册", this);
 
     }
 

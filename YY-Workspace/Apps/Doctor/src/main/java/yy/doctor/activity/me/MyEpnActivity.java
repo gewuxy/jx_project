@@ -9,6 +9,8 @@ import yy.doctor.R;
 import yy.doctor.util.Util;
 
 /**
+ * 我的象数
+ *
  * @author CaiXiang
  * @since 2017/4/13
  */
@@ -28,7 +30,7 @@ public class MyEpnActivity extends BaseActivity {
     @Override
     public void initTitleBar() {
 
-        Util.addBackIcon(getTitleBar(),"我的象城",this);
+        Util.addBackIcon(getTitleBar(), "我的象城", this);
 
         getTitleBar().addTextViewRight("明细", new OnClickListener() {
 
@@ -46,8 +48,10 @@ public class MyEpnActivity extends BaseActivity {
 
     @Override
     public void setViewsValue() {
+
         setOnClickListener(R.id.my_epn_instruction);
         setOnClickListener(R.id.my_epe_recharge_epn_tv);
+
     }
 
     @Override

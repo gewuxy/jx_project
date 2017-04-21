@@ -696,4 +696,20 @@ public class TitleBarEx extends RelativeLayout {
             mBmpToBlur.recycle();
         }
     }
+
+
+    /*****************************
+     * 以下方法不能使用
+     */
+
+    /**
+     * use {@link #addViewMid(View)} instead
+     *
+     * @param child
+     */
+    @Deprecated
+    @Override
+    public final void addView(View child) {
+        super.addView(child);
+    }
 }

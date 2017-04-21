@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * 免责声明
@@ -26,6 +27,8 @@ public class DisclaimerActivity extends BaseActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "免责声明", this);
 
     }
 

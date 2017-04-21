@@ -31,8 +31,8 @@
         android:hint="确认新密码"/>
 
     <TextView
-        style="@style/tv.common"
         android:id="@+id/change_pwd_tv"
+        style="@style/tv.common"
         android:layout_marginTop="36dp"
         android:text="确认修改"/>
 

@@ -1,7 +1,5 @@
 package yy.doctor;
 
-import android.graphics.Color;
-
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
 import lib.ys.config.TitleBarConfig;
@@ -17,7 +15,7 @@ public class App extends BaseApp {
 
     private int KTitleBarHeightDp = 44;
     private int KTitleBarIconSizeDp = 16;
-    private int KTitleBarIconPaddingHorizontalDp = 12;
+    private int KTitleBarIconPaddingHorizontalDp = 18;
     private int KTitleBarTextMarginHorizontalDp = 12;
     private int KTitleBarTextSize = 16;
 

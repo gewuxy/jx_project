@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * 获取激活码说明界面
@@ -36,6 +37,8 @@ public class ActivationCodeExplainActivity extends BaseActivity {
 
     @Override
     public void initTitleBar() {
+
+        Util.addBackIcon(getTitleBar(), "获取激活码", this);
 
     }
 
