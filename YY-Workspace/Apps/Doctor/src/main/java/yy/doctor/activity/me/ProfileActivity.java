@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -65,10 +66,10 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(getNavBar(), "我的资料", this);
-        getNavBar().addTextViewRight("完成并保存", new OnClickListener() {
+        Util.addBackIcon(bar, "我的资料", this);
+        bar.addTextViewRight("完成并保存", new OnClickListener() {
 
             @Override
             public void onClick(View v) {

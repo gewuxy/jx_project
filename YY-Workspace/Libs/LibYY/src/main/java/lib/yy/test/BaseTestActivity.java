@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.dialog.DialogEx;
+import lib.ys.ex.NavBar;
 import lib.ys.inst.SingletonEvent;
 import lib.yy.activity.base.BaseListActivity;
 
@@ -21,8 +22,8 @@ abstract public class BaseTestActivity extends BaseListActivity<Test> {
     }
 
     @Override
-    public void initNavBar() {
-        getNavBar().addTextViewMid("测试");
+    public void initNavBar(NavBar bar) {
+        bar.addTextViewMid("测试");
     }
 
     protected void add(String name, Class clz) {

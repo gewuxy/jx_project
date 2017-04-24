@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
@@ -34,10 +35,10 @@ public class DataFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        getNavBar().addTextViewMid("数据中心");
-        getNavBar().addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
+        bar.addTextViewMid("数据中心");
+        bar.addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
 
             @Override
             public void onClick(View v) {

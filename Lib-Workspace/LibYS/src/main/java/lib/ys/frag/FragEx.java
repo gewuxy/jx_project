@@ -34,7 +34,6 @@ import lib.network.model.NetworkResponse;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.R;
-import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.decor.DecorViewEx;
 import lib.ys.decor.DecorViewEx.TNavBarState;
@@ -200,7 +199,7 @@ abstract public class FragEx extends Fragment
         fit(mDecorView);
 
         if (useLazyLoad()) {
-            initNavBar();
+            initNavBar(getNavBar());
 
             // 如果这个时候只有一个fragment而且是显示的状态, 走到这里的时候已经过了onVisible的阶段了, 需要再这里走一遍init()
             if (getVisible()) {
@@ -220,7 +219,7 @@ abstract public class FragEx extends Fragment
 
     private void init() {
         if (!useLazyLoad()) {
-            initNavBar();
+            initNavBar(getNavBar());
         }
 
         findViews();

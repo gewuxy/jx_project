@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
+import lib.ys.ex.NavBar;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
 
@@ -28,11 +29,11 @@ public class HomeFrag extends BaseFrag {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
         View v = inflate(R.layout.layout_home_nav_bar);
-        getNavBar().addViewRight(v, null);
+        bar.addViewRight(v, null);
 
-        getNavBar().addViewRight(R.mipmap.nav_bar_ic_notice, new OnClickListener() {
+        bar.addViewRight(R.mipmap.nav_bar_ic_notice, new OnClickListener() {
 
             @Override
             public void onClick(View v) {

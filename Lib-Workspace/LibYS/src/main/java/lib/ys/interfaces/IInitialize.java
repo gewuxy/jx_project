@@ -5,6 +5,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import lib.ys.ex.NavBar;
+
 /**
  * 初始化操作
  *
@@ -48,7 +50,7 @@ public interface IInitialize {
     /**
      * 初始化navBar
      */
-    void initNavBar();
+    void initNavBar(NavBar bar);
 
     /**
      * 是用findViewById的方法

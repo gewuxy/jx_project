@@ -13,6 +13,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import lib.sliding.menu.SlidingMenu;
+import lib.ys.ex.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseVPActivity;
@@ -64,7 +65,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
     }
 
     @Override

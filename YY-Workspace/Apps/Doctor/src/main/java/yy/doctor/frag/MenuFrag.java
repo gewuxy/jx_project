@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
@@ -91,7 +92,7 @@ public class MenuFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
     }
 
     @Override

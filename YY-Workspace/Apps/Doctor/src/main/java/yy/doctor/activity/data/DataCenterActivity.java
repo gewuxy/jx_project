@@ -3,6 +3,7 @@ package yy.doctor.activity.data;
 import android.support.annotation.IntDef;
 import android.view.View;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -34,8 +35,7 @@ public class DataCenterActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initNavBar() {
-
+    public void initNavBar(NavBar bar) {
     }
 
     @Override

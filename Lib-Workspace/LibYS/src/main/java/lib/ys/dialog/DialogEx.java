@@ -20,6 +20,7 @@ import android.view.WindowManager.LayoutParams;
 
 import lib.ys.AppEx;
 import lib.ys.R;
+import lib.ys.ex.NavBar;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.interfaces.IInitialize;
 import lib.ys.interfaces.IOption;
@@ -197,7 +198,7 @@ abstract public class DialogEx implements OnClickListener,
     }
 
     @Override
-    public final void initNavBar() {
+    public final void initNavBar(NavBar bar) {
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.LogMgr;
+import lib.ys.ex.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
@@ -81,11 +82,11 @@ public class MeetingFrag extends BaseVPFrag {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
         View v = inflate(R.layout.layout_meeting_nav_bar_mid);
         mIvSection = (ImageView) v.findViewById(R.id.meeting_nav_bar_mid_iv);
         mTvSection = (TextView) v.findViewById(R.id.meeting_nav_bar_mid_tv);
-        getNavBar().addViewMid(v, new OnClickListener() {
+        bar.addViewMid(v, new OnClickListener() {
 
             @Override
             public void onClick(View v) {

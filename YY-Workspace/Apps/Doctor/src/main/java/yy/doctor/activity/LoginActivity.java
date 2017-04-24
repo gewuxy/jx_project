@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
@@ -34,7 +35,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
     }
 

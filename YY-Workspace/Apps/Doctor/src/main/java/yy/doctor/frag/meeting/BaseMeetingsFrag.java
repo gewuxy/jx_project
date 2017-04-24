@@ -2,6 +2,7 @@ package yy.doctor.frag.meeting;
 
 import android.support.annotation.NonNull;
 
+import lib.ys.ex.NavBar;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
 
@@ -24,7 +25,7 @@ abstract public class BaseMeetingsFrag extends BaseFrag {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
     }
 

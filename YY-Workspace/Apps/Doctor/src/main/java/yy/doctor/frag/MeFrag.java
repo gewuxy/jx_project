@@ -4,13 +4,14 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
-import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.CollectionMeetingActivity;
+import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
@@ -49,9 +50,9 @@ public class MeFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        getNavBar().addTextViewMid("个人中心");
+        bar.addTextViewMid("个人中心");
 
     }
 

@@ -6,6 +6,7 @@ import org.json.JSONException;
 
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.util.UIUtil;
 import lib.ys.view.SideBar;
@@ -51,8 +52,8 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     }
 
     @Override
-    public void initNavBar() {
-        Util.addBackIcon(getNavBar(), "医院", this);
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, "医院", this);
     }
 
     @Override

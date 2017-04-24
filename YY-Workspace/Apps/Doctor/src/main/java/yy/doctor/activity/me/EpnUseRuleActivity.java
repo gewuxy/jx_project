@@ -2,6 +2,7 @@ package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
 
+import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -26,8 +27,8 @@ public class EpnUseRuleActivity extends BaseActivity {
     }
 
     @Override
-    public void initNavBar() {
-        Util.addBackIcon(getNavBar(), "象数使用规则", this);
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, "象数使用规则", this);
     }
 
     @Override

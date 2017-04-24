@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -30,9 +31,9 @@ public class RechargeEpnActivity extends BaseActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(getNavBar(), "象数充值", this);
+        Util.addBackIcon(bar, "象数充值", this);
 
     }
 

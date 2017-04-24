@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -44,9 +45,9 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(getNavBar(), "设置", this);
+        Util.addBackIcon(bar, "设置", this);
 
     }
 

@@ -3,6 +3,7 @@ package yy.doctor.activity.me;
 import android.support.annotation.IntDef;
 import android.view.View;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -38,10 +39,8 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initNavBar() {
-
-        Util.addBackIcon(getNavBar(), "帮助与反馈", this);
-
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, "帮助与反馈", this);
     }
 
     @Override

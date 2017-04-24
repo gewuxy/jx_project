@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 
+import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -32,8 +33,8 @@ public class ChangePwdActivity extends BaseActivity {
     }
 
     @Override
-    public void initNavBar() {
-        Util.addBackIcon(getNavBar(), "修改密码", this);
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, "修改密码", this);
     }
 
     @Override

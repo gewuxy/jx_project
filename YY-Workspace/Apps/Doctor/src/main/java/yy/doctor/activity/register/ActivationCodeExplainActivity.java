@@ -2,6 +2,7 @@ package yy.doctor.activity.register;
 
 import android.support.annotation.NonNull;
 
+import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -36,9 +37,9 @@ public class ActivationCodeExplainActivity extends BaseActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(getNavBar(), "获取激活码", this);
+        Util.addBackIcon(bar, "获取激活码", this);
 
     }
 

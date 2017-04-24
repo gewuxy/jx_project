@@ -6,6 +6,7 @@ import android.os.Message;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import lib.ys.dialog.DialogEx;
+import lib.ys.ex.NavBar;
 
 abstract public class SplashActivityEx extends ActivityEx {
 
@@ -28,7 +29,7 @@ abstract public class SplashActivityEx extends ActivityEx {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
     }
 
     @Override

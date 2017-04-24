@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
 import lib.ys.R;
+import lib.ys.ex.NavBar;
 import lib.ys.util.UIUtil;
 
 /**
@@ -47,7 +48,7 @@ abstract public class DialogActivityEx extends ActivityEx {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
     }
 
     @Override

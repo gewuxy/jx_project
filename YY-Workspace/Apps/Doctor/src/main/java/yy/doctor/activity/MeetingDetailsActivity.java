@@ -3,6 +3,7 @@ package yy.doctor.activity;
 import android.support.annotation.NonNull;
 
 import lib.ys.activity.ActivityEx;
+import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 
@@ -34,7 +35,7 @@ public class MeetingDetailsActivity extends ActivityEx {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
     }
 

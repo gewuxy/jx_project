@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import lib.ys.AppEx;
 import lib.ys.config.AppConfig;
+import lib.ys.ex.NavBar;
 import lib.ys.interfaces.IInitialize;
 import lib.ys.interfaces.OnRetryClickListener;
 import lib.ys.util.res.ResLoader;
@@ -105,7 +106,7 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
     }
 
 }

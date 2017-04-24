@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -28,18 +29,15 @@ public class MyEpnActivity extends BaseActivity {
     }
 
     @Override
-    public void initNavBar() {
-
-        Util.addBackIcon(getNavBar(), "我的象数", this);
-
-        getNavBar().addTextViewRight("明细", new OnClickListener() {
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, "我的象数", this);
+        bar.addTextViewRight("明细", new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 showToast("85654");
             }
         });
-
     }
 
     @Override

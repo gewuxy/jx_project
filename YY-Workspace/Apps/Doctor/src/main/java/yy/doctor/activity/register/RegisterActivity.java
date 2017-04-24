@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -46,9 +47,9 @@ public class RegisterActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initNavBar() {
+    public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(getNavBar(), "注册", this);
+        Util.addBackIcon(bar, "注册", this);
 
     }
 
