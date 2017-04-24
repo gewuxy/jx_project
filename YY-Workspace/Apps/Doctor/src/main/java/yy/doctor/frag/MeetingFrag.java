@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import lib.ys.LogMgr;
 import lib.ys.util.view.LayoutUtil;
-import lib.yy.frag.base.BaseFrag;
+import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
 
 /**
@@ -19,7 +19,7 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class MeetingFrag extends BaseFrag {
+public class MeetingFrag extends BaseVPFrag {
 
     // 会议导航栏
     private LinearLayout mLayoutTab;
@@ -44,8 +44,9 @@ public class MeetingFrag extends BaseFrag {
         public void onClick(View view) {
             int type = (int) view.getTag();
             if (type != LastViewType) {
-                if (LastViewType != -1)
+                if (LastViewType != -1) {
                     mLayoutTab.getChildAt(LastViewType).setSelected(false);
+                }
                 view.setSelected(true);
                 LastViewType = type;
             }
@@ -55,11 +56,11 @@ public class MeetingFrag extends BaseFrag {
     @Override
     public void initData() {
 
-        mAnimationAfterSelectSection = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+        mAnimationAfterSelectSection = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mAnimationAfterSelectSection.setDuration(100L);
         mAnimationAfterSelectSection.setFillAfter(true);
 
-        mAnimationBeforeSelectSection = new RotateAnimation(180.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+        mAnimationBeforeSelectSection = new RotateAnimation(180.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mAnimationBeforeSelectSection.setDuration(100L);
         mAnimationBeforeSelectSection.setFillAfter(true);
     }
@@ -80,7 +81,7 @@ public class MeetingFrag extends BaseFrag {
             @Override
             public void onClick(View v) {
                 mIvSection.startAnimation(KIsSelect ? mAnimationBeforeSelectSection : mAnimationAfterSelectSection);
-                KIsSelect = ! KIsSelect;
+                KIsSelect = !KIsSelect;
             }
         });
     }
@@ -100,7 +101,7 @@ public class MeetingFrag extends BaseFrag {
         super.onInvisible();
         /*--------- 防止选择科室的时候切换导致错乱 --------*/
         if (KIsSelect) {
-        LogMgr.e(TAG,"onInvisible"+KIsSelect);
+            LogMgr.e(TAG, "onInvisible" + KIsSelect);
             mIvSection.startAnimation(mAnimationBeforeSelectSection);
             KIsSelect = !KIsSelect;
         }
