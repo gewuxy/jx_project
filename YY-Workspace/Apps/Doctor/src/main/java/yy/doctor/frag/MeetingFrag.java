@@ -2,6 +2,9 @@ package yy.doctor.frag;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,17 +21,47 @@ import yy.doctor.R;
  */
 public class MeetingFrag extends BaseFrag {
 
+    // 会议导航栏
     private LinearLayout mLayoutTab;
+    /* 科室选择 */
+    private ImageView mIvSection;
+    private TextView mTvSetion;
+    //选择科室前的动画
+    private Animation mAnimationBeforeSelectSection;
+    //选择科室后的动画
+    private Animation mAnimationAfterSelectSection;
+    //是否选择过科室,false箭头向下,true箭头向上
+    private boolean KIsSelect = false;
 
     private static final int KUnderWay = 0;//进行中
     private static final int KNotStarted = 1;//未开始
     private static final int KRetrospect = 2;//精彩回顾
 
     private int LastViewType = -1;
+    private View.OnClickListener mTabListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            int type = (int) view.getTag();
+            if (type != LastViewType) {
+                if (LastViewType != -1)
+                    mLayoutTab.getChildAt(LastViewType).setSelected(false);
+                view.setSelected(true);
+                LastViewType = type;
+            }
+        }
+    };
 
     @Override
     public void initData() {
 
+        mAnimationAfterSelectSection = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+        mAnimationAfterSelectSection.setDuration(100L);
+        mAnimationAfterSelectSection.setFillAfter(true);
+
+        mAnimationBeforeSelectSection = new RotateAnimation(180.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+        mAnimationBeforeSelectSection.setDuration(100L);
+        mAnimationBeforeSelectSection.setFillAfter(true);
     }
 
     @NonNull
@@ -39,12 +72,15 @@ public class MeetingFrag extends BaseFrag {
 
     @Override
     public void initNavBar() {
-        View view = inflate(R.layout.layout_meeting_nav_bar);
+        final View view = inflate(R.layout.layout_meeting_nav_bar);
+        mIvSection = (ImageView) view.findViewById(R.id.meeting_select_section_ic);
+        mTvSetion = (TextView) view.findViewById(R.id.meeting_select_section_name);
         getNavBar().addViewMid(view, new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                LogMgr.e(TAG,"onClick");
+                mIvSection.startAnimation(KIsSelect ? mAnimationBeforeSelectSection : mAnimationAfterSelectSection);
+                KIsSelect = ! KIsSelect;
             }
         });
     }
@@ -59,6 +95,17 @@ public class MeetingFrag extends BaseFrag {
         addIndicators();
     }
 
+    @Override
+    protected void onInvisible() {
+        super.onInvisible();
+        /*--------- 防止选择科室的时候切换导致错乱 --------*/
+        if (KIsSelect) {
+        LogMgr.e(TAG,"onInvisible"+KIsSelect);
+            mIvSection.startAnimation(mAnimationBeforeSelectSection);
+            KIsSelect = !KIsSelect;
+        }
+    }
+
     private void addIndicators() {
 
         addIndicator(KUnderWay, "进行中");
@@ -71,24 +118,11 @@ public class MeetingFrag extends BaseFrag {
 
         View v = inflate(R.layout.layout_meeting_tab);
 
-        final TextView tv = (TextView) v.findViewById(R.id.main_tab_tv);
+        TextView tv = (TextView) v.findViewById(R.id.main_tab_tv);
         tv.setText(text);
         v.setTag(index);
 
-        v.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                int type = (int) v.getTag();
-                if (type != LastViewType) {
-                    if (LastViewType != -1)
-                        mLayoutTab.getChildAt(LastViewType).setSelected(false);
-                    v.setSelected(true);
-                    LastViewType = type;
-                }
-                LogMgr.e(TAG,tv.getText().toString().trim());
-            }
-        });
+        v.setOnClickListener(mTabListener);
 
         if (index == KUnderWay) {
             v.setSelected(true);

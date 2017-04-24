@@ -11,6 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     </LinearLayout>
+    <View
+        android:id="@+id/meeting_classify_slider"
+        android:layout_width="70dp"
+        android:layout_height="2dp"
+        android:background="#1ba0cc"/>
 
     <lib.ys.view.pager.ViewPagerEx
         android:id="@+id/vp"
