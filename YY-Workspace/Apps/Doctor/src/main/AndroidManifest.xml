@@ -34,9 +34,7 @@
             android:screenOrientation="portrait"/>
 
         <!-- data -->
-        <activity
-            android:name=".activity.data.DataCenterActivity"
-            android:screenOrientation="portrait"/>
+
 
         <!-- me -->
         <activity

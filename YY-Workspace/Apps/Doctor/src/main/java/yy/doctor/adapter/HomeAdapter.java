@@ -40,11 +40,11 @@ public class HomeAdapter extends MultiRecyclerAdapterEx<Home, HomeVH> {
             }
             break;
             case HomeType.tv_divider: {
-                id = R.layout.layout_home_tv_divider;
+                id = R.layout.layout_home_unit_num_header;
             }
             break;
             case HomeType.public_num: {
-                id = R.layout.layout_home_public_num;
+                id = R.layout.layout_home_unit_num;
             }
             break;
         }

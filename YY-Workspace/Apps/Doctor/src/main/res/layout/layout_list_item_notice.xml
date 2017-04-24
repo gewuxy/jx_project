@@ -4,10 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="62dp"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingLeft="@dimen/margin"
+    android:paddingRight="@dimen/margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/notice_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="血管病的研究"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/text_333"/>
+
+        <TextView
+            android:id="@+id/notice_tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="2017-04-16 12:50"
+            android:textSize="10dp"
+            android:textColor="@color/text_888"/>
+
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/notice_tv_unit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="YaYa专家讲堂"
+        android:layout_marginTop="8dp"
+        android:textSize="12dp"
+        android:textColor="@color/text_888"/>
 
 </LinearLayout>

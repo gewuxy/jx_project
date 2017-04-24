@@ -2,17 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/margin">
 
     <TextView
-        android:id="@+id/home_public_topic_divider_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_bg"
-        android:gravity="left"
-        android:padding="6dp"
         android:text="推荐公众号"
-        android:textColor="@color/black"
-        android:textSize="11dp"/>
+        android:textColor="@color/text_333"
+        android:textSize="7dp"/>
 
 </LinearLayout>

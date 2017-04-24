@@ -6,9 +6,9 @@ import android.view.View;
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
-import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.util.Util;
 
 /**
  * 收藏会议
@@ -33,47 +33,14 @@ public class CollectionMeetingActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
+
+        Util.addBackIcon(bar, "收藏的会议", this);
+
     }
 
     @Override
     public void initData() {
         super.initData();
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.data_center_ic_clinical_guide)
-                .related(RelatedId.post)
-                .name("帖子")
-                .text("2")
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.data_center_ic_drug_catalogue)
-                .related(RelatedId.drug_catalogue)
-                .name("药品说明书")
-                .text("6")
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.data_center_ic_physician_proposal)
-                .related(RelatedId.physician_proposal)
-                .name("医师建议")
-                .text("8")
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.data_center_ic_pharmacist_proposal)
-                .related(RelatedId.physicist_proposal)
-                .name("药师建议")
-                .text("0")
-                .build());
 
         addItem(new Builder(FormType.divider).build());
 
@@ -88,19 +55,6 @@ public class CollectionMeetingActivity extends BaseFormActivity {
             case RelatedId.post: {
                 showToast("帖子");
             }
-            break;
-            case RelatedId.drug_catalogue: {
-                showToast("药品说明书");
-            }
-            break;
-            case RelatedId.physician_proposal: {
-                showToast("医师建议");
-            }
-            break;
-            case RelatedId.physicist_proposal: {
-                showToast("药师建议");
-            }
-            break;
         }
 
     }

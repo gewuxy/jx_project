@@ -30,6 +30,7 @@ public class HomeFrag extends BaseFrag {
 
     @Override
     public void initNavBar(NavBar bar) {
+
         View v = inflate(R.layout.layout_home_nav_bar);
         bar.addViewRight(v, null);
 

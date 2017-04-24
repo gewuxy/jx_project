@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin">
+
+    <lib.ys.network.image.NetworkImageView
+        android:id="@+id/epc_iv"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/epc_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手工打磨"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size"/>
+
+        <TextView
+            android:id="@+id/epc_tv_epn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="200象数"
+            android:textColor="@color/text_0882e7"
+            android:textSize="12dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

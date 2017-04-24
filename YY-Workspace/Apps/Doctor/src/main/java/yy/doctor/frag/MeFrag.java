@@ -66,7 +66,7 @@ public class MeFrag extends BaseFormFrag {
         super.initData();
 
         addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_my_attention)
+                .drawable(R.mipmap.form_ic_my_attention_unit_num)
                 .name("关注的单位号")
                 .related(RelatedId.my_attention)
                 .build());

@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <lib.ys.view.CornerView
-        android:layout_width="332dp"
+        android:layout_width="308dp"
         android:layout_height="30dp"
         app:corner_radius="@dimen/radius"
         app:corner_useStroke="false">
@@ -40,7 +40,9 @@
                 android:textColor="@color/text_66fff"
                 android:textColorHint="@color/text_66fff"
                 android:textSize="12dp"/>
+
         </LinearLayout>
+
     </lib.ys.view.CornerView>
 
 </LinearLayout>

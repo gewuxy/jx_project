@@ -6,6 +6,6 @@
 
 ## EPN = 象数缩写, elephant number
 ## EPC = 象城缩写, elephant city
-## PWD = 象城缩写, password
+## PWD = 密码缩写, password
 
 
