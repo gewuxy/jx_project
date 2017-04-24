@@ -78,7 +78,7 @@ public class CornerView extends RelativeLayout {
         if (w == 0 || h == 0) {
             return;
         }
-        
+
         mPathContent = new Path();
         if (mUseStroke) {
             mRoundRectContent = new RectF(mStrokeWidth, mStrokeWidth, w - mStrokeWidth, h - mStrokeWidth);

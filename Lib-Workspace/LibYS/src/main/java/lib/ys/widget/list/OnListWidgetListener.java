@@ -141,7 +141,7 @@ public interface OnListWidgetListener<T> {
      * 设置titleBar根据list的滑动来改变alpha
      * 此方法和{@link #setOnScrollListener(MixOnScrollListener)}冲突, 只能使用其中一个
      *
-     * @param height   最大高度时alpha为255
+     * @param height 最大高度时alpha为255
      * @param navBar 需要改变的titleBar
      */
     void setNavBarAutoAlphaByScroll(int height, NavBar navBar);

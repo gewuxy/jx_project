@@ -3,7 +3,7 @@
     <dimen name="divider_height_1px">1px</dimen>
 
     <!-- nav bar -->
-    <dimen name="nav_bar_height">62dp</dimen>
+    <dimen name="nav_bar_height">50dp</dimen>
     <dimen name="nav_bar_text_size_mid">18dp</dimen>
     <dimen name="nav_bar_text_size_right">17dp</dimen>
     <dimen name="nav_bar_icon_size">24dp</dimen>
