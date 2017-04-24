@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import lib.ys.AppEx;
 import lib.ys.config.AppConfig;
 import lib.ys.interfaces.IInitialize;
 import lib.ys.interfaces.OnRetryClickListener;
@@ -32,7 +33,7 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
         /**
          * 背景色
          */
-        AppConfig c = AppConfig.inst();
+        AppConfig c = AppEx.getConfig();
         if (c.getBgRes() != 0) {
             setBackgroundResource(c.getBgRes());
         } else {

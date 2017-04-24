@@ -3,6 +3,7 @@ package yy.doctor;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
 import lib.ys.config.NavBarConfig;
+import lib.ys.ex.NavBar;
 import lib.yy.BaseApp;
 import yy.doctor.util.CacheUtil;
 
@@ -19,9 +20,20 @@ public class App extends BaseApp {
     private static final int KTitleBarTextSize = 16;
 
     @Override
+    protected AppConfig makeConfig() {
+        return AppConfig.newBuilder()
+                .bgColorRes(R.color.app_bg)
+                .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
+                .build();
+    }
+
+    @Override
     protected void init() {
+        // log
+        LogMgr.setDebugState(BuildConfig.DEBUG_LOG);
+
         // 导航栏
-        new NavBarConfig.Builder()
+        NavBarConfig navBarConfig = NavBarConfig.newBuilder()
                 .heightDp(KTitleBarHeightDp)
                 .bgRes(R.color.app_nav_bar_bg)
                 .iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp)
@@ -33,15 +45,7 @@ public class App extends BaseApp {
                 .textSizeRightDp(KTitleBarTextSize)
                 .focusBgColorRes(R.color.title_click_bg_focus)
                 .build();
-
-        // 全局
-        new AppConfig.Builder()
-                .bgColorRes(R.color.app_bg)
-                .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
-                .build();
-
-        // log
-        LogMgr.setDebugState(BuildConfig.DEBUG_LOG);
+        NavBar.initialize(navBarConfig);
     }
 
     @Override

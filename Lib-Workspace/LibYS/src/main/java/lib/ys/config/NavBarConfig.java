@@ -39,18 +39,8 @@ public class NavBarConfig {
 
     private TNavBarState mState = TNavBarState.linear;
 
-    private static NavBarConfig mInst = null;
-
     private NavBarConfig() {
     }
-
-    public static NavBarConfig inst() {
-        if (mInst == null) {
-            throw new NullPointerException("must use builder to init");
-        }
-        return mInst;
-    }
-
 
     public int getHeightDp() {
         return mHeightDp;
@@ -111,6 +101,9 @@ public class NavBarConfig {
         return mState;
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 
     public static class Builder {
         private int mHeightDp = 0;
@@ -139,7 +132,7 @@ public class NavBarConfig {
 
         private TNavBarState mState = TNavBarState.linear;
 
-        public Builder() {
+        private Builder() {
         }
 
         public Builder heightDp(int dp) {
@@ -220,7 +213,7 @@ public class NavBarConfig {
         /**
          * 直接给单例赋值, 不进行返回
          */
-        public void build() {
+        public NavBarConfig build() {
             NavBarConfig c = new NavBarConfig();
 
             c.mHeightDp = mHeightDp;
@@ -238,7 +231,7 @@ public class NavBarConfig {
             c.mState = mState;
             c.mBgColorRes = mBgColorRes;
 
-            mInst = c;
+            return c;
         }
     }
 }

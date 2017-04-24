@@ -55,16 +55,7 @@ public class AppConfig {
     // 是否使用沉浸式状态栏
     private boolean mEnableFlatBar = false;
 
-    private static AppConfig mInst = null;
-
     private AppConfig() {
-    }
-
-    public static AppConfig inst() {
-        if (mInst == null) {
-            throw new NullPointerException("must use builder to init");
-        }
-        return mInst;
     }
 
     public Class<? extends ErrorDecorEx> getErrorDecorClz() {
@@ -99,10 +90,10 @@ public class AppConfig {
         return mEnableSwipeFinish;
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 
-    /**
-     * 建造者模式
-     */
     public static class Builder {
         @DrawableRes
         private int mBgRes = 0;
@@ -123,7 +114,7 @@ public class AppConfig {
         // 是否使用沉浸式状态栏
         private boolean mEnableFlatBar = false;
 
-        public Builder() {
+        private Builder() {
         }
 
         public Builder bgRes(@DrawableRes int res) {
@@ -173,7 +164,7 @@ public class AppConfig {
             return this;
         }
 
-        public void build() {
+        public AppConfig build() {
             AppConfig c = new AppConfig();
 
             c.mBgRes = mBgRes;
@@ -183,7 +174,7 @@ public class AppConfig {
             c.mInitRefreshWay = mInitRefreshWay;
             c.mEnableFlatBar = mEnableFlatBar;
 
-            mInst = c;
+            return c;
         }
     }
 }

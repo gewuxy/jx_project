@@ -40,7 +40,6 @@ import lib.network.model.NetworkResponse;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.R;
-import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.decor.DecorViewEx;
 import lib.ys.decor.DecorViewEx.TNavBarState;
@@ -103,7 +102,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
 
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppConfig.inst().isFlatBarEnabled()) {
+        if (AppEx.getConfig().isFlatBarEnabled()) {
             UIUtil.setFlatBar(getWindow());
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -112,7 +111,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
         setContentView(getContentViewId());
 
         if (enableSwipeFinish() == null) {
-            mEnableSwipeFinish = AppConfig.inst().isSwipeFinishEnabled();
+            mEnableSwipeFinish = AppEx.getConfig().isSwipeFinishEnabled();
         } else {
             mEnableSwipeFinish = enableSwipeFinish();
         }
@@ -168,7 +167,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
     @NonNull
     @RefreshWay
     public int getInitRefreshWay() {
-        return AppConfig.inst().getInitRefreshWay();
+        return AppEx.getConfig().getInitRefreshWay();
     }
 
     /**

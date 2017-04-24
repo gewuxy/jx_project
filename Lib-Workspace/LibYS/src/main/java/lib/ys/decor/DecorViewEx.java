@@ -10,10 +10,10 @@ import android.widget.RelativeLayout;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.ys.AppEx;
 import lib.ys.R;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.config.NavBarConfig;
 import lib.ys.dialog.DialogEx;
 import lib.ys.ex.NavBar;
 import lib.ys.inst.ErrorDecorInst;
@@ -85,7 +85,7 @@ public class DecorViewEx extends RelativeLayout {
         /**
          * 背景色
          */
-        AppConfig c = AppConfig.inst();
+        AppConfig c = AppEx.getConfig();
         if (c.getBgRes() != 0) {
             setBackgroundResource(c.getBgRes());
         } else {
@@ -112,7 +112,7 @@ public class DecorViewEx extends RelativeLayout {
 		 */
         TNavBarState state;
         if (mNavBarState == null) {
-            state = NavBarConfig.inst().getState();
+            state = NavBar.getConfig().getState();
         } else {
             state = mNavBarState;
         }
@@ -171,7 +171,7 @@ public class DecorViewEx extends RelativeLayout {
         goneView(mLoadingDecor);
 
         // 添加ErrorView
-        mErrorDecor = ReflectionUtil.newInst(AppConfig.inst().getErrorDecorClz(), getContext());
+        mErrorDecor = ReflectionUtil.newInst(AppEx.getConfig().getErrorDecorClz(), getContext());
         if (mErrorDecor == null) {
             // 找不到, 使用默认的
             mErrorDecor = new ErrorDecorInst(getContext());

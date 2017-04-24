@@ -9,8 +9,8 @@ android {
         applicationId "yy.doctor"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 6521
+        versionName "6.5.21"
     }
 
     signingConfigs {
@@ -76,6 +76,28 @@ android {
             manifestPlaceholders = [
                     app_name: "YaYa医师",
             ]
+        }
+    }
+
+    //在生成的apk文件，修改下命名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 前段
+                def fileName = outputFile.name.replace("Doctor", "YaYa医师")
+                // 中段
+                fileName = fileName.replace("-flavors_debug", "")
+                fileName = fileName.replace("-debug", "_测试")
+                fileName = fileName.replace("-flavors_alpha", "")
+                fileName = fileName.replace("-alpha", "_内测")
+                fileName = fileName.replace("-flavors_release", "")
+                fileName = fileName.replace("-release", "")
+                // 尾端
+                fileName = fileName.replace(".apk", "_v${defaultConfig.versionName}.apk")
+
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import lib.network.model.NetworkRequest;
+import lib.ys.config.AppConfig;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ProcessUtil;
@@ -20,6 +21,8 @@ abstract public class AppEx extends Application {
     protected String TAG = getClass().getSimpleName();
 
     protected static Context mContext;
+
+    private static AppConfig mConfig;
 
     @Override
     public void onCreate() {
@@ -39,7 +42,15 @@ abstract public class AppEx extends Application {
 
         NetworkRequest.init(this);
 
+        mConfig = makeConfig();
+
         init();
+    }
+
+    abstract protected AppConfig makeConfig();
+
+    public static AppConfig getConfig() {
+        return mConfig;
     }
 
     /**

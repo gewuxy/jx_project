@@ -248,7 +248,7 @@ abstract public class FragEx extends Fragment
     @NonNull
     @RefreshWay
     public int getInitRefreshWay() {
-        return AppConfig.inst().getInitRefreshWay();
+        return AppEx.getConfig().getInitRefreshWay();
     }
 
     protected LayoutInflater getLayoutInflater() {

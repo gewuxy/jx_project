@@ -25,9 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 import lib.ys.R;
-import lib.ys.config.AppConfig;
 import lib.ys.config.NavBarConfig;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
@@ -54,23 +54,21 @@ public class NavBar extends RelativeLayout {
 
     private View mDivider;
 
-    private NavBarConfig mConfig;
+    private static NavBarConfig mConfig;
 
     public NavBar(Context context) {
         super(context);
         mContext = context;
-        init(true);
+        innerInit(true);
     }
 
     public NavBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        init(false);
+        innerInit(false);
     }
 
-    private void init(boolean useCustomId) {
-        mConfig = NavBarConfig.inst();
-
+    private void innerInit(boolean useCustomId) {
         if (useCustomId) {
             setId(R.id.nav_bar);
         }
@@ -89,7 +87,7 @@ public class NavBar extends RelativeLayout {
         }
 
         View flatBar = null;
-        if (AppConfig.inst().isFlatBarEnabled()) {
+        if (AppEx.getConfig().isFlatBarEnabled()) {
             int heightPx = UIUtil.getStatusBarHeight(getContext()); // 已经转换完的高度px
             flatBar = ViewUtil.inflateSpaceViewPx(heightPx);
             flatBar.setId(R.id.flat_bar);
@@ -730,5 +728,18 @@ public class NavBar extends RelativeLayout {
     @Override
     public final void addView(View child) {
         super.addView(child);
+    }
+
+    /**
+     * 使用{@link NavBarConfig}来初始化
+     *
+     * @param config
+     */
+    public static void initialize(NavBarConfig config) {
+        mConfig = config;
+    }
+
+    public static NavBarConfig getConfig() {
+        return mConfig;
     }
 }

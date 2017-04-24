@@ -5,8 +5,8 @@ import android.content.Context;
 import android.os.Build.VERSION_CODES;
 import android.view.View;
 
-import lib.ys.config.AppConfig;
-import lib.ys.config.NavBarConfig;
+import lib.ys.AppEx;
+import lib.ys.ex.NavBar;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
@@ -22,13 +22,13 @@ public class ExUtil {
     @TargetApi(VERSION_CODES.JELLY_BEAN)
     public static int getFitHeaderHeight(View v, Context context) {
         int h = 0;
-        int heightDp = NavBarConfig.inst().getHeightDp();
+        int heightDp = NavBar.getConfig().getHeightDp();
         if (heightDp != 0) {
             h += DpFitter.dp(heightDp);
         }
 
         if (DeviceUtil.getSDKVersion() >= VERSION_CODES.KITKAT) {
-            if (!v.getFitsSystemWindows() && AppConfig.inst().isFlatBarEnabled()) {
+            if (!v.getFitsSystemWindows() && AppEx.getConfig().isFlatBarEnabled()) {
                 /**
                  * 有些底部布局的输入框在使用flat bar的时候会有adjustResize无效的bug,
                  * 所以会使用{@link View#setFitsSystemWindows(boolean)}来修复这个bug.
