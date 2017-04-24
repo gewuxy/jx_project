@@ -51,10 +51,12 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
+
     <style name="iv.meeting">
         <item name="android:layout_height">16dp</item>
         <item name="android:layout_width">16dp</item>
     </style>
+
     <style name="tv.meeting.button">
         <item name="android:layout_marginLeft">4dp</item>
         <item name="android:textSize">@dimen/text_size</item>

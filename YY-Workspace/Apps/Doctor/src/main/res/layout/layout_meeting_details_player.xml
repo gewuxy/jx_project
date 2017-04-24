@@ -10,24 +10,25 @@
         android:id="@+id/meeting_details_play_niv"
         android:layout_width="match_parent"
         android:layout_height="226dp"/>
+
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:background="#6b000000"
         android:gravity="center_vertical|end"
-        android:orientation="horizontal"
-        android:background="#6b000000">
+        android:orientation="horizontal">
         <!-- TODO:间距 -->
         <TextView
             android:id="@+id/meeting_details_date"
-            android:layout_marginRight="@dimen/margin"
             style="@style/tv.meeting.detail"
+            android:layout_marginRight="@dimen/margin"
             android:text="@string/default_date"/>
 
         <TextView
             android:id="@+id/meeting_details_time"
-            android:layout_marginRight="@dimen/margin"
             style="@style/tv.meeting.detail"
+            android:layout_marginRight="@dimen/margin"
             android:text="@string/default_time"/>
     </LinearLayout>
 </RelativeLayout>

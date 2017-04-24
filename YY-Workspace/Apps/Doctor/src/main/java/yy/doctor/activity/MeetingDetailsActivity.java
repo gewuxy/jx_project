@@ -8,7 +8,7 @@ import yy.doctor.R;
 
 /**
  * 会议详情界面
- *
+ * <p>
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -16,11 +16,11 @@ import yy.doctor.R;
 public class MeetingDetailsActivity extends ActivityEx {
 
     //播放图片
-    private NetworkImageView mPlay;
+    private NetworkImageView mIvPlay;
     //公众号图标
-    private NetworkImageView mNumber;
+    private NetworkImageView mIvNumber;
     //嘉宾头像图片
-    private NetworkImageView mGuest;
+    private NetworkImageView mIvGuest;
 
     @Override
     public void initData() {
@@ -40,15 +40,15 @@ public class MeetingDetailsActivity extends ActivityEx {
 
     @Override
     public void findViews() {
-        mPlay = findView(R.id.meeting_details_play_niv);
-        mNumber = findView(R.id.meeting_details_icon_number);
-        mGuest = findView(R.id.meeting_ic_guest_default);
+        mIvPlay = findView(R.id.meeting_details_play_niv);
+        mIvNumber = findView(R.id.meeting_details_icon_number);
+        mIvGuest = findView(R.id.meeting_ic_guest_default);
     }
 
     @Override
     public void setViewsValue() {
-        mPlay.placeHolder(R.mipmap.meeting_ic_details_default).load();
-        mNumber.placeHolder(R.mipmap.meeting_ic_number_default).load();
-        mGuest.placeHolder(R.mipmap.meeting_ic_guest_default).load();
+        mIvPlay.placeHolder(R.mipmap.meeting_ic_details_default).load();
+        mIvNumber.placeHolder(R.mipmap.meeting_ic_number_default).load();
+        mIvGuest.placeHolder(R.mipmap.meeting_ic_guest_default).load();
     }
 }
