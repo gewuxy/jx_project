@@ -1,5 +1,6 @@
 package yy.doctor.frag;
 
+import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -12,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import lib.ys.LogMgr;
 import lib.ys.ex.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
@@ -20,6 +20,8 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.frag.meeting.ProgressingMeetingsFrag;
+import yy.doctor.frag.meeting.ReviewMeetingsFrag;
+import yy.doctor.frag.meeting.WaitMeetingsFrag;
 
 /**
  * 会议界面
@@ -28,6 +30,8 @@ import yy.doctor.frag.meeting.ProgressingMeetingsFrag;
  * @since 2017/4/6
  */
 public class MeetingFrag extends BaseVPFrag {
+    private static final int KIndicatorColor = Color.parseColor("#006ebd");
+    private static final int KIndicatorWidth = 30;
 
     @IntDef({
             PageType.progressing,
@@ -71,8 +75,8 @@ public class MeetingFrag extends BaseVPFrag {
         mAnimUp.setFillAfter(true);
 
         add(new ProgressingMeetingsFrag());
-        add(new ProgressingMeetingsFrag());
-        add(new ProgressingMeetingsFrag());
+        add(new WaitMeetingsFrag());
+        add(new ReviewMeetingsFrag());
     }
 
     @NonNull
@@ -129,19 +133,9 @@ public class MeetingFrag extends BaseVPFrag {
     @Override
     protected PageIndicator initPageIndicator() {
         mIndicator.setFades(false);
-        mIndicator.setLineWidth(fitDp(10));
+        mIndicator.setLineWidth(fitDp(KIndicatorWidth));
+        mIndicator.setSelectedColor(KIndicatorColor);
         return mIndicator;
-    }
-
-    @Override
-    protected void onInvisible() {
-        super.onInvisible();
-        /*--------- 防止选择科室的时候切换导致错乱 --------*/
-        if (mIsSelected) {
-            LogMgr.e(TAG, "onInvisible" + mIsSelected);
-            mIvSection.startAnimation(mAnimUp);
-            mIsSelected = !mIsSelected;
-        }
     }
 
     private void addTabs() {
@@ -183,6 +177,7 @@ public class MeetingFrag extends BaseVPFrag {
         mLayoutTab.addView(v, p);
     }
 
+    // 设置tab被选中
     private void setPreTab(View v) {
         if (mPreTab != null) {
             mPreTab.setSelected(false);

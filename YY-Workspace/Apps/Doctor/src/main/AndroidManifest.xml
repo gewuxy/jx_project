@@ -75,7 +75,10 @@
 
         <!-- meeting -->
         <activity
-            android:name=".activity.MeetingDetailsActivity"
+            android:name=".activity.meeting.MeetingDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.MeetingPPTActivity"
             android:screenOrientation="portrait"/>
 
         <!-- register -->

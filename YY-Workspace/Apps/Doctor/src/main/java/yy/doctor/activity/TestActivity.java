@@ -5,6 +5,7 @@ import yy.doctor.activity.me.ChangePwdActivity;
 import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;

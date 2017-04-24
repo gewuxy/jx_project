@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
 
@@ -9,7 +9,7 @@ import yy.doctor.R;
 
 /**
  * 会议详情界面
- * <p>
+ *
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
