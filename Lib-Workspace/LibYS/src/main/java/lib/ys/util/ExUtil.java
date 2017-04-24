@@ -28,7 +28,7 @@ public class ExUtil {
         }
 
         if (DeviceUtil.getSDKVersion() >= VERSION_CODES.KITKAT) {
-            if (!v.getFitsSystemWindows() && AppConfig.isFlatBarEnabled()) {
+            if (!v.getFitsSystemWindows() && AppConfig.inst().isFlatBarEnabled()) {
                 /**
                  * 有些底部布局的输入框在使用flat bar的时候会有adjustResize无效的bug,
                  * 所以会使用{@link View#setFitsSystemWindows(boolean)}来修复这个bug.

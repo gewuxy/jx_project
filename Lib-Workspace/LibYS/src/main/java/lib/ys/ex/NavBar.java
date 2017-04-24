@@ -89,7 +89,7 @@ public class NavBar extends RelativeLayout {
         }
 
         View flatBar = null;
-        if (AppConfig.isFlatBarEnabled()) {
+        if (AppConfig.inst().isFlatBarEnabled()) {
             int heightPx = UIUtil.getStatusBarHeight(getContext()); // 已经转换完的高度px
             flatBar = ViewUtil.inflateSpaceViewPx(heightPx);
             flatBar.setId(R.id.flat_bar);
@@ -265,6 +265,7 @@ public class NavBar extends RelativeLayout {
      * 获取带有点击背景色的iv
      *
      * @param id
+     * @param lsn
      * @return
      */
     private View createImageView(@DrawableRes int id, OnClickListener lsn) {
@@ -275,6 +276,8 @@ public class NavBar extends RelativeLayout {
      * 获取带有点击背景色的iv
      *
      * @param id
+     * @param text
+     * @param lsn
      * @return
      */
     private View createImageView(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
@@ -283,7 +286,7 @@ public class NavBar extends RelativeLayout {
             return v;
         }
 
-        // 先创建背景layout
+        // 创建背景layout
         RelativeLayout layout = new RelativeLayout(getContext());
         int iconPaddingDp = mConfig.getIconPaddingHorizontalDp();
         if (iconPaddingDp != 0) {
@@ -291,6 +294,7 @@ public class NavBar extends RelativeLayout {
             layout.setPadding(px, 0, px, 0);
         }
 
+        // 设置点击背景色
         if (mConfig.getFocusBgColorRes() != 0) {
             StateListDrawable sd = new StateListDrawable();
 
@@ -305,7 +309,7 @@ public class NavBar extends RelativeLayout {
             ViewUtil.setBackground(layout, sd);
         }
 
-        // 再创建image view
+        // 创建image view
         ImageView iv = new ImageView(getContext());
         LayoutParams params = null;
 
@@ -330,16 +334,16 @@ public class NavBar extends RelativeLayout {
         }
 
         if (text != null) {
-            LinearLayout ll = new LinearLayout(getContext());
-            ll.setOrientation(LinearLayout.HORIZONTAL);
-            ll.setGravity(Gravity.CENTER);
-            ll.addView(layout, LayoutUtil.getLinearParams(WRAP_CONTENT, MATCH_PARENT));
+            LinearLayout l = new LinearLayout(getContext());
+            l.setOrientation(LinearLayout.HORIZONTAL);
+            l.setGravity(Gravity.CENTER);
+            l.addView(layout, LayoutUtil.getLinearParams(WRAP_CONTENT, MATCH_PARENT));
 
             TextView tv = createTextView(mConfig.getTextSizeLeftDp(), mConfig.getTextColor(), 0, null);
             tv.setText(text);
-            ll.addView(tv, LayoutUtil.getLinearParams(WRAP_CONTENT, WRAP_CONTENT));
+            l.addView(tv, LayoutUtil.getLinearParams(WRAP_CONTENT, WRAP_CONTENT));
 
-            v = ll;
+            v = l;
         } else {
             v = layout;
         }
@@ -683,7 +687,7 @@ public class NavBar extends RelativeLayout {
         if (mBlurBgView != null) {
             if (initBlur()) {
 
-//                canvas.drawColor(ParamsEx.getAppBgColor());
+//                canvas.drawColor(ParamsEx.getBgColor());
 
                 mBlurBgView.draw(mCanvasBlur);
 

@@ -19,6 +19,7 @@ import lib.ys.ex.NavBar;
 import lib.ys.inst.ErrorDecorInst;
 import lib.ys.interfaces.OnRetryClickListener;
 import lib.ys.util.ReflectionUtil;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 
@@ -84,11 +85,12 @@ public class DecorViewEx extends RelativeLayout {
         /**
          * 背景色
          */
-        if (AppConfig.getAppBgDrawableId() != 0) {
-            setBackgroundResource(AppConfig.getAppBgDrawableId());
+        AppConfig c = AppConfig.inst();
+        if (c.getBgRes() != 0) {
+            setBackgroundResource(c.getBgRes());
         } else {
-            if (AppConfig.getAppBgColor() != 0) {
-                setBackgroundColor(AppConfig.getAppBgColor());
+            if (c.getBgColorRes() != 0) {
+                setBackgroundColor(ResLoader.getColor(c.getBgColorRes()));
             }
         }
 
@@ -169,7 +171,7 @@ public class DecorViewEx extends RelativeLayout {
         goneView(mLoadingDecor);
 
         // 添加ErrorView
-        mErrorDecor = ReflectionUtil.newInst(AppConfig.getErrorDecorClz(), getContext());
+        mErrorDecor = ReflectionUtil.newInst(AppConfig.inst().getErrorDecorClz(), getContext());
         if (mErrorDecor == null) {
             // 找不到, 使用默认的
             mErrorDecor = new ErrorDecorInst(getContext());

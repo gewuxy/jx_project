@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import lib.ys.config.AppConfig;
 import lib.ys.interfaces.IInitialize;
 import lib.ys.interfaces.OnRetryClickListener;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 
 abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize {
@@ -28,7 +29,18 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
     }
 
     private void init() {
-        setBackgroundColor(AppConfig.getAppBgColor());
+        /**
+         * 背景色
+         */
+        AppConfig c = AppConfig.inst();
+        if (c.getBgRes() != 0) {
+            setBackgroundResource(c.getBgRes());
+        } else {
+            if (c.getBgColorRes() != 0) {
+                setBackgroundColor(ResLoader.getColor(c.getBgColorRes()));
+            }
+        }
+
         View v = LayoutInflater.from(getContext()).inflate(getContentViewId(), null);
         LayoutParams params = LayoutUtil.getRelativeParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         addView(v, params);

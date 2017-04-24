@@ -9,6 +9,7 @@ import android.widget.Toast;
 import lib.network.model.NetworkRequest;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.ProcessUtil;
 import lib.ys.util.TextUtil;
 
 /**
@@ -18,13 +19,19 @@ abstract public class AppEx extends Application {
 
     protected String TAG = getClass().getSimpleName();
 
-    protected static Context sContext;
+    protected static Context mContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        sContext = getApplicationContext();
+        if (!ProcessUtil.isMainProcess(this)) {
+            // 只在主进程里初始化一次
+            initInChildProcess();
+            return;
+        }
+
+        mContext = getApplicationContext();
 
         mToast = initToast();
 
@@ -32,40 +39,46 @@ abstract public class AppEx extends Application {
 
         NetworkRequest.init(this);
 
-        setParams();
+        init();
     }
 
     /**
-     * 设置配置参数, 包括标题栏等
+     * 设置主进程配置
      */
-    abstract protected void setParams();
+    abstract protected void init();
+
+    /**
+     * 设置子进程参数
+     */
+    protected void initInChildProcess() {
+    }
 
     /**
      * 返回getApplicationContext()
      *
-     * @return sContext
+     * @return mContext
      */
     public static Context ct() {
-        return sContext;
+        return mContext;
     }
 
     /**
      * 返回getApplicationContext()
      *
-     * @return sContext
+     * @return mContext
      */
     public static Context getContext() {
-        return sContext;
+        return mContext;
     }
 
     public static ContentResolver getExContentResolver() {
-        return sContext.getContentResolver();
+        return mContext.getContentResolver();
     }
 
     private static Toast mToast = null;
 
     protected Toast initToast() {
-        return Toast.makeText(sContext, "", Toast.LENGTH_SHORT);
+        return Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
     }
 
     public static void showToast(String content) {
@@ -83,7 +96,7 @@ abstract public class AppEx extends Application {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < ids.length; ++i) {
-            builder.append(sContext.getString(ids[i]));
+            builder.append(mContext.getString(ids[i]));
         }
         mToast.setText(builder.toString());
         mToast.show();
@@ -92,7 +105,7 @@ abstract public class AppEx extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        NetworkImageView.clearMemoryCache(sContext);
+        NetworkImageView.clearMemoryCache(mContext);
         System.gc();
     }
 

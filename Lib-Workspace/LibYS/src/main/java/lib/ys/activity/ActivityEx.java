@@ -103,7 +103,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
 
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppConfig.isFlatBarEnabled()) {
+        if (AppConfig.inst().isFlatBarEnabled()) {
             UIUtil.setFlatBar(getWindow());
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -112,7 +112,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
         setContentView(getContentViewId());
 
         if (enableSwipeFinish() == null) {
-            mEnableSwipeFinish = AppConfig.isSwipeFinishEnabled();
+            mEnableSwipeFinish = AppConfig.inst().isSwipeFinishEnabled();
         } else {
             mEnableSwipeFinish = enableSwipeFinish();
         }
@@ -168,7 +168,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
     @NonNull
     @RefreshWay
     public int getInitRefreshWay() {
-        return AppConfig.getInitRefreshWay();
+        return AppConfig.inst().getInitRefreshWay();
     }
 
     /**
