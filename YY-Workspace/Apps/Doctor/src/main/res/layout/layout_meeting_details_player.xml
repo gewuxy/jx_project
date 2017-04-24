@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="226dp"
     tools:showIn="@layout/activity_meeting_details">
-    <!-- TODO:播放控件 -->
+
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/meeting_details_play_niv"
         android:layout_width="match_parent"
@@ -21,13 +21,13 @@
         <TextView
             android:id="@+id/meeting_details_date"
             android:layout_marginRight="@dimen/margin"
-            style="@style/meeting.detail"
+            style="@style/tv.meeting.detail"
             android:text="@string/default_date"/>
 
         <TextView
             android:id="@+id/meeting_details_time"
             android:layout_marginRight="@dimen/margin"
-            style="@style/meeting.detail"
+            style="@style/tv.meeting.detail"
             android:text="@string/default_time"/>
     </LinearLayout>
 </RelativeLayout>

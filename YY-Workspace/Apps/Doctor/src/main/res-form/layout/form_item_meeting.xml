@@ -13,14 +13,14 @@
 
         <TextView
             android:id="@+id/meeting_item_title"
-            style="@style/meeting"
+            style="@style/tv.meeting"
             android:text="廣東省第29屆腫瘤病學年會專家預告"
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size"/>
 
         <LinearLayout
             android:layout_marginTop="@dimen/text_size"
-            style="@style/meeting"
+            style="@style/tv.meeting"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -29,11 +29,11 @@
                 android:id="@+id/meeting_item_state_iv"
                 android:layout_height="11dp"
                 android:layout_width="11dp"
-                style="@style/meeting"/>
+                style="@style/tv.meeting"/>
 
             <TextView
                 android:id="@+id/meeting_item_state_tv"
-                style="@style/meeting.tv"
+                style="@style/tv.meeting"
                 android:text="精彩回顧"
                 android:textColor="#5cb0de"/>
             <!-- TODO:未设置宽高2套切图用哪套? -->
@@ -43,22 +43,22 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:id="@+id/meeting_item_section_iv"
-                style="@style/meeting"/>
+                style="@style/tv.meeting"/>
 
             <TextView
                 android:id="@+id/meeting_item_section_tv"
-                style="@style/meeting.tv"
+                style="@style/tv.meeting"
                 android:text="肿瘤科"/>
 
             <TextView
                 android:id="@+id/meeting_item_time"
-                style="@style/meeting.tv"
+                style="@style/tv.meeting"
                 android:layout_marginLeft="8dip"
                 android:text="@string/default_date"/>
 
             <TextView
                 android:id="@+id/meeting_item_data"
-                style="@style/meeting.tv"
+                style="@style/tv.meeting"
                 android:text="@string/default_time"/>
         </LinearLayout>
 
@@ -75,10 +75,10 @@
         <!-- TODO:未设置宽高 -->
         <ImageView
             android:src="@mipmap/meeting_ic_tumour"
-            style="@style/meeting"/>
+            style="@style/tv.meeting"/>
 
         <TextView
-            style="@style/meeting.tv"
+            style="@style/tv.meeting"
             android:layout_marginLeft="8dip"
             android:text="广州CDC死因与肿瘤监测科"
             android:textColor="@color/text_333"/>

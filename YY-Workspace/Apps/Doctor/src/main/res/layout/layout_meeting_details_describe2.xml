@@ -15,8 +15,7 @@
         android:layout_marginLeft="@dimen/margin"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/v"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin"
         android:layout_weight="1"
@@ -24,12 +23,13 @@
         <!--TODO:没给字体大小颜色等属性-->
         <TextView
             android:id="@+id/meeting_details_name_number_host"
-            style="@style/meeting"
+            style="@style/tv"
             android:text="河北省医学会神经病分会"/>
 
         <TextView
+            android:layout_marginTop="8dp"
             android:id="@+id/meeting_details_name_number_deputy"
-            style="@style/meeting"
+            style="@style/tv"
             android:text="主办公众号"/>
     </LinearLayout>
 
@@ -41,14 +41,17 @@
         android:layout_marginRight="@dimen/margin"
         android:background="@drawable/meeting_details_attention_selector"
         android:orientation="horizontal"
-        android:padding="@dimen/margin">
+        android:paddingLeft="@dimen/margin"
+        android:paddingRight="@dimen/margin"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <TextView
-            style="@style/meeting.detail"
+            style="@style/tv.meeting.detail"
             android:text="+"/>
 
         <TextView
-            style="@style/meeting.detail"
+            style="@style/tv.meeting.detail"
             android:layout_marginLeft="4dp"
             android:text="关注"/>
     </LinearLayout>
