@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <include layout="@layout/layout_meeting_details_player"/>
-
-    <include layout="@layout/layout_meeting_details_describe1"/>
-
-    <include layout="@layout/layout_meeting_details_describe2"/>
-
-    <View style="@style/divider.main"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        android:paddingBottom="@dimen/text_size"
-        android:paddingLeft="@dimen/margin"
-        android:paddingTop="@dimen/text_size"
-        android:text="主讲嘉宾"
-        android:textColor="#757575"
-        android:textSize="@dimen/text_size"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include layout="@layout/layout_meeting_details_describe3"/>
+        <include layout="@layout/layout_meeting_details_player"/>
 
-    <TextView
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginTop="@dimen/text_size"
-        android:lineSpacingExtra="@dimen/text_size"
-        android:textColor="@color/text_333"
-        android:textSize="16dp"
-        android:text="个人简介:主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        <include layout="@layout/layout_meeting_details_describe1"/>
+
+        <include layout="@layout/layout_meeting_details_describe2"/>
+
+        <View style="@style/divider.main"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:paddingBottom="@dimen/text_size"
+            android:paddingLeft="@dimen/margin"
+            android:paddingTop="@dimen/text_size"
+            android:text="主讲嘉宾"
+            android:textColor="#757575"
+            android:textSize="@dimen/text_size"/>
+
+        <include layout="@layout/layout_meeting_details_describe3"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="@dimen/text_size"
+            android:lineSpacingExtra="@dimen/text_size"
+            android:text="个人简介:主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾主讲嘉宾"
+            android:textColor="@color/text_333"
+            android:textSize="16dp"/>
+
+        <include layout="@layout/layout_meeting_details_bottom_tab"/>
+    </LinearLayout>
+
+</ScrollView>
