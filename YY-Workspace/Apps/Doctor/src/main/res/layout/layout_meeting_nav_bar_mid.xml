@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:gravity="center"
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/meeting_select_section_ic"
+        android:id="@+id/meeting_nav_bar_mid_iv"
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:src="@mipmap/meeting_ic_select_section"/>
 
     <TextView
-        android:id="@+id/meeting_select_section_name"
+        android:id="@+id/meeting_nav_bar_mid_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
-        android:text="@string/meeting_title"
+        android:text="全部科室"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size"/>
 </LinearLayout>
