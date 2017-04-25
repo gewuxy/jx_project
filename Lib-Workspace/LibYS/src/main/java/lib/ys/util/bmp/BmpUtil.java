@@ -17,9 +17,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.IntRange;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,6 +30,7 @@ import java.io.InputStream;
 
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.FileUtil;
 import lib.ys.util.UIUtil;
 
@@ -271,16 +272,16 @@ public class BmpUtil {
     /**
      * 对图像进行高斯模糊处理.<strong>该算法耗时</strong>
      *
-     * @param sentBitmap
-     * @param radius     模糊半径，数值越大越模糊
+     * @param source
+     * @param radius 模糊半径，数值越大越模糊
      * @return
      */
-    public static Bitmap fastBlur(Bitmap sentBitmap, int radius) {
+    private static Bitmap fastBlur(Bitmap source, @IntRange(from = 1, to = 25) int radius) {
         Bitmap bitmap;
-        if (sentBitmap.isMutable()) {
-            bitmap = sentBitmap;
+        if (source.isMutable()) {
+            bitmap = source;
         } else {
-            bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
+            bitmap = source.copy(source.getConfig(), true);
         }
 
         if (radius < 1) {
@@ -482,7 +483,7 @@ public class BmpUtil {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static Bitmap rsBlur(Context context, Bitmap bitmap, int radius) throws RSRuntimeException {
+    private static Bitmap rsBlur(Bitmap bitmap, @IntRange(from = 1, to = 25) int radius, Context context) {
         RenderScript rs = null;
         try {
             rs = RenderScript.create(context);
@@ -505,6 +506,22 @@ public class BmpUtil {
         }
 
         return bitmap;
+    }
+
+    /**
+     * 模糊算法
+     *
+     * @param bitmap
+     * @param radius
+     * @param context
+     * @return
+     */
+    public static Bitmap blur(Bitmap bitmap, @IntRange(from = 1, to = 25) int radius, Context context) {
+        if (DeviceUtil.getSDKVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return rsBlur(bitmap, radius, context);
+        } else {
+            return fastBlur(bitmap, radius);
+        }
     }
 
     public static int calcSampleSize(Options opts, int reqWidth, int reqHeight) {

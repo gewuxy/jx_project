@@ -30,13 +30,15 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ForgetPwdActivity"
+            android:name=".activity.UnitNumActivity"
             android:screenOrientation="portrait"/>
-
         <!-- data -->
 
 
         <!-- me -->
+        <activity
+            android:name=".activity.me.ForgetPwdActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>

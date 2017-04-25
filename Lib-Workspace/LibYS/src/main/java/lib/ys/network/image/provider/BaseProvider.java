@@ -3,33 +3,18 @@ package lib.ys.network.image.provider;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
-import android.support.annotation.StringDef;
 import android.widget.ImageView;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.renderer.BaseRenderer;
 
 /**
+ * 图片内容提供者
+ *
  * @author yuansui
  */
 abstract public class BaseProvider {
-
-    @StringDef({
-            Scheme.http,
-            Scheme.storage,
-            Scheme.res,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Scheme {
-        String http = "http";
-        String storage = "/storage";
-        String res = "res://";
-    }
-
 
     protected Context mContext;
     protected ImageView mIv;
@@ -37,7 +22,12 @@ abstract public class BaseProvider {
     /**
      * 以下是详细属性
      */
-    private String mUrl;
+    private String mHttpUrl;
+    private String mStorageUrl;
+    @DrawableRes
+    private int mResId;
+    private String mIdUrl;
+
     private int mW;
     private int mH;
     @DrawableRes
@@ -54,7 +44,19 @@ abstract public class BaseProvider {
     }
 
     public void url(String url) {
-        mUrl = url;
+        mHttpUrl = url;
+    }
+
+    public void storage(String s) {
+        mStorageUrl = s;
+    }
+
+    public void res(@DrawableRes int id) {
+        mResId = id;
+    }
+
+    public void id(String id) {
+        mIdUrl = id;
     }
 
     public void renderer(BaseRenderer renderer) {
@@ -78,8 +80,21 @@ abstract public class BaseProvider {
         mH = h;
     }
 
-    protected String getUrl() {
-        return mUrl;
+    protected String getHttpUrl() {
+        return mHttpUrl;
+    }
+
+    protected String getStorageUrl() {
+        return mStorageUrl;
+    }
+
+    @DrawableRes
+    protected int getResId() {
+        return mResId;
+    }
+
+    protected String getIdUrl() {
+        return mIdUrl;
     }
 
     protected int getW() {
@@ -109,4 +124,6 @@ abstract public class BaseProvider {
     abstract public void clearFromCache(String url);
 
     abstract public void load();
+
+    abstract public void fetch();
 }
