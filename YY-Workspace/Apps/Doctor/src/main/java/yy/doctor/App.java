@@ -36,7 +36,7 @@ public class App extends BaseApp {
         // 导航栏
         NavBarConfig navBarConfig = NavBarConfig.newBuilder()
                 .heightDp(KTitleBarHeightDp)
-                .bgRes(R.color.app_nav_bar_bg)
+                .bgColorRes(R.color.app_nav_bar_bg)
                 .iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp)
                 .iconSizeDp(KTitleBarIconSizeDp)
                 .textColorRes(R.color.nav_bar_text_selector)

@@ -73,6 +73,7 @@ public class NavBar extends RelativeLayout {
             setId(R.id.nav_bar);
         }
 
+
         /**
          * 背景色, 先找背景图片, 再找背景颜色
          */

@@ -1,11 +1,14 @@
 # 缩写
 
-## FI
+##### FI 
     f = form
     i = item
-
-## EPN = 象数缩写, elephant number
-## EPC = 象城缩写, elephant city
-## PWD = 密码缩写, password
-
+    
+##### EPN 象数
+    ep = elephant
+     n = number
+     
+##### EPC 象城
+    ep = elephant 
+    c = city
 
