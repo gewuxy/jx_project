@@ -1,7 +1,6 @@
 package lib.ys.view.photoViewer;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,9 +40,9 @@ public class NetworkPhotoView extends NetworkImageView implements IAttacher {
         NetworkImageListener listener = new NetworkImageListener() {
 
             @Override
-            public void onImageSet(@Nullable ImageInfo info, @Nullable Bitmap bmp) {
+            public void onImageSet(@Nullable ImageInfo info) {
                 if (mListener != null) {
-                    mListener.onImageSet(info, bmp);
+                    mListener.onImageSet(info);
                 }
                 update(info.getWidth(), info.getHeight());
             }

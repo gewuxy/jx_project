@@ -5,8 +5,12 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
+import lib.ys.network.image.interceptor.Interceptor;
 import lib.ys.network.image.renderer.BaseRenderer;
 
 /**
@@ -35,12 +39,15 @@ abstract public class BaseProvider {
     private int mFade = ConstantsEx.KInvalidValue;
     private BaseRenderer mRenderer;
 
+    private List<Interceptor> mInterceptors;
+
     private NetworkImageListener mListener;
 
 
     public BaseProvider(Context context, ImageView iv) {
         mContext = context;
         mIv = iv;
+        mInterceptors = new ArrayList<>();
     }
 
     public void url(String url) {
@@ -61,6 +68,14 @@ abstract public class BaseProvider {
 
     public void renderer(BaseRenderer renderer) {
         mRenderer = renderer;
+    }
+
+    public void addInterceptor(Interceptor i) {
+        mInterceptors.add(i);
+    }
+
+    public void removeInterceptor(Interceptor i) {
+        mInterceptors.remove(i);
     }
 
     public void listener(NetworkImageListener listener) {
@@ -117,6 +132,10 @@ abstract public class BaseProvider {
         return mRenderer;
     }
 
+    protected List<Interceptor> getInterceptors() {
+        return mInterceptors;
+    }
+
     protected NetworkImageListener getListener() {
         return mListener;
     }
@@ -124,6 +143,4 @@ abstract public class BaseProvider {
     abstract public void clearFromCache(String url);
 
     abstract public void load();
-
-    abstract public void fetch();
 }

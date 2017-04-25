@@ -514,7 +514,7 @@ public class BmpUtil {
      * @param bitmap
      * @param radius
      * @param context
-     * @return
+     * @return 如果是mutable的图片, 返回的是原图
      */
     public static Bitmap blur(Bitmap bitmap, @IntRange(from = 1, to = 25) int radius, Context context) {
         if (DeviceUtil.getSDKVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

@@ -1,23 +1,18 @@
 package yy.doctor.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 
-import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.decor.DecorViewEx.TNavBarState;
 import lib.ys.ex.NavBar;
-import lib.ys.network.image.ImageInfo;
-import lib.ys.network.image.NetworkImageListener;
+import lib.ys.model.Screen;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.service.RunnableEx;
-import lib.ys.util.bmp.BmpUtil;
+import lib.ys.network.image.interceptor.BlurInterceptor;
+import lib.ys.network.image.interceptor.CutInterceptor;
+import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
@@ -34,7 +29,7 @@ import yy.doctor.util.Util;
 public class UnitNumActivity extends BaseListActivity<String> {
 
     private SwipeZoomListView mZoomView;
-    private ImageView mIvZoom;
+    private NetworkImageView mIvZoom;
     private NetworkImageView mIvAvatar;
 
     @Override
@@ -75,34 +70,18 @@ public class UnitNumActivity extends BaseListActivity<String> {
 
         mZoomView.setZoomEnabled(true);
 
-        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
-        int mScreenWidth = localDisplayMetrics.widthPixels;
-        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(mScreenWidth, (int) (9.0F * (mScreenWidth / 16.0F)));
+        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(Screen.getWidth(), fitDp(219));
         mZoomView.setHeaderLayoutParams(localObject);
 
-        mIvAvatar.res(R.mipmap.ic_launcher).listener(new NetworkImageListener() {
+        mIvAvatar.res(R.mipmap.ic_launcher)
+                .renderer(new CircleRenderer())
+                .load();
 
-            @Override
-            public void onImageSet(@Nullable ImageInfo info, @Nullable final Bitmap bmp) {
-                LogMgr.d(TAG, "onImageSet: bitmap = " + bmp);
-                if (info != null) {
-                    mIvAvatar.fetch();
-                } else if (bmp != null) {
-                    runOnUIThread(new RunnableEx() {
+        mIvZoom.res(R.mipmap.ic_launcher)
+                .addInterceptor(new CutInterceptor(0, 0, Screen.getWidth(), fitDp(219)))
+                .addInterceptor(new BlurInterceptor(this, 25))
+                .load();
 
-                        @Override
-                        public void run() {
-                            // TODO: 缩放
-                            Bitmap resizeBmp = BmpUtil.resizeBmpMutable(bmp, mIvZoom.getWidth(), mIvZoom.getHeight());
-
-                            Bitmap blurBmp = BmpUtil.blur(resizeBmp, 15, UnitNumActivity.this);
-                            mIvZoom.setImageBitmap(blurBmp);
-                        }
-                    });
-                }
-            }
-        }).load();
     }
 
     @Override

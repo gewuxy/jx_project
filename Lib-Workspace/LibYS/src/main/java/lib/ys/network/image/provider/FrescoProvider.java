@@ -9,9 +9,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -20,17 +18,17 @@ import com.facebook.drawee.drawable.ScalingUtils.ScaleType;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.common.RotationOptions;
 import com.facebook.imagepipeline.core.ImagePipeline;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
+import lib.ys.network.image.interceptor.Interceptor;
 import lib.ys.network.image.renderer.BaseRenderer;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -68,19 +66,43 @@ public class FrescoProvider extends BaseProvider {
         }
 
         DraweeController controller = null;
-        if (getW() > 0 && getH() > 0) {
-            controller = mBuilder
-                    .setOldController(mSdv.getController())
-                    .setImageRequest(newRequest())
-                    .setControllerListener(mCtrlListener)
-                    .build();
-        } else {
-            controller = mBuilder
-                    .setOldController(mSdv.getController())
-                    .setControllerListener(mCtrlListener)
-                    .setUri(getUri())
-                    .build();
+        ImageRequestBuilder builder = ImageRequestBuilder.newBuilderWithSource(getUri());
+
+        // 拦截器
+        if (getInterceptors().size() != 0) {
+            builder.setPostprocessor(new BasePostprocessor() {
+
+                @Override
+                public CloseableReference<Bitmap> process(Bitmap sourceBitmap, PlatformBitmapFactory bitmapFactory) {
+                    CloseableReference<Bitmap> ref = null;
+                    try {
+                        Bitmap bmp = sourceBitmap;
+                        for (Interceptor i : getInterceptors()) {
+                            bmp = i.process(bmp);
+                        }
+
+                        ref = bitmapFactory.createBitmap(bmp);
+
+                        return CloseableReference.cloneOrNull(ref);
+                    } finally {
+                        CloseableReference.closeSafely(ref);
+                    }
+                }
+            });
         }
+
+        // resize
+        if (getW() > 0 && getH() > 0) {
+            builder.setResizeOptions(new ResizeOptions(getW(), getH()));
+            builder.setRotationOptions(RotationOptions.autoRotate());
+        }
+
+        controller = mBuilder
+                .setOldController(mSdv.getController())
+                .setImageRequest(builder.build())
+                .setControllerListener(mCtrlListener)
+                .build();
+
         mSdv.setController(controller);
     }
 
@@ -109,7 +131,7 @@ public class FrescoProvider extends BaseProvider {
                                 return imageInfo.getHeight();
                             }
                         };
-                        listener.onImageSet(info, null);
+                        listener.onImageSet(info);
                     }
                 }
 
@@ -209,33 +231,5 @@ public class FrescoProvider extends BaseProvider {
         }
 
         return uri;
-    }
-
-    @Override
-    public void fetch() {
-        ImageRequest r = ImageRequest.fromUri(getUri());
-        ImagePipeline imagePipeline = Fresco.getImagePipeline();
-        DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(r, mSdv.getContext());
-        dataSource.subscribe(new BaseBitmapDataSubscriber() {
-
-            @Override
-            protected void onNewResultImpl(Bitmap bitmap) {
-                if (getListener() != null) {
-                    getListener().onImageSet(null, bitmap.copy(bitmap.getConfig(), true));
-                }
-            }
-
-            @Override
-            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-
-            }
-        }, CallerThreadExecutor.getInstance());
-    }
-
-    private ImageRequest newRequest() {
-        return ImageRequestBuilder.newBuilderWithSource(getUri())
-                .setResizeOptions(new ResizeOptions(getW(), getH()))
-                .setRotationOptions(RotationOptions.autoRotate())
-                .build();
     }
 }
