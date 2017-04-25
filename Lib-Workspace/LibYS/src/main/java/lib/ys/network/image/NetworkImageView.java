@@ -17,6 +17,7 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import java.io.File;
 
+import lib.ys.network.image.interceptor.Interceptor;
 import lib.ys.network.image.provider.BaseProvider;
 import lib.ys.network.image.provider.FrescoProvider;
 import lib.ys.network.image.renderer.BaseRenderer;
@@ -72,6 +73,11 @@ public class NetworkImageView extends SimpleDraweeView {
         return this;
     }
 
+    public NetworkImageView addInterceptor(Interceptor i) {
+        mProvider.addInterceptor(i);
+        return this;
+    }
+
     /**
      * 设置图片加载监听
      *
@@ -99,10 +105,6 @@ public class NetworkImageView extends SimpleDraweeView {
 
     public void load() {
         mProvider.load();
-    }
-
-    public void fetch() {
-        mProvider.fetch();
     }
 
     /**

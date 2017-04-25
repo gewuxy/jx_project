@@ -270,8 +270,8 @@ public class NestRadioGroup extends LinearLayout {
          * </p>
          *
          * @param a          the styled attributes set
-         * @param widthAttr  the width attribute to fetch
-         * @param heightAttr the height attribute to fetch
+         * @param widthAttr  the width attribute to onResult
+         * @param heightAttr the height attribute to onResult
          */
         @Override
         protected void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr) {
