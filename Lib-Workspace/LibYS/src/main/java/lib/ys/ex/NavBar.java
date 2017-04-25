@@ -689,7 +689,7 @@ public class NavBar extends RelativeLayout {
 
                 mBlurBgView.draw(mCanvasBlur);
 
-                mBmpBlurred = BmpUtil.fastBlur(mBmpToBlur, 10);
+                mBmpBlurred = BmpUtil.blur(mBmpToBlur, 10, getContext());
 //                mBmpBlurred = mBmpToBlur;
 
                 int count = canvas.save();
