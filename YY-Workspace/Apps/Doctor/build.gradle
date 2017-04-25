@@ -110,6 +110,4 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
     compile project(':YY-Workspace:Libs:LibSlidingMenu')
-    //    compile 'com.github.frank-zhu:pullzoomview:1.0.0'
-//    compile 'com.github.frank-zhu:pullzoomview:1.0.0'
 }
