@@ -23,7 +23,7 @@ public class App extends BaseApp {
     protected AppConfig makeConfig() {
         return AppConfig.newBuilder()
                 .bgColorRes(R.color.app_bg)
-                .enableFlatBar(true)
+                .enableFlatBar(false)
                 .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
                 .build();
     }

@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <lib.ys.view.CornerView
-        android:layout_width="308dp"
+        android:layout_width="330dp"
         android:layout_height="30dp"
         app:corner_radius="@dimen/radius"
         app:corner_useStroke="false">

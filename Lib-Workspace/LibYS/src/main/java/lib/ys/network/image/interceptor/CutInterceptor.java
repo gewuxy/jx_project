@@ -2,8 +2,6 @@ package lib.ys.network.image.interceptor;
 
 import android.graphics.Bitmap;
 
-import lib.ys.util.bmp.BmpUtil;
-
 /**
  * 剪切拦截器
  *
@@ -32,6 +30,15 @@ public class CutInterceptor implements Interceptor {
 
     @Override
     public Bitmap process(Bitmap srcBmp) {
-        return BmpUtil.resizeBmpMutable(srcBmp, mW, mH);
+
+        Bitmap bmp = Bitmap.createBitmap(srcBmp, mX, mY, mW, mH, null, false);
+
+        /*if (srcBmp != null && !srcBmp.equals(bmp) && !srcBmp.isRecycled()) {
+            srcBmp.recycle();
+            srcBmp = null;
+        }*/
+
+        return bmp;
     }
+
 }

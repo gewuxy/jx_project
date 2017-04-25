@@ -29,7 +29,7 @@ import yy.doctor.frag.data.ThomsonLibFrag;
 public class DataFrag extends BaseVPFrag {
 
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
-    private static final int KIndicatorWidth = 60;
+    private static final int KIndicatorWidth = 50;
 
     @IntDef({
             PageType.thomson_lib,

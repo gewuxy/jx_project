@@ -31,4 +31,5 @@ public class BlurInterceptor implements Interceptor {
     public Bitmap process(Bitmap srcBmp) {
         return BmpUtil.blur(srcBmp, mRadius, mContext);
     }
+
 }

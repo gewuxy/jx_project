@@ -25,7 +25,8 @@
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".activity.TestActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>

@@ -21,7 +21,7 @@ public class ClinicalShareFrag extends BaseFrag {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.frag_home;
+        return R.layout.frag_data_empty;
     }
 
     @Override

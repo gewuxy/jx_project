@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/unit_num_zoom_header_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <lib.ys.network.image.NetworkImageView
+        android:id="@+id/unit_num_iv_avatar"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="54dp"/>
+
+    <TextView
+        android:id="@+id/unit_num_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="广州广州"
+        android:textSize="@dimen/text_size"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关注人数："
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/unit_num_tv_attention_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="259人"
+            android:textSize="12dp"/>
+
+    </LinearLayout>
+
+    <lib.ys.network.image.NetworkImageView
+        android:id="@+id/unit_num_iv_attention"
+        android:layout_width="66dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_large"/>
+
+</LinearLayout>

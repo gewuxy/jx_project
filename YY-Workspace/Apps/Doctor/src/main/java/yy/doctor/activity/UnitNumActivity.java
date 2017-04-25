@@ -1,18 +1,18 @@
 package yy.doctor.activity;
 
-import android.graphics.Color;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.decor.DecorViewEx.TNavBarState;
 import lib.ys.ex.NavBar;
-import lib.ys.model.Screen;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.BlurInterceptor;
 import lib.ys.network.image.interceptor.CutInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
@@ -28,9 +28,14 @@ import yy.doctor.util.Util;
  */
 public class UnitNumActivity extends BaseListActivity<String> {
 
+    private static final float KAvatarScale = 0.15f;
+
     private SwipeZoomListView mZoomView;
     private NetworkImageView mIvZoom;
     private NetworkImageView mIvAvatar;
+    private NetworkImageView mIvAttention;
+    private View mLayoutHeaderRoot;
+
 
     @Override
     public void initData() {
@@ -52,7 +57,7 @@ public class UnitNumActivity extends BaseListActivity<String> {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
-        bar.setBackgroundColor(Color.TRANSPARENT);
+        setNavBarAutoAlphaByScroll(fitDp(219), bar);
     }
 
     @Override
@@ -61,27 +66,52 @@ public class UnitNumActivity extends BaseListActivity<String> {
 
         mZoomView = findView(R.id.unit_num_layout_zoom);
         mIvZoom = findView(R.id.unit_num_zoom_iv);
-        mIvAvatar = findView(R.id.unit_num_header_iv_avatar);
+        mIvAvatar = findView(R.id.unit_num_iv_avatar);
+        mIvAttention = findView(R.id.unit_num_iv_attention);
+        mLayoutHeaderRoot = findView(R.id.unit_num_zoom_header_root);
+    }
+
+    @Override
+    public View createHeaderView() {
+        return inflate(R.layout.layout_unit_num_header);
     }
 
     @Override
     public void setViewsValue() {
         super.setViewsValue();
 
-        mZoomView.setZoomEnabled(true);
+        mIvAttention.res(R.mipmap.unit_num_detail_ic_attention)
+                .renderer(new CornerRenderer(fitDp(1)))
+                .load();
 
-        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(Screen.getWidth(), fitDp(219));
-        mZoomView.setHeaderLayoutParams(localObject);
+        mZoomView.setZoomEnabled(true);
 
         mIvAvatar.res(R.mipmap.ic_launcher)
                 .renderer(new CircleRenderer())
                 .load();
 
-        mIvZoom.res(R.mipmap.ic_launcher)
-                .addInterceptor(new CutInterceptor(0, 0, Screen.getWidth(), fitDp(219)))
-                .addInterceptor(new BlurInterceptor(this, 25))
-                .load();
 
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                int w = mLayoutHeaderRoot.getWidth();
+                int h = mLayoutHeaderRoot.getHeight();
+                if (w == 0 || h == 0) {
+                    return;
+                }
+
+                AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(w, h);
+                mZoomView.setHeaderLayoutParams(localObject);
+
+                mIvZoom.res(R.mipmap.ic_launcher)
+                        .addInterceptor(new CutInterceptor(0, 0, (int) (w * KAvatarScale), (int) (h * KAvatarScale)))
+                        .addInterceptor(new BlurInterceptor(UnitNumActivity.this))
+                        .load();
+
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
