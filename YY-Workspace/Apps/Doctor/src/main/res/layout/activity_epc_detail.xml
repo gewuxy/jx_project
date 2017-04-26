@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1200"
-                android:textSize="@dimen/text_size"
+                android:textSize="14dp"
                 android:textColor="@color/text_0882e7"/>
 
             <TextView
@@ -85,7 +85,7 @@
         android:lineSpacingExtra="@dimen/margin"
         android:layout_marginTop="18dp"
         android:text="是的肌肤好事是的接口方式是的肌肤开始是的尽快发货那是的时间的反馈撒时间看到你的"
-        android:textSize="@dimen/text_size"
+        android:textSize="14dp"
         android:textColor="@color/text_333"/>
 
     <TextView
@@ -95,7 +95,7 @@
         android:background="@color/text_0882e7"
         android:gravity="center"
         android:text="立即兑换"
-        android:textSize="@dimen/text_size"
+        android:textSize="14dp"
         android:textColor="@color/white"/>
 
 </LinearLayout>

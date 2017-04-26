@@ -23,7 +23,7 @@
     </LinearLayout>
 
     <View
-        style="@style/v.divider"/>
+        style="@style/divider.meeting"/>
     <!--问卷-->
     <LinearLayout
         android:id="@+id/meeting_details_questionnaire"
@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <View
-        style="@style/v.divider"/>
+        style="@style/divider.meeting"/>
     <!--视频-->
     <LinearLayout
         android:id="@+id/meeting_details_video"
@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <View
-        style="@style/v.divider"/>
+        style="@style/divider.meeting"/>
     <!--签到-->
     <LinearLayout
         android:id="@+id/meeting_details_sign"
@@ -95,6 +95,6 @@
             android:layout_marginRight="@dimen/margin"
             android:text="观看会议"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="14dp"/>
     </LinearLayout>
 </LinearLayout>

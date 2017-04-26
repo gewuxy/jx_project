@@ -57,23 +57,23 @@ public class MeetingPPTActivity extends ActivityEx {
 
     @Override
     public void findViews() {
-        mNivPlay = findView(R.id.meeting_ppt_play_niv);
+        mNivPlay = findView(R.id.meeting_ppt_iv_play_niv);
 
-        mTvPlayed = findView(R.id.meeting_ppt_played_time_tv);
-        mTvAll = findView(R.id.meeting_ppt_all_time_tv);
-        mSbProgress = findView(R.id.meeting_ppt_progress_sb);
+        mTvPlayed = findView(R.id.meeting_ppt_played_tv_time);
+        mTvAll = findView(R.id.meeting_ppt_tv_all_time);
+        mSbProgress = findView(R.id.meeting_ppt_sb_progress);
 
-        mIvControl = findView(R.id.meeting_ppt_control_iv);
+        mIvControl = findView(R.id.meeting_ppt_iv_control);
     }
 
     @Override
     public void setViewsValue() {
         mNivPlay.placeHolder(R.mipmap.meeting_ic_details_paly_default).load();
 
-        setOnClickListener(R.id.meeting_ppt_first_iv);
-        setOnClickListener(R.id.meeting_ppt_last_iv);
-        setOnClickListener(R.id.meeting_ppt_next_iv);
-        setOnClickListener(R.id.meeting_ppt_single_details_iv);
+        setOnClickListener(R.id.meeting_ppt_iv_first);
+        setOnClickListener(R.id.meeting_ppt_iv_last);
+        setOnClickListener(R.id.meeting_ppt_iv_next);
+        setOnClickListener(R.id.meeting_ppt_iv_comment);
 
         mSbProgress.setOnClickListener(this);
         mIvControl.setOnClickListener(this);
@@ -87,17 +87,17 @@ public class MeetingPPTActivity extends ActivityEx {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meeting_ppt_first_iv:         //回到第一页
+            case R.id.meeting_ppt_iv_first:         //回到第一页
                 break;
-            case R.id.meeting_ppt_last_iv:          //上一个
+            case R.id.meeting_ppt_iv_last:          //上一个
                 break;
-            case R.id.meeting_ppt_next_iv:          //下一个
+            case R.id.meeting_ppt_iv_next:          //下一个
                 break;
-            case R.id.meeting_ppt_single_details_iv://单个详情
+            case R.id.meeting_ppt_iv_comment://单个详情
                 break;
-            case R.id.meeting_ppt_progress_sb:      //PPT播放进度
+            case R.id.meeting_ppt_sb_progress:      //PPT播放进度
                 break;
-            case R.id.meeting_ppt_control_iv:       //播放/暂停
+            case R.id.meeting_ppt_iv_control:       //播放/暂停
             default:
                 break;
         }

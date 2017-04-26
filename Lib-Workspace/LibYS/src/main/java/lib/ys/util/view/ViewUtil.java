@@ -35,7 +35,7 @@ public class ViewUtil {
     }
 
     public static View inflateSpaceViewDp(int dp) {
-        return inflateSpaceViewPx(UIUtil.dpToPx(dp, AppEx.ct()));
+        return inflateSpaceViewPx(UIUtil.dpToPx(dp));
     }
 
     public static View inflateSpaceViewDpFit(int dp) {

@@ -141,7 +141,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
         mDecorView = new DecorViewEx(this, getNavBarState(), getInitRefreshWay(), initLoadingDialog());
         mDecorView.setContentView(layoutResID, getContentHeaderViewId(), getContentFooterViewId());
-        fit(mDecorView);
 
         super.setContentView(mDecorView);
         init();
@@ -149,7 +148,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
     private void init() {
         initNavBar(getNavBar());
-        fit(getNavBar());
+
+        fit(mDecorView);
 
         findViews();
         setViewsValue();

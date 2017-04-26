@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="广州公众号"
-            android:textSize="@dimen/text_size"
+            android:textSize="14dp"
             android:textColor="@color/text_333"/>
         
     </LinearLayout>

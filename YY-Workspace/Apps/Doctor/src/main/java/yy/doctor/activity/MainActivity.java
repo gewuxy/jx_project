@@ -29,7 +29,7 @@ public class MainActivity extends BaseVPActivity {
 
     public static void nav(Context context, String test) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Extra.KTestAble, test);
+        intent.putExtra(Extra.KData, test);
         LaunchUtil.startActivity(context, intent);
     }
 
@@ -49,7 +49,7 @@ public class MainActivity extends BaseVPActivity {
 
     @Override
     public void initData() {
-        getIntent().getStringExtra(Extra.KTestAble);
+        getIntent().getStringExtra(Extra.KData);
 
         add(new HomeFrag());
         add(new MeetingFrag());

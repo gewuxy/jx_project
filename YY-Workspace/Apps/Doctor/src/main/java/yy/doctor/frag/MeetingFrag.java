@@ -1,13 +1,9 @@
 package yy.doctor.frag;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -15,26 +11,21 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
 import lib.ys.LogMgr;
 import lib.ys.ex.NavBar;
-import lib.ys.util.UIUtil;
 import lib.ys.util.view.LayoutUtil;
-import lib.ys.view.DividerGridItemDecoration;
-import lib.ys.view.DividerGridItemDecoration.Decoration;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.SectionAdapter;
-import yy.doctor.adapter.SectionAdapter.OnItemClickListener;
-import yy.doctor.adapter.SectionAdapter.ViewHolder;
 import yy.doctor.frag.meeting.ProgressingMeetingsFrag;
 import yy.doctor.frag.meeting.ReviewMeetingsFrag;
 import yy.doctor.frag.meeting.WaitMeetingsFrag;
+import yy.doctor.popup.SectionPopup;
+import yy.doctor.popup.SectionPopup.OnSectionListener;
 
 /**
  * 会议界面
@@ -44,21 +35,16 @@ import yy.doctor.frag.meeting.WaitMeetingsFrag;
  */
 public class MeetingFrag extends BaseVPFrag {
 
-    private static final int KPopupWindowBackground = R.color.main_text_bg;
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
     private static final int KIndicatorWidth = 30;//滑块的宽度
-    private static final int KGridViewRowCount = 3;//列数
     private static final long KDuration = 100l;//切换科室动画时长
-    private static final float KDividerHeight = 14.0f;//分割线高度
 
     //科室选择
     private ImageView mIvSection;
     private TextView mTvSection;
 
     //PopupWindow
-    private View mSections;//内容
-    private PopupWindow mPopupWindow;
-    private Drawable mPopupWindowBackground;//背景
+    private SectionPopup mPopup;
 
     //选择科室前的动画,箭头向上
     private Animation mAnimDown;
@@ -85,8 +71,6 @@ public class MeetingFrag extends BaseVPFrag {
 
     @Override
     public void initData() {
-        mPopupWindowBackground = ContextCompat.getDrawable(getContext(), KPopupWindowBackground);
-
         mAnimUp = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mAnimUp.setDuration(KDuration);
         mAnimUp.setFillAfter(true);
@@ -132,50 +116,24 @@ public class MeetingFrag extends BaseVPFrag {
     /**
      * 显示选择科室
      */
-    private void showSection(View parent) {
-        if (mSections == null) {
-            mSections = inflate(R.layout.layout_meeting_select_section);
-            RecyclerView section =
-                    (RecyclerView) mSections.findViewById(R.id.meeting_layout_recyclerview);
-            section.setLayoutManager(new StaggeredGridLayoutManager(KGridViewRowCount,
-                    StaggeredGridLayoutManager.VERTICAL));
-            section.addItemDecoration(new DividerGridItemDecoration(getContext(),
-                    Decoration.vertical, UIUtil.dpToPx(KDividerHeight, getContext()), R.drawable.divider_bg));
-            section.setAdapter(new SectionAdapter(new OnItemClickListener() {
+    private void showSection(View anchor) {
+        if (mPopup == null) {
+            mPopup = new SectionPopup(getContext(), new OnSectionListener() {
+
                 @Override
-                public void onItemClick(ViewHolder viewHolder) {
-                    if (mPopupWindow != null) {
-                        mPopupWindow.dismiss();
-                        mTvSection.setText(viewHolder.getText());
-                    }
-                }
-            }));
-            mSections.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mPopupWindow != null) {
-                        mPopupWindow.dismiss();
-                    }
+                public void onSectionSelected(String text) {
+                    mTvSection.setText(text);
                 }
             });
-        }
-        if (mPopupWindow == null) {
-            mPopupWindow = new PopupWindow();
-            mPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-            mPopupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            mPopupWindow.setOutsideTouchable(true);
-            mPopupWindow.setTouchable(true);
-            mPopupWindow.setFocusable(true);
-            mPopupWindow.setBackgroundDrawable(mPopupWindowBackground);
-            mPopupWindow.setContentView(mSections);
-            mPopupWindow.setOnDismissListener(new OnDismissListener() {
+            mPopup.setOnDismissListener(new OnDismissListener() {
+
                 @Override
                 public void onDismiss() {
                     mIvSection.startAnimation(mAnimDown);
                 }
             });
         }
-        mPopupWindow.showAsDropDown(parent, 0, 0);
+        mPopup.showAsDropDown(anchor, 0, 0);
     }
 
     @Override
@@ -269,9 +227,9 @@ public class MeetingFrag extends BaseVPFrag {
     public void onDestroy() {
         super.onDestroy();
 
-        if (mPopupWindow != null) {
-            mPopupWindow.dismiss();
-            mPopupWindow = null;
+        if (mPopup != null) {
+            mPopup.dismiss();
+            mPopup = null;
         }
     }
 }

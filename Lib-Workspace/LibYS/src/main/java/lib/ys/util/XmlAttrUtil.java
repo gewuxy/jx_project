@@ -20,4 +20,15 @@ public class XmlAttrUtil {
         }
         return DpFitter.densityPx(px);
     }
+
+    public static float convert(float px, int defaultDp) {
+        if (px == ConstantsEx.KInvalidValue) {
+            return DpFitter.dp(defaultDp);
+        }
+
+        if (px == 0) {
+            return px;
+        }
+        return DpFitter.densityPx(px);
+    }
 }

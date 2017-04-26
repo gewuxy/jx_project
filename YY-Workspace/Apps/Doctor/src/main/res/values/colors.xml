@@ -5,6 +5,7 @@
     <color name="app_nav_bar_bg">#006ebd</color>
 
     <color name="divider">#dbdbdb</color>
+    <drawable name="divider">#dbdbdb</drawable>
 
     <color name="item_focus">#e8e8e8</color>
     <drawable name="item_focus">#e8e8e8</drawable>
@@ -31,7 +32,7 @@
 
 
     <drawable name="title_click_bg_focus">#19000000</drawable>
-    <color name="title_click_bg_focus">#19000000</color>
+    <color name="nav_bar_bg_focus">#19000000</color>
 
     <color name="nav_bar_text_focus">#19000000</color>
 

@@ -16,10 +16,10 @@
             style="@style/tv.meeting"
             android:text="廣東省第29屆腫瘤病學年會專家預告"
             android:textColor="@color/text_333"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="14dp"/>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/text_size"
+            android:layout_marginTop="14dp"
             style="@style/tv.meeting"
             android:gravity="center_vertical"
             android:orientation="horizontal">

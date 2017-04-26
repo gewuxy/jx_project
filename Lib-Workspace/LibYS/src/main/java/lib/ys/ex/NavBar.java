@@ -36,6 +36,7 @@ import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 
+
 /**
  * 导航栏
  * navigation bar
@@ -44,8 +45,6 @@ public class NavBar extends RelativeLayout {
 
     private static final int MATCH_PARENT = LayoutParams.MATCH_PARENT;
     private static final int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
-
-    private Context mContext;
 
     private LinearLayout mLayoutLeft;
     private LinearLayout mLayoutMid;
@@ -57,13 +56,11 @@ public class NavBar extends RelativeLayout {
 
     public NavBar(Context context) {
         super(context);
-        mContext = context;
         innerInit(true);
     }
 
     public NavBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
         innerInit(false);
     }
 
@@ -96,7 +93,7 @@ public class NavBar extends RelativeLayout {
         }
 
         // 添加左边布局
-        mLayoutLeft = new LinearLayout(mContext);
+        mLayoutLeft = new LinearLayout(getContext());
         mLayoutLeft.setOrientation(LinearLayout.HORIZONTAL);
         LayoutParams leftParams = getRelativeParams();
         leftParams.addRule(CENTER_VERTICAL);
@@ -106,7 +103,7 @@ public class NavBar extends RelativeLayout {
         addView(mLayoutLeft, leftParams);
 
         // 添加中间布局
-        mLayoutMid = new LinearLayout(mContext);
+        mLayoutMid = new LinearLayout(getContext());
         mLayoutMid.setId(R.id.nav_bar_mid);
         mLayoutMid.setOrientation(LinearLayout.HORIZONTAL);
         LayoutParams midParams = getRelativeParams();
@@ -117,7 +114,7 @@ public class NavBar extends RelativeLayout {
         addView(mLayoutMid, midParams);
 
         // 添加右边布局
-        mLayoutRight = new LinearLayout(mContext);
+        mLayoutRight = new LinearLayout(getContext());
         mLayoutRight.setOrientation(LinearLayout.HORIZONTAL);
         LayoutParams rightParams = getRelativeParams();
         rightParams.addRule(ALIGN_PARENT_RIGHT);
@@ -128,7 +125,7 @@ public class NavBar extends RelativeLayout {
         addView(mLayoutRight, rightParams);
 
         mDivider = null;
-        int dividerHeight = mConfig.getDividerHeightPx();
+        int dividerHeight = mConfig.getDividerHeight();
         if (dividerHeight != 0) {
             mDivider = ViewUtil.inflateSpaceViewPx(dividerHeight);
             mDivider.setBackgroundColor(mConfig.getDividerColorRes());
@@ -196,11 +193,13 @@ public class NavBar extends RelativeLayout {
      * @param id
      */
     public View addViewRight(@DrawableRes int id, OnClickListener lsn) {
-        View v = createImageView(id, lsn);
-        if (v != null) {
-            mLayoutRight.addView(v, getLinearParams());
-            show();
+        if (id == 0) {
+            return null;
         }
+
+        View v = createImageView(id, lsn);
+        mLayoutRight.addView(v, getLinearParams());
+        show();
         return v;
     }
 
@@ -211,11 +210,13 @@ public class NavBar extends RelativeLayout {
      * @param lsn
      */
     public void addViewRight(View v, OnClickListener lsn) {
-        LinearLayout.LayoutParams params = LayoutUtil.getLinearParams(WRAP_CONTENT, WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
         if (lsn != null) {
             v.setOnClickListener(lsn);
         }
+
+        LinearLayout.LayoutParams params = LayoutUtil.getLinearParams(MATCH_PARENT, WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        params.weight = 1;
         mLayoutRight.addView(v, params);
         show();
     }
@@ -248,10 +249,11 @@ public class NavBar extends RelativeLayout {
      * @param lsn
      */
     public void addViewMid(View v, LinearLayout.LayoutParams params, OnClickListener lsn) {
-        params.gravity = Gravity.CENTER;
         if (lsn != null) {
             v.setOnClickListener(lsn);
         }
+
+        params.gravity = Gravity.CENTER;
         mLayoutMid.addView(v, params);
         show();
     }
@@ -283,10 +285,9 @@ public class NavBar extends RelativeLayout {
 
         // 创建背景layout
         RelativeLayout layout = new RelativeLayout(getContext());
-        int iconPaddingDp = mConfig.getIconPaddingHorizontalDp();
-        if (iconPaddingDp != 0) {
-            int px = dpToPx(iconPaddingDp);
-            layout.setPadding(px, 0, px, 0);
+        int iconPadding = mConfig.getIconPaddingHorizontal();
+        if (iconPadding != 0) {
+            layout.setPadding(iconPadding, 0, iconPadding, 0);
         }
 
         // 设置点击背景色
@@ -308,10 +309,9 @@ public class NavBar extends RelativeLayout {
         ImageView iv = new ImageView(getContext());
         LayoutParams params = null;
 
-        int iconSizeDp = mConfig.getIconSizeDp();
-        if (iconSizeDp != 0) {
-            int px = dpToPx(iconSizeDp);
-            params = LayoutUtil.getRelativeParams(px, px);
+        int iconSize = mConfig.getIconSize();
+        if (iconSize != 0) {
+            params = LayoutUtil.getRelativeParams(iconSize, iconSize);
         } else {
             params = LayoutUtil.getRelativeParams(WRAP_CONTENT, WRAP_CONTENT);
             iv.setScaleType(ScaleType.CENTER_INSIDE);
@@ -334,7 +334,7 @@ public class NavBar extends RelativeLayout {
             l.setGravity(Gravity.CENTER);
             l.addView(layout, LayoutUtil.getLinearParams(WRAP_CONTENT, MATCH_PARENT));
 
-            TextView tv = createTextView(mConfig.getTextSizeLeftDp(), mConfig.getTextColor(), 0, null);
+            TextView tv = createTextView(mConfig.getTextSizeLeft(), mConfig.getTextColor(), 0, null);
             tv.setText(text);
             l.addView(tv, LayoutUtil.getLinearParams(WRAP_CONTENT, WRAP_CONTENT));
 
@@ -352,18 +352,13 @@ public class NavBar extends RelativeLayout {
      * @return
      */
     private LinearLayout.LayoutParams getLinearParams() {
-        int height;
-        int titleBarHeightDp = mConfig.getHeightDp();
-        if (titleBarHeightDp == 0) {
-            height = WRAP_CONTENT;
+        int h = mConfig.getHeight();
+        if (h == 0) {
+            h = WRAP_CONTENT;
         } else {
-            /**
-             * 这里不能使用{@link UIUtil#dpToPx(float, Context)}
-             * 因为在initTitleBar之前已经经历过fit流程了, 所以要根据父布局的大小决定
-             */
-            height = MATCH_PARENT;
+            h = MATCH_PARENT;
         }
-        LinearLayout.LayoutParams params = LayoutUtil.getLinearParams(WRAP_CONTENT, height);
+        LinearLayout.LayoutParams params = LayoutUtil.getLinearParams(WRAP_CONTENT, h);
         params.gravity = Gravity.CENTER;
         params.weight = 0;
         return params;
@@ -375,36 +370,31 @@ public class NavBar extends RelativeLayout {
      * @return
      */
     private LayoutParams getRelativeParams() {
-        int height;
-        int titleBarHeightDp = mConfig.getHeightDp();
-        if (titleBarHeightDp == 0) {
-            height = WRAP_CONTENT;
-        } else {
-            // 这里要保持使用UiUtil的方法, 这个时候还没有经过fit流程
-            height = UIUtil.dpToPx(titleBarHeightDp, mContext);
+        int h = mConfig.getHeight();
+        if (h == 0) {
+            h = WRAP_CONTENT;
         }
-
-        return LayoutUtil.getRelativeParams(WRAP_CONTENT, height);
+        return LayoutUtil.getRelativeParams(WRAP_CONTENT, h);
     }
 
     /**
      * 根据属性创建TextView
      *
-     * @param sizeDp
+     * @param textSize
      * @param res
-     * @param paddingHoriDp 左右的空隙
+     * @param paddingHorizontal 左右的空隙
      * @param lsn
      * @return
      */
-    private TextView createTextView(int sizeDp, @ColorRes int res, int paddingHoriDp, OnClickListener lsn) {
-        TextView tv = new TextView(mContext);
+    private TextView createTextView(int textSize, @ColorRes int res, int paddingHorizontal, OnClickListener lsn) {
+        TextView tv = new TextView(getContext());
         tv.setGravity(Gravity.CENTER);
         tv.setSingleLine();
 //        tv.setEllipsize(TruncateAt.END);
 
         // 设置文字大小
-        if (sizeDp != 0) {
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, dpToPx(sizeDp));
+        if (textSize != 0) {
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         }
 
         // 设置文字颜色
@@ -412,9 +402,8 @@ public class NavBar extends RelativeLayout {
             tv.setTextColor(ResLoader.getColorStateList(res));
         }
 
-        if (paddingHoriDp != 0) {
-            int px = dpToPx(paddingHoriDp);
-            tv.setPadding(px, 0, px, 0);
+        if (paddingHorizontal != 0) {
+            tv.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         }
 
         if (lsn != null) {
@@ -433,7 +422,7 @@ public class NavBar extends RelativeLayout {
 	/* 设置TextView left相关********************************************** */
 
     public TextView addTextViewLeft(CharSequence text, OnClickListener lsn) {
-        TextView tv = createTextView(mConfig.getTextSizeLeftDp(), mConfig.getTextColor(), mConfig.getTextMarginHorizontalDp(), lsn);
+        TextView tv = createTextView(mConfig.getTextSizeLeft(), mConfig.getTextColor(), mConfig.getTextMarginHorizontal(), lsn);
         setTvText(text, tv);
         mLayoutLeft.addView(tv, getTextLinearParams());
         return tv;
@@ -460,7 +449,7 @@ public class NavBar extends RelativeLayout {
      * @param colorRes R.color.xxx
      */
     public TextView addTextViewLeft(CharSequence text, @ColorRes int colorRes, OnClickListener lsn) {
-        TextView tv = createTextView(mConfig.getTextSizeLeftDp(), colorRes, mConfig.getTextMarginHorizontalDp(), lsn);
+        TextView tv = createTextView(mConfig.getTextSizeLeft(), colorRes, mConfig.getTextMarginHorizontal(), lsn);
         setTvText(text, tv);
         mLayoutLeft.addView(tv, getTextLinearParams());
         return tv;
@@ -498,9 +487,9 @@ public class NavBar extends RelativeLayout {
         if (TextUtils.isEmpty(text)) {
             return null;
         }
-        TextView tv = createTextView(mConfig.getTextSizeMidDp(), id, 0, null);
+        TextView tv = createTextView(mConfig.getTextSizeMid(), id, 0, null);
         if (maxLength != 0) {
-            tv.setMaxWidth((int) ((maxLength) * mConfig.getTextSizeMidDp() * DpFitter.getDensity()));
+            tv.setMaxWidth((int) ((maxLength) * mConfig.getTextSizeMid() * DpFitter.getDensity()));
             tv.setSingleLine();
             tv.setEllipsize(TruncateAt.END);
         }
@@ -534,7 +523,7 @@ public class NavBar extends RelativeLayout {
 	/* 设置TextView right相关********************************************** */
 
     public TextView addTextViewRight(CharSequence text, OnClickListener lsn) {
-        TextView tv = createTextView(mConfig.getTextSizeRightDp(), mConfig.getTextColor(), mConfig.getTextMarginHorizontalDp(), lsn);
+        TextView tv = createTextView(mConfig.getTextSizeRight(), mConfig.getTextColor(), mConfig.getTextMarginHorizontal(), lsn);
         setTvText(text, tv);
         mLayoutRight.addView(tv, getTextLinearParams());
         return tv;
@@ -561,7 +550,7 @@ public class NavBar extends RelativeLayout {
      * @param colorRes R.color.xxx
      */
     public TextView addTextViewRight(CharSequence text, @ColorRes int colorRes, OnClickListener lsn) {
-        TextView tv = createTextView(mConfig.getTextSizeRightDp(), colorRes, mConfig.getTextMarginHorizontalDp(), lsn);
+        TextView tv = createTextView(mConfig.getTextSizeRight(), colorRes, mConfig.getTextMarginHorizontal(), lsn);
         setTvText(text, tv);
         mLayoutRight.addView(tv, getTextLinearParams());
         return tv;
@@ -586,7 +575,7 @@ public class NavBar extends RelativeLayout {
     }
 
     private String getString(@StringRes int id) {
-        return mContext.getString(id);
+        return getContext().getString(id);
     }
 
     /*************************************
@@ -632,15 +621,24 @@ public class NavBar extends RelativeLayout {
         return mLayoutRight;
     }
 
-    private int dpToPx(float dp) {
-        return DpFitter.dp(dp);
-    }
-
     public void setBackgroundAlpha(@IntRange(from = ConstantsEx.KAlphaMin, to = ConstantsEx.KAlphaMax) int alpha) {
         getBackground().setAlpha(alpha);
         if (mDivider != null) {
             mDivider.getBackground().setAlpha(alpha);
         }
+    }
+
+    /**
+     * 使用{@link NavBarConfig}来初始化
+     *
+     * @param config
+     */
+    public static void initialize(NavBarConfig config) {
+        mConfig = config;
+    }
+
+    public static NavBarConfig getConfig() {
+        return mConfig;
     }
 
     /*******************************************
@@ -726,18 +724,5 @@ public class NavBar extends RelativeLayout {
     @Override
     public final void addView(View child) {
         super.addView(child);
-    }
-
-    /**
-     * 使用{@link NavBarConfig}来初始化
-     *
-     * @param config
-     */
-    public static void initialize(NavBarConfig config) {
-        mConfig = config;
-    }
-
-    public static NavBarConfig getConfig() {
-        return mConfig;
     }
 }

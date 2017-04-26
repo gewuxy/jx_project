@@ -3,18 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
-    android:orientation="horizontal">
-    <ImageView
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="6dp"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
-        android:src="@mipmap/meeting_ic_send_left"/>
-    <ImageView
-        android:id="@+id/record_location_iv"
-        android:layout_width="293dp"
-        android:layout_height="169dp"
-        android:src="@mipmap/meeting_ic_details_default"/>
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="6dp"
+            android:src="@mipmap/meeting_ic_send_left"/>
+
+        <ImageView
+            android:id="@+id/record_location_iv"
+            android:layout_width="293dp"
+            android:layout_height="169dp"
+            android:src="@mipmap/meeting_ic_details_default"/>
+    </LinearLayout>
+
+    <View style="@style/divider.record"/>
 
 </LinearLayout>

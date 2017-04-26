@@ -8,7 +8,6 @@ import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
-import lib.ys.util.UIUtil;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
 import yy.doctor.BuildConfig;
@@ -75,7 +74,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
      * 初始化SideBar
      */
     private void initSideBar() {
-        KLetterSize = UIUtil.dpToPx(10.0F, HospitalActivity.this);
+        KLetterSize = fitDp(10);
         mSideBar.setTextSize(KLetterSize);
         mSideBar.setPaintColor(KLetterColor);
     }

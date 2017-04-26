@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.FloatRange;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -33,7 +34,12 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
 
 
-abstract public class PopupWindowEx implements IInitialize, INetwork, IOption, OnDismissListener, OnClickListener {
+abstract public class PopupWindowEx implements
+        IInitialize,
+        INetwork,
+        IOption,
+        OnDismissListener,
+        OnClickListener {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -87,8 +93,8 @@ abstract public class PopupWindowEx implements IInitialize, INetwork, IOption, O
     public final void initNavBar(NavBar bar) {
     }
 
-    public View findViewById(int id) {
-        return mContentView.findViewById(id);
+    public <T extends View> T findView(@IdRes int id) {
+        return (T) mContentView.findViewById(id);
     }
 
     @Nullable

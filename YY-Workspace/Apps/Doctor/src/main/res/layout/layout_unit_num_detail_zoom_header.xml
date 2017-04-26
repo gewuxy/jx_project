@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:text="广州广州"
-        android:textSize="@dimen/text_size"/>
+        android:textSize="14dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

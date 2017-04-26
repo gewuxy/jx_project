@@ -20,5 +20,5 @@
         android:layout_marginLeft="6dp"
         android:text="全部科室"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size"/>
+        android:textSize="16dp"/>
 </LinearLayout>

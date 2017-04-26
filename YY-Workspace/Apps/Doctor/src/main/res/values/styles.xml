@@ -6,7 +6,7 @@
         <item name="android:layout_height">@dimen/form_item_height</item>
         <item name="android:background">@drawable/btn_selector</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:gravity">center</item>
         <item name="android:clickable">true</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
@@ -20,7 +20,7 @@
         <item name="android:paddingLeft">@dimen/margin</item>
         <item name="android:background">@drawable/white</item>
         <item name="android:textColor">@color/text_666</item>
-        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textColorHint">@color/text_b3</item>
     </style>
 
@@ -29,7 +29,7 @@
         <item name="android:layout_height">@dimen/form_item_height</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_01b557</item>
-        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <!-- meeting -->
@@ -59,15 +59,19 @@
 
     <style name="tv.meeting.button">
         <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="v.divider">
+    <style name="divider.meeting">
         <item name="android:background">@color/divider</item>
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">16dp</item>
     </style>
 
+    <style name="divider.record">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_height">18dp</item>
+    </style>
 
 </resources>

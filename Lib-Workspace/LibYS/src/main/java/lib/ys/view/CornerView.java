@@ -28,7 +28,7 @@ public class CornerView extends RelativeLayout {
     private Path mPathStroke;
 
     private int mStrokeWidth;
-    private int mRadius;
+    private float mRadius;
     private int mStrokeColor;
 
     private boolean mUseStroke;
@@ -53,11 +53,10 @@ public class CornerView extends RelativeLayout {
 
         // 宽默认就使用1px就好
         mStrokeWidth = XmlAttrUtil.convert(mStrokeWidth, 1);
-        mRadius = XmlAttrUtil.convert(mRadius, KDefaultRadiusDp);
+        // increment corner radius to account for half pixels.
+        mRadius = XmlAttrUtil.convert(mRadius, KDefaultRadiusDp) + .5f;
 
         ViewUtil.disableHardwareAcc(this, true);
-
-
     }
 
     @Override

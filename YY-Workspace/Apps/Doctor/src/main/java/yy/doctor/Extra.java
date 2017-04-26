@@ -5,5 +5,5 @@ package yy.doctor;
  */
 
 public interface Extra {
-    String KTestAble = "dfdf";
+    String KData = "data";
 }

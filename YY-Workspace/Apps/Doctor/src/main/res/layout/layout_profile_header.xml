@@ -18,7 +18,7 @@
             android:layout_marginLeft="@dimen/margin"
             android:text="头像"
             android:textColor="@color/text_666"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="14dp"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@+id/profile_header_iv_avatar"

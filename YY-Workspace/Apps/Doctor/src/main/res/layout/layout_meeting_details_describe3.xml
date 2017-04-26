@@ -29,7 +29,7 @@
             style="@style/tv"
             android:text="王学廉 副主任"
             android:textColor="#757575"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="14dp"/>
 
         <TextView
             android:id="@+id/meeting_details_guest_hospital"

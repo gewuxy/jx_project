@@ -1,36 +1,42 @@
 package yy.doctor.activity.meeting;
 
-import android.support.v4.content.ContextCompat;
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.ToastUtil;
-import lib.ys.util.UIUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.RecordAdapter;
 import yy.doctor.util.Util;
 
 /**
  * 会议记录界面
- *
+ * <p>
  * 日期 : 2017/4/26
  * 创建人 : guoxuan
  */
 
 public class MeetingRecordActivity extends BaseListActivity<String> {
 
-    private static final int KListViewColor = R.color.divider;
     private String mTitle;
-    private int mDividerHeight;
+
+    public static void nav(Context context, String title) {
+        Intent i = new Intent(context, MeetingRecordActivity.class);
+        i.putExtra(Extra.KData, title);
+        LaunchUtil.startActivity(context, i);
+    }
 
     @Override
     public void initData() {
-        mDividerHeight = UIUtil.dpToPx(18.0f, MeetingRecordActivity.this);
-
-        mTitle = "医学研究";
+        mTitle = getIntent().getStringExtra(Extra.KData);
 
         for (int i = 0; i < 5; i++) {
             addItem("" + i);
@@ -38,9 +44,14 @@ public class MeetingRecordActivity extends BaseListActivity<String> {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_meeting_record;
+    }
+
+    @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, mTitle, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_details, new View.OnClickListener() {
+        bar.addViewRight(R.mipmap.nav_bar_ic_details, new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -50,19 +61,8 @@ public class MeetingRecordActivity extends BaseListActivity<String> {
     }
 
     @Override
-    public void findViews() {
-        super.findViews();
-    }
-
-    @Override
-    public void setViewsValue() {
-        super.setViewsValue();
-
-        //处理分割线和背景
-        getListWidget().getLv().setPadding(0, mDividerHeight, 0, 0);
-        getListWidget().getLv().setDivider(ContextCompat.getDrawable(MeetingRecordActivity.this, KListViewColor));
-        getListWidget().getLv().setBackgroundResource(KListViewColor);
-        getListWidget().setDividerHeight(mDividerHeight);
+    public View createHeaderView() {
+        return ViewUtil.inflateSpaceViewDp(18);
     }
 
     @Override

@@ -3,25 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/meeting_ppt_bg"
     android:gravity="bottom"
-    android:background="@mipmap/meeting_ic_ppt_bg"
     android:orientation="vertical">
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/meeting_ppt_play_niv"
-        android:layout_width="360dp"
+        android:id="@+id/meeting_ppt_iv_play_niv"
+        android:layout_width="match_parent"
         android:layout_height="320dp"/>
 
     <LinearLayout
-        android:layout_marginTop="22dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="22dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/meeting_ppt_played_time_tv"
+            android:id="@+id/meeting_ppt_played_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:05"
@@ -29,18 +29,18 @@
             android:textSize="10dp"/>
 
         <SeekBar
-            android:id="@+id/meeting_ppt_progress_sb"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
+            android:id="@+id/meeting_ppt_sb_progress"
             android:layout_width="243dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
             android:maxHeight="2dp"
             android:minHeight="2dp"
-            android:progressDrawable="@drawable/seekbar_progress"
+            android:progressDrawable="@drawable/meeting_ppt_seekbar_progress"
             android:thumb="@mipmap/meeting_ic_ppt_progress"/>
 
         <TextView
-            android:id="@+id/meeting_ppt_all_time_tv"
+            android:id="@+id/meeting_ppt_tv_all_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:50"
@@ -55,20 +55,20 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/meeting_ppt_first_iv"
+            android:id="@+id/meeting_ppt_iv_first"
             android:layout_width="25dp"
             android:layout_height="21dp"
             android:layout_marginRight="40dp"
             android:src="@mipmap/meeting_ic_ppt_first"/>
 
         <ImageView
-            android:id="@+id/meeting_ppt_last_iv"
+            android:id="@+id/meeting_ppt_iv_last"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:src="@mipmap/meeting_ic_ppt_last"/>
 
         <ImageView
-            android:id="@+id/meeting_ppt_control_iv"
+            android:id="@+id/meeting_ppt_iv_control"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_marginBottom="@dimen/margin"
@@ -78,13 +78,13 @@
             android:src="@mipmap/meeting_ic_ppt_play"/>
 
         <ImageView
-            android:id="@+id/meeting_ppt_next_iv"
+            android:id="@+id/meeting_ppt_iv_next"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:src="@mipmap/meeting_ic_ppt_next"/>
 
         <ImageView
-            android:id="@+id/meeting_ppt_single_details_iv"
+            android:id="@+id/meeting_ppt_iv_comment"
             android:layout_width="25dp"
             android:layout_height="21dp"
             android:layout_marginLeft="40dp"

@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="name  rank"
                 android:textColor="@color/text_333"
-                android:textSize="@dimen/text_size"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/me_header_tv_hospital"

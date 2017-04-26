@@ -9,7 +9,7 @@
         android:id="@+id/dialog_bottom_tv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_item_height"
-        android:textSize="@dimen/text_size"
+        android:textSize="14dp"
         android:textColor="@color/text_666"
         android:gravity="center"/>
 

@@ -27,7 +27,7 @@ abstract public class BaseHeader extends LinearLayout implements IExtend {
         mSRLayout = layout;
 
         mContentView = initContentView();
-        int h = UIUtil.dpToPx(BaseSRLayout.KDragMaxDistanceDp * 1.3f, context);
+        int h = UIUtil.dpToPx(BaseSRLayout.KDragMaxDistanceDp * 1.3f);
         addView(mContentView, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, h));
     }
 

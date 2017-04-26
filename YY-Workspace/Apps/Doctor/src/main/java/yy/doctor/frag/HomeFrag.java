@@ -3,17 +3,14 @@ package yy.doctor.frag;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.EditText;
 
-import lib.ys.LogMgr;
 import lib.ys.ex.NavBar;
-import lib.ys.model.Screen;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
 
 /**
- * @author Administrator   extends BaseSRListFrag<Home>
+ * @author CaiXiang   extends BaseSRListFrag<Home>
  * @since 2017/4/5
  */
 public class HomeFrag extends BaseFrag {
@@ -33,19 +30,8 @@ public class HomeFrag extends BaseFrag {
 
     @Override
     public void initNavBar(NavBar bar) {
-
-        final View v = inflate(R.layout.layout_home_nav_bar);
-        //bar.addViewLeft(v, null);
+        View v = inflate(R.layout.layout_home_nav_bar);
         bar.addViewRight(v, null);
-
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                LogMgr.d("www", "onGlobalLayout: v = " + v.getWidth());
-                LogMgr.d("www", "onGlobalLayout: w = " + Screen.getWidth());
-                LogMgr.d("www", "onGlobalLayout: h = " + Screen.getHeight());
-            }
-        });
 
         bar.addViewRight(R.mipmap.nav_bar_ic_notice, new OnClickListener() {
 
@@ -54,7 +40,6 @@ public class HomeFrag extends BaseFrag {
 
             }
         });
-
     }
 
     @Override

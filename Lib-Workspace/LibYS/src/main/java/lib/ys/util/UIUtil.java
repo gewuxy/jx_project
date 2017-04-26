@@ -18,29 +18,31 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 
 @SuppressWarnings("deprecation")
 public class UIUtil {
 
-    public static final int KInvalidValue = -999;
+    private static final int KInvalidValue = ConstantsEx.KInvalidValue;
+    private static final float KHalfVal = 0.5f;
 
     private static Integer sStatusBarHeight = null;
     private static PaintFlagsDrawFilter sDrawFilter = null;
 
-    public static int dpToPx(int dpValue, Context context) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) ((dpValue * scale) + 0.5f);
+    public static int dpToPx(int dpValue) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        return (int) ((dpValue * scale) + KHalfVal);
     }
 
-    public static int dpToPx(float dpValue, Context context) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) ((dpValue * scale) + 0.5f);
+    public static int dpToPx(float dpValue) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        return (int) ((dpValue * scale) + KHalfVal);
     }
 
-    public static int pxToDp(float pxValue, Context context) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f) + 1;
+    public static int pxToDp(float pxValue) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + KHalfVal) + 1;
     }
 
     public static void setCanvasAntialias(Canvas canvas) {
@@ -165,5 +167,9 @@ public class UIUtil {
         if (tv != null) {
             tv.setText(id);
         }
+    }
+
+    private static Context getContext() {
+        return AppEx.getContext();
     }
 }

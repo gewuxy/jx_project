@@ -7,7 +7,6 @@ import android.view.View;
 
 import lib.ys.AppEx;
 import lib.ys.ex.NavBar;
-import lib.ys.fitter.DpFitter;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 
@@ -21,11 +20,7 @@ public class ExUtil {
 
     @TargetApi(VERSION_CODES.JELLY_BEAN)
     public static int getFitHeaderHeight(View v, Context context) {
-        int h = 0;
-        int heightDp = NavBar.getConfig().getHeightDp();
-        if (heightDp != 0) {
-            h += DpFitter.dp(heightDp);
-        }
+        int h = NavBar.getConfig().getHeight();
 
         if (DeviceUtil.getSDKVersion() >= VERSION_CODES.KITKAT) {
             if (!v.getFitsSystemWindows() && AppEx.getConfig().isFlatBarEnabled()) {

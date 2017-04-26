@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="血管病的研究"
-            android:textSize="@dimen/text_size"
+            android:textSize="14dp"
             android:textColor="@color/text_333"/>
 
         <TextView

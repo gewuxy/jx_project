@@ -4,6 +4,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 
 import lib.ys.decor.DecorViewEx.TNavBarState;
+import lib.ys.util.UIUtil;
 
 /**
  * 导航栏配置
@@ -13,61 +14,61 @@ import lib.ys.decor.DecorViewEx.TNavBarState;
  */
 public class NavBarConfig {
 
-    private int mHeightDp = 0;
-    private int mTextSizeLeftDp = 0;
-    private int mTextSizeMidDp = 0;
-    private int mTextSizeRightDp = 0;
-    private int mIconSizeDp = 0;
-    private int mIconPaddingHorizontalDp = 0;
-    private int mTextMarginHorizontalDp = 0;
-    private int mDividerHeightPx = 0;
+    private int mHeight;
+    private int mTextSizeLeft;
+    private int mTextSizeMid;
+    private int mTextSizeRight;
+    private int mIconSize;
+    private int mIconPaddingHorizontal;
+    private int mTextMarginHorizontal;
+    private int mDividerHeight;
 
     @ColorRes
-    private int mTextColorRes = 0;
+    private int mTextColorRes;
 
     @DrawableRes
-    private int mBgRes = 0;
+    private int mBgRes;
 
     @ColorRes
-    private int mBgColorRes = 0;
+    private int mBgColorRes;
 
     @ColorRes
-    private int mDividerColorRes = 0;
+    private int mDividerColorRes;
 
     @ColorRes
-    private int mFocusBgColorRes = 0;
+    private int mFocusBgColorRes;
 
     private TNavBarState mState = TNavBarState.linear;
 
     private NavBarConfig() {
     }
 
-    public int getHeightDp() {
-        return mHeightDp;
+    public int getHeight() {
+        return mHeight;
     }
 
-    public int getTextSizeLeftDp() {
-        return mTextSizeLeftDp;
+    public int getTextSizeLeft() {
+        return mTextSizeLeft;
     }
 
-    public int getTextSizeMidDp() {
-        return mTextSizeMidDp;
+    public int getTextSizeMid() {
+        return mTextSizeMid;
     }
 
-    public int getTextSizeRightDp() {
-        return mTextSizeRightDp;
+    public int getTextSizeRight() {
+        return mTextSizeRight;
     }
 
-    public int getIconSizeDp() {
-        return mIconSizeDp;
+    public int getIconSize() {
+        return mIconSize;
     }
 
-    public int getIconPaddingHorizontalDp() {
-        return mIconPaddingHorizontalDp;
+    public int getIconPaddingHorizontal() {
+        return mIconPaddingHorizontal;
     }
 
-    public int getTextMarginHorizontalDp() {
-        return mTextMarginHorizontalDp;
+    public int getTextMarginHorizontal() {
+        return mTextMarginHorizontal;
     }
 
     @ColorRes
@@ -85,8 +86,8 @@ public class NavBarConfig {
         return mBgColorRes;
     }
 
-    public int getDividerHeightPx() {
-        return mDividerHeightPx;
+    public int getDividerHeight() {
+        return mDividerHeight;
     }
 
     public int getDividerColorRes() {
@@ -106,29 +107,29 @@ public class NavBarConfig {
     }
 
     public static class Builder {
-        private int mHeightDp = 0;
-        private int mTextSizeLeftDp = 0;
-        private int mTextSizeMidDp = 0;
-        private int mTextSizeRightDp = 0;
-        private int mIconSizeDp = 0;
-        private int mIconPaddingHorizontalDp = 0;
-        private int mTextMarginHorizontalDp = 0;
-        private int mDividerHeightPx = 0;
+        private int mHeightDp;
+        private int mTextSizeLeftDp;
+        private int mTextSizeMidDp;
+        private int mTextSizeRightDp;
+        private int mIconSizeDp;
+        private int mIconPaddingHorizontalDp;
+        private int mTextMarginHorizontalDp;
+        private int mDividerHeightPx;
 
         @ColorRes
-        private int mTextColorRes = 0;
+        private int mTextColorRes;
 
         @DrawableRes
-        private int mBgRes = 0;
+        private int mBgRes;
 
         @ColorRes
-        private int mBgColorRes = 0;
+        private int mBgColorRes;
 
         @ColorRes
-        private int mDividerColorRes = 0;
+        private int mDividerColorRes;
 
         @ColorRes
-        private int mFocusBgColorRes = 0;
+        private int mFocusBgColorRes;
 
         private TNavBarState mState = TNavBarState.linear;
 
@@ -216,22 +217,35 @@ public class NavBarConfig {
         public NavBarConfig build() {
             NavBarConfig c = new NavBarConfig();
 
-            c.mHeightDp = mHeightDp;
-            c.mTextSizeLeftDp = mTextSizeLeftDp;
-            c.mTextSizeMidDp = mTextSizeMidDp;
-            c.mTextSizeRightDp = mTextSizeRightDp;
-            c.mIconSizeDp = mIconSizeDp;
-            c.mIconPaddingHorizontalDp = mIconPaddingHorizontalDp;
-            c.mTextMarginHorizontalDp = mTextMarginHorizontalDp;
-            c.mDividerHeightPx = mDividerHeightPx;
+            c.mHeight = convertDp(mHeightDp);
+
+            c.mTextSizeLeft = convertDp(mTextSizeLeftDp);
+            c.mTextSizeMid = convertDp(mTextSizeMidDp);
+            c.mTextSizeRight = convertDp(mTextSizeRightDp);
+            c.mTextMarginHorizontal = convertDp(mTextMarginHorizontalDp);
             c.mTextColorRes = mTextColorRes;
-            c.mBgRes = mBgRes;
+
+            c.mIconSize = convertDp(mIconSizeDp);
+            c.mIconPaddingHorizontal = convertDp(mIconPaddingHorizontalDp);
+
+            c.mDividerHeight = mDividerHeightPx;
             c.mDividerColorRes = mDividerColorRes;
-            c.mFocusBgColorRes = mFocusBgColorRes;
-            c.mState = mState;
+
+            c.mBgRes = mBgRes;
             c.mBgColorRes = mBgColorRes;
 
+            c.mFocusBgColorRes = mFocusBgColorRes;
+
+            c.mState = mState;
+
             return c;
+        }
+
+        private int convertDp(int val) {
+            if (val == 0) {
+                return val;
+            }
+            return UIUtil.dpToPx(val);
         }
     }
 }
