@@ -30,7 +30,6 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.config.NavBarConfig;
 import lib.ys.fitter.DpFitter;
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.UIUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
@@ -188,7 +187,6 @@ public class NavBar extends RelativeLayout {
             v.setOnClickListener(lsn);
         }
         mLayoutLeft.addView(v, params);
-        LayoutFitter.fit(v);
         show();
     }
 
@@ -219,7 +217,6 @@ public class NavBar extends RelativeLayout {
             v.setOnClickListener(lsn);
         }
         mLayoutRight.addView(v, params);
-        LayoutFitter.fit(v);
         show();
     }
 
@@ -256,7 +253,6 @@ public class NavBar extends RelativeLayout {
             v.setOnClickListener(lsn);
         }
         mLayoutMid.addView(v, params);
-        LayoutFitter.fit(v);
         show();
     }
 
@@ -369,6 +365,7 @@ public class NavBar extends RelativeLayout {
         }
         LinearLayout.LayoutParams params = LayoutUtil.getLinearParams(WRAP_CONTENT, height);
         params.gravity = Gravity.CENTER;
+        params.weight = 0;
         return params;
     }
 

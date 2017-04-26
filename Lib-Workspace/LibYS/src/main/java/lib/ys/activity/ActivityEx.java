@@ -149,6 +149,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
 
     private void init() {
         initNavBar(getNavBar());
+        fit(getNavBar());
+
         findViews();
         setViewsValue();
 

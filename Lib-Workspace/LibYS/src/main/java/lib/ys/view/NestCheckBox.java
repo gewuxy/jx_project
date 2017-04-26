@@ -15,6 +15,12 @@ import android.widget.LinearLayout;
  */
 public class NestCheckBox extends LinearLayout {
 
+    // 代表选中状态的集合
+    private static final int[] KStateSetChecked = new int[] {
+            android.R.attr.state_checked
+    };
+
+
     private CheckBox mCb;
 
     public NestCheckBox(Context context, AttributeSet attrs) {
@@ -39,6 +45,7 @@ public class NestCheckBox extends LinearLayout {
                 mCb = cb;
                 // 要取消Cb本身的点击功能
                 mCb.setClickable(false);
+                refreshBgState();
             }
         }
 
@@ -90,10 +97,30 @@ public class NestCheckBox extends LinearLayout {
             @Override
             public void onClick(View v) {
                 boolean isChecked = mCb.isChecked();
-                mCb.setChecked(!isChecked);
+                mCb.toggle();
                 listener.onCheckedChanged(mCb, !isChecked);
+
+                refreshBgState();
             }
         });
+    }
+
+    /**
+     * 改变背景状态
+     */
+    private void refreshBgState() {
+        refreshDrawableState();
+    }
+
+    @Override
+    public int[] onCreateDrawableState(int extraSpace) {
+        if (mCb != null && !mCb.isChecked()) {
+            // 如果未选中，直接返回父类的结果
+            return super.onCreateDrawableState(extraSpace);
+        } else {
+            // 如果选中，将父类的结果和选中状态合并之后返回
+            return mergeDrawableStates(super.onCreateDrawableState(extraSpace + 1), KStateSetChecked);
+        }
     }
 
     public CheckBox getRealCheckBox() {

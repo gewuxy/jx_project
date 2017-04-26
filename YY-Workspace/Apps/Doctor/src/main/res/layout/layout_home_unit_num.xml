@@ -38,6 +38,6 @@
         android:text="+ 关注"
         android:textSize="9dp"
         android:textColor="@color/text_006ebd"
-        android:background="@drawable/home_meeting_tv_collection_bg"/>
+        android:background="@drawable/home_meeting_tv_attention_bg"/>
 
 </LinearLayout>

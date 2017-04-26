@@ -17,6 +17,19 @@
     <color name="btn_bg_red">#d14b4b</color>
     <color name="btn_bg_red_focus">#b84242</color>
 
+    <!-- 单位号关注按下效果 -->
+    <color name="unit_num_detail_not_attention_bg">#e6600e</color>
+    <color name="unit_num_detail_not_attention_bg_press">#cc560c</color>
+    <color name="unit_num_detail_attention_bg">#3994a7</color>
+    <color name="unit_num_detail_attention_bg_press">#327c8c</color>
+
+    <!-- 首页会议收藏按下效果 -->
+    <color name="home_meeting_not_collection_bg">#fff</color>
+    <color name="home_meeting_not_collection_bg_press">#fff</color>
+    <color name="home_meeting_collection_bg">#d14b4b</color>
+    <color name="home_meeting_collection_bg_press">#b84242</color>
+
+
     <drawable name="title_click_bg_focus">#19000000</drawable>
     <color name="title_click_bg_focus">#19000000</color>
 
@@ -24,6 +37,7 @@
 
     <!--text-->
     <color name="text_333">#333</color>
+    <color name="text_3994a7">#3994a7</color>
     <color name="text_1ba0cc">#1ba0cc</color>
     <color name="text_1b7bbe">#1b7bbe</color>
     <color name="text_0d5878">#0d5878</color>

@@ -21,7 +21,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @IntDef({
             RelatedId.check_version,
-            RelatedId.comment,
             RelatedId.feedback,
             RelatedId.update_log,
             RelatedId.disclaimer,
@@ -30,12 +29,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     })
     private @interface RelatedId {
         int check_version = 0;
-        int comment = 1;
-        int feedback = 2;
-        int update_log = 3;
-        int disclaimer = 4;
-        int notice = 5;
-        int jingxin = 6;
+        int feedback = 1;
+        int update_log = 2;
+        int disclaimer = 3;
+        int notice = 4;
+        int jingxin = 5;
     }
 
     @Override
@@ -55,13 +53,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.check_version)
                 .name("检查版本更新")
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content_text)
-                .related(RelatedId.comment)
-                .name("去评价")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -109,10 +100,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         switch (relatedid) {
             case RelatedId.check_version: {
                 showToast("检查版本更新");
-            }
-            break;
-            case RelatedId.comment: {
-                showToast("去评论");
             }
             break;
             case RelatedId.feedback: {

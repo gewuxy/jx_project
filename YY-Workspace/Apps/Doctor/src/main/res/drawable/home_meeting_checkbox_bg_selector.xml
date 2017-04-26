@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="false">
+        <shape>
+            <solid android:color="@color/home_meeting_not_collection_bg"/>
+            <corners android:radius="1dp"/>
+        </shape>
+    </item>
+
+    <item android:state_checked="true" android:state_pressed="false">
+        <shape>
+            <solid android:color="@color/home_meeting_collection_bg"/>
+            <corners android:radius="1dp"/>
+        </shape>
+    </item>
+    <item android:state_checked="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/home_meeting_collection_bg_press"/>
+            <corners android:radius="1dp"/>
+        </shape>
+    </item>
+
+</selector>

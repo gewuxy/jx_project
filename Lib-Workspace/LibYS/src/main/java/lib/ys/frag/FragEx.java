@@ -196,7 +196,6 @@ abstract public class FragEx extends Fragment
 
         mDecorView = new DecorViewEx(getActivity(), getNavBarState(), getInitRefreshWay(), initLoadingDialog());
         mDecorView.setContentView(getContentViewId(), getContentHeaderViewId(), getContentFooterViewId());
-        fit(mDecorView);
 
         if (useLazyLoad()) {
             initNavBar(getNavBar());
@@ -206,6 +205,8 @@ abstract public class FragEx extends Fragment
                 init();
             }
         }
+
+        fit(mDecorView);
     }
 
     /**
@@ -220,6 +221,7 @@ abstract public class FragEx extends Fragment
     private void init() {
         if (!useLazyLoad()) {
             initNavBar(getNavBar());
+            fit(getNavBar());
         }
 
         findViews();

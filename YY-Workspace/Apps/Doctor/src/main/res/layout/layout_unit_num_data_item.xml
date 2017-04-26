@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:src="@mipmap/unit_num_detail_ic_file"/>
+
+        <TextView
+            android:id="@+id/unit_num_data_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin"
+            android:text="大声道是的肌肤好"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size"/>
+        
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@mipmap/ic_arrow_right"/>
+
+    </LinearLayout>
+
+</LinearLayout>

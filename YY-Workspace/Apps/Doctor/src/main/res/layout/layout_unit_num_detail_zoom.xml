@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lib.ys.network.image.NetworkImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/unit_num_zoom_iv"
+    android:id="@+id/unit_num_detail_zoom_iv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

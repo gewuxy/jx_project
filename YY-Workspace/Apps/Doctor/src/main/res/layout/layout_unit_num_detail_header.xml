@@ -25,7 +25,7 @@
             android:textSize="10dp"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_address"
+            android:id="@+id/unit_num_detail_tv_address"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_large"
@@ -57,7 +57,7 @@
             android:textSize="10dp"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_introduction"
+            android:id="@+id/unit_num_detail_tv_introduction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
@@ -76,7 +76,7 @@
         style="@style/divider"/>
 
     <TextView
-        android:id="@+id/unit_num_tv_btn"
+        android:id="@+id/unit_num_detail_tv_btn"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@drawable/item_selector"
@@ -90,7 +90,7 @@
         android:layout_height="12dp"/>
 
     <LinearLayout
-        android:id="@+id/unit_num_layout_file"
+        android:id="@+id/unit_num_detail_layout_file"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/white"
@@ -105,7 +105,7 @@
             android:textSize="10dp"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_file_num"
+            android:id="@+id/unit_num_detail_tv_file_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -127,7 +127,7 @@
         style="@style/divider"/>
 
     <LinearLayout
-        android:id="@+id/unit_num_layout_file1"
+        android:id="@+id/unit_num_detail_layout_file1"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white"
@@ -141,7 +141,7 @@
             android:src="@mipmap/unit_num_detail_ic_file"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_file_name1"
+            android:id="@+id/unit_num_detail_tv_file_name1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
@@ -155,7 +155,7 @@
         style="@style/divider"/>
 
     <LinearLayout
-        android:id="@+id/unit_num_layout_file2"
+        android:id="@+id/unit_num_detail_layout_file2"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white"
@@ -169,7 +169,7 @@
             android:src="@mipmap/unit_num_detail_ic_file"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_file_name2"
+            android:id="@+id/unit_num_detail_tv_file_name2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
@@ -183,7 +183,7 @@
         style="@style/divider"/>
 
     <LinearLayout
-        android:id="@+id/unit_num_layout_file3"
+        android:id="@+id/unit_num_detail_layout_file3"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white"
@@ -197,7 +197,7 @@
             android:src="@mipmap/unit_num_detail_ic_file"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_file_name3"
+            android:id="@+id/unit_num_detail_tv_file_name3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"

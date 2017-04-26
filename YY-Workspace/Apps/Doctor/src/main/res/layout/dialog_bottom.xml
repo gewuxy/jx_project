@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <LinearLayout
-        android:id="@+id/dialog_clear_cache_layout_content"
+        android:id="@+id/dialog_bottom_layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"/>

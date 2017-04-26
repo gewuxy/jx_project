@@ -9,7 +9,7 @@
 
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/unit_num_iv_avatar"
+        android:id="@+id/unit_num_detail_iv_avatar"
         android:layout_width="58dp"
         android:layout_height="58dp"
         android:layout_marginTop="54dp"/>
@@ -35,7 +35,7 @@
             android:textSize="12dp"/>
 
         <TextView
-            android:id="@+id/unit_num_tv_attention_num"
+            android:id="@+id/unit_num_deatil_tv_attention_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="259人"
@@ -43,11 +43,27 @@
 
     </LinearLayout>
 
-    <lib.ys.network.image.NetworkImageView
-        android:id="@+id/unit_num_iv_attention"
-        android:layout_width="66dp"
-        android:layout_height="20dp"
+    <lib.ys.view.NestCheckBox
+        android:id="@+id/unit_num_detail_check_box_attention"
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_large"/>
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="@drawable/unit_num_detail_checkbox_bg_selector"
+        android:gravity="center">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="6dp"
+            android:background="@drawable/transparent"
+            android:button="@drawable/unit_num_detail_checkbox_btn_selector"
+            android:text="关注"
+            android:textColor="@color/white"
+            android:textSize="12dp"/>
+
+    </lib.ys.view.NestCheckBox>
 
 </LinearLayout>

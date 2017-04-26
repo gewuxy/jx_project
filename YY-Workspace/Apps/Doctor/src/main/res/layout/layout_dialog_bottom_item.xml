@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/dialog_clear_cache_tv"
+        android:id="@+id/dialog_bottom_tv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_item_height"
         android:textSize="@dimen/text_size"

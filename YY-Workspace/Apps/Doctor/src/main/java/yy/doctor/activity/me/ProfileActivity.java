@@ -1,5 +1,6 @@
 package yy.doctor.activity.me;
 
+import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +12,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
+import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
@@ -22,6 +24,9 @@ import yy.doctor.util.Util;
  * @since 2017/4/13
  */
 public class ProfileActivity extends BaseFormActivity {
+
+    private static final int KColorNormal = Color.parseColor("#666666");
+    private static final int KColorCancel = Color.parseColor("#01b557");
 
     private RelativeLayout mLayoutProfileHeader;
     private NetworkImageView mIvAvator;
@@ -219,7 +224,7 @@ public class ProfileActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.layout_profile_header: {
-                showToast("852");
+                showDialogSelectPhoto();
             }
             break;
         }
@@ -239,5 +244,41 @@ public class ProfileActivity extends BaseFormActivity {
 
     }
 
+    private void showDialogSelectPhoto() {
+
+        final BottomDialog dialog = new BottomDialog(this);
+        dialog.addItem("从相册中选择照片", KColorNormal, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.addItem("拍照", KColorNormal, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.addItem("取消", KColorCancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
+
+    }
 
 }

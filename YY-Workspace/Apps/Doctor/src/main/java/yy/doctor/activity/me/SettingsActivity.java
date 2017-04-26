@@ -11,7 +11,7 @@ import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
-import yy.doctor.dialog.ClearCacheDialog;
+import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -200,7 +200,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialogClearImgCache() {
 
-        final ClearCacheDialog dialog = new ClearCacheDialog(this);
+        final BottomDialog dialog = new BottomDialog(this);
         dialog.addItem("清理图片缓存", KColorNormal, new OnClickListener() {
 
             @Override
@@ -227,7 +227,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialogClearSoundCache() {
 
-        final ClearCacheDialog dialog = new ClearCacheDialog(this);
+        final BottomDialog dialog = new BottomDialog(this);
         dialog.addItem("清理声音缓存", KColorNormal, new OnClickListener() {
 
             @Override

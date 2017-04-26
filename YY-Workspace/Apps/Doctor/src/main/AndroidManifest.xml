@@ -31,7 +31,7 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.UnitNumActivity"
+            android:name=".activity.UnitNumDetailActivity"
             android:screenOrientation="portrait"/>
         <!-- data -->
 

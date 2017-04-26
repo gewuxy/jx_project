@@ -17,11 +17,11 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/19
  */
-public class ClearCacheDialog extends BaseDialog {
+public class BottomDialog extends BaseDialog {
 
     private LinearLayout mLayoutContent;
 
-    public ClearCacheDialog(@NonNull Context context) {
+    public BottomDialog(@NonNull Context context) {
         super(context);
     }
 
@@ -33,13 +33,13 @@ public class ClearCacheDialog extends BaseDialog {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.dialog_clear_cache;
+        return R.layout.dialog_bottom;
     }
 
     @Override
     public void findViews() {
 
-        mLayoutContent=findView(R.id.dialog_clear_cache_layout_content);
+        mLayoutContent=findView(R.id.dialog_bottom_layout_content);
 
     }
 
@@ -51,9 +51,9 @@ public class ClearCacheDialog extends BaseDialog {
     }
 
     public void addItem(CharSequence text, int color, OnClickListener l) {
-        View v = getLayoutInflater().inflate(R.layout.layout_dialog_clear_cache_item, null);
+        View v = getLayoutInflater().inflate(R.layout.layout_dialog_bottom_item, null);
 
-        TextView tv = (TextView) v.findViewById(R.id.dialog_clear_cache_tv);
+        TextView tv = (TextView) v.findViewById(R.id.dialog_bottom_tv);
         tv.setText(text);
         tv.setTextColor(color);
 
