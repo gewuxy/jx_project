@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/divider"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="6dp"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:src="@mipmap/meeting_ic_send_left"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/record_introduce_layout"
+        android:padding="@dimen/margin"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="36dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="8dp"
+            android:layout_height="7dp"
+            android:src="@mipmap/meeting_ic_sound_default"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_333"
+            android:text="60''"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+</LinearLayout>

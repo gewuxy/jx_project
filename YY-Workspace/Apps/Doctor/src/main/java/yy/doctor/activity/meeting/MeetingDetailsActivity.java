@@ -17,11 +17,11 @@ import yy.doctor.R;
 public class MeetingDetailsActivity extends ActivityEx {
 
     //播放图片
-    private NetworkImageView mIvPlay;
+    private NetworkImageView mNivPlay;
     //公众号图标
-    private NetworkImageView mIvNumber;
+    private NetworkImageView mNivNumber;
     //嘉宾头像图片
-    private NetworkImageView mIvGuest;
+    private NetworkImageView mNivGuest;
 
     @Override
     public void initData() {
@@ -41,15 +41,15 @@ public class MeetingDetailsActivity extends ActivityEx {
 
     @Override
     public void findViews() {
-        mIvPlay = findView(R.id.meeting_details_play_niv);
-        mIvNumber = findView(R.id.meeting_details_icon_number);
-        mIvGuest = findView(R.id.meeting_ic_guest_default);
+        mNivPlay = findView(R.id.meeting_details_play_niv);
+        mNivNumber = findView(R.id.meeting_details_icon_number);
+        mNivGuest = findView(R.id.meeting_ic_guest_default);
     }
 
     @Override
     public void setViewsValue() {
-        mIvPlay.placeHolder(R.mipmap.meeting_ic_details_default).load();
-        mIvNumber.placeHolder(R.mipmap.meeting_ic_number_default).load();
-        mIvGuest.placeHolder(R.mipmap.meeting_ic_guest_default).load();
+        mNivPlay.placeHolder(R.mipmap.meeting_ic_details_default).load();
+        mNivNumber.placeHolder(R.mipmap.meeting_ic_number_default).load();
+        mNivGuest.placeHolder(R.mipmap.meeting_ic_guest_default).load();
     }
 }

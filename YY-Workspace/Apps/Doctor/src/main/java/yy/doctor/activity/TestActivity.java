@@ -6,7 +6,7 @@ import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.activity.register.HospitalActivity;
+import yy.doctor.activity.meeting.MeetingRecordActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -20,7 +20,7 @@ public class TestActivity extends BaseTestActivity {
     @Override
     public void initData() {
         add("主页", MainActivity.class);
-        add("医院",HospitalActivity.class);
+        add("记录",MeetingRecordActivity.class);
         add("登录", LoginActivity.class);
         add("修改密码", ChangePwdActivity.class);
         add("忘记密码", ForgetPwdActivity.class);
