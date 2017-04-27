@@ -48,7 +48,7 @@ public class EpcDetailActivity extends BaseActivity {
 
         setOnClickListener(R.id.epc_detail_tv_btn);
 
-        mIv.placeHolder(R.mipmap.ic_default_meeting_record)
+        mIv.placeHolder(R.mipmap.ic_default_meeting_content_detail)
                 .load();
 
     }

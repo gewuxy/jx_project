@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/hospital_location"
+        android:id="@+id/hospital_tv_location"
         android:layout_width="match_parent"
         android:layout_height="36dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
-        android:hint="@string/hospital_location"
         android:paddingLeft="@dimen/margin"
+        android:text="@string/hospital_location"
         android:textColor="@color/text_888"
         android:textSize="12dp"/>
 
-    <RelativeLayout
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:id="@+id/hospital_tv_change"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:text="更改"
+        android:textColor="@color/text_0882e7"
+        android:textSize="12dp"/>
+
+    <LinearLayout
+        android:layout_below="@id/hospital_tv_location"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include layout="@layout/sr_group_list_layout"/>
 
-        <lib.ys.view.SideBar
-            android:id="@+id/side_bar"
-            android:layout_width="@dimen/margin"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@color/white"/>
-    </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+    <lib.ys.view.SideBar
+        android:id="@+id/hospital_sb"
+        android:layout_width="12dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@color/white"/>
+
+</RelativeLayout>

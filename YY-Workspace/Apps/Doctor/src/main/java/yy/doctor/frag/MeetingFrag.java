@@ -14,13 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
-import lib.ys.LogMgr;
 import lib.ys.ex.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
+import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.frag.meeting.ProgressingMeetingsFrag;
 import yy.doctor.frag.meeting.ReviewMeetingsFrag;
 import yy.doctor.frag.meeting.WaitMeetingsFrag;
@@ -107,8 +107,7 @@ public class MeetingFrag extends BaseVPFrag {
         bar.addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转搜索界面
-                LogMgr.e(TAG, "搜索");
+                startActivity(MeetingSearchActivity.class);
             }
         });
     }

@@ -6,6 +6,8 @@
     android:orientation="vertical">
 
     <TextView
+        android:background="@color/app_bg"
+        android:id="@+id/hospital_group"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:gravity="center_vertical"

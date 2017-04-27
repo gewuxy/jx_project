@@ -20,7 +20,7 @@
                 android:id="@+id/record_location_iv"
                 android:layout_width="293dp"
                 android:layout_height="169dp"
-                android:src="@mipmap/ic_default_meeting_record"/>
+                android:src="@mipmap/ic_default_meeting_content_detail"/>
 
             <ImageView
                 android:layout_width="293dp"

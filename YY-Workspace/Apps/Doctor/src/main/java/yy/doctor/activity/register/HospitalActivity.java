@@ -17,6 +17,9 @@ import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.util.Util;
 
+import static yy.doctor.model.hospital.Hospital.THospital.name;
+
+
 /**
  * 选择医院的界面
  *
@@ -28,18 +31,22 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
     private SideBar mSideBar;
     private static final int KLetterColor = Color.parseColor("#888888");
-    private int KLetterSize;
+    private int mLetterSize;
 
     @Override
     public void initData() {
+        mLetterSize = fitDp(10);
 
         //模拟数据
         GroupHospital groupHospital = new GroupHospital();
+
         for (int i = 0; i < 10; i++) {
             Hospital hospital = new Hospital();
+            hospital.put(name, "" + i);
             groupHospital.add(hospital);
         }
 
+        groupHospital.setInitial("A");
         addItem(groupHospital);
         addItem(groupHospital);
         addItem(groupHospital);
@@ -59,7 +66,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     public void findViews() {
         super.findViews();
 
-        mSideBar = (SideBar) getDecorView().findViewById(R.id.side_bar);
+        mSideBar = (SideBar) getDecorView().findViewById(R.id.hospital_sb);
         initSideBar();
     }
 
@@ -74,8 +81,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
      * 初始化SideBar
      */
     private void initSideBar() {
-        KLetterSize = fitDp(10);
-        mSideBar.setTextSize(KLetterSize);
+        mSideBar.setTextSize(mLetterSize);
         mSideBar.setPaintColor(KLetterColor);
     }
 
