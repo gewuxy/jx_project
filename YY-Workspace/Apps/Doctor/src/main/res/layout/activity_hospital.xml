@@ -16,25 +16,37 @@
         android:textSize="12dp"/>
 
     <TextView
-        android:gravity="center_vertical"
-        android:layout_alignParentRight="true"
         android:id="@+id/hospital_tv_change"
-        android:layout_marginRight="@dimen/margin"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin"
+        android:gravity="center_vertical"
         android:text="更改"
         android:textColor="@color/text_0882e7"
         android:textSize="12dp"/>
 
     <LinearLayout
-        android:layout_below="@id/hospital_tv_location"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/hospital_tv_location"
         android:orientation="vertical">
 
         <include layout="@layout/sr_group_list_layout"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/hospital_tv_letter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/hospital_tv_bg"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:visibility="gone"/>
 
     <lib.ys.view.SideBar
         android:id="@+id/hospital_sb"

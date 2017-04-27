@@ -1,6 +1,8 @@
 package yy.doctor.activity.register;
 
 import android.graphics.Color;
+import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -24,17 +26,20 @@ import static yy.doctor.model.hospital.Hospital.THospital.name;
 
 /**
  * 选择医院的界面
- *
+ * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
 
 public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
-    private SideBar mSideBar;
     private static final int KLetterColorNormal = Color.parseColor("#888888");
-    private static final int KLetterColorFocus = Color.parseColor("#6e6e6e");
+    private static final int KLetterColorFocus = Color.parseColor("#0882e7");
+    private static final long KDuration = 200l;//切换科室动画时长
+
+    private SideBar mSideBar;
     private int mLetterSize;
+    private TextView mTvLetter;
 
     @Override
     public void initData() {
@@ -69,6 +74,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     public void findViews() {
         super.findViews();
 
+        mTvLetter = findView(R.id.hospital_tv_letter);
         mSideBar = (SideBar) getDecorView().findViewById(R.id.hospital_sb);
         initSideBar();
     }
@@ -82,8 +88,6 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         setRefreshEnable(false);
     }
 
-
-
     /**
      * 初始化SideBar
      */
@@ -94,7 +98,14 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         mSideBar.setOnTouchLetterChangeListener(new OnTouchLetterListener() {
             @Override
             public void onTouchLetterChanged(String s) {
-                showToast(s);
+                mTvLetter.setText(s);
+                mTvLetter.setVisibility(View.VISIBLE);
+                runOnUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvLetter.setVisibility(View.GONE);
+                    }
+                }, KDuration);
             }
         });
     }
