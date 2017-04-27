@@ -96,7 +96,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         /**
          * 为了下标
          */
@@ -299,7 +299,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         }
 
         if (!isInit) {
-            // TODO: 参照 setViewsValue
+            // TODO: 参照 setViews
             // View v = getLayoutInflater().inflate(resId, null);
             // addGroupItemView(item, v, mItems.size() - 1);
             //

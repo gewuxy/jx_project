@@ -35,7 +35,7 @@ public class ThomsonLibFrag extends BaseFrag {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

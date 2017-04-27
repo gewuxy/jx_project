@@ -43,7 +43,7 @@ public class RechargeEpnActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

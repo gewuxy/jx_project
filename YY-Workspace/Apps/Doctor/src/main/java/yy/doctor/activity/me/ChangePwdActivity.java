@@ -47,7 +47,7 @@ public class ChangePwdActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         setOnClickListener(R.id.change_pwd_tv);
 

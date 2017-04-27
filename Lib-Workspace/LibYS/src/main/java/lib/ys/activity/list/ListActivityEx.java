@@ -32,7 +32,7 @@ abstract public class ListActivityEx<T> extends ActivityEx implements OnListWidg
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         if (mListWidget.isAdapterNull()) {
             mListWidget.createAdapter(createAdapter());
         }

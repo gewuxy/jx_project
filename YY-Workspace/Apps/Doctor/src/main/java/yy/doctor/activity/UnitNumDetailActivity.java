@@ -103,8 +103,8 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mZoomView.setZoomEnabled(true);
 

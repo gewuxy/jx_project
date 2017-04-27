@@ -45,7 +45,7 @@ abstract public class WebViewActivityEx extends ActivityEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         Drawable pd = getProgressBarDrawable();
         if (pd != null) {
             /*

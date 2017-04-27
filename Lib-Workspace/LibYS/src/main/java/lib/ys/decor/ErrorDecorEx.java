@@ -49,7 +49,7 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
 
         initData();
         findViews();
-        setViewsValue();
+        setViews();
     }
 
     @Nullable

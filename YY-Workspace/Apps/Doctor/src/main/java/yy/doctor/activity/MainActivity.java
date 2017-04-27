@@ -76,8 +76,8 @@ public class MainActivity extends BaseVPActivity {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         //addMenu();
         addIndicators();

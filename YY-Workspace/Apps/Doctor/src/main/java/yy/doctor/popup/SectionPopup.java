@@ -44,8 +44,8 @@ public class SectionPopup extends PopupWindowEx {
 
     @Override
     public void initData() {
-        setOutsideTouchable(true);
         setTouchOutsideDismissEnabled(true);
+        setDimEnabled(true);
     }
 
     @NonNull
@@ -60,7 +60,7 @@ public class SectionPopup extends PopupWindowEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         mRv.setLayoutManager(new StaggeredGridLayoutManager(KGridViewRowCount, StaggeredGridLayoutManager.VERTICAL));
 

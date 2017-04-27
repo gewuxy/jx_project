@@ -49,7 +49,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         mTvLogin.setOnClickListener(this);
         mTvRegister.setOnClickListener(this);

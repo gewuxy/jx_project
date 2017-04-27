@@ -49,7 +49,7 @@ public class HomeFrag extends BaseFrag {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

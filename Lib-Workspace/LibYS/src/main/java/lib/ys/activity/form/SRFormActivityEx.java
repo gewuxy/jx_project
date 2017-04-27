@@ -34,8 +34,8 @@ abstract public class SRFormActivityEx<T extends FormItemEx<VH>, VH extends View
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mSRLayout.setSRListener(new ISRListener() {
 

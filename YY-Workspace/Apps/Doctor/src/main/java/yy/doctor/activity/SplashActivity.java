@@ -29,8 +29,8 @@ public class SplashActivity extends SplashActivityEx {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mIv.setImageResource(R.mipmap.splash_bg);
     }

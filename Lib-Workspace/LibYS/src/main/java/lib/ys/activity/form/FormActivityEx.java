@@ -103,7 +103,7 @@ abstract public class FormActivityEx<T extends FormItemEx<VH>, VH extends ViewHo
 
     @CallSuper
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
             Object related = item.getObject(TFormElem.related);

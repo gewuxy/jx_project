@@ -37,7 +37,7 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerWidg
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         if (mWidget.isAdapterNull()) {
             mWidget.createAdapter(createAdapter());
         }

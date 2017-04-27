@@ -40,7 +40,7 @@ public class CommonDialog extends BaseDialog {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
     }
 
     public void addItem(CharSequence text, OnClickListener l) {

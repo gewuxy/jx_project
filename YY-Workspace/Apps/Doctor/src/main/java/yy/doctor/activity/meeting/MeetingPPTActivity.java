@@ -67,7 +67,7 @@ public class MeetingPPTActivity extends ActivityEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         mNivPlay.placeHolder(R.mipmap.meeting_ic_details_paly_default).load();
 
         setOnClickListener(R.id.meeting_ppt_iv_first);

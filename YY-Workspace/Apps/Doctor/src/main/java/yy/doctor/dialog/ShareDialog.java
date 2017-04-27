@@ -49,7 +49,7 @@ public class ShareDialog extends BaseDialog {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         mIvWechatFriendCircle.setOnClickListener(this);
         mIvWechatFriends.setOnClickListener(this);

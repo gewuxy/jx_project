@@ -35,7 +35,7 @@ public class ClinicalGuideFrag extends BaseFrag {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

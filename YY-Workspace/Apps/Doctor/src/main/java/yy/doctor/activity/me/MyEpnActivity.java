@@ -45,7 +45,7 @@ public class MyEpnActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         setOnClickListener(R.id.my_epn_instruction);
         setOnClickListener(R.id.my_epe_recharge_epn_tv);

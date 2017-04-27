@@ -37,7 +37,7 @@ public class JXActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

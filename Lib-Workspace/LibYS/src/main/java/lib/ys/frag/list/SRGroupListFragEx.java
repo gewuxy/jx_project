@@ -46,8 +46,8 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mSRWidget.setViewsValue();
 

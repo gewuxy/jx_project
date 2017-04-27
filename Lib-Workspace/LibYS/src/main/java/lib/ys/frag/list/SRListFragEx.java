@@ -56,8 +56,8 @@ abstract public class SRListFragEx<T> extends ListFragEx<T> implements OnSRWidge
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mSRWidget.setViewsValue();
 

@@ -125,8 +125,8 @@ public class MeFrag extends BaseFormFrag {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mLayoutHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)

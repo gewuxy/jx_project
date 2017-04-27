@@ -27,7 +27,7 @@ public class ErrorDecorInst extends ErrorDecorEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         setOnRetryClick(this);
     }
 

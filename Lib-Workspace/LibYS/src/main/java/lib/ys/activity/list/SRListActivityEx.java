@@ -49,8 +49,8 @@ abstract public class SRListActivityEx<T> extends ListActivityEx<T> implements O
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mSRWidget.setViewsValue();
 

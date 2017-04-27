@@ -65,7 +65,7 @@ abstract public class DialogEx implements OnClickListener,
 
         initData();
         findViews();
-        setViewsValue();
+        setViews();
 
         ViewGroup.LayoutParams params = getParams();
         if (params != null) {

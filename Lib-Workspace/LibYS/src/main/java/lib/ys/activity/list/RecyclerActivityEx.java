@@ -37,7 +37,7 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements OnRecy
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         if (mWidget.isAdapterNull()) {
             mWidget.createAdapter(createAdapter());
         }

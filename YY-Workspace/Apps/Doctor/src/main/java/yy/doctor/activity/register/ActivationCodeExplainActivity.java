@@ -21,7 +21,7 @@ public class ActivationCodeExplainActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

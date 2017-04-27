@@ -64,8 +64,8 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         expandAllGroup();
     }

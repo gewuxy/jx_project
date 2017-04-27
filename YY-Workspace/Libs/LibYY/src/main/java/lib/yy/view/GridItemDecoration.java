@@ -13,6 +13,9 @@ import android.support.v7.widget.RecyclerView.State;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.util.res.ResLoader;
 
 /**
@@ -31,6 +34,7 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
             Decoration.vertical,
             Decoration.hv_default,
     })
+    @Retention(RetentionPolicy.SOURCE)
     public @interface Decoration {
         int horizontal = 0;
         int vertical = 1;

@@ -33,7 +33,7 @@ abstract public class ListFragEx<T> extends FragEx implements OnListWidgetListen
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         if (mListWidget.isAdapterNull()) {
             mListWidget.createAdapter(createAdapter());
         }

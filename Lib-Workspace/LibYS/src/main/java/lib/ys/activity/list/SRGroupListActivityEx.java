@@ -44,8 +44,8 @@ abstract public class SRGroupListActivityEx<T> extends GroupListActivityEx<T> im
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mSRWidget.setViewsValue();
 

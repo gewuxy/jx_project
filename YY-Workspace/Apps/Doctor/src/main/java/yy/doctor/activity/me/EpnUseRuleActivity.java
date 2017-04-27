@@ -37,7 +37,7 @@ public class EpnUseRuleActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

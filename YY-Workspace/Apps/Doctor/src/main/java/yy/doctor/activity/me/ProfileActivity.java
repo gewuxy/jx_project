@@ -208,8 +208,8 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvator.placeHolder(R.mipmap.form_ic_personal_head)

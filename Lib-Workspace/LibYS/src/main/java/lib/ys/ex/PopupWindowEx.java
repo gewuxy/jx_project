@@ -23,6 +23,7 @@ import lib.network.model.NetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
 import lib.ys.AppEx;
+import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
 import lib.ys.R;
 import lib.ys.fitter.LayoutFitter;
@@ -47,14 +48,12 @@ abstract public class PopupWindowEx implements
     protected static final int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
     private static final float KDefaultDimAmount = 0.3f;
 
-
-    private final int KMaxAlpha = 255;
-
     private PopupWindow mPopupWindow;
     private OnDismissListener mOnDismissListener;
 
     private View mContentView;
     private Context mContext;
+    private float mDimAmount = KDefaultDimAmount;
 
     private NetworkExecutor mNetworkExecutor;
 
@@ -71,8 +70,6 @@ abstract public class PopupWindowEx implements
     }
 
     private void init() {
-        createDimWindow();
-
         mPopupWindow = new PopupWindow(mContext);
         mContentView = LayoutInflater.from(mContext).inflate(getContentViewId(), null);
         LayoutFitter.fit(mContentView);
@@ -84,13 +81,15 @@ abstract public class PopupWindowEx implements
 
         initData();
         findViews();
-        setViewsValue();
+        setViews();
 
         mPopupWindow.setOnDismissListener(this);
     }
 
     @Override
+    @Deprecated
     public final void initNavBar(NavBar bar) {
+        // 没有nav bar
     }
 
     public <T extends View> T findView(@IdRes int id) {
@@ -133,10 +132,20 @@ abstract public class PopupWindowEx implements
      *
      * @param amount 0-1.0
      */
-    private void setDimAmount(@FloatRange(from = 0, to = 1) float amount) {
-        int alpha = (int) (amount * KMaxAlpha);
-        int dimColor = Color.argb(alpha, 0, 0, 0);
-        mDimWindow.setBackgroundDrawable(new ColorDrawable(dimColor));
+    private boolean setDimAmount(@FloatRange(from = 0, to = 1) float amount) {
+        if (!mEnableDim) {
+            return false;
+        }
+
+        if (mDimWindow != null) {
+            int alpha = (int) (amount * ConstantsEx.KAlphaMax);
+            int dimColor = Color.argb(alpha, 0, 0, 0);
+            mDimWindow.setBackgroundDrawable(new ColorDrawable(dimColor));
+        } else {
+            mDimAmount = amount;
+        }
+
+        return true;
     }
 
     /**
@@ -145,7 +154,7 @@ abstract public class PopupWindowEx implements
      * @param enabled
      */
     public void setDimEnabled(boolean enabled) {
-        setDimEnabled(enabled, KDefaultDimAmount);
+        setDimEnabled(enabled, mDimAmount);
     }
 
     /**
@@ -325,6 +334,7 @@ abstract public class PopupWindowEx implements
 
     public void showAsDropDown(View anchor) {
         if (mEnableDim) {
+            createDimWindow(anchor);
             mDimWindow.showAsDropDown(anchor);
         }
         mPopupWindow.showAsDropDown(anchor);
@@ -332,6 +342,7 @@ abstract public class PopupWindowEx implements
 
     public void showAsDropDown(View anchor, int xoff, int yoff) {
         if (mEnableDim) {
+            createDimWindow(anchor);
             mDimWindow.showAsDropDown(anchor, xoff, yoff);
         }
         mPopupWindow.showAsDropDown(anchor, xoff, yoff);
@@ -347,6 +358,7 @@ abstract public class PopupWindowEx implements
      */
     public void showAtLocation(View parent, int gravity, int x, int y) {
         if (mEnableDim) {
+            createDimWindow(parent);
             mDimWindow.showAtLocation(parent, gravity, x, y);
         }
         mPopupWindow.showAtLocation(parent, gravity, x, y);
@@ -354,6 +366,7 @@ abstract public class PopupWindowEx implements
 
     public void update(View anchor, int xoff, int yoff, int width, int height) {
         if (mEnableDim) {
+            createDimWindow(anchor);
             mDimWindow.update(anchor, xoff, yoff, width, height);
         }
         mPopupWindow.update(anchor, xoff, yoff, width, height);
@@ -362,16 +375,17 @@ abstract public class PopupWindowEx implements
     /**
      * 创建变暗的背景window
      */
-    private void createDimWindow() {
+    private void createDimWindow(View v) {
         if (mDimWindow == null) {
             mDimWindow = new PopupWindow(mContext);
 
             mDimWindow.setContentView(ViewUtil.inflateSpaceViewPx(1));
             mDimWindow.setWidth(getWindowWidth());
-            mDimWindow.setHeight(MATCH_PARENT);
+            mDimWindow.setHeight(mPopupWindow.getMaxAvailableHeight(v));
             mDimWindow.setFocusable(false);
             mDimWindow.setTouchable(false);
-            setDimAmount(0.3f);
+
+            setDimAmount(mDimAmount);
         }
     }
 

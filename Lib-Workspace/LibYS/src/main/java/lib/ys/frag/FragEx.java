@@ -225,7 +225,7 @@ abstract public class FragEx extends Fragment
         }
 
         findViews();
-        setViewsValue();
+        setViews();
 
         mInitComplete = true;
         afterInitCompleted();

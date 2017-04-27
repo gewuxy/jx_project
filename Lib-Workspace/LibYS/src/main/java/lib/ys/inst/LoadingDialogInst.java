@@ -40,7 +40,7 @@ public class LoadingDialogInst extends MatchScreenDialog implements OnCancelList
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         setOnCancelListener(this);
         setOnDismissListener(this);
     }

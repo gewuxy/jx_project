@@ -133,7 +133,7 @@ public class MeetingFrag extends BaseVPFrag {
                 }
             });
         }
-        mPopup.showAsDropDown(anchor, 0, 0);
+        mPopup.showAsDropDown(anchor);
     }
 
     @Override
@@ -145,8 +145,8 @@ public class MeetingFrag extends BaseVPFrag {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
         addTabs();
 
         setOnPageChangeListener(new OnPageChangeListener() {

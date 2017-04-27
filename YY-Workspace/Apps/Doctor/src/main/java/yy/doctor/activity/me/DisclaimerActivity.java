@@ -37,7 +37,7 @@ public class DisclaimerActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
     }
 

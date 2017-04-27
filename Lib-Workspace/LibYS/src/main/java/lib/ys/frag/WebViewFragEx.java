@@ -44,7 +44,7 @@ abstract public class WebViewFragEx extends FragEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         Drawable pd = getProgressBarDrawable();
         if (pd != null) {
             /*

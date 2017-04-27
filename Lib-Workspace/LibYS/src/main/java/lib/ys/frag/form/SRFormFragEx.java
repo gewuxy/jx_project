@@ -34,8 +34,8 @@ abstract public class SRFormFragEx<T extends FormItemEx<VH>, VH extends ViewHold
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mSRLayout.setSRListener(new ISRListener() {
 

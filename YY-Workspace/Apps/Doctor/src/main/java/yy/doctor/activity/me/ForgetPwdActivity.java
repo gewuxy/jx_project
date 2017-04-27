@@ -43,7 +43,7 @@ public class ForgetPwdActivity extends BaseActivity {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         setOnClickListener(R.id.forget_pwd_tv);
 

@@ -41,7 +41,7 @@ public class UpdateNoticeDialog extends BaseDialog {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         mTvRemindMeLater.setOnClickListener(this);
         mTvDownloadNow.setOnClickListener(this);

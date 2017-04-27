@@ -102,7 +102,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
             Object related = item.getObject(TFormElem.related);

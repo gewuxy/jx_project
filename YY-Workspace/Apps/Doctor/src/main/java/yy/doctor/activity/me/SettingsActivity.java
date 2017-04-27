@@ -97,8 +97,8 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         mLayoutDownload.setOnClickListener(this);
         mTvExit.setOnClickListener(this);

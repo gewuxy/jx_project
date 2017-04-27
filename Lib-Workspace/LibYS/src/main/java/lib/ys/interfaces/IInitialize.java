@@ -60,5 +60,5 @@ public interface IInitialize {
     /**
      * 设置事件或监听等
      */
-    void setViewsValue();
+    void setViews();
 }

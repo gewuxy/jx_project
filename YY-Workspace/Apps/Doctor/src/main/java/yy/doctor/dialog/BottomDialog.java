@@ -44,7 +44,7 @@ public class BottomDialog extends BaseDialog {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
 
         setGravity(Gravity.BOTTOM);
 

@@ -46,7 +46,7 @@ abstract public class ViewPagerFragEx extends FragEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         mVp.setAdapter(getPagerAdapter());
 
         mIndicator = initPageIndicator();

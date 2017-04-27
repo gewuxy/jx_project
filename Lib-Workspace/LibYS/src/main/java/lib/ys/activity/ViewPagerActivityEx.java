@@ -51,7 +51,7 @@ abstract public class ViewPagerActivityEx extends ActivityEx {
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         mVp.setAdapter(getPagerAdapter());
 
         mIndicator = initPageIndicator();

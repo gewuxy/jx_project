@@ -89,8 +89,8 @@ public class DataFrag extends BaseVPFrag {
     }
 
     @Override
-    public void setViewsValue() {
-        super.setViewsValue();
+    public void setViews() {
+        super.setViews();
 
         addTabs();
 
