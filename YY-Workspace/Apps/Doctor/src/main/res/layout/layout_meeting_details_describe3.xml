@@ -6,7 +6,7 @@
     android:layout_height="62dp"
     android:layout_marginLeft="@dimen/margin"
     android:layout_marginRight="@dimen/margin"
-    android:background="@drawable/meeting_details_intro"
+    android:background="@drawable/meeting_details_intro_bg"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     tools:showIn="@layout/activity_meeting_details">

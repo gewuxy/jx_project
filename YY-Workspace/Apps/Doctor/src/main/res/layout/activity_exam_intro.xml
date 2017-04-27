@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/exam_intro_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginTop="24dp"
+        android:text="白求恩考试"
+        android:textColor="@color/text_333"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/exam_intro_tv_host"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:text="白求恩"
+        android:textColor="@color/text_666"
+        android:textSize="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/exam_intro_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/exam_intro_tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100道题"
+            android:textColor="@color/text_333"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/exam_intro_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="2017/4/12 14:00~15:00"
+            android:textColor="@color/text_333"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/exam_intro_tv_start"
+        style="@style/tv.common"
+        android:layout_marginTop="20dp"
+        android:text="开始考试"/>
+
+</LinearLayout>
