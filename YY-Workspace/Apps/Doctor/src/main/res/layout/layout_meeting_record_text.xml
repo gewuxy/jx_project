@@ -10,25 +10,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="6dp"
-            android:src="@mipmap/meeting_ic_send_left"/>
+        <ImageView style="@style/iv.meeting.record.symbol"/>
 
-
-            <TextView
-                android:id="@+id/record_introduce_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="36dp"
-                android:background="@drawable/meeting_record_text_bg"
-                android:lineSpacingExtra="12dp"
-                android:padding="@dimen/margin"
-                android:text="1996年，经国务院侨办批准，成为暨南大学医学院附属二院。伴随着经济特区的成长，深圳市人民医院已发展成为一个功能齐"
-                android:textColor="@color/text_333"
-                android:textSize="12dp"/>
+        <TextView
+            android:id="@+id/record_introduce_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/meeting_record_bg_text"
+            android:lineSpacingExtra="12dp"
+            android:padding="@dimen/margin"
+            android:text="1996年，经国务院侨办批准，成为暨南大学医学院附属二院。伴随着经济特区的成长，深圳市人民医院已发展成为一个功能齐"
+            android:textColor="@color/text_333"
+            android:textSize="12dp"/>
 
 
     </LinearLayout>

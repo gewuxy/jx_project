@@ -48,7 +48,7 @@ public class MeetingDetailsActivity extends ActivityEx {
 
     @Override
     public void setViews() {
-        mNivPlay.placeHolder(R.mipmap.meeting_details_ic_default).load();
+        mNivPlay.placeHolder(R.mipmap.ic_default_meeting_record).load();
         mNivNumber.placeHolder(R.mipmap.meeting_ic_number_default).load();
         mNivGuest.placeHolder(R.mipmap.meeting_ic_guest_default).load();
     }

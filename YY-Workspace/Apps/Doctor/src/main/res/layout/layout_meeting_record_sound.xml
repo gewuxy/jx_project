@@ -10,29 +10,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="6dp"
-            android:src="@mipmap/meeting_ic_send_left"/>
+        <ImageView style="@style/iv.meeting.record.symbol"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginRight="36dp"
-            android:background="@drawable/meeting_record_text_bg"
+            android:background="@drawable/meeting_record_bg_text"
             android:drawableLeft="@mipmap/meeting_ic_sound_default"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:paddingBottom="@dimen/margin"
             android:paddingLeft="11dp"
             android:paddingRight="@dimen/margin"
-            android:paddingTop="@dimen/margin"
             android:text="60''"
             android:textColor="@color/text_333"
             android:textSize="12dp"/>
-
     </LinearLayout>
 
     <View style="@style/divider.record"/>
