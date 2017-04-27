@@ -10,6 +10,7 @@ import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.R;
+import yy.doctor.activity.data.ThomsonLibActivity;
 import yy.doctor.adapter.ThomsonLibAdapter;
 
 /**
@@ -53,5 +54,12 @@ public class ThomsonLibFrag extends BaseSRListFrag<String> {
     @Override
     public View getFooterEmptyView() {
         return inflate(R.layout.frag_data_empty);
+    }
+
+    @Override
+    public void onItemClick(View v, int position) {
+        super.onItemClick(v, position);
+
+        startActivity(ThomsonLibActivity.class);
     }
 }

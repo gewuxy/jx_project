@@ -27,13 +27,45 @@
             android:name=".activity.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
+
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.UnitNumDetailActivity"
             android:screenOrientation="portrait"/>
+
+        <!-- register -->
+        <activity
+            android:name=".activity.register.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.register.HospitalActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.register.ActivationCodeExplainActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- meeting -->
+        <activity
+            android:name=".activity.meeting.MeetingDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.MeetingPPTActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.MeetingRecordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.MeetingSearchkActivity"
+            android:screenOrientation="portrait"/>
+
+
         <!-- data -->
+        <activity
+            android:name=".activity.data.ThomsonLibActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- me -->
@@ -92,32 +124,6 @@
             android:name=".activity.me.OrderActivity"
             android:screenOrientation="portrait"/>
 
-
-        <!-- meeting -->
-        <activity
-            android:name=".activity.meeting.MeetingDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.meeting.MeetingPPTActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.meeting.MeetingRecordActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.meeting.MeetingSeekActivity"
-            android:screenOrientation="portrait"/>
-
-
-        <!-- register -->
-        <activity
-            android:name=".activity.register.RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.register.ActivationCodeExplainActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.register.HospitalActivity"
-            android:screenOrientation="portrait"/>
 
     </application>
 

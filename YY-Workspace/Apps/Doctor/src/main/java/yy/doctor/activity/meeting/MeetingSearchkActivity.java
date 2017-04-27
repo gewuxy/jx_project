@@ -23,7 +23,7 @@ import yy.doctor.util.Util;
  * @since : 2017/4/26
  */
 
-public class MeetingSeekActivity extends ActivityEx {
+public class MeetingSearchkActivity extends ActivityEx {
 
     private RecyclerView mRv;
     private String[] mSectionNames;
@@ -39,7 +39,7 @@ public class MeetingSeekActivity extends ActivityEx {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_meeting_seek;
+        return R.layout.activity_meeting_search;
     }
 
     @Override
@@ -51,13 +51,13 @@ public class MeetingSeekActivity extends ActivityEx {
 
     @Override
     public void findViews() {
-        mRv = findView(R.id.meeting_seek_recyclerview);
+        mRv = findView(R.id.meeting_search_recyclerview);
     }
 
     @Override
     public void setViews() {
-        setOnClickListener(R.id.meeting_seek_tv_number);
-        setOnClickListener(R.id.meeting_seek_tv_meeting);
+        setOnClickListener(R.id.meeting_search_tv_number);
+        setOnClickListener(R.id.meeting_search_tv_meeting);
 
         mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
         mRv.addItemDecoration(new GridDivider(
@@ -83,10 +83,10 @@ public class MeetingSeekActivity extends ActivityEx {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meeting_seek_tv_number:
+            case R.id.meeting_search_tv_number:
                 showToast("公众号");
                 break;
-            case R.id.meeting_seek_tv_meeting:
+            case R.id.meeting_search_tv_meeting:
                 showToast("会议");
                 break;
             default:

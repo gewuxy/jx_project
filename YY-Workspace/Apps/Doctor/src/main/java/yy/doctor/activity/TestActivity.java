@@ -9,7 +9,7 @@ import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
-import yy.doctor.activity.meeting.MeetingSeekActivity;
+import yy.doctor.activity.meeting.MeetingSearchkActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -24,7 +24,7 @@ public class TestActivity extends BaseTestActivity {
     public void initData() {
         add("主页", MainActivity.class);
 
-        add("搜索",MeetingSeekActivity.class);
+        add("搜索",MeetingSearchkActivity.class);
         add("记录",MeetingRecordActivity.class);
 
         add("登录", LoginActivity.class);
