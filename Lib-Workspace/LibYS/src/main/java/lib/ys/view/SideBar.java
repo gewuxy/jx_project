@@ -5,11 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v4.view.ViewCompat;
+import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import lib.ys.ConstantsEx;
 import lib.ys.fitter.DpFitter;
 
 
@@ -17,11 +18,20 @@ public class SideBar extends View {
 
     private final int KPaintColorNormal = Color.parseColor("#616161");
     private final int KPaintColorFocus = Color.parseColor("#F88701");
-    private int mPaintColor = KPaintColorNormal;
+    private final int KDefaultTextSizeDp = 11;
 
-    private Paint mPaint = new Paint();
-    private OnTouchLetterChangeListener mListener;
-    private int mChoose = -1;
+    @ColorInt
+    private int mColorNormal = KPaintColorNormal;
+
+    @ColorInt
+    private int mColorFocus = KPaintColorFocus;
+
+    private OnTouchLetterListener mListener;
+
+    private Paint mPaint;
+    private int mChoose = ConstantsEx.KErrNotFound;
+
+    // 每个字母的高度
     private int mSingleHeight;
     private int mRealHeight;
 
@@ -37,7 +47,9 @@ public class SideBar extends View {
 
     public SideBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mTextSize = DpFitter.dp(11);
+
+        mTextSize = DpFitter.dp(KDefaultTextSizeDp);
+        mPaint = new Paint();
     }
 
     public void setData(String[] letters) {
@@ -56,26 +68,25 @@ public class SideBar extends View {
 
         mWidth = getMeasuredWidth();
         mHeight = getMeasuredHeight();
+
+        mSingleHeight = mHeight / mLetters.length;
+        computeRealHeight();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // 每个字母的高度
-        if (mSingleHeight == 0) {
-            mSingleHeight = mHeight / mLetters.length;
-            computeRealHeight();
-        }
-
         // 画字母
         for (int i = 0; i < mLetters.length; i++) {
-            mPaint.setColor(mPaintColor);
+            mPaint.setColor(mColorNormal);
+
             // 设置字体格式
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             mPaint.setAntiAlias(true);
             mPaint.setTextSize(mTextSize);
+
             // 如果这一项被选中，则换一种颜色画
             if (i == mChoose) {
-                mPaint.setColor(KPaintColorFocus);
+                mPaint.setColor(mColorFocus);
                 mPaint.setFakeBoldText(true);
             }
             // 要画的字母的x,y坐标
@@ -83,6 +94,7 @@ public class SideBar extends View {
             float posY = i * mSingleHeight + mSingleHeight;
             // 画出字母
             canvas.drawText(mLetters[i], posX, posY, mPaint);
+
             // 重新设置画笔
             mPaint.reset();
         }
@@ -104,7 +116,7 @@ public class SideBar extends View {
                 // showBg = true;
                 if (oldChoose != index && mListener != null && index >= 0 && index < mLetters.length) {
                     mChoose = index;
-                    mListener.onTouchLetterChange(mLetters[index]);
+                    mListener.onTouchLetterChanged(mLetters[index]);
                     invalidate();
                 }
                 break;
@@ -112,7 +124,7 @@ public class SideBar extends View {
             case MotionEvent.ACTION_MOVE: {
                 if (oldChoose != index && mListener != null && index >= 0 && index < mLetters.length) {
                     mChoose = index;
-                    mListener.onTouchLetterChange(mLetters[index]);
+                    mListener.onTouchLetterChanged(mLetters[index]);
                     invalidate();
                 }
             }
@@ -122,11 +134,11 @@ public class SideBar extends View {
                 mChoose = -1;
                 if (mListener != null) {
                     if (index <= 0) {
-                        mListener.onTouchLetterChange(mLetters[0]);
+                        mListener.onTouchLetterChanged(mLetters[0]);
                     } else if (index >= 0 && index < mLetters.length) {
-                        mListener.onTouchLetterChange(mLetters[index]);
+                        mListener.onTouchLetterChanged(mLetters[index]);
                     } else if (index >= mLetters.length) {
-                        mListener.onTouchLetterChange(mLetters[mLetters.length - 1]);
+                        mListener.onTouchLetterChanged(mLetters[mLetters.length - 1]);
                     }
                 }
                 invalidate();
@@ -141,26 +153,28 @@ public class SideBar extends View {
      *
      * @param listener
      */
-    public void setOnTouchLetterChangeListener(OnTouchLetterChangeListener listener) {
+    public void setOnTouchLetterChangeListener(OnTouchLetterListener listener) {
         mListener = listener;
     }
 
     /**
      * SideBar 的监听器接口
-     *
-     * @author Folyd
      */
-    public interface OnTouchLetterChangeListener {
-        void onTouchLetterChange(String s);
+    public interface OnTouchLetterListener {
+        void onTouchLetterChanged(String s);
     }
 
     /**
      * 设置画笔颜色
      *
-     * @param paintColor
+     * @param color
      */
-    public void setPaintColor(int paintColor) {
-        mPaintColor = paintColor;
+    public void setColor(@ColorInt int color) {
+        mColorNormal = color;
+    }
+
+    public void setColorFocus(@ColorInt int color) {
+        mColorFocus = color;
     }
 
     /**
@@ -180,10 +194,5 @@ public class SideBar extends View {
 
     private void computeRealHeight() {
         mRealHeight = mSingleHeight * mLetters.length;
-    }
-
-    @Override
-    public void invalidate() {
-        ViewCompat.postInvalidateOnAnimation(this);
     }
 }

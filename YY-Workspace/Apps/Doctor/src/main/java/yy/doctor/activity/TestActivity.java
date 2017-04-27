@@ -23,10 +23,13 @@ public class TestActivity extends BaseTestActivity {
 
     @Override
     public void initData() {
-        add("主页", MainActivity.class);
+        add("主页", MainActivity.newIntent(this, MainActivity.KTabHome));
+        add("会议", MainActivity.newIntent(this, MainActivity.KTabMeeting));
+        add("数据", MainActivity.newIntent(this, MainActivity.KTabData));
+        add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
-        add("考试",ExamIntroActivity.class);
-        add("记录",MeetingRecordActivity.class);
+        add("考试", ExamIntroActivity.class);
+        add("记录", MeetingRecordActivity.class);
         add("医院", HospitalActivity.class);
 
         add("登录", LoginActivity.class);

@@ -6,4 +6,5 @@ package yy.doctor;
 
 public interface Extra {
     String KData = "data";
+    String KPage = "page";
 }

@@ -2,7 +2,6 @@ package yy.doctor.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -12,14 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import lib.sliding.menu.SlidingMenu;
 import lib.ys.ex.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.frag.DataFrag;
 import yy.doctor.frag.HomeFrag;
 import yy.doctor.frag.MeFrag;
@@ -27,36 +24,37 @@ import yy.doctor.frag.MeetingFrag;
 
 public class MainActivity extends BaseVPActivity {
 
-    public static void nav(Context context, String test) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Extra.KData, test);
-        LaunchUtil.startActivity(context, intent);
+    public static void nav(Context context) {
+        nav(context, KTabHome);
     }
 
-    private final float KFactor = 0.25f;
-    private final float KSeven = 0.75f;
+    public static void nav(Context context, int page) {
+        LaunchUtil.startActivity(context, newIntent(context, page));
+    }
 
-    private final int KTabHome = 0;
-    private final int KTabMeeting = 1;
-    private final int KTabDiscover = 2;
-    private final int KTabMe = 3;
+    public static Intent newIntent(Context context, int page) {
+        return new Intent(context, MainActivity.class)
+                .putExtra(Extra.KPage, page);
+    }
 
+    public static final int KTabHome = 0;
+    public static final int KTabMeeting = 1;
+    public static final int KTabData = 2;
+    public static final int KTabMe = 3;
 
-    private SlidingMenu mMenu;
     private LinearLayout mLayoutTab;
     private View mTabPrev;
-    private UpdateNoticeDialog mDialogUpdateNotice;
+
+    private int mCurrPage;
 
     @Override
     public void initData() {
-        getIntent().getStringExtra(Extra.KData);
+        mCurrPage = getIntent().getIntExtra(Extra.KPage, KTabHome);
 
         add(new HomeFrag());
         add(new MeetingFrag());
         add(new DataFrag());
         add(new MeFrag());
-
-        mDialogUpdateNotice = new UpdateNoticeDialog(this);
     }
 
     @Override
@@ -79,18 +77,19 @@ public class MainActivity extends BaseVPActivity {
     public void setViews() {
         super.setViews();
 
-        //addMenu();
         addIndicators();
 
         setOffscreenPageLimit(getCount());
         setScrollable(false);
+
+        setCurrentItem(mCurrPage);
     }
 
     private void addIndicators() {
 
         addIndicator(KTabHome, R.drawable.main_selector_home, "首页");
         addIndicator(KTabMeeting, R.drawable.main_selector_meeting, "会议");
-        addIndicator(KTabDiscover, R.drawable.main_selector_data, "数据");
+        addIndicator(KTabData, R.drawable.main_selector_data, "数据");
         addIndicator(KTabMe, R.drawable.main_selector_me, "我");
 
         setOnPageChangeListener(new OnPageChangeListener() {
@@ -142,49 +141,6 @@ public class MainActivity extends BaseVPActivity {
         LayoutParams p = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         p.weight = 1;
         mLayoutTab.addView(v, p);
-    }
-
-
-    private void addMenu() {
-        mMenu = new SlidingMenu(this);
-        mMenu.setMode(SlidingMenu.LEFT);
-        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        mMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        mMenu.setShadowWidthRes(R.dimen.shadow_width);
-        mMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        mMenu.setShadowDrawable(R.drawable.menu_shadow);
-        mMenu.setFadeDegree(0.25f);
-        mMenu.setBackgroundImage(R.mipmap.menu_bg);
-        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        mMenu.setMenu(R.layout.layout_menu);
-
-        // 收缩动画 侧滑栏
-        mMenu.setBehindCanvasTransformer(new SlidingMenu.CanvasTransformer() {
-            @Override
-            public void transformCanvas(Canvas canvas, float percentOpen) {
-                float scale = (float) (percentOpen * KFactor + 0.75);
-                // 后两个数，是变化的中心点参数
-                canvas.scale(scale, scale, -canvas.getWidth() / 2, canvas.getHeight() / 2);
-            }
-        });
-
-        // 收缩动画 主界面
-        mMenu.setAboveCanvasTransformer(new SlidingMenu.CanvasTransformer() {
-            @Override
-            public void transformCanvas(Canvas canvas, float percentOpen) {
-                float scale = (float) (1 - percentOpen * KFactor);
-                canvas.scale(scale, scale, 0, canvas.getHeight() / 2);
-            }
-        });
-    }
-
-    /**
-     * 开启关闭侧滑menu
-     */
-    public void toggleMenu() {
-        if (mMenu != null) {
-            mMenu.toggle();
-        }
     }
 
     @Override
