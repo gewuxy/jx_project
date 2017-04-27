@@ -97,7 +97,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.name)
                 .name("姓名")
                 .text("sdfsdf")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .enable(false)
                 .build());
 
@@ -107,7 +107,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_more)
                 .name("医院")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -115,7 +115,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.major)
                 .name("科室")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -123,7 +123,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
                 .name("昵称")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -131,7 +131,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.phone_number)
                 .name("手机号")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -139,7 +139,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.email)
                 .name("电子邮箱")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -151,7 +151,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.certification_number)
                 .name("职业资格证号")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -159,7 +159,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.rank)
                 .name("职称")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -167,7 +167,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
                 .name("职务")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -175,7 +175,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.sex)
                 .name("性别")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -183,7 +183,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.education_background)
                 .name("学历")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -191,7 +191,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.address)
                 .name("所在城市")
-                .hint(R.string.et_hint)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider_large)

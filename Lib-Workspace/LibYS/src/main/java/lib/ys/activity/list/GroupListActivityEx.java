@@ -44,7 +44,7 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements OnGro
         if (mListWidget.isAdapterNull()) {
             mListWidget.createAdapter(createAdapter());
         }
-        mListWidget.setViewsValue();
+        mListWidget.setViews();
     }
 
     @Override

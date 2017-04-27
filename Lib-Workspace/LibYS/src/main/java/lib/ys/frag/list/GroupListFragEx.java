@@ -48,7 +48,7 @@ abstract public class GroupListFragEx<T> extends FragEx implements OnGroupListWi
         if (mListWidget.isAdapterNull()) {
             mListWidget.createAdapter(createAdapter());
         }
-        mListWidget.setViewsValue();
+        mListWidget.setViews();
     }
 
     @Override

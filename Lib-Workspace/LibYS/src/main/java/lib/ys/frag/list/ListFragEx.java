@@ -37,7 +37,7 @@ abstract public class ListFragEx<T> extends FragEx implements OnListWidgetListen
         if (mListWidget.isAdapterNull()) {
             mListWidget.createAdapter(createAdapter());
         }
-        mListWidget.setViewsValue();
+        mListWidget.setViews();
     }
 
     @Override

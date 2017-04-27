@@ -29,7 +29,7 @@ import lib.ys.widget.list.mix.IMixScrollWidget;
  *
  * @author yuansui
  */
-public class RecyclerWidget<T> implements OnRecyclerItemClickListener, IMixScrollWidget<T> {
+public class RecyclerWidget<T> implements IMixScrollWidget<T> {
 
     private WrapRecyclerView mRv;
     private IAdapter<T> mAdapter;
@@ -42,11 +42,47 @@ public class RecyclerWidget<T> implements OnRecyclerItemClickListener, IMixScrol
 
     private OnRecyclerWidgetListener<T> mListener;
 
+    private OnRecyclerItemClickListener mClickLsn;
+
+
     public RecyclerWidget(@NonNull OnRecyclerWidgetListener<T> listener) {
         if (listener == null) {
             throw new IllegalStateException("OnRecyclerWidgetListener must be NonNull");
         }
         mListener = listener;
+
+        mClickLsn = new OnRecyclerItemClickListener() {
+
+            @Override
+            public void onItemClick(View v, int position) {
+                int index = getItemRealPosition(position);
+                if (index < 0) {
+                    // 点击的是header区域
+                    mListener.onHeaderClick(v);
+                    return;
+                }
+                if (index >= getCount()) {
+                    // 点击的是footer区域
+                    mListener.onFooterClick(v);
+                    return;
+                }
+                mListener.onItemClick(v, index);
+            }
+
+            @Override
+            public void onItemLongClick(View v, int position) {
+                int index = getItemRealPosition(position);
+                if (index < 0) {
+                    // 点击的是header区域
+                    return;
+                }
+                if (index >= getCount()) {
+                    // 点击的是footer区域
+                    return;
+                }
+                mListener.onItemLongClick(v, index);
+            }
+        };
     }
 
     public void findViews(View contentView, @IdRes int viewId, View headerView, View footerView, View emptyView) {
@@ -85,12 +121,12 @@ public class RecyclerWidget<T> implements OnRecyclerItemClickListener, IMixScrol
         }
     }
 
-    public void setViewsValue(LayoutManager manager, ItemDecoration decoration, ItemAnimator animator) {
+    public void setViews(LayoutManager manager, ItemDecoration decoration, ItemAnimator animator) {
         mRv.setLayoutManager(manager);
 
         MultiRecyclerAdapterEx adapter = (MultiRecyclerAdapterEx) mAdapter;
         mRv.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        adapter.setOnItemClickListener(mClickLsn);
         adapter.setEnableLongClick(mListener.enableLongClick());
 
         // 有bug, 暂时不使用
@@ -139,36 +175,6 @@ public class RecyclerWidget<T> implements OnRecyclerItemClickListener, IMixScrol
             }
             mAdapter.removeAll();
         }
-    }
-
-    @Override
-    public final void onItemClick(View v, int position) {
-        int index = getItemRealPosition(position);
-        if (index < 0) {
-            // 点击的是header区域
-            mListener.onHeaderClick(v);
-            return;
-        }
-        if (index >= getCount()) {
-            // 点击的是footer区域
-            mListener.onFooterClick(v);
-            return;
-        }
-        mListener.onItemClick(v, index);
-    }
-
-    @Override
-    public void onItemLongClick(View v, int position) {
-        int index = getItemRealPosition(position);
-        if (index < 0) {
-            // 点击的是header区域
-            return;
-        }
-        if (index >= getCount()) {
-            // 点击的是footer区域
-            return;
-        }
-        mListener.onItemLongClick(v, index);
     }
 
     public void setData(List<T> data) {

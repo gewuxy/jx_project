@@ -8,5 +8,9 @@ import lib.yy.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
+    interface SectionConstants {
+        int KRowCount = 3; // 列数
+        int KDividerHeight = 14; // 分割线高度
+    }
 
 }

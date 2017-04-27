@@ -7,9 +7,13 @@
     <string name="toast_hint_tttt">YaYa新医师</string>
 
     <!--hint-->
-    <string name="et_hint">未填写</string>
+    <string name="hint_not_fill">未填写</string>
 
-    <string name="cancle">取消</string>
+    <string name="cancel">取消</string>
+
+    <!--title-->
+    <string name="title_meeting">会议</string>
+
 
     <!-- register_text -->
     <string name="register_key">激活码</string>
@@ -31,21 +35,18 @@
         <item>儿科</item>
         <item>口腔科</item>
         <item>耳鼻咽喉科</item>
-
         <item>药剂科</item>
         <item>精神科</item>
         <item>康复科</item>
         <item>急诊科</item>
         <item>中药科</item>
         <item>麻醉科</item>
-
         <item>胃肠科</item>
         <item>医疗美容科</item>
         <item>眼科</item>
         <item>中医科</item>
         <item>内分泌科</item>
         <item>全科</item>
-
         <item>骨科</item>
         <item>肿瘤科</item>
         <item>产科</item>

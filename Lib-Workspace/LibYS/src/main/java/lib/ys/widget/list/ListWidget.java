@@ -93,7 +93,7 @@ public class ListWidget<T> implements OnItemClickListener, OnItemLongClickListen
         }
     }
 
-    public void setViewsValue() {
+    public void setViews() {
         UIUtil.setOverScrollNever(mLv);
 
         mLv.setAdapter((ListAdapter) mAdapter);

@@ -41,7 +41,7 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerWidg
         if (mWidget.isAdapterNull()) {
             mWidget.createAdapter(createAdapter());
         }
-        mWidget.setViewsValue(initLayoutManager(), initItemDecoration(), initItemAnimator());
+        mWidget.setViews(initLayoutManager(), initItemDecoration(), initItemAnimator());
     }
 
     /**

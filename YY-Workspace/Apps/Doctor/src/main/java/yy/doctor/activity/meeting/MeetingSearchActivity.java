@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import java.util.Arrays;
-
 import lib.ys.activity.ActivityEx;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
 import lib.ys.ex.NavBar;
 import lib.ys.fitter.DpFitter;
 import lib.yy.view.GridDivider;
+import yy.doctor.Constants.SectionConstants;
 import yy.doctor.R;
 import yy.doctor.adapter.SectionAdapter;
 import yy.doctor.util.Util;
@@ -23,17 +22,12 @@ import yy.doctor.util.Util;
  * @since : 2017/4/26
  */
 
-public class MeetingSearchkActivity extends ActivityEx {
+public class MeetingSearchActivity extends ActivityEx {
 
     private RecyclerView mRv;
-    private String[] mSectionNames;
-
-    private static final int KRowCount = 3; // 列数
-    private static final int KDividerHeight = 14; // 分割线高度
 
     @Override
     public void initData() {
-        mSectionNames = getResources().getStringArray(R.array.sections);
     }
 
     @NonNull
@@ -59,23 +53,19 @@ public class MeetingSearchkActivity extends ActivityEx {
         setOnClickListener(R.id.meeting_search_tv_number);
         setOnClickListener(R.id.meeting_search_tv_meeting);
 
-        mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
+        mRv.setLayoutManager(new StaggeredGridLayoutManager(SectionConstants.KRowCount, StaggeredGridLayoutManager.VERTICAL));
         mRv.addItemDecoration(new GridDivider(
-                DpFitter.dp(KDividerHeight),
+                DpFitter.dp(SectionConstants.KDividerHeight),
                 R.drawable.section_divider_bg));
 
         final SectionAdapter adapter = new SectionAdapter();
-        adapter.addAll(Arrays.asList(mSectionNames));
+        adapter.addAll(Util.getSections());
         mRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
             @Override
             public void onItemClick(View v, int position) {
-                showToast(mSectionNames[position]);
-            }
-
-            @Override
-            public void onItemLongClick(View v, int position) {
+                showToast(adapter.getItem(position));
             }
         });
     }

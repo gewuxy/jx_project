@@ -46,7 +46,7 @@ public class GroupListWidget<T> extends ListWidget<T> implements OnGroupClickLis
     }
 
     @Override
-    public void setViewsValue() {
+    public void setViews() {
         // 不能调用super, 因为adapter类型不同无法设置
         UIUtil.setOverScrollNever(mLv);
 

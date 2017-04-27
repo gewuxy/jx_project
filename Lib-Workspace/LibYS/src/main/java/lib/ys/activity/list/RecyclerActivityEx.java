@@ -41,7 +41,7 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements OnRecy
         if (mWidget.isAdapterNull()) {
             mWidget.createAdapter(createAdapter());
         }
-        mWidget.setViewsValue(initLayoutManager(), initItemDecoration(), initItemAnimator());
+        mWidget.setViews(initLayoutManager(), initItemDecoration(), initItemAnimator());
     }
 
     /**
