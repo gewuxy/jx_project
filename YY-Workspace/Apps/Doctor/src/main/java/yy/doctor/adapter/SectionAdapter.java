@@ -5,8 +5,8 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.SectionVH;
 
 /**
- * 选择科室的Adapter
- * <p>
+ * 科室列表的Adapter
+ *
  * 日期 : 2017/4/24
  * 创建人 : guoxuan
  */

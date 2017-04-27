@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/meeting_item_title"
+            android:id="@+id/meeting_item_tv_title"
             style="@style/tv.meeting"
             android:text="廣東省第29屆腫瘤病學年會專家預告"
             android:textColor="@color/text_333"
@@ -27,21 +27,21 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/meeting_item_state_iv"
+                android:id="@+id/meeting_item_iv_state"
                 style="@style/tv.meeting"
                 android:layout_width="11dp"
                 android:layout_height="11dp"
                 android:src="@mipmap/meeting_ic_retrospect"/>
 
             <TextView
-                android:id="@+id/meeting_item_state_tv"
+                android:id="@+id/meeting_item_tv_state"
                 style="@style/tv.meeting"
                 android:text="精彩回顧"
                 android:textColor="#5cb0de"/>
 
             <!-- TODO:未设置宽高2套切图用哪套? -->
             <ImageView
-                android:id="@+id/meeting_item_section_iv"
+                android:id="@+id/meeting_item_iv_section"
                 style="@style/tv.meeting"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -49,18 +49,18 @@
                 android:src="@mipmap/meeting_ic_tumour"/>
 
             <TextView
-                android:id="@+id/meeting_item_section_tv"
+                android:id="@+id/meeting_item_tv_section"
                 style="@style/tv.meeting"
                 android:text="肿瘤科"/>
 
             <TextView
-                android:id="@+id/meeting_item_time"
+                android:id="@+id/meeting_item_tv_time"
                 style="@style/tv.meeting"
                 android:layout_marginLeft="8dip"
                 android:text="@string/default_date"/>
 
             <TextView
-                android:id="@+id/meeting_item_data"
+                android:id="@+id/meeting_item_tv_data"
                 style="@style/tv.meeting"
                 android:text="@string/default_time"/>
 

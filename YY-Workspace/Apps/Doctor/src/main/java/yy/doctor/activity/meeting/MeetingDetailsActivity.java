@@ -42,13 +42,13 @@ public class MeetingDetailsActivity extends ActivityEx {
     @Override
     public void findViews() {
         mNivPlay = findView(R.id.meeting_details_play_niv);
-        mNivNumber = findView(R.id.meeting_details_icon_number);
-        mNivGuest = findView(R.id.meeting_ic_guest_default);
+        mNivNumber = findView(R.id.meeting_niv_icon_number);
+        mNivGuest = findView(R.id.meeting_niv_guest_portrait);
     }
 
     @Override
     public void setViews() {
-        mNivPlay.placeHolder(R.mipmap.meeting_ic_details_default).load();
+        mNivPlay.placeHolder(R.mipmap.meeting_details_ic_default).load();
         mNivNumber.placeHolder(R.mipmap.meeting_ic_number_default).load();
         mNivGuest.placeHolder(R.mipmap.meeting_ic_guest_default).load();
     }

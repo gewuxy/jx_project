@@ -37,7 +37,7 @@
             android:maxHeight="2dp"
             android:minHeight="2dp"
             android:progressDrawable="@drawable/meeting_ppt_seekbar_progress"
-            android:thumb="@mipmap/meeting_ic_ppt_progress"/>
+            android:thumb="@mipmap/meeting_ppt_ic_progress"/>
 
         <TextView
             android:id="@+id/meeting_ppt_tv_all_time"
@@ -59,13 +59,13 @@
             android:layout_width="25dp"
             android:layout_height="21dp"
             android:layout_marginRight="40dp"
-            android:src="@mipmap/meeting_ic_ppt_first"/>
+            android:src="@mipmap/meeting_ppt_ic_first"/>
 
         <ImageView
             android:id="@+id/meeting_ppt_iv_last"
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:src="@mipmap/meeting_ic_ppt_last"/>
+            android:src="@mipmap/meeting_ppt_ic_last"/>
 
         <ImageView
             android:id="@+id/meeting_ppt_iv_control"
@@ -75,19 +75,19 @@
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
             android:layout_marginTop="@dimen/margin"
-            android:src="@mipmap/meeting_ic_ppt_play"/>
+            android:src="@mipmap/meeting_ppt_ic_play"/>
 
         <ImageView
             android:id="@+id/meeting_ppt_iv_next"
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:src="@mipmap/meeting_ic_ppt_next"/>
+            android:src="@mipmap/meeting_ppt_ic_next"/>
 
         <ImageView
             android:id="@+id/meeting_ppt_iv_comment"
             android:layout_width="25dp"
             android:layout_height="21dp"
             android:layout_marginLeft="40dp"
-            android:src="@mipmap/meeting_ic_ppt_single_details"/>
+            android:src="@mipmap/meeting_ppt_ic_comment"/>
     </LinearLayout>
 </LinearLayout>

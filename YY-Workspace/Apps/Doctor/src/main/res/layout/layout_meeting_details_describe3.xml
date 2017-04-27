@@ -12,7 +12,7 @@
     tools:showIn="@layout/activity_meeting_details">
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/meeting_ic_guest_default"
+        android:id="@+id/meeting_niv_guest_portrait"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginBottom="9dp"
@@ -25,14 +25,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/meeting_details_guest_name"
+            android:id="@+id/meeting_tv_guest_name"
             style="@style/tv"
             android:text="王学廉 副主任"
             android:textColor="#757575"
             android:textSize="14dp"/>
 
         <TextView
-            android:id="@+id/meeting_details_guest_hospital"
+            android:id="@+id/meeting_tv_guest_hospital"
             style="@style/tv"
             android:text="第四军医大学唐都医院"
             android:textColor="@color/text_b3"

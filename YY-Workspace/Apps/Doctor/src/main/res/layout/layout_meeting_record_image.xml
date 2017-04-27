@@ -17,11 +17,23 @@
             android:layout_marginRight="6dp"
             android:src="@mipmap/meeting_ic_send_left"/>
 
-        <ImageView
-            android:id="@+id/record_location_iv"
-            android:layout_width="293dp"
-            android:layout_height="169dp"
-            android:src="@mipmap/meeting_ic_details_default"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/record_location_iv"
+                android:layout_width="293dp"
+                android:layout_height="169dp"
+                android:src="@mipmap/meeting_details_ic_default"/>
+
+            <ImageView
+                android:layout_width="293dp"
+                android:layout_height="169dp"
+                android:background="@drawable/meeting_record_image_bg"/>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <View style="@style/divider.record"/>

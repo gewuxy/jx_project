@@ -12,7 +12,7 @@ public class CollectionMeetingAdapter extends AdapterEx<String,CollectionMeeting
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.form_item_meeting;
+        return R.layout.layout_meeting_item;
     }
 
     @Override

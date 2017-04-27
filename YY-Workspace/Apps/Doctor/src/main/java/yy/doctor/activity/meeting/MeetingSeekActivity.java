@@ -1,65 +1,65 @@
-package yy.doctor.popup;
+package yy.doctor.activity.meeting;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import java.util.Arrays;
 
+import lib.ys.activity.ActivityEx;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
-import lib.ys.ex.PopupWindowEx;
+import lib.ys.ex.NavBar;
 import lib.ys.fitter.DpFitter;
 import lib.yy.view.GridDivider;
 import yy.doctor.R;
 import yy.doctor.adapter.SectionAdapter;
+import yy.doctor.util.Util;
 
 /**
- * @auther yuansui
- * @since 2017/4/26
+ * 搜索会议界面
+ *
+ * @author : GuoXuan
+ * @since : 2017/4/26
  */
 
-public class SectionPopup extends PopupWindowEx {
+public class MeetingSeekActivity extends ActivityEx {
+
+    private RecyclerView mRv;
+    private String[] mSectionNames;
+
     private static final int KRowCount = 3; // 列数
     private static final int KDividerHeight = 14; // 分割线高度
 
-    private String[] mSectionNames;
-
-
-    private RecyclerView mRv;
-
-    private OnSectionListener mLsn;
-
-    public SectionPopup(@NonNull Context context, @Nullable OnSectionListener l) {
-        super(context);
-        mLsn = l;
-    }
-
     @Override
     public void initData() {
-        mSectionNames = getContext().getResources().getStringArray(R.array.sections);
-        setTouchOutsideDismissEnabled(true);
-        setDimEnabled(true);
+        mSectionNames = getResources().getStringArray(R.array.sections);
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_meeting_select_section;
+        return R.layout.activity_meeting_seek;
+    }
+
+    @Override
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, this);
+        View v = inflate(R.layout.layout_home_nav_bar);
+        bar.addViewLeft(v, null);
     }
 
     @Override
     public void findViews() {
-        mRv = findView(R.id.meeting_layout_recyclerview);
+        mRv = findView(R.id.meeting_seek_recyclerview);
     }
 
     @Override
     public void setViews() {
+        setOnClickListener(R.id.meeting_seek_tv_number);
+        setOnClickListener(R.id.meeting_seek_tv_meeting);
 
         mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
-
         mRv.addItemDecoration(new GridDivider(
                 DpFitter.dp(KDividerHeight),
                 R.drawable.section_divider_bg));
@@ -71,30 +71,27 @@ public class SectionPopup extends PopupWindowEx {
 
             @Override
             public void onItemClick(View v, int position) {
-                if (mLsn != null) {
-                    mLsn.onSectionSelected(adapter.getItem(position));
-                }
-                dismiss();
+                showToast(mSectionNames[position]);
             }
 
             @Override
             public void onItemLongClick(View v, int position) {
             }
         });
-
     }
 
     @Override
-    public int getWindowWidth() {
-        return MATCH_PARENT;
-    }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.meeting_seek_tv_number:
+                showToast("公众号");
+                break;
+            case R.id.meeting_seek_tv_meeting:
+                showToast("会议");
+                break;
+            default:
+                break;
+        }
 
-    @Override
-    public int getWindowHeight() {
-        return WRAP_CONTENT;
-    }
-
-    public interface OnSectionListener {
-        void onSectionSelected(String text);
     }
 }

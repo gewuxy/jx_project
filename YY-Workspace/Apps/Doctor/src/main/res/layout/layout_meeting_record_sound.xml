@@ -17,30 +17,22 @@
             android:layout_marginRight="6dp"
             android:src="@mipmap/meeting_ic_send_left"/>
 
-        <LinearLayout
-            android:id="@+id/record_introduce_layout"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="36dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/margin">
+            android:background="@drawable/meeting_record_text_bg"
+            android:drawableLeft="@mipmap/meeting_ic_sound_default"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:paddingBottom="@dimen/margin"
+            android:paddingLeft="11dp"
+            android:paddingRight="@dimen/margin"
+            android:paddingTop="@dimen/margin"
+            android:text="60''"
+            android:textColor="@color/text_333"
+            android:textSize="12dp"/>
 
-            <ImageView
-                android:layout_width="8dp"
-                android:layout_height="7dp"
-                android:layout_marginLeft="11dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/meeting_ic_sound_default"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="60''"
-                android:textColor="@color/text_333"
-                android:textSize="12dp"/>
-        </LinearLayout>
     </LinearLayout>
 
     <View style="@style/divider.record"/>

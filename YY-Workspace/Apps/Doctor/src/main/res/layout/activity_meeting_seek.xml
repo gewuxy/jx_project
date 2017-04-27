@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/meeting_seek_tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="36dp"
+            android:text="搜索单位号"
+            android:textColor="@color/text_006ebd"
+            android:textSize="12dp"/>
+
+        <View
+            style="@style/divider.meeting"/>
+
+        <TextView
+            android:id="@+id/meeting_seek_tv_meeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:text="搜索会议"
+            android:textColor="@color/text_006ebd"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/margin"
+        android:id="@+id/meeting_seek_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

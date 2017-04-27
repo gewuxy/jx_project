@@ -103,6 +103,9 @@
         <activity
             android:name=".activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.MeetingSeekActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- register -->
