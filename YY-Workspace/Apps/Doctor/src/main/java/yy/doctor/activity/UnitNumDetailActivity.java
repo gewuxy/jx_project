@@ -21,7 +21,7 @@ import lib.ys.view.NestCheckBox;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.R;
-import yy.doctor.adapter.UnitNumAdapter;
+import yy.doctor.adapter.UnitNumDetailAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.util.Util;
 
@@ -53,7 +53,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_unit_num;
+        return R.layout.activity_unit_num_detail;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
     public void findViews() {
         super.findViews();
 
-        mZoomView = findView(R.id.unit_num_layout_zoom);
+        mZoomView = findView(R.id.unit_num_detail_layout_zoom);
         mIvZoom = findView(R.id.unit_num_detail_zoom_iv);
         mIvAvatar = findView(R.id.unit_num_detail_iv_avatar);
         mLayoutHeaderRoot = findView(R.id.unit_num_zoom_header_root);
@@ -152,7 +152,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
     @Override
     public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new UnitNumAdapter();
+        return new UnitNumDetailAdapter();
     }
 
     @Override

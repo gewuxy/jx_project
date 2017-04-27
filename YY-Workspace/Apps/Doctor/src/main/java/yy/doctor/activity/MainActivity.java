@@ -187,4 +187,8 @@ public class MainActivity extends BaseVPActivity {
         }
     }
 
+    @Override
+    protected Boolean enableSwipeFinish() {
+        return false;
+    }
 }

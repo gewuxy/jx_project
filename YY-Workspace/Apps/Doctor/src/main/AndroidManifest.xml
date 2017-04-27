@@ -73,6 +73,25 @@
         <activity
             android:name=".activity.me.ContributionInvitedActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.UpdateLogActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.MyEpnDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.EpcActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.ExchangeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.EpcDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.OrderActivity"
+            android:screenOrientation="portrait"/>
+
 
         <!-- meeting -->
         <activity
@@ -84,6 +103,7 @@
         <activity
             android:name=".activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
+
 
         <!-- register -->
         <activity

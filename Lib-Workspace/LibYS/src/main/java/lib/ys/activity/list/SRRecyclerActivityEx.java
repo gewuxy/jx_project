@@ -49,7 +49,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     public void setViews() {
         super.setViews();
 
-        mSRWidget.setViewsValue();
+        mSRWidget.setViews();
 
         if (getInitRefreshWay() == RefreshWay.embed && canAutoRefresh()) {
             // 为了更好的体验, 在embed loading显示之前先隐藏掉

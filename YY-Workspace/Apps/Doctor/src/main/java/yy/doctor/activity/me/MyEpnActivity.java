@@ -35,7 +35,7 @@ public class MyEpnActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                showToast("85654");
+                startActivity(MyEpnDetailsActivity.class);
             }
         });
     }

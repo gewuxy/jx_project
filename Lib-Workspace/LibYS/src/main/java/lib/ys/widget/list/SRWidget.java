@@ -86,7 +86,7 @@ public class SRWidget<T> implements ISRListener {
     public void findViews(View contentView, @IdRes int srLayoutResId) {
         mSRLayout = (BaseSRLoadMoreLayout) contentView.findViewById(srLayoutResId);
 
-        View footerEmpty = getFooterEmptyView();
+        View footerEmpty = createFooterEmptyView();
         if (footerEmpty != null) {
             LayoutInflater inflater = LayoutInflater.from(AppEx.ct());
             View layoutFooterEmpty = inflater.inflate(R.layout.layout_list_footer_empty_container, null);
@@ -97,7 +97,7 @@ public class SRWidget<T> implements ISRListener {
         }
     }
 
-    public void setViewsValue() {
+    public void setViews() {
         mWidget.hideFooterView();
         hideFooterEmptyView();
 
@@ -463,7 +463,7 @@ public class SRWidget<T> implements ISRListener {
         mListener.onLocalRefreshError();
     }
 
-    private View getFooterEmptyView() {
+    private View createFooterEmptyView() {
         return mListener.getFooterEmptyView();
     }
 

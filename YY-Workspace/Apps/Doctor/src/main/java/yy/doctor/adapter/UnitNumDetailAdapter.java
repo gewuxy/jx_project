@@ -2,14 +2,14 @@ package yy.doctor.adapter;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.UnitNumVH;
+import yy.doctor.adapter.VH.UnitNumDetailVH;
 
 /**
  * @auther yuansui
  * @since 2017/4/25
  */
 
-public class UnitNumAdapter extends AdapterEx<String, UnitNumVH> {
+public class UnitNumDetailAdapter extends AdapterEx<String, UnitNumDetailVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -17,7 +17,7 @@ public class UnitNumAdapter extends AdapterEx<String, UnitNumVH> {
     }
 
     @Override
-    protected void refreshView(int position, UnitNumVH holder) {
+    protected void refreshView(int position, UnitNumDetailVH holder) {
 
     }
 }

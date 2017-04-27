@@ -4,22 +4,23 @@ import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseListActivity;
-import yy.doctor.adapter.CollectionMeetingAdapter;
-import yy.doctor.util.Util;
+import yy.doctor.R;
+import yy.doctor.adapter.OrderAdapter;
 
 /**
- * 收藏会议
+ *
+ *订单
  *
  * @author CaiXiang
- * @since 2017/4/12
+ * @since 2017/4/27
  */
-public class CollectionMeetingActivity extends BaseListActivity<String> {
+public class OrderActivity extends BaseListActivity<String> {
 
     @Override
     public void initData() {
 
-        for (int i = 0; i < 6; ++i) {
-            addItem(i + "");
+        for (int i = 0; i < 5; ++i) {
+            addItem(i + " ");
         }
 
     }
@@ -27,14 +28,13 @@ public class CollectionMeetingActivity extends BaseListActivity<String> {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "收藏的会议", this);
+        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "订单", this);
 
     }
 
     @Override
     public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new CollectionMeetingAdapter();
+        return new OrderAdapter();
     }
-
 
 }

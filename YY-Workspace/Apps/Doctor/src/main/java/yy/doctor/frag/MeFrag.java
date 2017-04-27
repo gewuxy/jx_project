@@ -11,6 +11,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.me.CollectionMeetingActivity;
+import yy.doctor.activity.me.EpcActivity;
 import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
@@ -167,7 +168,7 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.epc: {
-                showToast("999");
+                startActivity(EpcActivity.class);
             }
             break;
             case RelatedId.settings: {

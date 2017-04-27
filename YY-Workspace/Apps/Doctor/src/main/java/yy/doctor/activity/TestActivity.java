@@ -2,7 +2,10 @@ package yy.doctor.activity;
 
 import lib.yy.test.BaseTestActivity;
 import yy.doctor.activity.me.ChangePwdActivity;
+import yy.doctor.activity.me.EpcActivity;
+import yy.doctor.activity.me.EpcDetailActivity;
 import yy.doctor.activity.me.EpnUseRuleActivity;
+import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
@@ -33,5 +36,9 @@ public class TestActivity extends BaseTestActivity {
         add("分享对话框", new ShareDialog(this));
 
         add("单位号", UnitNumDetailActivity.class);
+        add("象城", EpcActivity.class);
+        add("兑换", ExchangeActivity.class);
+        add("商品详情", EpcDetailActivity.class);
     }
+
 }

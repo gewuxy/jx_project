@@ -6,13 +6,12 @@ import android.view.View;
 import lib.ys.adapter.ViewHolderEx;
 
 /**
- * @auther yuansui
- * @since 2017/4/25
+ * @author CaiXiang
+ * @since 2017/4/26
  */
+public class MyEpnDetailsVH extends ViewHolderEx {
 
-public class UnitNumVH extends ViewHolderEx {
-
-    public UnitNumVH(@NonNull View convertView) {
+    public MyEpnDetailsVH(@NonNull View convertView) {
         super(convertView);
     }
 }

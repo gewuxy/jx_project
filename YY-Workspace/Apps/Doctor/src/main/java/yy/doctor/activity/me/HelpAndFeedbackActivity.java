@@ -107,7 +107,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.update_log: {
-                showToast("更新日志");
+                startActivity(UpdateLogActivity.class);
             }
             break;
             case RelatedId.disclaimer: {
