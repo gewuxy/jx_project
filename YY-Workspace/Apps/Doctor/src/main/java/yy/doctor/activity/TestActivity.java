@@ -10,6 +10,7 @@ import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
+import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -26,6 +27,7 @@ public class TestActivity extends BaseTestActivity {
 
         add("考试",ExamIntroActivity.class);
         add("记录",MeetingRecordActivity.class);
+        add("医院", HospitalActivity.class);
 
         add("登录", LoginActivity.class);
         add("修改密码", ChangePwdActivity.class);
