@@ -6,9 +6,11 @@ import org.json.JSONException;
 
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.decor.DecorViewEx;
 import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.view.SideBar;
+import lib.ys.view.SideBar.OnTouchLetterListener;
 import lib.yy.activity.base.BaseSRGroupListActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
@@ -30,7 +32,8 @@ import static yy.doctor.model.hospital.Hospital.THospital.name;
 public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
     private SideBar mSideBar;
-    private static final int KLetterColor = Color.parseColor("#888888");
+    private static final int KLetterColorNormal = Color.parseColor("#888888");
+    private static final int KLetterColorFocus = Color.parseColor("#6e6e6e");
     private int mLetterSize;
 
     @Override
@@ -75,14 +78,30 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         super.setViews();
 
         expandAllGroup();
+
+        setRefreshEnable(false);
     }
+
+
 
     /**
      * 初始化SideBar
      */
     private void initSideBar() {
         mSideBar.setTextSize(mLetterSize);
-        mSideBar.setPaintColor(KLetterColor);
+        mSideBar.setColor(KLetterColorNormal);
+        mSideBar.setColorFocus(KLetterColorFocus);
+        mSideBar.setOnTouchLetterChangeListener(new OnTouchLetterListener() {
+            @Override
+            public void onTouchLetterChanged(String s) {
+                showToast(s);
+            }
+        });
+    }
+
+    @Override
+    public void setViewState(@DecorViewEx.ViewState int state) {
+        super.setViewState(state);
     }
 
     @Override
