@@ -1,5 +1,6 @@
 package lib.ys.activity.list;
 
+import android.support.annotation.CallSuper;
 import android.view.View;
 
 import org.json.JSONException;
@@ -42,12 +43,14 @@ abstract public class SRListActivityEx<T> extends ListActivityEx<T> implements O
         return R.id.sr_list_layout;
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         super.findViews();
         mSRWidget.findViews(getDecorView(), getSRLayoutResId());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         super.setViews();

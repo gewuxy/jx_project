@@ -1,5 +1,6 @@
 package lib.ys.frag.list;
 
+import android.support.annotation.CallSuper;
 import android.view.View;
 
 import org.json.JSONException;
@@ -39,12 +40,14 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
         return R.id.sr_group_list_layout;
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         super.findViews();
         mSRWidget.findViews(getDecorView(), getSRLayoutResId());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         super.setViews();

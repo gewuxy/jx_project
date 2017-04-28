@@ -57,6 +57,7 @@ abstract public class FormActivityEx<T extends FormItemEx<VH>, VH extends ViewHo
         return R.layout.layout_form_items;
     }
 
+    @CallSuper
     @Override
     public void initData() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);

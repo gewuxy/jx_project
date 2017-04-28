@@ -31,6 +31,7 @@ abstract public class ListActivityEx<T> extends ActivityEx implements OnListWidg
         mListWidget.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         if (mListWidget.isAdapterNull()) {

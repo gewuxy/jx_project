@@ -7,6 +7,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.CallSuper;
 import android.view.Gravity;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
@@ -38,12 +39,14 @@ abstract public class WebViewActivityEx extends ActivityEx {
         return R.layout.activity_web_view_ex;
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         mWebView = findView(R.id.web_view_ex_wv);
         mProgressBar = findView(R.id.web_view_ex_progress_bar);
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         Drawable pd = getProgressBarDrawable();

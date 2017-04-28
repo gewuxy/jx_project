@@ -1,5 +1,6 @@
 package lib.ys.activity;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -33,6 +34,7 @@ abstract public class ViewPagerActivityEx extends ActivityEx {
         return R.layout.layout_viewpager;
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         mVp = findView(getViewPagerResId());
@@ -50,6 +52,7 @@ abstract public class ViewPagerActivityEx extends ActivityEx {
         }
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         mVp.setAdapter(getPagerAdapter());

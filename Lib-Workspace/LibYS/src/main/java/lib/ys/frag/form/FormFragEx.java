@@ -1,6 +1,7 @@
 package lib.ys.frag.form;
 
 import android.content.Intent;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,6 +61,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         return R.layout.layout_form_items;
     }
 
+    @CallSuper
     @Override
     public void initData() {
         mItems = new ArrayList<>();
@@ -81,6 +83,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         };
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         mLayoutHeader = findView(R.id.base_form_layout_header);
@@ -101,6 +104,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         }
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         for (T item : mRemandItems) {

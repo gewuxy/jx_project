@@ -32,6 +32,7 @@ abstract public class ListFragEx<T> extends FragEx implements OnListWidgetListen
         mListWidget.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         if (mListWidget.isAdapterNull()) {

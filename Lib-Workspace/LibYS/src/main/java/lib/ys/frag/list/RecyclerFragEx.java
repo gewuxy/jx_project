@@ -1,5 +1,6 @@
 package lib.ys.frag.list;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView.ItemAnimator;
@@ -31,11 +32,13 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerWidg
         return R.layout.recycler_layout;
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         mWidget.findViews(getDecorView(), getRvResId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         if (mWidget.isAdapterNull()) {

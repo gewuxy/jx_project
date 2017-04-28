@@ -1,9 +1,9 @@
 package lib.ys.frag.form;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.CallSuper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -48,16 +48,17 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
     private HashMap<ChildFormItemEx, Integer> mMapChildResId;
     private HashMap<Serializable/* key */, ChildFormItemEx> mMapChildConfig;
 
+    private HashMap<Integer, View> mMapChildBindGroup;
+
     private ItemClickListener mListener;
 
-    private HashMap<Integer, View> mMapChildBindGroup;
 
     @Override
     public int getContentViewId() {
         return R.layout.layout_form_items;
     }
 
-    @SuppressLint("UseSparseArrays")
+    @CallSuper
     @Override
     public void initData() {
         mMapGroupClick = new HashMap<>();
@@ -72,11 +73,12 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         mMapChildResId = new HashMap<>();
         mMapChildConfig = new HashMap<>();
 
-        mMapChildBindGroup = new HashMap<Integer, View>();
+        mMapChildBindGroup = new HashMap<>();
 
         mListener = new ItemClickListener();
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         mLayoutHeader = findView(R.id.base_form_layout_header);
@@ -95,6 +97,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         }
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         /**

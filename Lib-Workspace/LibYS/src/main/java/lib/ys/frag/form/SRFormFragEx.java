@@ -1,5 +1,6 @@
 package lib.ys.frag.form;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
 import lib.network.error.NetError;
@@ -26,6 +27,7 @@ abstract public class SRFormFragEx<T extends FormItemEx<VH>, VH extends ViewHold
         return R.layout.sr_scroll_layout;
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         super.findViews();
@@ -33,6 +35,7 @@ abstract public class SRFormFragEx<T extends FormItemEx<VH>, VH extends ViewHold
         mSRLayout = findView(R.id.sr_scroll_layout);
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         super.setViews();

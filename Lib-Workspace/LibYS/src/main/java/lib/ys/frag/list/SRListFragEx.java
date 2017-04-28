@@ -55,6 +55,7 @@ abstract public class SRListFragEx<T> extends ListFragEx<T> implements OnSRWidge
         mSRWidget.findViews(getDecorView(), getSRLayoutResId());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         super.setViews();
