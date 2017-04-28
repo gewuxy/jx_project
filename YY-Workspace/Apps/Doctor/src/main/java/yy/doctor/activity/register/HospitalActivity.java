@@ -35,7 +35,6 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
     private static final int KLetterColorNormal = Color.parseColor("#888888");
     private static final int KLetterColorFocus = Color.parseColor("#0882e7");
-    private static final long KDuration = 200l;//切换科室动画时长
 
     private SideBar mSideBar;
     private int mLetterSize;
@@ -97,15 +96,9 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         mSideBar.setColorFocus(KLetterColorFocus);
         mSideBar.setOnTouchLetterChangeListener(new OnTouchLetterListener() {
             @Override
-            public void onTouchLetterChanged(String s) {
+            public void onTouchLetterChanged(String s, boolean isFocus) {
                 mTvLetter.setText(s);
-                mTvLetter.setVisibility(View.VISIBLE);
-                runOnUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mTvLetter.setVisibility(View.GONE);
-                    }
-                }, KDuration);
+                mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
             }
         });
     }

@@ -116,7 +116,7 @@ public class SideBar extends View {
                 // showBg = true;
                 if (oldChoose != index && mListener != null && index >= 0 && index < mLetters.length) {
                     mChoose = index;
-                    mListener.onTouchLetterChanged(mLetters[index]);
+                    mListener.onTouchLetterChanged(mLetters[index], true);
                     invalidate();
                 }
                 break;
@@ -124,7 +124,7 @@ public class SideBar extends View {
             case MotionEvent.ACTION_MOVE: {
                 if (oldChoose != index && mListener != null && index >= 0 && index < mLetters.length) {
                     mChoose = index;
-                    mListener.onTouchLetterChanged(mLetters[index]);
+                    mListener.onTouchLetterChanged(mLetters[index], true);
                     invalidate();
                 }
             }
@@ -134,11 +134,11 @@ public class SideBar extends View {
                 mChoose = -1;
                 if (mListener != null) {
                     if (index <= 0) {
-                        mListener.onTouchLetterChanged(mLetters[0]);
+                        mListener.onTouchLetterChanged(mLetters[0], false);
                     } else if (index >= 0 && index < mLetters.length) {
-                        mListener.onTouchLetterChanged(mLetters[index]);
+                        mListener.onTouchLetterChanged(mLetters[index], false);
                     } else if (index >= mLetters.length) {
-                        mListener.onTouchLetterChanged(mLetters[mLetters.length - 1]);
+                        mListener.onTouchLetterChanged(mLetters[mLetters.length - 1], false);
                     }
                 }
                 invalidate();
@@ -161,7 +161,7 @@ public class SideBar extends View {
      * SideBar 的监听器接口
      */
     public interface OnTouchLetterListener {
-        void onTouchLetterChanged(String s);
+        void onTouchLetterChanged(String s, boolean isFocus);
     }
 
     /**
