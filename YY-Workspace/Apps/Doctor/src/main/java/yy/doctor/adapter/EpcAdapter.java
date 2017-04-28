@@ -20,7 +20,7 @@ public class EpcAdapter extends AdapterEx<String,UpdateLogVH> {
     protected void refreshView(int position, UpdateLogVH holder) {
 
         holder.getIv()
-                .placeHolder(R.mipmap.epc_ic_default)
+                .placeHolder(R.mipmap.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))
                 .load();
 

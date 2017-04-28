@@ -1,4 +1,4 @@
-package yy.doctor.activity;
+package yy.doctor.activity.me;
 
 import android.graphics.Color;
 import android.view.View;
@@ -46,7 +46,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
     @Override
     public void initData() {
-        for (int i = 0; i < 20; ++i) {
+        for (int i = 0; i < 5; ++i) {
             addItem(i + "");
         }
     }

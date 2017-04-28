@@ -16,6 +16,7 @@ import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
+import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
@@ -156,7 +157,7 @@ public class MeFrag extends BaseFormFrag {
         switch (relatedId) {
 
             case RelatedId.my_attention: {
-                showToast("555");
+                startActivity(UnitNumActivity.class);
             }
             break;
             case RelatedId.my_collection: {

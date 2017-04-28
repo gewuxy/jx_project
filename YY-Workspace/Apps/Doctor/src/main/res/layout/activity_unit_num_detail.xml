@@ -10,6 +10,7 @@
         android:id="@+id/unit_num_detail_layout_zoom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@color/transparent"
         app:headerView="@layout/layout_unit_num_detail_zoom_header"
         app:zoomView="@layout/layout_unit_num_detail_zoom"/>
 

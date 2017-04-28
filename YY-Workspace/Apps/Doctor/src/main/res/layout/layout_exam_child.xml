@@ -4,29 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:background="@drawable/item_selector"
-        android:orientation="horizontal"
+        android:layout_height="46dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin">
-        
-        <lib.ys.network.image.NetworkImageView
-            android:id="@+id/unit_num_iv"
-            android:layout_width="52dp"
-            android:layout_height="52dp"/>
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="10dp"
+            android:button="@color/transparent"
+            android:background="@drawable/exam_selector_checkbox"/>
 
         <TextView
-            android:id="@+id/unit_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="广州公众号"
+            android:text="可是打发手机壳的"
             android:textSize="14dp"
             android:textColor="@color/text_333"/>
-        
+
     </LinearLayout>
 
 </LinearLayout>

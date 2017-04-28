@@ -80,7 +80,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
         setOnClickListener(R.id.exchange_tv_btn);
 
-        mIvGoods.placeHolder(R.mipmap.epc_ic_default)
+        mIvGoods.placeHolder(R.mipmap.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))
                 .load();
     }

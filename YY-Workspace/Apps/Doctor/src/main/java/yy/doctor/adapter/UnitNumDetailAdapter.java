@@ -13,7 +13,7 @@ public class UnitNumDetailAdapter extends AdapterEx<String, UnitNumDetailVH> {
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.layout_unit_num_detail_item;
+        return R.layout.layout_meeting_item;
     }
 
     @Override

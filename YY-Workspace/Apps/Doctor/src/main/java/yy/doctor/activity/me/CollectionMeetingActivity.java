@@ -32,6 +32,13 @@ public class CollectionMeetingActivity extends BaseListActivity<String> {
     }
 
     @Override
+    public void setViews() {
+        super.setViews();
+
+        getLv().setDivider(null);
+    }
+
+    @Override
     public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
         return new CollectionMeetingAdapter();
     }

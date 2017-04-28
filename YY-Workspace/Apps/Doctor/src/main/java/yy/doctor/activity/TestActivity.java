@@ -8,6 +8,8 @@ import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.UnitNumActivity;
+import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
 import yy.doctor.activity.register.HospitalActivity;
@@ -46,6 +48,7 @@ public class TestActivity extends BaseTestActivity {
         add("象城", EpcActivity.class);
         add("兑换", ExchangeActivity.class);
         add("商品详情", EpcDetailActivity.class);
+        add("单位号", UnitNumActivity.class);
     }
 
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/transparent"
+        android:divider="@drawable/transparent"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@drawable/transparent"
+        android:scrollingCache="false"/>
+
+    <RelativeLayout
+        android:id="@+id/list_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/order_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#cc006ebd"
+        android:lineSpacingExtra="15dp"
+        android:paddingLeft="26dp"
+        android:paddingTop="48dp"
+        android:text="客服电话：020-38601688\n客服邮箱：service@medcn.cn\n服务时间：每周工作日：9:30-17:30"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

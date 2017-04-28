@@ -32,10 +32,6 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".activity.UnitNumDetailActivity"
-            android:screenOrientation="portrait"/>
-
         <!-- register -->
         <activity
             android:name=".activity.register.RegisterActivity"
@@ -125,6 +121,12 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.OrderActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.UnitNumActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.UnitNumDetailActivity"
             android:screenOrientation="portrait"/>
 
 
