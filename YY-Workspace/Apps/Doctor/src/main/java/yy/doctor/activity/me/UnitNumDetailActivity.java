@@ -35,7 +35,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
     private static final int KColorNormal = Color.parseColor("#666666");
     private static final int KColorCancel = Color.parseColor("#01b557");
-    private static final float KAvatarScale = 0.15f;
+    private static final float KAvatarScale = 0.5f;
 
     private SwipeZoomListView mZoomView;
     private NetworkImageView mIvZoom;
@@ -123,11 +123,18 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
                     return;
                 }
 
+                int cut_w = (int) (w * KAvatarScale);
+                int cut_h = (int) (h * KAvatarScale);
+
+                int start_x = (w - cut_w) / 2;
+                int start_y = (h - cut_h) / 2;
+
+
                 AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(w, h);
                 mZoomView.setHeaderLayoutParams(localObject);
 
                 mIvZoom.res(R.mipmap.ic_launcher)
-                        .addInterceptor(new CutInterceptor(0, 0, (int) (w * KAvatarScale), (int) (h * KAvatarScale)))
+                        .addInterceptor(new CutInterceptor(start_x, start_y, cut_w, cut_h))
                         .addInterceptor(new BlurInterceptor(UnitNumDetailActivity.this))
                         .load();
 

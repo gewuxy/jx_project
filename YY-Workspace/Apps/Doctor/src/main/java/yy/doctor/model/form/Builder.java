@@ -27,6 +27,14 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FIContentText();
             }
             break;
+            case FormType.text: {
+                item = new FIText();
+            }
+            break;
+            case FormType.text_intent: {
+                item = new FITextIntent();
+            }
+            break;
 
             case FormType.divider: {
                 item = new FIDivider();

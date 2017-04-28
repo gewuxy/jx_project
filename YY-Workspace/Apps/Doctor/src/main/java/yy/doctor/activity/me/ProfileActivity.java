@@ -1,9 +1,11 @@
 package yy.doctor.activity.me;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import lib.ys.ex.NavBar;
@@ -16,6 +18,8 @@ import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
+
+import static lib.ys.form.FormItemEx.TFormElem.related;
 
 /**
  * 我的资料
@@ -188,10 +192,11 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
+        addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name("所在城市")
-                .hint(R.string.hint_not_fill)
+                .intent(new Intent(this, ProvinceCityActivity.class))
+                .text("广东 广州")
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -234,12 +239,29 @@ public class ProfileActivity extends BaseFormActivity {
     @Override
     protected void onFormItemClick(View v, int position) {
 
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        @RelatedId int relatedId = getItem(position).getInt(related);
         switch (relatedId) {
             case RelatedId.name: {
                 showToast("965");
             }
             break;
+        }
+    }
+
+    @Override
+    protected void onFormViewClick(View v, int position, Object related) {
+        super.onFormViewClick(v, position, related);
+
+        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+
+        if (v instanceof ImageView) {
+
+            switch (relatedId) {
+                case RelatedId.hospital: {
+                    showToast("852");
+                }
+                break;
+            }
         }
 
     }

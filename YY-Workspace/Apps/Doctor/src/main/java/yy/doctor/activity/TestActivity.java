@@ -8,8 +8,10 @@ import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
+import yy.doctor.activity.meeting.ExamEndActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
 import yy.doctor.activity.register.HospitalActivity;
@@ -44,11 +46,13 @@ public class TestActivity extends BaseTestActivity {
         add("更新对话框", new UpdateNoticeDialog(this));
         add("分享对话框", new ShareDialog(this));
 
-        add("单位号", UnitNumDetailActivity.class);
+        add("单位号详情", UnitNumDetailActivity.class);
         add("象城", EpcActivity.class);
         add("兑换", ExchangeActivity.class);
         add("商品详情", EpcDetailActivity.class);
         add("单位号", UnitNumActivity.class);
+        add("考试结束", ExamEndActivity.class);
+        add("省市", ProvinceCityActivity.class);
     }
 
 }

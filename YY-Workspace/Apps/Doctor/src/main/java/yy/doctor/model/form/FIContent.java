@@ -25,7 +25,6 @@ public class FIContent extends FormItem {
         setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
 
         holder.getTvText().setText(getString(TFormElem.text));
-
     }
 
     @Override

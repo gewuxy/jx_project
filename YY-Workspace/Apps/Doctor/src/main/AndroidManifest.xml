@@ -59,6 +59,9 @@
         <activity
             android:name=".activity.meeting.ExamIntroActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.ExamEndActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- data -->
@@ -127,6 +130,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.UnitNumDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.ProvinceCityActivity"
             android:screenOrientation="portrait"/>
 
 
