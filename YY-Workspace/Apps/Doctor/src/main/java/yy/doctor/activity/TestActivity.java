@@ -12,9 +12,9 @@ import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamTopicActivity;
+import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
 import yy.doctor.activity.meeting.SignActivity;
-import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -35,7 +35,7 @@ public class TestActivity extends BaseTestActivity {
         add("考试", ExamTopicActivity.class);
         add("签到", SignActivity.test(TestActivity.this,"成功","19:00"));
         add("记录", MeetingRecordActivity.class);
-        add("医院", HospitalActivity.class);
+        add("评论", MeetingCommentActivity.class);
 
         add("登录", LoginActivity.class);
         add("修改密码", ChangePwdActivity.class);

@@ -57,6 +57,9 @@
             android:name=".activity.meeting.MeetingSearchActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.meeting.MeetingCommentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.meeting.ExamIntroActivity"
             android:screenOrientation="portrait"/>
         <activity

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_006ebd"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="53dp"
+        android:background="@drawable/transparent"
+        android:divider="@drawable/transparent"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@drawable/transparent"
+        android:scrollingCache="false">
+    </ListView>
+
+    <View
+        style="@style/divider"
+        android:layout_above="@+id/meeting_comment_ll"
+        android:background="#663da1f4"/>
+
+    <LinearLayout
+        android:id="@id/meeting_comment_ll"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/text_006ebd"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin">
+
+        <EditText
+            android:id="@+id/meeting_comment_et_send"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/meeting_comment_et_bg"
+            android:gravity="center_vertical"
+            android:hint="说说我的看法"
+            android:padding="6dp"
+            android:textColor="@color/text_66fff"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/meeting_comment_tv_send"
+            android:layout_width="54dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/meeting_comment_btn_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
