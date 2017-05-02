@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/margin"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
-        android:background="@drawable/exam_case_text_bg_selector"
+        android:background="@drawable/exam_case_oval_selector"
         android:textSize="14dp"
         android:textColor="@color/exam_case_text_selector"
         android:layout_width="37dp"

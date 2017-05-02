@@ -9,7 +9,7 @@
         android:id="@+id/exam_topic_footer_tv_btn"
         style="@style/tv.common"
         android:layout_marginTop="22dp"
-        android:background="@drawable/exam_text_bg"
+        android:background="@drawable/exam_intro_radius_bg"
         android:text="下一题"
         android:textColor="@color/text_888"/>
 

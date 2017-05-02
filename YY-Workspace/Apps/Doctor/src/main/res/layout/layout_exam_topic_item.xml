@@ -20,7 +20,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="@dimen/margin"
             android:layout_marginTop="16dp"
-            android:background="@drawable/exam_selector_checkbox"
+            android:background="@drawable/exam_checkbox_selector"
             android:button="@color/transparent"/>
 
         <TextView

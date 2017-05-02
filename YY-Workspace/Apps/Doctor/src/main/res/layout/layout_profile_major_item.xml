@@ -27,7 +27,7 @@
             android:layout_marginRight="@dimen/margin_large"
             android:layout_alignParentRight="true"
             android:background="@drawable/transparent"
-            android:button="@drawable/exam_selector_checkbox"/>
+            android:button="@drawable/exam_checkbox_selector"/>
 
     </RelativeLayout>
 

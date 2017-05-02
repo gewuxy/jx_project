@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:background="@drawable/sign_radius_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="欢迎参加本次会议"
+            android:textColor="@color/text_333"
+            android:textSize="14dp"/>
+
+        <View
+            style="@style/divider"/>
+
+        <ImageView
+            android:id="@+id/sign_iv_result"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="32dp"
+            android:src="@mipmap/sign_ic_success"/>
+
+        <TextView
+            android:id="@+id/sign_tv_result_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginTop="14dp"
+            android:text="签到成功"
+            android:textColor="@color/text_0882e7"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/sign_tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/default_date"
+            android:textColor="@color/text_888"
+            android:textSize="11dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sign_tv_return"
+        style="@style/tv.common"
+        android:background="@drawable/sign_btn_selector"
+        android:text="3秒后返回"/>
+
+</LinearLayout>
