@@ -16,12 +16,12 @@ import lib.yy.view.ExamCaseGridView.OnInvalidListener;
 import yy.doctor.R;
 import yy.doctor.adapter.ExamCaseAdapter;
 import yy.doctor.frag.exam.ExamTopicFrag;
+import yy.doctor.frag.exam.ExamTopicFrag.OnNextListener;
 import yy.doctor.model.exam.ExamTopic;
-import yy.doctor.model.exam.GroupExamTopic;
 import yy.doctor.util.Util;
 
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.answer;
-
+import static yy.doctor.model.exam.ExamTopic.TExamTopic.choose;
+import static yy.doctor.model.exam.ExamTopic.TExamTopic.question;
 
 /**
  * 考试题目界面
@@ -32,39 +32,44 @@ import static yy.doctor.model.exam.ExamTopic.TExamTopic.answer;
 
 public class ExamTopicActivity extends BaseVPActivity {
 
-    private boolean mIsShowed = false;      //考题情况是否显示
-    private ArrayList<GroupExamTopic> mList;//考题的数据
-    private LinearLayout mLl;               //考题情况
-    private ExamCaseGridView mGv;           //考题情况列表
+    private ArrayList<ExamTopic> mAllTopics;    //考题的数据,服务器返回的json字符串
+
+    private boolean mIsShowed = false;          //考题情况是否显示
+    private LinearLayout mLl;                   //考题情况
+    private ExamCaseGridView mGv;               //考题情况列表
+    private ExamCaseAdapter mExamCaseAdapter;   //考试情况的Adapter
 
     @Override
     public void initData() {
-        mList = new ArrayList<>();
+        mAllTopics = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            GroupExamTopic groupExamTopic = new GroupExamTopic();
-            groupExamTopic.setQuestion("五一放假");
-            for (int j = 0; j < 5; j++) {
-                ExamTopic examTopic = new ExamTopic();
-                examTopic.put(answer, "放假" + j);
-                groupExamTopic.add(examTopic);
+
+            ArrayList<String> chooses = new ArrayList<>(); //考题的选项
+            for (int j = 0; j < 3; j++) {
+                chooses.add("放假" + (i * j));
             }
-            /*ExamTopic frag = new ExamTopic();
-            frag.setData(answers);
+            ExamTopic examTopic = new ExamTopic();
+            examTopic.put(question, "五一放假");
+            examTopic.put(choose, chooses);
+
+            ExamTopicFrag frag = new ExamTopicFrag();
+            frag.setExamTopic(examTopic);
+            frag.setData(chooses);
             frag.setOnNextListener(new OnNextListener() {
                 @Override
                 public void onNext(View v) {
-                    int i1 = getCurrentItem() + 1;
-                    setCurrentItem(i1);
+                    int next = getCurrentItem() + 1;
+                    if (next >= 3)
+                        setCurrentItem(0);
+                    else
+                        setCurrentItem(next);
+                    mExamCaseAdapter.notifyDataSetChanged();
                 }
             });
-            add(frag);*/
-            mList.add(groupExamTopic);
-            ExamTopicFrag frag = new ExamTopicFrag();
-            frag.setData(mList);
+            mAllTopics.add(examTopic);
             add(frag);
         }
-
     }
 
     @NonNull
@@ -115,10 +120,9 @@ public class ExamTopicActivity extends BaseVPActivity {
      * Adapter{@link ExamCaseAdapter}
      */
     private void gvSet() {
-
-        final ExamCaseAdapter adapter = new ExamCaseAdapter();
-        adapter.addAll(mList);
-        mGv.setAdapter(adapter);
+        mExamCaseAdapter = new ExamCaseAdapter();
+        mExamCaseAdapter.addAll(mAllTopics);
+        mGv.setAdapter(mExamCaseAdapter);
         mGv.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,7 +137,6 @@ public class ExamTopicActivity extends BaseVPActivity {
                 return false;
             }
         });
-
     }
 
     /**
@@ -145,5 +148,4 @@ public class ExamTopicActivity extends BaseVPActivity {
         mLl.setVisibility(showState ? View.VISIBLE : View.GONE);
         mIsShowed = showState;
     }
-
 }

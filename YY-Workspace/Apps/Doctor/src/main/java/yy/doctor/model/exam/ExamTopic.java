@@ -13,6 +13,7 @@ public class ExamTopic extends EVal<TExamTopic> {
     public enum TExamTopic {
         type,//类型
         question,//问题
+        choose,//选项
         answer,//答案
         finish,//已作答
     }

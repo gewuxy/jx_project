@@ -22,6 +22,7 @@ public class NestCheckBox extends LinearLayout {
 
 
     private CheckBox mCb;
+    private OnCheckedChangeListener mListener;
 
     public NestCheckBox(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -45,6 +46,22 @@ public class NestCheckBox extends LinearLayout {
                 mCb = cb;
                 // 要取消Cb本身的点击功能
                 mCb.setClickable(false);
+
+                setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        boolean isChecked = mCb.isChecked();
+                        mCb.toggle();
+
+                        refreshBgState();
+
+                        if (mListener != null) {
+                            mListener.onCheckedChanged(mCb, !isChecked);
+                        }
+                    }
+                });
+
                 refreshBgState();
             }
         }
@@ -87,22 +104,8 @@ public class NestCheckBox extends LinearLayout {
         return false;
     }
 
-    public void setOnCheckedChangeListener(final OnCheckedChangeListener listener) {
-        if (mCb == null || listener == null) {
-            return;
-        }
-
-        setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                boolean isChecked = mCb.isChecked();
-                mCb.toggle();
-                listener.onCheckedChanged(mCb, !isChecked);
-
-                refreshBgState();
-            }
-        });
+    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
+        mListener = listener;
     }
 
     /**

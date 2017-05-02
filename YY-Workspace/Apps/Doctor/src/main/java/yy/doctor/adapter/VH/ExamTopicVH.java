@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.view.NestCheckBox;
 import yy.doctor.R;
 
 /**
@@ -19,5 +20,6 @@ public class ExamTopicVH extends ViewHolderEx {
 
     public TextView getTvAnswer() { return getView(R.id.exam_topic_tv_answer);}
 
-    public TextView getTvQuestion() { return getView(R.id.exam_topic_tv_question);}
+    public NestCheckBox getCbAnswer() { return getView(R.id.exam_topic_cb_answer);}
+
 }

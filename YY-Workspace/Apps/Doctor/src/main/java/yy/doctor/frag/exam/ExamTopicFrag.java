@@ -1,89 +1,54 @@
 package yy.doctor.frag.exam;
 
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 
-import org.json.JSONException;
+import java.util.List;
 
 import lib.ys.LogMgr;
-import lib.ys.adapter.MultiGroupAdapterEx;
+import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
-import lib.ys.frag.list.SRGroupListFragEx;
-import lib.ys.network.resp.IListResponse;
-import yy.doctor.BuildConfig;
+import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.ExamTopicAdapter;
-import yy.doctor.model.exam.GroupExamTopic;
+import yy.doctor.model.exam.ExamTopic;
+
+import static yy.doctor.model.exam.ExamTopic.TExamTopic.answer;
+import static yy.doctor.model.exam.ExamTopic.TExamTopic.finish;
+import static yy.doctor.model.exam.ExamTopic.TExamTopic.question;
 
 /**
+ * 单个考题
+ *
  * @author : GuoXuan
  * @since : 2017/4/28
  */
 
-public class ExamTopicFrag extends SRGroupListFragEx<GroupExamTopic> {
-    @Override
-    public void initData() {
-    }
+public class ExamTopicFrag extends BaseListFrag<String> {
 
-    @Override
-    public int getContentViewId() {
-        return R.layout.layout_exam_topic;
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        expandAllGroup();
-
-        setRefreshEnable(false);
-    }
-
-
-    @Override
-    public MultiGroupAdapterEx<GroupExamTopic, ? extends ViewHolderEx> createAdapter() {
-        return new ExamTopicAdapter();
-    }
-
-    @Override
-    public void getDataFromNet() {
-
-    }
-
-    @Override
-    public IListResponse<GroupExamTopic> parseNetworkResponse(int id, String text) throws JSONException {
-        return null;
-    }
-
-    @Override
-    public View createFooterView() {
-        LogMgr.e(TAG, "foot");
-        return inflate(R.layout.layout_exam_topic_footer);
-    }
-
-    @Override
-    public boolean canAutoRefresh() {
-        if (BuildConfig.TEST) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-   /* public interface OnNextListener {
+    public interface OnNextListener {
         void onNext(View v);
     }
 
     private TextView mTvQ;
     private TextView mTvBtn;
     private OnNextListener mOnNextListener;
+    private ExamTopic mExamTopic;                   //该题目的信息
+    private ExamTopicAdapter mExamTopicAdapter;
 
     public void setOnNextListener(OnNextListener onNextListener) {
         mOnNextListener = onNextListener;
+    }
+
+    public void setExamTopic(ExamTopic examTopic) {
+        mExamTopic = examTopic;
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     @Override
@@ -101,13 +66,23 @@ public class ExamTopicFrag extends SRGroupListFragEx<GroupExamTopic> {
     @Override
     public void setViews() {
         super.setViews();
-        if (mTvQ != null) {
-            mTvQ.setText(getData().get(0));
+        setDividerHeight(0);
+        if (mTvQ != null && mExamTopic != null) {
+            mTvQ.setText(mExamTopic.getString(question));
         }
         if (mTvBtn != null) {
             mTvBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    List<Integer> answers = mExamTopicAdapter.getAnswer();//选择的答案
+                    mExamTopic.put(answer, answers);
+                    //题目是否已作答过
+                    if (answers.size() > 0) {
+                        mExamTopic.put(finish, true);
+                    } else {
+                        mExamTopic.put(finish, false);
+                    }
+                    LogMgr.e(TAG, answers.toString());
                     if (mOnNextListener != null) {
                         mOnNextListener.onNext(v);
                     }
@@ -128,6 +103,8 @@ public class ExamTopicFrag extends SRGroupListFragEx<GroupExamTopic> {
 
     @Override
     public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new ExamTopicAdapter();
-    }*/
+        mExamTopicAdapter = new ExamTopicAdapter();
+        return mExamTopicAdapter;
+    }
+
 }

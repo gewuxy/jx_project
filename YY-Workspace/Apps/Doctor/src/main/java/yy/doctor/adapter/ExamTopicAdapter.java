@@ -1,12 +1,14 @@
 package yy.doctor.adapter;
 
-import lib.ys.adapter.GroupAdapterEx;
+import android.widget.CompoundButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import lib.ys.adapter.AdapterEx;
+import lib.ys.view.NestCheckBox;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.ExamTopicVH;
-import yy.doctor.model.exam.ExamTopic;
-import yy.doctor.model.exam.GroupExamTopic;
-
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.answer;
 
 /**
  * 考试题目Adapter
@@ -15,42 +17,37 @@ import static yy.doctor.model.exam.ExamTopic.TExamTopic.answer;
  * @since : 2017/4/28
  */
 
-public class ExamTopicAdapter extends GroupAdapterEx<GroupExamTopic, ExamTopicVH> {
+public class ExamTopicAdapter extends AdapterEx<String, ExamTopicVH> {
+
+    private List<Integer> mAnswer;//作答记录
 
     @Override
-    public int getGroupConvertViewResId() {
-        return R.layout.layout_exam_topic_header;
+    protected void initView(int position, ExamTopicVH hol) {
+        mAnswer = new ArrayList<>();
     }
 
     @Override
-    public void refreshGroupView(int groupPosition, boolean isExpanded, ExamTopicVH holder) {
-        GroupExamTopic question = getGroup(groupPosition);
-        holder.getTvQuestion().setText(question.getQuestion());
-    }
-
-    @Override
-    public int getChildConvertViewResId() {
+    public int getConvertViewResId() {
         return R.layout.layout_exam_topic_item;
     }
 
     @Override
-    public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, ExamTopicVH holder) {
-        ExamTopic answers = getChild(groupPosition, childPosition);
-        holder.getTvAnswer().setText(answers.getString(answer));
+    protected void refreshView(final int position, ExamTopicVH holder) {
+        holder.getTvAnswer().setText(getItem(position));
+        final NestCheckBox cbAnswer = holder.getCbAnswer();
+        cbAnswer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //记录答案
+                if (isChecked)
+                    mAnswer.add(position);
+                else
+                    mAnswer.remove(Integer.valueOf(position));
+            }
+        });
     }
 
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return getGroup(groupPosition).getChildCount();
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public ExamTopic getChild(int groupPosition, int childPosition) {
-        return getGroup(groupPosition).getChild(childPosition);
+    public List<Integer> getAnswer() {
+        return mAnswer;
     }
 }
