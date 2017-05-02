@@ -12,7 +12,7 @@ import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamEndActivity;
-import yy.doctor.activity.meeting.ExamIntroActivity;
+import yy.doctor.activity.meeting.ExamTopicActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
 import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.dialog.ShareDialog;
@@ -32,7 +32,8 @@ public class TestActivity extends BaseTestActivity {
         add("数据", MainActivity.newIntent(this, MainActivity.KTabData));
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
-        add("考试", ExamIntroActivity.class);
+        add("考试", ExamTopicActivity.class);
+        add("考试结束", ExamEndActivity.class);
         add("记录", MeetingRecordActivity.class);
         add("医院", HospitalActivity.class);
 
@@ -51,7 +52,6 @@ public class TestActivity extends BaseTestActivity {
         add("兑换", ExchangeActivity.class);
         add("商品详情", EpcDetailActivity.class);
         add("单位号", UnitNumActivity.class);
-        add("考试结束", ExamEndActivity.class);
         add("省市", ProvinceCityActivity.class);
     }
 

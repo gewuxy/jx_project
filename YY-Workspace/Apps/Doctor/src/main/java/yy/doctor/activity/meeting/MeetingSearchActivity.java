@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import lib.ys.activity.ActivityEx;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
 import lib.ys.ex.NavBar;
 import lib.ys.fitter.DpFitter;
+import lib.yy.activity.base.BaseActivity;
 import lib.yy.view.GridDivider;
 import yy.doctor.Constants.SectionConstants;
 import yy.doctor.R;
@@ -22,7 +22,7 @@ import yy.doctor.util.Util;
  * @since : 2017/4/26
  */
 
-public class MeetingSearchActivity extends ActivityEx {
+public class MeetingSearchActivity extends BaseActivity {
 
     private RecyclerView mRv;
 

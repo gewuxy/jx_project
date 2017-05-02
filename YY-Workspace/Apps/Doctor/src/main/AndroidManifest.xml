@@ -60,6 +60,9 @@
             android:name=".activity.meeting.ExamIntroActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.meeting.ExamTopicActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.meeting.ExamEndActivity"
             android:screenOrientation="portrait"/>
 

@@ -2,9 +2,9 @@ package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
 
-import lib.ys.activity.ActivityEx;
 import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
+import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 
 /**
@@ -14,7 +14,7 @@ import yy.doctor.R;
  * 创建人 : guoxuan
  */
 
-public class MeetingDetailsActivity extends ActivityEx {
+public class MeetingDetailsActivity extends BaseActivity {
 
     //播放图片
     private NetworkImageView mNivPlay;

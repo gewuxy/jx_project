@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exam_topic_rl_case"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:layout_alignParentBottom="true"
+    android:background="@color/white"
+    tools:showIn="@layout/activity_exam_topic">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/exam_topic_tv_finish_count"
+            style="@style/tv.exam"
+            android:text="7"
+            android:textColor="@color/text_333"/>
+
+        <TextView
+            style="@style/tv.exam"
+            android:paddingLeft="5dp"
+            android:text="已完成"
+            android:textColor="@color/text_333"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/exam_ic_all_topic"/>
+
+        <TextView
+            android:id="@+id/exam_topic_tv_topic_case"
+            style="@style/tv.exam"
+            android:layout_marginLeft="8dp"
+            android:text="15/100"
+            android:textColor="@color/text_0882e7"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

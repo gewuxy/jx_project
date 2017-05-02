@@ -6,11 +6,11 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import lib.ys.activity.ActivityEx;
 import lib.ys.decor.DecorViewEx.TNavBarState;
 import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.ToastUtil;
+import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
@@ -21,7 +21,7 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 
-public class MeetingPPTActivity extends ActivityEx {
+public class MeetingPPTActivity extends BaseActivity {
 
     private NetworkImageView mNivPlay;
 

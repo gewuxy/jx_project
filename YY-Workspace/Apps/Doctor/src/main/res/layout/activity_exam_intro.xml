@@ -31,7 +31,7 @@
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="16dp"
-        android:background="@drawable/exam_intro_bg"
+        android:background="@drawable/exam_text_bg"
         android:gravity="center"
         android:orientation="vertical">
 

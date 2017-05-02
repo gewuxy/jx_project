@@ -26,7 +26,7 @@ import static yy.doctor.model.hospital.Hospital.THospital.name;
 
 /**
  * 选择医院的界面
- * <p>
+ *
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
@@ -74,7 +74,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         super.findViews();
 
         mTvLetter = findView(R.id.hospital_tv_letter);
-        mSideBar = (SideBar) getDecorView().findViewById(R.id.hospital_sb);
+        mSideBar = findView(R.id.hospital_sb);
         initSideBar();
     }
 
