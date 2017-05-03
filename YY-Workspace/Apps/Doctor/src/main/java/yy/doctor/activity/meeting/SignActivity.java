@@ -3,9 +3,8 @@ package yy.doctor.activity.meeting;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.SystemClock;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import lib.ys.activity.ActivityEx;
 import lib.ys.ex.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.MilliUtil;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -65,8 +65,8 @@ public class SignActivity extends ActivityEx {
     public void initData() {
         mDrawSuccess = ResLoader.getDrawable(R.mipmap.sign_ic_success);
         mDrawDefeat = ResLoader.getDrawable(R.mipmap.sign_ic_defeat);
-        mSuccess = ContextCompat.getColor(SignActivity.this, R.color.text_0882e7);
-        mDefeat = ContextCompat.getColor(SignActivity.this, R.color.text_333);
+        mSuccess = ResLoader.getColor(R.color.text_0882e7);
+        mDefeat = ResLoader.getColor(R.color.text_333);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -109,27 +109,41 @@ public class SignActivity extends ActivityEx {
             mTvResultCode.setTextColor(mDefeat);
         }
 
-        //定时关闭界面,隔一秒刷新一次界面
-        mTarget = new Runnable() {
+
+        CountDownTimer timer = new CountDownTimer(4000, 1000) {
+
             @Override
-            public void run() {
-                for (int i = 0; i < KReturnTime; i++) {
-                    final int close = KReturnTime - i;
-                    runOnUIThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTvReturn.setText(close + "秒后返回");
-                        }
-                    });
-                    SystemClock.sleep(KSecond);
-                    if (close == 1) {
-                        finish();
-                    }
-                }
+            public void onTick(long millisUntilFinished) {
+                mTvReturn.setText(MilliUtil.toSecond(millisUntilFinished) + "秒后返回");
+            }
+
+            @Override
+            public void onFinish() {
+                finish();
             }
         };
-        //TODO:该用线程池管理
-        new Thread(mTarget).start();
+        timer.start();
+//        //定时关闭界面,隔一秒刷新一次界面
+//        mTarget = new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i < KReturnTime; i++) {
+//                    final int close = KReturnTime - i;
+//                    runOnUIThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mTvReturn.setText(close + "秒后返回");
+//                        }
+//                    });
+//                    SystemClock.sleep(KSecond);
+//                    if (close == 1) {
+//                        finish();
+//                    }
+//                }
+//            }
+//        };
+//        //TODO:该用线程池管理
+//        new Thread(mTarget).start();
     }
 
     @Override

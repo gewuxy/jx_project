@@ -8,13 +8,15 @@ import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
-import yy.doctor.activity.meeting.ExamEndActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
+import yy.doctor.activity.meeting.ExamTopicActivity;
+import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
-import yy.doctor.activity.register.HospitalActivity;
+import yy.doctor.activity.meeting.SignActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -35,7 +37,7 @@ public class TestActivity extends BaseTestActivity {
         add("个人资料", ProfileActivity.class);
         add("考试", ExamIntroActivity.class);
         add("考试", ExamTopicActivity.class);
-        add("签到", SignActivity.test(TestActivity.this,"成功","19:00"));
+        add("签到", SignActivity.test(TestActivity.this, "成功", "19:00"));
         add("记录", MeetingRecordActivity.class);
         add("评论", MeetingCommentActivity.class);
 

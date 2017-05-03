@@ -69,10 +69,7 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FICheckBox();
             }
             break;
-
         }
-
-        saveItemValues(item);
 
         return item;
     }

@@ -123,6 +123,7 @@ public class ExamTopicActivity extends BaseVPActivity {
         mExamCaseAdapter = new ExamCaseAdapter();
         mExamCaseAdapter.addAll(mAllTopics);
         mGv.setAdapter(mExamCaseAdapter);
+
         mGv.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -130,6 +131,7 @@ public class ExamTopicActivity extends BaseVPActivity {
                 examCaseVisibility(false);
             }
         });
+
         mGv.setOnInvalidListener(new OnInvalidListener() {
             @Override
             public boolean onInvalidPosition(int motionEvent) {

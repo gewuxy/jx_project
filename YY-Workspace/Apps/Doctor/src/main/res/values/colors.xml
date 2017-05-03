@@ -68,4 +68,7 @@
     <color name="main_text_bg">#888888</color>
     <color name="main_text_bg_focus">#1094f2</color>
 
+    <!--mask-->
+    <color name="mask_bg">#4a000000</color>
+
 </resources>

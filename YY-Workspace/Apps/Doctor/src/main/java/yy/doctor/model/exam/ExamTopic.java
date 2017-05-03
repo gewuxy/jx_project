@@ -15,6 +15,10 @@ public class ExamTopic extends EVal<TExamTopic> {
         question,//问题
         choose,//选项
         answer,//答案
+
+        /**
+         * 本地字段
+         */
         finish,//已作答
     }
 }

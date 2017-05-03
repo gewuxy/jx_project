@@ -32,8 +32,6 @@ public class Builder extends FormBuilder<FormItem> {
             break;
         }
 
-        saveItemValues(item);
-
         return item;
     }
 
