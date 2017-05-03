@@ -265,12 +265,14 @@ abstract public class FormBuilder<Item extends FormItemEx> {
     }
 
     public Item build() {
-        return build(mType);
+        Item i = build(mType);
+        saveItemValues(i);
+        return i;
     }
 
     abstract protected Item build(int type);
 
-    protected void saveItemValues(Item item) {
+    private void saveItemValues(Item item) {
         putIfNotNull(item, TFormElem.name, mName);
         putIfNotNull(item, TFormElem.text, mText);
         putIfNotNull(item, TFormElem.text_multi, mTextMulti);

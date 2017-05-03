@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.adapter.AdapterEx;
-import lib.ys.view.NestCheckBox;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.ExamTopicVH;
 
@@ -19,11 +18,11 @@ import yy.doctor.adapter.VH.ExamTopicVH;
 
 public class ExamTopicAdapter extends AdapterEx<String, ExamTopicVH> {
 
-    private List<Integer> mAnswer;//作答记录
+    private List<Integer> mAnswers;//作答记录
 
     @Override
     protected void initView(int position, ExamTopicVH hol) {
-        mAnswer = new ArrayList<>();
+        mAnswers = new ArrayList<>();
     }
 
     @Override
@@ -34,20 +33,22 @@ public class ExamTopicAdapter extends AdapterEx<String, ExamTopicVH> {
     @Override
     protected void refreshView(final int position, ExamTopicVH holder) {
         holder.getTvAnswer().setText(getItem(position));
-        final NestCheckBox cbAnswer = holder.getCbAnswer();
-        cbAnswer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        holder.getCbAnswer().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //记录答案
-                if (isChecked)
-                    mAnswer.add(position);
-                else
-                    mAnswer.remove(Integer.valueOf(position));
+                if (isChecked) {
+                    mAnswers.add(position);
+                } else {
+                    mAnswers.remove(Integer.valueOf(position));
+                }
             }
         });
     }
 
-    public List<Integer> getAnswer() {
-        return mAnswer;
+    public List<Integer> getAnswers() {
+        return mAnswers;
     }
 }

@@ -12,6 +12,7 @@ import yy.doctor.adapter.VH.CommentVH;
  */
 
 public class CommentAdapter extends AdapterEx<String, CommentVH> {
+
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_meeting_comment_item;

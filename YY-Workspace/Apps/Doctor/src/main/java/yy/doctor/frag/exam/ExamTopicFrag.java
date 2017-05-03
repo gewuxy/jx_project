@@ -74,7 +74,7 @@ public class ExamTopicFrag extends BaseListFrag<String> {
             mTvBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    List<Integer> answers = mExamTopicAdapter.getAnswer();//选择的答案
+                    List<Integer> answers = mExamTopicAdapter.getAnswers();//选择的答案
                     mExamTopic.put(answer, answers);
                     //题目是否已作答过
                     if (answers.size() > 0) {

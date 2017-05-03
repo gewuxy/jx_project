@@ -9,13 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <RelativeLayout
+    <yy.doctor.view.ClipImgMaskView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <lib.yy.view.ClipImageBorderView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

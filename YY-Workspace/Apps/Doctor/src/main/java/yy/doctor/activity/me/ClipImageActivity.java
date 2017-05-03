@@ -1,5 +1,6 @@
 package yy.doctor.activity.me;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +26,7 @@ public class ClipImageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
         mPath = getIntent().getStringExtra(Extra.KData);
-
     }
 
     @NonNull
@@ -53,19 +52,13 @@ public class ClipImageActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
         mPv = findView(R.id.clip_image_pv);
-
     }
 
     @Override
     public void setViews() {
-
+        setBackgroundColor(Color.BLACK);
         mPv.storage(mPath).load();
-
-
-
     }
-
 
 }
