@@ -8,6 +8,7 @@ import android.widget.EditText;
 import lib.ys.ex.NavBar;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
+import yy.doctor.activity.NoticeActivity;
 
 /**
  * @author CaiXiang   extends BaseSRListFrag<Home>
@@ -37,6 +38,8 @@ public class HomeFrag extends BaseFrag {
 
             @Override
             public void onClick(View v) {
+
+                startActivity(NoticeActivity.class);
 
             }
         });

@@ -8,6 +8,7 @@ import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.R;
 import yy.doctor.activity.data.ThomsonLibActivity;
@@ -35,6 +36,11 @@ public class ThomsonLibFrag extends BaseSRListFrag<String> {
     @Override
     public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
         return new ThomsonLibAdapter();
+    }
+
+    @Override
+    public View createHeaderView() {
+        return ViewUtil.inflateSpaceViewDp(12);
     }
 
     @Override
