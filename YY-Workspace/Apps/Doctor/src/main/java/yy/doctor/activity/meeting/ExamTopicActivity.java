@@ -2,6 +2,9 @@ package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
@@ -20,8 +23,7 @@ import yy.doctor.frag.exam.ExamTopicFrag.OnNextListener;
 import yy.doctor.model.exam.ExamTopic;
 import yy.doctor.util.Util;
 
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.choose;
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.question;
+import static yy.doctor.model.exam.ExamTopic.TExamTopic;
 
 /**
  * 考试题目界面
@@ -32,15 +34,41 @@ import static yy.doctor.model.exam.ExamTopic.TExamTopic.question;
 
 public class ExamTopicActivity extends BaseVPActivity {
 
+    private static final long KDuration = 300l;//动画时长
+
     private ArrayList<ExamTopic> mAllTopics;    //考题的数据,服务器返回的json字符串
 
-    private boolean mIsShowed = false;          //考题情况是否显示
     private LinearLayout mLl;                   //考题情况
     private ExamCaseGridView mGv;               //考题情况列表
     private ExamCaseAdapter mExamCaseAdapter;   //考试情况的Adapter
 
+    private Animation mEnter;//进入动画
+    private Animation mLeave;//离开动画
+    private boolean mHasAnimation;//有动画在执行
+
     @Override
     public void initData() {
+
+        mHasAnimation = false;
+        mEnter = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF,
+                0.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.0f,
+                Animation.RELATIVE_TO_SELF,
+                1.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.0f);
+        mLeave = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF,
+                0.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.0f,
+                Animation.RELATIVE_TO_SELF,
+                1.0f);
+
         mAllTopics = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
@@ -50,8 +78,8 @@ public class ExamTopicActivity extends BaseVPActivity {
                 chooses.add("放假" + (i * j));
             }
             ExamTopic examTopic = new ExamTopic();
-            examTopic.put(question, "五一放假");
-            examTopic.put(choose, chooses);
+            examTopic.put(TExamTopic.question, "五一放假");
+            examTopic.put(TExamTopic.choose, chooses);
 
             ExamTopicFrag frag = new ExamTopicFrag();
             frag.setExamTopic(examTopic);
@@ -70,6 +98,11 @@ public class ExamTopicActivity extends BaseVPActivity {
             mAllTopics.add(examTopic);
             add(frag);
         }
+    }
+
+    @Override
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, "考试", this);
     }
 
     @NonNull
@@ -93,18 +126,17 @@ public class ExamTopicActivity extends BaseVPActivity {
         setOnClickListener(R.id.exam_topic_rl_case);
         mLl.setOnClickListener(this);
         gvSet();
-    }
 
-    @Override
-    public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "考试", this);
+        setAnimation(mEnter);
+        setAnimation(mLeave);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exam_topic_rl_case:
-                examCaseVisibility(!mIsShowed);
+                examCaseVisibility(!(mLl.getVisibility() == View.VISIBLE));
                 break;
             case R.id.exam_topic_case_all_ll:
                 examCaseVisibility(false);
@@ -145,7 +177,37 @@ public class ExamTopicActivity extends BaseVPActivity {
      * @param showState true显示,false不显示
      */
     private void examCaseVisibility(boolean showState) {
-        mLl.setVisibility(showState ? View.VISIBLE : View.GONE);
-        mIsShowed = showState;
+        //没有动画执行的时候
+        if (!mHasAnimation) {
+            mLl.setVisibility(showState ? View.VISIBLE : View.GONE);
+            mLl.startAnimation(showState ? mEnter : mLeave);
+        }
+    }
+
+    /**
+     * Animation设置
+     * 设置播放时长
+     * 设置监听
+     *
+     * @param animation
+     */
+    private void setAnimation(Animation animation) {
+        animation.setDuration(KDuration);
+        animation.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mHasAnimation = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mHasAnimation = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 }

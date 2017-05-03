@@ -25,7 +25,7 @@
             <ImageView
                 android:layout_width="293dp"
                 android:layout_height="169dp"
-                android:background="@drawable/meeting_record_bg_image"/>
+                android:background="@drawable/meeting_record_image_bg"/>
         </RelativeLayout>
 
     </LinearLayout>

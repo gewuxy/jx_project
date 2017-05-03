@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginRight="36dp"
-            android:background="@drawable/meeting_record_bg_text"
+            android:background="@drawable/meeting_record_text_bg"
             android:drawableLeft="@mipmap/meeting_ic_sound_default"
             android:drawablePadding="10dp"
             android:gravity="center"
