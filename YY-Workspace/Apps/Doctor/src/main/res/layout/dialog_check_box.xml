@@ -3,14 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/dialog_bottom_layout_content"
+    <LinearLayout
+        android:id="@+id/dialog_check_box_layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="@dimen/divider_height_1px"
-        android:divider="@color/divider"
         android:orientation="vertical"/>
 
 </LinearLayout>
+

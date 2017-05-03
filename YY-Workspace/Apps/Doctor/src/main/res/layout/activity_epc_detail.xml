@@ -8,7 +8,7 @@
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/epc_detail_iv"
         android:layout_width="match_parent"
-        android:layout_height="168dp"/>
+        android:layout_height="180dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

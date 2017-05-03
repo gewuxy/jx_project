@@ -3,6 +3,7 @@ package lib.ys.network.image;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.util.AttributeSet;
@@ -65,6 +66,16 @@ public class NetworkImageView extends SimpleDraweeView {
 
     public NetworkImageView id(String id) {
         mProvider.id(id);
+        return this;
+    }
+
+    public NetworkImageView contentProvider(String path) {
+        mProvider.contentProvider(path);
+        return this;
+    }
+
+    public NetworkImageView uri(Uri u) {
+        mProvider.uri(u);
         return this;
     }
 

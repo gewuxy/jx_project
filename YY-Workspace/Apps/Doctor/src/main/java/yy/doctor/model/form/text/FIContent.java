@@ -1,16 +1,17 @@
-package yy.doctor.model.form;
+package yy.doctor.model.form.text;
 
 import android.support.annotation.NonNull;
 
 import lib.yy.adapter.VH.FormItemVH;
 import lib.yy.model.form.FormItem;
 import yy.doctor.R;
+import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class FIContentsave extends FormItem {
+public class FIContent extends FormItem {
 
     @NonNull
     @Override
@@ -25,7 +26,6 @@ public class FIContentsave extends FormItem {
         setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
 
         holder.getTvText().setText(getString(TFormElem.text));
-
     }
 
     @Override

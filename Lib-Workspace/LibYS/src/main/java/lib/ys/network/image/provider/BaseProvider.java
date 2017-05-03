@@ -1,6 +1,7 @@
 package lib.ys.network.image.provider;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.widget.ImageView;
@@ -31,6 +32,8 @@ abstract public class BaseProvider {
     @DrawableRes
     private int mResId;
     private String mIdUrl;
+    private String mContentProviderPath;
+    private Uri mUri;
 
     private int mW;
     private int mH;
@@ -64,6 +67,14 @@ abstract public class BaseProvider {
 
     public void id(String id) {
         mIdUrl = id;
+    }
+
+    public void contentProvider(String path) {
+        mContentProviderPath = path;
+    }
+
+    public void uri(Uri uri) {
+        mUri = uri;
     }
 
     public void renderer(BaseRenderer renderer) {
@@ -110,6 +121,14 @@ abstract public class BaseProvider {
 
     protected String getIdUrl() {
         return mIdUrl;
+    }
+
+    protected String getContentProviderPath() {
+        return mContentProviderPath;
+    }
+
+    protected Uri getUri() {
+        return mUri;
     }
 
     protected int getW() {

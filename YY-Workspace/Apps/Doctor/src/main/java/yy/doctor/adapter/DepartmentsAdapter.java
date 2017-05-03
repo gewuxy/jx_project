@@ -9,24 +9,24 @@ import android.widget.BaseAdapter;
 import java.util.Arrays;
 import java.util.List;
 
+import yy.doctor.DepartmentsData;
 import yy.doctor.R;
-import yy.doctor.ProvinceCityData;
-import yy.doctor.adapter.VH.ProvinceVH;
+import yy.doctor.adapter.VH.DepartmentsVH;
 
 /**
  * @author CaiXiang
- * @since 2017/4/28
+ * @since 2017/5/2
  */
-public class ProvinceAdapter extends BaseAdapter {
+public class DepartmentsAdapter extends BaseAdapter {
 
     private List<String> mList;
-    private Context mConttext;
-    private ProvinceVH mProvinceVH;
+    private Context mContext;
+    private DepartmentsVH mDepartmentsVH;
     private int mSelectedItem = 0;
 
-    public ProvinceAdapter(Context mConttext) {
-        this.mList = Arrays.asList(ProvinceCityData.KPROVINCES);
-        this.mConttext = mConttext;
+    public DepartmentsAdapter(Context mContext) {
+        this.mContext = mContext;
+        mList= Arrays.asList(DepartmentsData.KDEPARTMENTS);
     }
 
     public void setSelectItem(int selectItem) {
@@ -34,7 +34,7 @@ public class ProvinceAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public String getProvince(int position){
+    public String getDepartments(int position){
         return mList.get(position);
     }
 
@@ -58,23 +58,23 @@ public class ProvinceAdapter extends BaseAdapter {
 
         if (convertView == null) {
 
-            convertView = LayoutInflater.from(mConttext).inflate(R.layout.layout_province_item, parent, false);
-            mProvinceVH = new ProvinceVH(convertView);
-            convertView.setTag(mProvinceVH);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_province_item, parent, false);
+            mDepartmentsVH = new DepartmentsVH(convertView);
+            convertView.setTag(mDepartmentsVH);
 
         } else {
 
-            mProvinceVH = (ProvinceVH) convertView.getTag();
+            mDepartmentsVH = (DepartmentsVH) convertView.getTag();
         }
 
-        mProvinceVH.getTvProvince().setText(mList.get(position));
+        mDepartmentsVH.getTvProvince().setText(mList.get(position));
 
         if (mSelectedItem == position) {
-            mProvinceVH.getTvProvince().setSelected(true);
-            mProvinceVH.getV().setVisibility(View.VISIBLE);
+            mDepartmentsVH.getTvProvince().setSelected(true);
+            mDepartmentsVH.getV().setVisibility(View.VISIBLE);
         } else {
-            mProvinceVH.getTvProvince().setSelected(false);
-            mProvinceVH.getV().setVisibility(View.GONE);
+            mDepartmentsVH.getTvProvince().setSelected(false);
+            mDepartmentsVH.getV().setVisibility(View.GONE);
         }
 
         return convertView;

@@ -40,6 +40,7 @@ public class FrescoProvider extends BaseProvider {
 
     private static final String KPrefixStorage = "file:";
     private static final String KPrefixRes = "res:///";
+    private static final String KPrefixContentProvider = "content://";
 
     private ControllerListener mCtrlListener;
     private PipelineDraweeControllerBuilder mBuilder;
@@ -66,7 +67,7 @@ public class FrescoProvider extends BaseProvider {
         }
 
         DraweeController controller = null;
-        ImageRequestBuilder builder = ImageRequestBuilder.newBuilderWithSource(getUri());
+        ImageRequestBuilder builder = ImageRequestBuilder.newBuilderWithSource(generateUri());
 
         // 拦截器
         if (getInterceptors().size() != 0) {
@@ -209,6 +210,7 @@ public class FrescoProvider extends BaseProvider {
      * <p>
      * 远程图片	http:, https:
      * 本地文件	file:
+     * content provider  content://
      * asset目录下的资源	asset://
      * res目录下的资源	res://包名(任意包名或者不填)/ + R.drawable.xxx(或者是{@link lib.ys.util.res.ResLoader#getIdentifier(String, String)})
      * Uri中指定图片数据	data:mime/type;base64,	数据类型必须符合 rfc2397规定 (仅支持 UTF-8)
@@ -216,7 +218,7 @@ public class FrescoProvider extends BaseProvider {
      *
      * @return 经过处理的uri
      */
-    private Uri getUri() {
+    private Uri generateUri() {
         Uri uri;
         if (getHttpUrl() != null) {
             uri = Uri.parse(getHttpUrl());
@@ -226,6 +228,10 @@ public class FrescoProvider extends BaseProvider {
             uri = Uri.parse(KPrefixRes + getResId());
         } else if (getIdUrl() != null) {
             uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, getIdUrl());
+        } else if (getContentProviderPath() != null) {
+            uri = Uri.parse(KPrefixContentProvider + getContentProviderPath());
+        } else if (getUri() != null) {
+            uri = getUri();
         } else {
             uri = Uri.EMPTY;
         }

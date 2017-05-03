@@ -22,7 +22,6 @@ import lib.yy.activity.base.BaseListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.R;
 import yy.doctor.adapter.UnitNumDetailAdapter;
-import yy.doctor.dialog.BottomDialog;
 import yy.doctor.util.Util;
 
 /**
@@ -181,7 +180,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
     private void showDialogCancelAttention() {
 
-        final BottomDialog dialog = new BottomDialog(this);
+        /*final BottomDialog dialog = new BottomDialog(this);
         dialog.addItem("不再关注", KColorNormal, new OnClickListener() {
 
             @Override
@@ -202,7 +201,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
             }
         });
 
-        dialog.show();
+        dialog.show();*/
 
     }
 

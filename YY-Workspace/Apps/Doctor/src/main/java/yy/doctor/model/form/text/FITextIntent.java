@@ -1,9 +1,8 @@
-package yy.doctor.model.form;
+package yy.doctor.model.form.text;
 
 import android.content.Intent;
 import android.view.View;
 
-import lib.ys.LogMgr;
 import yy.doctor.Extra;
 
 /**
@@ -22,7 +21,7 @@ public class FITextIntent extends FIText {
     @Override
     protected void onActivityResult(int position, Intent data) {
         String str = data.getStringExtra(Extra.KData);
-        LogMgr.e(TAG,str);
         put(TFormElem.text, str);
     }
+
 }

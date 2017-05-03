@@ -1,8 +1,9 @@
-package yy.doctor.model.form;
+package yy.doctor.model.form.edit;
 
 import android.support.annotation.NonNull;
 
 import yy.doctor.R;
+import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang

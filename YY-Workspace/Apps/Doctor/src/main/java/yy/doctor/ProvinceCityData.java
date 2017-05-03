@@ -1,4 +1,4 @@
-package yy.doctor.activity.me;
+package yy.doctor;
 
 /**
  * 省市信息

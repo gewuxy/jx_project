@@ -7,11 +7,15 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
+import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -200,26 +204,29 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialogClearImgCache() {
 
-        final BottomDialog dialog = new BottomDialog(this);
-        dialog.addItem("清理图片缓存", KColorNormal, new OnClickListener() {
+        final List<String> data = new ArrayList<>();
+        data.add("清理图片缓存");
+        data.add("取消");
+
+        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
 
             @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
+            public void onDialogItemClick(int position) {
+
+                if (position == 0) {
+                    showToast("555");
                 }
+
             }
         });
 
-        dialog.addItem("取消", KColorCancel, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+        for (int i = 0; i < data.size(); ++i) {
+            if (i != (data.size() - 1)) {
+                dialog.addItem(data.get(i), KColorNormal);
+            } else {
+                dialog.addItem(data.get(i), KColorCancel);
             }
-        });
+        }
 
         dialog.show();
 
@@ -227,26 +234,29 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialogClearSoundCache() {
 
-        final BottomDialog dialog = new BottomDialog(this);
-        dialog.addItem("清理声音缓存", KColorNormal, new OnClickListener() {
+        final List<String> data = new ArrayList<>();
+        data.add("清理声音缓存");
+        data.add("取消");
+
+        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
 
             @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
+            public void onDialogItemClick(int position) {
+
+                if (position == 0) {
+                    showToast("666");
                 }
+
             }
         });
 
-        dialog.addItem("取消", KColorCancel, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+        for (int i = 0; i < data.size(); ++i) {
+            if (i != (data.size() - 1)) {
+                dialog.addItem(data.get(i), KColorNormal);
+            } else {
+                dialog.addItem(data.get(i), KColorCancel);
             }
-        });
+        }
 
         dialog.show();
 
