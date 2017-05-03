@@ -8,18 +8,24 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.util.PhotoUtil;
 import lib.yy.activity.base.BaseFormActivity;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
+import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
-import static lib.ys.form.FormItemEx.TFormElem.related;
 
 /**
  * 我的资料
@@ -32,13 +38,22 @@ public class ProfileActivity extends BaseFormActivity {
     private static final int KColorNormal = Color.parseColor("#666666");
     private static final int KColorCancel = Color.parseColor("#01b557");
 
+    private static final int KCodeAlbum = 100;
+    private static final int KCodePhotograph = 200;
+
+
+    private static final String KPhotoFileName = "avatar.jpg";
+
     private RelativeLayout mLayoutProfileHeader;
-    private NetworkImageView mIvAvator;
+    private NetworkImageView mIvAvatar;
+
+    //    private Uri mPhotoUri;
+    private String mPhotoPath;
 
     @IntDef({
             RelatedId.name,
             RelatedId.hospital,
-            RelatedId.major,
+            RelatedId.departments,
 
             RelatedId.nickname,
             RelatedId.phone_number,
@@ -57,7 +72,7 @@ public class ProfileActivity extends BaseFormActivity {
 
         int name = 0;
         int hospital = 1;
-        int major = 2;
+        int departments = 2;
 
         int nickname = 3;
         int phone_number = 4;
@@ -116,10 +131,12 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.major)
+        addItem(new Builder(FormType.et_intent)
+                .related(RelatedId.departments)
+                .drawable(R.mipmap.ic_more)
                 .name("科室")
-                .hint(R.string.hint_not_fill)
+                .intent(new Intent(this, DepartmentsActivity.class))
+                .text(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -176,18 +193,18 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.sex)
                 .name("性别")
-                .hint(R.string.hint_not_fill)
+                .text(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.education_background)
                 .name("学历")
-                .hint(R.string.hint_not_fill)
+                .text(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -196,7 +213,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.address)
                 .name("所在城市")
                 .intent(new Intent(this, ProvinceCityActivity.class))
-                .text("广东 广州")
+                .text("广东-广州")
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -208,7 +225,7 @@ public class ProfileActivity extends BaseFormActivity {
         super.findViews();
 
         mLayoutProfileHeader = findView(R.id.layout_profile_header);
-        mIvAvator = findView(R.id.profile_header_iv_avatar);
+        mIvAvatar = findView(R.id.profile_header_iv_avatar);
 
     }
 
@@ -217,7 +234,7 @@ public class ProfileActivity extends BaseFormActivity {
         super.setViews();
 
         mLayoutProfileHeader.setOnClickListener(this);
-        mIvAvator.placeHolder(R.mipmap.form_ic_personal_head)
+        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
                 .renderer(new CircleRenderer())
                 .load();
 
@@ -239,10 +256,14 @@ public class ProfileActivity extends BaseFormActivity {
     @Override
     protected void onFormItemClick(View v, int position) {
 
-        @RelatedId int relatedId = getItem(position).getInt(related);
+        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
-            case RelatedId.name: {
-                showToast("965");
+            case RelatedId.sex: {
+                showDialogSelectSex(position);
+            }
+            break;
+            case RelatedId.education_background: {
+                showDialogSelectEducationBackground(position);
             }
             break;
         }
@@ -268,39 +289,174 @@ public class ProfileActivity extends BaseFormActivity {
 
     private void showDialogSelectPhoto() {
 
-        final BottomDialog dialog = new BottomDialog(this);
-        dialog.addItem("从相册中选择照片", KColorNormal, new OnClickListener() {
+        final List<String> data = new ArrayList<>();
+        data.add("从相册中选择照片");
+        data.add("拍照");
+        data.add("取消");
+
+        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
 
             @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
+            public void onDialogItemClick(int position) {
+
+                switch (position) {
+                    case 0: {
+                        getPhotoFromAlbum();
+                    }
+                    break;
+                    case 1: {
+                        getPhotoFromTakePhotos();
+                    }
+                    break;
                 }
+
             }
         });
 
-        dialog.addItem("拍照", KColorNormal, new OnClickListener() {
+        for (int i = 0; i < data.size(); ++i) {
 
-            @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+            if (i != (data.size() - 1)) {
+                dialog.addItem(data.get(i), KColorNormal);
+            } else {
+                dialog.addItem(data.get(i), KColorCancel);
             }
-        });
-
-        dialog.addItem("取消", KColorCancel, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-        });
+        }
 
         dialog.show();
 
     }
+
+    private void getPhotoFromAlbum() {
+        PhotoUtil.fromLocal(this, KCodeAlbum);
+    }
+
+    private void getPhotoFromTakePhotos() {
+        mPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
+        PhotoUtil.photograph(this, mPhotoPath, KCodePhotograph);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        String path = null;
+        switch (requestCode) {
+            case KCodeAlbum: {
+                // 查看相册获得图片返回
+                path = PhotoUtil.getPath(this, data.getData());
+            }
+            break;
+            case KCodePhotograph: {
+                // 通过照相机拍的图片
+                path = mPhotoPath;
+            }
+            break;
+        }
+
+        if (path != null) {
+            Intent intent = new Intent(this, ClipImageActivity.class);
+            intent.putExtra(Extra.KData, path);
+            startActivity(intent);
+        }
+    }
+
+    private void showDialogSelectSex(final int pos) {
+
+        final List<String> data = new ArrayList<>();
+        data.add("男");
+        data.add("女");
+
+        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
+
+            @Override
+            public void onDialogItemClick(int position) {
+
+                getItem(pos).put(TFormElem.text, data.get(position));
+                refreshItem(pos);
+            }
+        });
+
+        for (int i = 0; i < data.size(); ++i) {
+            dialog.addItem(data.get(i), KColorNormal);
+        }
+
+        dialog.show();
+
+    }
+
+    private void showDialogSelectEducationBackground(final int pos) {
+
+        final List<String> data = new ArrayList<>();
+        data.add("专科");
+        data.add("本科");
+        data.add("硕士");
+        data.add("博士");
+        data.add("博士后");
+
+        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
+
+            @Override
+            public void onDialogItemClick(int position) {
+
+                getItem(pos).put(TFormElem.text, data.get(position));
+                refreshItem(pos);
+            }
+        });
+
+        for (int i = 0; i < data.size(); ++i) {
+            dialog.addItem(data.get(i), KColorNormal);
+        }
+
+        dialog.show();
+
+    }
+
+
+
+//    /**
+//     * 解决小米手机上获取图片路径为null的情况
+//     *
+//     * @param intent
+//     * @return
+//     */
+//    public Uri getUri(Intent intent) {
+//        Uri uri = intent.getData();
+//        String type = intent.getType();
+//        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
+//            String path = uri.getEncodedPath();
+//            if (path != null) {
+//                path = Uri.decode(path);
+//                ContentResolver cr = this.getContentResolver();
+//                StringBuffer buff = new StringBuffer();
+//                buff.append("(").append(Images.ImageColumns.DATA).append("=")
+//                        .append("'" + path + "'").append(")");
+//                Cursor cur = cr.query(Images.Media.EXTERNAL_CONTENT_URI,
+//                        new String[]{Images.ImageColumns._ID},
+//                        buff.toString(), null, null);
+//                int index = 0;
+//                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+//                    index = cur.getColumnIndex(Images.ImageColumns._ID);
+//                    // set _id value
+//                    index = cur.getInt(index);
+//                }
+//                if (index == 0) {
+//                    // do nothing
+//                } else {
+//                    Uri uri_temp = Uri
+//                            .parse("content://media/external/images/media/"
+//                                    + index);
+//                    if (uri_temp != null) {
+//                        uri = uri_temp;
+//                    }
+//                }
+//            }
+//        }
+//        return uri;
+//    }
+
 
 }

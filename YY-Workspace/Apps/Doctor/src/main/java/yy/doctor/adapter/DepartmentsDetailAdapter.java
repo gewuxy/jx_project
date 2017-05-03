@@ -9,33 +9,32 @@ import android.widget.BaseAdapter;
 import java.util.Arrays;
 import java.util.List;
 
+import yy.doctor.DepartmentsData;
 import yy.doctor.R;
-import yy.doctor.ProvinceCityData;
-import yy.doctor.adapter.VH.CityVH;
+import yy.doctor.adapter.VH.DepartmentsDetailVH;
 
 /**
  * @author CaiXiang
- * @since 2017/4/28
+ * @since 2017/5/2
  */
-public class CityAdapter extends BaseAdapter {
-
+public class DepartmentsDetailAdapter extends BaseAdapter {
 
     private List<String> mList;
 
     private Context mConttext;
-    private CityVH mCityVH;
+    private DepartmentsDetailVH mDepartmentsDetailVH;
 
-    public CityAdapter(Context mConttext) {
-        this.mList = Arrays.asList(ProvinceCityData.KCITIES[0]);
+    public DepartmentsDetailAdapter(Context mConttext) {
+        this.mList = Arrays.asList(DepartmentsData.KDEPARTMENTSDETAIL[0]);
         this.mConttext = mConttext;
     }
 
     public void setmList(int position) {
-        this.mList = Arrays.asList(ProvinceCityData.KCITIES[position]);
+        this.mList = Arrays.asList(DepartmentsData.KDEPARTMENTSDETAIL[position]);
         notifyDataSetChanged();
     }
 
-    public String getCity(int position){
+    public String getDepartmentsDetail(int position) {
         return mList.get(position);
     }
 
@@ -61,15 +60,15 @@ public class CityAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = LayoutInflater.from(mConttext).inflate(R.layout.layout_city_item, parent, false);
-            mCityVH = new CityVH(convertView);
-            convertView.setTag(mCityVH);
+            mDepartmentsDetailVH = new DepartmentsDetailVH(convertView);
+            convertView.setTag(mDepartmentsDetailVH);
 
         } else {
 
-            mCityVH = (CityVH) convertView.getTag();
+            mDepartmentsDetailVH = (DepartmentsDetailVH) convertView.getTag();
         }
 
-        mCityVH.getTvCity().setText(mList.get(position));
+        mDepartmentsDetailVH.getTvCity().setText(mList.get(position));
 
         return convertView;
     }

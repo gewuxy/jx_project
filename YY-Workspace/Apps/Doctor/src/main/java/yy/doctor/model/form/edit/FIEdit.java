@@ -1,4 +1,4 @@
-package yy.doctor.model.form;
+package yy.doctor.model.form.edit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -9,6 +9,7 @@ import lib.yy.adapter.VH.FormItemVH;
 import lib.yy.model.form.FormItem;
 import yy.doctor.Constants;
 import yy.doctor.R;
+import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang

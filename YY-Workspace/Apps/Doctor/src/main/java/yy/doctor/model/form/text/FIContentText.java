@@ -1,10 +1,11 @@
-package yy.doctor.model.form;
+package yy.doctor.model.form.text;
 
 import android.support.annotation.NonNull;
 
 import lib.yy.adapter.VH.FormItemVH;
 import lib.yy.model.form.FormItem;
 import yy.doctor.R;
+import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang

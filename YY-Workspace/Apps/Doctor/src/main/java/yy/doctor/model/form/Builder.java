@@ -2,6 +2,13 @@ package yy.doctor.model.form;
 
 import lib.ys.form.FormBuilder;
 import lib.yy.model.form.FormItem;
+import yy.doctor.model.form.edit.FIEdit;
+import yy.doctor.model.form.edit.FIEditIntent;
+import yy.doctor.model.form.edit.FIEditRegister;
+import yy.doctor.model.form.text.FIContent;
+import yy.doctor.model.form.text.FIContentText;
+import yy.doctor.model.form.text.FIText;
+import yy.doctor.model.form.text.FITextIntent;
 
 /**
  * @author CaiXiang
@@ -49,13 +56,17 @@ public class Builder extends FormBuilder<FormItem> {
                 item = new FIEdit();
             }
             break;
-            case FormType.profile_checkbox: {
-                item = new FICheckBox();
+            case FormType.et_intent: {
+                item = new FIEditIntent();
+            }
+            break;
+            case FormType.et_register: {
+                item = new FIEditRegister();
             }
             break;
 
-            case FormType.et_register: {
-                item = new FIEditRegister();
+            case FormType.profile_checkbox: {
+                item = new FICheckBox();
             }
             break;
 

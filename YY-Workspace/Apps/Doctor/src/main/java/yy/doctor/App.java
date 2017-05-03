@@ -1,5 +1,8 @@
 package yy.doctor;
 
+import android.os.Build;
+import android.os.StrictMode;
+
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
 import lib.ys.config.NavBarConfig;
@@ -47,6 +50,11 @@ public class App extends BaseApp {
                 .focusBgColorRes(R.color.nav_bar_bg_focus)
                 .build();
         NavBar.initialize(navBarConfig);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
     }
 
     @Override

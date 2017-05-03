@@ -1,12 +1,10 @@
 package lib.ys.form;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -20,6 +18,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.frag.FragEx;
 import lib.ys.model.EVal;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 
@@ -151,20 +150,12 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
 
     protected void startActivity(Intent intent) {
         Object host = getObject(TFormElem.host);
-        if (host instanceof Activity) {
-            ((Activity) host).startActivity(intent);
-        } else if (host instanceof Fragment) {
-            ((Fragment) host).startActivity(intent);
-        }
+        LaunchUtil.startActivity(host, intent);
     }
 
     protected void startActivityForResult(Intent intent, int position) {
         Object host = getObject(TFormElem.host);
-        if (host instanceof Activity) {
-            ((Activity) host).startActivityForResult(intent, position);
-        } else if (host instanceof Fragment) {
-            ((Fragment) host).startActivityForResult(intent, position);
-        }
+        LaunchUtil.startActivityForResult(host, intent, position);
     }
 
     protected void startActivityForResult(Class<?> clz, int position) {
