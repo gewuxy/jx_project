@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 public class NestCheckBox extends LinearLayout {
 
     // 代表选中状态的集合
-    private static final int[] KStateSetChecked = new int[] {
+    private static final int[] KStateSetChecked = new int[]{
             android.R.attr.state_checked
     };
 

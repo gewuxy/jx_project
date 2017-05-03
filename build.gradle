@@ -23,6 +23,14 @@ buildscript {
          */
 //        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1' // 为了能在lib里面使用注解
+
+        /**
+         * 使用lambda表达式
+         * 每个module的build都要加入 apply plugin: 'me.tatarka.retrolambda' 以及
+         * compileOptions {sourceCompatibility JavaVersion.VERSION_1_8
+         * targetCompatibility JavaVersion.VERSION_1_8}
+         * * */
+        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
     }
 }
 

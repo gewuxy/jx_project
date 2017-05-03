@@ -44,15 +44,11 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
     abstract void setViewsValue();
 
     protected void setOnRetryClickView(View v) {
-        v.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mOnRetryClickLsn != null) {
-                    boolean result = mOnRetryClickLsn.onRetryClick();
-                    if (result) {
-                        changeState(TState.loading);
-                    }
+        v.setOnClickListener(v1 -> {
+            if (mOnRetryClickLsn != null) {
+                boolean result = mOnRetryClickLsn.onRetryClick();
+                if (result) {
+                    changeState(TState.loading);
                 }
             }
         });

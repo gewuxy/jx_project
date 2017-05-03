@@ -1,7 +1,6 @@
 package yy.doctor.frag.exam;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.util.List;
@@ -70,22 +69,22 @@ public class ExamTopicFrag extends BaseListFrag<String> {
         if (mTvQ != null && mExamTopic != null) {
             mTvQ.setText(mExamTopic.getString(question));
         }
+
         if (mTvBtn != null) {
-            mTvBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    List<Integer> answers = mExamTopicAdapter.getAnswers();//选择的答案
-                    mExamTopic.put(answer, answers);
-                    //题目是否已作答过
-                    if (answers.size() > 0) {
-                        mExamTopic.put(finish, true);
-                    } else {
-                        mExamTopic.put(finish, false);
-                    }
-                    LogMgr.e(TAG, answers.toString());
-                    if (mOnNextListener != null) {
-                        mOnNextListener.onNext(v);
-                    }
+            mTvBtn.setOnClickListener(v -> {
+                List<Integer> answers = mExamTopicAdapter.getAnswers();//选择的答案
+                mExamTopic.put(answer, answers);
+                //题目是否已作答过
+                if (answers.size() > 0) {
+                    mExamTopic.put(finish, true);
+                } else {
+                    mExamTopic.put(finish, false);
+                }
+
+                LogMgr.d(TAG, answers.toString());
+
+                if (mOnNextListener != null) {
+                    mOnNextListener.onNext(v);
                 }
             });
         }

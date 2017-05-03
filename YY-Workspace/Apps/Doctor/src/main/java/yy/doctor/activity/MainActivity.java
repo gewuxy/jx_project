@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -114,7 +113,6 @@ public class MainActivity extends BaseVPActivity {
     }
 
     private void addIndicator(final int index, @DrawableRes int drawableId, CharSequence text) {
-
         View v = inflate(R.layout.layout_main_tab);
 
         ImageView iv = (ImageView) v.findViewById(R.id.main_tab_iv);
@@ -123,13 +121,7 @@ public class MainActivity extends BaseVPActivity {
         TextView tv = (TextView) v.findViewById(R.id.main_tab_tv);
         tv.setText(text);
 
-        v.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                setCurrentItem(index, false);
-            }
-        });
+        v.setOnClickListener(v1 -> setCurrentItem(index, false));
 
         if (index == KTabHome) {
             v.setSelected(true);

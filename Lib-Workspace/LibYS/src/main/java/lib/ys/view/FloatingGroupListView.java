@@ -427,13 +427,7 @@ public class FloatingGroupListView extends ExpandableListView {
 
             if (!mFloatingGroupView.isClickable()) {
                 mSelectorEnabled = true;
-                mFloatingGroupView.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        postDelayed(mOnClickAction, ViewConfiguration.getPressedStateDuration());
-                    }
-                });
+                mFloatingGroupView.setOnClickListener(v -> postDelayed(mOnClickAction, ViewConfiguration.getPressedStateDuration()));
             } else {
                 mSelectorEnabled = false;
             }
