@@ -8,6 +8,7 @@ import lib.network.model.NetworkRequest.Builder;
 import lib.network.param.NameValuePair;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlUser;
 
 /**
@@ -24,9 +25,66 @@ public class NetFactory {
         String token = "token";
     }
 
+    private interface RegisterParam {
+        String invite = "invite";
+        String username = "username";
+        String nickname = "nickname";
+        String linkman = "linkman";
+        String mobile = "mobile";
+        String pwd = "password";
+        String province = "provice";
+        String city = "city";
+        String hospital = "hospital";
+        String department = "department";
+        String licence = "licence";
+    }
+
     private interface UserParam {
         String username = "username";
         String password = "password";
+    }
+
+    /**
+     * 注册
+     *
+     * @param invite     邀请码
+     * @param username   用户登录名
+     * @param nickname   用户昵称
+     * @param linkman    真实姓名
+     * @param mobile     手机号
+     * @param pwd        密码
+     * @param province   省份
+     * @param city       城市
+     * @param hospital   医院名称
+     * @param department 科室名称
+     * @param licence    执业许可证号
+     * @return
+     */
+    public static NetworkRequest register(
+            String invite,
+            String username,
+            String nickname,
+            String linkman,
+            String mobile,
+            String pwd,
+            String province,
+            String city,
+            String hospital,
+            String department,
+            String licence) {
+        return newGet(UrlRegister.register)
+                .param(RegisterParam.invite, invite)
+                .param(RegisterParam.username, username)
+                .param(RegisterParam.nickname, nickname)
+                .param(RegisterParam.linkman, linkman)
+                .param(RegisterParam.mobile, mobile)
+                .param(RegisterParam.pwd, pwd)
+                .param(RegisterParam.province, province)
+                .param(RegisterParam.city, city)
+                .param(RegisterParam.hospital, hospital)
+                .param(RegisterParam.department, department)
+                .param(RegisterParam.licence, licence)
+                .build();
     }
 
     /**

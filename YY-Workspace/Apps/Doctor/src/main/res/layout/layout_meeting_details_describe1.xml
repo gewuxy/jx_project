@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="@dimen/margin"
     tools:showIn="@layout/activity_meeting_details">
-    <!--TODO:没有左边距 -->
+
     <TextView
         android:id="@+id/meeting_details_tv_titles"
         style="@style/tv"

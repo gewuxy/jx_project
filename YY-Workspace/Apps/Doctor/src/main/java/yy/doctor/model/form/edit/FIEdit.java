@@ -48,7 +48,7 @@ public class FIEdit extends FormItem {
 
             @Override
             public void afterTextChanged(Editable s) {
-                put(TFormElem.val, s.toString());
+                save(s.toString(), s.toString());
             }
         });
     }

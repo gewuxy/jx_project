@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flowLayout="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="78dp"
+        android:layout_height="76dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -16,28 +17,40 @@
             android:id="@+id/meeting_search_tv_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="36dp"
+            android:layout_marginRight="34dp"
             android:text="搜索单位号"
             android:textColor="@color/text_006ebd"
             android:textSize="12dp"/>
 
         <View
-            style="@style/divider.meeting"/>
+            style="@style/divider.meeting"
+            android:layout_height="18dp"/>
 
         <TextView
             android:id="@+id/meeting_search_tv_meeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="36dp"
+            android:layout_marginLeft="34dp"
             android:text="搜索会议"
             android:textColor="@color/text_006ebd"
             android:textSize="12dp"/>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/margin"
-        android:id="@+id/meeting_search_recyclerview"
+    <View
+        style="@style/divider"/>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:scrollbars="none">
+
+        <lib.ys.view.FlowLayout
+            android:id="@+id/meeting_search_flowlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            flowLayout:vg_horSpacing="10dp"
+            flowLayout:vg_verSpacing="12dp"/>
+    </ScrollView>
+
 </LinearLayout>

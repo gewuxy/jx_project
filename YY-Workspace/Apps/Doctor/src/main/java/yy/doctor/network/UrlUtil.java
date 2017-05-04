@@ -48,6 +48,11 @@ public class UrlUtil {
         String profile = "";
     }
 
+    //TODO:register路径 http://www.medcn.com:8081/v7/api/regist/regist
+    public interface UrlRegister {
+        String register = "regist/regist";
+    }
+
     public interface Meeting {
 
     }

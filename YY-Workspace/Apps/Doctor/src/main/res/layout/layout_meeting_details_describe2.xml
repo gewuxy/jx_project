@@ -6,7 +6,7 @@
     android:layout_height="62dp"
     android:gravity="center_vertical"
     tools:showIn="@layout/activity_meeting_details">
-    <!--TODO:没给图片大小边距等-->
+
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/meeting_niv_icon_number"
         android:layout_width="58dp"
@@ -20,7 +20,7 @@
         android:layout_marginLeft="@dimen/margin"
         android:layout_weight="1"
         android:orientation="vertical">
-        <!--TODO:没给字体大小颜色等属性-->
+
         <TextView
             android:id="@+id/meeting_tv_name_number_host"
             style="@style/tv"
@@ -33,7 +33,7 @@
             android:text="主办公众号"/>
     </LinearLayout>
 
-    <!--TODO:没给大小-->
+    <!--TODO:改跟关注一样-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

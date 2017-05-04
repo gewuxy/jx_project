@@ -6,12 +6,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import lib.network.model.NetworkResponse;
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
+import lib.yy.network.Response;
+import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.activity.MainActivity;
+import yy.doctor.model.Register;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -22,10 +30,12 @@ import yy.doctor.util.Util;
  */
 public class RegisterActivity extends BaseFormActivity {
 
+    public static final int KFromRegister = 1;
     private EditText mActivationCode;
     private TextView mGetActivationCode;
     private TextView mRegister;
-    public static final int KFromRegister = 1;
+    private String mUserName;   //用户名
+    private String mPwd;        //密码
 
     @IntDef({
             RelatedId.email,
@@ -128,10 +138,63 @@ public class RegisterActivity extends BaseFormActivity {
                 startActivity(ActivationCodeExplainActivity.class);
                 break;
             case R.id.register:
+                enroll();
                 break;
         }
     }
 
+    /**
+     * 注册操作
+     */
+    private void enroll() {
+
+        String strInvite = getItem(11).getString(TFormElem.text);
+        mUserName = getItem(RelatedId.email).getString(TFormElem.text);
+        String strNickname = "";
+        String strLinkman = getItem(RelatedId.name).getString(TFormElem.text);
+        String strMobile = "";
+        String strPwd = getItem(RelatedId.pwd).getString(TFormElem.text);
+        String strPwdNg = getItem(RelatedId.marksure_pwd).getString(TFormElem.text);
+        String strProvince = "";
+        String strCity = getItem(RelatedId.location).getString(TFormElem.text);
+        String strHospital = "";
+        String strDepartment = "";
+        String strLicence = "";
+
+        if (BuildConfig.TEST) {
+            strInvite = "02123456789";
+            mUserName = "123456789@163.com";
+            strNickname = mUserName;
+            strLinkman = "test1";
+            strMobile = "";
+            strPwd = "123456";
+            strPwdNg = "123456";
+            strProvince = "广东";
+            strCity = "广州";
+            strHospital = "第一医院";
+            strDepartment = "";
+            strLicence = "";
+        }
+
+//                if (!check()) {
+//            return;
+//        }
+
+        if (!strPwd.equals(strPwdNg)) {
+            mPwd = strPwd;
+            showToast("密码不一致");
+            return;
+        }
+
+        //自动登录
+        notify(NotifyType.login);
+        NetFactory.login(mUserName, mPwd);
+        startActivity(MainActivity.class);
+        finish();
+        /*refresh(RefreshWay.dialog);
+        exeNetworkRequest(0, NetFactory.register(strInvite, mUserName, strNickname, strLinkman,
+                strMobile, strPwd, strProvince, strCity, strHospital, strDepartment, strLicence));*/
+    }
 
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
@@ -144,6 +207,26 @@ public class RegisterActivity extends BaseFormActivity {
                     break;
             }
         }
-
     }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        return JsonParser.ev(nr.getText(), Register.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+
+
+        Response<Register> r = (Response<Register>) result;
+        if (r.isSucceed()) {
+            Register.inst().update(r.getData());
+            //登录
+            notify(NotifyType.login);
+        } else {
+            stopRefresh();
+            showToast(r.getError());
+        }
+    }
+
 }

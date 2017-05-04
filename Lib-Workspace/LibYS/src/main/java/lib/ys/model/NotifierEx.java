@@ -1,11 +1,14 @@
 package lib.ys.model;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import lib.ys.util.GenericUtil;
+import lib.ys.util.UtilEx;
 
 
 /**
@@ -31,6 +34,7 @@ abstract public class NotifierEx<I> {
      * @param type
      * @param data
      */
+    @TargetApi(Build.VERSION_CODES.N)
     public synchronized void notify(final int type, final Object data) {
         I[] arrays = null;
         synchronized (this) {
@@ -41,7 +45,12 @@ abstract public class NotifierEx<I> {
 
         // 涉及到ui的刷新, 所以要保证在ui线程运行
         if (arrays != null) {
-            Arrays.asList(arrays).forEach(o -> callback(o, type, data));
+            I[] finalArrays = arrays;
+            UtilEx.runOnUIThread(() -> {
+                for (I o : finalArrays) {
+                    callback(o, type, data);
+                }
+            });
         }
     }
 

@@ -16,11 +16,6 @@ import yy.doctor.adapter.MeetingsAdapter;
  */
 
 abstract public class BaseMeetingsFrag extends BaseSRListFrag<String> {
-    @Override
-    public void setViews() {
-        super.setViews();
-        getLv().setDivider(null);
-    }
 
     @Override
     public void initNavBar(NavBar bar) {

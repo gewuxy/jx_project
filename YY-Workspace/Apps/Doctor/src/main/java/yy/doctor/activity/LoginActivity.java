@@ -8,6 +8,7 @@ import lib.network.model.NetworkResponse;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ex.NavBar;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Response;
 import yy.doctor.BuildConfig;
@@ -125,5 +126,11 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        super.onNotify(type, data);
+        if (type == NotifyType.login) {
+            LoginActivity.this.finish();
+        }
+    }
 }

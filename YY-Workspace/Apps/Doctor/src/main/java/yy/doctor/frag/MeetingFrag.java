@@ -92,7 +92,7 @@ public class MeetingFrag extends BaseVPFrag {
 
     @Override
     public void initNavBar(final NavBar bar) {
-        View v = inflate(R.layout.layout_meeting_nav_bar_mid);
+        View v = inflate(R.layout.layout_meeting_nav_bar_section);
         mIvSection = (ImageView) v.findViewById(R.id.meeting_nav_bar_mid_iv);
         mTvSection = (TextView) v.findViewById(R.id.meeting_nav_bar_mid_tv);
         bar.addViewMid(v, new OnClickListener() {

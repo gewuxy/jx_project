@@ -1,18 +1,18 @@
 package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
+import java.util.List;
+
+import lib.ys.LogMgr;
 import lib.ys.ex.NavBar;
-import lib.ys.fitter.DpFitter;
+import lib.ys.view.FlowLayout;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.view.GridDivider;
-import yy.doctor.Constants.SectionConstants;
 import yy.doctor.R;
-import yy.doctor.adapter.SectionAdapter;
 import yy.doctor.util.Util;
 
 /**
@@ -24,7 +24,8 @@ import yy.doctor.util.Util;
 
 public class MeetingSearchActivity extends BaseActivity {
 
-    private RecyclerView mRv;
+    private FlowLayout mFlowLayout;//底部科室列表
+    private EditText mEtSearch;
 
     @Override
     public void initData() {
@@ -39,35 +40,46 @@ public class MeetingSearchActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
-        View v = inflate(R.layout.layout_home_nav_bar);
+        View v = inflate(R.layout.layout_meeting_nav_bar_search);
         bar.addViewLeft(v, null);
     }
 
     @Override
     public void findViews() {
-        mRv = findView(R.id.meeting_search_recyclerview);
+        mFlowLayout = findView(R.id.meeting_search_flowlayout);
+        mEtSearch = findView(R.id.meeting_search_nav_bar_et);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.meeting_search_tv_number);
         setOnClickListener(R.id.meeting_search_tv_meeting);
+        setOnClickListener(R.id.meeting_search_nav_bar_tv);
 
-        mRv.setLayoutManager(new StaggeredGridLayoutManager(SectionConstants.KRowCount, StaggeredGridLayoutManager.VERTICAL));
-        mRv.addItemDecoration(new GridDivider(
-                DpFitter.dp(SectionConstants.KDividerHeight),
-                R.drawable.section_divider_bg));
+        setFl();
+    }
 
-        final SectionAdapter adapter = new SectionAdapter();
-        adapter.addAll(Util.getSections());
-        mRv.setAdapter(adapter);
-        adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
-
-            @Override
-            public void onItemClick(View v, int position) {
-                showToast(adapter.getItem(position));
-            }
-        });
+    /**
+     * FlowLayout的设置
+     */
+    private void setFl() {
+        List<String> mNames = Util.getSections();//全部科室
+        TextView tvSection;
+        View view;
+        for(int i = 0; i < mNames.size(); i ++){
+            final String name = mNames.get(i);
+            view = inflate(R.layout.layout_meeting_search_section);
+            tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
+            tvSection.setText(name);
+            view.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO:具体的点击事件
+                    showToast(name);
+                }
+            });
+            mFlowLayout.addView(view);
+        }
     }
 
     @Override
@@ -79,9 +91,19 @@ public class MeetingSearchActivity extends BaseActivity {
             case R.id.meeting_search_tv_meeting:
                 showToast("会议");
                 break;
+            case R.id.meeting_search_nav_bar_tv:
+                search();
+                break;
             default:
                 break;
         }
+    }
 
+    /**
+     * 进行搜索
+  */
+    private void search() {
+        String searchStr = mEtSearch.getText().toString().trim();
+        LogMgr.e("搜索",searchStr);
     }
 }

@@ -74,8 +74,9 @@
             android:text="签到"
             android:textColor="#9fcb25"/>
     </LinearLayout>
-    <!--观看视频-->
+    <!--观看视频 TODO：功能?跟前面视频一样?-->
     <LinearLayout
+        android:id="@+id/meeting_details_video_seeing"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:background="@color/text_01b557"

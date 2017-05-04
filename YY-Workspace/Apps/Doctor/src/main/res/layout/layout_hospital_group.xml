@@ -3,16 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_bg"
     android:orientation="vertical">
 
     <TextView
-        android:background="@color/app_bg"
         android:id="@+id/hospital_group"
         android:layout_width="match_parent"
         android:layout_height="24dp"
+        android:layout_marginLeft="@dimen/margin"
         android:gravity="center_vertical"
         android:text="group"
         android:textColor="@color/text_888"
-        android:textSize="12sp"/>
+        android:textSize="12dp"/>
 
 </LinearLayout>

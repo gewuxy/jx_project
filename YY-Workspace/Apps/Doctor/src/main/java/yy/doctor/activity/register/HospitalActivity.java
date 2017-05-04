@@ -12,10 +12,10 @@ import lib.ys.decor.DecorViewEx;
 import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.view.SideBar;
-import lib.ys.view.SideBar.OnTouchLetterListener;
 import lib.yy.activity.base.BaseSRGroupListActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital;
@@ -39,6 +39,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     private SideBar mSideBar;
     private int mLetterSize;
     private TextView mTvLetter;
+    private TextView mTvChange;
 
     @Override
     public void initData() {
@@ -75,6 +76,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
 
         mTvLetter = findView(R.id.hospital_tv_letter);
         mSideBar = findView(R.id.hospital_sb);
+        mTvChange = findView(R.id.hospital_tv_change);
         initSideBar();
     }
 
@@ -85,6 +87,8 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         expandAllGroup();
 
         setRefreshEnable(false);
+
+        mTvChange.setOnClickListener(this);
     }
 
     /**
@@ -94,12 +98,9 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         mSideBar.setTextSize(mLetterSize);
         mSideBar.setColor(KLetterColorNormal);
         mSideBar.setColorFocus(KLetterColorFocus);
-        mSideBar.setOnTouchLetterChangeListener(new OnTouchLetterListener() {
-            @Override
-            public void onTouchLetterChanged(String s, boolean isFocus) {
-                mTvLetter.setText(s);
-                mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
-            }
+        mSideBar.setOnTouchLetterChangeListener((s, isFocus) -> {
+            mTvLetter.setText(s);
+            mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
         });
     }
 
@@ -121,6 +122,18 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     @Override
     public IListResponse<GroupHospital> parseNetworkResponse(int id, String text) throws JSONException {
         return null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.hospital_tv_change:
+                startActivityForResult(ProvinceCityActivity.class,100);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
