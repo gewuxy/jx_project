@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java8.lang.Iterables;
 import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
 import lib.ys.model.inject.BindInit;
@@ -83,7 +84,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     }
 
     public final <T extends EVal<E>> T put(EVal<E> o) {
-        getEnumFields().forEach(e -> put(e, o.getObject(e)));
+        Iterables.forEach(getEnumFields(), e -> put(e, o.getObject(e)));
         return (T) this;
     }
 
@@ -336,7 +337,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     public EVal clone() {
         EVal val = newInst(getClass());
 
-        getEnumFields().forEach(e -> {
+        Iterables.forEach(getEnumFields(), e -> {
             Object o = mMap.get(e);
             if (o == null) {
                 return;
@@ -363,7 +364,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
         }
 
         List<Object> newList = new ArrayList<>();
-        list.forEach(o -> {
+        Iterables.forEach(list, o -> {
             if (o instanceof EVal) {
                 EVal ev = (EVal) o;
                 newList.add(ev.clone());
@@ -388,7 +389,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             return;
         }
 
-        getEnumFields().forEach(e -> put(e, source.getObject(e)));
+        Iterables.forEach(getEnumFields(), e -> put(e, source.getObject(e)));
     }
 
     /**
@@ -453,7 +454,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
      */
     private <T extends EVal<E>> JSONObject toStoreJsonObj(T t) {
         JSONObject jsonObject = new JSONObject();
-        getEnumFields().forEach(e -> {
+        Iterables.forEach(getEnumFields(), e -> {
             try {
                 Object obj = t.getObject(e);
                 if (obj == null) {

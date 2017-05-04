@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java8.lang.Iterables;
 import lib.network.LogNetwork;
 import lib.network.model.NetworkListener;
 import lib.network.model.NetworkMethod;
@@ -34,12 +35,12 @@ public class UploadBuilder extends PostBuilder {
 
         List<NameByteValuePair> byteParams = request().getByteParams();
         if (byteParams != null) {
-            byteParams.forEach(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.getInstance().add(tag(), id(), p.getValue())));
+            Iterables.forEach(byteParams, p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.getInstance().add(tag(), id(), p.getValue())));
         }
 
         List<NameFileValuePair> fileParams = request().getFileParams();
         if (fileParams != null) {
-            fileParams.forEach(p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));
+            Iterables.forEach(fileParams, p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));
         }
 
         return builder;

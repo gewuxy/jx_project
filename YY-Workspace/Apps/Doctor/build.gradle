@@ -65,12 +65,12 @@ android {
     productFlavors {
         flavors_debug {
             manifestPlaceholders = [
-                    app_name: "YaYa医师_编译",
+                    app_name: "YaYa医师(B)",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
-                    app_name: "YaYa医师_内测",
+                    app_name: "YaYa医师(A)",
             ]
         }
         flavors_release {
@@ -89,9 +89,9 @@ android {
                 def fileName = outputFile.name.replace("Doctor", "YaYa医师")
                 // 中段
                 fileName = fileName.replace("-flavors_debug", "")
-                fileName = fileName.replace("-debug", "_测试")
+                fileName = fileName.replace("-debug", "(test)")
                 fileName = fileName.replace("-flavors_alpha", "")
-                fileName = fileName.replace("-alpha", "_内测")
+                fileName = fileName.replace("-alpha", "(alpha)")
                 fileName = fileName.replace("-flavors_release", "")
                 fileName = fileName.replace("-release", "")
                 // 尾端
@@ -116,3 +116,4 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
 }
+

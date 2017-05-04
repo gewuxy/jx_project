@@ -1,5 +1,7 @@
 package lib.ys.form;
 
+import java8.lang.FunctionalInterface;
+
 /**
  * form的观察者
  *

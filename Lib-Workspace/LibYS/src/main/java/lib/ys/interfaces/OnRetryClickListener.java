@@ -1,5 +1,7 @@
 package lib.ys.interfaces;
 
+import java8.lang.FunctionalInterface;
+
 @FunctionalInterface
 public interface OnRetryClickListener {
     /**

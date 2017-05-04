@@ -2,6 +2,8 @@ package lib.ys.network.image.interceptor;
 
 import android.graphics.Bitmap;
 
+import java8.lang.FunctionalInterface;
+
 /**
  * 拦截器
  *

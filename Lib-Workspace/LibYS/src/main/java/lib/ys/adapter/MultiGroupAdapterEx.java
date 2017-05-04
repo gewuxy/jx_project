@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import java8.lang.FunctionalInterface;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;

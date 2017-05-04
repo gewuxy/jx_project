@@ -48,10 +48,10 @@ allprojects {
 }
 
 project.ext {
-    compileSdkVersion = 24
+    compileSdkVersion = 23
     buildToolsVersion = "25.0.2"
     minSdkVersion = 14
-    targetSdkVersion = 24
+    targetSdkVersion = 23
     versionCode = 10000
     versionName = "1.00.00"
     abortOnError = false //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。

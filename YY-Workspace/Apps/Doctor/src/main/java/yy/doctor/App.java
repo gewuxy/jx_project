@@ -55,7 +55,7 @@ public class App extends BaseApp {
         NavBar.initialize(navBarConfig);
 
         // 临时的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= 24/*Build.VERSION_CODES.N*/) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }

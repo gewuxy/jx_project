@@ -6,6 +6,7 @@ import com.zhy.http.okhttp.builder.PostFormBuilder;
 
 import java.util.List;
 
+import java8.lang.Iterables;
 import lib.network.model.NetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
@@ -28,7 +29,7 @@ public class PostBuilder extends BaseBuilder {
         PostFormBuilder builder = OkHttpUtils.post().url(url);
 
         if (pairs != null) {
-            pairs.forEach(p -> builder.addParams(p.getName(), p.getValue()));
+            Iterables.forEach(pairs, p -> builder.addParams(p.getName(), p.getValue()));
         }
 
         return builder;
