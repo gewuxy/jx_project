@@ -8,6 +8,7 @@ import lib.ys.config.AppConfig;
 import lib.ys.config.NavBarConfig;
 import lib.ys.ex.NavBar;
 import lib.yy.BaseApp;
+import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;
 
 /**
@@ -36,6 +37,8 @@ public class App extends BaseApp {
         // log
         LogMgr.setDebugState(BuildConfig.DEBUG_LOG);
 
+        UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
+
         // 导航栏
         NavBarConfig navBarConfig = NavBarConfig.newBuilder()
                 .heightDp(KTitleBarHeightDp)
@@ -51,6 +54,7 @@ public class App extends BaseApp {
                 .build();
         NavBar.initialize(navBarConfig);
 
+        // 临时的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());

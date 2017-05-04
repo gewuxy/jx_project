@@ -1,11 +1,10 @@
 package yy.doctor.network;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkRequest.Builder;
 import lib.network.param.NameValuePair;
-import yy.doctor.network.UrlUtil.UrlMain;
 
 /**
  * @author CaiXiang
@@ -13,37 +12,64 @@ import yy.doctor.network.UrlUtil.UrlMain;
  */
 public class NetFactory {
 
-    public static NetworkRequest home() {
-        return newPost(UrlMain.KTttttt)
-                .param("key", "val")
-                .build();
+    private interface BaseParam {
+        String device_os = "device_os";
     }
 
-    public static NetworkRequest home2() {
-        return newPost(UrlMain.KTttttt)
-                .param("key", "val")
-                .build();
+    private interface CommonParam {
+
     }
 
-    public static NetworkRequest home3() {
-        return newPost(UrlMain.KTttttt)
-                .param("key", "val")
-                .build();
-    }
 
+    /*********************************
+     * 以下是工具
+     */
+
+    /**
+     * 获取post请求
+     *
+     * @param url
+     * @return
+     */
     private static Builder newPost(String url) {
-        return new Builder(url)
+        return new Builder(UrlUtil.getBaseUrl() + url)
                 .post()
                 .param(getBaseParams());
     }
 
+    /**
+     * 获取get请求
+     *
+     * @param url
+     * @return
+     */
     private static Builder newGet(String url) {
-        return new Builder(url)
+        return new Builder(UrlUtil.getBaseUrl() + url)
                 .get()
                 .param(getBaseParams());
     }
 
+    /**
+     * 获取upload请求
+     *
+     * @param url
+     * @return
+     */
+    private static Builder newUpload(String url) {
+        return new Builder(UrlUtil.getBaseUrl() + url)
+                .upload()
+                .param(getBaseParams());
+    }
+
     private static List<NameValuePair> getBaseParams() {
-        return null;
+        List<NameValuePair> ps = new ArrayList<>();
+
+        ps.add(newPair(BaseParam.device_os, "android"));
+
+        return ps;
+    }
+
+    private static NameValuePair newPair(String key, Object value) {
+        return new NameValuePair(key, value);
     }
 }

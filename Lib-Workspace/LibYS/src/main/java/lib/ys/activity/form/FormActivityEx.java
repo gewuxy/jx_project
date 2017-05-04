@@ -351,26 +351,14 @@ abstract public class FormActivityEx<T extends FormItemEx<VH>, VH extends ViewHo
      * scrollview滑动到顶部
      */
     public void smoothScrollToTop() {
-        runOnUIThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSv.fullScroll(ScrollView.FOCUS_UP);
-            }
-        });
+        runOnUIThread(() -> mSv.fullScroll(ScrollView.FOCUS_UP));
     }
 
     /**
      * scrollview滑动到底部
      */
     public void smoothScrollToBottom() {
-        runOnUIThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSv.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });
+        runOnUIThread(() -> mSv.fullScroll(ScrollView.FOCUS_DOWN));
     }
 
     /**

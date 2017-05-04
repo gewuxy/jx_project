@@ -72,13 +72,7 @@ abstract public class DialogActivityEx extends ActivityEx {
         }
 
         if (mFinishLsn == null) {
-            mFinishLsn = new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            };
+            mFinishLsn = v1 -> finish();
         }
 
         v.setOnClickListener(mFinishLsn);
