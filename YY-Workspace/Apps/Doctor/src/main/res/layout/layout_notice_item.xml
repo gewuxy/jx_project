@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="YaYa专家讲堂"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:textSize="12dp"
             android:textColor="@color/text_888"/>
 
