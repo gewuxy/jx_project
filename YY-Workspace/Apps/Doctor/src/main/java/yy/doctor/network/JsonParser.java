@@ -4,8 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import lib.ys.model.EVal;
-import lib.ys.network.resp.JsonParserEx;
+import lib.yy.network.BaseJsonParser;
 import lib.yy.network.ListResponse;
 import yy.doctor.model.home.Home;
 import yy.doctor.model.home.HomeMeeting;
@@ -14,7 +13,7 @@ import yy.doctor.model.home.HomeMeeting;
  * @author CaiXiang
  * @since 2017/4/10
  */
-public class JsonParser extends JsonParserEx {
+public class JsonParser extends BaseJsonParser {
 
     public static ListResponse<Home> home(String text) throws JSONException {
         ListResponse<Home> r = new ListResponse<>();
@@ -32,9 +31,5 @@ public class JsonParser extends JsonParserEx {
         }
 
         return r;
-    }
-
-    public <T extends EVal> T ev(Class<T> clz, String text) throws JSONException {
-        return getEV(clz, text);
     }
 }

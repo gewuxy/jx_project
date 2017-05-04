@@ -7,5 +7,5 @@ import lib.ys.ConstantsEx;
  * @since 2017/4/10
  */
 public interface BaseConstants extends ConstantsEx {
-    int KNetworkOk = 200;
+    int KNetworkOk = 0;
 }

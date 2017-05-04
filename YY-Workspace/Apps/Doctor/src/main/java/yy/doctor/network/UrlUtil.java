@@ -16,13 +16,13 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线
-            mHostName = KHttpDef + "???";
+            mHostName = KHttpDef + "appserver:port/v7/";
         } else {
             // 正式线
-            mHostName = KHttpDef + "???";
+            mHostName = KHttpDef + "appserver:port/v7/";
         }
 
-        mBase = mHostName + "???";
+        mBase = mHostName + "api/";
     }
 
     public static void setDebug(boolean isDebug) {
@@ -39,6 +39,16 @@ public class UrlUtil {
     }
 
     public interface UrlMain {
-        String KTttttt = "www.baidu.com";
+        String KTttttt = "";
+    }
+
+    public interface UrlUser {
+        String login = "login";
+        String logout = "";
+        String profile = "";
+    }
+
+    public interface Meeting {
+
     }
 }

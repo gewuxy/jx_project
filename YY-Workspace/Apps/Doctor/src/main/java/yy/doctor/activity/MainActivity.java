@@ -11,6 +11,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import lib.ys.ex.NavBar;
+import lib.ys.inst.SingletonEvent;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseVPActivity;
@@ -138,5 +139,12 @@ public class MainActivity extends BaseVPActivity {
     @Override
     protected Boolean enableSwipeFinish() {
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SingletonEvent.inst().freeAll();
     }
 }
