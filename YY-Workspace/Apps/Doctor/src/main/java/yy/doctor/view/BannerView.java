@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 import lib.ys.adapter.PagerAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.fitter.DpFitter;
 import lib.ys.widget.BannerWidgetEx;
 import yy.doctor.adapter.BannerViewAdapter;
 
@@ -24,5 +25,8 @@ public class BannerView extends BannerWidgetEx<String> {
         return new BannerViewAdapter();
     }
 
-
+    @Override
+    protected int getIndicatorSpace() {
+        return DpFitter.dp(3);
+    }
 }

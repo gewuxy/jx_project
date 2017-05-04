@@ -2,7 +2,7 @@ package yy.doctor.frag;
 
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
@@ -17,8 +17,13 @@ import yy.doctor.activity.me.MyEpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.activity.me.UnitNumActivity;
+import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+
+import static yy.doctor.model.Profile.TProfile.hospital;
+import static yy.doctor.model.Profile.TProfile.linkname;
+import static yy.doctor.model.Profile.TProfile.title;
 
 /**
  * @author CaiXiang
@@ -26,8 +31,10 @@ import yy.doctor.model.form.FormType;
  */
 public class MeFrag extends BaseFormFrag {
 
-    private LinearLayout mLayoutHeader;
     private NetworkImageView mIvAvatar;
+
+    private TextView mTvName;
+    private TextView mTvHospital;
 
     @IntDef({
             RelatedId.my_attention,
@@ -121,8 +128,9 @@ public class MeFrag extends BaseFormFrag {
     public void findViews() {
         super.findViews();
 
-        mLayoutHeader = findView(R.id.layout_me_header);
         mIvAvatar = findView(R.id.me_header_iv);
+        mTvName = findView(R.id.me_header_tv_name);
+        mTvHospital= findView(R.id.me_header_tv_hospital);
 
     }
 
@@ -130,7 +138,10 @@ public class MeFrag extends BaseFormFrag {
     public void setViews() {
         super.setViews();
 
-        mLayoutHeader.setOnClickListener(this);
+        mTvName.setText(Profile.inst().getString(linkname)+"  "+ Profile.inst().getString(title));
+        mTvHospital.setText(Profile.inst().getString(hospital));
+
+        setOnClickListener(R.id.layout_me_header);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
                 .renderer(new CircleRenderer())
                 //.renderer(new CornerRenderer(fitDp(15)))  圆角

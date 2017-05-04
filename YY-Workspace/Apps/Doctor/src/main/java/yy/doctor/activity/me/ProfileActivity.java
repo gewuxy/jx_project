@@ -16,15 +16,28 @@ import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.util.PhotoUtil;
+import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
+import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
+
+import static yy.doctor.model.Profile.TProfile.city;
+import static yy.doctor.model.Profile.TProfile.department;
+import static yy.doctor.model.Profile.TProfile.hospital;
+import static yy.doctor.model.Profile.TProfile.licence;
+import static yy.doctor.model.Profile.TProfile.linkname;
+import static yy.doctor.model.Profile.TProfile.mobile;
+import static yy.doctor.model.Profile.TProfile.nickname;
+import static yy.doctor.model.Profile.TProfile.place;
+import static yy.doctor.model.Profile.TProfile.title;
+import static yy.doctor.model.Profile.TProfile.username;
 
 
 /**
@@ -47,7 +60,6 @@ public class ProfileActivity extends BaseFormActivity {
     private RelativeLayout mLayoutProfileHeader;
     private NetworkImageView mIvAvatar;
 
-    //    private Uri mPhotoUri;
     private String mPhotoPath;
 
     @IntDef({
@@ -115,7 +127,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.name)
                 .name("姓名")
-                .text("sdfsdf")
+                .text(Profile.inst().getString(linkname))
                 .hint(R.string.hint_not_fill)
                 .enable(false)
                 .build());
@@ -126,17 +138,22 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_more)
                 .name("医院")
+                .text(Profile.inst().getString(hospital))
                 .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
+        String strDepartments = Profile.inst().getString(department);
+        if (strDepartments.equals("")) {
+            strDepartments= ResLoader.getString(R.string.hint_not_fill);
+        }
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.departments)
                 .drawable(R.mipmap.ic_more)
                 .name("科室")
                 .intent(new Intent(this, DepartmentsActivity.class))
-                .text(R.string.hint_not_fill)
+                .text(strDepartments)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -144,6 +161,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
                 .name("昵称")
+                .text(Profile.inst().getString(nickname))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -152,6 +170,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.phone_number)
                 .name("手机号")
+                .text(Profile.inst().getString(mobile))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -160,6 +179,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.email)
                 .name("电子邮箱")
+                .text(Profile.inst().getString(username))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -172,6 +192,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.certification_number)
                 .name("职业资格证号")
+                .text(Profile.inst().getString(licence))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -180,6 +201,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.rank)
                 .name("职称")
+                .text(Profile.inst().getString(place))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -188,6 +210,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
                 .name("职务")
+                .text(Profile.inst().getString(title))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -213,7 +236,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.address)
                 .name("所在城市")
                 .intent(new Intent(this, ProvinceCityActivity.class))
-                .text("广东-广州")
+                .text(Profile.inst().getString(city))
                 .build());
 
         addItem(new Builder(FormType.divider_large)
