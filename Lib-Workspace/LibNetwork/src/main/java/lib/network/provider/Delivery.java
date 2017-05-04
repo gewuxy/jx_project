@@ -19,38 +19,20 @@ public class Delivery {
     }
 
     public void deliverSuccess(final IRequestBuilder builder, final Object obj) {
-        mHandler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (mCallback != null) {
-                    mCallback.deliverSuccess(builder, obj);
-                }
-            }
-        });
+        if (mCallback != null) {
+            mHandler.post(() -> mCallback.deliverSuccess(builder, obj));
+        }
     }
 
     public void deliverProgress(final IRequestBuilder builder, final float progress, final long contentLength) {
-        mHandler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (mCallback != null) {
-                    mCallback.deliverProgress(builder, progress, contentLength);
-                }
-            }
-        });
+        if (mCallback != null) {
+            mHandler.post(() -> mCallback.deliverProgress(builder, progress, contentLength));
+        }
     }
 
-    public void deliverError(final IRequestBuilder builder, final NetError error) {
-        mHandler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (mCallback != null) {
-                    mCallback.deliverError(builder, error);
-                }
-            }
-        });
+    public void deliverError(IRequestBuilder builder, NetError error) {
+        if (mCallback != null) {
+            mHandler.post(() -> mCallback.deliverError(builder, error));
+        }
     }
 }

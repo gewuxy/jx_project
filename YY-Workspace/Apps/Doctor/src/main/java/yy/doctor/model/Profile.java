@@ -25,7 +25,7 @@ public class Profile extends EVal<TProfile> {
         place,  //职务
         title,  //职位
         hospital,
-        department ,  //科室
+        department,  //科室
         address,
     }
 

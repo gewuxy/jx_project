@@ -34,16 +34,12 @@ public class UploadBuilder extends PostBuilder {
 
         List<NameByteValuePair> byteParams = request().getByteParams();
         if (byteParams != null) {
-            for (NameByteValuePair pair : byteParams) {
-                builder.addFile(pair.getName(), pair.getName(), DeleteOnExit.getInstance().add(tag(), id(), pair.getValue()));
-            }
+            byteParams.forEach(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.getInstance().add(tag(), id(), p.getValue())));
         }
 
         List<NameFileValuePair> fileParams = request().getFileParams();
         if (fileParams != null) {
-            for (NameFileValuePair pair : fileParams) {
-                builder.addFile(pair.getName(), pair.getValue(), new File(pair.getValue()));
-            }
+            fileParams.forEach(p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));
         }
 
         return builder;

@@ -28,9 +28,7 @@ public class PostBuilder extends BaseBuilder {
         PostFormBuilder builder = OkHttpUtils.post().url(url);
 
         if (pairs != null) {
-            for (NameValuePair pair : pairs) {
-                builder.addParams(pair.getName(), pair.getValue());
-            }
+            pairs.forEach(p -> builder.addParams(p.getName(), p.getValue()));
         }
 
         return builder;
