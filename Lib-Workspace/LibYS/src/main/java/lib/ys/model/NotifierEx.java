@@ -2,10 +2,10 @@ package lib.ys.model;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lib.ys.util.GenericUtil;
-import lib.ys.util.UtilEx;
 
 
 /**
@@ -41,16 +41,7 @@ abstract public class NotifierEx<I> {
 
         // 涉及到ui的刷新, 所以要保证在ui线程运行
         if (arrays != null) {
-            final I[] finalArrays = arrays;
-            UtilEx.runOnUIThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    for (I o : finalArrays) {
-                        callback(o, type, data);
-                    }
-                }
-            });
+            Arrays.asList(arrays).forEach(o -> callback(o, type, data));
         }
     }
 

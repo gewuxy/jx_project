@@ -10,33 +10,28 @@ import android.graphics.Bitmap;
  */
 public class CutInterceptor implements Interceptor {
 
-    private int mX;
-    private int mY;
     private int mW;
     private int mH;
+    private float mScale;
 
-    /**
-     * @param x      The x coordinate of the first pixel in source
-     * @param y      The y coordinate of the first pixel in source
-     * @param width  The number of pixels in each row
-     * @param height The number of rows
-     */
-    public CutInterceptor(int x, int y, int width, int height) {
-        mX = x;
-        mY = y;
-        mW = width;
-        mH = height;
+    public CutInterceptor(int mW, int mH) {
+        this.mW = mW;
+        this.mH = mH;
     }
 
     @Override
     public Bitmap process(Bitmap srcBmp) {
 
-        Bitmap bmp = Bitmap.createBitmap(srcBmp, mX, mY, mW, mH, null, false);
+        int srcBmpW = srcBmp.getWidth();
+        int srcBmpH = srcBmp.getHeight();
 
-        /*if (srcBmp != null && !srcBmp.equals(bmp) && !srcBmp.isRecycled()) {
-            srcBmp.recycle();
-            srcBmp = null;
-        }*/
+        int cutW = (int) (mW / srcBmpW);
+        int cutH = (int) (mH / srcBmpH);
+
+        int startX = (srcBmpW - cutW) / 2;
+        int startY = (srcBmpH - cutH) / 2;
+
+        Bitmap bmp = Bitmap.createBitmap(srcBmp, startX, startY, cutW, cutH, null, false);
 
         return bmp;
     }

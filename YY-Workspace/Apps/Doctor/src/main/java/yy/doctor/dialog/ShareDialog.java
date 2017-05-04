@@ -44,7 +44,7 @@ public class ShareDialog extends BaseDialog {
         mIvWechatFriends = findView(R.id.dialog_share_iv_wechat_friends);
         mIvSina = findView(R.id.dialog_share_iv_sina);
 
-        mTvCancel=findView(R.id.dialog_share_tv_cancel);
+        mTvCancel = findView(R.id.dialog_share_tv_cancel);
 
     }
 
@@ -64,7 +64,7 @@ public class ShareDialog extends BaseDialog {
         super.onClick(v);
 
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.dialog_share_iv_wechat_friend_cicle: {
                 showToast("777");
             }

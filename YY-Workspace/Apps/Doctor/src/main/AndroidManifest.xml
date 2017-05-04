@@ -35,6 +35,9 @@
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.NoticeActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- register -->
         <activity
@@ -152,6 +155,12 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ClipImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.UnitNumDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.UnitNumDataDetailActivity"
             android:screenOrientation="portrait"/>
 
 

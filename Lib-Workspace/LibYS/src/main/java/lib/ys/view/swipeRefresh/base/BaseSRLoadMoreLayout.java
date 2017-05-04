@@ -122,12 +122,7 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
             mIsLoadingMore = false;
             mLoadMoreFooterView.show();
             mLoadMoreFooterView.changeState(TState.normal);
-            mLoadMoreFooterView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startLoadMore();
-                }
-            });
+            mLoadMoreFooterView.setOnClickListener(v -> startLoadMore());
         }
     }
 

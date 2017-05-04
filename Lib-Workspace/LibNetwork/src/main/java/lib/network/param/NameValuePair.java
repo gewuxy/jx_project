@@ -10,9 +10,9 @@ public class NameValuePair {
     public NameValuePair() {
     }
 
-    public NameValuePair(String name, String value) {
+    public NameValuePair(String name, Object val) {
         setName(name);
-        setValue(value);
+        setValue(String.valueOf(val));
     }
 
     public void setName(String name) {

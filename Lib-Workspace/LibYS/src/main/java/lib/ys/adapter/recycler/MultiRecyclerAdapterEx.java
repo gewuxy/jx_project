@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -61,28 +60,20 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
 
         initView(holder.getLayoutPosition(), holder, viewType);
 
-        v.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(v, holder.getLayoutPosition());
-                }
+        v.setOnClickListener(v1 -> {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(v, holder.getLayoutPosition());
             }
         });
 
-        v.setOnLongClickListener(new OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                if (mEnableLongClick) {
-                    if (mItemClickListener != null) {
-                        mItemClickListener.onItemLongClick(v, holder.getLayoutPosition());
-                    }
-                    return true;
+        v.setOnLongClickListener(v1 -> {
+            if (mEnableLongClick) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemLongClick(v1, holder.getLayoutPosition());
                 }
-                return false;
+                return true;
             }
+            return false;
         });
 
         return holder;

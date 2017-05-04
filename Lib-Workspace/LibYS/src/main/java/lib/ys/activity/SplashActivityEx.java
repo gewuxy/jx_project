@@ -39,7 +39,7 @@ abstract public class SplashActivityEx extends ActivityEx {
     @Override
     public void setViews() {
         if (getDecorView().getViewTreeObserver().isAlive()) {
-            getDecorView().getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+            addOnPreDrawListener(new OnPreDrawListener() {
 
                 @Override
                 public boolean onPreDraw() {

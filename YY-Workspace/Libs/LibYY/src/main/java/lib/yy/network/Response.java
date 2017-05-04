@@ -7,7 +7,7 @@ import lib.yy.BaseConstants;
  * @author CaiXiang
  * @since 2017/4/10
  */
-abstract public class Response<T> extends ResponseEx<T> {
+public class Response<T> extends ResponseEx<T> {
 
     @Override
     public int getCodeOk() {

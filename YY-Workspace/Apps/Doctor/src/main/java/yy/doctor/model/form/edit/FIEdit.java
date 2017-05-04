@@ -66,7 +66,6 @@ public class FIEdit extends FormItem {
         holder.getEt().setEnabled(getBoolean(TFormElem.enable));
         holder.getEt().setText(getString(TFormElem.text));
         holder.getEt().setHint(getString(TFormElem.hint));
-
     }
 
     @Override

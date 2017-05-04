@@ -1,9 +1,11 @@
 package yy.doctor.activity.me;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 import lib.ys.ex.NavBar;
 import lib.ys.view.photoViewer.NetworkPhotoView;
@@ -20,12 +22,17 @@ import yy.doctor.util.Util;
  */
 public class ClipImageActivity extends BaseActivity {
 
+    private final int KBmpSize = fitDp(280);
+
     private NetworkPhotoView mPv;
 
     private String mPath;
 
+    private Bitmap mBmp;
+
     @Override
     public void initData() {
+
         mPath = getIntent().getStringExtra(Extra.KData);
     }
 
@@ -44,7 +51,23 @@ public class ClipImageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                showToast("885");
+                int screenW = mPv.getWidth();
+                int screenH = mPv.getHeight();
+
+                int startX = (screenW - KBmpSize) / 2;
+                int startY = (screenH - KBmpSize) / 2;
+
+                mPv.setDrawingCacheEnabled(true);
+                mPv.buildDrawingCache();
+                Bitmap bmp = mPv.getDrawingCache();
+
+                if (bmp != null) {
+                    mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
+                    ImageView img = findView(R.id.img);
+                    img.setImageBitmap(mBmp);
+                }
+
+                mPv.destroyDrawingCache();
             }
         });
 
@@ -52,7 +75,9 @@ public class ClipImageActivity extends BaseActivity {
 
     @Override
     public void findViews() {
+
         mPv = findView(R.id.clip_image_pv);
+
     }
 
     @Override
@@ -61,4 +86,13 @@ public class ClipImageActivity extends BaseActivity {
         mPv.storage(mPath).load();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mBmp != null) {
+            mBmp.recycle();
+            mBmp = null;
+        }
+    }
 }

@@ -69,13 +69,9 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
             return;
         }
 
-        v.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mOnRetryClickListener != null) {
-                    mOnRetryClickListener.onRetryClick();
-                }
+        v.setOnClickListener(v1 -> {
+            if (mOnRetryClickListener != null) {
+                mOnRetryClickListener.onRetryClick();
             }
         });
     }
@@ -86,13 +82,9 @@ abstract public class ErrorDecorEx extends RelativeLayout implements IInitialize
             return;
         }
 
-        v.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mOnRetryClickListener != null) {
-                    mOnRetryClickListener.onRetryClick();
-                }
+        v.setOnClickListener(v1 -> {
+            if (mOnRetryClickListener != null) {
+                mOnRetryClickListener.onRetryClick();
             }
         });
     }

@@ -2,45 +2,52 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="62dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:paddingLeft="@dimen/margin"
-    android:paddingRight="@dimen/margin">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_height="62dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="@dimen/margin"
+        android:paddingRight="@dimen/margin">
 
-        <TextView
-            android:id="@+id/notice_tv_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="血管病的研究"
-            android:textSize="14dp"
-            android:textColor="@color/text_333"/>
-
-        <TextView
-            android:id="@+id/notice_tv_time"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="2017-04-16 12:50"
-            android:textSize="10dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/notice_tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="血管病的研究"
+                android:textSize="14dp"
+                android:textColor="@color/text_333"/>
+
+            <TextView
+                android:id="@+id/notice_tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="2017-04-16 12:50"
+                android:textSize="10dp"
+                android:textColor="@color/text_888"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/notice_tv_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="YaYa专家讲堂"
+            android:layout_marginTop="8dp"
+            android:textSize="12dp"
             android:textColor="@color/text_888"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/notice_tv_unit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="YaYa专家讲堂"
-        android:layout_marginTop="8dp"
-        android:textSize="12dp"
-        android:textColor="@color/text_888"/>
 
 </LinearLayout>

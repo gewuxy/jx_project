@@ -43,8 +43,8 @@ abstract public class FragMgrActivityEx extends ActivityEx {
     public void initData() {
         mFm = getSupportFragmentManager();
 
-        mFrags = new ArrayList<Fragment>();
-        mTabMap = new HashMap<Fragment, Integer>();
+        mFrags = new ArrayList<>();
+        mTabMap = new HashMap<>();
     }
 
     @Override
@@ -84,12 +84,12 @@ abstract public class FragMgrActivityEx extends ActivityEx {
             if (frag == fragment) {
                 transaction.show(fragment);
                 if (resId != null) {
-                    findViewById(resId).setSelected(true);
+                    findView(resId).setSelected(true);
                 }
             } else {
                 transaction.hide(frag);
                 if (resId != null) {
-                    findViewById(resId).setSelected(false);
+                    findView(resId).setSelected(false);
                 }
             }
         }

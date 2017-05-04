@@ -163,13 +163,7 @@ abstract public class DialogEx implements OnClickListener,
         }
 
         if (mDismissLsn == null) {
-            mDismissLsn = new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            };
+            mDismissLsn = v1 -> dismiss();
         }
 
         v.setOnClickListener(mDismissLsn);
@@ -182,13 +176,7 @@ abstract public class DialogEx implements OnClickListener,
      */
     protected void setDismissClicker(int viewId) {
         if (mDismissLsn == null) {
-            mDismissLsn = new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            };
+            mDismissLsn = v -> dismiss();
         }
 
         View v = findViewById(viewId);

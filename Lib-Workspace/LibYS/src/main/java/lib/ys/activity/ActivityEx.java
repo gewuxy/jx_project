@@ -346,17 +346,14 @@ abstract public class ActivityEx extends SwipeBackActivity implements IFitParams
             if (!hasFocus) {
                 v.setOnFocusChangeListener(null);
 
-                runOnUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        View nextFocusV = getCurrentFocus();
+                runOnUIThread(() -> {
+                    View nextFocusV = getCurrentFocus();
 
-                        if (nextFocusV instanceof EditText) {
-                            // 如果下一个v也是EditText, 不必收回键盘, 同时设置监听
-                            nextFocusV.setOnFocusChangeListener(mOnFocusChangeListener);
-                        } else {
-                            KeyboardUtil.hideFromView(v);
-                        }
+                    if (nextFocusV instanceof EditText) {
+                        // 如果下一个v也是EditText, 不必收回键盘, 同时设置监听
+                        nextFocusV.setOnFocusChangeListener(mOnFocusChangeListener);
+                    } else {
+                        KeyboardUtil.hideFromView(v);
                     }
                 });
 

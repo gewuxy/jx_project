@@ -1,5 +1,6 @@
 package lib.ys.interfaces;
 
+@FunctionalInterface
 public interface OnRetryClickListener {
     /**
      * 点击了重试按钮
