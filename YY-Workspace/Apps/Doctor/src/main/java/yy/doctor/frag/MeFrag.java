@@ -22,8 +22,8 @@ import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
 import static yy.doctor.model.Profile.TProfile.hospital;
-import static yy.doctor.model.Profile.TProfile.linkname;
-import static yy.doctor.model.Profile.TProfile.title;
+import static yy.doctor.model.Profile.TProfile.linkman;
+import static yy.doctor.model.Profile.TProfile.place;
 
 /**
  * @author CaiXiang
@@ -138,7 +138,7 @@ public class MeFrag extends BaseFormFrag {
     public void setViews() {
         super.setViews();
 
-        mTvName.setText(Profile.inst().getString(linkname)+"  "+ Profile.inst().getString(title));
+        mTvName.setText(Profile.inst().getString(linkman)+"  "+ Profile.inst().getString(place));
         mTvHospital.setText(Profile.inst().getString(hospital));
 
         setOnClickListener(R.id.layout_me_header);

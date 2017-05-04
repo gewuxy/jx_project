@@ -119,6 +119,7 @@ public class LoginActivity extends BaseActivity {
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
             startActivity(MainActivity.class);
+            finish();
         } else {
             showToast(r.getError());
         }

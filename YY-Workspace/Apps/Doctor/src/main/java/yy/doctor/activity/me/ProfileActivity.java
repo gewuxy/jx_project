@@ -32,7 +32,7 @@ import static yy.doctor.model.Profile.TProfile.city;
 import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
-import static yy.doctor.model.Profile.TProfile.linkname;
+import static yy.doctor.model.Profile.TProfile.linkman;
 import static yy.doctor.model.Profile.TProfile.mobile;
 import static yy.doctor.model.Profile.TProfile.nickname;
 import static yy.doctor.model.Profile.TProfile.place;
@@ -127,7 +127,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.name)
                 .name("姓名")
-                .text(Profile.inst().getString(linkname))
+                .text(Profile.inst().getString(linkman))
                 .hint(R.string.hint_not_fill)
                 .enable(false)
                 .build());
@@ -201,7 +201,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.rank)
                 .name("职称")
-                .text(Profile.inst().getString(place))
+                .text(Profile.inst().getString(title))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -210,7 +210,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
                 .name("职务")
-                .text(Profile.inst().getString(title))
+                .text(Profile.inst().getString(place))
                 .hint(R.string.hint_not_fill)
                 .build());
 

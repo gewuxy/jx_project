@@ -15,7 +15,7 @@ public class Profile extends EVal<TProfile> {
         id,
         username,  //登录用户名
         nickname,  //昵称
-        linkname,   //真实姓名
+        linkman,   //真实姓名
         headimg,
         mobile,
         province,
