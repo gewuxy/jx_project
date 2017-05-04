@@ -11,18 +11,18 @@ public class CrashMgr implements UncaughtExceptionHandler {
 
     // 系统默认的UncaughtException处理类
     private UncaughtExceptionHandler mDefaultHandler;
-    private static CrashMgr mSelf = null;
+    private static CrashMgr mInst = null;
 
     private OnCrashListener mCrashListener;
 
     private CrashMgr() {
     }
 
-    public static CrashMgr getInstance() {
-        if (mSelf == null) {
-            mSelf = new CrashMgr();
+    public static CrashMgr inst() {
+        if (mInst == null) {
+            mInst = new CrashMgr();
         }
-        return mSelf;
+        return mInst;
     }
 
     public void init(OnCrashListener listener) {

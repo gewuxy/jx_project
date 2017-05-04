@@ -5,6 +5,7 @@ package lib.ys.form;
  *
  * @author yuansui
  */
+@FunctionalInterface
 public interface OnFormObserver {
     void callback(Object... params);
 }

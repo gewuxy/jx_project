@@ -7,11 +7,11 @@ import android.widget.ExpandableListView;
 import java.util.List;
 
 import lib.ys.R;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.ex.NavBar;
 import lib.ys.frag.FragEx;
 import lib.ys.view.FloatingGroupListView;

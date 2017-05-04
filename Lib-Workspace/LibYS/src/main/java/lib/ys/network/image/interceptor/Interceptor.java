@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
  * @auther yuansui
  * @since 2017/4/25
  */
+@FunctionalInterface
 public interface Interceptor {
     /**
      * 处理图片

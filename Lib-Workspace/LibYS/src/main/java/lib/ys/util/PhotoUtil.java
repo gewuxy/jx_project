@@ -1,7 +1,6 @@
 package lib.ys.util;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -12,54 +11,33 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
-import android.support.v4.app.Fragment;
 
 import java.io.File;
 
 public class PhotoUtil {
 
-    private static Intent getPhotographIntent(String path) {
+    /**
+     * 通过拍照选择照片
+     *
+     * @param host
+     * @param path        照片保存地址
+     * @param requestCode
+     */
+    public static void fromCamera(Object host, String path, int requestCode) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
-        return intent;
-    }
-
-    /**
-     * 照相
-     *
-     * @param activity
-     * @param path
-     * @param requestCode
-     */
-    public static void photograph(Activity activity, String path, int requestCode) {
-        activity.startActivityForResult(getPhotographIntent(path), requestCode);
-    }
-
-    /**
-     * 照相
-     *
-     * @param fragment
-     * @param path
-     * @param requestCode
-     */
-    public static void photograph(Fragment fragment, String path, int requestCode) {
-        fragment.startActivityForResult(getPhotographIntent(path), requestCode);
+        LaunchUtil.startActivityForResult(host, intent, requestCode);
     }
 
     /**
      * 从图库里选择照片 返回的数据在 intent.getData()里, 是Uri的形式
      *
-     * @param activity
+     * @param host
      * @param requestCode
      */
-    public static void fromLocal(Activity activity, int requestCode) {
+    public static void fromAlbum(Object host, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void fromLocal(Fragment fragment, int requestCode) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        fragment.startActivityForResult(intent, requestCode);
+        LaunchUtil.startActivityForResult(host, intent, requestCode);
     }
 
     /**

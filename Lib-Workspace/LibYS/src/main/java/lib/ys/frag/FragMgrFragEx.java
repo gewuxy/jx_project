@@ -41,8 +41,8 @@ abstract public class FragMgrFragEx extends FragEx {
     public void initData() {
         mFm = getChildFragmentManager();
 
-        mFrags = new ArrayList<Fragment>();
-        mTabMap = new HashMap<Fragment, Integer>();
+        mFrags = new ArrayList<>();
+        mTabMap = new HashMap<>();
     }
 
     protected int add(Fragment fragment, int tabId) {

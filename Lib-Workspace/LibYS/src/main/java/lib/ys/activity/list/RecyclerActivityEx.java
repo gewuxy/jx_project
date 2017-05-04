@@ -11,7 +11,7 @@ import java.util.List;
 
 import lib.ys.R;
 import lib.ys.activity.ActivityEx;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.adapter.recycler.RecyclerViewHolderEx;
 import lib.ys.view.recycler.WrapRecyclerView;

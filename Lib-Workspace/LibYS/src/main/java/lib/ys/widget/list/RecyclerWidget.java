@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import lib.ys.R;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.fitter.LayoutFitter;

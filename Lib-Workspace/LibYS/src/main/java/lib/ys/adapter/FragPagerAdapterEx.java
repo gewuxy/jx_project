@@ -116,7 +116,7 @@ abstract public class FragPagerAdapterEx<T extends Fragment, TITLE extends IPage
     }
 
     public void addAll(List<T> data) {
-        if (data == null) {
+        if (data == null || data.isEmpty()) {
             return;
         }
 

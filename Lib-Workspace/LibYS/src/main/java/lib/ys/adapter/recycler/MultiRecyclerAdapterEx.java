@@ -16,9 +16,9 @@ import java.util.List;
 
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;

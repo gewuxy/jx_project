@@ -4,8 +4,8 @@ import android.view.View;
 
 import java.util.List;
 
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.ex.NavBar;
 import lib.ys.widget.list.mix.MixOnScrollListener;
 
