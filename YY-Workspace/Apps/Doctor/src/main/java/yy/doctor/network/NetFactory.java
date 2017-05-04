@@ -43,6 +43,11 @@ public class NetFactory {
                 .build();
     }
 
+    public static NetworkRequest logout(String token){
+        return newGet("")
+                .build();
+    }
+
 
     /*********************************
      * 以下是工具
