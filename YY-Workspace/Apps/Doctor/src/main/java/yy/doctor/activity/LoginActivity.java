@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.network.model.NetworkResponse;
+import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ex.NavBar;
 import lib.yy.activity.base.BaseActivity;
@@ -27,7 +28,6 @@ public class LoginActivity extends BaseActivity {
 
     private EditText mEtName;
     private EditText mEtPwd;
-
 
     @Override
     public void initData() {
@@ -61,7 +61,8 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv_forget_pwd);
 
         if (BuildConfig.TEST) {
-            //mTvLogin.setText("fsldfskldf");
+            mEtName.setText("18194529@qq.com");
+            mEtPwd.setText("123456");
         }
 
     }
@@ -73,8 +74,21 @@ public class LoginActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.login_tv: {
+
+                String strName = mEtName.getText().toString();
+                String strPwd = mEtPwd.getText().toString();
+
+                if (strName.isEmpty()) {
+                    showToast("请输入用户名");
+                    return;
+                }
+                if (strPwd.isEmpty()) {
+                    showToast("请输入密码");
+                    return;
+                }
+
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(0, NetFactory.login(mEtName.getText().toString(), mEtPwd.getText().toString()));
+                exeNetworkRequest(0, NetFactory.login(strName, strPwd));
             }
             break;
             case R.id.login_tv_register: {
@@ -90,6 +104,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        LogMgr.d(TAG, nr.getText());
+
+
         return JsonParser.ev(nr.getText(), Profile.class);
     }
 
@@ -98,9 +115,12 @@ public class LoginActivity extends BaseActivity {
         stopRefresh();
 
         Response<Profile> r = (Response<Profile>) result;
+
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
             startActivity(MainActivity.class);
+        } else {
+            showToast(r.getError());
         }
     }
 
