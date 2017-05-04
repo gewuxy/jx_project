@@ -73,4 +73,6 @@
 
     <color name="unit_num_detail_head_bg">#66000000</color>
 
+    <color name="home_banner_dot_normal_bg">#b3b3b3b3</color>
+
 </resources>
