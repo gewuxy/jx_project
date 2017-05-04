@@ -15,6 +15,7 @@ import lib.yy.network.Response;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.MainActivity;
+import yy.doctor.model.Profile;
 import yy.doctor.model.Register;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -188,7 +189,7 @@ public class RegisterActivity extends BaseFormActivity {
 
         //自动登录
         notify(NotifyType.login);
-        NetFactory.login(mUserName, mPwd);
+        exeNetworkRequest(1, NetFactory.login(mUserName, mPwd));
         startActivity(MainActivity.class);
         finish();
         /*refresh(RefreshWay.dialog);
@@ -211,12 +212,25 @@ public class RegisterActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        if (id == 1) {
+            return JsonParser.ev(nr.getText(), Profile.class);
+        }
         return JsonParser.ev(nr.getText(), Register.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        if (id == 1) {
+            Response<Profile> r = (Response<Profile>) result;
 
+            if (r.isSucceed()) {
+                Profile.inst().update(r.getData());
+                startActivity(MainActivity.class);
+                finish();
+            } else {
+                showToast(r.getError());
+            }
+        }
 
         Response<Register> r = (Response<Register>) result;
         if (r.isSucceed()) {
