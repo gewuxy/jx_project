@@ -16,10 +16,10 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线
-            mHostName = KHttpDef + "appserver:port/v7/";
+            mHostName = KHttpDef + "www.medcn.com:8081/v7/api";
         } else {
             // 正式线
-            mHostName = KHttpDef + "appserver:port/v7/";
+            mHostName = KHttpDef + "www.medcn.com:8081/v7/api";
         }
 
         mBase = mHostName + "api/";

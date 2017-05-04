@@ -26,6 +26,7 @@
     <EditText
         style="@style/et.common"
         android:id="@+id/login_et_pwd"
+        android:inputType="textPassword"
         android:hint="密码"/>
 
     <TextView

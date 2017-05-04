@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity {
         switch (id) {
             case R.id.login_tv: {
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(0, NetFactory.login("", ""));
+                exeNetworkRequest(0, NetFactory.login(mEtName.getText().toString(), mEtPwd.getText().toString()));
             }
             break;
             case R.id.login_tv_register: {
@@ -103,4 +103,6 @@ public class LoginActivity extends BaseActivity {
             startActivity(MainActivity.class);
         }
     }
+
+
 }
