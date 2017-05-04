@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.interfaces.IFitParams;
@@ -37,19 +38,22 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
     private List<T> mTs;
     private LayoutInflater mInflater = null;
 
-    private HashMap<View, GroupViewClickListener> mMapGroupClickLsn = null;
-    private HashMap<View, ChildViewClickListener> mMapChildClickLsn = null;
+    private Map<View, GroupViewClickListener> mMapGroupClickLsn;
+    private Map<View, ChildViewClickListener> mMapChildClickLsn;
 
-    private HashMap<View, ViewHolderGroupKeeper> mMapGroupViewHolder = new HashMap<View, ViewHolderGroupKeeper>();
-    private HashMap<View, ViewHolderChildKeeper> mMapChildViewHolder = new HashMap<View, ViewHolderChildKeeper>();
+    private Map<View, GroupKeeperVH> mMapGroupVH;
+    private Map<View, ChildKeeperVH> mMapChildVH;
 
-    private OnGroupAdapterClickListener mGroupAdapterClickListener = null;
-    private OnChildAdapterClickListener mChildAdapterClickListener = null;
+    private OnGroupAdapterClickListener mGroupAdapterClickListener;
+    private OnChildAdapterClickListener mChildAdapterClickListener;
 
     private Class<VH> mVHClass;
 
     public MultiGroupAdapterEx() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
+
+        mMapGroupVH = new HashMap<>();
+        mMapChildVH = new HashMap<>();
     }
 
     @Override
@@ -456,10 +460,12 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
     public void onGroupViewClick(int groupPosition, View v) {
     }
 
+    @FunctionalInterface
     public interface OnGroupAdapterClickListener {
         void onGroupAdapterClick(int groupPosition, View v);
     }
 
+    @FunctionalInterface
     public interface OnChildAdapterClickListener {
         void onChildAdapterClick(int groupPosition, int childPosition, View v);
     }
@@ -486,25 +492,25 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
     @Override
     abstract public int getChildTypeCount();
 
-    private class ViewHolderGroupKeeper {
+    private class GroupKeeperVH {
         private int mPosition;
         private int mItemType;
         private VH mViewHolder;
 
-        public ViewHolderGroupKeeper(int position, VH holder, int itemType) {
+        public GroupKeeperVH(int position, VH holder, int itemType) {
             mPosition = position;
             mItemType = itemType;
             mViewHolder = holder;
         }
     }
 
-    private class ViewHolderChildKeeper {
+    private class ChildKeeperVH {
         private int mGroupPosition;
         private int mChildPosition;
         private int mItemType;
         private VH mViewHolder;
 
-        public ViewHolderChildKeeper(int groupPosition, int childPosition, VH holder, int itemType) {
+        public ChildKeeperVH(int groupPosition, int childPosition, VH holder, int itemType) {
             mGroupPosition = groupPosition;
             mChildPosition = childPosition;
             mItemType = itemType;
@@ -520,11 +526,7 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
      * @return
      */
     private ViewHolderEx getGroupCacheViewHolder(int position, int itemType) {
-        Iterator<Entry<View, ViewHolderGroupKeeper>> iter = mMapGroupViewHolder.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<View, ViewHolderGroupKeeper> entry = iter.next();
-            // Object key = entry.getKey();
-            ViewHolderGroupKeeper keeper = entry.getValue();
+        for (GroupKeeperVH keeper : mMapGroupVH.values()) {
             if (keeper.mPosition == position && keeper.mItemType == itemType) {
                 return keeper.mViewHolder;
             }
@@ -545,10 +547,10 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
     }
 
     private void setGroupViewHolderKeeper(int groupPosition, View convertView, int groupType) {
-        ViewHolderGroupKeeper keeper = mMapGroupViewHolder.get(convertView);
+        GroupKeeperVH keeper = mMapGroupVH.get(convertView);
         if (keeper == null) {
-            keeper = new ViewHolderGroupKeeper(groupPosition, (VH) convertView.getTag(), groupType);
-            mMapGroupViewHolder.put(convertView, keeper);
+            keeper = new GroupKeeperVH(groupPosition, (VH) convertView.getTag(), groupType);
+            mMapGroupVH.put(convertView, keeper);
         } else {
             keeper.mPosition = groupPosition;
         }
@@ -564,11 +566,11 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
      */
     @Nullable
     private ViewHolderEx getChildCacheViewHolder(int groupPosition, int childPosition, int itemType) {
-        Iterator<Entry<View, ViewHolderChildKeeper>> iter = mMapChildViewHolder.entrySet().iterator();
+        Iterator<Entry<View, ChildKeeperVH>> iter = mMapChildVH.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry<View, ViewHolderChildKeeper> entry = iter.next();
+            Entry<View, ChildKeeperVH> entry = iter.next();
             // Object key = entry.getKey();
-            ViewHolderChildKeeper keeper = entry.getValue();
+            ChildKeeperVH keeper = entry.getValue();
             if (keeper.mGroupPosition == groupPosition //
                     && keeper.mChildPosition == childPosition //
                     && keeper.mItemType == itemType) {
@@ -591,10 +593,10 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
     }
 
     private void setChildViewHolderKeeper(int groupPosition, int childPosition, View convertView, int groupType) {
-        ViewHolderChildKeeper keeper = mMapChildViewHolder.get(convertView);
+        ChildKeeperVH keeper = mMapChildVH.get(convertView);
         if (keeper == null) {
-            keeper = new ViewHolderChildKeeper(groupPosition, childPosition, (VH) convertView.getTag(), groupType);
-            mMapChildViewHolder.put(convertView, keeper);
+            keeper = new ChildKeeperVH(groupPosition, childPosition, (VH) convertView.getTag(), groupType);
+            mMapChildVH.put(convertView, keeper);
         } else {
             keeper.mGroupPosition = groupPosition;
             keeper.mChildPosition = childPosition;

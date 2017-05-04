@@ -327,12 +327,12 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     private void getPhotoFromAlbum() {
-        PhotoUtil.fromLocal(this, KCodeAlbum);
+        PhotoUtil.fromAlbum(this, KCodeAlbum);
     }
 
     private void getPhotoFromTakePhotos() {
         mPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
-        PhotoUtil.photograph(this, mPhotoPath, KCodePhotograph);
+        PhotoUtil.fromCamera(this, mPhotoPath, KCodePhotograph);
     }
 
     @Override

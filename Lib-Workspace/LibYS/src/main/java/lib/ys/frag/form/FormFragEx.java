@@ -28,7 +28,6 @@ import lib.ys.frag.FragEx;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.LayoutUtil;
-import lib.ys.view.ObservableScrollView.OnScrollViewListener;
 import lib.ys.view.StayScrollView;
 
 
@@ -74,13 +73,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         /**
          * 把item的点击监听单独出来, 和header和footer进行区分
          */
-        mItemClickListener = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                onItemClick(v, mMapClick.get(v));
-            }
-        };
+        mItemClickListener = v -> onItemClick(v, mMapClick.get(v));
     }
 
     @CallSuper
@@ -226,9 +219,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         mRemandItems.clear();
         removeAllItem();
 
-        for (T t : ts) {
-            addItem(t);
-        }
+        ts.forEach(t -> addItem(t));
     }
 
     public final T addItem(T t) {
@@ -353,26 +344,14 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
      * scrollview滑动到顶部
      */
     public void smoothScrollToTop() {
-        runOnUIThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSv.fullScroll(ScrollView.FOCUS_UP);
-            }
-        });
+        runOnUIThread(() -> mSv.fullScroll(ScrollView.FOCUS_UP));
     }
 
     /**
      * scrollview滑动到底部
      */
     public void smoothScrollToBottom() {
-        runOnUIThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSv.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });
+        runOnUIThread(() -> mSv.fullScroll(ScrollView.FOCUS_DOWN));
     }
 
     /**
@@ -460,16 +439,12 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
     }
 
     private void bindScrollListener(final View v, @TransparencyType final int type, final int distance) {
-        mSv.setOnScrollListener(new OnScrollViewListener() {
-
-            @Override
-            public void onScrollChanged(int l, int t, int oldl, int oldt) {
-                float rate = computeAlphaRate(t, distance);
-                if (type == TransparencyType.bg) {
-                    v.getBackground().setAlpha((int) (rate * ConstantsEx.KAlphaMax));
-                } else {
-                    v.setAlpha(rate);
-                }
+        mSv.setOnScrollListener((l, t, oldl, oldt) -> {
+            float rate = computeAlphaRate(t, distance);
+            if (type == TransparencyType.bg) {
+                v.getBackground().setAlpha((int) (rate * ConstantsEx.KAlphaMax));
+            } else {
+                v.setAlpha(rate);
             }
         });
     }

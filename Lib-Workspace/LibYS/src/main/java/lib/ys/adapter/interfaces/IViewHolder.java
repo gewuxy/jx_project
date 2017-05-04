@@ -15,7 +15,7 @@ public interface IViewHolder {
      * @param id
      * @return
      */
-    <T extends View> T findViewById(int id);
+    <T extends View> T findView(int id);
 
     /**
      * 获取对应id的View, 并放入map里持有

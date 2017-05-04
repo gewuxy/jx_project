@@ -8,8 +8,8 @@ import java.util.List;
 
 import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.ex.NavBar;
 import lib.ys.frag.FragEx;
 import lib.ys.widget.list.ListWidget;

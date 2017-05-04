@@ -26,7 +26,7 @@ abstract public class ViewHolderEx implements IViewHolder {
     }
 
     @Override
-    public <T extends View> T findViewById(int id) {
+    public <T extends View> T findView(int id) {
         return (T) mConvertView.findViewById(id);
     }
 
@@ -34,7 +34,7 @@ abstract public class ViewHolderEx implements IViewHolder {
     public <T extends View> T getView(int id) {
         View v = mMap.get(id);
         if (v == null) {
-            v = findViewById(id);
+            v = findView(id);
             mMap.put(id, v);
         }
 

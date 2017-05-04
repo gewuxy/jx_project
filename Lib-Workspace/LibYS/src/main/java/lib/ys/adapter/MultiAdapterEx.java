@@ -18,15 +18,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.adapter.interfaces.OnAdapterClickListener;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.interfaces.IFitParams;
@@ -47,20 +45,20 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
     protected final String TAG = getClass().getSimpleName();
 
     private List<T> mTs;
-    private LayoutInflater mInflater = null;
+    private LayoutInflater mInflater;
 
-    private HashMap<View, ViewClickListener> mMapClickLsn = null;
-    private HashMap<CompoundButton, ViewCheckListener> mMapCheckLsn = null;
-    private HashMap<TextView, ViewTextWatcher> mMapTextWatcher = null;
+    private Map<View, ViewClickListener> mMapClickLsn;
+    private Map<CompoundButton, ViewCheckListener> mMapCheckLsn;
+    private Map<TextView, ViewTextWatcher> mMapTextWatcher;
+    private Map<View, KeeperVH> mMapVH;
 
-    private HashMap<View, ViewHolderKeeper> mMapViewHolder = new HashMap<View, ViewHolderKeeper>();
-
-    private OnAdapterClickListener mOnAdapterClickListener = null;
+    private OnAdapterClickListener mOnAdapterClickListener;
 
     private Class<VH> mVHClass;
 
     public MultiAdapterEx() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
+        mMapVH = new HashMap<>();
     }
 
     @Override
@@ -132,10 +130,10 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
     abstract public int getConvertViewResId(int itemType);
 
     private void setViewHolderKeeper(int position, View convertView, int itemType) {
-        ViewHolderKeeper keeper = mMapViewHolder.get(convertView);
+        KeeperVH keeper = mMapVH.get(convertView);
         if (keeper == null) {
-            keeper = new ViewHolderKeeper(position, (VH) convertView.getTag(), itemType);
-            mMapViewHolder.put(convertView, keeper);
+            keeper = new KeeperVH(position, (VH) convertView.getTag(), itemType);
+            mMapVH.put(convertView, keeper);
         } else {
             keeper.mPosition = position;
         }
@@ -196,7 +194,7 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
         }
 
         if (mTs == null) {
-            mTs = new ArrayList<T>();
+            mTs = new ArrayList<>();
         }
         mTs.add(item);
     }
@@ -207,7 +205,7 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
         }
 
         if (mTs == null) {
-            mTs = new ArrayList<T>();
+            mTs = new ArrayList<>();
         }
         mTs.add(position, item);
     }
@@ -279,15 +277,15 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
             mMapTextWatcher.clear();
         }
 
-        mMapViewHolder.clear();
+        mMapVH.clear();
     }
 
-    private class ViewHolderKeeper {
+    private class KeeperVH {
         private int mPosition;
         private int mItemType;
         private VH mHolder;
 
-        public ViewHolderKeeper(int position, VH holder, int itemType) {
+        public KeeperVH(int position, VH holder, int itemType) {
             mPosition = position;
             mItemType = itemType;
             mHolder = holder;
@@ -297,11 +295,7 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
     // 内部查找
     @Nullable
     private ViewHolderEx getCacheViewHolder(int position, int itemType) {
-        Iterator<Entry<View, ViewHolderKeeper>> iter = mMapViewHolder.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<View, ViewHolderKeeper> entry = iter.next();
-            // Object key = entry.getKey();
-            ViewHolderKeeper keeper = entry.getValue();
+        for (KeeperVH keeper : mMapVH.values()) {
             if (keeper.mPosition == position && keeper.mItemType == itemType) {
                 return keeper.mHolder;
             }
@@ -565,5 +559,10 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
     @Override
     public void unregisterDataSetObserver(Object observer) {
         super.unregisterDataSetObserver((DataSetObserver) observer);
+    }
+
+    @FunctionalInterface
+    public interface OnAdapterClickListener {
+        void onAdapterClick(int position, View v);
     }
 }

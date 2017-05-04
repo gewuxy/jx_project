@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -83,10 +83,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     }
 
     public final <T extends EVal<E>> T put(EVal<E> o) {
-        E[] es = getEnumFields();
-        for (E e : es) {
-            put(e, o.getObject(e));
-        }
+        getEnumFields().forEach(e -> put(e, o.getObject(e)));
         return (T) this;
     }
 
@@ -316,13 +313,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
      */
     public List<E> getValidEnumFields() {
         List<E> keyNames = new ArrayList<>();
-
-        Iterator<E> iterator = mMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            E key = iterator.next();
-            keyNames.add(key);
-        }
-
+        keyNames.addAll(mMap.keySet());
         return keyNames;
     }
 
@@ -331,9 +322,9 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
      *
      * @return
      */
-    public E[] getEnumFields() {
+    public List<E> getEnumFields() {
         Class<E> entityClass = GenericUtil.getClassType(getClass());
-        return entityClass.getEnumConstants();
+        return Arrays.asList(entityClass.getEnumConstants());
     }
 
     @Override
@@ -345,11 +336,10 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     public EVal clone() {
         EVal val = newInst(getClass());
 
-        E[] es = getEnumFields();
-        for (E e : es) {
+        getEnumFields().forEach(e -> {
             Object o = mMap.get(e);
             if (o == null) {
-                continue;
+                return;
             }
 
             if (o instanceof EVal) {
@@ -362,18 +352,18 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 // 基础类型
                 val.put(e, new String(getString(e)));
             }
-        }
+        });
+
         return val;
     }
 
-    private List cloneArray(List list) {
+    private List<?> cloneArray(List<?> list) {
         if (list == null || list.isEmpty()) {
             return null;
         }
 
         List<Object> newList = new ArrayList<>();
-        for (int j = 0; j < list.size(); ++j) {
-            Object o = list.get(j);
+        list.forEach(o -> {
             if (o instanceof EVal) {
                 EVal ev = (EVal) o;
                 newList.add(ev.clone());
@@ -383,7 +373,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 // 基础类型
                 newList.add(o);
             }
-        }
+        });
 
         return newList;
     }
@@ -398,10 +388,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             return;
         }
 
-        E[] es = getEnumFields();
-        for (E e : es) {
-            put(e, source.getObject(e));
-        }
+        getEnumFields().forEach(e -> put(e, source.getObject(e)));
     }
 
     /**
@@ -465,15 +452,12 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
      * @return
      */
     private <T extends EVal<E>> JSONObject toStoreJsonObj(T t) {
-        E[] es = t.getEnumFields();
-
         JSONObject jsonObject = new JSONObject();
-        try {
-            for (int i = 0; i < es.length; ++i) {
-                E e = es[i];
+        getEnumFields().forEach(e -> {
+            try {
                 Object obj = t.getObject(e);
                 if (obj == null) {
-                    continue;
+                    return;
                 }
 
                 JSONObject subJson = new JSONObject();
@@ -488,11 +472,10 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 }
 
                 jsonObject.put(e.name(), subJson);
+            } catch (Exception ex) {
+                LogMgr.e(TAG, ex);
             }
-
-        } catch (JSONException e) {
-            LogMgr.e(TAG, e);
-        }
+        });
 
         return jsonObject;
     }
@@ -540,10 +523,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
 
         JSONObject jsonObj = new JSONObject(text);
 
-        E[] es = t.getEnumFields();
-        for (int i = 0; i < es.length; ++i) {
-            E e = es[i];
-
+        for (E e : t.getEnumFields()) {
             String content = JsonUtil.getString(jsonObj, e.name());
             if (TextUtils.isEmpty(content)) {
                 // 无数据
@@ -578,6 +558,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             } else if (isEValType(clz)) {
                 t.put(e, newStoreInst(clz, data));
             }
+
         }
     }
 

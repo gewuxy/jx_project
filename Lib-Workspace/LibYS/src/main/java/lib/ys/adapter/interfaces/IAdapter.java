@@ -2,6 +2,8 @@ package lib.ys.adapter.interfaces;
 
 import java.util.List;
 
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
+
 
 /**
  * @author yuansui
