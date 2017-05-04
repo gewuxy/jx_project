@@ -1,0 +1,28 @@
+package yy.doctor.view;
+
+import android.content.Context;
+import android.util.AttributeSet;
+
+import lib.ys.adapter.PagerAdapterEx;
+import lib.ys.adapter.ViewHolderEx;
+import lib.ys.widget.BannerWidgetEx;
+import yy.doctor.adapter.BannerViewAdapter;
+
+/**
+ * @author CaiXiang
+ * @since 2017/5/4
+ */
+public class BannerView extends BannerWidgetEx<String> {
+
+
+    public BannerView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    protected PagerAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
+        return new BannerViewAdapter();
+    }
+
+
+}

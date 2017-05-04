@@ -13,8 +13,20 @@ public class Profile extends EVal<TProfile> {
     public enum TProfile {
         token, // 会话令牌
         id,
-        username,
-        nickname,
+        username,  //登录用户名
+        nickname,  //昵称
+        linkname,   //真实姓名
+        headimg,
+        mobile,
+        province,
+        city,
+        licence, //执业许可证号
+        major,
+        place,  //职务
+        title,  //职位
+        hospital,
+        department ,  //科室
+        address,
     }
 
     private static Profile mInst = null;

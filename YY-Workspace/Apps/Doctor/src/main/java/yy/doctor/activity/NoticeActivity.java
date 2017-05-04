@@ -36,4 +36,10 @@ public class NoticeActivity extends BaseListActivity<String> {
         return new NoticeAdapter();
     }
 
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        //getLv().setDivider(R.color.divider);
+    }
 }

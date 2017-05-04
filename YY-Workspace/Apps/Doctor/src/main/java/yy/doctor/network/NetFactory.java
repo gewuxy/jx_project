@@ -57,7 +57,7 @@ public class NetFactory {
     private static Builder newPost(String url) {
         return new Builder(UrlUtil.getBaseUrl() + url)
                 .post()
-                .param(getBaseParams());
+                .param(getBaseHeader());
     }
 
     /**
@@ -69,7 +69,7 @@ public class NetFactory {
     private static Builder newGet(String url) {
         return new Builder(UrlUtil.getBaseUrl() + url)
                 .get()
-                .param(getBaseParams());
+                .header(getBaseHeader());
     }
 
     /**
@@ -81,10 +81,10 @@ public class NetFactory {
     private static Builder newUpload(String url) {
         return new Builder(UrlUtil.getBaseUrl() + url)
                 .upload()
-                .param(getBaseParams());
+                .header(getBaseHeader());
     }
 
-    private static List<NameValuePair> getBaseParams() {
+    private static List<NameValuePair> getBaseHeader() {
         List<NameValuePair> ps = new ArrayList<>();
 
         // TODO: ???公共参数

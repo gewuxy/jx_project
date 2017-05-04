@@ -2,7 +2,7 @@ package yy.doctor.activity;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import lib.network.model.NetworkResponse;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -25,9 +25,9 @@ import yy.doctor.network.NetFactory;
  */
 public class LoginActivity extends BaseActivity {
 
-    private TextView mTvLogin;
-    private TextView mTvRegister;
-    private TextView mTvForgetPassword;
+    private EditText mEtName;
+    private EditText mEtPwd;
+
 
     @Override
     public void initData() {
@@ -48,18 +48,17 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTvLogin = findView(R.id.login_tv);
-        mTvRegister = findView(R.id.login_tv_register);
-        mTvForgetPassword = findView(R.id.login_tv_forget_pwd);
+        mEtName = findView(R.id.login_et_name);
+        mEtPwd = findView(R.id.login_et_pwd);
 
     }
 
     @Override
     public void setViews() {
 
-        mTvLogin.setOnClickListener(this);
-        mTvRegister.setOnClickListener(this);
-        mTvForgetPassword.setOnClickListener(this);
+        setOnClickListener(R.id.login_tv);
+        setOnClickListener(R.id.login_tv_register);
+        setOnClickListener(R.id.login_tv_forget_pwd);
 
         if (BuildConfig.TEST) {
             //mTvLogin.setText("fsldfskldf");
@@ -75,7 +74,7 @@ public class LoginActivity extends BaseActivity {
         switch (id) {
             case R.id.login_tv: {
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(0, NetFactory.login("", ""));
+                exeNetworkRequest(0, NetFactory.login(mEtName.getText().toString(), mEtPwd.getText().toString()));
             }
             break;
             case R.id.login_tv_register: {
@@ -104,4 +103,6 @@ public class LoginActivity extends BaseActivity {
             startActivity(MainActivity.class);
         }
     }
+
+
 }

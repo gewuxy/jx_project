@@ -340,6 +340,14 @@ public class NetworkRequest {
             return (T) this;
         }
 
+        public <T extends Builder> T header(List<NameValuePair> pairs) {
+            if (mHeaders == null) {
+                mHeaders = new ArrayList<>();
+            }
+            mHeaders.addAll(pairs);
+            return (T) this;
+        }
+
         public NetworkRequest build() {
             NetworkRequest r = new NetworkRequest(mNetworkMethod, mBaseUrl);
 
