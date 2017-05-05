@@ -44,9 +44,7 @@ abstract public class NotifierEx<I> {
         // 涉及到ui的刷新, 所以要保证在ui线程运行
         if (arrays != null) {
             I[] finalArrays = arrays;
-            UtilEx.runOnSubThread(() -> {
-                Iterables.forEach(Arrays.asList(finalArrays), i -> callback(i, type, data));
-            });
+            UtilEx.runOnUIThread(() -> Iterables.forEach(Arrays.asList(finalArrays), i -> callback(i, type, data)));
         }
     }
 

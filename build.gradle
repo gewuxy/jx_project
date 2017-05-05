@@ -26,10 +26,12 @@ buildscript {
 
         /**
          * 使用lambda表达式
-         * 每个module的build都要加入 apply plugin: 'me.tatarka.retrolambda' 以及
-         * compileOptions {sourceCompatibility JavaVersion.VERSION_1_8
-         * targetCompatibility JavaVersion.VERSION_1_8}
-         * * */
+         * 每个module的build都要加入
+         * <apply plugin: 'me.tatarka.retrolambda'>
+         * 以及
+         * <compileOptions {sourceCompatibility JavaVersion.VERSION_1_8>
+         * <targetCompatibility JavaVersion.VERSION_1_8}>
+         */
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
     }
 }
