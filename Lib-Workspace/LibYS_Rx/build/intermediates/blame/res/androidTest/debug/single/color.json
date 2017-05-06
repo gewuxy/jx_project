@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/androidTest/debug/color/banner_light_theme.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/bundles/debug/res/color/banner_light_theme.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/androidTest/debug/color/banner_dark_theme.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/bundles/debug/res/color/banner_dark_theme.xml"
+    }
+]

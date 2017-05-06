@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pull_listview_footer_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/sr_list_footer_btn_reload_more"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="加载失败，点击重试"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/sr_list_footer_layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_header_footer_height"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <lib.ys.view.DecorProgressView
+            android:id="@+id/sr_list_footer_progress_view"
+            android:layout_width="@dimen/list_header_footer_loading_size"
+            android:layout_height="@dimen/list_header_footer_loading_size"
+            android:src="@mipmap/ic_loading"/>
+
+        <TextView
+            android:id="@+id/sr_list_header_tv_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/sr_list_header_hint_loading"
+            android:textColor="@color/text_sr_list_header"
+            android:textSize="@dimen/list_header_footer_text"/>
+    </LinearLayout>
+
+</RelativeLayout>

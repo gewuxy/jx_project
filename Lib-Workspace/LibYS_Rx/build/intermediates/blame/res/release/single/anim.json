@@ -1,0 +1,102 @@
+[
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/fade_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/fade_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/right_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/right_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/swipe_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/swipe_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/rotate_up_opposite.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/rotate_up_opposite.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/dialog_bottom_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/dialog_bottom_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/hold_splash.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/hold_splash.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/scale_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/scale_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/push_bottom_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/push_bottom_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/left_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/left_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/push_top_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/push_top_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/dialog_bottom_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/dialog_bottom_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/hold.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/hold.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/left_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/left_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/rotate_up_positive.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/rotate_up_positive.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/right_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/right_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/loading.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/loading.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/push_top_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/push_top_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/rotate_infinite.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/rotate_infinite.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/fade_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/fade_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/rotate_down_opposite.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/rotate_down_opposite.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/swipe_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/swipe_in.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/rotate_down_positive.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/rotate_down_positive.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/no_effct.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/no_effct.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/scale_out.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/scale_out.xml"
+    },
+    {
+        "merged": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/build/intermediates/res/merged/release/anim/push_bottom_in.xml",
+        "source": "/Users/forgetman/Desktop/Android/AS-Projects/YaYa/Lib-Workspace/LibYS_Rx/src/main/res/anim/push_bottom_in.xml"
+    }
+]
