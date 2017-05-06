@@ -49,4 +49,14 @@ public class Profile extends EVal<TProfile> {
     public boolean isLogin() {
         return !getString(TProfile.token).isEmpty();
     }
+
+    @Override
+    public <T extends EVal<TProfile>> void update(T source) {
+        super.update(source);
+        saveToSp();
+    }
+
+    public void saveToSp() {
+        SpUser.inst().save(this);
+    }
 }

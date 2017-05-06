@@ -44,16 +44,35 @@ public class UrlUtil {
 
     public interface UrlUser {
         String login = "login";
-        String logout = "";
-        String profile = "";
+        String logout = "logout";
+        String profile = "user/info";
+        String modify = "user/modify";
     }
 
     //TODO:register路径 http://www.medcn.com:8081/v7/api/regist/regist
     public interface UrlRegister {
         String register = "regist/regist";
+        String province = "regist/provinces";
+        String city = "regist/cities";
     }
 
     public interface Meeting {
 
     }
+
+    public interface UrlEpn {
+        String epndetails = "shop/tradeInfo";
+        String epnrecharge = "alipay/recharge";
+    }
+
+    public interface UrlEpc {
+        String exchange = "shop/buy";
+        String order = "shop/order";
+        String epc = "shop/goods";
+    }
+
+    public interface UrlUnitNum {
+        String unitNum = "publicAccount/mySubscribe";
+    }
+
 }

@@ -1,0 +1,167 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "alpha": "DCQ",
+      "id": 110101,
+      "level": 3,
+      "name": "东城区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "dongchengqu"
+    },
+    {
+      "alpha": "XCQ",
+      "id": 110102,
+      "level": 3,
+      "name": "西城区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "xichengqu"
+    },
+    {
+      "alpha": "CWQ",
+      "id": 110103,
+      "level": 3,
+      "name": "崇文区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "chongwenqu"
+    },
+    {
+      "alpha": "XWQ",
+      "id": 110104,
+      "level": 3,
+      "name": "宣武区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "xuanwuqu"
+    },
+    {
+      "alpha": "CYQ",
+      "id": 110105,
+      "level": 3,
+      "name": "朝阳区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "chaoyangqu"
+    },
+    {
+      "alpha": "FTQ",
+      "id": 110106,
+      "level": 3,
+      "name": "丰台区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "fengtaiqu"
+    },
+    {
+      "alpha": "SJSQ",
+      "id": 110107,
+      "level": 3,
+      "name": "石景山区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "shijingshanqu"
+    },
+    {
+      "alpha": "HDQ",
+      "id": 110108,
+      "level": 3,
+      "name": "海淀区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "haidianqu"
+    },
+    {
+      "alpha": "MTGQ",
+      "id": 110109,
+      "level": 3,
+      "name": "门头沟区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "mentougouqu"
+    },
+    {
+      "alpha": "FSQ",
+      "id": 110111,
+      "level": 3,
+      "name": "房山区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "fangshanqu"
+    },
+    {
+      "alpha": "TZQ",
+      "id": 110112,
+      "level": 3,
+      "name": "通州区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "tongzhouqu"
+    },
+    {
+      "alpha": "SYQ",
+      "id": 110113,
+      "level": 3,
+      "name": "顺义区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "shunyiqu"
+    },
+    {
+      "alpha": "CPQ",
+      "id": 110114,
+      "level": 3,
+      "name": "昌平区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "changpingqu"
+    },
+    {
+      "alpha": "DXQ",
+      "id": 110115,
+      "level": 3,
+      "name": "大兴区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "daxingqu"
+    },
+    {
+      "alpha": "HRQ",
+      "id": 110116,
+      "level": 3,
+      "name": "怀柔区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "huairouqu"
+    },
+    {
+      "alpha": "PGQ",
+      "id": 110117,
+      "level": 3,
+      "name": "平谷区",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "pingguqu"
+    },
+    {
+      "alpha": "MYX",
+      "id": 110228,
+      "level": 3,
+      "name": "密云县",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "miyunxian"
+    },
+    {
+      "alpha": "YQX",
+      "id": 110229,
+      "level": 3,
+      "name": "延庆县",
+      "preId": 110000,
+      "regionType": "区/县",
+      "spell": "yanqingxian"
+    }
+  ]
+}

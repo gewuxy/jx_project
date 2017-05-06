@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.Arrays;
 import java.util.List;
 
 import yy.doctor.R;
-import yy.doctor.ProvinceCityData;
 import yy.doctor.adapter.VH.CityVH;
+import yy.doctor.model.City;
+import yy.doctor.model.City.TCity;
 
 /**
  * @author CaiXiang
@@ -20,23 +20,23 @@ import yy.doctor.adapter.VH.CityVH;
 public class CityAdapter extends BaseAdapter {
 
 
-    private List<String> mList;
+    private List<City> mList;
 
     private Context mConttext;
     private CityVH mCityVH;
 
-    public CityAdapter(Context mConttext) {
-        this.mList = Arrays.asList(ProvinceCityData.KCITIES[0]);
+    public CityAdapter(Context mConttext ,List<City> list) {
+        this.mList = list;
         this.mConttext = mConttext;
     }
 
-    public void setmList(int position) {
-        this.mList = Arrays.asList(ProvinceCityData.KCITIES[position]);
+    public void setmList(List<City> list) {
+        this.mList = list;
         notifyDataSetChanged();
     }
 
     public String getCity(int position){
-        return mList.get(position);
+        return mList.get(position).getString(TCity.name);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CityAdapter extends BaseAdapter {
             mCityVH = (CityVH) convertView.getTag();
         }
 
-        mCityVH.getTvCity().setText(mList.get(position));
+        mCityVH.getTvCity().setText(mList.get(position).getString(TCity.name));
 
         return convertView;
     }

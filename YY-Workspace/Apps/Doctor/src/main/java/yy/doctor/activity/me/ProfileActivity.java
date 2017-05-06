@@ -11,6 +11,10 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkResponse;
+import lib.ys.LogMgr;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
@@ -18,13 +22,17 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.util.PhotoUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseFormActivity;
+import lib.yy.network.Response;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
+import yy.doctor.model.Modify;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -109,7 +117,7 @@ public class ProfileActivity extends BaseFormActivity {
 
             @Override
             public void onClick(View v) {
-                showToast("85654");
+                modify();
             }
         });
 
@@ -146,7 +154,7 @@ public class ProfileActivity extends BaseFormActivity {
 
         String strDepartments = Profile.inst().getString(department);
         if (strDepartments.equals("")) {
-            strDepartments= ResLoader.getString(R.string.hint_not_fill);
+            strDepartments = ResLoader.getString(R.string.hint_not_fill);
         }
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.departments)
@@ -256,12 +264,16 @@ public class ProfileActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
+        refresh(RefreshWay.dialog);
+        exeNetworkRequest(0, NetFactory.profile());
+
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
                 .renderer(new CircleRenderer())
                 .load();
 
     }
+
 
     @Override
     public void onClick(View v) {
@@ -438,6 +450,58 @@ public class ProfileActivity extends BaseFormActivity {
 
     }
 
+    private String getRelateVal(@RelatedId int relateId) {
+        return getRelatedItem(relateId).getString(TFormElem.val);
+    }
+
+    /**
+     * 修改个人资料
+     */
+    private void modify() {
+
+        NetworkRequest r = NetFactory.newModifyBuilder()
+                .nickname(getRelateVal(RelatedId.nickname))
+                .linkman(getRelateVal(RelatedId.name))
+                .mobile(getRelateVal(RelatedId.phone_number))
+                .province("福建省")
+                .city("福州市")
+                .hospital(getRelateVal(RelatedId.hospital))
+                .department(getRelateVal(RelatedId.departments))
+                .builder();
+
+        refresh(RefreshWay.dialog);
+        exeNetworkRequest(1, r);
+
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+
+        LogMgr.d(TAG, nr.getText());
+        if (id == 0) {
+            return JsonParser.ev(nr.getText(), Profile.class);
+        }
+        return JsonParser.ev(nr.getText(), Modify.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+
+        stopRefresh();
+        if (id == 0) {
+            Response<Profile> r = (Response<Profile>) result;
+        } else if (id == 1) {
+
+            Response<Modify> r = (Response<Modify>) result;
+            if (r.isSucceed()) {
+                showToast("资料修改成功");
+            } else {
+                showToast(r.getError());
+            }
+        }
+
+    }
 
 
 //    /**

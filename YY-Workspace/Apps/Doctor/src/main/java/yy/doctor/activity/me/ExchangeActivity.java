@@ -2,13 +2,20 @@ package yy.doctor.activity.me;
 
 import android.view.View;
 
+import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkResponse;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.yy.activity.base.BaseFormActivity;
+import lib.yy.network.Response;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.model.me.Exchange;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 
 /**
  * 兑换
@@ -92,10 +99,41 @@ public class ExchangeActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.exchange_tv_btn: {
-                startActivity(OrderActivity.class);
+
+                NetworkRequest r = NetFactory.newExchangeBuilder()
+                        .goodsId("000001")
+                        .price("85")
+                        .receiver("hell")
+                        .phone("15860062000")
+                        .province("hsj")
+                        .address("sdfjijidsofj")
+                        .builder();
+                refresh(RefreshWay.dialog);
+                exeNetworkRequest(0 , r);
+
             }
             break;
         }
     }
 
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+
+        return JsonParser.ev(nr.getText() , Exchange.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+
+        stopRefresh();
+        Response<Exchange> r = (Response<Exchange>) result;
+
+        if (r.isSucceed()) {
+            showToast("兑换成功");
+            startActivity(OrderActivity.class);
+        } else {
+            showToast(r.getError());
+        }
+    }
 }

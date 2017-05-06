@@ -20,9 +20,10 @@ import yy.doctor.R;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
+import yy.doctor.network.JsonParser;
 import yy.doctor.util.Util;
 
-import static yy.doctor.model.unitnum.UnitNum.TUnitNum.name;
+import static yy.doctor.model.unitnum.UnitNum.TUnitNum.nickname;
 
 /**
  * 单位号列表
@@ -49,15 +50,14 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
         //模拟数据
         GroupUnitNum groupUnitNum = new GroupUnitNum();
 
+        groupUnitNum.setLetter("G");
+
         for (int i = 0; i < 18; i++) {
             UnitNum unitNum = new UnitNum();
-            unitNum.put(name, "广东省第一人民医院" + i);
+            unitNum.put(nickname, "广东省第一人民医院" + i);
             groupUnitNum.add(unitNum);
         }
 
-        groupUnitNum.setLetter("F");
-
-        groupUnitNum.setLetter("G");
         addItem(groupUnitNum);
 
     }
@@ -101,7 +101,6 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
         super.setViews();
 
         expandAllGroup();
-
         setRefreshEnable(false);
     }
 
@@ -134,6 +133,8 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
     @Override
     public void getDataFromNet() {
 
+        //exeNetworkRequest(0 , NetFactory.unitNum());
+
     }
 
     @Override
@@ -146,7 +147,7 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
 
     @Override
     public IListResponse<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
-        return null;
+        return JsonParser.unitNums(text);
     }
 
     @Override

@@ -15,7 +15,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/13
  */
-public class MyEpnActivity extends BaseActivity {
+public class EpnActivity extends BaseActivity {
 
     @Override
     public void initData() {
@@ -25,7 +25,7 @@ public class MyEpnActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_my_epn;
+        return R.layout.activity_epn;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class MyEpnActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(MyEpnDetailsActivity.class);
+                startActivity(EpnDetailsActivity.class);
             }
         });
     }
@@ -59,7 +59,7 @@ public class MyEpnActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.my_epe_recharge_epn_tv: {
-                startActivity(RechargeEpnActivity.class);
+                startActivity(EpnRechargeActivity.class);
             }
             break;
             case R.id.my_epn_instruction: {

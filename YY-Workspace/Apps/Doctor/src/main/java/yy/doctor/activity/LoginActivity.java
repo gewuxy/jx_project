@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.network.model.NetworkResponse;
-import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ex.NavBar;
 import lib.yy.Notifier.NotifyType;
@@ -105,8 +104,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        LogMgr.d(TAG, nr.getText());
-
 
         return JsonParser.ev(nr.getText(), Profile.class);
     }
@@ -133,4 +130,5 @@ public class LoginActivity extends BaseActivity {
             LoginActivity.this.finish();
         }
     }
+
 }

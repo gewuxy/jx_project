@@ -14,6 +14,7 @@ import lib.ys.ex.NavBar;
 import lib.ys.inst.SingletonEvent;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -146,5 +147,15 @@ public class MainActivity extends BaseVPActivity {
         super.onDestroy();
 
         SingletonEvent.inst().freeAll();
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        super.onNotify(type, data);
+
+        if (type == NotifyType.logout) {
+            MainActivity.this.finish();
+        }
+
     }
 }

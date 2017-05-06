@@ -5,8 +5,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.UnitNumVH;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
-
-import static yy.doctor.model.unitnum.UnitNum.TUnitNum.name;
+import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 
 /**
  * @author CaiXiang
@@ -39,7 +38,7 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
         UnitNum item=getGroup(groupPosition).getChild(childPosition);
 
         holder.getIvChild().placeHolder(R.mipmap.ic_default_epc).load();
-        holder.getTvChild().setText(item.getString(name));
+        holder.getTvChild().setText(item.getString(TUnitNum.nickname));
 
     }
 

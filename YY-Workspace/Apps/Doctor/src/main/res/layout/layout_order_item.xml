@@ -114,6 +114,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2017-02-14 15：20:36"

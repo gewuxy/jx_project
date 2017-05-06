@@ -33,6 +33,7 @@
 
         <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.NoticeActivity"
@@ -99,13 +100,13 @@
             android:name=".activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.MyEpnActivity"
+            android:name=".activity.me.EpnActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ProfileActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.RechargeEpnActivity"
+            android:name=".activity.me.EpnRechargeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ChangePwdActivity"
@@ -126,7 +127,7 @@
             android:name=".activity.me.UpdateLogActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.MyEpnDetailsActivity"
+            android:name=".activity.me.EpnDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.EpcActivity"
@@ -162,6 +163,8 @@
             android:name=".activity.me.UnitNumDataDetailActivity"
             android:screenOrientation="portrait"/>
 
+        <!-- service -->
+        <service android:name=".serv.LogoutServ"/>
 
     </application>
 

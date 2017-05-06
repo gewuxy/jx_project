@@ -13,7 +13,7 @@ import yy.doctor.R;
 import yy.doctor.activity.me.CollectionMeetingActivity;
 import yy.doctor.activity.me.EpcActivity;
 import yy.doctor.activity.me.HelpAndFeedbackActivity;
-import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.EpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.activity.me.UnitNumActivity;
@@ -176,7 +176,7 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.my_epn: {
-                startActivity(MyEpnActivity.class);
+                startActivity(EpnActivity.class);
             }
             break;
             case RelatedId.epc: {

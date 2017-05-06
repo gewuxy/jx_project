@@ -6,12 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.Arrays;
 import java.util.List;
 
 import yy.doctor.R;
-import yy.doctor.ProvinceCityData;
 import yy.doctor.adapter.VH.ProvinceVH;
+import yy.doctor.model.Province;
+
+import static yy.doctor.model.Province.TProvince.name;
 
 /**
  * @author CaiXiang
@@ -19,14 +20,17 @@ import yy.doctor.adapter.VH.ProvinceVH;
  */
 public class ProvinceAdapter extends BaseAdapter {
 
-    private List<String> mList;
-    private Context mConttext;
+    private List<Province> mList;
+    private Context mContext;
     private ProvinceVH mProvinceVH;
     private int mSelectedItem = 0;
 
-    public ProvinceAdapter(Context mConttext) {
-        this.mList = Arrays.asList(ProvinceCityData.KPROVINCES);
-        this.mConttext = mConttext;
+    public ProvinceAdapter(Context context , List<Province> list) {
+
+        //this.mList = Arrays.asList(ProvinceCityData.KPROVINCES);
+        this.mContext = context;
+        mList = list;
+
     }
 
     public void setSelectItem(int selectItem) {
@@ -34,8 +38,8 @@ public class ProvinceAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public String getProvince(int position){
-        return mList.get(position);
+    public String getProvince(int position) {
+        return mList.get(position).getString(name);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class ProvinceAdapter extends BaseAdapter {
 
         if (convertView == null) {
 
-            convertView = LayoutInflater.from(mConttext).inflate(R.layout.layout_province_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_province_item, parent, false);
             mProvinceVH = new ProvinceVH(convertView);
             convertView.setTag(mProvinceVH);
 
@@ -67,7 +71,7 @@ public class ProvinceAdapter extends BaseAdapter {
             mProvinceVH = (ProvinceVH) convertView.getTag();
         }
 
-        mProvinceVH.getTvProvince().setText(mList.get(position));
+        mProvinceVH.getTvProvince().setText(mList.get(position).getString(name));
 
         if (mSelectedItem == position) {
             mProvinceVH.getTvProvince().setSelected(true);
@@ -79,5 +83,6 @@ public class ProvinceAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
 }

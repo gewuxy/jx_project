@@ -24,6 +24,7 @@
                 android:id="@id/form_item_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:layout_marginRight="@dimen/margin"
                 android:background="@drawable/transparent"
                 android:gravity="right"

@@ -18,6 +18,7 @@ public class Notifier extends NotifierEx<OnNotify> {
 
     @IntDef({
             NotifyType.login,
+            NotifyType.logout,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -27,6 +28,10 @@ public class Notifier extends NotifierEx<OnNotify> {
          * data = null
          */
         int login = 0;
+        /**
+         * 登出
+         */
+        int logout = 1;
     }
 
     public interface OnNotify {

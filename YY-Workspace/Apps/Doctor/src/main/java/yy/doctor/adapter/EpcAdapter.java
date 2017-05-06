@@ -1,15 +1,19 @@
 package yy.doctor.adapter;
 
+import java.util.List;
+
 import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.renderer.CornerRenderer;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.UpdateLogVH;
+import yy.doctor.model.me.Epc;
+import yy.doctor.model.me.Epc.TEpc;
 
 /**
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class EpcAdapter extends AdapterEx<String,UpdateLogVH> {
+public class EpcAdapter extends AdapterEx<Epc,UpdateLogVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -18,6 +22,10 @@ public class EpcAdapter extends AdapterEx<String,UpdateLogVH> {
 
     @Override
     protected void refreshView(int position, UpdateLogVH holder) {
+
+        List<Epc> list = getData();
+
+        holder.getTvName().setText(list.get(position).getString(TEpc.name));
 
         holder.getIv()
                 .placeHolder(R.mipmap.ic_default_epc)

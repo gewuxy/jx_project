@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/list"
+    <lib.ys.view.swipeRefresh.SRListLayout
+        android:id="@+id/sr_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/transparent"
-        android:divider="@drawable/transparent"
+        android:divider="@drawable/divider"
+        android:dividerHeight="@dimen/divider_height_1px"
         android:fadingEdge="none"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"

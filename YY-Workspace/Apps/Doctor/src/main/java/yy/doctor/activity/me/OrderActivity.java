@@ -4,12 +4,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
-import lib.yy.activity.base.BaseListActivity;
+import lib.ys.network.resp.IListResponse;
+import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.OrderAdapter;
+import yy.doctor.model.me.Order;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 
 /**
  * 订单
@@ -17,17 +23,13 @@ import yy.doctor.adapter.OrderAdapter;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class OrderActivity extends BaseListActivity<String> {
+public class OrderActivity extends BaseSRListActivity<Order> {
 
     private boolean isTvShow = false;
     private TextView mTv;
 
     @Override
     public void initData() {
-
-        for (int i = 0; i < 5; ++i) {
-            addItem(i + " ");
-        }
 
     }
 
@@ -55,6 +57,7 @@ public class OrderActivity extends BaseListActivity<String> {
 
     }
 
+
     @Override
     public void findViews() {
         super.findViews();
@@ -65,10 +68,7 @@ public class OrderActivity extends BaseListActivity<String> {
     public void setViews() {
         super.setViews();
 
-        mTv = findView(R.id.order_tv);
-
-        mTv.setOnClickListener(this);
-
+        setOnClickListener(R.id.order_tv);
     }
 
     @Override
@@ -88,8 +88,19 @@ public class OrderActivity extends BaseListActivity<String> {
     }
 
     @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
+    public MultiAdapterEx<Order, ? extends ViewHolderEx> createAdapter() {
         return new OrderAdapter();
+    }
+
+    @Override
+    public void getDataFromNet() {
+
+        exeNetworkRequest(0, NetFactory.order());
+    }
+
+    @Override
+    public IListResponse<Order> parseNetworkResponse(int id, String text) throws JSONException {
+        return JsonParser.evs(text, Order.class);
     }
 
 }

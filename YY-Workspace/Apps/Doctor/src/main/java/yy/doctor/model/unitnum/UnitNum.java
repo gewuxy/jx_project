@@ -1,16 +1,20 @@
 package yy.doctor.model.unitnum;
 
 import lib.ys.model.EVal;
+import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 
 /**
  * @author CaiXiang
- * @since 2017/4/27
+ * @since 2017/5/6
  */
-public class UnitNum extends EVal<UnitNum.TUnitNum> {
+public class UnitNum extends EVal<TUnitNum> {
 
-    public enum TUnitNum{
-        name,
-        imgurl,
+    public enum TUnitNum {
+
+        alpha,  //首字母
+        headimg,	//公众号头像
+        Id,	   //公众号Id
+        nickname,	//公众号昵称
+
     }
-
 }

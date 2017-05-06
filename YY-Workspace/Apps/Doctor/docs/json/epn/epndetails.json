@@ -1,0 +1,39 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "cost": "100",
+      "costTime": 1493093437000,
+      "oppositeName": "123@qq.com",
+      "type": 2
+    },
+    {
+      "cost": "-300",
+      "costTime": 1493007117000,
+      "oppositeName": "345@qq.com",
+      "type": 2
+    },
+    {
+      "cost": "100",
+      "costTime": 1493097297000,
+      "description": "您参加会议支付了100个象数",
+      "type": 0
+    },
+    {
+      "cost": "100",
+      "costTime": 1493116565000,
+      "type": 0
+    },
+    {
+      "cost": "1200",
+      "costTime": 1493372253000,
+      "type": 0
+    },
+    {
+      "cost": "1200",
+      "costTime": 1493372136000,
+      "description": "您购买了商品:手机",
+      "type": 0
+    }
+  ]
+}

@@ -18,6 +18,7 @@
     <EditText
         style="@style/et.common"
         android:id="@+id/login_et_name"
+        android:singleLine="true"
         android:hint="电子邮箱"/>
 
     <View
@@ -27,6 +28,7 @@
         style="@style/et.common"
         android:id="@+id/login_et_pwd"
         android:inputType="textPassword"
+        android:singleLine="true"
         android:hint="密码"/>
 
     <TextView

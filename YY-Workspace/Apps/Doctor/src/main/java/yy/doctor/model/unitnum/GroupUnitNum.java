@@ -12,12 +12,12 @@ public class GroupUnitNum {
     private List<UnitNum> mChildren;
     private String mLetter;
 
-    public GroupUnitNum() {
-        mChildren = new ArrayList<>();
-    }
-
     public void add(UnitNum unitnum) {
         mChildren.add(unitnum);
+    }
+
+    public GroupUnitNum() {
+        mChildren = new ArrayList<>();
     }
 
     public UnitNum getChild(int index) {

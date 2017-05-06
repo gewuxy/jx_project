@@ -4,10 +4,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lib.yy.network.BaseJsonParser;
 import lib.yy.network.ListResponse;
 import yy.doctor.model.home.Home;
 import yy.doctor.model.home.HomeMeeting;
+import yy.doctor.model.unitnum.GroupUnitNum;
+import yy.doctor.model.unitnum.UnitNum;
 
 /**
  * @author CaiXiang
@@ -30,6 +35,18 @@ public class JsonParser extends BaseJsonParser {
             r.add(h);
         }
 
+        return r;
+    }
+
+    public static ListResponse<GroupUnitNum> unitNums(String text) throws JSONException {
+
+        ListResponse<GroupUnitNum> r = new ListResponse<>();
+        List<GroupUnitNum> gs = new ArrayList<>();
+
+        List<UnitNum> nums = evs(text, UnitNum.class).getData();
+
+
+        r.setData(gs);
         return r;
     }
 }

@@ -12,13 +12,16 @@ import java.util.List;
 
 import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
+import yy.doctor.activity.LoginActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.serv.LogoutServ;
 import yy.doctor.util.Util;
 
 /**
@@ -130,8 +133,8 @@ public class SettingsActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
 
-        @RelatedId int relatedid = getItem(position).getInt(TFormElem.related);
-        switch (relatedid) {
+        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        switch (relatedId) {
             case RelatedId.change_password: {
                 startActivity(ChangePwdActivity.class);
             }
@@ -182,9 +185,17 @@ public class SettingsActivity extends BaseFormActivity {
 
             @Override
             public void onClick(View v) {
+
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
+
+                startService(LogoutServ.class);
+
+                SettingsActivity.this.notify(NotifyType.logout);
+                startActivity(LoginActivity.class);
+                finish();
+
             }
         });
 
@@ -195,6 +206,8 @@ public class SettingsActivity extends BaseFormActivity {
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
+                SettingsActivity.this.notify(NotifyType.logout);
+                finish();
             }
         });
 

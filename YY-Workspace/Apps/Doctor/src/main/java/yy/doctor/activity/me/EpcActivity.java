@@ -3,12 +3,18 @@ package yy.doctor.activity.me;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import org.json.JSONException;
+
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ex.NavBar;
-import lib.yy.activity.base.BaseListActivity;
+import lib.ys.network.resp.IListResponse;
+import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.EpcAdapter;
+import yy.doctor.model.me.Epc;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 
 /**
  * 象城
@@ -16,14 +22,10 @@ import yy.doctor.adapter.EpcAdapter;
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class EpcActivity extends BaseListActivity<String> {
+public class EpcActivity extends BaseSRListActivity<Epc> {
 
     @Override
     public void initData() {
-
-        for (int i = 0; i < 8; ++i) {
-            addItem(" " + i);
-        }
 
     }
 
@@ -40,7 +42,7 @@ public class EpcActivity extends BaseListActivity<String> {
     }
 
     @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
+    public MultiAdapterEx<Epc, ? extends ViewHolderEx> createAdapter() {
         return new EpcAdapter();
     }
 
@@ -51,4 +53,14 @@ public class EpcActivity extends BaseListActivity<String> {
         startActivity(EpcDetailActivity.class);
     }
 
+    @Override
+    public void getDataFromNet() {
+
+        exeNetworkRequest(0, NetFactory.epc());
+    }
+
+    @Override
+    public IListResponse<Epc> parseNetworkResponse(int id, String text) throws JSONException {
+        return JsonParser.evs(text, Epc.class);
+    }
 }

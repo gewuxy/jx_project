@@ -7,7 +7,7 @@ import yy.doctor.activity.me.EpcDetailActivity;
 import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
-import yy.doctor.activity.me.MyEpnActivity;
+import yy.doctor.activity.me.EpnActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
@@ -46,7 +46,7 @@ public class TestActivity extends BaseTestActivity {
         add("忘记密码", ForgetPwdActivity.class);
 
         add("象数使用规则", EpnUseRuleActivity.class);
-        add("我的象数", MyEpnActivity.class);
+        add("我的象数", EpnActivity.class);
 
         add("更新对话框", new UpdateNoticeDialog(this));
         add("分享对话框", new ShareDialog(this));
