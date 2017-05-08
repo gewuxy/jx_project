@@ -7,7 +7,7 @@ import java.util.List;
 
 import lib.network.LogNetwork;
 import lib.network.NetworkUtil;
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.param.NameValuePair;
 import lib.network.provider.IRequestBuilder;
@@ -21,9 +21,9 @@ abstract public class BaseBuilder implements IRequestBuilder {
     private NetworkRequest mNetRequest;
     private int mId;
     private Object mTag;
-    private NetworkListener mListener;
+    private OnNetworkListener mListener;
 
-    public BaseBuilder(NetworkRequest request, Object tag, int id, NetworkListener listener) {
+    public BaseBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
         mNetRequest = request;
         mId = id;
         mTag = tag;
@@ -71,7 +71,7 @@ abstract public class BaseBuilder implements IRequestBuilder {
     }
 
     @Override
-    public NetworkListener listener() {
+    public OnNetworkListener listener() {
         return mListener;
     }
 }

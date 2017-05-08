@@ -3,7 +3,7 @@ package yy.doctor.activity;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import lib.ys.activity.SplashActivityEx;
+import lib.ys.ui.activity.SplashActivityEx;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 

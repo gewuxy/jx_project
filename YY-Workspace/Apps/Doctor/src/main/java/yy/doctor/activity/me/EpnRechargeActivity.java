@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResponse;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Response;
 import yy.doctor.R;

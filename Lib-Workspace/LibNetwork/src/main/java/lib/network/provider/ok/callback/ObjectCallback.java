@@ -61,7 +61,7 @@ public class ObjectCallback extends Callback<Object> {
                 mDelivery.deliverError(mBuilder, new ConnectionNetError(e.getMessage()));
             }
         }
-        DeleteOnExit.getInstance().delete(mBuilder.tag(), mBuilder.id());
+        DeleteOnExit.inst().delete(mBuilder.tag(), mBuilder.id());
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ObjectCallback extends Callback<Object> {
             mDelivery.deliverError(mBuilder, new CallbackEmptyError());
         }
 
-        DeleteOnExit.getInstance().delete(mBuilder.tag(), mBuilder.id());
+        DeleteOnExit.inst().delete(mBuilder.tag(), mBuilder.id());
     }
 
     private NetworkResponse getNetworkResponse(Response response) {

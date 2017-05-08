@@ -10,7 +10,7 @@ import org.json.JSONException;
 
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.view.SideBar;
 import lib.ys.view.SideBar.OnTouchLetterListener;

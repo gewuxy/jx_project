@@ -1,6 +1,6 @@
 package lib.network.provider.ok.request;
 
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
 
@@ -9,7 +9,7 @@ import lib.network.model.NetworkRequest;
  */
 public class DownloadFileBuilder extends GetBuilder {
 
-    public DownloadFileBuilder(NetworkRequest request, Object tag, int id, NetworkListener listener) {
+    public DownloadFileBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
         super(request, tag, id, listener);
     }
 

@@ -3,8 +3,8 @@ package yy.doctor.activity.me;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 

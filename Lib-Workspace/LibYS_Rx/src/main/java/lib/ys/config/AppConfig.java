@@ -10,7 +10,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.decor.ErrorDecorEx;
+import lib.ys.ui.decor.ErrorDecorEx;
 
 /**
  * App整体配置

@@ -4,9 +4,9 @@ import org.json.JSONException;
 
 import lib.network.NetworkExecutor;
 import lib.network.error.NetError;
-import lib.network.model.NetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
+import lib.network.model.OnNetworkListener;
 import lib.ys.LogMgr;
 import lib.ys.interfaces.INetwork;
 
@@ -27,7 +27,7 @@ abstract public class RunnableEx implements Runnable, INetwork {
         exeNetworkRequest(id, request, this);
     }
 
-    public void exeNetworkRequest(int id, NetworkRequest request, NetworkListener listener) {
+    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
         if (mNetworkExecutor == null) {
             mNetworkExecutor = new NetworkExecutor(getClass().getName(), this);
         }

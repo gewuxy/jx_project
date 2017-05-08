@@ -12,10 +12,10 @@ import org.json.JSONException;
 import lib.network.NetworkExecutor;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
-import lib.network.model.NetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
 import lib.network.model.NetworkRetry;
+import lib.network.model.OnNetworkListener;
 import lib.ys.LogMgr;
 import lib.ys.R;
 import lib.ys.interfaces.INetwork;
@@ -55,7 +55,7 @@ abstract public class ServiceEx extends Service implements INetwork {
         exeNetworkRequest(id, request, this);
     }
 
-    public void exeNetworkRequest(int id, NetworkRequest request, NetworkListener listener) {
+    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
         if (request.getRetry() != null) {
             mMapRetryTask.put(id, request);
 

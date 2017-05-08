@@ -2,7 +2,7 @@ package lib.network.provider;
 
 import lib.network.LogNetwork;
 import lib.network.error.NetError;
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
 
 /**
@@ -55,7 +55,7 @@ abstract public class BaseProvider implements IDeliveryCallback {
         return mDelivery;
     }
 
-    abstract public void load(NetworkRequest networkRequest, int id, NetworkListener lsn);
+    abstract public void load(NetworkRequest networkRequest, int id, OnNetworkListener lsn);
 
     abstract public void cancel(int id);
 

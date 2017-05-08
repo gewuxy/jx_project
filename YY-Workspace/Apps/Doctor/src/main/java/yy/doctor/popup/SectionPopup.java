@@ -8,8 +8,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
-import lib.ys.ex.PopupWindowEx;
 import lib.ys.fitter.DpFitter;
+import lib.ys.ui.other.PopupWindowEx;
 import lib.yy.view.GridDivider;
 import yy.doctor.R;
 import yy.doctor.adapter.SectionAdapter;

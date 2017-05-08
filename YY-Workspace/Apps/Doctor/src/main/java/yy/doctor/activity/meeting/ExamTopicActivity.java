@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 import lib.ys.LogMgr;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseVPActivity;
 import lib.yy.view.ExamCaseGridView;
 import lib.yy.view.ExamCaseGridView.OnInvalidListener;

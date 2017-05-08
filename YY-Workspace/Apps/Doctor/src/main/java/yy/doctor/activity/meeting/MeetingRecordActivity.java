@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.ToastUtil;
 import lib.ys.util.view.ViewUtil;

@@ -40,14 +40,13 @@ public class PermissionChecker {
         mMap.put(code, t);
 
         OnPermissionListener l = t.getListener();
-        Object host = t.getHost();
         String[] ps = t.getPermissions();
 
         boolean check = false;
-        if (host instanceof Activity) {
-            check = allow((Context) host, ps);
-        } else if (host instanceof Fragment) {
-            check = allow((((Fragment) host).getContext()), ps);
+        if (l instanceof Activity) {
+            check = allow((Context) l, ps);
+        } else if (l instanceof Fragment) {
+            check = allow((((Fragment) l).getContext()), ps);
         }
 
         if (!DeviceUtil.isOverMarshmallow()) {
@@ -147,19 +146,18 @@ public class PermissionChecker {
      */
     private void requestPermission(CheckTask task) {
         OnPermissionListener l = task.getListener();
-        Object host = task.getHost();
         String[] ps = task.getPermissions();
         int code = task.getCode();
 
         for (String p : ps) {
-            if (host instanceof Activity) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) host, p)) {
+            if (l instanceof Activity) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) l, p)) {
                     l.onPermissionResult(code, PermissionResult.never_ask);
                 } else {
-                    ActivityCompat.requestPermissions((Activity) host, ps, code);
+                    ActivityCompat.requestPermissions((Activity) l, ps, code);
                 }
-            } else if (host instanceof Fragment) {
-                Fragment frag = (Fragment) host;
+            } else if (l instanceof Fragment) {
+                Fragment frag = (Fragment) l;
                 if (frag.shouldShowRequestPermissionRationale(p)) {
                     l.onPermissionResult(code, PermissionResult.never_ask);
                 } else {

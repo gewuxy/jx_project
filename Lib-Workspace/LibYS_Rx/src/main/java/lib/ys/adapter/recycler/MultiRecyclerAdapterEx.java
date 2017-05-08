@@ -22,8 +22,8 @@ import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.interfaces.IFitParams;
-import lib.ys.interfaces.IOption;
+import lib.ys.ui.interfaces.opts.FitOpt;
+import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.ReflectionUtil;
@@ -32,7 +32,7 @@ import lib.ys.util.view.ViewUtil;
 /**
  * @author yuansui
  */
-abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx> extends Adapter<VH> implements IFitParams, IOption, IAdapter<T> {
+abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx> extends Adapter<VH> implements FitOpt, CommonOpt, IAdapter<T> {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -261,8 +261,8 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
     }
 
     @Override
-    public void fitAbsParamsPx(View v, int x, int y) {
-        LayoutFitter.fitAbsParamsPx(v, x, y);
+    public void fitAbsByPx(View v, int x, int y) {
+        LayoutFitter.fitAbsByPx(v, x, y);
     }
 
     @Override

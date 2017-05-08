@@ -3,8 +3,8 @@ package yy.doctor.activity.data;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import lib.ys.activity.WebViewActivityEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.activity.WebViewActivityEx;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseWebViewActivity;
 import yy.doctor.R;
 import yy.doctor.activity.MainActivity;

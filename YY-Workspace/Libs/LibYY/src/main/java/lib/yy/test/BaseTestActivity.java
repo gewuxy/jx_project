@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.dialog.DialogEx;
-import lib.ys.ex.NavBar;
-import lib.ys.inst.SingletonEvent;
+import lib.ys.impl.SingletonImpl;
+import lib.ys.ui.dialog.DialogEx;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseListActivity;
 
 /**
@@ -78,6 +78,6 @@ abstract public class BaseTestActivity extends BaseListActivity<Test> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SingletonEvent.inst().freeAll();
+        SingletonImpl.inst().freeAll();
     }
 }

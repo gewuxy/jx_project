@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.ys.LogMgr;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.view.FlowLayout;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;

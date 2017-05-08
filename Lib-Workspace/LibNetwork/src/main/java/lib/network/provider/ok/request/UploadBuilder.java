@@ -14,7 +14,7 @@ import java.util.List;
 
 import java8.lang.Iterables;
 import lib.network.LogNetwork;
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
 import lib.network.param.NameByteValuePair;
@@ -25,7 +25,7 @@ import lib.network.param.NameFileValuePair;
  */
 public class UploadBuilder extends PostBuilder {
 
-    public UploadBuilder(NetworkRequest request, Object tag, int id, NetworkListener listener) {
+    public UploadBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
         super(request, tag, id, listener);
     }
 
@@ -35,7 +35,7 @@ public class UploadBuilder extends PostBuilder {
 
         List<NameByteValuePair> byteParams = request().getByteParams();
         if (byteParams != null) {
-            Iterables.forEach(byteParams, p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.getInstance().add(tag(), id(), p.getValue())));
+            Iterables.forEach(byteParams, p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getValue())));
         }
 
         List<NameFileValuePair> fileParams = request().getFileParams();
@@ -85,7 +85,7 @@ public class UploadBuilder extends PostBuilder {
             }
         }
 
-        public static DeleteOnExit getInstance() {
+        public static DeleteOnExit inst() {
             if (mSelf == null) {
                 mSelf = new DeleteOnExit();
             }

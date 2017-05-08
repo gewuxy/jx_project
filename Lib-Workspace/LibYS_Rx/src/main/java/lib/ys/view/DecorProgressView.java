@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import lib.ys.R;
-import lib.ys.decor.IDecorProgressView;
+import lib.ys.ui.decor.IDecorProgressView;
 
 /**
  * 其实是loading view

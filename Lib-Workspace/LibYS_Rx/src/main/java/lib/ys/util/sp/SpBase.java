@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 
 import java.io.Serializable;
 
-import lib.ys.inst.SingletonEvent;
-import lib.ys.interfaces.ISingleton;
+import lib.ys.impl.SingletonImpl;
+import lib.ys.ui.interfaces.ISingleton;
 import lib.ys.model.EVal;
 
 @SuppressWarnings({"rawtypes"})
@@ -19,7 +19,7 @@ abstract public class SpBase implements ISingleton {
 
     public SpBase(Context context, String fileName) {
         mSp = context.getSharedPreferences(fileName, Activity.MODE_PRIVATE);
-        SingletonEvent.inst().addObserver(this);
+        SingletonImpl.inst().addObserver(this);
     }
 
     public synchronized boolean save(String key, Object value) {

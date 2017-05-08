@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import lib.ys.ex.NavBar;
-import lib.ys.inst.SingletonEvent;
+import lib.ys.impl.SingletonImpl;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
@@ -146,7 +146,7 @@ public class MainActivity extends BaseVPActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        SingletonEvent.inst().freeAll();
+        SingletonImpl.inst().freeAll();
     }
 
     @Override

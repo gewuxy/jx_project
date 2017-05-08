@@ -1,7 +1,7 @@
 package lib.network;
 
 
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.OkProvider;
@@ -13,10 +13,10 @@ import lib.network.provider.ok.OkProvider;
  * @since 2016/4/11
  */
 public class NetworkExecutor {
-    private NetworkListener mListener;
+    private OnNetworkListener mListener;
     private BaseProvider mProvider;
 
-    public NetworkExecutor(Object tag, NetworkListener listener) {
+    public NetworkExecutor(Object tag, OnNetworkListener listener) {
         mListener = listener;
         mProvider = new OkProvider(tag);
     }
@@ -25,7 +25,7 @@ public class NetworkExecutor {
         execute(id, task, mListener);
     }
 
-    public void execute(int id, NetworkRequest request, NetworkListener listener) {
+    public void execute(int id, NetworkRequest request, OnNetworkListener listener) {
         if (listener == null) {
             listener = mListener;
         }

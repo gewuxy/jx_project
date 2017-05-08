@@ -1,6 +1,7 @@
 package lib.yy.activity.base;
 
-import lib.ys.activity.WebViewActivityEx;
+
+import lib.ys.ui.activity.WebViewActivityEx;
 
 /**
  * @author CaiXiang

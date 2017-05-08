@@ -2,7 +2,7 @@ package lib.yy.activity.base;
 
 import android.os.Bundle;
 
-import lib.ys.activity.form.FormActivityEx;
+import lib.ys.ui.activity.form.FormActivityEx;
 import lib.yy.Notifier;
 import lib.yy.adapter.VH.FormItemVH;
 import lib.yy.model.form.FormItem;

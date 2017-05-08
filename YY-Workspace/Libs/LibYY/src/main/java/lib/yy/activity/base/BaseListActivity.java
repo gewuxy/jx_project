@@ -1,6 +1,6 @@
 package lib.yy.activity.base;
 
-import lib.ys.activity.list.ListActivityEx;
+import lib.ys.ui.activity.list.ListActivityEx;
 
 /**
  * @auther yuansui

@@ -28,8 +28,8 @@ import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.interfaces.IFitParams;
-import lib.ys.interfaces.IOption;
+import lib.ys.ui.interfaces.opts.FitOpt;
+import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.ReflectionUtil;
@@ -41,7 +41,7 @@ import lib.ys.util.view.ViewUtil;
  * @param <T>
  * @author yuansui
  */
-abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAdapter implements IFitParams, IOption, IAdapter<T> {
+abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAdapter implements FitOpt, CommonOpt, IAdapter<T> {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -473,8 +473,8 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
      */
 
     @Override
-    public void fitAbsParamsPx(View v, int x, int y) {
-        LayoutFitter.fitAbsParamsPx(v, x, y);
+    public void fitAbsByPx(View v, int x, int y) {
+        LayoutFitter.fitAbsByPx(v, x, y);
     }
 
     @Override

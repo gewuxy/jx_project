@@ -4,7 +4,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 
 import lib.network.NetworkUtil;
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
 
@@ -13,7 +13,7 @@ import lib.network.model.NetworkRequest;
  */
 public class GetBuilder extends BaseBuilder {
 
-    public GetBuilder(NetworkRequest request, Object tag, int id, NetworkListener listener) {
+    public GetBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
         super(request, tag, id, listener);
     }
 

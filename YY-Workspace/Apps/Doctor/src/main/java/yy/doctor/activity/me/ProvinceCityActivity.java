@@ -12,7 +12,7 @@ import java.util.List;
 import lib.network.model.NetworkResponse;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.ListResponse;
 import yy.doctor.Extra;

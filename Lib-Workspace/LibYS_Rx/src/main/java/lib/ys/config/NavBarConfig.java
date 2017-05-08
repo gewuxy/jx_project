@@ -3,7 +3,7 @@ package lib.ys.config;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 
-import lib.ys.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.util.UIUtil;
 
 /**

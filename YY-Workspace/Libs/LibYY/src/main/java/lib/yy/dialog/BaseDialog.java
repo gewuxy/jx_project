@@ -2,7 +2,8 @@ package lib.yy.dialog;
 
 import android.content.Context;
 
-import lib.ys.dialog.MatchScreenDialog;
+import lib.ys.ui.dialog.MatchScreenDialog;
+
 
 /**
  * @author CaiXiang

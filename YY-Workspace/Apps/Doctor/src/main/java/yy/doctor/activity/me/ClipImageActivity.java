@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;

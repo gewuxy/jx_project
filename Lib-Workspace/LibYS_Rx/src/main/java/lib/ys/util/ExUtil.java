@@ -6,7 +6,7 @@ import android.os.Build.VERSION_CODES;
 import android.view.View;
 
 import lib.ys.AppEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 

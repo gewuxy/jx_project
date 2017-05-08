@@ -8,7 +8,7 @@ import java.util.List;
 import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.ExamTopicAdapter;

@@ -1,6 +1,6 @@
 package lib.yy.frag.base;
 
-import lib.ys.frag.list.ListFragEx;
+import lib.ys.ui.frag.list.ListFragEx;
 
 /**
  * @author CaiXiang

@@ -3,8 +3,8 @@ package yy.doctor.activity.me;
 import android.support.annotation.IntDef;
 import android.view.View;
 
-import lib.ys.ex.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;

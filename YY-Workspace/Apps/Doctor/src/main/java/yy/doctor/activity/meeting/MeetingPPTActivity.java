@@ -6,9 +6,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import lib.ys.decor.DecorViewEx.TNavBarState;
-import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.ToastUtil;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;

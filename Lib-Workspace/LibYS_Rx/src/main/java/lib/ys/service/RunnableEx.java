@@ -4,16 +4,16 @@ import org.json.JSONException;
 
 import lib.network.NetworkExecutor;
 import lib.network.error.NetError;
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
 import lib.ys.LogMgr;
-import lib.ys.interfaces.INetwork;
+import lib.ys.ui.interfaces.opts.NetworkOpt;
 
 /**
  * @author yuansui
  */
-abstract public class RunnableEx implements Runnable, INetwork {
+abstract public class RunnableEx implements Runnable, NetworkOpt, OnNetworkListener {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -27,7 +27,7 @@ abstract public class RunnableEx implements Runnable, INetwork {
         exeNetworkRequest(id, request, this);
     }
 
-    public void exeNetworkRequest(int id, NetworkRequest request, NetworkListener listener) {
+    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
         if (mNetworkExecutor == null) {
             mNetworkExecutor = new NetworkExecutor(getClass().getName(), this);
         }

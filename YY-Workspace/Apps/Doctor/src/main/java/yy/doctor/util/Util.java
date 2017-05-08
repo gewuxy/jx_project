@@ -5,7 +5,7 @@ import android.app.Activity;
 import java.util.Arrays;
 import java.util.List;
 
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
 import yy.doctor.R;

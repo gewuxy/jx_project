@@ -2,7 +2,7 @@ package lib.yy.activity.base;
 
 import android.os.Bundle;
 
-import lib.ys.activity.ActivityEx;
+import lib.ys.ui.activity.ActivityEx;
 import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.Notifier.OnNotify;

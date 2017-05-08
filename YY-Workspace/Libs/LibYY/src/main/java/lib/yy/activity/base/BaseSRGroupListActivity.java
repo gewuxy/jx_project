@@ -1,6 +1,6 @@
 package lib.yy.activity.base;
 
-import lib.ys.activity.list.SRGroupListActivityEx;
+import lib.ys.ui.activity.list.SRGroupListActivityEx;
 
 /**
  * 日期 : 2017/4/19

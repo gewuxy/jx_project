@@ -4,7 +4,6 @@ package lib.ys.util.permission;
  * @author yuansui
  */
 public class CheckTask {
-    private Object mHost;
 
     @Permission
     private String[] mPermissions;
@@ -22,14 +21,13 @@ public class CheckTask {
         return mCode;
     }
 
-    public Object getHost() {
-        return mHost;
-    }
-
     public OnPermissionListener getListener() {
         return mListener;
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 
     public static class Builder {
 
@@ -37,7 +35,9 @@ public class CheckTask {
         private String[] mPermissions;
         private OnPermissionListener mListener;
         private int mCode;
-        private Object mHost;
+
+        private Builder() {
+        }
 
         public Builder listener(OnPermissionListener l) {
             mListener = l;
@@ -46,11 +46,6 @@ public class CheckTask {
 
         public Builder code(int code) {
             mCode = code;
-            return this;
-        }
-
-        public Builder host(Object host) {
-            mHost = host;
             return this;
         }
 
@@ -65,7 +60,6 @@ public class CheckTask {
             task.mListener = mListener;
             task.mCode = mCode;
             task.mPermissions = mPermissions;
-            task.mHost = mHost;
 
             return task;
         }

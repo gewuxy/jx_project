@@ -13,11 +13,11 @@ import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.decor.DecorViewEx.TNavBarState;
-import lib.ys.ex.NavBar;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.NestCheckBox;
 import lib.yy.activity.base.BaseListActivity;

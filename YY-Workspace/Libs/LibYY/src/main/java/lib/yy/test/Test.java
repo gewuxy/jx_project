@@ -4,7 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.view.View.OnClickListener;
 
-import lib.ys.dialog.DialogEx;
+import lib.ys.ui.dialog.DialogEx;
+
 
 /**
  * @author yuansui

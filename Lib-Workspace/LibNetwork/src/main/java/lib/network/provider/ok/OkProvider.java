@@ -5,7 +5,7 @@ import android.util.SparseArray;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.request.RequestCall;
 
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
 import lib.network.provider.BaseProvider;
@@ -31,7 +31,7 @@ public class OkProvider extends BaseProvider {
     }
 
     @Override
-    public void load(NetworkRequest networkRequest, final int id, final NetworkListener lsn) {
+    public void load(NetworkRequest networkRequest, final int id, final OnNetworkListener lsn) {
         // FIXME: id的检测应该是在网络callback的时候进行, 暂时先放到这里, 如果出问题的话再更改
         if (mCallMap.get(id) != null) {
             if (mCallMap.get(id).getCall().isExecuted()) {

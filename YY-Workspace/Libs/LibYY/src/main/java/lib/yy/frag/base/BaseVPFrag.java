@@ -1,6 +1,7 @@
 package lib.yy.frag.base;
 
-import lib.ys.frag.ViewPagerFragEx;
+
+import lib.ys.ui.frag.ViewPagerFragEx;
 
 /**
  * @auther yuansui

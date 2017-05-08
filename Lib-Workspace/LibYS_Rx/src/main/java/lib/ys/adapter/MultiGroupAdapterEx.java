@@ -26,13 +26,13 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.interfaces.IFitParams;
-import lib.ys.interfaces.IOption;
+import lib.ys.ui.interfaces.opts.FitOpt;
+import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends BaseExpandableListAdapter implements IFitParams, IOption, IGroupAdapter<T> {
+abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends BaseExpandableListAdapter implements FitOpt, CommonOpt, IGroupAdapter<T> {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -375,8 +375,8 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
      */
 
     @Override
-    public void fitAbsParamsPx(View v, int x, int y) {
-        LayoutFitter.fitAbsParamsPx(v, x, y);
+    public void fitAbsByPx(View v, int x, int y) {
+        LayoutFitter.fitAbsByPx(v, x, y);
     }
 
     @Override

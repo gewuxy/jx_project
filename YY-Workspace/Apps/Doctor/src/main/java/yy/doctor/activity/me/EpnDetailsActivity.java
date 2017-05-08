@@ -4,8 +4,8 @@ import org.json.JSONException;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ex.NavBar;
 import lib.ys.network.resp.IListResponse;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.EpnDetailsAdapter;

@@ -2,7 +2,7 @@ package yy.doctor.activity;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.adapter.NoticeAdapter;
 import yy.doctor.util.Util;

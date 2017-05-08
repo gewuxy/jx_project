@@ -6,7 +6,7 @@ import android.os.StrictMode;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
 import lib.ys.config.NavBarConfig;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.BaseApp;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;

@@ -1,6 +1,6 @@
 package lib.network.provider;
 
-import lib.network.model.NetworkListener;
+import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
 
@@ -27,7 +27,7 @@ public interface IRequestBuilder {
 
     NetworkRequest request();
 
-    NetworkListener listener();
+    OnNetworkListener listener();
 
     <T> T build();
 }

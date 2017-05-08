@@ -6,14 +6,14 @@ import android.util.AttributeSet;
 import lib.ys.adapter.PagerAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.fitter.DpFitter;
-import lib.ys.widget.BannerWidgetEx;
+import lib.ys.view.BannerViewEx;
 import yy.doctor.adapter.BannerViewAdapter;
 
 /**
  * @author CaiXiang
  * @since 2017/5/4
  */
-public class BannerView extends BannerWidgetEx<String> {
+public class BannerView extends BannerViewEx<String> {
 
 
     public BannerView(Context context, AttributeSet attrs) {

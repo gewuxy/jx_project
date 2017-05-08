@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import lib.ys.activity.ActivityEx;
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.MilliUtil;
 import lib.ys.util.res.ResLoader;
+import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
@@ -26,7 +26,7 @@ import static yy.doctor.Extra.KData;
  * @since : 2017/5/2
  */
 
-public class SignActivity extends ActivityEx {
+public class SignActivity extends BaseActivity {
 
     private static final int KReturnTime = 3;//关闭倒计时
     private static final long KSecond = 1000L;//1秒

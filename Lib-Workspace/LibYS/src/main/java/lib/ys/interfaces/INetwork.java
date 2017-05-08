@@ -1,15 +1,15 @@
 package lib.ys.interfaces;
 
 
-import lib.network.model.NetworkListener;
 import lib.network.model.NetworkRequest;
+import lib.network.model.OnNetworkListener;
 
 /**
  * 网络操作
  *
  * @author yuansui
  */
-public interface INetwork extends NetworkListener {
+public interface INetwork extends OnNetworkListener {
 
     /**
      * @param id
@@ -24,7 +24,7 @@ public interface INetwork extends NetworkListener {
      * @param request
      * @param listener
      */
-    void exeNetworkRequest(int id, NetworkRequest request, NetworkListener listener);
+    void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener);
 
     /**
      * 取消所有网络任务

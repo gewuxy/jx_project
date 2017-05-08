@@ -12,14 +12,14 @@ import android.widget.AbsListView.OnScrollListener;
 
 import lib.ys.ConstantsEx;
 import lib.ys.config.ListConfig;
-import lib.ys.interfaces.OnRetryClickListener;
+import lib.ys.ui.interfaces.OnRetryClickListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
 import lib.ys.view.swipeRefresh.footer.DefaultFooter;
 import lib.ys.view.swipeRefresh.interfaces.IExtend.TState;
 import lib.ys.view.swipeRefresh.interfaces.ISRLoadMoreListener;
-import lib.ys.widget.list.mix.MixOnScrollListener;
+import lib.ys.ui.interfaces.MixOnScrollListener;
 
 /**
  * @author yuansui

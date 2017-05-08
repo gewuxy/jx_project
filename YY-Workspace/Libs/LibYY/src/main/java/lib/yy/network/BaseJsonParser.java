@@ -32,7 +32,7 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    private static boolean error(String text, IResponse r) throws JSONException {
+    protected static boolean error(String text, IResponse r) throws JSONException {
         JSONObject object = new JSONObject(text);
 
         int code;

@@ -44,7 +44,7 @@ public class LayoutFitter {
      * @param x x坐标, 如果为CENTER_HORIZONTAL, 则动态计算居中
      * @param y y坐标, 如果为CENTER_VERTICAL, 则动态计算居中
      */
-    public static void fitAbsParamsPx(final View v, final int x, final int y) {
+    public static void fitAbsByPx(final View v, final int x, final int y) {
         if (v.getViewTreeObserver().isAlive()) {
             v.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 

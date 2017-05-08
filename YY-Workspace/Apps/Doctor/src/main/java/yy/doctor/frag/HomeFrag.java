@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-import lib.ys.ex.NavBar;
+import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.R;
 import yy.doctor.activity.NoticeActivity;
