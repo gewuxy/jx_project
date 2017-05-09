@@ -1,13 +1,13 @@
 package yy.doctor.model.form.menu;
 
-import lib.ys.form.FormBuilder;
+import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.FormItem;
 
 /**
  * @author CaiXiang
  * @since 2017/4/5
  */
-public class Builder extends FormBuilder<FormItem> {
+public class Builder extends FormBuilderEx<FormItem> {
 
     public Builder(int type) {
         super(type);

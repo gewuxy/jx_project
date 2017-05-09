@@ -1,6 +1,6 @@
 package yy.doctor.model.form;
 
-import lib.ys.form.FormBuilder;
+import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.FormItem;
 import yy.doctor.model.form.edit.FIEdit;
 import yy.doctor.model.form.edit.FIEditIntent;
@@ -14,7 +14,7 @@ import yy.doctor.model.form.text.FITextIntent;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class Builder extends FormBuilder<FormItem> {
+public class Builder extends FormBuilderEx<FormItem> {
 
     public Builder(int type) {
         super(type);
