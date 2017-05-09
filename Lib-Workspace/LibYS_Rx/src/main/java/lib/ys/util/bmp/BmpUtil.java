@@ -19,7 +19,9 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,119 +40,57 @@ public class BmpUtil {
 
     private static final String TAG = BmpUtil.class.getSimpleName();
 
-    public static Config getBmpConfig(Bitmap bmp) {
-        // return bmp.hasAlpha() ? Config.ARGB_8888 : Config.RGB_565;
-        return Config.ARGB_8888;
-    }
+    private static final float KMinValue = 1;
 
     /**
      * 旋转图片，使图片保持正确的方向。
      *
-     * @param bitmap     原始图片
+     * @param bmp        原始图片
      * @param degrees    要旋转的角度
      * @param isVertical 垂直显示图片
-     * @return Bitmap 旋转后的图片
+     * @return 旋转后的图片
      */
-    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees, boolean isVertical) {
-        boolean setRotate = false;
-        if (degrees == 0 || null == bitmap) {
-            return bitmap;
+    public static Bitmap rotateBitmap(@NonNull Bitmap bmp, @IntRange(from = 0, to = 360) int degrees, boolean isVertical) {
+        if (bmp == null) {
+            throw new NullPointerException("bmp can not be null");
         }
-        if (!isVertical) {
-            if (bitmap.getHeight() > bitmap.getWidth()) {
-                setRotate = true;
+
+        if (degrees == 0) {
+            return bmp;
+        }
+
+        boolean needRotate = false;
+        if (isVertical) {
+            if (bmp.getHeight() < bmp.getWidth()) {
+                needRotate = true;
             }
         } else {
-            if (bitmap.getHeight() < bitmap.getWidth()) {
-                setRotate = true;
+            if (bmp.getHeight() > bmp.getWidth()) {
+                needRotate = true;
             }
         }
-        if (setRotate) {
-            return rotateBmpImmutable(bitmap, degrees);
+
+        if (needRotate) {
+            return rotateBmpImmutable(bmp, degrees);
         } else {
-            return bitmap;
+            return bmp;
         }
     }
 
     /**
-     * 根据新的宽高来缩放, 返回的图片是可变的, 可装载入Canvas
+     * 旋转图片
      *
-     * @param srcBmp
-     * @param newWidth
-     * @param newHeight
-     * @return
+     * @param bmp
+     * @param degrees
+     * @return 不可变的图片
      */
-    public static Bitmap resizeBmpMutable(Bitmap srcBmp, float newWidth, float newHeight) {
-        int width = srcBmp.getWidth();
-        int height = srcBmp.getHeight();
-
-        float scaleW = newWidth / (float) width;
-        float scaleH = newHeight / (float) height;
-
-        Matrix matrix = new Matrix();
-        matrix.setScale(scaleW, scaleH);
-
-        Config config = getBmpConfig(srcBmp);
-        Bitmap retBmp = Bitmap.createBitmap((int) newWidth, (int) newHeight, config);
-        Canvas c = createCanvas(retBmp);
-        c.drawBitmap(srcBmp, matrix, null);
-        c = null;
-
-        return retBmp;
-    }
-
-    private static final float KMinValue = 1;
-
-    /**
-     * 根据比例缩放, 返回的图片是可变的, 可装载入Canvas
-     *
-     * @param srcBmp
-     * @param scale
-     * @return
-     */
-    public static Bitmap resizeBmpMutable(Bitmap srcBmp, float scale) {
-        Matrix matrix = new Matrix();
-        matrix.setScale(scale, scale);
-
-        float newWidth = srcBmp.getWidth() * scale;
-        float newHeight = srcBmp.getHeight() * scale;
-
-        if (newWidth < KMinValue) {
-            newWidth = KMinValue;
+    public static Bitmap rotateBmpImmutable(@NonNull Bitmap bmp, @IntRange(from = 0, to = 360) int degrees) {
+        if (bmp == null) {
+            throw new NullPointerException("bmp can not be null");
         }
 
-        if (newHeight < KMinValue) {
-            newHeight = KMinValue;
-        }
-
-        Bitmap retBmp = Bitmap.createBitmap((int) newWidth, (int) newHeight, BmpUtil.getBmpConfig(srcBmp));
-        Canvas c = createCanvas(retBmp);
-        c.drawBitmap(srcBmp, matrix, null);
-
-        return retBmp;
-    }
-
-    /**
-     * 同时缩放和旋转
-     *
-     * @param srcBmp 原图片
-     * @param scale  比例
-     * @param degree 角度
-     * @return 不可变的图片(如果角度为0, scale为1, 那么返回的就是原图)
-     */
-    public static Bitmap resizeAndRotateBmpImmutable(Bitmap srcBmp, float scale, int degree) {
-
-        Matrix matrix = new Matrix();
-        matrix.preScale(scale, scale);
-        matrix.postRotate(degree);
-
-        return Bitmap.createBitmap(srcBmp, 0, 0, srcBmp.getWidth(), srcBmp.getHeight(), matrix, true);
-    }
-
-    public static Bitmap rotateBmpImmutable(Bitmap srcBmp, int degrees) {
-
-        int width = srcBmp.getWidth();
-        int height = srcBmp.getHeight();
+        int w = bmp.getWidth();
+        int h = bmp.getHeight();
 
         Matrix matrix = new Matrix();
         matrix.setRotate(degrees);
@@ -158,20 +98,101 @@ public class BmpUtil {
         /**
          * 不建议使用系统的createScaleBitmap, 不是最清晰的
          */
-        return Bitmap.createBitmap(srcBmp, 0, 0, width, height, matrix, true);
+        return Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
     }
 
-    public static Canvas createCanvas(Bitmap bmp) {
+    /**
+     * 根据宽高缩放, 返回的图片是可变的, 可装载入Canvas
+     *
+     * @param bmp 原始图片
+     * @param w   目标宽
+     * @param h   目标高
+     * @return
+     */
+    public static Bitmap resizeBmpMutable(@NonNull Bitmap bmp,
+                                          @FloatRange(from = 1, to = Float.MAX_VALUE) float w,
+                                          @FloatRange(from = 1, to = Float.MAX_VALUE) float h) {
+        if (bmp == null) {
+            throw new NullPointerException("bmp can not be null");
+        }
+
+        float scaleW = w / (float) bmp.getWidth();
+        float scaleH = h / (float) bmp.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.setScale(scaleW, scaleH);
+
+        Bitmap retBmp = Bitmap.createBitmap((int) w, (int) h, Config.ARGB_8888);
+        Canvas c = createCanvas(retBmp);
+        c.drawBitmap(bmp, matrix, null);
+        c = null;
+
+        return retBmp;
+    }
+
+    /**
+     * 根据比例缩放, 返回的图片是可变的, 可装载入Canvas
+     *
+     * @param bmp
+     * @param scale
+     * @return
+     */
+    public static Bitmap resizeBmpMutable(@NonNull Bitmap bmp, @FloatRange(from = 0, to = Float.MAX_VALUE) float scale) {
+        if (bmp == null) {
+            throw new NullPointerException("bmp can not be null");
+        }
+
+        Matrix matrix = new Matrix();
+        matrix.setScale(scale, scale);
+
+        float w = bmp.getWidth() * scale;
+        float h = bmp.getHeight() * scale;
+
+        if (w < KMinValue) {
+            w = KMinValue;
+        }
+
+        if (h < KMinValue) {
+            h = KMinValue;
+        }
+
+        Bitmap retBmp = Bitmap.createBitmap((int) w, (int) h, Config.ARGB_8888);
+        Canvas c = createCanvas(retBmp);
+        c.drawBitmap(bmp, matrix, null);
+
+        return retBmp;
+    }
+
+    /**
+     * 同时缩放和旋转
+     *
+     * @param bmp    原图片
+     * @param scale  比例
+     * @param degree 角度
+     * @return 不可变的图片(如果角度为0, scale为1, 那么返回的就是原图)
+     */
+    public static Bitmap resizeBmpImmutable(@NonNull Bitmap bmp,
+                                            @FloatRange(from = 0, to = Float.MAX_VALUE) float scale,
+                                            @IntRange(from = 0, to = 360) int degree) {
+
+        Matrix matrix = new Matrix();
+        matrix.preScale(scale, scale);
+        matrix.postRotate(degree);
+
+        return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+    }
+
+    public static Canvas createCanvas(@NonNull Bitmap bmp) {
         Canvas canvas = new Canvas(bmp);
         UIUtil.setCanvasAntialias(canvas);
         return canvas;
     }
 
-    public static byte[] compressJpeg(Bitmap bmp, int quality) {
+    public static byte[] compressJpeg(@NonNull Bitmap bmp, @IntRange(from = 0, to = 100) int quality) {
         return compress(bmp, quality, CompressFormat.JPEG);
     }
 
-    public static byte[] compressPng(Bitmap bmp, int quality) {
+    public static byte[] compressPng(@NonNull Bitmap bmp, @IntRange(from = 0, to = 100) int quality) {
         return compress(bmp, quality, CompressFormat.PNG);
     }
 
@@ -183,7 +204,7 @@ public class BmpUtil {
      * @param format
      * @return
      */
-    public static byte[] compress(Bitmap bmp, int quality, CompressFormat format) {
+    private static byte[] compress(@NonNull Bitmap bmp, @IntRange(from = 0, to = 100) int quality, CompressFormat format) {
         ByteArrayOutputStream baos = null;
         byte[] bytes = null;
         try {
@@ -205,15 +226,15 @@ public class BmpUtil {
         return bytes;
     }
 
-    public static boolean compressPng(Bitmap bmp, File destFile, int quality) {
+    public static boolean compressPng(@NonNull Bitmap bmp, @NonNull File destFile, @IntRange(from = 0, to = 100) int quality) {
         return compress(bmp, destFile, quality, CompressFormat.PNG);
     }
 
-    public static boolean compressJpeg(Bitmap bmp, File destFile, int quality) {
+    public static boolean compressJpeg(@NonNull Bitmap bmp, @NonNull File destFile, @IntRange(from = 0, to = 100) int quality) {
         return compress(bmp, destFile, quality, CompressFormat.JPEG);
     }
 
-    public static boolean compress(Bitmap bmp, File destFile, int quality, CompressFormat format) {
+    private static boolean compress(@NonNull Bitmap bmp, @NonNull File destFile, @IntRange(from = 0, to = 100) int quality, CompressFormat format) {
         FileOutputStream fos = null;
         boolean result = false;
 
@@ -235,18 +256,21 @@ public class BmpUtil {
     /**
      * 根据蒙版叠加图片, 白色保留黑色过滤, 其他颜色自动根据色级调整透明度
      *
-     * @param srcBmp  原图
+     * @param bmp     原图
      * @param maskBmp 蒙版图
      * @return 叠加后的图片
      */
-    public static Bitmap createFilterBmpByMask(Bitmap srcBmp, Bitmap maskBmp) {
+    public static Bitmap createFilterBmpByMask(@NonNull Bitmap bmp, @NonNull Bitmap maskBmp) {
+        if (bmp == null || maskBmp == null) {
+            throw new NullPointerException("bmp or maskBmp can not be null");
+        }
 
-        int width = srcBmp.getWidth();
-        int height = srcBmp.getHeight();
-        int[] bmpPixArray = new int[width * height];
-        int[] maskPixArray = new int[width * height];
-        srcBmp.getPixels(bmpPixArray, 0, width, 0, 0, width, height);
-        maskBmp.getPixels(maskPixArray, 0, width, 0, 0, width, height);
+        int w = bmp.getWidth();
+        int h = bmp.getHeight();
+        int[] bmpPixArray = new int[w * h];
+        int[] maskPixArray = new int[w * h];
+        bmp.getPixels(bmpPixArray, 0, w, 0, 0, w, h);
+        maskBmp.getPixels(maskPixArray, 0, w, 0, 0, w, h);
 
         int color = 0;
         int red = 0;
@@ -266,33 +290,33 @@ public class BmpUtil {
             bmpPixArray[i] = Color.argb(maskAlpha, red, green, blue);
         }
 
-        return Bitmap.createBitmap(bmpPixArray, width, height, Config.ARGB_8888);
+        return Bitmap.createBitmap(bmpPixArray, w, h, Config.ARGB_8888);
     }
 
     /**
      * 对图像进行高斯模糊处理.<strong>该算法耗时</strong>
      *
-     * @param source
+     * @param bmp
      * @param radius 模糊半径，数值越大越模糊
      * @return
      */
-    private static Bitmap fastBlur(Bitmap source, @IntRange(from = 1, to = 25) int radius) {
-        Bitmap bitmap;
-        if (source.isMutable()) {
-            bitmap = source;
+    private static Bitmap fastBlur(@NonNull Bitmap bmp, @IntRange(from = 1, to = 25) int radius) {
+        Bitmap dealBmp;
+        if (bmp.isMutable()) {
+            dealBmp = bmp;
         } else {
-            bitmap = source.copy(source.getConfig(), true);
+            dealBmp = bmp.copy(bmp.getConfig(), true);
         }
 
         if (radius < 1) {
-            return (null);
+            return dealBmp;
         }
 
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
+        int w = dealBmp.getWidth();
+        int h = dealBmp.getHeight();
 
         int[] pix = new int[w * h];
-        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        dealBmp.getPixels(pix, 0, w, 0, 0, w, h);
 
         int wm = w - 1;
         int hm = h - 1;
@@ -477,13 +501,13 @@ public class BmpUtil {
             }
         }
 
-        bitmap.setPixels(pix, 0, w, 0, 0, w, h);
+        dealBmp.setPixels(pix, 0, w, 0, 0, w, h);
 
-        return (bitmap);
+        return (dealBmp);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private static Bitmap rsBlur(Bitmap bitmap, @IntRange(from = 1, to = 25) int radius, Context context) {
+    private static Bitmap rsBlur(@NonNull Bitmap bitmap, @IntRange(from = 1, to = 25) int radius, Context context) {
         RenderScript rs = null;
         try {
             rs = RenderScript.create(context);
@@ -511,46 +535,53 @@ public class BmpUtil {
     /**
      * 模糊算法
      *
-     * @param bitmap
-     * @param radius
+     * @param bmp
+     * @param radius  模糊半径(1-25)
      * @param context
      * @return 如果是mutable的图片, 返回的是原图
      */
-    public static Bitmap blur(Bitmap bitmap, @IntRange(from = 1, to = 25) int radius, Context context) {
+    public static Bitmap blur(@NonNull Bitmap bmp, @IntRange(from = 1, to = 25) int radius, @NonNull Context context) {
         if (DeviceUtil.getSDKVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return rsBlur(bitmap, radius, context);
+            return rsBlur(bmp, radius, context);
         } else {
-            return fastBlur(bitmap, radius);
+            return fastBlur(bmp, radius);
         }
     }
 
-    public static int calcSampleSize(Options opts, int reqWidth, int reqHeight) {
-        int sample = computeSampleSize(opts, reqWidth > reqHeight ? reqHeight : reqWidth, reqWidth * reqHeight);
-        return sample;
-    }
-
-    private static int computeSampleSize(Options opts, int minSideLength, int maxNumOfPixels) {
-        int initialSize = getSimpleSize(opts, minSideLength, maxNumOfPixels);
-
-        int roundedSize;
-        if (initialSize <= 8) {
-            roundedSize = 1;
-            while (roundedSize < initialSize) {
-                roundedSize <<= 1;
-            }
-        } else {
-            roundedSize = (initialSize + 7) / 8 * 8;
-        }
-
-        return roundedSize;
+    /**
+     * 根据宽高计算simple size
+     *
+     * @param opts
+     * @param w
+     * @param h
+     * @return
+     */
+    public static int getSampleSizeByWH(@NonNull Options opts, int w, int h) {
+        return getSimpleSizeByRule(opts, w > h ? h : w, w * h);
     }
 
     private static final int KUnConstrained = -1;
 
     /**
-     * 计算初始的sample size
+     * 根据规范计算simple size
+     *
+     * @param opts
+     * @param maxNumOfPixels
+     * @return
      */
-    public static int getSimpleSize(Options opts, int minSideLength, int maxNumOfPixels) {
+    public static int getSimpleSizeByRule(@NonNull Options opts, int maxNumOfPixels) {
+        return getSimpleSizeByRule(opts, KUnConstrained, maxNumOfPixels);
+    }
+
+    /**
+     * 根据规范计算simple size
+     *
+     * @param opts
+     * @param minSideLength  宽高里最短的长度
+     * @param maxNumOfPixels 最大的像素数量
+     * @return
+     */
+    public static int getSimpleSizeByRule(@NonNull Options opts, int minSideLength, int maxNumOfPixels) {
         double w = opts.outWidth;
         double h = opts.outHeight;
 
@@ -587,21 +618,29 @@ public class BmpUtil {
     /**
      * 保存图片
      *
-     * @param bitmap  要保存的bmp
+     * @param bmp     要保存的bmp
      * @param file    文件
      * @param format  图片格式
      * @param quality 图片质量
      * @return 是否成功保存
      */
-    public static boolean save(Bitmap bitmap, File file, CompressFormat format, int quality) {
-        boolean ret = true;
+    public static boolean save(@NonNull Bitmap bmp, @NonNull File file, int quality, CompressFormat format) {
+        if (bmp == null) {
+            throw new NullPointerException("bmp can no be null");
+        }
+
+        if (file == null) {
+            throw new NullPointerException("file can no be null");
+        }
+
+        boolean result = true;
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
-            bitmap.compress(format, quality, fileOutputStream);
+            bmp.compress(format, quality, fileOutputStream);
         } catch (Exception e) {
             LogMgr.e(TAG, e);
-            ret = false;
+            result = false;
         } finally {
             if (fileOutputStream != null) {
                 try {
@@ -612,7 +651,7 @@ public class BmpUtil {
                 }
             }
         }
-        return ret;
+        return result;
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {

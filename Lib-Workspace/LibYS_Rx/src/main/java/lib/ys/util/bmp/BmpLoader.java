@@ -32,7 +32,7 @@ public class BmpLoader {
 
     public static Bitmap load(@DrawableRes int id, int w, int h) {
         Options opts = ResLoader.getBmpInfo(id);
-        opts.inSampleSize = BmpUtil.calcSampleSize(opts, w, h);
+        opts.inSampleSize = BmpUtil.getSampleSizeByWH(opts, w, h);
         opts.inJustDecodeBounds = false;
         return ResLoader.getBitmap(id, opts);
     }
@@ -60,7 +60,7 @@ public class BmpLoader {
 
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeByteArray(data, 0, data.length, opts);
-        opts.inSampleSize = BmpUtil.getSimpleSize(opts, -1, maxNumOfPixels);
+        opts.inSampleSize = BmpUtil.getSimpleSizeByRule(opts, maxNumOfPixels);
         opts.inJustDecodeBounds = false;
 
         return BitmapFactory.decodeByteArray(data, 0, data.length, opts);
@@ -129,7 +129,7 @@ public class BmpLoader {
 
     public static Bitmap loadPath(String path, int w, int h) {
         Options opt = ResLoader.getBmpInfo(path);
-        opt.inSampleSize = BmpUtil.calcSampleSize(opt, w, h);
+        opt.inSampleSize = BmpUtil.getSampleSizeByWH(opt, w, h);
         opt.inJustDecodeBounds = false;
         return ResLoader.getBitmap(path, opt);
     }
@@ -157,7 +157,7 @@ public class BmpLoader {
      * @return
      */
     public static Bitmap loadPathByPixels(String path, int maxNumOfPixels) {
-        return loadPath(path, BmpUtil.getSimpleSize(ResLoader.getBmpInfo(path), -1, maxNumOfPixels));
+        return loadPath(path, BmpUtil.getSimpleSizeByRule(ResLoader.getBmpInfo(path), maxNumOfPixels));
     }
 
 }

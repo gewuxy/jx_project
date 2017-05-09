@@ -23,6 +23,8 @@ import okhttp3.OkHttpClient;
  */
 public class NetworkRequest {
 
+    private static Context mContext;
+
     private List<NameValuePair> mParams;
     private List<NameByteValuePair> mByteParams;
     private List<NameValuePair> mHeaders;
@@ -196,6 +198,8 @@ public class NetworkRequest {
     }
 
     public static void init(Context context) {
+        mContext = context;
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(30000L, TimeUnit.MILLISECONDS)
@@ -364,5 +368,9 @@ public class NetworkRequest {
             return r;
         }
 
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 }

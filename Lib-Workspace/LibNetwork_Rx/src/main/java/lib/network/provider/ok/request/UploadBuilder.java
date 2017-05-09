@@ -1,6 +1,8 @@
 package lib.network.provider.ok.request;
 
+import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -14,9 +16,9 @@ import java.util.List;
 
 import java8.lang.Iterables;
 import lib.network.LogNetwork;
-import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
+import lib.network.model.OnNetworkListener;
 import lib.network.param.NameByteValuePair;
 import lib.network.param.NameFileValuePair;
 
@@ -35,7 +37,7 @@ public class UploadBuilder extends PostBuilder {
 
         List<NameByteValuePair> byteParams = request().getByteParams();
         if (byteParams != null) {
-            Iterables.forEach(byteParams, p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getValue())));
+            Iterables.forEach(byteParams, p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst(request().getContext()).add(tag(), id(), p.getValue())));
         }
 
         List<NameFileValuePair> fileParams = request().getFileParams();
@@ -64,30 +66,57 @@ public class UploadBuilder extends PostBuilder {
         }
     }
 
+    private static String getBasePath(Context context) {
+        String path;
+        // 兼容6.0的文件动态权限问题, 尽量不进行申请, 某些机型申请不过
+        File diskRootFile = null;
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)
+                && !state.equals(Environment.MEDIA_SHARED)) {
+            diskRootFile = context.getExternalCacheDir();
+        } else {
+            diskRootFile = context.getCacheDir();
+        }
+
+        if (diskRootFile != null) {
+            path = diskRootFile.getPath();
+        } else {
+            throw new IllegalArgumentException("disk is invalid");
+        }
+        return path;
+    }
+
     public static class DeleteOnExit {
 
         public String KTmpSuffix = ".tmp";
         public String KTmpPrefix = "/network_upload_tmp";
 
-
         private List<DeleteUnit> mUnits;
 
         private String mPrefix;
+
         private static DeleteOnExit mSelf;
 
-        private DeleteOnExit() {
+        private DeleteOnExit(@Nullable Context context) {
             mUnits = new ArrayList<>();
 
-            mPrefix = Environment.getExternalStorageDirectory().toString() + KTmpPrefix;
+            mPrefix = getBasePath(context) + KTmpPrefix;
             File file = new File(mPrefix);
             if (!file.exists()) {
                 file.mkdirs();
             }
         }
 
-        public static DeleteOnExit inst() {
-            if (mSelf == null) {
-                mSelf = new DeleteOnExit();
+        /**
+         * FIXME: 用的很别扭. 临时添加了context变量为了初始化保存的路径
+         * FIXME: 但是部分调用来源并没有context, 所以可能为null, 不过流程上不影响, 因为赋值给单例的时候context不为空
+         *
+         * @param context
+         * @return
+         */
+        public static DeleteOnExit inst(@Nullable Context context) {
+            if (mSelf == null && context != null) {
+                mSelf = new DeleteOnExit(context);
             }
             return mSelf;
         }
