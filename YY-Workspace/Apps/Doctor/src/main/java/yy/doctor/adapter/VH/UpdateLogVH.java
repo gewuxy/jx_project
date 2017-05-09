@@ -20,15 +20,15 @@ public class UpdateLogVH extends ViewHolderEx {
     }
 
     public NetworkImageView getIv() {
-        return getView(R.id.epc_iv);
+        return getView(R.id.epc_item_iv);
     }
 
     public TextView getTvName() {
-        return getView(R.id.epc_tv_name);
+        return getView(R.id.epc_item_tv_name);
     }
 
     public TextView getTvEpn() {
-        return getView(R.id.epc_tv_epn);
+        return getView(R.id.epc_item_tv_epn);
     }
 
 

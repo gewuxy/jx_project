@@ -21,7 +21,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/notice_tv_content"
+                android:id="@+id/notice_item_tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="血管病的研究"
@@ -29,7 +29,7 @@
                 android:textColor="@color/text_333"/>
 
             <TextView
-                android:id="@+id/notice_tv_time"
+                android:id="@+id/notice_item_tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -40,7 +40,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/notice_tv_unit"
+            android:id="@+id/notice_item_tv_unit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="YaYa专家讲堂"

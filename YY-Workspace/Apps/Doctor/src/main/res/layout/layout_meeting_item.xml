@@ -70,12 +70,14 @@
 
         <lib.ys.network.image.NetworkImageView
             style="@style/tv.meeting"
+            android:id="@+id/meeting_item_iv_unit_num"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@mipmap/meeting_ic_tumour"/>
 
         <TextView
             style="@style/tv.meeting"
+            android:id="@+id/meeting_item_tv_unit_num"
             android:layout_marginLeft="8dip"
             android:text="广州CDC死因与肿瘤监测科"
             android:textColor="@color/text_333"/>

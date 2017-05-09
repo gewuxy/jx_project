@@ -78,7 +78,7 @@ public class ExchangeActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mIvGoods = findView(R.id.epc_iv);
+        mIvGoods = findView(R.id.epc_item_iv);
     }
 
     @Override

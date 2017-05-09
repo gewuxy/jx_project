@@ -5,7 +5,7 @@ import java.util.List;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.renderer.CornerRenderer;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.UpdateLogVH;
+import yy.doctor.adapter.VH.EpcVH;
 import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
 
@@ -13,7 +13,7 @@ import yy.doctor.model.me.Epc.TEpc;
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class EpcAdapter extends AdapterEx<Epc,UpdateLogVH> {
+public class EpcAdapter extends AdapterEx<Epc,EpcVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -21,7 +21,7 @@ public class EpcAdapter extends AdapterEx<Epc,UpdateLogVH> {
     }
 
     @Override
-    protected void refreshView(int position, UpdateLogVH holder) {
+    protected void refreshView(int position, EpcVH holder) {
 
         List<Epc> list = getData();
 
@@ -33,6 +33,5 @@ public class EpcAdapter extends AdapterEx<Epc,UpdateLogVH> {
                 .load();
 
     }
-
 
 }

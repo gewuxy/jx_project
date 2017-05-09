@@ -19,11 +19,9 @@ import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
-import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
-
-import static yy.doctor.model.unitnum.UnitNum.TUnitNum.nickname;
 
 /**
  * 单位号列表
@@ -46,19 +44,6 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
     public void initData() {
 
         mLetterSize = fitDp(10);
-
-        //模拟数据
-        GroupUnitNum groupUnitNum = new GroupUnitNum();
-
-        groupUnitNum.setLetter("G");
-
-        for (int i = 0; i < 18; i++) {
-            UnitNum unitNum = new UnitNum();
-            unitNum.put(nickname, "广东省第一人民医院" + i);
-            groupUnitNum.add(unitNum);
-        }
-
-        addItem(groupUnitNum);
 
     }
 
@@ -133,7 +118,7 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
     @Override
     public void getDataFromNet() {
 
-        //exeNetworkRequest(0 , NetFactory.unitNum());
+        exeNetworkRequest(0 , NetFactory.unitNum());
 
     }
 
@@ -147,13 +132,30 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
 
     @Override
     public IListResponse<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
+
         return JsonParser.unitNums(text);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+
+        /*IListResponse<GroupUnitNum> listResponse = (IListResponse<GroupUnitNum>) result;
+        List<GroupUnitNum> data = listResponse.getData();
+        String[] str = new String[data.size()];
+        if (listResponse.isSucceed()) {
+            for (int i = 0; i < data.size(); i++) {
+                str[i] = data.get(i).getLetter();
+            }
+        }
+        mSideBar.setData(str);
+        mSideBar.invalidate();*/
     }
 
     @Override
     public boolean canAutoRefresh() {
         if (BuildConfig.TEST) {
-            return false;
+            return true;
         } else {
             return true;
         }

@@ -9,7 +9,9 @@ import lib.network.param.NameValuePair;
 import yy.doctor.model.Profile;
 import yy.doctor.network.UrlUtil.UrlEpc;
 import yy.doctor.network.UrlUtil.UrlEpn;
+import yy.doctor.network.UrlUtil.UrlHome;
 import yy.doctor.network.UrlUtil.UrlRegister;
+import yy.doctor.network.UrlUtil.UrlSearch;
 import yy.doctor.network.UrlUtil.UrlUnitNum;
 import yy.doctor.network.UrlUtil.UrlUser;
 
@@ -48,6 +50,10 @@ public class NetFactory {
         String password = "password";
     }
 
+    private interface HomePara {
+        String type = "type";
+    }
+
     private interface ProfilePara {
         String nickname = "nickname";
         String linkman = "linkman";
@@ -64,6 +70,10 @@ public class NetFactory {
         String address = "address";
     }
 
+    private interface UpHeadImgPara {
+        String file = "file";
+    }
+
     private interface CityPara {
         String city = "preid";
     }
@@ -72,6 +82,19 @@ public class NetFactory {
         String body = "body";
         String subject = "subject";
         String totalAmount = "totalAmount";
+    }
+
+    private interface AttentionPara {
+        String masterId = "masterId";
+        String turnTo = "turnTo";
+    }
+
+    private interface UnitNumDetailPara {
+        String id = "id";
+    }
+
+    private interface SearchPara {
+        String keyword = "keyword";
     }
 
     private interface EpcExchangePara {
@@ -185,6 +208,17 @@ public class NetFactory {
      */
     public static NetworkRequest profile() {
         return newGet(UrlUser.profile)
+                .build();
+    }
+
+    /**
+     *  首页的banner
+     * @param type
+     * @return
+     */
+    public static NetworkRequest banner(int type) {
+        return newGet(UrlHome.banner)
+                .param(HomePara.type , type)
                 .build();
     }
 
@@ -355,6 +389,16 @@ public class NetFactory {
     }
 
     /**
+     * 头像上传
+     * @return
+     */
+    public static NetworkRequest upheadimg(byte[] bytes) {
+        return newUpload(UrlUser.upheadimg)
+                .param(UpHeadImgPara.file, bytes)
+                .build();
+    }
+
+    /**
      * 省份
      *
      * @return
@@ -515,6 +559,50 @@ public class NetFactory {
      */
     public static NetworkRequest unitNum() {
         return newGet(UrlUnitNum.unitNum)
+                .build();
+    }
+
+    /**
+     *  关注单位号 取消关注
+     * @param masterId
+     * @param turnTo   0:取消关注 1：关注
+     * @return
+     */
+    public static NetworkRequest attention(int masterId , int turnTo) {
+        return newGet(UrlUnitNum.attention)
+                .param(AttentionPara.masterId , masterId)
+                .param(AttentionPara.turnTo , turnTo)
+                .build();
+    }
+
+    /**
+     *  单位号详情
+     * @param id
+     * @return
+     */
+    public static NetworkRequest unitNumDetail(int id) {
+        return newGet(UrlUnitNum.unitNumDetail)
+                .param(UnitNumDetailPara.id , id)
+                .build();
+    }
+
+    /**
+     *  搜索页面的推荐单位号
+     * @return
+     */
+    public static NetworkRequest recommendUnitNum() {
+        return newGet(UrlSearch.recommendUnitNum)
+                .build();
+    }
+
+    /**
+     * 搜索单位号
+     * @param keyword
+     * @return
+     */
+    public static NetworkRequest searchUnitnum(String keyword) {
+        return newPost(UrlSearch.searchUnitNum)
+                .param(SearchPara.keyword , keyword)
                 .build();
     }
 

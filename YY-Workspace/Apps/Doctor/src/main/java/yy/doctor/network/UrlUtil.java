@@ -15,7 +15,7 @@ public class UrlUtil {
 
     private static void init() {
         if (mIsDebug) {
-            // 测试线
+            // 测试线  192.168.1.19:8082/
             mHostName = KHttpDef + "www.medcn.com:8081/v7/";
         } else {
             // 正式线
@@ -47,6 +47,7 @@ public class UrlUtil {
         String logout = "logout";
         String profile = "user/info";
         String modify = "user/modify";
+        String upheadimg = "user/upheadimg";
     }
 
     //TODO:register路径 http://www.medcn.com:8081/v7/api/regist/regist
@@ -54,6 +55,10 @@ public class UrlUtil {
         String register = "regist/regist";
         String province = "regist/provinces";
         String city = "regist/cities";
+    }
+
+    public interface UrlHome {
+        String banner = "banner";
     }
 
     public interface Meeting {
@@ -73,6 +78,13 @@ public class UrlUtil {
 
     public interface UrlUnitNum {
         String unitNum = "publicAccount/mySubscribe";
+        String attention = "publicAccount/SubscribeOrNot";
+        String unitNumDetail = "publicAccount/findInfo";
+    }
+
+    public interface UrlSearch {
+        String recommendUnitNum = "publicAccount/recommend";
+        String searchUnitNum = "publicAccount/search";
     }
 
 }

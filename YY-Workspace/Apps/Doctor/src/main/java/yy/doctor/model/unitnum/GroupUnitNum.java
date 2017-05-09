@@ -18,6 +18,7 @@ public class GroupUnitNum {
 
     public GroupUnitNum() {
         mChildren = new ArrayList<>();
+
     }
 
     public UnitNum getChild(int index) {

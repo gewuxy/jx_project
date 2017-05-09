@@ -18,15 +18,15 @@ public class EpnDetailsVH extends ViewHolderEx {
     }
 
     public TextView geTvTime(){
-        return getView(R.id.my_epn_details_tv_time);
+        return getView(R.id.epn_details_item_tv_time);
     }
 
     public TextView geTvNum(){
-        return getView(R.id.my_epn_details_tv_num);
+        return getView(R.id.epn_details_item_tv_num);
     }
 
     public TextView geTvContent(){
-        return getView(R.id.my_epn_details_tv_remark_content);
+        return getView(R.id.epn_details_item_tv_content);
     }
 
 

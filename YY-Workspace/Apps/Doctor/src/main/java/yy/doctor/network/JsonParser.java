@@ -13,6 +13,7 @@ import yy.doctor.model.home.Home;
 import yy.doctor.model.home.HomeMeeting;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
+import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 
 /**
  * @author CaiXiang
@@ -45,8 +46,53 @@ public class JsonParser extends BaseJsonParser {
 
         List<UnitNum> nums = evs(text, UnitNum.class).getData();
 
+        String letter = null;
+
+        String lastLetter = null;
+        GroupUnitNum lastGroupUnitNum = null;
+
+        for (int i = 0; i < nums.size(); i++) {
+
+            letter = nums.get(i).getString(TUnitNum.alpha);
+
+            if (i == 0) {
+
+                GroupUnitNum groupUnitNum = new GroupUnitNum();
+                groupUnitNum.setLetter(letter);
+                groupUnitNum.add(nums.get(i));
+
+                lastLetter = letter;
+                lastGroupUnitNum = groupUnitNum;
+
+            } else {
+
+                if (letter.equals(lastLetter)) {
+
+                    lastGroupUnitNum.add(nums.get(i));
+
+                } else {
+
+                    gs.add(lastGroupUnitNum);
+
+                    GroupUnitNum groupUnitNum = new GroupUnitNum();
+                    groupUnitNum.setLetter(letter);
+                    groupUnitNum.add(nums.get(i));
+
+                    lastLetter = letter;
+                    lastGroupUnitNum = groupUnitNum;
+
+                    if (i == nums.size() - 1) {
+                        gs.add(groupUnitNum);
+                    }
+
+                }
+
+            }
+
+        }
 
         r.setData(gs);
         return r;
     }
+
 }

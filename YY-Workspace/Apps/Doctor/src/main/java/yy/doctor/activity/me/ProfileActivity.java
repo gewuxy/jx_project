@@ -340,7 +340,7 @@ public class ProfileActivity extends BaseFormActivity {
                     }
                     break;
                     case 1: {
-                        getPhotoFromTakePhotos();
+                        getPhotoFromTakePhoto();
                     }
                     break;
                 }
@@ -365,7 +365,7 @@ public class ProfileActivity extends BaseFormActivity {
         PhotoUtil.fromAlbum(this, KCodeAlbum);
     }
 
-    private void getPhotoFromTakePhotos() {
+    private void getPhotoFromTakePhoto() {
         mPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
         PhotoUtil.fromCamera(this, mPhotoPath, KCodePhotograph);
     }

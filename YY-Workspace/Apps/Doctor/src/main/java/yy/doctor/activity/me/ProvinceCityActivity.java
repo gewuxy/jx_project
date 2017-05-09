@@ -10,7 +10,6 @@ import android.widget.ListView;
 import java.util.List;
 
 import lib.network.model.NetworkResponse;
-import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
@@ -85,7 +84,6 @@ public class ProvinceCityActivity extends BaseActivity {
 
                 mListProvincePosition = position;
                 mProvinceAdapter.setSelectItem(position);
-                LogMgr.d(TAG, mProvince.get(position).getString(TProvince.id)+"--------"+position);
                 exeNetworkRequest(1, NetFactory.city(mProvince.get(position).getString(TProvince.id)));
                 //mCityAdapter.setmList(position);
             }

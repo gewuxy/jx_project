@@ -7,11 +7,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
+
+import lib.network.model.NetworkResponse;
+import lib.ys.LogMgr;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.activity.base.BaseActivity;
+import lib.yy.network.Response;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.me.ClipImage;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -65,7 +74,15 @@ public class ClipImageActivity extends BaseActivity {
                     mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
                     ImageView img = findView(R.id.img);
                     img.setImageBitmap(mBmp);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    mBmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+                    refresh(RefreshWay.dialog);
+                    exeNetworkRequest(0 , NetFactory.upheadimg(baos.toByteArray()));
                 }
+
+
 
                 mPv.destroyDrawingCache();
             }
@@ -95,4 +112,27 @@ public class ClipImageActivity extends BaseActivity {
             mBmp = null;
         }
     }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+
+        LogMgr.d("www01" , nr.getText());
+        return JsonParser.ev(nr.getText() , ClipImage.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+
+        stopRefresh();
+
+        Response<ClipImage> r = (Response<ClipImage>) result;
+        if (r.isSucceed()) {
+            showToast("头像修改成功");
+        } else {
+            showToast("头像修改失败");
+        }
+
+    }
+
 }

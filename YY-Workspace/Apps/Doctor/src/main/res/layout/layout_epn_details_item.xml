@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/my_epn_details_tv_time"
+        android:id="@+id/epn_details_item_tv_time"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:background="@color/app_bg"
@@ -29,7 +29,7 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/my_epn_details_tv_status"
+            android:id="@+id/epn_details_item_tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="支付："
@@ -37,30 +37,30 @@
             android:textColor="@color/text_006ebd"/>
 
         <TextView
-            android:id="@+id/my_epn_details_tv_num"
+            android:id="@+id/epn_details_item_tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/my_epn_details_tv_status"
+            android:layout_toRightOf="@+id/epn_details_item_tv_status"
             android:text="12"
             android:textSize="14dp"
             android:textColor="@color/text_006ebd"/>
 
         <TextView
-            android:id="@+id/my_epn_details_tv_remark"
+            android:id="@+id/epn_details_item_tv_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/my_epn_details_tv_status"
+            android:layout_below="@+id/epn_details_item_tv_status"
             android:layout_marginTop="16dp"
             android:text="备注："
             android:textSize="14dp"
             android:textColor="@color/text_006ebd"/>
 
         <TextView
-            android:id="@+id/my_epn_details_tv_remark_content"
+            android:id="@+id/epn_details_item_tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/my_epn_details_tv_remark"
-            android:layout_below="@+id/my_epn_details_tv_num"
+            android:layout_toRightOf="@+id/epn_details_item_tv_remark"
+            android:layout_below="@+id/epn_details_item_tv_num"
             android:layout_marginTop="16dp"
             android:lineSpacingExtra="12dp"
             android:text="及时的发货及时看是的尽快发空间撒是的开放接口都是是的肌肤可使肌肤可是对方开始的减肥可见分开的肌肤"

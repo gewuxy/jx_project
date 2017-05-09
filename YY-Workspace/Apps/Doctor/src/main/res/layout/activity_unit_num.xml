@@ -21,7 +21,7 @@
     <lib.ys.view.SideBar
         android:id="@+id/unit_num_side_bar"
         android:layout_width="12dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@drawable/transparent"/>

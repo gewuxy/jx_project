@@ -18,15 +18,15 @@ public class NoticeVH extends ViewHolderEx {
     }
 
     public TextView getTvContent(){
-        return getView(R.id.notice_tv_content);
+        return getView(R.id.notice_item_tv_content);
     }
 
     public TextView getTvTime(){
-        return getView(R.id.notice_tv_time);
+        return getView(R.id.notice_item_tv_time);
     }
 
     public TextView getTvUnit(){
-        return getView(R.id.notice_tv_unit);
+        return getView(R.id.notice_item_tv_unit);
     }
 
 }
