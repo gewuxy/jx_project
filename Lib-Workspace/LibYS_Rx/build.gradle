@@ -20,7 +20,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':Lib-Workspace:LibNetwork')
+    compile project(':Lib-Workspace:LibNetwork_Rx')
 
     /**
      * support包相关
