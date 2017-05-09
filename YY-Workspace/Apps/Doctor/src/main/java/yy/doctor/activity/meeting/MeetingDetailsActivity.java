@@ -29,7 +29,7 @@ import yy.doctor.util.Util;
 
 /**
  * 会议详情界面
- * <p>
+ *
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
