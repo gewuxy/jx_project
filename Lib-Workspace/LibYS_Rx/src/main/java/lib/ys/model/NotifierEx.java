@@ -6,7 +6,6 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import lib.ys.util.GenericUtil;
 
 
@@ -39,7 +38,7 @@ abstract public class NotifierEx<I> {
                 .map(aClass -> (I[]) Array.newInstance(aClass, mObservers.size()))
                 .map(is -> mObservers.toArray(is))
                 .flatMap(is -> Flowable.fromArray(is))
-                .subscribeOn(Schedulers.computation())
+//                .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> callback(i, type, data));
 

@@ -18,7 +18,7 @@ import lib.ys.util.res.ResLoader;
  *
  * @author yuansui
  */
-abstract public class FormBuilder<Item extends FormItemEx> {
+abstract public class FormBuilderEx<Item extends FormItemEx> {
 
     private int mType;
 
@@ -64,43 +64,43 @@ abstract public class FormBuilder<Item extends FormItemEx> {
     private String mToast;
 
 
-    public FormBuilder(int type) {
+    public FormBuilderEx(int type) {
         mType = type;
         mEnable = initEnable();
         mVisible = true;
     }
 
-    public <T extends FormBuilder<Item>> T name(String name) {
+    public <T extends FormBuilderEx<Item>> T name(String name) {
         mName = name;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T val(Object val) {
+    public <T extends FormBuilderEx<Item>> T val(Object val) {
         mVal = val;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T key(Object key) {
+    public <T extends FormBuilderEx<Item>> T key(Object key) {
         mKey = key;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T name(@StringRes int id) {
+    public <T extends FormBuilderEx<Item>> T name(@StringRes int id) {
         mName = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T text(CharSequence text) {
+    public <T extends FormBuilderEx<Item>> T text(CharSequence text) {
         mText = text;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T multiText(CharSequence... texts) {
+    public <T extends FormBuilderEx<Item>> T multiText(CharSequence... texts) {
         mTextMulti = texts;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T multiText(@StringRes int... ids) {
+    public <T extends FormBuilderEx<Item>> T multiText(@StringRes int... ids) {
         int len = ids.length;
         if (len == 0) {
             return (T) this;
@@ -114,152 +114,152 @@ abstract public class FormBuilder<Item extends FormItemEx> {
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T text(@StringRes int id) {
+    public <T extends FormBuilderEx<Item>> T text(@StringRes int id) {
         mText = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T hint(String hint) {
+    public <T extends FormBuilderEx<Item>> T hint(String hint) {
         mHint = hint;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T hint(@StringRes int id) {
+    public <T extends FormBuilderEx<Item>> T hint(@StringRes int id) {
         mHint = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T tips(String tips) {
+    public <T extends FormBuilderEx<Item>> T tips(String tips) {
         mTips = tips;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T tips(@StringRes int id) {
+    public <T extends FormBuilderEx<Item>> T tips(@StringRes int id) {
         mTips = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T enable(boolean able) {
+    public <T extends FormBuilderEx<Item>> T enable(boolean able) {
         mEnable = able;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T related(Object related) {
+    public <T extends FormBuilderEx<Item>> T related(Object related) {
         mRelated = related;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T data(Object data) {
+    public <T extends FormBuilderEx<Item>> T data(Object data) {
         mData = data;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T option(Object option) {
+    public <T extends FormBuilderEx<Item>> T option(Object option) {
         mOption = option;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T host(Object host) {
+    public <T extends FormBuilderEx<Item>> T host(Object host) {
         mHost = host;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T width(int w) {
+    public <T extends FormBuilderEx<Item>> T width(int w) {
         mWidth = w;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T height(int h) {
+    public <T extends FormBuilderEx<Item>> T height(int h) {
         mHeight = h;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T column(int c) {
+    public <T extends FormBuilderEx<Item>> T column(int c) {
         mColumn = c;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T limit(int limit) {
+    public <T extends FormBuilderEx<Item>> T limit(int limit) {
         mLimit = limit;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T background(@ColorInt int color) {
+    public <T extends FormBuilderEx<Item>> T background(@ColorInt int color) {
         mBgColor = color;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T backgroundRes(@ColorRes int id) {
+    public <T extends FormBuilderEx<Item>> T backgroundRes(@ColorRes int id) {
         mBgColor = ResLoader.getColor(id);
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T mode(int mode) {
+    public <T extends FormBuilderEx<Item>> T mode(int mode) {
         mMode = mode;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T drawable(@DrawableRes int id) {
+    public <T extends FormBuilderEx<Item>> T drawable(@DrawableRes int id) {
         mDrawableId = id;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T drawable(String url) {
+    public <T extends FormBuilderEx<Item>> T drawable(String url) {
         mDrawableUrl = url;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T layout(@LayoutRes int id) {
+    public <T extends FormBuilderEx<Item>> T layout(@LayoutRes int id) {
         mLayoutId = id;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T toast(String toast) {
+    public <T extends FormBuilderEx<Item>> T toast(String toast) {
         mToast = toast;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T intent(Intent i) {
+    public <T extends FormBuilderEx<Item>> T intent(Intent i) {
         mIntent = i;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T children(List children) {
+    public <T extends FormBuilderEx<Item>> T children(List children) {
         mChildren = children;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T depend(Object depend) {
+    public <T extends FormBuilderEx<Item>> T depend(Object depend) {
         mDepend = depend;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T regex(String regex) {
+    public <T extends FormBuilderEx<Item>> T regex(String regex) {
         mRegex = regex;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T check(boolean check) {
+    public <T extends FormBuilderEx<Item>> T check(boolean check) {
         mCheck = check;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T index(int index) {
+    public <T extends FormBuilderEx<Item>> T index(int index) {
         mIndex = index;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T id(int id) {
+    public <T extends FormBuilderEx<Item>> T id(int id) {
         mId = id;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T visible(boolean visible) {
+    public <T extends FormBuilderEx<Item>> T visible(boolean visible) {
         mVisible = visible;
         return (T) this;
     }
 
-    public <T extends FormBuilder<Item>> T observer(OnFormObserver observer) {
+    public <T extends FormBuilderEx<Item>> T observer(OnFormObserver observer) {
         mObserver = observer;
         return (T) this;
     }
