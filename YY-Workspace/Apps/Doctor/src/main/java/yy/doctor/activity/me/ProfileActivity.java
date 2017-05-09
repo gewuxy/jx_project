@@ -335,7 +335,9 @@ public class ProfileActivity extends BaseFormActivity {
 
                 switch (position) {
                     case 0: {
-                        getPhotoFromAlbum();
+                        if (checkPermission(KPermissionCodePhoto, Permission.storage)) {
+                            getPhotoFromAlbum();
+                        }
                     }
                     break;
                     case 1: {
@@ -492,49 +494,6 @@ public class ProfileActivity extends BaseFormActivity {
         }
     }
 
-
-//    /**
-//     * 解决小米手机上获取图片路径为null的情况
-//     *
-//     * @param intent
-//     * @return
-//     */
-//    public Uri getUri(Intent intent) {
-//        Uri uri = intent.getData();
-//        String type = intent.getType();
-//        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
-//            String path = uri.getEncodedPath();
-//            if (path != null) {
-//                path = Uri.decode(path);
-//                ContentResolver cr = this.getContentResolver();
-//                StringBuffer buff = new StringBuffer();
-//                buff.append("(").append(Images.ImageColumns.DATA).append("=")
-//                        .append("'" + path + "'").append(")");
-//                Cursor cur = cr.query(Images.Media.EXTERNAL_CONTENT_URI,
-//                        new String[]{Images.ImageColumns._ID},
-//                        buff.toString(), null, null);
-//                int index = 0;
-//                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
-//                    index = cur.getColumnIndex(Images.ImageColumns._ID);
-//                    // set _id value
-//                    index = cur.getInt(index);
-//                }
-//                if (index == 0) {
-//                    // do nothing
-//                } else {
-//                    Uri uri_temp = Uri
-//                            .parse("content://media/external/images/media/"
-//                                    + index);
-//                    if (uri_temp != null) {
-//                        uri = uri_temp;
-//                    }
-//                }
-//            }
-//        }
-//        return uri;
-//    }
-
-
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
         if (code == KPermissionCodePhoto) {
@@ -545,10 +504,23 @@ public class ProfileActivity extends BaseFormActivity {
                 break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    showToast("请开启.....权限");
+                    showToast("请开启拍照权限");
+                }
+                break;
+            }
+        } else if (code == KPermissionCodeAlbum) {
+            switch (result) {
+                case PermissionResult.granted: {
+                    getPhotoFromAlbum();
+                }
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    showToast("请开启查看相册权限");
                 }
                 break;
             }
         }
     }
+
 }

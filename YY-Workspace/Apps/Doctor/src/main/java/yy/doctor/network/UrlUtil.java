@@ -43,11 +43,11 @@ public class UrlUtil {
     }
 
     public interface UrlUser {
-        String login = "login";
-        String logout = "logout";
-        String profile = "user/info";
-        String modify = "user/modify";
-        String upheadimg = "user/upheadimg";
+        String KLogin = "login";
+        String KLogout = "logout";
+        String KProfile = "user/info";
+        String KModify = "user/modify";
+        String KUpHeaderImg = "user/upheadimg";
     }
 
     public interface UrlRegister {
@@ -60,7 +60,7 @@ public class UrlUtil {
     }
 
     public interface UrlHome {
-        String banner = "banner";
+        String Banner = "banner";
     }
 
     public interface UrlMeet {
@@ -83,25 +83,25 @@ public class UrlUtil {
     }
 
     public interface UrlEpn {
-        String epndetails = "shop/tradeInfo";
-        String epnrecharge = "alipay/recharge";
+        String KEpnDetails = "shop/tradeInfo";
+        String KEpnRecharge = "alipay/recharge";
     }
 
     public interface UrlEpc {
-        String exchange = "shop/buy";
-        String order = "shop/order";
-        String epc = "shop/goods";
+        String KExchange = "shop/buy";
+        String KOrder = "shop/order";
+        String KEpc = "shop/goods";
     }
 
     public interface UrlUnitNum {
-        String unitNum = "publicAccount/mySubscribe";
-        String attention = "publicAccount/SubscribeOrNot";
-        String unitNumDetail = "publicAccount/findInfo";
+        String KUnitNum = "publicAccount/mySubscribe";
+        String KAttention = "publicAccount/SubscribeOrNot";
+        String KUnitNumDetail = "publicAccount/findInfo";
     }
 
     public interface UrlSearch {
-        String recommendUnitNum = "publicAccount/recommend";
-        String searchUnitNum = "publicAccount/search";
+        String KRecommendUnitNum = "publicAccount/recommend";
+        String KSearchUnitNum = "publicAccount/search";
     }
 
 }

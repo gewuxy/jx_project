@@ -59,7 +59,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/recharge_epn_tv_total"
+                android:id="@+id/recharge_tv_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -100,7 +100,7 @@
             android:textSize="14dp"/>
 
         <TextView
-            android:id="@+id/recharge_epn_tv_yuan"
+            android:id="@+id/recharge_tv_yuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -110,7 +110,7 @@
             android:textSize="14dp"/>
 
         <EditText
-            android:id="@+id/recharge_epn_et_num"
+            android:id="@+id/recharge_et_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -120,10 +120,10 @@
             android:hint="输入整数"
             android:textColor="@color/text_333"
             android:textSize="14dp"
-            android:layout_alignBaseline="@+id/recharge_epn_tv_yuan"
-            android:layout_alignBottom="@+id/recharge_epn_tv_yuan"
-            android:layout_toLeftOf="@+id/recharge_epn_tv_yuan"
-            android:layout_toStartOf="@+id/recharge_epn_tv_yuan"/>
+            android:layout_alignBaseline="@+id/recharge_tv_yuan"
+            android:layout_alignBottom="@+id/recharge_tv_yuan"
+            android:layout_toLeftOf="@+id/recharge_tv_yuan"
+            android:layout_toStartOf="@+id/recharge_tv_yuan"/>
 
     </RelativeLayout>
 
@@ -150,7 +150,7 @@
         android:paddingRight="@dimen/margin">
 
         <ImageView
-            android:id="@+id/recharge_epn_iv_alipay"
+            android:id="@+id/recharge_iv_alipay"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_alignParentLeft="true"
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
-            android:layout_toRightOf="@id/recharge_epn_iv_alipay"
+            android:layout_toRightOf="@id/recharge_iv_alipay"
             android:text="支付宝"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
@@ -184,7 +184,7 @@
 
     <TextView
         style="@style/tv.common"
-        android:id="@+id/recharge_epn_tv_pay"
+        android:id="@+id/recharge_tv_pay"
         android:layout_marginTop="24dp"
         android:text="确定充值"/>
 

@@ -6,12 +6,15 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.EpcExchangePara;
 import yy.doctor.network.UrlUtil.UrlEpc;
 
+/**
+ * 兑换的Builder
+ */
 public class ExchangeBuilder {
 
     private Builder mBuilder;
 
     public ExchangeBuilder() {
-        mBuilder = NetFactory.newPost(UrlEpc.exchange);
+        mBuilder = NetFactory.newPost(UrlEpc.KExchange);
     }
 
     /**
@@ -21,7 +24,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder goodsId(String goodsId) {
-        mBuilder.param(EpcExchangePara.goodsId, goodsId);
+        mBuilder.param(EpcExchangePara.KGoodsId, goodsId);
         return this;
     }
 
@@ -32,7 +35,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder price(String price) {
-        mBuilder.param(EpcExchangePara.price, price);
+        mBuilder.param(EpcExchangePara.KPrice, price);
         return this;
     }
 
@@ -43,7 +46,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder receiver(String receiver) {
-        mBuilder.param(EpcExchangePara.receiver, receiver);
+        mBuilder.param(EpcExchangePara.KReceiver, receiver);
         return this;
     }
 
@@ -54,7 +57,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder phone(String phone) {
-        mBuilder.param(EpcExchangePara.phone, phone);
+        mBuilder.param(EpcExchangePara.KPhone, phone);
         return this;
     }
 
@@ -65,7 +68,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder province(String province) {
-        mBuilder.param(EpcExchangePara.province, province);
+        mBuilder.param(EpcExchangePara.KProvince, province);
         return this;
     }
 
@@ -76,7 +79,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder address(String address) {
-        mBuilder.param(EpcExchangePara.address, address);
+        mBuilder.param(EpcExchangePara.KAddress, address);
         return this;
     }
 
@@ -87,7 +90,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder buyLimit(String buyLimit) {
-        mBuilder.param(EpcExchangePara.buyLimit, buyLimit);
+        mBuilder.param(EpcExchangePara.KBuyLimit, buyLimit);
         return this;
     }
 

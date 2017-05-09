@@ -17,6 +17,7 @@ import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
+import lib.yy.network.ListResponse;
 import yy.doctor.R;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
@@ -130,14 +131,9 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
 
     @Override
     public IListResponse<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
-        return JsonParser.unitNums(text);
-    }
 
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
 
-        IListResponse<GroupUnitNum> listResponse = (IListResponse<GroupUnitNum>) result;
+        ListResponse<GroupUnitNum> listResponse = JsonParser.unitNums(text);
         List<GroupUnitNum> data = listResponse.getData();
         String[] str = new String[data.size()];
         if (listResponse.isSucceed()) {
@@ -147,6 +143,8 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
         }
         mSideBar.setData(str);
         mSideBar.invalidate();
+
+        return listResponse;
     }
 
 }

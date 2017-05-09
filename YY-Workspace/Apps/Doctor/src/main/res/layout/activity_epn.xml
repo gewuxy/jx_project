@@ -22,7 +22,7 @@
             android:textColor="@color/text_80fff"/>
 
         <TextView
-            android:id="@+id/my_epn_tv"
+            android:id="@+id/epn_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -35,7 +35,7 @@
 
     <TextView
         style="@style/tv.common"
-        android:id="@+id/my_epe_recharge_epn_tv"
+        android:id="@+id/epe_tv_btn"
         android:layout_marginTop="42dp"
         android:layout_below="@+id/layout_my_elephant"
         android:text="充值象数"/>
@@ -56,7 +56,7 @@
             android:textColor="@color/text_808080"/>
 
         <TextView
-            android:id="@+id/my_epn_instruction"
+            android:id="@+id/epn_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"

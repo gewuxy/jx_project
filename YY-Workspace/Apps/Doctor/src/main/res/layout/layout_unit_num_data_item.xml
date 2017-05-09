@@ -19,7 +19,7 @@
             android:src="@mipmap/unit_num_detail_ic_file"/>
 
         <TextView
-            android:id="@+id/unit_num_data_tv"
+            android:id="@+id/unit_num_data_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -78,7 +78,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
     public void addItem(CharSequence text, @ColorInt int color) {
 //        View v = getLayoutInflater().inflate(R.layout.layout_dialog_bottom_item, null);
 //
-//        TextView tv = (TextView) v.findViewById(R.id.dialog_bottom_tv);
+//        TextView tv = (TextView) v.findViewById(R.KId.dialog_bottom_tv);
 //        tv.setText(text);
 //        tv.setTextColor(color);
 //

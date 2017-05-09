@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -60,7 +61,28 @@ public class ChangePwdActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.change_pwd_tv: {
-                showToast("45564");
+
+                String oldPwd = mEtOldPwd.getText().toString();
+                String newPwd = mEtNewPwd.getText().toString();
+                String confirmPwd = mEtConfirmPwd.getText().toString();
+
+                if (TextUtil.isEmpty(oldPwd)) {
+                    showToast("请输入旧密码");
+                }
+
+                if (TextUtil.isEmpty(newPwd)) {
+                    showToast("请输入新密码");
+                }
+
+                if (TextUtil.isEmpty(confirmPwd)) {
+                    showToast("请输入确认密码");
+                }
+
+                if (!newPwd.equals(confirmPwd)) {
+                    showToast("确认密码与新密码不一致！");
+                }
+
+
             }
             break;
         }

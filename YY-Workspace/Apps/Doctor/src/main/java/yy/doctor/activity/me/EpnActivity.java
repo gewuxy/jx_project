@@ -3,6 +3,7 @@ package yy.doctor.activity.me;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
@@ -16,6 +17,8 @@ import yy.doctor.util.Util;
  * @since 2017/4/13
  */
 public class EpnActivity extends BaseActivity {
+
+    private TextView mTvEpn;
 
     @Override
     public void initData() {
@@ -42,13 +45,15 @@ public class EpnActivity extends BaseActivity {
 
     @Override
     public void findViews() {
+
+        mTvEpn = findView(R.id.epn_tv);
     }
 
     @Override
     public void setViews() {
 
-        setOnClickListener(R.id.my_epn_instruction);
-        setOnClickListener(R.id.my_epe_recharge_epn_tv);
+        setOnClickListener(R.id.epn_instruction);
+        setOnClickListener(R.id.epe_tv_btn);
 
     }
 
@@ -58,11 +63,11 @@ public class EpnActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.my_epe_recharge_epn_tv: {
+            case R.id.epe_tv_btn: {
                 startActivity(EpnRechargeActivity.class);
             }
             break;
-            case R.id.my_epn_instruction: {
+            case R.id.epn_instruction: {
                 startActivity(EpnUseRuleActivity.class);
             }
             break;

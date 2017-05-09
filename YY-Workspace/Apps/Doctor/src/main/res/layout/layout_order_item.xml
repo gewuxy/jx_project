@@ -14,6 +14,7 @@
         android:paddingLeft="@dimen/margin">
 
         <TextView
+            android:id="@+id/order_item_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手工打磨"
@@ -34,6 +35,7 @@
                 android:textColor="@color/text_888"/>
 
             <TextView
+                android:id="@+id/order_item_tv_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1件"
@@ -70,6 +72,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_order_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1155225652"
@@ -92,6 +95,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="未接收"
@@ -137,6 +141,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_pay_epn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20象数"
@@ -159,6 +164,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="@dimen/margin"
@@ -182,6 +188,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15968523256"
@@ -204,6 +211,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_receiver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="成才"
@@ -226,6 +234,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
+                android:id="@+id/order_item_tv_order_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="顺丰快递"

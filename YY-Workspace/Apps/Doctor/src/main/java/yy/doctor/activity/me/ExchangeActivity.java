@@ -1,6 +1,8 @@
 package yy.doctor.activity.me;
 
+import android.support.annotation.IntDef;
 import android.view.View;
+import android.widget.TextView;
 
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
@@ -26,6 +28,26 @@ import yy.doctor.network.NetFactory;
 public class ExchangeActivity extends BaseFormActivity {
 
     private NetworkImageView mIvGoods;
+    private TextView mTvName;
+    private TextView mTvEpn;
+
+    @IntDef({
+            RelatedId.receiver,
+            RelatedId.mobile,
+
+            RelatedId.province_city,
+            RelatedId.address,
+
+    })
+    private @interface RelatedId {
+
+        int receiver = 0;
+        int mobile = 1;
+
+        int province_city = 2;
+        int address = 3;
+
+    }
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -41,24 +63,28 @@ public class ExchangeActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.et_register)
+                .related(RelatedId.receiver)
                 .hint("收货人")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et_register)
+                .related(RelatedId.mobile)
                 .hint("手机号")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.et_register)
+                .related(RelatedId.province_city)
                 .hint("广东 广州")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et_register)
+                .related(RelatedId.address)
                 .hint("详细地址")
                 .build());
 
@@ -79,6 +105,8 @@ public class ExchangeActivity extends BaseFormActivity {
         super.findViews();
 
         mIvGoods = findView(R.id.epc_item_iv);
+        mTvName = findView(R.id.epc_item_tv_name);
+        mTvEpn = findView(R.id.epc_item_tv_epn);
     }
 
     @Override

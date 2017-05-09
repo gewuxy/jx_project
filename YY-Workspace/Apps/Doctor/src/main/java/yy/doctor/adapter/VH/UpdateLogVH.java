@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 
 /**
@@ -19,17 +18,12 @@ public class UpdateLogVH extends ViewHolderEx {
 
     }
 
-    public NetworkImageView getIv() {
-        return getView(R.id.epc_item_iv);
+    public TextView getTvTime() {
+        return getView(R.id.update_log_item_tv_time);
     }
 
-    public TextView getTvName() {
-        return getView(R.id.epc_item_tv_name);
+    public TextView getTvContent() {
+        return getView(R.id.update_log_item_tv_content);
     }
-
-    public TextView getTvEpn() {
-        return getView(R.id.epc_item_tv_epn);
-    }
-
 
 }

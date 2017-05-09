@@ -54,8 +54,8 @@ public class NetFactory {
     }
 
     public interface UserParam {
-        String username = "username";
-        String password = "password";
+        String KUserName = "username";
+        String KPassword = "password";
     }
 
     public interface MeetParam {
@@ -85,60 +85,60 @@ public class NetFactory {
     }
 
     private interface HomePara {
-        String type = "type";
+        String KType = "type";
     }
 
     public interface ProfilePara {
-        String nickname = "nickname";
-        String linkman = "linkman";
-        String mobile = "mobile";
-        String headimg = "headimg";
-        String province = "province";
-        String city = "city";
-        String licence = "licence";
-        String major = "major";
-        String place = "place";
-        String title = "title";
-        String hospital = "hospital";
-        String department = "department";
-        String address = "address";
+        String KNickname = "nickname";
+        String KLinkman = "linkman";
+        String KMobile = "mobile";
+        String KHeadImg = "headimg";
+        String KProvince = "province";
+        String KCity = "city";
+        String KLicence = "licence";
+        String KMajor = "major";
+        String KPlace = "place";
+        String KTitle = "title";
+        String KHospital = "hospital";
+        String KDepartment = "department";
+        String KAddress = "address";
     }
 
     private interface UpHeadImgPara {
-        String file = "file";
+        String KFile = "file";
     }
 
     public interface CityPara {
-        String city = "preid";
+        String KCity = "preid";
     }
 
     public interface EpnRechargePara {
-        String body = "body";
-        String subject = "subject";
-        String totalAmount = "totalAmount";
+        String KBody = "body";
+        String KSubject = "subject";
+        String KTotalAmount = "totalAmount";
     }
 
     private interface AttentionPara {
-        String masterId = "masterId";
-        String turnTo = "turnTo";
+        String KMasterId = "masterId";
+        String KTurnTo = "turnTo";
     }
 
     private interface UnitNumDetailPara {
-        String id = "id";
+        String KId = "id";
     }
 
     private interface SearchPara {
-        String keyword = "keyword";
+        String KKeyword = "keyword";
     }
 
     public interface EpcExchangePara {
-        String goodsId = "goodsId";
-        String price = "price";
-        String receiver = "receiver";
-        String phone = "phone";
-        String province = "province";
-        String address = "address";
-        String buyLimit = "buyLimit";
+        String KGoodsId = "goodsId";
+        String KPrice = "price";
+        String KReceiver = "receiver";
+        String KPhone = "phone";
+        String KProvince = "KProvince";
+        String KAddress = "KAddress";
+        String KBuyLimit = "buyLimit";
     }
 
     /**
@@ -178,9 +178,9 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest login(String name, String pwd) {
-        return newGet(UrlUser.login)
-                .param(UserParam.username, name)
-                .param(UserParam.password, pwd)
+        return newGet(UrlUser.KLogin)
+                .param(UserParam.KUserName, name)
+                .param(UserParam.KPassword, pwd)
                 .build();
     }
 
@@ -190,7 +190,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest logout() {
-        return newGet(UrlUser.logout)
+        return newGet(UrlUser.KLogout)
                 .param(CommonParam.KToken, Profile.inst().getString(token))
                 .build();
     }
@@ -201,7 +201,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest profile() {
-        return newGet(UrlUser.profile).build();
+        return newGet(UrlUser.KProfile).build();
     }
 
     /**
@@ -211,8 +211,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest banner(int type) {
-        return newGet(UrlHome.banner)
-                .param(HomePara.type, type)
+        return newGet(UrlHome.Banner)
+                .param(HomePara.KType, type)
                 .build();
     }
 
@@ -231,8 +231,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest upheadimg(byte[] bytes) {
-        return newUpload(UrlUser.upheadimg)
-                .param(UpHeadImgPara.file, bytes)
+        return newUpload(UrlUser.KUpHeaderImg)
+                .param(UpHeadImgPara.KFile, bytes)
                 .build();
     }
 
@@ -251,9 +251,9 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest city(String preid) {
+    public static NetworkRequest city(String preId) {
         return newGet(UrlRegister.KCity)
-                .param(CityPara.city, preid)
+                .param(CityPara.KCity, preId)
                 .build();
     }
 
@@ -263,7 +263,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest epnDedails() {
-        return newGet(UrlEpn.epndetails)
+        return newGet(UrlEpn.KEpnDetails)
                 .build();
     }
 
@@ -273,9 +273,9 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest epnRecharge(String subject, String totalAmount) {
-        return newPost(UrlEpn.epnrecharge)
-                .param(EpnRechargePara.subject, subject)
-                .param(EpnRechargePara.totalAmount, totalAmount)
+        return newPost(UrlEpn.KEpnRecharge)
+                .param(EpnRechargePara.KSubject, subject)
+                .param(EpnRechargePara.KTotalAmount, totalAmount)
                 .build();
     }
 
@@ -296,7 +296,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest order() {
-        return newGet(UrlEpc.order)
+        return newGet(UrlEpc.KOrder)
                 .build();
     }
 
@@ -306,7 +306,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest epc() {
-        return newGet(UrlEpc.epc)
+        return newGet(UrlEpc.KEpc)
                 .build();
     }
 
@@ -316,7 +316,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest unitNum() {
-        return newGet(UrlUnitNum.unitNum)
+        return newGet(UrlUnitNum.KUnitNum)
                 .build();
     }
 
@@ -328,9 +328,9 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest attention(int masterId, int turnTo) {
-        return newGet(UrlUnitNum.attention)
-                .param(AttentionPara.masterId, masterId)
-                .param(AttentionPara.turnTo, turnTo)
+        return newGet(UrlUnitNum.KAttention)
+                .param(AttentionPara.KMasterId, masterId)
+                .param(AttentionPara.KTurnTo, turnTo)
                 .build();
     }
 
@@ -341,8 +341,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest unitNumDetail(int id) {
-        return newGet(UrlUnitNum.unitNumDetail)
-                .param(UnitNumDetailPara.id, id)
+        return newGet(UrlUnitNum.KUnitNumDetail)
+                .param(UnitNumDetailPara.KId, id)
                 .build();
     }
 
@@ -352,7 +352,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest recommendUnitNum() {
-        return newGet(UrlSearch.recommendUnitNum)
+        return newGet(UrlSearch.KRecommendUnitNum)
                 .build();
     }
 
@@ -363,8 +363,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest searchUnitnum(String keyword) {
-        return newPost(UrlSearch.searchUnitNum)
-                .param(SearchPara.keyword, keyword)
+        return newPost(UrlSearch.KSearchUnitNum)
+                .param(SearchPara.KKeyword, keyword)
                 .build();
     }
 

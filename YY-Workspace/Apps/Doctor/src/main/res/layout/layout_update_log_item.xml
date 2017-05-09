@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/update_log_tv_time"
+        android:id="@+id/update_log_item_tv_time"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:gravity="center_vertical"
@@ -19,7 +19,7 @@
         style="@style/divider"/>
 
     <TextView
-        android:id="@+id/update_log_tv_content"
+        android:id="@+id/update_log_item_tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/margin"
@@ -32,8 +32,5 @@
         android:text="更新什么阿双方计划是否都是分时间的反馈是非得失的说法都是"
         android:textSize="14dp"
         android:textColor="@color/text_333"/>
-
-    <View
-        style="@style/divider"/>
 
 </LinearLayout>

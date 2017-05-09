@@ -67,7 +67,7 @@ public class HomeFrag extends BaseFrag {
     }
 
     @Override
-    public IListResponse<Home> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResponse<Home> parseNetworkResponse(int KId, String text) throws JSONException {
         return JsonParser.home(text);
     }*/
 

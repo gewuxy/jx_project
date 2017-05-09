@@ -23,8 +23,7 @@ import yy.doctor.util.Util;
  */
 public class EpnRechargeActivity extends BaseActivity {
 
-    private TextView mTvPay;
-    private TextView mTvEpnNum;
+    private TextView mTvEpn;
     private TextView mTvEpnRechargeNum;
     private EditText mEtRechargeNum;
 
@@ -49,12 +48,16 @@ public class EpnRechargeActivity extends BaseActivity {
     @Override
     public void findViews() {
 
+        mTvEpn = findView(R.id.recharge_tv_remain_epn);
+        mTvEpnRechargeNum = findView(R.id.recharge_tv_total);
+        mEtRechargeNum = findView(R.id.recharge_et_num);
+
     }
 
     @Override
     public void setViews() {
 
-        setOnClickListener(R.id.recharge_epn_tv_pay);
+        setOnClickListener(R.id.recharge_tv_pay);
 
     }
 
@@ -64,7 +67,7 @@ public class EpnRechargeActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.recharge_epn_tv_pay: {
+            case R.id.recharge_tv_pay: {
 
                 exeNetworkRequest(0, NetFactory.epnRecharge("象数充值", "20"));
             }

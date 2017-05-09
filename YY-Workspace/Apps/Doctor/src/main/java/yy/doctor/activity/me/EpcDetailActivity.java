@@ -2,6 +2,7 @@ package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.TextView;
 
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -17,6 +18,10 @@ import yy.doctor.R;
 public class EpcDetailActivity extends BaseActivity {
 
     private NetworkImageView mIv;
+    private TextView mTvName;
+    private TextView mTvEpn;
+    private TextView mTvLimitationNum;
+    private TextView mTvDescription;
 
     @Override
     public void initData() {
@@ -39,7 +44,11 @@ public class EpcDetailActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mIv=findView(R.id.epc_detail_iv);
+        mIv = findView(R.id.epc_detail_iv);
+        mTvName = findView(R.id.epc_detail_tv_name);
+        mTvEpn = findView(R.id.epc_detail_tv_epn);
+        mTvLimitationNum = findView(R.id.epc_detail_tv_limitation_num);
+        mTvDescription = findView(R.id.epc_detail_tv_description);
 
     }
 
@@ -57,8 +66,8 @@ public class EpcDetailActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
 
-        int id=v.getId();
-        switch (id){
+        int id = v.getId();
+        switch (id) {
             case R.id.epc_detail_tv_btn: {
                 startActivity(ExchangeActivity.class);
             }
