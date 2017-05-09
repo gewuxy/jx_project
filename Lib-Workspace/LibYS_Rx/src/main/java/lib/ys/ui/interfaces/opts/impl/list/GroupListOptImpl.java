@@ -124,15 +124,11 @@ public class GroupListOptImpl<T> extends ListOptImpl<T> implements OnGroupClickL
     }
 
     public void setExpandSingle() {
-        mLv.setOnGroupExpandListener(new OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int position) {
-                for (int i = 0; i < mAdapter.getGroupCount(); ++i) {
-                    if (i != position) {
-                        if (isGroupExpanded(i)) {
-                            collapseGroup(i);
-                        }
+        mLv.setOnGroupExpandListener(position -> {
+            for (int i = 0; i < mAdapter.getGroupCount(); ++i) {
+                if (i != position) {
+                    if (isGroupExpanded(i)) {
+                        collapseGroup(i);
                     }
                 }
             }

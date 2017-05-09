@@ -25,7 +25,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import java.lang.reflect.Field;
 
-import lib.network.NetworkExecutor;
+import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
 import lib.network.model.NetworkRequest;
@@ -81,7 +81,7 @@ abstract public class FragEx extends Fragment implements
 
     private boolean mInitComplete = false;
 
-    private NetworkExecutor mNetworkExecutor;
+    private Network mNetwork;
 
     private FragEx mFragRoot;
     private FragEx mFragChild;
@@ -310,15 +310,15 @@ abstract public class FragEx extends Fragment implements
      */
     @Override
     public void cancelNetworkRequest(int id) {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancel(id);
+        if (mNetwork != null) {
+            mNetwork.cancel(id);
         }
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancelAll();
+        if (mNetwork != null) {
+            mNetwork.cancelAll();
         }
     }
 
@@ -341,10 +341,10 @@ abstract public class FragEx extends Fragment implements
             return;
         }
 
-        if (mNetworkExecutor == null) {
-            mNetworkExecutor = new NetworkExecutor(getClass().getName(), this);
+        if (mNetwork == null) {
+            mNetwork = new Network(getClass().getName(), this);
         }
-        mNetworkExecutor.execute(id, request, listener);
+        mNetwork.execute(id, request, listener);
     }
 
     protected NavBar getNavBar() {
@@ -505,7 +505,7 @@ abstract public class FragEx extends Fragment implements
         super.onDestroy();
 
         cancelAllNetworkRequest();
-        mNetworkExecutor = null;
+        mNetwork = null;
     }
 
     protected Intent getIntent() {

@@ -7,12 +7,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
-
 import lib.network.model.NetworkResponse;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Response;
@@ -75,14 +74,9 @@ public class ClipImageActivity extends BaseActivity {
                     ImageView img = findView(R.id.img);
                     img.setImageBitmap(mBmp);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    mBmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-
                     refresh(RefreshWay.dialog);
-                    exeNetworkRequest(0 , NetFactory.upheadimg(baos.toByteArray()));
+                    exeNetworkRequest(0, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
                 }
-
-
 
                 mPv.destroyDrawingCache();
             }
@@ -107,23 +101,17 @@ public class ClipImageActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mBmp != null) {
-            mBmp.recycle();
-            mBmp = null;
-        }
+        BmpUtil.recycle(mBmp);
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
 
-        LogMgr.d("www01" , nr.getText());
-        return JsonParser.ev(nr.getText() , ClipImage.class);
+        return JsonParser.ev(nr.getText(), ClipImage.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
         stopRefresh();
 
         Response<ClipImage> r = (Response<ClipImage>) result;

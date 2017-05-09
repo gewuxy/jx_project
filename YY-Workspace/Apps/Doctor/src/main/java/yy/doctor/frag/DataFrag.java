@@ -177,4 +177,8 @@ public class DataFrag extends BaseVPFrag {
         return TNavBarState.above;
     }*/
 
+    @Override
+    protected boolean useLazyLoad() {
+        return true;
+    }
 }

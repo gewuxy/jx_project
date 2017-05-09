@@ -9,13 +9,13 @@ import android.util.SparseArray;
 
 import org.json.JSONException;
 
-import lib.network.NetworkExecutor;
+import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
 import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
-import lib.network.model.NetworkRetry;
+import lib.network.model.Retry;
 import lib.ys.LogMgr;
 import lib.ys.R;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
@@ -27,7 +27,7 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
 
     protected final String TAG = getClass().getSimpleName();
 
-    private NetworkExecutor mNetworkExecutor;
+    private Network mNetwork;
 
     private SparseArray<NetworkRequest> mMapRetryTask = new SparseArray<>();
     private Handler mHandlerRetry;
@@ -75,16 +75,16 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
             return;
         }
 
-        if (mNetworkExecutor == null) {
-            mNetworkExecutor = new NetworkExecutor(getClass().getName(), this);
+        if (mNetwork == null) {
+            mNetwork = new Network(getClass().getName(), this);
         }
-        mNetworkExecutor.execute(id, request, listener);
+        mNetwork.execute(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancelAll();
+        if (mNetwork != null) {
+            mNetwork.cancelAll();
         }
 
         if (mHandlerRetry != null) {
@@ -94,8 +94,8 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
 
     @Override
     public void cancelNetworkRequest(int id) {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancel(id);
+        if (mNetwork != null) {
+            mNetwork.cancel(id);
         }
 
         if (mHandlerRetry != null) {
@@ -135,7 +135,7 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
             return false;
         }
 
-        NetworkRetry retry = request.getRetry();
+        Retry retry = request.getRetry();
         if (retry.reduce()) {
             mHandlerRetry.sendEmptyMessageDelayed(id, retry.getDelay());
         } else {
@@ -151,7 +151,7 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
         super.onDestroy();
 
         cancelAllNetworkRequest();
-        mNetworkExecutor = null;
+        mNetwork = null;
 
         if (mMapRetryTask != null) {
             for (int i = 0; i < mMapRetryTask.size(); ++i) {

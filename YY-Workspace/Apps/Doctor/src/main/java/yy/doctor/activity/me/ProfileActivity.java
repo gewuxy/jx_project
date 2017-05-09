@@ -13,13 +13,14 @@ import java.util.List;
 
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
-import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Response;
@@ -61,6 +62,9 @@ public class ProfileActivity extends BaseFormActivity {
 
     private static final int KCodeAlbum = 100;
     private static final int KCodePhotograph = 200;
+
+    private static final int KPermissionCodePhoto = 0;
+    private static final int KPermissionCodeAlbum = 1;
 
 
     private static final String KPhotoFileName = "avatar.jpg";
@@ -107,25 +111,6 @@ public class ProfileActivity extends BaseFormActivity {
 
         int is_open = 20;
 
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-
-        Util.addBackIcon(bar, "我的资料", this);
-        bar.addTextViewRight("完成并保存", new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                modify();
-            }
-        });
-
-    }
-
-    @Override
-    protected View createHeaderView() {
-        return inflate(R.layout.layout_profile_header);
     }
 
     @Override
@@ -252,6 +237,25 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     @Override
+    public void initNavBar(NavBar bar) {
+
+        Util.addBackIcon(bar, "我的资料", this);
+        bar.addTextViewRight("完成并保存", new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                modify();
+            }
+        });
+
+    }
+
+    @Override
+    protected View createHeaderView() {
+        return inflate(R.layout.layout_profile_header);
+    }
+
+    @Override
     public void findViews() {
         super.findViews();
 
@@ -264,16 +268,11 @@ public class ProfileActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
-        refresh(RefreshWay.dialog);
-        exeNetworkRequest(0, NetFactory.profile());
-
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
                 .renderer(new CircleRenderer())
                 .load();
-
     }
-
 
     @Override
     public void onClick(View v) {
@@ -340,7 +339,9 @@ public class ProfileActivity extends BaseFormActivity {
                     }
                     break;
                     case 1: {
-                        getPhotoFromTakePhoto();
+                        if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
+                            getPhotoFromTakePhoto();
+                        }
                     }
                     break;
                 }
@@ -476,31 +477,19 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-
-        LogMgr.d(TAG, nr.getText());
-        if (id == 0) {
-            return JsonParser.ev(nr.getText(), Profile.class);
-        }
         return JsonParser.ev(nr.getText(), Modify.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
         stopRefresh();
-        if (id == 0) {
-            Response<Profile> r = (Response<Profile>) result;
-        } else if (id == 1) {
 
-            Response<Modify> r = (Response<Modify>) result;
-            if (r.isSucceed()) {
-                showToast("资料修改成功");
-            } else {
-                showToast(r.getError());
-            }
+        Response<Modify> r = (Response<Modify>) result;
+        if (r.isSucceed()) {
+            showToast("资料修改成功");
+        } else {
+            showToast(r.getError());
         }
-
     }
 
 
@@ -546,4 +535,20 @@ public class ProfileActivity extends BaseFormActivity {
 //    }
 
 
+    @Override
+    public void onPermissionResult(int code, @PermissionResult int result) {
+        if (code == KPermissionCodePhoto) {
+            switch (result) {
+                case PermissionResult.granted: {
+                    getPhotoFromTakePhoto();
+                }
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    showToast("请开启.....权限");
+                }
+                break;
+            }
+        }
+    }
 }

@@ -5,9 +5,9 @@ import android.util.SparseArray;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.request.RequestCall;
 
-import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
+import lib.network.model.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.callback.DownloadFileCallback;
 import lib.network.provider.ok.callback.ObjectCallback;

@@ -28,7 +28,6 @@ import yy.doctor.R;
 import yy.doctor.adapter.UnitNumDetailAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
-import yy.doctor.model.Code;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -222,7 +221,7 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
                 if (position == 0) {
 
-                    exeNetworkRequest(1 , NetFactory.attention(14 , 0));
+                    exeNetworkRequest(1, NetFactory.attention(14, 0));
                 }
 
 
@@ -242,24 +241,14 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-
-        if (id == 1) {
-            return JsonParser.ev(nr.getText() , Code.class);
-        }
-
-        return super.onNetworkResponse(id, nr);
+        return JsonParser.error(nr.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
-        if (id == 1) {
-            Response<Code> r = (Response<Code>)result;
-            if (r.isSucceed()) {
-                showToast("成功");
-            }
+        Response r = (Response) result;
+        if (r.isSucceed()) {
+            showToast("成功");
         }
-
     }
 }

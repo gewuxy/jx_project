@@ -4,8 +4,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import lib.ys.util.GenericUtil;
 
 
@@ -33,18 +34,28 @@ abstract public class NotifierEx<I> {
      * @param data
      */
     public synchronized void notify(final int type, final Object data) {
-        I[] arrays = null;
-        synchronized (this) {
-            Class clz = GenericUtil.getClassType(getClass());
-            arrays = (I[]) Array.newInstance(clz, mObservers.size());
-            arrays = mObservers.toArray(arrays);
-        }
+        Flowable.just(getClass())
+                .map(aClass -> GenericUtil.getClassType(aClass))
+                .map(aClass -> (I[]) Array.newInstance(aClass, mObservers.size()))
+                .map(is -> mObservers.toArray(is))
+                .flatMap(is -> Flowable.fromArray(is))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(i -> callback(i, type, data));
 
-        if (arrays != null) {
-            Observable.fromArray(arrays)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(i -> callback(i, type, data));
-        }
+
+//        I[] arrays = null;
+//        synchronized (this) {
+//            Class clz = GenericUtil.getClassType(getClass());
+//            arrays = (I[]) Array.newInstance(clz, mObservers.size());
+//            arrays = mObservers.toArray(arrays);
+//        }
+//
+//        if (arrays != null) {
+//            Observable.fromArray(arrays)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(i -> callback(i, type, data));
+//        }
     }
 
     abstract protected void callback(I o, int type, Object data);

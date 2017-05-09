@@ -16,7 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout.LayoutParams;
 
-import lib.network.NetworkExecutor;
+import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
 import lib.network.model.NetworkRequest;
@@ -56,7 +56,7 @@ abstract public class PopupWindowEx implements
     private Context mContext;
     private float mDimAmount = KDefaultDimAmount;
 
-    private NetworkExecutor mNetworkExecutor;
+    private Network mNetwork;
 
     // 背景变暗
     private boolean mEnableDim = false;
@@ -210,23 +210,23 @@ abstract public class PopupWindowEx implements
             return;
         }
 
-        if (mNetworkExecutor == null) {
-            mNetworkExecutor = new NetworkExecutor(getClass().getName(), this);
+        if (mNetwork == null) {
+            mNetwork = new Network(getClass().getName(), this);
         }
-        mNetworkExecutor.execute(id, request, listener);
+        mNetwork.execute(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancelAll();
+        if (mNetwork != null) {
+            mNetwork.cancelAll();
         }
     }
 
     @Override
     public void cancelNetworkRequest(int id) {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancel(id);
+        if (mNetwork != null) {
+            mNetwork.cancel(id);
         }
     }
 
@@ -281,9 +281,9 @@ abstract public class PopupWindowEx implements
     @Override
     public void onDismiss() {
 
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancelAll();
-            mNetworkExecutor = null;
+        if (mNetwork != null) {
+            mNetwork.cancelAll();
+            mNetwork = null;
         }
 
         if (mEnableDim) {

@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import java8.lang.FunctionalInterface;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
@@ -461,12 +460,10 @@ abstract public class MultiGroupAdapterEx<T, VH extends ViewHolderEx> extends Ba
     public void onGroupViewClick(int groupPosition, View v) {
     }
 
-    @FunctionalInterface
     public interface OnGroupAdapterClickListener {
         void onGroupAdapterClick(int groupPosition, View v);
     }
 
-    @FunctionalInterface
     public interface OnChildAdapterClickListener {
         void onChildAdapterClick(int groupPosition, int childPosition, View v);
     }

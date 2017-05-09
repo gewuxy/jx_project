@@ -1,10 +1,17 @@
 package lib.network;
 
 
-import lib.network.model.OnNetworkListener;
+import android.content.Context;
+
+import com.zhy.http.okhttp.OkHttpUtils;
+
+import java.util.concurrent.TimeUnit;
+
 import lib.network.model.NetworkRequest;
+import lib.network.model.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.OkProvider;
+import okhttp3.OkHttpClient;
 
 /**
  * 网络任务执行者
@@ -12,11 +19,13 @@ import lib.network.provider.ok.OkProvider;
  * @author yuansui
  * @since 2016/4/11
  */
-public class NetworkExecutor {
+public class Network {
     private OnNetworkListener mListener;
     private BaseProvider mProvider;
 
-    public NetworkExecutor(Object tag, OnNetworkListener listener) {
+    private static Context mContext;
+
+    public Network(Object tag, OnNetworkListener listener) {
         mListener = listener;
         mProvider = new OkProvider(tag);
     }
@@ -42,5 +51,22 @@ public class NetworkExecutor {
 
     public void destroy() {
         cancelAll();
+    }
+
+    public static void init(Context context) {
+        mContext = context;
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new LoggerInterceptor("TAG"))
+                .connectTimeout(30000L, TimeUnit.MILLISECONDS)
+                .readTimeout(30000L, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+
+        OkHttpUtils.initClient(okHttpClient);
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 }

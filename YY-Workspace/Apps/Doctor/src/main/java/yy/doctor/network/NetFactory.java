@@ -31,12 +31,8 @@ public class NetFactory {
 
     private static final String TAG = NetFactory.class.getSimpleName();
 
-    private interface BaseParam {
-        String device_os = "device_os";
-    }
-
     private interface CommonParam {
-        String token = "token";
+        String KToken = "token";
     }
 
     public interface RegisterParam {
@@ -193,7 +189,7 @@ public class NetFactory {
      */
     public static NetworkRequest logout() {
         return newGet(UrlUser.logout)
-                .param(CommonParam.token, Profile.inst().getString(token))
+                .param(CommonParam.KToken, Profile.inst().getString(token))
                 .build();
     }
 
@@ -203,8 +199,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest profile() {
-        return newGet(UrlUser.profile)
-                .build();
+        return newGet(UrlUser.profile).build();
     }
 
     /**
@@ -534,7 +529,7 @@ public class NetFactory {
 //        ps.add(newPair(BaseParam.device_os, "android"));
 
         if (Profile.inst().isLogin()) {
-            ps.add(newPair(CommonParam.token, Profile.inst().getString(token)));
+            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(token)));
         }
 
         return ps;

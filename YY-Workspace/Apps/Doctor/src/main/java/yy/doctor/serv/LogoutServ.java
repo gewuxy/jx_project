@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import org.json.JSONException;
 
 import lib.network.model.NetworkResponse;
-import lib.network.model.NetworkRetry;
+import lib.network.model.Retry;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Response;
 import yy.doctor.model.Logout;
@@ -23,7 +23,7 @@ public class LogoutServ extends ServiceEx {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
-        exeNetworkRequest(0, NetFactory.logout().retry(new NetworkRetry(5, 1)));
+        exeNetworkRequest(0, NetFactory.logout().retry(new Retry(5, 1)));
     }
 
     @Override

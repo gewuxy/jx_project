@@ -188,6 +188,16 @@ public class BmpUtil {
         return canvas;
     }
 
+    /**
+     * 图片无损转换为bytes
+     *
+     * @param bmp
+     * @return
+     */
+    public static byte[] toBytes(@NonNull Bitmap bmp) {
+        return compressPng(bmp, 100);
+    }
+
     public static byte[] compressJpeg(@NonNull Bitmap bmp, @IntRange(from = 0, to = 100) int quality) {
         return compress(bmp, quality, CompressFormat.JPEG);
     }

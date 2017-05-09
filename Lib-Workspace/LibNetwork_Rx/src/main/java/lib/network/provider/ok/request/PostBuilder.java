@@ -6,10 +6,10 @@ import com.zhy.http.okhttp.builder.PostFormBuilder;
 
 import java.util.List;
 
-import java8.lang.Iterables;
-import lib.network.model.OnNetworkListener;
+import io.reactivex.Observable;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
+import lib.network.model.OnNetworkListener;
 import lib.network.param.NameValuePair;
 
 /**
@@ -29,7 +29,8 @@ public class PostBuilder extends BaseBuilder {
         PostFormBuilder builder = OkHttpUtils.post().url(url);
 
         if (pairs != null) {
-            Iterables.forEach(pairs, p -> builder.addParams(p.getName(), p.getValue()));
+            Observable.fromIterable(pairs)
+                    .subscribe(p -> builder.addParams(p.getName(), p.getValue()));
         }
 
         return builder;

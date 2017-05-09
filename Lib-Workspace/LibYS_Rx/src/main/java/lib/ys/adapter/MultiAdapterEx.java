@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java8.lang.FunctionalInterface;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.adapter.interfaces.IAdapter;
@@ -562,7 +561,6 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
         super.unregisterDataSetObserver((DataSetObserver) observer);
     }
 
-    @FunctionalInterface
     public interface OnAdapterClickListener {
         void onAdapterClick(int position, View v);
     }

@@ -5,6 +5,7 @@ import android.os.StrictMode;
 
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.NavBarConfig;
 import lib.ys.ui.other.NavBar;
 import lib.yy.BaseApp;
@@ -28,6 +29,7 @@ public class App extends BaseApp {
         return AppConfig.newBuilder()
                 .bgColorRes(R.color.app_bg)
                 .enableFlatBar(false)
+                .initRefreshWay(RefreshWay.embed)
                 .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
                 .build();
     }

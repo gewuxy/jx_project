@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import java8.lang.Iterables;
+import io.reactivex.Observable;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkRequest.Builder;
 import lib.ys.LogMgr;
@@ -72,17 +72,18 @@ public class SubmitBuilder {
     public SubmitBuilder items(List<Answer> items) {
         JSONArray arr = new JSONArray();
 
-        Iterables.forEach(items, i -> {
-            JSONObject o = new JSONObject();
-            try {
-                o.put(MeetParam.answer, i.getString(TAnswer.answer));
-                o.put(MeetParam.questionId, i.getString(TAnswer.id));
-            } catch (JSONException e) {
-                LogMgr.e(TAG, "items", e);
-            }
+        Observable.fromIterable(items)
+                .subscribe(answer -> {
+                    JSONObject o = new JSONObject();
+                    try {
+                        o.put(MeetParam.answer, answer.getString(TAnswer.answer));
+                        o.put(MeetParam.questionId, answer.getString(TAnswer.id));
+                    } catch (JSONException e) {
+                        LogMgr.e(TAG, "items", e);
+                    }
 
-            arr.put(o);
-        });
+                    arr.put(o);
+                });
 
         mBuilder.param(MeetParam.itemJson, arr.toString());
         return this;

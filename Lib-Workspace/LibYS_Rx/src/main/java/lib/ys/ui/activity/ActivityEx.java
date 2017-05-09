@@ -113,6 +113,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         getWindow().setFormat(PixelFormat.TRANSPARENT);
         super.onCreate(savedInstanceState);
 
+        initImplements();
+
         setContentView(getContentViewId());
 
         if (enableSwipeFinish() == null) {
@@ -123,8 +125,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         getSwipeBackLayout().setEnableGesture(mEnableSwipeFinish);
 
         setOnRetryClickListener(this);
-
-        initImplements();
 
         startInAnim();
     }

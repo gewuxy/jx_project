@@ -1,6 +1,7 @@
 package yy.doctor.activity.me;
 
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
@@ -8,14 +9,14 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ui.other.NavBar;
 import lib.ys.network.resp.IListResponse;
+import lib.ys.ui.other.NavBar;
 import lib.ys.view.SideBar;
-import lib.ys.view.SideBar.OnTouchLetterListener;
 import lib.yy.activity.base.BaseSRGroupListActivity;
-import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
@@ -85,8 +86,11 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
     public void setViews() {
         super.setViews();
 
-        expandAllGroup();
         setRefreshEnable(false);
+
+        mSideBar.setTextSize(fitDp(10));
+        mSideBar.setSingleHeight(fitDp(15));
+        mSideBar.setGravity(Gravity.CENTER);
     }
 
     /**
@@ -97,15 +101,11 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
         mSideBar.setTextSize(mLetterSize);
         mSideBar.setColor(KLetterColorNormal);
         mSideBar.setColorFocus(KLetterColorFocus);
-        mSideBar.setOnTouchLetterChangeListener(new OnTouchLetterListener() {
+        mSideBar.setOnTouchLetterChangeListener((s, isFocus) -> {
+            mTvLetter.setText(s);
+            mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
+            //getListWidget().setSelectedGroup(1);
 
-            @Override
-            public void onTouchLetterChanged(String s, boolean isFocus) {
-                mTvLetter.setText(s);
-                mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
-                //getListWidget().setSelectedGroup(1);
-
-            }
         });
 
     }
@@ -117,9 +117,7 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
 
     @Override
     public void getDataFromNet() {
-
-        exeNetworkRequest(0 , NetFactory.unitNum());
-
+        exeNetworkRequest(0, NetFactory.unitNum());
     }
 
     @Override
@@ -132,7 +130,6 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
 
     @Override
     public IListResponse<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
-
         return JsonParser.unitNums(text);
     }
 
@@ -140,7 +137,7 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
 
-        /*IListResponse<GroupUnitNum> listResponse = (IListResponse<GroupUnitNum>) result;
+        IListResponse<GroupUnitNum> listResponse = (IListResponse<GroupUnitNum>) result;
         List<GroupUnitNum> data = listResponse.getData();
         String[] str = new String[data.size()];
         if (listResponse.isSucceed()) {
@@ -149,16 +146,7 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
             }
         }
         mSideBar.setData(str);
-        mSideBar.invalidate();*/
-    }
-
-    @Override
-    public boolean canAutoRefresh() {
-        if (BuildConfig.TEST) {
-            return true;
-        } else {
-            return true;
-        }
+        mSideBar.invalidate();
     }
 
 }

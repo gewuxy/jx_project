@@ -3,9 +3,9 @@ package lib.network.model;
 /**
  * @author yuansui
  */
-public class NetworkConstants {
+public interface NetworkConstants {
 
-    public interface Http {
+    interface Http {
         String KUserAgent = "User-Agent";
 
         String KContentLen = "Content-Length";
@@ -28,7 +28,7 @@ public class NetworkConstants {
         String KContentRanges = "Content-Range";
     }
 
-    public interface ContentType {
+    interface ContentType {
         String KStream = "application/octet-stream";
     }
 }

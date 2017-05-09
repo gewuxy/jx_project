@@ -231,4 +231,9 @@ public class MeetingFrag extends BaseVPFrag {
             mPopup = null;
         }
     }
+
+    @Override
+    protected boolean useLazyLoad() {
+        return true;
+    }
 }

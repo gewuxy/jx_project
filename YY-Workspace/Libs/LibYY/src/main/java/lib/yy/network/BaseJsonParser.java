@@ -49,6 +49,19 @@ public class BaseJsonParser extends JsonParserEx {
     }
 
     /**
+     * 简易判断网络结果
+     *
+     * @param text
+     * @return
+     * @throws JSONException
+     */
+    public static Response<String> error(String text) throws JSONException {
+        Response<String> r = new Response<>();
+        error(text, r);
+        return r;
+    }
+
+    /**
      * 获取Json object, 同时判断成功失败
      *
      * @param text

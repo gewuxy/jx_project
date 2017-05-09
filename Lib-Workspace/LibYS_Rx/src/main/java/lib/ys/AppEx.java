@@ -6,7 +6,7 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
-import lib.network.model.NetworkRequest;
+import lib.network.Network;
 import lib.ys.config.AppConfig;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.DeviceUtil;
@@ -40,7 +40,7 @@ abstract public class AppEx extends Application {
 
         NetworkImageView.init(this, getNetworkImageCacheDir(), (int) (DeviceUtil.getRuntimeMaxMemory() / 8));
 
-        NetworkRequest.init(this);
+        Network.init(this);
 
         mConfig = makeConfig();
 

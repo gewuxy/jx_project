@@ -2,7 +2,7 @@ package lib.ys.service;
 
 import org.json.JSONException;
 
-import lib.network.NetworkExecutor;
+import lib.network.Network;
 import lib.network.error.NetError;
 import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
@@ -17,7 +17,7 @@ abstract public class RunnableEx implements Runnable, NetworkOpt, OnNetworkListe
 
     protected final String TAG = getClass().getSimpleName();
 
-    private NetworkExecutor mNetworkExecutor;
+    private Network mNetwork;
 
     /**
      * http task part
@@ -28,23 +28,23 @@ abstract public class RunnableEx implements Runnable, NetworkOpt, OnNetworkListe
     }
 
     public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
-        if (mNetworkExecutor == null) {
-            mNetworkExecutor = new NetworkExecutor(getClass().getName(), this);
+        if (mNetwork == null) {
+            mNetwork = new Network(getClass().getName(), this);
         }
-        mNetworkExecutor.execute(id, request, listener);
+        mNetwork.execute(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancelAll();
+        if (mNetwork != null) {
+            mNetwork.cancelAll();
         }
     }
 
     @Override
     public void cancelNetworkRequest(int id) {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancel(id);
+        if (mNetwork != null) {
+            mNetwork.cancel(id);
         }
     }
 

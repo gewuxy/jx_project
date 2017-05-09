@@ -2,7 +2,6 @@ package lib.network.provider.ok.request;
 
 import android.content.Context;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -14,8 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java8.lang.Iterables;
+import io.reactivex.Observable;
 import lib.network.LogNetwork;
+import lib.network.Network;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkRequest;
 import lib.network.model.OnNetworkListener;
@@ -37,12 +37,14 @@ public class UploadBuilder extends PostBuilder {
 
         List<NameByteValuePair> byteParams = request().getByteParams();
         if (byteParams != null) {
-            Iterables.forEach(byteParams, p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst(request().getContext()).add(tag(), id(), p.getValue())));
+            Observable.fromIterable(byteParams)
+                    .subscribe(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getValue())));
         }
 
         List<NameFileValuePair> fileParams = request().getFileParams();
         if (fileParams != null) {
-            Iterables.forEach(fileParams, p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));
+            Observable.fromIterable(fileParams)
+                    .subscribe(p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));
         }
 
         return builder;
@@ -97,26 +99,19 @@ public class UploadBuilder extends PostBuilder {
 
         private static DeleteOnExit mSelf;
 
-        private DeleteOnExit(@Nullable Context context) {
+        private DeleteOnExit() {
             mUnits = new ArrayList<>();
 
-            mPrefix = getBasePath(context) + KTmpPrefix;
+            mPrefix = getBasePath(Network.getContext()) + KTmpPrefix;
             File file = new File(mPrefix);
             if (!file.exists()) {
                 file.mkdirs();
             }
         }
 
-        /**
-         * FIXME: 用的很别扭. 临时添加了context变量为了初始化保存的路径
-         * FIXME: 但是部分调用来源并没有context, 所以可能为null, 不过流程上不影响, 因为赋值给单例的时候context不为空
-         *
-         * @param context
-         * @return
-         */
-        public static DeleteOnExit inst(@Nullable Context context) {
-            if (mSelf == null && context != null) {
-                mSelf = new DeleteOnExit(context);
+        public static DeleteOnExit inst() {
+            if (mSelf == null) {
+                mSelf = new DeleteOnExit();
             }
             return mSelf;
         }

@@ -8,7 +8,7 @@ import java.util.List;
  */
 abstract public class ListResponseSimpleEx<T> implements IListResponse<T> {
 
-    private List<T> mTs = new ArrayList<T>();
+    private List<T> mTs = new ArrayList<>();
     private int mCode;
     private String mLastItemId;
     private String mError;

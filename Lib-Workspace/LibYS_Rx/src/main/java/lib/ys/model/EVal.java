@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java8.lang.Iterables;
+import io.reactivex.Observable;
 import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
 import lib.ys.model.inject.BindInit;
@@ -84,7 +84,9 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     }
 
     public final <T extends EVal<E>> T put(EVal<E> o) {
-        Iterables.forEach(getEnumFields(), e -> put(e, o.getObject(e)));
+        Observable.fromIterable(getEnumFields())
+                .filter(e -> !o.getString(e).isEmpty())
+                .subscribe(e -> put(e, o.getObject(e)));
         return (T) this;
     }
 
@@ -337,23 +339,25 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     public EVal clone() {
         EVal val = newInst(getClass());
 
-        Iterables.forEach(getEnumFields(), e -> {
-            Object o = mMap.get(e);
-            if (o == null) {
-                return;
-            }
+        Observable.fromIterable(getEnumFields())
+                .subscribe(e -> {
+                    Object o = mMap.get(e);
+                    if (o == null) {
+                        return;
+                    }
 
-            if (o instanceof EVal) {
-                EVal ev = (EVal) o;
-                val.mMap.put(e, ev.clone());
-            } else if (o instanceof List) {
-                List list = (List) o;
-                val.put(e, cloneArray(list));
-            } else {
-                // 基础类型
-                val.put(e, new String(getString(e)));
-            }
-        });
+                    if (o instanceof EVal) {
+                        EVal ev = (EVal) o;
+                        val.put(e, ev.clone());
+                    } else if (o instanceof List) {
+                        List list = (List) o;
+                        val.put(e, cloneArray(list));
+                    } else {
+                        // 基础类型
+                        val.put(e, new String(getString(e)));
+                    }
+
+                });
 
         return val;
     }
@@ -364,17 +368,19 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
         }
 
         List<Object> newList = new ArrayList<>();
-        Iterables.forEach(list, o -> {
-            if (o instanceof EVal) {
-                EVal ev = (EVal) o;
-                newList.add(ev.clone());
-            } else if (o instanceof List) {
-                newList.add(cloneArray(list));
-            } else {
-                // 基础类型
-                newList.add(o);
-            }
-        });
+
+        Observable.fromIterable(list)
+                .subscribe(o -> {
+                    if (o instanceof EVal) {
+                        EVal ev = (EVal) o;
+                        newList.add(ev.clone());
+                    } else if (o instanceof List) {
+                        newList.add(cloneArray(list));
+                    } else {
+                        // 基础类型
+                        newList.add(o);
+                    }
+                });
 
         return newList;
     }
@@ -389,7 +395,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             return;
         }
 
-        Iterables.forEach(getEnumFields(), e -> put(e, source.getObject(e)));
+        put(source);
     }
 
     /**
@@ -454,29 +460,28 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
      */
     private <T extends EVal<E>> JSONObject toStoreJsonObj(T t) {
         JSONObject jsonObject = new JSONObject();
-        Iterables.forEach(getEnumFields(), e -> {
-            try {
-                Object obj = t.getObject(e);
-                if (obj == null) {
-                    return;
-                }
 
-                JSONObject subJson = new JSONObject();
-                subJson.put(KKeyClass, obj.getClass().getName());
+        Observable.fromIterable(getEnumFields())
+                .subscribe(e -> {
+                    Object obj = t.getObject(e);
+                    if (obj == null) {
+                        return;
+                    }
 
-                if (obj instanceof EVal) {
-                    subJson.put(KKeyData, toStoreJsonObj((EVal) obj));
-                } else if (obj instanceof ArrayList) {
-                    subJson.put(KKeyData, toJsonArray((ArrayList) obj));
-                } else {
-                    subJson.put(KKeyData, t.getString(e));
-                }
+                    JSONObject subJson = new JSONObject();
+                    subJson.put(KKeyClass, obj.getClass().getName());
 
-                jsonObject.put(e.name(), subJson);
-            } catch (Exception ex) {
-                LogMgr.e(TAG, ex);
-            }
-        });
+                    if (obj instanceof EVal) {
+                        subJson.put(KKeyData, toStoreJsonObj((EVal) obj));
+                    } else if (obj instanceof ArrayList) {
+                        subJson.put(KKeyData, toJsonArray((ArrayList) obj));
+                    } else {
+                        subJson.put(KKeyData, t.getString(e));
+                    }
+
+                    jsonObject.put(e.name(), subJson);
+
+                });
 
         return jsonObject;
     }

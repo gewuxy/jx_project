@@ -1,6 +1,6 @@
 package lib.ys.ui.interfaces.opts.impl;
 
-import lib.network.NetworkExecutor;
+import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
 import lib.network.model.NetworkRequest;
@@ -18,7 +18,7 @@ import lib.ys.util.res.ResLoader;
 
 public class NetworkOptImpl implements NetworkOpt {
 
-    private NetworkExecutor mNetworkExecutor;
+    private Network mNetwork;
     private OnNetworkListener mNetworkLsn;
     private Object mHost;
 
@@ -44,30 +44,30 @@ public class NetworkOptImpl implements NetworkOpt {
             return;
         }
 
-        if (mNetworkExecutor == null) {
-            mNetworkExecutor = new NetworkExecutor(mHost.getClass().getName(), mNetworkLsn);
+        if (mNetwork == null) {
+            mNetwork = new Network(mHost.getClass().getName(), mNetworkLsn);
         }
-        mNetworkExecutor.execute(id, request, listener);
+        mNetwork.execute(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancelAll();
+        if (mNetwork != null) {
+            mNetwork.cancelAll();
         }
     }
 
     @Override
     public void cancelNetworkRequest(int id) {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.cancel(id);
+        if (mNetwork != null) {
+            mNetwork.cancel(id);
         }
     }
 
     public void onDestroy() {
-        if (mNetworkExecutor != null) {
-            mNetworkExecutor.destroy();
-            mNetworkExecutor = null;
+        if (mNetwork != null) {
+            mNetwork.destroy();
+            mNetwork = null;
         }
     }
 

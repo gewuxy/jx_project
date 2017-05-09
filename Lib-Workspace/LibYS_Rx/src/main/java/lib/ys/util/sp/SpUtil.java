@@ -40,7 +40,7 @@ public class SpUtil {
         } else if (value instanceof Boolean) {
             return save(sp, key, (Boolean) value);
         } else if (value instanceof EVal) {
-            return saveEnumsValue(sp, key, (EVal) value);
+            return saveEVal(sp, key, (EVal) value);
         } else if (value instanceof Serializable) {
             return save(sp, key, (Serializable) value);
         } else {
@@ -104,7 +104,7 @@ public class SpUtil {
      * @param value
      * @return
      */
-    private static boolean saveEnumsValue(SharedPreferences sp, String key, EVal value) {
+    private static boolean saveEVal(SharedPreferences sp, String key, EVal value) {
         String content = value.toStoreJson();
         if (!TextUtils.isEmpty(key)) {
             return save(sp, key, content);

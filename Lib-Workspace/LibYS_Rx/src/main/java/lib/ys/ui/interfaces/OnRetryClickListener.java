@@ -1,8 +1,5 @@
 package lib.ys.ui.interfaces;
 
-import java8.lang.FunctionalInterface;
-
-@FunctionalInterface
 public interface OnRetryClickListener {
     /**
      * 点击了重试按钮

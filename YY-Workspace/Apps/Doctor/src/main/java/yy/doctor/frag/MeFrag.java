@@ -194,5 +194,8 @@ public class MeFrag extends BaseFormFrag {
         }
     }
 
-
+    @Override
+    protected boolean useLazyLoad() {
+        return true;
+    }
 }

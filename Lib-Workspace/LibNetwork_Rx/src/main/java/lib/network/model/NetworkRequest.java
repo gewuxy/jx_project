@@ -1,20 +1,15 @@
 package lib.network.model;
 
 
-import android.content.Context;
 import android.text.TextUtils;
-
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import lib.network.NetworkUtil;
 import lib.network.param.NameByteValuePair;
 import lib.network.param.NameFileValuePair;
 import lib.network.param.NameValuePair;
-import okhttp3.OkHttpClient;
 
 /**
  * Network任务实例
@@ -22,8 +17,6 @@ import okhttp3.OkHttpClient;
  * @author yuansui
  */
 public class NetworkRequest {
-
-    private static Context mContext;
 
     private List<NameValuePair> mParams;
     private List<NameByteValuePair> mByteParams;
@@ -38,7 +31,7 @@ public class NetworkRequest {
     private String mDestDir;
     private String mDestFileName;
 
-    private NetworkRetry mRetry;
+    private Retry mRetry;
 
 
     public NetworkRequest(@NetworkMethod int method, String url) {
@@ -48,12 +41,12 @@ public class NetworkRequest {
         mParams = new ArrayList<>();
     }
 
-    public NetworkRequest retry(NetworkRetry retry) {
+    public NetworkRequest retry(Retry retry) {
         mRetry = retry;
         return this;
     }
 
-    public NetworkRetry getRetry() {
+    public Retry getRetry() {
         return mRetry;
     }
 
@@ -195,19 +188,6 @@ public class NetworkRequest {
 
     public String getUrl() {
         return mUrl;
-    }
-
-    public static void init(Context context) {
-        mContext = context;
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .addInterceptor(new LoggerInterceptor("TAG"))
-                .connectTimeout(30000L, TimeUnit.MILLISECONDS)
-                .readTimeout(30000L, TimeUnit.MILLISECONDS)
-                //其他配置
-                .build();
-
-        OkHttpUtils.initClient(okHttpClient);
     }
 
     /**
@@ -368,9 +348,5 @@ public class NetworkRequest {
             return r;
         }
 
-    }
-
-    public Context getContext() {
-        return mContext;
     }
 }

@@ -4,14 +4,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
 import lib.ys.ConstantsEx;
 import lib.ys.fitter.DpFitter;
+import lib.ys.util.DrawUtil;
 
 
 public class SideBar extends View {
@@ -19,6 +23,8 @@ public class SideBar extends View {
     private final int KPaintColorNormal = Color.parseColor("#616161");
     private final int KPaintColorFocus = Color.parseColor("#F88701");
     private final int KDefaultTextSizeDp = 11;
+
+    private final String[] KDefaultSelections = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     @ColorInt
     private int mColorNormal = KPaintColorNormal;
@@ -32,7 +38,7 @@ public class SideBar extends View {
     private int mChoose = ConstantsEx.KErrNotFound;
 
     // 每个字母的高度
-    private int mSingleHeight;
+    private int mLetterHeight;
     private int mRealHeight;
 
     private int mTextSize;
@@ -42,24 +48,37 @@ public class SideBar extends View {
     private int mWidth;
     private int mHeight;
 
+    private int mGravity;
+
     // 准备好的A~Z的字母数组
-    public String[] mLetters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    public String[] mLetters;
 
     public SideBar(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mTextSize = DpFitter.dp(KDefaultTextSizeDp);
         mPaint = new Paint();
+
+        mGravity = Gravity.TOP;
     }
 
-    public void setData(String[] letters) {
-        mLetters = letters;
+    public void setData(@Nullable String[] letters) {
+        if (letters == null) {
+            mLetters = KDefaultSelections;
+        } else {
+            mLetters = letters;
+        }
+
         if (!mCustomLetterHeight) {
-            mSingleHeight = mHeight / mLetters.length;
+            mLetterHeight = mHeight / mLetters.length;
         }
         computeRealHeight();
 
         invalidate();
+    }
+
+    public void setGravity(int g) {
+        mGravity = g;
     }
 
     @Override
@@ -68,13 +87,29 @@ public class SideBar extends View {
 
         mWidth = getMeasuredWidth();
         mHeight = getMeasuredHeight();
-
-        mSingleHeight = mHeight / mLetters.length;
-        computeRealHeight();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if (mLetters == null) {
+            return;
+        }
+
+        int half = getHeight() / 2;
+
+        int offset = 0;
+        switch (mGravity) {
+            case Gravity.TOP: {
+                // do nothing
+            }
+            break;
+            case Gravity.CENTER_VERTICAL:
+            case Gravity.CENTER: {
+                offset = half - mRealHeight / 2;
+            }
+            break;
+        }
+
         // 画字母
         for (int i = 0; i < mLetters.length; i++) {
             mPaint.setColor(mColorNormal);
@@ -90,10 +125,11 @@ public class SideBar extends View {
                 mPaint.setFakeBoldText(true);
             }
             // 要画的字母的x,y坐标
-            float posX = (mWidth - getPaddingRight() - mPaint.measureText(mLetters[i])) / 2; // 右对齐再居中
-            float posY = i * mSingleHeight + mSingleHeight;
+            float posX = mWidth / 2;
+            float posY = i * mLetterHeight + mLetterHeight / 2 + offset;
+
             // 画出字母
-            canvas.drawText(mLetters[i], posX, posY, mPaint);
+            DrawUtil.drawTextByAlignX(canvas, mLetters[i], posX, posY, mPaint, Align.CENTER);
 
             // 重新设置画笔
             mPaint.reset();
@@ -102,9 +138,32 @@ public class SideBar extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        final float y = event.getY();
+        if (mLetters == null) {
+            return false;
+        }
+
+        float y = event.getY();
+
+        int half = getHeight() / 2;
+
+        int offset = 0;
+        switch (mGravity) {
+            case Gravity.TOP: {
+                // do nothing
+                y -= mLetterHeight / 2;
+            }
+            break;
+            case Gravity.CENTER_VERTICAL:
+            case Gravity.CENTER: {
+                offset = half - mRealHeight / 2 + mLetterHeight / 2;
+                y -= offset;
+            }
+            break;
+        }
+
         // 算出点击的字母的索引
-        final int index = (int) (y / mSingleHeight);
+        int index = (int) (y / mLetterHeight);
+
         // 保存上次点击的字母的索引到oldChoose
         final int oldChoose = mChoose;
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -184,8 +243,7 @@ public class SideBar extends View {
      */
     public void setSingleHeight(int singleHeight) {
         mCustomLetterHeight = true;
-        mSingleHeight = singleHeight;
-        computeRealHeight();
+        mLetterHeight = singleHeight;
     }
 
     public void setTextSize(int size) {
@@ -193,6 +251,6 @@ public class SideBar extends View {
     }
 
     private void computeRealHeight() {
-        mRealHeight = mSingleHeight * mLetters.length;
+        mRealHeight = mLetterHeight * mLetters.length;
     }
 }

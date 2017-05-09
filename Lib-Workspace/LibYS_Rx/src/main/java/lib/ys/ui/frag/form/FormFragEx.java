@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java8.lang.Iterables;
+import io.reactivex.Observable;
 import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.ViewHolderEx;
@@ -220,7 +220,7 @@ abstract public class FormFragEx<T extends FormItemEx<VH>, VH extends ViewHolder
         mRemandItems.clear();
         removeAllItem();
 
-        Iterables.forEach(ts, t -> addItem(t));
+        Observable.fromIterable(ts).subscribe(t -> addItem(t));
     }
 
     public final T addItem(T t) {

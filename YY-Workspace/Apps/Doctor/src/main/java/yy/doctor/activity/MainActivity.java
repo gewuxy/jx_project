@@ -10,18 +10,24 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import lib.network.model.NetworkResponse;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseVPActivity;
+import lib.yy.network.Response;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.frag.DataFrag;
 import yy.doctor.frag.HomeFrag;
 import yy.doctor.frag.MeFrag;
 import yy.doctor.frag.MeetingFrag;
+import yy.doctor.model.Profile;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
+import yy.doctor.sp.SpUser;
 
 public class MainActivity extends BaseVPActivity {
 
@@ -84,6 +90,11 @@ public class MainActivity extends BaseVPActivity {
         setScrollable(false);
 
         setCurrentItem(mCurrPage);
+
+        // 静默更新用户数据
+        if (SpUser.inst().needUpdateProfile()) {
+            exeNetworkRequest(0, NetFactory.profile());
+        }
     }
 
     private void addIndicators() {
@@ -143,10 +154,17 @@ public class MainActivity extends BaseVPActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        return JsonParser.ev(nr.getText(), Profile.class);
+    }
 
-        SingletonImpl.inst().freeAll();
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        Response<Profile> r = (Response<Profile>) result;
+        if (r.isSucceed()) {
+            Profile.inst().update(r.getData());
+            SpUser.inst().updateProfileRefreshTime();
+        }
     }
 
     @Override
@@ -157,5 +175,12 @@ public class MainActivity extends BaseVPActivity {
             MainActivity.this.finish();
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SingletonImpl.inst().freeAll();
     }
 }

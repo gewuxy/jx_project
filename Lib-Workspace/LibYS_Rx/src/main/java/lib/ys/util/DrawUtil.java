@@ -58,10 +58,11 @@ public class DrawUtil {
      * @param text
      * @param x
      * @param y
-     * @param paint
+     * @param p
      */
-    public static void drawTextInCenterXY(Canvas canvas, String text, float x, float y, Paint paint) {
-        canvas.drawText(text, x - paint.measureText(text) / 2, y + paint.measureText(text) / 2, paint);
+    public static void drawTextInCenterXY(Canvas canvas, String text, float x, float y, Paint p) {
+        float halfSize = p.measureText(text) / 2;
+        canvas.drawText(text, x - halfSize, y + halfSize, p);
     }
 
     /**
