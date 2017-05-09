@@ -12,11 +12,11 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.ExamTopicAdapter;
-import yy.doctor.model.exam.ExamTopic;
+import yy.doctor.model.exam.Topic;
 
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.answer;
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.finish;
-import static yy.doctor.model.exam.ExamTopic.TExamTopic.question;
+import static yy.doctor.model.exam.Topic.TExamTopic.answer;
+import static yy.doctor.model.exam.Topic.TExamTopic.finish;
+import static yy.doctor.model.exam.Topic.TExamTopic.title;
 
 /**
  * 单个考题
@@ -34,15 +34,15 @@ public class ExamTopicFrag extends BaseListFrag<String> {
     private TextView mTvQ;
     private TextView mTvBtn;
     private OnNextListener mOnNextListener;
-    private ExamTopic mExamTopic;                   //该题目的信息
+    private Topic mTopic;                   //该题目的信息
     private ExamTopicAdapter mExamTopicAdapter;
 
     public void setOnNextListener(OnNextListener onNextListener) {
         mOnNextListener = onNextListener;
     }
 
-    public void setExamTopic(ExamTopic examTopic) {
-        mExamTopic = examTopic;
+    public void setTopic(Topic topic) {
+        mTopic = topic;
     }
 
     @Override
@@ -66,19 +66,19 @@ public class ExamTopicFrag extends BaseListFrag<String> {
     public void setViews() {
         super.setViews();
         setDividerHeight(0);
-        if (mTvQ != null && mExamTopic != null) {
-            mTvQ.setText(mExamTopic.getString(question));
+        if (mTvQ != null && mTopic != null) {
+            mTvQ.setText(mTopic.getString(title));
         }
 
         if (mTvBtn != null) {
             mTvBtn.setOnClickListener(v -> {
                 List<Integer> answers = mExamTopicAdapter.getAnswers();//选择的答案
-                mExamTopic.put(answer, answers);
+                mTopic.put(answer, answers);
                 //题目是否已作答过
                 if (answers.size() > 0) {
-                    mExamTopic.put(finish, true);
+                    mTopic.put(finish, true);
                 } else {
-                    mExamTopic.put(finish, false);
+                    mTopic.put(finish, false);
                 }
 
                 LogMgr.d(TAG, answers.toString());

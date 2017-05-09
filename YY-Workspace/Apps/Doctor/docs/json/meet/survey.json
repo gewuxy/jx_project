@@ -1,0 +1,219 @@
+{
+  "code": "0",
+  "data": {
+    "id": 1,
+    "meetId": "17042512131640894904",
+    "moduleId": 10,
+    "paper": {
+      "id": 2,
+      "paperName": "测试问卷调查卷一",
+      "questions": [
+        {
+          "id": 11,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "好"
+            },
+            {
+              "key": "B",
+              "value": "较好"
+            },
+            {
+              "key": "C",
+              "value": "不好"
+            }
+          ],
+          "qtype": 0,
+          "sort": 1,
+          "title": "您住院期间医师的服务态度好吗"
+        },
+        {
+          "id": 12,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "好"
+            },
+            {
+              "key": "B",
+              "value": "较好"
+            },
+            {
+              "key": "C",
+              "value": "不好"
+            }
+          ],
+          "qtype": 0,
+          "sort": 2,
+          "title": "您住院期间护士的服务态度好吗"
+        },
+        {
+          "id": 13,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "没有"
+            },
+            {
+              "key": "B",
+              "value": "偶尔"
+            },
+            {
+              "key": "C",
+              "value": "经常"
+            }
+          ],
+          "qtype": 0,
+          "sort": 3,
+          "title": "您住院期间医师在诊、检查、治疗、手术等时接听或拨打手机吗"
+        },
+        {
+          "id": 14,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "没有"
+            },
+            {
+              "key": "B",
+              "value": "偶尔"
+            },
+            {
+              "key": "C",
+              "value": "经常"
+            }
+          ],
+          "qtype": 0,
+          "sort": 4,
+          "title": "您住院期间护士在治疗、护理时接听或拨打手机吗"
+        },
+        {
+          "id": 15,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "仔细"
+            },
+            {
+              "key": "B",
+              "value": "较仔细  "
+            },
+            {
+              "key": "C",
+              "value": "不仔细"
+            }
+          ],
+          "qtype": 0,
+          "sort": 5,
+          "title": "您的主管医师每天查房仔细吗"
+        },
+        {
+          "id": 16,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "说明"
+            },
+            {
+              "key": "B",
+              "value": "部分说明  "
+            },
+            {
+              "key": "C",
+              "value": "不说明"
+            }
+          ],
+          "qtype": 0,
+          "sort": 6,
+          "title": "您的主管医师向您说明病情及相关治疗方案与注意事项吗"
+        },
+        {
+          "id": 17,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "收到"
+            },
+            {
+              "key": "B",
+              "value": "部分收到"
+            },
+            {
+              "key": "C",
+              "value": "未收到"
+            }
+          ],
+          "qtype": 0,
+          "sort": 7,
+          "title": "您住院期间每天收到一日费用清单吗"
+        },
+        {
+          "id": 18,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "关怀体贴  "
+            },
+            {
+              "key": "B",
+              "value": "不太关怀体贴"
+            },
+            {
+              "key": "C",
+              "value": "不关怀体贴"
+            }
+          ],
+          "qtype": 0,
+          "sort": 8,
+          "title": "您的责任护士在护理中关怀体贴吗"
+        },
+        {
+          "id": 19,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "告诉"
+            },
+            {
+              "key": "B",
+              "value": "部分告诉"
+            },
+            {
+              "key": "C",
+              "value": "不告诉"
+            },
+            {
+              "key": "D",
+              "value": "未服药"
+            }
+          ],
+          "qtype": 0,
+          "sort": 9,
+          "title": "护士告诉您疾病的护理、治疗、检查、服药及饮食、生活等注意事项吗"
+        },
+        {
+          "id": 20,
+          "optionList": [
+            {
+              "key": "A",
+              "value": "及时"
+            },
+            {
+              "key": "B",
+              "value": "部分及时"
+            },
+            {
+              "key": "C",
+              "value": "不及时"
+            }
+          ],
+          "qtype": 0,
+          "sort": 10,
+          "title": "护士应接红灯或呼唤到位及时吗"
+        }
+      ]
+    },
+    "paperId": 2
+  }
+}

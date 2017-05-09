@@ -13,14 +13,14 @@ public class SignBuilder {
     private Builder mBuilder;
 
     public SignBuilder() {
-        mBuilder = NetFactory.newGet(UrlMeet.sign);
+        mBuilder = NetFactory.newPost(UrlMeet.KSign);
     }
 
     /**
      * 会议ID
      */
     public SignBuilder meetId(String meetId) {
-        mBuilder.param(MeetParam.meetId, meetId);
+        mBuilder.param(MeetParam.KMeetId, meetId);
         return this;
     }
 
@@ -28,7 +28,7 @@ public class SignBuilder {
      * 模块ID
      */
     public SignBuilder moduleId(String moduleId) {
-        mBuilder.param(MeetParam.moduleId, moduleId);
+        mBuilder.param(MeetParam.KModuleId, moduleId);
         return this;
     }
 
@@ -36,7 +36,7 @@ public class SignBuilder {
      * 签到位置ID
      */
     public SignBuilder positionId(String positionId) {
-        mBuilder.param(MeetParam.positionId, positionId);
+        mBuilder.param(MeetParam.KPositionId, positionId);
         return this;
     }
 
@@ -44,7 +44,7 @@ public class SignBuilder {
      * 签到经度
      */
     public SignBuilder signLng(String signLng) {
-        mBuilder.param(signLng, signLng);
+        mBuilder.param(MeetParam.KSignLng, signLng);
         return this;
     }
 
@@ -52,7 +52,7 @@ public class SignBuilder {
      * 签到维度
      */
     public SignBuilder signLat(String signLat) {
-        mBuilder.param(signLat, signLat);
+        mBuilder.param(MeetParam.KSignLat, signLat);
         return this;
     }
 

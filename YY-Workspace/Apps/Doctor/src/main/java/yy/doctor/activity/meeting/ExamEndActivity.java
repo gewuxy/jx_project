@@ -2,9 +2,18 @@ package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lib.network.model.NetworkResponse;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
+import lib.yy.network.Response;
 import yy.doctor.R;
+import yy.doctor.model.exam.Answer;
+import yy.doctor.model.exam.Answer.TAnswer;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -26,9 +35,7 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, "考试结束", this);
-
     }
 
     @Override
@@ -38,6 +45,36 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void setViews() {
+        List<Answer> items = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Answer question = new Answer();
+            question.put(TAnswer.answer,"答案" + i);
+            question.put(TAnswer.id,"" + i);
+            items.add(question);
 
+        }
+        //TODO:应该在点击最后一题的时候提交,这里只是显示结果
+        exeNetworkRequest(0, NetFactory
+                .submitEx()
+                .meetId("17042512131640894904")
+                .moduleId("8")
+                .paperId("2")
+                .items(items)
+                .builder());
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        return JsonParser.error(nr.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        Response response = (Response) result;
+        if (response.isSucceed()) {
+            showToast("成功" + response.getCode());
+        } else {
+            showToast("失败" + response.getCode());
+        }
     }
 }

@@ -1,0 +1,75 @@
+{
+  "code": "0",
+  "data": {
+    "course": {
+      "category": "普外科",
+      "details": [
+        {
+          "audioUrl": "",
+          "id": 1,
+          "imgUrl": "",
+          "sort": 1
+        },
+        {
+          "audioUrl": "",
+          "id": 2,
+          "imgUrl": "",
+          "sort": 2
+        },
+        {
+          "audioUrl": "",
+          "id": 3,
+          "imgUrl": "",
+          "sort": 3
+        },
+        {
+          "audioUrl": "",
+          "id": 4,
+          "imgUrl": "",
+          "sort": 4
+        },
+        {
+          "audioUrl": "",
+          "id": 5,
+          "imgUrl": "",
+          "sort": 5
+        },
+        {
+          "audioUrl": "",
+          "id": 6,
+          "imgUrl": "",
+          "sort": 6
+        },
+        {
+          "audioUrl": "",
+          "id": 7,
+          "imgUrl": "",
+          "sort": 7
+        },
+        {
+          "audioUrl": "",
+          "id": 8,
+          "imgUrl": "",
+          "sort": 8
+        },
+        {
+          "audioUrl": "",
+          "id": 9,
+          "imgUrl": "",
+          "sort": 9
+        },
+        {
+          "audioUrl": "",
+          "id": 10,
+          "imgUrl": "",
+          "sort": 10
+        }
+      ],
+      "title": "普外科综合培训课程一"
+    },
+    "courseId": 1,
+    "id": 1,
+    "meetId": "17042512131640894904",
+    "moduleId": 7
+  }
+}

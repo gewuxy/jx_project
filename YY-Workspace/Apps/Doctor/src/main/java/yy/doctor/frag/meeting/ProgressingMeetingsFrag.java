@@ -1,8 +1,8 @@
 package yy.doctor.frag.meeting;
 
-import org.json.JSONException;
-
-import lib.ys.network.resp.IListResponse;
+import lib.ys.config.AppConfig.RefreshWay;
+import yy.doctor.Constants.MeetsState;
+import yy.doctor.network.NetFactory;
 
 /**
  * 会议进行中列表
@@ -14,9 +14,6 @@ import lib.ys.network.resp.IListResponse;
 public class ProgressingMeetingsFrag extends BaseMeetingsFrag {
     @Override
     public void initData() {
-        for (int i = 0; i < 12; ++i) {
-            addItem(i + "");
-        }
     }
 
     @Override
@@ -25,9 +22,10 @@ public class ProgressingMeetingsFrag extends BaseMeetingsFrag {
     }
 
     @Override
-    public IListResponse<String> parseNetworkResponse(int id, String text) throws JSONException {
-        return null;
+    public void setViews() {
+        super.setViews();
+        refresh(RefreshWay.embed);
+        exeNetworkRequest(0, NetFactory.meets(MeetsState.KPro));
     }
-
 
 }

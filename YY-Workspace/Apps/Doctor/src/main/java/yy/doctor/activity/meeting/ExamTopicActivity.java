@@ -5,25 +5,17 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseVPActivity;
 import lib.yy.view.ExamCaseGridView;
-import lib.yy.view.ExamCaseGridView.OnInvalidListener;
 import yy.doctor.R;
 import yy.doctor.adapter.ExamCaseAdapter;
-import yy.doctor.frag.exam.ExamTopicFrag;
-import yy.doctor.frag.exam.ExamTopicFrag.OnNextListener;
-import yy.doctor.model.exam.ExamTopic;
+import yy.doctor.model.exam.Topic;
 import yy.doctor.util.Util;
-
-import static yy.doctor.model.exam.ExamTopic.TExamTopic;
 
 /**
  * 考试题目界面
@@ -36,7 +28,7 @@ public class ExamTopicActivity extends BaseVPActivity {
 
     private static final long KDuration = 300l;//动画时长
 
-    private ArrayList<ExamTopic> mAllTopics;    //考题的数据,服务器返回的json字符串
+    private ArrayList<Topic> mAllTopics;    //考题的数据,服务器返回的json字符串
 
     private LinearLayout mLl;                   //考题情况
     private ExamCaseGridView mGv;               //考题情况列表
@@ -70,15 +62,15 @@ public class ExamTopicActivity extends BaseVPActivity {
                 1.0f);
 
         mAllTopics = new ArrayList<>();
-
-        for (int i = 0; i < 3; i++) {
+        //TODO:接收考题信息
+       /* for (int i = 0; i < 3; i++) {
 
             ArrayList<String> chooses = new ArrayList<>(); //考题的选项
             for (int j = 0; j < 3; j++) {
                 chooses.add("放假" + (i * j));
             }
             ExamTopic examTopic = new ExamTopic();
-            examTopic.put(TExamTopic.question, "五一放假");
+            examTopic.put(TExamTopic.title, "五一放假");
             examTopic.put(TExamTopic.choose, chooses);
 
             ExamTopicFrag frag = new ExamTopicFrag();
@@ -97,7 +89,7 @@ public class ExamTopicActivity extends BaseVPActivity {
             });
             mAllTopics.add(examTopic);
             add(frag);
-        }
+        }*/
     }
 
     @Override
@@ -129,7 +121,6 @@ public class ExamTopicActivity extends BaseVPActivity {
 
         setAnimation(mEnter);
         setAnimation(mLeave);
-
     }
 
     @Override
@@ -154,22 +145,14 @@ public class ExamTopicActivity extends BaseVPActivity {
     private void gvSet() {
         mExamCaseAdapter = new ExamCaseAdapter();
         mExamCaseAdapter.addAll(mAllTopics);
+
         mGv.setAdapter(mExamCaseAdapter);
-
-        mGv.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LogMgr.e(TAG, "item" + position);
-                examCaseVisibility(false);
-            }
+        mGv.setOnItemClickListener((parent, view, position, id) -> {
+            examCaseVisibility(false);
         });
-
-        mGv.setOnInvalidListener(new OnInvalidListener() {
-            @Override
-            public boolean onInvalidPosition(int motionEvent) {
-                examCaseVisibility(false);
-                return false;
-            }
+        mGv.setOnInvalidListener(motionEvent -> {
+            examCaseVisibility(false);
+            return false;
         });
     }
 

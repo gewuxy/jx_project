@@ -36,17 +36,17 @@ public class NetFactory {
     }
 
     public interface RegisterParam {
-        String invite = "invite";
-        String username = "username";
-        String nickname = "nickname";
-        String linkman = "linkman";
-        String mobile = "mobile";
-        String pwd = "password";
-        String province = "provice";
-        String city = "city";
-        String hospital = "hospital";
-        String department = "department";
-        String licence = "licence";
+        String KInvite = "invite";//邀请码
+        String KUsername = "username";//用户名
+        String KNickname = "nickname";//昵称
+        String KLinkman = "linkman";//真实名字
+        String KMobile = "mobile";//手机号
+        String KPwd = "password";//密码
+        String KProvince = "provice";//省份
+        String KCity = "city";//城市
+        String KHospital = "hospital";//医院
+        String KDepartment = "department";//科室
+        String KLicence = "licence";//执业许可证号
     }
 
     public interface HospitalParam {
@@ -59,27 +59,29 @@ public class NetFactory {
     }
 
     public interface MeetParam {
-        String state = "state";
+        String KState = "state";//会议状态
 
-        String meetId = "meetId";//会议
-        String paperId = "paperId";//试卷
-        String courseId = "courseId";//微课
-        String detailId = "detailId";//微课明细
-        String surveyId = "surveyId";//问卷
-        String moduleId = "moduleId";//模块
-        String positionId = "positionId";
-        String questionId = "questionId";
+        String KMeetId = "meetId";//会议
+        String KPaperId = "paperId";//试卷
+        String KModuleId = "moduleId";//模块
+        String KSurveyId = "surveyId";//问卷
+        String KCourseId = "courseId";//微课
+        String KDetailId = "detailId";//微课明细
+        String KQuestionId = "questionId";//试题
+        String KPositionId = "positionId";//签到位置
 
-        String signLng = "signLng";//经度
-        String signLat = "signLat";//维度
-        String pageSize = "pageSize";
-        String pageNum = "pageNum";
-        String message = "message";
-        String msgType = "msgType";
-        String useTime = "useTime";//微课明细用时
+        String KAnswer = "answer";//答案
+        String KItemJson = "itemJSON";//答案列表
 
-        String itemJson = "itemJSON";
-        String answer = "answer";
+        String KUseTime = "useTime";//微课用时
+
+        String KMessage = "message";//留言内容
+        String KMsgType = "msgType";//留言类型
+        String KPageNum = "pageNum";//第N次分页
+        String KPageSize = "pageSize";//返回多少条数据
+
+        String KSignLng = "signLng";//经度
+        String KSignLat = "signLat";//维度
     }
 
     private interface HomePara {
@@ -153,7 +155,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest hospital(String city) {
-        return newGet(UrlRegister.hospital)
+        return newGet(UrlRegister.KHospital)
                 .param(HospitalParam.city, city)
                 .build();
     }
@@ -164,7 +166,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest depart() {
-        return newGet(UrlRegister.depart)
+        return newGet(UrlRegister.KDepart)
                 .build();
     }
 
@@ -240,7 +242,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest province() {
-        return newGet(UrlRegister.province)
+        return newGet(UrlRegister.KProvince)
                 .build();
     }
 
@@ -250,7 +252,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest city(String preid) {
-        return newGet(UrlRegister.city)
+        return newGet(UrlRegister.KCity)
                 .param(CityPara.city, preid)
                 .build();
     }
@@ -370,7 +372,7 @@ public class NetFactory {
      * 会议推荐
      */
     public static NetworkRequest meetRec() {
-        return newGet(UrlMeet.meetRec)
+        return newGet(UrlMeet.KMeetRec)
                 .build();
     }
 
@@ -378,8 +380,8 @@ public class NetFactory {
      * 关注过的公众的所有会议
      */
     public static NetworkRequest meets(int state) {
-        return newGet(UrlMeet.meets)
-                .param(MeetParam.state, state)
+        return newGet(UrlMeet.KMeets)
+                .param(MeetParam.KState, state)
                 .build();
     }
 
@@ -387,16 +389,16 @@ public class NetFactory {
      * 会议详情
      */
     public static NetworkRequest meetInfo(String meetId) {
-        return newGet(UrlMeet.info)
-                .param(MeetParam.meetId, meetId)
+        return newGet(UrlMeet.KInfo)
+                .param(MeetParam.KMeetId, meetId)
                 .build();
     }
 
 
     public static NetworkRequest toBase(String url, String meetId, String moduleId) {
         return newGet(url)
-                .param(MeetParam.meetId, meetId)
-                .param(MeetParam.moduleId, moduleId)
+                .param(MeetParam.KMeetId, meetId)
+                .param(MeetParam.KModuleId, moduleId)
                 .build();
     }
 
@@ -404,42 +406,42 @@ public class NetFactory {
      * 考试入口
      */
     public static NetworkRequest toExam(String meetId, String moduleId) {
-        return toBase(UrlMeet.toExam, meetId, moduleId);
+        return toBase(UrlMeet.KToExam, meetId, moduleId);
     }
 
     /**
      * 问卷入口
      */
     public static NetworkRequest toSurvey(String meetId, String moduleId) {
-        return toBase(UrlMeet.toSurvey, meetId, moduleId);
+        return toBase(UrlMeet.KToSurvey, meetId, moduleId);
     }
 
     /**
      * 微课(语音+PPT)入口
      */
     public static NetworkRequest toPpt(String meetId, String moduleId) {
-        return toBase(UrlMeet.toPpt, meetId, moduleId);
+        return toBase(UrlMeet.KToPpt, meetId, moduleId);
     }
 
     /**
      * 签到入口
      */
     public static NetworkRequest toSign(String meetId, String moduleId) {
-        return toBase(UrlMeet.toSign, meetId, moduleId);
+        return toBase(UrlMeet.KToSign, meetId, moduleId);
     }
 
     /**
      * 考试提交
      */
     public static SubmitBuilder submitEx() {
-        return new SubmitBuilder(UrlMeet.submitEx);
+        return new SubmitBuilder(UrlMeet.KSubmitEx);
     }
 
     /**
      * 微课学习提交
      */
     public static SubmitBuilder submitPpt() {
-        return new SubmitBuilder(UrlMeet.toPpt);
+        return new SubmitBuilder(UrlMeet.KToPpt);
     }
 
     /**
@@ -453,10 +455,10 @@ public class NetFactory {
      * 会议留言记录
      */
     public static NetworkRequest histories(String meetId) {
-        return newGet(UrlMeet.histories)
-                .param(MeetParam.meetId, meetId)
-                .param(MeetParam.pageSize, 10)
-                .param(MeetParam.pageNum, 1)
+        return newGet(UrlMeet.KHistories)
+                .param(MeetParam.KMeetId, meetId)
+                .param(MeetParam.KPageSize, 10)
+                .param(MeetParam.KPageNum, 1)
                 .build();
     }
 
@@ -464,10 +466,10 @@ public class NetFactory {
      * 会议留言记录
      */
     public static NetworkRequest histories(String meetId, String pageSize, String pageNum) {
-        return newGet(UrlMeet.histories)
-                .param(MeetParam.meetId, meetId)
-                .param(MeetParam.pageSize, pageSize)
-                .param(MeetParam.pageNum, pageNum)
+        return newGet(UrlMeet.KHistories)
+                .param(MeetParam.KMeetId, meetId)
+                .param(MeetParam.KPageSize, pageSize)
+                .param(MeetParam.KPageNum, pageNum)
                 .build();
     }
 
@@ -475,10 +477,10 @@ public class NetFactory {
      * 发表会议留言
      */
     public static NetworkRequest send(String meetId, String message, String msgType) {
-        return newPost(UrlMeet.send)
-                .param(MeetParam.meetId, meetId)
-                .param(MeetParam.message, message)
-                .param(MeetParam.msgType, msgType)
+        return newPost(UrlMeet.KSend)
+                .param(MeetParam.KMeetId, meetId)
+                .param(MeetParam.KMessage, message)
+                .param(MeetParam.KMsgType, msgType)
                 .build();
     }
 

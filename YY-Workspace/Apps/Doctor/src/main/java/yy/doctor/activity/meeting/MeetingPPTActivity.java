@@ -6,12 +6,24 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import lib.network.error.NetError;
+import lib.network.model.NetworkResponse;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.LogMgr;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.ToastUtil;
 import lib.yy.activity.base.BaseActivity;
+import lib.yy.network.Response;
 import yy.doctor.R;
+import yy.doctor.model.exam.Course;
+import yy.doctor.model.exam.Course.TCourse;
+import yy.doctor.model.exam.Ppt;
+import yy.doctor.model.exam.Ppt.TPpt;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -77,11 +89,36 @@ public class MeetingPPTActivity extends BaseActivity {
 
         mSbProgress.setOnClickListener(this);
         mIvControl.setOnClickListener(this);
+
+        refresh(RefreshWay.embed);
+        exeNetworkRequest(0, NetFactory.toPpt("17042512131640894904","7"));
     }
 
     @Override
     protected TNavBarState getNavBarState() {
         return TNavBarState.above;
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        return JsonParser.ev(nr.getText(), Ppt.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        setViewState(ViewState.normal);
+        Response<Ppt> r = (Response<Ppt>) result;
+        if (r.isSucceed()) {
+            Ppt data = r.getData();
+            Course course = data.getEv(TPpt.course);
+            LogMgr.d("标题",course.getString(TCourse.title));
+        }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+        setViewState(ViewState.error);
     }
 
     @Override

@@ -9,7 +9,6 @@ import org.json.JSONException;
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.resp.IListResponse;
-import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
@@ -19,10 +18,8 @@ import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital;
+import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.util.Util;
-
-import static yy.doctor.model.hospital.Hospital.THospital.name;
-
 
 /**
  * 选择医院的界面
@@ -45,12 +42,15 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     public void initData() {
         mLetterSize = fitDp(10);
 
+        /*refresh(RefreshWay.dialog);
+        exeNetworkRequest(0, NetFactory.hospital("广州市"));*/
+        //TODO：解析
         //模拟数据
         GroupHospital groupHospital = new GroupHospital();
 
         for (int i = 0; i < 10; i++) {
             Hospital hospital = new Hospital();
-            hospital.put(name, "" + i);
+            hospital.put(THospital.name, "" + i);
             groupHospital.add(hospital);
         }
 
@@ -105,11 +105,6 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     }
 
     @Override
-    public void setViewState(@DecorViewEx.ViewState int state) {
-        super.setViewState(state);
-    }
-
-    @Override
     public MultiGroupAdapterEx<GroupHospital, ? extends ViewHolderEx> createAdapter() {
         return new HospitalAdapter();
     }
@@ -129,7 +124,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.hospital_tv_change:
-                startActivityForResult(ProvinceCityActivity.class,100);
+                startActivity(ProvinceCityActivity.class);
                 break;
             default:
                 break;

@@ -13,14 +13,14 @@ public class RegisterBuilder {
     private Builder mBuilder;
 
     public RegisterBuilder() {
-        mBuilder = NetFactory.newPost(UrlRegister.register);
+        mBuilder = NetFactory.newPost(UrlRegister.KRegister);
     }
 
     /**
      * @param invite 邀请码
      */
     public RegisterBuilder invite(String invite) {
-        mBuilder.param(RegisterParam.invite, invite);
+        mBuilder.param(RegisterParam.KInvite, invite);
         return this;
     }
 
@@ -28,7 +28,7 @@ public class RegisterBuilder {
      * @param username 用户登录名
      */
     public RegisterBuilder username(String username) {
-        mBuilder.param(RegisterParam.username, username);
+        mBuilder.param(RegisterParam.KUsername, username);
         return this;
     }
 
@@ -36,7 +36,7 @@ public class RegisterBuilder {
      * @param nickname 用户昵称
      */
     public RegisterBuilder nickname(String nickname) {
-        mBuilder.param(RegisterParam.nickname, nickname);
+        mBuilder.param(RegisterParam.KNickname, nickname);
         return this;
     }
 
@@ -44,7 +44,7 @@ public class RegisterBuilder {
      * @param linkman 真实姓名
      */
     public RegisterBuilder linkman(String linkman) {
-        mBuilder.param(RegisterParam.linkman, linkman);
+        mBuilder.param(RegisterParam.KLinkman, linkman);
         return this;
     }
 
@@ -52,7 +52,7 @@ public class RegisterBuilder {
      * @param mobile 手机号
      */
     public RegisterBuilder mobile(String mobile) {
-        mBuilder.param(RegisterParam.mobile, mobile);
+        mBuilder.param(RegisterParam.KMobile, mobile);
         return this;
     }
 
@@ -60,7 +60,7 @@ public class RegisterBuilder {
      * @param pwd 密码
      */
     public RegisterBuilder pwd(String pwd) {
-        mBuilder.param(RegisterParam.pwd, pwd);
+        mBuilder.param(RegisterParam.KPwd, pwd);
         return this;
     }
 
@@ -68,7 +68,7 @@ public class RegisterBuilder {
      * @param province 省份
      */
     public RegisterBuilder province(String province) {
-        mBuilder.param(RegisterParam.province, province);
+        mBuilder.param(RegisterParam.KProvince, province);
         return this;
     }
 
@@ -76,7 +76,7 @@ public class RegisterBuilder {
      * @param city 城市
      */
     public RegisterBuilder city(String city) {
-        mBuilder.param(RegisterParam.city, city);
+        mBuilder.param(RegisterParam.KCity, city);
         return this;
     }
 
@@ -84,7 +84,7 @@ public class RegisterBuilder {
      * @param hospital 医院名称
      */
     public RegisterBuilder hospital(String hospital) {
-        mBuilder.param(RegisterParam.hospital, hospital);
+        mBuilder.param(RegisterParam.KHospital, hospital);
         return this;
     }
 
@@ -92,7 +92,7 @@ public class RegisterBuilder {
      * @param department 科室名称
      */
     public RegisterBuilder department(String department) {
-        mBuilder.param(RegisterParam.department, department);
+        mBuilder.param(RegisterParam.KDepartment, department);
         return this;
     }
 
@@ -100,7 +100,7 @@ public class RegisterBuilder {
      * @param licence 执业许可证号
      */
     public RegisterBuilder licence(String licence) {
-        mBuilder.param(RegisterParam.licence, licence);
+        mBuilder.param(RegisterParam.KLicence, licence);
         return this;
     }
 

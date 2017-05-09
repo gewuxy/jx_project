@@ -3,8 +3,8 @@ package yy.doctor.adapter;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.ExamCaseVH;
-import yy.doctor.model.exam.ExamTopic;
-import yy.doctor.model.exam.ExamTopic.TExamTopic;
+import yy.doctor.model.exam.Topic;
+import yy.doctor.model.exam.Topic.TExamTopic;
 
 /**
  * 考试情况Adapter
@@ -13,7 +13,7 @@ import yy.doctor.model.exam.ExamTopic.TExamTopic;
  * @since : 2017/4/28
  */
 
-public class ExamCaseAdapter extends AdapterEx<ExamTopic, ExamCaseVH> {
+public class ExamCaseAdapter extends AdapterEx<Topic, ExamCaseVH> {
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_exam_topic_case_item;

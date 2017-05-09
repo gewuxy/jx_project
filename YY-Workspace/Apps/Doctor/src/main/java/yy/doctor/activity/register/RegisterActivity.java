@@ -7,16 +7,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResponse;
-import lib.ys.ui.other.NavBar;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Response;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.activity.LoginActivity;
 import yy.doctor.activity.MainActivity;
 import yy.doctor.model.Profile;
-import yy.doctor.model.Register;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
@@ -25,18 +26,20 @@ import yy.doctor.util.Util;
 
 /**
  * 注册界面
- * <p>
+ *
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
 public class RegisterActivity extends BaseFormActivity {
 
-    public static final int KFromRegister = 1;
-    private EditText mActivationCode;
-    private TextView mGetActivationCode;
-    private TextView mRegister;
-    private String mUserName;   //用户名
-    private String mPwd;        //密码
+    private static final int KRegister = 0;
+    private static final int KLogin = 1;
+
+    private EditText mActCode;      //填写激活码
+    private TextView mGetActCode;   //获取激活码
+    private TextView mRegister;     //注册
+    private String mUserName;       //用户名
+    private String mPwd;            //密码
 
     @IntDef({
             RelatedId.email,
@@ -59,9 +62,7 @@ public class RegisterActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, "注册", this);
-
     }
 
     @Override
@@ -69,42 +70,36 @@ public class RegisterActivity extends BaseFormActivity {
         super.initData();
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.email)
                 .hint("邮箱")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.name)
                 .hint("姓名")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.pwd)
                 .hint("密码")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.marksure_pwd)
                 .hint("确认密码")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.location)
                 .hint("广东 广州")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.hospital)
                 .hint("医院名称")
@@ -122,19 +117,17 @@ public class RegisterActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mActivationCode = findView(R.id.register_et_activation_code);
-        mGetActivationCode = findView(R.id.register_get_activation_code);
+        mActCode = findView(R.id.register_et_activation_code);
+        mGetActCode = findView(R.id.register_get_activation_code);
         mRegister = findView(R.id.register);
 
-        mGetActivationCode.setOnClickListener(this);
+        mGetActCode.setOnClickListener(this);
         mRegister.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_et_activation_code:
-                break;
             case R.id.register_get_activation_code:
                 startActivity(ActivationCodeExplainActivity.class);
                 break;
@@ -148,23 +141,23 @@ public class RegisterActivity extends BaseFormActivity {
      * 注册操作
      */
     private void enroll() {
-
-        String strInvite = getItem(11).getString(TFormElem.text);
-        mUserName = getItem(RelatedId.email).getString(TFormElem.text);
-        String strNickname = "";
-        String strLinkman = getItem(RelatedId.name).getString(TFormElem.text);
+        //TODO:参数都要?
+        String strInvite = mActCode.getText().toString().trim();
+        mUserName = getItemStr(RelatedId.email);
+        String strNickname = mUserName;
+        String strLinkman = getItemStr(RelatedId.name);
         String strMobile = "";
-        String strPwd = getItem(RelatedId.pwd).getString(TFormElem.text);
-        String strPwdNg = getItem(RelatedId.marksure_pwd).getString(TFormElem.text);
+        String strPwd = getItemStr(RelatedId.pwd);
+        String strPwdNg = getItemStr(RelatedId.marksure_pwd);
         String strProvince = "";
-        String strCity = getItem(RelatedId.location).getString(TFormElem.text);
-        String strHospital = "";
+        String strCity = getItemStr(RelatedId.location);
+        String strHospital = getItemStr(RelatedId.hospital);
         String strDepartment = "";
         String strLicence = "";
 
         if (BuildConfig.TEST) {
             strInvite = "02123456789";
-            mUserName = "123456789@163.com";
+            mUserName = "18194529@qq.com";
             strNickname = mUserName;
             strLinkman = "test1";
             strMobile = "";
@@ -175,36 +168,53 @@ public class RegisterActivity extends BaseFormActivity {
             strHospital = "第一医院";
             strDepartment = "";
             strLicence = "";
-        }
-
-//                if (!check()) {
-//            return;
-//        }
-
-        if (!strPwd.equals(strPwdNg)) {
-            mPwd = strPwd;
-            showToast("密码不一致");
+            mPwd = "123456";
+            //登录
+            refresh(RefreshWay.embed);
+            exeNetworkRequest(KLogin, NetFactory.login(mUserName, mPwd));
             return;
         }
 
-        //自动登录
-        notify(NotifyType.login);
-        exeNetworkRequest(1, NetFactory.login(mUserName, mPwd));
-        startActivity(MainActivity.class);
-        finish();
-        /*refresh(RefreshWay.dialog);
-        exeNetworkRequest(0, NetFactory.register(strInvite, mUserName, strNickname, strLinkman,
-                strMobile, strPwd, strProvince, strCity, strHospital, strDepartment, strLicence));*/
+        if (!check()) {
+            return;
+        }
+        if (!strPwd.equals(strPwdNg)) {
+            showToast("密码不一致");
+            return;
+        }
+        mPwd = strPwd;
+
+        //注册
+        refresh(RefreshWay.dialog);
+        exeNetworkRequest(KRegister, NetFactory.register()
+                .username(mUserName)
+                .nickname(strNickname)
+                .linkman(strLinkman)
+                .pwd(mPwd)
+                .mobile(strMobile)
+                .province(strProvince)
+                .city(strCity)
+                .hospital(strHospital)
+                .department(strDepartment)
+                .licence(strLicence)
+                .invite(strInvite)
+                .build());
+    }
+
+    /**
+     * 获取Item的文本信息
+     */
+    private String getItemStr(@RelatedId int relatedId) {
+        return getRelatedItem(relatedId).getString(TFormElem.val);
     }
 
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
-
         if (v instanceof ImageView) {
             @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
             switch (relatedId) {
                 case RelatedId.hospital:
-                    startActivityForResult(HospitalActivity.class, KFromRegister);
+                    startActivity(HospitalActivity.class);
                     break;
             }
         }
@@ -212,34 +222,36 @@ public class RegisterActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        if (id == 1) {
+        if (id == KLogin) {
             return JsonParser.ev(nr.getText(), Profile.class);
         }
-        return JsonParser.ev(nr.getText(), Register.class);
+        return JsonParser.error(nr.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == 1) {
+        if (id == KLogin) {//登录
+            stopRefresh();
             Response<Profile> r = (Response<Profile>) result;
-
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
+                notify(NotifyType.login);
                 startActivity(MainActivity.class);
                 finish();
             } else {
+                startActivity(LoginActivity.class);
+                finish();
                 showToast(r.getError());
             }
-        }
-
-        Response<Register> r = (Response<Register>) result;
-        if (r.isSucceed()) {
-            Register.inst().update(r.getData());
-            //登录
-            notify(NotifyType.login);
-        } else {
-            stopRefresh();
-            showToast(r.getError());
+        } else if (id == KRegister) {//注册
+            Response r = (Response) result;
+            if (r.isSucceed()) {
+                //注册成功后登录,登录有结果才stopRefresh
+                exeNetworkRequest(KLogin, NetFactory.login(mUserName, mPwd));
+            } else {
+                stopRefresh();
+                showToast(r.getError());
+            }
         }
     }
 

@@ -51,12 +51,12 @@ public class UrlUtil {
     }
 
     public interface UrlRegister {
-        String registerBase = "regist/";
-        String province = registerBase + "provinces";
-        String city = registerBase + "cities";
-        String register = registerBase + "regist";
-        String hospital = registerBase + "hos";
-        String depart = registerBase + "depart";
+        String KRegisterBase = "regist/";
+        String KProvince = KRegisterBase + "provinces";
+        String KCity = KRegisterBase + "cities";
+        String KRegister = KRegisterBase + "regist";
+        String KHospital = KRegisterBase + "hos";
+        String KDepart = KRegisterBase + "depart";
     }
 
     public interface UrlHome {
@@ -64,22 +64,22 @@ public class UrlUtil {
     }
 
     public interface UrlMeet {
-        String meetBase = "meet/";
-        String meetRec = meetBase + "tuijian";
-        String meets = meetBase + "meets";
-        String info = meetBase + "info";
+        String KMeetBase = "meet/";
+        String KMeetRec = KMeetBase + "tuijian";
+        String KMeets = KMeetBase + "meets";
+        String KInfo = KMeetBase + "info";
 
-        String toExam = meetBase + "toexam";
-        String toSurvey = meetBase + "tosurvey";
-        String toSign = meetBase + "tosign";
-        String toPpt = meetBase + "toppt";
+        String KToExam = KMeetBase + "toexam";
+        String KToSurvey = KMeetBase + "tosurvey";
+        String KToSign = KMeetBase + "tosign";
+        String KToPpt = KMeetBase + "toppt";
 
-        String submitsur = meetBase + "submitsur";
-        String submitEx = meetBase + "submitex";
+        String KSubmitsur = KMeetBase + "submitsur";
+        String KSubmitEx = KMeetBase + "submitex";
 
-        String sign = meetBase + "sign";
-        String send = meetBase + "message/send";
-        String histories = meetBase + "message/histories";
+        String KSign = KMeetBase + "sign";
+        String KSend = KMeetBase + "message/send";
+        String KHistories = KMeetBase + "message/histories";
     }
 
     public interface UrlEpn {

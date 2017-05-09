@@ -1,0 +1,44 @@
+{
+  "code": "0",
+  "data": {
+    "eduCredits": 0,
+    "id": "17042512131640894904",
+    "lecturer": "李教授",
+    "meetName": "测试会议",
+    "meetType": "儿科",
+    "modules": [
+      {
+        "active": true,
+        "functionId": 5,
+        "id": 4,
+        "meetId": "17042512131640894904",
+        "moduleName": "签到"
+      },
+      {
+        "active": true,
+        "functionId": 1,
+        "id": 7,
+        "meetId": "17042512131640894904",
+        "moduleName": "微课"
+      },
+      {
+        "active": true,
+        "functionId": 3,
+        "id": 8,
+        "meetId": "17042512131640894904",
+        "moduleName": "考试"
+      },
+      {
+        "functionId": 4,
+        "id": 10,
+        "meetId": "17042512131640894904",
+        "moduleName": "问卷"
+      }
+    ],
+    "organizer": "yaya大讲堂",
+    "requiredXs": false,
+    "startTime": 1493270190000,
+    "state": 1,
+    "xsCredits": 100
+  }
+}

@@ -32,7 +32,7 @@ public class SubmitBuilder {
      * 会议ID
      */
     public SubmitBuilder meetId(String meetId) {
-        mBuilder.param(MeetParam.meetId, meetId);
+        mBuilder.param(MeetParam.KMeetId, meetId);
         return this;
     }
 
@@ -40,7 +40,7 @@ public class SubmitBuilder {
      * 模块ID
      */
     public SubmitBuilder moduleId(String moduleId) {
-        mBuilder.param(MeetParam.moduleId, moduleId);
+        mBuilder.param(MeetParam.KModuleId, moduleId);
         return this;
     }
 
@@ -50,7 +50,7 @@ public class SubmitBuilder {
      * 试卷ID
      */
     public SubmitBuilder paperId(String paperId) {
-        mBuilder.param(MeetParam.paperId, paperId);
+        mBuilder.param(MeetParam.KPaperId, paperId);
         return this;
     }
 
@@ -60,7 +60,7 @@ public class SubmitBuilder {
      * 问卷调查ID
      */
     public SubmitBuilder surveyId(String surveyId) {
-        mBuilder.param(MeetParam.surveyId, surveyId);
+        mBuilder.param(MeetParam.KSurveyId, surveyId);
         return this;
     }
 
@@ -76,16 +76,16 @@ public class SubmitBuilder {
                 .subscribe(answer -> {
                     JSONObject o = new JSONObject();
                     try {
-                        o.put(MeetParam.answer, answer.getString(TAnswer.answer));
-                        o.put(MeetParam.questionId, answer.getString(TAnswer.id));
+                        o.put(MeetParam.KAnswer, answer.getString(TAnswer.answer));
+                        o.put(MeetParam.KQuestionId, answer.getString(TAnswer.id));
                     } catch (JSONException e) {
                         LogMgr.e(TAG, "items", e);
                     }
 
-                    arr.put(o);
-                });
+            arr.put(o);
+        });
 
-        mBuilder.param(MeetParam.itemJson, arr.toString());
+        mBuilder.param(MeetParam.KItemJson, arr.toString());
         return this;
     }
 
@@ -96,7 +96,7 @@ public class SubmitBuilder {
      * 微课ID
      */
     public SubmitBuilder courseId(String courseId) {
-        mBuilder.param(MeetParam.moduleId, courseId);
+        mBuilder.param(MeetParam.KCourseId, courseId);
         return this;
     }
 
@@ -104,7 +104,7 @@ public class SubmitBuilder {
      * 微课明细ID
      */
     public SubmitBuilder detailId(String detailId) {
-        mBuilder.param(MeetParam.surveyId, detailId);
+        mBuilder.param(MeetParam.KDetailId, detailId);
         return this;
     }
 
@@ -112,7 +112,7 @@ public class SubmitBuilder {
      * 微课明细用时
      */
     public SubmitBuilder useTime(String useTime) {
-        mBuilder.param(MeetParam.paperId, useTime);
+        mBuilder.param(MeetParam.KUseTime, useTime);
         return this;
     }
 
