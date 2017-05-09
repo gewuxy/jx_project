@@ -10,10 +10,16 @@ import yy.doctor.model.Profile;
 import yy.doctor.network.UrlUtil.UrlEpc;
 import yy.doctor.network.UrlUtil.UrlEpn;
 import yy.doctor.network.UrlUtil.UrlHome;
+import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlSearch;
 import yy.doctor.network.UrlUtil.UrlUnitNum;
 import yy.doctor.network.UrlUtil.UrlUser;
+import yy.doctor.network.builder.ExchangeBuilder;
+import yy.doctor.network.builder.ModifyBuilder;
+import yy.doctor.network.builder.RegisterBuilder;
+import yy.doctor.network.builder.SignBuilder;
+import yy.doctor.network.builder.SubmitBuilder;
 
 import static yy.doctor.model.Profile.TProfile.token;
 
@@ -23,6 +29,8 @@ import static yy.doctor.model.Profile.TProfile.token;
  */
 public class NetFactory {
 
+    private static final String TAG = NetFactory.class.getSimpleName();
+
     private interface BaseParam {
         String device_os = "device_os";
     }
@@ -31,7 +39,7 @@ public class NetFactory {
         String token = "token";
     }
 
-    private interface RegisterParam {
+    public interface RegisterParam {
         String invite = "invite";
         String username = "username";
         String nickname = "nickname";
@@ -45,16 +53,44 @@ public class NetFactory {
         String licence = "licence";
     }
 
-    private interface UserParam {
+    public interface HospitalParam {
+        String city = "city";
+    }
+
+    public interface UserParam {
         String username = "username";
         String password = "password";
+    }
+
+    public interface MeetParam {
+        String state = "state";
+
+        String meetId = "meetId";//会议
+        String paperId = "paperId";//试卷
+        String courseId = "courseId";//微课
+        String detailId = "detailId";//微课明细
+        String surveyId = "surveyId";//问卷
+        String moduleId = "moduleId";//模块
+        String positionId = "positionId";
+        String questionId = "questionId";
+
+        String signLng = "signLng";//经度
+        String signLat = "signLat";//维度
+        String pageSize = "pageSize";
+        String pageNum = "pageNum";
+        String message = "message";
+        String msgType = "msgType";
+        String useTime = "useTime";//微课明细用时
+
+        String itemJson = "itemJSON";
+        String answer = "answer";
     }
 
     private interface HomePara {
         String type = "type";
     }
 
-    private interface ProfilePara {
+    public interface ProfilePara {
         String nickname = "nickname";
         String linkman = "linkman";
         String mobile = "mobile";
@@ -74,11 +110,11 @@ public class NetFactory {
         String file = "file";
     }
 
-    private interface CityPara {
+    public interface CityPara {
         String city = "preid";
     }
 
-    private interface EpnRechargePara {
+    public interface EpnRechargePara {
         String body = "body";
         String subject = "subject";
         String totalAmount = "totalAmount";
@@ -97,7 +133,7 @@ public class NetFactory {
         String keyword = "keyword";
     }
 
-    private interface EpcExchangePara {
+    public interface EpcExchangePara {
         String goodsId = "goodsId";
         String price = "price";
         String receiver = "receiver";
@@ -109,71 +145,31 @@ public class NetFactory {
 
     /**
      * 注册
-     *
-     * @param invite     邀请码
-     * @param username   用户登录名
-     * @param nickname   用户昵称
-     * @param linkman    真实姓名
-     * @param mobile     手机号
-     * @param pwd        密码
-     * @param province   省份
-     * @param city       城市
-     * @param hospital   医院名称
-     * @param department 科室名称
-     * @param licence    执业许可证号
-     * @return
      */
-    public static NetworkRequest register(
-            String invite,
-            String username,
-            String nickname,
-            String linkman,
-            String mobile,
-            String pwd,
-            String province,
-            String city,
-            String hospital,
-            String department,
-            String licence) {
-        return newGet(UrlRegister.register)
-                .param(invite, invite)
-                .param(RegisterParam.username, username)
-                .param(RegisterParam.nickname, nickname)
-                .param(RegisterParam.linkman, linkman)
-                .param(RegisterParam.mobile, mobile)
-                .param(RegisterParam.pwd, pwd)
-                .param(RegisterParam.province, province)
-                .param(RegisterParam.city, city)
-                .param(RegisterParam.hospital, hospital)
-                .param(RegisterParam.department, department)
-                .param(RegisterParam.licence, licence)
-                .build();
-    }
-
-    public static RegisterBuilder newRegBuilder() {
+    public static RegisterBuilder register() {
         return new RegisterBuilder();
     }
 
-    public static class RegisterBuilder {
-        private Builder mBuilder;
+    /**
+     * 医院信息
+     *
+     * @param city
+     * @return
+     */
+    public static NetworkRequest hospital(String city) {
+        return newGet(UrlRegister.hospital)
+                .param(HospitalParam.city, city)
+                .build();
+    }
 
-        private RegisterBuilder() {
-            mBuilder = newGet(UrlRegister.register);
-        }
-
-        public RegisterBuilder invite(String invite) {
-            mBuilder.param(invite, invite);
-            return this;
-        }
-
-        public RegisterBuilder username(String username) {
-            mBuilder.param(username, username);
-            return this;
-        }
-
-        public NetworkRequest build() {
-            return mBuilder.build();
-        }
+    /**
+     * 科室信息
+     *
+     * @return
+     */
+    public static NetworkRequest depart() {
+        return newGet(UrlRegister.depart)
+                .build();
     }
 
     /**
@@ -212,13 +208,14 @@ public class NetFactory {
     }
 
     /**
-     *  首页的banner
+     * 首页的banner
+     *
      * @param type
      * @return
      */
     public static NetworkRequest banner(int type) {
         return newGet(UrlHome.banner)
-                .param(HomePara.type , type)
+                .param(HomePara.type, type)
                 .build();
     }
 
@@ -231,165 +228,9 @@ public class NetFactory {
         return new ModifyBuilder();
     }
 
-    public static class ModifyBuilder {
-
-        private Builder mBuilder;
-
-        private ModifyBuilder() {
-            mBuilder = newPost(UrlUser.modify);
-        }
-
-        /**
-         * 用户昵称
-         *
-         * @param nickname
-         * @return
-         */
-        public ModifyBuilder nickname(String nickname) {
-            mBuilder.param(ProfilePara.nickname, nickname);
-            return this;
-        }
-
-        /**
-         * 真实姓名
-         *
-         * @param linkman
-         * @return
-         */
-        public ModifyBuilder linkman(String linkman) {
-            mBuilder.param(ProfilePara.linkman, linkman);
-            return this;
-        }
-
-        /**
-         * 手机号
-         *
-         * @param mobile
-         * @return
-         */
-        public ModifyBuilder mobile(String mobile) {
-            mBuilder.param(ProfilePara.mobile, mobile);
-            return this;
-        }
-
-        /**
-         * 头像地址
-         *
-         * @param headimg
-         * @return
-         */
-        public ModifyBuilder headimg(String headimg) {
-            mBuilder.param(ProfilePara.headimg, headimg);
-            return this;
-        }
-
-        /**
-         * 省份
-         *
-         * @param province
-         * @return
-         */
-        public ModifyBuilder province(String province) {
-            mBuilder.param(ProfilePara.province, province);
-            return this;
-        }
-
-        /**
-         * 城市
-         *
-         * @param city
-         * @return
-         */
-        public ModifyBuilder city(String city) {
-            mBuilder.param(ProfilePara.city, city);
-            return this;
-        }
-
-        /**
-         * 执业许可证
-         *
-         * @param licence
-         * @return
-         */
-        public ModifyBuilder licence(String licence) {
-            mBuilder.param(ProfilePara.licence, licence);
-            return this;
-        }
-
-        /**
-         * 专长
-         *
-         * @param major
-         * @return
-         */
-        public ModifyBuilder major(String major) {
-            mBuilder.param(ProfilePara.major, major);
-            return this;
-        }
-
-        /**
-         * 职务
-         *
-         * @param place
-         * @return
-         */
-        public ModifyBuilder place(String place) {
-            mBuilder.param(ProfilePara.place, place);
-            return this;
-        }
-
-        /**
-         * 职位
-         *
-         * @param title
-         * @return
-         */
-        public ModifyBuilder title(String title) {
-            mBuilder.param(ProfilePara.title, title);
-            return this;
-        }
-
-        /**
-         * 医院
-         *
-         * @param hospital
-         * @return
-         */
-        public ModifyBuilder hospital(String hospital) {
-            mBuilder.param(ProfilePara.hospital, hospital);
-            return this;
-        }
-
-        /**
-         * 科室
-         *
-         * @param department
-         * @return
-         */
-        public ModifyBuilder department(String department) {
-            mBuilder.param(ProfilePara.department, department);
-            return this;
-        }
-
-        /**
-         * 地址
-         *
-         * @param address
-         * @return
-         */
-        public ModifyBuilder address(String address) {
-            mBuilder.param(ProfilePara.address, address);
-            return this;
-        }
-
-        public NetworkRequest builder() {
-            return mBuilder.build();
-        }
-
-    }
-
     /**
      * 头像上传
+     *
      * @return
      */
     public static NetworkRequest upheadimg(byte[] bytes) {
@@ -444,99 +285,17 @@ public class NetFactory {
 
     /**
      * 商品兑换
+     *
      * @return
      */
     public static ExchangeBuilder newExchangeBuilder() {
         return new ExchangeBuilder();
     }
 
-    public static class ExchangeBuilder {
-
-        private Builder mBuilder;
-
-        private ExchangeBuilder() {
-            mBuilder = newPost(UrlEpc.exchange);
-        }
-
-        /**
-         * 商品id
-         * @param goodsId
-         * @return
-         */
-        public ExchangeBuilder goodsId(String goodsId) {
-            mBuilder.param(EpcExchangePara.goodsId, goodsId);
-            return this;
-        }
-
-        /**
-         * 价格
-         * @param price
-         * @return
-         */
-        public ExchangeBuilder price(String price) {
-            mBuilder.param(EpcExchangePara.price, price);
-            return this;
-        }
-
-        /**
-         *收货人
-         * @param receiver
-         * @return
-         */
-        public ExchangeBuilder receiver(String receiver) {
-            mBuilder.param(EpcExchangePara.receiver, receiver);
-            return this;
-        }
-
-        /**
-         * 手机号码
-         * @param phone
-         * @return
-         */
-        public ExchangeBuilder phone(String phone) {
-            mBuilder.param(EpcExchangePara.phone, phone);
-            return this;
-        }
-
-        /**
-         *省份
-         * @param province
-         * @return
-         */
-        public ExchangeBuilder province(String province) {
-            mBuilder.param(EpcExchangePara.province, province);
-            return this;
-        }
-
-        /**
-         * 地址
-         * @param address
-         * @return
-         */
-        public ExchangeBuilder address(String address) {
-            mBuilder.param(EpcExchangePara.address, address);
-            return this;
-        }
-
-        /**
-         * 限购数量
-         * @param buyLimit
-         * @return
-         */
-        public ExchangeBuilder buyLimit(String buyLimit) {
-            mBuilder.param(EpcExchangePara.buyLimit, buyLimit);
-            return this;
-        }
-
-        public NetworkRequest builder() {
-            return mBuilder.build();
-        }
-
-    }
-
 
     /**
      * 订单
+     *
      * @return
      */
     public static NetworkRequest order() {
@@ -546,6 +305,7 @@ public class NetFactory {
 
     /**
      * 象城
+     *
      * @return
      */
     public static NetworkRequest epc() {
@@ -555,6 +315,7 @@ public class NetFactory {
 
     /**
      * 关注的单位号
+     *
      * @return
      */
     public static NetworkRequest unitNum() {
@@ -563,31 +324,34 @@ public class NetFactory {
     }
 
     /**
-     *  关注单位号 取消关注
+     * 关注单位号 取消关注
+     *
      * @param masterId
      * @param turnTo   0:取消关注 1：关注
      * @return
      */
-    public static NetworkRequest attention(int masterId , int turnTo) {
+    public static NetworkRequest attention(int masterId, int turnTo) {
         return newGet(UrlUnitNum.attention)
-                .param(AttentionPara.masterId , masterId)
-                .param(AttentionPara.turnTo , turnTo)
+                .param(AttentionPara.masterId, masterId)
+                .param(AttentionPara.turnTo, turnTo)
                 .build();
     }
 
     /**
-     *  单位号详情
+     * 单位号详情
+     *
      * @param id
      * @return
      */
     public static NetworkRequest unitNumDetail(int id) {
         return newGet(UrlUnitNum.unitNumDetail)
-                .param(UnitNumDetailPara.id , id)
+                .param(UnitNumDetailPara.id, id)
                 .build();
     }
 
     /**
-     *  搜索页面的推荐单位号
+     * 搜索页面的推荐单位号
+     *
      * @return
      */
     public static NetworkRequest recommendUnitNum() {
@@ -597,12 +361,129 @@ public class NetFactory {
 
     /**
      * 搜索单位号
+     *
      * @param keyword
      * @return
      */
     public static NetworkRequest searchUnitnum(String keyword) {
         return newPost(UrlSearch.searchUnitNum)
-                .param(SearchPara.keyword , keyword)
+                .param(SearchPara.keyword, keyword)
+                .build();
+    }
+
+    /**
+     * 会议推荐
+     */
+    public static NetworkRequest meetRec() {
+        return newGet(UrlMeet.meetRec)
+                .build();
+    }
+
+    /**
+     * 关注过的公众的所有会议
+     */
+    public static NetworkRequest meets(int state) {
+        return newGet(UrlMeet.meets)
+                .param(MeetParam.state, state)
+                .build();
+    }
+
+    /**
+     * 会议详情
+     */
+    public static NetworkRequest meetInfo(String meetId) {
+        return newGet(UrlMeet.info)
+                .param(MeetParam.meetId, meetId)
+                .build();
+    }
+
+
+    public static NetworkRequest toBase(String url, String meetId, String moduleId) {
+        return newGet(url)
+                .param(MeetParam.meetId, meetId)
+                .param(MeetParam.moduleId, moduleId)
+                .build();
+    }
+
+    /**
+     * 考试入口
+     */
+    public static NetworkRequest toExam(String meetId, String moduleId) {
+        return toBase(UrlMeet.toExam, meetId, moduleId);
+    }
+
+    /**
+     * 问卷入口
+     */
+    public static NetworkRequest toSurvey(String meetId, String moduleId) {
+        return toBase(UrlMeet.toSurvey, meetId, moduleId);
+    }
+
+    /**
+     * 微课(语音+PPT)入口
+     */
+    public static NetworkRequest toPpt(String meetId, String moduleId) {
+        return toBase(UrlMeet.toPpt, meetId, moduleId);
+    }
+
+    /**
+     * 签到入口
+     */
+    public static NetworkRequest toSign(String meetId, String moduleId) {
+        return toBase(UrlMeet.toSign, meetId, moduleId);
+    }
+
+    /**
+     * 考试提交
+     */
+    public static SubmitBuilder submitEx() {
+        return new SubmitBuilder(UrlMeet.submitEx);
+    }
+
+    /**
+     * 微课学习提交
+     */
+    public static SubmitBuilder submitPpt() {
+        return new SubmitBuilder(UrlMeet.toPpt);
+    }
+
+    /**
+     * 签到
+     */
+    public static SignBuilder sign() {
+        return new SignBuilder();
+    }
+
+    /**
+     * 会议留言记录
+     */
+    public static NetworkRequest histories(String meetId) {
+        return newGet(UrlMeet.histories)
+                .param(MeetParam.meetId, meetId)
+                .param(MeetParam.pageSize, 10)
+                .param(MeetParam.pageNum, 1)
+                .build();
+    }
+
+    /**
+     * 会议留言记录
+     */
+    public static NetworkRequest histories(String meetId, String pageSize, String pageNum) {
+        return newGet(UrlMeet.histories)
+                .param(MeetParam.meetId, meetId)
+                .param(MeetParam.pageSize, pageSize)
+                .param(MeetParam.pageNum, pageNum)
+                .build();
+    }
+
+    /**
+     * 发表会议留言
+     */
+    public static NetworkRequest send(String meetId, String message, String msgType) {
+        return newPost(UrlMeet.send)
+                .param(MeetParam.meetId, meetId)
+                .param(MeetParam.message, message)
+                .param(MeetParam.msgType, msgType)
                 .build();
     }
 
@@ -616,7 +497,7 @@ public class NetFactory {
      * @param url
      * @return
      */
-    private static Builder newPost(String url) {
+    public static Builder newPost(String url) {
         return new Builder(UrlUtil.getBaseUrl() + url)
                 .post()
                 .header(getBaseHeader());
@@ -628,7 +509,7 @@ public class NetFactory {
      * @param url
      * @return
      */
-    private static Builder newGet(String url) {
+    public static Builder newGet(String url) {
         return new Builder(UrlUtil.getBaseUrl() + url)
                 .get()
                 .header(getBaseHeader());
@@ -640,7 +521,7 @@ public class NetFactory {
      * @param url
      * @return
      */
-    private static Builder newUpload(String url) {
+    public static Builder newUpload(String url) {
         return new Builder(UrlUtil.getBaseUrl() + url)
                 .upload()
                 .header(getBaseHeader());

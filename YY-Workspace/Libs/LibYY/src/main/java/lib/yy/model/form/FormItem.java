@@ -1,7 +1,5 @@
 package lib.yy.model.form;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,30 +16,6 @@ import lib.yy.adapter.VH.FormItemVH;
  * @since 2017/4/5
  */
 abstract public class FormItem extends FormItemEx<FormItemVH> {
-
-    @Override
-    protected void init(FormItemVH holder) {
-        super.init(holder);
-
-        if (holder.getEt() != null) {
-            holder.getEt().addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    put(TFormElem.text, s.toString());
-                }
-            });
-        }
-    }
 
     @Override
     protected void refresh(FormItemVH holder) {

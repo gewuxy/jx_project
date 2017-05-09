@@ -50,19 +50,36 @@ public class UrlUtil {
         String upheadimg = "user/upheadimg";
     }
 
-    //TODO:register路径 http://www.medcn.com:8081/v7/api/regist/regist
     public interface UrlRegister {
-        String register = "regist/regist";
-        String province = "regist/provinces";
-        String city = "regist/cities";
+        String registerBase = "regist/";
+        String province = registerBase + "provinces";
+        String city = registerBase + "cities";
+        String register = registerBase + "regist";
+        String hospital = registerBase + "hos";
+        String depart = registerBase + "depart";
     }
 
     public interface UrlHome {
         String banner = "banner";
     }
 
-    public interface Meeting {
+    public interface UrlMeet {
+        String meetBase = "meet/";
+        String meetRec = meetBase + "tuijian";
+        String meets = meetBase + "meets";
+        String info = meetBase + "info";
 
+        String toExam = meetBase + "toexam";
+        String toSurvey = meetBase + "tosurvey";
+        String toSign = meetBase + "tosign";
+        String toPpt = meetBase + "toppt";
+
+        String submitsur = meetBase + "submitsur";
+        String submitEx = meetBase + "submitex";
+
+        String sign = meetBase + "sign";
+        String send = meetBase + "message/send";
+        String histories = meetBase + "message/histories";
     }
 
     public interface UrlEpn {
