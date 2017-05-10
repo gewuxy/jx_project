@@ -8,7 +8,6 @@ import java.util.List;
 
 import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
-import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
@@ -24,7 +23,7 @@ import lib.ys.view.FloatingGroupListView;
 /**
  * 下拉刷新group listView fragment
  */
-abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends FragEx implements GroupListOptListener<T> {
+abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends FragEx implements GroupListOptListener<T, A> {
 
     private GroupListOpt<T, A> mGroupListOpt = new GroupListOpt<>(this);
 
@@ -52,8 +51,8 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     }
 
     @Override
-    public MultiGroupAdapterEx<T, ? extends ViewHolderEx> getAdapter() {
-        return (MultiGroupAdapterEx<T, ? extends ViewHolderEx>) mGroupListOpt.getAdapter();
+    public A getAdapter() {
+        return mGroupListOpt.getAdapter();
     }
 
     @Override

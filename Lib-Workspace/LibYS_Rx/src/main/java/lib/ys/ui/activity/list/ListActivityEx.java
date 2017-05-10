@@ -7,9 +7,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import lib.ys.R;
-import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
@@ -17,7 +15,7 @@ import lib.ys.ui.interfaces.listener.list.ListOptListener;
 import lib.ys.ui.interfaces.opts.list.ListOpt;
 import lib.ys.ui.other.NavBar;
 
-abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityEx implements ListOptListener<T> {
+abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityEx implements ListOptListener<T, A> {
 
     private ListOpt<T, A> mListOpt = new ListOpt<>(this);
 
@@ -60,8 +58,8 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityE
     }
 
     @Override
-    public MultiAdapterEx<T, ? extends ViewHolderEx> getAdapter() {
-        return (MultiAdapterEx<T, ?>) mListOpt.getAdapter();
+    public A getAdapter() {
+        return (A) mListOpt.getAdapter();
     }
 
     @Override

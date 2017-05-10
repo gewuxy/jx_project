@@ -43,7 +43,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     private ListView mLv;
     private Class<A> mAdapterClass;
-    private IAdapter<T> mAdapter;
+    private A mAdapter;
 
     private View mHeaderView;
     private View mFooterView;
@@ -51,9 +51,9 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     private DataSetObserver mDataSetObserver;
 
-    protected ListOptListener<T> mListener;
+    protected ListOptListener<T, A> mListener;
 
-    public ListOpt(@NonNull ListOptListener<T> l) {
+    public ListOpt(@NonNull ListOptListener<T, A> l) {
         if (l == null) {
             throw new IllegalStateException("OnListWidgetListener must be NonNull");
         }
@@ -301,7 +301,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
         return mLv;
     }
 
-    public IAdapter<T> getAdapter() {
+    public A getAdapter() {
         if (mAdapter == null) {
             createAdapter();
         }

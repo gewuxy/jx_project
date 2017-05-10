@@ -14,7 +14,7 @@ import lib.ys.ui.other.NavBar;
  *
  * @author yuansui
  */
-public interface ListOptListener<T> {
+public interface ListOptListener<T, A extends IAdapter<T>> {
     int getListViewResId();
 
     View createHeaderView();
@@ -23,7 +23,7 @@ public interface ListOptListener<T> {
 
     View createEmptyView();
 
-    IAdapter<T> getAdapter();
+    A getAdapter();
 
     void hideFooterView();
 

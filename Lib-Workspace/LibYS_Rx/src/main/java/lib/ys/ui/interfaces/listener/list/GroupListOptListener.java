@@ -13,7 +13,7 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
  *
  * @author yuansui
  */
-public interface GroupListOptListener<T> extends ListOptListener<T> {
+public interface GroupListOptListener<T, A extends IGroupAdapter<T>> extends ListOptListener<T, A> {
     void setSelectedGroup(int groupPosition);
 
     int getGroupCount();
@@ -108,7 +108,4 @@ public interface GroupListOptListener<T> extends ListOptListener<T> {
      * @return 没有则返回null
      */
     ViewHolderEx getGroupCacheViewHolder(int groupPosition);
-
-    @Override
-    IGroupAdapter<T> getAdapter();
 }

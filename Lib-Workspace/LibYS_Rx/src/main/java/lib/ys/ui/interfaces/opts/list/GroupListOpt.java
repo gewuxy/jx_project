@@ -27,11 +27,11 @@ import lib.ys.view.FloatingGroupListView;
 public class GroupListOpt<T, A extends IGroupAdapter<T>> extends ListOpt<T, A> implements OnGroupClickListener, OnChildClickListener {
 
     private FloatingGroupListView mLv;
-    private IGroupAdapter<T> mAdapter;
+    private A mAdapter;
 
     private GroupListOptListener mListener;
 
-    public GroupListOpt(@NonNull GroupListOptListener<T> listener) {
+    public GroupListOpt(@NonNull GroupListOptListener<T, A> listener) {
         super(listener);
         mListener = listener;
     }
@@ -157,11 +157,6 @@ public class GroupListOpt<T, A extends IGroupAdapter<T>> extends ListOpt<T, A> i
     @Override
     public FloatingGroupListView getLv() {
         return mLv;
-    }
-
-    @Override
-    public IGroupAdapter<T> getAdapter() {
-        return (IGroupAdapter<T>) super.getAdapter();
     }
 
     @Override
