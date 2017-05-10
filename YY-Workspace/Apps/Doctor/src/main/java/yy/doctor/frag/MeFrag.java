@@ -18,6 +18,7 @@ import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
@@ -93,7 +94,7 @@ public class MeFrag extends BaseFormFrag {
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_epn)
                 .name("我的象数")
-                .text("1象数")
+                .text(Profile.inst().getString(TProfile.credits)+"象数")
                 .related(RelatedId.my_epn)
                 .build());
 

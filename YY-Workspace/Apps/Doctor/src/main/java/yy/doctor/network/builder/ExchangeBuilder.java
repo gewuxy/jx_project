@@ -3,7 +3,7 @@ package yy.doctor.network.builder;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkRequest.Builder;
 import yy.doctor.network.NetFactory;
-import yy.doctor.network.NetFactory.EpcExchangePara;
+import yy.doctor.network.NetFactory.EpcExchangeParam;
 import yy.doctor.network.UrlUtil.UrlEpc;
 
 /**
@@ -24,7 +24,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder goodsId(String goodsId) {
-        mBuilder.param(EpcExchangePara.KGoodsId, goodsId);
+        mBuilder.param(EpcExchangeParam.KGoodsId, goodsId);
         return this;
     }
 
@@ -35,7 +35,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder price(String price) {
-        mBuilder.param(EpcExchangePara.KPrice, price);
+        mBuilder.param(EpcExchangeParam.KPrice, price);
         return this;
     }
 
@@ -46,7 +46,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder receiver(String receiver) {
-        mBuilder.param(EpcExchangePara.KReceiver, receiver);
+        mBuilder.param(EpcExchangeParam.KReceiver, receiver);
         return this;
     }
 
@@ -57,7 +57,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder phone(String phone) {
-        mBuilder.param(EpcExchangePara.KPhone, phone);
+        mBuilder.param(EpcExchangeParam.KPhone, phone);
         return this;
     }
 
@@ -68,7 +68,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder province(String province) {
-        mBuilder.param(EpcExchangePara.KProvince, province);
+        mBuilder.param(EpcExchangeParam.KProvince, province);
         return this;
     }
 
@@ -79,7 +79,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder address(String address) {
-        mBuilder.param(EpcExchangePara.KAddress, address);
+        mBuilder.param(EpcExchangeParam.KAddress, address);
         return this;
     }
 
@@ -90,7 +90,7 @@ public class ExchangeBuilder {
      * @return
      */
     public ExchangeBuilder buyLimit(String buyLimit) {
-        mBuilder.param(EpcExchangePara.KBuyLimit, buyLimit);
+        mBuilder.param(EpcExchangeParam.KBuyLimit, buyLimit);
         return this;
     }
 

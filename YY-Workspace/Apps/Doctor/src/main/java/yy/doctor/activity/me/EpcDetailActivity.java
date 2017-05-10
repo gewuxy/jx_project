@@ -4,10 +4,17 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.network.model.NetworkResponse;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
+import lib.yy.network.Response;
 import yy.doctor.R;
+import yy.doctor.model.me.EpcDetail;
+import yy.doctor.model.me.EpcDetail.TEpcDetail;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 
 /**
  * 商品详情
@@ -55,11 +62,36 @@ public class EpcDetailActivity extends BaseActivity {
     @Override
     public void setViews() {
 
+        refresh(RefreshWay.dialog);
+        exeNetworkRequest(0 , NetFactory.epcDetail(00001));
+
         setOnClickListener(R.id.epc_detail_tv_btn);
 
         mIv.placeHolder(R.drawable.app_bg)
                 .load();
 
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+        return JsonParser.ev(nr.getText(), EpcDetail.class);
+    }
+
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+
+        stopRefresh();
+        Response<EpcDetail> r = (Response<EpcDetail>) result;
+        if (r.isSucceed()) {
+            EpcDetail epcDetail = r.getData();
+            mTvName.setText(epcDetail.getString(TEpcDetail.name));
+            mTvEpn.setText(epcDetail.getString(TEpcDetail.price));
+            mTvDescription.setText(epcDetail.getString(TEpcDetail.description));
+
+        }
+        
     }
 
     @Override

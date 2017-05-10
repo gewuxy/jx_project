@@ -11,6 +11,10 @@ public class Banner extends EVal<TBanner> {
 
     public enum TBanner {
 
+        id,	//广告id
+        pageUrl,	//广告图片
+        sort,	//广告排序号
+
     }
 
 }
