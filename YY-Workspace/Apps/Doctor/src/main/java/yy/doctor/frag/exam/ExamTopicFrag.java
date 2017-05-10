@@ -6,8 +6,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.ys.LogMgr;
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
@@ -25,7 +23,7 @@ import static yy.doctor.model.exam.Topic.TExamTopic.title;
  * @since : 2017/4/28
  */
 
-public class ExamTopicFrag extends BaseListFrag<String> {
+public class ExamTopicFrag extends BaseListFrag<String, ExamTopicAdapter> {
 
     public interface OnNextListener {
         void onNext(View v);
@@ -35,7 +33,6 @@ public class ExamTopicFrag extends BaseListFrag<String> {
     private TextView mTvBtn;
     private OnNextListener mOnNextListener;
     private Topic mTopic;                   //该题目的信息
-    private ExamTopicAdapter mExamTopicAdapter;
 
     public void setOnNextListener(OnNextListener onNextListener) {
         mOnNextListener = onNextListener;
@@ -72,7 +69,8 @@ public class ExamTopicFrag extends BaseListFrag<String> {
 
         if (mTvBtn != null) {
             mTvBtn.setOnClickListener(v -> {
-                List<Integer> answers = mExamTopicAdapter.getAnswers();//选择的答案
+                ExamTopicAdapter adapter = (ExamTopicAdapter) getAdapter();
+                List<Integer> answers = adapter.getAnswers();//选择的答案
                 mTopic.put(answer, answers);
                 //题目是否已作答过
                 if (answers.size() > 0) {
@@ -98,12 +96,6 @@ public class ExamTopicFrag extends BaseListFrag<String> {
     @Override
     public View createFooterView() {
         return inflate(R.layout.layout_exam_topic_footer);
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        mExamTopicAdapter = new ExamTopicAdapter();
-        return mExamTopicAdapter;
     }
 
 }

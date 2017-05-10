@@ -1,11 +1,12 @@
 package lib.ys.ui.activity.list;
 
 import lib.ys.R;
+import lib.ys.adapter.interfaces.IAdapter;
 
 /**
  * @author yuansui
  */
-abstract public class SRScrollableActivityEx<T> extends SRListActivityEx<T> {
+abstract public class SRScrollableActivityEx<T, A extends IAdapter<T>> extends SRListActivityEx<T, A> {
 
     @Override
     public int getListViewResId() {

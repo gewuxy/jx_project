@@ -84,11 +84,11 @@ public class GenericUtil {
     /**
      * 通过反射,获得指定类的父类的第一个泛型参数的实际类型. 如BuyerServiceBean extends DaoSupport<Buyer>
      *
-     * @param clazz clazz 需要反射的类,该类必须继承泛型父类
+     * @param clz 需要反射的类,该类必须继承泛型父类
      * @return 泛型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回<code>Object.class</code>
      */
-    public static Class getClassType(Class clazz) {
-        return getClassType(clazz, 0);
+    public static Class getClassType(Class clz) {
+        return getClassType(clz, 0);
     }
 
     /**

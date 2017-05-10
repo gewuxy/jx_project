@@ -4,17 +4,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
-import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.OrderAdapter;
 import yy.doctor.model.me.Order;
-import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -23,7 +17,7 @@ import yy.doctor.network.NetFactory;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class OrderActivity extends BaseSRListActivity<Order> {
+public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
 
     private boolean isTvShow = false;
     private TextView mTv;
@@ -88,19 +82,14 @@ public class OrderActivity extends BaseSRListActivity<Order> {
     }
 
     @Override
-    public MultiAdapterEx<Order, ? extends ViewHolderEx> createAdapter() {
-        return new OrderAdapter();
-    }
-
-    @Override
     public void getDataFromNet() {
 
         exeNetworkRequest(0, NetFactory.order());
     }
 
-    @Override
-    public IListResponse<Order> parseNetworkResponse(int id, String text) throws JSONException {
-        return JsonParser.evs(text, Order.class);
-    }
+//    @Override
+//    public IListResponse<Order> parseNetworkResponse(int id, String text) throws JSONException {
+//        return JsonParser.evs(text, Order.class);
+//    }
 
 }

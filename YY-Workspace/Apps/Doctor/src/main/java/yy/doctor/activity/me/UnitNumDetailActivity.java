@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResponse;
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -38,7 +36,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/4/25
  */
-public class UnitNumDetailActivity extends BaseListActivity<String> {
+public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetailAdapter> {
 
     private static final int KColorNormal = Color.parseColor("#666666");
     private static final int KColorCancel = Color.parseColor("#01b557");
@@ -184,11 +182,6 @@ public class UnitNumDetailActivity extends BaseListActivity<String> {
             }
             break;
         }
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new UnitNumDetailAdapter();
     }
 
     @Override

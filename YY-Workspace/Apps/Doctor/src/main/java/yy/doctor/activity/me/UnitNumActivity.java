@@ -5,8 +5,6 @@ import android.widget.ExpandableListView;
 
 import org.json.JSONException;
 
-import lib.ys.adapter.MultiGroupAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
@@ -24,7 +22,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum> {
+public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNumAdapter> {
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -32,11 +30,6 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum> {
         Util.addBackIcon(bar, "单位号", this);
         bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> showToast("852"));
 
-    }
-
-    @Override
-    public MultiGroupAdapterEx<GroupUnitNum, ? extends ViewHolderEx> createAdapter() {
-        return new UnitNumAdapter();
     }
 
     @Override

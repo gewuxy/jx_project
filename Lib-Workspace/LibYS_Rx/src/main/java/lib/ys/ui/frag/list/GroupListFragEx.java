@@ -12,10 +12,11 @@ import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.frag.FragEx;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
-import lib.ys.ui.interfaces.opts.impl.list.GroupListOptImpl;
+import lib.ys.ui.interfaces.opts.list.GroupListOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.FloatingGroupListView;
 
@@ -23,9 +24,10 @@ import lib.ys.view.FloatingGroupListView;
 /**
  * 下拉刷新group listView fragment
  */
-abstract public class GroupListFragEx<T> extends FragEx implements GroupListOptListener<T> {
+abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends FragEx implements GroupListOptListener<T> {
 
-    private GroupListOptImpl<T> mGroupListOpt = new GroupListOptImpl<>(this);
+    private GroupListOpt<T, A> mGroupListOpt = new GroupListOpt<>(this);
+
 
     @Override
     public int getContentViewId() {
@@ -46,9 +48,6 @@ abstract public class GroupListFragEx<T> extends FragEx implements GroupListOptL
     @CallSuper
     @Override
     public void setViews() {
-        if (mGroupListOpt.isAdapterNull()) {
-            mGroupListOpt.createAdapter(createAdapter());
-        }
         mGroupListOpt.setViews();
     }
 
@@ -56,9 +55,6 @@ abstract public class GroupListFragEx<T> extends FragEx implements GroupListOptL
     public MultiGroupAdapterEx<T, ? extends ViewHolderEx> getAdapter() {
         return (MultiGroupAdapterEx<T, ? extends ViewHolderEx>) mGroupListOpt.getAdapter();
     }
-
-    @Override
-    abstract public MultiGroupAdapterEx<T, ? extends ViewHolderEx> createAdapter();
 
     @Override
     public View createHeaderView() {
@@ -372,7 +368,7 @@ abstract public class GroupListFragEx<T> extends FragEx implements GroupListOptL
         return mGroupListOpt.getLv();
     }
 
-    protected GroupListOptImpl<T> getGroupListOpt() {
+    protected GroupListOpt<T, A> getGroupListOpt() {
         return mGroupListOpt;
     }
 }

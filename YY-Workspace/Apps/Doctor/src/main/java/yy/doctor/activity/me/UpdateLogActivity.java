@@ -1,7 +1,5 @@
 package yy.doctor.activity.me;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.R;
@@ -13,7 +11,7 @@ import yy.doctor.adapter.UpdateLogAdapter;
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class UpdateLogActivity extends BaseListActivity<String> {
+public class UpdateLogActivity extends BaseListActivity<String, UpdateLogAdapter> {
 
     @Override
     public void initData() {
@@ -29,11 +27,6 @@ public class UpdateLogActivity extends BaseListActivity<String> {
 
         bar.addBackIcon(R.mipmap.nav_bar_ic_back, "更新日志", this);
 
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new UpdateLogAdapter();
     }
 
 }

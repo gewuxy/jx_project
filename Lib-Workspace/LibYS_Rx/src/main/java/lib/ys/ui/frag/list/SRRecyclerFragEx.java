@@ -16,14 +16,14 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.impl.list.SROptImpl;
+import lib.ys.ui.interfaces.opts.list.SROpt;
 
 /**
  * @author yuansui
  */
 abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements SROptListener {
 
-    private SROptImpl<T> mSROpt = new SROptImpl<>(this, getRecyclerOpt());
+    private SROpt<T> mSROpt = new SROpt<>(this, getRecyclerOpt());
 
     @Override
     public int getContentViewId() {
@@ -54,7 +54,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
 
         mSROpt.setViews();
 
-        if (getInitRefreshWay() == RefreshWay.embed && canAutoRefresh()) {
+        if (getInitRefreshWay() == RefreshWay.embed && enableAutoRefresh()) {
             // 为了更好的体验, 在embed loading显示之前先隐藏掉
             hideView(getDecorView().getContentView());
         }
@@ -69,7 +69,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     abstract public void getDataFromNet();
 
     @Override
-    public boolean canAutoRefresh() {
+    public boolean enableAutoRefresh() {
         return true;
     }
 

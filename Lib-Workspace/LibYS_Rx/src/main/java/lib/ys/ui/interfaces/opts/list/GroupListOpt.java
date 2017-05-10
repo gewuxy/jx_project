@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.impl.list;
+package lib.ys.ui.interfaces.opts.list;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
@@ -11,11 +11,9 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 
-import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
-import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
 import lib.ys.util.UIUtil;
@@ -26,14 +24,14 @@ import lib.ys.view.FloatingGroupListView;
  *
  * @author yuansui
  */
-public class GroupListOptImpl<T> extends ListOptImpl<T> implements OnGroupClickListener, OnChildClickListener {
+public class GroupListOpt<T, A extends IGroupAdapter<T>> extends ListOpt<T, A> implements OnGroupClickListener, OnChildClickListener {
 
     private FloatingGroupListView mLv;
     private IGroupAdapter<T> mAdapter;
 
     private GroupListOptListener mListener;
 
-    public GroupListOptImpl(@NonNull GroupListOptListener<T> listener) {
+    public GroupListOpt(@NonNull GroupListOptListener<T> listener) {
         super(listener);
         mListener = listener;
     }
@@ -47,7 +45,9 @@ public class GroupListOptImpl<T> extends ListOptImpl<T> implements OnGroupClickL
 
     @Override
     public void setViews() {
-        // 不能调用super, 因为adapter类型不同无法设置
+        createAdapter();
+
+        // 不能调用super, 因为adapter类型不同无法进行相同的设置
         UIUtil.setOverScrollNever(mLv);
 
         mLv.setAdapter((ExpandableListAdapter) mAdapter);
@@ -85,13 +85,9 @@ public class GroupListOptImpl<T> extends ListOptImpl<T> implements OnGroupClickL
     }
 
     @Override
-    public void createAdapter(IAdapter<T> adapter) {
-        if (adapter instanceof MultiGroupAdapterEx) {
-            super.createAdapter(adapter);
-            mAdapter = (IGroupAdapter<T>) adapter;
-        } else {
-            throw new IllegalStateException("must be child of MultiGroupAdapterEx");
-        }
+    public void createAdapter() {
+        super.createAdapter();
+        mAdapter = getAdapter();
     }
 
     public T getGroup(int groupPosition) {

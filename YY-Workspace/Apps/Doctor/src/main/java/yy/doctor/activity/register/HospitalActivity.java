@@ -4,11 +4,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import lib.ys.adapter.MultiGroupAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
-import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
@@ -28,7 +23,7 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 
-public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
+public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, HospitalAdapter> {
 
     private static final int KLetterColorNormal = Color.parseColor("#888888");
     private static final int KLetterColorFocus = Color.parseColor("#0882e7");
@@ -105,18 +100,8 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     }
 
     @Override
-    public MultiGroupAdapterEx<GroupHospital, ? extends ViewHolderEx> createAdapter() {
-        return new HospitalAdapter();
-    }
-
-    @Override
     public void getDataFromNet() {
         //
-    }
-
-    @Override
-    public IListResponse<GroupHospital> parseNetworkResponse(int id, String text) throws JSONException {
-        return null;
     }
 
     @Override
@@ -132,7 +117,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
     }
 
     @Override
-    public boolean canAutoRefresh() {
+    public boolean enableAutoRefresh() {
         if (BuildConfig.TEST) {
             return false;
         } else {

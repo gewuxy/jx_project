@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.impl.list;
+package lib.ys.ui.interfaces.opts.list;
 
 import android.database.DataSetObserver;
 import android.support.annotation.CallSuper;
@@ -28,6 +28,8 @@ import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.ListOptListener;
 import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.GenericUtil;
+import lib.ys.util.ReflectionUtil;
 import lib.ys.util.UIUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
@@ -37,9 +39,10 @@ import lib.ys.util.view.ViewUtil;
  *
  * @author yuansui
  */
-public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListener, MixScrollOpt<T> {
+public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, OnItemLongClickListener, MixScrollOpt<T> {
 
     private ListView mLv;
+    private Class<A> mAdapterClass;
     private IAdapter<T> mAdapter;
 
     private View mHeaderView;
@@ -48,13 +51,16 @@ public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListe
 
     private DataSetObserver mDataSetObserver;
 
-    private ListOptListener<T> mListener;
+    protected ListOptListener<T> mListener;
 
-    public ListOptImpl(@NonNull ListOptListener<T> l) {
+    public ListOpt(@NonNull ListOptListener<T> l) {
         if (l == null) {
             throw new IllegalStateException("OnListWidgetListener must be NonNull");
         }
         mListener = l;
+
+        // 这里注意要用listener的class才能获取到正确的adapter class
+        mAdapterClass = GenericUtil.getClassType(l.getClass(), IAdapter.class);
     }
 
     @CallSuper
@@ -95,6 +101,8 @@ public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListe
     }
 
     public void setViews() {
+        createAdapter();
+
         UIUtil.setOverScrollNever(mLv);
 
         mLv.setAdapter((ListAdapter) mAdapter);
@@ -115,12 +123,12 @@ public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListe
         }
     }
 
-    public void createAdapter(IAdapter<T> adapter) {
+    public void createAdapter() {
         if (mAdapter != null) {
             return;
         }
 
-        mAdapter = adapter;
+        mAdapter = ReflectionUtil.newInst(mAdapterClass);
         mDataSetObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
@@ -137,6 +145,7 @@ public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListe
             }
 
             mAdapter.removeAll();
+            mAdapter = null;
         }
     }
 
@@ -294,13 +303,9 @@ public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListe
 
     public IAdapter<T> getAdapter() {
         if (mAdapter == null) {
-            createAdapter(mListener.createAdapter());
+            createAdapter();
         }
         return mAdapter;
-    }
-
-    public boolean isAdapterNull() {
-        return mAdapter == null;
     }
 
     public void setDividerHeight(int height) {

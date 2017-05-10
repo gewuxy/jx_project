@@ -23,8 +23,6 @@ public interface ListOptListener<T> {
 
     View createEmptyView();
 
-    IAdapter<T> createAdapter();
-
     IAdapter<T> getAdapter();
 
     void hideFooterView();

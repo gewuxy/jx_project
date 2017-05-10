@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.impl.list;
+package lib.ys.ui.interfaces.opts.list;
 
 import android.os.Handler;
 import android.os.Message;
@@ -36,9 +36,9 @@ import lib.ys.view.swipeRefresh.interfaces.ISRListener;
  *
  * @author yuansui
  */
-public class SROptImpl<T> implements ISRListener {
+public class SROpt<T> implements ISRListener {
 
-    private static final String TAG = SROptImpl.class.getSimpleName();
+    private static final String TAG = SROpt.class.getSimpleName();
 
     private SROptListener mSROptListener;
     private MixScrollOpt<T> mScrollOpt;
@@ -63,7 +63,7 @@ public class SROptImpl<T> implements ISRListener {
     private Handler mHandler;
 
 
-    public SROptImpl(@NonNull SROptListener<T> l, MixScrollOpt<T> scrollOpt) {
+    public SROpt(@NonNull SROptListener<T> l, MixScrollOpt<T> scrollOpt) {
         mSROptListener = l;
         mScrollOpt = scrollOpt;
 
@@ -105,7 +105,7 @@ public class SROptImpl<T> implements ISRListener {
         enableAutoRefresh(false);
         setSRListener(this);
 
-        if (mSROptListener.canAutoRefresh()) {
+        if (mSROptListener.enableAutoRefresh()) {
             if (hideHeaderWhenInit()) {
                 mScrollOpt.hideHeaderView();
             }

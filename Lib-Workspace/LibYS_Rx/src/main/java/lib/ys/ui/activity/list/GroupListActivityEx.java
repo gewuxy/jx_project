@@ -12,16 +12,18 @@ import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
-import lib.ys.ui.interfaces.opts.impl.list.GroupListOptImpl;
+import lib.ys.ui.interfaces.opts.list.GroupListOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.FloatingGroupListView;
 
-abstract public class GroupListActivityEx<T> extends ActivityEx implements GroupListOptListener<T> {
+abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends ActivityEx implements GroupListOptListener<T> {
 
-    private GroupListOptImpl<T> mGroupListOpt = new GroupListOptImpl<>(this);
+    private GroupListOpt<T, A> mGroupListOpt = new GroupListOpt<>(this);
+
 
     @Override
     public int getContentViewId() {
@@ -41,9 +43,6 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public void setViews() {
-        if (mGroupListOpt.isAdapterNull()) {
-            mGroupListOpt.createAdapter(createAdapter());
-        }
         mGroupListOpt.setViews();
     }
 
@@ -51,9 +50,6 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
     public MultiGroupAdapterEx<T, ? extends ViewHolderEx> getAdapter() {
         return (MultiGroupAdapterEx<T, ? extends ViewHolderEx>) mGroupListOpt.getAdapter();
     }
-
-    @Override
-    abstract public MultiGroupAdapterEx<T, ? extends ViewHolderEx> createAdapter();
 
     @Override
     public View createHeaderView() {
@@ -367,7 +363,7 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
         return mGroupListOpt.getLv();
     }
 
-    protected GroupListOptImpl<T> getGroupListOpt() {
+    protected GroupListOpt<T, A> getGroupListOpt() {
         return mGroupListOpt;
     }
 }

@@ -66,7 +66,7 @@ public interface SROptListener<T> {
      *
      * @return
      */
-    boolean canAutoRefresh();
+    boolean enableAutoRefresh();
 
     void getDataFromNet();
 

@@ -8,7 +8,7 @@ import yy.doctor.adapter.VH.CollectionMeetingVH;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class CollectionMeetingAdapter extends AdapterEx<String,CollectionMeetingVH> {
+public class CollectionMeetingAdapter extends AdapterEx<String, CollectionMeetingVH> {
 
     @Override
     public int getConvertViewResId() {

@@ -10,16 +10,18 @@ import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.frag.FragEx;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.ListOptListener;
-import lib.ys.ui.interfaces.opts.impl.list.ListOptImpl;
+import lib.ys.ui.interfaces.opts.list.ListOpt;
 import lib.ys.ui.other.NavBar;
 
 
-abstract public class ListFragEx<T> extends FragEx implements ListOptListener<T> {
+abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implements ListOptListener<T> {
 
-    private ListOptImpl<T> mListOpt = new ListOptImpl<>(this);
+    private ListOpt<T, A> mListOpt = new ListOpt<>(this);
+
 
     @Override
     public int getContentViewId() {
@@ -35,9 +37,6 @@ abstract public class ListFragEx<T> extends FragEx implements ListOptListener<T>
     @CallSuper
     @Override
     public void setViews() {
-        if (mListOpt.isAdapterNull()) {
-            mListOpt.createAdapter(createAdapter());
-        }
         mListOpt.setViews();
     }
 
@@ -60,9 +59,6 @@ abstract public class ListFragEx<T> extends FragEx implements ListOptListener<T>
     public View createEmptyView() {
         return null;
     }
-
-    @Override
-    abstract public MultiAdapterEx<T, ? extends ViewHolderEx> createAdapter();
 
     @Override
     public MultiAdapterEx<T, ? extends ViewHolderEx> getAdapter() {
@@ -257,7 +253,7 @@ abstract public class ListFragEx<T> extends FragEx implements ListOptListener<T>
         return mListOpt.getLv();
     }
 
-    protected ListOptImpl<T> getListWidget() {
+    protected ListOpt<T, A> getListOpt() {
         return mListOpt;
     }
 }

@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.impl.list;
+package lib.ys.ui.interfaces.opts.list;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -30,7 +30,7 @@ import lib.ys.view.recycler.WrapRecyclerView;
  *
  * @author yuansui
  */
-public class RecyclerViewOptImpl<T> implements MixScrollOpt<T> {
+public class RecyclerViewOpt<T> implements MixScrollOpt<T> {
 
     private WrapRecyclerView mRv;
     private IAdapter<T> mAdapter;
@@ -46,7 +46,7 @@ public class RecyclerViewOptImpl<T> implements MixScrollOpt<T> {
     private OnRecyclerItemClickListener mClickLsn;
 
 
-    public RecyclerViewOptImpl(@NonNull RecyclerViewOptListener<T> l) {
+    public RecyclerViewOpt(@NonNull RecyclerViewOptListener<T> l) {
         if (l == null) {
             throw new IllegalStateException("OnRecyclerWidgetListener must be NonNull");
         }

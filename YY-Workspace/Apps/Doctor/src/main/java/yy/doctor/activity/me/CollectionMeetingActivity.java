@@ -1,7 +1,5 @@
 package yy.doctor.activity.me;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.adapter.CollectionMeetingAdapter;
@@ -13,7 +11,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class CollectionMeetingActivity extends BaseListActivity<String> {
+public class CollectionMeetingActivity extends BaseListActivity<String, CollectionMeetingAdapter> {
 
     @Override
     public void initData() {
@@ -37,11 +35,4 @@ public class CollectionMeetingActivity extends BaseListActivity<String> {
 
         getLv().setDivider(null);
     }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new CollectionMeetingAdapter();
-    }
-
-
 }

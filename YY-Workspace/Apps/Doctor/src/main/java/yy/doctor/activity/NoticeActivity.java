@@ -1,7 +1,5 @@
 package yy.doctor.activity;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.adapter.NoticeAdapter;
@@ -13,7 +11,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class NoticeActivity extends BaseListActivity<String> {
+public class NoticeActivity extends BaseListActivity<String, NoticeAdapter> {
 
     @Override
     public void initData() {
@@ -29,11 +27,6 @@ public class NoticeActivity extends BaseListActivity<String> {
 
         Util.addBackIcon(bar, "通知", this);
 
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new NoticeAdapter();
     }
 
     @Override

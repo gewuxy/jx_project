@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
@@ -14,12 +13,7 @@ import lib.yy.activity.base.BaseListActivity;
 /**
  * @author yuansui
  */
-abstract public class BaseTestActivity extends BaseListActivity<Test> {
-
-    @Override
-    public MultiAdapterEx createAdapter() {
-        return new TestAdapter();
-    }
+abstract public class BaseTestActivity extends BaseListActivity<Test, TestAdapter> {
 
     @Override
     public void initNavBar(NavBar bar) {

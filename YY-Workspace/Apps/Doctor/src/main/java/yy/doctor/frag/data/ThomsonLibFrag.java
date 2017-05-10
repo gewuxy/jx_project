@@ -4,10 +4,8 @@ import android.view.View;
 
 import org.json.JSONException;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
-import lib.ys.ui.other.NavBar;
 import lib.ys.network.resp.IListResponse;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.R;
@@ -18,7 +16,7 @@ import yy.doctor.adapter.ThomsonLibAdapter;
  * @author CaiXiang
  * @since 2017/4/24
  */
-public class ThomsonLibFrag extends BaseSRListFrag<String> {
+public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
 
     @Override
     public void initData() {
@@ -34,11 +32,6 @@ public class ThomsonLibFrag extends BaseSRListFrag<String> {
     }
 
     @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new ThomsonLibAdapter();
-    }
-
-    @Override
     public View createHeaderView() {
         return ViewUtil.inflateSpaceViewDp(12);
     }
@@ -48,13 +41,8 @@ public class ThomsonLibFrag extends BaseSRListFrag<String> {
     }
 
     @Override
-    public boolean canAutoRefresh() {
+    public boolean enableAutoRefresh() {
         return false;
-    }
-
-    @Override
-    public IListResponse<String> parseNetworkResponse(int id, String text) throws JSONException {
-        return null;
     }
 
     @Override

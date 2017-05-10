@@ -2,8 +2,6 @@ package yy.doctor.activity.me;
 
 import android.view.View;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.adapter.UnitNumDataAdapter;
@@ -15,7 +13,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class UnitNumDataActivity extends BaseListActivity<String> {
+public class UnitNumDataActivity extends BaseListActivity<String, UnitNumDataAdapter> {
 
     @Override
     public void initData() {
@@ -31,11 +29,6 @@ public class UnitNumDataActivity extends BaseListActivity<String> {
 
         Util.addBackIcon(bar, "资料", this);
 
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new UnitNumDataAdapter();
     }
 
     @Override

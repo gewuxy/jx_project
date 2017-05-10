@@ -16,7 +16,7 @@ import lib.ys.adapter.recycler.RecyclerViewHolderEx;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.RecyclerViewOptListener;
-import lib.ys.ui.interfaces.opts.impl.list.RecyclerViewOptImpl;
+import lib.ys.ui.interfaces.opts.list.RecyclerViewOpt;
 import lib.ys.view.recycler.WrapRecyclerView;
 
 /**
@@ -26,7 +26,7 @@ import lib.ys.view.recycler.WrapRecyclerView;
  */
 abstract public class RecyclerActivityEx<T> extends ActivityEx implements RecyclerViewOptListener<T> {
 
-    private RecyclerViewOptImpl<T> mRecyclerOpt = new RecyclerViewOptImpl<>(this);
+    private RecyclerViewOpt<T> mRecyclerOpt = new RecyclerViewOpt<>(this);
 
     @Override
     public int getContentViewId() {
@@ -280,7 +280,7 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
         return mRecyclerOpt.getRv();
     }
 
-    protected RecyclerViewOptImpl<T> getRecyclerOpt() {
+    protected RecyclerViewOpt<T> getRecyclerOpt() {
         return mRecyclerOpt;
     }
 

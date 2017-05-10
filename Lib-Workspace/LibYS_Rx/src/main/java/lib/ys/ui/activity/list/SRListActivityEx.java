@@ -10,13 +10,14 @@ import java.util.List;
 import lib.network.model.NetworkResponse;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
+import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.impl.list.SROptImpl;
+import lib.ys.ui.interfaces.opts.list.SROpt;
 
 
 /**
@@ -24,9 +25,9 @@ import lib.ys.ui.interfaces.opts.impl.list.SROptImpl;
  *
  * @param <T>
  */
-abstract public class SRListActivityEx<T> extends ListActivityEx<T> implements SROptListener {
+abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListActivityEx<T, A> implements SROptListener {
 
-    private SROptImpl<T> mSROpt = new SROptImpl<>(this, getListOpt());
+    private SROpt<T> mSROpt = new SROpt<>(this, getListOpt());
 
     @Override
     public int getContentViewId() {
@@ -57,7 +58,7 @@ abstract public class SRListActivityEx<T> extends ListActivityEx<T> implements S
 
         mSROpt.setViews();
 
-        if (getInitRefreshWay() == RefreshWay.embed && canAutoRefresh()) {
+        if (getInitRefreshWay() == RefreshWay.embed && enableAutoRefresh()) {
             // 为了更好的体验, 在embed loading显示之前先隐藏掉
             hideView(getDecorView().getContentView());
         }
@@ -72,7 +73,7 @@ abstract public class SRListActivityEx<T> extends ListActivityEx<T> implements S
     abstract public void getDataFromNet();
 
     @Override
-    public boolean canAutoRefresh() {
+    public boolean enableAutoRefresh() {
         return true;
     }
 

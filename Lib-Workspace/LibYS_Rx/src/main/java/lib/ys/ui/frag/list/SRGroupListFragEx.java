@@ -10,22 +10,23 @@ import java.util.List;
 import lib.network.model.NetworkResponse;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
+import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.impl.list.SROptImpl;
+import lib.ys.ui.interfaces.opts.list.SROpt;
 
 /**
  * 下拉刷新 group list
  *
  * @param <T>
  */
-abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements SROptListener {
+abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends GroupListFragEx<T, A> implements SROptListener {
 
-    private SROptImpl<T> mSROpt = new SROptImpl<>(this, getGroupListOpt());
+    private SROpt<T> mSROpt = new SROpt<>(this, getGroupListOpt());
 
     @Override
     public int getContentViewId() {
@@ -71,7 +72,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
     abstract public void getDataFromNet();
 
     @Override
-    public boolean canAutoRefresh() {
+    public boolean enableAutoRefresh() {
         return true;
     }
 

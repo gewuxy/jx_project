@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.ToastUtil;
@@ -24,7 +22,7 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 
-public class MeetingRecordActivity extends BaseListActivity<String> {
+public class MeetingRecordActivity extends BaseListActivity<String, RecordAdapter> {
 
     private String mTitle;
 
@@ -63,10 +61,5 @@ public class MeetingRecordActivity extends BaseListActivity<String> {
     @Override
     public View createHeaderView() {
         return ViewUtil.inflateSpaceViewDp(18);
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new RecordAdapter();
     }
 }

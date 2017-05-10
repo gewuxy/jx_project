@@ -8,6 +8,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.network.model.NetworkResponse;
+import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
 import lib.yy.network.ListResponse;
@@ -20,7 +21,7 @@ import yy.doctor.model.BaseGroup;
  * @author CaiXiang
  * @since 2017/4/27
  */
-abstract public class BaseGroupIndexActivity<T extends BaseGroup> extends BaseSRGroupListActivity<T> {
+abstract public class BaseGroupIndexActivity<T extends BaseGroup,  A extends IGroupAdapter<T>> extends BaseSRGroupListActivity<T, A> {
 
     private static final int KLetterColorNormal = Color.parseColor("#888888");
     private static final int KLetterColorFocus = Color.parseColor("#0882e7");

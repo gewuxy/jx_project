@@ -9,8 +9,6 @@ import java.util.List;
 import lib.network.error.NetError;
 import lib.network.model.NetworkResponse;
 import lib.ys.LogMgr;
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -33,7 +31,7 @@ import yy.doctor.util.Util;
  * @since : 2017/5/2
  */
 
-public class MeetingCommentActivity extends BaseListActivity<String> {
+public class MeetingCommentActivity extends BaseListActivity<String, CommentAdapter> {
 
     private TextView mTvSend;
     private EditText mEtSend;
@@ -80,11 +78,6 @@ public class MeetingCommentActivity extends BaseListActivity<String> {
         mTvSend.setOnClickListener(this);
         refresh(RefreshWay.embed);
         exeNetworkRequest(KHistories, NetFactory.histories(mMeetId));
-    }
-
-    @Override
-    public MultiAdapterEx<String, ? extends ViewHolderEx> createAdapter() {
-        return new CommentAdapter();
     }
 
     @Override
