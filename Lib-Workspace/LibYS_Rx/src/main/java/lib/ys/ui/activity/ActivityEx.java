@@ -48,19 +48,19 @@ import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.dialog.DialogEx;
-import lib.ys.ui.interfaces.OnRetryClickListener;
+import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
 import lib.ys.ui.interfaces.opts.InitOpt;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.ui.interfaces.opts.PermissionOpt;
 import lib.ys.ui.interfaces.opts.RefreshOpt;
-import lib.ys.ui.interfaces.opts.impl.CommonOptImpl;
 import lib.ys.ui.interfaces.opts.impl.NetworkOptImpl;
 import lib.ys.ui.interfaces.opts.impl.PermissionOptImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.KeyboardUtil;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.UIUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.permission.OnPermissionListener;
@@ -99,9 +99,10 @@ abstract public class ActivityEx extends SwipeBackActivity implements
     @RefreshWay
     private int mRefreshWay = getInitRefreshWay();
 
-
+    /**
+     * impls
+     */
     private NetworkOptImpl mNetworkOpt;
-    private CommonOptImpl mCommonOpt;
     private PermissionOptImpl mPermissionOpt;
 
 
@@ -131,7 +132,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements
 
     private void initImplements() {
         mNetworkOpt = new NetworkOptImpl(this, this);
-        mCommonOpt = new CommonOptImpl(this);
         mPermissionOpt = new PermissionOptImpl(this, this);
     }
 
@@ -472,37 +472,37 @@ abstract public class ActivityEx extends SwipeBackActivity implements
 
     @Override
     public void showView(View v) {
-        mCommonOpt.showView(v);
+        ViewUtil.showView(v);
     }
 
     @Override
     public void hideView(View v) {
-        mCommonOpt.hideView(v);
+        ViewUtil.hideView(v);
     }
 
     @Override
     public void goneView(View v) {
-        mCommonOpt.goneView(v);
+        ViewUtil.goneView(v);
     }
 
     @Override
     public void startActivity(Class<?> clz) {
-        mCommonOpt.startActivity(clz);
+        LaunchUtil.startActivity(this, clz);
     }
 
     @Override
     public void startActivityForResult(Class<?> clz, int requestCode) {
-        mCommonOpt.startActivityForResult(clz, requestCode);
+        LaunchUtil.startActivityForResult(this, clz, requestCode);
     }
 
     @Override
     public void showToast(String content) {
-        mCommonOpt.showToast(content);
+        AppEx.showToast(content);
     }
 
     @Override
     public void showToast(@StringRes int... resId) {
-        mCommonOpt.showToast(resId);
+        AppEx.showToast(resId);
     }
 
     protected void setBackgroundColor(@ColorInt int color) {

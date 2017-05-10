@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import lib.network.error.NetError;
 import lib.network.model.NetworkResponse;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.LogMgr;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;

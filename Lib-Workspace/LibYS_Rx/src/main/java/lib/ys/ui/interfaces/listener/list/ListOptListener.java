@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.listener.list;
 
 import android.view.View;
 
@@ -6,15 +6,15 @@ import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.other.NavBar;
-import lib.ys.ui.interfaces.MixOnScrollListener;
 
 /**
  * children view的所有方法
  *
  * @author yuansui
  */
-public interface ListOpt<T> {
+public interface ListOptListener<T> {
     int getListViewResId();
 
     View createHeaderView();

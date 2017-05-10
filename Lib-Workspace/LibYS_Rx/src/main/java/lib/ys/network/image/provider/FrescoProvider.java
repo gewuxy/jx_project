@@ -29,7 +29,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.interceptor.Interceptor;
-import lib.ys.network.image.renderer.BaseRenderer;
+import lib.ys.network.image.renderer.Renderer;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.network.image.renderer.CornerRenderer;
 
@@ -49,7 +49,7 @@ public class FrescoProvider extends BaseProvider {
     @DrawableRes
     private Integer mPlaceHolderKeeper;
 
-    private BaseRenderer mRendererKeeper;
+    private Renderer mRendererKeeper;
 
     public FrescoProvider(Context context, ImageView iv) {
         super(context, iv);
@@ -161,7 +161,7 @@ public class FrescoProvider extends BaseProvider {
         imagePipeline.evictFromCache(uri);
     }
 
-    private void render(@DrawableRes int placeHolderRid, @Nullable BaseRenderer renderer) {
+    private void render(@DrawableRes int placeHolderRid, @Nullable Renderer renderer) {
         if (placeHolderRid > 0) {
             if (mPlaceHolderKeeper == null || mPlaceHolderKeeper != placeHolderRid) {
                 /**

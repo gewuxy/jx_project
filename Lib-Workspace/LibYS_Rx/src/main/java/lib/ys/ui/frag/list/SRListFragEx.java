@@ -14,9 +14,9 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.network.resp.IListResponse;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.ui.interfaces.opts.impl.list.SROptImpl;
-import lib.ys.ui.interfaces.MixOnScrollListener;
 
 
 /**
@@ -24,7 +24,7 @@ import lib.ys.ui.interfaces.MixOnScrollListener;
  *
  * @author yuansui
  */
-abstract public class SRListFragEx<T> extends ListFragEx<T> implements SROpt<T> {
+abstract public class SRListFragEx<T> extends ListFragEx<T> implements SROptListener<T> {
 
     private SROptImpl<T> mSROptImpl = new SROptImpl<>(this, getListWidget());
 
@@ -115,8 +115,8 @@ abstract public class SRListFragEx<T> extends ListFragEx<T> implements SROpt<T> 
     }
 
     @Override
-    public void setAutoLoadEnable(boolean enable) {
-        mSROptImpl.setAutoLoadEnable(enable);
+    public void enableAutoRefresh(boolean enable) {
+        mSROptImpl.enableAutoRefresh(enable);
     }
 
     @Override

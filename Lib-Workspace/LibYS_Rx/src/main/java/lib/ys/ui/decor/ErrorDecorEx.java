@@ -10,9 +10,9 @@ import android.widget.RelativeLayout;
 
 import lib.ys.AppEx;
 import lib.ys.config.AppConfig;
-import lib.ys.ui.other.NavBar;
+import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.interfaces.opts.InitOpt;
-import lib.ys.ui.interfaces.OnRetryClickListener;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 

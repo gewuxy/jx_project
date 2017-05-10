@@ -7,21 +7,21 @@ import android.widget.ExpandableListView;
 import java.util.List;
 
 import lib.ys.R;
-import lib.ys.ui.activity.ActivityEx;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
+import lib.ys.ui.activity.ActivityEx;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
+import lib.ys.ui.interfaces.opts.impl.list.GroupListOptImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.FloatingGroupListView;
-import lib.ys.ui.interfaces.opts.impl.list.GroupListOptImpl;
-import lib.ys.ui.interfaces.opts.list.GroupListOpt;
-import lib.ys.ui.interfaces.MixOnScrollListener;
 
-abstract public class GroupListActivityEx<T> extends ActivityEx implements GroupListOpt<T> {
+abstract public class GroupListActivityEx<T> extends ActivityEx implements GroupListOptListener<T> {
 
-    private GroupListOptImpl<T> mListWidget = new GroupListOptImpl<T>(this);
+    private GroupListOptImpl<T> mGroupListOpt = new GroupListOptImpl<>(this);
 
     @Override
     public int getContentViewId() {
@@ -36,20 +36,20 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
     @CallSuper
     @Override
     public void findViews() {
-        mListWidget.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
+        mGroupListOpt.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
     @Override
     public void setViews() {
-        if (mListWidget.isAdapterNull()) {
-            mListWidget.createAdapter(createAdapter());
+        if (mGroupListOpt.isAdapterNull()) {
+            mGroupListOpt.createAdapter(createAdapter());
         }
-        mListWidget.setViews();
+        mGroupListOpt.setViews();
     }
 
     @Override
     public MultiGroupAdapterEx<T, ? extends ViewHolderEx> getAdapter() {
-        return (MultiGroupAdapterEx<T, ? extends ViewHolderEx>) mListWidget.getAdapter();
+        return (MultiGroupAdapterEx<T, ? extends ViewHolderEx>) mGroupListOpt.getAdapter();
     }
 
     @Override
@@ -72,22 +72,22 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public int getGroupCount() {
-        return mListWidget.getGroupCount();
+        return mGroupListOpt.getGroupCount();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return mListWidget.getChildrenCount(groupPosition);
+        return mGroupListOpt.getChildrenCount(groupPosition);
     }
 
     @Override
     public int getHeaderViewPosition() {
-        return mListWidget.getHeaderViewPosition();
+        return mGroupListOpt.getHeaderViewPosition();
     }
 
     @Override
     public void invalidate() {
-        mListWidget.invalidate();
+        mGroupListOpt.invalidate();
     }
 
     /**
@@ -101,27 +101,27 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public int getItemRealPosition(int position) {
-        return mListWidget.getItemRealPosition(position);
+        return mGroupListOpt.getItemRealPosition(position);
     }
 
     @Override
     public boolean isEmpty() {
-        return mListWidget.isEmpty();
+        return mGroupListOpt.isEmpty();
     }
 
     @Override
     public void setSelectedGroup(int groupPosition) {
-        mListWidget.setSelectedGroup(groupPosition);
+        mGroupListOpt.setSelectedGroup(groupPosition);
     }
 
     @Override
     public void hideFooterView() {
-        mListWidget.hideFooterView();
+        mGroupListOpt.hideFooterView();
     }
 
     @Override
     public void showFooterView() {
-        mListWidget.showFooterView();
+        mGroupListOpt.showFooterView();
     }
 
     @Override
@@ -136,77 +136,77 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public void setData(List<T> data) {
-        mListWidget.setData(data);
+        mGroupListOpt.setData(data);
     }
 
     @Override
     public void addItem(T item) {
-        mListWidget.addItem(item);
+        mGroupListOpt.addItem(item);
     }
 
     @Override
     public T getGroup(int groupPosition) {
-        return mListWidget.getGroup(groupPosition);
+        return mGroupListOpt.getGroup(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return mListWidget.getChild(groupPosition, childPosition);
+        return mGroupListOpt.getChild(groupPosition, childPosition);
     }
 
     @Override
     public boolean isGroupExpanded(int groupPosition) {
-        return mListWidget.isGroupExpanded(groupPosition);
+        return mGroupListOpt.isGroupExpanded(groupPosition);
     }
 
     @Override
     public void expandAllGroup() {
-        mListWidget.expandAllGroup();
+        mGroupListOpt.expandAllGroup();
     }
 
     @Override
     public void expandGroup(int groupPos) {
-        mListWidget.expandGroup(groupPos);
+        mGroupListOpt.expandGroup(groupPos);
     }
 
     @Override
     public void collapseAllGroup() {
-        mListWidget.collapseAllGroup();
+        mGroupListOpt.collapseAllGroup();
     }
 
     @Override
     public void collapseGroup(int groupPos) {
-        mListWidget.collapseGroup(groupPos);
+        mGroupListOpt.collapseGroup(groupPos);
     }
 
     @Override
     public void showHeaderView() {
-        mListWidget.showHeaderView();
+        mGroupListOpt.showHeaderView();
     }
 
     @Override
     public void hideHeaderView() {
-        mListWidget.hideHeaderView();
+        mGroupListOpt.hideHeaderView();
     }
 
     @Override
     public void setExpandSingle() {
-        mListWidget.setExpandSingle();
+        mGroupListOpt.setExpandSingle();
     }
 
     @Override
     public void setOnGroupAdapterClickListener(OnGroupAdapterClickListener listener) {
-        mListWidget.setOnGroupAdapterClickListener(listener);
+        mGroupListOpt.setOnGroupAdapterClickListener(listener);
     }
 
     @Override
     public void setOnChildAdapterClickListener(OnChildAdapterClickListener listener) {
-        mListWidget.setOnChildAdapterClickListener(listener);
+        mGroupListOpt.setOnChildAdapterClickListener(listener);
     }
 
     @Override
     public void setFloatingGroupEnabled(boolean enable) {
-        mListWidget.setFloatingGroupEnabled(enable);
+        mGroupListOpt.setFloatingGroupEnabled(enable);
     }
 
     public void getDataFromNet() {
@@ -214,7 +214,7 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mListWidget.addEmptyViewIfNoNull();
+        mGroupListOpt.addEmptyViewIfNoNull();
     }
 
     @Override
@@ -224,47 +224,47 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public void addItem(int position, T item) {
-        mListWidget.addItem(position, item);
+        mGroupListOpt.addItem(position, item);
     }
 
     @Override
     public void addAll(int position, List<T> item) {
-        mListWidget.addAll(position, item);
+        mGroupListOpt.addAll(position, item);
     }
 
     @Override
     public void addAll(List<T> data) {
-        mListWidget.addAll(data);
+        mGroupListOpt.addAll(data);
     }
 
     @Override
     public void remove(int position) {
-        mListWidget.remove(position);
+        mGroupListOpt.remove(position);
     }
 
     @Override
     public void remove(T item) {
-        mListWidget.remove(item);
+        mGroupListOpt.remove(item);
     }
 
     @Override
     public void removeAll() {
-        mListWidget.removeAll();
+        mGroupListOpt.removeAll();
     }
 
     @Override
     public List<T> getData() {
-        return mListWidget.getData();
+        return mGroupListOpt.getData();
     }
 
     @Override
     public int getLastItemPosition() {
-        return mListWidget.getLastItemPosition();
+        return mGroupListOpt.getLastItemPosition();
     }
 
     @Override
     public T getItem(int position) {
-        return mListWidget.getItem(position);
+        return mGroupListOpt.getItem(position);
     }
 
     /**
@@ -277,17 +277,17 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
 
     @Override
     public void setOnScrollListener(MixOnScrollListener listener) {
-        mListWidget.setOnScrollListener(listener);
+        mGroupListOpt.setOnScrollListener(listener);
     }
 
     @Override
     public int getFirstVisiblePosition() {
-        return mListWidget.getFirstVisiblePosition();
+        return mGroupListOpt.getFirstVisiblePosition();
     }
 
     @Override
     public View getChildAt(int index) {
-        return mListWidget.getChildAt(index);
+        return mGroupListOpt.getChildAt(index);
     }
 
     /**
@@ -330,12 +330,12 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
     @Override
     @Deprecated
     public void setSelection(int position) {
-        mListWidget.setSelection(position);
+        mGroupListOpt.setSelection(position);
     }
 
     @Override
     public void smoothScrollToPosition(int groupPosition) {
-        mListWidget.smoothScrollToPosition(groupPosition);
+        mGroupListOpt.smoothScrollToPosition(groupPosition);
     }
 
     @Override
@@ -345,29 +345,29 @@ abstract public class GroupListActivityEx<T> extends ActivityEx implements Group
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mListWidget.onDestroy();
+        mGroupListOpt.onDestroy();
     }
 
     @Override
     public void setNavBarAutoAlphaByScroll(int height, NavBar navBar) {
-        mListWidget.setNavBarAutoAlphaByScroll(height, navBar);
+        mGroupListOpt.setNavBarAutoAlphaByScroll(height, navBar);
     }
 
     @Override
     public void setDividerHeight(int height) {
-        mListWidget.setDividerHeight(height);
+        mGroupListOpt.setDividerHeight(height);
     }
 
     @Override
     public ViewHolderEx getGroupCacheViewHolder(int groupPosition) {
-        return mListWidget.getGroupCacheViewHolder(groupPosition);
+        return mGroupListOpt.getGroupCacheViewHolder(groupPosition);
     }
 
     protected FloatingGroupListView getLv() {
-        return mListWidget.getLv();
+        return mGroupListOpt.getLv();
     }
 
-    protected GroupListOptImpl<T> getListWidget() {
-        return mListWidget;
+    protected GroupListOptImpl<T> getGroupListOpt() {
+        return mGroupListOpt;
     }
 }

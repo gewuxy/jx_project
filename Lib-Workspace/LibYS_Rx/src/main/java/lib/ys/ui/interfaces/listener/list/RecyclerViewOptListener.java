@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.listener.list;
 
 import android.view.View;
 
@@ -6,14 +6,14 @@ import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.ui.interfaces.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 
 /**
  * list view的所有方法
  *
  * @author yuansui
  */
-public interface RecyclerViewOpt<T> {
+public interface RecyclerViewOptListener<T> {
     int getRvResId();
 
     View createHeaderView();

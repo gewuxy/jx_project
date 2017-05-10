@@ -23,14 +23,14 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.ui.interfaces.opts.list.ListOpt;
-import lib.ys.ui.other.NavBar;
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.list.ListOptListener;
+import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.UIUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.ys.ui.interfaces.opts.list.MixScrollOpt;
-import lib.ys.ui.interfaces.MixOnScrollListener;
 
 /**
  * list组件
@@ -48,13 +48,13 @@ public class ListOptImpl<T> implements OnItemClickListener, OnItemLongClickListe
 
     private DataSetObserver mDataSetObserver;
 
-    private ListOpt<T> mListener;
+    private ListOptListener<T> mListener;
 
-    public ListOptImpl(@NonNull ListOpt<T> listener) {
-        if (listener == null) {
+    public ListOptImpl(@NonNull ListOptListener<T> l) {
+        if (l == null) {
             throw new IllegalStateException("OnListWidgetListener must be NonNull");
         }
-        mListener = listener;
+        mListener = l;
     }
 
     @CallSuper

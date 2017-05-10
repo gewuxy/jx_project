@@ -105,7 +105,7 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
         mSideBar.setOnTouchLetterChangeListener((s, isFocus) -> {
             mTvLetter.setText(s);
             mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
-            //getListWidget().setSelectedGroup(1);
+            //getListOpt().setSelectedGroup(1);
 
         });
 
@@ -147,4 +147,10 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
         return listResponse;
     }
 
+    @Override
+    public void onDataSetChanged() {
+        super.onDataSetChanged();
+
+        expandAllGroup();
+    }
 }

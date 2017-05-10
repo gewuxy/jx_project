@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.listener.list;
 
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -13,7 +13,7 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
  *
  * @author yuansui
  */
-public interface GroupListOpt<T> extends ListOpt<T> {
+public interface GroupListOptListener<T> extends ListOptListener<T> {
     void setSelectedGroup(int groupPosition);
 
     int getGroupCount();

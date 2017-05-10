@@ -19,11 +19,11 @@ import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.opts.list.RecyclerViewOpt;
+import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
+import lib.ys.ui.interfaces.listener.list.RecyclerViewOptListener;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.recycler.WrapRecyclerView;
-import lib.ys.ui.interfaces.opts.list.MixScrollOpt;
 
 /**
  * list组件
@@ -41,16 +41,16 @@ public class RecyclerViewOptImpl<T> implements MixScrollOpt<T> {
 
     private AdapterDataObserver mDataObserver;
 
-    private RecyclerViewOpt<T> mListener;
+    private RecyclerViewOptListener<T> mListener;
 
     private OnRecyclerItemClickListener mClickLsn;
 
 
-    public RecyclerViewOptImpl(@NonNull RecyclerViewOpt<T> listener) {
-        if (listener == null) {
+    public RecyclerViewOptImpl(@NonNull RecyclerViewOptListener<T> l) {
+        if (l == null) {
             throw new IllegalStateException("OnRecyclerWidgetListener must be NonNull");
         }
-        mListener = listener;
+        mListener = l;
 
         mClickLsn = new OnRecyclerItemClickListener() {
 

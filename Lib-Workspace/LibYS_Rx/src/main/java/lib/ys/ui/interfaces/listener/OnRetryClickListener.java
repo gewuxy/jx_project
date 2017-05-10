@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces;
+package lib.ys.ui.interfaces.listener;
 
 public interface OnRetryClickListener {
     /**

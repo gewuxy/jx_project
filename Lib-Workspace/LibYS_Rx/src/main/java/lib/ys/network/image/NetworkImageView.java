@@ -21,7 +21,7 @@ import java.io.File;
 import lib.ys.network.image.interceptor.Interceptor;
 import lib.ys.network.image.provider.BaseProvider;
 import lib.ys.network.image.provider.FrescoProvider;
-import lib.ys.network.image.renderer.BaseRenderer;
+import lib.ys.network.image.renderer.Renderer;
 
 public class NetworkImageView extends SimpleDraweeView {
 
@@ -79,7 +79,7 @@ public class NetworkImageView extends SimpleDraweeView {
         return this;
     }
 
-    public NetworkImageView renderer(BaseRenderer renderer) {
+    public NetworkImageView renderer(Renderer renderer) {
         mProvider.renderer(renderer);
         return this;
     }

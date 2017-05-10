@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.OnRetryClickListener;
+import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.swipeRefresh.interfaces.IExtend;

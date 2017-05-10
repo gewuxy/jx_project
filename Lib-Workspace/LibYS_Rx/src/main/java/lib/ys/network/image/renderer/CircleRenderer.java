@@ -9,7 +9,7 @@ import static android.R.attr.width;
 /**
  * 圆形渲染器
  */
-public class CircleRenderer extends BaseRenderer {
+public class CircleRenderer implements Renderer {
 
     @ColorInt
     private int mBorderColor = Color.TRANSPARENT;

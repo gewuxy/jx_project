@@ -25,8 +25,6 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import java.lang.reflect.Field;
 
-import lib.network.Network;
-import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
@@ -43,20 +41,20 @@ import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.dialog.DialogEx;
-import lib.ys.ui.interfaces.OnRetryClickListener;
+import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
 import lib.ys.ui.interfaces.opts.InitOpt;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.ui.interfaces.opts.RefreshOpt;
+import lib.ys.ui.interfaces.opts.impl.NetworkOptImpl;
+import lib.ys.ui.interfaces.opts.impl.PermissionOptImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.InjectUtil.IInjectView;
 import lib.ys.util.UtilEx;
-import lib.ys.util.permission.CheckTask;
 import lib.ys.util.permission.OnPermissionListener;
 import lib.ys.util.permission.Permission;
-import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
@@ -81,8 +79,6 @@ abstract public class FragEx extends Fragment implements
 
     private boolean mInitComplete = false;
 
-    private Network mNetwork;
-
     private FragEx mFragRoot;
     private FragEx mFragChild;
 
@@ -90,6 +86,18 @@ abstract public class FragEx extends Fragment implements
 
     @RefreshWay
     private int mRefreshWay = getInitRefreshWay();
+
+    /**
+     * impls
+     */
+    private NetworkOptImpl mNetworkOpt;
+    private PermissionOptImpl mPermissionOpt;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initImplements();
+    }
 
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,6 +117,11 @@ abstract public class FragEx extends Fragment implements
 
         setOnRetryClickListener(this);
         return mDecorView;
+    }
+
+    private void initImplements() {
+        mNetworkOpt = new NetworkOptImpl(this, this);
+        mPermissionOpt = new PermissionOptImpl(getContext(), this);
     }
 
     /**
@@ -309,43 +322,25 @@ abstract public class FragEx extends Fragment implements
      * http task part
      */
     @Override
-    public void cancelNetworkRequest(int id) {
-        if (mNetwork != null) {
-            mNetwork.cancel(id);
-        }
+    public void exeNetworkRequest(int id, NetworkRequest request) {
+        mNetworkOpt.exeNetworkRequest(id, request);
+    }
+
+    @Override
+    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
+        mNetworkOpt.exeNetworkRequest(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        if (mNetwork != null) {
-            mNetwork.cancelAll();
-        }
+        mNetworkOpt.cancelAllNetworkRequest();
     }
 
-    public void exeNetworkRequest(int id, NetworkRequest request) {
-        exeNetworkRequest(id, request, this);
+    @Override
+    public void cancelNetworkRequest(int id) {
+        mNetworkOpt.cancelNetworkRequest(id);
     }
 
-    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
-        if (isRemoving()) {
-            return;
-        }
-
-        if (request == null) {
-            onNetworkError(id, new NetError());
-            return;
-        }
-
-        if (!DeviceUtil.isNetworkEnable()) {
-            onNetworkError(id, new ConnectionNetError(getString(R.string.toast_network_disconnect)));
-            return;
-        }
-
-        if (mNetwork == null) {
-            mNetwork = new Network(getClass().getName(), this);
-        }
-        mNetwork.execute(id, request, listener);
-    }
 
     protected NavBar getNavBar() {
         return mDecorView.getNavBar();
@@ -417,7 +412,6 @@ abstract public class FragEx extends Fragment implements
         }
         super.startActivityForResult(intent, requestCode);
     }
-
 
     /**
      * 保存响应的子frag
@@ -505,7 +499,8 @@ abstract public class FragEx extends Fragment implements
         super.onDestroy();
 
         cancelAllNetworkRequest();
-        mNetwork = null;
+
+        mNetworkOpt.onDestroy();
     }
 
     protected Intent getIntent() {
@@ -779,17 +774,7 @@ abstract public class FragEx extends Fragment implements
      * @return
      */
     protected boolean checkPermission(int code, @Permission String... ps) {
-        if (PermissionChecker.allow(getContext(), ps)) {
-            return true;
-        }
-
-        CheckTask task = CheckTask.newBuilder()
-                .permissions(ps)
-                .code(code)
-                .listener(this)
-                .build();
-
-        return PermissionChecker.inst().check(task);
+        return mPermissionOpt.checkPermission(code, ps);
     }
 
     /**

@@ -10,7 +10,6 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
@@ -18,7 +17,7 @@ import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.IGroupAdapter;
-import lib.ys.ui.interfaces.opts.list.GroupListOpt;
+import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
 import lib.ys.util.UIUtil;
 import lib.ys.view.FloatingGroupListView;
 
@@ -32,9 +31,9 @@ public class GroupListOptImpl<T> extends ListOptImpl<T> implements OnGroupClickL
     private FloatingGroupListView mLv;
     private IGroupAdapter<T> mAdapter;
 
-    private GroupListOpt mListener;
+    private GroupListOptListener mListener;
 
-    public GroupListOptImpl(@NonNull GroupListOpt<T> listener) {
+    public GroupListOptImpl(@NonNull GroupListOptListener<T> listener) {
         super(listener);
         mListener = listener;
     }

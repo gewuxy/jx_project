@@ -5,6 +5,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 
 /**
  * 刷新操作
+ *
  * @author yuansui
  */
 public interface RefreshOpt {

@@ -16,7 +16,7 @@ import lib.ys.model.EVal;
 @SuppressWarnings("serial")
 abstract public class ListResponseEx<T, E extends Enum<E>> extends EVal<E> implements IListResponse<T> {
 
-    private List<T> mTs = new ArrayList<T>();
+    private List<T> mTs = new ArrayList<>();
     private int mCode;
     private String mLastItemId;
     private String mError = ConstantsEx.KEmptyValue;
@@ -43,7 +43,7 @@ abstract public class ListResponseEx<T, E extends Enum<E>> extends EVal<E> imple
         }
 
         if (mTs == null) {
-            mTs = new ArrayList<T>();
+            mTs = new ArrayList<>();
         }
         mTs.add(item);
     }

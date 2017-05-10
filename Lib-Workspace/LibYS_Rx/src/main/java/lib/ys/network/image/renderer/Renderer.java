@@ -5,5 +5,5 @@ package lib.ys.network.image.renderer;
  *
  * @author yuansui
  */
-abstract public class BaseRenderer {
+public interface Renderer {
 }

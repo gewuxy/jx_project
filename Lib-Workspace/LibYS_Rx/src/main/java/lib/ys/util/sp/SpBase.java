@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import java.io.Serializable;
 
 import lib.ys.impl.SingletonImpl;
-import lib.ys.ui.interfaces.ISingleton;
 import lib.ys.model.EVal;
+import lib.ys.ui.interfaces.ISingleton;
 
 @SuppressWarnings({"rawtypes"})
 abstract public class SpBase implements ISingleton {

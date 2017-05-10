@@ -4,9 +4,9 @@ import org.json.JSONException;
 
 import lib.network.Network;
 import lib.network.error.NetError;
-import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkResponse;
+import lib.network.model.OnNetworkListener;
 import lib.ys.LogMgr;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 

@@ -14,16 +14,18 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.network.resp.IListResponse;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.ui.interfaces.opts.impl.list.SROptImpl;
-import lib.ys.ui.interfaces.MixOnScrollListener;
 
 /**
- * 下拉刷新floating group listview fragment
+ * 下拉刷新 group list
+ *
+ * @param <T>
  */
-abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements SROpt {
+abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements SROptListener {
 
-    private SROptImpl<T> mSROptImpl = new SROptImpl<T>(this, getListWidget());
+    private SROptImpl<T> mSROpt = new SROptImpl<>(this, getGroupListOpt());
 
     @Override
     public int getContentViewId() {
@@ -44,7 +46,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
     @Override
     public void findViews() {
         super.findViews();
-        mSROptImpl.findViews(getDecorView(), getSRLayoutResId());
+        mSROpt.findViews(getDecorView(), getSRLayoutResId());
     }
 
     @CallSuper
@@ -52,7 +54,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
     public void setViews() {
         super.setViews();
 
-        mSROptImpl.setViews();
+        mSROpt.setViews();
 
         if (getInitRefreshWay() == RefreshWay.embed) {
             // 为了更好的体验, 在embed loading显示之前先隐藏掉
@@ -75,7 +77,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
 
     @Override
     public boolean isFirstRefresh() {
-        return mSROptImpl.isFirstRefresh();
+        return mSROpt.isFirstRefresh();
     }
 
     @Override
@@ -85,7 +87,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
 
     @Override
     public void setOnScrollListener(MixOnScrollListener listener) {
-        mSROptImpl.setOnScrollListener(listener);
+        mSROpt.setOnScrollListener(listener);
     }
 
     @Override
@@ -95,32 +97,32 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
 
     @Override
     public void setRefreshEnable(boolean enable) {
-        mSROptImpl.setRefreshEnable(enable);
+        mSROpt.setRefreshEnable(enable);
     }
 
     @Override
     public void stopLoadMore() {
-        mSROptImpl.stopLoadMore();
+        mSROpt.stopLoadMore();
     }
 
     @Override
     public boolean isSwipeRefreshing() {
-        return mSROptImpl.isSwipeRefreshing();
+        return mSROpt.isSwipeRefreshing();
     }
 
     @Override
-    public void setAutoLoadEnable(boolean enable) {
-        mSROptImpl.setAutoLoadEnable(enable);
+    public void enableAutoRefresh(boolean enable) {
+        mSROpt.enableAutoRefresh(enable);
     }
 
     @Override
     public int getOffset() {
-        return mSROptImpl.getOffset();
+        return mSROpt.getOffset();
     }
 
     @Override
     public String getLastItemId() {
-        return mSROptImpl.getLastItemId();
+        return mSROpt.getLastItemId();
     }
 
     @Override
@@ -156,7 +158,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
     @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
-            return mSROptImpl.onRetryClick();
+            return mSROpt.onRetryClick();
         }
         return true;
     }
@@ -169,7 +171,7 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
 
     @Override
     public void setRefreshLocalState(boolean state) {
-        mSROptImpl.setRefreshLocalState(state);
+        mSROpt.setRefreshLocalState(state);
     }
 
     @Override
@@ -187,36 +189,36 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
 
     @Override
     public void resetNetDataState() {
-        mSROptImpl.resetNetDataState();
+        mSROpt.resetNetDataState();
     }
 
     @Override
     public List<T> getNetData() {
-        return mSROptImpl.getNetData();
+        return mSROpt.getNetData();
     }
 
     @Override
     public void dialogRefresh() {
         super.dialogRefresh();
-        mSROptImpl.dialogRefresh();
+        mSROpt.dialogRefresh();
     }
 
     @Override
     public void embedRefresh() {
         super.embedRefresh();
-        mSROptImpl.embedRefresh();
+        mSROpt.embedRefresh();
     }
 
     @Override
     public void swipeRefresh() {
         super.swipeRefresh();
-        mSROptImpl.swipeRefresh();
+        mSROpt.swipeRefresh();
     }
 
     @Override
     public void stopRefresh() {
         super.stopRefresh();
-        mSROptImpl.stopRefresh();
+        mSROpt.stopRefresh();
     }
 
     @Override
@@ -226,27 +228,27 @@ abstract public class SRGroupListFragEx<T> extends GroupListFragEx<T> implements
 
     @Override
     public final void stopSwipeRefresh() {
-        mSROptImpl.stopSwipeRefresh();
+        mSROpt.stopSwipeRefresh();
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return mSROptImpl.onNetworkResponse(id, nr, TAG);
+        return mSROpt.onNetworkResponse(id, nr, TAG);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROptImpl.onNetworkSuccess((IListResponse) result);
+        mSROpt.onNetworkSuccess((IListResponse) result);
     }
 
     @Override
     public void refresh() {
-        mSROptImpl.refresh();
+        mSROpt.refresh();
     }
 
     @Override
     public void onDataSetChanged() {
-        mSROptImpl.onDataSetChanged();
+        mSROpt.onDataSetChanged();
     }
 
 }

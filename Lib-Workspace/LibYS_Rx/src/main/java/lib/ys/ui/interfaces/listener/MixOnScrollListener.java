@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces;
+package lib.ys.ui.interfaces.listener;
 
 import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;

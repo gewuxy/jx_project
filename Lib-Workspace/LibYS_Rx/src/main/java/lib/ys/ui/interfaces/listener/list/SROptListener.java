@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.listener.list;
 
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -10,15 +10,15 @@ import java.util.List;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.network.resp.IListResponse;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 
 /**
  * 下拉刷新操作
  *
  * @author yuansui
  */
-public interface SROpt<T> {
+public interface SROptListener<T> {
 
     int getSRLayoutResId();
 
@@ -84,7 +84,7 @@ public interface SROpt<T> {
 
     boolean isSwipeRefreshing();
 
-    void setAutoLoadEnable(boolean enable);
+    void enableAutoRefresh(boolean enable);
 
     void setRefreshEnable(boolean enable);
 

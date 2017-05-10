@@ -32,5 +32,5 @@ public interface ISRLoadMoreListener {
      *
      * @param enable
      */
-    void setAutoLoadEnable(boolean enable);
+    void enableAutoRefresh(boolean enable);
 }

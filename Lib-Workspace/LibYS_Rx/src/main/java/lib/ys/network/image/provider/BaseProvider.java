@@ -12,7 +12,7 @@ import java.util.List;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.interceptor.Interceptor;
-import lib.ys.network.image.renderer.BaseRenderer;
+import lib.ys.network.image.renderer.Renderer;
 
 /**
  * 图片内容提供者
@@ -40,7 +40,7 @@ abstract public class BaseProvider {
     @DrawableRes
     private int mPlaceHolder = ConstantsEx.KInvalidValue;
     private int mFade = ConstantsEx.KInvalidValue;
-    private BaseRenderer mRenderer;
+    private Renderer mRenderer;
 
     private List<Interceptor> mInterceptors;
 
@@ -77,7 +77,7 @@ abstract public class BaseProvider {
         mUri = uri;
     }
 
-    public void renderer(BaseRenderer renderer) {
+    public void renderer(Renderer renderer) {
         mRenderer = renderer;
     }
 
@@ -147,7 +147,7 @@ abstract public class BaseProvider {
         return mFade;
     }
 
-    protected BaseRenderer getRenderer() {
+    protected Renderer getRenderer() {
         return mRenderer;
     }
 

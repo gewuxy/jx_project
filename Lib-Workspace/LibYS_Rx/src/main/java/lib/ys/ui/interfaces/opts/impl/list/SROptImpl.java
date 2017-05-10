@@ -17,10 +17,12 @@ import lib.ys.LogMgr;
 import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.resp.IListResponse;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
+import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.res.ResLoader;
@@ -28,8 +30,6 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
 import lib.ys.view.swipeRefresh.interfaces.ISRListener;
-import lib.ys.ui.interfaces.opts.list.MixScrollOpt;
-import lib.ys.ui.interfaces.MixOnScrollListener;
 
 /**
  * 下拉刷新和加载更多组件
@@ -40,8 +40,8 @@ public class SROptImpl<T> implements ISRListener {
 
     private static final String TAG = SROptImpl.class.getSimpleName();
 
-    private SROpt mListener;
-    private MixScrollOpt<T> mWidget;
+    private SROptListener mSROptListener;
+    private MixScrollOpt<T> mScrollOpt;
 
     // 翻页标识
     private String mLastItemId = ListConstants.KDefaultInitItemId;
@@ -63,9 +63,9 @@ public class SROptImpl<T> implements ISRListener {
     private Handler mHandler;
 
 
-    public SROptImpl(@NonNull SROpt<T> listener, MixScrollOpt<T> widget) {
-        mListener = listener;
-        mWidget = widget;
+    public SROptImpl(@NonNull SROptListener<T> l, MixScrollOpt<T> scrollOpt) {
+        mSROptListener = l;
+        mScrollOpt = scrollOpt;
 
         mHandler = new Handler() {
 
@@ -94,20 +94,20 @@ public class SROptImpl<T> implements ISRListener {
             mFooterEmptyView = (RelativeLayout) layoutFooterEmpty.findViewById(R.id.list_footer_empty_container);
             mFooterEmptyView.addView(footerEmpty, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
             LayoutFitter.fit(layoutFooterEmpty);
-            mWidget.addFooterView(layoutFooterEmpty);
+            mScrollOpt.addFooterView(layoutFooterEmpty);
         }
     }
 
     public void setViews() {
-        mWidget.hideFooterView();
+        mScrollOpt.hideFooterView();
         hideFooterEmptyView();
 
-        setAutoLoadEnable(false);
+        enableAutoRefresh(false);
         setSRListener(this);
 
-        if (mListener.canAutoRefresh()) {
+        if (mSROptListener.canAutoRefresh()) {
             if (hideHeaderWhenInit()) {
-                mWidget.hideHeaderView();
+                mScrollOpt.hideHeaderView();
             }
             mHandler.sendEmptyMessageDelayed(0, ResLoader.getInteger(R.integer.anim_default_duration));
         }
@@ -133,8 +133,8 @@ public class SROptImpl<T> implements ISRListener {
         return mSRLayout.isSwipeRefreshing();
     }
 
-    public void setAutoLoadEnable(boolean enable) {
-        mSRLayout.setAutoLoadEnable(enable);
+    public void enableAutoRefresh(boolean enable) {
+        mSRLayout.enableAutoRefresh(enable);
     }
 
     public void setRefreshEnable(boolean enable) {
@@ -144,7 +144,7 @@ public class SROptImpl<T> implements ISRListener {
     @Override
     public final void onSwipeRefresh() {
         processRefresh();
-        mListener.setRefreshWay(RefreshWay.swipe);
+        mSROptListener.setRefreshWay(RefreshWay.swipe);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class SROptImpl<T> implements ISRListener {
     public boolean onAutoLoadMore() {
         mLoadMore = true;
         if (DeviceUtil.isNetworkEnable()) {
-            mListener.getDataFromNet();
+            mSROptListener.getDataFromNet();
             return true;
         } else {
             return false;
@@ -170,7 +170,7 @@ public class SROptImpl<T> implements ISRListener {
             mSRLayout.startLoadMore();
             return true;
         } else {
-            mListener.showToast(R.string.toast_network_disconnect);
+            mSROptListener.showToast(R.string.toast_network_disconnect);
             return false;
         }
     }
@@ -179,13 +179,13 @@ public class SROptImpl<T> implements ISRListener {
      * 获取本地数据
      */
     protected void getDataFromLocal() {
-        mTsLocal = mListener.onLocalTaskResponse();
+        mTsLocal = mSROptListener.onLocalTaskResponse();
         onLocalRefreshSuccess();
     }
 
     public Object onNetworkResponse(int id, NetworkResponse nr, String tag) throws Exception {
         LogMgr.d(tag, nr.getText());
-        return mListener.parseNetworkResponse(id, nr.getText());
+        return mSROptListener.parseNetworkResponse(id, nr.getText());
     }
 
     public void onNetworkSuccess(IListResponse response) {
@@ -194,7 +194,7 @@ public class SROptImpl<T> implements ISRListener {
             stopRefresh();
 
             if (response != null) {
-                mListener.showToast(response.getError());
+                mSROptListener.showToast(response.getError());
             }
             return;
         }
@@ -220,14 +220,14 @@ public class SROptImpl<T> implements ISRListener {
 
         if (mLoadMore) {
             // 分页加载
-            mWidget.addAll(mTsNet);
-            mWidget.invalidate();
+            mScrollOpt.addAll(mTsNet);
+            mScrollOpt.invalidate();
             stopLoadMore();
 
             if (mTsNet.size() < getLimit()) {
                 // 数据不够
-                setAutoLoadEnable(false);
-                mWidget.showFooterView();
+                enableAutoRefresh(false);
+                mScrollOpt.showFooterView();
             }
             mLoadMore = false;
         } else {
@@ -236,7 +236,7 @@ public class SROptImpl<T> implements ISRListener {
     }
 
     public int getLimit() {
-        return mListener.getLimit();
+        return mSROptListener.getLimit();
     }
 
     public int getOffset() {
@@ -256,12 +256,12 @@ public class SROptImpl<T> implements ISRListener {
      */
     public void refresh() {
         if (mFirstRefresh) {
-            mListener.refresh(mListener.getInitRefreshWay());
+            mSROptListener.refresh(mSROptListener.getInitRefreshWay());
             mFirstRefresh = false;
             // 第一次刷新以后再添加empty view
-            mWidget.addEmptyViewIfNoNull();
+            mScrollOpt.addEmptyViewIfNoNull();
         } else {
-            mListener.refresh(RefreshWay.swipe);
+            mSROptListener.refresh(RefreshWay.swipe);
         }
     }
 
@@ -275,25 +275,25 @@ public class SROptImpl<T> implements ISRListener {
     }
 
     private int getInitOffset() {
-        return mListener.getInitOffset();
+        return mSROptListener.getInitOffset();
     }
 
     private boolean hideHeaderWhenInit() {
-        return mListener.hideHeaderWhenInit();
+        return mSROptListener.hideHeaderWhenInit();
     }
 
     private boolean useErrorView() {
-        return mListener.useErrorView();
+        return mSROptListener.useErrorView();
     }
 
     public boolean onRetryClick() {
-        mListener.refresh(mListener.getInitRefreshWay());
+        mSROptListener.refresh(mSROptListener.getInitRefreshWay());
         return true;
     }
 
     @PageDownType
     private int getListPageUpType() {
-        return mListener.getListPageDownType();
+        return mSROptListener.getListPageDownType();
     }
 
     /**
@@ -309,7 +309,7 @@ public class SROptImpl<T> implements ISRListener {
     }
 
     public void dialogRefresh() {
-        mWidget.hideFooterView();
+        mScrollOpt.hideFooterView();
         processRefresh();
     }
 
@@ -334,7 +334,7 @@ public class SROptImpl<T> implements ISRListener {
             getDataFromLocal();
         } else {
             if (DeviceUtil.isNetworkEnable()) {
-                mListener.getDataFromNet();
+                mSROptListener.getDataFromNet();
             } else {
                 AppEx.showToast(R.string.toast_network_disconnect);
                 stopRefresh();
@@ -347,17 +347,11 @@ public class SROptImpl<T> implements ISRListener {
          * swipe refresh使用单独的处理方式, 为了头部的下拉刷新回去以后才刷新数据, 体验友好
          * @see {@link #onSwipeRefreshFinish()}
          */
-        if (mListener.getRefreshWay() != RefreshWay.swipe) {
-            if (mListener.getRefreshWay() == RefreshWay.dialog) {
-                mListener.dismissLoadingDialog();
+        if (mSROptListener.getRefreshWay() != RefreshWay.swipe) {
+            if (mSROptListener.getRefreshWay() == RefreshWay.dialog) {
+                mSROptListener.dismissLoadingDialog();
             }
-            UtilEx.runOnUIThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    onRefreshFinish();
-                }
-            });
+            UtilEx.runOnUIThread(() -> onRefreshFinish());
         } else {
             stopSwipeRefresh();
         }
@@ -388,22 +382,22 @@ public class SROptImpl<T> implements ISRListener {
     private void onNetRefreshSuccess() {
         LogMgr.d(TAG, "onNetRefreshSuccess()");
 
-        mListener.setViewState(ViewState.normal);
+        mSROptListener.setViewState(ViewState.normal);
 
-        mWidget.setData(mTsNet);
-        mWidget.invalidate();
+        mScrollOpt.setData(mTsNet);
+        mScrollOpt.invalidate();
 
-        mWidget.showHeaderView();
+        mScrollOpt.showHeaderView();
 
         // size < limit 表示没有更多数据了
         if (mTsNet.size() >= getLimit()) {
-            setAutoLoadEnable(true);
+            enableAutoRefresh(true);
         } else {
-            setAutoLoadEnable(false);
+            enableAutoRefresh(false);
         }
 //        determineFooterStatus();
 
-        mListener.onNetRefreshSuccess();
+        mSROptListener.onNetRefreshSuccess();
     }
 
     /**
@@ -412,19 +406,19 @@ public class SROptImpl<T> implements ISRListener {
     protected void onNetRefreshError() {
         LogMgr.d(TAG, "onNetRefreshError()");
 
-        if (useErrorView() && mWidget.isEmpty()) {
-            mListener.setViewState(ViewState.error);
+        if (useErrorView() && mScrollOpt.isEmpty()) {
+            mSROptListener.setViewState(ViewState.error);
         } else {
-            mListener.setViewState(ViewState.normal);
+            mSROptListener.setViewState(ViewState.normal);
             if (mLoadMore) {
                 stopLoadMoreFailed();
             } else {
                 if (mFooterEmptyView == null) {
-                    setAutoLoadEnable(false);
+                    enableAutoRefresh(false);
                     stopLoadMore();
-                    mWidget.showFooterView();
+                    mScrollOpt.showFooterView();
                 } else {
-                    setAutoLoadEnable(false);
+                    enableAutoRefresh(false);
                     stopLoadMore();
                     /**
                      * TODO: 已经监听了数据的变化, 暂时注释掉这里, 可能会出现问题
@@ -435,37 +429,37 @@ public class SROptImpl<T> implements ISRListener {
             }
         }
 
-        mListener.onNetRefreshError();
+        mSROptListener.onNetRefreshError();
     }
 
     private void onLocalRefreshSuccess() {
         LogMgr.d(TAG, "onLocalRefreshSuccess()");
 
-        mListener.setViewState(ViewState.normal);
+        mSROptListener.setViewState(ViewState.normal);
 
-        mWidget.setData(mTsLocal);
-        mWidget.invalidate();
+        mScrollOpt.setData(mTsLocal);
+        mScrollOpt.invalidate();
 
-        mWidget.showHeaderView();
-        mWidget.hideFooterView();
+        mScrollOpt.showHeaderView();
+        mScrollOpt.hideFooterView();
 
-        mListener.onLocalRefreshSuccess();
+        mSROptListener.onLocalRefreshSuccess();
     }
 
     private void onLocalRefreshError() {
         LogMgr.d(TAG, "onLocalRefreshError()");
 
-        if (useErrorView() && mWidget.isEmpty()) {
-            mListener.setViewState(ViewState.error);
+        if (useErrorView() && mScrollOpt.isEmpty()) {
+            mSROptListener.setViewState(ViewState.error);
         } else {
-            mListener.setViewState(ViewState.normal);
+            mSROptListener.setViewState(ViewState.normal);
         }
 
-        mListener.onLocalRefreshError();
+        mSROptListener.onLocalRefreshError();
     }
 
     private View createFooterEmptyView() {
-        return mListener.getFooterEmptyView();
+        return mSROptListener.getFooterEmptyView();
     }
 
     private void showFooterEmptyView() {
@@ -482,14 +476,14 @@ public class SROptImpl<T> implements ISRListener {
 
     private void determineFooterStatus() {
         if ((mTsNet == null || mTsNet.isEmpty())
-                && mWidget.isEmpty()) {
-            mWidget.hideFooterView();
+                && mScrollOpt.isEmpty()) {
+            mScrollOpt.hideFooterView();
             showFooterEmptyView();
         } else {
             if (mTsNet == null || mTsNet.size() >= getLimit()) {
-                mWidget.hideFooterView();
+                mScrollOpt.hideFooterView();
             } else {
-                mWidget.showFooterView();
+                mScrollOpt.showFooterView();
             }
             hideFooterEmptyView();
         }

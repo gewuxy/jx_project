@@ -10,21 +10,23 @@ import android.view.View;
 import java.util.List;
 
 import lib.ys.R;
-import lib.ys.ui.activity.ActivityEx;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.adapter.recycler.RecyclerViewHolderEx;
-import lib.ys.view.recycler.WrapRecyclerView;
-import lib.ys.ui.interfaces.opts.list.RecyclerViewOpt;
+import lib.ys.ui.activity.ActivityEx;
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.list.RecyclerViewOptListener;
 import lib.ys.ui.interfaces.opts.impl.list.RecyclerViewOptImpl;
-import lib.ys.ui.interfaces.MixOnScrollListener;
+import lib.ys.view.recycler.WrapRecyclerView;
 
 /**
- * @author yuansui
+ * 下拉刷新 Recycler view
+ *
+ * @param <T>
  */
-abstract public class RecyclerActivityEx<T> extends ActivityEx implements RecyclerViewOpt<T> {
+abstract public class RecyclerActivityEx<T> extends ActivityEx implements RecyclerViewOptListener<T> {
 
-    private RecyclerViewOptImpl<T> mWidget = new RecyclerViewOptImpl<>(this);
+    private RecyclerViewOptImpl<T> mRecyclerOpt = new RecyclerViewOptImpl<>(this);
 
     @Override
     public int getContentViewId() {
@@ -33,15 +35,15 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
 
     @Override
     public void findViews() {
-        mWidget.findViews(getDecorView(), getRvResId(), createHeaderView(), createFooterView(), createEmptyView());
+        mRecyclerOpt.findViews(getDecorView(), getRvResId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
     @Override
     public void setViews() {
-        if (mWidget.isAdapterNull()) {
-            mWidget.createAdapter(createAdapter());
+        if (mRecyclerOpt.isAdapterNull()) {
+            mRecyclerOpt.createAdapter(createAdapter());
         }
-        mWidget.setViews(initLayoutManager(), initItemDecoration(), initItemAnimator());
+        mRecyclerOpt.setViews(initLayoutManager(), initItemDecoration(), initItemAnimator());
     }
 
     /**
@@ -96,7 +98,7 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
 
     @Override
     public MultiRecyclerAdapterEx<T, ? extends RecyclerViewHolderEx> getAdapter() {
-        return (MultiRecyclerAdapterEx<T, ? extends RecyclerViewHolderEx>) mWidget.getAdapter();
+        return (MultiRecyclerAdapterEx<T, ? extends RecyclerViewHolderEx>) mRecyclerOpt.getAdapter();
     }
 
     @Override
@@ -109,22 +111,22 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
 
     @Override
     public void hideFooterView() {
-        mWidget.hideFooterView();
+        mRecyclerOpt.hideFooterView();
     }
 
     @Override
     public void showFooterView() {
-        mWidget.showFooterView();
+        mRecyclerOpt.showFooterView();
     }
 
     @Override
     public void showHeaderView() {
-        mWidget.showHeaderView();
+        mRecyclerOpt.showHeaderView();
     }
 
     @Override
     public void hideHeaderView() {
-        mWidget.hideHeaderView();
+        mRecyclerOpt.hideHeaderView();
     }
 
     public void getDataFromNet() {
@@ -142,98 +144,98 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
 
     @Override
     public void setData(List list) {
-        mWidget.setData(list);
+        mRecyclerOpt.setData(list);
     }
 
     @Override
     public void addItem(T item) {
-        mWidget.addItem(item);
+        mRecyclerOpt.addItem(item);
     }
 
     @Override
     public void addItem(int position, T item) {
-        mWidget.addItem(position, item);
+        mRecyclerOpt.addItem(position, item);
     }
 
     @Override
     public void addAll(List<T> data) {
-        mWidget.addAll(data);
+        mRecyclerOpt.addAll(data);
     }
 
     @Override
     public void addAll(int position, List<T> item) {
-        mWidget.addAll(position, item);
+        mRecyclerOpt.addAll(position, item);
     }
 
     @Override
     public void invalidate() {
-        mWidget.invalidate();
+        mRecyclerOpt.invalidate();
     }
 
     @Override
     public void remove(int position) {
-        mWidget.remove(position);
+        mRecyclerOpt.remove(position);
     }
 
     @Override
     public void remove(T item) {
-        mWidget.remove(item);
+        mRecyclerOpt.remove(item);
     }
 
     @Override
     public void removeAll() {
-        mWidget.removeAll();
+        mRecyclerOpt.removeAll();
     }
 
     @Override
     public List<T> getData() {
-        return mWidget.getData();
+        return mRecyclerOpt.getData();
     }
 
     @Override
     public int getCount() {
-        return mWidget.getCount();
+        return mRecyclerOpt.getCount();
     }
 
     @Override
     public int getLastItemPosition() {
-        return mWidget.getLastItemPosition();
+        return mRecyclerOpt.getLastItemPosition();
     }
 
     @Override
     public T getItem(int position) {
-        return mWidget.getItem(position);
+        return mRecyclerOpt.getItem(position);
     }
 
     @Override
     public boolean isEmpty() {
-        return mWidget.isEmpty();
+        return mRecyclerOpt.isEmpty();
     }
 
 
     @Override
     public void setOnAdapterClickListener(OnAdapterClickListener listener) {
-        mWidget.setOnAdapterClickListener(listener);
+        mRecyclerOpt.setOnAdapterClickListener(listener);
     }
 
     @Override
     public void setOnScrollListener(MixOnScrollListener listener) {
-        mWidget.addOnScrollListener(listener);
+        mRecyclerOpt.addOnScrollListener(listener);
     }
 
     @Override
     public int getItemRealPosition(int position) {
-        return mWidget.getItemRealPosition(position);
+        return mRecyclerOpt.getItemRealPosition(position);
     }
 
     @Override
     public int getFirstVisiblePosition() {
-        return mWidget.getFirstVisiblePosition();
+        return mRecyclerOpt.getFirstVisiblePosition();
     }
 
     @Override
     public View getChildAt(int index) {
-        return mWidget.getChildAt(index);
+        return mRecyclerOpt.getChildAt(index);
     }
 
     @Override
@@ -246,17 +248,17 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mWidget.addEmptyViewIfNoNull();
+        mRecyclerOpt.addEmptyViewIfNoNull();
     }
 
     @Override
     public void setSelection(int position) {
-        mWidget.setSelection(position);
+        mRecyclerOpt.setSelection(position);
     }
 
     @Override
     public void smoothScrollToPosition(int position) {
-        mWidget.smoothScrollToPosition(position);
+        mRecyclerOpt.smoothScrollToPosition(position);
     }
 
     @Override
@@ -266,20 +268,20 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mWidget.onDestroy();
+        mRecyclerOpt.onDestroy();
     }
 
     @Override
     public int getHeaderViewPosition() {
-        return mWidget.getHeaderViewPosition();
+        return mRecyclerOpt.getHeaderViewPosition();
     }
 
     protected WrapRecyclerView getRv() {
-        return mWidget.getRv();
+        return mRecyclerOpt.getRv();
     }
 
-    protected RecyclerViewOptImpl<T> getWidget() {
-        return mWidget;
+    protected RecyclerViewOptImpl<T> getRecyclerOpt() {
+        return mRecyclerOpt;
     }
 
     /**
