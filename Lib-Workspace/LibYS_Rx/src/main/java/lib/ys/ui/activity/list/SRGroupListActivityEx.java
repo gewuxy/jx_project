@@ -72,7 +72,7 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     abstract public void getDataFromNet();
 
     @Override
-    public boolean enableAutoRefresh() {
+    public boolean enableRefreshWhenInit() {
         return true;
     }
 
@@ -95,7 +95,7 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    public void setRefreshEnable(boolean enable) {
+    public void enableSRRefresh(boolean enable) {
         mSROpt.setRefreshEnable(enable);
     }
 
@@ -110,8 +110,8 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    public void enableAutoRefresh(boolean enable) {
-        mSROpt.enableAutoRefresh(enable);
+    public void enableAutoLoadMore(boolean enable) {
+        mSROpt.enableAutoLoadMore(enable);
     }
 
     @Override

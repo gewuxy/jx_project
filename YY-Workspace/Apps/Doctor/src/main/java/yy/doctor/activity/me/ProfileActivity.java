@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -116,6 +115,8 @@ public class ProfileActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
+
+        addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.et)
                 .related(RelatedId.name)
@@ -240,13 +241,7 @@ public class ProfileActivity extends BaseFormActivity {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, "我的资料", this);
-        bar.addTextViewRight("完成并保存", new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                modify();
-            }
-        });
+        bar.addTextViewRight("完成并保存", v -> modify());
 
     }
 

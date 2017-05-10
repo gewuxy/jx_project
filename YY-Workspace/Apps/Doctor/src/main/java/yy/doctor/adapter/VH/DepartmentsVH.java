@@ -22,7 +22,7 @@ public class DepartmentsVH extends ViewHolderEx {
     }
 
     public View getV() {
-        return getView(R.id.province_v);
+        return getView(R.id.province_layout_indicator);
     }
 
 }

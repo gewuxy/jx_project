@@ -2,6 +2,7 @@ package lib.yy.test;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -18,6 +19,12 @@ abstract public class BaseTestActivity extends BaseListActivity<Test, TestAdapte
     @Override
     public void initNavBar(NavBar bar) {
         bar.addTextViewMid("测试");
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+        setBackgroundColor(Color.WHITE);
     }
 
     protected void add(String name, Class clz) {

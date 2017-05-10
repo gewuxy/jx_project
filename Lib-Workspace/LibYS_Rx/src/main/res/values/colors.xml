@@ -12,6 +12,7 @@
     <drawable name="transparent">#00000000</drawable>
     <drawable name="translucent">#50000000</drawable>
     <drawable name="divider">#cccccc</drawable>
+    <drawable name="item_focus">#cccccc</drawable>
 
     <!-- wheel view -->
     <color name="wheel_view_top_shadow">#00000000</color>

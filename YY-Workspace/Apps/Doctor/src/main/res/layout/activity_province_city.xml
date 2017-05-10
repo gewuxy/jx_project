@@ -5,20 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <ListView
-        android:id="@+id/province_list"
+    <fragment
+        android:id="@+id/province_city_frag_province"
+        android:name="yy.doctor.frag.ProvinceFrag"
         android:layout_width="152dp"
         android:layout_height="match_parent"
-        android:background="#eaeaea"
-        android:divider="@drawable/transparent"/>
+        android:layout_weight="0"
+        android:background="#eaeaea"/>
 
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
+        android:layout_weight="0"
         android:background="@color/divider"/>
 
-    <ListView
-        android:id="@+id/city_list"
+    <fragment
+        android:id="@+id/province_city_frag_city"
+        android:name="yy.doctor.frag.CityFrag"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"

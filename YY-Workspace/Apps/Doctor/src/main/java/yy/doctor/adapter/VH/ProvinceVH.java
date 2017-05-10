@@ -21,8 +21,8 @@ public class ProvinceVH extends ViewHolderEx{
         return getView(R.id.province_tv);
     }
 
-    public View getV() {
-        return getView(R.id.province_v);
+    public View getIndicator() {
+        return getView(R.id.province_layout_indicator);
     }
 
 }

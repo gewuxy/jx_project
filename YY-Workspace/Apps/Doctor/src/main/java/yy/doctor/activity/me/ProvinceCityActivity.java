@@ -2,27 +2,15 @@ package yy.doctor.activity.me;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
-import java.util.List;
-
-import lib.network.model.NetworkResponse;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.ListResponse;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.CityAdapter;
-import yy.doctor.adapter.ProvinceAdapter;
-import yy.doctor.model.City;
-import yy.doctor.model.Province;
-import yy.doctor.model.Province.TProvince;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.frag.CityFrag;
+import yy.doctor.frag.CityFrag.OnCityListener;
+import yy.doctor.frag.ProvinceFrag;
+import yy.doctor.frag.ProvinceFrag.OnProvinceListener;
 import yy.doctor.util.Util;
 
 /**
@@ -31,21 +19,15 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class ProvinceCityActivity extends BaseActivity {
+public class ProvinceCityActivity extends BaseActivity implements OnProvinceListener, OnCityListener {
 
-    private ListView mListProvince;
-    private ListView mListCity;
+    private ProvinceFrag mFragProvince;
+    private CityFrag mFragCity;
 
-    private ProvinceAdapter mProvinceAdapter;
-    private CityAdapter mCityAdapter;
-
-    private List<Province> mProvince;
-
-    private int mListProvincePosition = 0;
+    private String mProvinceName;
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -56,94 +38,34 @@ public class ProvinceCityActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, "省市", this);
-
     }
 
     @Override
     public void findViews() {
-
-        mListProvince = findView(R.id.province_list);
-        mListCity = findView(R.id.city_list);
-
+        mFragProvince = findFragment(R.id.province_city_frag_province);
+        mFragCity = findFragment(R.id.province_city_frag_city);
     }
 
     @Override
     public void setViews() {
-
-        refresh(RefreshWay.dialog);
-        exeNetworkRequest(0, NetFactory.province());
-
-        exeNetworkRequest(1, NetFactory.city("110000"));
-
-        mListProvince.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                mListProvincePosition = position;
-                mProvinceAdapter.setSelectItem(position);
-                exeNetworkRequest(1, NetFactory.city(mProvince.get(position).getString(TProvince.id)));
-                //mCityAdapter.setmList(position);
-            }
-        });
-
-        mListCity.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent();
-                String str = mProvinceAdapter.getProvince(mListProvincePosition) + "-" + mCityAdapter.getCity(position);
-                intent.putExtra(Extra.KData, str);
-                setResult(RESULT_OK, intent);
-                finish();
-
-            }
-        });
-
+        mFragProvince.setListener(this);
+        mFragCity.setListener(this);
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-
-        if (id == 0) {
-
-            return JsonParser.evs(nr.getText(), Province.class);
-        } else if (id == 1) {
-
-            return JsonParser.evs(nr.getText(), City.class);
-        }
-
-        return null;
+    public void onProvinceSelected(int position, String id, String name) {
+        mFragCity.setProvinceId(id);
+        mProvinceName = name;
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
+    public void onCitySelected(int position, String name) {
+        Intent intent = new Intent()
+                .putExtra(Extra.KProvince, mProvinceName)
+                .putExtra(Extra.KCity, name);
+        setResult(RESULT_OK, intent);
 
-        stopRefresh();
-        if (id == 0) {
-
-            ListResponse<Province> r = (ListResponse<Province>) result;
-
-            mProvince = r.getData();
-            mProvinceAdapter = new ProvinceAdapter(this, r.getData());
-            mListProvince.setAdapter(mProvinceAdapter);
-
-        } else if (id == 1) {
-
-            ListResponse<City> r = (ListResponse<City>) result;
-
-            if (mCityAdapter == null) {
-                mCityAdapter = new CityAdapter(this, r.getData());
-                mListCity.setAdapter(mCityAdapter);
-            } else {
-                mCityAdapter.setmList(r.getData());
-            }
-
-        }
+        finish();
     }
-
 }

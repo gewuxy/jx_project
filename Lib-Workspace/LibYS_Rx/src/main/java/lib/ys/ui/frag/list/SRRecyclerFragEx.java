@@ -54,7 +54,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
 
         mSROpt.setViews();
 
-        if (getInitRefreshWay() == RefreshWay.embed && enableAutoRefresh()) {
+        if (getInitRefreshWay() == RefreshWay.embed && enableRefreshWhenInit()) {
             // 为了更好的体验, 在embed loading显示之前先隐藏掉
             hideView(getDecorView().getContentView());
         }
@@ -69,7 +69,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     abstract public void getDataFromNet();
 
     @Override
-    public boolean enableAutoRefresh() {
+    public boolean enableRefreshWhenInit() {
         return true;
     }
 
@@ -94,7 +94,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void setRefreshEnable(boolean enable) {
+    public void enableSRRefresh(boolean enable) {
         mSROpt.setRefreshEnable(enable);
     }
 
@@ -109,8 +109,8 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void enableAutoRefresh(boolean enable) {
-        mSROpt.enableAutoRefresh(enable);
+    public void enableAutoLoadMore(boolean enable) {
+        mSROpt.enableAutoLoadMore(enable);
     }
 
     @Override

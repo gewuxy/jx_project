@@ -13,7 +13,6 @@ import android.widget.AbsListView.OnScrollListener;
 import lib.ys.ConstantsEx;
 import lib.ys.config.ListConfig;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
@@ -61,15 +60,11 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
             // 加载失败, 使用默认的
             mLoadMoreFooterView = new DefaultFooter(context);
         }
-        mLoadMoreFooterView.setOnRetryLoadClickListener(new OnRetryClickListener() {
-
-            @Override
-            public boolean onRetryClick() {
-                if (mListener != null) {
-                    return mListener.onManualLoadMore();
-                }
-                return false;
+        mLoadMoreFooterView.setOnRetryLoadClickListener(() -> {
+            if (mListener != null) {
+                return mListener.onManualLoadMore();
             }
+            return false;
         });
     }
 
@@ -109,7 +104,7 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
     }
 
     @Override
-    public void enableAutoRefresh(boolean enable) {
+    public void enableAutoLoadMore(boolean enable) {
         if (mEnableAutoLoadMore == enable) {
             return;
         }
@@ -206,5 +201,9 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
      */
     public void setOnScrollListener(MixOnScrollListener listener) {
         mScrollListener = listener;
+    }
+
+    public boolean isAutoLoadMoreEnabled() {
+        return mEnableAutoLoadMore;
     }
 }

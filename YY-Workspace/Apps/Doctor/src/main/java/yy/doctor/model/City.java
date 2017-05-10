@@ -9,8 +9,7 @@ import yy.doctor.model.City.TCity;
  */
 public class City extends EVal<TCity> {
 
-    public enum TCity{
-
+    public enum TCity {
         alpha,
         id,
         level,

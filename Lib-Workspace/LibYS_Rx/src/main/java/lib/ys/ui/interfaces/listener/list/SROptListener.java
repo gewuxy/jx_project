@@ -66,7 +66,7 @@ public interface SROptListener<T> {
      *
      * @return
      */
-    boolean enableAutoRefresh();
+    boolean enableRefreshWhenInit();
 
     void getDataFromNet();
 
@@ -84,9 +84,14 @@ public interface SROptListener<T> {
 
     boolean isSwipeRefreshing();
 
-    void enableAutoRefresh(boolean enable);
+    void enableAutoLoadMore(boolean enable);
 
-    void setRefreshEnable(boolean enable);
+    /**
+     * 是否允许下拉刷新
+     *
+     * @param enable
+     */
+    void enableSRRefresh(boolean enable);
 
     int getOffset();
 

@@ -1,13 +1,6 @@
 package yy.doctor.adapter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-
-import java.util.List;
-
+import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.ProvinceVH;
 import yy.doctor.model.Province;
@@ -18,71 +11,30 @@ import static yy.doctor.model.Province.TProvince.name;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class ProvinceAdapter extends BaseAdapter {
+public class ProvinceAdapter extends AdapterEx<Province, ProvinceVH> {
 
-    private List<Province> mList;
-    private Context mContext;
-    private ProvinceVH mProvinceVH;
-    private int mSelectedItem = 0;
+    private int mSelectedPos = 0;
 
-    public ProvinceAdapter(Context context , List<Province> list) {
-
-        //this.mList = Arrays.asList(ProvinceCityData.KPROVINCES);
-        this.mContext = context;
-        mList = list;
-
+    @Override
+    public int getConvertViewResId() {
+        return R.layout.layout_province_item;
     }
 
-    public void setSelectItem(int selectItem) {
-        this.mSelectedItem = selectItem;
+    @Override
+    protected void refreshView(int position, ProvinceVH holder) {
+        holder.getTvProvince().setText(getItem(position).getString(name));
+
+        if (mSelectedPos == position) {
+            holder.getTvProvince().setSelected(true);
+            showView(holder.getIndicator());
+        } else {
+            holder.getTvProvince().setSelected(false);
+            goneView(holder.getIndicator());
+        }
+    }
+
+    public void setSelectedPosition(int p) {
+        mSelectedPos = p;
         notifyDataSetChanged();
     }
-
-    public String getProvince(int position) {
-        return mList.get(position).getString(name);
-    }
-
-    @Override
-    public int getCount() {
-        return mList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_province_item, parent, false);
-            mProvinceVH = new ProvinceVH(convertView);
-            convertView.setTag(mProvinceVH);
-
-        } else {
-
-            mProvinceVH = (ProvinceVH) convertView.getTag();
-        }
-
-        mProvinceVH.getTvProvince().setText(mList.get(position).getString(name));
-
-        if (mSelectedItem == position) {
-            mProvinceVH.getTvProvince().setSelected(true);
-            mProvinceVH.getV().setVisibility(View.VISIBLE);
-        } else {
-            mProvinceVH.getTvProvince().setSelected(false);
-            mProvinceVH.getV().setVisibility(View.GONE);
-        }
-
-        return convertView;
-    }
-
-
 }

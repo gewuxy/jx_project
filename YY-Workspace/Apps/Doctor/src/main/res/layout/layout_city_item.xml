@@ -11,7 +11,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="24dp"
         android:text="广州市"
-        android:textSize="16dp"
-        android:textColor="@color/province_selector_text"/>
+        android:textColor="@color/province_selector_text"
+        android:textSize="16dp"/>
 
 </LinearLayout>

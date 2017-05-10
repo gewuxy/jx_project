@@ -16,9 +16,9 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginLeft="@dimen/margin"
+            android:background="@drawable/form_item_selector_checkbox"
             android:button="@color/transparent"
-            android:clickable="true"
-            android:background="@drawable/form_item_selector_checkbox"/>
+            android:clickable="true"/>
 
         <TextView
             android:layout_width="wrap_content"

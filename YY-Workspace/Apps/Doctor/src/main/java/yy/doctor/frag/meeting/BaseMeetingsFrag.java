@@ -27,7 +27,7 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsA
     }
 
     @Override
-    public boolean enableAutoRefresh() {
+    public boolean enableRefreshWhenInit() {
         return false;
     }
 

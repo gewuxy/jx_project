@@ -81,7 +81,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
 
         expandAllGroup();
 
-        setRefreshEnable(false);
+        enableSRRefresh(false);
 
         mTvChange.setOnClickListener(this);
     }
@@ -117,7 +117,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
     }
 
     @Override
-    public boolean enableAutoRefresh() {
+    public boolean enableRefreshWhenInit() {
         if (BuildConfig.TEST) {
             return false;
         } else {

@@ -41,7 +41,7 @@ public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
     }
 
     @Override
-    public boolean enableAutoRefresh() {
+    public boolean enableRefreshWhenInit() {
         return false;
     }
 

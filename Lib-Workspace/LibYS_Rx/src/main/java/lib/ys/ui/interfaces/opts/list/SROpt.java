@@ -102,10 +102,10 @@ public class SROpt<T> implements ISRListener {
         mScrollOpt.hideFooterView();
         hideFooterEmptyView();
 
-        enableAutoRefresh(false);
+        enableAutoLoadMore(false);
         setSRListener(this);
 
-        if (mSROptListener.enableAutoRefresh()) {
+        if (mSROptListener.enableRefreshWhenInit()) {
             if (hideHeaderWhenInit()) {
                 mScrollOpt.hideHeaderView();
             }
@@ -133,8 +133,8 @@ public class SROpt<T> implements ISRListener {
         return mSRLayout.isSwipeRefreshing();
     }
 
-    public void enableAutoRefresh(boolean enable) {
-        mSRLayout.enableAutoRefresh(enable);
+    public void enableAutoLoadMore(boolean enable) {
+        mSRLayout.enableAutoLoadMore(enable);
     }
 
     public void setRefreshEnable(boolean enable) {
@@ -226,7 +226,7 @@ public class SROpt<T> implements ISRListener {
 
             if (mTsNet.size() < getLimit()) {
                 // 数据不够
-                enableAutoRefresh(false);
+                enableAutoLoadMore(false);
                 mScrollOpt.showFooterView();
             }
             mLoadMore = false;
@@ -391,9 +391,9 @@ public class SROpt<T> implements ISRListener {
 
         // size < limit 表示没有更多数据了
         if (mTsNet.size() >= getLimit()) {
-            enableAutoRefresh(true);
+            enableAutoLoadMore(mSRLayout.isAutoLoadMoreEnabled() & true);
         } else {
-            enableAutoRefresh(false);
+            enableAutoLoadMore(false);
         }
 //        determineFooterStatus();
 
@@ -414,11 +414,11 @@ public class SROpt<T> implements ISRListener {
                 stopLoadMoreFailed();
             } else {
                 if (mFooterEmptyView == null) {
-                    enableAutoRefresh(false);
+                    enableAutoLoadMore(false);
                     stopLoadMore();
                     mScrollOpt.showFooterView();
                 } else {
-                    enableAutoRefresh(false);
+                    enableAutoLoadMore(false);
                     stopLoadMore();
                     /**
                      * TODO: 已经监听了数据的变化, 暂时注释掉这里, 可能会出现问题

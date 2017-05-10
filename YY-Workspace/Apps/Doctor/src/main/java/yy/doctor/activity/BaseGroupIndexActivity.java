@@ -62,7 +62,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup,  A extends IGr
     public void setViews() {
         super.setViews();
 
-        setRefreshEnable(false);
+        enableSRRefresh(false);
 
         mSideBar.setTextSize(fitDp(10));
         mSideBar.setSingleHeight(fitDp(15));

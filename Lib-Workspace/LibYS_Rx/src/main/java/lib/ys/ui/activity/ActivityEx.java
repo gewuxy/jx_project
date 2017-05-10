@@ -602,8 +602,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected Fragment findFragmentById(int id) {
-        return getSupportFragmentManager().findFragmentById(id);
+    protected <T extends Fragment> T findFragment(int id) {
+        return (T) getSupportFragmentManager().findFragmentById(id);
     }
 
     protected View inflate(@LayoutRes int resource) {
