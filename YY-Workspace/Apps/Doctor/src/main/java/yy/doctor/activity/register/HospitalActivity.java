@@ -54,7 +54,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital> {
             groupHospital.add(hospital);
         }
 
-        groupHospital.setInitial("A");
+        groupHospital.setTag("A");
         addItem(groupHospital);
         addItem(groupHospital);
         addItem(groupHospital);

@@ -1,26 +1,19 @@
 package yy.doctor.activity.me;
 
-import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import org.json.JSONException;
-
-import java.util.List;
 
 import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
-import lib.ys.view.SideBar;
-import lib.yy.activity.base.BaseSRGroupListActivity;
-import lib.yy.network.ListResponse;
 import yy.doctor.R;
+import yy.doctor.activity.BaseGroupIndexActivity;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
+import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -31,83 +24,13 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
-
-    private static final int KLetterColorNormal = Color.parseColor("#888888");
-    private static final int KLetterColorFocus = Color.parseColor("#0882e7");
-
-    private int mLetterSize;
-
-    private SideBar mSideBar;
-    private TextView mTvLetter;
-
-
-    @Override
-    public void initData() {
-
-        mLetterSize = fitDp(10);
-
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_unit_num;
-    }
-
-    @Override
-    public int getSRLayoutResId() {
-        return R.id.unit_num_sr_group_list_layout;
-    }
+public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum> {
 
     @Override
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, "单位号", this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_add, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showToast("852");
-            }
-        });
-
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-
-        mSideBar = findView(R.id.unit_num_side_bar);
-        mTvLetter = findView(R.id.unit_num_tv_letter);
-
-        initSideBar();
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        setRefreshEnable(false);
-
-        mSideBar.setTextSize(fitDp(10));
-        mSideBar.setSingleHeight(fitDp(15));
-        mSideBar.setGravity(Gravity.CENTER);
-    }
-
-    /**
-     * 初始化SideBar
-     */
-    private void initSideBar() {
-
-        mSideBar.setTextSize(mLetterSize);
-        mSideBar.setColor(KLetterColorNormal);
-        mSideBar.setColorFocus(KLetterColorFocus);
-        mSideBar.setOnTouchLetterChangeListener((s, isFocus) -> {
-            mTvLetter.setText(s);
-            mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
-            //getListOpt().setSelectedGroup(1);
-
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> showToast("852"));
 
     }
 
@@ -123,34 +46,12 @@ public class UnitNumActivity extends BaseSRGroupListActivity<GroupUnitNum> {
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
         startActivity(UnitNumDetailActivity.class);
-
         return true;
     }
 
     @Override
     public IListResponse<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
-
-
-        ListResponse<GroupUnitNum> listResponse = JsonParser.unitNums(text);
-        List<GroupUnitNum> data = listResponse.getData();
-        String[] str = new String[data.size()];
-        if (listResponse.isSucceed()) {
-            for (int i = 0; i < data.size(); i++) {
-                str[i] = data.get(i).getLetter();
-            }
-        }
-        mSideBar.setData(str);
-        mSideBar.invalidate();
-
-        return listResponse;
-    }
-
-    @Override
-    public void onDataSetChanged() {
-        super.onDataSetChanged();
-
-        expandAllGroup();
+        return JsonParser.groupIndex(text, GroupUnitNum.class, TUnitNum.alpha);
     }
 }

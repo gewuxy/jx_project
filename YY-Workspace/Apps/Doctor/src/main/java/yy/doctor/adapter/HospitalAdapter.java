@@ -23,7 +23,7 @@ public class HospitalAdapter extends GroupAdapterEx<GroupHospital, HospitalVH> {
     @Override
     public void refreshGroupView(int groupPosition, boolean isExpanded, HospitalVH holder) {
         GroupHospital item = getGroup(groupPosition);
-        holder.getTvGroup().setText(item.getInitial());
+        holder.getTvGroup().setText(item.getTag());
     }
 
     @Override

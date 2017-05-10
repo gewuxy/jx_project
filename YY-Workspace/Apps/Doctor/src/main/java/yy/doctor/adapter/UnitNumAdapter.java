@@ -23,7 +23,7 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
 
         GroupUnitNum group = getGroup(groupPosition);
 
-        holder.getTvGroup().setText(group.getLetter());
+        holder.getTvGroup().setText(group.getTag());
 
     }
 
@@ -35,7 +35,7 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
     @Override
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, UnitNumVH holder) {
 
-        UnitNum item=getGroup(groupPosition).getChild(childPosition);
+        UnitNum item = getGroup(groupPosition).getChild(childPosition);
 
         holder.getIvChild().placeHolder(R.mipmap.ic_default_epc).load();
         holder.getTvChild().setText(item.getString(TUnitNum.nickname));

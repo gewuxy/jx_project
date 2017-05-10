@@ -6,14 +6,15 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import lib.ys.model.EVal;
 import lib.ys.model.MapList;
+import lib.ys.util.GenericUtil;
+import lib.ys.util.ReflectionUtil;
 import lib.yy.network.BaseJsonParser;
 import lib.yy.network.ListResponse;
+import yy.doctor.model.BaseGroup;
 import yy.doctor.model.home.Home;
 import yy.doctor.model.home.HomeMeeting;
-import yy.doctor.model.unitnum.GroupUnitNum;
-import yy.doctor.model.unitnum.UnitNum;
-import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 
 /**
  * @author CaiXiang
@@ -39,10 +40,24 @@ public class JsonParser extends BaseJsonParser {
         return r;
     }
 
-    public static ListResponse<GroupUnitNum> unitNums(String text) throws JSONException {
-        ListResponse<GroupUnitNum> retResp = new ListResponse<>();
+    /**
+     * 解析带有index的group泛型数据
+     *
+     * @param text
+     * @param groupClz
+     * @param key
+     * @param <E>      child里的enum key类型
+     * @param <C>      child类型
+     * @param <T>      group类型
+     * @return
+     * @throws JSONException
+     */
+    public static <E extends Enum<E>, C extends EVal<E>, T extends BaseGroup<C>> ListResponse<T> groupIndex(String text, Class<T> groupClz, E key) throws JSONException {
+        ListResponse<T> retResp = new ListResponse<>();
 
-        ListResponse<UnitNum> r = evs(text, UnitNum.class);
+        Class<C> childClz = GenericUtil.getClassType(groupClz);
+
+        ListResponse<C> r = evs(text, childClz);
         retResp.setCode(r.getCode());
         retResp.setError(r.getError());
 
@@ -50,22 +65,22 @@ public class JsonParser extends BaseJsonParser {
             return retResp;
         }
 
-        List<UnitNum> nums = r.getData();
-        if (nums.isEmpty()) {
+        List<C> list = r.getData();
+        if (list.isEmpty()) {
             return retResp;
         }
 
-        MapList<String, GroupUnitNum> mapList = new MapList<>();
-        for (UnitNum num : nums) {
-            String letter = num.getString(TUnitNum.alpha);
-            GroupUnitNum g = mapList.getByKey(letter);
+        MapList<String, T> mapList = new MapList<>();
+        for (C child : list) {
+            String tag = child.getString(key);
+            T g = mapList.getByKey(tag);
             if (g == null) {
-                g = new GroupUnitNum();
-                g.setLetter(letter);
-                mapList.add(letter, g);
+                g = ReflectionUtil.newInst(groupClz);
+                g.setTag(tag);
+                mapList.add(tag, g);
             }
 
-            g.add(num);
+            g.add(child);
         }
 
         retResp.setData(mapList);

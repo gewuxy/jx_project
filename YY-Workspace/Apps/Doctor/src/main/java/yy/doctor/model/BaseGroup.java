@@ -12,6 +12,7 @@ import java.util.List;
 public class BaseGroup<T> {
 
     private List<T> mChildren;
+    private String mTag;
 
     public BaseGroup() {
         mChildren = new ArrayList<>();
@@ -31,5 +32,13 @@ public class BaseGroup<T> {
 
     public int getChildCount() {
         return mChildren.size();
+    }
+
+    public String getTag() {
+        return mTag;
+    }
+
+    public void setTag(String t) {
+        mTag = t;
     }
 }
