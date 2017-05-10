@@ -3,7 +3,7 @@ package yy.doctor.network.builder;
 import lib.network.model.NetworkRequest;
 import lib.network.model.NetworkRequest.Builder;
 import yy.doctor.network.NetFactory;
-import yy.doctor.network.NetFactory.ProfilePara;
+import yy.doctor.network.NetFactory.ProfileParam;
 import yy.doctor.network.UrlUtil.UrlUser;
 
 /**
@@ -24,7 +24,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder nickname(String nickname) {
-        mBuilder.param(ProfilePara.KNickname, nickname);
+        mBuilder.param(ProfileParam.KNickname, nickname);
         return this;
     }
 
@@ -35,7 +35,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder linkman(String linkman) {
-        mBuilder.param(ProfilePara.KLinkman, linkman);
+        mBuilder.param(ProfileParam.KLinkman, linkman);
         return this;
     }
 
@@ -46,7 +46,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder mobile(String mobile) {
-        mBuilder.param(ProfilePara.KMobile, mobile);
+        mBuilder.param(ProfileParam.KMobile, mobile);
         return this;
     }
 
@@ -57,7 +57,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder headimg(String headimg) {
-        mBuilder.param(ProfilePara.KHeadImg, headimg);
+        mBuilder.param(ProfileParam.KHeadImg, headimg);
         return this;
     }
 
@@ -68,7 +68,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder province(String province) {
-        mBuilder.param(ProfilePara.KProvince, province);
+        mBuilder.param(ProfileParam.KProvince, province);
         return this;
     }
 
@@ -79,7 +79,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder city(String city) {
-        mBuilder.param(ProfilePara.KCity, city);
+        mBuilder.param(ProfileParam.KCity, city);
         return this;
     }
 
@@ -90,7 +90,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder licence(String licence) {
-        mBuilder.param(ProfilePara.KLicence, licence);
+        mBuilder.param(ProfileParam.KLicence, licence);
         return this;
     }
 
@@ -101,7 +101,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder major(String major) {
-        mBuilder.param(ProfilePara.KMajor, major);
+        mBuilder.param(ProfileParam.KMajor, major);
         return this;
     }
 
@@ -112,7 +112,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder place(String place) {
-        mBuilder.param(ProfilePara.KPlace, place);
+        mBuilder.param(ProfileParam.KPlace, place);
         return this;
     }
 
@@ -123,7 +123,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder title(String title) {
-        mBuilder.param(ProfilePara.KTitle, title);
+        mBuilder.param(ProfileParam.KTitle, title);
         return this;
     }
 
@@ -134,7 +134,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder hospital(String hospital) {
-        mBuilder.param(ProfilePara.KHospital, hospital);
+        mBuilder.param(ProfileParam.KHospital, hospital);
         return this;
     }
 
@@ -145,7 +145,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder department(String department) {
-        mBuilder.param(ProfilePara.KDepartment, department);
+        mBuilder.param(ProfileParam.KDepartment, department);
         return this;
     }
 
@@ -156,7 +156,7 @@ public class ModifyBuilder {
      * @return
      */
     public ModifyBuilder address(String address) {
-        mBuilder.param(ProfilePara.KAddress, address);
+        mBuilder.param(ProfileParam.KAddress, address);
         return this;
     }
 

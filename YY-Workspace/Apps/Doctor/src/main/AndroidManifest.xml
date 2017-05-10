@@ -41,7 +41,8 @@
         <!-- register -->
         <activity
             android:name=".activity.register.RegisterActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.register.HospitalActivity"
             android:screenOrientation="portrait"/>
@@ -103,7 +104,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ProfileActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.me.EpnRechargeActivity"
             android:screenOrientation="portrait"/>

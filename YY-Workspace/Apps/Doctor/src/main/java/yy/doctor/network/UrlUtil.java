@@ -43,6 +43,7 @@ public class UrlUtil {
     }
 
     public interface UrlUser {
+        String KAd = "advert";
         String KLogin = "login";
         String KLogout = "logout";
         String KProfile = "user/info";
@@ -91,6 +92,7 @@ public class UrlUtil {
         String KExchange = "shop/buy";
         String KOrder = "shop/order";
         String KEpc = "shop/goods";
+        String KEpcDetail = "shop/goodInfo";
     }
 
     public interface UrlUnitNum {

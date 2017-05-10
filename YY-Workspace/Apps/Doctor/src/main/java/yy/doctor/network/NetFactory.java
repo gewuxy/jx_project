@@ -84,61 +84,74 @@ public class NetFactory {
         String KSignLat = "signLat";//维度
     }
 
-    private interface HomePara {
+    private interface HomeParam {
         String KType = "type";
     }
 
-    public interface ProfilePara {
-        String KNickname = "nickname";
-        String KLinkman = "linkman";
-        String KMobile = "mobile";
-        String KHeadImg = "headimg";
-        String KProvince = "province";
-        String KCity = "city";
-        String KLicence = "licence";
-        String KMajor = "major";
-        String KPlace = "place";
-        String KTitle = "title";
-        String KHospital = "hospital";
-        String KDepartment = "department";
-        String KAddress = "address";
+    public interface ProfileParam {
+        String KNickname = "nickname";   //用户昵称
+        String KLinkman = "linkman";   //真实姓名
+        String KMobile = "mobile";    //手机号
+        String KHeadImg = "headimg";   //头像地址
+        String KProvince = "province";   //省份
+        String KCity = "city";    //城市
+        String KLicence = "licence";   //执业许可证
+        String KMajor = "major";    //专长
+        String KPlace = "place";   //职务
+        String KTitle = "title";   //职位
+        String KHospital = "hospital";   //医院
+        String KDepartment = "department";   //科室
+        String KAddress = "address";   //地址
     }
 
-    private interface UpHeadImgPara {
-        String KFile = "file";
+    private interface UpHeadImgParam {
+        String KFile = "file";   //文件
     }
 
-    public interface CityPara {
-        String KCity = "preid";
+    public interface CityParam {
+        String KCity = "preid";  //省份ID
     }
 
-    public interface EpnRechargePara {
-        String KBody = "body";
-        String KSubject = "subject";
-        String KTotalAmount = "totalAmount";
+    public interface EpnRechargeParam {
+        String KBody = "body";  //商品描述
+        String KSubject = "subject";  //商品名称
+        String KTotalAmount = "totalAmount";  //商品价格
     }
 
-    private interface AttentionPara {
-        String KMasterId = "masterId";
-        String KTurnTo = "turnTo";
+    private interface AttentionParam {
+        String KMasterId = "masterId";    // 关注/取消关注的公众号id
+        String KTurnTo = "turnTo";     // 0:取消关注 1：关注
     }
 
-    private interface UnitNumDetailPara {
-        String KId = "id";
+    private interface UnitNumDetailParam {
+        String KId = "id";  //单位号id
     }
 
-    private interface SearchPara {
-        String KKeyword = "keyword";
+    private interface SearchParam {
+        String KKeyword = "keyword";  //关键字
     }
 
-    public interface EpcExchangePara {
-        String KGoodsId = "goodsId";
-        String KPrice = "price";
-        String KReceiver = "receiver";
-        String KPhone = "phone";
-        String KProvince = "KProvince";
-        String KAddress = "KAddress";
-        String KBuyLimit = "buyLimit";
+    public interface EpcExchangeParam {
+        String KGoodsId = "goodsId";    //商品id
+        String KPrice = "price";    //商品价格
+        String KReceiver = "receiver";    //收货人
+        String KPhone = "phone";    //手机号
+        String KProvince = "KProvince";   //省份
+        String KAddress = "KAddress";    //地址
+        String KBuyLimit = "buyLimit";   //商品限购数
+    }
+
+    public interface EpcDetailParam {
+        String KEpcDetail = "id";  //商品id
+    }
+
+    /**
+     * 开机广告
+     * @return
+     */
+    public static NetworkRequest ad() {
+        return newGet(UrlUser.KAd)
+                .build();
     }
 
     /**
@@ -212,7 +225,6 @@ public class NetFactory {
      */
     public static NetworkRequest banner(int type) {
         return newGet(UrlHome.Banner)
-                .param(HomePara.KType, type)
                 .build();
     }
 
@@ -232,7 +244,7 @@ public class NetFactory {
      */
     public static NetworkRequest upheadimg(byte[] bytes) {
         return newUpload(UrlUser.KUpHeaderImg)
-                .param(UpHeadImgPara.KFile, bytes)
+                .param(UpHeadImgParam.KFile, bytes)
                 .build();
     }
 
@@ -253,7 +265,7 @@ public class NetFactory {
      */
     public static NetworkRequest city(String preId) {
         return newGet(UrlRegister.KCity)
-                .param(CityPara.KCity, preId)
+                .param(CityParam.KCity, preId)
                 .build();
     }
 
@@ -274,11 +286,10 @@ public class NetFactory {
      */
     public static NetworkRequest epnRecharge(String subject, String totalAmount) {
         return newPost(UrlEpn.KEpnRecharge)
-                .param(EpnRechargePara.KSubject, subject)
-                .param(EpnRechargePara.KTotalAmount, totalAmount)
+                .param(EpnRechargeParam.KSubject, subject)
+                .param(EpnRechargeParam.KTotalAmount, totalAmount)
                 .build();
     }
-
 
     /**
      * 商品兑换
@@ -311,6 +322,17 @@ public class NetFactory {
     }
 
     /**
+     * 商品详情
+     * @param id
+     * @return
+     */
+    public static NetworkRequest epcDetail(int id) {
+        return newGet(UrlEpc.KEpcDetail)
+                .param(EpcDetailParam.KEpcDetail , id)
+                .build();
+    }
+
+    /**
      * 关注的单位号
      *
      * @return
@@ -329,8 +351,8 @@ public class NetFactory {
      */
     public static NetworkRequest attention(int masterId, int turnTo) {
         return newGet(UrlUnitNum.KAttention)
-                .param(AttentionPara.KMasterId, masterId)
-                .param(AttentionPara.KTurnTo, turnTo)
+                .param(AttentionParam.KMasterId, masterId)
+                .param(AttentionParam.KTurnTo, turnTo)
                 .build();
     }
 
@@ -342,7 +364,7 @@ public class NetFactory {
      */
     public static NetworkRequest unitNumDetail(int id) {
         return newGet(UrlUnitNum.KUnitNumDetail)
-                .param(UnitNumDetailPara.KId, id)
+                .param(UnitNumDetailParam.KId, id)
                 .build();
     }
 
@@ -364,7 +386,7 @@ public class NetFactory {
      */
     public static NetworkRequest searchUnitnum(String keyword) {
         return newPost(UrlSearch.KSearchUnitNum)
-                .param(SearchPara.KKeyword, keyword)
+                .param(SearchParam.KKeyword, keyword)
                 .build();
     }
 
