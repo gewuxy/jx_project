@@ -25,7 +25,9 @@ public class EpcAdapter extends AdapterEx<Epc,EpcVH> {
 
         List<Epc> list = getData();
 
-        holder.getTvName().setText(list.get(position).getString(TEpc.name));
+        Epc item = list.get(position);
+        holder.getTvName().setText(item.getString(TEpc.name));
+        holder.getTvEpn().setText(item.getString(TEpc.price) + "象数");
 
         holder.getIv()
                 .placeHolder(R.mipmap.ic_default_epc)

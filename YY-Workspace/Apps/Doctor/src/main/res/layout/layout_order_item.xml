@@ -95,7 +95,7 @@
                 android:textColor="@color/text_006ebd"/>
 
             <TextView
-                android:id="@+id/order_item_tv_state"
+                android:id="@+id/order_item_tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="未接收"

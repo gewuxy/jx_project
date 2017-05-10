@@ -29,8 +29,8 @@ public class OrderVH extends ViewHolderEx {
         return getView(R.id.order_item_tv_order_num);
     }
 
-    public TextView getTvState() {
-        return getView(R.id.order_item_tv_state);
+    public TextView getTvStatus() {
+        return getView(R.id.order_item_tv_status);
     }
 
     public TextView getTvTime() {

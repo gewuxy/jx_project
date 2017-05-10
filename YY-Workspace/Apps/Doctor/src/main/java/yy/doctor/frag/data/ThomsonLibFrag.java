@@ -33,7 +33,7 @@ public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
 
     @Override
     public View createHeaderView() {
-        return ViewUtil.inflateSpaceViewDp(12);
+        return ViewUtil.inflateSpaceViewDp(8);
     }
 
     @Override

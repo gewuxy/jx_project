@@ -7,6 +7,8 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.util.Util;
 
 /**
@@ -44,6 +46,8 @@ public class EpnActivity extends BaseActivity {
 
     @Override
     public void setViews() {
+
+        mTvEpn.setText(Profile.inst().getString(TProfile.credits));
 
         setOnClickListener(R.id.epn_instruction);
         setOnClickListener(R.id.epe_tv_btn);

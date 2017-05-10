@@ -1,7 +1,10 @@
 package yy.doctor.activity.me;
 
+import org.json.JSONException;
+
+import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.UpdateLogAdapter;
 
@@ -11,7 +14,7 @@ import yy.doctor.adapter.UpdateLogAdapter;
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class UpdateLogActivity extends BaseListActivity<String, UpdateLogAdapter> {
+public class UpdateLogActivity extends BaseSRListActivity<String ,UpdateLogAdapter> {
 
     @Override
     public void initData() {
@@ -27,6 +30,16 @@ public class UpdateLogActivity extends BaseListActivity<String, UpdateLogAdapter
 
         bar.addBackIcon(R.mipmap.nav_bar_ic_back, "更新日志", this);
 
+    }
+
+    @Override
+    public void getDataFromNet() {
+
+    }
+
+    @Override
+    public IListResponse<String> parseNetworkResponse(int id, String text) throws JSONException {
+        return null;
     }
 
 }

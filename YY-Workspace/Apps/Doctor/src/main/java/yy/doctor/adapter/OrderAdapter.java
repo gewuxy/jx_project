@@ -14,7 +14,7 @@ import yy.doctor.model.me.Order.TOrder;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class OrderAdapter extends AdapterEx<Order,OrderVH> {
+public class OrderAdapter extends AdapterEx<Order, OrderVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -25,8 +25,18 @@ public class OrderAdapter extends AdapterEx<Order,OrderVH> {
     protected void refreshView(int position, OrderVH holder) {
 
         List<Order> list = getData();
-        String strTime = TimeUtil.formatMilli(list.get(position).getLong(TOrder.createTime), TimeFormat.from_y_24);
+        Order item = list.get(position);
+
+        holder.getTvName().setText(item.getString(TOrder.name));
+        //holder.getTvNum().setText();
+        holder.getTvOrderNum().setText(item.getString(TOrder.id));
+        //holder.getTvStatus().setText();
+        String strTime = TimeUtil.formatMilli(item.getLong(TOrder.createTime), TimeFormat.from_y_24);
         holder.getTvTime().setText(strTime);
+        //holder.getTvAdress().setText();
+        holder.getTvMobile().setText(item.getString(TOrder.phone));
+        holder.getTvReceiver().setText(item.getString(TOrder.receiver));
+        holder.getTvOrderInfo().setText(item.getString(TOrder.postUnit));
 
     }
 

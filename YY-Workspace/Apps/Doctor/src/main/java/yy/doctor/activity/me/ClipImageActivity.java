@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import lib.network.model.NetworkResponse;
-import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
@@ -18,6 +17,7 @@ import lib.yy.network.Response;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.ClipImage;
+import yy.doctor.model.me.ClipImage.TClipImage;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -37,6 +37,8 @@ public class ClipImageActivity extends BaseActivity {
     private String mPath;
 
     private Bitmap mBmp;
+
+    private String mUrl;
 
     @Override
     public void initData() {
@@ -116,6 +118,8 @@ public class ClipImageActivity extends BaseActivity {
 
         Response<ClipImage> r = (Response<ClipImage>) result;
         if (r.isSucceed()) {
+            ClipImage clipImage = r.getData();
+            mUrl = clipImage.getString(TClipImage.data);
             showToast("头像修改成功");
         } else {
             showToast("头像修改失败");
