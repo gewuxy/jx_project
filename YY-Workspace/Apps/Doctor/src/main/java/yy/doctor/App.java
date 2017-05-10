@@ -52,7 +52,7 @@ public class App extends BaseApp {
                 .textSizeLeftDp(KTitleBarTextSizeDp)
                 .textSizeMidDp(KTitleBarTextSizeDp)
                 .textSizeRightDp(KTitleBarTextSizeDp)
-                .focusBgColorRes(R.color.nav_bar_bg_focus)
+                .focusBgDrawableRes(R.drawable.nav_bar_selector)
                 .build();
         NavBar.initialize(navBarConfig);
 

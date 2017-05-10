@@ -38,6 +38,9 @@ public class NavBarConfig {
     @ColorRes
     private int mFocusBgColorRes;
 
+    @DrawableRes
+    private int mFocusBgDrawableRes;
+
     private TNavBarState mState = TNavBarState.linear;
 
     private NavBarConfig() {
@@ -98,6 +101,10 @@ public class NavBarConfig {
         return mFocusBgColorRes;
     }
 
+    public int getFocusBgDrawableRes() {
+        return mFocusBgDrawableRes;
+    }
+
     public TNavBarState getState() {
         return mState;
     }
@@ -130,6 +137,9 @@ public class NavBarConfig {
 
         @ColorRes
         private int mFocusBgColorRes;
+
+        @DrawableRes
+        private int mFocusBgDrawableRes;
 
         private TNavBarState mState = TNavBarState.linear;
 
@@ -206,6 +216,11 @@ public class NavBarConfig {
             return this;
         }
 
+        public Builder focusBgDrawableRes(@DrawableRes int res) {
+            mFocusBgDrawableRes = res;
+            return this;
+        }
+
         public Builder state(TNavBarState state) {
             mState = state;
             return this;
@@ -235,6 +250,7 @@ public class NavBarConfig {
             c.mBgColorRes = mBgColorRes;
 
             c.mFocusBgColorRes = mFocusBgColorRes;
+            c.mFocusBgDrawableRes = mFocusBgDrawableRes;
 
             c.mState = mState;
 

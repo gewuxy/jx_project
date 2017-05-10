@@ -32,10 +32,8 @@
     <color name="home_meeting_collection_bg">#d14b4b</color>
     <color name="home_meeting_collection_bg_press">#b84242</color>
 
-
-    <drawable name="title_click_bg_focus">#19000000</drawable>
     <color name="nav_bar_bg_focus">#19000000</color>
-
+    <drawable name="nav_bar_bg_focus">#19000000</drawable>
     <color name="nav_bar_text_focus">#19000000</color>
 
     <!--text-->

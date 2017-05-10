@@ -8,10 +8,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build.VERSION_CODES;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
@@ -277,6 +280,7 @@ public class NavBar extends RelativeLayout {
      * @param lsn
      * @return
      */
+    @RequiresApi(api = VERSION_CODES.LOLLIPOP)
     private View createImageView(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
         View v = null;
         if (id == 0) {
@@ -303,6 +307,8 @@ public class NavBar extends RelativeLayout {
             sd.addState(new int[]{-pressed}, dNormal);
 
             ViewUtil.setBackground(layout, sd);
+        } else if (mConfig.getFocusBgDrawableRes() != 0) {
+            layout.setBackgroundResource(mConfig.getFocusBgDrawableRes());
         }
 
         // 创建image view
