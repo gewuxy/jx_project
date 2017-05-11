@@ -12,6 +12,6 @@ public class ClipImage extends EVal<TClipImage> {
     public enum TClipImage {
 
         code,
-        data
+        data   //头像地址
     }
 }

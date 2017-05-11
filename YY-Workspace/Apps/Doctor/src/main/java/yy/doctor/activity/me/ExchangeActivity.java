@@ -1,5 +1,7 @@
 package yy.doctor.activity.me;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -10,8 +12,10 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Response;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -31,6 +35,10 @@ public class ExchangeActivity extends BaseFormActivity {
     private TextView mTvName;
     private TextView mTvEpn;
 
+    private int mGoodId;
+    private String mGoodName;
+    private int mEpn;
+
     @IntDef({
             RelatedId.receiver,
             RelatedId.mobile,
@@ -49,16 +57,29 @@ public class ExchangeActivity extends BaseFormActivity {
 
     }
 
+    public static void nav(Context context, int goodId, String goodName, int epn) {
+        Intent i = new Intent(context, ExchangeActivity.class);
+        i.putExtra(Extra.KData, goodId);
+        i.putExtra(Extra.KName, goodName);
+        i.putExtra(Extra.KNum, epn);
+        LaunchUtil.startActivity(context, i);
+    }
+
     @Override
     public void initNavBar(NavBar bar) {
 
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "xxx商品", this);
+        bar.addBackIcon(R.mipmap.nav_bar_ic_back, mGoodName, this);
 
     }
 
     @Override
     public void initData() {
         super.initData();
+
+        Intent i = getIntent();
+        mGoodName = i.getStringExtra(Extra.KName);
+        mGoodId = i.getIntExtra(Extra.KData, 0);
+        mEpn = i.getIntExtra(Extra.KNum, 0);
 
         addItem(new Builder(FormType.divider_large).build());
 
@@ -113,11 +134,15 @@ public class ExchangeActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
+        mTvName.setText(mGoodName);
+        mTvEpn.setText(mEpn + "象数");
+
         setOnClickListener(R.id.exchange_tv_btn);
 
         mIvGoods.placeHolder(R.mipmap.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))
                 .load();
+
     }
 
     @Override
@@ -128,6 +153,9 @@ public class ExchangeActivity extends BaseFormActivity {
         switch (id) {
             case R.id.exchange_tv_btn: {
 
+                if (!check()) {
+                    return;
+                };
                 NetworkRequest r = NetFactory.newExchangeBuilder()
                         .goodsId("000001")
                         .price("85")
@@ -137,7 +165,7 @@ public class ExchangeActivity extends BaseFormActivity {
                         .address("sdfjijidsofj")
                         .builder();
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(0 , r);
+                exeNetworkRequest(0, r);
 
             }
             break;
@@ -147,7 +175,7 @@ public class ExchangeActivity extends BaseFormActivity {
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
 
-        return JsonParser.ev(nr.getText() , Exchange.class);
+        return JsonParser.ev(nr.getText(), Exchange.class);
     }
 
     @Override

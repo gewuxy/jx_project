@@ -2,12 +2,22 @@ package yy.doctor.activity.me;
 
 import android.view.View;
 
+import org.json.JSONException;
+
+import java.util.List;
+
+import lib.ys.adapter.MultiAdapterEx;
+import lib.ys.adapter.ViewHolderEx;
+import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.network.ListResponse;
 import yy.doctor.R;
 import yy.doctor.adapter.EpcAdapter;
 import yy.doctor.model.me.Epc;
 import yy.doctor.network.NetFactory;
+import yy.doctor.model.me.Epc.TEpc;
+import yy.doctor.network.JsonParser;
 
 /**
  * 象城
@@ -16,6 +26,9 @@ import yy.doctor.network.NetFactory;
  * @since 2017/4/26
  */
 public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
+
+    private List<Integer> mListGoodId;
+    private List<Epc> list;
 
     @Override
     public void initData() {
@@ -33,11 +46,25 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
     public void onItemClick(View v, int position) {
         super.onItemClick(v, position);
 
-        startActivity(EpcDetailActivity.class);
+        EpcDetailActivity.nav(EpcActivity.this, list.get(position).getInt(TEpc.id), list.get(position).getString(TEpc.name));
+
     }
 
     @Override
     public void getDataFromNet() {
+
         exeNetworkRequest(0, NetFactory.epc());
+    }
+
+    @Override
+    public IListResponse<Epc> parseNetworkResponse(int id, String text) throws JSONException {
+
+        ListResponse<Epc> r = (ListResponse<Epc>) JsonParser.evs(text, Epc.class);
+
+        if (r.isSucceed()) {
+            list = r.getData();
+        }
+
+        return r;
     }
 }

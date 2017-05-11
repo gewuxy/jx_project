@@ -51,11 +51,11 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
 
     }
 
-
     @Override
     public void findViews() {
         super.findViews();
 
+        mTv = findView(R.id.order_tv);
     }
 
     @Override
