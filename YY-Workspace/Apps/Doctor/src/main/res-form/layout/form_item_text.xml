@@ -6,21 +6,19 @@
 
     <LinearLayout
         style="@style/v.form"
-        android:layout_height="@dimen/edit_height"
-        android:background="@drawable/white">
+        android:layout_height="@dimen/edit_height">
 
         <TextView
             style="@style/tv.form.name"
             android:layout_marginLeft="@dimen/margin"
             android:text="姓名"/>
 
-
         <TextView
             android:id="@id/form_item_tv_text"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1"
             android:background="@drawable/transparent"
             android:gravity="right"
             android:text="广东-广州"

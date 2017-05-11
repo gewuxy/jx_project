@@ -26,10 +26,8 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, "单位号", this);
         bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> showToast("852"));
-
     }
 
     @Override
@@ -40,6 +38,11 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         startActivity(UnitNumDetailActivity.class);
+        return true;
+    }
+
+    @Override
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         return true;
     }
 

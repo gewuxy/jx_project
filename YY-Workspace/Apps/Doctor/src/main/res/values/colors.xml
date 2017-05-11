@@ -13,8 +13,8 @@
     <drawable name="item_focus">#e8e8e8</drawable>
 
     <!-- 普通按按下钮效果 -->
-    <color name="btn_bg">#0882e7</color>
-    <color name="btn_bg_focus">#0674cf</color>
+    <color name="btn_bg_blue">#0882e7</color>
+    <color name="btn_bg_blue_focus">#0674cf</color>
 
     <!-- 红色按钮按下效果 -->
     <color name="btn_bg_red">#d14b4b</color>
@@ -32,9 +32,9 @@
     <color name="home_meeting_collection_bg">#d14b4b</color>
     <color name="home_meeting_collection_bg_press">#b84242</color>
 
-    <color name="nav_bar_bg_focus">#19000000</color>
-    <drawable name="nav_bar_bg_focus">#19000000</drawable>
-    <color name="nav_bar_text_focus">#19000000</color>
+    <color name="nav_bar_bg_focus">#64000000</color>
+    <drawable name="nav_bar_bg_focus">#64000000</drawable>
+    <color name="nav_bar_text_focus">#64000000</color>
 
     <!--text-->
     <color name="text_333">#333</color>

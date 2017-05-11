@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/transparent"
         android:fadingEdge="none"
-        android:listSelector="@drawable/item_selector"
+        android:listSelector="@drawable/transparent"
         android:numColumns="4"
         android:scrollingCache="false"
         android:stretchMode="columnWidth"/>

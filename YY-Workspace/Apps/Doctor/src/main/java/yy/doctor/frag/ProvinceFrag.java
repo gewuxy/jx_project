@@ -57,7 +57,7 @@ public class ProvinceFrag extends BaseSRListFrag<Province, ProvinceAdapter> {
             mListener.onProvinceSelected(position, p.getString(TProvince.id), p.getString(TProvince.name));
         }
 
-        ((ProvinceAdapter) getAdapter()).setSelectedPosition(position);
+        getAdapter().setSelectedPosition(position);
     }
 
     public interface OnProvinceListener {

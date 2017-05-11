@@ -14,7 +14,7 @@
         android:fadingEdge="none"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
-        android:listSelector="@drawable/item_selector"
+        android:listSelector="@drawable/transparent"
         android:scrollingCache="false"/>
 
     <RelativeLayout

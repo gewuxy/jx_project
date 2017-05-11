@@ -3,13 +3,16 @@
         android:color="@color/item_focus">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/item_focus"/>
+            <solid android:color="@color/btn_bg_red_focus"/>
+            <corners android:radius="@dimen/radius"/>
         </shape>
     </item>
     <item android:state_pressed="false">
         <shape>
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/btn_bg_red"/>
+            <corners android:radius="@dimen/radius"/>
         </shape>
     </item>
 
 </ripple>
+

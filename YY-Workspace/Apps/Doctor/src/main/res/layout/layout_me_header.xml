@@ -9,61 +9,55 @@
         android:layout_width="match_parent"
         android:layout_height="12dp"/>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_me_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="80dp"
+        android:background="@drawable/item_selector"
+        android:gravity="center_vertical">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/me_header_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/margin"/>
 
         <LinearLayout
-            android:id="@+id/layout_me_header"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/item_selector"
-            android:gravity="center_vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <lib.ys.network.image.NetworkImageView
-                android:id="@+id/me_header_iv"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="@dimen/margin"/>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/me_header_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="@dimen/margin"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="name  rank"
+                android:textColor="@color/text_333"
+                android:textSize="14dp"/>
 
-                <TextView
-                    android:id="@+id/me_header_tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="name  rank"
-                    android:textColor="@color/text_333"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/me_header_tv_hospital"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name"
-                    android:layout_marginTop="12dp"
-                    android:text="第一人民医院"
-                    android:textColor="@color/text_666"
-                    android:textSize="10dp"/>
-
-            </LinearLayout>
-
-            <ImageView
+            <TextView
+                android:id="@+id/me_header_tv_hospital"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_large"
-                android:src="@mipmap/ic_arrow_right"/>
+                android:layout_below="@+id/name"
+                android:layout_marginTop="12dp"
+                android:text="第一人民医院"
+                android:textColor="@color/text_666"
+                android:textSize="10dp"/>
 
         </LinearLayout>
-    </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@mipmap/ic_arrow_right"/>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

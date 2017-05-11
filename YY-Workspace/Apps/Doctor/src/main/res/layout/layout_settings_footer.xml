@@ -10,7 +10,7 @@
         android:id="@+id/settings_footer_layout_download"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="@color/white">
+        android:background="@drawable/item_selector">
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="@color/white">
+        android:background="@drawable/item_selector">
 
         <TextView
             android:layout_width="wrap_content"
