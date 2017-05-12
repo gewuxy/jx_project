@@ -1,12 +1,16 @@
 package lib.ys.view;
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import lib.ys.util.MilliUtil;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * 验证码的view
@@ -16,13 +20,16 @@ import lib.ys.util.MilliUtil;
 public class CaptchaView extends TextView {
 
     private static final String KDefaultResendText = "重新获取";
+    private static final String KPrefix = "(";
+    private static final String KSuffix = "s)";
+
     private static final int KMaxCount = 60;
 
     private String mResendText = KDefaultResendText;
 
     private int mMaxCount = KMaxCount;
 
-    private CountDownTimer mCountDownTimer;
+    private DisposableObserver<Long> mDisposable;
 
     public CaptchaView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,15 +41,19 @@ public class CaptchaView extends TextView {
             return;
         }
 
-        mCountDownTimer = new CountDownTimer(MilliUtil.second(mMaxCount), MilliUtil.second(1)) {
+        mDisposable = new DisposableObserver<Long>() {
 
             @Override
-            public void onTick(long millisUntilFinished) {
-                setText(mResendText + "(" + MilliUtil.toSecond(millisUntilFinished) + "s)");
+            public void onNext(@NonNull Long aLong) {
+                setText(mResendText + KPrefix + (mMaxCount - aLong) + KSuffix);
             }
 
             @Override
-            public void onFinish() {
+            public void onError(@NonNull Throwable throwable) {
+            }
+
+            @Override
+            public void onComplete() {
                 setEnabled(true);
                 setText(mResendText);
             }
@@ -51,15 +62,20 @@ public class CaptchaView extends TextView {
 
     public void start() {
         setEnabled(false);
-        mCountDownTimer.start();
+
+        Observable.intervalRange(0, mMaxCount, 0, 1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mDisposable);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        mCountDownTimer.cancel();
-        mCountDownTimer = null;
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+            mDisposable = null;
+        }
     }
 
     /**
