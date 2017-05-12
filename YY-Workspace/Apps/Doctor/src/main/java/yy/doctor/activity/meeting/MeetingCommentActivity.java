@@ -18,8 +18,8 @@ import lib.yy.network.ListResponse;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.adapter.CommentAdapter;
-import yy.doctor.model.meet.Histories;
-import yy.doctor.model.meet.Histories.THistories;
+import yy.doctor.model.meet.Comment;
+import yy.doctor.model.meet.Comment.TComment;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -83,7 +83,7 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
         if (id == KHistories) {
-            return JsonParser.evs(nr.getText(), Histories.class);
+            return JsonParser.evs(nr.getText(), Comment.class);
         }
         return JsonParser.error(nr.getText());
     }
@@ -92,10 +92,10 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
         if (id == KHistories) {
-            ListResponse<Histories> r = (ListResponse<Histories>) result;
-            List<Histories> data = r.getData();
-            for (Histories histories : data) {
-                LogMgr.d(TAG, histories.getString(THistories.message));
+            ListResponse<Comment> r = (ListResponse<Comment>) result;
+            List<Comment> data = r.getData();
+            for (Comment histories : data) {
+                LogMgr.d(TAG, histories.getString(TComment.message));
             }
         } else if (id == KSend) {
             showToast("发送成功");

@@ -8,20 +8,32 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import lib.network.error.NetError;
 import lib.network.model.NetworkResponse;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeUtil.TimeFormat;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Response;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.meet.ToSign;
-import yy.doctor.model.meet.ToSign.TToSign;
+import yy.doctor.model.meet.Sign;
+import yy.doctor.model.meet.Sign.TSign;
+import yy.doctor.model.meet.SignResult;
+import yy.doctor.model.meet.SignResult.TSignResult;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -32,49 +44,42 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/2
  */
-
 public class SignActivity extends BaseActivity {
 
+    private static final int KSecond = 1;//间隔
     private static final int KReturnTime = 3;//关闭倒计时
-    private static final long KSecond = 1000L;//1秒
-    private static final int KToSign = 0;
-    private static final int KSign = 1;
+    private static final int KSign = 0;
+    private static final int KToSign = 1;
+    private static final String KModuleId = "4";//签到模块的id
 
-    //TODO:mResultCode的类型
-    private String mResultCode;
-    private String mResult;
+    private String mMeetId;//会议id
 
-    private ImageView mIvResult;
-    private TextView mTvResultCode;//成功还是失败
-    private TextView mTvResult;//成功的时候或失败的原因
+    private ImageView mIvResult;//结果图标
+    private TextView mTvResult;//签到结果
+    private TextView mTvResultMsg;//成功的时间/失败的原因
     private TextView mTvReturn;
 
-    private Drawable mDrawSuccess;//成功的图片
-    private Drawable mDrawDefeat;//失败的图片
-    private int mSuccess;//成功的颜色
-    private int mDefeat;//失败的颜色
-    private String mModuleId;
-    private String mMeetId;
+    private int mSucceed;//成功的颜色
+    private int mError;//失败的颜色
+    private Drawable mDrawSucceed;//成功的图片
+    private Drawable mDrawError;//失败的图片
 
-    public static void nav(Context context, String resultCode, String result) {
+    public static void nav(Context context, String meetId) {
         Intent i = new Intent(context, SignActivity.class);
-        i.putExtra("code", resultCode);
-        i.putExtra(Extra.KData, result);
+        i.putExtra(Extra.KData, meetId);
         LaunchUtil.startActivity(context, i);
     }
 
-
     @Override
     public void initData() {
-        mDrawSuccess = ResLoader.getDrawable(R.mipmap.sign_ic_success);
-        mDrawDefeat = ResLoader.getDrawable(R.mipmap.sign_ic_defeat);
-        mSuccess = ResLoader.getColor(R.color.text_0882e7);
-        mDefeat = ResLoader.getColor(R.color.text_333);
+        mDrawSucceed = ResLoader.getDrawable(R.mipmap.sign_ic_success);
+        mDrawError = ResLoader.getDrawable(R.mipmap.sign_ic_defeat);
+        mSucceed = ResLoader.getColor(R.color.text_0882e7);
+        mError = ResLoader.getColor(R.color.text_333);
 
         Intent intent = getIntent();
         if (intent != null) {
-            mResultCode = intent.getStringExtra("code");
-            mResult = intent.getStringExtra(Extra.KData);
+            mMeetId = intent.getStringExtra(Extra.KData);
         }
     }
 
@@ -92,8 +97,8 @@ public class SignActivity extends BaseActivity {
     @Override
     public void findViews() {
         mIvResult = findView(R.id.sign_iv_result);
-        mTvResultCode = findView(R.id.sign_tv_result_code);
         mTvResult = findView(R.id.sign_tv_result);
+        mTvResultMsg = findView(R.id.sign_tv_result_msg);
         mTvReturn = findView(R.id.sign_tv_return);
     }
 
@@ -101,75 +106,125 @@ public class SignActivity extends BaseActivity {
     public void setViews() {
         mTvReturn.setOnClickListener(this);
 
-        mTvResultCode.setText(mResultCode);
-        mTvResult.setText(mResult);
-
-        if ("成功".equals(mResultCode)) {
-            mIvResult.setImageDrawable(mDrawSuccess);
-            mTvResultCode.setTextColor(mSuccess);
-        } else {
-            mIvResult.setImageDrawable(mDrawDefeat);
-            mTvResultCode.setTextColor(mDefeat);
-        }
-
         if (BuildConfig.TEST) {
-            mModuleId = "4";
             mMeetId = "17042512131640894904";
         }
-        //TODO：只在这个界面显示结果?
-        refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.toSign(mMeetId, mModuleId));
 
-        //TODO:后面再加倒计时
-//        CountDownTimer timer = new CountDownTimer(4000, 1000) {
-//
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                mTvReturn.setText(MilliUtil.toSecond(millisUntilFinished) + "秒后返回");
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                finish();
-//            }
-//        };
-//        timer.start();
+        //TODO:直接显示结果
+        refresh(RefreshWay.embed);
+        if (checkPermission(0, Permission.location)) {
+            exeNetworkRequest(KToSign, NetFactory.toSign(mMeetId, KModuleId));
+        }
+
+    }
+
+    @Override
+    public void onPermissionResult(int code, @PermissionResult int result) {
+        switch (result) {
+            case PermissionResult.granted: {
+                exeNetworkRequest(KToSign, NetFactory.toSign(mMeetId, KModuleId));
+            }
+            break;
+            case PermissionResult.denied:
+            case PermissionResult.never_ask: {
+
+                showToast("请开启定位权限");
+            }
+            break;
+        }
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
         if (id == KToSign) {
-            return JsonParser.ev(nr.getText(), ToSign.class);
+            return JsonParser.ev(nr.getText(), Sign.class);
+        } else {
+            return JsonParser.ev(nr.getText(), SignResult.class);
         }
-        return JsonParser.error(nr.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        setViewState(ViewState.normal);
-        if (id == KToSign) {
-            Response<ToSign> r = (Response<ToSign>) result;
+        if (id == KToSign) {//获取签到信息
+            Response<Sign> r = (Response<Sign>) result;
             if (r.isSucceed()) {
-                ToSign signData = r.getData();
+                Sign signData = r.getData();
                 exeNetworkRequest(KSign, NetFactory.sign()
                         .meetId(mMeetId)
-                        .moduleId(mModuleId)
-                        .positionId(signData.getString(TToSign.id))
-                        //ToDO:获取经纬度
-                        .signLat(signData.getString(TToSign.positionLat))
-                        .signLng(signData.getString(TToSign.positionLng))
+                        .moduleId(KModuleId)
+                        .positionId(signData.getString(TSign.id))
+                        .signLat(signData.getString(TSign.positionLat))
+                        .signLng(signData.getString(TSign.positionLng))
                         .builder());
             } else {
-                showToast(r.getError());
+                setViewState(ViewState.normal);
+                signError(r.getError());
             }
-        } else if (id == KSign) {
-            Response r = (Response) result;
+        } else {//签到
+            setViewState(ViewState.normal);
+            Response<SignResult> r = (Response<SignResult>) result;
             if (r.isSucceed()) {
-                showToast("成功");
+                signSucceed(r.getData());
             } else {
-                showToast(r.getError());
+                signError(r.getError());
             }
         }
+    }
+
+    /**
+     * 签到成功
+     */
+    private void signSucceed(SignResult signResult) {
+        mIvResult.setImageDrawable(mDrawSucceed);
+        mTvResult.setTextColor(mSucceed);
+        mTvResult.setText("签到已成功");
+
+        long signTime = signResult.getLong(TSignResult.signTime);
+        if (signTime == 0L) {
+            signTime = System.currentTimeMillis();
+        }
+        mTvResultMsg.setText("时间 " + TimeUtil.formatMilli(signTime, TimeFormat.from_h_to_m_24));
+        onFinish();
+    }
+
+    /**
+     * 签到失败
+     */
+    private void signError(String msg) {
+        mIvResult.setImageDrawable(mDrawError);
+        mTvResult.setTextColor(mError);
+        mTvResult.setText("签到失败");
+        mTvResultMsg.setText(msg);
+        onFinish();
+    }
+
+    /**
+     * 倒计时
+     */
+    private void onFinish() {
+        Observable.intervalRange(0, KReturnTime + 1, 0, KSecond, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable disposable) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Long aLong) {
+                        mTvReturn.setText((KReturnTime - aLong) + "秒后返回");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        finish();
+                    }
+                });
     }
 
     @Override
@@ -184,8 +239,7 @@ public class SignActivity extends BaseActivity {
             case R.id.sign_tv_return:
                 finish();
                 break;
-            default:
-                break;
         }
     }
+
 }

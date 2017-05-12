@@ -66,16 +66,16 @@ public class UrlUtil {
 
     public interface UrlMeet {
         String KMeetBase = "meet/";
-        String KMeetRec = KMeetBase + "tuijian";
         String KMeets = KMeetBase + "meets";
         String KInfo = KMeetBase + "info";
+        String KTypes = KMeetBase + "types";//返回会议搜索时的科室列表选择
 
         String KToExam = KMeetBase + "toexam";
         String KToSurvey = KMeetBase + "tosurvey";
         String KToSign = KMeetBase + "tosign";
         String KToPpt = KMeetBase + "toppt";
 
-        String KSubmitsur = KMeetBase + "submitsur";
+        String KSubmitSur = KMeetBase + "submitsur";
         String KSubmitEx = KMeetBase + "submitex";
 
         String KSign = KMeetBase + "sign";

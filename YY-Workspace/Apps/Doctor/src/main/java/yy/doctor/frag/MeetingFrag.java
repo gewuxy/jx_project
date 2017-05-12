@@ -11,7 +11,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
@@ -21,11 +20,10 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingSearchActivity;
-import yy.doctor.frag.meeting.ProgressingMeetingsFrag;
-import yy.doctor.frag.meeting.ReviewMeetingsFrag;
-import yy.doctor.frag.meeting.WaitMeetingsFrag;
+import yy.doctor.frag.meeting.NotStartedMeetingsFrag;
+import yy.doctor.frag.meeting.RetrospectMeetingsFrag;
+import yy.doctor.frag.meeting.UnderWayMeetingsFrag;
 import yy.doctor.popup.SectionPopup;
-import yy.doctor.popup.SectionPopup.OnSectionListener;
 
 /**
  * 会议界面
@@ -37,7 +35,7 @@ public class MeetingFrag extends BaseVPFrag {
 
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
     private static final int KIndicatorWidth = 30;//滑块的宽度
-    private static final long KDuration = 100l;//切换科室动画时长
+    private static final long KDuration = 100L;//切换科室动画时长
 
     //科室选择
     private ImageView mIvSection;
@@ -57,16 +55,15 @@ public class MeetingFrag extends BaseVPFrag {
     private View mPreTab;
     private OnClickListener mTabListener;
 
-
     @IntDef({
-            PageType.progressing,
-            PageType.wait,
-            PageType.review,
+            PageType.under_way,
+            PageType.not_started,
+            PageType.retrospect,
     })
     private @interface PageType {
-        int progressing = 0;//进行中
-        int wait = 1;//未开始
-        int review = 2;//精彩回顾
+        int under_way = 0;//进行中
+        int not_started = 1;//未开始
+        int retrospect = 2;//精彩回顾
     }
 
     @Override
@@ -79,9 +76,9 @@ public class MeetingFrag extends BaseVPFrag {
         mAnimDown.setDuration(KDuration);
         mAnimDown.setFillAfter(true);
 
-        add(new ProgressingMeetingsFrag());
-        add(new WaitMeetingsFrag());
-        add(new ReviewMeetingsFrag());
+        add(new UnderWayMeetingsFrag());
+        add(new NotStartedMeetingsFrag());
+        add(new RetrospectMeetingsFrag());
     }
 
     @NonNull
@@ -95,21 +92,12 @@ public class MeetingFrag extends BaseVPFrag {
         View v = inflate(R.layout.layout_meeting_nav_bar_section);
         mIvSection = (ImageView) v.findViewById(R.id.meeting_nav_bar_mid_iv);
         mTvSection = (TextView) v.findViewById(R.id.meeting_nav_bar_mid_tv);
-        bar.addViewMid(v, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mIvSection.startAnimation(mAnimUp);
-                showSection(bar);
-            }
+        bar.addViewMid(v, v1 -> {
+            mIvSection.startAnimation(mAnimUp);
+            showSection(bar);
         });
 
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(MeetingSearchActivity.class);
-            }
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_search, v1 -> startActivity(MeetingSearchActivity.class));
     }
 
     /**
@@ -117,20 +105,8 @@ public class MeetingFrag extends BaseVPFrag {
      */
     private void showSection(View anchor) {
         if (mPopup == null) {
-            mPopup = new SectionPopup(getContext(), new OnSectionListener() {
-
-                @Override
-                public void onSectionSelected(String text) {
-                    mTvSection.setText(text);
-                }
-            });
-            mPopup.setOnDismissListener(new OnDismissListener() {
-
-                @Override
-                public void onDismiss() {
-                    mIvSection.startAnimation(mAnimDown);
-                }
-            });
+            mPopup = new SectionPopup(getContext(), text -> mTvSection.setText(text));
+            mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
         }
         mPopup.showAsDropDown(anchor);
     }
@@ -174,9 +150,9 @@ public class MeetingFrag extends BaseVPFrag {
     }
 
     private void addTabs() {
-        addTab(PageType.progressing, "进行中");
-        addTab(PageType.wait, "未开始");
-        addTab(PageType.review, "精彩回顾");
+        addTab(PageType.under_way, "进行中");
+        addTab(PageType.not_started, "未开始");
+        addTab(PageType.retrospect, "精彩回顾");
 
         invalidate();
     }
@@ -189,17 +165,13 @@ public class MeetingFrag extends BaseVPFrag {
         v.setTag(index);
 
         if (mTabListener == null) {
-            mTabListener = new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    setPreTab(v);
-                    setCurrentItem((Integer) v.getTag());
-                }
+            mTabListener = v1 -> {
+                setPreTab(v1);
+                setCurrentItem((Integer) v1.getTag());
             };
         }
 
-        if (index == PageType.progressing) {
+        if (index == PageType.under_way) {
             setPreTab(v);
         }
 

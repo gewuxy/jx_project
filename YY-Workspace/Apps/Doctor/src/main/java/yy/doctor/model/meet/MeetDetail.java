@@ -2,7 +2,7 @@ package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
-import yy.doctor.model.meet.DetailInfo.TDetailInfo;
+import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 
 /**
  * 会议详情
@@ -11,14 +11,14 @@ import yy.doctor.model.meet.DetailInfo.TDetailInfo;
  * @since : 2017/5/5
  */
 
-public class DetailInfo extends EVal<TDetailInfo> {
-    public enum TDetailInfo {
+public class MeetDetail extends EVal<TMeetDetail> {
+    public enum TMeetDetail {
         eduCredits,
         id,
         lecturer,//主讲者
         meetName,//会议名称
         meetType,//会议科室类型
-        @BindList(InfoModules.class)
+        @BindList(InfoModule.class)
         modules,//会议包含的模块
         organizer,//会议主办方
         requiredXs,

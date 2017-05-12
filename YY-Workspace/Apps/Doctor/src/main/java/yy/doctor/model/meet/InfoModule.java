@@ -1,7 +1,7 @@
 package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.InfoModules.TInfoModules;
+import yy.doctor.model.meet.InfoModule.TInfoModule;
 
 /**
  * 会议包含的模块
@@ -10,8 +10,8 @@ import yy.doctor.model.meet.InfoModules.TInfoModules;
  * @since : 2017/5/5
  */
 
-public class InfoModules extends EVal<TInfoModules> {
-    public enum TInfoModules {
+public class InfoModule extends EVal<TInfoModule> {
+    public enum TInfoModule {
         active,
         functionId,//模块功能ID
         id,

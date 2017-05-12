@@ -58,6 +58,8 @@
     <color name="text_01b557">#01b557</color>
     <color name="text_80fff">#80ffffff</color>
     <color name="text_66fff">#66ffffff</color>
+    <color name="text_5cb0de">#5cb0de</color>
+    <color name="text_029c4c">#029c4c</color>
 
     <!--line-->
     <color name="divider_menu">#021d39</color>

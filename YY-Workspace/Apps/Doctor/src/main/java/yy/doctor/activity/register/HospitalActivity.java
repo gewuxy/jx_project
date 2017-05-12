@@ -1,19 +1,23 @@
 package yy.doctor.activity.register;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
 import yy.doctor.BuildConfig;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -32,14 +36,13 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
     private int mLetterSize;
     private TextView mTvLetter;
     private TextView mTvChange;
+    private TextView mTvLocation;
 
     @Override
     public void initData() {
         mLetterSize = fitDp(10);
 
-        /*refresh(RefreshWay.dialog);
-        exeNetworkRequest(0, NetFactory.hospital("广州市"));*/
-        //TODO：解析
+        //TODO：参照单位号
         //模拟数据
         GroupHospital groupHospital = new GroupHospital();
 
@@ -72,6 +75,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
         mTvLetter = findView(R.id.hospital_tv_letter);
         mSideBar = findView(R.id.hospital_sb);
         mTvChange = findView(R.id.hospital_tv_change);
+        mTvLocation = findView(R.id.hospital_tv_location);
         initSideBar();
     }
 
@@ -84,6 +88,8 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
         enableSRRefresh(false);
 
         mTvChange.setOnClickListener(this);
+        refresh(RefreshWay.dialog);
+        exeNetworkRequest(0, NetFactory.hospital("广州市"));
     }
 
     /**
@@ -109,10 +115,21 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
         super.onClick(v);
         switch (v.getId()) {
             case R.id.hospital_tv_change:
-                startActivity(ProvinceCityActivity.class);
+                startActivityForResult(ProvinceCityActivity.class, 1);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                String city = data.getStringExtra(Extra.KData);
+                mTvLocation.setText(getResources().getString(R.string.hospital_location) + city);
+            }
         }
     }
 

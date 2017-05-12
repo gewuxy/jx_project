@@ -5,28 +5,27 @@ import yy.doctor.Constants.MeetsState;
 import yy.doctor.network.NetFactory;
 
 /**
- * 会议等待中列表
+ * 会议进行中列表
  *
- * 日期 : 2017/4/24
- * 创建人 : guoxuan
+ * @auther yuansui
+ * @since 2017/4/24
  */
 
-public class WaitMeetingsFrag extends BaseMeetingsFrag {
+public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
     @Override
     public void initData() {
-
     }
 
     @Override
     public void getDataFromNet() {
-
+        exeNetworkRequest(0, NetFactory.meets(MeetsState.under_way));
     }
 
     @Override
     public void setViews() {
         super.setViews();
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.KWait));
+        exeNetworkRequest(0, NetFactory.meets(MeetsState.under_way));
     }
 
 }

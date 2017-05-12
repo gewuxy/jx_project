@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/meeting_detail_layout_modules"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="horizontal"/>
+
+    <TextView
+        android:id="@+id/meeting_detail_video_see"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/meet_detail_see_bg_selector"
+        android:drawableLeft="@mipmap/meeting_ic_see"
+        android:gravity="center"
+        android:paddingLeft="@dimen/margin"
+        android:text="观看会议"
+        android:textColor="@color/white"
+        android:textSize="14dp"/>
+
+</LinearLayout>
