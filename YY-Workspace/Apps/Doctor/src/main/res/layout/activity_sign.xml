@@ -33,7 +33,7 @@
             android:src="@mipmap/sign_ic_success"/>
 
         <TextView
-            android:id="@+id/sign_tv_result_code"
+            android:id="@+id/sign_tv_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="14dp"
@@ -43,7 +43,7 @@
             android:textSize="14dp"/>
 
         <TextView
-            android:id="@+id/sign_tv_result"
+            android:id="@+id/sign_tv_result_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -56,6 +56,6 @@
         android:id="@+id/sign_tv_return"
         style="@style/tv.common"
         android:background="@drawable/sign_btn_selector"
-        android:text="3秒后返回"/>
+        android:text="返回"/>
 
 </LinearLayout>

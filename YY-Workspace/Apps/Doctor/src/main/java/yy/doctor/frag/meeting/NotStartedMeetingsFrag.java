@@ -5,13 +5,13 @@ import yy.doctor.Constants.MeetsState;
 import yy.doctor.network.NetFactory;
 
 /**
- * 会议精彩回顾列表
+ * 会议等待中列表
  *
  * 日期 : 2017/4/24
  * 创建人 : guoxuan
  */
 
-public class ReviewMeetingsFrag extends BaseMeetingsFrag {
+public class NotStartedMeetingsFrag extends BaseMeetingsFrag {
     @Override
     public void initData() {
 
@@ -19,14 +19,14 @@ public class ReviewMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-
+        exeNetworkRequest(0, NetFactory.meets(MeetsState.not_started));
     }
 
     @Override
     public void setViews() {
         super.setViews();
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.KReview));
+        exeNetworkRequest(0, NetFactory.meets(MeetsState.not_started));
     }
 
 }

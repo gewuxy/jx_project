@@ -24,19 +24,34 @@
         style="@style/v"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/meeting_tv_guest_name"
-            style="@style/tv"
-            android:text="王学廉 副主任"
-            android:textColor="#757575"
-            android:textSize="14dp"/>
+        <LinearLayout
+            style="@style/v"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/meeting_tv_guest_name"
+                style="@style/tv"
+                android:text="王学廉"
+                android:textColor="@color/text_333"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/meeting_tv_guest_post"
+                style="@style/tv"
+                android:layout_marginLeft="8dp"
+                android:text="副主任"
+                android:textColor="@color/text_333"
+                android:textSize="14dp"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/meeting_tv_guest_hospital"
             style="@style/tv"
+            android:layout_marginTop="8dp"
             android:text="第四军医大学唐都医院"
-            android:textColor="@color/text_b3"
-            android:textSize="@dimen/margin"/>
+            android:textColor="@color/text_888"
+            android:textSize="12dp"/>
     </LinearLayout>
 
 </LinearLayout>

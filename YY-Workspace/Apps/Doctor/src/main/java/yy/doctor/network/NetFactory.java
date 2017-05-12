@@ -178,7 +178,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest depart() {
+    public static NetworkRequest section() {
         return newGet(UrlRegister.KDepart)
                 .build();
     }
@@ -387,14 +387,6 @@ public class NetFactory {
     public static NetworkRequest searchUnitnum(String keyword) {
         return newPost(UrlSearch.KSearchUnitNum)
                 .param(SearchParam.KKeyword, keyword)
-                .build();
-    }
-
-    /**
-     * 会议推荐
-     */
-    public static NetworkRequest meetRec() {
-        return newGet(UrlMeet.KMeetRec)
                 .build();
     }
 

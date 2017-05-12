@@ -146,7 +146,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.departments)
                 .drawable(R.mipmap.ic_more)
                 .name("科室")
-                .intent(new Intent(this, DepartmentsActivity.class))
+                .intent(new Intent(this, SectionActivity.class))
                 .text(strDepartments)
                 .build());
 

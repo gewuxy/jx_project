@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="300dp"
+        android:layout_height="184dp"
+        app:corner_radius="@dimen/radius"
+        app:corner_useStroke="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="138dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取地理位置失败"
+                android:textColor="@color/text_333"
+                android:textSize="19dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="请确保GPRS已开启"
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="并检查地理位置权限是否已打开"
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dbdbdb"
+            android:orientation="horizontal"
+            android:paddingTop="1dp">
+
+            <TextView
+                android:id="@+id/dialog_location_tv_again"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="再次签到"
+                android:textColor="#0682e6"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/dialog_location_tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/text_666"
+                android:textSize="16dp"/>
+        </LinearLayout>
+    </lib.ys.view.CornerView>
+</LinearLayout>

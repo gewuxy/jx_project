@@ -1,5 +1,7 @@
 package yy.doctor;
 
+import android.support.annotation.IntDef;
+
 import lib.yy.BaseConstants;
 
 /**
@@ -13,10 +15,18 @@ public interface Constants extends BaseConstants {
         int KDividerHeight = 14; // 分割线高度
     }
 
-    interface MeetsState {
-        int KWait = 1;//未开始
-        int KPro = 2;//进行中
-        int KReview = 3;//已结束
+    /**
+     * 会议状态
+     */
+    @IntDef({
+            MeetsState.not_started,
+            MeetsState.under_way,
+            MeetsState.retrospect,
+    })
+    @interface MeetsState {
+        int not_started = 1;//未开始
+        int under_way = 2;//进行中
+        int retrospect = 3;//精彩回顾
     }
 
 }

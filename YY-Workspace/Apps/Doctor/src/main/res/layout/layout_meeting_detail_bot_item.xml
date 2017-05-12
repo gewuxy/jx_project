@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    style="@style/v">
+
+    <ImageView
+        android:id="@+id/meeting_detail_iv_module"
+        style="@style/iv.meeting"
+        android:src="@mipmap/meeting_ic_sign"/>
+
+    <TextView
+        android:id="@+id/meeting_detail_tv_module"
+        style="@style/tv.meeting.button"
+        android:text="签到"/>
+</LinearLayout>

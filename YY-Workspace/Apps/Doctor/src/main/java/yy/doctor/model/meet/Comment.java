@@ -1,7 +1,7 @@
 package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.Histories.THistories;
+import yy.doctor.model.meet.Comment.TComment;
 
 /**
  * 会议留言记录
@@ -10,8 +10,8 @@ import yy.doctor.model.meet.Histories.THistories;
  * @since : 2017/5/8
  */
 
-public class Histories extends EVal<THistories> {
-    public enum THistories {
+public class Comment extends EVal<TComment> {
+    public enum TComment {
         id,//留言id
         meetId,//会议ID
         message,//留言内容

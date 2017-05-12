@@ -224,8 +224,9 @@ public class RegisterActivity extends BaseFormActivity {
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
         if (id == KLogin) {
             return JsonParser.ev(nr.getText(), Profile.class);
+        } else {
+            return JsonParser.error(nr.getText());
         }
-        return JsonParser.error(nr.getText());
     }
 
     @Override
@@ -243,7 +244,7 @@ public class RegisterActivity extends BaseFormActivity {
                 finish();
                 showToast(r.getError());
             }
-        } else if (id == KRegister) {//注册
+        } else {//注册
             Response r = (Response) result;
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh

@@ -33,22 +33,22 @@
 
     <!-- meeting -->
     <style name="tv.meeting">
-        <item name="android:layout_marginLeft">4dip</item>
-        <item name="android:textSize">@dimen/list_padding</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/text_888</item>
     </style>
 
     <!-- meeting 12大的白字 -->
     <style name="tv.meeting.detail">
-        <item name="android:textSize">@dimen/margin</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- meeting 底部的Button -->
     <style name="v.meeting">
-        <item name="android:layout_weight">1</item>
+        <item name="android:layout_centerInParent">true</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="iv.meeting">
@@ -70,13 +70,18 @@
     <style name="tv.meeting.button">
         <item name="android:layout_marginLeft">4dp</item>
         <item name="android:textSize">14dp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/text_333</item>
     </style>
 
     <style name="divider.meeting">
         <item name="android:background">@color/divider</item>
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">16dp</item>
+    </style>
+
+    <style name="divider.meeting.bottom">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="divider.record">
@@ -88,6 +93,30 @@
         <item name="android:textSize">12dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- 资料部分 -->
+    <style name="v.data">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/item_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">@dimen/margin</item>
+    </style>
+
+    <style name="iv.data">
+        <item name="android:layout_width">27dp</item>
+        <item name="android:layout_height">27dp</item>
+        <item name="android:src">@mipmap/unit_num_detail_ic_file</item>
+    </style>
+
+    <style name="tv.data">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">21dp</item>
+        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textSize">10dp</item>
     </style>
 
 </resources>

@@ -9,9 +9,8 @@
 
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/meeting_niv_icon_number"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_centerVertical="true"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
         android:layout_marginLeft="@dimen/margin"/>
 
     <LinearLayout
@@ -24,35 +23,16 @@
         <TextView
             android:id="@+id/meeting_tv_name_number_host"
             style="@style/tv"
+            android:textSize="14dp"
+            android:textColor="@color/text_666"
             android:text="河北省医学会神经病分会"/>
 
         <TextView
             android:id="@+id/meeting_tv_name_number_deputy"
             style="@style/tv"
-            android:layout_marginTop="8dp"
+            android:textColor="@color/text_888"
+            android:layout_marginTop="4dp"
             android:text="主办公众号"/>
     </LinearLayout>
 
-    <!--TODO:改跟关注一样-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin"
-        android:background="@drawable/meeting_details_attention_selector"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/margin"
-        android:paddingRight="@dimen/margin"
-        android:paddingTop="8dp">
-
-        <TextView
-            style="@style/tv.meeting.detail"
-            android:text="+"/>
-
-        <TextView
-            style="@style/tv.meeting.detail"
-            android:layout_marginLeft="4dp"
-            android:text="关注"/>
-    </LinearLayout>
 </LinearLayout>

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="yy.doctor">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
@@ -152,7 +154,7 @@
             android:name=".activity.me.ProvinceCityActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.DepartmentsActivity"
+            android:name=".activity.me.SectionActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ClipImageActivity"

@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_meeting_details">
 
     <TextView
-        android:id="@+id/meeting_details_tv_titles"
+        android:id="@+id/meeting_details_tv_title"
         style="@style/tv"
         android:text="河北省第29届神经病报告"
         android:textColor="@color/text_0882e7"
@@ -19,14 +19,16 @@
     <TextView
         android:id="@+id/meeting_details_tv_award"
         style="@style/tv.meeting.detail"
-        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="6dp"
         android:text="本次会议奖励象数:50,还有260人能够获得奖励."
-        android:textColor="@color/text_888"/>
+        android:textColor="@color/text_666"/>
 
     <TextView
         android:id="@+id/meeting_details_tv_section"
         style="@style/tv.meeting.detail"
-        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="6dp"
         android:text="内科"
-        android:textColor="@color/text_888"/>
+        android:textColor="@color/text_666"/>
 </LinearLayout>
