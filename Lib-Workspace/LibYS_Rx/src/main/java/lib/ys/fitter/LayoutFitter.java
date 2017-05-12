@@ -156,10 +156,12 @@ public class LayoutFitter {
         }
 
         if (drawableSet) {
-            tv.setCompoundDrawables(drawables[0],
+            tv.setCompoundDrawables(
+                    drawables[0],
                     drawables[1],
                     drawables[2],
-                    drawables[3]);
+                    drawables[3]
+            );
             tv.setCompoundDrawablePadding(convert(tv.getCompoundDrawablePadding()));
         }
 
