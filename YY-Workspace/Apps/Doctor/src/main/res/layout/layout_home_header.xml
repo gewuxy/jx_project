@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!--Banner 容器-->
+    <!--KBanner 容器-->
     <yy.doctor.view.BannerView
         android:id="@+id/home_header_banner"
         android:layout_width="match_parent"

@@ -45,8 +45,9 @@
     <color name="text_08a150">#08a150</color>
     <color name="text_808080">#808080</color>
     <color name="text_888">#888</color>
-    <color name="text_0882e7">#0882e7</color>
     <color name="text_006ebd">#006ebd</color>
+    <color name="text_0882e7">#0882e7</color>
+    <color name="text_83c0f3">#83c0f3</color>
     <color name="text_006cb2">#006cb2</color>
     <color name="text_e5e5e5">#e5e5e5</color>
     <color name="text_e6600e">#e6600e</color>
@@ -68,7 +69,7 @@
     <color name="main_text_bg">#888888</color>
     <color name="main_text_bg_focus">#1094f2</color>
 
-    <!--mask-->
+    <!--mask模糊-->
     <color name="mask_bg">#4d000000</color>
 
     <color name="unit_num_detail_head_bg">#66000000</color>

@@ -1,5 +1,6 @@
 package yy.doctor.activity.me;
 
+import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 
@@ -103,7 +104,12 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.feedback: {
-                showToast("意见反馈");
+                Intent data = new Intent(Intent.ACTION_SEND);
+                data.setType("plain/text");//  message/rfc822
+                data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
+                data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
+                data.putExtra(Intent.EXTRA_TEXT, "");
+                startActivity(data);
             }
             break;
             case RelatedId.update_log: {

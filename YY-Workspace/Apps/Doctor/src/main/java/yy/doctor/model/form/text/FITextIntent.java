@@ -20,8 +20,9 @@ public class FITextIntent extends FIText {
 
     @Override
     protected void onActivityResult(int position, Intent data) {
-        String str = data.getStringExtra(Extra.KData);
-        put(TFormElem.text, str);
+        String strProvince = data.getStringExtra(Extra.KProvince);
+        String strCity = data.getStringExtra(Extra.KCity);
+        put(TFormElem.text, strProvince + "-" +strCity);
     }
 
 }

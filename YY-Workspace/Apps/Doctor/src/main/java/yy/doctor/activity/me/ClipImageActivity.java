@@ -17,7 +17,6 @@ import lib.yy.network.Response;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.ClipImage;
-import yy.doctor.model.me.ClipImage.TClipImage;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -118,11 +117,15 @@ public class ClipImageActivity extends BaseActivity {
 
         Response<ClipImage> r = (Response<ClipImage>) result;
         if (r.isSucceed()) {
-            ClipImage clipImage = r.getData();
-            mUrl = clipImage.getString(TClipImage.data);
-            showToast("头像修改成功");
+            //ClipImage clipImage = r.getData();
+            //mUrl = clipImage.getString(TClipImage.url);
+            //Intent i = new Intent();
+            //i.putExtra(Extra.KData, mUrl);
+            //setResult(RESULT_OK, i);
+            showToast("头像设置成功");
+            //finish();
         } else {
-            showToast("头像修改失败");
+            showToast("头像设置失败");
         }
 
     }

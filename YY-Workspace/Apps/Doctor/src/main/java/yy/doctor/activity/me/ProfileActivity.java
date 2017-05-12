@@ -29,6 +29,7 @@ import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.model.Modify;
 import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
@@ -44,6 +45,7 @@ import static yy.doctor.model.Profile.TProfile.linkman;
 import static yy.doctor.model.Profile.TProfile.mobile;
 import static yy.doctor.model.Profile.TProfile.nickname;
 import static yy.doctor.model.Profile.TProfile.place;
+import static yy.doctor.model.Profile.TProfile.province;
 import static yy.doctor.model.Profile.TProfile.title;
 import static yy.doctor.model.Profile.TProfile.username;
 
@@ -61,6 +63,7 @@ public class ProfileActivity extends BaseFormActivity {
 
     private static final int KCodeAlbum = 100;
     private static final int KCodePhotograph = 200;
+    private static final int KCodeClipImage = 300;
 
     private static final int KPermissionCodePhoto = 0;
     private static final int KPermissionCodeAlbum = 1;
@@ -71,7 +74,10 @@ public class ProfileActivity extends BaseFormActivity {
     private RelativeLayout mLayoutProfileHeader;
     private NetworkImageView mIvAvatar;
 
-    private String mPhotoPath;
+    private String mStrPhotoPath;
+    private String mAvatarUrl;
+    private String mStrProvince;
+    private String mStrCity;
 
     @IntDef({
             RelatedId.name,
@@ -226,11 +232,13 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
+        mStrProvince = Profile.inst().getString(province);
+        mStrCity = Profile.inst().getString(city);
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name("所在城市")
                 .intent(new Intent(this, ProvinceCityActivity.class))
-                .text(Profile.inst().getString(city))
+                .text(mStrProvince + "-" + mStrCity)
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -364,8 +372,8 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     private void getPhotoFromTakePhoto() {
-        mPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
-        PhotoUtil.fromCamera(this, mPhotoPath, KCodePhotograph);
+        mStrPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
+        PhotoUtil.fromCamera(this, mStrPhotoPath, KCodePhotograph);
     }
 
     @Override
@@ -385,7 +393,7 @@ public class ProfileActivity extends BaseFormActivity {
             break;
             case KCodePhotograph: {
                 // 通过照相机拍的图片
-                path = mPhotoPath;
+                path = mStrPhotoPath;
             }
             break;
         }
@@ -457,12 +465,16 @@ public class ProfileActivity extends BaseFormActivity {
      */
     private void modify() {
 
+        String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
+        mStrProvince = str.substring(0, str.indexOf("-") - 1);
+        mStrCity = str.substring(str.indexOf("-") + 1, str.length());
+
         NetworkRequest r = NetFactory.newModifyBuilder()
                 .nickname(getRelateVal(RelatedId.nickname))
                 .linkman(getRelateVal(RelatedId.name))
                 .mobile(getRelateVal(RelatedId.phone_number))
-                .province("福建省")
-                .city("福州市")
+                .province(mStrProvince)
+                .city(mStrCity)
                 .hospital(getRelateVal(RelatedId.hospital))
                 .department(getRelateVal(RelatedId.departments))
                 .builder();
@@ -484,6 +496,8 @@ public class ProfileActivity extends BaseFormActivity {
         Response<Modify> r = (Response<Modify>) result;
         if (r.isSucceed()) {
             showToast("资料修改成功");
+            Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));
+            Profile.inst().update(Profile.inst().put(TProfile.city, mStrCity));
         } else {
             showToast(r.getError());
         }

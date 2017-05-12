@@ -36,7 +36,7 @@ public class HomeAdapter extends MultiRecyclerAdapterEx<Home, HomeVH> {
 
         switch (itemType) {
             case HomeType.meeting: {
-                id = R.layout.layout_home_meeting;
+                id = R.layout.layout_home_meeting_item;
             }
             break;
             case HomeType.tv_divider: {
