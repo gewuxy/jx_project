@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import lib.ys.AppEx;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.GenericUtil;

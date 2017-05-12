@@ -1,4 +1,4 @@
-package lib.ys.adapter.interfaces;
+package lib.ys.adapter.recycler;
 
 import android.view.View;
 

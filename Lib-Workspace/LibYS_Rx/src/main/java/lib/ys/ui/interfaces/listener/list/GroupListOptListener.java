@@ -5,7 +5,6 @@ import android.widget.ExpandableListView;
 
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 
 /**
@@ -100,12 +99,4 @@ public interface GroupListOptListener<T, A extends IGroupAdapter<T>> extends Lis
      * @param childPosition
      */
     void onChildLongClick(int groupPosition, int childPosition);
-
-    /**
-     * 通过位置查找group viewHolder
-     *
-     * @param groupPosition
-     * @return 没有则返回null
-     */
-    ViewHolderEx getGroupCacheViewHolder(int groupPosition);
 }

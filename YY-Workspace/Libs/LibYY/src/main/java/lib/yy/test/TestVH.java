@@ -3,7 +3,7 @@ package lib.yy.test;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.yy.R;
 
 /**

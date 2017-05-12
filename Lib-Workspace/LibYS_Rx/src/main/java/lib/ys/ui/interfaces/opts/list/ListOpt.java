@@ -55,7 +55,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     public ListOpt(@NonNull ListOptListener<T, A> l) {
         if (l == null) {
-            throw new IllegalStateException("OnListWidgetListener must be NonNull");
+            throw new IllegalStateException("ListOptListener must be NonNull");
         }
         mListener = l;
 

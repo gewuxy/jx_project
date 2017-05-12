@@ -1,6 +1,8 @@
 package lib.ys.adapter;
 
-abstract public class GroupAdapterEx<T, VH extends ViewHolderEx> extends MultiGroupAdapterEx<T, VH> {
+import lib.ys.adapter.interfaces.IViewHolder;
+
+abstract public class GroupAdapterEx<T, VH extends IViewHolder> extends MultiGroupAdapterEx<T, VH> {
 
     @Override
     public final int getChildType(int groupPosition, int childPosition) {

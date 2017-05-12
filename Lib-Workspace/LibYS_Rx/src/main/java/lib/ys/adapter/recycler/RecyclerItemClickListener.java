@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView.SimpleOnItemTouchListener;
 import android.view.MotionEvent;
 import android.view.View;
 
-import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
-
 /**
  * RecyclerView的点击事件监听
  * <pre>
@@ -20,8 +18,8 @@ import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
  * 1. 給每个item的root设置onClick和onLongClick监听事件
  * 2. 使用RecyclerView提供的OnItemTouchListener来自己做判断
  * 目前用的是第二种, 不过并没有按照网上的使用手势的Detector(无法让item响应press消息而使背景色改变)
- * FIXME: childView如果设置了点击事件后, 无法避免root也收到press消息, 会同时高亮, 所以保留这个类但是暂时不使用
  *
+ * @deprecated FIXME: childView如果设置了点击事件后, 无法避免root也收到press消息, 会同时高亮, 所以保留这个类但是暂时不使用
  * @author yuansui
  */
 public class RecyclerItemClickListener extends SimpleOnItemTouchListener {

@@ -35,7 +35,7 @@ public class LayoutFitter {
     public static final int CENTER_HORIZONTAL = -11;
     public static final int CENTER_VERTICAL = -12;
 
-    private static Set<View> mSetFit = new HashSet<View>();
+    private static Set<View> mSetFit = new HashSet<>();
 
     /**
      * 适配{@link AbsoluteLayout}的属性

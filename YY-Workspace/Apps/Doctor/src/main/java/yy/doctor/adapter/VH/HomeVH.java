@@ -2,7 +2,7 @@ package yy.doctor.adapter.VH;
 
 import android.view.View;
 
-import lib.ys.adapter.recycler.RecyclerViewHolderEx;
+import lib.ys.adapter.VH.RecyclerViewHolderEx;
 
 /**
  * @author CaiXiang

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import lib.ys.adapter.PagerAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.fitter.DpFitter;
 import lib.ys.view.BannerViewEx;
 import yy.doctor.adapter.BannerViewAdapter;

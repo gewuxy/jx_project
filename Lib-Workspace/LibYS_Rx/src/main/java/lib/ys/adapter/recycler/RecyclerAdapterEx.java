@@ -1,5 +1,7 @@
 package lib.ys.adapter.recycler;
 
+import lib.ys.adapter.VH.RecyclerViewHolderEx;
+
 /**
  * @author yuansui
  */

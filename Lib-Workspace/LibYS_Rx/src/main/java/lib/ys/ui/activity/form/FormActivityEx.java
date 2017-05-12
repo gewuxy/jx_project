@@ -18,7 +18,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import lib.ys.ConstantsEx;
 import lib.ys.R;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.FormItemEx;
 import lib.ys.form.FormItemEx.TFormElem;

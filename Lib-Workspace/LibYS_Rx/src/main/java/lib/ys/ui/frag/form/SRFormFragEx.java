@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import lib.network.error.NetError;
 import lib.network.model.NetworkResponse;
 import lib.ys.R;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx;
 import lib.ys.network.resp.IListResponse;

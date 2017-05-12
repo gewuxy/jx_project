@@ -1,6 +1,9 @@
 package lib.ys.adapter;
 
-abstract public class AdapterEx<T, VH extends ViewHolderEx> extends MultiAdapterEx<T, VH> {
+
+import lib.ys.adapter.interfaces.IViewHolder;
+
+abstract public class AdapterEx<T, VH extends IViewHolder> extends MultiAdapterEx<T, VH> {
 
     @Override
     public final int getConvertViewResId(int itemType) {

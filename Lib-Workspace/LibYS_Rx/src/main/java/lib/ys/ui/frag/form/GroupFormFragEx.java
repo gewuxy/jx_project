@@ -17,7 +17,7 @@ import java.util.List;
 
 import lib.ys.ConstantsEx;
 import lib.ys.R;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.group.ChildFormItemEx;
 import lib.ys.form.group.GroupFormItemEx;

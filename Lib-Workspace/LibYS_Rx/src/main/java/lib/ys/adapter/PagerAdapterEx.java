@@ -24,7 +24,8 @@ import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.pager.indicator.IconPagerAdapter;
 
-abstract public class PagerAdapterEx<T, VH extends ViewHolderEx> extends PagerAdapter implements FitOpt, CommonOpt, IconPagerAdapter {
+abstract public class PagerAdapterEx<T, VH extends IViewHolder> extends PagerAdapter
+        implements FitOpt, CommonOpt, IconPagerAdapter {
 
     protected String TAG = getClass().getSimpleName();
 
@@ -37,9 +38,11 @@ abstract public class PagerAdapterEx<T, VH extends ViewHolderEx> extends PagerAd
     private SparseArray<View> mMapLoop = null;
 
     public PagerAdapterEx() {
-        mMapLoop = new SparseArray<>();
-
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
+        if (mVHClass == null) {
+            throw new IllegalStateException("can not find view holder");
+        }
+        mMapLoop = new SparseArray<>();
     }
 
     public void setData(List<T> data) {

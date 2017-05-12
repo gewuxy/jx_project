@@ -25,8 +25,8 @@ public class CrashMgr implements UncaughtExceptionHandler {
         return mInst;
     }
 
-    public void init(OnCrashListener listener) {
-        mCrashListener = listener;
+    public void init(OnCrashListener l) {
+        mCrashListener = l;
 
         // 获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();

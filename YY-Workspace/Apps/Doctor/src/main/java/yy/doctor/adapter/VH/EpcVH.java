@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 

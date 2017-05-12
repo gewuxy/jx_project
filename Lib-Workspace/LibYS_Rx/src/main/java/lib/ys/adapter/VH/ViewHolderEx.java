@@ -1,36 +1,33 @@
-package lib.ys.adapter.recycler;
+package lib.ys.adapter.VH;
 
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.View;
 
 import lib.ys.adapter.interfaces.IViewHolder;
 
-/**
- * RecycleView使用的机制跟原来的list完全不同, 需要一个单独的Ex
- *
- * @author yuansui
- */
-public class RecyclerViewHolderEx extends ViewHolder implements IViewHolder {
+abstract public class ViewHolderEx implements IViewHolder {
 
-    private View mBaseView;
+    private View mConvertView;
+
     private SparseArray<View> mMap;
 
-    public RecyclerViewHolderEx(View itemView) {
-        super(itemView);
-
-        mBaseView = itemView;
+    public ViewHolderEx(@NonNull View convertView) {
+        if (convertView == null) {
+            throw new IllegalStateException("convertView can not be null");
+        }
+        mConvertView = convertView;
         mMap = new SparseArray<>();
     }
 
     @Override
     public View getConvertView() {
-        return mBaseView;
+        return mConvertView;
     }
 
     @Override
     public <T extends View> T findView(int id) {
-        return (T) mBaseView.findViewById(id);
+        return (T) mConvertView.findViewById(id);
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import lib.ys.adapter.PagerAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.pager.AutoScrollViewPager;
 import lib.ys.view.pager.indicator.IconPageIndicator;

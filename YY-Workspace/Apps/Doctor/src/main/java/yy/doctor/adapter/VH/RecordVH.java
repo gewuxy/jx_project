@@ -3,7 +3,7 @@ package yy.doctor.adapter.VH;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 
 /**
  * 日期 : 2017/4/26

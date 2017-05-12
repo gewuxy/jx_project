@@ -29,9 +29,9 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.interceptor.Interceptor;
-import lib.ys.network.image.renderer.Renderer;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.network.image.renderer.CornerRenderer;
+import lib.ys.network.image.renderer.Renderer;
 
 /**
  * @author yuansui

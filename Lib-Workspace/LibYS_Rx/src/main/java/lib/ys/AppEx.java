@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import lib.network.Network;
 import lib.ys.config.AppConfig;
+import lib.ys.crash.CrashMgr;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ProcessUtil;
@@ -43,6 +44,14 @@ abstract public class AppEx extends Application {
         Network.init(this);
 
         mConfig = makeConfig();
+
+        if (enableCatchCrash()) {
+            CrashMgr.inst().init(e -> {
+                LogMgr.e(TAG, "handleCrashException", e);
+                handleCrash(e);
+                return true;
+            });
+        }
 
         init();
     }
@@ -121,6 +130,18 @@ abstract public class AppEx extends Application {
     }
 
     abstract protected String getNetworkImageCacheDir();
+
+    /**
+     * 是否允许捕捉异常
+     *
+     * @return
+     */
+    protected boolean enableCatchCrash() {
+        return false;
+    }
+
+    protected void handleCrash(Throwable e) {
+    }
 
     public void doDestroy() {
     }

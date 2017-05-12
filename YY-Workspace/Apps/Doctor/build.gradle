@@ -12,6 +12,18 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 6521
         versionName "6.5.21"
+
+        proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                // LibYS里的混淆, 相对路径为3级
+                '../../../Lib-Workspace/LibYS_Rx/proguard-ys.pro',
+                '../../../Lib-Workspace/LibYS_Rx/proguard-fresco.pro',
+                '../../../Lib-Workspace/LibYS_Rx/proguard-permission.pro',
+                '../../../Lib-Workspace/LibYS_Rx/proguard-lambda.pro',
+                '../../../Lib-Workspace/LibBD/proguard-baidu.pro',
+                // YaYa-Libs 里的混淆, 相对路径为2级
+//                '../../Libs/LibU-COMS/proguard-rules.pro',
+                // 本身的混淆
+                'proguard-rules.pro'
     }
 
     signingConfigs {
@@ -119,10 +131,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
-    //    compile project(':Lib-Workspace:LibNetwork_Rx')
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 }
 

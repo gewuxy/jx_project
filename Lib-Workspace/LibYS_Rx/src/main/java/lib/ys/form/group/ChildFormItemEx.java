@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View.OnClickListener;
 
 import lib.ys.ConstantsEx;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.form.FormItemEx;
 
 /**

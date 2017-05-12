@@ -12,7 +12,7 @@ import lib.network.model.NetworkRequest;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.model.EVal;

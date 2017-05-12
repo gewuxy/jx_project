@@ -13,7 +13,6 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
 import lib.ys.util.UIUtil;
@@ -31,9 +30,9 @@ public class GroupListOpt<T, A extends IGroupAdapter<T>> extends ListOpt<T, A> i
 
     private GroupListOptListener mListener;
 
-    public GroupListOpt(@NonNull GroupListOptListener<T, A> listener) {
-        super(listener);
-        mListener = listener;
+    public GroupListOpt(@NonNull GroupListOptListener<T, A> l) {
+        super(l);
+        mListener = l;
     }
 
     @CallSuper
@@ -174,9 +173,5 @@ public class GroupListOpt<T, A extends IGroupAdapter<T>> extends ListOpt<T, A> i
         }
 
         return true;
-    }
-
-    public ViewHolderEx getGroupCacheViewHolder(int groupPosition) {
-        return getAdapter().getGroupCacheViewHolder(groupPosition);
     }
 }

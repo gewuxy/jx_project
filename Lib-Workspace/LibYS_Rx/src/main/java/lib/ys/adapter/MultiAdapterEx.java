@@ -40,7 +40,8 @@ import lib.ys.util.view.ViewUtil;
  * @param <T>
  * @author yuansui
  */
-abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAdapter implements FitOpt, CommonOpt, IAdapter<T> {
+abstract public class MultiAdapterEx<T, VH extends IViewHolder> extends BaseAdapter
+        implements FitOpt, CommonOpt, IAdapter<T> {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -58,6 +59,10 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
 
     public MultiAdapterEx() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
+        if (mVHClass == null) {
+            throw new IllegalStateException("can not find view holder");
+        }
+
         mMapVH = new HashMap<>();
     }
 
@@ -294,7 +299,7 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
 
     // 内部查找
     @Nullable
-    private ViewHolderEx getCacheViewHolder(int position, int itemType) {
+    private VH getCacheVH(int position, int itemType) {
         for (KeeperVH keeper : mMapVH.values()) {
             if (keeper.mPosition == position && keeper.mItemType == itemType) {
                 return keeper.mHolder;
@@ -310,8 +315,8 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
      * @return 没有则返回null
      */
     @Nullable
-    public final ViewHolderEx getCacheViewHolder(int position) {
-        return getCacheViewHolder(position, getItemViewType(position));
+    public final VH getCacheVH(int position) {
+        return getCacheVH(position, getItemViewType(position));
     }
 
     /**
@@ -365,7 +370,7 @@ abstract public class MultiAdapterEx<T, VH extends ViewHolderEx> extends BaseAda
     }
 
     public interface OnCompoundBtnCheckListener {
-        public void onCompoundBtnCheck(int position, CompoundButton btn, boolean isChecked);
+        void onCompoundBtnCheck(int position, CompoundButton btn, boolean isChecked);
     }
 
     /**

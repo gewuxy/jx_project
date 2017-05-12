@@ -6,8 +6,6 @@ import org.json.JSONException;
 
 import java.util.List;
 
-import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;

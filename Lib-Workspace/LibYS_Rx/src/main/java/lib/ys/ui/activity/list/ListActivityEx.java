@@ -59,7 +59,7 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityE
 
     @Override
     public A getAdapter() {
-        return (A) mListOpt.getAdapter();
+        return mListOpt.getAdapter();
     }
 
     @Override

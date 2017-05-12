@@ -69,7 +69,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
 
         int id = v.getId();
         switch (id) {
@@ -104,7 +103,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-
         return JsonParser.ev(nr.getText(), Profile.class);
     }
 

@@ -109,7 +109,7 @@ public class BaseJsonParser extends JsonParserEx {
     }
 
     /**
-     * 直接解析成EVal的list, 来源于data->list的标签底下
+     * 直接解析成EVal的list
      *
      * @param text
      * @param clz

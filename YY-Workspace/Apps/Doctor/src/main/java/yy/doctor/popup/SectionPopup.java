@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import lib.ys.adapter.interfaces.OnRecyclerItemClickListener;
+import lib.ys.adapter.recycler.OnRecyclerItemClickListener;
 import lib.ys.fitter.DpFitter;
 import lib.ys.ui.other.PopupWindowEx;
 import lib.yy.view.GridDivider;

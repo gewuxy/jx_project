@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import lib.ys.adapter.AdapterEx;
-import lib.ys.adapter.ViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 

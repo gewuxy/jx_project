@@ -3,7 +3,7 @@ package yy.doctor.adapter.VH;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.adapter.recycler.RecyclerViewHolderEx;
+import lib.ys.adapter.VH.RecyclerViewHolderEx;
 import yy.doctor.R;
 
 /**

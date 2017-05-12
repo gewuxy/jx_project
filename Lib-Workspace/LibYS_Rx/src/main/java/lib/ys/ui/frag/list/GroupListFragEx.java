@@ -10,7 +10,6 @@ import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
-import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.frag.FragEx;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
@@ -356,11 +355,6 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     @Override
     public void setDividerHeight(int height) {
         mGroupListOpt.setDividerHeight(height);
-    }
-
-    @Override
-    public ViewHolderEx getGroupCacheViewHolder(int groupPosition) {
-        return mGroupListOpt.getGroupCacheViewHolder(groupPosition);
     }
 
     protected FloatingGroupListView getLv() {
