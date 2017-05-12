@@ -140,28 +140,29 @@ public class LayoutFitter {
 
         // 处理drawables
         Drawable[] drawables = tv.getCompoundDrawables();
-        if (drawables.length != 0) {
-            tv.setCompoundDrawablePadding(convert(tv.getCompoundDrawablePadding()));
-            /**
-             * FIXME 有一个bug, 就是如果tv是wrap_content的话, 可能会导致图片被放大以后显示不全
-             * (猜测是没有重新调用onMeasure的原因, 暂时不知如何修复)
-             * 为了避免这种情况, tv的height最好使用match_parent的属性, 如果不是这种属性的话, 就不做缩放处理了
-             */
-            if (tv.getLayoutParams() != null && tv.getLayoutParams().height == MATCH_PARENT) {
-                for (int i = 0; i < drawables.length; ++i) {
-                    Drawable d = drawables[i];
-                    if (d == null) {
-                        continue;
-                    }
-                    Rect bounds = d.getBounds();
-                    int left = convert(bounds.left);
-                    int top = convert(bounds.top);
-                    int right = convert(bounds.right);
-                    int bottom = convert(bounds.bottom);
-                    d.setBounds(left, top, right, bottom);
-                }
+        boolean drawableSet = false;
+        for (Drawable d : drawables) {
+            if (d == null) {
+                continue;
             }
+            drawableSet = true;
+
+            Rect bounds = d.getBounds();
+            int left = convert(bounds.left);
+            int top = convert(bounds.top);
+            int right = convert(bounds.right);
+            int bottom = convert(bounds.bottom);
+            d.setBounds(left, top, right, bottom);
         }
+
+        if (drawableSet) {
+            tv.setCompoundDrawables(drawables[0],
+                    drawables[1],
+                    drawables[2],
+                    drawables[3]);
+            tv.setCompoundDrawablePadding(convert(tv.getCompoundDrawablePadding()));
+        }
+
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, convert(tv.getTextSize()));
     }
 
