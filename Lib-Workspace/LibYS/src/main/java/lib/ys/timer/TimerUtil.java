@@ -1,4 +1,4 @@
-package lib.ys.timer;
+package lib.ys.timeTick;
 
 import android.os.Handler;
 import android.os.Looper;

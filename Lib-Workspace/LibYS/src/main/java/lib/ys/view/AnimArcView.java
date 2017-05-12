@@ -10,10 +10,10 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import lib.ys.R;
-import lib.ys.timer.InterpolatorUtil;
-import lib.ys.timer.InterpolatorUtil.InterpolatorType;
-import lib.ys.timer.TimerListener;
-import lib.ys.timer.TimerUtil;
+import lib.ys.timeTick.InterpolatorUtil;
+import lib.ys.timeTick.InterpolatorUtil.InterpolatorType;
+import lib.ys.timeTick.TimerListener;
+import lib.ys.timeTick.TimerUtil;
 
 
 public class AnimArcView extends View implements TimerListener {

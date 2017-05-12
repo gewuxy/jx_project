@@ -5,18 +5,21 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
 import lib.ys.R;
-import lib.ys.timer.InterpolatorUtil;
-import lib.ys.timer.InterpolatorUtil.InterpolatorType;
-import lib.ys.timer.TimerListener;
-import lib.ys.timer.TimerUtil;
+import lib.ys.timeTick.OnTimeTickListener;
+import lib.ys.timeTick.TimeInterpolator;
+import lib.ys.timeTick.TimeInterpolator.InterpolatorType;
+import lib.ys.timeTick.TimeTicker;
 
-
-public class AnimArcView extends View implements TimerListener {
+/**
+ * 动画形式绘制扇形
+ */
+public class AnimArcView extends View implements OnTimeTickListener {
 
     private static final long KDuration = 500;
 
@@ -37,11 +40,11 @@ public class AnimArcView extends View implements TimerListener {
     private int mStartAngle = 0;
     private int mCurrSweepAngle = 0;
 
-    private int mWidth;
-    private int mHeight;
+    private int mW;
+    private int mH;
 
-    private InterpolatorUtil mInterpolatorUtil;
-    private TimerUtil mTimerUtil;
+    private TimeInterpolator mTimeInterpolator;
+    private TimeTicker mTimeTicker;
 
     public AnimArcView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -63,34 +66,31 @@ public class AnimArcView extends View implements TimerListener {
     }
 
     private void init() {
-        mInterpolatorUtil = new InterpolatorUtil();
-        mInterpolatorUtil.setAttrs(KDuration, InterpolatorType.linear, 0);
-
-        mTimerUtil = new TimerUtil(this);
+        mTimeInterpolator = TimeInterpolator.create(InterpolatorType.linear);
+        mTimeTicker = new TimeTicker(this);
 
         mPaintArc = new Paint();
         mPaintArc.setAntiAlias(true);
         mPaintArc.setColor(mStrokeColor);
         mPaintArc.setStrokeWidth(mStrokeWidth);
-        mPaintArc.setStyle(Paint.Style.STROKE);
+        mPaintArc.setStyle(Style.STROKE);
 
         mPaintBg = new Paint();
         mPaintBg.setAntiAlias(true);
         mPaintBg.setColor(mStrokeBgColor);
         mPaintBg.setStrokeWidth(mStrokeWidth);
-        mPaintBg.setStyle(Paint.Style.STROKE);
+        mPaintBg.setStyle(Style.STROKE);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        // TODO: 验证效果, 由preDrawLsn改到这里
-        mWidth = getMeasuredWidth();
-        mHeight = getMeasuredHeight();
+        mW = getMeasuredWidth();
+        mH = getMeasuredHeight();
 
-        int xCenter = mWidth / 2;
-        int yCenter = mHeight / 2;
+        int xCenter = mW / 2;
+        int yCenter = mH / 2;
 
         mRadius = xCenter > yCenter ? yCenter : xCenter;
         mRadius -= mStrokeWidth / 2;
@@ -105,24 +105,22 @@ public class AnimArcView extends View implements TimerListener {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
         if (mDrawBg) {
-            canvas.drawCircle(mWidth / 2, mHeight / 2, mRadius, mPaintBg);
+            canvas.drawCircle(mW / 2, mH / 2, mRadius, mPaintBg);
         }
 
         canvas.drawArc(mArc, mStartAngle, mCurrSweepAngle, false, mPaintArc);
     }
 
     @Override
-    public void onTimerTick() {
-        float interpolation = mInterpolatorUtil.getInterpolation();
+    public void onTimeTick() {
+        float interpolation = mTimeInterpolator.getInterpolation();
         mCurrSweepAngle = (int) (mSweepAngle * interpolation);
 
         invalidate();
 
-        if (interpolation == InterpolatorUtil.KMax) {
-            mTimerUtil.stop();
+        if (interpolation == TimeInterpolator.KMax) {
+            mTimeTicker.stop();
         }
     }
 
@@ -148,13 +146,12 @@ public class AnimArcView extends View implements TimerListener {
      */
     public void start(long duration) {
         mCurrSweepAngle = 0;
-        mInterpolatorUtil.setAttrs(duration, InterpolatorType.linear, 0);
-        mInterpolatorUtil.start();
-        mTimerUtil.start();
+        mTimeInterpolator.start(duration);
+        mTimeTicker.start();
     }
 
     public void reset() {
-        mTimerUtil.stop();
+        mTimeTicker.stop();
         mCurrSweepAngle = 0;
         invalidate();
     }

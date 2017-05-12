@@ -1,4 +1,4 @@
-package lib.ys.timer;
+package lib.ys.timeTick;
 
 import android.support.annotation.IntDef;
 import android.view.animation.AccelerateInterpolator;

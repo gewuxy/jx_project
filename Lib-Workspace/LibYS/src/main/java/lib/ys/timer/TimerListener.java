@@ -1,4 +1,4 @@
-package lib.ys.timer;
+package lib.ys.timeTick;
 
 import java8.lang.FunctionalInterface;
 

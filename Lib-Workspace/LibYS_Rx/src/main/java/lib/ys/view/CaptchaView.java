@@ -7,10 +7,10 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 /**
  * 验证码的view
@@ -29,7 +29,7 @@ public class CaptchaView extends TextView {
 
     private int mMaxCount = KMaxCount;
 
-    private DisposableObserver<Long> mDisposable;
+    private DisposableSubscriber<Long> mSub;
 
     public CaptchaView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,12 +40,25 @@ public class CaptchaView extends TextView {
         if (isInEditMode()) {
             return;
         }
+    }
 
-        mDisposable = new DisposableObserver<Long>() {
+    public void start() {
+        dispose();
+
+        Flowable.interval(1, TimeUnit.SECONDS)
+                .take(mMaxCount + 1) // 多一秒
+                .map(aLong -> mMaxCount - aLong) // 转换成倒数的时间
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> setEnabled(false)) // 开始计时后不可点击
+                .subscribe(createSub());
+    }
+
+    private DisposableSubscriber<Long> createSub() {
+        mSub = new DisposableSubscriber<Long>() {
 
             @Override
             public void onNext(@NonNull Long aLong) {
-                setText(mResendText + KPrefix + (mMaxCount - aLong) + KSuffix);
+                setText(mResendText + KPrefix + aLong + KSuffix);
             }
 
             @Override
@@ -58,23 +71,21 @@ public class CaptchaView extends TextView {
                 setText(mResendText);
             }
         };
-    }
 
-    public void start() {
-        setEnabled(false);
-
-        Observable.intervalRange(0, mMaxCount, 0, 1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mDisposable);
+        return mSub;
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
-            mDisposable = null;
+        dispose();
+    }
+
+    private void dispose() {
+        if (mSub != null && !mSub.isDisposed()) {
+            mSub.dispose();
+            mSub = null;
         }
     }
 
