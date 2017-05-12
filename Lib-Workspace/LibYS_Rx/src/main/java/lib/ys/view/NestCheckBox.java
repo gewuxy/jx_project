@@ -47,18 +47,14 @@ public class NestCheckBox extends LinearLayout {
                 // 要取消Cb本身的点击功能
                 mCb.setClickable(false);
 
-                setOnClickListener(new OnClickListener() {
+                setOnClickListener(v -> {
+                    boolean isChecked = mCb.isChecked();
+                    mCb.toggle();
 
-                    @Override
-                    public void onClick(View v) {
-                        boolean isChecked = mCb.isChecked();
-                        mCb.toggle();
+                    refreshBgState();
 
-                        refreshBgState();
-
-                        if (mListener != null) {
-                            mListener.onCheckedChanged(mCb, !isChecked);
-                        }
+                    if (mListener != null) {
+                        mListener.onCheckedChanged(mCb, !isChecked);
                     }
                 });
 

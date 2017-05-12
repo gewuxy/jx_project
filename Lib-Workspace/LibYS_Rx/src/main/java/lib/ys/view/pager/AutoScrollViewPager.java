@@ -12,7 +12,7 @@ import lib.ys.util.view.ViewUtil;
 import lib.ys.util.view.ViewUtil.FixedSpeedScroller;
 
 /**
- * AutoScrollViewPager 自动滚动的ViewPager 搭配着 Pageindicator 使用
+ * AutoScrollViewPager 自动滚动的ViewPager 搭配着 {@link lib.ys.view.pager.indicator.PageIndicator} 使用
  */
 public class AutoScrollViewPager extends ViewPager {
 

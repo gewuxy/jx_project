@@ -58,8 +58,8 @@ public class ToggleButton extends View implements OnClickListener {
     private float mInterpolation;
     private AnimatorListener mEndListener;
 
-    private int mWidth;
-    private int mHeight;
+    private int mW;
+    private int mH;
 
     private View mCurrView;
 
@@ -96,12 +96,12 @@ public class ToggleButton extends View implements OnClickListener {
             if (check) {
                 mCircleEdgeP.setColor(mColorCheck);
                 mInterpolation = 1;
-                startNative(0, 1, smooth ? KDuration : 0);
+                nativeStart(0, 1, smooth ? KDuration : 0);
             } else {
                 mCircleEdgeP.setColor(mColorUnCheck);
 
                 mInterpolation = 0;
-                startNative(1, 0, smooth ? KDuration : 0);
+                nativeStart(1, 0, smooth ? KDuration : 0);
             }
         }
     }
@@ -163,24 +163,25 @@ public class ToggleButton extends View implements OnClickListener {
 
         if (getViewTreeObserver().isAlive()) {
             getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+
                 @Override
                 public boolean onPreDraw() {
-                    mWidth = getMeasuredWidth();
-                    mHeight = getMeasuredHeight();
+                    mW = getMeasuredWidth();
+                    mH = getMeasuredHeight();
 
-                    if (mWidth == 0 || mHeight == 0) {
+                    if (mW == 0 || mH == 0) {
                         return true;
                     }
 
-                    mCircleCenterY = mHeight / 2;
+                    mCircleCenterY = mH / 2;
                     mRadius = mCircleCenterY;
 
                     computeCenter(mInterpolation);
 
-                    mRectF = new RectF(mEdgeStrokeWidth, mEdgeStrokeWidth, mWidth - mEdgeStrokeWidth, mHeight - mEdgeStrokeWidth);
+                    mRectF = new RectF(mEdgeStrokeWidth, mEdgeStrokeWidth, mW - mEdgeStrokeWidth, mH - mEdgeStrokeWidth);
                     mRectPath.addRoundRect(mRectF, mRadius - mEdgeStrokeWidth / 2, mRadius - mEdgeStrokeWidth / 2, Direction.CCW);
 
-                    mEdgeRectF = new RectF(0, 0, mWidth, mHeight);
+                    mEdgeRectF = new RectF(0, 0, mW, mH);
                     mEdgePath.addRoundRect(mEdgeRectF, mRadius, mRadius, Direction.CCW);
 
                     getViewTreeObserver().removeOnPreDrawListener(this);
@@ -194,7 +195,7 @@ public class ToggleButton extends View implements OnClickListener {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mWidth == 0 || mHeight == 0) {
+        if (mW == 0 || mH == 0) {
             return;
         }
 
@@ -208,8 +209,8 @@ public class ToggleButton extends View implements OnClickListener {
         //
         computeCenter(mInterpolation);
         int count = canvas.save();
-        canvas.clipRect(mCircleCenterX, 0, mWidth, mHeight);
-        canvas.scale(1 - mInterpolation, 1 - mInterpolation, mWidth / 2, mCircleCenterY/*(实际上是mHeight / 2)*/);
+        canvas.clipRect(mCircleCenterX, 0, mW, mH);
+        canvas.scale(1 - mInterpolation, 1 - mInterpolation, mW / 2, mCircleCenterY/*(实际上是mHeight / 2)*/);
         mPaint.setColor(Color.WHITE);
         canvas.drawPath(mRectPath, mPaint);
         canvas.restoreToCount(count);
@@ -221,10 +222,10 @@ public class ToggleButton extends View implements OnClickListener {
     }
 
     private void computeCenter(float interpolation) {
-        mCircleCenterX = mRadius + (int) ((mWidth - mRadius * 2) * interpolation);
+        mCircleCenterX = mRadius + (int) ((mW - mRadius * 2) * interpolation);
     }
 
-    private void startNative(float from, float to, int duration) {
+    private void nativeStart(float from, float to, int duration) {
         ValueAnimator animator = AnimateUtil.ofFloatValue(from, to, duration);
         animator.setInterpolator(new LinearInterpolator());
         animator.addUpdateListener(mAnimListener);
