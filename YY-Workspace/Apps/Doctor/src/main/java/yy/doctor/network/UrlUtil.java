@@ -61,7 +61,8 @@ public class UrlUtil {
     }
 
     public interface UrlHome {
-        String Banner = "banner";
+        String KBanner = "banner";
+        String KRecommendMeeting = "meet/tuijian";
     }
 
     public interface UrlMeet {
@@ -98,7 +99,7 @@ public class UrlUtil {
     public interface UrlUnitNum {
         String KUnitNum = "publicAccount/mySubscribe";
         String KAttention = "publicAccount/SubscribeOrNot";
-        String KUnitNumDetail = "publicAccount/findInfo";
+        String KUnitNumDetail = "publicAccount/unitInfo";
     }
 
     public interface UrlSearch {

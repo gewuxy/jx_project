@@ -2,9 +2,6 @@ package yy.doctor.frag.data;
 
 import android.view.View;
 
-import org.json.JSONException;
-
-import lib.ys.network.resp.IListResponse;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
@@ -17,6 +14,8 @@ import yy.doctor.adapter.ThomsonLibAdapter;
  * @since 2017/4/24
  */
 public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
+
+    private String mStrName;
 
     @Override
     public void initData() {
@@ -34,6 +33,12 @@ public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
     @Override
     public View createHeaderView() {
         return ViewUtil.inflateSpaceViewDp(8);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+
     }
 
     @Override

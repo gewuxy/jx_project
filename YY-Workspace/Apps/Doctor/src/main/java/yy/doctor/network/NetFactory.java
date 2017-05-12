@@ -92,7 +92,7 @@ public class NetFactory {
         String KNickname = "nickname";   //用户昵称
         String KLinkman = "linkman";   //真实姓名
         String KMobile = "mobile";    //手机号
-        String KHeadImg = "headimg";   //头像地址
+        String KHeadImgUrl = "headimg";   //头像地址
         String KProvince = "province";   //省份
         String KCity = "city";    //城市
         String KLicence = "licence";   //执业许可证
@@ -125,6 +125,8 @@ public class NetFactory {
 
     private interface UnitNumDetailParam {
         String KId = "id";  //单位号id
+        String KPageNum = "pageNum";  //页数
+        String KPageSize = "pageSize";  //条数
     }
 
     private interface SearchParam {
@@ -209,6 +211,15 @@ public class NetFactory {
     }
 
     /**
+     * 首页推荐会议
+     * @return
+     */
+    public static NetworkRequest recommendMeeting(){
+        return newGet(UrlHome.KRecommendMeeting)
+                .build();
+    }
+
+    /**
      * 个人信息
      *
      * @return
@@ -224,7 +235,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkRequest banner(int type) {
-        return newGet(UrlHome.Banner)
+        return newGet(UrlHome.KBanner)
                 .build();
     }
 
@@ -358,13 +369,16 @@ public class NetFactory {
 
     /**
      * 单位号详情
-     *
      * @param id
+     * @param page
+     * @param size
      * @return
      */
-    public static NetworkRequest unitNumDetail(int id) {
+    public static NetworkRequest unitNumDetail(int id, int page, int size) {
         return newGet(UrlUnitNum.KUnitNumDetail)
                 .param(UnitNumDetailParam.KId, id)
+                .param(UnitNumDetailParam.KPageNum, page)
+                .param(UnitNumDetailParam.KPageSize, size)
                 .build();
     }
 
@@ -384,7 +398,7 @@ public class NetFactory {
      * @param keyword
      * @return
      */
-    public static NetworkRequest searchUnitnum(String keyword) {
+    public static NetworkRequest searchUnitNum(String keyword) {
         return newPost(UrlSearch.KSearchUnitNum)
                 .param(SearchParam.KKeyword, keyword)
                 .build();
@@ -407,7 +421,6 @@ public class NetFactory {
                 .param(MeetParam.KMeetId, meetId)
                 .build();
     }
-
 
     public static NetworkRequest toBase(String url, String meetId, String moduleId) {
         return newGet(url)

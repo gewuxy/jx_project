@@ -1,0 +1,30 @@
+{
+  "code": "0",
+  "data": {
+    "attentionNum": 2,
+    "headimg": "",
+    "id": 8,
+    "materialDTOList": [
+      {
+        "id": 9,
+        "materialName": "广州日报",
+        "materialUrl": "www.guangzhou.com"
+      },
+      {
+        "id": 7,
+        "materialName": "人民日报",
+        "materialUrl": "www.test.com"
+      }
+    ],
+    "materialNum": 2,
+    "meetingDTOList": [
+      {
+        "id": "17042112132942370437",
+        "meetName": "测试会议",
+        "meetType": "儿科",
+        "publishTime": 1492748009000
+      }
+    ],
+    "nickname": "中山测试单位号"
+  }
+}

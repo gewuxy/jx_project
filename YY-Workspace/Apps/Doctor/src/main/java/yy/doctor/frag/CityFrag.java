@@ -1,6 +1,5 @@
 package yy.doctor.frag;
 
-import android.graphics.Color;
 import android.view.View;
 
 import lib.ys.config.AppConfig.RefreshWay;
@@ -33,8 +32,7 @@ public class CityFrag extends BaseSRListFrag<City, CityAdapter> {
     public void setViews() {
         super.setViews();
 
-        setBackgroundColor(Color.WHITE);
-
+        setDividerHeight(fitDp(0));
         enableSRRefresh(false);
         enableAutoLoadMore(false);
     }

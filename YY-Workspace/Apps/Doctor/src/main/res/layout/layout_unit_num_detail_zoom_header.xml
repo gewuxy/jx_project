@@ -15,7 +15,7 @@
         android:layout_marginTop="54dp"/>
 
     <TextView
-        android:id="@+id/unit_num_tv_name"
+        android:id="@+id/unit_num_detail_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"

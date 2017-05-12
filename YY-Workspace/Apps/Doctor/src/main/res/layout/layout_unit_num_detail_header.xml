@@ -89,17 +89,18 @@
             android:id="@+id/unit_num_detail_tv_file_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.58"
             android:gravity="right"
-            android:text="其他18个文件"
             android:textColor="@color/text_888"
             android:textSize="10dp"/>
 
         <ImageView
+            android:id="@+id/unit_num_detail_iv_arrow"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
+            android:visibility="gone"
             android:src="@mipmap/unit_num_detail_ic_arrow"/>
 
     </LinearLayout>
@@ -108,54 +109,13 @@
         style="@style/divider"/>
 
     <LinearLayout
-        android:id="@+id/unit_num_detail_layout_file_one"
-        style="@style/v.data">
-
-        <ImageView
-            style="@style/iv.data"/>
-
-        <TextView
-            android:id="@+id/unit_num_detail_tv_file_name1"
-            style="@style/tv.data"
-            android:text="东莞市大声道胜多负少"/>
-
-    </LinearLayout>
+        android:id="@+id/unit_num_detail_file_layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
 
     <View
-        style="@style/divider"/>
-
-    <LinearLayout
-        android:id="@+id/unit_num_detail_layout_file_two"
-        style="@style/v.data">
-
-        <ImageView
-            style="@style/iv.data"/>
-
-        <TextView
-            android:id="@+id/unit_num_detail_tv_file_name2"
-            style="@style/tv.data"
-            android:text="东莞市大声道胜多负少"/>
-
-    </LinearLayout>
-
-    <View
-        style="@style/divider"/>
-
-    <LinearLayout
-        android:id="@+id/unit_num_detail_layout_file_three"
-        style="@style/v.data">
-
-        <ImageView
-            style="@style/iv.data"/>
-
-        <TextView
-            android:id="@+id/unit_num_detail_tv_file_name3"
-            style="@style/tv.data"
-            android:text="东莞市大声道胜多负少"/>
-
-    </LinearLayout>
-
-    <View
+        android:id="@+id/unit_num_detail_large_divider"
         android:layout_width="match_parent"
         android:layout_height="8dp"/>
 

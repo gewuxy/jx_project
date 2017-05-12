@@ -31,6 +31,7 @@ public class ProvinceFrag extends BaseSRListFrag<Province, ProvinceAdapter> {
     public void setViews() {
         super.setViews();
 
+        setDividerHeight(fitDp(0));
         enableSRRefresh(false);
         enableAutoLoadMore(false);
     }

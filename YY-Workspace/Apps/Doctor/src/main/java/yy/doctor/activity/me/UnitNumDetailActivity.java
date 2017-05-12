@@ -1,22 +1,30 @@
 package yy.doctor.activity.me;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResponse;
+import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.NestCheckBox;
 import lib.yy.activity.base.BaseListActivity;
@@ -26,6 +34,11 @@ import yy.doctor.R;
 import yy.doctor.adapter.UnitNumDetailAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
+import yy.doctor.model.unitnum.UnitNumDetail;
+import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
+import yy.doctor.model.unitnum.UnitNumDetailDatum;
+import yy.doctor.model.unitnum.UnitNumDetailDatum.TUnitNumDetailDatum;
+import yy.doctor.model.unitnum.UnitNumDetailMeeting;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -36,7 +49,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/4/25
  */
-public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetailAdapter> {
+public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting, UnitNumDetailAdapter> {
 
     private static final int KColorNormal = Color.parseColor("#666666");
     private static final int KColorCancel = Color.parseColor("#01b557");
@@ -46,13 +59,25 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
     private NetworkImageView mIvZoom;
     private NetworkImageView mIvAvatar;
     private View mLayoutHeaderRoot;
-    private NestCheckBox mCbAttention;
+    private NestCheckBox mCBAttention;
+    private TextView mTvName;
+    private TextView mTvAttentionNum;
+    private TextView mTvAddress;
+    private TextView mTvIntroduction;
+    private TextView mTvFileNum;
+
+    private View mVFileLayout;
+    private ImageView mIvArrrow;
+    private LinearLayout mLayoutFile;
+    private View mVLargeDivider;
+
+
+
+    private UnitNumDetail mUnitNumDetail;
 
     @Override
     public void initData() {
-        for (int i = 0; i < 5; ++i) {
-            addItem(i + "");
-        }
+
     }
 
     @Override
@@ -99,7 +124,18 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
         mIvZoom = findView(R.id.unit_num_detail_zoom_iv);
         mIvAvatar = findView(R.id.unit_num_detail_iv_avatar);
         mLayoutHeaderRoot = findView(R.id.unit_num_zoom_header_root);
-        mCbAttention = findView(R.id.unit_num_detail_check_box_attention);
+        mCBAttention = findView(R.id.unit_num_detail_check_box_attention);
+        mTvName = findView(R.id.unit_num_detail_tv_name);
+        mTvAttentionNum = findView(R.id.unit_num_deatil_tv_attention_num);
+        mTvAddress = findView(R.id.unit_num_detail_tv_address);
+        mTvIntroduction = findView(R.id.unit_num_detail_tv_introduction);
+
+        mTvFileNum = findView(R.id.unit_num_detail_tv_file_num);
+        mVFileLayout = findView(R.id.unit_num_detail_layout_file);
+        mIvArrrow = findView(R.id.unit_num_detail_iv_arrow);
+        mLayoutFile = findView(R.id.unit_num_detail_file_layout_content);
+        mVLargeDivider = findView(R.id.unit_num_detail_large_divider);
+
     }
 
     @Override
@@ -110,6 +146,8 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
     @Override
     public void setViews() {
         super.setViews();
+
+        exeNetworkRequest(0, NetFactory.unitNumDetail(8, 1, 8));
 
         mZoomView.setZoomEnabled(true);
 
@@ -139,23 +177,20 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
             }
         });
 
-        mCbAttention.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mCBAttention.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-                    mCbAttention.getRealCheckBox().setText("已关注");
+                    mCBAttention.getRealCheckBox().setText("已关注");
                 } else {
-                    mCbAttention.getRealCheckBox().setText("关注");
+                    mCBAttention.getRealCheckBox().setText("关注");
                 }
 
             }
         });
 
         setOnClickListener(R.id.unit_num_detail_layout_file);
-        setOnClickListener(R.id.unit_num_detail_layout_file_one);
-        setOnClickListener(R.id.unit_num_detail_layout_file_two);
-        setOnClickListener(R.id.unit_num_detail_layout_file_three);
 
     }
 
@@ -164,24 +199,12 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
         super.onClick(v);
 
         int id = v.getId();
-        switch (id) {
+        /*switch (id) {
             case R.id.unit_num_detail_layout_file: {
                 startActivity(UnitNumDataActivity.class);
             }
             break;
-            case R.id.unit_num_detail_layout_file_one: {
-                startActivity(UnitNumDataDetailActivity.class);
-            }
-            break;
-            case R.id.unit_num_detail_layout_file_two: {
-                startActivity(UnitNumDataDetailActivity.class);
-            }
-            break;
-            case R.id.unit_num_detail_layout_file_three: {
-                startActivity(UnitNumDataDetailActivity.class);
-            }
-            break;
-        }
+        }*/
     }
 
     @Override
@@ -217,7 +240,6 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
                     exeNetworkRequest(1, NetFactory.attention(14, 0));
                 }
 
-
             }
         });
 
@@ -234,14 +256,77 @@ public class UnitNumDetailActivity extends BaseListActivity<String, UnitNumDetai
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.error(nr.getText());
+
+        if (id == 0) {
+            return JsonParser.ev(nr.getText(), UnitNumDetail.class);
+        } else {
+            return JsonParser.error(nr.getText());
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Response r = (Response) result;
-        if (r.isSucceed()) {
-            showToast("成功");
+
+        if (id == 0) {
+            Response<UnitNumDetail> r = (Response<UnitNumDetail>) result;
+            mUnitNumDetail = r.getData();
+            mTvName.setText(mUnitNumDetail.getString(TUnitNumDetail.nickname));
+            mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
+            mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + "-" + mUnitNumDetail.getString(TUnitNumDetail.city));
+
+            List<UnitNumDetailDatum> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
+            int listSize = listFile.size();
+            if (listFile == null) {
+                hideView(mVFileLayout);
+                hideView(mVLargeDivider);
+            }
+
+            for (int i = 0; i < listFile.size() && i < 3; i++) {
+                addFile(listFile.get(i).getString(TUnitNumDetailDatum.materialName), new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //startActivity(UnitNumDataDetailActivity.class);
+                        File file = new File("sd");
+                        Uri path = Uri.fromFile(file);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(path, "application/pdf");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
+            }
+            if (listSize >= 3) {
+                mTvFileNum.setText("查看其他" + (listSize-3) + "个文件");
+                showView(mIvArrrow);
+                mVFileLayout.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(UnitNumDataActivity.class);
+                    }
+                });
+
+            }
+
+            setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
+
+        } else {
+            Response r = (Response) result;
+            if (r.isSucceed()) {
+                showToast("成功");
+            }
         }
     }
+
+    public void addFile(CharSequence text, OnClickListener l) {
+
+        View v = getLayoutInflater().inflate(R.layout.layout_unit_num_detail_file_item, null);
+
+        TextView tv = (TextView) v.findViewById(R.id.unit_num_detail_file_item_tv_name);
+        tv.setText(text);
+        v.setOnClickListener(l);
+
+        LayoutFitter.fit(v);
+        mLayoutFile.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
+    }
+
 }

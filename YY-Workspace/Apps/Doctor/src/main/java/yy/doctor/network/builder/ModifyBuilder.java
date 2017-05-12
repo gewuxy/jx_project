@@ -53,11 +53,11 @@ public class ModifyBuilder {
     /**
      * 头像地址
      *
-     * @param headimg
+     * @param headImgUrl
      * @return
      */
-    public ModifyBuilder headimg(String headimg) {
-        mBuilder.param(ProfileParam.KHeadImg, headimg);
+    public ModifyBuilder headImgUrl(String headImgUrl) {
+        mBuilder.param(ProfileParam.KHeadImgUrl, headImgUrl);
         return this;
     }
 
