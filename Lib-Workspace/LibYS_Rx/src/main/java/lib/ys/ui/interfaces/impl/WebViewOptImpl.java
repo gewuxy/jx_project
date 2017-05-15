@@ -31,7 +31,6 @@ import lib.ys.util.view.ViewUtil;
 
 public class WebViewOptImpl {
 
-    private WebSettings mSettings;
     private IWebViewHost mHost;
 
     public ValueCallback<Uri> mUploadMessage;
@@ -58,12 +57,14 @@ public class WebViewOptImpl {
 		/*
          * 设置web view的属性
 		 */
-        mSettings.setCacheMode(mHost.getCacheMode());
-        mSettings.setJavaScriptEnabled(mHost.enableJs());
-        mSettings.setUseWideViewPort(mHost.enableScale());
-        mSettings.setBuiltInZoomControls(mHost.enableBuiltInZoomControls());
-        mSettings.setDomStorageEnabled(mHost.enableDomStorage());
-        mSettings.setAllowFileAccess(true);
+        WebSettings settings = webView.getSettings();
+
+        settings.setCacheMode(mHost.getCacheMode());
+        settings.setJavaScriptEnabled(mHost.enableJs());
+        settings.setUseWideViewPort(mHost.enableScale());
+        settings.setBuiltInZoomControls(mHost.enableBuiltInZoomControls());
+        settings.setDomStorageEnabled(mHost.enableDomStorage());
+        settings.setAllowFileAccess(true);
 
 
         webView.setScrollBarStyle(mHost.getScrollBarStyle());

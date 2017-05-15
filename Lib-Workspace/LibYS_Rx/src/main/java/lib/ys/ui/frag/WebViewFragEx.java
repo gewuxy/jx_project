@@ -39,6 +39,8 @@ abstract public class WebViewFragEx extends FragEx implements IWebViewHost {
     public void setViews() {
         mImpl = new WebViewOptImpl(this);
         mImpl.setViews(mProgressBar, mWebView);
+
+        onLoadStart();
     }
 
     /**

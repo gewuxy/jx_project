@@ -37,6 +37,8 @@ abstract public class WebViewActivityEx extends ActivityEx implements IWebViewHo
     public void setViews() {
         mImpl = new WebViewOptImpl(this);
         mImpl.setViews(mProgressBar, mWebView);
+
+        onLoadStart();
     }
 
     /**
