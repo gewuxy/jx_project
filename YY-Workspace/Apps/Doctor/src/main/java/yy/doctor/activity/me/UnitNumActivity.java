@@ -5,7 +5,7 @@ import android.widget.ExpandableListView;
 
 import org.json.JSONException;
 
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
@@ -47,7 +47,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     }
 
     @Override
-    public IListResponse<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResp<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
         return JsonParser.groupIndex(text, GroupUnitNum.class, TUnitNum.alpha);
     }
 }

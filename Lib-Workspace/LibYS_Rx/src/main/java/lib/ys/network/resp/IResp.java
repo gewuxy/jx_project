@@ -3,7 +3,7 @@ package lib.ys.network.resp;
 /**
  * @author yuansui
  */
-public interface IResponse<T> {
+public interface IResp<T> {
 
     void setData(T data);
 

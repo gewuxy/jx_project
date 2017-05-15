@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import lib.network.model.NetworkResponse;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -131,7 +131,7 @@ public class EpnRechargeActivity extends BaseActivity {
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
 
-        Response<EpnRecharge> r = (Response<EpnRecharge>) result;
+        Resp<EpnRecharge> r = (Resp<EpnRecharge>) result;
 
         if (r.isSucceed()) {
             showToast("象数充值成功");

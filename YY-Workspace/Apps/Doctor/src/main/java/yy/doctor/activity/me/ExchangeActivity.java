@@ -14,7 +14,7 @@ import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseFormActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
@@ -183,7 +183,7 @@ public class ExchangeActivity extends BaseFormActivity {
         super.onNetworkSuccess(id, result);
 
         stopRefresh();
-        Response<Exchange> r = (Response<Exchange>) result;
+        Resp<Exchange> r = (Resp<Exchange>) result;
 
         if (r.isSucceed()) {
             showToast("兑换成功");

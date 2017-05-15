@@ -16,7 +16,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.ToastUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.R;
 import yy.doctor.model.exam.Course;
 import yy.doctor.model.exam.Course.TCourse;
@@ -107,7 +107,7 @@ public class MeetingPPTActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
-        Response<Ppt> r = (Response<Ppt>) result;
+        Resp<Ppt> r = (Resp<Ppt>) result;
         if (r.isSucceed()) {
             Ppt data = r.getData();
             Course course = data.getEv(TPpt.course);

@@ -11,7 +11,7 @@ import lib.ys.model.MapList;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.yy.network.BaseJsonParser;
-import lib.yy.network.ListResponse;
+import lib.yy.network.ListResp;
 import yy.doctor.model.BaseGroup;
 import yy.doctor.model.home.Home;
 import yy.doctor.model.home.HomeMeeting;
@@ -22,8 +22,8 @@ import yy.doctor.model.home.HomeMeeting;
  */
 public class JsonParser extends BaseJsonParser {
 
-    public static ListResponse<Home> home(String text) throws JSONException {
-        ListResponse<Home> r = new ListResponse<>();
+    public static ListResp<Home> home(String text) throws JSONException {
+        ListResp<Home> r = new ListResp<>();
 
         JSONObject jsonObject = new JSONObject(text);
         JSONArray array = jsonObject.optJSONArray("");
@@ -52,12 +52,12 @@ public class JsonParser extends BaseJsonParser {
      * @return
      * @throws JSONException
      */
-    public static <E extends Enum<E>, C extends EVal<E>, T extends BaseGroup<C>> ListResponse<T> groupIndex(String text, Class<T> groupClz, E key) throws JSONException {
-        ListResponse<T> retResp = new ListResponse<>();
+    public static <E extends Enum<E>, C extends EVal<E>, T extends BaseGroup<C>> ListResp<T> groupIndex(String text, Class<T> groupClz, E key) throws JSONException {
+        ListResp<T> retResp = new ListResp<>();
 
         Class<C> childClz = GenericUtil.getClassType(groupClz);
 
-        ListResponse<C> r = evs(text, childClz);
+        ListResp<C> r = evs(text, childClz);
         retResp.setCode(r.getCode());
         retResp.setError(r.getError());
 

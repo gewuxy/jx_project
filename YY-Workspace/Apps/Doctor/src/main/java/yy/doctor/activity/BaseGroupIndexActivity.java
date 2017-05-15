@@ -11,7 +11,7 @@ import lib.network.model.NetworkResponse;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
-import lib.yy.network.ListResponse;
+import lib.yy.network.ListResp;
 import yy.doctor.R;
 import yy.doctor.model.BaseGroup;
 
@@ -88,7 +88,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup,  A extends IGr
 
     @Override
     public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        ListResponse<T> r = (ListResponse<T>) super.onNetworkResponse(id, nr);
+        ListResp<T> r = (ListResp<T>) super.onNetworkResponse(id, nr);
 
         if (r.isSucceed()) {
             List<T> data = r.getData();

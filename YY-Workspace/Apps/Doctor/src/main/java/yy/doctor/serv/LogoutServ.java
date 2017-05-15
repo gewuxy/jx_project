@@ -8,7 +8,7 @@ import org.json.JSONException;
 import lib.network.model.NetworkResponse;
 import lib.network.model.Retry;
 import lib.ys.service.ServiceEx;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.model.Logout;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -36,7 +36,7 @@ public class LogoutServ extends ServiceEx {
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
 
-        Response<Logout> r = (Response<Logout>) result;
+        Resp<Logout> r = (Resp<Logout>) result;
 
         if (r.isSucceed()) {
             SpUser.inst().clear();

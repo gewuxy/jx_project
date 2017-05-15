@@ -14,7 +14,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
-import lib.yy.network.ListResponse;
+import lib.yy.network.ListResp;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.adapter.CommentAdapter;
@@ -92,7 +92,7 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
         if (id == KHistories) {
-            ListResponse<Comment> r = (ListResponse<Comment>) result;
+            ListResp<Comment> r = (ListResp<Comment>) result;
             List<Comment> data = r.getData();
             for (Comment histories : data) {
                 LogMgr.d(TAG, histories.getString(TComment.message));

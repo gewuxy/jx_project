@@ -8,7 +8,7 @@ import java.util.List;
 import lib.network.model.NetworkResponse;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.R;
 import yy.doctor.model.exam.Answer;
 import yy.doctor.model.exam.Answer.TAnswer;
@@ -70,7 +70,7 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Response response = (Response) result;
+        Resp response = (Resp) result;
         if (response.isSucceed()) {
             showToast("成功" + response.getCode());
         } else {

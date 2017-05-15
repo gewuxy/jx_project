@@ -13,7 +13,7 @@ import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.ui.interfaces.opts.list.SROpt;
@@ -79,7 +79,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public IListResponse<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResp<T> parseNetworkResponse(int id, String text) throws JSONException {
         return null;
     }
 
@@ -236,7 +236,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROpt.onNetworkSuccess((IListResponse) result);
+        mSROpt.onNetworkSuccess((IListResp) result);
     }
 
     @Override

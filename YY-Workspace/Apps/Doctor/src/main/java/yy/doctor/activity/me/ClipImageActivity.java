@@ -13,7 +13,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.ClipImage;
@@ -115,7 +115,7 @@ public class ClipImageActivity extends BaseActivity {
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
 
-        Response<ClipImage> r = (Response<ClipImage>) result;
+        Resp<ClipImage> r = (Resp<ClipImage>) result;
         if (r.isSucceed()) {
             //ClipImage clipImage = r.getData();
             //mUrl = clipImage.getString(TClipImage.url);

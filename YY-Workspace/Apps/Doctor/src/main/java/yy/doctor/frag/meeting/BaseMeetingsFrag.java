@@ -5,7 +5,7 @@ import android.view.View;
 import org.json.JSONException;
 
 import lib.network.error.NetError;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
@@ -39,7 +39,7 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsA
     }
 
     @Override
-    public IListResponse<MeetRec> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResp<MeetRec> parseNetworkResponse(int id, String text) throws JSONException {
         return JsonParser.evs(text, MeetRec.class);
     }
 
@@ -47,7 +47,7 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsA
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
         setViewState(ViewState.normal);
-        IListResponse<MeetRec> r = (IListResponse<MeetRec>) result;
+        IListResp<MeetRec> r = (IListResp<MeetRec>) result;
         if (r.isSucceed()) {
             addAll(r.getData());
         } else {

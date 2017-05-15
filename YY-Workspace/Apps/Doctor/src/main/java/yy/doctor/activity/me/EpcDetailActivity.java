@@ -12,7 +12,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.EpcDetail;
@@ -101,7 +101,7 @@ public class EpcDetailActivity extends BaseActivity {
         super.onNetworkSuccess(id, result);
 
         stopRefresh();
-        Response<EpcDetail> r = (Response<EpcDetail>) result;
+        Resp<EpcDetail> r = (Resp<EpcDetail>) result;
         if (r.isSucceed()) {
             EpcDetail epcDetail = r.getData();
             mTvName.setText(epcDetail.getString(TEpcDetail.name));

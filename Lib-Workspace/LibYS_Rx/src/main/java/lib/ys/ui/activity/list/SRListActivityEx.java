@@ -14,7 +14,7 @@ import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.ui.interfaces.opts.list.SROpt;
@@ -83,7 +83,7 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
-    abstract public IListResponse<T> parseNetworkResponse(int id, String text) throws JSONException;
+    abstract public IListResp<T> parseNetworkResponse(int id, String text) throws JSONException;
 
     @Override
     public void setOnScrollListener(MixOnScrollListener listener) {
@@ -238,7 +238,7 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROpt.onNetworkSuccess((IListResponse) result);
+        mSROpt.onNetworkSuccess((IListResp) result);
     }
 
     @Override

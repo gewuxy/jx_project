@@ -105,7 +105,7 @@ public class DecorViewEx extends RelativeLayout {
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
         LayoutParams params = LayoutUtil.getRelativeParams(MATCH_PARENT, MATCH_PARENT);
-        boolean isTitleAbove;
+        boolean isNavBarAbove;
 
 		/*
          * 判断title bar的形式
@@ -117,14 +117,14 @@ public class DecorViewEx extends RelativeLayout {
             state = mNavBarState;
         }
 
-        isTitleAbove = state == TNavBarState.above;
+        isNavBarAbove = state == TNavBarState.above;
 
         // 添加content header view
         if (headerResId != 0) {
             mHeaderView = inflater.inflate(headerResId, null);
             mHeaderView.setId(R.id.content_header_view);
             LayoutParams headerParams = LayoutUtil.getRelativeParams(MATCH_PARENT, WRAP_CONTENT);
-            if (isTitleAbove) {
+            if (isNavBarAbove) {
                 addView(mHeaderView, 0, headerParams);
             } else {
                 headerParams.addRule(BELOW, mNavBar.getId());
@@ -132,7 +132,7 @@ public class DecorViewEx extends RelativeLayout {
             }
             params.addRule(BELOW, mHeaderView.getId());
         } else {
-            if (!isTitleAbove) {
+            if (!isNavBarAbove) {
                 params.addRule(BELOW, mNavBar.getId());
             }
         }
@@ -146,7 +146,7 @@ public class DecorViewEx extends RelativeLayout {
             params.addRule(ABOVE, mFooterView.getId());
         }
 
-        if (isTitleAbove) {
+        if (isNavBarAbove) {
             addView(mContentView, 0, params);
         } else {
             addView(mContentView, params);
@@ -163,7 +163,7 @@ public class DecorViewEx extends RelativeLayout {
 
         // 添加loadingView
         mLoadingDecor = new LoadingDecorEx(getContext(), mInitRefreshWay, mLoadingDialog);
-        if (isTitleAbove) {
+        if (isNavBarAbove) {
             addView(mLoadingDecor, 0, params);
         } else {
             addView(mLoadingDecor, params);
@@ -177,7 +177,7 @@ public class DecorViewEx extends RelativeLayout {
             mErrorDecor = new ErrorDecorImpl(getContext());
         }
 
-        if (isTitleAbove) {
+        if (isNavBarAbove) {
             addView(mErrorDecor, 0, params);
         } else {
             addView(mErrorDecor, params);

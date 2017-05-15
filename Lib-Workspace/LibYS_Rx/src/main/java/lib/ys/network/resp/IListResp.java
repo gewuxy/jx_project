@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author yuansui
  */
-public interface IListResponse<T> extends IResponse {
+public interface IListResp<T> extends IResp {
 
     String getLastItemId();
 

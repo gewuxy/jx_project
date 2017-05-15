@@ -18,7 +18,7 @@ import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
@@ -188,7 +188,7 @@ public class SROpt<T> implements ISRListener {
         return mSROptListener.parseNetworkResponse(id, nr.getText());
     }
 
-    public void onNetworkSuccess(IListResponse response) {
+    public void onNetworkSuccess(IListResp response) {
         if (response == null || !response.isSucceed() || response.getData() == null) {
             // 表示数据列表返回为null, 解析失败
             stopRefresh();

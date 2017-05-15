@@ -2,7 +2,7 @@ package yy.doctor.activity.me;
 
 import org.json.JSONException;
 
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;
@@ -38,7 +38,7 @@ public class UpdateLogActivity extends BaseSRListActivity<String ,UpdateLogAdapt
     }
 
     @Override
-    public IListResponse<String> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResp<String> parseNetworkResponse(int id, String text) throws JSONException {
         return null;
     }
 

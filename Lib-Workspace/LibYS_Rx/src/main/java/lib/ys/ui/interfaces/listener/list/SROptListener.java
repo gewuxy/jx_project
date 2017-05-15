@@ -10,7 +10,7 @@ import java.util.List;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.resp.IListResp;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 
 /**
@@ -78,7 +78,7 @@ public interface SROptListener<T> {
      * @param text
      * @return 解析结构体BaseResponse
      */
-    IListResponse<T> parseNetworkResponse(int what, String text) throws JSONException;
+    IListResp<T> parseNetworkResponse(int what, String text) throws JSONException;
 
     void stopLoadMore();
 

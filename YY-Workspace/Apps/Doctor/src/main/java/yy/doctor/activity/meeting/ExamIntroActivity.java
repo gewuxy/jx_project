@@ -15,7 +15,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -113,7 +113,7 @@ public class ExamIntroActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
-        Response<Exam> r = (Response<Exam>) result;
+        Resp<Exam> r = (Resp<Exam>) result;
         mPaper = r.getData().getEv(TExam.paper);
         switch (id) {
             case KExam:

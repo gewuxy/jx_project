@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.impl;
+package lib.ys.ui.interfaces.impl;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -10,7 +10,7 @@ import lib.network.model.NetworkResponse;
 import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.ListResponse;
+import lib.yy.network.ListResp;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.DepartmentsAdapter;
@@ -85,7 +85,7 @@ public class SectionActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        ListResponse<Section> r = (ListResponse<Section>) result;
+        ListResp<Section> r = (ListResp<Section>) result;
         if (r.isSucceed()) {
             List<Section> data = r.getData();
             for (Section section : data) {

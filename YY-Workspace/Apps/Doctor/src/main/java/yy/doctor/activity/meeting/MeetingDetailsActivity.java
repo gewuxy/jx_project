@@ -27,7 +27,7 @@ import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -184,7 +184,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
-        Response<MeetDetail> r = (Response<MeetDetail>) result;
+        Resp<MeetDetail> r = (Resp<MeetDetail>) result;
         if (r.isSucceed()) {
             refreshViews(r.getData());
         } else {

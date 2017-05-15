@@ -24,15 +24,14 @@ import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.InitOpt;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.InjectUtil.IInjectView;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.view.ViewUtil;
 
 
-abstract public class DialogEx implements OnClickListener,
+abstract public class DialogEx implements
+        OnClickListener,
         InitOpt,
-        CommonOpt,
-        IInjectView {
+        CommonOpt {
 
     protected String TAG = getClass().getSimpleName();
 
@@ -104,7 +103,7 @@ abstract public class DialogEx implements OnClickListener,
      */
     public void setType(int type) {
         if (type == LayoutParams.TYPE_SYSTEM_ALERT && !PermissionChecker.allow(mContext, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
-            throw new IllegalArgumentException("请在manifest添加权限 TYPE_SYSTEM_ALERT");
+            throw new IllegalArgumentException("请在manifest添加权限 permission:android.permission.SYSTEM_ALERT_WINDOW");
         }
         mDialog.getWindow().setType(type);
     }
@@ -139,13 +138,8 @@ abstract public class DialogEx implements OnClickListener,
         mDialog.dismiss();
     }
 
-    protected View findViewById(int id) {
-        return mContentView.findViewById(id);
-    }
-
-    @Override
-    public <T extends View> T findView(int id) {
-        return (T) findViewById(id);
+    protected <T extends View> T findView(int id) {
+        return (T) mContentView.findViewById(id);
     }
 
     @Override
@@ -179,7 +173,7 @@ abstract public class DialogEx implements OnClickListener,
             mDismissLsn = v -> dismiss();
         }
 
-        View v = findViewById(viewId);
+        View v = findView(viewId);
         if (v != null) {
             v.setOnClickListener(mDismissLsn);
         }
@@ -267,7 +261,7 @@ abstract public class DialogEx implements OnClickListener,
     }
 
     protected void setOnClickListener(int resId) {
-        View v = findViewById(resId);
+        View v = findView(resId);
         if (v != null) {
             v.setOnClickListener(this);
         }

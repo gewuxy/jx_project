@@ -28,7 +28,7 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.NestCheckBox;
 import lib.yy.activity.base.BaseListActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.R;
 import yy.doctor.adapter.UnitNumDetailAdapter;
@@ -268,7 +268,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     public void onNetworkSuccess(int id, Object result) {
 
         if (id == 0) {
-            Response<UnitNumDetail> r = (Response<UnitNumDetail>) result;
+            Resp<UnitNumDetail> r = (Resp<UnitNumDetail>) result;
             mUnitNumDetail = r.getData();
             mTvName.setText(mUnitNumDetail.getString(TUnitNumDetail.nickname));
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
@@ -310,7 +310,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
             setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
 
         } else {
-            Response r = (Response) result;
+            Resp r = (Resp) result;
             if (r.isSucceed()) {
                 showToast("成功");
             }

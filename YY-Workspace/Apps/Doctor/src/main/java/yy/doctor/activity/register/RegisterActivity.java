@@ -12,7 +12,7 @@ import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
-import lib.yy.network.Response;
+import lib.yy.network.Resp;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
@@ -233,7 +233,7 @@ public class RegisterActivity extends BaseFormActivity {
     public void onNetworkSuccess(int id, Object result) {
         if (id == KLogin) {//登录
             stopRefresh();
-            Response<Profile> r = (Response<Profile>) result;
+            Resp<Profile> r = (Resp<Profile>) result;
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
                 notify(NotifyType.login);
@@ -245,7 +245,7 @@ public class RegisterActivity extends BaseFormActivity {
                 showToast(r.getError());
             }
         } else {//注册
-            Response r = (Response) result;
+            Resp r = (Resp) result;
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh
                 exeNetworkRequest(KLogin, NetFactory.login(mUserName, mPwd));

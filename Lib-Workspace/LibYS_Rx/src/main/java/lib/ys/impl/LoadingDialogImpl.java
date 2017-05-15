@@ -36,7 +36,7 @@ public class LoadingDialogImpl extends MatchScreenDialog implements OnCancelList
 
     @Override
     public void findViews() {
-        mProgressView = (IDecorProgressView) findViewById(R.id.progress_view);
+        mProgressView = findView(R.id.progress_view);
     }
 
     @Override
