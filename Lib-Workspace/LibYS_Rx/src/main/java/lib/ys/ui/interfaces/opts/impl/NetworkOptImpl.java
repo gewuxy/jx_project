@@ -1,5 +1,7 @@
 package lib.ys.ui.interfaces.opts.impl;
 
+import android.util.SparseArray;
+
 import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
@@ -21,10 +23,14 @@ public class NetworkOptImpl implements NetworkOpt {
     private Network mNetwork;
     private OnNetworkListener mNetworkLsn;
     private Object mHost;
+    private SparseArray<NetworkRequest> mMapRetryTask;
+
 
     public NetworkOptImpl(Object host, OnNetworkListener networkLsn) {
         mNetworkLsn = networkLsn;
         mHost = host;
+
+        mMapRetryTask = new SparseArray<>();
     }
 
     @Override
@@ -37,6 +43,10 @@ public class NetworkOptImpl implements NetworkOpt {
         if (request == null) {
             mNetworkLsn.onNetworkError(id, new NetError());
             return;
+        }
+
+        if (request.getRetry() != null) {
+            mMapRetryTask.put(id, request);
         }
 
         if (!DeviceUtil.isNetworkEnable()) {
@@ -64,11 +74,28 @@ public class NetworkOptImpl implements NetworkOpt {
         }
     }
 
+    public boolean retryNetworkRequest(int id) {
+        NetworkRequest request = mMapRetryTask.get(id);
+        if (request == null) {
+            return false;
+        }
+
+        if (request.getRetry().reduce()) {
+            exeNetworkRequest(id, request);
+        } else {
+            mMapRetryTask.remove(id);
+            return false;
+        }
+
+        return true;
+    }
+
     public void onDestroy() {
         if (mNetwork != null) {
             mNetwork.destroy();
             mNetwork = null;
         }
-    }
 
+        mMapRetryTask.clear();
+    }
 }
