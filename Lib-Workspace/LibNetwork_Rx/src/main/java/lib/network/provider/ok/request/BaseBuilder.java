@@ -18,13 +18,13 @@ import lib.network.provider.IBuilder;
 abstract public class BaseBuilder implements IBuilder {
 
     private OkHttpRequestBuilder mBuilder;
-    private NetworkReq mNetRequest;
+    private NetworkReq mReq;
     private int mId;
     private Object mTag;
     private OnNetworkListener mListener;
 
-    public BaseBuilder(NetworkReq request, Object tag, int id, OnNetworkListener l) {
-        mNetRequest = request;
+    public BaseBuilder(NetworkReq req, Object tag, int id, OnNetworkListener l) {
+        mReq = req;
         mId = id;
         mTag = tag;
         mListener = l;
@@ -34,14 +34,14 @@ abstract public class BaseBuilder implements IBuilder {
         mBuilder.tag(tag);
 
         if (LogNetwork.isDebug()) {
-            String logUrl = NetworkUtil.generateGetUrl(request.getUrl(), request.getParams());
+            String logUrl = NetworkUtil.generateGetUrl(req.getUrl(), req.getParams());
             LogNetwork.d(String.valueOf(getMethod()) + " = " + logUrl);
         }
 
         /**
          * 添加header
          */
-        List<CommonPair> headers = request.getHeaders();
+        List<CommonPair> headers = req.getHeaders();
         if (headers != null) {
             for (CommonPair header : headers) {
                 mBuilder.addHeader(header.getName(), header.getVal());
@@ -53,7 +53,7 @@ abstract public class BaseBuilder implements IBuilder {
 
     @Override
     public NetworkReq getReq() {
-        return mNetRequest;
+        return mReq;
     }
 
     @Override
