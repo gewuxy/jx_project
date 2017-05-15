@@ -67,7 +67,7 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws JSONException {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws JSONException {
         return null;
     }
 

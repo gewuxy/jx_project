@@ -230,8 +230,8 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return mSROpt.onNetworkResponse(id, nr, TAG);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return mSROpt.onNetworkResponse(id, r, TAG);
     }
 
     @Override

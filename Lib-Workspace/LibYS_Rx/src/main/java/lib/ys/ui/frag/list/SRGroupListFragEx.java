@@ -233,8 +233,8 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return mSROpt.onNetworkResponse(id, nr, TAG);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return mSROpt.onNetworkResponse(id, r, TAG);
     }
 
     @Override

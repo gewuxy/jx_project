@@ -64,8 +64,8 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.error(nr.getText());
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.error(r.getText());
     }
 
     @Override

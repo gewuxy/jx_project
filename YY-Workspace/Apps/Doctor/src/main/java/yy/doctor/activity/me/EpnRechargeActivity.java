@@ -123,8 +123,8 @@ public class EpnRechargeActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.ev(nr.getText(), EpnRecharge.class);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.ev(r.getText(), EpnRecharge.class);
     }
 
     @Override

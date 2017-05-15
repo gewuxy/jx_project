@@ -135,11 +135,11 @@ public class SignActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
         if (id == KToSign) {
-            return JsonParser.ev(nr.getText(), Sign.class);
+            return JsonParser.ev(r.getText(), Sign.class);
         } else {
-            return JsonParser.ev(nr.getText(), SignResult.class);
+            return JsonParser.ev(r.getText(), SignResult.class);
         }
     }
 

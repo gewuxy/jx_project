@@ -177,8 +177,8 @@ public class MeetingDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.ev(nr.getText(), MeetDetail.class);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.ev(r.getText(), MeetDetail.class);
     }
 
     @Override

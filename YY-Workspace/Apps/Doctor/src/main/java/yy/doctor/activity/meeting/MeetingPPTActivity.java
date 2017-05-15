@@ -100,8 +100,8 @@ public class MeetingPPTActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.ev(nr.getText(), Ppt.class);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.ev(r.getText(), Ppt.class);
     }
 
     @Override

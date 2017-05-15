@@ -154,8 +154,8 @@ public class MainActivity extends BaseVPActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.ev(nr.getText(), Profile.class);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override

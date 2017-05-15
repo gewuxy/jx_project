@@ -173,9 +173,9 @@ public class ExchangeActivity extends BaseFormActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
 
-        return JsonParser.ev(nr.getText(), Exchange.class);
+        return JsonParser.ev(r.getText(), Exchange.class);
     }
 
     @Override

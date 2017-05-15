@@ -48,6 +48,8 @@ import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.dialog.DialogEx;
+import lib.ys.ui.interfaces.impl.NetworkOptImpl;
+import lib.ys.ui.interfaces.impl.PermissionOptImpl;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
@@ -55,8 +57,6 @@ import lib.ys.ui.interfaces.opts.InitOpt;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.ui.interfaces.opts.PermissionOpt;
 import lib.ys.ui.interfaces.opts.RefreshOpt;
-import lib.ys.ui.interfaces.impl.NetworkOptImpl;
-import lib.ys.ui.interfaces.impl.PermissionOptImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.KeyboardUtil;
@@ -102,8 +102,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements
     /**
      * impls
      */
-    private NetworkOptImpl mNetworkOpt;
-    private PermissionOptImpl mPermissionOpt;
+    private NetworkOptImpl mNetwork;
+    private PermissionOptImpl mPermission;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +113,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFormat(PixelFormat.TRANSPARENT);
         super.onCreate(savedInstanceState);
-
-        initImplements();
 
         setContentView(getContentViewId());
 
@@ -128,11 +126,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         setOnRetryClickListener(this);
 
         startInAnim();
-    }
-
-    private void initImplements() {
-        mNetworkOpt = new NetworkOptImpl(this, this);
-        mPermissionOpt = new PermissionOptImpl(this, this);
     }
 
     @Nullable
@@ -210,7 +203,9 @@ abstract public class ActivityEx extends SwipeBackActivity implements
             mExitHandler = null;
         }
 
-        mNetworkOpt.onDestroy();
+        if (mNetwork != null) {
+            mNetwork.onDestroy();
+        }
     }
 
     /**
@@ -218,22 +213,29 @@ abstract public class ActivityEx extends SwipeBackActivity implements
      */
     @Override
     public void exeNetworkRequest(int id, NetworkRequest request) {
-        mNetworkOpt.exeNetworkRequest(id, request);
+        exeNetworkRequest(id, request, this);
     }
 
     @Override
     public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
-        mNetworkOpt.exeNetworkRequest(id, request, listener);
+        if (mNetwork == null) {
+            mNetwork = new NetworkOptImpl(this, this);
+        }
+        mNetwork.exeNetworkRequest(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        mNetworkOpt.cancelAllNetworkRequest();
+        if (mNetwork != null) {
+            mNetwork.cancelAllNetworkRequest();
+        }
     }
 
     @Override
     public void cancelNetworkRequest(int id) {
-        mNetworkOpt.cancelNetworkRequest(id);
+        if (mNetwork != null) {
+            mNetwork.cancelNetworkRequest(id);
+        }
     }
 
     /**
@@ -766,13 +768,16 @@ abstract public class ActivityEx extends SwipeBackActivity implements
 
     @Override
     public boolean checkPermission(int code, @Permission String... ps) {
-        return mPermissionOpt.checkPermission(code, ps);
+        if (mPermission == null) {
+            mPermission = new PermissionOptImpl(this, this);
+        }
+        return mPermission.checkPermission(code, ps);
     }
 
     @Override
     public final void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        mPermissionOpt.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

@@ -174,7 +174,7 @@ abstract public class PopupWindowEx implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) {
+    public Object onNetworkResponse(int id, NetworkResponse r) {
         return null;
     }
 

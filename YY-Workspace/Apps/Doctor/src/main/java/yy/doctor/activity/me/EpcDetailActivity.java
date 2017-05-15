@@ -91,8 +91,8 @@ public class EpcDetailActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.ev(nr.getText(), EpcDetail.class);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.ev(r.getText(), EpcDetail.class);
     }
 
 

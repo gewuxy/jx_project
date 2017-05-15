@@ -255,12 +255,12 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
 
         if (id == 0) {
-            return JsonParser.ev(nr.getText(), UnitNumDetail.class);
+            return JsonParser.ev(r.getText(), UnitNumDetail.class);
         } else {
-            return JsonParser.error(nr.getText());
+            return JsonParser.error(r.getText());
         }
     }
 

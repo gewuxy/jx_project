@@ -81,11 +81,11 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
         if (id == KHistories) {
-            return JsonParser.evs(nr.getText(), Comment.class);
+            return JsonParser.evs(r.getText(), Comment.class);
         }
-        return JsonParser.error(nr.getText());
+        return JsonParser.error(r.getText());
     }
 
     @Override

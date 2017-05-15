@@ -27,9 +27,9 @@ public class LogoutServ extends ServiceEx {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws JSONException {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws JSONException {
 
-        return JsonParser.ev(nr.getText(), Logout.class);
+        return JsonParser.ev(r.getText(), Logout.class);
     }
 
     @Override

@@ -221,11 +221,11 @@ public class RegisterActivity extends BaseFormActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
         if (id == KLogin) {
-            return JsonParser.ev(nr.getText(), Profile.class);
+            return JsonParser.ev(r.getText(), Profile.class);
         } else {
-            return JsonParser.error(nr.getText());
+            return JsonParser.error(r.getText());
         }
     }
 

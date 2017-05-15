@@ -234,8 +234,8 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return mSROpt.onNetworkResponse(id, nr, TAG);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return mSROpt.onNetworkResponse(id, r, TAG);
     }
 
     @Override

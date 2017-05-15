@@ -115,8 +115,8 @@ abstract public class SRFormActivityEx<T extends FormItemEx<VH>, VH extends View
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return parseNetworkResponse(id, nr.getText());
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return parseNetworkResponse(id, r.getText());
     }
 
     @Override

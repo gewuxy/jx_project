@@ -41,14 +41,14 @@ import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.dialog.DialogEx;
+import lib.ys.ui.interfaces.impl.NetworkOptImpl;
+import lib.ys.ui.interfaces.impl.PermissionOptImpl;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
 import lib.ys.ui.interfaces.opts.InitOpt;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.ui.interfaces.opts.RefreshOpt;
-import lib.ys.ui.interfaces.impl.NetworkOptImpl;
-import lib.ys.ui.interfaces.impl.PermissionOptImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.InjectUtil.IInjectView;
@@ -90,14 +90,8 @@ abstract public class FragEx extends Fragment implements
     /**
      * impls
      */
-    private NetworkOptImpl mNetworkOpt;
-    private PermissionOptImpl mPermissionOpt;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initImplements();
-    }
+    private NetworkOptImpl mNetwork;
+    private PermissionOptImpl mPermission;
 
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,11 +111,6 @@ abstract public class FragEx extends Fragment implements
 
         setOnRetryClickListener(this);
         return mDecorView;
-    }
-
-    private void initImplements() {
-        mNetworkOpt = new NetworkOptImpl(this, this);
-        mPermissionOpt = new PermissionOptImpl(getContext(), this);
     }
 
     /**
@@ -291,7 +280,7 @@ abstract public class FragEx extends Fragment implements
      * http task callback part
      */
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
         return null;
     }
 
@@ -323,24 +312,30 @@ abstract public class FragEx extends Fragment implements
      */
     @Override
     public void exeNetworkRequest(int id, NetworkRequest request) {
-        mNetworkOpt.exeNetworkRequest(id, request);
+        exeNetworkRequest(id, request, this);
     }
 
     @Override
     public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
-        mNetworkOpt.exeNetworkRequest(id, request, listener);
+        if (mNetwork == null) {
+            mNetwork = new NetworkOptImpl(this, this);
+        }
+        mNetwork.exeNetworkRequest(id, request, listener);
     }
 
     @Override
     public void cancelAllNetworkRequest() {
-        mNetworkOpt.cancelAllNetworkRequest();
+        if (mNetwork != null) {
+            mNetwork.cancelAllNetworkRequest();
+        }
     }
 
     @Override
     public void cancelNetworkRequest(int id) {
-        mNetworkOpt.cancelNetworkRequest(id);
+        if (mNetwork != null) {
+            mNetwork.cancelNetworkRequest(id);
+        }
     }
-
 
     protected NavBar getNavBar() {
         return mDecorView.getNavBar();
@@ -498,9 +493,9 @@ abstract public class FragEx extends Fragment implements
     public void onDestroy() {
         super.onDestroy();
 
-        cancelAllNetworkRequest();
-
-        mNetworkOpt.onDestroy();
+        if (mNetwork != null) {
+            mNetwork.onDestroy();
+        }
     }
 
     protected Intent getIntent() {
@@ -774,7 +769,7 @@ abstract public class FragEx extends Fragment implements
      * @return
      */
     protected boolean checkPermission(int code, @Permission String... ps) {
-        return mPermissionOpt.checkPermission(code, ps);
+        return mPermission.checkPermission(code, ps);
     }
 
     /**

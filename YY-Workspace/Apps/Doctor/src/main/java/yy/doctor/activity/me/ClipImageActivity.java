@@ -106,9 +106,9 @@ public class ClipImageActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
 
-        return JsonParser.ev(nr.getText(), ClipImage.class);
+        return JsonParser.ev(r.getText(), ClipImage.class);
     }
 
     @Override

@@ -79,8 +79,8 @@ public class SectionActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return JsonParser.evs(nr.getText(), Section.class);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return JsonParser.evs(r.getText(), Section.class);
     }
 
     @Override

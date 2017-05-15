@@ -232,8 +232,8 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
-        return mSROpt.onNetworkResponse(id, nr, TAG);
+    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+        return mSROpt.onNetworkResponse(id, r, TAG);
     }
 
     @Override

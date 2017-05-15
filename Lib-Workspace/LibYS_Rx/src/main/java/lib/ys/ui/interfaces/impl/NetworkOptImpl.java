@@ -91,6 +91,8 @@ public class NetworkOptImpl implements NetworkOpt {
     }
 
     public void onDestroy() {
+        cancelAllNetworkRequest();
+
         if (mNetwork != null) {
             mNetwork.destroy();
             mNetwork = null;
