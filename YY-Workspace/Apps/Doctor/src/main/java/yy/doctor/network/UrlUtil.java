@@ -69,7 +69,7 @@ public class UrlUtil {
         String KMeetBase = "meet/";
         String KMeets = KMeetBase + "meets";
         String KInfo = KMeetBase + "info";
-        String KTypes = KMeetBase + "types";//返回会议搜索时的科室列表选择
+        String KTypes = KMeetBase + "types";
 
         String KToExam = KMeetBase + "toexam";
         String KToSurvey = KMeetBase + "tosurvey";

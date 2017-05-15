@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -52,8 +53,8 @@ import static lib.ys.util.permission.Permission.location;
 public class MeetingDetailsActivity extends BaseActivity {
 
     private static final int KModuleCount = 4;//模块数
-    private static final int KDividerW = 1;//分割线的宽
-    private static final int KDividerH = 16;//分割线的高
+    private static final int KDividerWDp = 1;//分割线的宽
+    private static final int KDividerHDp = 16;//分割线的高
 
     private String mMeetId;
     private TextView mTvAward;
@@ -114,16 +115,14 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mDividerParams = LayoutUtil.getLinearParams(fitDp(KDividerW), fitDp(KDividerH));
+        mDividerParams = LayoutUtil.getLinearParams(fitDp(KDividerWDp), fitDp(KDividerHDp));
         mModuleParams = LayoutUtil.getLinearParams(MATCH_PARENT, MATCH_PARENT);
         mModuleParams.weight = 1;
 
         mModuleCount = 0;
 
-        mExam = ResLoader.getDrawable(R.mipmap.meeting_ic_exam);
-        mQue = ResLoader.getDrawable(R.mipmap.meeting_ic_questionnaire);
-        mVideo = ResLoader.getDrawable(R.mipmap.meeting_ic_video);
-        mSign = ResLoader.getDrawable(R.mipmap.meeting_ic_sign);
+        //TODO:加载再初始化
+
 
         Intent i = getIntent();
         if (i != null) {
@@ -227,19 +226,24 @@ public class MeetingDetailsActivity extends BaseActivity {
             type = infoModule.getInt(TInfoModule.functionId);
             switch (type) {
                 case ModuleType.exam:
-                    addModule(mExam, "考试")
-                            .setOnClickListener(v -> startActivity(ExamIntroActivity.class));
+                    mExam = ResLoader.getDrawable(R.mipmap.meeting_ic_exam);
+                    //TODO
+                    addModule(mExam, "考试", v -> startActivity(ExamIntroActivity.class));
                     break;
+
                 case ModuleType.que:
-                    addModule(mQue, "问卷")
-                            .setOnClickListener(v -> startActivity(ExamIntroActivity.class));
+                    mQue = ResLoader.getDrawable(R.mipmap.meeting_ic_questionnaire);
+                    addModule(mQue, "问卷", v -> startActivity(ExamIntroActivity.class));
                     break;
+
                 case ModuleType.video:
-                    addModule(mVideo, "视频")
-                            .setOnClickListener(v -> startActivity(ExamIntroActivity.class));
+                    mVideo = ResLoader.getDrawable(R.mipmap.meeting_ic_video);
+                    addModule(mVideo, "视频", v -> startActivity(ExamIntroActivity.class));
                     break;
+
                 case ModuleType.sign:
-                    addModule(mSign, "签到").setOnClickListener(v -> sign());
+                    mSign = ResLoader.getDrawable(R.mipmap.meeting_ic_sign);
+                    addModule(mSign, "签到", v -> sign());
                     break;
             }
         }
@@ -261,7 +265,7 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param drawable
      * @param content
      */
-    private View addModule(Drawable drawable, String content) {
+    private void addModule(Drawable drawable, String content, OnClickListener l) {
         //添加模块间的分割线
         if (mModuleCount != 0) {
             mDivider = new View(MeetingDetailsActivity.this);
@@ -278,8 +282,8 @@ public class MeetingDetailsActivity extends BaseActivity {
         tv.setText(content);
         fit(v);
         mLlModules.addView(v, mModuleParams);
+        v.setOnClickListener(l);
         mModuleCount++;
-        return v;
     }
 
     /**
@@ -287,7 +291,7 @@ public class MeetingDetailsActivity extends BaseActivity {
      */
     private void sign() {
         if (checkPermission(0, location)) {
-            //TODO:获取经纬度
+            //TODO:获取经纬度，看百度更新
             Location.inst();
             //SignActivity.nav(MeetingDetailsActivity.this, mMeetId);
         }

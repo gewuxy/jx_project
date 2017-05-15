@@ -17,6 +17,10 @@ public class LocationDialog extends BaseDialog {
     private OnAgainListener mOnAgainListener;
 
     public interface OnAgainListener {
+        /**
+         * 重试
+         * @param v
+         */
         void onAgain(View v);
     }
 
@@ -63,6 +67,5 @@ public class LocationDialog extends BaseDialog {
                 dismiss();
                 break;
         }
-
     }
 }
