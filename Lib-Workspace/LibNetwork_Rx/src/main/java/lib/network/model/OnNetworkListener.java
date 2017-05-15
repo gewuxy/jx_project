@@ -17,10 +17,10 @@ public interface OnNetworkListener {
      * 任务数据回调
      *
      * @param id 编号
-     * @param nr 返回的数据
+     * @param r  返回的数据
      * @return
      */
-    Object onNetworkResponse(int id, NetworkResponse nr) throws Exception;
+    Object onNetworkResponse(int id, NetworkResp r) throws Exception;
 
     /**
      * 任务成功

@@ -1,7 +1,7 @@
 package yy.doctor.network.builder;
 
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkRequest.Builder;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkReq.Builder;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.network.UrlUtil.UrlMeet;
@@ -56,7 +56,7 @@ public class SignBuilder {
         return this;
     }
 
-    public NetworkRequest builder() {
+    public NetworkReq builder() {
         return mBuilder.build();
     }
 }

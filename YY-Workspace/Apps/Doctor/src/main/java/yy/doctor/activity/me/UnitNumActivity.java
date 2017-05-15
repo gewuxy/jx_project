@@ -32,7 +32,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.unitNum());
+        exeNetworkReq(0, NetFactory.unitNum());
     }
 
     @Override

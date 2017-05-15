@@ -7,7 +7,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.network.error.NetError;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -77,11 +77,11 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
         super.setViews();
         mTvSend.setOnClickListener(this);
         refresh(RefreshWay.embed);
-        exeNetworkRequest(KHistories, NetFactory.histories(mMeetId));
+        exeNetworkReq(KHistories, NetFactory.histories(mMeetId));
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KHistories) {
             return JsonParser.evs(r.getText(), Comment.class);
         }
@@ -115,7 +115,7 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
             case R.id.meeting_comment_tv_send:
                 String meesage = mEtSend.getText().toString().trim();
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(KSend , NetFactory.send(mMeetId,meesage,"0"));
+                exeNetworkReq(KSend , NetFactory.send(mMeetId,meesage,"0"));
                 break;
             default:
                 break;

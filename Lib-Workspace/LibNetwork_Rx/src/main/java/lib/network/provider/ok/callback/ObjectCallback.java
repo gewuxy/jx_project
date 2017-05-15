@@ -12,7 +12,7 @@ import lib.network.error.CancelError;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.ParseNetError;
 import lib.network.model.NetworkMethod;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.network.provider.Delivery;
 import lib.network.provider.IRequestBuilder;
 import lib.network.provider.ok.request.UploadBuilder.DeleteOnExit;
@@ -81,8 +81,8 @@ public class ObjectCallback extends Callback<Object> {
         DeleteOnExit.inst().delete(mBuilder.tag(), mBuilder.id());
     }
 
-    private NetworkResponse getNetworkResponse(Response response) {
-        NetworkResponse r = new NetworkResponse();
+    private NetworkResp getNetworkResponse(Response response) {
+        NetworkResp r = new NetworkResp();
         String text = null;
         try {
             text = response.body().string();

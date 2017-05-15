@@ -8,7 +8,7 @@ import java.util.List;
 import lib.network.LogNetwork;
 import lib.network.NetworkUtil;
 import lib.network.model.OnNetworkListener;
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.param.NameValuePair;
 import lib.network.provider.IRequestBuilder;
 
@@ -18,12 +18,12 @@ import lib.network.provider.IRequestBuilder;
 abstract public class BaseBuilder implements IRequestBuilder {
 
     private OkHttpRequestBuilder mBuilder;
-    private NetworkRequest mNetRequest;
+    private NetworkReq mNetRequest;
     private int mId;
     private Object mTag;
     private OnNetworkListener mListener;
 
-    public BaseBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
+    public BaseBuilder(NetworkReq request, Object tag, int id, OnNetworkListener listener) {
         mNetRequest = request;
         mId = id;
         mTag = tag;
@@ -52,7 +52,7 @@ abstract public class BaseBuilder implements IRequestBuilder {
     abstract protected OkHttpRequestBuilder initBuilder();
 
     @Override
-    public NetworkRequest request() {
+    public NetworkReq request() {
         return mNetRequest;
     }
 

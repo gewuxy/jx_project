@@ -48,7 +48,7 @@ public class ProvinceFrag extends BaseSRListFrag<Province, ProvinceAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.province());
+        exeNetworkReq(0, NetFactory.province());
     }
 
     @Override

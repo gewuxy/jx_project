@@ -6,7 +6,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.request.RequestCall;
 
 import lib.network.model.NetworkMethod;
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.callback.DownloadFileCallback;
@@ -31,7 +31,7 @@ public class OkProvider extends BaseProvider {
     }
 
     @Override
-    public void load(NetworkRequest networkRequest, final int id, final OnNetworkListener lsn) {
+    public void load(NetworkReq networkReq, final int id, final OnNetworkListener lsn) {
         // FIXME: id的检测应该是在网络callback的时候进行, 暂时先放到这里, 如果出问题的话再更改
         if (mCallMap.get(id) != null) {
             if (mCallMap.get(id).getCall().isExecuted()) {
@@ -42,21 +42,21 @@ public class OkProvider extends BaseProvider {
         }
 
         BaseBuilder builder = null;
-        switch (networkRequest.method()) {
+        switch (networkReq.method()) {
             case NetworkMethod.get: {
-                builder = new GetBuilder(networkRequest, tag(), id, lsn);
+                builder = new GetBuilder(networkReq, tag(), id, lsn);
             }
             break;
             case NetworkMethod.post: {
-                builder = new PostBuilder(networkRequest, tag(), id, lsn);
+                builder = new PostBuilder(networkReq, tag(), id, lsn);
             }
             break;
             case NetworkMethod.download_file: {
-                builder = new DownloadFileBuilder(networkRequest, tag(), id, lsn);
+                builder = new DownloadFileBuilder(networkReq, tag(), id, lsn);
             }
             break;
             case NetworkMethod.upload: {
-                builder = new UploadBuilder(networkRequest, tag(), id, lsn);
+                builder = new UploadBuilder(networkReq, tag(), id, lsn);
             }
             break;
         }
@@ -64,7 +64,7 @@ public class OkProvider extends BaseProvider {
         RequestCall call = builder.build();
         mCallMap.put(id, call);
 
-        if (networkRequest.method() == NetworkMethod.download_file) {
+        if (networkReq.method() == NetworkMethod.download_file) {
             call.execute(new DownloadFileCallback(builder, getDelivery()));
         } else {
             call.execute(new ObjectCallback(builder, getDelivery()));

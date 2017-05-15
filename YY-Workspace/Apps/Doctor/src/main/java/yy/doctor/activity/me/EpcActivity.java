@@ -51,7 +51,7 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
     @Override
     public void getDataFromNet() {
 
-        exeNetworkRequest(0, NetFactory.epc());
+        exeNetworkReq(0, NetFactory.epc());
     }
 
     @Override

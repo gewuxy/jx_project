@@ -7,7 +7,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -230,7 +230,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return mSROpt.onNetworkResponse(id, r, TAG);
     }
 

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
@@ -76,7 +76,7 @@ public class ClipImageActivity extends BaseActivity {
                     img.setImageBitmap(mBmp);
 
                     refresh(RefreshWay.dialog);
-                    exeNetworkRequest(0, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
+                    exeNetworkReq(0, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
                 }
 
                 mPv.destroyDrawingCache();
@@ -106,7 +106,7 @@ public class ClipImageActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
 
         return JsonParser.ev(r.getText(), ClipImage.class);
     }

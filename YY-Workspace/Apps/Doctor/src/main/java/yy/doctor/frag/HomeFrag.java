@@ -63,7 +63,7 @@ public class HomeFrag extends BaseFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.home());
+        exeNetworkReq(0, NetFactory.home());
     }
 
     @Override

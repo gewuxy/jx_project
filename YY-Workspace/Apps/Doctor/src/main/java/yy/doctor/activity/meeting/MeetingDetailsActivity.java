@@ -16,7 +16,7 @@ import java.util.List;
 
 import lib.bd.location.Location;
 import lib.network.error.NetError;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
@@ -173,11 +173,11 @@ public class MeetingDetailsActivity extends BaseActivity {
         mLocationDialog.setOnAgainListener(v -> sign());
 
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.meetInfo(mMeetId));
+        exeNetworkReq(0, NetFactory.meetInfo(mMeetId));
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), MeetDetail.class);
     }
 

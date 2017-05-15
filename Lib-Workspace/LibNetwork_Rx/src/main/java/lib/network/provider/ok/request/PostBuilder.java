@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import lib.network.model.NetworkMethod;
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 import lib.network.param.NameValuePair;
 
@@ -17,7 +17,7 @@ import lib.network.param.NameValuePair;
  */
 public class PostBuilder extends BaseBuilder {
 
-    public PostBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
+    public PostBuilder(NetworkReq request, Object tag, int id, OnNetworkListener listener) {
         super(request, tag, id, listener);
     }
 

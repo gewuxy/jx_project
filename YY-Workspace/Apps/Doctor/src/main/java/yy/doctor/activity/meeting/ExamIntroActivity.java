@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.network.error.NetError;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -96,17 +96,17 @@ public class ExamIntroActivity extends BaseActivity {
         refresh(RefreshWay.embed);
         switch (Integer.valueOf(mModuleId.trim())) {
             case KExam:
-                exeNetworkRequest(KExam, NetFactory.toExam(mMeetId, mModuleId));
+                exeNetworkReq(KExam, NetFactory.toExam(mMeetId, mModuleId));
                 break;
             case KSurvey:
-                exeNetworkRequest(KSurvey, NetFactory.toSurvey(mMeetId, mModuleId));
+                exeNetworkReq(KSurvey, NetFactory.toSurvey(mMeetId, mModuleId));
                 break;
         }
 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Exam.class);
     }
 

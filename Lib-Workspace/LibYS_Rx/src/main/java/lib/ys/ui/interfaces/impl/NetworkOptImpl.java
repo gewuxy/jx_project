@@ -5,7 +5,7 @@ import android.util.SparseArray;
 import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 import lib.ys.R;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
@@ -23,7 +23,7 @@ public class NetworkOptImpl implements NetworkOpt {
     private Network mNetwork;
     private OnNetworkListener mNetworkLsn;
     private Object mHost;
-    private SparseArray<NetworkRequest> mMapRetryTask;
+    private SparseArray<NetworkReq> mMapRetryTask;
 
 
     public NetworkOptImpl(Object host, OnNetworkListener networkLsn) {
@@ -34,19 +34,19 @@ public class NetworkOptImpl implements NetworkOpt {
     }
 
     @Override
-    public void exeNetworkRequest(int id, NetworkRequest request) {
-        exeNetworkRequest(id, request, mNetworkLsn);
+    public void exeNetworkReq(int id, NetworkReq req) {
+        exeNetworkReq(id, req, mNetworkLsn);
     }
 
     @Override
-    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
-        if (request == null) {
+    public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
+        if (req == null) {
             mNetworkLsn.onNetworkError(id, new NetError());
             return;
         }
 
-        if (request.getRetry() != null) {
-            mMapRetryTask.put(id, request);
+        if (req.getRetry() != null) {
+            mMapRetryTask.put(id, req);
         }
 
         if (!DeviceUtil.isNetworkEnable()) {
@@ -57,31 +57,31 @@ public class NetworkOptImpl implements NetworkOpt {
         if (mNetwork == null) {
             mNetwork = new Network(mHost.getClass().getName(), mNetworkLsn);
         }
-        mNetwork.execute(id, request, listener);
+        mNetwork.execute(id, req, l);
     }
 
     @Override
-    public void cancelAllNetworkRequest() {
+    public void cancelAllNetworkReq() {
         if (mNetwork != null) {
             mNetwork.cancelAll();
         }
     }
 
     @Override
-    public void cancelNetworkRequest(int id) {
+    public void cancelNetworkReq(int id) {
         if (mNetwork != null) {
             mNetwork.cancel(id);
         }
     }
 
     public boolean retryNetworkRequest(int id) {
-        NetworkRequest request = mMapRetryTask.get(id);
+        NetworkReq request = mMapRetryTask.get(id);
         if (request == null) {
             return false;
         }
 
         if (request.getRetry().reduce()) {
-            exeNetworkRequest(id, request);
+            exeNetworkReq(id, request);
         } else {
             mMapRetryTask.remove(id);
             return false;
@@ -91,7 +91,7 @@ public class NetworkOptImpl implements NetworkOpt {
     }
 
     public void onDestroy() {
-        cancelAllNetworkRequest();
+        cancelAllNetworkReq();
 
         if (mNetwork != null) {
             mNetwork.destroy();

@@ -1,7 +1,7 @@
 package yy.doctor.network.builder;
 
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkRequest.Builder;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkReq.Builder;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.ProfileParam;
 import yy.doctor.network.UrlUtil.UrlUser;
@@ -160,7 +160,7 @@ public class ModifyBuilder {
         return this;
     }
 
-    public NetworkRequest builder() {
+    public NetworkReq builder() {
         return mBuilder.build();
     }
 

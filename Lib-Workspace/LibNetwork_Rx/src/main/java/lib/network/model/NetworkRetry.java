@@ -5,16 +5,16 @@ package lib.network.model;
  *
  * @author yuansui
  */
-public class Retry {
+public class NetworkRetry {
     private int mCount;
     private long mDelay;
 
-    public Retry() {
+    public NetworkRetry() {
         mCount = 3;
         mDelay = 1000;
     }
 
-    public Retry(int count, long delay) {
+    public NetworkRetry(int count, long delay) {
         mCount = count;
         mDelay = delay;
     }
@@ -25,7 +25,7 @@ public class Retry {
      * @param count
      * @return
      */
-    public Retry count(int count) {
+    public NetworkRetry count(int count) {
         mCount = count;
         return this;
     }
@@ -36,7 +36,7 @@ public class Retry {
      * @param delay
      * @return
      */
-    public Retry delay(int delay) {
+    public NetworkRetry delay(int delay) {
         mDelay = delay;
         return this;
     }

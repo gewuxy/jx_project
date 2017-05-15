@@ -8,7 +8,7 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
@@ -237,16 +237,16 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
      * @param networkId
      * @param request
      */
-    protected void exeNetworkRequest(int networkId, NetworkRequest request) {
+    protected void exeNetworkRequest(int networkId, NetworkReq request) {
         Object host = getObject(TFormElem.host);
         if (host instanceof ActivityEx) {
             ActivityEx act = (ActivityEx) host;
             act.refresh(RefreshWay.dialog);
-            act.exeNetworkRequest(networkId, request);
+            act.exeNetworkReq(networkId, request);
         } else if (host instanceof FragEx) {
             FragEx frag = (FragEx) host;
             frag.refresh(RefreshWay.dialog);
-            frag.exeNetworkRequest(networkId, request);
+            frag.exeNetworkReq(networkId, request);
         }
     }
 

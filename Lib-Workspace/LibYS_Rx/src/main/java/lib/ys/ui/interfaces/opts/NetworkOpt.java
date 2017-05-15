@@ -1,7 +1,7 @@
 package lib.ys.ui.interfaces.opts;
 
 
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 
 /**
@@ -13,23 +13,23 @@ public interface NetworkOpt {
 
     /**
      * @param id
-     * @param request
+     * @param req
      */
-    void exeNetworkRequest(int id, NetworkRequest request);
+    void exeNetworkReq(int id, NetworkReq req);
 
     /**
      * 可以自行设置重试次数及超时时间, 多用于一些需要不断重试的任务
      *
      * @param id
-     * @param request
-     * @param listener
+     * @param req
+     * @param l
      */
-    void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener);
+    void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l);
 
     /**
      * 取消所有网络任务
      */
-    void cancelAllNetworkRequest();
+    void cancelAllNetworkReq();
 
-    void cancelNetworkRequest(int id);
+    void cancelNetworkReq(int id);
 }

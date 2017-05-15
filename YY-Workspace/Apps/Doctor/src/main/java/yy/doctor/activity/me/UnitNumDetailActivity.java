@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
@@ -147,7 +147,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     public void setViews() {
         super.setViews();
 
-        exeNetworkRequest(0, NetFactory.unitNumDetail(8, 1, 8));
+        exeNetworkReq(0, NetFactory.unitNumDetail(8, 1, 8));
 
         mZoomView.setZoomEnabled(true);
 
@@ -237,7 +237,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
                 if (position == 0) {
 
-                    exeNetworkRequest(1, NetFactory.attention(14, 0));
+                    exeNetworkReq(1, NetFactory.attention(14, 0));
                 }
 
             }
@@ -255,7 +255,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
 
         if (id == 0) {
             return JsonParser.ev(r.getText(), UnitNumDetail.class);

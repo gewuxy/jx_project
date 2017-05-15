@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
@@ -171,7 +171,7 @@ public class RegisterActivity extends BaseFormActivity {
             mPwd = "123456";
             //登录
             refresh(RefreshWay.embed);
-            exeNetworkRequest(KLogin, NetFactory.login(mUserName, mPwd));
+            exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
             return;
         }
 
@@ -186,7 +186,7 @@ public class RegisterActivity extends BaseFormActivity {
 
         //注册
         refresh(RefreshWay.dialog);
-        exeNetworkRequest(KRegister, NetFactory.register()
+        exeNetworkReq(KRegister, NetFactory.register()
                 .username(mUserName)
                 .nickname(strNickname)
                 .linkman(strLinkman)
@@ -221,7 +221,7 @@ public class RegisterActivity extends BaseFormActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KLogin) {
             return JsonParser.ev(r.getText(), Profile.class);
         } else {
@@ -248,7 +248,7 @@ public class RegisterActivity extends BaseFormActivity {
             Resp r = (Resp) result;
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh
-                exeNetworkRequest(KLogin, NetFactory.login(mUserName, mPwd));
+                exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
             } else {
                 stopRefresh();
                 showToast(r.getError());

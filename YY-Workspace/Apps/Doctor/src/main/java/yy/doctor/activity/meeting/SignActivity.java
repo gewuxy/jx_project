@@ -15,7 +15,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import lib.network.error.NetError;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -113,7 +113,7 @@ public class SignActivity extends BaseActivity {
         //TODO:直接显示结果
         refresh(RefreshWay.embed);
         if (checkPermission(0, Permission.location)) {
-            exeNetworkRequest(KToSign, NetFactory.toSign(mMeetId, KModuleId));
+            exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, KModuleId));
         }
 
     }
@@ -122,7 +122,7 @@ public class SignActivity extends BaseActivity {
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
             case PermissionResult.granted: {
-                exeNetworkRequest(KToSign, NetFactory.toSign(mMeetId, KModuleId));
+                exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, KModuleId));
             }
             break;
             case PermissionResult.denied:
@@ -135,7 +135,7 @@ public class SignActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KToSign) {
             return JsonParser.ev(r.getText(), Sign.class);
         } else {
@@ -149,7 +149,7 @@ public class SignActivity extends BaseActivity {
             Resp<Sign> r = (Resp<Sign>) result;
             if (r.isSucceed()) {
                 Sign signData = r.getData();
-                exeNetworkRequest(KSign, NetFactory.sign()
+                exeNetworkReq(KSign, NetFactory.sign()
                         .meetId(mMeetId)
                         .moduleId(KModuleId)
                         .positionId(signData.getString(TSign.id))

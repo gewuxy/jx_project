@@ -10,7 +10,6 @@ import lib.network.Network;
 import lib.ys.config.AppConfig;
 import lib.ys.crash.CrashMgr;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.resp.IRespParser;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ProcessUtil;
 import lib.ys.util.TextUtil;
@@ -26,7 +25,6 @@ abstract public class AppEx extends Application {
 
     private static AppConfig mConfig;
 
-    private static IRespParser mRespParser;
 
     @Override
     public void onCreate() {
@@ -47,8 +45,6 @@ abstract public class AppEx extends Application {
         Network.init(this);
 
         mConfig = makeConfig();
-
-//        mRespParser = initRespParser();
 
         if (enableCatchCrash()) {
             CrashMgr.inst().init(e -> {
@@ -77,12 +73,6 @@ abstract public class AppEx extends Application {
      */
     protected void initInChildProcess() {
     }
-
-//    abstract IRespParser initRespParser();
-
-//    public static IRespParser getParser() {
-//        return mRespParser;
-//    }
 
     /**
      * 返回getApplicationContext()

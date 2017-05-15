@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Resp;
@@ -116,14 +116,14 @@ public class EpnRechargeActivity extends BaseActivity {
         switch (id) {
             case R.id.recharge_tv_pay: {
 
-                exeNetworkRequest(0, NetFactory.epnRecharge("象数充值", "20"));
+                exeNetworkReq(0, NetFactory.epnRecharge("象数充值", "20"));
             }
             break;
         }
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), EpnRecharge.class);
     }
 

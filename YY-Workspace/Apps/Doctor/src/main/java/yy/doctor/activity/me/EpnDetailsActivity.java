@@ -27,7 +27,7 @@ public class EpnDetailsActivity extends BaseSRListActivity<EpnDetails, EpnDetail
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.epnDedails());
+        exeNetworkReq(0, NetFactory.epnDedails());
     }
 
 //    @Override

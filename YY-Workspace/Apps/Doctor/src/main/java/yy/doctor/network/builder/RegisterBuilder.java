@@ -1,7 +1,7 @@
 package yy.doctor.network.builder;
 
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkRequest.Builder;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkReq.Builder;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.RegisterParam;
 import yy.doctor.network.UrlUtil.UrlRegister;
@@ -104,7 +104,7 @@ public class RegisterBuilder {
         return this;
     }
 
-    public NetworkRequest build() {
+    public NetworkReq build() {
         return mBuilder.build();
     }
 }

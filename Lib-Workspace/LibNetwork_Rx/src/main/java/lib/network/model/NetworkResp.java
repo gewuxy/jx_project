@@ -10,7 +10,7 @@ import lib.network.NetworkUtil;
  *
  * @author yuansui
  */
-public class NetworkResponse {
+public class NetworkResp {
     private String mText = NetworkUtil.KTextEmpty;
     private InputStream mInputStream;
 

@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
@@ -75,11 +75,11 @@ public class SectionActivity extends BaseActivity {
             finish();
         });
 
-        exeNetworkRequest(0, NetFactory.section());
+        exeNetworkReq(0, NetFactory.section());
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.evs(r.getText(), Section.class);
     }
 

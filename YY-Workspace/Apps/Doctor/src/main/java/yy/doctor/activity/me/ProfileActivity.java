@@ -10,8 +10,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
@@ -469,7 +469,7 @@ public class ProfileActivity extends BaseFormActivity {
         mStrProvince = str.substring(0, str.indexOf("-") - 1);
         mStrCity = str.substring(str.indexOf("-") + 1, str.length());
 
-        NetworkRequest r = NetFactory.newModifyBuilder()
+        NetworkReq r = NetFactory.newModifyBuilder()
                 .nickname(getRelateVal(RelatedId.nickname))
                 .linkman(getRelateVal(RelatedId.name))
                 .mobile(getRelateVal(RelatedId.phone_number))
@@ -480,12 +480,12 @@ public class ProfileActivity extends BaseFormActivity {
                 .builder();
 
         refresh(RefreshWay.dialog);
-        exeNetworkRequest(1, r);
+        exeNetworkReq(1, r);
 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Modify.class);
     }
 

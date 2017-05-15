@@ -19,14 +19,14 @@ public class RetrospectMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.retrospect));
+        exeNetworkReq(0, NetFactory.meets(MeetsState.retrospect));
     }
 
     @Override
     public void setViews() {
         super.setViews();
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.retrospect));
+        exeNetworkReq(0, NetFactory.meets(MeetsState.retrospect));
     }
 
 }

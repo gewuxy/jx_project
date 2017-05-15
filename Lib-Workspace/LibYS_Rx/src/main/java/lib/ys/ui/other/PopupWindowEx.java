@@ -19,8 +19,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import lib.network.Network;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.NetError;
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
 import lib.network.model.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
@@ -174,7 +174,7 @@ abstract public class PopupWindowEx implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) {
+    public Object onNetworkResponse(int id, NetworkResp r) {
         return null;
     }
 
@@ -200,11 +200,11 @@ abstract public class PopupWindowEx implements
     }
 
     @Override
-    public void exeNetworkRequest(int id, NetworkRequest request) {
-        exeNetworkRequest(id, request, this);
+    public void exeNetworkReq(int id, NetworkReq req) {
+        exeNetworkReq(id, req, this);
     }
 
-    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
+    public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
         if (!DeviceUtil.isNetworkEnable()) {
             onNetworkError(id, new ConnectionNetError(mContext.getString(R.string.toast_network_disconnect)));
             return;
@@ -213,18 +213,18 @@ abstract public class PopupWindowEx implements
         if (mNetwork == null) {
             mNetwork = new Network(getClass().getName(), this);
         }
-        mNetwork.execute(id, request, listener);
+        mNetwork.execute(id, req, l);
     }
 
     @Override
-    public void cancelAllNetworkRequest() {
+    public void cancelAllNetworkReq() {
         if (mNetwork != null) {
             mNetwork.cancelAll();
         }
     }
 
     @Override
-    public void cancelNetworkRequest(int id) {
+    public void cancelNetworkReq(int id) {
         if (mNetwork != null) {
             mNetwork.cancel(id);
         }

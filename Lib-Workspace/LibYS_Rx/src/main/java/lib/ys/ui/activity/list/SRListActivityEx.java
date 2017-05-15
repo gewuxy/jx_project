@@ -7,7 +7,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
 import lib.ys.adapter.interfaces.IAdapter;
@@ -232,7 +232,7 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return mSROpt.onNetworkResponse(id, r, TAG);
     }
 

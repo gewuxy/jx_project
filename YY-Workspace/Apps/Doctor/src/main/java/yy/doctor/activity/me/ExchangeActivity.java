@@ -6,8 +6,8 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -156,7 +156,7 @@ public class ExchangeActivity extends BaseFormActivity {
                 if (!check()) {
                     return;
                 };
-                NetworkRequest r = NetFactory.newExchangeBuilder()
+                NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId("000001")
                         .price("85")
                         .receiver("hell")
@@ -165,7 +165,7 @@ public class ExchangeActivity extends BaseFormActivity {
                         .address("sdfjijidsofj")
                         .builder();
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(0, r);
+                exeNetworkReq(0, r);
 
             }
             break;
@@ -173,7 +173,7 @@ public class ExchangeActivity extends BaseFormActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
 
         return JsonParser.ev(r.getText(), Exchange.class);
     }

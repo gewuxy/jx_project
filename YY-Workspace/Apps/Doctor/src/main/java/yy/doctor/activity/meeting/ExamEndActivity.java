@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Resp;
@@ -54,7 +54,7 @@ public class ExamEndActivity extends BaseActivity {
 
         }
         //TODO:应该在点击最后一题的时候提交,这里只是显示结果
-        exeNetworkRequest(0, NetFactory
+        exeNetworkReq(0, NetFactory
                 .submitEx()
                 .meetId("17042512131640894904")
                 .moduleId("8")
@@ -64,7 +64,7 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.error(r.getText());
     }
 

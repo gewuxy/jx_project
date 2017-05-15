@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
@@ -87,7 +87,7 @@ public class LoginActivity extends BaseActivity {
                 }
 
                 refresh(RefreshWay.dialog);
-                exeNetworkRequest(0, NetFactory.login(strName, strPwd));
+                exeNetworkReq(0, NetFactory.login(strName, strPwd));
             }
             break;
             case R.id.login_tv_register: {
@@ -102,7 +102,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Profile.class);
     }
 

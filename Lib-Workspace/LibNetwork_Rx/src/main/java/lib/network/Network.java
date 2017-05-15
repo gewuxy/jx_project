@@ -7,7 +7,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
 
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.OkProvider;
@@ -30,11 +30,11 @@ public class Network {
         mProvider = new OkProvider(tag);
     }
 
-    public void execute(int id, NetworkRequest task) {
+    public void execute(int id, NetworkReq task) {
         execute(id, task, mListener);
     }
 
-    public void execute(int id, NetworkRequest request, OnNetworkListener listener) {
+    public void execute(int id, NetworkReq request, OnNetworkListener listener) {
         if (listener == null) {
             listener = mListener;
         }

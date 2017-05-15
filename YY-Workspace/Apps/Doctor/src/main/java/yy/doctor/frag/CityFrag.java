@@ -39,7 +39,7 @@ public class CityFrag extends BaseSRListFrag<City, CityAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.city(mProvinceId));
+        exeNetworkReq(0, NetFactory.city(mProvinceId));
     }
 
     @Override

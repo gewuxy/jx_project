@@ -2,7 +2,7 @@ package lib.network.provider;
 
 import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 
 /**
  * @author yuansui
@@ -25,7 +25,7 @@ public interface IRequestBuilder {
     @NetworkMethod
     int method();
 
-    NetworkRequest request();
+    NetworkReq request();
 
     OnNetworkListener listener();
 

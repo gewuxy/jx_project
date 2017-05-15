@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.LogMgr;
@@ -183,7 +183,7 @@ public class SROpt<T> implements ISRListener {
         onLocalRefreshSuccess();
     }
 
-    public Object onNetworkResponse(int id, NetworkResponse nr, String tag) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp nr, String tag) throws Exception {
         LogMgr.d(tag, nr.getText());
         return mSROptListener.parseNetworkResponse(id, nr.getText());
     }

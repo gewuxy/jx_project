@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseVPActivity {
 
         // 静默更新用户数据
         if (SpUser.inst().needUpdateProfile()) {
-            exeNetworkRequest(0, NetFactory.profile());
+            exeNetworkReq(0, NetFactory.profile());
         }
     }
 
@@ -154,7 +154,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Profile.class);
     }
 

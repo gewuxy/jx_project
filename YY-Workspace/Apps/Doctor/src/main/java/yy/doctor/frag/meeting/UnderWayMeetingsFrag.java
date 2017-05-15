@@ -18,14 +18,14 @@ public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.under_way));
+        exeNetworkReq(0, NetFactory.meets(MeetsState.under_way));
     }
 
     @Override
     public void setViews() {
         super.setViews();
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.under_way));
+        exeNetworkReq(0, NetFactory.meets(MeetsState.under_way));
     }
 
 }

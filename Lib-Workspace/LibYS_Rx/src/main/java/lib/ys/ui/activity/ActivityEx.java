@@ -32,8 +32,8 @@ import android.widget.EditText;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import lib.network.error.NetError;
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
 import lib.network.model.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
@@ -212,29 +212,29 @@ abstract public class ActivityEx extends SwipeBackActivity implements
      * http task part
      */
     @Override
-    public void exeNetworkRequest(int id, NetworkRequest request) {
-        exeNetworkRequest(id, request, this);
+    public void exeNetworkReq(int id, NetworkReq req) {
+        exeNetworkReq(id, req, this);
     }
 
     @Override
-    public void exeNetworkRequest(int id, NetworkRequest request, OnNetworkListener listener) {
+    public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
         if (mNetwork == null) {
             mNetwork = new NetworkOptImpl(this, this);
         }
-        mNetwork.exeNetworkRequest(id, request, listener);
+        mNetwork.exeNetworkReq(id, req, l);
     }
 
     @Override
-    public void cancelAllNetworkRequest() {
+    public void cancelAllNetworkReq() {
         if (mNetwork != null) {
-            mNetwork.cancelAllNetworkRequest();
+            mNetwork.cancelAllNetworkReq();
         }
     }
 
     @Override
-    public void cancelNetworkRequest(int id) {
+    public void cancelNetworkReq(int id) {
         if (mNetwork != null) {
-            mNetwork.cancelNetworkRequest(id);
+            mNetwork.cancelNetworkReq(id);
         }
     }
 
@@ -243,7 +243,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements
      */
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return null;
     }
 
@@ -579,7 +579,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         DialogEx dialog = new LoadingDialogImpl(this);
         dialog.setOnCancelListener(dialog1 -> {
             stopRefresh();
-            cancelAllNetworkRequest();
+            cancelAllNetworkReq();
         });
         return dialog;
     }

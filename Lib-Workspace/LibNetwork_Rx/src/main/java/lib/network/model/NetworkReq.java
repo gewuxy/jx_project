@@ -16,7 +16,7 @@ import lib.network.param.NameValuePair;
  *
  * @author yuansui
  */
-public class NetworkRequest {
+public class NetworkReq {
 
     private List<NameValuePair> mParams;
     private List<NameByteValuePair> mByteParams;
@@ -31,22 +31,22 @@ public class NetworkRequest {
     private String mDestDir;
     private String mDestFileName;
 
-    private Retry mRetry;
+    private NetworkRetry mRetry;
 
 
-    public NetworkRequest(@NetworkMethod int method, String url) {
+    public NetworkReq(@NetworkMethod int method, String url) {
         mMethod = method;
         mUrl = url;
 
         mParams = new ArrayList<>();
     }
 
-    public NetworkRequest retry(Retry retry) {
+    public NetworkReq retry(NetworkRetry retry) {
         mRetry = retry;
         return this;
     }
 
-    public Retry getRetry() {
+    public NetworkRetry getRetry() {
         return mRetry;
     }
 
@@ -332,8 +332,8 @@ public class NetworkRequest {
             return (T) this;
         }
 
-        public NetworkRequest build() {
-            NetworkRequest r = new NetworkRequest(mNetworkMethod, mBaseUrl);
+        public NetworkReq build() {
+            NetworkReq r = new NetworkReq(mNetworkMethod, mBaseUrl);
 
             if (mNetworkMethod == NetworkMethod.download_file) {
                 r.dir(mDir);

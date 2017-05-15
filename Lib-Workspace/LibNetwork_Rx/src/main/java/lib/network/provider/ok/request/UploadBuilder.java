@@ -17,7 +17,7 @@ import io.reactivex.Observable;
 import lib.network.LogNetwork;
 import lib.network.Network;
 import lib.network.model.NetworkMethod;
-import lib.network.model.NetworkRequest;
+import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 import lib.network.param.NameByteValuePair;
 import lib.network.param.NameFileValuePair;
@@ -27,7 +27,7 @@ import lib.network.param.NameFileValuePair;
  */
 public class UploadBuilder extends PostBuilder {
 
-    public UploadBuilder(NetworkRequest request, Object tag, int id, OnNetworkListener listener) {
+    public UploadBuilder(NetworkReq request, Object tag, int id, OnNetworkListener listener) {
         super(request, tag, id, listener);
     }
 

@@ -19,14 +19,14 @@ public class NotStartedMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.not_started));
+        exeNetworkReq(0, NetFactory.meets(MeetsState.not_started));
     }
 
     @Override
     public void setViews() {
         super.setViews();
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.meets(MeetsState.not_started));
+        exeNetworkReq(0, NetFactory.meets(MeetsState.not_started));
     }
 
 }

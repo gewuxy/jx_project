@@ -7,7 +7,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import lib.network.error.NetError;
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
@@ -91,7 +91,7 @@ public class MeetingPPTActivity extends BaseActivity {
         mIvControl.setOnClickListener(this);
 
         refresh(RefreshWay.embed);
-        exeNetworkRequest(0, NetFactory.toPpt("17042512131640894904","7"));
+        exeNetworkReq(0, NetFactory.toPpt("17042512131640894904","7"));
     }
 
     @Override
@@ -100,7 +100,7 @@ public class MeetingPPTActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Ppt.class);
     }
 

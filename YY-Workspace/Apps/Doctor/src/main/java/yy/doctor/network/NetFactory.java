@@ -3,8 +3,8 @@ package yy.doctor.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkRequest.Builder;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkReq.Builder;
 import lib.network.param.NameValuePair;
 import yy.doctor.model.Profile;
 import yy.doctor.network.UrlUtil.UrlEpc;
@@ -151,7 +151,7 @@ public class NetFactory {
      * 开机广告
      * @return
      */
-    public static NetworkRequest ad() {
+    public static NetworkReq ad() {
         return newGet(UrlUser.KAd)
                 .build();
     }
@@ -169,7 +169,7 @@ public class NetFactory {
      * @param city
      * @return
      */
-    public static NetworkRequest hospital(String city) {
+    public static NetworkReq hospital(String city) {
         return newGet(UrlRegister.KHospital)
                 .param(HospitalParam.city, city)
                 .build();
@@ -180,7 +180,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest section() {
+    public static NetworkReq section() {
         return newGet(UrlRegister.KDepart)
                 .build();
     }
@@ -192,7 +192,7 @@ public class NetFactory {
      * @param pwd
      * @return
      */
-    public static NetworkRequest login(String name, String pwd) {
+    public static NetworkReq login(String name, String pwd) {
         return newGet(UrlUser.KLogin)
                 .param(UserParam.KUserName, name)
                 .param(UserParam.KPassword, pwd)
@@ -204,7 +204,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest logout() {
+    public static NetworkReq logout() {
         return newGet(UrlUser.KLogout)
                 .param(CommonParam.KToken, Profile.inst().getString(token))
                 .build();
@@ -214,7 +214,7 @@ public class NetFactory {
      * 首页推荐会议
      * @return
      */
-    public static NetworkRequest recommendMeeting(){
+    public static NetworkReq recommendMeeting(){
         return newGet(UrlHome.KRecommendMeeting)
                 .build();
     }
@@ -224,7 +224,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest profile() {
+    public static NetworkReq profile() {
         return newGet(UrlUser.KProfile).build();
     }
 
@@ -234,7 +234,7 @@ public class NetFactory {
      * @param type
      * @return
      */
-    public static NetworkRequest banner(int type) {
+    public static NetworkReq banner(int type) {
         return newGet(UrlHome.KBanner)
                 .build();
     }
@@ -253,7 +253,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest upheadimg(byte[] bytes) {
+    public static NetworkReq upheadimg(byte[] bytes) {
         return newUpload(UrlUser.KUpHeaderImg)
                 .param(UpHeadImgParam.KFile, bytes)
                 .build();
@@ -264,7 +264,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest province() {
+    public static NetworkReq province() {
         return newGet(UrlRegister.KProvince)
                 .build();
     }
@@ -274,7 +274,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest city(String preId) {
+    public static NetworkReq city(String preId) {
         return newGet(UrlRegister.KCity)
                 .param(CityParam.KCity, preId)
                 .build();
@@ -285,7 +285,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest epnDedails() {
+    public static NetworkReq epnDedails() {
         return newGet(UrlEpn.KEpnDetails)
                 .build();
     }
@@ -295,7 +295,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest epnRecharge(String subject, String totalAmount) {
+    public static NetworkReq epnRecharge(String subject, String totalAmount) {
         return newPost(UrlEpn.KEpnRecharge)
                 .param(EpnRechargeParam.KSubject, subject)
                 .param(EpnRechargeParam.KTotalAmount, totalAmount)
@@ -317,7 +317,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest order() {
+    public static NetworkReq order() {
         return newGet(UrlEpc.KOrder)
                 .build();
     }
@@ -327,7 +327,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest epc() {
+    public static NetworkReq epc() {
         return newGet(UrlEpc.KEpc)
                 .build();
     }
@@ -337,7 +337,7 @@ public class NetFactory {
      * @param id
      * @return
      */
-    public static NetworkRequest epcDetail(int id) {
+    public static NetworkReq epcDetail(int id) {
         return newGet(UrlEpc.KEpcDetail)
                 .param(EpcDetailParam.KEpcDetail , id)
                 .build();
@@ -348,7 +348,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest unitNum() {
+    public static NetworkReq unitNum() {
         return newGet(UrlUnitNum.KUnitNum)
                 .build();
     }
@@ -360,7 +360,7 @@ public class NetFactory {
      * @param turnTo   0:取消关注 1：关注
      * @return
      */
-    public static NetworkRequest attention(int masterId, int turnTo) {
+    public static NetworkReq attention(int masterId, int turnTo) {
         return newGet(UrlUnitNum.KAttention)
                 .param(AttentionParam.KMasterId, masterId)
                 .param(AttentionParam.KTurnTo, turnTo)
@@ -374,7 +374,7 @@ public class NetFactory {
      * @param size
      * @return
      */
-    public static NetworkRequest unitNumDetail(int id, int page, int size) {
+    public static NetworkReq unitNumDetail(int id, int page, int size) {
         return newGet(UrlUnitNum.KUnitNumDetail)
                 .param(UnitNumDetailParam.KId, id)
                 .param(UnitNumDetailParam.KPageNum, page)
@@ -387,7 +387,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkRequest recommendUnitNum() {
+    public static NetworkReq recommendUnitNum() {
         return newGet(UrlSearch.KRecommendUnitNum)
                 .build();
     }
@@ -398,7 +398,7 @@ public class NetFactory {
      * @param keyword
      * @return
      */
-    public static NetworkRequest searchUnitNum(String keyword) {
+    public static NetworkReq searchUnitNum(String keyword) {
         return newPost(UrlSearch.KSearchUnitNum)
                 .param(SearchParam.KKeyword, keyword)
                 .build();
@@ -407,7 +407,7 @@ public class NetFactory {
     /**
      * 关注过的公众的所有会议
      */
-    public static NetworkRequest meets(int state) {
+    public static NetworkReq meets(int state) {
         return newGet(UrlMeet.KMeets)
                 .param(MeetParam.KState, state)
                 .build();
@@ -417,7 +417,7 @@ public class NetFactory {
      * 返回会议搜索时的科室列表选择
      * TODO:调用时机?
      */
-    public static NetworkRequest types() {
+    public static NetworkReq types() {
         return newGet(UrlMeet.KTypes)
                 .build();
     }
@@ -425,13 +425,13 @@ public class NetFactory {
     /**
      * 会议详情
      */
-    public static NetworkRequest meetInfo(String meetId) {
+    public static NetworkReq meetInfo(String meetId) {
         return newGet(UrlMeet.KInfo)
                 .param(MeetParam.KMeetId, meetId)
                 .build();
     }
 
-    public static NetworkRequest toBase(String url, String meetId, String moduleId) {
+    public static NetworkReq toBase(String url, String meetId, String moduleId) {
         return newGet(url)
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KModuleId, moduleId)
@@ -441,28 +441,28 @@ public class NetFactory {
     /**
      * 考试入口
      */
-    public static NetworkRequest toExam(String meetId, String moduleId) {
+    public static NetworkReq toExam(String meetId, String moduleId) {
         return toBase(UrlMeet.KToExam, meetId, moduleId);
     }
 
     /**
      * 问卷入口
      */
-    public static NetworkRequest toSurvey(String meetId, String moduleId) {
+    public static NetworkReq toSurvey(String meetId, String moduleId) {
         return toBase(UrlMeet.KToSurvey, meetId, moduleId);
     }
 
     /**
      * 微课(语音+PPT)入口
      */
-    public static NetworkRequest toPpt(String meetId, String moduleId) {
+    public static NetworkReq toPpt(String meetId, String moduleId) {
         return toBase(UrlMeet.KToPpt, meetId, moduleId);
     }
 
     /**
      * 签到入口
      */
-    public static NetworkRequest toSign(String meetId, String moduleId) {
+    public static NetworkReq toSign(String meetId, String moduleId) {
         return toBase(UrlMeet.KToSign, meetId, moduleId);
     }
 
@@ -490,7 +490,7 @@ public class NetFactory {
     /**
      * 会议留言记录
      */
-    public static NetworkRequest histories(String meetId) {
+    public static NetworkReq histories(String meetId) {
         return newGet(UrlMeet.KHistories)
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KPageSize, 10)
@@ -501,7 +501,7 @@ public class NetFactory {
     /**
      * 会议留言记录
      */
-    public static NetworkRequest histories(String meetId, String pageSize, String pageNum) {
+    public static NetworkReq histories(String meetId, String pageSize, String pageNum) {
         return newGet(UrlMeet.KHistories)
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KPageSize, pageSize)
@@ -512,7 +512,7 @@ public class NetFactory {
     /**
      * 发表会议留言
      */
-    public static NetworkRequest send(String meetId, String message, String msgType) {
+    public static NetworkReq send(String meetId, String message, String msgType) {
         return newPost(UrlMeet.KSend)
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KMessage, message)

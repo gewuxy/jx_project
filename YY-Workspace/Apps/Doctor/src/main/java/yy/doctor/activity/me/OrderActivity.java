@@ -84,7 +84,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     @Override
     public void getDataFromNet() {
 
-        exeNetworkRequest(0, NetFactory.order());
+        exeNetworkReq(0, NetFactory.order());
     }
 
 //    @Override

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -81,7 +81,7 @@ public class EpcDetailActivity extends BaseActivity {
     public void setViews() {
 
         refresh(RefreshWay.dialog);
-        exeNetworkRequest(0 , NetFactory.epcDetail(mGoodId));
+        exeNetworkReq(0 , NetFactory.epcDetail(mGoodId));
 
         setOnClickListener(R.id.epc_detail_tv_btn);
 
@@ -91,7 +91,7 @@ public class EpcDetailActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), EpcDetail.class);
     }
 

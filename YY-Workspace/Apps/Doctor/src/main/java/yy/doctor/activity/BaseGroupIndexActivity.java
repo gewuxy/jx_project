@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.network.model.NetworkResponse;
+import lib.network.model.NetworkResp;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
 import lib.yy.activity.base.BaseSRGroupListActivity;
@@ -87,7 +87,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup,  A extends IGr
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResponse nr) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp nr) throws Exception {
         ListResp<T> r = (ListResp<T>) super.onNetworkResponse(id, nr);
 
         if (r.isSucceed()) {

@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 import io.reactivex.Observable;
-import lib.network.model.NetworkRequest;
-import lib.network.model.NetworkRequest.Builder;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkReq.Builder;
 import lib.ys.LogMgr;
 import yy.doctor.model.exam.Answer;
 import yy.doctor.model.exam.Answer.TAnswer;
@@ -116,7 +116,7 @@ public class SubmitBuilder {
         return this;
     }
 
-    public NetworkRequest builder() {
+    public NetworkReq builder() {
         return mBuilder.build();
     }
 }

@@ -89,7 +89,7 @@ public class HospitalActivity extends BaseSRGroupListActivity<GroupHospital, Hos
 
         mTvChange.setOnClickListener(this);
         refresh(RefreshWay.dialog);
-        exeNetworkRequest(0, NetFactory.hospital("广州市"));
+        exeNetworkReq(0, NetFactory.hospital("广州市"));
     }
 
     /**
