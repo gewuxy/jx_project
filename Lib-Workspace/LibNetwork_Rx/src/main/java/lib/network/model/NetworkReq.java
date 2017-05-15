@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.NetworkUtil;
-import lib.network.param.NameByteValuePair;
-import lib.network.param.NameFileValuePair;
-import lib.network.param.NameValuePair;
+import lib.network.param.BytePair;
+import lib.network.param.CommonPair;
+import lib.network.param.FilePair;
 
 /**
  * Network任务实例
@@ -18,13 +18,15 @@ import lib.network.param.NameValuePair;
  */
 public class NetworkReq {
 
-    private List<NameValuePair> mParams;
-    private List<NameByteValuePair> mByteParams;
-    private List<NameValuePair> mHeaders;
-    private List<NameFileValuePair> mFileParams;
+    private List<CommonPair> mParams;
+    private List<BytePair> mByteParams;
+    private List<FilePair> mFileParams;
+    
+    private List<CommonPair> mHeaders;
 
+    // 默认为get方式
     @NetworkMethod
-    private int mMethod = NetworkMethod.un_know;
+    private int mMethod = NetworkMethod.get;
 
     private String mUrl;
 
@@ -66,15 +68,15 @@ public class NetworkReq {
         return mDestFileName;
     }
 
-    protected void param(String name, Object value) {
-        mParams.add(new NameValuePair(name, String.valueOf(value)));
+    protected void param(String n, Object v) {
+        mParams.add(new CommonPair(n, v));
     }
 
-    protected void param(List<NameValuePair> pairs) {
-        if (pairs == null) {
+    protected void param(List<CommonPair> ps) {
+        if (ps == null) {
             return;
         }
-        mParams.addAll(pairs);
+        mParams.addAll(ps);
     }
 
     /**
@@ -87,7 +89,7 @@ public class NetworkReq {
         param(name, value, NetworkUtil.KTextEmpty);
     }
 
-    protected void paramByte(List<NameByteValuePair> pairs) {
+    protected void paramByte(List<BytePair> pairs) {
         if (pairs == null) {
             return;
         }
@@ -110,10 +112,10 @@ public class NetworkReq {
         if (mByteParams == null) {
             mByteParams = new ArrayList<>();
         }
-        mByteParams.add(new NameByteValuePair(name + extend, value));
+        mByteParams.add(new BytePair(name + extend, value));
     }
 
-    public List<NameByteValuePair> getByteParams() {
+    public List<BytePair> getByteParams() {
         return mByteParams;
     }
 
@@ -127,10 +129,10 @@ public class NetworkReq {
         if (mFileParams == null) {
             mFileParams = new ArrayList<>();
         }
-        mFileParams.add(new NameFileValuePair(name, uri));
+        mFileParams.add(new FilePair(name, uri));
     }
 
-    protected void paramFile(List<NameFileValuePair> params) {
+    protected void paramFile(List<FilePair> params) {
         if (params == null) {
             return;
         }
@@ -141,7 +143,7 @@ public class NetworkReq {
         mFileParams.addAll(params);
     }
 
-    public List<NameFileValuePair> getFileParams() {
+    public List<FilePair> getFileParams() {
         return mFileParams;
     }
 
@@ -155,14 +157,14 @@ public class NetworkReq {
         if (mHeaders == null) {
             mHeaders = new ArrayList<>();
         }
-        mHeaders.add(new NameValuePair(name, value));
+        mHeaders.add(new CommonPair(name, value));
     }
 
     protected void header(String name, int value) {
         header(name, String.valueOf(value));
     }
 
-    protected void header(List<NameValuePair> headers) {
+    protected void header(List<CommonPair> headers) {
         if (headers == null) {
             return;
         }
@@ -173,11 +175,11 @@ public class NetworkReq {
         mHeaders.addAll(headers);
     }
 
-    public List<NameValuePair> getHeaders() {
+    public List<CommonPair> getHeaders() {
         return mHeaders;
     }
 
-    public List<NameValuePair> getParams() {
+    public List<CommonPair> getParams() {
         return mParams;
     }
 
@@ -194,10 +196,11 @@ public class NetworkReq {
      * 内部builder
      */
     public static class Builder {
-        protected List<NameValuePair> mParams;
-        protected List<NameByteValuePair> mByteParams;
-        protected List<NameValuePair> mHeaders;
-        protected List<NameFileValuePair> mFileParams;
+        protected List<CommonPair> mParams;
+        protected List<BytePair> mByteParams;
+        protected List<FilePair> mFileParams;
+
+        protected List<CommonPair> mHeaders;
 
         private String mBaseUrl;
 
@@ -205,7 +208,7 @@ public class NetworkReq {
         private String mFileName;
 
         @NetworkMethod
-        private int mNetworkMethod = NetworkMethod.un_know;
+        private int mNetworkMethod = NetworkMethod.get;
 
         public Builder(String baseUrl) {
             mBaseUrl = baseUrl;
@@ -246,7 +249,7 @@ public class NetworkReq {
             if (TextUtils.isEmpty(value)) {
                 return (T) this;
             }
-            mParams.add(new NameValuePair(name, String.valueOf(value)));
+            mParams.add(new CommonPair(name, String.valueOf(value)));
             return (T) this;
         }
 
@@ -260,7 +263,7 @@ public class NetworkReq {
             return (T) this;
         }
 
-        public <T extends Builder> T param(List<NameValuePair> pairs) {
+        public <T extends Builder> T param(List<CommonPair> pairs) {
             mParams.addAll(pairs);
             return (T) this;
         }
@@ -287,7 +290,7 @@ public class NetworkReq {
             if (mByteParams == null) {
                 mByteParams = new ArrayList<>();
             }
-            mByteParams.add(new NameByteValuePair(name + extend, value));
+            mByteParams.add(new BytePair(name + extend, value));
             return (T) this;
         }
 
@@ -295,13 +298,13 @@ public class NetworkReq {
          * 添加文件param
          *
          * @param name
-         * @param uri
+         * @param path
          */
-        public <T extends Builder> T paramFile(String name, String uri) {
+        public <T extends Builder> T paramFile(String name, String path) {
             if (mFileParams == null) {
                 mFileParams = new ArrayList<>();
             }
-            mFileParams.add(new NameFileValuePair(name, uri));
+            mFileParams.add(new FilePair(name, path));
             return (T) this;
         }
 
@@ -315,7 +318,7 @@ public class NetworkReq {
             if (mHeaders == null) {
                 mHeaders = new ArrayList<>();
             }
-            mHeaders.add(new NameValuePair(name, value));
+            mHeaders.add(new CommonPair(name, value));
             return (T) this;
         }
 
@@ -324,7 +327,7 @@ public class NetworkReq {
             return (T) this;
         }
 
-        public <T extends Builder> T header(List<NameValuePair> pairs) {
+        public <T extends Builder> T header(List<CommonPair> pairs) {
             if (mHeaders == null) {
                 mHeaders = new ArrayList<>();
             }

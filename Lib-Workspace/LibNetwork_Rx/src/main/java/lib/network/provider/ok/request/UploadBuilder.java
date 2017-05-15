@@ -19,8 +19,8 @@ import lib.network.Network;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
-import lib.network.param.NameByteValuePair;
-import lib.network.param.NameFileValuePair;
+import lib.network.param.BytePair;
+import lib.network.param.FilePair;
 
 /**
  * @author yuansui
@@ -35,13 +35,13 @@ public class UploadBuilder extends PostBuilder {
     protected OkHttpRequestBuilder initBuilder() {
         PostFormBuilder builder = (PostFormBuilder) super.initBuilder();
 
-        List<NameByteValuePair> byteParams = request().getByteParams();
+        List<BytePair> byteParams = request().getByteParams();
         if (byteParams != null) {
             Observable.fromIterable(byteParams)
                     .subscribe(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getValue())));
         }
 
-        List<NameFileValuePair> fileParams = request().getFileParams();
+        List<FilePair> fileParams = request().getFileParams();
         if (fileParams != null) {
             Observable.fromIterable(fileParams)
                     .subscribe(p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));

@@ -7,9 +7,9 @@ import java.util.List;
 
 import lib.network.LogNetwork;
 import lib.network.NetworkUtil;
-import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkReq;
-import lib.network.param.NameValuePair;
+import lib.network.model.OnNetworkListener;
+import lib.network.param.CommonPair;
 import lib.network.provider.IRequestBuilder;
 
 /**
@@ -41,9 +41,9 @@ abstract public class BaseBuilder implements IRequestBuilder {
         /**
          * 添加header
          */
-        List<NameValuePair> headers = request.getHeaders();
+        List<CommonPair> headers = request.getHeaders();
         if (headers != null) {
-            for (NameValuePair header : headers) {
+            for (CommonPair header : headers) {
                 mBuilder.addHeader(header.getName(), header.getValue());
             }
         }

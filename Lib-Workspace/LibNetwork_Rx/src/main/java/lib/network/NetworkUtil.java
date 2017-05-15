@@ -2,7 +2,8 @@ package lib.network;
 
 import java.util.List;
 
-import lib.network.param.NameValuePair;
+import lib.network.param.BasePair;
+import lib.network.param.CommonPair;
 
 /**
  * http里使用的一些小工具
@@ -23,7 +24,7 @@ public class NetworkUtil {
      * @param params
      * @return
      */
-    public static String generateGetUrl(String url, List<NameValuePair> params) {
+    public static String generateGetUrl(String url, List<CommonPair> params) {
         if (params == null || params.isEmpty()) {
             return url;
         }
@@ -42,13 +43,13 @@ public class NetworkUtil {
      * @param params
      * @return
      */
-    public static String generateGetParams(List<NameValuePair> params) {
+    public static String generateGetParams(List<CommonPair> params) {
         if (params == null || params.isEmpty()) {
             return KTextEmpty;
         }
 
         StringBuilder sb = new StringBuilder();
-        NameValuePair pair;
+        BasePair pair;
         int size = params.size();
         for (int i = 0; i < size; i++) {
             pair = params.get(i);

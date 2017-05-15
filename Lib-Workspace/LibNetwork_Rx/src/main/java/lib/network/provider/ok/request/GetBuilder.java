@@ -4,9 +4,9 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 
 import lib.network.NetworkUtil;
-import lib.network.model.OnNetworkListener;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
+import lib.network.model.OnNetworkListener;
 
 /**
  * @author yuansui

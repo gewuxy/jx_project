@@ -345,18 +345,6 @@ abstract public class ActivityEx extends SwipeBackActivity implements
                                 KeyboardUtil.hideFromView(v);
                             }
                         });
-
-//                runOnUIThread(() -> {
-//                    View nextFocusV = getCurrentFocus();
-//
-//                    if (nextFocusV instanceof EditText) {
-//                        // 如果下一个v也是EditText, 不必收回键盘, 同时设置监听
-//                        nextFocusV.setOnFocusChangeListener(mOnFocusChangeListener);
-//                    } else {
-//                        KeyboardUtil.hideFromView(v);
-//                    }
-//                });
-
             }
         }
     };

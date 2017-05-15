@@ -10,7 +10,7 @@ import io.reactivex.Observable;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
-import lib.network.param.NameValuePair;
+import lib.network.param.CommonPair;
 
 /**
  * @author yuansui
@@ -24,7 +24,7 @@ public class PostBuilder extends BaseBuilder {
     @Override
     protected OkHttpRequestBuilder initBuilder() {
         String url = request().getUrl();
-        List<NameValuePair> pairs = request().getParams();
+        List<CommonPair> pairs = request().getParams();
 
         PostFormBuilder builder = OkHttpUtils.post().url(url);
 

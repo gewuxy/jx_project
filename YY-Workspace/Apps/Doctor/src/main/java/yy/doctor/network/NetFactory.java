@@ -5,7 +5,7 @@ import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
-import lib.network.param.NameValuePair;
+import lib.network.param.CommonPair;
 import yy.doctor.model.Profile;
 import yy.doctor.network.UrlUtil.UrlEpc;
 import yy.doctor.network.UrlUtil.UrlEpn;
@@ -149,6 +149,7 @@ public class NetFactory {
 
     /**
      * 开机广告
+     *
      * @return
      */
     public static NetworkReq ad() {
@@ -212,9 +213,10 @@ public class NetFactory {
 
     /**
      * 首页推荐会议
+     *
      * @return
      */
-    public static NetworkReq recommendMeeting(){
+    public static NetworkReq recommendMeeting() {
         return newGet(UrlHome.KRecommendMeeting)
                 .build();
     }
@@ -334,12 +336,13 @@ public class NetFactory {
 
     /**
      * 商品详情
+     *
      * @param id
      * @return
      */
     public static NetworkReq epcDetail(int id) {
         return newGet(UrlEpc.KEpcDetail)
-                .param(EpcDetailParam.KEpcDetail , id)
+                .param(EpcDetailParam.KEpcDetail, id)
                 .build();
     }
 
@@ -369,6 +372,7 @@ public class NetFactory {
 
     /**
      * 单位号详情
+     *
      * @param id
      * @param page
      * @param size
@@ -560,8 +564,8 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
-    private static List<NameValuePair> getBaseHeader() {
-        List<NameValuePair> ps = new ArrayList<>();
+    private static List<CommonPair> getBaseHeader() {
+        List<CommonPair> ps = new ArrayList<>();
 
         // TODO: ???公共参数
 //        ps.add(newPair(BaseParam.device_os, "android"));
@@ -573,8 +577,8 @@ public class NetFactory {
         return ps;
     }
 
-    private static NameValuePair newPair(String key, Object value) {
-        return new NameValuePair(key, value);
+    private static CommonPair newPair(String key, Object value) {
+        return new CommonPair(key, value);
     }
 
 }

@@ -5,6 +5,8 @@ package lib.network.model;
  */
 public interface NetworkConstants {
 
+    String KEmpty = "";
+
     interface Http {
         String KUserAgent = "User-Agent";
 
