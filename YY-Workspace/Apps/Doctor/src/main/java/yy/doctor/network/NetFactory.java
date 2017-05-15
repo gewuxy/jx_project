@@ -414,6 +414,15 @@ public class NetFactory {
     }
 
     /**
+     * 返回会议搜索时的科室列表选择
+     * TODO:调用时机?
+     */
+    public static NetworkRequest types() {
+        return newGet(UrlMeet.KTypes)
+                .build();
+    }
+
+    /**
      * 会议详情
      */
     public static NetworkRequest meetInfo(String meetId) {
