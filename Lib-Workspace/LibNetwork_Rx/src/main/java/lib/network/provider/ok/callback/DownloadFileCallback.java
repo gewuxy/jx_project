@@ -9,7 +9,7 @@ import lib.network.error.CallbackEmptyError;
 import lib.network.error.ConnectionNetError;
 import lib.network.error.ParseNetError;
 import lib.network.provider.Delivery;
-import lib.network.provider.IRequestBuilder;
+import lib.network.provider.IBuilder;
 import okhttp3.Call;
 
 /**
@@ -17,11 +17,11 @@ import okhttp3.Call;
  */
 public class DownloadFileCallback extends FileCallBack {
 
-    private IRequestBuilder mBuilder;
+    private IBuilder mBuilder;
     private Delivery mDelivery;
 
-    public DownloadFileCallback(IRequestBuilder builder, Delivery delivery) {
-        super(builder.request().getDir(), builder.request().getFileName());
+    public DownloadFileCallback(IBuilder builder, Delivery delivery) {
+        super(builder.getReq().getDir(), builder.getReq().getFileName());
 
         mBuilder = builder;
         mDelivery = delivery;
@@ -34,7 +34,7 @@ public class DownloadFileCallback extends FileCallBack {
 
     @Override
     public void onResponse(File response, int id) {
-        if (mBuilder.listener() != null) {
+        if (mBuilder.getListener() != null) {
             if (response != null) {
                 mDelivery.deliverSuccess(mBuilder, response);
             } else {

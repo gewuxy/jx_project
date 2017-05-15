@@ -10,12 +10,12 @@ import lib.network.NetworkUtil;
 import lib.network.model.NetworkReq;
 import lib.network.model.OnNetworkListener;
 import lib.network.param.CommonPair;
-import lib.network.provider.IRequestBuilder;
+import lib.network.provider.IBuilder;
 
 /**
  * @author yuansui
  */
-abstract public class BaseBuilder implements IRequestBuilder {
+abstract public class BaseBuilder implements IBuilder {
 
     private OkHttpRequestBuilder mBuilder;
     private NetworkReq mNetRequest;
@@ -23,11 +23,11 @@ abstract public class BaseBuilder implements IRequestBuilder {
     private Object mTag;
     private OnNetworkListener mListener;
 
-    public BaseBuilder(NetworkReq request, Object tag, int id, OnNetworkListener listener) {
+    public BaseBuilder(NetworkReq request, Object tag, int id, OnNetworkListener l) {
         mNetRequest = request;
         mId = id;
         mTag = tag;
-        mListener = listener;
+        mListener = l;
 
         mBuilder = initBuilder();
         mBuilder.id(id);
@@ -35,7 +35,7 @@ abstract public class BaseBuilder implements IRequestBuilder {
 
         if (LogNetwork.isDebug()) {
             String logUrl = NetworkUtil.generateGetUrl(request.getUrl(), request.getParams());
-            LogNetwork.d(String.valueOf(method()) + " = " + logUrl);
+            LogNetwork.d(String.valueOf(getMethod()) + " = " + logUrl);
         }
 
         /**
@@ -44,7 +44,7 @@ abstract public class BaseBuilder implements IRequestBuilder {
         List<CommonPair> headers = request.getHeaders();
         if (headers != null) {
             for (CommonPair header : headers) {
-                mBuilder.addHeader(header.getName(), header.getValue());
+                mBuilder.addHeader(header.getName(), header.getVal());
             }
         }
     }
@@ -52,7 +52,7 @@ abstract public class BaseBuilder implements IRequestBuilder {
     abstract protected OkHttpRequestBuilder initBuilder();
 
     @Override
-    public NetworkReq request() {
+    public NetworkReq getReq() {
         return mNetRequest;
     }
 
@@ -71,7 +71,7 @@ abstract public class BaseBuilder implements IRequestBuilder {
     }
 
     @Override
-    public OnNetworkListener listener() {
+    public OnNetworkListener getListener() {
         return mListener;
     }
 }

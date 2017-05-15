@@ -14,7 +14,7 @@ import lib.network.error.ParseNetError;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkResp;
 import lib.network.provider.Delivery;
-import lib.network.provider.IRequestBuilder;
+import lib.network.provider.IBuilder;
 import lib.network.provider.ok.request.UploadBuilder.DeleteOnExit;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -24,17 +24,17 @@ import okhttp3.Response;
  */
 public class ObjectCallback extends Callback<Object> {
 
-    private IRequestBuilder mBuilder;
+    private IBuilder mBuilder;
     private Delivery mDelivery;
 
-    public ObjectCallback(IRequestBuilder builder, Delivery delivery) {
+    public ObjectCallback(IBuilder builder, Delivery delivery) {
         mBuilder = builder;
         mDelivery = delivery;
     }
 
     @Override
     public void inProgress(float progress, long total, int id) {
-        if (builder().method() == NetworkMethod.upload) {
+        if (builder().getMethod() == NetworkMethod.upload) {
             mDelivery.deliverProgress(builder(), progress * 100, total);
         }
     }
@@ -43,7 +43,7 @@ public class ObjectCallback extends Callback<Object> {
     public Object parseNetworkResponse(Response response, int id) throws Exception {
         if (response.isSuccessful()) {
             // 直接在子线程调用, 在子线程解析
-            return builder().listener().onNetworkResponse(id, getNetworkResponse(response));
+            return builder().getListener().onNetworkResponse(id, getNetworkResponse(response));
         } else {
             return null;
         }
@@ -67,7 +67,7 @@ public class ObjectCallback extends Callback<Object> {
 
     @Override
     public void onResponse(Object response, int id) {
-        if (mBuilder.listener() != null) {
+        if (mBuilder.getListener() != null) {
             if (response != null) {
                 mDelivery.deliverSuccess(mBuilder, response);
             } else {
@@ -94,7 +94,7 @@ public class ObjectCallback extends Callback<Object> {
         return r;
     }
 
-    protected IRequestBuilder builder() {
+    protected IBuilder builder() {
         return mBuilder;
     }
 }

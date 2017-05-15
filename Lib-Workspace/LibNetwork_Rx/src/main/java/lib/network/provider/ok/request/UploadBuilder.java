@@ -35,16 +35,16 @@ public class UploadBuilder extends PostBuilder {
     protected OkHttpRequestBuilder initBuilder() {
         PostFormBuilder builder = (PostFormBuilder) super.initBuilder();
 
-        List<BytePair> byteParams = request().getByteParams();
+        List<BytePair> byteParams = getReq().getByteParams();
         if (byteParams != null) {
             Observable.fromIterable(byteParams)
-                    .subscribe(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getValue())));
+                    .subscribe(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getVal())));
         }
 
-        List<FilePair> fileParams = request().getFileParams();
+        List<FilePair> fileParams = getReq().getFileParams();
         if (fileParams != null) {
             Observable.fromIterable(fileParams)
-                    .subscribe(p -> builder.addFile(p.getName(), p.getValue(), new File(p.getValue())));
+                    .subscribe(p -> builder.addFile(p.getName(), p.getVal(), new File(p.getVal())));
         }
 
         return builder;
@@ -52,7 +52,7 @@ public class UploadBuilder extends PostBuilder {
 
     @Override
     @NetworkMethod
-    public int method() {
+    public int getMethod() {
         return NetworkMethod.upload;
     }
 

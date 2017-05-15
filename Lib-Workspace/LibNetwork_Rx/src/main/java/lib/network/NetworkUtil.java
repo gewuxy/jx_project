@@ -58,7 +58,7 @@ public class NetworkUtil {
             }
             sb.append(pair.getName());
             sb.append(KSymbolEqual);
-            sb.append(pair.getValue());
+            sb.append(pair.getVal());
 
             if (i != size - 1) {
                 sb.append(KSymbolAnd);

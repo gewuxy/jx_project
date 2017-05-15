@@ -9,13 +9,13 @@ import lib.network.model.OnNetworkListener;
  */
 public class DownloadFileBuilder extends GetBuilder {
 
-    public DownloadFileBuilder(NetworkReq request, Object tag, int id, OnNetworkListener listener) {
-        super(request, tag, id, listener);
+    public DownloadFileBuilder(NetworkReq request, Object tag, int id, OnNetworkListener l) {
+        super(request, tag, id, l);
     }
 
     @Override
     @NetworkMethod
-    public int method() {
+    public int getMethod() {
         return NetworkMethod.download_file;
     }
 }

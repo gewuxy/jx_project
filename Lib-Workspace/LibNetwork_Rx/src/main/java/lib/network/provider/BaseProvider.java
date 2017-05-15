@@ -8,7 +8,7 @@ import lib.network.model.OnNetworkListener;
 /**
  * @author yuansui
  */
-abstract public class BaseProvider implements IDeliveryCallback {
+abstract public class BaseProvider implements NativeNetworkListener {
 
     protected String TAG = getClass().getSimpleName();
 
@@ -21,28 +21,28 @@ abstract public class BaseProvider implements IDeliveryCallback {
     }
 
     @Override
-    public void deliverProgress(IRequestBuilder builder, float progress, long totalSize) {
+    public void onProgress(IBuilder b, float progress, long totalSize) {
         if (LogNetwork.isDebug()) {
             LogNetwork.d("progress = " + progress);
             LogNetwork.d("contentLength = " + totalSize);
             LogNetwork.d("=====================");
         }
-        if (builder.listener() != null) {
-            builder.listener().onNetworkProgress(builder.id(), progress, totalSize);
+        if (b.getListener() != null) {
+            b.getListener().onNetworkProgress(b.id(), progress, totalSize);
         }
     }
 
     @Override
-    public void deliverSuccess(IRequestBuilder builder, Object obj) {
-        if (builder.listener() != null) {
-            builder.listener().onNetworkSuccess(builder.id(), obj);
+    public void onSuccess(IBuilder b, Object obj) {
+        if (b.getListener() != null) {
+            b.getListener().onNetworkSuccess(b.id(), obj);
         }
     }
 
     @Override
-    public void deliverError(IRequestBuilder builder, NetError error) {
-        if (builder.listener() != null) {
-            builder.listener().onNetworkError(builder.id(), error);
+    public void onError(IBuilder b, NetError error) {
+        if (b.getListener() != null) {
+            b.getListener().onNetworkError(b.id(), error);
         }
     }
 

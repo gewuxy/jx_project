@@ -13,19 +13,19 @@ import lib.network.model.OnNetworkListener;
  */
 public class GetBuilder extends BaseBuilder {
 
-    public GetBuilder(NetworkReq request, Object tag, int id, OnNetworkListener listener) {
-        super(request, tag, id, listener);
+    public GetBuilder(NetworkReq request, Object tag, int id, OnNetworkListener l) {
+        super(request, tag, id, l);
     }
 
     @Override
     protected OkHttpRequestBuilder initBuilder() {
-        String url = NetworkUtil.generateGetUrl(request().getUrl(), request().getParams());
+        String url = NetworkUtil.generateGetUrl(getReq().getUrl(), getReq().getParams());
         return OkHttpUtils.get().url(url);
     }
 
     @Override
     @NetworkMethod
-    public int method() {
+    public int getMethod() {
         return NetworkMethod.get;
     }
 }

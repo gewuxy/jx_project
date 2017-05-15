@@ -7,11 +7,11 @@ import lib.network.model.NetworkConstants;
 
 abstract public class BasePair<T> {
     private String mName = NetworkConstants.KEmpty;
-    private T mValue;
+    private T mVal;
 
     public BasePair(String name, T val) {
         setName(name);
-        setValue(val);
+        setVal(val);
     }
 
     public void setName(String name) {
@@ -25,15 +25,15 @@ abstract public class BasePair<T> {
         return mName;
     }
 
-    public void setValue(T value) {
-        if (value == null) {
+    public void setVal(T val) {
+        if (val == null) {
             return;
         }
-        mValue = value;
+        mVal = val;
     }
 
-    public T getValue() {
-        return mValue;
+    public T getVal() {
+        return mVal;
     }
 
 }

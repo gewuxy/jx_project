@@ -23,14 +23,14 @@ public class PostBuilder extends BaseBuilder {
 
     @Override
     protected OkHttpRequestBuilder initBuilder() {
-        String url = request().getUrl();
-        List<CommonPair> pairs = request().getParams();
+        String url = getReq().getUrl();
+        List<CommonPair> pairs = getReq().getParams();
 
         PostFormBuilder builder = OkHttpUtils.post().url(url);
 
         if (pairs != null) {
             Observable.fromIterable(pairs)
-                    .subscribe(p -> builder.addParams(p.getName(), p.getValue()));
+                    .subscribe(p -> builder.addParams(p.getName(), p.getVal()));
         }
 
         return builder;
@@ -38,7 +38,7 @@ public class PostBuilder extends BaseBuilder {
 
     @Override
     @NetworkMethod
-    public int method() {
+    public int getMethod() {
         return NetworkMethod.post;
     }
 }

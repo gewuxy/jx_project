@@ -7,9 +7,9 @@ import lib.network.model.OnNetworkListener;
 /**
  * @author yuansui
  */
-public interface IRequestBuilder {
+public interface IBuilder {
     /**
-     * 请求的id(what)
+     * 请求的id
      *
      * @return
      */
@@ -23,11 +23,11 @@ public interface IRequestBuilder {
     Object tag();
 
     @NetworkMethod
-    int method();
+    int getMethod();
 
-    NetworkReq request();
+    NetworkReq getReq();
 
-    OnNetworkListener listener();
+    OnNetworkListener getListener();
 
     <T> T build();
 }

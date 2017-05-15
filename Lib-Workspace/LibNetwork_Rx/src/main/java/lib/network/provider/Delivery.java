@@ -11,28 +11,28 @@ import lib.network.error.NetError;
 public class Delivery {
 
     private Handler mHandler;
-    private IDeliveryCallback mCallback;
+    private NativeNetworkListener mLsn;
 
-    public Delivery(IDeliveryCallback callback) {
+    public Delivery(NativeNetworkListener l) {
         mHandler = new Handler(Looper.getMainLooper());
-        mCallback = callback;
+        mLsn = l;
     }
 
-    public void deliverSuccess(final IRequestBuilder builder, final Object obj) {
-        if (mCallback != null) {
-            mHandler.post(() -> mCallback.deliverSuccess(builder, obj));
+    public void deliverSuccess(final IBuilder builder, final Object obj) {
+        if (mLsn != null) {
+            mHandler.post(() -> mLsn.onSuccess(builder, obj));
         }
     }
 
-    public void deliverProgress(final IRequestBuilder builder, final float progress, final long contentLength) {
-        if (mCallback != null) {
-            mHandler.post(() -> mCallback.deliverProgress(builder, progress, contentLength));
+    public void deliverProgress(final IBuilder builder, final float progress, final long contentLength) {
+        if (mLsn != null) {
+            mHandler.post(() -> mLsn.onProgress(builder, progress, contentLength));
         }
     }
 
-    public void deliverError(IRequestBuilder builder, NetError error) {
-        if (mCallback != null) {
-            mHandler.post(() -> mCallback.deliverError(builder, error));
+    public void deliverError(IBuilder builder, NetError error) {
+        if (mLsn != null) {
+            mHandler.post(() -> mLsn.onError(builder, error));
         }
     }
 }
