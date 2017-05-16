@@ -44,7 +44,7 @@ public class SROpt<T> implements ISRListener {
     private MixScrollOpt<T> mScrollOpt;
 
     // 翻页标识
-    private String mLastItemId = ListConstants.KDefaultInitItemId;
+    private String mLastId = ListConstants.KDefaultInitLastId;
     private int mOffset;
 
     protected BaseSRLoadMoreLayout mSRLayout;
@@ -210,8 +210,8 @@ public class SROpt<T> implements ISRListener {
                 mOffset++;
             }
             break;
-            case PageDownType.last_item_id: {
-                mLastItemId = response.getLastItemId();
+            case PageDownType.last_id: {
+                mLastId = response.getLastId();
             }
             break;
             default:
@@ -244,7 +244,7 @@ public class SROpt<T> implements ISRListener {
     }
 
     public String getLastItemId() {
-        return mLastItemId;
+        return mLastId;
     }
 
     public List<T> getNetData() {
@@ -271,7 +271,7 @@ public class SROpt<T> implements ISRListener {
     public void resetNetDataState() {
         mLoadMore = false;
         mOffset = getInitOffset();
-        mLastItemId = ListConstants.KDefaultInitItemId;
+        mLastId = ListConstants.KDefaultInitLastId;
     }
 
     private int getInitOffset() {

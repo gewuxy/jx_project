@@ -29,7 +29,7 @@ public interface ConstantsEx {
     interface ListConstants {
         int KDefaultLimit = 20;
         int KDefaultInitOffset = 0;
-        String KDefaultInitItemId = "0";
+        String KDefaultInitLastId = "0";
     }
 
     float KInterpolatorMax = 1.0f;

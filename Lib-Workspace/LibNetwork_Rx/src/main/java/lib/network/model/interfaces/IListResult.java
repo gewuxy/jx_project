@@ -7,9 +7,9 @@ import java.util.List;
  */
 public interface IListResult<T> extends IResult {
 
-    String getLastItemId();
+    String getLastId();
 
-    void setLastItemId(String id);
+    void setLastId(String id);
 
     @Override
     List<T> getData();

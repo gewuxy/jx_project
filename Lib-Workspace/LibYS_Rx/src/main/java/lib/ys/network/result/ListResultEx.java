@@ -42,12 +42,12 @@ abstract public class ListResultEx<T> implements IListResult<T> {
     }
 
     @Override
-    public String getLastItemId() {
+    public String getLastId() {
         return mLastItemId;
     }
 
     @Override
-    public void setLastItemId(String id) {
+    public void setLastId(String id) {
         mLastItemId = id;
     }
 

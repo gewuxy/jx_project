@@ -21,28 +21,28 @@ public class ListConfig {
     @IntDef({
             PageDownType.offset,
             PageDownType.page,
-            PageDownType.last_item_id,
+            PageDownType.last_id,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PageDownType {
         int offset = 0;
         int page = 1;
-        int last_item_id = 2;
+        int last_id = 2;
     }
 
     @PageDownType
-    private static int mListPageDownType = PageDownType.offset; // 默认根据个数偏移
+    private static int mType = PageDownType.offset; // 默认根据个数偏移
 
     private static Class<? extends BaseHeader> mHeaderClz = null;
     private static Class<? extends BaseFooter> mFooterClz = null;
 
     @PageDownType
     public static int getType() {
-        return mListPageDownType;
+        return mType;
     }
 
     public static void type(@PageDownType int type) {
-        mListPageDownType = type;
+        mType = type;
     }
 
     public static void headerClz(Class<? extends BaseHeader> clz) {
