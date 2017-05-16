@@ -7,7 +7,7 @@ import java.util.List;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.ExamTopicVH;
+import yy.doctor.adapter.VH.meeting.ExamTopicVH;
 
 /**
  * 考试题目Adapter

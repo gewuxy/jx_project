@@ -63,6 +63,7 @@ public class UrlUtil {
     public interface UrlHome {
         String KBanner = "banner";
         String KRecommendMeeting = "meet/tuijian";
+        String KRecommendUnitNum = "publicAccount/recommend";
     }
 
     public interface UrlMeet {

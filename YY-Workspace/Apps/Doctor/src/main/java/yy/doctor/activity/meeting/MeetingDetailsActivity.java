@@ -3,6 +3,7 @@ package yy.doctor.activity.meeting;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -17,14 +18,12 @@ import java.util.List;
 import lib.bd.location.Location;
 import lib.network.model.err.NetError;
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.permission.PermissionResult;
-import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
@@ -85,6 +84,10 @@ public class MeetingDetailsActivity extends BaseActivity {
     private LayoutParams mDividerParams;//分割线的参数
 
     private LocationDialog mLocationDialog;
+    private int KExamResId = R.mipmap.meeting_ic_exam;//考试
+    private int KQueResId = R.mipmap.meeting_ic_questionnaire;//问卷
+    private int KVideoResId = R.mipmap.meeting_ic_video;//视频
+    private int KSignResId = R.mipmap.meeting_ic_sign;//签到
 
     @IntDef({
             ModuleType.ppt,
@@ -115,31 +118,21 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mDividerParams = LayoutUtil.getLinearParams(fitDp(KDividerWDp), fitDp(KDividerHDp));
         mModuleParams = LayoutUtil.getLinearParams(MATCH_PARENT, MATCH_PARENT);
         mModuleParams.weight = 1;
 
         mModuleCount = 0;
 
-        //TODO:加载再初始化
-
-
-        Intent i = getIntent();
-        if (i != null) {
-            mMeetId = i.getStringExtra(Extra.KData);
-        }
-
-        mLocationDialog = new LocationDialog(MeetingDetailsActivity.this);
+        mMeetId = getIntent().getStringExtra(Extra.KData);
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        //TODO:右边图标的事件
         Util.addBackIcon(bar, "会议详情", this);
+        //TODO:右边图标的事件
         bar.addViewRight(R.mipmap.nar_bar_ic_collection, v -> showToast("收藏"));
         bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
             new ShareDialog(MeetingDetailsActivity.this).show();
-            LogMgr.d(TAG, "分享");
         });
     }
 
@@ -151,11 +144,13 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvTitle = findView(R.id.meeting_details_tv_title);
         mTvSection = findView(R.id.meeting_details_tv_section);
 
+        //嘉宾相关
         mTvGN = findView(R.id.meeting_tv_guest_name);
         mTvGP = findView(R.id.meeting_tv_guest_post);
         mTvGH = findView(R.id.meeting_tv_guest_hospital);
         mIvGP = findView(R.id.meeting_niv_guest_portrait);
 
+        //模块相关
         mLlModules = findView(R.id.meeting_detail_layout_modules);
         mTvSee = findView(R.id.meeting_detail_video_see);
     }
@@ -170,15 +165,13 @@ public class MeetingDetailsActivity extends BaseActivity {
             mMeetId = "17042512131640894904";
         }
 
-        mLocationDialog.setOnAgainListener(v -> sign());
-
         refresh(RefreshWay.embed);
         exeNetworkReq(0, NetFactory.meetInfo(mMeetId));
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), MeetDetail.class);
+    public Object onNetworkResponse(int id, NetworkResp nr) throws Exception {
+        return JsonParser.ev(nr.getText(), MeetDetail.class);
     }
 
     @Override
@@ -226,24 +219,19 @@ public class MeetingDetailsActivity extends BaseActivity {
             type = infoModule.getInt(TInfoModule.functionId);
             switch (type) {
                 case ModuleType.exam:
-                    mExam = ResLoader.getDrawable(R.mipmap.meeting_ic_exam);
-                    //TODO
-                    addModule(mExam, "考试", v -> startActivity(ExamIntroActivity.class));
+                    addModule(KExamResId, "考试", v -> startActivity(ExamIntroActivity.class));
                     break;
 
                 case ModuleType.que:
-                    mQue = ResLoader.getDrawable(R.mipmap.meeting_ic_questionnaire);
-                    addModule(mQue, "问卷", v -> startActivity(ExamIntroActivity.class));
+                    addModule(KQueResId, "问卷", v -> startActivity(ExamIntroActivity.class));
                     break;
 
                 case ModuleType.video:
-                    mVideo = ResLoader.getDrawable(R.mipmap.meeting_ic_video);
-                    addModule(mVideo, "视频", v -> startActivity(ExamIntroActivity.class));
+                    addModule(KVideoResId, "视频", v -> startActivity(ExamIntroActivity.class));
                     break;
 
                 case ModuleType.sign:
-                    mSign = ResLoader.getDrawable(R.mipmap.meeting_ic_sign);
-                    addModule(mSign, "签到", v -> sign());
+                    addModule(KSignResId, "签到", v -> sign());
                     break;
             }
         }
@@ -262,14 +250,16 @@ public class MeetingDetailsActivity extends BaseActivity {
     /**
      * 添加单个模块
      *
-     * @param drawable
+     * @param resId
      * @param content
      */
-    private void addModule(Drawable drawable, String content, OnClickListener l) {
+    private void addModule(@DrawableRes int resId, String content, OnClickListener l) {
         //添加模块间的分割线
         if (mModuleCount != 0) {
             mDivider = new View(MeetingDetailsActivity.this);
             mDivider.setBackgroundResource(R.drawable.divider);
+
+            mDividerParams = LayoutUtil.getLinearParams(fitDp(KDividerWDp), fitDp(KDividerHDp));
 
             fit(mDivider);
             mLlModules.addView(mDivider, mDividerParams);
@@ -278,7 +268,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         View v = inflate(R.layout.layout_meeting_detail_bot_item);
         ImageView iv = (ImageView) v.findViewById(R.id.meeting_detail_iv_module);
         TextView tv = (TextView) v.findViewById(R.id.meeting_detail_tv_module);
-        iv.setImageDrawable(drawable);
+        iv.setImageResource(resId);
         tv.setText(content);
         fit(v);
         mLlModules.addView(v, mModuleParams);
@@ -308,6 +298,10 @@ public class MeetingDetailsActivity extends BaseActivity {
             break;
             case PermissionResult.denied:
             case PermissionResult.never_ask: {
+                if (mLocationDialog == null) {
+                    mLocationDialog = new LocationDialog(MeetingDetailsActivity.this);
+                    mLocationDialog.setOnAgainListener(v -> sign());
+                }
                 mLocationDialog.show();
             }
             break;

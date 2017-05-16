@@ -1,0 +1,297 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "category": "内科",
+      "id": 1,
+      "name": "普内科"
+    },
+    {
+      "category": "内科",
+      "id": 2,
+      "name": "呼吸内科"
+    },
+    {
+      "category": "内科",
+      "id": 3,
+      "name": "心血管内科"
+    },
+    {
+      "category": "内科",
+      "id": 4,
+      "name": "消化内科"
+    },
+    {
+      "category": "内科",
+      "id": 5,
+      "name": "风湿科"
+    },
+    {
+      "category": "内科",
+      "id": 6,
+      "name": "肾内科"
+    },
+    {
+      "category": "内科",
+      "id": 7,
+      "name": "血液科"
+    },
+    {
+      "category": "内科",
+      "id": 8,
+      "name": "内分泌科"
+    },
+    {
+      "category": "内科",
+      "id": 9,
+      "name": "神经内科"
+    },
+    {
+      "category": "内科",
+      "id": 10,
+      "name": "肿瘤内科"
+    },
+    {
+      "category": "内科",
+      "id": 11,
+      "name": "重症医学科"
+    },
+    {
+      "category": "内科",
+      "id": 12,
+      "name": "老年医学科"
+    },
+    {
+      "category": "内科",
+      "id": 13,
+      "name": "急诊内科"
+    },
+    {
+      "category": "内科",
+      "id": 14,
+      "name": "介入科"
+    },
+    {
+      "category": "内科",
+      "id": 15,
+      "name": "皮肤科"
+    },
+    {
+      "category": "内科",
+      "id": 16,
+      "name": "感染科"
+    },
+    {
+      "category": "内科",
+      "id": 17,
+      "name": "放疗科"
+    },
+    {
+      "category": "内科",
+      "id": 18,
+      "name": "中医科"
+    },
+    {
+      "category": "内科",
+      "id": 19,
+      "name": "康复科"
+    },
+    {
+      "category": "内科",
+      "id": 20,
+      "name": "预防保健科"
+    },
+    {
+      "category": "内科",
+      "id": 21,
+      "name": "疼痛科"
+    },
+    {
+      "category": "内科",
+      "id": 22,
+      "name": "生殖科"
+    },
+    {
+      "category": "儿科",
+      "id": 23,
+      "name": "儿科"
+    },
+    {
+      "category": "儿科",
+      "id": 24,
+      "name": "儿内科"
+    },
+    {
+      "category": "儿科",
+      "id": 25,
+      "name": "儿外科"
+    },
+    {
+      "category": "外科",
+      "id": 26,
+      "name": "普外科"
+    },
+    {
+      "category": "外科",
+      "id": 27,
+      "name": "肝胆外科"
+    },
+    {
+      "category": "外科",
+      "id": 28,
+      "name": "结直肠外科"
+    },
+    {
+      "category": "外科",
+      "id": 29,
+      "name": "胃外科"
+    },
+    {
+      "category": "外科",
+      "id": 30,
+      "name": "血管外科"
+    },
+    {
+      "category": "外科",
+      "id": 31,
+      "name": "甲状腺外科"
+    },
+    {
+      "category": "外科",
+      "id": 32,
+      "name": "乳腺外科"
+    },
+    {
+      "category": "外科",
+      "id": 33,
+      "name": "胸外科"
+    },
+    {
+      "category": "外科",
+      "id": 34,
+      "name": "心外科"
+    },
+    {
+      "category": "外科",
+      "id": 35,
+      "name": "泌尿外科"
+    },
+    {
+      "category": "外科",
+      "id": 36,
+      "name": "骨科"
+    },
+    {
+      "category": "外科",
+      "id": 37,
+      "name": "神经外科"
+    },
+    {
+      "category": "外科",
+      "id": 38,
+      "name": "烧伤科"
+    },
+    {
+      "category": "外科",
+      "id": 39,
+      "name": "整形外科"
+    },
+    {
+      "category": "外科",
+      "id": 40,
+      "name": "麻醉科"
+    },
+    {
+      "category": "外科",
+      "id": 41,
+      "name": "耳鼻喉科"
+    },
+    {
+      "category": "外科",
+      "id": 42,
+      "name": "眼科"
+    },
+    {
+      "category": "外科",
+      "id": 43,
+      "name": "口腔科"
+    },
+    {
+      "category": "外科",
+      "id": 44,
+      "name": "急诊外科"
+    },
+    {
+      "category": "外科",
+      "id": 45,
+      "name": "胃肠外科"
+    },
+    {
+      "category": "妇产科",
+      "id": 46,
+      "name": "妇产科"
+    },
+    {
+      "category": "妇产科",
+      "id": 47,
+      "name": "妇科"
+    },
+    {
+      "category": "妇产科",
+      "id": 48,
+      "name": "产科"
+    },
+    {
+      "category": "医技",
+      "id": 49,
+      "name": "检验科"
+    },
+    {
+      "category": "医技",
+      "id": 50,
+      "name": "放射科"
+    },
+    {
+      "category": "医技",
+      "id": 51,
+      "name": "CT/MR室"
+    },
+    {
+      "category": "医技",
+      "id": 52,
+      "name": "核医学科"
+    },
+    {
+      "category": "医技",
+      "id": 53,
+      "name": "超声科"
+    },
+    {
+      "category": "医技",
+      "id": 54,
+      "name": "病理科"
+    },
+    {
+      "category": "医技",
+      "id": 55,
+      "name": "药剂科"
+    },
+    {
+      "category": "医技",
+      "id": 56,
+      "name": "输血科"
+    },
+    {
+      "category": "医技",
+      "id": 57,
+      "name": "体检科"
+    },
+    {
+      "category": "其他",
+      "id": 58,
+      "name": "自定义"
+    }
+  ]
+}
+
+

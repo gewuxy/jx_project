@@ -89,7 +89,7 @@
             android:id="@+id/unit_num_detail_tv_file_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.58"
+            android:layout_weight="1"
             android:gravity="right"
             android:textColor="@color/text_888"
             android:textSize="10dp"/>

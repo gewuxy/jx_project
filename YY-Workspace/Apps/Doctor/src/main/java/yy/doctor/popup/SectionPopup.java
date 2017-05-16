@@ -12,7 +12,7 @@ import lib.ys.fitter.DpFitter;
 import lib.ys.ui.other.PopupWindowEx;
 import lib.yy.view.GridDivider;
 import yy.doctor.R;
-import yy.doctor.adapter.SectionAdapter;
+import yy.doctor.adapter.meeting.SectionAdapter;
 import yy.doctor.util.Util;
 
 import static yy.doctor.Constants.SectionConstants.KDividerHeight;

@@ -2,7 +2,6 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +45,10 @@ import yy.doctor.util.Util;
  */
 public class SignActivity extends BaseActivity {
 
+    private static final int KSucceedResId = R.mipmap.sign_ic_success;//成功的图片
+    private static final int KErrorResId = R.mipmap.sign_ic_defeat;//失败的图片
+    private static final int KSucceedColId = R.color.text_0882e7;//成功的颜色
+    private static final int KErrorColId = R.color.text_333;//失败的颜色
     private static final int KSecond = 1;//间隔
     private static final int KReturnTime = 3;//关闭倒计时
     private static final int KSign = 0;
@@ -59,11 +62,6 @@ public class SignActivity extends BaseActivity {
     private TextView mTvResultMsg;//成功的时间/失败的原因
     private TextView mTvReturn;
 
-    private int mSucceed;//成功的颜色
-    private int mError;//失败的颜色
-    private Drawable mDrawSucceed;//成功的图片
-    private Drawable mDrawError;//失败的图片
-
     public static void nav(Context context, String meetId) {
         Intent i = new Intent(context, SignActivity.class);
         i.putExtra(Extra.KData, meetId);
@@ -72,15 +70,7 @@ public class SignActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mDrawSucceed = ResLoader.getDrawable(R.mipmap.sign_ic_success);
-        mDrawError = ResLoader.getDrawable(R.mipmap.sign_ic_defeat);
-        mSucceed = ResLoader.getColor(R.color.text_0882e7);
-        mError = ResLoader.getColor(R.color.text_333);
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            mMeetId = intent.getStringExtra(Extra.KData);
-        }
+        mMeetId = getIntent().getStringExtra(Extra.KData);
     }
 
     @NonNull
@@ -175,8 +165,8 @@ public class SignActivity extends BaseActivity {
      * 签到成功
      */
     private void signSucceed(SignResult signResult) {
-        mIvResult.setImageDrawable(mDrawSucceed);
-        mTvResult.setTextColor(mSucceed);
+        mIvResult.setImageResource(KSucceedResId);
+        mTvResult.setTextColor(ResLoader.getColor(KSucceedColId));
         mTvResult.setText("签到已成功");
 
         long signTime = signResult.getLong(TSignResult.signTime);
@@ -191,8 +181,8 @@ public class SignActivity extends BaseActivity {
      * 签到失败
      */
     private void signError(String msg) {
-        mIvResult.setImageDrawable(mDrawError);
-        mTvResult.setTextColor(mError);
+        mIvResult.setImageResource(KErrorResId);
+        mTvResult.setTextColor(ResLoader.getColor(KErrorColId));
         mTvResult.setText("签到失败");
         mTvResultMsg.setText(msg);
         onFinish();

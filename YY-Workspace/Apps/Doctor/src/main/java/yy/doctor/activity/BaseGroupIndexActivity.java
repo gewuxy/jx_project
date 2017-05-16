@@ -45,7 +45,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
 
     @Override
     public int getSRLayoutResId() {
-        return R.id.group_index_list_layout;
+        return R.id.sr_group_list_layout;
     }
 
     @Override
@@ -53,7 +53,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
         super.findViews();
 
         mSideBar = findView(R.id.group_index_layout_side_bar);
-        mTvLetter = findView(R.id.unit_num_tv_letter);
+        mTvLetter = findView(R.id.group_index_tv_letter);
 
         initSideBar();
     }

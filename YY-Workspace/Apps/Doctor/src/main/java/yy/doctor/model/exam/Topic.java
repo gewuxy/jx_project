@@ -2,7 +2,7 @@ package yy.doctor.model.exam;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
-import yy.doctor.model.exam.Topic.TExamTopic;
+import yy.doctor.model.exam.Topic.TTopic;
 
 /**
  * 考试/问卷试题信息
@@ -11,9 +11,9 @@ import yy.doctor.model.exam.Topic.TExamTopic;
  * @since : 2017/4/29
  */
 
-public class Topic extends EVal<TExamTopic> {
+public class Topic extends EVal<TTopic> {
 
-    public enum TExamTopic {
+    public enum TTopic {
         id,//试题ID
         qtype,//试题类型
         title,//问题

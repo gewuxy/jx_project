@@ -160,10 +160,10 @@ public class ExchangeActivity extends BaseFormActivity {
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId("000001")
                         .price("85")
-                        .receiver("hell")
+                        .receiver("都是广")
                         .phone("15860062000")
                         .province("hsj")
-                        .address("sdfjijidsofj")
+                        .address("故事机加快速度啊速度快解放的看法")
                         .builder();
                 refresh(RefreshWay.dialog);
                 exeNetworkReq(0, r);

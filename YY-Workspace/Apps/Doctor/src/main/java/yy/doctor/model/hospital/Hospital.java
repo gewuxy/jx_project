@@ -11,6 +11,7 @@ import yy.doctor.model.hospital.Hospital.THospital;
 public class Hospital extends EVal<THospital> {
 
     public enum THospital {
+        alpha,//首字母
         name,//名字
     }
 }

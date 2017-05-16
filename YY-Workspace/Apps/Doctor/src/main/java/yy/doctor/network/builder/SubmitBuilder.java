@@ -79,7 +79,7 @@ public class SubmitBuilder {
                         o.put(MeetParam.KAnswer, answer.getString(TAnswer.answer));
                         o.put(MeetParam.KQuestionId, answer.getString(TAnswer.id));
                     } catch (JSONException e) {
-                        LogMgr.e(TAG, "items", e);
+                        LogMgr.e(TAG, MeetParam.KItemJson, e);
                     }
 
                     arr.put(o);

@@ -39,7 +39,7 @@
                     android:src="@mipmap/meeting_ic_not_started"/>
 
                 <TextView
-                    android:id="@+id/home_meeting_item_tv_state"
+                    android:id="@+id/home_meeting_item_tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -74,7 +74,7 @@
                     android:textSize="9dp"/>
 
                 <TextView
-                    android:id="@+id/home_meeting_item_tv_total_time"
+                    android:id="@+id/home_meeting_item_tv_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
@@ -82,9 +82,20 @@
                     android:textColor="@color/text_888"
                     android:textSize="9dp"/>
 
-                <lib.ys.view.NestCheckBox
+                <TextView
+                    android:id="@+id/home_meeting_item_tv_collection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:drawableLeft="@mipmap/home_ic_meeting_collection"
+                    android:drawablePadding="4dp"
+                    android:text="已收藏"
+                    android:textColor="@color/text_83c0f3"
+                    android:textSize="9dp"/>
+
+                <!--<lib.ys.view.NestCheckBox
                     android:id="@+id/home_meeting_item_check_box_collection"
-                    android:layout_width="38dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:background="@drawable/home_meeting_checkbox_bg_selector"
@@ -100,7 +111,7 @@
                         android:textColor="@color/text_83c0f3"
                         android:textSize="9dp"/>
 
-                </lib.ys.view.NestCheckBox>
+                </lib.ys.view.NestCheckBox>-->
 
             </LinearLayout>
 
