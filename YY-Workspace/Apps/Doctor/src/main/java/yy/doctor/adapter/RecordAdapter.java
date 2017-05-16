@@ -9,11 +9,11 @@ import yy.doctor.adapter.VH.RecordVH;
 /**
  * 会议记录的Adapter
  *
- * @since  : 2017/4/26
- * @author  : guoxuan
+ * @author : guoxuan
+ * @since : 2017/4/26
  */
 
-public class RecordAdapter extends MultiAdapterEx<String,RecordVH> {
+public class RecordAdapter extends MultiAdapterEx<String, RecordVH> {
 
     @IntDef({
             RecordType.text,

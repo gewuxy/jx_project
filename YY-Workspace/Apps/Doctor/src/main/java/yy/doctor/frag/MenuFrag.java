@@ -4,8 +4,8 @@ import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 
-import lib.ys.ui.other.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.model.form.menu.Builder;

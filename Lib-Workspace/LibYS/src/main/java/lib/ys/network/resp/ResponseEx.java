@@ -1,4 +1,4 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
 abstract public class ResponseEx<T> implements IResponse<T> {
 

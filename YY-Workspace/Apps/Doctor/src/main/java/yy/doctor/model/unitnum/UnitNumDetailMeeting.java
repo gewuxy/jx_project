@@ -11,12 +11,12 @@ public class UnitNumDetailMeeting extends EVal<TUnitNumDetailMeeting> {
 
     public enum TUnitNumDetailMeeting {
 
-        meetName,	//会议名称
-        meetType,	//会议类型
-        publishTime,	//发布时间
-        duration,	//会议时长
-        status,	//会议状态
+        meetName,    //会议名称
+        meetType,    //会议类型
+        publishTime,    //发布时间
+        duration,    //会议时长
+        status,    //会议状态
 
-        }
+    }
 
 }

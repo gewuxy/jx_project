@@ -17,7 +17,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseVPActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.frag.DataFrag;
@@ -160,7 +160,7 @@ public class MainActivity extends BaseVPActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Resp<Profile> r = (Resp<Profile>) result;
+        Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();

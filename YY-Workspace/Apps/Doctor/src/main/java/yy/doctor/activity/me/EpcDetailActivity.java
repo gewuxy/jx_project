@@ -12,7 +12,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.EpcDetail;
@@ -49,7 +49,7 @@ public class EpcDetailActivity extends BaseActivity {
     public void initData() {
 
         Intent i = getIntent();
-        mGoodId = i.getIntExtra(Extra.KData,000);
+        mGoodId = i.getIntExtra(Extra.KData, 000);
         mGoodName = i.getStringExtra(Extra.KName);
     }
 
@@ -81,7 +81,7 @@ public class EpcDetailActivity extends BaseActivity {
     public void setViews() {
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(0 , NetFactory.epcDetail(mGoodId));
+        exeNetworkReq(0, NetFactory.epcDetail(mGoodId));
 
         setOnClickListener(R.id.epc_detail_tv_btn);
 
@@ -101,7 +101,7 @@ public class EpcDetailActivity extends BaseActivity {
         super.onNetworkSuccess(id, result);
 
         stopRefresh();
-        Resp<EpcDetail> r = (Resp<EpcDetail>) result;
+        Result<EpcDetail> r = (Result<EpcDetail>) result;
         if (r.isSucceed()) {
             EpcDetail epcDetail = r.getData();
             mTvName.setText(epcDetail.getString(TEpcDetail.name));
@@ -110,7 +110,7 @@ public class EpcDetailActivity extends BaseActivity {
             mTvDescription.setText(epcDetail.getString(TEpcDetail.description));
 
         }
-        
+
     }
 
     @Override

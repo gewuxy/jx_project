@@ -8,7 +8,7 @@ import yy.doctor.adapter.VH.UnitNumDataVH;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class UnitNumDataAdapter extends AdapterEx<String,UnitNumDataVH> {
+public class UnitNumDataAdapter extends AdapterEx<String, UnitNumDataVH> {
 
     @Override
     public int getConvertViewResId() {

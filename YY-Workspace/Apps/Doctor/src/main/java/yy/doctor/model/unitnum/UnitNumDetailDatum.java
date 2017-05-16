@@ -9,7 +9,7 @@ import yy.doctor.model.unitnum.UnitNumDetailDatum.TUnitNumDetailDatum;
 
 public class UnitNumDetailDatum extends EVal<TUnitNumDetailDatum> {
 
-    public enum TUnitNumDetailDatum{
+    public enum TUnitNumDetailDatum {
         id,  //资料id
         materialName,   //资料名称
         materialUrl,   //资料url

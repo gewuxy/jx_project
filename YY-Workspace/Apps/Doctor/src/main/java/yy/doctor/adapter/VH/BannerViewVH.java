@@ -18,7 +18,7 @@ public class BannerViewVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public NetworkImageView getIv(){
+    public NetworkImageView getIv() {
         return getView(R.id.banner_view_iv);
     }
 

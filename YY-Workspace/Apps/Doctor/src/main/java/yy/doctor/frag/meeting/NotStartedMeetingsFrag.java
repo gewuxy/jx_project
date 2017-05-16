@@ -6,7 +6,7 @@ import yy.doctor.network.NetFactory;
 
 /**
  * 会议等待中列表
- *
+ * <p>
  * 日期 : 2017/4/24
  * 创建人 : guoxuan
  */

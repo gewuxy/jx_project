@@ -12,7 +12,7 @@ import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
@@ -26,7 +26,7 @@ import yy.doctor.util.Util;
 
 /**
  * 注册界面
- *
+ * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
@@ -233,7 +233,7 @@ public class RegisterActivity extends BaseFormActivity {
     public void onNetworkSuccess(int id, Object result) {
         if (id == KLogin) {//登录
             stopRefresh();
-            Resp<Profile> r = (Resp<Profile>) result;
+            Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
                 notify(NotifyType.login);
@@ -245,7 +245,7 @@ public class RegisterActivity extends BaseFormActivity {
                 showToast(r.getError());
             }
         } else {//注册
-            Resp r = (Resp) result;
+            Result r = (Result) result;
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh
                 exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));

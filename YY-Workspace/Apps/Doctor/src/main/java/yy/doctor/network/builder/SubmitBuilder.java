@@ -82,8 +82,8 @@ public class SubmitBuilder {
                         LogMgr.e(TAG, "items", e);
                     }
 
-            arr.put(o);
-        });
+                    arr.put(o);
+                });
 
         mBuilder.param(MeetParam.KItemJson, arr.toString());
         return this;

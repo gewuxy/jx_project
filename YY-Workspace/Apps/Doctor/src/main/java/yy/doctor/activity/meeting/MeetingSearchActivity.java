@@ -66,7 +66,7 @@ public class MeetingSearchActivity extends BaseActivity {
         List<String> mNames = Util.getSections();//全部科室
         TextView tvSection;
         View view;
-        for(int i = 0; i < mNames.size(); i ++){
+        for (int i = 0; i < mNames.size(); i++) {
             final String name = mNames.get(i);
             view = inflate(R.layout.layout_meeting_search_section);
             tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
@@ -101,9 +101,9 @@ public class MeetingSearchActivity extends BaseActivity {
 
     /**
      * 进行搜索
-  */
+     */
     private void search() {
         String searchStr = mEtSearch.getText().toString().trim();
-        LogMgr.e("搜索",searchStr);
+        LogMgr.e("搜索", searchStr);
     }
 }

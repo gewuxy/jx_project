@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="62dp"
@@ -27,7 +27,7 @@
             android:text="大声道是的肌肤好"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
-        
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="16dp"

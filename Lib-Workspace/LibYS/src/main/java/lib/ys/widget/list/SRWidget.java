@@ -19,7 +19,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.decor.DecorViewEx.ViewState;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.result.IListResponse;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.res.ResLoader;

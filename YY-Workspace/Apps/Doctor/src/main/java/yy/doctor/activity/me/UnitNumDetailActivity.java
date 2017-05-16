@@ -28,7 +28,7 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.NestCheckBox;
 import lib.yy.activity.base.BaseListActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.R;
 import yy.doctor.adapter.UnitNumDetailAdapter;
@@ -70,7 +70,6 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     private ImageView mIvArrrow;
     private LinearLayout mLayoutFile;
     private View mVLargeDivider;
-
 
 
     private UnitNumDetail mUnitNumDetail;
@@ -268,7 +267,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     public void onNetworkSuccess(int id, Object result) {
 
         if (id == 0) {
-            Resp<UnitNumDetail> r = (Resp<UnitNumDetail>) result;
+            Result<UnitNumDetail> r = (Result<UnitNumDetail>) result;
             mUnitNumDetail = r.getData();
             mTvName.setText(mUnitNumDetail.getString(TUnitNumDetail.nickname));
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
@@ -296,7 +295,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
                 });
             }
             if (listSize >= 3) {
-                mTvFileNum.setText("查看其他" + (listSize-3) + "个文件");
+                mTvFileNum.setText("查看其他" + (listSize - 3) + "个文件");
                 showView(mIvArrrow);
                 mVFileLayout.setOnClickListener(new OnClickListener() {
                     @Override
@@ -310,7 +309,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
             setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
 
         } else {
-            Resp r = (Resp) result;
+            Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("成功");
             }

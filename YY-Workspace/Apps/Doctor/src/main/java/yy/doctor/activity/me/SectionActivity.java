@@ -10,7 +10,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.ListResp;
+import lib.yy.network.ListResult;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.DepartmentsAdapter;
@@ -85,11 +85,11 @@ public class SectionActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        ListResp<Section> r = (ListResp<Section>) result;
+        ListResult<Section> r = (ListResult<Section>) result;
         if (r.isSucceed()) {
             List<Section> data = r.getData();
             for (Section section : data) {
-                LogMgr.d("section",section.getString(Section.TSection.name));
+                LogMgr.d("section", section.getString(Section.TSection.name));
             }
         } else {
             showToast(r.getError());

@@ -17,7 +17,7 @@ public class ThomsonLibVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public TextView getTv(){
+    public TextView getTv() {
         return getView(R.id.thomson_lib_tv);
     }
 

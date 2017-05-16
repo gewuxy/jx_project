@@ -26,7 +26,7 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -146,7 +146,7 @@ public class SignActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KToSign) {//获取签到信息
-            Resp<Sign> r = (Resp<Sign>) result;
+            Result<Sign> r = (Result<Sign>) result;
             if (r.isSucceed()) {
                 Sign signData = r.getData();
                 exeNetworkReq(KSign, NetFactory.sign()
@@ -162,7 +162,7 @@ public class SignActivity extends BaseActivity {
             }
         } else {//签到
             setViewState(ViewState.normal);
-            Resp<SignResult> r = (Resp<SignResult>) result;
+            Result<SignResult> r = (Result<SignResult>) result;
             if (r.isSucceed()) {
                 signSucceed(r.getData());
             } else {

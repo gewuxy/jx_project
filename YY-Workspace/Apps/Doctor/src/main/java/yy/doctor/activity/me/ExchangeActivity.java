@@ -14,7 +14,7 @@ import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseFormActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
@@ -155,7 +155,8 @@ public class ExchangeActivity extends BaseFormActivity {
 
                 if (!check()) {
                     return;
-                };
+                }
+                ;
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId("000001")
                         .price("85")
@@ -183,7 +184,7 @@ public class ExchangeActivity extends BaseFormActivity {
         super.onNetworkSuccess(id, result);
 
         stopRefresh();
-        Resp<Exchange> r = (Resp<Exchange>) result;
+        Result<Exchange> r = (Result<Exchange>) result;
 
         if (r.isSucceed()) {
             showToast("兑换成功");

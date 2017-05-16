@@ -5,8 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import lib.ys.model.EVal;
-import lib.ys.network.resp.IResp;
-import lib.ys.network.resp.JsonParserEx;
+import lib.ys.network.result.IResult;
+import lib.ys.network.result.JsonParserEx;
 
 /**
  * @author yuansui
@@ -32,7 +32,7 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    protected static boolean error(String text, IResp r) throws JSONException {
+    protected static boolean error(String text, IResult r) throws JSONException {
         JSONObject object = new JSONObject(text);
 
         int code;
@@ -55,8 +55,8 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    public static Resp<String> error(String text) throws JSONException {
-        Resp<String> r = new Resp<>();
+    public static Result<String> error(String text) throws JSONException {
+        Result<String> r = new Result<>();
         error(text, r);
         return r;
     }
@@ -69,7 +69,7 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    protected static JSONObject getGlobalJsonObject(String text, IResp r) throws JSONException {
+    protected static JSONObject getGlobalJsonObject(String text, IResult r) throws JSONException {
         if (error(text, r)) {
             return null;
         }
@@ -85,7 +85,7 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    protected static JSONArray getGlobalJsonArray(String text, IResp r) throws JSONException {
+    protected static JSONArray getGlobalJsonArray(String text, IResult r) throws JSONException {
         if (error(text, r)) {
             return null;
         }
@@ -102,8 +102,8 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    public static <T extends EVal> Resp<T> ev(String text, Class<T> clz) throws JSONException {
-        Resp<T> r = new Resp<>();
+    public static <T extends EVal> Result<T> ev(String text, Class<T> clz) throws JSONException {
+        Result<T> r = new Result<>();
         setEV(clz, r, getGlobalJsonObject(text, r));
         return r;
     }
@@ -117,8 +117,8 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    public static <T extends EVal> ListResp<T> evs(String text, Class<T> clz) throws JSONException {
-        ListResp<T> r = new ListResp<>();
+    public static <T extends EVal> ListResult<T> evs(String text, Class<T> clz) throws JSONException {
+        ListResult<T> r = new ListResult<>();
         setEVs(clz, r, getGlobalJsonArray(text, r));
         return r;
     }

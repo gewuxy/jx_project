@@ -13,7 +13,7 @@ import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.result.IListResponse;
 import lib.ys.widget.list.OnSRWidgetListener;
 import lib.ys.widget.list.SRWidget;
 import lib.ys.widget.list.mix.MixOnScrollListener;

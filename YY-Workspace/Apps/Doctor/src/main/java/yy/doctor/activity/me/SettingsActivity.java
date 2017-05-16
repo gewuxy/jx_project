@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.ys.ui.other.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;

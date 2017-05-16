@@ -10,9 +10,9 @@ import yy.doctor.model.search.SearchUnitNum.TSearchUnitNum;
 public class SearchUnitNum extends EVal<TSearchUnitNum> {
 
     public enum TSearchUnitNum {
-        Id,	         //公众号Id
-        nickname,	//公众号昵称
-        headimg,	//公众号头像
+        Id,             //公众号Id
+        nickname,    //公众号昵称
+        headimg,    //公众号头像
     }
 
 }

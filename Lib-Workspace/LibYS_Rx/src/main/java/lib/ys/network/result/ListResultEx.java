@@ -1,4 +1,4 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 /**
  * @author yuansui
  */
-abstract public class ListRespEx<T> implements IListResp<T> {
+abstract public class ListResultEx<T> implements IListResult<T> {
 
-    private List<T> mTs = new ArrayList<>();
+    private List<T> mTs;
     private int mCode;
     private String mLastItemId;
     private String mError;

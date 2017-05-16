@@ -20,6 +20,7 @@ public class CommentVH extends ViewHolderEx {
 
     /**
      * 评论用户的头像的
+     *
      * @return
      */
     public NetworkImageView getIcon() {
@@ -28,6 +29,7 @@ public class CommentVH extends ViewHolderEx {
 
     /**
      * 名字的文本
+     *
      * @return
      */
     public TextView getName() {
@@ -36,6 +38,7 @@ public class CommentVH extends ViewHolderEx {
 
     /**
      * 日期的文本
+     *
      * @return
      */
     public TextView getDate() {
@@ -44,6 +47,7 @@ public class CommentVH extends ViewHolderEx {
 
     /**
      * 评论内容的文本
+     *
      * @return
      */
     public TextView getContent() {

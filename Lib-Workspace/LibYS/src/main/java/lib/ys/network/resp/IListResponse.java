@@ -1,4 +1,4 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
 import java.util.List;
 

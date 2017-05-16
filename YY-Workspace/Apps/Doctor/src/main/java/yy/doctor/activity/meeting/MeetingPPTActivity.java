@@ -16,7 +16,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.ToastUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.exam.Course;
 import yy.doctor.model.exam.Course.TCourse;
@@ -28,7 +28,7 @@ import yy.doctor.util.Util;
 
 /**
  * 观看会议界面
- *
+ * <p>
  * 日期 : 2017/4/24
  * 创建人 : guoxuan
  */
@@ -91,7 +91,7 @@ public class MeetingPPTActivity extends BaseActivity {
         mIvControl.setOnClickListener(this);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(0, NetFactory.toPpt("17042512131640894904","7"));
+        exeNetworkReq(0, NetFactory.toPpt("17042512131640894904", "7"));
     }
 
     @Override
@@ -107,11 +107,11 @@ public class MeetingPPTActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
-        Resp<Ppt> r = (Resp<Ppt>) result;
+        Result<Ppt> r = (Result<Ppt>) result;
         if (r.isSucceed()) {
             Ppt data = r.getData();
             Course course = data.getEv(TPpt.course);
-            LogMgr.d("标题",course.getString(TCourse.title));
+            LogMgr.d("标题", course.getString(TCourse.title));
         }
     }
 

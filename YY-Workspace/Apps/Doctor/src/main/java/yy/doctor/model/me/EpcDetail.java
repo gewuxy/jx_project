@@ -11,12 +11,12 @@ public class EpcDetail extends EVal<TEpcDetail> {
 
     public enum TEpcDetail {
 
-        id,	//商品id
-        name,	//商品名字
-        price,	//商品价格
-        picture,	//商品图片url
-        description,	//商品描述
-        buyLimit,	//限购数
+        id,    //商品id
+        name,    //商品名字
+        price,    //商品价格
+        picture,    //商品图片url
+        description,    //商品描述
+        buyLimit,    //限购数
 
     }
 

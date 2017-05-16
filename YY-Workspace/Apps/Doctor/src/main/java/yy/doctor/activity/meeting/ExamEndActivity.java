@@ -8,7 +8,7 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.exam.Answer;
 import yy.doctor.model.exam.Answer.TAnswer;
@@ -48,8 +48,8 @@ public class ExamEndActivity extends BaseActivity {
         List<Answer> items = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Answer question = new Answer();
-            question.put(TAnswer.answer,"答案" + i);
-            question.put(TAnswer.id,"" + i);
+            question.put(TAnswer.answer, "答案" + i);
+            question.put(TAnswer.id, "" + i);
             items.add(question);
 
         }
@@ -70,7 +70,7 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Resp response = (Resp) result;
+        Result response = (Result) result;
         if (response.isSucceed()) {
             showToast("成功" + response.getCode());
         } else {

@@ -1,11 +1,11 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
 import java.util.List;
 
 /**
  * @author yuansui
  */
-public interface IListResp<T> extends IResp {
+public interface IListResult<T> extends IResult {
 
     String getLastItemId();
 

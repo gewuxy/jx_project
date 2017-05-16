@@ -8,7 +8,7 @@ import yy.doctor.adapter.VH.BannerViewVH;
  * @author CaiXiang
  * @since 2017/5/4
  */
-public class BannerViewAdapter extends PagerAdapterEx<String,BannerViewVH> {
+public class BannerViewAdapter extends PagerAdapterEx<String, BannerViewVH> {
 
 
     @Override

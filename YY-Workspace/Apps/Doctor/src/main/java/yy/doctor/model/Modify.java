@@ -9,7 +9,7 @@ import yy.doctor.model.Modify.TModify;
  */
 public class Modify extends EVal<TModify> {
 
-    public enum TModify{
+    public enum TModify {
 
     }
 

@@ -18,8 +18,12 @@ public class ExamTopicVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public TextView getTvAnswer() { return getView(R.id.exam_topic_tv_answer);}
+    public TextView getTvAnswer() {
+        return getView(R.id.exam_topic_tv_answer);
+    }
 
-    public NestCheckBox getCbAnswer() { return getView(R.id.exam_topic_cb_answer);}
+    public NestCheckBox getCbAnswer() {
+        return getView(R.id.exam_topic_cb_answer);
+    }
 
 }

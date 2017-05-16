@@ -8,7 +8,7 @@ import yy.doctor.adapter.VH.NoticeVH;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class NoticeAdapter extends AdapterEx<String,NoticeVH> {
+public class NoticeAdapter extends AdapterEx<String, NoticeVH> {
 
     @Override
     public int getConvertViewResId() {

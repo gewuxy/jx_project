@@ -10,9 +10,9 @@ import yy.doctor.model.search.RecommendUnitNum.TRecommendUnitNum;
 public class RecommendUnitNum extends EVal<TRecommendUnitNum> {
 
     public enum TRecommendUnitNum {
-        Id,	         //公众号Id
-        nickname,	//公众号昵称
-        headimg,	//公众号头像
+        Id,             //公众号Id
+        nickname,    //公众号昵称
+        headimg,    //公众号头像
     }
 
 }

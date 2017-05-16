@@ -13,7 +13,7 @@ import yy.doctor.model.me.Epc.TEpc;
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class EpcAdapter extends AdapterEx<Epc,EpcVH> {
+public class EpcAdapter extends AdapterEx<Epc, EpcVH> {
 
     @Override
     public int getConvertViewResId() {

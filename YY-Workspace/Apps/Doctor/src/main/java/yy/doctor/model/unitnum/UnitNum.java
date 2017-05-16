@@ -12,9 +12,9 @@ public class UnitNum extends EVal<TUnitNum> {
     public enum TUnitNum {
 
         alpha,  //首字母
-        headimg,	//公众号头像
-        Id,	   //公众号Id
-        nickname,	//公众号昵称
+        headimg,    //公众号头像
+        Id,       //公众号Id
+        nickname,    //公众号昵称
 
     }
 }

@@ -17,7 +17,7 @@ public class UnitNumDataVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public TextView getTv(){
+    public TextView getTv() {
         return getView(R.id.unit_num_data_item_tv);
     }
 

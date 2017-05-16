@@ -1,9 +1,9 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
 /**
  * @author yuansui
  */
-public interface IResp<T> {
+public interface IResult<T> {
 
     void setData(T data);
 

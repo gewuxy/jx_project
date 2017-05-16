@@ -12,8 +12,8 @@ import java.util.Map;
 
 import lib.ys.LogMgr;
 import lib.ys.model.EVal;
-import lib.ys.network.resp.IListResp;
-import lib.ys.network.resp.IResp;
+import lib.ys.network.result.IListResult;
+import lib.ys.network.result.IResult;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JsonUtil {
@@ -78,7 +78,7 @@ public class JsonUtil {
      * @param array
      * @throws JSONException
      */
-    public static <T extends EVal> void setEVs(Class<T> clz, IListResp<T> r, JSONArray array) throws JSONException {
+    public static <T extends EVal> void setEVs(Class<T> clz, IListResult<T> r, JSONArray array) throws JSONException {
         if (array == null) {
             return;
         }
@@ -93,7 +93,7 @@ public class JsonUtil {
      * @param object
      * @throws JSONException
      */
-    public static <T extends EVal> void setEV(Class<T> clz, IResp<T> r, JSONObject object) throws JSONException {
+    public static <T extends EVal> void setEV(Class<T> clz, IResult<T> r, JSONObject object) throws JSONException {
         if (object == null) {
             return;
         }

@@ -11,7 +11,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.decor.DecorViewEx.ViewState;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.result.IListResponse;
 
 /**
  * 下拉刷新组件

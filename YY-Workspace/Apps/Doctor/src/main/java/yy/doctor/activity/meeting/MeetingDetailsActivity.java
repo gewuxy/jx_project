@@ -27,7 +27,7 @@ import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -45,7 +45,7 @@ import static lib.ys.util.permission.Permission.location;
 
 /**
  * 会议详情界面
- *
+ * <p>
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -184,7 +184,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
-        Resp<MeetDetail> r = (Resp<MeetDetail>) result;
+        Result<MeetDetail> r = (Result<MeetDetail>) result;
         if (r.isSucceed()) {
             refreshViews(r.getData());
         } else {
@@ -252,7 +252,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         int emptyCount = KModuleCount - mModuleCount;
         if (emptyCount > 0) {
             for (int i = 0; i < emptyCount; i++) {
-                View v  = new View(MeetingDetailsActivity.this);
+                View v = new View(MeetingDetailsActivity.this);
                 fit(v);
                 mLlModules.addView(v, mModuleParams);
             }

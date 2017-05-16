@@ -14,7 +14,7 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.network.resp.IListResp;
+import lib.ys.network.result.IListResult;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.ui.interfaces.opts.list.SROpt;
@@ -82,7 +82,7 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public IListResp<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
         return null;
     }
 
@@ -239,7 +239,7 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROpt.onNetworkSuccess((IListResp) result);
+        mSROpt.onNetworkSuccess((IListResult) result);
     }
 
     @Override

@@ -3,7 +3,7 @@ package lib.yy.frag.base;
 import org.json.JSONException;
 
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.network.resp.IListResp;
+import lib.ys.network.result.IListResult;
 import lib.ys.ui.frag.list.SRListFragEx;
 import lib.ys.util.GenericUtil;
 import lib.yy.Notifier;
@@ -41,7 +41,7 @@ abstract public class BaseSRListFrag<T, A extends IAdapter<T>> extends SRListFra
     }
 
     @Override
-    public IListResp<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
     }
 

@@ -10,7 +10,7 @@ import lib.ys.adapter.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.decor.DecorViewEx.ViewState;
 import lib.ys.form.FormItemEx;
-import lib.ys.network.resp.IListResponse;
+import lib.ys.network.result.IListResponse;
 import lib.ys.view.swipeRefresh.base.BaseSRLayout;
 import lib.ys.view.swipeRefresh.interfaces.ISRListener;
 

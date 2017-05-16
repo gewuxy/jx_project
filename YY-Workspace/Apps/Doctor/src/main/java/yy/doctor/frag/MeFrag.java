@@ -4,16 +4,16 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.ui.other.NavBar;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.me.CollectionMeetingActivity;
 import yy.doctor.activity.me.EpcActivity;
-import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.EpnActivity;
+import yy.doctor.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.SettingsActivity;
 import yy.doctor.activity.me.UnitNumActivity;
@@ -94,7 +94,7 @@ public class MeFrag extends BaseFormFrag {
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_epn)
                 .name("我的象数")
-                .text(Profile.inst().getString(TProfile.credits)+"象数")
+                .text(Profile.inst().getString(TProfile.credits) + "象数")
                 .related(RelatedId.my_epn)
                 .build());
 
@@ -131,7 +131,7 @@ public class MeFrag extends BaseFormFrag {
 
         mIvAvatar = findView(R.id.me_header_iv);
         mTvName = findView(R.id.me_header_tv_name);
-        mTvHospital= findView(R.id.me_header_tv_hospital);
+        mTvHospital = findView(R.id.me_header_tv_hospital);
 
     }
 
@@ -139,7 +139,7 @@ public class MeFrag extends BaseFormFrag {
     public void setViews() {
         super.setViews();
 
-        mTvName.setText(Profile.inst().getString(linkman)+"  "+ Profile.inst().getString(place));
+        mTvName.setText(Profile.inst().getString(linkman) + "  " + Profile.inst().getString(place));
         mTvHospital.setText(Profile.inst().getString(hospital));
 
         setOnClickListener(R.id.layout_me_header);

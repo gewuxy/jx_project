@@ -9,7 +9,7 @@ import yy.doctor.model.meet.MeetSection.TMeetSection;
  */
 
 public class MeetSection extends EVal<TMeetSection> {
-    public enum TMeetSection{
+    public enum TMeetSection {
         count,//会议数量
         name,//科室类型名称
     }

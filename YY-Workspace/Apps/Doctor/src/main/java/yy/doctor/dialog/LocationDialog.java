@@ -19,6 +19,7 @@ public class LocationDialog extends BaseDialog {
     public interface OnAgainListener {
         /**
          * 重试
+         *
          * @param v
          */
         void onAgain(View v);

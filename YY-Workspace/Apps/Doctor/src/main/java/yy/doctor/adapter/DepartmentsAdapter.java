@@ -26,7 +26,7 @@ public class DepartmentsAdapter extends BaseAdapter {
 
     public DepartmentsAdapter(Context mContext) {
         this.mContext = mContext;
-        mList= Arrays.asList(DepartmentsData.KDEPARTMENTS);
+        mList = Arrays.asList(DepartmentsData.KDEPARTMENTS);
     }
 
     public void setSelectItem(int selectItem) {
@@ -34,7 +34,7 @@ public class DepartmentsAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public String getDepartments(int position){
+    public String getDepartments(int position) {
         return mList.get(position);
     }
 

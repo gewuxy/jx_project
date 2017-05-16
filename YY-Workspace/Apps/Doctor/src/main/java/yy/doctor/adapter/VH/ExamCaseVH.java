@@ -17,5 +17,7 @@ public class ExamCaseVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public TextView getText() { return getView(R.id.exam_topic_case_tv_item);}
+    public TextView getText() {
+        return getView(R.id.exam_topic_case_tv_item);
+    }
 }

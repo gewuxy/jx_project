@@ -12,7 +12,7 @@ import yy.doctor.model.exam.Paper.TExamPaper;
  */
 
 public class Paper extends EVal<TExamPaper> {
-    public enum TExamPaper{
+    public enum TExamPaper {
         id,//试卷id
         name,//试卷名称
         paperName,//问卷名称

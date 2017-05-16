@@ -22,7 +22,7 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseFormActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
@@ -493,7 +493,7 @@ public class ProfileActivity extends BaseFormActivity {
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
 
-        Resp<Modify> r = (Resp<Modify>) result;
+        Result<Modify> r = (Result<Modify>) result;
         if (r.isSucceed()) {
             showToast("资料修改成功");
             Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));

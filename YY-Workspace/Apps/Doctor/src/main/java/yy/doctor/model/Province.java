@@ -10,7 +10,7 @@ import yy.doctor.sp.SpUser;
  */
 public class Province extends EVal<TProvince> {
 
-    public enum TProvince{
+    public enum TProvince {
         alpha,
         id,
         name,

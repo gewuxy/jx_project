@@ -5,7 +5,7 @@ import android.os.Bundle;
 import org.json.JSONException;
 
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.network.resp.IListResp;
+import lib.ys.network.result.IListResult;
 import lib.ys.ui.activity.list.SRListActivityEx;
 import lib.ys.util.GenericUtil;
 import lib.yy.Notifier;
@@ -44,7 +44,7 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
     }
 
     @Override
-    public IListResp<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
     }
 }

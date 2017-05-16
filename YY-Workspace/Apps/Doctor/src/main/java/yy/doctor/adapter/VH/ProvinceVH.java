@@ -11,7 +11,7 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class ProvinceVH extends ViewHolderEx{
+public class ProvinceVH extends ViewHolderEx {
 
     public ProvinceVH(@NonNull View convertView) {
         super(convertView);

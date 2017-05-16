@@ -8,7 +8,7 @@ import yy.doctor.adapter.VH.UpdateLogVH;
  * @author CaiXiang
  * @since 2017/4/26
  */
-public class UpdateLogAdapter extends AdapterEx<String,UpdateLogVH> {
+public class UpdateLogAdapter extends AdapterEx<String, UpdateLogVH> {
 
     @Override
     public int getConvertViewResId() {

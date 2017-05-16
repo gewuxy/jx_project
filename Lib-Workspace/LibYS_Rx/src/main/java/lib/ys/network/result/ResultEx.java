@@ -1,15 +1,15 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
-abstract public class RespEx<T> implements IResp<T> {
+abstract public class ResultEx<T> implements IResult<T> {
 
     private int mCode;
     private String mError;
     private T mT;
 
-    public RespEx() {
+    public ResultEx() {
     }
 
-    public RespEx(T data) {
+    public ResultEx(T data) {
         mT = data;
     }
 

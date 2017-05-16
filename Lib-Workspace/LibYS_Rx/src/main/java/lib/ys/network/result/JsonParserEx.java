@@ -1,4 +1,4 @@
-package lib.ys.network.resp;
+package lib.ys.network.result;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,11 +13,11 @@ import lib.ys.util.TextUtil;
 @SuppressWarnings("rawtypes")
 public class JsonParserEx {
 
-    protected static <T extends EVal> void setEV(Class<T> clz, IResp<T> r, JSONObject obj) throws JSONException {
+    protected static <T extends EVal> void setEV(Class<T> clz, IResult<T> r, JSONObject obj) throws JSONException {
         JsonUtil.setEV(clz, r, obj);
     }
 
-    protected static <T extends EVal> void setEVs(Class<T> clz, IListResp<T> r, JSONArray array) throws JSONException {
+    protected static <T extends EVal> void setEVs(Class<T> clz, IListResult<T> r, JSONArray array) throws JSONException {
         JsonUtil.setEVs(clz, r, array);
     }
 

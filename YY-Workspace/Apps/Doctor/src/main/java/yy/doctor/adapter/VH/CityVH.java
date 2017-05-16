@@ -11,7 +11,7 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class CityVH extends ViewHolderEx{
+public class CityVH extends ViewHolderEx {
 
     public CityVH(@NonNull View convertView) {
         super(convertView);

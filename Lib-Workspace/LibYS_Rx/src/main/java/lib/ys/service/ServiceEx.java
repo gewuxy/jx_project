@@ -11,8 +11,8 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.OnNetworkListener;
 import lib.ys.LogMgr;
-import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.ui.interfaces.impl.NetworkOptImpl;
+import lib.ys.ui.interfaces.opts.NetworkOpt;
 
 
 abstract public class ServiceEx extends Service implements NetworkOpt, OnNetworkListener {

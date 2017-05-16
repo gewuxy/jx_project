@@ -6,16 +6,16 @@ import org.json.JSONException;
 
 import java.util.List;
 
-import lib.ys.network.resp.IListResp;
+import lib.ys.network.result.IListResult;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
-import lib.yy.network.ListResp;
+import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.adapter.EpcAdapter;
 import yy.doctor.model.me.Epc;
-import yy.doctor.network.NetFactory;
 import yy.doctor.model.me.Epc.TEpc;
 import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 
 /**
  * 象城
@@ -55,9 +55,9 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
     }
 
     @Override
-    public IListResp<Epc> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<Epc> parseNetworkResponse(int id, String text) throws JSONException {
 
-        ListResp<Epc> r = (ListResp<Epc>) JsonParser.evs(text, Epc.class);
+        ListResult<Epc> r = (ListResult<Epc>) JsonParser.evs(text, Epc.class);
 
         if (r.isSucceed()) {
             list = r.getData();

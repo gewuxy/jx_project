@@ -9,7 +9,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Resp;
+import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.me.ForgetPwdActivity;
@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity {
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
 
-        Resp<Profile> r = (Resp<Profile>) result;
+        Result<Profile> r = (Result<Profile>) result;
 
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
