@@ -5,7 +5,7 @@ import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
-import lib.network.param.CommonPair;
+import lib.network.model.param.CommonPair;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlEpc;

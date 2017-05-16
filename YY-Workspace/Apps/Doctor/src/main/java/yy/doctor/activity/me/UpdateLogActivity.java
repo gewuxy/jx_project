@@ -2,7 +2,7 @@ package yy.doctor.activity.me;
 
 import org.json.JSONException;
 
-import lib.ys.network.result.IListResult;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.R;

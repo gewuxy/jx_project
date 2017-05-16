@@ -8,8 +8,8 @@ import java.util.List;
 import lib.network.LogNetwork;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
-import lib.network.param.CommonPair;
+import lib.network.model.interfaces.OnNetworkListener;
+import lib.network.model.param.CommonPair;
 import lib.network.provider.IBuilder;
 
 /**

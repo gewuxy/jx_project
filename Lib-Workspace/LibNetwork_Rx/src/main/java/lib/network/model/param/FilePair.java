@@ -1,4 +1,4 @@
-package lib.network.param;
+package lib.network.model.param;
 
 /**
  * 文件param键值对

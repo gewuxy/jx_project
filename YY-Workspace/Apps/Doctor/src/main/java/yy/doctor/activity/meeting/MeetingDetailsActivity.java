@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.bd.location.Location;
-import lib.network.error.NetError;
+import lib.network.model.err.NetError;
 import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;

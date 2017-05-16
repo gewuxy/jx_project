@@ -5,7 +5,7 @@ import android.widget.ExpandableListView;
 
 import org.json.JSONException;
 
-import lib.ys.network.result.IListResult;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;

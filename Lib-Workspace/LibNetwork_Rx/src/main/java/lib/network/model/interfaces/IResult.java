@@ -1,4 +1,4 @@
-package lib.ys.network.result;
+package lib.network.model.interfaces;
 
 /**
  * @author yuansui

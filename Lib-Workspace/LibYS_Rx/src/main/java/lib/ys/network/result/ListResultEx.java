@@ -3,6 +3,8 @@ package lib.ys.network.result;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.network.model.interfaces.IListResult;
+
 /**
  * @author yuansui
  */

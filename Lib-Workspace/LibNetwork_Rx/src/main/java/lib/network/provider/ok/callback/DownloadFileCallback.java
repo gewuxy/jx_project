@@ -5,9 +5,9 @@ import com.zhy.http.okhttp.callback.FileCallBack;
 import java.io.File;
 
 import lib.network.LogNetwork;
-import lib.network.error.CallbackEmptyError;
-import lib.network.error.ConnectionNetError;
-import lib.network.error.ParseNetError;
+import lib.network.model.err.CallbackEmptyError;
+import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.ParseNetError;
 import lib.network.provider.Delivery;
 import lib.network.provider.IBuilder;
 import okhttp3.Call;

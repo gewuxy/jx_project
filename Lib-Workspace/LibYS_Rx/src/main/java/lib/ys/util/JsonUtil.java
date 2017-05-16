@@ -12,8 +12,8 @@ import java.util.Map;
 
 import lib.ys.LogMgr;
 import lib.ys.model.EVal;
-import lib.ys.network.result.IListResult;
-import lib.ys.network.result.IResult;
+import lib.network.model.interfaces.IListResult;
+import lib.network.model.interfaces.IResult;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JsonUtil {

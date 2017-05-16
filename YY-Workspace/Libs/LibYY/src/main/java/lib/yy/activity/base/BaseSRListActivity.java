@@ -5,7 +5,7 @@ import android.os.Bundle;
 import org.json.JSONException;
 
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.network.result.IListResult;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.activity.list.SRListActivityEx;
 import lib.ys.util.GenericUtil;
 import lib.yy.Notifier;

@@ -1,8 +1,8 @@
-package lib.network.param;
+package lib.network.model.param;
 
 import android.text.TextUtils;
 
-import lib.network.model.NetworkConstants;
+import lib.network.NetworkConstants;
 
 
 abstract public class BasePair<T> {

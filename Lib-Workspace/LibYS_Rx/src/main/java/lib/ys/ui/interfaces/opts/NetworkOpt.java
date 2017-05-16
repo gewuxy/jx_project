@@ -2,7 +2,7 @@ package lib.ys.ui.interfaces.opts;
 
 
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
+import lib.network.model.interfaces.OnNetworkListener;
 
 /**
  * 网络操作

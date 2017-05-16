@@ -18,9 +18,9 @@ import lib.network.LogNetwork;
 import lib.network.Network;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
-import lib.network.param.BytePair;
-import lib.network.param.FilePair;
+import lib.network.model.interfaces.OnNetworkListener;
+import lib.network.model.param.BytePair;
+import lib.network.model.param.FilePair;
 
 /**
  * @author yuansui

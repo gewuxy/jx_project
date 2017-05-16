@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package lib.network.error;
+package lib.network.model.err;
 
 /**
  * Indicates that there was a network error when performing a Volley request.

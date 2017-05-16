@@ -1,4 +1,4 @@
-package lib.network.error;
+package lib.network.model.err;
 
 /**
  * @author yuansui

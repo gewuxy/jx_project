@@ -9,8 +9,8 @@ import java.util.List;
 import io.reactivex.Observable;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
-import lib.network.param.CommonPair;
+import lib.network.model.interfaces.OnNetworkListener;
+import lib.network.model.param.CommonPair;
 
 /**
  * @author yuansui

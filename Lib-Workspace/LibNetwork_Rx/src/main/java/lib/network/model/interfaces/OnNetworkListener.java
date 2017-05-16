@@ -1,11 +1,12 @@
-package lib.network.model;
+package lib.network.model.interfaces;
 
 
-import lib.network.error.CallbackEmptyError;
-import lib.network.error.CancelError;
-import lib.network.error.ConnectionNetError;
-import lib.network.error.NetError;
-import lib.network.error.ParseNetError;
+import lib.network.model.NetworkResp;
+import lib.network.model.err.CallbackEmptyError;
+import lib.network.model.err.CancelError;
+import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.NetError;
+import lib.network.model.err.ParseNetError;
 
 /**
  * 网络任务监听

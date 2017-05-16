@@ -2,8 +2,8 @@ package lib.network;
 
 import java.util.List;
 
-import lib.network.param.BasePair;
-import lib.network.param.CommonPair;
+import lib.network.model.param.BasePair;
+import lib.network.model.param.CommonPair;
 
 /**
  * http里使用的一些小工具

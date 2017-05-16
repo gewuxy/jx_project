@@ -1,4 +1,4 @@
-package lib.network.model;
+package lib.network;
 
 /**
  * @author yuansui

@@ -1,5 +1,7 @@
 package lib.ys.network.result;
 
+import lib.network.model.interfaces.IResult;
+
 abstract public class ResultEx<T> implements IResult<T> {
 
     private int mCode;

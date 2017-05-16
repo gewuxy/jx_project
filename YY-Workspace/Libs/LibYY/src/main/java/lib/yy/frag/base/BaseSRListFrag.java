@@ -3,7 +3,7 @@ package lib.yy.frag.base;
 import org.json.JSONException;
 
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.network.result.IListResult;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.frag.list.SRListFragEx;
 import lib.ys.util.GenericUtil;
 import lib.yy.Notifier;

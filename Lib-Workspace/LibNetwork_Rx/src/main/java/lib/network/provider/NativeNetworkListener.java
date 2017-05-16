@@ -1,6 +1,6 @@
 package lib.network.provider;
 
-import lib.network.error.NetError;
+import lib.network.model.err.NetError;
 
 /**
  * 内部网络监听

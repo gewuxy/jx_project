@@ -3,10 +3,10 @@ package lib.ys.ui.interfaces.impl;
 import android.util.SparseArray;
 
 import lib.network.Network;
-import lib.network.error.ConnectionNetError;
-import lib.network.error.NetError;
+import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
+import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.R;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.util.DeviceUtil;

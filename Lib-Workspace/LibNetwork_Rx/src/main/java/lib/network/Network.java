@@ -8,7 +8,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
+import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.OkProvider;
 import okhttp3.OkHttpClient;

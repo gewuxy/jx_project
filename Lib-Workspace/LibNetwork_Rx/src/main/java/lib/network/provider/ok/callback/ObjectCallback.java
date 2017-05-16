@@ -7,10 +7,10 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import lib.network.LogNetwork;
-import lib.network.error.CallbackEmptyError;
-import lib.network.error.CancelError;
-import lib.network.error.ConnectionNetError;
-import lib.network.error.ParseNetError;
+import lib.network.model.err.CallbackEmptyError;
+import lib.network.model.err.CancelError;
+import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.ParseNetError;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkResp;
 import lib.network.model.NetworkResult;

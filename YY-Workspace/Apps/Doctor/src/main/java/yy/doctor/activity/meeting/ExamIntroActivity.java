@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.network.error.NetError;
+import lib.network.model.err.NetError;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;

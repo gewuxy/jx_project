@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import lib.network.model.interfaces.IListResult;
+import lib.network.model.interfaces.IResult;
 import lib.ys.model.EVal;
 import lib.ys.util.JsonUtil;
 import lib.ys.util.TextUtil;

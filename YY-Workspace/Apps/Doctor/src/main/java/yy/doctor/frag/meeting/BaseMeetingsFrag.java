@@ -4,8 +4,8 @@ import android.view.View;
 
 import org.json.JSONException;
 
-import lib.network.error.NetError;
-import lib.ys.network.result.IListResult;
+import lib.network.model.err.NetError;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;

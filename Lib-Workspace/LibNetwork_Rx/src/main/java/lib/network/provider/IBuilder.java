@@ -2,7 +2,7 @@ package lib.network.provider;
 
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
-import lib.network.model.OnNetworkListener;
+import lib.network.model.interfaces.OnNetworkListener;
 
 /**
  * @author yuansui

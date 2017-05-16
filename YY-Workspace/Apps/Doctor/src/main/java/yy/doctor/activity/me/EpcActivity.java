@@ -6,7 +6,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-import lib.ys.network.result.IListResult;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
 import lib.yy.network.ListResult;

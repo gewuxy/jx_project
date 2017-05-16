@@ -3,7 +3,7 @@ package lib.network.provider;
 import android.os.Handler;
 import android.os.Looper;
 
-import lib.network.error.NetError;
+import lib.network.model.err.NetError;
 
 /**
  * @author yuansui

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.NetworkUtil;
-import lib.network.param.BytePair;
-import lib.network.param.CommonPair;
-import lib.network.param.FilePair;
+import lib.network.model.param.BytePair;
+import lib.network.model.param.CommonPair;
+import lib.network.model.param.FilePair;
 
 /**
  * Network任务实例

@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import lib.ys.model.EVal;
-import lib.ys.network.result.IResult;
+import lib.network.model.interfaces.IResult;
 import lib.ys.network.result.JsonParserEx;
 
 /**

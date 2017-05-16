@@ -31,10 +31,10 @@ import android.widget.EditText;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import lib.network.error.NetError;
+import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.OnNetworkListener;
+import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 import lib.ys.R;

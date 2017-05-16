@@ -17,11 +17,11 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 import lib.network.Network;
-import lib.network.error.ConnectionNetError;
-import lib.network.error.NetError;
+import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.OnNetworkListener;
+import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
