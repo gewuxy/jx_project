@@ -1,11 +1,11 @@
 package yy.doctor.activity.me;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -17,6 +17,7 @@ import lib.yy.network.Resp;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.ClipImage;
+import yy.doctor.model.me.ClipImage.TClipImage;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -72,8 +73,8 @@ public class ClipImageActivity extends BaseActivity {
 
                 if (bmp != null) {
                     mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
-                    ImageView img = findView(R.id.img);
-                    img.setImageBitmap(mBmp);
+                    //ImageView img = findView(R.id.img);
+                    //img.setImageBitmap(mBmp);
 
                     refresh(RefreshWay.dialog);
                     exeNetworkReq(0, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
@@ -117,13 +118,13 @@ public class ClipImageActivity extends BaseActivity {
 
         Resp<ClipImage> r = (Resp<ClipImage>) result;
         if (r.isSucceed()) {
-            //ClipImage clipImage = r.getData();
-            //mUrl = clipImage.getString(TClipImage.url);
-            //Intent i = new Intent();
-            //i.putExtra(Extra.KData, mUrl);
-            //setResult(RESULT_OK, i);
+            ClipImage clipImage = r.getData();
+            mUrl = clipImage.getString(TClipImage.url);
+            Intent i = new Intent();
+            i.putExtra(Extra.KData, mUrl);
+            setResult(RESULT_OK, i);
             showToast("头像设置成功");
-            //finish();
+            finish();
         } else {
             showToast("头像设置失败");
         }

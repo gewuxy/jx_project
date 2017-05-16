@@ -7,7 +7,7 @@
     android:background="@drawable/home_unit_num_bg">
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/home_unit_num_iv"
+        android:id="@+id/home_unit_num_item_iv"
         android:layout_width="102dp"
         android:layout_height="92dp"
         android:layout_marginRight="16dp"
@@ -18,7 +18,7 @@
         android:background="@color/text_b3"/>
 
     <TextView
-        android:id="@+id/home_unit_num_tv_name"
+        android:id="@+id/home_unit_num_item_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -28,7 +28,7 @@
         android:textColor="@color/text_333"/>
 
     <TextView
-        android:id="@+id/home_unit_num_tv_attention"
+        android:id="@+id/home_unit_num_item_tv_attention"
         android:layout_width="78dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"

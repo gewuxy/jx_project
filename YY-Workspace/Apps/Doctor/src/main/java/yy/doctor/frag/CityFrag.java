@@ -33,7 +33,7 @@ public class CityFrag extends BaseSRListFrag<City, CityAdapter> {
         super.setViews();
 
         getLv().setVerticalScrollBarEnabled(false);
-        setDividerHeight(fitDp(0));
+        setDividerHeight(0);
         enableSRRefresh(false);
         enableAutoLoadMore(false);
     }

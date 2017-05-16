@@ -98,6 +98,8 @@ public class NetFactory {
         String KHospital = "hospital";   //医院
         String KDepartment = "department";   //科室
         String KAddress = "address";   //地址
+        String KGender = "gender";    //性别
+        String KDegree = "degree";  //学历
     }
 
     private interface UpHeadImgParam {
@@ -208,6 +210,17 @@ public class NetFactory {
     }
 
     /**
+     * 首页banner
+     *
+     * @param type
+     * @return
+     */
+    public static NetworkReq banner(int type) {
+        return newGet(UrlHome.KBanner)
+                .build();
+    }
+
+    /**
      * 首页推荐会议
      *
      * @return
@@ -218,23 +231,22 @@ public class NetFactory {
     }
 
     /**
+     * 首页推荐单位号
+     *
+     * @return
+     */
+    public static NetworkReq recommendUnitNum() {
+        return newGet(UrlHome.KRecommendUnitNum)
+                .build();
+    }
+
+    /**
      * 个人信息
      *
      * @return
      */
     public static NetworkReq profile() {
         return newGet(UrlUser.KProfile).build();
-    }
-
-    /**
-     * 首页的banner
-     *
-     * @param type
-     * @return
-     */
-    public static NetworkReq banner(int type) {
-        return newGet(UrlHome.KBanner)
-                .build();
     }
 
     /**
@@ -387,7 +399,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq recommendUnitNum() {
+    public static NetworkReq recommendUnitNumSearch() {
         return newGet(UrlSearch.KRecommendUnitNum)
                 .build();
     }

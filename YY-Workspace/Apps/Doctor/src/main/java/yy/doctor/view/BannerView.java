@@ -15,7 +15,6 @@ import yy.doctor.adapter.BannerViewAdapter;
  */
 public class BannerView extends BannerViewEx<String> {
 
-
     public BannerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

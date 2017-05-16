@@ -31,8 +31,8 @@ public class ProvinceFrag extends BaseSRListFrag<Province, ProvinceAdapter> {
     public void setViews() {
         super.setViews();
 
+        setDividerHeight(0);
         getLv().setVerticalScrollBarEnabled(false);
-        setDividerHeight(fitDp(0));
         enableSRRefresh(false);
         enableAutoLoadMore(false);
     }
@@ -51,7 +51,6 @@ public class ProvinceFrag extends BaseSRListFrag<Province, ProvinceAdapter> {
     public void getDataFromNet() {
         exeNetworkReq(0, NetFactory.province());
     }
-
 
     @Override
     public void onItemClick(View v, int position) {

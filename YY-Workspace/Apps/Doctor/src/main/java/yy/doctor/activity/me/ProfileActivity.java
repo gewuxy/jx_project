@@ -1,10 +1,13 @@
 package yy.doctor.activity.me;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.MediaStore.Images;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Resp;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.model.Modify;
@@ -122,6 +126,8 @@ public class ProfileActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
+        mAvatarUrl = Profile.inst().getString(TProfile.headimg);
+
         addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.et)
@@ -134,10 +140,11 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
+        addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_more)
                 .name("医院")
+                .intent(new Intent(this, HospitalActivity.class))
                 .text(Profile.inst().getString(hospital))
                 .hint(R.string.hint_not_fill)
                 .build());
@@ -311,17 +318,6 @@ public class ProfileActivity extends BaseFormActivity {
         super.onFormViewClick(v, position, related);
 
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
-
-        if (v instanceof ImageView) {
-
-            switch (relatedId) {
-                case RelatedId.hospital: {
-                    showToast("852");
-                }
-                break;
-            }
-        }
-
     }
 
     private void showDialogSelectPhoto() {
@@ -389,19 +385,32 @@ public class ProfileActivity extends BaseFormActivity {
             case KCodeAlbum: {
                 // 查看相册获得图片返回
                 path = PhotoUtil.getPath(this, data.getData());
+                //LogMgr.d(TAG, "path = " + path);
+                startAcForResult(path);
             }
             break;
             case KCodePhotograph: {
                 // 通过照相机拍的图片
                 path = mStrPhotoPath;
+                startAcForResult(path);
             }
             break;
+            case KCodeClipImage:
+                mAvatarUrl = data.getStringExtra(Extra.KData);
+                //LogMgr.d(TAG, "url = " + mAvatarUrl);
+                //mIvAvatar.url(mAvatarUrl).load();
+                break;
         }
 
+    }
+
+    //页面跳转
+    private void startAcForResult(String path) {
         if (path != null) {
             Intent intent = new Intent(this, ClipImageActivity.class);
             intent.putExtra(Extra.KData, path);
-            startActivity(intent);
+            //startActivity(intent);
+            startActivityForResult(intent, KCodeClipImage);
         }
     }
 
@@ -456,32 +465,49 @@ public class ProfileActivity extends BaseFormActivity {
 
     }
 
-    private String getRelateVal(@RelatedId int relateId) {
-        return getRelatedItem(relateId).getString(TFormElem.val);
-    }
-
     /**
      * 修改个人资料
      */
     private void modify() {
 
+        String strGender = getRelatedItem(RelatedId.sex).getString(TFormElem.text);
+        int gender = 0;
+        if (strGender.equals("男")) {
+            gender = 1;
+        } else if (strGender.equals("女")) {
+            gender = 2;
+        }
+
+        String degree = getRelatedItem(RelatedId.education_background).getString(TFormElem.text);
+
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
-        mStrProvince = str.substring(0, str.indexOf("-") - 1);
+        mStrProvince = str.substring(0, str.indexOf("-"));
         mStrCity = str.substring(str.indexOf("-") + 1, str.length());
 
         NetworkReq r = NetFactory.newModifyBuilder()
+                .headImgUrl(mAvatarUrl)
                 .nickname(getRelateVal(RelatedId.nickname))
                 .linkman(getRelateVal(RelatedId.name))
-                .mobile(getRelateVal(RelatedId.phone_number))
-                .province(mStrProvince)
-                .city(mStrCity)
                 .hospital(getRelateVal(RelatedId.hospital))
                 .department(getRelateVal(RelatedId.departments))
+                .nickname(getRelateVal(RelatedId.nickname))
+                .mobile(getRelateVal(RelatedId.phone_number))
+                .licence(getRelateVal(RelatedId.certification_number))
+                .title(getRelateVal(RelatedId.rank))
+                .place(getRelateVal(RelatedId.position))
+                .gender(gender)
+                .degree(degree)
+                .province(mStrProvince)
+                .city(mStrCity)
                 .builder();
 
         refresh(RefreshWay.dialog);
         exeNetworkReq(1, r);
 
+    }
+
+    private String getRelateVal(@RelatedId int relateId) {
+        return getRelatedItem(relateId).getString(TFormElem.val);
     }
 
     @Override
@@ -530,6 +556,47 @@ public class ProfileActivity extends BaseFormActivity {
                 break;
             }
         }
+    }
+
+    /**
+     * 解决小米手机上获取图片路径为null的情况
+     *
+     * @param intent
+     * @return
+     */
+    public Uri getUri(Intent intent) {
+        Uri uri = intent.getData();
+        String type = intent.getType();
+        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
+            String path = uri.getEncodedPath();
+            if (path != null) {
+                path = Uri.decode(path);
+                ContentResolver cr = this.getContentResolver();
+                StringBuffer buff = new StringBuffer();
+                buff.append("(").append(Images.ImageColumns.DATA).append("=")
+                        .append("'" + path + "'").append(")");
+                Cursor cur = cr.query(Images.Media.EXTERNAL_CONTENT_URI,
+                        new String[]{Images.ImageColumns._ID},
+                        buff.toString(), null, null);
+                int index = 0;
+                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+                    index = cur.getColumnIndex(Images.ImageColumns._ID);
+                    // set _id value
+                    index = cur.getInt(index);
+                }
+                if (index == 0) {
+                    // do nothing
+                } else {
+                    Uri uri_temp = Uri
+                            .parse("content://media/external/images/media/"
+                                    + index);
+                    if (uri_temp != null) {
+                        uri = uri_temp;
+                    }
+                }
+            }
+        }
+        return uri;
     }
 
 }
