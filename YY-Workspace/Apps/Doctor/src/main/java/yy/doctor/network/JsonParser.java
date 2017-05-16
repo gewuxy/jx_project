@@ -9,7 +9,7 @@ import lib.ys.model.MapList;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.yy.network.BaseJsonParser;
-import lib.yy.network.ListResp;
+import lib.yy.network.ListResult;
 import yy.doctor.model.BaseGroup;
 
 /**
@@ -30,22 +30,22 @@ public class JsonParser extends BaseJsonParser {
      * @return
      * @throws JSONException
      */
-    public static <E extends Enum<E>, C extends EVal<E>, T extends BaseGroup<C>> ListResp<T> groupIndex(String text, Class<T> groupClz, E key) throws JSONException {
-        ListResp<T> retResp = new ListResp<>();
+    public static <E extends Enum<E>, C extends EVal<E>, T extends BaseGroup<C>> ListResult<T> groupIndex(String text, Class<T> groupClz, E key) throws JSONException {
+        ListResult<T> retResult = new ListResult<>();
 
         Class<C> childClz = GenericUtil.getClassType(groupClz);
 
-        ListResp<C> r = evs(text, childClz);
-        retResp.setCode(r.getCode());
-        retResp.setError(r.getError());
+        ListResult<C> r = evs(text, childClz);
+        retResult.setCode(r.getCode());
+        retResult.setError(r.getError());
 
         if (!r.isSucceed()) {
-            return retResp;
+            return retResult;
         }
 
         List<C> list = r.getData();
         if (list.isEmpty()) {
-            return retResp;
+            return retResult;
         }
 
         MapList<String, T> mapList = new MapList<>();
@@ -61,8 +61,8 @@ public class JsonParser extends BaseJsonParser {
             g.add(child);
         }
 
-        retResp.setData(mapList);
-        return retResp;
+        retResult.setData(mapList);
+        return retResult;
     }
 
 }

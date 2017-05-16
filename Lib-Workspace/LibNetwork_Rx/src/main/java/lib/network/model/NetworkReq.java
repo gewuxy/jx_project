@@ -33,9 +33,6 @@ public class NetworkReq {
     private String mDir;
     private String mFileName;
 
-    private Class mConvertTo;
-    private Class mConvertToList;
-
     private NetworkRetry mRetry;
 
     private NetworkReq() {
@@ -78,14 +75,6 @@ public class NetworkReq {
         return mUrl;
     }
 
-    public Class getConvertTo() {
-        return mConvertTo;
-    }
-
-    public Class getConvertToList() {
-        return mConvertToList;
-    }
-
     public static Builder newBuilder(String baseUrl) {
         return new Builder(baseUrl);
     }
@@ -104,9 +93,6 @@ public class NetworkReq {
 
         private String mDir;
         private String mFileName;
-
-        private Class mConvertTo;
-        private Class mConvertToList;
 
         @NetworkMethod
         private int mMethod = NetworkMethod.get;
@@ -132,16 +118,6 @@ public class NetworkReq {
 
         public <T extends Builder> T upload() {
             mMethod = NetworkMethod.upload;
-            return (T) this;
-        }
-
-        public <T extends Builder> T convertTo(Class c) {
-            mConvertTo = c;
-            return (T) this;
-        }
-
-        public <T extends Builder> T convertToList(Class c) {
-            mConvertToList = c;
             return (T) this;
         }
 
@@ -261,9 +237,6 @@ public class NetworkReq {
             r.mUrl = mUrl;
 
             r.mRetry = mRetry;
-
-            r.mConvertTo = mConvertTo;
-            r.mConvertToList = mConvertToList;
 
             r.mDir = mDir;
             r.mFileName = mFileName;

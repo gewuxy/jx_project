@@ -9,7 +9,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseSRListFrag;
-import lib.yy.network.ListResp;
+import lib.yy.network.ListResult;
 import yy.doctor.adapter.SectionCategoryAdapter;
 import yy.doctor.model.Section;
 import yy.doctor.model.Section.TSection;
@@ -54,9 +54,9 @@ public class SectionCategoryFrag extends BaseSRListFrag<Section, SectionCategory
     @Override
     public Object onNetworkResponse(int id, NetworkResp nr) throws Exception {
         //全部数据
-        ListResp<Section> allSection = (ListResp<Section>) super.onNetworkResponse(id, nr);
+        ListResult<Section> allSection = (ListResult<Section>) super.onNetworkResponse(id, nr);
         //把相同的过滤掉
-        ListResp<Section> showSection = new ListResp<>();
+        ListResult<Section> showSection = new ListResult<>();
         //隶属列表(一级)
         List<Section> categories = allSection.getData();
         mSections = new MapList<>();

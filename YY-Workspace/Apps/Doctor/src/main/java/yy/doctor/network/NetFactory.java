@@ -22,8 +22,6 @@ import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
 
-import static yy.doctor.model.Profile.TProfile.token;
-
 
 /**
  * @author CaiXiang
@@ -582,7 +580,7 @@ public class NetFactory {
 //        ps.add(newPair(BaseParam.device_os, "android"));
 
         if (Profile.inst().isLogin()) {
-            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(token)));
+            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
         }
 
         return ps;

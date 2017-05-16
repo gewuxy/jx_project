@@ -7,8 +7,7 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
-import lib.ys.LogMgr;
-import lib.ys.network.resp.IListResp;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -91,7 +90,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     }
 
     @Override
-    public IListResp<GroupHospital> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<GroupHospital> parseNetworkResponse(int id, String text) throws JSONException {
         return JsonParser.groupIndex(text, GroupHospital.class, THospital.alpha);
     }
 
