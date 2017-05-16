@@ -7,13 +7,12 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import lib.network.LogNetwork;
+import lib.network.model.NetworkMethod;
+import lib.network.model.NetworkResp;
 import lib.network.model.err.CallbackEmptyError;
 import lib.network.model.err.CancelError;
 import lib.network.model.err.ConnectionNetError;
 import lib.network.model.err.ParseNetError;
-import lib.network.model.NetworkMethod;
-import lib.network.model.NetworkResp;
-import lib.network.model.NetworkResult;
 import lib.network.provider.Delivery;
 import lib.network.provider.IBuilder;
 import lib.network.provider.ok.request.UploadBuilder.DeleteOnExit;
@@ -70,16 +69,7 @@ public class ObjectCallback extends Callback<Object> {
     public void onResponse(Object response, int id) {
         if (mBuilder.getListener() != null) {
             if (response != null) {
-                if (response instanceof NetworkResult) {
-                    NetworkResult result = (NetworkResult) response;
-                    if (result.isSuccess()) {
-                        mDelivery.deliverSuccess(mBuilder, result);
-                    } else {
-                        mDelivery.deliverError(mBuilder, new ParseNetError(result.getCode(), result.getError()));
-                    }
-                } else {
-                    mDelivery.deliverSuccess(mBuilder, response);
-                }
+                mDelivery.deliverSuccess(mBuilder, response);
             } else {
                 mDelivery.deliverError(mBuilder, new ParseNetError("数据解析错误"));
             }
