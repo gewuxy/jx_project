@@ -1,10 +1,10 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.MeetingsVH;
+import yy.doctor.adapter.VH.meeting.MeetingsVH;
 import yy.doctor.model.meet.MeetRec;
 import yy.doctor.model.meet.MeetRec.TMeetRec;
 

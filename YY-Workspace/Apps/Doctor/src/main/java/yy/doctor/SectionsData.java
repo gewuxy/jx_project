@@ -4,7 +4,7 @@ package yy.doctor;
  * @author CaiXiang
  * @since 2017/5/2
  */
-public class DepartmentsData {
+public class SectionsData {
 
     /**
      * 科室信息

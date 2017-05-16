@@ -12,9 +12,9 @@ import yy.doctor.R;
 import yy.doctor.adapter.ExamTopicAdapter;
 import yy.doctor.model.exam.Topic;
 
-import static yy.doctor.model.exam.Topic.TExamTopic.answer;
-import static yy.doctor.model.exam.Topic.TExamTopic.finish;
-import static yy.doctor.model.exam.Topic.TExamTopic.title;
+import static yy.doctor.model.exam.Topic.TTopic.answer;
+import static yy.doctor.model.exam.Topic.TTopic.finish;
+import static yy.doctor.model.exam.Topic.TTopic.title;
 
 /**
  * 单个考题

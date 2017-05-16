@@ -11,18 +11,14 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/5/2
  */
-public class DepartmentsVH extends ViewHolderEx {
+public class SectionDetailVH extends ViewHolderEx {
 
-    public DepartmentsVH(@NonNull View convertView) {
+    public SectionDetailVH(@NonNull View convertView) {
         super(convertView);
     }
 
-    public TextView getTvProvince() {
-        return getView(R.id.province_tv);
-    }
-
-    public View getV() {
-        return getView(R.id.province_layout_indicator);
+    public TextView getTvCity() {
+        return getView(R.id.city_tv);
     }
 
 }

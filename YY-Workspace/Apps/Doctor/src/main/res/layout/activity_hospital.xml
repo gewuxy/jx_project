@@ -11,7 +11,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/margin"
-        android:text="@string/hospital_location"
+        android:text="@string/hospital_location_default"
         android:textColor="@color/text_888"
         android:textSize="12dp"/>
 
@@ -37,7 +37,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/hospital_tv_letter"
+        android:id="@+id/group_index_tv_letter"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
@@ -49,7 +49,7 @@
         android:visibility="gone"/>
 
     <lib.ys.view.SideBar
-        android:id="@+id/hospital_sb"
+        android:id="@+id/group_index_layout_side_bar"
         android:layout_width="12dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"

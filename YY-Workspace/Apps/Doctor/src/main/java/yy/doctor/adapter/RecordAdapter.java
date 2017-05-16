@@ -4,7 +4,7 @@ import android.support.annotation.IntDef;
 
 import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.RecordVH;
+import yy.doctor.adapter.VH.meeting.RecordVH;
 
 /**
  * 会议记录的Adapter

@@ -70,8 +70,8 @@ public class ExamTopicActivity extends BaseVPActivity {
                 chooses.add("放假" + (i * j));
             }
             ExamTopic examTopic = new ExamTopic();
-            examTopic.put(TExamTopic.title, "五一放假");
-            examTopic.put(TExamTopic.choose, chooses);
+            examTopic.put(TTopic.title, "五一放假");
+            examTopic.put(TTopic.choose, chooses);
 
             ExamTopicFrag frag = new ExamTopicFrag();
             frag.setExamTopic(examTopic);

@@ -11,7 +11,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.adapter.MeetingsAdapter;
+import yy.doctor.adapter.meeting.MeetingsAdapter;
 import yy.doctor.model.meet.MeetRec;
 import yy.doctor.model.meet.MeetRec.TMeetRec;
 import yy.doctor.network.JsonParser;

@@ -1,23 +1,28 @@
 package yy.doctor.adapter.VH;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.adapter.VH.RecyclerViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import yy.doctor.R;
 
 /**
- * @auther yuansui
- * @since 2017/4/26
+ * @author CaiXiang
+ * @since 2017/5/2
  */
+public class SectionVH extends ViewHolderEx {
 
-public class SectionVH extends RecyclerViewHolderEx {
-
-    public SectionVH(View itemView) {
-        super(itemView);
+    public SectionVH(@NonNull View convertView) {
+        super(convertView);
     }
 
-    public TextView getTv() {
-        return getView(R.id.meeting_section_item_tv);
+    public TextView getTvProvince() {
+        return getView(R.id.province_tv);
     }
+
+    public View getV() {
+        return getView(R.id.province_layout_indicator);
+    }
+
 }

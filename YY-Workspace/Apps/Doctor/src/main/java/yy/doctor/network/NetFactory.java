@@ -49,10 +49,6 @@ public class NetFactory {
         String KLicence = "licence";//执业许可证号
     }
 
-    public interface HospitalParam {
-        String city = "city";
-    }
-
     public interface UserParam {
         String KUserName = "username";
         String KPassword = "password";
@@ -171,8 +167,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq hospital(String city) {
-        return newGet(UrlRegister.KHospital)
-                .param(HospitalParam.city, city)
+        return newPost(UrlRegister.KHospital)
+                .param(RegisterParam.KCity, city)
                 .build();
     }
 

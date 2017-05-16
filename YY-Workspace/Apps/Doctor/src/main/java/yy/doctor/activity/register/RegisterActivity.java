@@ -1,5 +1,6 @@
 package yy.doctor.activity.register;
 
+import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Resp;
 import yy.doctor.BuildConfig;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
 import yy.doctor.activity.MainActivity;
@@ -100,6 +102,7 @@ public class RegisterActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider).build());
+
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.hospital)
                 .hint("医院名称")
@@ -214,9 +217,24 @@ public class RegisterActivity extends BaseFormActivity {
             @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
             switch (relatedId) {
                 case RelatedId.hospital:
-                    startActivity(HospitalActivity.class);
+                    startActivityForResult(HospitalActivity.class, 0);
                     break;
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            String hospital = data.getStringExtra(Extra.KData);
+            String province = data.getStringExtra(Extra.KProvince);
+            String city = data.getStringExtra(Extra.KCity);
+            getRelatedItem(RelatedId.hospital).put(TFormElem.text, hospital);
+            refreshRelatedItem(RelatedId.hospital);
+            getRelatedItem(RelatedId.location).put(TFormElem.text, province + " " + city);
+            refreshRelatedItem(RelatedId.location);
+
         }
     }
 
