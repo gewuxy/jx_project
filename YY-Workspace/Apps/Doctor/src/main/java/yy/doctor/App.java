@@ -3,6 +3,7 @@ package yy.doctor;
 import android.os.Build;
 import android.os.StrictMode;
 
+import lib.network.NetworkConfig;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -25,12 +26,20 @@ public class App extends BaseApp {
     private static final int KTitleBarTextSizeDp = 16;
 
     @Override
-    protected AppConfig makeConfig() {
+    protected AppConfig configureApp() {
         return AppConfig.newBuilder()
                 .bgColorRes(R.color.app_bg)
                 .enableFlatBar(false)
                 .initRefreshWay(RefreshWay.embed)
                 .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
+                .build();
+    }
+
+    @Override
+    protected NetworkConfig configureNetwork() {
+        return NetworkConfig.newBuilder()
+                .connectTimeout(30000)
+                .readTimeout(30000)
                 .build();
     }
 

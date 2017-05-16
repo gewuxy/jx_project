@@ -21,7 +21,7 @@ public class NetworkReq {
     private List<CommonPair> mParams;
     private List<BytePair> mByteParams;
     private List<FilePair> mFileParams;
-    
+
     private List<CommonPair> mHeaders;
 
     // 默认为get方式
@@ -30,149 +30,35 @@ public class NetworkReq {
 
     private String mUrl;
 
-    private String mDestDir;
-    private String mDestFileName;
+    private String mDir;
+    private String mFileName;
+
+    private Class mConvertTo;
+    private Class mConvertToList;
 
     private NetworkRetry mRetry;
 
-
-    public NetworkReq(@NetworkMethod int method, String url) {
-        mMethod = method;
-        mUrl = url;
-
-        mParams = new ArrayList<>();
-    }
-
-    public NetworkReq retry(NetworkRetry retry) {
-        mRetry = retry;
-        return this;
+    private NetworkReq() {
     }
 
     public NetworkRetry getRetry() {
         return mRetry;
     }
 
-    public void dir(String dir) {
-        mDestDir = dir;
-    }
-
     public String getDir() {
-        return mDestDir;
-    }
-
-    public void fileName(String name) {
-        mDestFileName = name;
+        return mDir;
     }
 
     public String getFileName() {
-        return mDestFileName;
-    }
-
-    protected void param(String n, Object v) {
-        mParams.add(new CommonPair(n, v));
-    }
-
-    protected void param(List<CommonPair> ps) {
-        if (ps == null) {
-            return;
-        }
-        mParams.addAll(ps);
-    }
-
-    /**
-     * 添加二进制param
-     *
-     * @param name
-     * @param value
-     */
-    protected void param(String name, byte[] value) {
-        param(name, value, NetworkUtil.KTextEmpty);
-    }
-
-    protected void paramByte(List<BytePair> pairs) {
-        if (pairs == null) {
-            return;
-        }
-
-        if (mByteParams == null) {
-            mByteParams = new ArrayList<>();
-        }
-        mByteParams.addAll(pairs);
-    }
-
-    /**
-     * 添加带有拓展名的二进制param
-     * 部分接口需要传文件后缀名才能正确解析
-     *
-     * @param name
-     * @param value
-     * @param extend 拓展名, 如".jpg", ".png"等
-     */
-    protected void param(String name, byte[] value, String extend) {
-        if (mByteParams == null) {
-            mByteParams = new ArrayList<>();
-        }
-        mByteParams.add(new BytePair(name + extend, value));
+        return mFileName;
     }
 
     public List<BytePair> getByteParams() {
         return mByteParams;
     }
 
-    /**
-     * 添加文件param
-     *
-     * @param name
-     * @param uri
-     */
-    protected void paramFile(String name, String uri) {
-        if (mFileParams == null) {
-            mFileParams = new ArrayList<>();
-        }
-        mFileParams.add(new FilePair(name, uri));
-    }
-
-    protected void paramFile(List<FilePair> params) {
-        if (params == null) {
-            return;
-        }
-
-        if (mFileParams == null) {
-            mFileParams = new ArrayList<>();
-        }
-        mFileParams.addAll(params);
-    }
-
     public List<FilePair> getFileParams() {
         return mFileParams;
-    }
-
-    /**
-     * 添加header数据
-     *
-     * @param name
-     * @param value
-     */
-    protected void header(String name, String value) {
-        if (mHeaders == null) {
-            mHeaders = new ArrayList<>();
-        }
-        mHeaders.add(new CommonPair(name, value));
-    }
-
-    protected void header(String name, int value) {
-        header(name, String.valueOf(value));
-    }
-
-    protected void header(List<CommonPair> headers) {
-        if (headers == null) {
-            return;
-        }
-
-        if (mHeaders == null) {
-            mHeaders = new ArrayList<>();
-        }
-        mHeaders.addAll(headers);
     }
 
     public List<CommonPair> getHeaders() {
@@ -192,42 +78,70 @@ public class NetworkReq {
         return mUrl;
     }
 
+    public Class getConvertTo() {
+        return mConvertTo;
+    }
+
+    public Class getConvertToList() {
+        return mConvertToList;
+    }
+
+    public static Builder newBuilder(String baseUrl) {
+        return new Builder(baseUrl);
+    }
+
     /**
      * 内部builder
      */
     public static class Builder {
-        protected List<CommonPair> mParams;
-        protected List<BytePair> mByteParams;
-        protected List<FilePair> mFileParams;
+        private List<CommonPair> mParams;
+        private List<BytePair> mByteParams;
+        private List<FilePair> mFileParams;
 
-        protected List<CommonPair> mHeaders;
+        private List<CommonPair> mHeaders;
 
-        private String mBaseUrl;
+        private String mUrl;
 
         private String mDir;
         private String mFileName;
 
-        @NetworkMethod
-        private int mNetworkMethod = NetworkMethod.get;
+        private Class mConvertTo;
+        private Class mConvertToList;
 
-        public Builder(String baseUrl) {
-            mBaseUrl = baseUrl;
+        @NetworkMethod
+        private int mMethod = NetworkMethod.get;
+
+        private NetworkRetry mRetry;
+
+
+        private Builder(String baseUrl) {
+            mUrl = baseUrl;
 
             mParams = new ArrayList<>();
         }
 
         public <T extends Builder> T get() {
-            mNetworkMethod = NetworkMethod.get;
+            mMethod = NetworkMethod.get;
             return (T) this;
         }
 
         public <T extends Builder> T post() {
-            mNetworkMethod = NetworkMethod.post;
+            mMethod = NetworkMethod.post;
             return (T) this;
         }
 
         public <T extends Builder> T upload() {
-            mNetworkMethod = NetworkMethod.upload;
+            mMethod = NetworkMethod.upload;
+            return (T) this;
+        }
+
+        public <T extends Builder> T convertTo(Class c) {
+            mConvertTo = c;
+            return (T) this;
+        }
+
+        public <T extends Builder> T convertToList(Class c) {
+            mConvertToList = c;
             return (T) this;
         }
 
@@ -239,7 +153,7 @@ public class NetworkReq {
          * @return
          */
         public <T extends Builder> T downloadFile(String dir, String fileName) {
-            mNetworkMethod = NetworkMethod.download_file;
+            mMethod = NetworkMethod.download_file;
             mDir = dir;
             mFileName = fileName;
             return (T) this;
@@ -335,18 +249,29 @@ public class NetworkReq {
             return (T) this;
         }
 
+        public <T extends Builder> T retry(int count, long delay) {
+            mRetry = new NetworkRetry(count, delay);
+            return (T) this;
+        }
+
         public NetworkReq build() {
-            NetworkReq r = new NetworkReq(mNetworkMethod, mBaseUrl);
+            NetworkReq r = new NetworkReq();
 
-            if (mNetworkMethod == NetworkMethod.download_file) {
-                r.dir(mDir);
-                r.fileName(mFileName);
-            }
+            r.mMethod = mMethod;
+            r.mUrl = mUrl;
 
-            r.header(mHeaders);
-            r.param(mParams);
-            r.paramByte(mByteParams);
-            r.paramFile(mFileParams);
+            r.mRetry = mRetry;
+
+            r.mConvertTo = mConvertTo;
+            r.mConvertToList = mConvertToList;
+
+            r.mDir = mDir;
+            r.mFileName = mFileName;
+
+            r.mHeaders = mHeaders;
+            r.mParams = mParams;
+            r.mByteParams = mByteParams;
+            r.mFileParams = mFileParams;
 
             return r;
         }

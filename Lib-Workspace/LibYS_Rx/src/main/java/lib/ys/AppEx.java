@@ -7,6 +7,7 @@ import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import lib.network.Network;
+import lib.network.NetworkConfig;
 import lib.ys.config.AppConfig;
 import lib.ys.crash.CrashMgr;
 import lib.ys.network.image.NetworkImageView;
@@ -42,9 +43,9 @@ abstract public class AppEx extends Application {
 
         NetworkImageView.init(this, getNetworkImageCacheDir(), (int) (DeviceUtil.getRuntimeMaxMemory() / 8));
 
-        Network.init(this);
+        Network.init(this, configureNetwork());
 
-        mConfig = makeConfig();
+        mConfig = configureApp();
 
         if (enableCatchCrash()) {
             CrashMgr.inst().init(e -> {
@@ -57,11 +58,18 @@ abstract public class AppEx extends Application {
         init();
     }
 
-    abstract protected AppConfig makeConfig();
+    /**
+     * 设置App
+     *
+     * @return
+     */
+    abstract protected AppConfig configureApp();
 
     public static AppConfig getConfig() {
         return mConfig;
     }
+
+    abstract protected NetworkConfig configureNetwork();
 
     /**
      * 设置主进程配置

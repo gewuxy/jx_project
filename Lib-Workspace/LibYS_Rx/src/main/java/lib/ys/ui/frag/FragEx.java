@@ -311,6 +311,11 @@ abstract public class FragEx extends Fragment implements
      * http task part
      */
     @Override
+    public void exeNetworkReq(NetworkReq req) {
+        exeNetworkReq(KDefaultId, req);
+    }
+
+    @Override
     public void exeNetworkReq(int id, NetworkReq req) {
         exeNetworkReq(id, req, this);
     }

@@ -13,6 +13,7 @@ import lib.network.error.ConnectionNetError;
 import lib.network.error.ParseNetError;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkResp;
+import lib.network.model.NetworkResult;
 import lib.network.provider.Delivery;
 import lib.network.provider.IBuilder;
 import lib.network.provider.ok.request.UploadBuilder.DeleteOnExit;
@@ -34,8 +35,8 @@ public class ObjectCallback extends Callback<Object> {
 
     @Override
     public void inProgress(float progress, long total, int id) {
-        if (builder().getMethod() == NetworkMethod.upload) {
-            mDelivery.deliverProgress(builder(), progress * 100, total);
+        if (mBuilder.getMethod() == NetworkMethod.upload) {
+            mDelivery.deliverProgress(mBuilder, progress * 100, total);
         }
     }
 
@@ -43,7 +44,7 @@ public class ObjectCallback extends Callback<Object> {
     public Object parseNetworkResponse(Response response, int id) throws Exception {
         if (response.isSuccessful()) {
             // 直接在子线程调用, 在子线程解析
-            return builder().getListener().onNetworkResponse(id, getNetworkResponse(response));
+            return mBuilder.getListener().onNetworkResponse(id, toNetworkResp(response));
         } else {
             return null;
         }
@@ -69,7 +70,16 @@ public class ObjectCallback extends Callback<Object> {
     public void onResponse(Object response, int id) {
         if (mBuilder.getListener() != null) {
             if (response != null) {
-                mDelivery.deliverSuccess(mBuilder, response);
+                if (response instanceof NetworkResult) {
+                    NetworkResult result = (NetworkResult) response;
+                    if (result.isSuccess()) {
+                        mDelivery.deliverSuccess(mBuilder, result);
+                    } else {
+                        mDelivery.deliverError(mBuilder, new ParseNetError(result.getCode(), result.getError()));
+                    }
+                } else {
+                    mDelivery.deliverSuccess(mBuilder, response);
+                }
             } else {
                 mDelivery.deliverError(mBuilder, new ParseNetError("数据解析错误"));
             }
@@ -81,7 +91,7 @@ public class ObjectCallback extends Callback<Object> {
         DeleteOnExit.inst().delete(mBuilder.tag(), mBuilder.id());
     }
 
-    private NetworkResp getNetworkResponse(Response response) {
+    private NetworkResp toNetworkResp(Response response) {
         NetworkResp r = new NetworkResp();
         String text = null;
         try {
@@ -92,9 +102,5 @@ public class ObjectCallback extends Callback<Object> {
         }
 
         return r;
-    }
-
-    protected IBuilder builder() {
-        return mBuilder;
     }
 }

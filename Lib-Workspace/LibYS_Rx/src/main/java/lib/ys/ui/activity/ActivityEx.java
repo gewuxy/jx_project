@@ -212,6 +212,11 @@ abstract public class ActivityEx extends SwipeBackActivity implements
      * http task part
      */
     @Override
+    public void exeNetworkReq(NetworkReq req) {
+        exeNetworkReq(KDefaultId, req);
+    }
+
+    @Override
     public void exeNetworkReq(int id, NetworkReq req) {
         exeNetworkReq(id, req, this);
     }

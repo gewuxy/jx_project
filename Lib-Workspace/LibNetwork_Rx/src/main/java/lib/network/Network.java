@@ -53,13 +53,13 @@ public class Network {
         cancelAll();
     }
 
-    public static void init(Context context) {
+    public static void init(Context context, NetworkConfig config) {
         mContext = context;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
-                .connectTimeout(30000L, TimeUnit.MILLISECONDS)
-                .readTimeout(30000L, TimeUnit.MILLISECONDS)
+                .connectTimeout(config.getConnectTimeout(), TimeUnit.MILLISECONDS)
+                .readTimeout(config.getReadTimeout(), TimeUnit.MILLISECONDS)
                 //其他配置
                 .build();
 

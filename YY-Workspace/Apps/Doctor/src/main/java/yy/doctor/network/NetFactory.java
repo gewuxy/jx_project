@@ -7,6 +7,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.param.CommonPair;
 import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlEpc;
 import yy.doctor.network.UrlUtil.UrlEpn;
 import yy.doctor.network.UrlUtil.UrlHome;
@@ -22,6 +23,7 @@ import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
 
 import static yy.doctor.model.Profile.TProfile.token;
+
 
 /**
  * @author CaiXiang
@@ -207,7 +209,8 @@ public class NetFactory {
      */
     public static NetworkReq logout() {
         return newGet(UrlUser.KLogout)
-                .param(CommonParam.KToken, Profile.inst().getString(token))
+                .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
+                .retry(5, 1)
                 .build();
     }
 
@@ -535,7 +538,7 @@ public class NetFactory {
      * @return
      */
     public static Builder newPost(String url) {
-        return new Builder(UrlUtil.getBaseUrl() + url)
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
                 .post()
                 .header(getBaseHeader());
     }
@@ -547,7 +550,7 @@ public class NetFactory {
      * @return
      */
     public static Builder newGet(String url) {
-        return new Builder(UrlUtil.getBaseUrl() + url)
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
                 .get()
                 .header(getBaseHeader());
     }
@@ -559,7 +562,7 @@ public class NetFactory {
      * @return
      */
     public static Builder newUpload(String url) {
-        return new Builder(UrlUtil.getBaseUrl() + url)
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
                 .upload()
                 .header(getBaseHeader());
     }

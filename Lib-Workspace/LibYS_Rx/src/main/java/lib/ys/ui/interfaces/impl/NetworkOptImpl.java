@@ -34,6 +34,11 @@ public class NetworkOptImpl implements NetworkOpt {
     }
 
     @Override
+    public void exeNetworkReq(NetworkReq req) {
+        exeNetworkReq(KDefaultId, req);
+    }
+
+    @Override
     public void exeNetworkReq(int id, NetworkReq req) {
         exeNetworkReq(id, req, mNetworkLsn);
     }

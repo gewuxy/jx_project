@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import org.json.JSONException;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.NetworkRetry;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Resp;
 import yy.doctor.model.Logout;
@@ -22,20 +21,16 @@ public class LogoutServ extends ServiceEx {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
-        exeNetworkReq(0, NetFactory.logout().retry(new NetworkRetry(5, 1)));
+        exeNetworkReq(NetFactory.logout());
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
-
         return JsonParser.ev(r.getText(), Logout.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
         Resp<Logout> r = (Resp<Logout>) result;
 
         if (r.isSucceed()) {

@@ -11,6 +11,15 @@ import lib.network.model.OnNetworkListener;
  */
 public interface NetworkOpt {
 
+    int KDefaultId = -1;
+
+    /**
+     * 默认使用{@link #KDefaultId}
+     *
+     * @param req
+     */
+    void exeNetworkReq(NetworkReq req);
+
     /**
      * @param id
      * @param req
