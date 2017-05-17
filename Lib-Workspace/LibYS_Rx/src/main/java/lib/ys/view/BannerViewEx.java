@@ -8,7 +8,8 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import lib.ys.adapter.PagerAdapterEx;
-import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.util.GenericUtil;
+import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.pager.AutoScrollViewPager;
 import lib.ys.view.pager.indicator.IconPageIndicator;
@@ -20,9 +21,9 @@ import lib.ys.view.pager.indicator.PageIndicator;
  *
  * @author yuansui
  */
-abstract public class BannerViewEx<T> extends RelativeLayout {
+abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends RelativeLayout {
 
-    private PagerAdapterEx mAdapter;
+    private A mAdapter;
     private AutoScrollViewPager mVp;
     private PageIndicator mIndicator;
 
@@ -32,7 +33,8 @@ abstract public class BannerViewEx<T> extends RelativeLayout {
             return;
         }
 
-        mAdapter = createAdapter();
+        Class<A> adapterClass = GenericUtil.getClassType(getClass(), PagerAdapterEx.class);
+        mAdapter = ReflectionUtil.newInst(adapterClass);
     }
 
     @Override
@@ -91,8 +93,6 @@ abstract public class BannerViewEx<T> extends RelativeLayout {
 
         mVp.startAutoScroll();
     }
-
-    abstract protected PagerAdapterEx<T, ? extends ViewHolderEx> createAdapter();
 
     protected long getInterval() {
         return 4000;
