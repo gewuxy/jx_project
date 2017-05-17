@@ -63,7 +63,6 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsA
 
     @Override
     public void onItemClick(View v, int position) {
-        super.onItemClick(v, position);
         String meetId = getItem(position).getString(TMeetRec.id);
         MeetingDetailsActivity.nav(getContext(), meetId);
     }

@@ -1,6 +1,8 @@
 {
   "code": "0",
   "data": {
+    "endTime": 1495945634000,
+    "id": 2,
     "meetId": "17042512131640894904",
     "moduleId": 8,
     "paper": {
@@ -435,6 +437,10 @@
           "title": "十二指肠溃疡的好发部位是"
         }
       ]
-    }
+    },
+    "serverTime": 1494997858910,
+    "startTime": 1494995231000,
+    "timeLimitType": 0,
+    "usetime": 30
   }
 }

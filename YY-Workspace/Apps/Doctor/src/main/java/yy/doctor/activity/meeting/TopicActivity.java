@@ -1,5 +1,7 @@
 package yy.doctor.activity.meeting;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.animation.Animation;
@@ -10,25 +12,33 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseVPActivity;
 import lib.yy.view.ExamCaseGridView;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.ExamCaseAdapter;
+import yy.doctor.frag.exam.TopicFrag;
+import yy.doctor.model.exam.Intro;
+import yy.doctor.model.exam.Intro.TIntro;
+import yy.doctor.model.exam.Paper;
+import yy.doctor.model.exam.Paper.TPaper;
 import yy.doctor.model.exam.Topic;
 import yy.doctor.util.Util;
 
 /**
- * 考试题目界面
+ * 考试(问卷)题目界面
  *
  * @author : GuoXuan
  * @since : 2017/4/28
  */
 
-public class ExamTopicActivity extends BaseVPActivity {
+public class TopicActivity extends BaseVPActivity {
+    //TODO:动画
 
     private static final long KDuration = 300l;//动画时长
 
-    private ArrayList<Topic> mAllTopics;    //考题的数据,服务器返回的json字符串
+    private ArrayList<Topic> mAllTopics;
 
     private LinearLayout mLl;                   //考题情况
     private ExamCaseGridView mGv;               //考题情况列表
@@ -37,6 +47,14 @@ public class ExamTopicActivity extends BaseVPActivity {
     private Animation mEnter;//进入动画
     private Animation mLeave;//离开动画
     private boolean mHasAnimation;//有动画在执行
+    private Paper mPaper;
+    private String mModuleId;
+
+    public static void nav(Context context, String moduleId) {
+        Intent i = new Intent(context, TopicActivity.class);
+        i.putExtra(Extra.KData, moduleId);
+        LaunchUtil.startActivity(context, i);
+    }
 
     @Override
     public void initData() {
@@ -61,35 +79,16 @@ public class ExamTopicActivity extends BaseVPActivity {
                 Animation.RELATIVE_TO_SELF,
                 1.0f);
 
-        mAllTopics = new ArrayList<>();
-        //TODO:接收考题信息
-       /* for (int i = 0; i < 3; i++) {
+        mModuleId = getIntent().getStringExtra(Extra.KData);
+        mPaper = Intro.getIntro().getEv(TIntro.paper);
+        mAllTopics = mPaper.getList(TPaper.questions);
 
-            ArrayList<String> chooses = new ArrayList<>(); //考题的选项
-            for (int j = 0; j < 3; j++) {
-                chooses.add("放假" + (i * j));
-            }
-            ExamTopic examTopic = new ExamTopic();
-            examTopic.put(TTopic.title, "五一放假");
-            examTopic.put(TTopic.choose, chooses);
-
-            ExamTopicFrag frag = new ExamTopicFrag();
-            frag.setExamTopic(examTopic);
-            frag.setData(chooses);
-            frag.setOnNextListener(new OnNextListener() {
-                @Override
-                public void onNext(View v) {
-                    int next = getCurrentItem() + 1;
-                    if (next >= 3)
-                        setCurrentItem(0);
-                    else
-                        setCurrentItem(next);
-                    mExamCaseAdapter.notifyDataSetChanged();
-                }
-            });
-            mAllTopics.add(examTopic);
+        for (Topic topic : mAllTopics) {
+            TopicFrag frag = new TopicFrag();
+            frag.setTopic(topic);
             add(frag);
-        }*/
+        }
+
     }
 
     @Override
@@ -100,7 +99,7 @@ public class ExamTopicActivity extends BaseVPActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_exam_topic;
+        return R.layout.activity_topic;
     }
 
     @Override
@@ -115,7 +114,7 @@ public class ExamTopicActivity extends BaseVPActivity {
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.exam_topic_rl_case);
+        setOnClickListener(R.id.topic_rl_case);
         mLl.setOnClickListener(this);
         gvSet();
 
@@ -126,7 +125,7 @@ public class ExamTopicActivity extends BaseVPActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.exam_topic_rl_case:
+            case R.id.topic_rl_case:
                 examCaseVisibility(!(mLl.getVisibility() == View.VISIBLE));
                 break;
             case R.id.exam_topic_case_all_ll:
@@ -147,9 +146,7 @@ public class ExamTopicActivity extends BaseVPActivity {
         mExamCaseAdapter.addAll(mAllTopics);
 
         mGv.setAdapter(mExamCaseAdapter);
-        mGv.setOnItemClickListener((parent, view, position, id) -> {
-            examCaseVisibility(false);
-        });
+        mGv.setOnItemClickListener((parent, view, position, id) -> examCaseVisibility(false));
         mGv.setOnInvalidListener(motionEvent -> {
             examCaseVisibility(false);
             return false;

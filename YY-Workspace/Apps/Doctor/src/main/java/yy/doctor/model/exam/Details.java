@@ -10,7 +10,7 @@ import yy.doctor.model.exam.Details.TDetails;
  * @since : 2017/5/9
  */
 
-class Details extends EVal<TDetails> {
+public class Details extends EVal<TDetails> {
     public enum TDetails {
         audioUrl,//微课明细路径
         id,//微课明细ID
