@@ -119,8 +119,7 @@
 
         <View
             style="@style/divider"
-            android:paddingLeft="@dimen/margin"
-            android:background="@color/text_80fff"/>
+            android:background="@color/app_bg"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

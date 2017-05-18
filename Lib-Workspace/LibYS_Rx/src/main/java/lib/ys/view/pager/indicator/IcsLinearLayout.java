@@ -1,6 +1,7 @@
 package lib.ys.view.pager.indicator;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 /**
@@ -18,5 +19,6 @@ class IcsLinearLayout extends LinearLayout {
     public IcsLinearLayout(Context context, int attr) {
         super(context);
         setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER);
     }
 }

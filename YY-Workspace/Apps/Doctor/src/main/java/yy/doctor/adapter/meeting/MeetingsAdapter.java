@@ -14,10 +14,6 @@ import yy.doctor.model.meet.MeetRec.TMeetRec;
  */
 
 public class MeetingsAdapter extends AdapterEx<MeetRec, MeetingsVH> {
-    @Override
-    protected void initView(int position, MeetingsVH holder) {
-        holder.getIvNum().placeHolder(R.mipmap.ic_default_unit_num).load();
-    }
 
     @Override
     public int getConvertViewResId() {
@@ -26,6 +22,7 @@ public class MeetingsAdapter extends AdapterEx<MeetRec, MeetingsVH> {
 
     @Override
     protected void refreshView(int position, MeetingsVH holder) {
+        holder.getIvNum().placeHolder(R.mipmap.ic_default_unit_num).load();
         holder.getTvTitle().setText(getItem(position).getString(TMeetRec.meetName));
         holder.getTvSection().setText(getItem(position).getString(TMeetRec.meetType));
 

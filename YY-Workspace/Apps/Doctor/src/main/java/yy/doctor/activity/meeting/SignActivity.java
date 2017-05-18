@@ -1,7 +1,5 @@
 package yy.doctor.activity.meeting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,11 +16,8 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
-import lib.ys.util.permission.Permission;
-import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
@@ -53,24 +48,23 @@ public class SignActivity extends BaseActivity {
     private static final int KReturnTime = 3;//关闭倒计时
     private static final int KSign = 0;
     private static final int KToSign = 1;
-    private static final String KModuleId = "4";//签到模块的id
 
     private String mMeetId;//会议id
+    private String mModuleId;//会议id
+    private String mLongitude;//经度
+    private String mLatitude;//维度
 
     private ImageView mIvResult;//结果图标
     private TextView mTvResult;//签到结果
     private TextView mTvResultMsg;//成功的时间/失败的原因
     private TextView mTvReturn;
 
-    public static void nav(Context context, String meetId) {
-        Intent i = new Intent(context, SignActivity.class);
-        i.putExtra(Extra.KData, meetId);
-        LaunchUtil.startActivity(context, i);
-    }
-
     @Override
     public void initData() {
-        mMeetId = getIntent().getStringExtra(Extra.KData);
+        mLatitude = getIntent().getStringExtra(Extra.KLatitude);
+        mLongitude = getIntent().getStringExtra(Extra.KLongitude);
+        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
+        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
     }
 
     @NonNull
@@ -100,28 +94,9 @@ public class SignActivity extends BaseActivity {
             mMeetId = "17042512131640894904";
         }
 
-        //TODO:直接显示结果
         refresh(RefreshWay.embed);
-        if (checkPermission(0, Permission.location)) {
-            exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, KModuleId));
-        }
+        exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, mModuleId));
 
-    }
-
-    @Override
-    public void onPermissionResult(int code, @PermissionResult int result) {
-        switch (result) {
-            case PermissionResult.granted: {
-                exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, KModuleId));
-            }
-            break;
-            case PermissionResult.denied:
-            case PermissionResult.never_ask: {
-
-                showToast("请开启定位权限");
-            }
-            break;
-        }
     }
 
     @Override
@@ -141,16 +116,17 @@ public class SignActivity extends BaseActivity {
                 Sign signData = r.getData();
                 exeNetworkReq(KSign, NetFactory.sign()
                         .meetId(mMeetId)
-                        .moduleId(KModuleId)
+                        .moduleId(mModuleId)
                         .positionId(signData.getString(TSign.id))
-                        .signLat(signData.getString(TSign.positionLat))
-                        .signLng(signData.getString(TSign.positionLng))
+                        .signLat(mLatitude)
+                        .signLng(mLongitude)
                         .builder());
             } else {
+                //正常但失败
                 setViewState(ViewState.normal);
                 signError(r.getError());
             }
-        } else {//签到
+        } else {//签到,都正常
             setViewState(ViewState.normal);
             Result<SignResult> r = (Result<SignResult>) result;
             if (r.isSucceed()) {

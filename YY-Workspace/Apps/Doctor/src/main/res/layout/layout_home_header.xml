@@ -23,9 +23,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="12dp"
-            android:layout_marginRight="18dp"
-            android:orientation="horizontal"
-            android:background="@drawable/home_banner_dot_selector"/>
+            android:layout_marginRight="18dp"/>
 
     </yy.doctor.view.BannerView>
 

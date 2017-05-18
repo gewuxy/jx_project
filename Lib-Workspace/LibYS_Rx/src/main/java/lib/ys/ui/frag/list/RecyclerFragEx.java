@@ -295,7 +295,7 @@ abstract public class RecyclerFragEx<T> extends FragEx implements RecyclerViewOp
      * @return
      */
     @Override
-    public View findView(@IdRes int id) {
+    public <T extends View> T findView(@IdRes int id) {
         View v = super.findView(id);
         if (v == null) {
             v = getRv().findViewInHeaderById(id);
@@ -303,6 +303,8 @@ abstract public class RecyclerFragEx<T> extends FragEx implements RecyclerViewOp
         if (v == null) {
             v = getRv().findViewInFooterById(id);
         }
-        return v;
+        return (T) v;
     }
+
+
 }

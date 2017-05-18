@@ -4,27 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import lib.network.model.err.NetError;
-import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.DisposableSubscriber;
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Result;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.frag.exam.ExamTopicFrag;
-import yy.doctor.model.exam.Exam;
-import yy.doctor.model.exam.Exam.TExam;
+import yy.doctor.model.exam.Intro;
+import yy.doctor.model.exam.Intro.TIntro;
 import yy.doctor.model.exam.Paper;
-import yy.doctor.model.exam.Paper.TExamPaper;
-import yy.doctor.network.JsonParser;
+import yy.doctor.model.exam.Paper.TPaper;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -35,39 +29,29 @@ import yy.doctor.util.Util;
  * @since : 2017/4/27
  */
 
-public class ExamIntroActivity extends BaseActivity {
+public class ExamIntroActivity extends BaseIntroActivity {
 
-    private static final int KExam = 8;
-    private static final int KSurvey = 10;
+    private Paper mPaper;//本次考试试题信息
 
-    public static void nav(Context context, String[] info) {
-        Intent i = new Intent(context, ExamTopicFrag.class);
-        i.putExtra(Extra.KData, info);
+    private long mStartTime;//考试开始时间
+    private long mEndTime;//考试结束时间
+    private long mNowTime;//服务器当前时间
+
+    private DisposableSubscriber<Long> mSub;
+    private boolean canStart;//是否能开始考试
+
+    public static void nav(Context context, String meetId, String moduleId) {
+        Intent i = new Intent(context, ExamIntroActivity.class)
+                .putExtra(Extra.KMeetId, meetId)
+                .putExtra(Extra.KModuleId, moduleId);
         LaunchUtil.startActivity(context, i);
     }
-
-    private TextView mTvTitle;  //试卷名称
-    private TextView mTvHost;   //主办方
-    private TextView mTvCount;  //总题数
-    private TextView mTvTime;   //考试时间
-
-    private String mModuleId;//模块ID
-    private String mMeetId;//会议ID
-    private Paper mPaper;//本次考试试题信息
 
     @Override
     public void initData() {
         Intent intent = getIntent();
-        if (intent != null) {
-            mModuleId = intent.getStringExtra("");
-            mMeetId = intent.getStringExtra("");
-        }
-    }
-
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_exam_intro;
+        mMeetId = intent.getStringExtra(Extra.KMeetId);
+        mModuleId = intent.getStringExtra(Extra.KModuleId);
     }
 
     @Override
@@ -76,71 +60,78 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
-    public void findViews() {
-        mTvTitle = findView(R.id.exam_intro_tv_title);
-        mTvHost = findView(R.id.exam_intro_tv_host);
-        mTvCount = findView(R.id.exam_intro_tv_count);
-        mTvTime = findView(R.id.exam_intro_tv_time);
-    }
-
-    @Override
     public void setViews() {
-        setOnClickListener(R.id.exam_intro_tv_start);
-
-        if (BuildConfig.TEST) {
-            mMeetId = "17042512131640894904";
-            mModuleId = "10";
-        }
-
-        //TODO：开启就要显示还是再请求网络
-        refresh(RefreshWay.embed);
-        switch (Integer.valueOf(mModuleId.trim())) {
-            case KExam:
-                exeNetworkReq(KExam, NetFactory.toExam(mMeetId, mModuleId));
-                break;
-            case KSurvey:
-                exeNetworkReq(KSurvey, NetFactory.toSurvey(mMeetId, mModuleId));
-                break;
-        }
-
+        super.setViews();
+        exeNetworkReq(NetFactory.toExam(mMeetId, mModuleId));
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Exam.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        setViewState(ViewState.normal);
-        Result<Exam> r = (Result<Exam>) result;
-        mPaper = r.getData().getEv(TExam.paper);
-        switch (id) {
-            case KExam:
-                mTvTitle.setText(mPaper.getString(TExamPaper.name));
-                break;
-            case KSurvey:
-                mTvTitle.setText(mPaper.getString(TExamPaper.paperName));
-                break;
-        }
-        List list = mPaper.getList(TExamPaper.questions);
+    protected void success(Intro intro) {
+        mPaper = intro.getEv(TIntro.paper);
+        mTvTitle.setText(mPaper.getString(TPaper.name));
+        List list = mPaper.getList(TPaper.questions);
         mTvCount.setText(list.size() + "道题");
-    }
 
-    @Override
-    public void onNetworkError(int id, NetError error) {
-        super.onNetworkError(id, error);
-        setViewState(ViewState.error);
+        //获取起始结束时间
+        mStartTime = Long.valueOf(intro.getString(Intro.TIntro.startTime));
+        mEndTime = Long.valueOf(intro.getString(Intro.TIntro.endTime));
+        mNowTime = Long.valueOf(intro.getString(Intro.TIntro.serverTime));
+        canStart = mStartTime <= mNowTime && mNowTime < mEndTime;
+        if (mStartTime > mNowTime) {//未开始的话开始计时
+            Long maxCount = (mStartTime - mNowTime) / 60000;
+            Flowable.interval(1, TimeUnit.MINUTES)
+                    .take(maxCount + 1)
+                    .subscribe(createSub());
+        }
+
+        mTvTime.setText(getTime(mStartTime, mEndTime));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start://开始考试
-                startActivity(ExamTopicActivity.class);
+                if (canStart) {
+                    TopicActivity.nav(ExamIntroActivity.this, mModuleId);
+                    finish();
+                } else if (mStartTime > mNowTime) {
+                    //TODO:考试未开始
+                } else {
+                    //TODO:考试结束
+                }
                 break;
             default:
                 break;
+        }
+
+    }
+
+    private DisposableSubscriber<Long> createSub() {
+        mSub = new DisposableSubscriber<Long>() {
+
+            @Override
+            public void onNext(@NonNull Long aLong) {
+                LogMgr.d(TAG, "createSub" + "考试未开始");
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+            }
+
+            @Override
+            public void onComplete() {
+                canStart = true;
+            }
+        };
+        return mSub;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSub != null && !mSub.isDisposed()) {
+            mSub.dispose();
+            mSub = null;
         }
     }
 }

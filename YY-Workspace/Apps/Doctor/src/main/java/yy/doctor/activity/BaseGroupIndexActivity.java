@@ -44,11 +44,6 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
     }
 
     @Override
-    public int getSRLayoutResId() {
-        return R.id.sr_group_list_layout;
-    }
-
-    @Override
     public void findViews() {
         super.findViews();
 

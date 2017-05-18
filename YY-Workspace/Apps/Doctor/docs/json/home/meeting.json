@@ -1,0 +1,34 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "endTime": 1494399392000,
+      "id": "17042512131640894904",
+      "lecturer": "杨主任",
+      "lecturerImg": "/upload/headimg/1234567.jpg",
+      "lecturerTile": "主任医师",
+      "meetName": "测试会议哈哈",
+      "meetType": "儿科",
+      "pubUserHead": "/upload/headimg/14.jpg",
+      "startTime": 1493270190000
+    },
+    {
+      "id": "17042512131640894932",
+      "lecturer": "王主任",
+      "lecturerImg": "/upload/headimg/1234567.jpg",
+      "lecturerTile": "主任医师",
+      "meetName": "测试会议123",
+      "meetType": "儿科",
+      "pubUserHead": "/upload/headimg/7.jpg"
+    },
+    {
+      "id": "17042512131640894934",
+      "lecturer": "刘主任",
+      "lecturerImg": "/upload/headimg/1234567.jpg",
+      "lecturerTile": "主任医师",
+      "meetName": "测试会议呃呃",
+      "meetType": "儿科",
+      "pubUserHead": "/upload/headimg/7.jpg"
+    }
+  ]
+}

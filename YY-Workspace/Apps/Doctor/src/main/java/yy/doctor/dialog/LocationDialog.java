@@ -14,9 +14,9 @@ import yy.doctor.R;
 
 public class LocationDialog extends BaseDialog {
 
-    private OnAgainListener mOnAgainListener;
+    private OnLocationListener mOnLocationListener;
 
-    public interface OnAgainListener {
+    public interface OnLocationListener {
         /**
          * 重试
          *
@@ -29,8 +29,8 @@ public class LocationDialog extends BaseDialog {
         super(context);
     }
 
-    public void setOnAgainListener(OnAgainListener onAgainListener) {
-        mOnAgainListener = onAgainListener;
+    public void setLocationListener(OnLocationListener onLocationListener) {
+        mOnLocationListener = onLocationListener;
     }
 
     @Override
@@ -59,10 +59,10 @@ public class LocationDialog extends BaseDialog {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_location_tv_again:
-                if (mOnAgainListener != null) {
-                    mOnAgainListener.onAgain(v);
-                }
                 dismiss();
+                if (mOnLocationListener != null) {
+                    mOnLocationListener.onAgain(v);
+                }
                 break;
             case R.id.dialog_location_tv_cancel:
                 dismiss();

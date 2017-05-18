@@ -7,7 +7,7 @@ android {
 
 
     defaultConfig {
-        applicationId "yy.doctor"
+        applicationId "com.zhuanyeban.yaya"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 6521

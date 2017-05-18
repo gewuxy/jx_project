@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_viewpager"/>
+
+    <include layout="@layout/layout_topic_case"/>
+
+    <View
+        android:layout_above="@+id/topic_rl_case"
+        style="@style/divider"/>
+
+    <include layout="@layout/layout_topic_case_all"/>
+
+</RelativeLayout>

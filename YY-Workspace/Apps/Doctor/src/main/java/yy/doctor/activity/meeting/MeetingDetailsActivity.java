@@ -15,14 +15,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
-import lib.network.model.err.NetError;
+import lib.bd.location.LocationNotifier;
+import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.MapList;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
@@ -40,11 +46,9 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
-import static lib.ys.util.permission.Permission.location;
-
 /**
  * 会议详情界面
- * <p>
+ *
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -52,8 +56,12 @@ import static lib.ys.util.permission.Permission.location;
 public class MeetingDetailsActivity extends BaseActivity {
 
     private static final int KModuleCount = 4;//模块数
-    private static final int KDividerWDp = 1;//分割线的宽
-    private static final int KDividerHDp = 16;//分割线的高
+    private final int KDividerWDp = 1;//分割线的宽
+    private final int KDividerHDp = 16;//分割线的高
+    private final int KExamResId = R.mipmap.meeting_ic_exam;//考试
+    private final int KQueResId = R.mipmap.meeting_ic_questionnaire;//问卷
+    private final int KVideoResId = R.mipmap.meeting_ic_video;//视频
+    private final int KSignResId = R.mipmap.meeting_ic_sign;//签到
 
     private String mMeetId;
     private TextView mTvAward;
@@ -83,20 +91,21 @@ public class MeetingDetailsActivity extends BaseActivity {
     private LayoutParams mModuleParams;//模块的参数
     private LayoutParams mDividerParams;//分割线的参数
 
-    private LocationDialog mLocationDialog;
-    private int KExamResId = R.mipmap.meeting_ic_exam;//考试
-    private int KQueResId = R.mipmap.meeting_ic_questionnaire;//问卷
-    private int KVideoResId = R.mipmap.meeting_ic_video;//视频
-    private int KSignResId = R.mipmap.meeting_ic_sign;//签到
+    private LocationDialog mLocationDialog;//定位框
+    private OnLocationNotify mObserver;
+    private MapList<Integer, String> mMapList;
 
+    /**
+     * functionId,模块功能ID
+     */
     @IntDef({
-            ModuleType.ppt,
-            ModuleType.video,
-            ModuleType.exam,
-            ModuleType.que,
-            ModuleType.sign,
+            FunctionType.ppt,
+            FunctionType.video,
+            FunctionType.exam,
+            FunctionType.que,
+            FunctionType.sign,
     })
-    private @interface ModuleType {
+    private @interface FunctionType {
         int ppt = 1;//微课
         int video = 2;//视频
         int exam = 3;//考试
@@ -131,9 +140,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         Util.addBackIcon(bar, "会议详情", this);
         //TODO:右边图标的事件
         bar.addViewRight(R.mipmap.nar_bar_ic_collection, v -> showToast("收藏"));
-        bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
-            new ShareDialog(MeetingDetailsActivity.this).show();
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> new ShareDialog(MeetingDetailsActivity.this).show());
     }
 
     @Override
@@ -170,8 +177,8 @@ public class MeetingDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp nr) throws Exception {
-        return JsonParser.ev(nr.getText(), MeetDetail.class);
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), MeetDetail.class);
     }
 
     @Override
@@ -214,24 +221,34 @@ public class MeetingDetailsActivity extends BaseActivity {
     private void modules(List<InfoModule> infoModules) {
         InfoModule infoModule;
         int type;
+        mMapList = new MapList<>();
         for (int i = 0; i < infoModules.size(); i++) {
             infoModule = infoModules.get(i);
             type = infoModule.getInt(TInfoModule.functionId);
+            String moduleId = infoModule.getString(TInfoModule.id);
+            mMapList.add(Integer.valueOf(type), moduleId);
+            String moduleIdName = infoModule.getString(TInfoModule.moduleName);
             switch (type) {
-                case ModuleType.exam:
-                    addModule(KExamResId, "考试", v -> startActivity(ExamIntroActivity.class));
+                case FunctionType.exam:
+                    addModule(KExamResId, moduleIdName, v ->
+                            ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam)));
                     break;
 
-                case ModuleType.que:
-                    addModule(KQueResId, "问卷", v -> startActivity(ExamIntroActivity.class));
+                case FunctionType.que:
+                    addModule(KQueResId, moduleIdName, v ->
+                            QueIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.que)));
                     break;
 
-                case ModuleType.video:
-                    addModule(KVideoResId, "视频", v -> startActivity(ExamIntroActivity.class));
+                case FunctionType.video:
+                    addModule(KVideoResId, moduleIdName, v -> startActivity(BaseIntroActivity.class));
                     break;
 
-                case ModuleType.sign:
-                    addModule(KSignResId, "签到", v -> sign());
+                case FunctionType.sign:
+                    addModule(KSignResId, moduleIdName, v -> {
+                        if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
+                            sign();
+                        }
+                    });
                     break;
             }
         }
@@ -280,27 +297,61 @@ public class MeetingDetailsActivity extends BaseActivity {
      * 签到
      */
     private void sign() {
-        if (checkPermission(0, location)) {
-            //TODO:获取经纬度，看百度更新
-            Location.inst();
-            //SignActivity.nav(MeetingDetailsActivity.this, mMeetId);
-        }
+        refresh(RefreshWay.dialog);
+        Location.inst().start();
+        mObserver = (isSuccess, gps) -> {
+            runOnUIThread(() -> stopRefresh());
+            if (isSuccess) {
+                //定位成功
+                String latitude = gps.getString(TGps.latitude);
+                String longitude = gps.getString(TGps.longitude);
+                LogMgr.d("Gps", latitude);
+                LogMgr.d("Gps", longitude);
+                LocationNotifier.inst().remove(mObserver);
+                Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
+                        .putExtra(Extra.KMeetId, mMeetId)
+                        .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
+                        .putExtra(Extra.KLatitude,latitude)
+                        .putExtra(Extra.KLongitude,longitude);
+                startActivity(i);
+            } else {
+                //定位失败
+                LogMgr.d("Gps", "失败");
+                if (mLocationDialog == null) {
+                    initDialog();
+                }
+                mLocationDialog.show();
+            }
+            Location.inst().stop();
+            Location.inst().onDestroy();
+        };
+        LocationNotifier.inst().add(mObserver);
 
     }
 
+    /**
+     * 初始化Dialog
+     */
+    private void initDialog() {
+        mLocationDialog = new LocationDialog(MeetingDetailsActivity.this);
+        mLocationDialog.setLocationListener(v -> {
+            if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
+                sign();
+            }
+        });
+    }
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
             case PermissionResult.granted: {
-                SignActivity.nav(MeetingDetailsActivity.this, mMeetId);
+                sign();
             }
             break;
             case PermissionResult.denied:
             case PermissionResult.never_ask: {
                 if (mLocationDialog == null) {
-                    mLocationDialog = new LocationDialog(MeetingDetailsActivity.this);
-                    mLocationDialog.setOnAgainListener(v -> sign());
+                    initDialog();
                 }
                 mLocationDialog.show();
             }

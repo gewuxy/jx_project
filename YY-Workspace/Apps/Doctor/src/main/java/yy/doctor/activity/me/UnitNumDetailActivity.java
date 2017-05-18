@@ -1,8 +1,6 @@
 package yy.doctor.activity.me;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -281,16 +278,10 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
             }
 
             for (int i = 0; i < listFile.size() && i < 3; i++) {
-                addFile(listFile.get(i).getString(TUnitNumDetailDatum.materialName), new OnClickListener() {
+                addFileItem(listFile.get(i).getString(TUnitNumDetailDatum.materialName), new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //startActivity(UnitNumDataDetailActivity.class);
-                        File file = new File("sd");
-                        Uri path = Uri.fromFile(file);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(path, "application/pdf");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        startActivity(DownloadActivity.class);
                     }
                 });
             }
@@ -316,7 +307,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
         }
     }
 
-    public void addFile(CharSequence text, OnClickListener l) {
+    public void addFileItem(CharSequence text, OnClickListener l) {
 
         View v = getLayoutInflater().inflate(R.layout.layout_unit_num_detail_file_item, null);
 

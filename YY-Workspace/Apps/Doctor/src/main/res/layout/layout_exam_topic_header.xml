@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="22dp"
         android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="22dp"
         android:text="Q1.考试是的反反复复？"
         android:textColor="@color/text_333"

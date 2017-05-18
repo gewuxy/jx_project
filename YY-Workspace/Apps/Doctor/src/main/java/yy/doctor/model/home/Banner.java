@@ -13,7 +13,8 @@ public class Banner extends EVal<TBanner> {
 
         id,    //广告id
         pageUrl,    //广告图片
-        sort,    //广告排序号
+        link,    //链接
+        title, //标题
 
     }
 

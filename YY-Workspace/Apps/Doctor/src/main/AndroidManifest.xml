@@ -78,7 +78,10 @@
             android:name=".activity.meeting.ExamIntroActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.ExamTopicActivity"
+            android:name=".activity.meeting.QueIntroActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.TopicActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.meeting.ExamEndActivity"
@@ -169,12 +172,18 @@
             android:name=".activity.me.UnitNumDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.UnitNumDataDetailActivity"
+            android:name=".activity.me.DownloadActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.OpenDataActivity"
             android:screenOrientation="portrait"/>
 
         <!-- service -->
         <service android:name=".serv.LogoutServ"/>
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP" />
     </application>
 
 </manifest>

@@ -44,7 +44,8 @@ public class Location {
                 return;
             }
 
-            LogMgr.d(TAG, "onReceiveLocation = " + location.getCity());
+            LogMgr.d(TAG, "onReceiveLocation1 = " + location.getCity());
+            LogMgr.d(TAG, "onReceiveLocation2 = " + location.getLocType());
             if (location == null || location.getLocType() != 161) {
                 LogMgr.d(TAG, "onReceiveLocation: location failed");
                 LocationNotifier.inst().notify(false, null);
@@ -56,6 +57,11 @@ public class Location {
             g.put(TGps.longitude, location.getLongitude());
             g.put(TGps.latitude, location.getLatitude());
             LocationNotifier.inst().notify(true, g);
+        }
+
+        @Override
+        public void onConnectHotSpotMessage(String s, int i) {
+
         }
     }
 

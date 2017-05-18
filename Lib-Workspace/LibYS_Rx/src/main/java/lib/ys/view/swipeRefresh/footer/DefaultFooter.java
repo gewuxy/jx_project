@@ -20,19 +20,19 @@ public class DefaultFooter extends BaseFooter {
     }
 
     @Override
-    int getContentViewId() {
+    protected int getContentViewId() {
         return R.layout.sr_list_footer;
     }
 
     @Override
-    void findViews() {
+    protected void findViews() {
         mLayoutLoading = findViewById(R.id.sr_list_footer_layout_loading);
         mLayoutReLoadMore = findViewById(R.id.sr_list_footer_btn_reload_more);
         mProgressView = (DecorProgressView) findViewById(R.id.sr_list_footer_progress_view);
     }
 
     @Override
-    void setViewsValue() {
+    protected void setViews() {
         setOnRetryClickView(mLayoutReLoadMore);
     }
 
