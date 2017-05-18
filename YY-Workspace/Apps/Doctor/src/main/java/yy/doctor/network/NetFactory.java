@@ -213,10 +213,9 @@ public class NetFactory {
     /**
      * 首页banner
      *
-     * @param type
      * @return
      */
-    public static NetworkReq banner(int type) {
+    public static NetworkReq banner() {
         return newGet(UrlHome.KBanner)
                 .build();
     }

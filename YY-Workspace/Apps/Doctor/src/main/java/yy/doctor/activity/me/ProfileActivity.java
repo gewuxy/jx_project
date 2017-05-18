@@ -31,6 +31,7 @@ import yy.doctor.R;
 import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
+import yy.doctor.model.GlConfig;
 import yy.doctor.model.Modify;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -52,7 +53,6 @@ import static yy.doctor.model.Profile.TProfile.place;
 import static yy.doctor.model.Profile.TProfile.province;
 import static yy.doctor.model.Profile.TProfile.title;
 import static yy.doctor.model.Profile.TProfile.username;
-
 
 /**
  * 我的资料
@@ -223,18 +223,20 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.text)
+        addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.sex)
                 .name("性别")
                 .text(R.string.hint_not_fill)
+                .data(GlConfig.inst().getSexConfigs())
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.text)
+        addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.education_background)
                 .name("学历")
                 .text(R.string.hint_not_fill)
+                .data(GlConfig.inst().getmEducationBgConfigs())
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -299,24 +301,12 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     protected void onFormItemClick(View v, int position) {
-
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
-        switch (relatedId) {
-            case RelatedId.sex: {
-                showDialogSelectSex(position);
-            }
-            break;
-            case RelatedId.education_background: {
-                showDialogSelectEducationBackground(position);
-            }
-            break;
-        }
     }
 
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
         super.onFormViewClick(v, position, related);
-
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
     }
 
@@ -414,71 +404,10 @@ public class ProfileActivity extends BaseFormActivity {
         }
     }
 
-    private void showDialogSelectSex(final int pos) {
-
-        final List<String> data = new ArrayList<>();
-        data.add("男");
-        data.add("女");
-
-        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
-
-            @Override
-            public void onDialogItemClick(int position) {
-
-                getItem(pos).put(TFormElem.text, data.get(position));
-                refreshItem(pos);
-            }
-        });
-
-        for (int i = 0; i < data.size(); ++i) {
-            dialog.addItem(data.get(i), KColorNormal);
-        }
-
-        dialog.show();
-
-    }
-
-    private void showDialogSelectEducationBackground(final int pos) {
-
-        final List<String> data = new ArrayList<>();
-        data.add("专科");
-        data.add("本科");
-        data.add("硕士");
-        data.add("博士");
-        data.add("博士后");
-
-        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
-
-            @Override
-            public void onDialogItemClick(int position) {
-
-                getItem(pos).put(TFormElem.text, data.get(position));
-                refreshItem(pos);
-            }
-        });
-
-        for (int i = 0; i < data.size(); ++i) {
-            dialog.addItem(data.get(i), KColorNormal);
-        }
-
-        dialog.show();
-
-    }
-
     /**
      * 修改个人资料
      */
     private void modify() {
-
-        String strGender = getRelatedItem(RelatedId.sex).getString(TFormElem.text);
-        int gender = 0;
-        if (strGender.equals("男")) {
-            gender = 1;
-        } else if (strGender.equals("女")) {
-            gender = 2;
-        }
-
-        String degree = getRelatedItem(RelatedId.education_background).getString(TFormElem.text);
 
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
         mStrProvince = str.substring(0, str.indexOf("-"));
@@ -495,8 +424,8 @@ public class ProfileActivity extends BaseFormActivity {
                 .licence(getRelateVal(RelatedId.certification_number))
                 .title(getRelateVal(RelatedId.rank))
                 .place(getRelateVal(RelatedId.position))
-                .gender(gender)
-                .degree(degree)
+                .gender(getRelatedItem(RelatedId.sex).getInt(TFormElem.val,0))
+                .degree(getRelateVal(RelatedId.education_background))
                 .province(mStrProvince)
                 .city(mStrCity)
                 .builder();

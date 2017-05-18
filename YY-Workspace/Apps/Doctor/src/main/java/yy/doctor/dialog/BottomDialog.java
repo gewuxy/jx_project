@@ -68,7 +68,6 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
             }
         };
 
-
         mLv.setAdapter(mAdapter);
         mLv.setOnItemClickListener(this);
 

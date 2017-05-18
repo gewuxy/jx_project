@@ -29,6 +29,48 @@ public interface Constants extends BaseConstants {
         int retrospect = 3;//精彩回顾
     }
 
+
+    /**
+     * 性别
+     */
+    enum TSex {
+        man(1,"男"),
+        female(2,"女");
+
+        private int mId;
+        private String mSex;
+        TSex(int id, String sex) {
+            mId = id;
+            mSex = sex;
+        }
+        public int getId() {
+           return mId;
+        }
+        public String getSex() {
+            return mSex;
+        }
+    }
+
+    /**
+     * 学历
+     */
+    enum TEducationBg {
+        junior_college("专科"),
+        regular_college("本科"),
+        master("硕士"),
+        doctor("博士"),
+        postdoctor("博士后");
+
+        private String mId;
+        private String mEducationBg;
+        TEducationBg(String mEducationBg) {
+            this.mEducationBg = mEducationBg;
+        }
+        public String getmEducationBg() {
+            return mEducationBg;
+        }
+    }
+
     interface ModuleId {
         String KPpt = "";//微课
         String KVideo = "";//视频

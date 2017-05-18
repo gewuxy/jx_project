@@ -169,7 +169,10 @@
             android:name=".activity.me.UnitNumDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.UnitNumDataDetailActivity"
+            android:name=".activity.me.DownloadActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.OpenDataActivity"
             android:screenOrientation="portrait"/>
 
         <!-- service -->
