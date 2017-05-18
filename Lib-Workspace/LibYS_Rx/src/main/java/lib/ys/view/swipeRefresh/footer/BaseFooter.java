@@ -33,15 +33,15 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
         LayoutFitter.fit(mContentView);
 
         findViews();
-        setViewsValue();
+        setViews();
     }
 
     @LayoutRes
-    abstract int getContentViewId();
+    abstract protected int getContentViewId();
 
-    abstract void findViews();
+    abstract protected void findViews();
 
-    abstract void setViewsValue();
+    abstract protected void setViews();
 
     protected void setOnRetryClickView(View v) {
         v.setOnClickListener(v1 -> {

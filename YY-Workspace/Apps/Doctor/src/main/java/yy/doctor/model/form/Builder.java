@@ -9,6 +9,7 @@ import yy.doctor.model.form.text.FIContent;
 import yy.doctor.model.form.text.FIContentText;
 import yy.doctor.model.form.text.FIText;
 import yy.doctor.model.form.text.FITextIntent;
+import yy.doctor.model.form.text.FITextDialog;
 
 /**
  * @author CaiXiang
@@ -40,6 +41,10 @@ public class Builder extends FormBuilderEx<FormItem> {
             break;
             case FormType.text_intent: {
                 item = new FITextIntent();
+            }
+            break;
+            case FormType.text_dialog: {
+                item = new FITextDialog();
             }
             break;
 

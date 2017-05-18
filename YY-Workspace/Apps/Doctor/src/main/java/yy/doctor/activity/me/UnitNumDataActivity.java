@@ -35,6 +35,6 @@ public class UnitNumDataActivity extends BaseListActivity<String, UnitNumDataAda
     public void onItemClick(View v, int position) {
         super.onItemClick(v, position);
 
-        startActivity(UnitNumDataDetailActivity.class);
+        startActivity(DownloadActivity.class);
     }
 }

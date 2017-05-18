@@ -11,10 +11,9 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/5/4
  */
-public class BannerViewVH extends ViewHolderEx {
+public class BannerVH extends ViewHolderEx {
 
-
-    public BannerViewVH(@NonNull View convertView) {
+    public BannerVH(@NonNull View convertView) {
         super(convertView);
     }
 
