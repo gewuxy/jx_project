@@ -8,23 +8,28 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseVPActivity;
-import lib.yy.view.ExamCaseGridView;
+import lib.yy.view.TopicCaseGridView;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.ExamCaseAdapter;
+import yy.doctor.adapter.TopicCaseAdapter;
 import yy.doctor.frag.exam.TopicFrag;
+import yy.doctor.model.exam.Choose;
+import yy.doctor.model.exam.Choose.TChoose;
 import yy.doctor.model.exam.Intro;
 import yy.doctor.model.exam.Intro.TIntro;
 import yy.doctor.model.exam.Paper;
 import yy.doctor.model.exam.Paper.TPaper;
 import yy.doctor.model.exam.Topic;
-import yy.doctor.util.Util;
+import yy.doctor.model.exam.Topic.TTopic;
 
 /**
  * 考试(问卷)题目界面
@@ -34,19 +39,20 @@ import yy.doctor.util.Util;
  */
 
 public class TopicActivity extends BaseVPActivity {
-    //TODO:动画
 
     private static final long KDuration = 300l;//动画时长
 
     private ArrayList<Topic> mAllTopics;
 
-    private LinearLayout mLl;                   //考题情况
-    private ExamCaseGridView mGv;               //考题情况列表
-    private ExamCaseAdapter mExamCaseAdapter;   //考试情况的Adapter
+    private LinearLayout mLl;                    //考题情况
+    private TopicCaseGridView mGv;               //考题情况列表
+    private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
+    private TextView mTvAll;        //总数
+    private TextView mTvCount;      //已完成数
 
     private Animation mEnter;//进入动画
     private Animation mLeave;//离开动画
-    private boolean mHasAnimation;//有动画在执行
+    private boolean mHasAnimation;//是否有动画在执行
     private Paper mPaper;
     private String mModuleId;
 
@@ -58,7 +64,6 @@ public class TopicActivity extends BaseVPActivity {
 
     @Override
     public void initData() {
-
         mHasAnimation = false;
         mEnter = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF,
@@ -83,17 +88,67 @@ public class TopicActivity extends BaseVPActivity {
         mPaper = Intro.getIntro().getEv(TIntro.paper);
         mAllTopics = mPaper.getList(TPaper.questions);
 
+        // TODO: 2017/5/18  frag的复用
         for (Topic topic : mAllTopics) {
             TopicFrag frag = new TopicFrag();
             frag.setTopic(topic);
+            frag.setOnNextListener(v -> {
+                if (getCurrentItem() < mAllTopics.size()) {
+                    getAnswer(mAllTopics);
+                    setCurrentItem(getCurrentItem() + 1);
+                } else {
+                    showToast("提交");
+                }
+            });
             add(frag);
         }
 
     }
 
+    /**
+     * 获取试题答案
+     *
+     * @param topics
+     */
+    private MapList<String, String> getAnswer(List<Topic> topics) {
+        MapList<String, String> answers = new MapList<>();//题号,答案
+        int count = 0;
+        int all = topics.size();
+        for (Topic topic : topics) {
+            List<Choose> chooses = topic.getList(TTopic.options);
+            if (chooses == null) {
+                chooses = topic.getList(TTopic.optionList);
+            }
+            //记录选中的选项
+            StringBuffer answer = new StringBuffer();
+            for (Choose choose : chooses) {
+                if (choose.getBoolean(TChoose.check)) {
+                    answer.append(choose.getString(TChoose.key));
+                }
+            }
+            answers.add(topic.getString(TTopic.id), answer.toString());
+            //标记是否已作答
+            if (answer.toString().length() > 0) {
+                topic.put(TTopic.finish, true);
+                count++;
+            } else {
+                topic.put(TTopic.finish, false);
+            }
+        }
+        mTvCount.setText(String.valueOf(count));
+        mTvAll.setText(count + "/" + all);
+        return answers;
+    }
+
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "考试", this);
+        /*bar.addViewLeft(R.mipmap.nav_bar_ic_back, text, new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
     }
 
     @NonNull
@@ -106,8 +161,11 @@ public class TopicActivity extends BaseVPActivity {
     public void findViews() {
         super.findViews();
 
-        mLl = findView(R.id.exam_topic_case_all_ll);
-        mGv = findView(R.id.exam_topic_case_all_gv);
+        mLl = findView(R.id.topic_case_all_ll);
+        mGv = findView(R.id.topic_case_all_gv);
+        mTvAll = findView(R.id.topic_tv_case_all);
+        mTvCount = findView(R.id.topic_tv_case_finish_count);
+
     }
 
     @Override
@@ -120,16 +178,17 @@ public class TopicActivity extends BaseVPActivity {
 
         setAnimation(mEnter);
         setAnimation(mLeave);
+        mTvAll.setText("0/" + mAllTopics.size());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.topic_rl_case:
-                examCaseVisibility(!(mLl.getVisibility() == View.VISIBLE));
+                topicCaseVisibility(!(mLl.getVisibility() == View.VISIBLE));
                 break;
-            case R.id.exam_topic_case_all_ll:
-                examCaseVisibility(false);
+            case R.id.topic_case_all_ll:
+                topicCaseVisibility(false);
                 break;
             default:
                 break;
@@ -138,17 +197,20 @@ public class TopicActivity extends BaseVPActivity {
 
     /**
      * 设置GridView
-     * 空白监听{@link ExamCaseGridView.OnInvalidListener}
-     * Adapter{@link ExamCaseAdapter}
+     * 空白监听{@link TopicCaseGridView.OnInvalidListener}
+     * Adapter{@link TopicCaseAdapter}
      */
     private void gvSet() {
-        mExamCaseAdapter = new ExamCaseAdapter();
-        mExamCaseAdapter.addAll(mAllTopics);
+        mTopicCaseAdapter = new TopicCaseAdapter();
+        mTopicCaseAdapter.addAll(mAllTopics);
 
-        mGv.setAdapter(mExamCaseAdapter);
-        mGv.setOnItemClickListener((parent, view, position, id) -> examCaseVisibility(false));
+        mGv.setAdapter(mTopicCaseAdapter);
+        mGv.setOnItemClickListener((parent, view, position, id) -> {
+            topicCaseVisibility(false);
+            setCurrentItem(position);
+        });
         mGv.setOnInvalidListener(motionEvent -> {
-            examCaseVisibility(false);
+            topicCaseVisibility(false);
             return false;
         });
     }
@@ -158,9 +220,12 @@ public class TopicActivity extends BaseVPActivity {
      *
      * @param showState true显示,false不显示
      */
-    private void examCaseVisibility(boolean showState) {
+    private void topicCaseVisibility(boolean showState) {
         //没有动画执行的时候
         if (!mHasAnimation) {
+            if (showState) {
+                mTopicCaseAdapter.notifyDataSetChanged();
+            }
             mLl.setVisibility(showState ? View.VISIBLE : View.GONE);
             mLl.startAnimation(showState ? mEnter : mLeave);
         }
@@ -188,7 +253,6 @@ public class TopicActivity extends BaseVPActivity {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
     }

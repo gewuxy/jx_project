@@ -1,7 +1,5 @@
 package yy.doctor.activity.meeting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,14 +16,12 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
-import yy.doctor.Constants.ModuleId;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.meet.Sign;
@@ -54,28 +50,21 @@ public class SignActivity extends BaseActivity {
     private static final int KToSign = 1;
 
     private String mMeetId;//会议id
+    private String mModuleId;//会议id
+    private String mLongitude;//经度
+    private String mLatitude;//维度
 
     private ImageView mIvResult;//结果图标
     private TextView mTvResult;//签到结果
     private TextView mTvResultMsg;//成功的时间/失败的原因
     private TextView mTvReturn;
 
-    private String mLongitude;//经度
-    private String mLatitude;//维度
-
-    public static void nav(Context context, String meetId, String latitude,String longitude) {
-        Intent i = new Intent(context, SignActivity.class);
-        i.putExtra(Extra.KData, meetId);
-        i.putExtra(Extra.KLatitude,latitude);
-        i.putExtra(Extra.KLongitude,longitude);
-        LaunchUtil.startActivity(context, i);
-    }
-
     @Override
     public void initData() {
         mLatitude = getIntent().getStringExtra(Extra.KLatitude);
         mLongitude = getIntent().getStringExtra(Extra.KLongitude);
-        mMeetId = getIntent().getStringExtra(Extra.KData);
+        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
+        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
     }
 
     @NonNull
@@ -106,7 +95,7 @@ public class SignActivity extends BaseActivity {
         }
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, ModuleId.KSign));
+        exeNetworkReq(KToSign, NetFactory.toSign(mMeetId, mModuleId));
 
     }
 
@@ -127,7 +116,7 @@ public class SignActivity extends BaseActivity {
                 Sign signData = r.getData();
                 exeNetworkReq(KSign, NetFactory.sign()
                         .meetId(mMeetId)
-                        .moduleId(ModuleId.KSign)
+                        .moduleId(mModuleId)
                         .positionId(signData.getString(TSign.id))
                         .signLat(mLatitude)
                         .signLng(mLongitude)

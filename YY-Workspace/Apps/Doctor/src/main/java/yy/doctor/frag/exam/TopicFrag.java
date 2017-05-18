@@ -5,7 +5,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
@@ -23,12 +22,13 @@ import yy.doctor.model.exam.Topic.TTopic;
 
 public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
 
+    //TODO:最后一题
+
     private TextView mTvQ;
     private TextView mTvBtn;
-    private OnNextListener mOnNextListener;
     private Topic mTopic;                   //该题目的信息
-    private TopicAdapter mAdapter;
     private List<Choose> mChooses;
+    private OnNextListener mOnNextListener;
 
     public interface OnNextListener {
         void onNext(View v);
@@ -40,20 +40,16 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
 
     /**
      * 设置单个考题
+     *
      * @param topic
      */
     public void setTopic(Topic topic) {
         mTopic = topic;
-        //设置选项
-        mChooses = topic.getList(TTopic.options);
-        if (mChooses == null) {
-            mChooses = topic.getList(TTopic.optionList);
-        }
-        setData(mChooses);
     }
 
     @Override
     public void initData() {
+
     }
 
     @Override
@@ -74,33 +70,35 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
         super.setViews();
 
         setDividerHeight(0);
-        getLv().setBackgroundResource(R.color.white);
+        setBackgroundResource(R.color.white);
 
+        //设置题目
         mTvQ.setText(mTopic.getString(TTopic.id) + ". " + mTopic.getString(TTopic.title));
+        //设置选项
+        mChooses = mTopic.getList(TTopic.options);
+        if (mChooses == null) {
+            mChooses = mTopic.getList(TTopic.optionList);
+        }
+        setData(mChooses);
+
+
         //单选隐藏下一题的按钮
         if (mTopic.getInt(TTopic.qtype) == 0) {
             mTvBtn.setVisibility(View.GONE);
+            getAdapter().setIsSingle(true);
+            getAdapter().setOnItemCheckListener(v -> toNext(v));
         } else {
-            //TODO:单双选
-            //设置多选
-//            mAdapter.setNoSingle();
+            // 设置多选
+            getAdapter().setIsSingle(false);
+            //下一题
+            mTvBtn.setOnClickListener(v -> toNext(v));
         }
-        mTvBtn.setOnClickListener(v -> {
-            /*List<String> answers = mAdapter.getAnswers();//选择的答案
-            mTopic.put(TTopic.answer, answers);
-            //题目是否已作答过
-            if (answers.size() > 0) {
-                mTopic.put(TTopic.finish, true);
-            } else {
-                mTopic.put(TTopic.finish, false);
-            }
+    }
 
-            LogMgr.d(TAG, answers.toString());*/
-
-            if (mOnNextListener != null) {
-                mOnNextListener.onNext(v);
-            }
-        });
+    private void toNext(View v) {
+        if (mOnNextListener != null ) {
+            mOnNextListener.onNext(v);
+        }
     }
 
     @Override

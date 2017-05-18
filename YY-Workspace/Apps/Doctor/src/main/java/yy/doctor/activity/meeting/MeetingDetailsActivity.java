@@ -23,6 +23,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.MapList;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -62,9 +63,6 @@ public class MeetingDetailsActivity extends BaseActivity {
     private final int KVideoResId = R.mipmap.meeting_ic_video;//视频
     private final int KSignResId = R.mipmap.meeting_ic_sign;//签到
 
-    private static final String KExam = "8";//考试
-    private static final String KSurvey = "10";//问卷
-
     private String mMeetId;
     private TextView mTvAward;
     private TextView mTvTitle;//会议名称
@@ -95,6 +93,7 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     private LocationDialog mLocationDialog;//定位框
     private OnLocationNotify mObserver;
+    private MapList<Integer, String> mMapList;
 
     /**
      * functionId,模块功能ID
@@ -222,24 +221,30 @@ public class MeetingDetailsActivity extends BaseActivity {
     private void modules(List<InfoModule> infoModules) {
         InfoModule infoModule;
         int type;
+        mMapList = new MapList<>();
         for (int i = 0; i < infoModules.size(); i++) {
             infoModule = infoModules.get(i);
             type = infoModule.getInt(TInfoModule.functionId);
+            String moduleId = infoModule.getString(TInfoModule.id);
+            mMapList.add(Integer.valueOf(type), moduleId);
+            String moduleIdName = infoModule.getString(TInfoModule.moduleName);
             switch (type) {
                 case FunctionType.exam:
-                    addModule(KExamResId, "考试", v -> IntroActivity.nav(MeetingDetailsActivity.this, mMeetId, KExam));
+                    addModule(KExamResId, moduleIdName, v ->
+                            ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam)));
                     break;
 
                 case FunctionType.que:
-                    addModule(KQueResId, "问卷", v ->IntroActivity.nav(MeetingDetailsActivity.this, mMeetId, KSurvey));
+                    addModule(KQueResId, moduleIdName, v ->
+                            QueIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.que)));
                     break;
 
                 case FunctionType.video:
-                    addModule(KVideoResId, "视频", v -> startActivity(IntroActivity.class));
+                    addModule(KVideoResId, moduleIdName, v -> startActivity(BaseIntroActivity.class));
                     break;
 
                 case FunctionType.sign:
-                    addModule(KSignResId, "签到", v -> {
+                    addModule(KSignResId, moduleIdName, v -> {
                         if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
                             sign();
                         }
@@ -303,7 +308,12 @@ public class MeetingDetailsActivity extends BaseActivity {
                 LogMgr.d("Gps", latitude);
                 LogMgr.d("Gps", longitude);
                 LocationNotifier.inst().remove(mObserver);
-                SignActivity.nav(MeetingDetailsActivity.this, mMeetId, latitude, longitude);
+                Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
+                        .putExtra(Extra.KMeetId, mMeetId)
+                        .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
+                        .putExtra(Extra.KLatitude,latitude)
+                        .putExtra(Extra.KLongitude,longitude);
+                startActivity(i);
             } else {
                 //定位失败
                 LogMgr.d("Gps", "失败");

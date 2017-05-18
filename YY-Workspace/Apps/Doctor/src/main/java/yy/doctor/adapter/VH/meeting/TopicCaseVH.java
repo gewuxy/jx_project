@@ -12,8 +12,8 @@ import yy.doctor.R;
  * @since : 2017/4/28
  */
 
-public class ExamCaseVH extends ViewHolderEx {
-    public ExamCaseVH(@NonNull View convertView) {
+public class TopicCaseVH extends ViewHolderEx {
+    public TopicCaseVH(@NonNull View convertView) {
         super(convertView);
     }
 

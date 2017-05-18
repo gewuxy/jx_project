@@ -14,5 +14,7 @@ public class Choose extends EVal<TChoose> {
     public enum TChoose {
         key,//选项
         value,//选项内容
+
+        check, //选择情况
     }
 }

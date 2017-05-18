@@ -2,9 +2,10 @@
   "code": "0",
   "data": {
     "eduCredits": 0,
+    "endTime": 1494399392000,
     "id": "17042512131640894904",
-    "lecturer": "李教授",
-    "meetName": "测试会议",
+    "lecturer": "杨主任",
+    "meetName": "测试会议哈哈",
     "meetType": "儿科",
     "modules": [
       {
@@ -33,6 +34,13 @@
         "id": 10,
         "meetId": "17042512131640894904",
         "moduleName": "问卷"
+      },
+      {
+        "active": true,
+        "functionId": 2,
+        "id": 12,
+        "meetId": "17042512131640894904",
+        "moduleName": "视频"
       }
     ],
     "organizer": "yaya大讲堂",

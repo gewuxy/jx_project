@@ -8,12 +8,13 @@ import android.widget.GridView;
 /**
  * 带空白区域监听的GridView(网上代码)
  * 判断触摸的位置是否为INVALID_POSITION(无效的position)
+ * 要捕捉ACTION_UP事件
  *
  * @author : GuoXuan
  * @since : 2017/4/29
  */
 
-public class ExamCaseGridView extends GridView {
+public class TopicCaseGridView extends GridView {
 
     /**
      * 空白区域的监听器
@@ -28,15 +29,15 @@ public class ExamCaseGridView extends GridView {
 
     private OnInvalidListener mInvalidListener;
 
-    public ExamCaseGridView(Context context) {
+    public TopicCaseGridView(Context context) {
         super(context);
     }
 
-    public ExamCaseGridView(Context context, AttributeSet attrs) {
+    public TopicCaseGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExamCaseGridView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TopicCaseGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -62,10 +63,11 @@ public class ExamCaseGridView extends GridView {
 
         final int motionPosition = pointToPosition((int)event.getX(), (int)event.getY());
 
-
-        if( motionPosition == INVALID_POSITION ) {
-            super.onTouchEvent(event);
-            return mInvalidListener.onInvalidPosition(event.getActionMasked());
+        if(event.getActionMasked() == MotionEvent.ACTION_UP) {
+            if( motionPosition == INVALID_POSITION ) {
+                super.onTouchEvent(event);
+                return mInvalidListener.onInvalidPosition(event.getActionMasked());
+            }
         }
 
         return super.onTouchEvent(event);

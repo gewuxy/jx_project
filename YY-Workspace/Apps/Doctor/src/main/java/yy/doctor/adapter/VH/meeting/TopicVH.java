@@ -13,8 +13,8 @@ import yy.doctor.R;
  * @since : 2017/4/28
  */
 
-public class ExamTopicVH extends ViewHolderEx {
-    public ExamTopicVH(@NonNull View convertView) {
+public class TopicVH extends ViewHolderEx {
+    public TopicVH(@NonNull View convertView) {
         super(convertView);
     }
 

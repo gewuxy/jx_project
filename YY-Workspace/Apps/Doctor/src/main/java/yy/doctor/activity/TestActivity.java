@@ -12,7 +12,7 @@ import yy.doctor.activity.me.ProfileActivity;
 import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
-import yy.doctor.activity.meeting.ExamEndActivity;
+import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
@@ -34,7 +34,7 @@ public class TestActivity extends BaseTestActivity {
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("个人资料", ProfileActivity.class);
-        add("考试结束", ExamEndActivity.class);
+        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this,"17042512131640894904","8"));
         add("会议详情", MeetingDetailsActivity.class);
         add("记录", MeetingRecordActivity.class);
         add("评论", MeetingCommentActivity.class);

@@ -16,9 +16,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/exam_topic_tv_finish_count"
+            android:id="@+id/topic_tv_case_finish_count"
             style="@style/tv.exam"
-            android:text="7"
+            android:text="0"
             android:textColor="@color/text_333"/>
 
         <TextView
@@ -40,10 +40,10 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@mipmap/exam_ic_all_topic"/>
+            android:src="@mipmap/topic_ic_all_topic"/>
 
         <TextView
-            android:id="@+id/exam_topic_tv_topic_case"
+            android:id="@+id/topic_tv_case_all"
             style="@style/tv.exam"
             android:layout_marginLeft="8dp"
             android:text="15/100"

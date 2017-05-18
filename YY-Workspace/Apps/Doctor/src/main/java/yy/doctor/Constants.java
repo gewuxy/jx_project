@@ -71,13 +71,4 @@ public interface Constants extends BaseConstants {
         }
     }
 
-    interface ModuleId {
-        String KPpt = "";//微课
-        String KVideo = "";//视频
-        String KExam = "8";//考试
-        String Kue = "10";//问卷
-        String KSign = "4";//签到
-
-    }
-
 }
