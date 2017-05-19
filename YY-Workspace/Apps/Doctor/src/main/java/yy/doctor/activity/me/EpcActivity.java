@@ -30,12 +30,10 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-
         bar.addBackIcon(R.mipmap.nav_bar_ic_back, "象城", this);
         bar.addTextViewRight("订单", v -> startActivity(OrderActivity.class));
     }
@@ -45,24 +43,22 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
         super.onItemClick(v, position);
 
         EpcDetailActivity.nav(EpcActivity.this, list.get(position).getInt(TEpc.id), list.get(position).getString(TEpc.name));
-
     }
 
     @Override
     public void getDataFromNet() {
 
-        exeNetworkReq(0, NetFactory.epc());
+        exeNetworkReq(NetFactory.epc());
     }
 
     @Override
     public IListResult<Epc> parseNetworkResponse(int id, String text) throws JSONException {
 
         ListResult<Epc> r = (ListResult<Epc>) JsonParser.evs(text, Epc.class);
-
         if (r.isSucceed()) {
             list = r.getData();
         }
-
         return r;
     }
+
 }

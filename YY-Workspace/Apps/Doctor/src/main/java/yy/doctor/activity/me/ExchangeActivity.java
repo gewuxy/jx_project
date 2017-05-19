@@ -42,19 +42,14 @@ public class ExchangeActivity extends BaseFormActivity {
     @IntDef({
             RelatedId.receiver,
             RelatedId.mobile,
-
             RelatedId.province_city,
             RelatedId.address,
-
     })
     private @interface RelatedId {
-
         int receiver = 0;
         int mobile = 1;
-
         int province_city = 2;
         int address = 3;
-
     }
 
     public static void nav(Context context, int goodId, String goodName, int epn) {
@@ -67,9 +62,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         bar.addBackIcon(R.mipmap.nav_bar_ic_back, mGoodName, this);
-
     }
 
     @Override
@@ -108,7 +101,6 @@ public class ExchangeActivity extends BaseFormActivity {
                 .related(RelatedId.address)
                 .hint("详细地址")
                 .build());
-
     }
 
     @Override
@@ -137,12 +129,11 @@ public class ExchangeActivity extends BaseFormActivity {
         mTvName.setText(mGoodName);
         mTvEpn.setText(mEpn + "象数");
 
-        setOnClickListener(R.id.exchange_tv_btn);
-
         mIvGoods.placeHolder(R.mipmap.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))
                 .load();
 
+        setOnClickListener(R.id.exchange_tv_btn);
     }
 
     @Override
@@ -152,22 +143,19 @@ public class ExchangeActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.exchange_tv_btn: {
-
                 if (!check()) {
                     return;
                 }
-                ;
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId("000001")
                         .price("85")
                         .receiver("都是广")
                         .phone("15860062000")
-                        .province("hsj")
+                        .province("广东广州")
                         .address("故事机加快速度啊速度快解放的看法")
                         .builder();
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(0, r);
-
+                exeNetworkReq(r);
             }
             break;
         }
@@ -175,7 +163,6 @@ public class ExchangeActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-
         return JsonParser.ev(r.getText(), Exchange.class);
     }
 
@@ -185,7 +172,6 @@ public class ExchangeActivity extends BaseFormActivity {
 
         stopRefresh();
         Result<Exchange> r = (Result<Exchange>) result;
-
         if (r.isSucceed()) {
             showToast("兑换成功");
             startActivity(OrderActivity.class);

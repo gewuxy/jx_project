@@ -1,7 +1,6 @@
 package yy.doctor.activity.me;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
@@ -24,7 +23,6 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
 
     @Override
     public void initData() {
-
     }
 
     @Override
@@ -36,19 +34,14 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     public void initNavBar(NavBar bar) {
 
         bar.addBackIcon(R.mipmap.nav_bar_ic_back, "订单", this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_i, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (isTvShow) {
-                    mTv.setVisibility(View.GONE);
-                } else {
-                    mTv.setVisibility(View.VISIBLE);
-                }
-                isTvShow = !isTvShow;
+        bar.addViewRight(R.mipmap.nav_bar_ic_i, v -> {
+            if (isTvShow) {
+                mTv.setVisibility(View.GONE);
+            } else {
+                mTv.setVisibility(View.VISIBLE);
             }
+            isTvShow = !isTvShow;
         });
-
     }
 
     @Override
@@ -68,14 +61,11 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-
         int id = v.getId();
         switch (id) {
             case R.id.order_tv: {
-
                 mTv.setVisibility(View.GONE);
                 isTvShow = !isTvShow;
-
             }
             break;
         }
@@ -83,13 +73,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
 
     @Override
     public void getDataFromNet() {
-
-        exeNetworkReq(0, NetFactory.order());
+        exeNetworkReq(NetFactory.order());
     }
-
-//    @Override
-//    public IListResponse<Order> parseNetworkResponse(int id, String text) throws JSONException {
-//        return JsonParser.evs(text, Order.class);
-//    }
 
 }

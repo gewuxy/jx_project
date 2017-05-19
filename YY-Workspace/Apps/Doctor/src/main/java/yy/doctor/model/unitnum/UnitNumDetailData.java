@@ -1,18 +1,19 @@
 package yy.doctor.model.unitnum;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.unitnum.UnitNumDetailDatum.TUnitNumDetailDatum;
+import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 
 /**
  * Created by XPS on 2017/5/11.
  */
 
-public class UnitNumDetailDatum extends EVal<TUnitNumDetailDatum> {
+public class UnitNumDetailData extends EVal<TUnitNumDetailData> {
 
-    public enum TUnitNumDetailDatum {
+    public enum TUnitNumDetailData {
         id,  //资料id
         materialName,   //资料名称
         materialUrl,   //资料url
+        materialType,	//资料类型
     }
 
 }

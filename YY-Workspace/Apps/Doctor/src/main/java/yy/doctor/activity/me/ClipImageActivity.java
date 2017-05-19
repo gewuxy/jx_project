@@ -1,25 +1,17 @@
 package yy.doctor.activity.me;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.activity.base.BaseActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.me.ClipImage;
-import yy.doctor.model.me.ClipImage.TClipImage;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -30,19 +22,14 @@ import yy.doctor.util.Util;
  */
 public class ClipImageActivity extends BaseActivity {
 
+    public static Bitmap mBmp;
     private final int KBmpSize = fitDp(280);
 
     private NetworkPhotoView mPv;
-
     private String mPath;
-
-    private Bitmap mBmp;
-
-    private String mUrl;
 
     @Override
     public void initData() {
-
         mPath = getIntent().getStringExtra(Extra.KData);
     }
 
@@ -63,34 +50,27 @@ public class ClipImageActivity extends BaseActivity {
 
                 int screenW = mPv.getWidth();
                 int screenH = mPv.getHeight();
-
                 int startX = (screenW - KBmpSize) / 2;
                 int startY = (screenH - KBmpSize) / 2;
 
                 mPv.setDrawingCacheEnabled(true);
                 mPv.buildDrawingCache();
                 Bitmap bmp = mPv.getDrawingCache();
-
                 if (bmp != null) {
                     mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
+                    setResult(RESULT_OK, getIntent());
+                    finish();
                     //ImageView img = findView(R.id.img);
                     //img.setImageBitmap(mBmp);
-
-                    refresh(RefreshWay.dialog);
-                    exeNetworkReq(0, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
                 }
-
                 mPv.destroyDrawingCache();
             }
         });
-
     }
 
     @Override
     public void findViews() {
-
         mPv = findView(R.id.clip_image_pv);
-
     }
 
     @Override
@@ -99,36 +79,8 @@ public class ClipImageActivity extends BaseActivity {
         mPv.storage(mPath).load();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
+    public static void RecycleBmp() {
         BmpUtil.recycle(mBmp);
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-
-        return JsonParser.ev(r.getText(), ClipImage.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        stopRefresh();
-
-        Result<ClipImage> r = (Result<ClipImage>) result;
-        if (r.isSucceed()) {
-            ClipImage clipImage = r.getData();
-            mUrl = clipImage.getString(TClipImage.url);
-            Intent i = new Intent();
-            i.putExtra(Extra.KData, mUrl);
-            setResult(RESULT_OK, i);
-            showToast("头像设置成功");
-            finish();
-        } else {
-            showToast("头像设置失败");
-        }
-
     }
 
 }

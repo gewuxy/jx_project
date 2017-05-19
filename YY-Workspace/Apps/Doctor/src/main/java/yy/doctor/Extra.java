@@ -6,8 +6,10 @@ package yy.doctor;
 
 public interface Extra {
     String KData = "data";
-    String KPage = "page";
     String KName = "name";
+    String KType = "type";
+
+    String KPage = "page";
     String KNum = "num";
 
     String KMeetId = "meetId";
@@ -18,5 +20,4 @@ public interface Extra {
 
     String KProvince = "province";
     String KCity = "city";
-
 }
