@@ -10,7 +10,10 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -737,5 +740,29 @@ public class BmpUtil {
             LogMgr.e(TAG, "getImageDegree", t);
         }
         return degree;
+    }
+
+    /**
+     * 转换成圆形图片
+     *
+     * @param bmp
+     * @return
+     */
+    private Bitmap toCircle(Bitmap bmp) {
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+
+        int w = bmp.getWidth();
+        int h = bmp.getHeight();
+        int min = w > h ? h : w;
+
+        Bitmap retBmp = Bitmap.createBitmap(min, min, Config.ARGB_8888);
+
+        Canvas canvas = createCanvas(retBmp);
+        canvas.drawCircle(min / 2, min / 2, min / 2, null);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bmp, 0, 0, paint);
+
+        return retBmp;
     }
 }
