@@ -602,13 +602,7 @@ public class NavBar extends RelativeLayout {
      * @param act
      */
     public void addBackIcon(@DrawableRes int drawableId, CharSequence text, final Activity act) {
-        addViewLeft(drawableId, text, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                act.finish();
-            }
-        });
+        addViewLeft(drawableId, text, v -> act.finish());
     }
 
     public View getLayoutMid() {
