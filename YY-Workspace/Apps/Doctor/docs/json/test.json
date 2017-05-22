@@ -1,34 +1,4 @@
 {
   "code": "0",
-  "data": [
-    {
-      "endTime": 1494399392000,
-      "id": "17042512131640894904",
-      "lecturer": "杨主任",
-      "lecturerImg": "/upload/headimg/1234567.jpg",
-      "lecturerTile": "主任医师",
-      "meetName": "测试会议哈哈",
-      "meetType": "儿科",
-      "pubUserHead": "/upload/headimg/14.jpg",
-      "startTime": 1493270190000
-    },
-    {
-      "id": "17042512131640894932",
-      "lecturer": "王主任",
-      "lecturerImg": "/upload/headimg/1234567.jpg",
-      "lecturerTile": "主任医师",
-      "meetName": "测试会议123",
-      "meetType": "儿科",
-      "pubUserHead": "/upload/headimg/7.jpg"
-    },
-    {
-      "id": "17042512131640894934",
-      "lecturer": "刘主任",
-      "lecturerImg": "/upload/headimg/1234567.jpg",
-      "lecturerTile": "主任医师",
-      "meetName": "测试会议呃呃",
-      "meetType": "儿科",
-      "pubUserHead": "/upload/headimg/7.jpg"
-    }
-  ]
+  "data": "alipay_sdk=alipay-sdk-java-dynamicVersionNo&app_id=2016080200149228&biz_content=%7B%22out_trade_no%22%3A%2217051915252794148841%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E8%B1%A1%E6%95%B0%E5%85%85%E5%80%BC%22%2C%22timeout_express%22%3A%2230m%22%2C%22total_amount%22%3A%2220.0%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Flocalhost%2Fapi%2Falipay%2Fcallback&sign=P9LE%2F6mnJs5AAU2CfEOUQbqio3akpVrOgMJLk2bXYOWBmDtgQXZCIcEMaRWi9eClMEjJZwxGjPCD2jVd%2BMFMzSpm55BI1Pp1NRqeJW5CaXOB47OE2i948kXI6JAfz%2FrtwHlP51Gole9hh13VpB3c7joSCm4%2BF8z9OZM4AmgkD9UDMxB9xiVDLxmGmUSKqupDUrOHNZqKWb8n3oHpeX5FPeyV4E5AqlP1wRqHrvySXL19JshQCydu84jbBGs9xUxGKGJ%2Fa%2F8qxgNeB%2FbT%2Fiz34Gep17Sh%2FVQl3j5T2QpLdEwWQX73xf26vgbyeJdH0rCdK8JBg8TcuEaIrpWwSm1MWw%3D%3D&sign_type=RSA2&timestamp=2017-05-19+15%3A25%3A27&version=1.0&sign=P9LE%2F6mnJs5AAU2CfEOUQbqio3akpVrOgMJLk2bXYOWBmDtgQXZCIcEMaRWi9eClMEjJZwxGjPCD2jVd%2BMFMzSpm55BI1Pp1NRqeJW5CaXOB47OE2i948kXI6JAfz%2FrtwHlP51Gole9hh13VpB3c7joSCm4%2BF8z9OZM4AmgkD9UDMxB9xiVDLxmGmUSKqupDUrOHNZqKWb8n3oHpeX5FPeyV4E5AqlP1wRqHrvySXL19JshQCydu84jbBGs9xUxGKGJ%2Fa%2F8qxgNeB%2FbT%2Fiz34Gep17Sh%2FVQl3j5T2QpLdEwWQX73xf26vgbyeJdH0rCdK8JBg8TcuEaIrpWwSm1MWw%3D%3D"
 }

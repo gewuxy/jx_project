@@ -403,7 +403,7 @@ public class ProfileActivity extends BaseFormActivity {
             break;
             case KCodeClipImage:
                 mBmp = ClipImageActivity.mBmp;
-                //mCircleBmp = BitmapUtil
+                //mCircleBmp = BmpUtil.toCircle(mBmp);
                 mIvAvatar.setImageBitmap(mBmp);
                 //LogMgr.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;

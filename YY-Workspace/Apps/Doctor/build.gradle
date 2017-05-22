@@ -131,5 +131,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
+    compile project(':YY-Workspace:Libs:LibPay')
 }
 

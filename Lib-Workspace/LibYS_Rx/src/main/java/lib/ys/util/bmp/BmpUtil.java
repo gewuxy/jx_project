@@ -748,7 +748,7 @@ public class BmpUtil {
      * @param bmp
      * @return
      */
-    private Bitmap toCircle(Bitmap bmp) {
+    public static Bitmap toCircle(Bitmap bmp) {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 

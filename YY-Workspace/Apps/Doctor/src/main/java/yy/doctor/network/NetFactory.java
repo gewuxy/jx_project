@@ -305,7 +305,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq epnRecharge(String subject, String totalAmount) {
+    public static NetworkReq epnRecharge(String subject, int totalAmount) {
         return newPost(UrlEpn.KEpnRecharge)
                 .param(EpnRechargeParam.KSubject, subject)
                 .param(EpnRechargeParam.KTotalAmount, totalAmount)

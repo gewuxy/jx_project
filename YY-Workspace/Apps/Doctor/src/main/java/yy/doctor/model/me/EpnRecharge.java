@@ -10,7 +10,8 @@ import yy.doctor.model.me.EpnRecharge.TEpnRecharge;
 public class EpnRecharge extends EVal<TEpnRecharge> {
 
     public enum TEpnRecharge {
-        code
+        code,
+        data
     }
 
 }
