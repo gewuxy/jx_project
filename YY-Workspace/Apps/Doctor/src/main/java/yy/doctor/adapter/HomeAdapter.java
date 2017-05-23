@@ -27,7 +27,6 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
     @Override
     protected void initView(int position, HomeVH holder, int itemType) {
-
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mHomeUnitNumAdapter = new HomeUnitNumAdapter();
