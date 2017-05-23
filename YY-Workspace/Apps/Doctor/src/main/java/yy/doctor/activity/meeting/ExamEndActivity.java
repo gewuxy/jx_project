@@ -2,16 +2,18 @@ package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.exam.Answer;
-import yy.doctor.model.exam.Answer.TAnswer;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -22,9 +24,17 @@ import yy.doctor.util.Util;
  */
 public class ExamEndActivity extends BaseActivity {
 
+    private String mMeetId;
+    private String mModuleId;
+    private List<Answer> mAnswers;
+    private String mPaperId;
+
     @Override
     public void initData() {
-
+        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
+        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
+        mPaperId = getIntent().getStringExtra(Extra.KPaperId);
+        mAnswers = (List<Answer>) getIntent().getSerializableExtra(Extra.KData);
     }
 
     @NonNull
@@ -40,26 +50,16 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
     }
 
     @Override
     public void setViews() {
-        List<Answer> items = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Answer question = new Answer();
-            question.put(TAnswer.answer, "答案" + i);
-            question.put(TAnswer.id, "" + i);
-            items.add(question);
-
-        }
-        //TODO:应该在点击最后一题的时候提交,这里只是显示结果
-        exeNetworkReq(0, NetFactory
-                .submitEx()
-                .meetId("17042512131640894904")
-                .moduleId("8")
-                .paperId("2")
-                .items(items)
+        refresh(RefreshWay.embed);
+        exeNetworkReq(NetFactory.submitEx()
+                .meetId(mMeetId)
+                .moduleId(mModuleId)
+                .paperId(mPaperId)
+                .items(mAnswers)
                 .builder());
     }
 
@@ -70,11 +70,18 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        setViewState(ViewState.normal);
         Result response = (Result) result;
         if (response.isSucceed()) {
             showToast("成功" + response.getCode());
         } else {
             showToast("失败" + response.getCode());
         }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+        setViewState(ViewState.error);
     }
 }

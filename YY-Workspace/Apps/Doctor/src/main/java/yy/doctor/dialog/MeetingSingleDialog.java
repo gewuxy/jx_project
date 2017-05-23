@@ -6,8 +6,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
+import yy.doctor.activity.meeting.ExamTopicActivity;
 
 /**
  * 会议中简单(2行,主提示副提示)的提示框
@@ -23,6 +30,7 @@ public class MeetingSingleDialog extends BaseDialog {
     private TextView mTvSure;
 
     private OnClickListener mOnClickListener;
+    private DisposableSubscriber<Long> mSub;
 
     public MeetingSingleDialog(Context context) {
         super(context);
@@ -74,9 +82,53 @@ public class MeetingSingleDialog extends BaseDialog {
                     mOnClickListener.onClick(v);
                 }
                 break;
-            default:
-                break;
         }
     }
 
+    /**
+     * 倒数
+     *
+     * @param second
+     */
+    public void start(int second){
+        show();
+        Flowable.interval(0, 1, TimeUnit.SECONDS)
+                .take(second + 1)
+                .map(aLong -> second - aLong) // 转换成倒数的时间
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(createSub());
+    }
+
+    private DisposableSubscriber<Long> createSub() {
+        mSub = new DisposableSubscriber<Long>() {
+
+            @Override
+            public void onNext(@NonNull Long aLong) {
+                close(aLong);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+            }
+
+            @Override
+            public void onComplete() {
+                dismiss();
+            }
+        };
+        return mSub;
+    }
+
+    public void close(Long aLong) {
+
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        if (mSub != null && !mSub.isDisposed()) {
+            mSub.dispose();
+            mSub = null;
+        }
+    }
 }

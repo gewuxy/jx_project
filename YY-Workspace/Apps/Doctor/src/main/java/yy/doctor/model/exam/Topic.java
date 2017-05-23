@@ -19,9 +19,9 @@ public class Topic extends EVal<TTopic> {
         title,//问题
         rightKey,//正确答案
         sort,//问卷序号
-        @BindList(Choose.class)
+        @BindList(Choice.class)
         options,//考试选项
-        @BindList(Choose.class)
+        @BindList(Choice.class)
         optionList,//问卷选项
         /**
          * 本地字段

@@ -22,7 +22,6 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.MeetingSingleDialog;
@@ -48,8 +47,8 @@ public class ExamIntroActivity extends BaseActivity {
     private String mModuleId;//模块ID
 
     private long mStartTime;//考试开始时间
-    private long mEndTime;//考试结束时间
-    private long mCurTime;//服务器当前时间
+    private long mEndTime;  //考试结束时间
+    private long mCurTime;  //服务器当前时间
 
     private TextView mTvTitle;  //试卷名称
     private TextView mTvHost;   //主办方
@@ -58,6 +57,10 @@ public class ExamIntroActivity extends BaseActivity {
 
     private DisposableSubscriber<Long> mSub;//倒计时
     private boolean mCanStart;//是否能开始考试
+
+    private MeetingSingleDialog mStartDialog;//考试未开始的提示框
+    private MeetingSingleDialog mEndDialog;//考试已结束的提示框
+    private Intro mIntro;
 
     @StringDef({
             TimeFormat.simple_ymd,
@@ -122,14 +125,13 @@ public class ExamIntroActivity extends BaseActivity {
         setViewState(ViewState.normal);
         Result<Intro> r = (Result<Intro>) result;
         if (r.isSucceed()) {
-            Intro intro = r.getData();
-            Intro.setIntro(intro);//保存一份
-            mPaper = intro.getEv(TIntro.paper);
+            mIntro = r.getData();
+            mPaper = mIntro.getEv(TIntro.paper);
 
             //获取起始结束时间
-            mStartTime = Long.valueOf(intro.getString(Intro.TIntro.startTime));
-            mEndTime = Long.valueOf(intro.getString(Intro.TIntro.endTime));
-            mCurTime = Long.valueOf(intro.getString(Intro.TIntro.serverTime));
+            mStartTime = Long.valueOf(mIntro.getString(Intro.TIntro.startTime));
+            mEndTime = Long.valueOf(mIntro.getString(Intro.TIntro.endTime));
+            mCurTime = Long.valueOf(mIntro.getString(Intro.TIntro.serverTime));
             mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
             if (mStartTime > mCurTime) {//未开始的话开始计时
                 Long maxCount = (mStartTime - mCurTime) / 60000;
@@ -157,20 +159,20 @@ public class ExamIntroActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start://开始考试
                 if (mCanStart) {
-                    ExamTopicActivity.nav(ExamIntroActivity.this, mModuleId);
+                    ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                     finish();
                 } else if (mStartTime > mCurTime) {
                     //考试未开始
-                    new MeetingSingleDialog(ExamIntroActivity.this)
+                    mStartDialog = new MeetingSingleDialog(ExamIntroActivity.this)
                             .setTvMainHint(getString(R.string.exam_no_start))
-                            .setTvSecondaryHint(getString(R.string.exam_contact))
-                            .show();
+                            .setTvSecondaryHint(getString(R.string.exam_participation));
+                    mStartDialog.show();
                 } else {
                     //考试结束
-                    new MeetingSingleDialog(ExamIntroActivity.this)
+                    mEndDialog = new MeetingSingleDialog(ExamIntroActivity.this)
                             .setTvMainHint(getString(R.string.exam_end))
-                            .setTvSecondaryHint(getString(R.string.exam_submit))
-                            .show();
+                            .setTvSecondaryHint(getString(R.string.exam_contact));
+                    mEndDialog.show();
                 }
                 break;
         }
@@ -183,6 +185,18 @@ public class ExamIntroActivity extends BaseActivity {
         if (mSub != null && !mSub.isDisposed()) {
             mSub.dispose();
             mSub = null;
+        }
+        if (mStartDialog != null) {
+            if (mStartDialog.isShowing()) {
+                mStartDialog.dismiss();
+            }
+            mStartDialog = null;
+        }
+        if (mEndDialog != null) {
+            if (mEndDialog.isShowing()) {
+                mEndDialog.dismiss();
+            }
+            mEndDialog = null;
         }
     }
 

@@ -57,9 +57,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/exam_end_tv_consuming"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="18dp"
-            android:layout_alignParentRight="true"
             android:text="30:10分"
             android:textColor="@color/text_888"
             android:textSize="12dp"/>
@@ -68,8 +68,8 @@
             android:id="@+id/exam_end_tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="110dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="110dp"
             android:text="85"
             android:textColor="@color/text_0882e7"
             android:textSize="68dp"/>
@@ -78,28 +78,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/exam_end_tv_score"
             android:layout_marginTop="165dp"
+            android:layout_toRightOf="@+id/exam_end_tv_score"
             android:text="分"
-            android:textSize="16dp"
-            android:textColor="@color/text_666"/>
+            android:textColor="@color/text_666"
+            android:textSize="16dp"/>
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/exam_end_tv_score"
-            android:orientation="horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="52dp"
-            android:id="@+id/linearLayout">
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="答对"
-                android:textSize="14dp"
-                android:textColor="@color/text_888"/>
+                android:textColor="@color/text_888"
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/exam_end_tv_right_num"
@@ -107,16 +107,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:text="85"
-                android:textSize="14dp"
-                android:textColor="@color/text_01b557"/>
+                android:textColor="@color/text_01b557"
+                android:textSize="14dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:text="答错"
-                android:textSize="14dp"
-                android:textColor="@color/text_888"/>
+                android:textColor="@color/text_888"
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/exam_end_tv_error_num"
@@ -124,8 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:text="15"
-                android:textSize="14dp"
-                android:textColor="@color/text_e6600e"/>
+                android:textColor="@color/text_e6600e"
+                android:textSize="14dp"/>
 
         </LinearLayout>
 

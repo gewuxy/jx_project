@@ -51,7 +51,7 @@ import yy.doctor.util.Util;
 
 /**
  * 会议详情界面
- *
+ * <p>
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -215,7 +215,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                     Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
                             .putExtra(Extra.KMeetId, mMeetId)
                             .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
-                            .putExtra(Extra.KData,signData.getString(TSign.id))
+                            .putExtra(Extra.KData, signData.getString(TSign.id))
                             .putExtra(Extra.KLatitude, mLatitude)
                             .putExtra(Extra.KLongitude, mLongitude);
                     startActivity(i);
@@ -415,4 +415,14 @@ public class MeetingDetailsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLocationDialog != null) {
+            if (mLocationDialog.isShowing()) {
+                mLocationDialog.dismiss();
+            }
+            mLocationDialog = null;
+        }
+    }
 }

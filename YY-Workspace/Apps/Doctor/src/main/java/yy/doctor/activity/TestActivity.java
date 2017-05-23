@@ -14,6 +14,7 @@ import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
+import yy.doctor.activity.meeting.ExamTopicActivity;
 import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.MeetingRecordActivity;
@@ -50,16 +51,27 @@ public class TestActivity extends BaseTestActivity {
         add("更新对话框", new UpdateNoticeDialog(this));
         add("分享对话框", new ShareDialog(this));
         add("考试未开始提示框",v -> {
-            MeetingSingleDialog meetingSingleDialog = new MeetingSingleDialog(TestActivity.this);
-            meetingSingleDialog.setTvMainHint(getString(R.string.exam_no_start));
-            meetingSingleDialog.setTvSecondaryHint(getString(R.string.exam_contact));
-            meetingSingleDialog.show();
+            new MeetingSingleDialog(TestActivity.this)
+                    .setTvMainHint(getString(R.string.exam_no_start))
+                    .setTvSecondaryHint(getString(R.string.exam_participation))
+                    .show();
         });
         add("考试结束提示框",v -> {
-            MeetingSingleDialog meetingSingleDialog = new MeetingSingleDialog(TestActivity.this);
-            meetingSingleDialog.setTvMainHint(getString(R.string.exam_end));
-            meetingSingleDialog.setTvSecondaryHint(getString(R.string.exam_submit));
-            meetingSingleDialog.show();
+            new MeetingSingleDialog(TestActivity.this)
+                    .setTvMainHint(getString(R.string.exam_end))
+                    .setTvSecondaryHint(getString(R.string.exam_contact))
+                    .show();
+        });
+        add("考试倒数提示框",v -> {
+            new MeetingSingleDialog(TestActivity.this) {
+                @Override
+                public void close(Long aLong) {
+                    setTvSecondaryHint(aLong + getString(R.string.exam_xs_close));
+                }
+            }
+                    .setTvMainHint(getString(R.string.exam_five_min))
+                    .setTvSecondaryHint(2 + getString(R.string.exam_xs_close))
+                    .start(2);
         });
 
         add("单位号详情", UnitNumDetailActivity.class);

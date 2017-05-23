@@ -1,5 +1,7 @@
 package yy.doctor.model.exam;
 
+import java.io.Serializable;
+
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindObj;
 import yy.doctor.model.exam.Intro.TIntro;
@@ -11,7 +13,7 @@ import yy.doctor.model.exam.Intro.TIntro;
  * @since : 2017/5/5
  */
 
-public class Intro extends EVal<TIntro> {
+public class Intro extends EVal<TIntro> implements Serializable {
     public enum TIntro {
         id,//试卷id
         meetId,//会议ID
@@ -23,15 +25,5 @@ public class Intro extends EVal<TIntro> {
         @BindObj(Paper.class)
         paper,//试卷(问卷)信息
         paperId,//会议问卷ID
-    }
-
-    private static Intro mIntro = null;
-
-    public static Intro getIntro() {
-        return mIntro;
-    }
-
-    public static void setIntro(Intro intro) {
-        Intro.mIntro = intro;
     }
 }

@@ -97,5 +97,7 @@
     <string name="exam_participation">请稍后再参与</string>
     <string name="exam_contact">如需考试请联系主办方咨询</string>
     <string name="exam_submit">请确认提交答卷</string>
+    <string name="exam_five_min">距离考试结束还有5分钟</string>
+    <string name="exam_xs_close">s后自动关闭</string>
 
 </resources>

@@ -9,7 +9,7 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.TopicAdapter;
-import yy.doctor.model.exam.Choose;
+import yy.doctor.model.exam.Choice;
 import yy.doctor.model.exam.Topic;
 import yy.doctor.model.exam.Topic.TTopic;
 
@@ -20,15 +20,14 @@ import yy.doctor.model.exam.Topic.TTopic;
  * @since : 2017/4/28
  */
 
-public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
-
-    //TODO:最后一题
+public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     private TextView mTvQ;
     private TextView mTvBtn;
     private Topic mTopic;                   //该题目的信息
-    private List<Choose> mChooses;
+    private List<Choice> mChoices;
     private OnNextListener mOnNextListener;
+    private boolean isLast;//最后一题
 
     public interface OnNextListener {
         void onNext(View v);
@@ -38,14 +37,17 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
         mOnNextListener = onNextListener;
     }
 
+    public void isLast() {
+        isLast = true;
+    }
+
     /**
      * 设置单个考题
      *
      * @param topic
      */
-    public TopicFrag setTopic(Topic topic) {
+    public void setTopic(Topic topic) {
         mTopic = topic;
-        return this;
     }
 
     @Override
@@ -76,11 +78,11 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
         //设置题目
         mTvQ.setText(mTopic.getString(TTopic.id) + ". " + mTopic.getString(TTopic.title));
         //设置选项
-        mChooses = mTopic.getList(TTopic.options);
-        if (mChooses == null) {
-            mChooses = mTopic.getList(TTopic.optionList);
+        mChoices = mTopic.getList(TTopic.options);
+        if (mChoices == null) {
+            mChoices = mTopic.getList(TTopic.optionList);
         }
-        setData(mChooses);
+        setData(mChoices);
 
         //单选隐藏下一题的按钮
         if (mTopic.getInt(TTopic.qtype) == 0) {
@@ -93,6 +95,11 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
             getAdapter().setOnItemCheckListener(v -> mTopic.put(TTopic.finish, v.isSelected()));
             //下一题
             mTvBtn.setOnClickListener(v -> toNext(v));
+        }
+
+        if (isLast) {
+            mTvBtn.setText("提交");
+            mTvBtn.setVisibility(View.VISIBLE);
         }
     }
 

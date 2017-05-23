@@ -16,6 +16,8 @@ import io.reactivex.subscribers.DisposableSubscriber;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import yy.doctor.Extra;
+import yy.doctor.R;
+import yy.doctor.dialog.MeetingSingleDialog;
 import yy.doctor.model.exam.Intro;
 import yy.doctor.model.exam.Intro.TIntro;
 
@@ -27,21 +29,28 @@ import yy.doctor.model.exam.Intro.TIntro;
 public class ExamTopicActivity extends BaseTopicActivity {
 
     private static final int KTextSizeDp = 16;
+    private static final int KFiveMin = 300;
+
+    private final int KXClose = 2;//X秒后自动关闭
 
     private TextView mTvTime;
-    private int mUseTime;
+    private int mUseTime;//做题时间
     private DisposableSubscriber<Long> mSub;
+    private MeetingSingleDialog mCloseDialog;//离考试结束的提示框
+    private MeetingSingleDialog mSubmitDialog;
 
-    public static void nav(Context context, String moduleId) {
-        Intent i = new Intent(context, ExamTopicActivity.class);
-        i.putExtra(Extra.KData, moduleId);
+    public static void nav(Context context, String meetId, String moduleId, Intro intro) {
+        Intent i = new Intent(context, ExamTopicActivity.class)
+                .putExtra(Extra.KMeetId, meetId)
+                .putExtra(Extra.KModuleId, moduleId)
+                .putExtra(Extra.KData, intro);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
         super.initData();
-        mUseTime = Intro.getIntro().getInt(TIntro.usetime) * 60;
+        mUseTime = mIntro.getInt(TIntro.usetime) * 60;
     }
 
     @Override
@@ -81,6 +90,18 @@ public class ExamTopicActivity extends BaseTopicActivity {
             mSub.dispose();
             mSub = null;
         }
+        if (mCloseDialog != null) {
+            if (mCloseDialog.isShowing()) {
+                mCloseDialog.dismiss();
+            }
+            mCloseDialog = null;
+        }
+        if (mSubmitDialog != null) {
+            if (mSubmitDialog.isShowing()) {
+                mSubmitDialog.dismiss();
+            }
+            mSubmitDialog = null;
+        }
     }
 
     /**
@@ -115,7 +136,18 @@ public class ExamTopicActivity extends BaseTopicActivity {
             @Override
             public void onNext(@NonNull Long aLong) {
                 mTvTime.setText(timeParse(aLong.intValue()));
-                // TODO: 2017/5/19 5分钟之后 
+                // 剩余5分钟
+                if (aLong == KFiveMin) {
+                    mCloseDialog = new MeetingSingleDialog(ExamTopicActivity.this) {
+                        @Override
+                        public void close(Long aLong) {
+                            setTvSecondaryHint(aLong + getString(R.string.exam_xs_close));
+                        }
+                    }
+                            .setTvMainHint(getString(R.string.exam_five_min))
+                            .setTvSecondaryHint(KXClose + getString(R.string.exam_xs_close));
+                    mCloseDialog.start(KXClose);
+                }
             }
 
             @Override
@@ -124,9 +156,17 @@ public class ExamTopicActivity extends BaseTopicActivity {
 
             @Override
             public void onComplete() {
-                finish();
+                mSubmitDialog = new MeetingSingleDialog(ExamTopicActivity.this)
+                        .setTvMainHint(getString(R.string.exam_end))
+                        .setTvSecondaryHint(getString(R.string.exam_submit));
+                mSubmitDialog.setOnClickListener(v -> {
+                    mSubmitDialog.dismiss();
+                    submit();
+                });
+                mSubmitDialog.show();
             }
         };
         return mSub;
     }
+
 }

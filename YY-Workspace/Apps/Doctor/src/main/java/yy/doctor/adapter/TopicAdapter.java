@@ -7,8 +7,8 @@ import lib.ys.LogMgr;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicVH;
-import yy.doctor.model.exam.Choose;
-import yy.doctor.model.exam.Choose.TChoose;
+import yy.doctor.model.exam.Choice;
+import yy.doctor.model.exam.Choice.TChoice;
 
 /**
  * 考试题目Adapter
@@ -17,7 +17,7 @@ import yy.doctor.model.exam.Choose.TChoose;
  * @since : 2017/4/28
  */
 
-public class TopicAdapter extends AdapterEx<Choose, TopicVH> {
+public class TopicAdapter extends AdapterEx<Choice, TopicVH> {
 
     private OnItemCheckListener mOnItemCheckListener;
     private boolean mIsSingle;//是否单选
@@ -40,25 +40,25 @@ public class TopicAdapter extends AdapterEx<Choose, TopicVH> {
 
     @Override
     protected void refreshView(final int position, TopicVH holder) {
-        Choose item = getItem(position);
+        Choice item = getItem(position);
 
-        holder.getTvAnswer().setText(item.getString(TChoose.key) + ". " + item.getString(TChoose.value));
+        holder.getTvAnswer().setText(item.getString(TChoice.key) + ". " + item.getString(TChoice.value));
         ImageView ivAnswer = holder.getIvAnswer();
-        ivAnswer.setSelected(item.getBoolean(TChoose.check));
+        ivAnswer.setSelected(item.getBoolean(TChoice.check));
         holder.getLayoutAnswer().setOnClickListener(v -> {
             if (mIsSingle) {//单选
                 if (lastTopicVH != null) {
                     lastTopicVH.getIvAnswer().setSelected(false);
-                    getItem(lastPosition).put(TChoose.check, false);
+                    getItem(lastPosition).put(TChoice.check, false);
                 }
                 lastTopicVH = holder;
                 lastPosition = position;
                 ivAnswer.setSelected(true);
-                item.put(TChoose.check, true);
+                item.put(TChoice.check, true);
             } else {//多选
                 boolean selected = !ivAnswer.isSelected();
                 ivAnswer.setSelected(selected);
-                item.put(TChoose.check, selected);
+                item.put(TChoice.check, selected);
             }
 
             if (mOnItemCheckListener != null) {

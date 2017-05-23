@@ -1,5 +1,7 @@
 package yy.doctor.model.exam;
 
+import java.io.Serializable;
+
 import lib.ys.model.EVal;
 import yy.doctor.model.exam.Answer.TAnswer;
 
@@ -10,7 +12,7 @@ import yy.doctor.model.exam.Answer.TAnswer;
  * @since : 2017/5/8
  */
 
-public class Answer extends EVal<TAnswer> {
+public class Answer extends EVal<TAnswer> implements Serializable {
     public enum TAnswer {
         answer,//答案
         id,//题号

@@ -12,6 +12,7 @@ public interface Extra {
     String KPage = "page";
     String KNum = "num";
 
+    String KPaperId = "paperId";
     String KMeetId = "meetId";
     String KModuleId = "moduleId";
 

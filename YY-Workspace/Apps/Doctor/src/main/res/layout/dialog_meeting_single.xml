@@ -49,7 +49,7 @@
             android:layout_height="46dp"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="1dp"
-            android:background="@color/white"
+            android:background="@drawable/tv_selector_white"
             android:gravity="center"
             android:text="确定"
             android:textColor="#0682e6"

@@ -1,7 +1,7 @@
 package yy.doctor.model.exam;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.exam.Choose.TChoose;
+import yy.doctor.model.exam.Choice.TChoice;
 
 /**
  * 选项
@@ -10,8 +10,8 @@ import yy.doctor.model.exam.Choose.TChoose;
  * @since : 2017/5/8
  */
 
-public class Choose extends EVal<TChoose> {
-    public enum TChoose {
+public class Choice extends EVal<TChoice> {
+    public enum TChoice {
         key,//选项
         value,//选项内容
 
