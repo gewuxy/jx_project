@@ -1,45 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="102dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
     android:background="@drawable/home_unit_num_bg">
 
-    <lib.ys.network.image.NetworkImageView
-        android:id="@+id/home_unit_num_item_iv"
+    <LinearLayout
         android:layout_width="102dp"
-        android:layout_height="92dp"
-        android:layout_marginRight="16dp"
-        android:scaleType="centerCrop"/>
-
-    <View
-        style="@style/divider"
-        android:background="@color/text_b3"/>
-
-    <TextView
-        android:id="@+id/home_unit_num_item_tv_name"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="6dp"
-        android:text="专家讲堂"
-        android:textSize="9dp"
-        android:textColor="@color/text_333"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/home_unit_num_item_tv_attention"
-        android:layout_width="78dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="+ 关注"
-        android:textSize="9dp"
-        android:textColor="@color/text_006ebd"
-        android:background="@drawable/home_meeting_tv_attention_bg"/>
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/home_unit_num_item_iv"
+            android:layout_width="102dp"
+            android:layout_height="92dp"/>
+
+        <View
+            style="@style/divider"
+            android:background="@color/text_b3"/>
+
+        <TextView
+            android:id="@+id/home_unit_num_item_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="6dp"
+            android:text="专家讲堂"
+            android:textSize="9dp"
+            android:textColor="@color/text_333"/>
+
+        <lib.ys.view.NestCheckBox
+            android:id="@+id/home_unit_num_item_check_box_attention"
+            android:layout_width="78dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/home_unit_num_checkbox_bg_selector">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/transparent"
+                android:button="@drawable/home_unit_num_checkbox_btn_selector"
+                android:paddingLeft="4dp"
+                android:text="关注"
+                android:textSize="9dp"
+                android:textColor="@drawable/home_unit_num_checkbox_text_color_selector"/>
+
+        </lib.ys.view.NestCheckBox>
+
+    </LinearLayout>
 
 </LinearLayout>

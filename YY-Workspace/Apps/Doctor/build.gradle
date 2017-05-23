@@ -13,6 +13,16 @@ android {
         versionCode 6521
         versionName "6.5.21"
 
+        ndk {
+            //添加的对应cpu类型的.so库(极光分享)
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JSHARE_PKGNAME : applicationId,
+                JPUSH_APPKEY : "88391aa0f118d8646d1fb6e3", //极光控制台创建应用得到的AppKey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
                 // LibYS里的混淆, 相对路径为3级
                 '../../../Lib-Workspace/LibYS_Rx/proguard-ys.pro',
@@ -21,7 +31,7 @@ android {
                 '../../../Lib-Workspace/LibYS_Rx/proguard-lambda.pro',
                 '../../../Lib-Workspace/LibBD/proguard-baidu.pro',
                 // YaYa-Libs 里的混淆, 相对路径为2级
-//                '../../Libs/LibU-COMS/proguard-rules.pro',
+                //'../../Libs/LibU-COMS/proguard-rules.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -131,5 +141,13 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
+    compile project(':YY-Workspace:Libs:LibPay')
+
+    compile 'cn.jiguang.sdk:jshare:1.0.0'
+    compile 'cn.jiguang.sdk:jshare-wechatmodel:1.0.0'
+    compile 'cn.jiguang.sdk:jshare-sinamodel:1.0.0'
+    compile 'cn.jiguang.sdk:janalytics:1.1.1'
+    compile 'cn.jiguang.sdk:jcore:1.1.2'
+
 }
 

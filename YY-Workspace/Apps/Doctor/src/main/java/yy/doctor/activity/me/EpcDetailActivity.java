@@ -47,7 +47,6 @@ public class EpcDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
         Intent i = getIntent();
         mGoodId = i.getIntExtra(Extra.KData, 000);
         mGoodName = i.getStringExtra(Extra.KName);
@@ -61,9 +60,7 @@ public class EpcDetailActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         bar.addBackIcon(R.mipmap.nav_bar_ic_back, mGoodName, this);
-
     }
 
     @Override
@@ -74,27 +71,23 @@ public class EpcDetailActivity extends BaseActivity {
         mTvEpn = findView(R.id.epc_detail_tv_epn);
         mTvLimitationNum = findView(R.id.epc_detail_tv_limitation_num);
         mTvDescription = findView(R.id.epc_detail_tv_description);
-
     }
 
     @Override
     public void setViews() {
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(0, NetFactory.epcDetail(mGoodId));
-
-        setOnClickListener(R.id.epc_detail_tv_btn);
+        exeNetworkReq(NetFactory.epcDetail(mGoodId));
 
         mIv.placeHolder(R.drawable.app_bg)
                 .load();
-
+        setOnClickListener(R.id.epc_detail_tv_btn);
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), EpcDetail.class);
     }
-
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
@@ -108,9 +101,7 @@ public class EpcDetailActivity extends BaseActivity {
             mEpn = epcDetail.getInt(TEpcDetail.price);
             mTvEpn.setText(epcDetail.getString(TEpcDetail.price));
             mTvDescription.setText(epcDetail.getString(TEpcDetail.description));
-
         }
-
     }
 
     @Override
@@ -124,7 +115,6 @@ public class EpcDetailActivity extends BaseActivity {
             }
             break;
         }
-
     }
 
 }

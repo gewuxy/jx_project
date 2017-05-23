@@ -133,12 +133,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-//        if (id == KReqBannerId) {
-//            ListResult<Banner> r = (ListResult<Banner>) result;
-//            if (r.isSucceed()) {
-//                mBannerView.setData(r.getData());
-//            }
-//        }
         if (mBannerReqIsOK && mUnitNumReqIsOK && mMeetingReqIsOK) {
             super.onNetworkSuccess(id, result);
         }

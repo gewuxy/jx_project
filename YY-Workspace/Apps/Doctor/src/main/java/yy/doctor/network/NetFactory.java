@@ -136,8 +136,8 @@ public class NetFactory {
         String KPrice = "price";    //商品价格
         String KReceiver = "receiver";    //收货人
         String KPhone = "phone";    //手机号
-        String KProvince = "KProvince";   //省份
-        String KAddress = "KAddress";    //地址
+        String KProvince = "province";   //省份
+        String KAddress = "address";    //地址
         String KBuyLimit = "buyLimit";   //商品限购数
     }
 
@@ -305,7 +305,7 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq epnRecharge(String subject, String totalAmount) {
+    public static NetworkReq epnRecharge(String subject, int totalAmount) {
         return newPost(UrlEpn.KEpnRecharge)
                 .param(EpnRechargeParam.KSubject, subject)
                 .param(EpnRechargeParam.KTotalAmount, totalAmount)
@@ -320,7 +320,6 @@ public class NetFactory {
     public static ExchangeBuilder newExchangeBuilder() {
         return new ExchangeBuilder();
     }
-
 
     /**
      * 订单
@@ -395,12 +394,25 @@ public class NetFactory {
     }
 
     /**
-     * 搜索页面的推荐单位号
+     * 单位号资料列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public static NetworkReq unitNumDatum(int pageNum, int pageSize) {
+        return newGet(UrlUnitNum.KUnitNumDatum)
+                .param(UnitNumDetailParam.KPageNum, pageNum)
+                .param(UnitNumDetailParam.KPageSize, pageSize)
+                .build();
+    }
+
+    /**
+     * 搜索页面推荐的单位号
      *
      * @return
      */
-    public static NetworkReq recommendUnitNumSearch() {
-        return newGet(UrlSearch.KRecommendUnitNum)
+    public static NetworkReq searchRecUnitNum() {
+        return newGet(UrlSearch.KSearchRecUnitNum)
                 .build();
     }
 

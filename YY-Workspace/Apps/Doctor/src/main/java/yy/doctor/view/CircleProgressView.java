@@ -39,11 +39,11 @@ public class CircleProgressView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        int width = this.getWidth();
-        int height = this.getHeight();
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
         if (width != height) {
             int min = Math.min(width, height);
             width = min;
@@ -53,7 +53,6 @@ public class CircleProgressView extends View {
         // 设置画笔相关属性
         mPaint.setAntiAlias(true);
         mPaint.setColor(ResLoader.getColor(R.color.divider));
-        canvas.drawColor(Color.TRANSPARENT);
         mPaint.setStrokeWidth(mCircleLineStrokeWidth);
         mPaint.setStyle(Style.STROKE);
         // 位置
@@ -61,12 +60,18 @@ public class CircleProgressView extends View {
         mRectF.top = mCircleLineStrokeWidth / 2; // 左上角y
         mRectF.right = width - mCircleLineStrokeWidth / 2; // 左下角x
         mRectF.bottom = height - mCircleLineStrokeWidth / 2; // 右下角y
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        canvas.drawColor(Color.TRANSPARENT);
         // 绘制圆圈，进度条背景
         canvas.drawArc(mRectF, -90, 360, false, mPaint);
+        //绘制进度条
         mPaint.setColor(ResLoader.getColor(R.color.text_0882e7));
         canvas.drawArc(mRectF, -90, ((float) mProgress / mMaxProgress) * 360, false, mPaint);
-
     }
 
     public int getMaxProgress() {
@@ -80,11 +85,6 @@ public class CircleProgressView extends View {
     public void setProgress(int progress) {
         this.mProgress = progress;
         this.invalidate();
-    }
-
-    public void setProgressNotInUiThread(int progress) {
-        this.mProgress = progress;
-        this.postInvalidate();
     }
 
 }

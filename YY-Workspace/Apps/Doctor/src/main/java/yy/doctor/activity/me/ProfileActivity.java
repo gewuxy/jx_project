@@ -3,11 +3,13 @@ package yy.doctor.activity.me;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.support.annotation.IntDef;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
+import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
@@ -37,6 +40,8 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.model.me.UpHeadImage;
+import yy.doctor.model.me.UpHeadImage.TUpHeadImage;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
@@ -72,12 +77,16 @@ public class ProfileActivity extends BaseFormActivity {
     private static final int KPermissionCodePhoto = 0;
     private static final int KPermissionCodeAlbum = 1;
 
+    private static final int KReqUpHeaderImgId = 10;
+    private static final int KReqModifyId = 20;
 
     private static final String KPhotoFileName = "avatar.jpg";
 
     private RelativeLayout mLayoutProfileHeader;
     private NetworkImageView mIvAvatar;
 
+    private Bitmap mBmp;
+    private Bitmap mCircleBmp;
     private String mStrPhotoPath;
     private String mAvatarUrl;
     private String mStrProvince;
@@ -102,7 +111,6 @@ public class ProfileActivity extends BaseFormActivity {
             RelatedId.is_open,
     })
     private @interface RelatedId {
-
         int name = 0;
         int hospital = 1;
         int departments = 2;
@@ -119,7 +127,6 @@ public class ProfileActivity extends BaseFormActivity {
         int address = 11;
 
         int is_open = 20;
-
     }
 
     @Override
@@ -258,8 +265,19 @@ public class ProfileActivity extends BaseFormActivity {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, "我的资料", this);
-        bar.addTextViewRight("完成并保存", v -> modify());
+        bar.addTextViewRight("完成并保存", new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                refresh(RefreshWay.dialog);
+                //如果头像修改了就先上传头像，成功后再修改其他资料
+                if ( mBmp != null ) {
+                    exeNetworkReq(KReqUpHeaderImgId, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
+                } else {
+                    modify();
+                }
+            }
+        });
     }
 
     @Override
@@ -369,13 +387,11 @@ public class ProfileActivity extends BaseFormActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-
         String path = null;
         switch (requestCode) {
             case KCodeAlbum: {
                 // 查看相册获得图片返回
                 path = PhotoUtil.getPath(this, data.getData());
-                //LogMgr.d(TAG, "path = " + path);
                 startAcForResult(path);
             }
             break;
@@ -386,12 +402,12 @@ public class ProfileActivity extends BaseFormActivity {
             }
             break;
             case KCodeClipImage:
-                mAvatarUrl = data.getStringExtra(Extra.KData);
-                //LogMgr.d(TAG, "url = " + mAvatarUrl);
-                //mIvAvatar.url(mAvatarUrl).load();
+                mBmp = ClipImageActivity.mBmp;
+                //mCircleBmp = BmpUtil.toCircle(mBmp);
+                mIvAvatar.setImageBitmap(mBmp);
+                //LogMgr.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
-
     }
 
     //页面跳转
@@ -399,7 +415,6 @@ public class ProfileActivity extends BaseFormActivity {
         if (path != null) {
             Intent intent = new Intent(this, ClipImageActivity.class);
             intent.putExtra(Extra.KData, path);
-            //startActivity(intent);
             startActivityForResult(intent, KCodeClipImage);
         }
     }
@@ -429,10 +444,8 @@ public class ProfileActivity extends BaseFormActivity {
                 .province(mStrProvince)
                 .city(mStrCity)
                 .builder();
-
         refresh(RefreshWay.dialog);
-        exeNetworkReq(1, r);
-
+        exeNetworkReq(KReqModifyId, r);
     }
 
     private String getRelateVal(@RelatedId int relateId) {
@@ -441,20 +454,34 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Modify.class);
+        if (id == KReqUpHeaderImgId) {
+            return JsonParser.ev(r.getText(), UpHeadImage.class);
+        } else {
+            return JsonParser.ev(r.getText(), Modify.class);
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        stopRefresh();
 
-        Result<Modify> r = (Result<Modify>) result;
-        if (r.isSucceed()) {
-            showToast("资料修改成功");
-            Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));
-            Profile.inst().update(Profile.inst().put(TProfile.city, mStrCity));
+        if (id == KReqUpHeaderImgId) {
+            Result<UpHeadImage> r = (Result<UpHeadImage>) result;
+            if (r.isSucceed()) {
+                UpHeadImage upHeadImage = r.getData();
+                mAvatarUrl = upHeadImage.getString(TUpHeadImage.url);
+                showToast("头像设置成功");
+                modify();
+            }
         } else {
-            showToast(r.getError());
+            stopRefresh();
+            Result<Modify> r = (Result<Modify>) result;
+            if (r.isSucceed()) {
+                showToast("资料修改成功");
+                Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));
+                Profile.inst().update(Profile.inst().put(TProfile.city, mStrCity));
+            } else {
+                showToast(r.getError());
+            }
         }
     }
 
@@ -484,6 +511,15 @@ public class ProfileActivity extends BaseFormActivity {
                 }
                 break;
             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //回收bitmap
+        if (mBmp != null) {
+            ClipImageActivity.RecycleBmp();
         }
     }
 

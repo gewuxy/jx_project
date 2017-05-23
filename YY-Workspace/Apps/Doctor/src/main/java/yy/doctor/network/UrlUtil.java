@@ -101,10 +101,11 @@ public class UrlUtil {
         String KUnitNum = "publicAccount/mySubscribe";
         String KAttention = "publicAccount/SubscribeOrNot";
         String KUnitNumDetail = "publicAccount/unitInfo";
+        String KUnitNumDatum = "publicAccount/materialList";
     }
 
     public interface UrlSearch {
-        String KRecommendUnitNum = "publicAccount/recommend";
+        String KSearchRecUnitNum = "publicAccount/recommend";
         String KSearchUnitNum = "publicAccount/search";
     }
 

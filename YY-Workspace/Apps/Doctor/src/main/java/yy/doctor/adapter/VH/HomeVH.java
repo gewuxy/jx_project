@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -15,6 +16,10 @@ public class HomeVH extends ViewHolderEx {
 
     public HomeVH(@NonNull View convertView) {
         super(convertView);
+    }
+
+    public RelativeLayout getMeetingItemLayout() {
+        return getView(R.id.home_meeting_item_layout);
     }
 
     public TextView getTvTitle() {

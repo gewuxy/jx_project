@@ -169,10 +169,10 @@
             android:name=".activity.me.UnitNumDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.DownloadActivity"
+            android:name=".activity.me.DownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.OpenDataActivity"
+            android:name=".activity.me.OpenDownloadDataActivity"
             android:screenOrientation="portrait"/>
 
         <!-- service -->
@@ -181,6 +181,12 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP" />
+
+        <!--微信回调-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

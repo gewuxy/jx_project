@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.widget.PopupWindowCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,10 +21,10 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 import lib.network.Network;
-import lib.network.model.err.ConnectionNetError;
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
@@ -76,8 +80,8 @@ abstract public class PopupWindowEx implements
         LayoutFitter.fit(mContentView);
 
         mPopupWindow.setContentView(mContentView);
-        mPopupWindow.setWidth(getWindowWidth());
-        mPopupWindow.setHeight(getWindowHeight());
+//        mPopupWindow.setWidth(getWindowWidth());
+//        mPopupWindow.setHeight(getWindowHeight());
         mPopupWindow.setBackgroundDrawable(null);
 
         initData();
@@ -338,20 +342,40 @@ abstract public class PopupWindowEx implements
         mPopupWindow.dismiss();
     }
 
+    private void setWithAnchor(View anchor) {
+        // 暂时不需要处理width
+        mPopupWindow.setWidth(getWindowWidth());
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.M) {
+            // 6.0以上wrap content时候如果内容太多会导致全屏
+            int h = getWindowHeight();
+            if (h < 0) {
+                mPopupWindow.setHeight(mPopupWindow.getMaxAvailableHeight(anchor));
+            } else {
+                mPopupWindow.setHeight(h);
+            }
+        } else {
+            mPopupWindow.setHeight(getWindowHeight());
+        }
+    }
+
     public void showAsDropDown(View anchor) {
+        setWithAnchor(anchor);
+
         if (mEnableDim) {
             createDimWindow(anchor);
-            mDimWindow.showAsDropDown(anchor);
+            PopupWindowCompat.showAsDropDown(mDimWindow, anchor, 0, 0, Gravity.TOP);
         }
-        mPopupWindow.showAsDropDown(anchor);
+        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor, 0, 0, Gravity.TOP);
     }
 
     public void showAsDropDown(View anchor, int xoff, int yoff) {
+        setWithAnchor(anchor);
+
         if (mEnableDim) {
             createDimWindow(anchor);
-            mDimWindow.showAsDropDown(anchor, xoff, yoff);
+            PopupWindowCompat.showAsDropDown(mDimWindow, anchor, 0, 0, Gravity.TOP);
         }
-        mPopupWindow.showAsDropDown(anchor, xoff, yoff);
+        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor, 0, 0, Gravity.TOP);
     }
 
     /**
@@ -363,6 +387,8 @@ abstract public class PopupWindowEx implements
      * @param y       the popup's y location offset
      */
     public void showAtLocation(View parent, int gravity, int x, int y) {
+        setWithAnchor(parent);
+
         if (mEnableDim) {
             createDimWindow(parent);
             mDimWindow.showAtLocation(parent, gravity, x, y);
@@ -371,6 +397,8 @@ abstract public class PopupWindowEx implements
     }
 
     public void update(View anchor, int xoff, int yoff, int width, int height) {
+        setWithAnchor(anchor);
+
         if (mEnableDim) {
             createDimWindow(anchor);
             mDimWindow.update(anchor, xoff, yoff, width, height);

@@ -1,9 +1,13 @@
 package yy.doctor.activity.me;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.IntDef;
 import android.view.View;
+import android.widget.TextView;
 
+import lib.ys.LogMgr;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseFormActivity;
@@ -36,6 +40,9 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int notice = 4;
         int jingxin = 5;
     }
+
+    private TextView mTvVersion;
+    private String mVersion;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -89,8 +96,27 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.jingxin)
                 .name("敬信")
-                .build());
+               .build());
+        try {
+            mVersion = getAppVersion();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    @Override
+    public void findViews() {
+        super.findViews();
+
+        mTvVersion = findView(R.id.help_and_feedback_header_tv);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        mTvVersion.setText(mVersion);
     }
 
     @Override
@@ -130,6 +156,21 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             break;
         }
 
+    }
+
+    /**
+     * 获取app版本号
+     * @return
+     * @throws Exception
+     */
+    private String getAppVersion() throws Exception {
+        // 获取packagemanager的实例
+        PackageManager packageManager = getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(), 0);
+        String version = packInfo.versionName;
+        LogMgr.d(TAG, version);
+        return version;
     }
 
 }

@@ -24,7 +24,6 @@ public class ChangePwdActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -69,19 +68,15 @@ public class ChangePwdActivity extends BaseActivity {
                 if (TextUtil.isEmpty(oldPwd)) {
                     showToast("请输入旧密码");
                 }
-
                 if (TextUtil.isEmpty(newPwd)) {
                     showToast("请输入新密码");
                 }
-
                 if (TextUtil.isEmpty(confirmPwd)) {
                     showToast("请输入确认密码");
                 }
-
                 if (!newPwd.equals(confirmPwd)) {
                     showToast("确认密码与新密码不一致！");
                 }
-
 
             }
             break;

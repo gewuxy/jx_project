@@ -3,6 +3,8 @@ package yy.doctor;
 import android.os.Build;
 import android.os.StrictMode;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+import cn.jiguang.share.android.api.JShareInterface;
 import lib.network.NetworkConfig;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
@@ -74,6 +76,11 @@ public class App extends BaseApp {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
+
+        JAnalyticsInterface.setDebugMode(true);
+        JAnalyticsInterface.init(this);
+        JShareInterface.setDebugModel(true);
+        JShareInterface.init(this);
     }
 
     @Override

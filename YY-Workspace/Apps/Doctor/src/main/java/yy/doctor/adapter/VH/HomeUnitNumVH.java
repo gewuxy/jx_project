@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import lib.ys.adapter.VH.RecyclerViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.view.NestCheckBox;
 import yy.doctor.R;
 
 /**
@@ -26,5 +27,8 @@ public class HomeUnitNumVH extends RecyclerViewHolderEx {
         return getView(R.id.home_unit_num_item_tv_name);
     }
 
+    public NestCheckBox getNestCheckBox() {
+        return getView(R.id.home_unit_num_item_check_box_attention);
+    }
 
 }
