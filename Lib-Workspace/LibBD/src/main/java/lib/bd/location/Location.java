@@ -56,6 +56,7 @@ public class Location {
             Gps g = new Gps();
             g.put(TGps.longitude, location.getLongitude());
             g.put(TGps.latitude, location.getLatitude());
+            g.put(TGps.address, location.getAddress());
             LocationNotifier.inst().notify(true, g);
         }
 

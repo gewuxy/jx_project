@@ -8,5 +8,6 @@ public class Gps extends EVal<TGps> {
     public enum TGps {
         longitude,
         latitude,
+        address,
     }
 }
