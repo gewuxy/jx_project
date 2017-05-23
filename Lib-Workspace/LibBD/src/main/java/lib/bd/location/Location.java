@@ -1,11 +1,13 @@
 package lib.bd.location;
 
+import com.baidu.location.Address;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 import lib.bd.location.Gps.TGps;
+import lib.bd.location.Place.TPlace;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
 
@@ -53,10 +55,16 @@ public class Location {
             }
             stop();
 
+            Place p = new Place();
+            Address a = location.getAddress();
+            p.put(TPlace.province, a.province);
+            p.put(TPlace.city, a.city);
+            p.put(TPlace.district, a.district);
+
             Gps g = new Gps();
             g.put(TGps.longitude, location.getLongitude());
             g.put(TGps.latitude, location.getLatitude());
-            g.put(TGps.address, location.getAddress());
+            g.put(TGps.place, p);
             LocationNotifier.inst().notify(true, g);
         }
 
