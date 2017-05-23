@@ -8,7 +8,7 @@
     tools:showIn="@layout/activity_meeting_details">
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/meeting_niv_icon_number"
+        android:id="@+id/meeting_detail_iv_number"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginLeft="@dimen/margin"/>
@@ -21,18 +21,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/meeting_tv_name_number_host"
+            android:id="@+id/meeting_detail_tv_host"
             style="@style/tv"
             android:textSize="14dp"
             android:textColor="@color/text_666"
             android:text="河北省医学会神经病分会"/>
 
         <TextView
-            android:id="@+id/meeting_tv_name_number_deputy"
+            android:id="@+id/meeting_detail_tv_deputy"
             style="@style/tv"
             android:textColor="@color/text_888"
             android:layout_marginTop="4dp"
-            android:text="主办公众号"/>
+            android:text="主办公众号"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

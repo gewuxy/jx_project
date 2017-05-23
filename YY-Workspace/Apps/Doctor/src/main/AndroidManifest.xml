@@ -78,10 +78,7 @@
             android:name=".activity.meeting.ExamIntroActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.QueIntroActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.meeting.TopicActivity"
+            android:name=".activity.meeting.ExamTopicActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.meeting.ExamEndActivity"

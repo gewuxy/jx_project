@@ -2,6 +2,8 @@ package yy.doctor.adapter.VH.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -22,8 +24,12 @@ public class TopicVH extends ViewHolderEx {
         return getView(R.id.exam_topic_tv_answer);
     }
 
-    public NestCheckBox getCbAnswer() {
-        return getView(R.id.exam_topic_cb_answer);
+    public ImageView getIvAnswer() {
+        return getView(R.id.exam_topic_iv_answer);
+    }
+
+    public LinearLayout getLayoutAnswer() {
+        return getView(R.id.topic_item_layout);
     }
 
 }

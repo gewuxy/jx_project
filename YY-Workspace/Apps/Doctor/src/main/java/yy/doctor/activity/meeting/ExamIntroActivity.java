@@ -3,22 +3,34 @@ package yy.doctor.activity.meeting;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.view.View;
+import android.widget.TextView;
 
-import java.util.List;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.subscribers.DisposableSubscriber;
-import lib.ys.LogMgr;
+import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TimeUtil;
+import lib.yy.activity.base.BaseActivity;
+import lib.yy.network.Result;
+import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.dialog.MeetingSingleDialog;
 import yy.doctor.model.exam.Intro;
 import yy.doctor.model.exam.Intro.TIntro;
 import yy.doctor.model.exam.Paper;
 import yy.doctor.model.exam.Paper.TPaper;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -29,16 +41,35 @@ import yy.doctor.util.Util;
  * @since : 2017/4/27
  */
 
-public class ExamIntroActivity extends BaseIntroActivity {
+public class ExamIntroActivity extends BaseActivity {
 
     private Paper mPaper;//本次考试试题信息
+    private String mMeetId;//会议ID
+    private String mModuleId;//模块ID
 
     private long mStartTime;//考试开始时间
     private long mEndTime;//考试结束时间
-    private long mNowTime;//服务器当前时间
+    private long mCurTime;//服务器当前时间
 
-    private DisposableSubscriber<Long> mSub;
-    private boolean canStart;//是否能开始考试
+    private TextView mTvTitle;  //试卷名称
+    private TextView mTvHost;   //主办方
+    private TextView mTvCount;  //总题数
+    private TextView mTvTime;   //考试时间
+
+    private DisposableSubscriber<Long> mSub;//倒计时
+    private boolean mCanStart;//是否能开始考试
+
+    @StringDef({
+            TimeFormat.simple_ymd,
+            TimeFormat.from_y_to_m_24,
+            TimeFormat.from_h_to_m_24,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    private @interface TimeFormat {
+        String simple_ymd = "yyyy/MM/dd";
+        String from_y_to_m_24 = "yyyy/MM/dd HH:mm";
+        String from_h_to_m_24 = "HH:mm";
+    }
 
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, ExamIntroActivity.class)
@@ -54,76 +85,96 @@ public class ExamIntroActivity extends BaseIntroActivity {
         mModuleId = intent.getStringExtra(Extra.KModuleId);
     }
 
+    @NonNull
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_exam_intro;
+    }
+
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, "考试", this);
     }
 
     @Override
+    public void findViews() {
+        mTvTitle = findView(R.id.exam_intro_tv_title);
+        mTvHost = findView(R.id.exam_intro_tv_host);
+        mTvCount = findView(R.id.exam_intro_tv_count);
+        mTvTime = findView(R.id.exam_intro_tv_time);
+    }
+
+    @Override
     public void setViews() {
-        super.setViews();
+        setOnClickListener(R.id.exam_intro_tv_start);
+
+        refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.toExam(mMeetId, mModuleId));
     }
 
     @Override
-    protected void success(Intro intro) {
-        mPaper = intro.getEv(TIntro.paper);
-        mTvTitle.setText(mPaper.getString(TPaper.name));
-        List list = mPaper.getList(TPaper.questions);
-        mTvCount.setText(list.size() + "道题");
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), Intro.class);
+    }
 
-        //获取起始结束时间
-        mStartTime = Long.valueOf(intro.getString(Intro.TIntro.startTime));
-        mEndTime = Long.valueOf(intro.getString(Intro.TIntro.endTime));
-        mNowTime = Long.valueOf(intro.getString(Intro.TIntro.serverTime));
-        canStart = mStartTime <= mNowTime && mNowTime < mEndTime;
-        if (mStartTime > mNowTime) {//未开始的话开始计时
-            Long maxCount = (mStartTime - mNowTime) / 60000;
-            Flowable.interval(1, TimeUnit.MINUTES)
-                    .take(maxCount + 1)
-                    .subscribe(createSub());
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        setViewState(ViewState.normal);
+        Result<Intro> r = (Result<Intro>) result;
+        if (r.isSucceed()) {
+            Intro intro = r.getData();
+            Intro.setIntro(intro);//保存一份
+            mPaper = intro.getEv(TIntro.paper);
+
+            //获取起始结束时间
+            mStartTime = Long.valueOf(intro.getString(Intro.TIntro.startTime));
+            mEndTime = Long.valueOf(intro.getString(Intro.TIntro.endTime));
+            mCurTime = Long.valueOf(intro.getString(Intro.TIntro.serverTime));
+            mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
+            if (mStartTime > mCurTime) {//未开始的话开始计时
+                Long maxCount = (mStartTime - mCurTime) / 60000;
+                Flowable.interval(1, TimeUnit.MINUTES)
+                        .take(maxCount + 1)
+                        .subscribe(createSub());
+            }
+
+            mTvTitle.setText(mPaper.getString(TPaper.name));
+            mTvCount.setText(mPaper.getList(TPaper.questions).size() + "道题");
+            mTvTime.setText(getTime(mStartTime, mEndTime));
+        } else {
+            showToast(r.getError());
         }
+    }
 
-        mTvTime.setText(getTime(mStartTime, mEndTime));
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+        setViewState(ViewState.error);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start://开始考试
-                if (canStart) {
-                    TopicActivity.nav(ExamIntroActivity.this, mModuleId);
+                if (mCanStart) {
+                    ExamTopicActivity.nav(ExamIntroActivity.this, mModuleId);
                     finish();
-                } else if (mStartTime > mNowTime) {
-                    //TODO:考试未开始
+                } else if (mStartTime > mCurTime) {
+                    //考试未开始
+                    new MeetingSingleDialog(ExamIntroActivity.this)
+                            .setTvMainHint(getString(R.string.exam_no_start))
+                            .setTvSecondaryHint(getString(R.string.exam_contact))
+                            .show();
                 } else {
-                    //TODO:考试结束
+                    //考试结束
+                    new MeetingSingleDialog(ExamIntroActivity.this)
+                            .setTvMainHint(getString(R.string.exam_end))
+                            .setTvSecondaryHint(getString(R.string.exam_submit))
+                            .show();
                 }
-                break;
-            default:
                 break;
         }
 
-    }
-
-    private DisposableSubscriber<Long> createSub() {
-        mSub = new DisposableSubscriber<Long>() {
-
-            @Override
-            public void onNext(@NonNull Long aLong) {
-                LogMgr.d(TAG, "createSub" + "考试未开始");
-            }
-
-            @Override
-            public void onError(@NonNull Throwable throwable) {
-            }
-
-            @Override
-            public void onComplete() {
-                canStart = true;
-            }
-        };
-        return mSub;
     }
 
     @Override
@@ -133,5 +184,48 @@ public class ExamIntroActivity extends BaseIntroActivity {
             mSub.dispose();
             mSub = null;
         }
+    }
+
+    private DisposableSubscriber<Long> createSub() {
+        mSub = new DisposableSubscriber<Long>() {
+
+            @Override
+            public void onNext(@NonNull Long aLong) {
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+            }
+
+            @Override
+            public void onComplete() {
+                mCanStart = true;
+            }
+        };
+        return mSub;
+    }
+
+    /**
+     * 按格式显示起始结束时间
+     */
+    private String getTime(long startTime, long endTime) {
+        StringBuilder time = null;
+        String startDate = TimeUtil.formatMilli(startTime, TimeFormat.simple_ymd);
+        String endDate = TimeUtil.formatMilli(endTime, TimeFormat.simple_ymd);
+        if (startDate.equals(endDate)) {
+            //同一天
+            time = new StringBuilder(startDate)
+                    .append(" ")
+                    .append(TimeUtil.formatMilli(startTime, TimeFormat.from_h_to_m_24))
+                    .append("~")
+                    .append(TimeUtil.formatMilli(endTime, TimeFormat.from_h_to_m_24));
+        } else {
+            //不在同一天
+            time = new StringBuilder()
+                    .append(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24))
+                    .append("~")
+                    .append(TimeUtil.formatMilli(endTime, TimeFormat.from_y_to_m_24));
+        }
+        return time.toString();
     }
 }

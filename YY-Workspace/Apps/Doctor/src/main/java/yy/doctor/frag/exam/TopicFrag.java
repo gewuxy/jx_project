@@ -43,8 +43,9 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
      *
      * @param topic
      */
-    public void setTopic(Topic topic) {
+    public TopicFrag setTopic(Topic topic) {
         mTopic = topic;
+        return this;
     }
 
     @Override
@@ -81,7 +82,6 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
         }
         setData(mChooses);
 
-
         //单选隐藏下一题的按钮
         if (mTopic.getInt(TTopic.qtype) == 0) {
             mTvBtn.setVisibility(View.GONE);
@@ -90,13 +90,14 @@ public class TopicFrag extends BaseListFrag<Choose, TopicAdapter> {
         } else {
             // 设置多选
             getAdapter().setIsSingle(false);
+            getAdapter().setOnItemCheckListener(v -> mTopic.put(TTopic.finish, v.isSelected()));
             //下一题
             mTvBtn.setOnClickListener(v -> toNext(v));
         }
     }
 
     private void toNext(View v) {
-        if (mOnNextListener != null ) {
+        if (mOnNextListener != null) {
             mOnNextListener.onNext(v);
         }
     }

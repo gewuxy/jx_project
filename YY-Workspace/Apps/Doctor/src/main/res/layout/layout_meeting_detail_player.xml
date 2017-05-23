@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_meeting_details">
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/meeting_details_play_niv"
+        android:id="@+id/meeting_detail_iv_play"
         android:layout_width="match_parent"
         android:layout_height="226dp"/>
 
@@ -22,13 +22,13 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/meeting_details_date"
+            android:id="@+id/meeting_detail_tv_date"
             style="@style/tv.meeting.detail"
             android:layout_marginRight="@dimen/margin"
             android:text="@string/default_date"/>
 
         <TextView
-            android:id="@+id/meeting_details_time"
+            android:id="@+id/meeting_detail_tv_time"
             style="@style/tv.meeting.detail"
             android:layout_marginRight="@dimen/margin"
             android:text="@string/default_time"/>

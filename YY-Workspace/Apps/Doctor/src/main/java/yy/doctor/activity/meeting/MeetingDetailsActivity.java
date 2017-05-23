@@ -2,7 +2,6 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -13,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lib.bd.location.Gps.TGps;
@@ -28,12 +28,13 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.LocationDialog;
@@ -42,6 +43,8 @@ import yy.doctor.model.meet.InfoModule;
 import yy.doctor.model.meet.InfoModule.TInfoModule;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
+import yy.doctor.model.meet.Sign;
+import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -56,6 +59,9 @@ import yy.doctor.util.Util;
 public class MeetingDetailsActivity extends BaseActivity {
 
     private static final int KModuleCount = 4;//模块数
+    private static final int KMeetDetail = 0;//会议详情
+    private static final int KSign = 1;//签到
+
     private final int KDividerWDp = 1;//分割线的宽
     private final int KDividerHDp = 16;//分割线的高
     private final int KExamResId = R.mipmap.meeting_ic_exam;//考试
@@ -80,10 +86,6 @@ public class MeetingDetailsActivity extends BaseActivity {
     private NetworkImageView mIvGP;//头像
 
     //底部按钮
-    private Drawable mExam;//考试
-    private Drawable mQue;//问卷
-    private Drawable mVideo;//视频
-    private Drawable mSign;//签到
     private View mDivider;//分割线
     private LinearLayout mLlModules;//模块的容器
     private TextView mTvSee;//观看会议
@@ -94,6 +96,10 @@ public class MeetingDetailsActivity extends BaseActivity {
     private LocationDialog mLocationDialog;//定位框
     private OnLocationNotify mObserver;
     private MapList<Integer, String> mMapList;
+    private TextView mTvDate;//时间
+    private TextView mTvTime;//时长
+    private String mLatitude;//经度
+    private String mLongitude;//维度
 
     /**
      * functionId,模块功能ID
@@ -145,11 +151,13 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mIvPlay = findView(R.id.meeting_details_play_niv);
-        mIvNumber = findView(R.id.meeting_niv_icon_number);
-        mTvAward = findView(R.id.meeting_details_tv_award);
-        mTvTitle = findView(R.id.meeting_details_tv_title);
-        mTvSection = findView(R.id.meeting_details_tv_section);
+        mIvPlay = findView(R.id.meeting_detail_iv_play);
+        mTvDate = findView(R.id.meeting_detail_tv_date);
+        mTvTime = findView(R.id.meeting_detail_tv_time);
+        mIvNumber = findView(R.id.meeting_detail_iv_number);
+        mTvAward = findView(R.id.meeting_detail_tv_award);
+        mTvTitle = findView(R.id.meeting_detail_tv_title);
+        mTvSection = findView(R.id.meeting_detail_tv_section);
 
         //嘉宾相关
         mTvGN = findView(R.id.meeting_tv_guest_name);
@@ -168,27 +176,53 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large).load();
         mIvGP.placeHolder(R.mipmap.ic_default_meeting_guest).load();
 
-        if (BuildConfig.TEST) {
-            mMeetId = "17042512131640894904";
-        }
-
         refresh(RefreshWay.embed);
-        exeNetworkReq(0, NetFactory.meetInfo(mMeetId));
+        exeNetworkReq(KMeetDetail, NetFactory.meetInfo(mMeetId));
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), MeetDetail.class);
+        if (id == KMeetDetail) {
+            return JsonParser.ev(r.getText(), MeetDetail.class);
+        } else if (id == KSign) {
+            return JsonParser.ev(r.getText(), Sign.class);
+        } else {
+            return JsonParser.error(r.getText());
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        setViewState(ViewState.normal);
-        Result<MeetDetail> r = (Result<MeetDetail>) result;
-        if (r.isSucceed()) {
-            refreshViews(r.getData());
-        } else {
-            showToast(r.getError());
+        if (id == KMeetDetail) {
+            setViewState(ViewState.normal);
+            Result<MeetDetail> r = (Result<MeetDetail>) result;
+            if (r.isSucceed()) {
+                refreshViews(r.getData());
+            } else {
+                showToast(r.getError());
+            }
+        } else if (id == KSign) {
+            //是否已签到
+            stopRefresh();
+            Result<Sign> r = (Result<Sign>) result;
+            if (r.isSucceed()) {
+                Sign signData = r.getData();
+                boolean finished = signData.getBoolean(TSign.finished);
+                if (finished) {//已签到直接显示结果
+                    setViewState(ViewState.normal);
+                    showToast("已签到");
+                } else {//未签到跳转再请求签到
+                    Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
+                            .putExtra(Extra.KMeetId, mMeetId)
+                            .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
+                            .putExtra(Extra.KData,signData.getString(TSign.id))
+                            .putExtra(Extra.KLatitude, mLatitude)
+                            .putExtra(Extra.KLongitude, mLongitude);
+                    startActivity(i);
+                }
+            } else {
+                showToast(r.getError());
+            }
         }
     }
 
@@ -204,10 +238,15 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param info
      */
     private void refreshViews(MeetDetail info) {
+        long startTime = info.getLong(TMeetDetail.startTime);
+        mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
+        mTvTime.setText("时长:" + timeParse(info.getLong(TMeetDetail.endTime) - startTime));
+
         mTvAward.setText("本次会议奖励象数:" + info.getString(TMeetDetail.xsCredits) + ",还有260人能够获得奖励.");
-        mTvGN.setText(info.getString(TMeetDetail.lecturer));
         mTvTitle.setText(info.getString(TMeetDetail.meetName));
         mTvSection.setText(info.getString(TMeetDetail.meetType));
+
+        mTvGN.setText(info.getString(TMeetDetail.lecturer));
 
         //添加包含的模块
         modules(info.getList(TMeetDetail.modules));
@@ -235,12 +274,11 @@ public class MeetingDetailsActivity extends BaseActivity {
                     break;
 
                 case FunctionType.que:
-                    addModule(KQueResId, moduleIdName, v ->
-                            QueIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.que)));
+                    addModule(KQueResId, moduleIdName, null);
                     break;
 
                 case FunctionType.video:
-                    addModule(KVideoResId, moduleIdName, v -> startActivity(BaseIntroActivity.class));
+                    addModule(KVideoResId, moduleIdName, null);
                     break;
 
                 case FunctionType.sign:
@@ -300,21 +338,15 @@ public class MeetingDetailsActivity extends BaseActivity {
         refresh(RefreshWay.dialog);
         Location.inst().start();
         mObserver = (isSuccess, gps) -> {
-            runOnUIThread(() -> stopRefresh());
             if (isSuccess) {
                 //定位成功
-                String latitude = gps.getString(TGps.latitude);
-                String longitude = gps.getString(TGps.longitude);
-                LogMgr.d("Gps", latitude);
-                LogMgr.d("Gps", longitude);
-                LocationNotifier.inst().remove(mObserver);
-                Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
-                        .putExtra(Extra.KMeetId, mMeetId)
-                        .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
-                        .putExtra(Extra.KLatitude,latitude)
-                        .putExtra(Extra.KLongitude,longitude);
-                startActivity(i);
+                mLatitude = gps.getString(TGps.latitude);
+                mLongitude = gps.getString(TGps.longitude);
+                LogMgr.d("Gps", mLatitude);
+                LogMgr.d("Gps", mLongitude);
+                exeNetworkReq(KSign, NetFactory.toSign(mMeetId, mMapList.getByKey(FunctionType.sign)));
             } else {
+                runOnUIThread(() -> stopRefresh());
                 //定位失败
                 LogMgr.d("Gps", "失败");
                 if (mLocationDialog == null) {
@@ -322,6 +354,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 }
                 mLocationDialog.show();
             }
+            LocationNotifier.inst().remove(mObserver);
             Location.inst().stop();
             Location.inst().onDestroy();
         };
@@ -339,6 +372,29 @@ public class MeetingDetailsActivity extends BaseActivity {
                 sign();
             }
         });
+    }
+
+    /**
+     * 按X.X小时的格式格式化毫秒值
+     *
+     * @param time
+     * @return
+     */
+    public String timeParse(long time) {
+        StringBuffer parse = new StringBuffer();
+        float f = time / 3600000.0f;
+        //超过一天
+        if (f > 24) {
+            parse.append((int) f / 24).append("天");
+            f /= 24;
+        }
+        BigDecimal b = new BigDecimal(f);
+        //保留1位小数,四舍五入
+        float result = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+        return parse
+                .append(result)
+                .append("小时")
+                .toString();
     }
 
     @Override

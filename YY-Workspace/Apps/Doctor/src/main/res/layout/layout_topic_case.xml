@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/topic_rl_case"
     android:layout_width="match_parent"
     android:layout_height="46dp"
     android:layout_alignParentBottom="true"
-    android:background="@color/white"
-    tools:showIn="@layout/activity_topic">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,17 +27,19 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/topic_layout_case_all"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@mipmap/topic_ic_all_topic"/>
+            android:src="@mipmap/topic_case_ic_all_blue"/>
 
         <TextView
             android:id="@+id/topic_tv_case_all"

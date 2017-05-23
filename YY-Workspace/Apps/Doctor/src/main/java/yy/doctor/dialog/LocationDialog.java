@@ -8,6 +8,8 @@ import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 
 /**
+ * 获取定位信息失败提示框
+ *
  * @author : GuoXuan
  * @since : 2017/5/12
  */

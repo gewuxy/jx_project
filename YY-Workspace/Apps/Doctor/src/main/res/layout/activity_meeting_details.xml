@@ -1,141 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_marginBottom="48dp"
+        android:scrollbars="none">
 
-        <include layout="@layout/layout_meeting_detail_player"/>
-
-        <include layout="@layout/layout_meeting_detail_describe1"/>
-
-        <View style="@style/divider.main"/>
-
-        <include layout="@layout/layout_meeting_detail_describe2"/>
-
-        <View
-            style="@style/divider.main"
-            android:layout_height="@dimen/margin"/>
-
-        <!-- 资料 -->
         <LinearLayout
-            android:id="@+id/meeting_detail_layout_data"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/item_selector"
-            android:gravity="center_vertical">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_meeting_detail_player"/>
+
+            <include layout="@layout/layout_meeting_detail_describe1"/>
+
+            <View style="@style/divider.main"/>
+
+            <include layout="@layout/layout_meeting_detail_describe2"/>
+
+            <View
+                style="@style/divider.main"
+                android:background="#f0f0f0"
+                android:layout_height="@dimen/margin"/>
+
+            <!-- 资料 -->
+            <LinearLayout
+                android:id="@+id/meeting_detail_layout_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/item_selector"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/tv"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:text="查看资料"
+                    android:textColor="@color/text_888"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:id="@+id/meeting_detail_tv_data"
+                    style="@style/tv"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="其他18个文件"
+                    android:textColor="@color/text_888"
+                    android:textSize="10dp"/>
+
+                <ImageView
+                    android:id="@+id/meeting_detail_iv_data"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:src="@mipmap/unit_num_detail_ic_arrow"/>
+            </LinearLayout>
+
+            <View style="@style/divider"/>
+
+            <LinearLayout
+                android:id="@+id/meeting_detail_layout_data1"
+                style="@style/v.data">
+
+                <ImageView style="@style/iv.data"/>
+
+                <TextView
+                    android:id="@+id/meeting_detail_tv_data1"
+                    style="@style/tv.data"
+                    android:text="东莞市大声道胜多负少"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+            <View style="@style/divider"/>
+
+            <LinearLayout
+                android:id="@+id/meeting_detail_layout_data2"
+                style="@style/v.data">
+
+                <ImageView style="@style/iv.data"/>
+
+                <TextView
+                    android:id="@+id/meeting_detail_tv_data2"
+                    style="@style/tv.data"
+                    android:text="东莞市大声道胜多负少"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+            <View style="@style/divider"/>
+
+            <LinearLayout
+                android:id="@+id/meeting_detail_layout_data3"
+                style="@style/v.data">
+
+                <ImageView style="@style/iv.data"/>
+
+                <TextView
+                    android:id="@+id/meeting_detail_tv_data3"
+                    style="@style/tv.data"
+                    android:text="东莞市大声道胜多负少"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+            <View
+                style="@style/divider.main"
+                android:background="#f0f0f0"
+                android:layout_height="@dimen/margin"/>
+
+            <!-- 主讲者信息 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="14dp"
+                android:paddingLeft="@dimen/margin"
+                android:paddingTop="14dp"
+                android:text="主讲嘉宾"
+                android:textColor="#757575"
+                android:textSize="14dp"/>
+
+            <include layout="@layout/layout_meeting_detail_describe3"/>
 
             <TextView
-                style="@style/tv"
-                android:layout_marginLeft="@dimen/margin"
-                android:text="查看资料"
-                android:textColor="@color/text_888"
-                android:textSize="10dp"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_data"
-                style="@style/tv"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="其他18个文件"
-                android:textColor="@color/text_888"
-                android:textSize="10dp"/>
-
-            <ImageView
-                android:id="@+id/meeting_detail_iv_data"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
                 android:layout_marginLeft="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
-                android:src="@mipmap/unit_num_detail_ic_arrow"/>
+                android:layout_marginTop="14dp"
+                android:lineSpacingExtra="14dp"
+                android:text="个人简介：担任某咖啡茶品配送服务部的市场部业务员。主要负责与经销商签定经销合同、办理产品的包装、运输、保险、货款结算、售后产品跟踪、市场反馈以及开拓新的销售渠道等。负责公司新业务员的培训，在实际工作中具体指导和协调业务员的销售工作，并多次受到公司的表扬"
+                android:textColor="@color/text_333"
+                android:textSize="16dp"/>
+
+
         </LinearLayout>
-
-        <View style="@style/divider"/>
-
-        <LinearLayout
-            android:id="@+id/meeting_detail_layout_data1"
-            style="@style/v.data">
-
-            <ImageView style="@style/iv.data"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_data1"
-                style="@style/tv.data"
-                android:text="东莞市大声道胜多负少"
-                android:textSize="12dp"/>
-        </LinearLayout>
-
-        <View style="@style/divider"/>
-
-        <LinearLayout
-            android:id="@+id/meeting_detail_layout_data2"
-            style="@style/v.data">
-
-            <ImageView style="@style/iv.data"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_data2"
-                style="@style/tv.data"
-                android:text="东莞市大声道胜多负少"
-                android:textSize="12dp"/>
-        </LinearLayout>
-
-        <View style="@style/divider"/>
-
-        <LinearLayout
-            android:id="@+id/meeting_detail_layout_data3"
-            style="@style/v.data">
-
-            <ImageView style="@style/iv.data"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_data3"
-                style="@style/tv.data"
-                android:text="东莞市大声道胜多负少"
-                android:textSize="12dp"/>
-        </LinearLayout>
-
-        <View
-            style="@style/divider.main"
-            android:layout_height="@dimen/margin"/>
-
-        <!-- 主讲者信息 -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="14dp"
-            android:paddingLeft="@dimen/margin"
-            android:paddingTop="14dp"
-            android:text="主讲嘉宾"
-            android:textColor="#757575"
-            android:textSize="14dp"/>
-
-        <include layout="@layout/layout_meeting_detail_describe3"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:layout_marginTop="14dp"
-            android:lineSpacingExtra="14dp"
-            android:text="个人简介：担任某咖啡茶品配送服务部的市场部业务员。主要负责与经销商签定经销合同、办理产品的包装、运输、保险、货款结算、售后产品跟踪、市场反馈以及开拓新的销售渠道等。负责公司新业务员的培训，在实际工作中具体指导和协调业务员的销售工作，并多次受到公司的表扬"
-            android:textColor="@color/text_333"
-            android:textSize="16dp"/>
-
-        <View
-            style="@style/divider.main"
-            android:layout_height="@dimen/margin_large"/>
-
-        <!-- 底部按钮 -->
-        <include layout="@layout/layout_meeting_detail_bottom_tab"/>
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+    <!-- 底部按钮 -->
+    <include layout="@layout/layout_meeting_detail_bottom_tab"/>
+</RelativeLayout>

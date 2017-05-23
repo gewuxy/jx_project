@@ -18,5 +18,7 @@ public class Sign extends EVal<TSign> {
         positionLat,//位置维度
         positionLng,//位置经度
         positionName,//位置名称
+        finished,//
+        signTime//
     }
 }

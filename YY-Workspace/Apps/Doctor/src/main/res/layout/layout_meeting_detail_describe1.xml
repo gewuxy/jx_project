@@ -10,14 +10,14 @@
     tools:showIn="@layout/activity_meeting_details">
 
     <TextView
-        android:id="@+id/meeting_details_tv_title"
+        android:id="@+id/meeting_detail_tv_title"
         style="@style/tv"
         android:text="河北省第29届神经病报告"
         android:textColor="@color/text_0882e7"
         android:textSize="16dp"/>
 
     <TextView
-        android:id="@+id/meeting_details_tv_award"
+        android:id="@+id/meeting_detail_tv_award"
         style="@style/tv.meeting.detail"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="6dp"
@@ -25,7 +25,7 @@
         android:textColor="@color/text_666"/>
 
     <TextView
-        android:id="@+id/meeting_details_tv_section"
+        android:id="@+id/meeting_detail_tv_section"
         style="@style/tv.meeting.detail"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="6dp"

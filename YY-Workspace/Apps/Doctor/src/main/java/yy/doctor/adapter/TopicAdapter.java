@@ -1,9 +1,7 @@
 package yy.doctor.adapter;
 
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.ImageView;
 
 import lib.ys.LogMgr;
 import lib.ys.adapter.AdapterEx;
@@ -23,7 +21,8 @@ public class TopicAdapter extends AdapterEx<Choose, TopicVH> {
 
     private OnItemCheckListener mOnItemCheckListener;
     private boolean mIsSingle;//是否单选
-    private List<TopicVH> mTopicVHs;
+    private TopicVH lastTopicVH;
+    private int lastPosition;
 
     public interface OnItemCheckListener {
         void onItemCheckListener(View v);
@@ -31,14 +30,6 @@ public class TopicAdapter extends AdapterEx<Choose, TopicVH> {
 
     public void setOnItemCheckListener(OnItemCheckListener onItemCheckListener) {
         mOnItemCheckListener = onItemCheckListener;
-    }
-
-    @Override
-    protected void initView(int position, TopicVH holder) {
-        if (mTopicVHs == null) {
-            mTopicVHs = new ArrayList<>();
-        }
-        mTopicVHs.add(holder);
     }
 
     @Override
@@ -52,24 +43,27 @@ public class TopicAdapter extends AdapterEx<Choose, TopicVH> {
         Choose item = getItem(position);
 
         holder.getTvAnswer().setText(item.getString(TChoose.key) + ". " + item.getString(TChoose.value));
-        boolean history = item.getBoolean(TChoose.check);
-        holder.getCbAnswer().setChecked(history);
-
-        holder.getCbAnswer().setOnCheckedChangeListener((buttonView, isChecked) -> {
+        ImageView ivAnswer = holder.getIvAnswer();
+        ivAnswer.setSelected(item.getBoolean(TChoose.check));
+        holder.getLayoutAnswer().setOnClickListener(v -> {
             if (mIsSingle) {//单选
-                if (isChecked) {//选择
-                    for (int i = 0; i < mTopicVHs.size(); i++) {
-                        if (i != position) {
-                            mTopicVHs.get(i).getCbAnswer().setChecked(false);
-                            getItem(i).put(TChoose.check, false);
-                        }
-                    }
+                if (lastTopicVH != null) {
+                    lastTopicVH.getIvAnswer().setSelected(false);
+                    getItem(lastPosition).put(TChoose.check, false);
                 }
+                lastTopicVH = holder;
+                lastPosition = position;
+                ivAnswer.setSelected(true);
+                item.put(TChoose.check, true);
+            } else {//多选
+                boolean selected = !ivAnswer.isSelected();
+                ivAnswer.setSelected(selected);
+                item.put(TChoose.check, selected);
             }
-            item.put(TChoose.check, isChecked);
+
             if (mOnItemCheckListener != null) {
                 LogMgr.d(TAG, "Checked");
-                mOnItemCheckListener.onItemCheckListener(holder.getCbAnswer());
+                mOnItemCheckListener.onItemCheckListener(ivAnswer);
             }
         });
     }

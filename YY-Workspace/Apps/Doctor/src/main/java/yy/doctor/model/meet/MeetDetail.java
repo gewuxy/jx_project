@@ -22,7 +22,8 @@ public class MeetDetail extends EVal<TMeetDetail> {
         modules,//会议包含的模块
         organizer,//会议主办方
         requiredXs,
-        startTime,
+        startTime,//开始时间
+        endTime,//结束时间
         state,//会议状态
         xsCredits,
     }
