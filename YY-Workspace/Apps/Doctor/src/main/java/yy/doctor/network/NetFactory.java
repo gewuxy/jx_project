@@ -62,6 +62,7 @@ public class NetFactory {
         String KModuleId = "moduleId";//模块
         String KSurveyId = "surveyId";//问卷
         String KCourseId = "courseId";//微课
+        String KPreId = "preId";//视频明细
         String KDetailId = "detailId";//微课明细
         String KQuestionId = "questionId";//试题
         String KPositionId = "positionId";//签到位置
@@ -491,6 +492,13 @@ public class NetFactory {
     }
 
     /**
+     * 视频入口
+     */
+    public static NetworkReq toVideo(String meetId, String moduleId) {
+        return toBase(UrlMeet.KToVideo, meetId, moduleId);
+    }
+
+    /**
      * 考试提交
      */
     public static SubmitBuilder submitEx() {
@@ -519,6 +527,15 @@ public class NetFactory {
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KPageSize, 10)
                 .param(MeetParam.KPageNum, 1)
+                .build();
+    }
+
+    /**
+     * 查询视频子目录
+     */
+    public static NetworkReq video(String preId) {
+        return newGet(UrlMeet.KVideo)
+                .param(MeetParam.KPreId, preId)
                 .build();
     }
 

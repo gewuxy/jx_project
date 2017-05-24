@@ -1,8 +1,8 @@
-package yy.doctor.model.exam;
+package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindObj;
-import yy.doctor.model.exam.Ppt.TPpt;
+import yy.doctor.model.meet.Ppt.TPpt;
 
 /**
  * 微课信息

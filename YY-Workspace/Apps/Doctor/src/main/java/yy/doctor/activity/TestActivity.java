@@ -14,11 +14,10 @@ import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
-import yy.doctor.activity.meeting.ExamTopicActivity;
-import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.activity.meeting.MeetingRecordActivity;
-import yy.doctor.dialog.MeetingSingleDialog;
+import yy.doctor.activity.meeting.VideoCategoryActivity;
+import yy.doctor.dialog.CommonTwoDialog;
+import yy.doctor.dialog.CommonOneDialog;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -28,6 +27,8 @@ import yy.doctor.dialog.UpdateNoticeDialog;
  */
 
 public class TestActivity extends BaseTestActivity {
+
+    private CommonTwoDialog mSubmitDialog;
 
     @Override
     public void initData() {
@@ -39,7 +40,7 @@ public class TestActivity extends BaseTestActivity {
         add("个人资料", ProfileActivity.class);
         add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this,"17042512131640894904","8"));
         add("会议详情", MeetingDetailsActivity.class);
-        add("评论", MeetingCommentActivity.class);
+        add("视频列表", VideoCategoryActivity.class);
 
         add("登录", LoginActivity.class);
         add("修改密码", ChangePwdActivity.class);
@@ -51,19 +52,19 @@ public class TestActivity extends BaseTestActivity {
         add("更新对话框", new UpdateNoticeDialog(this));
         add("分享对话框", new ShareDialog(this));
         add("考试未开始提示框",v -> {
-            new MeetingSingleDialog(TestActivity.this)
+            new CommonOneDialog(TestActivity.this)
                     .setTvMainHint(getString(R.string.exam_no_start))
                     .setTvSecondaryHint(getString(R.string.exam_participation))
                     .show();
         });
         add("考试结束提示框",v -> {
-            new MeetingSingleDialog(TestActivity.this)
+            new CommonOneDialog(TestActivity.this)
                     .setTvMainHint(getString(R.string.exam_end))
                     .setTvSecondaryHint(getString(R.string.exam_contact))
                     .show();
         });
         add("考试倒数提示框",v -> {
-            new MeetingSingleDialog(TestActivity.this) {
+            new CommonOneDialog(TestActivity.this) {
                 @Override
                 public void close(Long aLong) {
                     setTvSecondaryHint(aLong + getString(R.string.exam_xs_close));
@@ -72,6 +73,15 @@ public class TestActivity extends BaseTestActivity {
                     .setTvMainHint(getString(R.string.exam_five_min))
                     .setTvSecondaryHint(2 + getString(R.string.exam_xs_close))
                     .start(2);
+        });
+        add("未完成交卷提示框",v -> {
+            mSubmitDialog = new CommonTwoDialog(TestActivity.this)
+                    .mTvLeft(getString(R.string.exam_submit_sure))
+                    .mTvRight(getString(R.string.exam_continue))
+                    .setTvMainHint("还有3题未完成,继续提交将不得分")
+                    .setTvSecondaryHint("是否确认提交答卷?");
+            mSubmitDialog.setCancelable(false);
+            mSubmitDialog.show();
         });
 
         add("单位号详情", UnitNumDetailActivity.class);

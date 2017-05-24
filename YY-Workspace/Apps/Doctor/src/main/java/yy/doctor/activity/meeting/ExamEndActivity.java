@@ -13,7 +13,7 @@ import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.exam.Answer;
+import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -23,7 +23,7 @@ import yy.doctor.util.Util;
  * @since 2017/4/28
  */
 public class ExamEndActivity extends BaseActivity {
-
+    // TODO: 2017/5/23 算分
     private String mMeetId;
     private String mModuleId;
     private List<Answer> mAnswers;

@@ -1,4 +1,4 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.meeting;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,11 +7,11 @@ import lib.ys.LogMgr;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicVH;
-import yy.doctor.model.exam.Choice;
-import yy.doctor.model.exam.Choice.TChoice;
+import yy.doctor.model.meet.exam.Choice;
+import yy.doctor.model.meet.exam.Choice.TChoice;
 
 /**
- * 考试题目Adapter
+ * 考试/问卷 题目Adapter
  *
  * @author : GuoXuan
  * @since : 2017/4/28

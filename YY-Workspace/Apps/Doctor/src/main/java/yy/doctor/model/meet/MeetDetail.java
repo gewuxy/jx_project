@@ -18,7 +18,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         lecturer,//主讲者
         meetName,//会议名称
         meetType,//会议科室类型
-        @BindList(InfoModule.class)
+        @BindList(Module.class)
         modules,//会议包含的模块
         organizer,//会议主办方
         requiredXs,

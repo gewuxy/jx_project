@@ -24,11 +24,11 @@ import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.MeetingSingleDialog;
-import yy.doctor.model.exam.Intro;
-import yy.doctor.model.exam.Intro.TIntro;
-import yy.doctor.model.exam.Paper;
-import yy.doctor.model.exam.Paper.TPaper;
+import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.model.meet.exam.Intro;
+import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.model.meet.exam.Paper;
+import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -58,8 +58,8 @@ public class ExamIntroActivity extends BaseActivity {
     private DisposableSubscriber<Long> mSub;//倒计时
     private boolean mCanStart;//是否能开始考试
 
-    private MeetingSingleDialog mStartDialog;//考试未开始的提示框
-    private MeetingSingleDialog mEndDialog;//考试已结束的提示框
+    private CommonOneDialog mStartDialog;//考试未开始的提示框
+    private CommonOneDialog mEndDialog;//考试已结束的提示框
     private Intro mIntro;
 
     @StringDef({
@@ -163,13 +163,13 @@ public class ExamIntroActivity extends BaseActivity {
                     finish();
                 } else if (mStartTime > mCurTime) {
                     //考试未开始
-                    mStartDialog = new MeetingSingleDialog(ExamIntroActivity.this)
+                    mStartDialog = new CommonOneDialog(ExamIntroActivity.this)
                             .setTvMainHint(getString(R.string.exam_no_start))
                             .setTvSecondaryHint(getString(R.string.exam_participation));
                     mStartDialog.show();
                 } else {
                     //考试结束
-                    mEndDialog = new MeetingSingleDialog(ExamIntroActivity.this)
+                    mEndDialog = new CommonOneDialog(ExamIntroActivity.this)
                             .setTvMainHint(getString(R.string.exam_end))
                             .setTvSecondaryHint(getString(R.string.exam_contact));
                     mEndDialog.show();

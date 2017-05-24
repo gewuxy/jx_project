@@ -76,12 +76,14 @@ public class UrlUtil {
         String KToSurvey = KMeetBase + "tosurvey";
         String KToSign = KMeetBase + "tosign";
         String KToPpt = KMeetBase + "toppt";
+        String KToVideo = KMeetBase + "tovideo";
 
         String KSubmitSur = KMeetBase + "submitsur";
         String KSubmitEx = KMeetBase + "submitex";
 
         String KSign = KMeetBase + "sign";
         String KSend = KMeetBase + "message/send";
+        String KVideo = KMeetBase + "video/sublist";
         String KHistories = KMeetBase + "message/histories";
     }
 

@@ -1,13 +1,13 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicCaseVH;
-import yy.doctor.model.exam.Topic;
-import yy.doctor.model.exam.Topic.TTopic;
+import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
 
 /**
- * 考试情况Adapter
+ * 考试/问卷 题目情况Adapter
  *
  * @author : GuoXuan
  * @since : 2017/4/28

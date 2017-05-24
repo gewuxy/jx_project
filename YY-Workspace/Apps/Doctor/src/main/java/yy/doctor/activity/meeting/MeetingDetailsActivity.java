@@ -39,8 +39,8 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
-import yy.doctor.model.meet.InfoModule;
-import yy.doctor.model.meet.InfoModule.TInfoModule;
+import yy.doctor.model.meet.Module;
+import yy.doctor.model.meet.Module.TModule;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.Sign;
@@ -255,18 +255,18 @@ public class MeetingDetailsActivity extends BaseActivity {
     /**
      * 添加整个模块
      *
-     * @param infoModules
+     * @param modules
      */
-    private void modules(List<InfoModule> infoModules) {
-        InfoModule infoModule;
+    private void modules(List<Module> modules) {
+        Module module;
         int type;
         mMapList = new MapList<>();
-        for (int i = 0; i < infoModules.size(); i++) {
-            infoModule = infoModules.get(i);
-            type = infoModule.getInt(TInfoModule.functionId);
-            String moduleId = infoModule.getString(TInfoModule.id);
+        for (int i = 0; i < modules.size(); i++) {
+            module = modules.get(i);
+            type = module.getInt(TModule.functionId);
+            String moduleId = module.getString(TModule.id);
             mMapList.add(Integer.valueOf(type), moduleId);
-            String moduleIdName = infoModule.getString(TInfoModule.moduleName);
+            String moduleIdName = module.getString(TModule.moduleName);
             switch (type) {
                 case FunctionType.exam:
                     addModule(KExamResId, moduleIdName, v ->

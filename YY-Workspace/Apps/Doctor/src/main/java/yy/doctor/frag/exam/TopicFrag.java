@@ -8,10 +8,10 @@ import java.util.List;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.TopicAdapter;
-import yy.doctor.model.exam.Choice;
-import yy.doctor.model.exam.Topic;
-import yy.doctor.model.exam.Topic.TTopic;
+import yy.doctor.adapter.meeting.TopicAdapter;
+import yy.doctor.model.meet.exam.Choice;
+import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
 
 /**
  * 单个考题/问卷

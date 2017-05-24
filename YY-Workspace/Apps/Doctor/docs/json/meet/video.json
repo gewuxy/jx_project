@@ -1,0 +1,22 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "courseId": 1,
+      "id": 3,
+      "name": "筒骨科培训",
+      "preId": 1,
+      "type": 0
+    },
+    {
+      "courseId": 1,
+      "duration": 1200,
+      "id": 4,
+      "name": "王主任第一讲",
+      "preId": 1,
+      "type": 1,
+      "url": "http://128.1.226.186/file/PLAY/61213.mp4",
+      "videoType": 1
+    }
+  ]
+}

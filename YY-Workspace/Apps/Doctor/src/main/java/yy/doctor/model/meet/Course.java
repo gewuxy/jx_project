@@ -1,8 +1,8 @@
-package yy.doctor.model.exam;
+package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
-import yy.doctor.model.exam.Course.TCourse;
+import yy.doctor.model.meet.Course.TCourse;
 
 /**
  * 微课概要明细信息

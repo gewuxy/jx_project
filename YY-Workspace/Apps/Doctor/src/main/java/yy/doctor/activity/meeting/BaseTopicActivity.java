@@ -21,18 +21,18 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.TopicCaseAdapter;
+import yy.doctor.adapter.meeting.TopicCaseAdapter;
 import yy.doctor.frag.exam.TopicFrag;
-import yy.doctor.model.exam.Answer;
-import yy.doctor.model.exam.Answer.TAnswer;
-import yy.doctor.model.exam.Choice;
-import yy.doctor.model.exam.Choice.TChoice;
-import yy.doctor.model.exam.Intro;
-import yy.doctor.model.exam.Intro.TIntro;
-import yy.doctor.model.exam.Paper;
-import yy.doctor.model.exam.Paper.TPaper;
-import yy.doctor.model.exam.Topic;
-import yy.doctor.model.exam.Topic.TTopic;
+import yy.doctor.model.meet.exam.Answer;
+import yy.doctor.model.meet.exam.Answer.TAnswer;
+import yy.doctor.model.meet.exam.Choice;
+import yy.doctor.model.meet.exam.Choice.TChoice;
+import yy.doctor.model.meet.exam.Intro;
+import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.model.meet.exam.Paper;
+import yy.doctor.model.meet.exam.Paper.TPaper;
+import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
 
 /**
  * 考试(问卷)题目界面
@@ -104,12 +104,18 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
                 if (getCurrentItem() < all - 1) {
                     setCurrentItem(getCurrentItem() + 1);
                 } else {
-
-                    submit();
+                    lastTopic(all - mCount);
                 }
             });
             add(topicFrag);
         }
+    }
+
+    /**
+     * 按提交
+     * @param noFinish
+     */
+    protected void lastTopic(int noFinish) {
     }
 
     @Override
@@ -275,6 +281,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
                 .putExtra(Extra.KPaperId, mPaperId)
                 .putExtra(Extra.KData, (Serializable) getAnswer(mAllTopics));
         LaunchUtil.startActivity(BaseTopicActivity.this, i);
+        finish();
     }
 
     /**

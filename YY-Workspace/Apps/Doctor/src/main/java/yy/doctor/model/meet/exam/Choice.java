@@ -1,10 +1,10 @@
-package yy.doctor.model.exam;
+package yy.doctor.model.meet.exam;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.exam.Choice.TChoice;
+import yy.doctor.model.meet.exam.Choice.TChoice;
 
 /**
- * 选项
+ * 考试/问卷 考题的选项
  *
  * @author : GuoXuan
  * @since : 2017/5/8

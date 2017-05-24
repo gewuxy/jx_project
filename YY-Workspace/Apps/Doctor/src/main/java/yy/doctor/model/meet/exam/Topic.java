@@ -1,11 +1,11 @@
-package yy.doctor.model.exam;
+package yy.doctor.model.meet.exam;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
-import yy.doctor.model.exam.Topic.TTopic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
 
 /**
- * 考试/问卷试题信息
+ * 考试/问卷 试题信息
  *
  * @author : GuoXuan
  * @since : 2017/4/29
@@ -23,6 +23,7 @@ public class Topic extends EVal<TTopic> {
         options,//考试选项
         @BindList(Choice.class)
         optionList,//问卷选项
+
         /**
          * 本地字段
          */

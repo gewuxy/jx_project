@@ -1,0 +1,28 @@
+{
+  "code": "0",
+  "data": {
+    "course": {
+      "details": [
+        {
+          "courseId": 1,
+          "id": 1,
+          "name": "广医骨外科培训第一期",
+          "preId": 0,
+          "type": 0
+        },
+        {
+          "courseId": 1,
+          "id": 2,
+          "name": "广医骨外科培训第二期",
+          "preId": 0,
+          "type": 0
+        }
+      ],
+      "id": 1,
+      "title": "测试视频会议1"
+    },
+    "id": 1,
+    "meetId": "17042512131640894904",
+    "moduleId": 12
+  }
+}

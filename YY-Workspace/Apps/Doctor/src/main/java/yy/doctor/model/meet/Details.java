@@ -1,7 +1,7 @@
-package yy.doctor.model.exam;
+package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.exam.Details.TDetails;
+import yy.doctor.model.meet.Details.TDetails;
 
 /**
  * 微课具体明细信息

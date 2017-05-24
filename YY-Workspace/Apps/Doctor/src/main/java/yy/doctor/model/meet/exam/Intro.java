@@ -1,13 +1,13 @@
-package yy.doctor.model.exam;
+package yy.doctor.model.meet.exam;
 
 import java.io.Serializable;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindObj;
-import yy.doctor.model.exam.Intro.TIntro;
+import yy.doctor.model.meet.exam.Intro.TIntro;
 
 /**
- * 考试/问卷信息
+ * 考试/问卷 全部信息
  *
  * @author : GuoXuan
  * @since : 2017/5/5

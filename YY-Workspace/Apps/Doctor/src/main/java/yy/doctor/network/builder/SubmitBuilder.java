@@ -10,8 +10,8 @@ import io.reactivex.Observable;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.ys.LogMgr;
-import yy.doctor.model.exam.Answer;
-import yy.doctor.model.exam.Answer.TAnswer;
+import yy.doctor.model.meet.exam.Answer;
+import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
 

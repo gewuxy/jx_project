@@ -99,5 +99,7 @@
     <string name="exam_submit">请确认提交答卷</string>
     <string name="exam_five_min">距离考试结束还有5分钟</string>
     <string name="exam_xs_close">s后自动关闭</string>
+    <string name="exam_submit_sure">确认提交</string>
+    <string name="exam_continue">继续</string>
 
 </resources>

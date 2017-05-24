@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -13,13 +14,15 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
+import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.MeetingSingleDialog;
-import yy.doctor.model.exam.Intro;
-import yy.doctor.model.exam.Intro.TIntro;
+import yy.doctor.dialog.CommonTwoDialog;
+import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.model.meet.exam.Intro;
+import yy.doctor.model.meet.exam.Intro.TIntro;
 
 /**
  * @author : GuoXuan
@@ -36,8 +39,9 @@ public class ExamTopicActivity extends BaseTopicActivity {
     private TextView mTvTime;
     private int mUseTime;//做题时间
     private DisposableSubscriber<Long> mSub;
-    private MeetingSingleDialog mCloseDialog;//离考试结束的提示框
-    private MeetingSingleDialog mSubmitDialog;
+    private CommonOneDialog mCloseDialog;//离考试结束的提示框
+    private CommonOneDialog mSubmitDialog;
+    private CommonTwoDialog mSubDialog;
 
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
@@ -84,23 +88,54 @@ public class ExamTopicActivity extends BaseTopicActivity {
     }
 
     @Override
+    protected void lastTopic(int noFinish) {
+        //考试时间未完
+        if (mSubDialog == null) {
+            mSubDialog = new CommonTwoDialog(ExamTopicActivity.this);
+        }
+        if (noFinish > 0) {
+            //还有没作答
+            mSubDialog.setTvMainHint("还有" + noFinish + "题未完成,继续提交将不得分")
+                    .setTvSecondaryHint("是否确认提交答卷?");
+        } else {
+            //全部作答完了
+            mSubDialog.setTvMainHint("确定提交答案?")
+                    .hideSecond();
+        }
+        mSubDialog.mTvLeft(getString(R.string.exam_submit_sure))
+                .mTvRight(getString(R.string.exam_continue))
+                .setLayoutListener(new CommonTwoDialog.OnLayoutListener() {
+                    @Override
+                    public void leftClick(View v) {
+                        submit();
+                    }
+
+                    @Override
+                    public void rightClick(View v) {
+
+                    }
+                });
+        mSubDialog.show();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mSub != null && !mSub.isDisposed()) {
             mSub.dispose();
             mSub = null;
         }
-        if (mCloseDialog != null) {
-            if (mCloseDialog.isShowing()) {
-                mCloseDialog.dismiss();
+        recycleDialog(mCloseDialog);
+        recycleDialog(mSubmitDialog);
+        recycleDialog(mSubDialog);
+    }
+
+    private void recycleDialog(DialogEx dialog) {
+        if (dialog != null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
             }
-            mCloseDialog = null;
-        }
-        if (mSubmitDialog != null) {
-            if (mSubmitDialog.isShowing()) {
-                mSubmitDialog.dismiss();
-            }
-            mSubmitDialog = null;
+            dialog = null;
         }
     }
 
@@ -138,7 +173,7 @@ public class ExamTopicActivity extends BaseTopicActivity {
                 mTvTime.setText(timeParse(aLong.intValue()));
                 // 剩余5分钟
                 if (aLong == KFiveMin) {
-                    mCloseDialog = new MeetingSingleDialog(ExamTopicActivity.this) {
+                    mCloseDialog = new CommonOneDialog(ExamTopicActivity.this) {
                         @Override
                         public void close(Long aLong) {
                             setTvSecondaryHint(aLong + getString(R.string.exam_xs_close));
@@ -156,9 +191,10 @@ public class ExamTopicActivity extends BaseTopicActivity {
 
             @Override
             public void onComplete() {
-                mSubmitDialog = new MeetingSingleDialog(ExamTopicActivity.this)
+                mSubmitDialog = new CommonOneDialog(ExamTopicActivity.this)
                         .setTvMainHint(getString(R.string.exam_end))
                         .setTvSecondaryHint(getString(R.string.exam_submit));
+                mSubmitDialog.setCancelable(false);
                 mSubmitDialog.setOnClickListener(v -> {
                     mSubmitDialog.dismiss();
                     submit();
@@ -168,5 +204,4 @@ public class ExamTopicActivity extends BaseTopicActivity {
         };
         return mSub;
     }
-
 }
