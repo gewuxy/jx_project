@@ -1,0 +1,95 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "alpha": "SXQ",
+      "id": 150101,
+      "level": 3,
+      "name": "市辖区",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "shixiaqu"
+    },
+    {
+      "alpha": "XCQ",
+      "id": 150102,
+      "level": 3,
+      "name": "新城区",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "xinchengqu"
+    },
+    {
+      "alpha": "HMQ",
+      "id": 150103,
+      "level": 3,
+      "name": "回民区",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "huiminqu"
+    },
+    {
+      "alpha": "YQQ",
+      "id": 150104,
+      "level": 3,
+      "name": "玉泉区",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "yuquanqu"
+    },
+    {
+      "alpha": "SHQ",
+      "id": 150105,
+      "level": 3,
+      "name": "赛罕区",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "saihanqu"
+    },
+    {
+      "alpha": "TMTZQ",
+      "id": 150121,
+      "level": 3,
+      "name": "土默特左旗",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "tumotezuoqi"
+    },
+    {
+      "alpha": "TKTX",
+      "id": 150122,
+      "level": 3,
+      "name": "托克托县",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "tuoketuoxian"
+    },
+    {
+      "alpha": "HLGEX",
+      "id": 150123,
+      "level": 3,
+      "name": "和林格尔县",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "helingeerxian"
+    },
+    {
+      "alpha": "QSHX",
+      "id": 150124,
+      "level": 3,
+      "name": "清水河县",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "qingshuihexian"
+    },
+    {
+      "alpha": "WCX",
+      "id": 150125,
+      "level": 3,
+      "name": "武川县",
+      "preId": 150100,
+      "regionType": "区/县",
+      "spell": "wuchuanxian"
+    }
+  ]
+}

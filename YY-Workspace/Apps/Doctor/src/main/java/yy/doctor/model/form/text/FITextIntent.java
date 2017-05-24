@@ -22,6 +22,7 @@ public class FITextIntent extends FIText {
     protected void onActivityResult(int position, Intent data) {
         String strProvince = data.getStringExtra(Extra.KProvince);
         String strCity = data.getStringExtra(Extra.KCity);
+        String strArea = data.getStringExtra(Extra.KArea);
         put(TFormElem.text, strProvince + "-" + strCity);
     }
 

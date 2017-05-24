@@ -32,6 +32,7 @@ import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.register.HospitalActivity;
+import yy.doctor.activity.register.ProvinceActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.model.GlConfig;
@@ -253,7 +254,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name("所在城市")
-                .intent(new Intent(this, ProvinceCityActivity.class))
+                .intent(new Intent(this, ProvinceActivity.class))
                 .text(mStrProvince + "-" + mStrCity)
                 .build());
 

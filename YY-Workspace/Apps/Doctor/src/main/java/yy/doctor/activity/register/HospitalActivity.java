@@ -12,7 +12,6 @@ import lib.ys.ui.other.NavBar;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
-import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital.THospital;
@@ -99,7 +98,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
         super.onClick(v);
         switch (v.getId()) {
             case R.id.hospital_tv_change:
-                startActivityForResult(ProvinceCityActivity.class, 1);
+                //startActivityForResult(ProvinceCityActivity.class, 1);
                 break;
             default:
                 break;

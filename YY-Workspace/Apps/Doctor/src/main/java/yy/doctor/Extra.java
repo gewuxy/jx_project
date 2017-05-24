@@ -21,4 +21,5 @@ public interface Extra {
 
     String KProvince = "province";
     String KCity = "city";
+    String KArea = "area";
 }

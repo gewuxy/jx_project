@@ -4,14 +4,15 @@ import lib.ys.adapter.AdapterEx;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.ProvinceCityAreaVH;
-import yy.doctor.model.City;
-import yy.doctor.model.City.TCity;
+import yy.doctor.model.Area;
+import yy.doctor.model.Area.TArea;
 
 /**
  * @author CaiXiang
- * @since 2017/4/28
+ * @since 2017/5/23
  */
-public class CityAdapter extends AdapterEx<City, ProvinceCityAreaVH> {
+
+public class AreaAdapter extends AdapterEx<Area, ProvinceCityAreaVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -21,13 +22,8 @@ public class CityAdapter extends AdapterEx<City, ProvinceCityAreaVH> {
     @Override
     protected void refreshView(int position, ProvinceCityAreaVH holder) {
 
-        City city = getItem(position);
-        holder.getTv().setText(city.getString(TCity.name));
-        if (city.getInt(TCity.level) == 3) {
-            ViewUtil.goneView(holder.getIvArrow());
-        } else {
-            ViewUtil.showView(holder.getIvArrow());
-        }
+        ViewUtil.goneView(holder.getIvArrow());
+        holder.getTv().setText(getItem(position).getString(TArea.name));
         setOnViewClickListener(position, holder.getLayout());
     }
 

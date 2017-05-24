@@ -1,6 +1,7 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.View;
@@ -47,12 +48,22 @@ public class CommonOneDialog extends BaseDialog {
         return this;
     }
 
+    public CommonOneDialog setTvMainColor(@ColorInt int color) {
+        mTvMainHint.setTextColor(color);
+        return this;
+    }
+
+    public CommonOneDialog setTvMainSize(int sizePx) {
+        mTvMainHint.setTextSize(TypedValue.COMPLEX_UNIT_PX, sizePx);
+        return this;
+    }
+
     public CommonOneDialog setTvSecondaryHint(String tvSecondaryHint) {
         mTvSecondaryHint.setText(tvSecondaryHint);
         return this;
     }
 
-    public CommonOneDialog setTvSecondaryColor(int color) {
+    public CommonOneDialog setTvSecondaryColor(@ColorInt int color) {
         mTvSecondaryHint.setTextColor(color);
         return this;
     }
@@ -62,8 +73,13 @@ public class CommonOneDialog extends BaseDialog {
         return this;
     }
 
-    public CommonOneDialog mTvSureColor(int color) {
+    public CommonOneDialog setTvSureColor(int color) {
         mTvSure.setTextColor(color);
+        return this;
+    }
+
+    public CommonOneDialog setTvSureText(String text) {
+        mTvSure.setText(text);
         return this;
     }
 

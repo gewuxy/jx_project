@@ -1,5 +1,6 @@
 package yy.doctor.activity;
 
+import lib.ys.util.res.ResLoader;
 import lib.yy.test.BaseTestActivity;
 import yy.doctor.R;
 import yy.doctor.activity.me.ChangePwdActivity;
@@ -10,14 +11,14 @@ import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ExchangeActivity;
 import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.ProfileActivity;
-import yy.doctor.activity.me.ProvinceCityActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.VideoCategoryActivity;
-import yy.doctor.dialog.CommonTwoDialog;
+import yy.doctor.activity.register.ProvinceActivity;
 import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.dialog.CommonTwoDialog;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -27,8 +28,6 @@ import yy.doctor.dialog.UpdateNoticeDialog;
  */
 
 public class TestActivity extends BaseTestActivity {
-
-    private CommonTwoDialog mSubmitDialog;
 
     @Override
     public void initData() {
@@ -75,7 +74,7 @@ public class TestActivity extends BaseTestActivity {
                     .start(2);
         });
         add("未完成交卷提示框",v -> {
-            mSubmitDialog = new CommonTwoDialog(TestActivity.this)
+            CommonTwoDialog mSubmitDialog = new CommonTwoDialog(TestActivity.this)
                     .mTvLeft(getString(R.string.exam_submit_sure))
                     .mTvRight(getString(R.string.exam_continue))
                     .setTvMainHint("还有3题未完成,继续提交将不得分")
@@ -83,13 +82,21 @@ public class TestActivity extends BaseTestActivity {
             mSubmitDialog.setCancelable(false);
             mSubmitDialog.show();
         });
+        add("定位失败提示",new CommonOneDialog(TestActivity.this)
+            .setTvMainHint("请在系统设置中，打开“隐私-定位服务")
+                .setTvMainColor(ResLoader.getColor(R.color.text_666))
+                .setTvMainSize(fitDp(15))
+                .setTvSecondaryColor(ResLoader.getColor(R.color.text_666))
+                .setTvSecondarySize(fitDp(15))
+                .setTvSecondaryHint("并允许定位服务")
+                .setTvSureText("知道了"));
 
         add("单位号详情", UnitNumDetailActivity.class);
         add("象城", EpcActivity.class);
         add("兑换", ExchangeActivity.class);
         add("商品详情", EpcDetailActivity.class);
         add("单位号", UnitNumActivity.class);
-        add("省市", ProvinceCityActivity.class);
+        add("省", ProvinceActivity.class);
     }
 
 }

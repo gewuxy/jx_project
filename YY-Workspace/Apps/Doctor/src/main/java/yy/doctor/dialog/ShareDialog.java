@@ -16,7 +16,6 @@ import cn.jiguang.share.android.api.JShareInterface;
 import cn.jiguang.share.android.api.PlatActionListener;
 import cn.jiguang.share.android.api.Platform;
 import cn.jiguang.share.android.api.ShareParams;
-import lib.ys.LogMgr;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
@@ -111,10 +110,10 @@ public class ShareDialog extends BaseDialog {
         setGravity(Gravity.BOTTOM);
 
         mPlatformList = JShareInterface.getPlatformList();
-        LogMgr.d(TAG,  "mPlatformList = " + mPlatformList.size());
+        /*LogMgr.d(TAG,  "mPlatformList = " + mPlatformList.size());
         for (int i = 0; i < mPlatformList.size(); ++i) {
             LogMgr.d(TAG, "platname = " + mPlatformList.get(i));
-        }
+        }*/
     }
 
     @Override

@@ -57,6 +57,16 @@
         <activity
             android:name=".activity.register.ActivationCodeExplainActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.register.ProvinceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.register.CityActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.register.AreaActivity"
+            android:screenOrientation="portrait"/>
+
 
         <!-- meeting -->
         <activity
@@ -158,9 +168,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.UnitNumDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.ProvinceCityActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.SectionActivity"
