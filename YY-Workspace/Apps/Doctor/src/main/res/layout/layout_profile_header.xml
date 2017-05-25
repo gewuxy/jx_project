@@ -5,6 +5,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:background="#c5e1f6"
+        android:text="请完善个人资料信息，以便成绩考核及学分发放"
+        android:textSize="12dp"
+        android:textColor="#2392e2"/>
+    
     <RelativeLayout
         android:id="@+id/layout_profile_header"
         android:layout_width="match_parent"

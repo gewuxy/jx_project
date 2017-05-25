@@ -40,6 +40,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.ForgetPwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.NoticeActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -108,9 +111,6 @@
 
 
         <!-- me -->
-        <activity
-            android:name=".activity.me.ForgetPwdActivity"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
@@ -184,18 +184,12 @@
         <activity
             android:name=".activity.me.OpenDownloadDataActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.TitleActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- service -->
         <service android:name=".serv.LogoutServ"/>
-
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP" />
-
-        <!--微信回调-->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true" />
 
     </application>
 

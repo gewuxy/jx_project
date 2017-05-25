@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/jcore-android_v1.1.2.jar')
+    compile files('libs/jshare-android-v1.0.0.jar')
+    compile files('libs/jshare-sina-android-v1.0.0.jar')
+    compile files('libs/jshare-wechat-android-v1.0.0.jar')
+    compile files('libs/janalytics-android_v1.1.1.jar')
+}

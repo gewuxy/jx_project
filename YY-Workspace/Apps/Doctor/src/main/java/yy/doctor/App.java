@@ -77,10 +77,12 @@ public class App extends BaseApp {
             StrictMode.setVmPolicy(builder.build());
         }
 
-        JAnalyticsInterface.setDebugMode(true);
+        JAnalyticsInterface.setDebugMode(BuildConfig.DEBUG_NETWORK);
         JAnalyticsInterface.init(this);
-        JShareInterface.setDebugModel(true);
+        JShareInterface.setDebugModel(BuildConfig.DEBUG_NETWORK);
         JShareInterface.init(this);
+
+//        Stats.init("", BuildConfig.DEBUG_LOG);
     }
 
     @Override

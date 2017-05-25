@@ -62,4 +62,5 @@ public class Stats {
         }
         mIStats.onEvent(context, eventId, map);
     }
+
 }

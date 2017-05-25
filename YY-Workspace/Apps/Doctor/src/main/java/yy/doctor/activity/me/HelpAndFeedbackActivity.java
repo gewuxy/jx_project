@@ -1,15 +1,13 @@
 package yy.doctor.activity.me;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.LogMgr;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
@@ -30,7 +28,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             RelatedId.update_log,
             RelatedId.disclaimer,
             RelatedId.notice,
-            RelatedId.jingxin,
+            RelatedId.jing_xin,
     })
     private @interface RelatedId {
         int check_version = 0;
@@ -38,7 +36,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int update_log = 2;
         int disclaimer = 3;
         int notice = 4;
-        int jingxin = 5;
+        int jing_xin = 5;
     }
 
     private TextView mTvVersion;
@@ -94,15 +92,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content_text)
-                .related(RelatedId.jingxin)
+                .related(RelatedId.jing_xin)
                 .name("敬信")
                .build());
-        try {
-            mVersion = getAppVersion();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        mVersion = DeviceUtil.getAppVersionName();
     }
 
     @Override
@@ -123,15 +117,15 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
 
-        @RelatedId int relatedid = getItem(position).getInt(TFormElem.related);
-        switch (relatedid) {
+        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        switch (relatedId) {
             case RelatedId.check_version: {
                 showToast("检查版本更新");
             }
             break;
             case RelatedId.feedback: {
                 Intent data = new Intent(Intent.ACTION_SEND);
-                data.setType("plain/text");//  message/rfc822
+                data.setType("plain/text");
                 data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
                 data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
                 data.putExtra(Intent.EXTRA_TEXT, "");
@@ -150,27 +144,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                 startActivity(ContributionInvitedActivity.class);
             }
             break;
-            case RelatedId.jingxin: {
+            case RelatedId.jing_xin: {
                 startActivity(JXActivity.class);
             }
             break;
         }
-
-    }
-
-    /**
-     * 获取app版本号
-     * @return
-     * @throws Exception
-     */
-    private String getAppVersion() throws Exception {
-        // 获取packagemanager的实例
-        PackageManager packageManager = getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(), 0);
-        String version = packInfo.versionName;
-        LogMgr.d(TAG, version);
-        return version;
     }
 
 }

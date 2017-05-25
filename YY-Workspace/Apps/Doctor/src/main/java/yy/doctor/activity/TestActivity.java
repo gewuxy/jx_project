@@ -9,8 +9,8 @@ import yy.doctor.activity.me.EpcDetailActivity;
 import yy.doctor.activity.me.EpnActivity;
 import yy.doctor.activity.me.EpnUseRuleActivity;
 import yy.doctor.activity.me.ExchangeActivity;
-import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.me.ProfileActivity;
+import yy.doctor.activity.me.TitleActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
@@ -97,6 +97,7 @@ public class TestActivity extends BaseTestActivity {
         add("商品详情", EpcDetailActivity.class);
         add("单位号", UnitNumActivity.class);
         add("省", ProvinceActivity.class);
+        add("职称", TitleActivity.class);
     }
 
 }

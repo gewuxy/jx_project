@@ -28,7 +28,6 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     @Override
     public void initData() {
-
     }
 
     @NonNull

@@ -17,6 +17,7 @@ import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
@@ -35,7 +36,7 @@ import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.activity.register.ProvinceActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
-import yy.doctor.model.GlConfig;
+import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.Modify;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -53,12 +54,7 @@ import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
-import static yy.doctor.model.Profile.TProfile.mobile;
-import static yy.doctor.model.Profile.TProfile.nickname;
-import static yy.doctor.model.Profile.TProfile.place;
 import static yy.doctor.model.Profile.TProfile.province;
-import static yy.doctor.model.Profile.TProfile.title;
-import static yy.doctor.model.Profile.TProfile.username;
 
 /**
  * 我的资料
@@ -92,18 +88,21 @@ public class ProfileActivity extends BaseFormActivity {
     private String mAvatarUrl;
     private String mStrProvince;
     private String mStrCity;
+    private String mStrArea;
 
     @IntDef({
             RelatedId.name,
             RelatedId.hospital,
             RelatedId.departments,
+            RelatedId.hospital_grade,
 
             RelatedId.nickname,
             RelatedId.phone_number,
             RelatedId.email,
 
+            RelatedId.CME_number,
             RelatedId.certification_number,
-            RelatedId.rank,
+            RelatedId.title,
             RelatedId.position,
             RelatedId.sex,
             RelatedId.education_background,
@@ -115,19 +114,21 @@ public class ProfileActivity extends BaseFormActivity {
         int name = 0;
         int hospital = 1;
         int departments = 2;
+        int hospital_grade = 3;
 
-        int nickname = 3;
-        int phone_number = 4;
-        int email = 5;
+        int nickname = 10;
+        int phone_number = 11;
+        int email = 12;
 
-        int certification_number = 6;
-        int rank = 7;
-        int position = 8;
-        int sex = 9;
-        int education_background = 10;
-        int address = 11;
+        int CME_number = 20;
+        int certification_number = 21;
+        int title = 22;
+        int position = 23;
+        int sex = 24;
+        int education_background = 25;
+        int address = 26;
 
-        int is_open = 20;
+        int is_open = 30;
     }
 
     @Override
@@ -171,38 +172,51 @@ public class ProfileActivity extends BaseFormActivity {
                 .text(strDepartments)
                 .build());
 
+        addItem(new Builder(FormType.divider).build());
+
+        addItem(new Builder(FormType.text_dialog)
+                .related(RelatedId.education_background)
+                .name("医院级别")
+                .hint(R.string.hint_not_fill)
+                .data(GlConfig.inst().getHospitalGrade())
+                .build());
+
         addItem(new Builder(FormType.divider_large).build());
 
-        addItem(new Builder(FormType.et)
+        /*addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
                 .name("昵称")
                 .text(Profile.inst().getString(nickname))
                 .hint(R.string.hint_not_fill)
                 .build());
-
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et)
                 .related(RelatedId.phone_number)
                 .name("手机号")
                 .text(Profile.inst().getString(mobile))
                 .hint(R.string.hint_not_fill)
                 .build());
-
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et)
                 .related(RelatedId.email)
                 .name("电子邮箱")
                 .text(Profile.inst().getString(username))
                 .hint(R.string.hint_not_fill)
                 .build());
-
-        addItem(new Builder(FormType.divider_large).build());
+        addItem(new Builder(FormType.divider_large).build());*/
 
         /*addItem(new Builder(FormType.profile_checkbox)
                 .related(RelatedId.is_open)
                 .build());*/
+
+        addItem(new Builder(FormType.et)
+                .related(RelatedId.certification_number)
+                .name("CME卡号")
+                .text("456")
+                .hint(R.string.hint_not_fill)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.et)
                 .related(RelatedId.certification_number)
@@ -213,49 +227,46 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.rank)
+        addItem(new Builder(FormType.text_intent)
+                .related(RelatedId.title)
                 .name("职称")
-                .text(Profile.inst().getString(title))
+                .intent(new Intent(this, TitleActivity.class))
+                .text(Profile.inst().getString(TProfile.title))
                 .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.et)
+        /*addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
                 .name("职务")
                 .text(Profile.inst().getString(place))
                 .hint(R.string.hint_not_fill)
                 .build());
-
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.sex)
                 .name("性别")
                 .text(R.string.hint_not_fill)
                 .data(GlConfig.inst().getSexConfigs())
                 .build());
-
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.education_background)
                 .name("学历")
                 .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getmEducationBgConfigs())
+                .data(GlConfig.inst().getEducationBgConfigs())
                 .build());
-
-        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.divider).build());*/
 
         mStrProvince = Profile.inst().getString(province);
         mStrCity = Profile.inst().getString(city);
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
-                .name("所在城市")
+                .name("所在省市")
                 .intent(new Intent(this, ProvinceActivity.class))
-                .text(mStrProvince + "-" + mStrCity)
+                .text(mStrProvince + " " + mStrCity)
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -292,7 +303,6 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader = findView(R.id.layout_profile_header);
         mIvAvatar = findView(R.id.profile_header_iv_avatar);
-
     }
 
     @Override
@@ -307,7 +317,6 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     public void onClick(View v) {
-
         int id = v.getId();
         switch (id) {
             case R.id.layout_profile_header: {
@@ -315,7 +324,6 @@ public class ProfileActivity extends BaseFormActivity {
             }
             break;
         }
-
     }
 
     @Override
@@ -404,8 +412,8 @@ public class ProfileActivity extends BaseFormActivity {
             break;
             case KCodeClipImage:
                 mBmp = ClipImageActivity.mBmp;
-                //mCircleBmp = BmpUtil.toCircle(mBmp);
-                mIvAvatar.setImageBitmap(mBmp);
+                mCircleBmp = BmpUtil.toCircle(mBmp);
+                mIvAvatar.setImageBitmap(mCircleBmp);
                 //LogMgr.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
@@ -426,8 +434,20 @@ public class ProfileActivity extends BaseFormActivity {
     private void modify() {
 
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
-        mStrProvince = str.substring(0, str.indexOf("-"));
-        mStrCity = str.substring(str.indexOf("-") + 1, str.length());
+        //省市区的级别
+        int level = getRelatedItem(RelatedId.address).getInt(TFormElem.column);
+        mStrProvince = str.substring(0, str.indexOf(" "));
+        if (level == 2) {
+            mStrCity = str.substring(str.indexOf(" ") + 1, str.length());
+        } else {
+            String cityArea = str.substring(str.indexOf(" ") + 1, str.length());
+            mStrCity = cityArea.substring(0, cityArea.indexOf(" "));
+            mStrArea = cityArea.substring(cityArea.indexOf(" ") + 1, cityArea.length());
+        }
+        LogMgr.d(TAG, "level = " + level);
+        LogMgr.d(TAG, "province = " + mStrProvince);
+        LogMgr.d(TAG, "city = " + mStrCity);
+        LogMgr.d(TAG, "area = " + mStrArea);
 
         NetworkReq r = NetFactory.newModifyBuilder()
                 .headImgUrl(mAvatarUrl)
@@ -438,7 +458,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .nickname(getRelateVal(RelatedId.nickname))
                 .mobile(getRelateVal(RelatedId.phone_number))
                 .licence(getRelateVal(RelatedId.certification_number))
-                .title(getRelateVal(RelatedId.rank))
+                .title(getRelateVal(RelatedId.title))
                 .place(getRelateVal(RelatedId.position))
                 .gender(getRelatedItem(RelatedId.sex).getInt(TFormElem.val,0))
                 .degree(getRelateVal(RelatedId.education_background))

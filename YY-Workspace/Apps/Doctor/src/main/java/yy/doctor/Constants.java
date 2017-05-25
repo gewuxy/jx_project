@@ -66,8 +66,66 @@ public interface Constants extends BaseConstants {
         TEducationBg(String mEducationBg) {
             this.mEducationBg = mEducationBg;
         }
-        public String getmEducationBg() {
+        public String getEducationBg() {
             return mEducationBg;
+        }
+    }
+
+    /**
+     * 医院级别
+     */
+    enum THospitalGrade {
+        one_level("一级"),
+        two_level("二级"),
+        three_level("三级"),
+        community_service_center("社区卫生服务中心"),
+        health_centers("卫生院"),
+        clinic("诊所");
+        //others("其他");
+
+        private String mHospitalGrade;
+        THospitalGrade(String mHospitalGrade) {
+            this.mHospitalGrade = mHospitalGrade;
+        }
+        public String getHospitalGrade() {
+            return mHospitalGrade;
+        }
+    }
+
+    /**
+     * 医生职称 高级 中级 初级 其他
+     */
+    enum TDoctorGrade {
+        high("高级"),
+        middle("中级"),
+        primary("初级"),
+        other("其他");
+
+        private String mDoctorGrade;
+        TDoctorGrade(String mDoctorGrade) {
+            this.mDoctorGrade = mDoctorGrade;
+        }
+        public String getDoctorGrade() {
+            return mDoctorGrade;
+        }
+    }
+
+    /**
+     * 医生职称  医师 药师 护师 技师 其他
+     */
+    enum TDoctorCategory {
+        physician("医师"),
+        apothecary("药师"),
+        nurse("护师"),
+        technician("技师"),
+        other("其他");
+
+        private String mDoctorCategory;
+        TDoctorCategory(String mDoctorCategory) {
+            this.mDoctorCategory = mDoctorCategory;
+        }
+        public String getDoctorCategory() {
+            return mDoctorCategory;
         }
     }
 

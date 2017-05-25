@@ -5,9 +5,9 @@ import android.view.View;
 
 import java.util.List;
 
-import lib.network.model.param.CommonPair;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
+import yy.doctor.model.config.Config;
 
 /**
  * @author CaiXiang
@@ -20,7 +20,7 @@ public class FITextDialog extends FIText {
     @Override
     public boolean onItemClick(Object host, View v) {
 
-        final List<CommonPair> data = getList(TFormElem.data);
+        final List<Config> data = getList(TFormElem.data);
         BottomDialog dialog = new BottomDialog(v.getContext(), new OnDialogItemClickListener() {
 
             @Override
@@ -29,13 +29,11 @@ public class FITextDialog extends FIText {
                 put(TFormElem.text, data.get(position).getName());
                 put(TFormElem.val, data.get(position).getVal());
                 refresh();
-
             }
         });
         for (int i = 0; i < data.size(); ++i) {
             dialog.addItem(data.get(i).getName(), KColorNormal);
         }
-
         dialog.show();
         return true;
     }

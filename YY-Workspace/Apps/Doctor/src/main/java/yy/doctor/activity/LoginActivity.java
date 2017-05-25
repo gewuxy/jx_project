@@ -12,11 +12,11 @@ import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
-import yy.doctor.activity.me.ForgetPwdActivity;
 import yy.doctor.activity.register.RegisterActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.view.AutoCompleteEditText;
 
 /**
  * 登录
@@ -26,12 +26,11 @@ import yy.doctor.network.NetFactory;
  */
 public class LoginActivity extends BaseActivity {
 
-    private EditText mEtName;
+    private AutoCompleteEditText mEtName;
     private EditText mEtPwd;
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -42,7 +41,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
     }
 
     @Override
@@ -50,7 +48,6 @@ public class LoginActivity extends BaseActivity {
 
         mEtName = findView(R.id.login_et_name);
         mEtPwd = findView(R.id.login_et_pwd);
-
     }
 
     @Override
@@ -59,12 +56,10 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
-
         if (BuildConfig.TEST) {
             mEtName.setText("18194529@qq.com");
             mEtPwd.setText("123456");
         }
-
     }
 
     @Override
@@ -76,7 +71,6 @@ public class LoginActivity extends BaseActivity {
 
                 String strName = mEtName.getText().toString();
                 String strPwd = mEtPwd.getText().toString();
-
                 if (strName.isEmpty()) {
                     showToast("请输入用户名");
                     return;
@@ -85,7 +79,6 @@ public class LoginActivity extends BaseActivity {
                     showToast("请输入密码");
                     return;
                 }
-
                 refresh(RefreshWay.dialog);
                 exeNetworkReq(0, NetFactory.login(strName, strPwd));
             }
@@ -111,7 +104,6 @@ public class LoginActivity extends BaseActivity {
         stopRefresh();
 
         Result<Profile> r = (Result<Profile>) result;
-
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
             startActivity(MainActivity.class);

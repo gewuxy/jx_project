@@ -36,6 +36,11 @@ public class CircleProgressView extends View {
         mContext = context;
         mRectF = new RectF();
         mPaint = new Paint();
+        // 设置画笔相关属性
+        mPaint.setAntiAlias(true);
+        mPaint.setColor(ResLoader.getColor(R.color.divider));
+        mPaint.setStrokeWidth(mCircleLineStrokeWidth);
+        mPaint.setStyle(Style.STROKE);
     }
 
     @Override
@@ -50,11 +55,6 @@ public class CircleProgressView extends View {
             height = min;
         }
 
-        // 设置画笔相关属性
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(ResLoader.getColor(R.color.divider));
-        mPaint.setStrokeWidth(mCircleLineStrokeWidth);
-        mPaint.setStyle(Style.STROKE);
         // 位置
         mRectF.left = mCircleLineStrokeWidth / 2; // 左上角x
         mRectF.top = mCircleLineStrokeWidth / 2; // 左上角y

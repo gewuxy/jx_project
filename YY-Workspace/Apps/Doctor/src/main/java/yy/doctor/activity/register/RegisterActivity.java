@@ -96,9 +96,9 @@ public class RegisterActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(new Builder(FormType.text_register_intent)
                 .related(RelatedId.location)
-                .hint("广东 广州")
+                .intent(new Intent(this, ProvinceActivity.class))
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -108,7 +108,6 @@ public class RegisterActivity extends BaseFormActivity {
                 .hint("医院名称")
                 .drawable(R.mipmap.ic_more)
                 .build());
-
     }
 
     @Override
@@ -228,13 +227,12 @@ public class RegisterActivity extends BaseFormActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             String hospital = data.getStringExtra(Extra.KData);
-            String province = data.getStringExtra(Extra.KProvince);
-            String city = data.getStringExtra(Extra.KCity);
+            //String province = data.getStringExtra(Extra.KProvince);
+            //String city = data.getStringExtra(Extra.KCity);
             getRelatedItem(RelatedId.hospital).put(TFormElem.text, hospital);
             refreshRelatedItem(RelatedId.hospital);
-            getRelatedItem(RelatedId.location).put(TFormElem.text, province + " " + city);
-            refreshRelatedItem(RelatedId.location);
-
+            //getRelatedItem(RelatedId.location).put(TFormElem.text, province + " " + city);
+            //refreshRelatedItem(RelatedId.location);
         }
     }
 

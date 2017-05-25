@@ -32,6 +32,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     private TextView mTvLocation;// 选择的地址
     private String mProvince;
     private String mCity;
+    private String mArea;
 
     @Override
     public int getContentViewId() {
@@ -98,7 +99,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
         super.onClick(v);
         switch (v.getId()) {
             case R.id.hospital_tv_change:
-                //startActivityForResult(ProvinceCityActivity.class, 1);
+                startActivityForResult(ProvinceActivity.class, 1);
                 break;
             default:
                 break;
@@ -112,6 +113,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
             if (data != null) {
                 mProvince = data.getStringExtra(Extra.KProvince);
                 mCity = data.getStringExtra(Extra.KCity);
+                //mArea = data.getStringExtra(Extra.KArea);
                 mTvLocation.setText(getResources().getString(R.string.hospital_location) + mProvince + " " + mCity);
                 exeNetworkReq(0, NetFactory.hospital(mCity));
             }

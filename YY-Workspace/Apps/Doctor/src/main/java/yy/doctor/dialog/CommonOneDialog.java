@@ -39,8 +39,9 @@ public class CommonOneDialog extends BaseDialog {
         super(context);
     }
 
-    public void setOnClickListener(OnClickListener onClickListener) {
+    public CommonOneDialog setOnClickListener(OnClickListener onClickListener) {
         mOnClickListener = onClickListener;
+        return this;
     }
 
     public CommonOneDialog setTvMainHint(String tvMainHint) {

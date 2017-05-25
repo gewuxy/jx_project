@@ -32,6 +32,7 @@ public @interface FormType {
     int text = 2;
     int text_intent = 3;
     int text_dialog = 4;
+    int text_register_intent = 5;
 
     int divider = 10;
     int divider_large = 11;

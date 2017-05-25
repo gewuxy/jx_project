@@ -8,8 +8,9 @@ import yy.doctor.model.form.edit.FIEditRegister;
 import yy.doctor.model.form.text.FIContent;
 import yy.doctor.model.form.text.FIContentText;
 import yy.doctor.model.form.text.FIText;
-import yy.doctor.model.form.text.FITextIntent;
 import yy.doctor.model.form.text.FITextDialog;
+import yy.doctor.model.form.text.FITextIntent;
+import yy.doctor.model.form.text.FITextRegisterIntent;
 
 /**
  * @author CaiXiang
@@ -45,6 +46,10 @@ public class Builder extends FormBuilderEx<FormItem> {
             break;
             case FormType.text_dialog: {
                 item = new FITextDialog();
+            }
+            break;
+            case FormType.text_register_intent: {
+                item = new FITextRegisterIntent();
             }
             break;
 

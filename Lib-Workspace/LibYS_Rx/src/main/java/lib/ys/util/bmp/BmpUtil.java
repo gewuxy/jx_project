@@ -759,7 +759,7 @@ public class BmpUtil {
         Bitmap retBmp = Bitmap.createBitmap(min, min, Config.ARGB_8888);
 
         Canvas canvas = createCanvas(retBmp);
-        canvas.drawCircle(min / 2, min / 2, min / 2, null);
+        canvas.drawCircle(min / 2, min / 2, min / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bmp, 0, 0, paint);
 

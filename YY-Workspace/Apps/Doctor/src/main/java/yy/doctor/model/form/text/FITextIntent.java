@@ -23,7 +23,16 @@ public class FITextIntent extends FIText {
         String strProvince = data.getStringExtra(Extra.KProvince);
         String strCity = data.getStringExtra(Extra.KCity);
         String strArea = data.getStringExtra(Extra.KArea);
-        put(TFormElem.text, strProvince + "-" + strCity);
+        //判断是否有区县
+        if (strArea == null) {
+            put(TFormElem.text, strProvince + " " + strCity);
+            put(TFormElem.val, strProvince + " " + strCity);
+            put(TFormElem.column, 2);
+        } else {
+            put(TFormElem.text, strProvince + " " + strCity + " " + strArea);
+            put(TFormElem.val, strProvince + " " + strCity + " " + strArea);
+            put(TFormElem.column, 3);
+        }
     }
 
 }

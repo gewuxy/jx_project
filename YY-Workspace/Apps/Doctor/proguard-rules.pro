@@ -24,9 +24,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontwarn cn.jiguang.**
--keep class cn.jiguang.** { *; }
 
--keep public class cn.jiguang.analytics.android.api.** {
-        *;
-    }
