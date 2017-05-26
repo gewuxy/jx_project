@@ -1,8 +1,6 @@
 package yy.doctor.activity;
 
-import lib.ys.util.res.ResLoader;
 import lib.yy.test.BaseTestActivity;
-import yy.doctor.R;
 import yy.doctor.activity.me.ChangePwdActivity;
 import yy.doctor.activity.me.EpcActivity;
 import yy.doctor.activity.me.EpcDetailActivity;
@@ -17,8 +15,6 @@ import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.VideoCategoryActivity;
 import yy.doctor.activity.register.ProvinceActivity;
-import yy.doctor.dialog.CommonOneDialog;
-import yy.doctor.dialog.CommonTwoDialog;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 
@@ -31,13 +27,13 @@ public class TestActivity extends BaseTestActivity {
 
     @Override
     public void initData() {
+
         add("主页", MainActivity.newIntent(this, MainActivity.KTabHome));
         add("会议", MainActivity.newIntent(this, MainActivity.KTabMeeting));
         add("数据", MainActivity.newIntent(this, MainActivity.KTabData));
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("个人资料", ProfileActivity.class);
-        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this,"17042512131640894904","8"));
         add("会议详情", MeetingDetailsActivity.class);
         add("视频列表", VideoCategoryActivity.class);
 
@@ -50,7 +46,8 @@ public class TestActivity extends BaseTestActivity {
 
         add("更新对话框", new UpdateNoticeDialog(this));
         add("分享对话框", new ShareDialog(this));
-        add("考试未开始提示框",v -> {
+        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this,"17042512131640894904","8"));
+        /*add("考试未开始提示框",v -> {
             new CommonOneDialog(TestActivity.this)
                     .setTvMainHint(getString(R.string.exam_no_start))
                     .setTvSecondaryHint(getString(R.string.exam_participation))
@@ -89,7 +86,7 @@ public class TestActivity extends BaseTestActivity {
                 .setTvSecondaryColor(ResLoader.getColor(R.color.text_666))
                 .setTvSecondarySize(fitDp(15))
                 .setTvSecondaryHint("并允许定位服务")
-                .setTvSureText("知道了"));
+                .setTvSureText("知道了"));*/
 
         add("单位号详情", UnitNumDetailActivity.class);
         add("象城", EpcActivity.class);

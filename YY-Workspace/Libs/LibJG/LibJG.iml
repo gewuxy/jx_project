@@ -96,9 +96,10 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="janalytics-android_v1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="jcore-android_v1.1.2" level="project" />
+    <orderEntry type="library" exported="" name="jcore-android_v1.1.3" level="project" />
     <orderEntry type="library" exported="" name="jshare-wechat-android-v1.0.0" level="project" />
     <orderEntry type="library" exported="" name="jshare-android-v1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="jpush-android_v3.0.6" level="project" />
     <orderEntry type="library" exported="" name="jshare-sina-android-v1.0.0" level="project" />
   </component>
 </module>

@@ -23,20 +23,21 @@ import yy.doctor.util.Util;
 public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @IntDef({
-            RelatedId.check_version,
-            RelatedId.feedback,
             RelatedId.update_log,
             RelatedId.disclaimer,
             RelatedId.notice,
             RelatedId.jing_xin,
+
+            RelatedId.feedback,
     })
     private @interface RelatedId {
-        int check_version = 0;
-        int feedback = 1;
-        int update_log = 2;
-        int disclaimer = 3;
-        int notice = 4;
-        int jing_xin = 5;
+
+        int update_log = 1;
+        int disclaimer = 2;
+        int notice = 3;
+        int jing_xin = 4;
+
+        int feedback = 5;
     }
 
     private TextView mTvVersion;
@@ -55,20 +56,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
-
-        addItem(new Builder(FormType.content_text)
-                .related(RelatedId.check_version)
-                .name("检查版本更新")
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content_text)
-                .related(RelatedId.feedback)
-                .name("意见反馈")
-                .build());
-
-        addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.update_log)
@@ -96,6 +83,13 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                 .name("敬信")
                .build());
 
+        addItem(new Builder(FormType.divider_large).build());
+
+        addItem(new Builder(FormType.content_text)
+                .related(RelatedId.feedback)
+                .name("意见反馈")
+                .build());
+
         mVersion = DeviceUtil.getAppVersionName();
     }
 
@@ -119,19 +113,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
-            case RelatedId.check_version: {
-                showToast("检查版本更新");
-            }
-            break;
-            case RelatedId.feedback: {
-                Intent data = new Intent(Intent.ACTION_SEND);
-                data.setType("plain/text");
-                data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
-                data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
-                data.putExtra(Intent.EXTRA_TEXT, "");
-                startActivity(data);
-            }
-            break;
             case RelatedId.update_log: {
                 startActivity(UpdateLogActivity.class);
             }
@@ -146,6 +127,15 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             break;
             case RelatedId.jing_xin: {
                 startActivity(JXActivity.class);
+            }
+            break;
+            case RelatedId.feedback: {
+                Intent data = new Intent(Intent.ACTION_SEND);
+                data.setType("plain/text");
+                data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
+                data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
+                data.putExtra(Intent.EXTRA_TEXT, "");
+                startActivity(data);
             }
             break;
         }

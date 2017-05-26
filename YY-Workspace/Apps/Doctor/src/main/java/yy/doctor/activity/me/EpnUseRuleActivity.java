@@ -1,10 +1,12 @@
 package yy.doctor.activity.me;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
+import android.content.Intent;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseActivity;
-import yy.doctor.R;
+import lib.ys.util.LaunchUtil;
+import lib.yy.activity.base.BaseWebViewActivity;
+import yy.doctor.Extra;
 import yy.doctor.util.Util;
 
 /**
@@ -13,17 +15,17 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/20
  */
-public class EpnUseRuleActivity extends BaseActivity {
+public class EpnUseRuleActivity extends BaseWebViewActivity {
+
+    private String mUrl;
+    public static void nav(Context context, String url) {
+        Intent i = new Intent(context, EpnUseRuleActivity.class);
+        i.putExtra(Extra.KData, url);
+        LaunchUtil.startActivity(context, i);
+    }
 
     @Override
     public void initData() {
-
-    }
-
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_epn_use_rule;
     }
 
     @Override
@@ -31,13 +33,9 @@ public class EpnUseRuleActivity extends BaseActivity {
         Util.addBackIcon(bar, "象数使用规则", this);
     }
 
-    @Override
-    public void findViews() {
-
-    }
 
     @Override
-    public void setViews() {
+    protected void onLoadStart() {
 
     }
 

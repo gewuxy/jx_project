@@ -1,10 +1,7 @@
 package yy.doctor.activity.me;
 
-import android.support.annotation.NonNull;
-
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseActivity;
-import yy.doctor.R;
+import lib.yy.activity.base.BaseWebViewActivity;
 import yy.doctor.util.Util;
 
 /**
@@ -13,17 +10,10 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/20
  */
-public class ContributionInvitedActivity extends BaseActivity {
+public class ContributionInvitedActivity extends BaseWebViewActivity {
 
     @Override
     public void initData() {
-
-    }
-
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_contribution_invited;
     }
 
     @Override
@@ -32,13 +22,7 @@ public class ContributionInvitedActivity extends BaseActivity {
     }
 
     @Override
-    public void findViews() {
+    protected void onLoadStart() {
 
     }
-
-    @Override
-    public void setViews() {
-
-    }
-
 }

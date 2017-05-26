@@ -5,6 +5,7 @@ import android.os.StrictMode;
 
 import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.jiguang.share.android.api.JShareInterface;
+import cn.jpush.android.api.JPushInterface;
 import lib.network.NetworkConfig;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig;
@@ -81,6 +82,8 @@ public class App extends BaseApp {
         JAnalyticsInterface.init(this);
         JShareInterface.setDebugModel(BuildConfig.DEBUG_NETWORK);
         JShareInterface.init(this);
+        JPushInterface.setDebugMode(BuildConfig.DEBUG_NETWORK);
+        JPushInterface.init(this);
 
 //        Stats.init("", BuildConfig.DEBUG_LOG);
     }

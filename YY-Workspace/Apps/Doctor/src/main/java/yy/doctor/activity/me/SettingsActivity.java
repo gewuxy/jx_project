@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
+import lib.ys.view.ToggleButton;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -35,32 +35,41 @@ public class SettingsActivity extends BaseFormActivity {
     private static final int KColorNormal = Color.parseColor("#666666");
     private static final int KColorCancel = Color.parseColor("#01b557");
 
-
-    private RelativeLayout mLayoutDownload;
-    private TextView mTvLoadApkCondition;
+    private ToggleButton mTog;
     private TextView mTvExit;
 
     @IntDef({
+            RelatedId.check_version,
+
             RelatedId.change_password,
             RelatedId.clear_img_cache,
+
             RelatedId.clear_sound_cache,
     })
     private @interface RelatedId {
-        int change_password = 1;
-        int clear_img_cache = 2;
-        int clear_sound_cache = 3;
+        int check_version = 1;
+
+        int change_password = 2;
+
+        int clear_img_cache = 3;
+        int clear_sound_cache = 4;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, "设置", this);
-
     }
 
     @Override
     public void initData() {
         super.initData();
+
+        addItem(new Builder(FormType.divider).build());
+
+        addItem(new Builder(FormType.content_text)
+                .related(RelatedId.check_version)
+                .name("检查版本更新")
+                .build());
 
         addItem(new Builder(FormType.divider_large).build());
 
@@ -86,7 +95,11 @@ public class SettingsActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
+    }
 
+    @Override
+    protected View createHeaderView() {
+        return inflate(R.layout.layout_settings_header);
     }
 
     @Override
@@ -98,8 +111,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mLayoutDownload = findView(R.id.settings_footer_layout_download);
-        mTvLoadApkCondition = findView(R.id.settings_footer_tv_download_conditiom);
+        mTog = findView(R.id.settings_header_switcher);
         mTvExit = findView(R.id.settings_footer_tv_exit_account);
     }
 
@@ -107,21 +119,15 @@ public class SettingsActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
-        mLayoutDownload.setOnClickListener(this);
         mTvExit.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
 
         int id = v.getId();
         switch (id) {
-            case R.id.settings_footer_layout_download: {
-                showDialogAutoDownload();
-            }
-            break;
             case R.id.settings_footer_tv_exit_account: {
                 showDialogExit();
             }
@@ -135,6 +141,10 @@ public class SettingsActivity extends BaseFormActivity {
 
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
+            case RelatedId.check_version: {
+                showToast("852");
+            }
+            break;
             case RelatedId.change_password: {
                 startActivity(ChangePwdActivity.class);
             }
@@ -148,34 +158,6 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
         }
-
-    }
-
-    private void showDialogAutoDownload() {
-
-        final CommonDialog dialog = new CommonDialog(this);
-        dialog.addItem("仅在WiFi", new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTvLoadApkCondition.setText("仅在WiFi");
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
-        dialog.addItem("从不", new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTvLoadApkCondition.setText("从不");
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
-        dialog.show();
-
     }
 
     private void showDialogExit() {
@@ -195,7 +177,6 @@ public class SettingsActivity extends BaseFormActivity {
                 SettingsActivity.this.notify(NotifyType.logout);
                 startActivity(LoginActivity.class);
                 finish();
-
             }
         });
 
@@ -210,10 +191,8 @@ public class SettingsActivity extends BaseFormActivity {
                 finish();
             }
         });
-
         dialog.show();
     }
-
 
     private void showDialogClearImgCache() {
 
@@ -229,10 +208,8 @@ public class SettingsActivity extends BaseFormActivity {
                 if (position == 0) {
                     showToast("555");
                 }
-
             }
         });
-
         for (int i = 0; i < data.size(); ++i) {
             if (i != (data.size() - 1)) {
                 dialog.addItem(data.get(i), KColorNormal);
@@ -240,9 +217,7 @@ public class SettingsActivity extends BaseFormActivity {
                 dialog.addItem(data.get(i), KColorCancel);
             }
         }
-
         dialog.show();
-
     }
 
     private void showDialogClearSoundCache() {
@@ -259,10 +234,8 @@ public class SettingsActivity extends BaseFormActivity {
                 if (position == 0) {
                     showToast("666");
                 }
-
             }
         });
-
         for (int i = 0; i < data.size(); ++i) {
             if (i != (data.size() - 1)) {
                 dialog.addItem(data.get(i), KColorNormal);
@@ -270,9 +243,7 @@ public class SettingsActivity extends BaseFormActivity {
                 dialog.addItem(data.get(i), KColorCancel);
             }
         }
-
         dialog.show();
-
     }
 
 }
