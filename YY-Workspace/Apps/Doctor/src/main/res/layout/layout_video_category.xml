@@ -6,7 +6,8 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:id="@+id/video_category_layout"
+        android:background="@color/white"
+        android:id="@+id/video_detail_layout"
         android:layout_width="match_parent"
         android:layout_height="62dp">
 
@@ -15,7 +16,7 @@
             style="@style/tv"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
-            android:text="清理缓存"
+            android:text="视频类"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 

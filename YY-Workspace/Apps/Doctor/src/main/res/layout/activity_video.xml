@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <View
+        android:id="@+id/video_view"
+        style="@style/v"
+        android:layout_height="44dp"/>
+
+
+    <RelativeLayout
+        android:id="@+id/video_layout_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/video_view">
+        <LinearLayout
+            android:id="@+id/video_loading"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/video_layout_function"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#33000000"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:orientation="horizontal"
+        android:layout_alignBottom="@id/video_layout_video">
+
+        <ImageView
+            android:id="@+id/video_iv_control"
+            android:layout_width="32dp"
+            android:layout_height="36dp"
+            android:padding="10dp"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/meet_play_stop_selector"/>
+
+        <TextView
+            android:id="@+id/video_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="00:00"
+            android:textColor="#99ffffff"
+            android:textSize="14dp"/>
+
+        <SeekBar
+            android:id="@+id/video_sb_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="22dp"
+            android:max="100"
+            android:layout_weight="1"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:progressDrawable="@drawable/meeting_ppt_seekbar_progress"
+            android:thumb="@mipmap/meeting_ppt_ic_progress"
+            android:thumbOffset="0dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -17,12 +17,14 @@ import io.reactivex.subscribers.DisposableSubscriber;
 import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import yy.doctor.Constants.Date;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.CommonTwoDialog;
 import yy.doctor.dialog.CommonOneDialog;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.util.Util;
 
 /**
  * @author : GuoXuan
@@ -63,7 +65,7 @@ public class ExamTopicActivity extends BaseTopicActivity {
         mTvLeft.setText("考试");
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(timeParse(mUseTime));
+        mTvTime.setText(Util.timeParse(mUseTime, Date.hour));
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
@@ -139,38 +141,12 @@ public class ExamTopicActivity extends BaseTopicActivity {
         }
     }
 
-    /**
-     * 把时间格式化为xx:xx:xx
-     *
-     * @param useTime
-     * @return
-     */
-    private String timeParse(int useTime) {
-        StringBuffer sb = new StringBuffer();
-        int hour = useTime / 3600;
-        if (hour < 10) {
-            sb.append(0);
-        }
-        sb.append(hour).append(":");
-        int min = useTime / 60 % 60;
-        if (min < 10) {
-            sb.append(0);
-        }
-        sb.append(min).append(":");
-        int sec = useTime % 60;
-        if (sec < 10) {
-            sb.append(0);
-        }
-        sb.append(sec);
-        return sb.toString();
-    }
-
     private DisposableSubscriber<Long> createSub() {
         mSub = new DisposableSubscriber<Long>() {
 
             @Override
             public void onNext(@NonNull Long aLong) {
-                mTvTime.setText(timeParse(aLong.intValue()));
+                mTvTime.setText(Util.timeParse(aLong.intValue(), Date.hour));
                 // 剩余5分钟
                 if (aLong == KFiveMin) {
                     mCloseDialog = new CommonOneDialog(ExamTopicActivity.this) {

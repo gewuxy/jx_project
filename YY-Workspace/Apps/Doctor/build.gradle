@@ -132,13 +132,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
     compile project(':YY-Workspace:Libs:LibPay')
+    compile project(':YY-Workspace:Libs:LibPlayer')
     compile project(':YY-Workspace:Libs:LibJG')
-
 }
 

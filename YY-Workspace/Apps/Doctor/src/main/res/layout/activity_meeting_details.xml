@@ -27,8 +27,8 @@
 
             <View
                 style="@style/divider.main"
-                android:background="#f0f0f0"
-                android:layout_height="@dimen/margin"/>
+                android:layout_height="@dimen/margin"
+                android:background="#f0f0f0"/>
 
             <!-- 资料 -->
             <LinearLayout
@@ -110,8 +110,8 @@
 
             <View
                 style="@style/divider.main"
-                android:background="#f0f0f0"
-                android:layout_height="@dimen/margin"/>
+                android:layout_height="@dimen/margin"
+                android:background="#f0f0f0"/>
 
             <!-- 主讲者信息 -->
             <TextView
@@ -142,5 +142,6 @@
         </LinearLayout>
     </ScrollView>
     <!-- 底部按钮 -->
-    <include layout="@layout/layout_meeting_detail_bottom_tab"/>
+    <include
+        layout="@layout/layout_meeting_detail_bottom_tab"/>
 </RelativeLayout>

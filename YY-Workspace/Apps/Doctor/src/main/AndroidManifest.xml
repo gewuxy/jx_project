@@ -12,6 +12,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${app_name}"
         android:supportsRtl="true"
@@ -99,6 +100,13 @@
         <activity
             android:name=".activity.meeting.VideoCategoryActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.VideoDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.VideoActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".activity.meeting.SignActivity"
             android:screenOrientation="portrait"/>
@@ -190,6 +198,10 @@
 
         <!-- service -->
         <service android:name=".serv.LogoutServ"/>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP"/>
 
     </application>
 

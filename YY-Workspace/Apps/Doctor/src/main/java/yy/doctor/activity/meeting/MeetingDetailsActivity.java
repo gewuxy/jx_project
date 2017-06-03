@@ -176,8 +176,19 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large).load();
         mIvGP.placeHolder(R.mipmap.ic_default_meeting_guest).load();
 
+        setOnClickListener(mTvSee);
+
         refresh(RefreshWay.embed);
         exeNetworkReq(KMeetDetail, NetFactory.meetInfo(mMeetId));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.meeting_detail_video_see:
+                MeetingPPTActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
+                break;
+        }
     }
 
     @Override
@@ -278,7 +289,8 @@ public class MeetingDetailsActivity extends BaseActivity {
                     break;
 
                 case FunctionType.video:
-                    addModule(KVideoResId, moduleIdName, null);
+                    addModule(KVideoResId, moduleIdName, v ->
+                            VideoCategoryActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.video)));
                     break;
 
                 case FunctionType.sign:

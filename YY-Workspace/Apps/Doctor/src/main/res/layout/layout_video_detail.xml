@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/video_detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="62dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/video_detail_tv_main"
+                style="@style/tv"
+                android:text="大视频"
+                android:textColor="@color/text_333"
+                android:textSize="14dp"/>
+            <TextView
+                android:id="@+id/video_detail_tv_secondary"
+                style="@style/tv"
+                android:layout_marginTop="6dp"
+                android:text="未学习"
+                android:textColor="@color/text_888"
+                android:textSize="12dp"/>
+        </LinearLayout>
+
+
+        <ImageView
+            style="@style/iv.arrow.align_right"
+            android:layout_marginRight="@dimen/margin_large"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

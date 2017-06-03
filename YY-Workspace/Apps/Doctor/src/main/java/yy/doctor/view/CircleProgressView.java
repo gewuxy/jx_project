@@ -16,33 +16,38 @@ import yy.doctor.R;
 
 public class CircleProgressView extends View {
 
-    private static final String TAG = "CircleProgressBar";
+    private final String TAG = getClass().getSimpleName();
 
-    private final int mCircleLineStrokeWidth = DpFitter.dp(5);
+    private static final int KLineW = DpFitter.dp(5); // 默认进度条宽度
+    private static final int KBackColor = ResLoader.getColor(R.color.divider); // 默认进度条背景
+    private static final int KProgressColor = ResLoader.getColor(R.color.text_0882e7); // 默认进度条进度颜色
 
     // 画圆所在的距形区域
     private final RectF mRectF;
     private final Paint mPaint;
+
+    private final int mProgressColor; // 进度条的颜色
+    private final int mLineW; // 进度条的宽
 
     private int mProgress = 30;
     private int mMaxProgress = 100;
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        TypedArray ta = context.obtainStyledAttributes(attrs,R.styleable.CircleProgressView);
+        int color = ta.getColor(R.styleable.CircleProgressView_backProgress, KBackColor);
+        mProgressColor = ta.getColor(R.styleable.CircleProgressView_progress, KProgressColor);
+        mLineW = (int) ta.getDimension(R.styleable.CircleProgressView_width, KLineW);
+        ta.recycle();
 
         mRectF = new RectF();
         mPaint = new Paint();
 
-        TypedArray ta = context.obtainStyledAttributes(attrs,R.styleable.CircleProgressView);
-        int color = ta.getColor(R.styleable.CircleProgressView_backProgress, ResLoader.getColor(R.color.divider));
-        int width = ta.getInt(R.styleable.CircleProgressView_width, mCircleLineStrokeWidth);
-        ta.recycle();
-
         // 设置画笔相关属性
         mPaint.setAntiAlias(true);
-        mPaint.setColor(color);
-        mPaint.setStrokeWidth(width);
         mPaint.setStyle(Style.STROKE);
+        mPaint.setColor(color);
+        mPaint.setStrokeWidth(mLineW);
     }
 
     @Override
@@ -52,10 +57,10 @@ public class CircleProgressView extends View {
         int min = Math.min(getMeasuredWidth(), getMeasuredHeight());
 
         // 位置
-        mRectF.left = mCircleLineStrokeWidth / 2; // 左上角x
-        mRectF.top = mCircleLineStrokeWidth / 2; // 左上角y
-        mRectF.right = min - mCircleLineStrokeWidth / 2; // 左下角x
-        mRectF.bottom = min - mCircleLineStrokeWidth / 2; // 右下角y
+        mRectF.left = mLineW / 2; // 左上角x
+        mRectF.top = mLineW / 2; // 左上角y
+        mRectF.right = min - mLineW / 2; // 左下角x
+        mRectF.bottom = min - mLineW / 2; // 右下角y
     }
 
     @Override
@@ -66,7 +71,7 @@ public class CircleProgressView extends View {
         // 绘制圆圈，进度条背景
         canvas.drawArc(mRectF, -90, 360, false, mPaint);
         //绘制进度条
-        mPaint.setColor(ResLoader.getColor(R.color.text_0882e7));
+        mPaint.setColor(mProgressColor);
         canvas.drawArc(mRectF, -90, ((float) mProgress / mMaxProgress) * 360, false, mPaint);
     }
 

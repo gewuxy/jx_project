@@ -13,6 +13,7 @@ import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.activity.meeting.VideoActivity;
 import yy.doctor.activity.meeting.VideoCategoryActivity;
 import yy.doctor.activity.register.ProvinceActivity;
 import yy.doctor.dialog.ShareDialog;
@@ -34,8 +35,9 @@ public class TestActivity extends BaseTestActivity {
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("个人资料", ProfileActivity.class);
+        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this,"17042512131640894904","8"));
+        add("视频", VideoActivity.class);
         add("会议详情", MeetingDetailsActivity.class);
-        add("视频列表", VideoCategoryActivity.class);
 
         add("登录", LoginActivity.class);
         add("修改密码", ChangePwdActivity.class);

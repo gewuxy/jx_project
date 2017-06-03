@@ -1,6 +1,10 @@
 package yy.doctor;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import lib.yy.BaseConstants;
 
@@ -29,23 +33,37 @@ public interface Constants extends BaseConstants {
         int retrospect = 3;//精彩回顾
     }
 
+    @IntDef({
+            Date.hour,
+            Date.minute,
+            Date.second,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface Date {
+        int hour = 0;
+        int minute = 1;
+        int second = 2;
+    }
 
     /**
      * 性别
      */
     enum TSex {
-        man(1,"男"),
-        female(2,"女");
+        man(1, "男"),
+        female(2, "女");
 
         private int mId;
         private String mSex;
+
         TSex(int id, String sex) {
             mId = id;
             mSex = sex;
         }
+
         public int getId() {
-           return mId;
+            return mId;
         }
+
         public String getSex() {
             return mSex;
         }
@@ -63,9 +81,11 @@ public interface Constants extends BaseConstants {
 
         private String mId;
         private String mEducationBg;
+
         TEducationBg(String mEducationBg) {
             this.mEducationBg = mEducationBg;
         }
+
         public String getEducationBg() {
             return mEducationBg;
         }
@@ -84,9 +104,11 @@ public interface Constants extends BaseConstants {
         //others("其他");
 
         private String mHospitalGrade;
+
         THospitalGrade(String mHospitalGrade) {
             this.mHospitalGrade = mHospitalGrade;
         }
+
         public String getHospitalGrade() {
             return mHospitalGrade;
         }
@@ -102,9 +124,11 @@ public interface Constants extends BaseConstants {
         other("其他");
 
         private String mDoctorGrade;
+
         TDoctorGrade(String mDoctorGrade) {
             this.mDoctorGrade = mDoctorGrade;
         }
+
         public String getDoctorGrade() {
             return mDoctorGrade;
         }
@@ -121,9 +145,11 @@ public interface Constants extends BaseConstants {
         other("其他");
 
         private String mDoctorCategory;
+
         TDoctorCategory(String mDoctorCategory) {
             this.mDoctorCategory = mDoctorCategory;
         }
+
         public String getDoctorCategory() {
             return mDoctorCategory;
         }
