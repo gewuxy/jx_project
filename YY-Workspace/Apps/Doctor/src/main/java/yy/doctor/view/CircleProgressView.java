@@ -49,17 +49,13 @@ public class CircleProgressView extends View {
 
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        if (width != height) {
-            int min = Math.min(width, height);
-            width = min;
-            height = min;
-        }
+        int min = Math.min(width, height);
 
         // 位置
         mRectF.left = mCircleLineStrokeWidth / 2; // 左上角x
         mRectF.top = mCircleLineStrokeWidth / 2; // 左上角y
-        mRectF.right = width - mCircleLineStrokeWidth / 2; // 左下角x
-        mRectF.bottom = height - mCircleLineStrokeWidth / 2; // 右下角y
+        mRectF.right = min - mCircleLineStrokeWidth / 2; // 左下角x
+        mRectF.bottom = min - mCircleLineStrokeWidth / 2; // 右下角y
     }
 
     @Override
