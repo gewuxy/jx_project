@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleProgressView">
+        <!-- 进度的背景颜色 -->
+        <attr name="backProgress" format="reference|color"/>
+        <!-- 进度条的宽度 -->
+        <attr name="width" format="integer"/>
+    </declare-styleable>
+</resources>
