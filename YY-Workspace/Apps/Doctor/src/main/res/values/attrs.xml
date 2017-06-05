@@ -6,6 +6,6 @@
         <!-- 进度条的颜色 -->
         <attr name="circle_progress" format="reference|color"/>
         <!-- 进度条的宽度 -->
-        <attr name="circle_width" format="dimension"/>
+        <attr name="circle_widthDp" format="dimension"/>
     </declare-styleable>
 </resources>

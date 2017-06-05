@@ -30,7 +30,8 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <application >
+    <application
+        android:allowBackup="true">
 
         <!-- Required SDK核心功能-->
         <activity
@@ -45,12 +46,13 @@
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>w
+        </activity>
 
         <!-- Optional 微信分享回调,wxapi必须在包名路径下，否则回调不成功-->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
+
 
 
         <!-- 推送 -->
@@ -135,6 +137,7 @@
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
         <!-- User defined. 用户自定义的广播接收器-->
+        <!-- 在各自的App里定义, 不要写在这里-->
         <!--<receiver
             android:name="您自己定义的Receiver"
             android:enabled="true">
@@ -156,10 +159,10 @@
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
-
-        <meta-data
+        <!-- 在各自的App里定义, 不要写在这里-->
+        <!--<meta-data
             android:name="JPUSH_APPKEY"
-            android:value="88391aa0f118d8646d1fb6e3" />
+            android:value="88391aa0f118d8646d1fb6e3" />-->
 
     </application>
 

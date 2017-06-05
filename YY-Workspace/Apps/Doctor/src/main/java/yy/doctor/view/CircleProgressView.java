@@ -31,13 +31,13 @@ public class CircleProgressView extends View {
 
     private int mProgress = 0;
     private static final float KMaxProgress = 100;
-    private boolean isDrawBgCircle = false;
+    private boolean mIsDrawBgCircle = false;
     private int color;
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        
-        TypedArray ta = context.obtainStyledAttributes(attrs,R.styleable.CircleProgressView);
+
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressView);
         color = ta.getColor(R.styleable.CircleProgressView_circle_backProgress, KBackColor);
         mProgressColor = ta.getColor(R.styleable.CircleProgressView_circle_progress, KProgressColor);
         mLineW = ta.getDimensionPixelOffset(R.styleable.CircleProgressView_circle_widthDp, 0);
@@ -71,13 +71,12 @@ public class CircleProgressView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+
         canvas.drawColor(Color.TRANSPARENT);
-        if ( !isDrawBgCircle) {
-            // 绘制圆圈，进度条背景
-            mPaint.setColor(color);
-            canvas.drawArc(mRectF, -90, 360, false, mPaint);
-            isDrawBgCircle = true;
-        }
+        // 绘制圆圈，进度条背景
+        mPaint.setColor(color);
+        canvas.drawArc(mRectF, -90, 360, false, mPaint);
+
         //绘制进度条
         mPaint.setColor(mProgressColor);
         canvas.drawArc(mRectF, -90, (mProgress / KMaxProgress) * 360, false, mPaint);

@@ -1,4 +1,3 @@
-
 -libraryjars libs/alipaySDK-20150602.jar
 
 -keep class com.alipay.android.app.IAlixPay{*;}

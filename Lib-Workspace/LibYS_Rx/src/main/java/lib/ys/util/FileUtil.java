@@ -110,14 +110,15 @@ public class FileUtil {
         return out.toString();
     }
 
-    public static void saveFile(File file, String content) {
+    public static boolean saveFile(File file, String content) {
 
         FileOutputStream os = null;
         try {
             os = new FileOutputStream(file);
             os.write(content.getBytes());
+            return true;
         } catch (Exception e) {
-
+            return false;
         } finally {
             if (os != null) {
                 try {

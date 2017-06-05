@@ -52,9 +52,10 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
 
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (mNetwork != null) {
-            mNetwork.exeNetworkReq(id, req, l);
+        if (mNetwork == null) {
+            mNetwork = new NetworkOptImpl(this, this);
         }
+        mNetwork.exeNetworkReq(id, req, l);
     }
 
     @Override

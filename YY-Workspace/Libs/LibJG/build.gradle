@@ -21,10 +21,5 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/jshare-android-v1.0.0.jar')
-    compile files('libs/jshare-sina-android-v1.0.0.jar')
-    compile files('libs/jshare-wechat-android-v1.0.0.jar')
-    compile files('libs/janalytics-android_v1.1.1.jar')
-    compile files('libs/jcore-android_v1.1.3.jar')
-    compile files('libs/jpush-android_v3.0.6.jar')
+    compile project(path: ':Lib-Workspace:LibYS_Rx')
 }
