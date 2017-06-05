@@ -34,6 +34,7 @@ public class ExchangeActivity extends BaseFormActivity {
     private NetworkImageView mIvGoods;
     private TextView mTvName;
     private TextView mTvEpn;
+    private TextView mTvPayEpn;
 
     private int mGoodId;
     private String mGoodName;
@@ -120,6 +121,7 @@ public class ExchangeActivity extends BaseFormActivity {
         mIvGoods = findView(R.id.epc_item_iv);
         mTvName = findView(R.id.epc_item_tv_name);
         mTvEpn = findView(R.id.epc_item_tv_epn);
+        mTvPayEpn = findView(R.id.exchange_tv);
     }
 
     @Override
@@ -128,6 +130,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
         mTvName.setText(mGoodName);
         mTvEpn.setText(mEpn + "象数");
+        mTvPayEpn.setText(mEpn + "象数");
 
         mIvGoods.placeHolder(R.mipmap.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))

@@ -22,18 +22,22 @@ public class GlConfig {
     private List<Config> mHospitalGrade;
     private List<GroupConfig> mTitle;
 
+    //性别
     public List<Config> getSexConfigs() {
         return mSexConfigs;
     }
 
+    //学历
     public List<Config> getEducationBgConfigs() {
         return mEducationBgConfigs;
     }
 
+    //医院级别
     public List<Config> getHospitalGrade() {
         return mHospitalGrade;
     }
 
+    //医生职称
     public List<GroupConfig> getTitle() {
         return mTitle;
     }

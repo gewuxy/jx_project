@@ -8,6 +8,7 @@ import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.UrlUtil.UrlData;
 import yy.doctor.network.UrlUtil.UrlEpc;
 import yy.doctor.network.UrlUtil.UrlEpn;
 import yy.doctor.network.UrlUtil.UrlHome;
@@ -21,6 +22,7 @@ import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
+import yy.doctor.util.CacheUtil;
 
 
 /**
@@ -52,6 +54,8 @@ public class NetFactory {
     public interface UserParam {
         String KUserName = "username";
         String KPassword = "password";
+        String KOldPwd = "oldpwd";
+        String KNewPwd = "newpwd";
     }
 
     public interface MeetParam {
@@ -146,6 +150,24 @@ public class NetFactory {
         String KEpcDetail = "id";  //商品id
     }
 
+    public interface CollectMeetingParam {
+        String KMeetingId = "meetId";
+        String KTurnTo = "turnTo";
+    }
+
+    public interface CollectionMeetingsParam {
+        String KPageNum = "pageNum";
+        String KPageSize = "pageSize";
+        String KType = "type";
+    }
+
+    public interface ThomsonParam {
+        String KPreId = "preId";
+        String KCategoryId = "categoryId";
+        String KPageNum = "pageNum";
+        String KPageSize = "pageSize";
+    }
+
     /**
      * 开机广告
      *
@@ -196,6 +218,18 @@ public class NetFactory {
         return newGet(UrlUser.KLogin)
                 .param(UserParam.KUserName, name)
                 .param(UserParam.KPassword, pwd)
+                .build();
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @param username
+     * @return
+     */
+    public static NetworkReq forgetPwd(String username) {
+        return newGet(UrlUser.KForgetPwd)
+                .param(UserParam.KUserName, username)
                 .build();
     }
 
@@ -271,6 +305,20 @@ public class NetFactory {
     }
 
     /**
+     * 忘记密码
+     *
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     */
+    public static NetworkReq changePwd(String oldPwd, String newPwd) {
+        return newPost(UrlUser.KChangePwd)
+                .param(UserParam.KOldPwd, oldPwd)
+                .param(UserParam.KNewPwd, newPwd)
+                .build();
+    }
+
+    /**
      * 省份
      *
      * @return
@@ -292,11 +340,31 @@ public class NetFactory {
     }
 
     /**
+     * 收藏的会议列表
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param type     该值为空或0时，表示会议类型
+     * @return
+     */
+    public static NetworkReq collectionMeetings(int pageNum, int pageSize, int type) {
+        return newGet(UrlUser.KCollectionMeetings)
+                .param(CollectionMeetingsParam.KPageNum, pageNum)
+                .param(CollectionMeetingsParam.KPageSize, pageSize)
+                .param(CollectionMeetingsParam.KType, type)
+                .build();
+    }
+
+    public static NetworkReq collectionMeetings(int pageNum, int pageSize) {
+        return collectionMeetings(pageNum, pageSize, 0);
+    }
+
+    /**
      * 象数明细
      *
      * @return
      */
-    public static NetworkReq epnDedails() {
+    public static NetworkReq epnDetails() {
         return newGet(UrlEpn.KEpnDetails)
                 .build();
     }
@@ -396,14 +464,54 @@ public class NetFactory {
 
     /**
      * 单位号资料列表
+     *
      * @param pageNum
      * @param pageSize
      * @return
      */
-    public static NetworkReq unitNumDatum(int pageNum, int pageSize) {
-        return newGet(UrlUnitNum.KUnitNumDatum)
+    public static NetworkReq unitNumData(int pageNum, int pageSize) {
+        return newGet(UrlUnitNum.KUnitNumData)
                 .param(UnitNumDetailParam.KPageNum, pageNum)
                 .param(UnitNumDetailParam.KPageSize, pageSize)
+                .build();
+    }
+
+    /**
+     * 单位号资料下载
+     * @param url
+     * @param fileName
+     * @return
+     */
+    public static NetworkReq downloadData(String url,String fileName) {
+        return newDownload(url, fileName)
+                .build();
+    }
+
+    /**
+     * 汤森路透
+     *
+     * @param preId 不传值的时候，返回汤森路透下一层的子栏目，传值的时候返回该preId下面的子栏目
+     * @return
+     */
+    public static NetworkReq thomson(String preId) {
+        return newGet(UrlData.KThomson)
+                .param(ThomsonParam.KPreId, preId)
+                .build();
+    }
+
+    /**
+     * 汤森路透资料
+     *
+     * @param categoryId 上一功能中的category的id
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public static NetworkReq thomsonData(String categoryId, int pageNum, int pageSize) {
+        return newGet(UrlData.KThomSonData)
+                .param(ThomsonParam.KCategoryId, categoryId)
+                .param(ThomsonParam.KPageNum, pageNum)
+                .param(ThomsonParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -561,6 +669,20 @@ public class NetFactory {
                 .build();
     }
 
+    /**
+     * 收藏会议
+     *
+     * @param meetId
+     * @param turnTo 0:取消收藏，1:收藏
+     * @return
+     */
+    public static NetworkReq collectMeeting(String meetId, int turnTo) {
+        return newGet(UrlMeet.KCollectMeeting)
+                .param(CollectMeetingParam.KMeetingId, meetId)
+                .param(CollectMeetingParam.KTurnTo, turnTo)
+                .build();
+    }
+
     /*********************************
      * 以下是工具
      */
@@ -601,16 +723,27 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
+    /**
+     * 获取download请求
+     * @param url
+     * @param fileName
+     * @return
+     */
+    public static Builder newDownload(String url, String fileName) {
+        return NetworkReq.newBuilder(url)
+                .downloadFile(CacheUtil.getFileCacheDir(), fileName)
+                .header(getBaseHeader());
+    }
+
     private static List<CommonPair> getBaseHeader() {
         List<CommonPair> ps = new ArrayList<>();
 
         // TODO: ???公共参数
-//        ps.add(newPair(BaseParam.device_os, "android"));
+        // ps.add(newPair(BaseParam.device_os, "android"));
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
         }
-
         return ps;
     }
 

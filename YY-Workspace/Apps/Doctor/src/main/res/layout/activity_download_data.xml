@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -13,6 +14,7 @@
 
         <yy.doctor.view.CircleProgressView
             android:id="@+id/download_progress_bar"
+            view:circle_widthDp="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -35,7 +37,7 @@
                     android:id="@+id/download_tv_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="22K"
+                    android:text="0KB"
                     android:textSize="23dp"
                     android:textColor="@color/text_0882e7"/>
 
@@ -52,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="36K"
+                    android:text=""
                     android:textColor="@color/text_666"
                     android:textSize="10dp"/>
 
@@ -64,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/download_layout_content"
                 android:layout_marginTop="20dp"
-                android:text="正在下载..."
+                android:text="未开始下载"
                 android:textSize="10dp"
                 android:textColor="@color/text_888"/>
 

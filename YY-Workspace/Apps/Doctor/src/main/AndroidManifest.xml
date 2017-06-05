@@ -9,6 +9,9 @@
 
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <!--生成快捷方式-->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -114,7 +117,7 @@
 
         <!-- data -->
         <activity
-            android:name=".activity.data.ThomsonLibActivity"
+            android:name=".activity.data.ThomsonActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -198,6 +201,32 @@
 
         <!-- service -->
         <service android:name=".serv.LogoutServ"/>
+        <service android:name=".serv.DownloadServ"/>
+
+        <!--极光推送-->
+        <receiver
+            android:name=".receiver.JPushReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required 用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required 用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required 用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+
+        <!--88391aa0f118d8646d1fb6e3-->
+        <!--d8a2e61332cb4ca402246d1f-->
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="d8a2e61332cb4ca402246d1f" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

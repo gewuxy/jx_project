@@ -27,7 +27,6 @@ import lib.ys.util.PhotoUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
-import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
@@ -36,10 +35,10 @@ import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.activity.register.ProvinceActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
-import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.Modify;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.UpHeadImage;
@@ -160,16 +159,13 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        String strDepartments = Profile.inst().getString(department);
-        if (strDepartments.equals("")) {
-            strDepartments = ResLoader.getString(R.string.hint_not_fill);
-        }
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.departments)
                 .drawable(R.mipmap.ic_more)
                 .name("科室")
                 .intent(new Intent(this, SectionActivity.class))
-                .text(strDepartments)
+                .text(Profile.inst().getString(department))
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -539,8 +535,11 @@ public class ProfileActivity extends BaseFormActivity {
     protected void onDestroy() {
         super.onDestroy();
         //回收bitmap
-        if (mBmp != null) {
+        if (mBmp != null && !mBmp.isRecycled()) {
             ClipImageActivity.RecycleBmp();
+        }
+        if (mCircleBmp != null && !mCircleBmp.isRecycled()) {
+            mCircleBmp.recycle();
         }
     }
 

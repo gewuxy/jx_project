@@ -6,14 +6,14 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.R;
-import yy.doctor.activity.data.ThomsonLibActivity;
-import yy.doctor.adapter.ThomsonLibAdapter;
+import yy.doctor.activity.data.ThomsonActivity;
+import yy.doctor.adapter.ThomsonAdapter;
 
 /**
  * @author CaiXiang
  * @since 2017/4/24
  */
-public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
+public class ThomsonFrag extends BaseSRListFrag<String, ThomsonAdapter> {
 
     private String mStrName;
 
@@ -23,7 +23,6 @@ public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
         for (int i = 0; i < 12; ++i) {
             addItem(i + "");
         }
-
     }
 
     @Override
@@ -59,6 +58,6 @@ public class ThomsonLibFrag extends BaseSRListFrag<String, ThomsonLibAdapter> {
     public void onItemClick(View v, int position) {
         super.onItemClick(v, position);
 
-        startActivity(ThomsonLibActivity.class);
+        startActivity(ThomsonActivity.class);
     }
 }

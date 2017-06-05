@@ -3,21 +3,26 @@ package yy.doctor.frag;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
+import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.NoticeActivity;
 import yy.doctor.adapter.HomeAdapter;
+import yy.doctor.adapter.HomeAdapter.onTvAttentionListener;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecUnitNum;
+import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.network.NetFactory;
 import yy.doctor.view.BannerView;
@@ -28,11 +33,13 @@ import static lib.yy.network.BaseJsonParser.evs;
  * @author CaiXiang   extends BaseSRListFrag<Home>
  * @since 2017/4/5
  */
-public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> {
+public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTvAttentionListener {
 
-    private static final int KReqBannerId = 1;
-    private static final int KReqMeetingId = 2;
-    private static final int KReqUnitNumId = 3;
+    private static final int KReqIdBanner = 1;
+    private static final int KReqIdMeeting = 2;
+    private static final int KReqIdUnitNum = 3;
+    private static final int KReqIdAttention = 4;
+    private static final int KAttention = 1;  //关注单位号
 
     private boolean mBannerReqIsOK = false;
     private boolean mUnitNumReqIsOK = false;
@@ -77,32 +84,56 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> {
     @Override
     public void setViews() {
         super.setViews();
+
+        getAdapter().setTvAttentionListener(this);
     }
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(KReqBannerId, NetFactory.banner());
-        exeNetworkReq(KReqUnitNumId, NetFactory.recommendUnitNum());
-        exeNetworkReq(KReqMeetingId, NetFactory.recommendMeeting());
+        exeNetworkReq(KReqIdBanner, NetFactory.banner());
+        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
+        exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting());
+    }
+
+    private boolean isAttention = false;
+
+    @Override
+    public void onTvAttentionClick(int attention, int unitNumId, TextView tv) {
+        //判断是否已经关注
+        if (attention == 1) {
+            // do nothing
+        } else {
+            LogMgr.d(TAG, "222");
+            tv.setSelected(true);
+            tv.setClickable(false);
+            tv.setText("已关注");
+            exeNetworkReq(KReqIdAttention, NetFactory.attention(unitNumId, KAttention));
+        }
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         ListResult result = null;
-        if (id == KReqBannerId) {
+        if (id == KReqIdBanner) {
             result = evs(r.getText(), Banner.class);
             mBannerReqIsOK = result.isSucceed();
             if (mBannerReqIsOK) {
                 mBannerView.setData(result.getData());
             }
-        } else if (id == KReqUnitNumId) {
-            result =  evs(r.getText(), RecUnitNum.class);
+        } else if (id == KReqIdUnitNum) {
+            result = evs(r.getText(), RecUnitNum.class);
             mUnitNumReqIsOK = result.isSucceed();
             if (mUnitNumReqIsOK) {
                 mRecUnitNums = result.getData();
             }
-        } else if (id == KReqMeetingId) {
-            result =  evs(r.getText(), RecMeeting.class);
+
+            if (BuildConfig.TEST) {
+                for (RecUnitNum num : mRecUnitNums) {
+                    num.put(TRecUnitNum.attention, 0);
+                }
+            }
+        } else if (id == KReqIdMeeting) {
+            result = evs(r.getText(), RecMeeting.class);
             mMeetingReqIsOK = result.isSucceed();
             if (mMeetingReqIsOK) {
                 mRecMeetings = result.getData();
@@ -137,4 +168,5 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> {
             super.onNetworkSuccess(id, result);
         }
     }
+
 }

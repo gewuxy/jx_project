@@ -12,7 +12,8 @@ public class UnitNumDetail extends EVal<TUnitNumDetail> {
 
     public enum TUnitNumDetail {
 
-        id,	  //公众号资料id
+        attention,  //是否已经关注单位号 1 已经关注  0 未关注
+        id,      //公众号资料id
         nickname,    //昵称
         headimg,    //头像
         attentionNum,    //关注人数

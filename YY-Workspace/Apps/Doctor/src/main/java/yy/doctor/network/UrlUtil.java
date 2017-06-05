@@ -45,10 +45,13 @@ public class UrlUtil {
     public interface UrlUser {
         String KAd = "advert";
         String KLogin = "login";
-        String KLogout = "logout";
+        String KLogout = "download";
+        String KForgetPwd = "regist/pwd/reset";
         String KProfile = "user/info";
         String KModify = "user/modify";
         String KUpHeaderImg = "user/upheadimg";
+        String KChangePwd = "user/resetpwd";
+        String KCollectionMeetings = "myFavorite";
     }
 
     public interface UrlRegister {
@@ -85,6 +88,14 @@ public class UrlUtil {
         String KSend = KMeetBase + "message/send";
         String KVideo = KMeetBase + "video/sublist";
         String KHistories = KMeetBase + "message/histories";
+
+        String KCollectMeeting = KMeetBase +  "store";
+    }
+
+    public interface UrlData {
+        String KThomson = "data/thomson/category";
+        String KThomSonData = "data/thomson/datas";
+        String KPreview = "data/view";
     }
 
     public interface UrlEpn {
@@ -101,9 +112,9 @@ public class UrlUtil {
 
     public interface UrlUnitNum {
         String KUnitNum = "publicAccount/mySubscribe";
-        String KAttention = "publicAccount/SubscribeOrNot";
+        String KAttention = "publicAccount/subscribe";
         String KUnitNumDetail = "publicAccount/unitInfo";
-        String KUnitNumDatum = "publicAccount/materialList";
+        String KUnitNumData = "publicAccount/materialList";
     }
 
     public interface UrlSearch {

@@ -12,16 +12,24 @@ public class CacheUtil extends CacheUtilEx {
 
     private static final String KBmpCacheDef = KHomeDir + "cache/bmp/";
 
+    private static final String KFileCacheDef = KHomeDir + "cache/file/";
+
     private static String mBmpCacheDir;
+    private static String mFileCacheDir;
 
     static {
         init(KHomeDir);
 
         mBmpCacheDir = makeDir(KBmpCacheDef);
+        mFileCacheDir = makeDir(KFileCacheDef);
     }
 
     public static String getBmpCacheDir() {
         return mBmpCacheDir;
+    }
+
+    public static String getFileCacheDir() {
+        return mFileCacheDir;
     }
 
 }

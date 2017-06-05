@@ -2,8 +2,7 @@ package yy.doctor.adapter;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,33 +20,48 @@ import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 
 public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNumVH> {
 
+    private onAttentionListener mListener;
+
+    @Override
+    protected int getConvertViewResId() {
+        return R.layout.layout_home_unit_num_item;
+    }
+
     @Override
     protected void refreshView(int position, HomeUnitNumVH holder) {
 
         List<RecUnitNum> list = getData();
-        holder.getTvName().setText(list.get(position).getString(TRecUnitNum.nickname));
+        RecUnitNum unitNum = list.get(position);
+        holder.getTvName().setText(unitNum.getString(TRecUnitNum.nickname));
         holder.getIv().placeHolder(R.mipmap.ic_default_home_unit_num).load();
         holder.getIv().setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                UnitNumDetailActivity.nav(getContext(), 8);
+                UnitNumDetailActivity.nav(getContext(), unitNum.getInt(TRecUnitNum.id));
             }
         });
-
-        holder.getNestCheckBox().setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    holder.getNestCheckBox().getRealCheckBox().setText("已关注");
-                } else {
-                    holder.getNestCheckBox().getRealCheckBox().setText("关注");
+        //判断用户是否已经关注过这个单位号
+        TextView tvAttention = holder.getTvAttention();
+        if (unitNum.getInt(TRecUnitNum.attention) == 1) {
+            tvAttention.setSelected(true);
+            tvAttention.setClickable(false);
+            tvAttention.setText("已关注");
+        }
+        tvAttention.setOnClickListener(v -> {
+            if (mListener != null) {
+                if (tvAttention.isClickable()) {
+                    mListener.onAttentionClick(unitNum.getInt(TRecUnitNum.attention), unitNum.getInt(TRecUnitNum.id), tvAttention);
                 }
             }
         });
     }
 
-    @Override
-    protected int getConvertViewResId() {
-        return R.layout.layout_home_unit_num_item;
+    public interface onAttentionListener {
+        void onAttentionClick(int attention, int unitNumId, TextView tv);
+    }
+
+    public void setAttentionListener(onAttentionListener l) {
+        mListener = l;
     }
 }

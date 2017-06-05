@@ -16,6 +16,7 @@ import cn.jiguang.share.android.api.JShareInterface;
 import cn.jiguang.share.android.api.PlatActionListener;
 import cn.jiguang.share.android.api.Platform;
 import cn.jiguang.share.android.api.ShareParams;
+import lib.ys.LogMgr;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
@@ -27,6 +28,10 @@ import yy.doctor.R;
  */
 public class ShareDialog extends BaseDialog {
 
+    private static final int KIdWechat = 0;
+    private static final int KIdWechatMoments = 1;
+    private static final int KIdWechatFavorite = 2;
+    private static final int KIdSinaWeibo = 3;
     private ImageView mIvWechatFriendCircle;
     private ImageView mIvWechatFriends;
     private ImageView mIvSina;
@@ -41,6 +46,11 @@ public class ShareDialog extends BaseDialog {
 
     public ShareDialog(Context context) {
         super(context);
+    }
+
+    public ShareDialog(Context context, String mShareUrl) {
+        super(context);
+        this.mShareUrl = mShareUrl;
     }
 
     public ShareDialog(Context context, String mShareUrl, String mShareTitle) {
@@ -110,10 +120,10 @@ public class ShareDialog extends BaseDialog {
         setGravity(Gravity.BOTTOM);
 
         mPlatformList = JShareInterface.getPlatformList();
-        /*LogMgr.d(TAG,  "mPlatformList = " + mPlatformList.size());
+        LogMgr.d(TAG,  "mPlatformList = " + mPlatformList.size());
         for (int i = 0; i < mPlatformList.size(); ++i) {
             LogMgr.d(TAG, "platname = " + mPlatformList.get(i));
-        }*/
+        }
     }
 
     @Override
@@ -129,17 +139,17 @@ public class ShareDialog extends BaseDialog {
         int id = v.getId();
         switch (id) {
             case R.id.dialog_share_iv_wechat_friend_cicle: {
-                mPlatName = mPlatformList.get(1);
+                mPlatName = mPlatformList.get(KIdWechatMoments);
                 JShareInterface.share(mPlatName, shareParams, mPlatActionListener);
             }
             break;
             case R.id.dialog_share_iv_wechat_friends: {
-                mPlatName = mPlatformList.get(0);
+                mPlatName = mPlatformList.get(KIdWechat);
                 JShareInterface.share(mPlatName, shareParams, mPlatActionListener);
             }
             break;
             case R.id.dialog_share_iv_sina: {
-                mPlatName = mPlatformList.get(3);
+                mPlatName = mPlatformList.get(KIdSinaWeibo);
                 JShareInterface.share(mPlatName, shareParams, mPlatActionListener);
             }
             break;

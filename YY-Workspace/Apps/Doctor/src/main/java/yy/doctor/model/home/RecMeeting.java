@@ -24,8 +24,9 @@ public class RecMeeting extends EVal<TRecMeeting> implements IHome {
         endTime,
         startTime,
         pubUserHead,
-        lecturerImg
-
+        pubUserId, // 单位号id
+        lecturerImg,
+        stored, // 是否已经收藏， 0 未收藏  1 收藏
+        state, // 0 草稿    1 未开始  2 进行中   3 已结束
         }
-
 }

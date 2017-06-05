@@ -3,12 +3,15 @@ package yy.doctor.adapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
+import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.adapter.VH.HomeVH;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.IHome.HomeType;
@@ -22,14 +25,18 @@ import yy.doctor.model.home.RecUnitNums;
  */
 public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
-    private LinearLayoutManager linearLayoutManager;
+    private onTvAttentionListener mListener;
     private HomeUnitNumAdapter mHomeUnitNumAdapter;
 
     @Override
     protected void initView(int position, HomeVH holder, int itemType) {
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mHomeUnitNumAdapter = new HomeUnitNumAdapter();
+        if (itemType == HomeType.unit_num) {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mHomeUnitNumAdapter = new HomeUnitNumAdapter();
+            holder.getRecyclerView().setLayoutManager(linearLayoutManager);
+            holder.getRecyclerView().setAdapter(mHomeUnitNumAdapter);
+        }
     }
 
     @Override
@@ -37,8 +44,8 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
         if (itemType == HomeType.meeting) {
             RecMeeting meeting = (RecMeeting)getItem(position);
             holder.getTvTitle().setText(meeting.getString(TRecMeeting.meetName));
-            holder.getTvSpeakerName().setText(meeting.getString(TRecMeeting.lecturer));
-            holder.getTvSpeakerRank().setText(meeting.getString(TRecMeeting.lecturerTile));
+            //holder.getTvSpeakerName().setText(meeting.getString(TRecMeeting.lecturer));
+            //holder.getTvSpeakerRank().setText(meeting.getString(TRecMeeting.lecturerTile));
             holder.getIvSpeaker()
                     .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
                     .load();
@@ -46,12 +53,34 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                     .placeHolder(R.mipmap.ic_default_home_meeting_unit_num)
                     .renderer(new CircleRenderer())
                     .load();
+            //判断用户是否已经收藏过这个会议
+            if (meeting.getInt(TRecMeeting.stored) == 1) {
+                showView(holder.getTvCollection());
+            } else {
+                goneView(holder.getTvCollection());
+            }
+            //会议状态判断
+            if (meeting.getInt(TRecMeeting.state) == MeetsState.not_started) {
+                holder.getTvStatus().setText("未开始");
+                holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_not_started);
+            } else if (meeting.getInt(TRecMeeting.state) == MeetsState.under_way) {
+                holder.getTvStatus().setText("进行中");
+                holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_under_way);
+            } else if (meeting.getInt(TRecMeeting.state) == MeetsState.retrospect) {
+                holder.getTvStatus().setText("精彩回顾");
+                holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_retrospect);
+            } else {
+                //do nothing
+            }
+
+            //单位号头像点击事件
             holder.getIvUnit().setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UnitNumDetailActivity.nav(getContext(), 8);
+                    UnitNumDetailActivity.nav(getContext(), meeting.getInt(TRecMeeting.pubUserId));
                 }
             });
+            //会议点击事件
             holder.getMeetingItemLayout().setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -62,8 +91,16 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
         } else {
             RecUnitNums UnitNums = (RecUnitNums) getItem(position);
             mHomeUnitNumAdapter.setData(UnitNums.getData());
-            holder.getRecyclerView().setLayoutManager(linearLayoutManager);
-            holder.getRecyclerView().setAdapter(mHomeUnitNumAdapter);
+            mHomeUnitNumAdapter.setAttentionListener(new onAttentionListener() {
+
+                @Override
+                public void onAttentionClick(int attention, int unitNumId, TextView tv) {
+                    if (mListener != null) {
+                        mListener.onTvAttentionClick(attention, unitNumId, tv);
+                    }
+                }
+            });
+
             holder.getRecyclerViewFooter().setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -98,6 +135,14 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
     @Override
     public int getViewTypeCount() {
         return HomeType.class.getDeclaredFields().length;
+    }
+
+    public interface onTvAttentionListener {
+        void onTvAttentionClick(int attention, int unitNumId, TextView tv);
+    }
+
+    public void setTvAttentionListener(onTvAttentionListener l) {
+        mListener = l;
     }
 
 }

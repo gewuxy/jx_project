@@ -22,9 +22,9 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 
+import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.linkman;
-import static yy.doctor.model.Profile.TProfile.place;
 
 /**
  * @author CaiXiang
@@ -106,7 +106,6 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.epc)
                 .build());
 
-
         addItem(new Builder(FormType.divider_large).build());
 
         addItem(new Builder(FormType.content)
@@ -122,7 +121,6 @@ public class MeFrag extends BaseFormFrag {
                 .name("帮助与反馈")
                 .related(RelatedId.help_and_feedback)
                 .build());
-
     }
 
     @Override
@@ -132,14 +130,13 @@ public class MeFrag extends BaseFormFrag {
         mIvAvatar = findView(R.id.me_header_iv);
         mTvName = findView(R.id.me_header_tv_name);
         mTvHospital = findView(R.id.me_header_tv_hospital);
-
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mTvName.setText(Profile.inst().getString(linkman) + "  " + Profile.inst().getString(place));
+        mTvName.setText(Profile.inst().getString(linkman) + "  " + Profile.inst().getString(department));
         mTvHospital.setText(Profile.inst().getString(hospital));
 
         setOnClickListener(R.id.layout_me_header);
@@ -147,7 +144,6 @@ public class MeFrag extends BaseFormFrag {
                 .renderer(new CircleRenderer())
                 //.renderer(new CornerRenderer(fitDp(15)))  圆角
                 .load();
-
     }
 
     //head的点击事件
@@ -167,7 +163,6 @@ public class MeFrag extends BaseFormFrag {
 
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
-
             case RelatedId.my_attention: {
                 startActivity(UnitNumActivity.class);
             }

@@ -1,38 +1,31 @@
 package yy.doctor.activity.me;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.adapter.CollectionMeetingAdapter;
+import yy.doctor.model.me.CollectionMeetings;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
- * 收藏会议
+ * 收藏的会议
  *
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class CollectionMeetingActivity extends BaseListActivity<String, CollectionMeetingAdapter> {
+public class CollectionMeetingActivity extends BaseSRListActivity<CollectionMeetings, CollectionMeetingAdapter> {
 
     @Override
     public void initData() {
-
-        for (int i = 0; i < 6; ++i) {
-            addItem(i + "");
-        }
-
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, "收藏的会议", this);
-
     }
 
     @Override
-    public void setViews() {
-        super.setViews();
-
-        getLv().setDivider(null);
+    public void getDataFromNet() {
+        exeNetworkReq(NetFactory.collectionMeetings(1, 8));
     }
 }

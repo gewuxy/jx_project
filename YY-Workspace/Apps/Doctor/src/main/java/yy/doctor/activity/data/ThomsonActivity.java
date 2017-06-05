@@ -11,18 +11,17 @@ import lib.yy.activity.base.BaseWebViewActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.MainActivity;
-import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class ThomsonLibActivity extends BaseWebViewActivity {
+public class ThomsonActivity extends BaseWebViewActivity {
 
     private String mUrl;
     public static void nav(Context context, String url) {
-        Intent i = new Intent(context, UnitNumDetailActivity.class);
+        Intent i = new Intent(context, ThomsonActivity.class);
         i.putExtra(Extra.KData, url);
         LaunchUtil.startActivity(context, i);
     }
@@ -37,14 +36,13 @@ public class ThomsonLibActivity extends BaseWebViewActivity {
 
         Util.addBackIcon(bar, "ABCD", this);
         bar.addViewRight(R.mipmap.nav_bar_ic_home, new OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
                 startActivity(MainActivity.class);
-
             }
         });
-
     }
 
     @Override

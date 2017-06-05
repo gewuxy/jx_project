@@ -46,27 +46,19 @@
 
     </LinearLayout>
 
-    <lib.ys.view.NestCheckBox
-        android:id="@+id/unit_num_detail_check_box_attention"
+    <TextView
+        android:id="@+id/unit_num_detail_tv_attention"
         android:layout_width="89dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginBottom="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
-        android:background="@drawable/unit_num_detail_checkbox_bg_selector"
-        android:gravity="center">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="6dp"
-            android:background="@drawable/transparent"
-            android:button="@drawable/unit_num_detail_checkbox_btn_selector"
-            android:text="关注"
-            android:textColor="@color/white"
-            android:textSize="12dp"/>
-
-    </lib.ys.view.NestCheckBox>
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/unit_num_detail_tv_attention_selector"
+        android:paddingLeft="25dp"
+        android:drawablePadding="5dp"
+        android:background="@drawable/unit_num_detail_tv_attention_bg_selector"
+        android:text="关注"
+        android:textColor="@color/white"
+        android:textSize="12dp"/>
 
 </LinearLayout>

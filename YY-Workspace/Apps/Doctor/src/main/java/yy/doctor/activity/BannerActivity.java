@@ -10,7 +10,6 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseWebViewActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.util.Util;
 
@@ -22,7 +21,7 @@ public class BannerActivity extends BaseWebViewActivity {
 
     private String mUrl;
     public static void nav(Context context, String url) {
-        Intent i = new Intent(context, UnitNumDetailActivity.class);
+        Intent i = new Intent(context, BannerActivity.class);
         i.putExtra(Extra.KData, url);
         LaunchUtil.startActivity(context, i);
     }
@@ -40,16 +39,15 @@ public class BannerActivity extends BaseWebViewActivity {
 
             @Override
             public void onClick(View v) {
-                ShareDialog shareDialog = new ShareDialog(BannerActivity.this);
+                ShareDialog shareDialog = new ShareDialog(BannerActivity.this, mUrl);
                 shareDialog.show();
             }
         });
-
     }
 
     @Override
     protected void onLoadStart() {
-
+        getWebView().loadUrl(mUrl);
     }
 
 }

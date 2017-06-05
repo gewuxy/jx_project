@@ -14,6 +14,7 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -32,10 +33,9 @@ public class OpenDownloadDataActivity extends BaseActivity {
     private String mType;
     private String mNum;
 
-    public static void nav(Context context, String name, String url, String type, String num) {
-        Intent i = new Intent(context, DownloadDataActivity.class)
+    public static void nav(Context context, String name, String type, String num) {
+        Intent i = new Intent(context, OpenDownloadDataActivity.class)
                 .putExtra(Extra.KName, name)
-                .putExtra(Extra.KData, url)
                 .putExtra(Extra.KType, type)
                 .putExtra(Extra.KNum, num);
         LaunchUtil.startActivity(context, i);
@@ -64,7 +64,6 @@ public class OpenDownloadDataActivity extends BaseActivity {
     public void findViews() {
 
         mIv = findView(R.id.open_download_data_ic);
-
     }
 
     @Override
@@ -72,7 +71,6 @@ public class OpenDownloadDataActivity extends BaseActivity {
 
         mIv.setImageResource(R.mipmap.open_data_ic_pdf);
         setOnClickListener(R.id.open_download_data_tv_btn);
-
     }
 
     @Override
@@ -80,10 +78,13 @@ public class OpenDownloadDataActivity extends BaseActivity {
         super.onClick(v);
 
         if (v.getId() == R.id.open_download_data_tv_btn) {
-            Intent intent = getPdfFileIntent("");
-            startActivity(intent);
+            try {
+                Intent intent = getPdfFileIntent(CacheUtil.getFileCacheDir() + "测试文件.pdf");
+                startActivity(intent);
+            } catch (Exception e) {
+                showToast("没有安装相应的软件");
+            }
         }
-
     }
 
     /**

@@ -4,10 +4,16 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 
+import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseActivity;
+import lib.yy.network.Result;
 import yy.doctor.R;
+import yy.doctor.model.me.ChangePwd;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -43,14 +49,12 @@ public class ChangePwdActivity extends BaseActivity {
         mEtOldPwd = findView(R.id.change_pwd_et_old);
         mEtNewPwd = findView(R.id.change_pwd_et_new);
         mEtConfirmPwd = findView(R.id.change_pwd_et_confirm);
-
     }
 
     @Override
     public void setViews() {
 
         setOnClickListener(R.id.change_pwd_tv);
-
     }
 
     @Override
@@ -64,23 +68,38 @@ public class ChangePwdActivity extends BaseActivity {
                 String oldPwd = mEtOldPwd.getText().toString();
                 String newPwd = mEtNewPwd.getText().toString();
                 String confirmPwd = mEtConfirmPwd.getText().toString();
-
                 if (TextUtil.isEmpty(oldPwd)) {
                     showToast("请输入旧密码");
-                }
-                if (TextUtil.isEmpty(newPwd)) {
+                } else if (TextUtil.isEmpty(newPwd)) {
                     showToast("请输入新密码");
-                }
-                if (TextUtil.isEmpty(confirmPwd)) {
+                } else if (TextUtil.isEmpty(confirmPwd)) {
                     showToast("请输入确认密码");
-                }
-                if (!newPwd.equals(confirmPwd)) {
+                } else if (!newPwd.equals(confirmPwd)) {
                     showToast("确认密码与新密码不一致！");
+                } else {
+                    refresh(RefreshWay.dialog);
+                    exeNetworkReq(NetFactory.changePwd(oldPwd, newPwd));
                 }
-
             }
             break;
         }
+    }
 
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), ChangePwd.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+
+        stopRefresh();
+        Result<ChangePwd> r = (Result<ChangePwd>) result;
+        if (r.isSucceed()) {
+            showToast("密码修改成功");
+            finish();
+        } else {
+            showToast(r.getError());
+        }
     }
 }

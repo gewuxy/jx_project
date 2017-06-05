@@ -18,7 +18,7 @@ import yy.doctor.R;
 import yy.doctor.frag.data.ClinicalGuideFrag;
 import yy.doctor.frag.data.ClinicalShareFrag;
 import yy.doctor.frag.data.DrugListbFrag;
-import yy.doctor.frag.data.ThomsonLibFrag;
+import yy.doctor.frag.data.ThomsonFrag;
 
 /**
  * 数据
@@ -38,7 +38,7 @@ public class DataFrag extends BaseVPFrag {
             PageType.clinical_share,
     })
     private @interface PageType {
-        int thomson_lib = 0;  //汤森路透图书馆
+        int thomson_lib = 0;  //汤森路透
         int drug_list = 1;    //药品目录
         int clinical_guide = 2;   //临床指南
         int clinical_share = 3;   //临床分享
@@ -53,7 +53,7 @@ public class DataFrag extends BaseVPFrag {
     @Override
     public void initData() {
 
-        add(new ThomsonLibFrag());
+        add(new ThomsonFrag());
         add(new DrugListbFrag());
         add(new ClinicalGuideFrag());
         add(new ClinicalShareFrag());
@@ -122,7 +122,7 @@ public class DataFrag extends BaseVPFrag {
 
     private void addTabs() {
 
-        addTab(PageType.thomson_lib, "汤森路透图书馆");
+        addTab(PageType.thomson_lib, "汤森路透");
         addTab(PageType.drug_list, "药品目录");
         addTab(PageType.clinical_guide, "临床指南");
         addTab(PageType.clinical_share, "临床分享");

@@ -57,7 +57,7 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
         if (BuildConfig.TEST) {
-            mEtName.setText("18194529@qq.com");
+            mEtName.setText("wucaixiang@medcn.cn");
             mEtPwd.setText("123456");
         }
     }

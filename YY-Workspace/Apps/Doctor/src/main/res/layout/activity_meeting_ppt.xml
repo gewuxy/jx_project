@@ -39,9 +39,9 @@
                 android:id="@+id/meeting_ppt_v_progress"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                view:backProgress="@color/transparent"
-                view:progress="@color/white"
-                view:width="3dp"/>
+                view:circle_backProgress="@color/transparent"
+                view:circle_progress="@color/white"
+                view:circle_widthDp="3dp"/>
 
             <ImageView
                 android:layout_width="match_parent"

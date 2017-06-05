@@ -2,26 +2,26 @@
   "code": "0",
   "data": [
     {
-      "alpha": "D",
-      "headimg": "www.img.com",
+      "attention": 1,
+      "headimg": "http://www.medcn.com:8081/file/www.img.com",
       "id": 9,
       "nickname": "demo"
     },
     {
-      "alpha": "A",
-      "headimg": "www.img.com",
+      "attention": 1,
+      "headimg": "http://www.medcn.com:8081/file/www.img.com",
       "id": 10,
       "nickname": "阿里巴巴推荐1"
     },
     {
-      "alpha": "A",
-      "headimg": "www.img.com",
+      "attention": 1,
+      "headimg": "http://www.medcn.com:8081/file/www.img.com",
       "id": 11,
       "nickname": "安徽推荐2"
     },
     {
-      "alpha": "F",
-      "headimg": "/upload/headimg/14.jpg",
+      "attention": 1,
+      "headimg": "http://www.medcn.com:8081/file//headimg/1495606447341.png",
       "id": 14,
       "nickname": "佛山公众号"
     }

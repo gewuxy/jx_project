@@ -10,6 +10,7 @@ import yy.doctor.R;
 import yy.doctor.activity.BannerActivity;
 import yy.doctor.adapter.VH.BannerVH;
 import yy.doctor.model.home.Banner;
+import yy.doctor.model.home.Banner.TBanner;
 
 /**
  * @author CaiXiang
@@ -36,11 +37,11 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
 
             @Override
             public void onClick(View v) {
-                startActivity(BannerActivity.class);
+                //startActivity(BannerActivity.class);
+                BannerActivity.nav(getContext(), list.get(position).getString(TBanner.link));
             }
         });
 
     }
-
 
 }

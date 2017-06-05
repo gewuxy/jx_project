@@ -168,9 +168,7 @@ public class SettingsActivity extends BaseFormActivity {
             @Override
             public void onClick(View v) {
 
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+                dialog.dismiss();
 
                 startService(LogoutServ.class);
 
@@ -184,9 +182,7 @@ public class SettingsActivity extends BaseFormActivity {
 
             @Override
             public void onClick(View v) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+                dialog.dismiss();
                 SettingsActivity.this.notify(NotifyType.logout);
                 finish();
             }
