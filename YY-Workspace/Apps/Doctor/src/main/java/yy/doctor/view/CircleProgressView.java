@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import lib.ys.fitter.DpFitter;
+import lib.ys.util.XmlAttrUtil;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.R;
 
@@ -18,7 +19,7 @@ public class CircleProgressView extends View {
 
     private final String TAG = getClass().getSimpleName();
 
-    private static final int KLineW = DpFitter.dp(5); // 默认进度条宽度
+    private static final int KLineW = 5; // 默认进度条宽度
     private static final int KBackColor = ResLoader.getColor(R.color.divider); // 默认进度条背景
     private static final int KProgressColor = ResLoader.getColor(R.color.text_0882e7); // 默认进度条进度颜色
 
@@ -27,7 +28,7 @@ public class CircleProgressView extends View {
     private final Paint mPaint;
 
     private final int mProgressColor; // 进度条的颜色
-    private final int mLineW; // 进度条的宽
+    private int mLineW; // 进度条的宽
 
     private int mProgress = 30;
     private int mMaxProgress = 100;
@@ -35,10 +36,12 @@ public class CircleProgressView extends View {
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray ta = context.obtainStyledAttributes(attrs,R.styleable.CircleProgressView);
-        int color = ta.getColor(R.styleable.CircleProgressView_backProgress, KBackColor);
-        mProgressColor = ta.getColor(R.styleable.CircleProgressView_progress, KProgressColor);
-        mLineW = (int) ta.getDimension(R.styleable.CircleProgressView_width, KLineW);
+        int color = ta.getColor(R.styleable.CircleProgressView_circle_backProgress, KBackColor);
+        mProgressColor = ta.getColor(R.styleable.CircleProgressView_circle_progress, KProgressColor);
+        mLineW = ta.getDimensionPixelOffset(R.styleable.CircleProgressView_circle_width, KLineW);
         ta.recycle();
+
+        mLineW = XmlAttrUtil.convert(mLineW, KLineW);
 
         mRectF = new RectF();
         mPaint = new Paint();
