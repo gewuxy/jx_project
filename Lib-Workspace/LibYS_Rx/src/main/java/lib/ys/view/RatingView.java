@@ -39,14 +39,14 @@ public class RatingView extends LinearLayout implements OnClickListener {
         super(context, attrs);
 
         TypedArray typeArray = context.obtainStyledAttributes(attrs, R.styleable.RatingView);
-        mStarNumber = typeArray.getInt(R.styleable.RatingView_star_number, 0);
-        mStarGap = typeArray.getDimensionPixelOffset(R.styleable.RatingView_star_gap, ConstantsEx.KInvalidValue);
-        mStarSize = typeArray.getDimensionPixelOffset(R.styleable.RatingView_star_size, ConstantsEx.KInvalidValue);
+        mStarNumber = typeArray.getInt(R.styleable.RatingView_rating_starNum, 0);
+        mStarGap = typeArray.getDimensionPixelOffset(R.styleable.RatingView_rating_starGap, ConstantsEx.KInvalidValue);
+        mStarSize = typeArray.getDimensionPixelOffset(R.styleable.RatingView_rating_starSize, ConstantsEx.KInvalidValue);
 
-        mDrawableLightResId = typeArray.getResourceId(R.styleable.RatingView_drawable_light, 0);
-        mDrawableDarkResId = typeArray.getResourceId(R.styleable.RatingView_drawable_dark, 0);
-        mDrawableHalfResId = typeArray.getResourceId(R.styleable.RatingView_drawable_half, 0);
-        mRating = typeArray.getInt(R.styleable.RatingView_rating, 0);
+        mDrawableLightResId = typeArray.getResourceId(R.styleable.RatingView_rating_drawableLight, 0);
+        mDrawableDarkResId = typeArray.getResourceId(R.styleable.RatingView_rating_drawableDark, 0);
+        mDrawableHalfResId = typeArray.getResourceId(R.styleable.RatingView_rating_drawableHalf, 0);
+        mRating = typeArray.getInt(R.styleable.RatingView_rating_num, 0);
 
         typeArray.recycle();
 

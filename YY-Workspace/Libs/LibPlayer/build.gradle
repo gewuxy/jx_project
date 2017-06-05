@@ -10,12 +10,17 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    provided project(':Lib-Workspace:LibYS_Rx')
     compile 'com.qiniu:happy-dns:0.2.+'
-    compile project(':YY-Workspace:Libs:LibYY')
+    provided project(':YY-Workspace:Libs:LibYY')
 }
 

@@ -39,11 +39,13 @@ public class TimeUtil {
         String from_y_to_h_24 = "yyyy-MM-dd HH"; // 24h
         String from_y_12 = "yyyy-MM-dd hh:mm:ss"; // 12h
         String from_h_12 = "hh:mm:ss";
+        String from_h_24 = "HH:mm:ss";
         String from_h_to_m_12 = "hh:mm";
         String from_h_to_m_24 = "HH:mm";
         String from_m = "mm:ss";
         String only_MM = "MM";
         String only_dd = "dd";
+        String only_ss = "ss";
     }
 
     /**

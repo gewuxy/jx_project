@@ -3,8 +3,8 @@ package yy.doctor.sp;
 import android.content.Context;
 
 import java.util.Observable;
+import java.util.concurrent.TimeUnit;
 
-import lib.ys.util.MilliUtil;
 import lib.ys.util.sp.SpBase;
 import yy.doctor.App;
 
@@ -47,7 +47,7 @@ public class SpUser extends SpBase {
     public boolean needUpdateProfile() {
         long time = System.currentTimeMillis();
         long diff = time - getLong(SpUserKey.KProfileUpdateTime);
-        if (diff >= MilliUtil.hour(2)) {
+        if (diff >= TimeUnit.HOURS.toMillis(2)) {
             return true;
         } else {
             return false;

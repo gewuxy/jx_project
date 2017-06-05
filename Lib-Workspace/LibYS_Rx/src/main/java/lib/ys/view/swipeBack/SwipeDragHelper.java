@@ -213,9 +213,9 @@ public class SwipeDragHelper {
          *
          * @param releasedChild The captured child view now being released
          * @param xvel          X velocity of the pointer as it left the screen in pixels
-         *                      per second.
+         *                      per kSecond.
          * @param yvel          Y velocity of the pointer as it left the screen in pixels
-         *                      per second.
+         *                      per kSecond.
          */
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
         }
@@ -428,7 +428,7 @@ public class SwipeDragHelper {
 
     /**
      * Set the minimum velocity that will be detected as having a magnitude
-     * greater than zero in pixels per second. Callback methods accepting a
+     * greater than zero in pixels per kSecond. Callback methods accepting a
      * velocity will be clamped appropriately.
      *
      * @param minVel Minimum velocity to detect
@@ -439,7 +439,7 @@ public class SwipeDragHelper {
 
     /**
      * Return the currently configured minimum velocity. Any flings with a
-     * magnitude less than this value in pixels per second. Callback methods
+     * magnitude less than this value in pixels per kSecond. Callback methods
      * accepting a velocity will receive zero as a velocity value if the real
      * detected velocity was below this threshold.
      *

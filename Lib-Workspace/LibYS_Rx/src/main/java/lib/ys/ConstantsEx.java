@@ -33,4 +33,17 @@ public interface ConstantsEx {
     }
 
     float KInterpolatorMax = 1.0f;
+
+    /**
+     * 定义毫秒的转换
+     */
+    interface Milli {
+        long KSecond = 1000;
+        long KMinute = KSecond * 60;
+        long KHour = KMinute * 60;
+        long KDay = KHour * 24;
+        long KWeek = KDay * 7;
+    }
+
+
 }

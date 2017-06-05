@@ -17,7 +17,7 @@ import io.reactivex.subscribers.DisposableSubscriber;
 import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import yy.doctor.Constants.Date;
+import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.CommonTwoDialog;
@@ -65,7 +65,7 @@ public class ExamTopicActivity extends BaseTopicActivity {
         mTvLeft.setText("考试");
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(Util.timeParse(mUseTime, Date.hour));
+        mTvTime.setText(Util.formatTime(mUseTime, DateUnit.hour));
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
@@ -146,7 +146,7 @@ public class ExamTopicActivity extends BaseTopicActivity {
 
             @Override
             public void onNext(@NonNull Long aLong) {
-                mTvTime.setText(Util.timeParse(aLong.intValue(), Date.hour));
+                mTvTime.setText(Util.formatTime(aLong.intValue(), DateUnit.hour));
                 // 剩余5分钟
                 if (aLong == KFiveMin) {
                     mCloseDialog = new CommonOneDialog(ExamTopicActivity.this) {

@@ -5,10 +5,13 @@ import android.app.Activity;
 import java.util.Arrays;
 import java.util.List;
 
+import lib.ys.ConstantsEx.Milli;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
-import yy.doctor.Constants.Date;
+import yy.doctor.Constants.DateUnit;
 import yy.doctor.R;
 
 /**
@@ -38,37 +41,56 @@ public class Util extends BaseUtil {
     /**
      * 把时间格式化为xx:xx:xx
      *
-     * @param useTime
+     * @param seconds
      * @return
      */
-    public static String timeParse(int useTime,@Date int time) {
-        StringBuffer sb = new StringBuffer();
-        if (Date.hour == time) {
-            int hour = useTime / 3600;
-            if (hour < 10) {
-                sb.append(0);
+    public static String formatTime(long seconds, @DateUnit int unit) {
+        long millis = seconds * Milli.KSecond;
+        String format = null;
+        switch (unit) {
+            case DateUnit.hour: {
+                format = TimeFormat.from_h_24;
             }
-            sb.append(hour).append(":");
-            time = Date.minute;
+            break;
+            case DateUnit.minute: {
+                format = TimeFormat.from_m;
+            }
+            break;
+            case DateUnit.second: {
+                format = TimeFormat.only_ss;
+            }
+            break;
         }
 
-        if (Date.minute == time) {
-            int min = useTime / 60 % 60;
-            if (min < 10) {
-                sb.append(0);
-            }
-            sb.append(min).append(":");
-            time = Date.second;
-        }
+        return TimeUtil.formatMilli(millis, format);
 
-        if (Date.second == time) {
-            int sec = useTime % 60;
-            if (sec < 10) {
-                sb.append(0);
-            }
-            sb.append(sec);
-        }
-        return sb.toString();
+//        StringBuffer sb = new StringBuffer();
+//        if (DateUnit.hour == unit) {
+//            long hour = useTime / MilliUtil.KOneHour;
+//            if (hour < 10) {
+//                sb.append(0);
+//            }
+//            sb.append(hour).append(":");
+//            unit = DateUnit.minute;
+//        }
+//
+//        if (DateUnit.minute == unit) {
+//            int min = useTime / 60 % 60;
+//            if (min < 10) {
+//                sb.append(0);
+//            }
+//            sb.append(min).append(":");
+//            unit = DateUnit.kSecond;
+//        }
+//
+//        if (DateUnit.kSecond == unit) {
+//            int sec = useTime % 60;
+//            if (sec < 10) {
+//                sb.append(0);
+//            }
+//            sb.append(sec);
+//        }
+//        return sb.toString();
     }
 
 }

@@ -2,7 +2,6 @@ package yy.doctor.activity.meeting;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
@@ -15,19 +14,22 @@ import android.widget.TextView;
 
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.PLMediaPlayer.OnBufferingUpdateListener;
+import com.pili.pldroid.player.PLMediaPlayer.OnCompletionListener;
+import com.pili.pldroid.player.PLMediaPlayer.OnErrorListener;
+import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import lib.player.NetVideoView;
-import lib.player.NetVideoView.OnProListener;
-import lib.ys.LogMgr;
+import lib.player.NetVideoView.VideoViewListener;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
-import yy.doctor.Constants.Date;
+import yy.doctor.Constants.DateUnit;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
@@ -39,10 +41,11 @@ import yy.doctor.util.Util;
  */
 
 public class VideoActivity extends BaseActivity implements
-        PLMediaPlayer.OnBufferingUpdateListener,
-        PLMediaPlayer.OnPreparedListener,
-        PLMediaPlayer.OnErrorListener,
-        OnProListener, PLMediaPlayer.OnCompletionListener {
+        OnBufferingUpdateListener,
+        OnPreparedListener,
+        OnErrorListener,
+        VideoViewListener,
+        OnCompletionListener {
 
     private final int KVideoHDp = 204; // 视频高度
 
@@ -119,20 +122,20 @@ public class VideoActivity extends BaseActivity implements
         mSbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mTvTime.setText(Util.timeParse((int) mAllTime * progress / 100, Date.minute));
+                mTvTime.setText(Util.formatTime((int) mAllTime * progress / 100, DateUnit.minute));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 if (mCountDown != null) {
-                    mCountDown.recycle();
+                    mCountDown.stop();
                 }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 long playTime = (long) (mSbProgress.getProgress() / 100.0 * mAllTime);
-                mVideo.onPrepared(mAllTime, playTime);
+                mVideo.prepared(mAllTime, playTime);
                 mVideo.seekTo((playTime * 1000));
                 mVideo.start();
                 mIvControl.setSelected(false);
@@ -180,7 +183,7 @@ public class VideoActivity extends BaseActivity implements
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_MOVE:
                     if (mCountDown != null) {
-                        mCountDown.recycle();
+                        mCountDown.stop();
                     }
                     break;
                 case MotionEvent.ACTION_UP:
@@ -197,17 +200,18 @@ public class VideoActivity extends BaseActivity implements
      */
     private void countDown() {
         if (mCountDown == null) {
-            mCountDown = new CountDown(3) {
-                @Override
-                public void onComplete() {
-                    if (!mIsPortrait) {
-                        goneView(getNavBar());
-                    }
-                    goneView(mFunction);
-                }
-            };
+//            mCountDown = new CountDown(3) {
+//                @Override
+//                public void onComplete() {
+//                    if (!mIsPortrait) {
+//                        goneView(getNavBar());
+//                    }
+//                    goneView(mFunction);
+//                }
+//            };
+            mCountDown = new CountDown(3);
         }
-        mCountDown.startOnMain();
+        mCountDown.start();
     }
 
     @Override
@@ -215,9 +219,9 @@ public class VideoActivity extends BaseActivity implements
         switch (v.getId()) {
             case R.id.video_iv_control:
                 if (mVideo.getCurrentPosition() == 0) {
-                    mVideo.onPrepared(mAllTime, 0);
+                    mVideo.prepared(mAllTime, 0);
                 }
-                mVideo.rotateState();
+                mVideo.toggleState();
                 mIvControl.setSelected(!mIvControl.isSelected());
                 break;
             case R.id.video_layout:
@@ -255,11 +259,12 @@ public class VideoActivity extends BaseActivity implements
         }
     }
 
+
     @Override
-    public void onPro(long time) {
-        int pro = (int) (time * 100.0 / mAllTime);
-        mSbProgress.setProgress(pro);
-        mTvTime.setText(Util.timeParse((int) time, Date.minute));
+    public void onVideoProgress(long progress) {
+        int percent = (int) (progress * 100.0 / mAllTime);
+        mSbProgress.setProgress(percent);
+        mTvTime.setText(Util.formatTime(progress, DateUnit.minute));
     }
 
     @Override
@@ -276,7 +281,7 @@ public class VideoActivity extends BaseActivity implements
             mVideo.stopPlayback();
         }
         if (mCountDown != null) {
-            mCountDown.recycle();
+            mCountDown.stop();
         }
     }
 
@@ -284,7 +289,7 @@ public class VideoActivity extends BaseActivity implements
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         // 开始倒计时,总时长
         mAllTime = plMediaPlayer.getDuration() / 1000;
-        mVideo.onPrepared(mAllTime, 0);
+        mVideo.prepared(mAllTime, 0);
     }
 
     @Override

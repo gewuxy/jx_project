@@ -1,7 +1,6 @@
 package yy.doctor;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -34,12 +33,12 @@ public interface Constants extends BaseConstants {
     }
 
     @IntDef({
-            Date.hour,
-            Date.minute,
-            Date.second,
+            DateUnit.hour,
+            DateUnit.minute,
+            DateUnit.second,
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface Date {
+    @interface DateUnit {
         int hour = 0;
         int minute = 1;
         int second = 2;

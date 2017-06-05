@@ -5,13 +5,13 @@
     <!--attr name: 小写前缀_大小写后缀-->
 
     <declare-styleable name="RatingView">
-        <attr name="rating" format="integer"/>
-        <attr name="star_number" format="integer"/>
-        <attr name="star_gap" format="dimension"/>
-        <attr name="star_size" format="dimension"/>
-        <attr name="drawable_light" format="reference"/>
-        <attr name="drawable_half" format="reference"/>
-        <attr name="drawable_dark" format="reference"/>
+        <attr name="rating_num" format="integer"/>
+        <attr name="rating_starNum" format="integer"/>
+        <attr name="rating_starGap" format="dimension"/>
+        <attr name="rating_starSize" format="dimension"/>
+        <attr name="rating_drawableLight" format="reference"/>
+        <attr name="rating_drawableHalf" format="reference"/>
+        <attr name="rating_drawableDark" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="CornerView">

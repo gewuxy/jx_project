@@ -6,32 +6,40 @@ import android.view.ViewTreeObserver;
 
 import com.pili.pldroid.player.widget.PLVideoView;
 
+import lib.ys.LogMgr;
 import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
+
+import static lib.ys.ui.interfaces.opts.FitOpt.MATCH_PARENT;
 
 /**
  * 日期 : 2017/5/26
  * 创建人 : GuoXuan
  */
 
-public class NetVideoView extends PLVideoView {
+public class NetVideoView extends PLVideoView implements OnCountDownListener {
 
+    private static final String TAG = NetVideoView.class.getSimpleName();
+    
     private ViewGroup.LayoutParams mParams;
     private CountDown mCountDown;
 
-    private OnProListener mOnProListener;
+    private VideoViewListener mListener;
+
+    private long mCurrTime;
 
     private long mLastTime;//上一秒的时间
     private long mStopTime;//上次暂停的时间
     private long mRemainTime;//剩余的时间
     private boolean mHasStop;//暂停过
 
-    public interface OnProListener {
+    public interface VideoViewListener {
         /**
          * 播放进度
          *
-         * @param time 已播放时长
+         * @param progress 已播放时长
          */
-        void onPro(long time);
+        void onVideoProgress(long progress);
     }
 
     public NetVideoView(Context context) {
@@ -51,16 +59,16 @@ public class NetVideoView extends PLVideoView {
         });
     }
 
-    public void setOnProListener(OnProListener onProListener) {
-        mOnProListener = onProListener;
+    public void setOnProListener(VideoViewListener onProListener) {
+        mListener = onProListener;
     }
 
     /**
      * 设置横屏
      */
     public void rotateLandscape() {
-        mParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        mParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        mParams.width = MATCH_PARENT;
+        mParams.height = MATCH_PARENT;
         setLayoutParams(mParams);
     }
 
@@ -68,7 +76,7 @@ public class NetVideoView extends PLVideoView {
      * 设置竖屏
      */
     public void rotatePortrait(int heightPx) {
-        mParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        mParams.width = MATCH_PARENT;
         mParams.height = heightPx;
         setLayoutParams(mParams);
     }
@@ -78,7 +86,7 @@ public class NetVideoView extends PLVideoView {
      *
      * @return true(播放), false(暂停)
      */
-    public boolean rotateState() {
+    public boolean toggleState() {
         //暂停
         if (isPlaying()) {
             pause();
@@ -99,29 +107,35 @@ public class NetVideoView extends PLVideoView {
      */
     private void proStart(final long count) {
         recycle();
-        mCountDown = new CountDown(count) {
-            @Override
-            public void onNext(Long aLong) {
-                mRemainTime = aLong;
-                if (mOnProListener != null) {
-                    long time = count - aLong;
-                    mLastTime = mStopTime + time;//记录上次时间
-                    if (mHasStop) {//暂停过就加上暂停前播放的时候
-                        time += mStopTime;
-                    }
-                    mOnProListener.onPro(time);
-                }
-            }
-        };
-        mCountDown.startOnMain();
+        if (mCountDown == null) {
+//            mCountDown = new CountDown(count) {
+//
+//                @Override
+//                public void onNext(Long aLong) {
+//                    mRemainTime = aLong;
+//                    if (mListener != null) {
+//                        long time = count - aLong;
+//                        mLastTime = mStopTime + time;//记录上次时间
+//                        if (mHasStop) {//暂停过就加上暂停前播放的时候
+//                            time += mStopTime;
+//                        }
+//                        mListener.onPro(time);
+//                    }
+//                }
+//            };
+            mCountDown = new CountDown(count);
+            mCountDown.setListener(this);
+        }
+        mCountDown.start();
     }
+
 
     /**
      * 准备的设置
      *
      * @param count
      */
-    public void onPrepared(long count, long last) {
+    public void prepared(long count, long last) {
         mRemainTime = count;
         mLastTime = last;
         mStopTime = mLastTime;
@@ -134,7 +148,39 @@ public class NetVideoView extends PLVideoView {
      */
     public void recycle() {
         if (mCountDown != null) {
-            mCountDown.recycle();
+            mCountDown.stop();
+        }
+    }
+
+    @Override
+    public void onCountDownErr() {
+        LogMgr.d(TAG, "onCountDownErr()");
+    }
+
+    @Override
+    public void onCountDown(long remainCount) {
+        mRemainTime = remainCount;
+        if (mListener != null) {
+            LogMgr.d(TAG, "count = " + remainCount);
+        }
+//        if (mListener != null) {
+//            long time = count - remainCount;
+//            mLastTime = mStopTime + time;//记录上次时间
+//            if (mHasStop) {//暂停过就加上暂停前播放的时候
+//                time += mStopTime;
+//            }
+//            mListener.onPro(time);
+//        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        stopPlayback();
+
+        if (mCountDown != null) {
+            mCountDown.stop();
         }
     }
 }

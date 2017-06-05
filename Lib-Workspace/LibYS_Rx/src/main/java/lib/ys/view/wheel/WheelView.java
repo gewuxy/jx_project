@@ -758,7 +758,7 @@ public class WheelView extends View {
             }
             count++;
 
-            // process empty items above the first or below the second
+            // process empty items above the first or below the kSecond
             int emptyItems = scrollingOffset / getItemHeight();
             first -= emptyItems;
             count += Math.asin(emptyItems);

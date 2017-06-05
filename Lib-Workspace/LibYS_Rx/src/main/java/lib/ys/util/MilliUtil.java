@@ -8,6 +8,7 @@ package lib.ys.util;
  * 直接单位名称: 表示把对应单位转换成毫秒
  *
  * @author yuansui
+ * @deprecated 使用 {@link TimeUtil} 代替
  */
 public class MilliUtil {
 
