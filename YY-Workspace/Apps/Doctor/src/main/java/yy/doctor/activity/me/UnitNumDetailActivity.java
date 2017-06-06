@@ -22,8 +22,8 @@ import lib.ys.network.image.interceptor.CutInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.FileUtil;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
@@ -42,7 +42,6 @@ import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailMeeting;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -159,6 +158,8 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     public void setViews() {
         super.setViews();
 
+        getLv().setDividerHeight(fitDp(1));
+        getLv().setDivider(ResLoader.getDrawable(R.drawable.divider));
         exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, 1, 8));
 
         mZoomView.setZoomEnabled(true);
@@ -282,16 +283,14 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
             }
 
             for (int i = 0; i < listFile.size(); i++) {
-                addFileItem(listFile.get(i).getString(TUnitNumDetailData.materialName), new OnClickListener() {
+                UnitNumDetailData fileItem = listFile.get(i);
+                addFileItem(fileItem.getString(TUnitNumDetailData.materialName), new OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        //先判断文件是否已经存在  通过url的hashcode
-                        if ( FileUtil.ensureFileExist(CacheUtil.getFileCacheDir() ) ) {
-
-                        }
-
-                        startActivity(DownloadDataActivity.class);
+                        DownloadDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id),
+                                fileItem.getString(TUnitNumDetailData.materialName), fileItem.getString(TUnitNumDetailData.materialUrl),
+                                fileItem.getString(TUnitNumDetailData.materialType), fileItem.getLong(TUnitNumDetailData.fileSize));
                     }
                 });
             }
@@ -303,7 +302,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
                     @Override
                     public void onClick(View v) {
-                        startActivity(UnitNumDataActivity.class);
+                        UnitNumDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id));
                     }
                 });
             }

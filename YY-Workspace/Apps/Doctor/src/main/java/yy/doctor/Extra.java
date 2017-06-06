@@ -9,6 +9,8 @@ public interface Extra {
     String KName = "name";
     String KType = "type";
 
+    String KUnitNumId = "unitNumId";
+    String KFilePath = "filePath";
     String KPage = "page";
     String KNum = "num";
 

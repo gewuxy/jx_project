@@ -22,7 +22,6 @@ import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
-import yy.doctor.util.CacheUtil;
 
 
 /**
@@ -469,8 +468,9 @@ public class NetFactory {
      * @param pageSize
      * @return
      */
-    public static NetworkReq unitNumData(int pageNum, int pageSize) {
+    public static NetworkReq unitNumData(int id,int pageNum, int pageSize) {
         return newGet(UrlUnitNum.KUnitNumData)
+                .param(UnitNumDetailParam.KId, id)
                 .param(UnitNumDetailParam.KPageNum, pageNum)
                 .param(UnitNumDetailParam.KPageSize, pageSize)
                 .build();
@@ -479,11 +479,12 @@ public class NetFactory {
     /**
      * 单位号资料下载
      * @param url
+     * @param filePath
      * @param fileName
      * @return
      */
-    public static NetworkReq downloadData(String url,String fileName) {
-        return newDownload(url, fileName)
+    public static NetworkReq downloadData(String url, String filePath, String fileName) {
+        return newDownload(url, filePath, fileName)
                 .build();
     }
 
@@ -726,12 +727,13 @@ public class NetFactory {
     /**
      * 获取download请求
      * @param url
+     * @param filePath
      * @param fileName
      * @return
      */
-    public static Builder newDownload(String url, String fileName) {
+    public static Builder newDownload(String url, String filePath, String fileName) {
         return NetworkReq.newBuilder(url)
-                .downloadFile(CacheUtil.getFileCacheDir(), fileName)
+                .downloadFile(filePath, fileName)
                 .header(getBaseHeader());
     }
 

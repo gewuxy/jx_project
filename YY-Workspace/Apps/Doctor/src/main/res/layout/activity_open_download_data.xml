@@ -22,7 +22,7 @@
         android:textColor="@color/text_333"/>
 
     <TextView
-        android:id="@+id/open_download_data_tv_num"
+        android:id="@+id/open_download_data_tv_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"

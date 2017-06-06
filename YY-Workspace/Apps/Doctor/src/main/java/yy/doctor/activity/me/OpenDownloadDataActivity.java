@@ -6,15 +6,16 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
 
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -27,26 +28,32 @@ import yy.doctor.util.Util;
 public class OpenDownloadDataActivity extends BaseActivity {
 
     private ImageView mIv;
+    private TextView mTvName;
+    private TextView mTvSize;
 
-    private String mName;
-    private String mUrl;
+    private String mFilePath;
+    private String mFileName;
+    private String mHashCodeName;
     private String mType;
-    private String mNum;
+    private String mSize;
 
-    public static void nav(Context context, String name, String type, String num) {
+    public static void nav(Context context, String filePath, String hashCodeName, String type, String num, String fileName) {
         Intent i = new Intent(context, OpenDownloadDataActivity.class)
-                .putExtra(Extra.KName, name)
+                .putExtra(Extra.KFilePath, filePath)
+                .putExtra(Extra.KName, hashCodeName)
                 .putExtra(Extra.KType, type)
-                .putExtra(Extra.KNum, num);
+                .putExtra(Extra.KNum, num)
+                .putExtra(Extra.KData, fileName);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
-        mName = getIntent().getStringExtra(Extra.KName);
-        mUrl = getIntent().getStringExtra(Extra.KData);
+        mFilePath = getIntent().getStringExtra(Extra.KFilePath);
+        mHashCodeName = getIntent().getStringExtra(Extra.KName);
         mType = getIntent().getStringExtra(Extra.KType);
-        mNum = getIntent().getStringExtra(Extra.KNum);
+        mSize = getIntent().getStringExtra(Extra.KNum);
+        mFileName = getIntent().getStringExtra(Extra.KData);
     }
 
     @NonNull
@@ -64,12 +71,22 @@ public class OpenDownloadDataActivity extends BaseActivity {
     public void findViews() {
 
         mIv = findView(R.id.open_download_data_ic);
+        mTvName = findView(R.id.open_download_data_tv_name);
+        mTvSize = findView(R.id.open_download_data_tv_size);
     }
 
     @Override
     public void setViews() {
 
-        mIv.setImageResource(R.mipmap.open_data_ic_pdf);
+        if (mType.equals("pdf")) {
+            mIv.setImageResource(R.mipmap.open_data_ic_pdf);
+        } else if (mType.equals("ppt")) {
+            mIv.setImageResource(R.mipmap.open_data_ic_ppt);
+        } else {
+            mIv.setImageResource(R.mipmap.open_data_ic_word);
+        }
+        mTvName.setText(mFileName);
+        mTvSize.setText(mSize);
         setOnClickListener(R.id.open_download_data_tv_btn);
     }
 
@@ -78,10 +95,18 @@ public class OpenDownloadDataActivity extends BaseActivity {
         super.onClick(v);
 
         if (v.getId() == R.id.open_download_data_tv_btn) {
+            Intent intent = null;
             try {
-                Intent intent = getPdfFileIntent(CacheUtil.getFileCacheDir() + "测试文件.pdf");
+                if (mType.equals("pdf")) {
+                    intent = getPdfFileIntent(mFilePath + mHashCodeName);
+                } else if (mType.equals("ppt")) {
+                    intent = getPptFileIntent(mFilePath + mHashCodeName);
+                } else {
+                    intent = getWordFileIntent(mFilePath + mHashCodeName);
+                }
                 startActivity(intent);
             } catch (Exception e) {
+                LogMgr.d(TAG, " error msg " + e.getMessage());
                 showToast("没有安装相应的软件");
             }
         }

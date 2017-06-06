@@ -45,6 +45,11 @@ abstract public class CacheUtilEx {
                 diskRootFile = AppEx.ct().getCacheDir();
             }
 
+            // FIXME: 某些机型在sdcard enable的情况下并不能获取到ExternalCacheDir
+            if (diskRootFile == null) {
+                diskRootFile = DeviceUtil.getSdcardDir();
+            }
+
             if (diskRootFile != null) {
                 mBasePath = diskRootFile.getPath();
             } else {

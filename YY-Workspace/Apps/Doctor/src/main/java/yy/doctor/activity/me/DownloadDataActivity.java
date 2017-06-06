@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.DownloadNotifier;
@@ -16,8 +19,11 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ;
+import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
+
+import static lib.yy.DownloadNotifier.DownloadNotifyType.totalSize;
 
 /**
  * 资料下载页面
@@ -35,25 +41,51 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private ImageView mIvDownload;
     private boolean mIsDownload = false;
 
-    private String mFileName = "测试文件.pdf";
-    private String mUrl = "http://www.medcn.com/upload/temp/service_certificate.pdf";
-    private String mType = "pdf";
+    private int mUnitNumId;
+    private String mFileName;
+    private String mUrl;
+    private String mType;
     private long mFileSize;
+    private String mFileSizeKB;
+    private String mFileHashCodeName;
+    private String mDownloadDir;
+    private String mFilePath;
 
-    public static void nav(Context context, String name, String url, String type) {
+    public static void nav(Context context, int unitNumId, String name, String url, String type, long size) {
         Intent i = new Intent(context, DownloadDataActivity.class)
+                .putExtra(Extra.KUnitNumId, unitNumId)
                 .putExtra(Extra.KName, name)
                 .putExtra(Extra.KData, url)
-                .putExtra(Extra.KType, type);
+                .putExtra(Extra.KType, type)
+                .putExtra(Extra.KNum, size);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
         DownloadNotifier.inst().add(this);
-        /*mFileName = getIntent().getStringExtra(Extra.KName);
+        mUnitNumId = getIntent().getIntExtra(Extra.KUnitNumId, 10);
+        mFileName = getIntent().getStringExtra(Extra.KName);
         mUrl = getIntent().getStringExtra(Extra.KData);
-        mType = getIntent().getStringExtra(Extra.KType);*/
+        mType = getIntent().getStringExtra(Extra.KType);
+        mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
+
+        mFileSizeKB = String.valueOf(mFileSize / 1024) + "K";
+        mFileHashCodeName = String.valueOf(mUrl.hashCode()) + "." + mType;
+        //先判断存放文件的文件夹是否存在
+        mFilePath = CacheUtil.getDownloadCacheDir() + "unitNumId/" + mUnitNumId +"/";
+        File file = new File(mFilePath);
+        LogMgr.d(TAG, "file_path = " +mFilePath);
+        LogMgr.d(TAG, "file isExist = " + file.exists());
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        //先判断文件是否已经存在  通过url的hashcode
+        boolean fileIsExist = new File(mFilePath + mFileHashCodeName).exists();
+        if (fileIsExist) {
+            OpenDownloadDataActivity.nav(this,mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
+            finish();
+        }
     }
 
     @NonNull
@@ -83,6 +115,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
 
         mIvDownload.setOnClickListener(this);
         mProgressBar.setProgress(0);
+
+        mTvTotal.setText(mFileSizeKB);
     }
 
     @Override
@@ -100,7 +134,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                     mTvStatus.setText("正在下载...");
                     Intent intent = new Intent(this, DownloadServ.class);
                     intent.putExtra(Extra.KData, mUrl)
-                            .putExtra(Extra.KName, mFileName);
+                            .putExtra(Extra.KFilePath, mFilePath)
+                            .putExtra(Extra.KType, mType);
                     startService(intent);
                 }
                 mIsDownload = !mIsDownload;
@@ -123,16 +158,17 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             int progress = (int) pro;
             mProgressBar.setProgress(progress);
             long downloadSize = (long) (mFileSize * ((float) progress / 100.0));
-            mTvNum.setText(downloadSize + "KB");
+            mTvNum.setText(downloadSize + "K");
             //下载完成跳转
             if (progress == 100) {
-                OpenDownloadDataActivity.nav(this, mFileName, "pdf", "90k");
+                OpenDownloadDataActivity.nav(this,mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
+                finish();
             }
-        } else if (type == DownloadNotifyType.totalSize) {
+        } else if (type == totalSize) {
             long totalSize = (long) data;
             mFileSize = totalSize / 1024;
-            mTvTotal.setText(mFileSize + "KB");
-            mTvNum.setText("0KB");
+            mTvTotal.setText(mFileSize + "K");
+            mTvNum.setText("0K");
         }
     }
 
