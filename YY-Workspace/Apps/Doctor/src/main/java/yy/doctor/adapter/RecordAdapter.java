@@ -60,7 +60,7 @@ public class RecordAdapter extends MultiAdapterEx<Detail, RecordVH> {
 
     @Override
     public int getItemViewType(int position) {
-        getData().get(position).getString(TDetail.imgUrl);
+        getItem(position).getString(TDetail.imgUrl);
 
         return position;
     }

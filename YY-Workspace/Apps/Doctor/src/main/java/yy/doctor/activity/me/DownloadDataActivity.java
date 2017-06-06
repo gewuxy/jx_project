@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.DownloadNotifier;
@@ -49,7 +46,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private String mFileSizeKB;
     private String mFileHashCodeName;
     private String mDownloadDir;
-    private String mFilePath;
+//    private String mFilePath;
 
     public static void nav(Context context, int unitNumId, String name, String url, String type, long size) {
         Intent i = new Intent(context, DownloadDataActivity.class)
@@ -73,19 +70,14 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         mFileSizeKB = String.valueOf(mFileSize / 1024) + "K";
         mFileHashCodeName = String.valueOf(mUrl.hashCode()) + "." + mType;
         //先判断存放文件的文件夹是否存在
-        mFilePath = CacheUtil.getDownloadCacheDir() + "unitNumId/" + mUnitNumId +"/";
-        File file = new File(mFilePath);
-        LogMgr.d(TAG, "file_path = " +mFilePath);
-        LogMgr.d(TAG, "file isExist = " + file.exists());
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+
+//        mFilePath = CacheUtil.getUnitNumCacheDir(mUnitNumId);
+        CacheUtil.getUnitNumCacheFile(mUnitNumId, mFileHashCodeName);
         //先判断文件是否已经存在  通过url的hashcode
-        boolean fileIsExist = new File(mFilePath + mFileHashCodeName).exists();
-        if (fileIsExist) {
-            OpenDownloadDataActivity.nav(this,mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
-            finish();
-        }
+//        if (CacheUtil.getUnitNumCacheFile(mUnitNumId, mFileHashCodeName).exists()) {
+//            OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
+//            finish();
+//        }
     }
 
     @NonNull
@@ -134,7 +126,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                     mTvStatus.setText("正在下载...");
                     Intent intent = new Intent(this, DownloadServ.class);
                     intent.putExtra(Extra.KData, mUrl)
-                            .putExtra(Extra.KFilePath, mFilePath)
+                            .putExtra(Extra.KUnitNumId, mUnitNumId)
                             .putExtra(Extra.KType, mType);
                     startService(intent);
                 }
@@ -161,8 +153,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             mTvNum.setText(downloadSize + "K");
             //下载完成跳转
             if (progress == 100) {
-                OpenDownloadDataActivity.nav(this,mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
-                finish();
+//                OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
+//                finish();
             }
         } else if (type == totalSize) {
             long totalSize = (long) data;

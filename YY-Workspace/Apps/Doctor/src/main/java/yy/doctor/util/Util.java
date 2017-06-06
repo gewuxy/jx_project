@@ -5,6 +5,7 @@ import android.app.Activity;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lib.ys.ConstantsEx.Milli;
 import lib.ys.ui.other.NavBar;
@@ -97,18 +98,21 @@ public class Util extends BaseUtil {
     /**
      * 按X.X小时的格式格式化毫秒值
      *
-     * @param time
+     * @param milliseconds 秒单位
      * @return
      */
-    public static String timeParse(long time) {
+    public static String timeParse(long milliseconds) {
+        // FIXME: 会议时间转换??????
         StringBuffer parse = new StringBuffer();
-        float f = time / 3600000.0f;
-        //超过一天
-        if (f > 24) {
-            parse.append((int) f / 24).append("天");
-            f /= 24;
+
+        long oneDayMillis = TimeUnit.DAYS.toMillis(1);
+        if (milliseconds >= oneDayMillis) {
+            parse.append(milliseconds / oneDayMillis)
+                    .append("天");
+            milliseconds %= oneDayMillis;
         }
-        BigDecimal b = new BigDecimal(f);
+
+        BigDecimal b = new BigDecimal(milliseconds);
         //保留1位小数,四舍五入
         float result = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
         return parse

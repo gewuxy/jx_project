@@ -8,6 +8,7 @@ import lib.yy.DownloadNotifier.DownloadNotifyType;
 import lib.yy.DownloadNotifier.OnDownloadNotify;
 import yy.doctor.Extra;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.CacheUtil;
 
 /**
  * @author CaiXiang
@@ -25,8 +26,12 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
     @Override
     protected void onHandleIntent(Intent intent) {
         DownloadNotifier.inst().add(this);
+
         mUrl = intent.getStringExtra(Extra.KData);
-        mFilePath = intent.getStringExtra(Extra.KFilePath);
+
+        int id = intent.getIntExtra(Extra.KUnitNumId, 0);
+        mFilePath = CacheUtil.getUnitNumCacheDir(id);
+
         mType = intent.getStringExtra(Extra.KType);
         mFileHashCode = String.valueOf(mUrl.hashCode()) + "." + mType;
         exeNetworkReq(NetFactory.downloadData(mUrl, mFilePath, mFileHashCode));
