@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import lib.bd.location.Gps.TGps;
@@ -51,7 +50,7 @@ import yy.doctor.util.Util;
 
 /**
  * 会议详情界面
- * <p>
+ *
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -251,7 +250,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private void refreshViews(MeetDetail info) {
         long startTime = info.getLong(TMeetDetail.startTime);
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
-        mTvTime.setText("时长:" + timeParse(info.getLong(TMeetDetail.endTime) - startTime));
+        mTvTime.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
 
         mTvAward.setText("本次会议奖励象数:" + info.getString(TMeetDetail.xsCredits) + ",还有260人能够获得奖励.");
         mTvTitle.setText(info.getString(TMeetDetail.meetName));
@@ -384,29 +383,6 @@ public class MeetingDetailsActivity extends BaseActivity {
                 sign();
             }
         });
-    }
-
-    /**
-     * 按X.X小时的格式格式化毫秒值
-     *
-     * @param time
-     * @return
-     */
-    public String timeParse(long time) {
-        StringBuffer parse = new StringBuffer();
-        float f = time / 3600000.0f;
-        //超过一天
-        if (f > 24) {
-            parse.append((int) f / 24).append("天");
-            f /= 24;
-        }
-        BigDecimal b = new BigDecimal(f);
-        //保留1位小数,四舍五入
-        float result = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-        return parse
-                .append(result)
-                .append("小时")
-                .toString();
     }
 
     @Override

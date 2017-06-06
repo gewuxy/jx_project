@@ -22,7 +22,7 @@ import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
-import yy.doctor.frag.exam.TopicFrag;
+import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.model.meet.exam.Choice;

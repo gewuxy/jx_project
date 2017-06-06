@@ -129,9 +129,10 @@ public class ExamIntroActivity extends BaseActivity {
             mPaper = mIntro.getEv(TIntro.paper);
 
             //获取起始结束时间
-            mStartTime = Long.valueOf(mIntro.getString(Intro.TIntro.startTime));
-            mEndTime = Long.valueOf(mIntro.getString(Intro.TIntro.endTime));
-            mCurTime = Long.valueOf(mIntro.getString(Intro.TIntro.serverTime));
+            mStartTime = mIntro.getLong(Intro.TIntro.startTime);
+            mEndTime = mIntro.getLong(Intro.TIntro.endTime);
+            mCurTime = mIntro.getLong(Intro.TIntro.serverTime);
+
             mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
             if (mStartTime > mCurTime) {//未开始的话开始计时
                 Long maxCount = (mStartTime - mCurTime) / 60000;
@@ -176,7 +177,6 @@ public class ExamIntroActivity extends BaseActivity {
                 }
                 break;
         }
-
     }
 
     @Override

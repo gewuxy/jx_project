@@ -12,8 +12,8 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingsAdapter;
-import yy.doctor.model.meet.MeetRec;
-import yy.doctor.model.meet.MeetRec.TMeetRec;
+import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.network.JsonParser;
 
 /**
@@ -21,7 +21,7 @@ import yy.doctor.network.JsonParser;
  * @since 2017/4/24
  */
 
-abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsAdapter> {
+abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsAdapter> {
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -39,15 +39,15 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsA
     }
 
     @Override
-    public IListResult<MeetRec> parseNetworkResponse(int id, String text) throws JSONException {
-        return JsonParser.evs(text, MeetRec.class);
+    public IListResult<Meeting> parseNetworkResponse(int id, String text) throws JSONException {
+        return JsonParser.evs(text, Meeting.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
         setViewState(ViewState.normal);
-        IListResult<MeetRec> r = (IListResult<MeetRec>) result;
+        IListResult<Meeting> r = (IListResult<Meeting>) result;
         if (r.isSucceed()) {
             addAll(r.getData());
         } else {
@@ -63,7 +63,7 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<MeetRec, MeetingsA
 
     @Override
     public void onItemClick(View v, int position) {
-        String meetId = getItem(position).getString(TMeetRec.id);
+        String meetId = getItem(position).getString(TMeeting.id);
         MeetingDetailsActivity.nav(getContext(), meetId);
     }
 }

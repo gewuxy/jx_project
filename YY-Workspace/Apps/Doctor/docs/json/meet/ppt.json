@@ -2,74 +2,168 @@
   "code": "0",
   "data": {
     "course": {
-      "category": "普外科",
+      "category": "神经外科",
       "details": [
         {
-          "audioUrl": "/course/1/audio/1.mp3",
-          "id": 1,
-          "imgUrl": "/course/1/ppt/1.jpg",
-          "sort": 1
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314094907359429.mp3",
+          "id": 52,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314091841672767.jpg",
+          "sort": 1,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/2.mp3",
-          "id": 2,
-          "imgUrl": "/course/1/ppt/2.jpg",
-          "sort": 2
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314100029056444.mp3",
+          "id": 53,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314095391764310.jpg",
+          "sort": 2,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/3.mp3",
-          "id": 3,
-          "imgUrl": "/course/1/ppt/3.jpg",
-          "sort": 3
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314100880786846.mp3",
+          "id": 54,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314100435595276.jpg",
+          "sort": 3,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/4.mp3",
-          "id": 4,
-          "imgUrl": "/course/1/ppt/4.jpg",
-          "sort": 4
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314101673878405.mp3",
+          "id": 55,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314101273056999.jpg",
+          "sort": 4,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/5.mp3",
-          "id": 5,
-          "imgUrl": "/course/1/ppt/5.jpg",
-          "sort": 5
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314102664149670.mp3",
+          "id": 56,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314102150038617.jpg",
+          "sort": 5,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/6.mp3",
-          "id": 6,
-          "imgUrl": "/course/1/ppt/6.jpg",
-          "sort": 6
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314103460360717.mp3",
+          "id": 57,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314103106345280.jpg",
+          "sort": 6,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/7.mp3",
-          "id": 7,
-          "imgUrl": "/course/1/ppt/7.jpg",
-          "sort": 7
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314104472431620.mp3",
+          "id": 58,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314104074489481.jpg",
+          "sort": 7,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/8.mp3",
-          "id": 8,
-          "imgUrl": "/course/1/ppt/8.jpg",
-          "sort": 8
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314112686842382.mp3",
+          "id": 59,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314112337557613.jpg",
+          "sort": 8,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/9.mp3",
-          "id": 9,
-          "imgUrl": "/course/1/ppt/9.jpg",
-          "sort": 9
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314115833128371.mp3",
+          "id": 60,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314115486411695.jpg",
+          "sort": 9,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         },
         {
-          "audioUrl": "/course/1/audio/10.mp3",
-          "id": 10,
-          "imgUrl": "/course/1/ppt/10.jpg",
-          "sort": 10
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314120830428530.mp3",
+          "id": 61,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314120487721336.jpg",
+          "sort": 10,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314121921474851.mp3",
+          "id": 62,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314121607392408.jpg",
+          "sort": 11,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314123959643035.mp3",
+          "id": 63,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314123590171389.jpg",
+          "sort": 12,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314124865675628.mp3",
+          "id": 64,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314124499355418.jpg",
+          "sort": 13,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314125785719586.mp3",
+          "id": 65,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314125464040607.jpg",
+          "sort": 14,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314130582288776.mp3",
+          "id": 66,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314130278686723.jpg",
+          "sort": 15,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314131398918021.mp3",
+          "id": 67,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314131065332950.jpg",
+          "sort": 16,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314132367232936.mp3",
+          "id": 68,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314132020560050.jpg",
+          "sort": 17,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314133277159434.mp3",
+          "id": 69,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314132932661958.jpg",
+          "sort": 18,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314134307795947.mp3",
+          "id": 70,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314134019238776.jpg",
+          "sort": 19,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314135077960411.mp3",
+          "id": 71,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314134761515010.jpg",
+          "sort": 20,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314140092189998.mp3",
+          "id": 72,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314135795613248.jpg",
+          "sort": 21,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
+        },
+        {
+          "audioUrl": "http://www.medcn.com:8081/file/course/18/audio/17060314140936879413.mp3",
+          "id": 73,
+          "imgUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314140514475720.jpg",
+          "sort": 22,
+          "videoUrl": "http://www.medcn.com:8081/file/null"
         }
       ],
-      "title": "普外科综合培训课程一"
+      "title": "神经外科测试会议二"
     },
-    "courseId": 1,
-    "id": 1,
-    "meetId": "17042512131640894904",
-    "moduleId": 7
+    "courseId": 18,
+    "id": 5,
+    "meetId": "17060312172856248750",
+    "moduleId": 33
   }
 }

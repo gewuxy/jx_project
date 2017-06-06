@@ -19,27 +19,26 @@ public class CircleProgressView extends View {
     private final String TAG = getClass().getSimpleName();
 
     private static final int KLineW = 5; // 默认进度条宽度
-    private static final int KBackColor = ResLoader.getColor(R.color.divider); // 默认进度条背景
-    private static final int KProgressColor = ResLoader.getColor(R.color.text_0882e7); // 默认进度条进度颜色
+    private static final int KDefaultBackColor = ResLoader.getColor(R.color.divider); // 默认进度条背景
+    private static final int KDefaultProgressColor = ResLoader.getColor(R.color.text_0882e7); // 默认进度条进度颜色
 
     // 画圆所在的距形区域
     private final RectF mRectF;
     private final Paint mPaint;
 
     private final int mProgressColor; // 进度条的颜色
-    private int mLineW; // 进度条的宽
+    private final int mBackColor; // 进度条的背景颜色
 
+    private int mLineW; // 进度条的宽
     private int mProgress = 0;
-    private static final float KMaxProgress = 100;
-    private boolean mIsDrawBgCircle = false;
-    private int color;
+    private float mMaxProgress = 100;
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressView);
-        color = ta.getColor(R.styleable.CircleProgressView_circle_backProgress, KBackColor);
-        mProgressColor = ta.getColor(R.styleable.CircleProgressView_circle_progress, KProgressColor);
+        mBackColor = ta.getColor(R.styleable.CircleProgressView_circle_backProgress, KDefaultBackColor);
+        mProgressColor = ta.getColor(R.styleable.CircleProgressView_circle_progress, KDefaultProgressColor);
         mLineW = ta.getDimensionPixelOffset(R.styleable.CircleProgressView_circle_widthDp, 0);
         ta.recycle();
 
@@ -74,12 +73,16 @@ public class CircleProgressView extends View {
 
         canvas.drawColor(Color.TRANSPARENT);
         // 绘制圆圈，进度条背景
-        mPaint.setColor(color);
+        mPaint.setColor(mBackColor);
         canvas.drawArc(mRectF, -90, 360, false, mPaint);
 
         //绘制进度条
         mPaint.setColor(mProgressColor);
-        canvas.drawArc(mRectF, -90, (mProgress / KMaxProgress) * 360, false, mPaint);
+        canvas.drawArc(mRectF, -90, (mProgress / mMaxProgress) * 360, false, mPaint);
+    }
+
+    public void setMaxProgress(float maxProgress) {
+        mMaxProgress = maxProgress;
     }
 
     public void setProgress(int progress) {

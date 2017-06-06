@@ -20,18 +20,13 @@ import static lib.ys.ui.interfaces.opts.FitOpt.MATCH_PARENT;
 public class NetVideoView extends PLVideoView implements OnCountDownListener {
 
     private static final String TAG = NetVideoView.class.getSimpleName();
-    
+
     private ViewGroup.LayoutParams mParams;
     private CountDown mCountDown;
 
     private VideoViewListener mListener;
 
-    private long mCurrTime;
-
-    private long mLastTime;//上一秒的时间
-    private long mStopTime;//上次暂停的时间
-    private long mRemainTime;//剩余的时间
-    private boolean mHasStop;//暂停过
+    private long mRemainTime; // 剩余播放的时间(s)
 
     public interface VideoViewListener {
         /**
@@ -91,11 +86,10 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
         if (isPlaying()) {
             pause();
             recycle();
-            mHasStop = true;
-            mStopTime = mLastTime;
+            mRemainTime = (getDuration() - getCurrentPosition()) / 1000;
         } else {
             start();
-            proStart(mRemainTime);
+            videoStart(mRemainTime);
         }
         return !isPlaying();
     }
@@ -105,42 +99,23 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
      *
      * @param count
      */
-    private void proStart(final long count) {
+    private void videoStart(final long count) {
         recycle();
         if (mCountDown == null) {
-//            mCountDown = new CountDown(count) {
-//
-//                @Override
-//                public void onNext(Long aLong) {
-//                    mRemainTime = aLong;
-//                    if (mListener != null) {
-//                        long time = count - aLong;
-//                        mLastTime = mStopTime + time;//记录上次时间
-//                        if (mHasStop) {//暂停过就加上暂停前播放的时候
-//                            time += mStopTime;
-//                        }
-//                        mListener.onPro(time);
-//                    }
-//                }
-//            };
             mCountDown = new CountDown(count);
             mCountDown.setListener(this);
         }
         mCountDown.start();
     }
 
-
     /**
      * 准备的设置
      *
      * @param count
      */
-    public void prepared(long count, long last) {
+    public void prepared(long count) {
         mRemainTime = count;
-        mLastTime = last;
-        mStopTime = mLastTime;
-        mHasStop = last > 0;
-        proStart(count);
+        videoStart(mRemainTime);
     }
 
     /**
@@ -159,18 +134,10 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
 
     @Override
     public void onCountDown(long remainCount) {
-        mRemainTime = remainCount;
         if (mListener != null) {
-            LogMgr.d(TAG, "count = " + remainCount);
+            LogMgr.d(TAG,"count" + remainCount);
+            mListener.onVideoProgress(getCurrentPosition() / 1000);
         }
-//        if (mListener != null) {
-//            long time = count - remainCount;
-//            mLastTime = mStopTime + time;//记录上次时间
-//            if (mHasStop) {//暂停过就加上暂停前播放的时候
-//                time += mStopTime;
-//            }
-//            mListener.onPro(time);
-//        }
     }
 
     @Override
@@ -178,9 +145,6 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
         super.onDetachedFromWindow();
 
         stopPlayback();
-
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
+        recycle();
     }
 }

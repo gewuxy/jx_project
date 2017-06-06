@@ -51,12 +51,10 @@ public class CountDown {
                     if (mListener != null) {
                         mListener.onCountDownErr();
                     }
-//                    CountDown.this.onError(throwable);
                 }
 
                 @Override
                 public void onComplete() {
-//                    CountDown.this.onComplete();
                 }
             };
         }
@@ -64,16 +62,10 @@ public class CountDown {
     }
 
     /**
-     * 切换到主线程开始倒数
+     * 开始倒数
      *
      * @return
      */
-//    public CountDown startOnMain() {
-//        recycle();
-//        mFlowable.observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(createSub());
-//        return this;
-//    }
     public void start() {
         start(0);
     }
@@ -88,16 +80,10 @@ public class CountDown {
         Flowable.interval(0, 1, mTimeUnit)//0秒延迟
                 .take(mCount + 1) // 倒数次数
                 .map(aLong -> mCount - aLong) // 转换成倒数的时间
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(createSub());
     }
 
-    /**
-     * 在onNext之前设置
-     * 并切换到主线程开始倒数
-     *
-     * @param consumer
-     */
     public void start(Consumer<Subscription> consumer) {
         dispose();
 

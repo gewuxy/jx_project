@@ -1,5 +1,7 @@
 package yy.doctor.activity.meeting;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,10 +14,12 @@ import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.network.ListResult;
 import yy.doctor.BuildConfig;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.CommentAdapter;
 import yy.doctor.model.meet.Comment;
@@ -32,12 +36,18 @@ import yy.doctor.util.Util;
  */
 
 public class MeetingCommentActivity extends BaseListActivity<String, CommentAdapter> {
-
+    // TODO: 2017/6/6 未完
     private TextView mTvSend;
     private EditText mEtSend;
     private static final int KHistories = 0;
     private static final int KSend = 1;
     private String mMeetId;
+
+    public static void nav(Context context, String meetId) {
+        Intent i = new Intent(context, MeetingCommentActivity.class)
+                .putExtra(Extra.KMeetId, meetId);
+        LaunchUtil.startActivity(context, i);
+    }
 
     @Override
     public void initData() {
@@ -45,9 +55,7 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
             addItem("");
         }
 
-        if (BuildConfig.TEST) {
-            mMeetId = "17042512131640894904";
-        }
+        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
     }
 
     @Override
@@ -94,8 +102,10 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
         if (id == KHistories) {
             ListResult<Comment> r = (ListResult<Comment>) result;
             List<Comment> data = r.getData();
-            for (Comment histories : data) {
-                LogMgr.d(TAG, histories.getString(TComment.message));
+            if (data.size() > 0) {
+                for (Comment histories : data) {
+                    LogMgr.d(TAG, histories.getString(TComment.message));
+                }
             }
         } else if (id == KSend) {
             showToast("发送成功");

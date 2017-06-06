@@ -1,19 +1,21 @@
 package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
+import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingsVH;
-import yy.doctor.model.meet.MeetRec;
-import yy.doctor.model.meet.MeetRec.TMeetRec;
+import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.util.Util;
 
 /**
  * @author : GuoXuan
  * @since : 2017/4/28
  */
 
-public class MeetingsAdapter extends AdapterEx<MeetRec, MeetingsVH> {
+public class MeetingsAdapter extends AdapterEx<Meeting, MeetingsVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -22,9 +24,17 @@ public class MeetingsAdapter extends AdapterEx<MeetRec, MeetingsVH> {
 
     @Override
     protected void refreshView(int position, MeetingsVH holder) {
-        holder.getIvNum().placeHolder(R.mipmap.ic_default_unit_num).load();
-        holder.getTvTitle().setText(getItem(position).getString(TMeetRec.meetName));
-        holder.getTvSection().setText(getItem(position).getString(TMeetRec.meetType));
+        holder.getIvNum()
+                .placeHolder(R.mipmap.ic_default_unit_num)
+                .url(getItem(position).getString(TMeeting.headimg))
+                .load();
+        holder.getTvTitle().setText(getItem(position).getString(TMeeting.meetName));
+        holder.getTvSection().setText(getItem(position).getString(TMeeting.meetType));
+        holder.getTvNum().setText(getItem(position).getString(TMeeting.organizer));
+        holder.getTvTime().setText(TimeUtil.formatMilli(getItem(position).getLong(TMeeting.startTime), "MM月dd日 HH:mm"));
+        holder.getTvData().setText("时长:" +
+                Util.timeParse(getItem(position).getLong(TMeeting.endTime) -
+                        getItem(position).getLong(TMeeting.startTime)));
 
         setState(position, holder);
     }
@@ -36,7 +46,7 @@ public class MeetingsAdapter extends AdapterEx<MeetRec, MeetingsVH> {
      * @param holder
      */
     private void setState(int position, MeetingsVH holder) {
-        int state = getItem(position).getInt(TMeetRec.state);
+        int state = getItem(position).getInt(TMeeting.state);
         String strState = null;
         int resId = 0;
         int colorId = 0;

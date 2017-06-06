@@ -5,6 +5,8 @@ import android.support.annotation.IntDef;
 import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.RecordVH;
+import yy.doctor.model.meet.Detail;
+import yy.doctor.model.meet.Detail.TDetail;
 
 /**
  * 会议记录的Adapter
@@ -13,7 +15,7 @@ import yy.doctor.adapter.VH.meeting.RecordVH;
  * @since : 2017/4/26
  */
 
-public class RecordAdapter extends MultiAdapterEx<String, RecordVH> {
+public class RecordAdapter extends MultiAdapterEx<Detail, RecordVH> {
 
     @IntDef({
             RecordType.text,
@@ -58,11 +60,8 @@ public class RecordAdapter extends MultiAdapterEx<String, RecordVH> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position > 0 && position < 3) {
-            return RecordType.image;
-        } else if (position == 4) {
-            return RecordType.sound;
-        }
+        getData().get(position).getString(TDetail.imgUrl);
+
         return position;
     }
 

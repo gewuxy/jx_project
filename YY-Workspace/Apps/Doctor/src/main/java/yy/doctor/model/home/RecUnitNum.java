@@ -7,7 +7,12 @@ import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
  * Created by XPS on 2017/5/15.
  */
 
-public class RecUnitNum extends EVal<TRecUnitNum>  {
+public class RecUnitNum extends EVal<TRecUnitNum> implements IHome {
+
+    @Override
+    public int getType() {
+        return HomeType.unit_num;
+    }
 
     public enum TRecUnitNum {
 

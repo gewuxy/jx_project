@@ -1,4 +1,4 @@
-package yy.doctor.frag.exam;
+package yy.doctor.frag.meeting.exam;
 
 import android.view.View;
 import android.widget.TextView;

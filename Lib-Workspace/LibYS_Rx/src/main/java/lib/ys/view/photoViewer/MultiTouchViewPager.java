@@ -6,7 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class MultiTouchViewPager extends ViewPager {
+import lib.ys.view.pager.ViewPagerEx;
+
+public class MultiTouchViewPager extends ViewPagerEx {
 
     public MultiTouchViewPager(Context context) {
         super(context);

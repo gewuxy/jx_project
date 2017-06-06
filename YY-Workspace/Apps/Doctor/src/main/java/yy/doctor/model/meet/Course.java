@@ -14,7 +14,7 @@ import yy.doctor.model.meet.Course.TCourse;
 public class Course extends EVal<TCourse> {
     public enum TCourse {
         category,//微课类型(科室)
-        @BindList(Details.class)
+        @BindList(Detail.class)
         details,//微课明细
         title,//微课名称
     }

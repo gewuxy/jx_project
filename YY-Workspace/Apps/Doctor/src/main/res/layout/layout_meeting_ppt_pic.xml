@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/meeting_ppt_iv_default"
+        android:src="@mipmap/ic_default_meeting_ppt_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <lib.ys.view.photoViewer.NetworkPhotoView
+        android:id="@+id/meeting_ppt_pic_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

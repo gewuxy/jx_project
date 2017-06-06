@@ -2,6 +2,7 @@ package yy.doctor.util;
 
 import android.app.Activity;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,6 +92,29 @@ public class Util extends BaseUtil {
 //            sb.append(sec);
 //        }
 //        return sb.toString();
+    }
+
+    /**
+     * 按X.X小时的格式格式化毫秒值
+     *
+     * @param time
+     * @return
+     */
+    public static String timeParse(long time) {
+        StringBuffer parse = new StringBuffer();
+        float f = time / 3600000.0f;
+        //超过一天
+        if (f > 24) {
+            parse.append((int) f / 24).append("天");
+            f /= 24;
+        }
+        BigDecimal b = new BigDecimal(f);
+        //保留1位小数,四舍五入
+        float result = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+        return parse
+                .append(result)
+                .append("小时")
+                .toString();
     }
 
 }

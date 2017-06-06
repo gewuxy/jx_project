@@ -81,7 +81,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.meeting.MeetingPPTActivity"
-            android:screenOrientation="portrait"/>
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
