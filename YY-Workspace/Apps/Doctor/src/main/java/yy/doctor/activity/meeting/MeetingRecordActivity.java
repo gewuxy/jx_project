@@ -14,11 +14,11 @@ import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.RecordAdapter;
+import yy.doctor.model.meet.CourseInfo;
+import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.TCourse;
-import yy.doctor.model.meet.Detail;
-import yy.doctor.model.meet.Ppt;
-import yy.doctor.model.meet.Ppt.TPpt;
+import yy.doctor.model.meet.PPT;
+import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.util.Util;
 
 /**
@@ -28,12 +28,12 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 
-public class MeetingRecordActivity extends BaseListActivity<Detail, RecordAdapter> {
+public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapter> {
     // TODO: 2017/6/6 未完
-    private Ppt mPpt;
-    private Course mCourse;
+    private PPT mPPT;
+    private CourseInfo mCourseInfo;
 
-    public static void nav(Context context, Ppt ppt) {
+    public static void nav(Context context, PPT ppt) {
         Intent i = new Intent(context, MeetingRecordActivity.class);
         i.putExtra(Extra.KData, ppt);
         LaunchUtil.startActivity(context, i);
@@ -41,10 +41,10 @@ public class MeetingRecordActivity extends BaseListActivity<Detail, RecordAdapte
 
     @Override
     public void initData() {
-        mPpt = (Ppt) getIntent().getSerializableExtra(Extra.KData);
-        mCourse = mPpt.getEv(TPpt.course);
-        List<Detail> details = mCourse.getList(TCourse.details);
-        addAll(details);
+        mPPT = (PPT) getIntent().getSerializableExtra(Extra.KData);
+        mCourseInfo = mPPT.getEv(TPPT.course);
+        List<Course> courses = mCourseInfo.getList(TCourseInfo.details);
+        addAll(courses);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MeetingRecordActivity extends BaseListActivity<Detail, RecordAdapte
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, mCourse.getString(TCourse.title), this);
+        Util.addBackIcon(bar, mCourseInfo.getString(TCourseInfo.title), this);
         bar.addViewRight(R.mipmap.nav_bar_ic_details, v -> ToastUtil.makeToast("响应了"));
     }
 

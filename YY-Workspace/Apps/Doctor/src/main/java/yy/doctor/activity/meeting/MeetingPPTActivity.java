@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,22 +21,20 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseVPActivity;
 import lib.yy.network.Result;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.frag.meeting.BaseMeetingPPTFrag;
-import yy.doctor.frag.meeting.MeetingPPTPicFrag;
-import yy.doctor.frag.meeting.MeetingPPTPicFrag.OnPPTPicListener;
-import yy.doctor.frag.meeting.MeetingPPTVideoFrag;
+import yy.doctor.frag.meeting.course.BaseCourseFrag;
+import yy.doctor.frag.meeting.course.BaseCourseFrag.OnPPTListener;
+import yy.doctor.frag.meeting.course.PicAudioCourseFrag;
 import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.TCourse;
-import yy.doctor.model.meet.Detail;
-import yy.doctor.model.meet.Detail.TDetail;
-import yy.doctor.model.meet.Ppt;
-import yy.doctor.model.meet.Ppt.TPpt;
+import yy.doctor.model.meet.Course.CourseType;
+import yy.doctor.model.meet.CourseInfo;
+import yy.doctor.model.meet.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.PPT;
+import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -49,27 +47,34 @@ import yy.doctor.view.CircleProgressView;
  * @since : 2017/4/24
  */
 
-public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListener {
+public class MeetingPPTActivity extends BaseVPActivity {
 
     private static final int KVpSize = 3;
     private final int KViewPagerHDp = 271;
 
     private String mMeetId;
     private String mModuleId;
-    private Ppt mPpt;
+    private PPT mPPT;
     private boolean mIsPortrait; // 是否为竖屏
-    private List<Detail> mDetails; // ppt的内容
+    private List<Course> mCourses; // ppt的内容
 
-    private CircleProgressView mView;
+    private ViewGroup.LayoutParams mParams;
+
+    private CircleProgressView mLayoutCp;
+
     private TextView mTvBarMid; // NavBar中间的提示
     private TextView mTvTime; // 音频/视频播放的时间
-    private View mControl; //
-    private ViewGroup.LayoutParams mParams;
+
+    private View mLayoutBarRight;
+    private View mLayoutControl; //
     private View mLayoutLandscape; // 横屏布局
     private View mLayoutPortrait; // 竖屏布局
-    private View mBarView; // 占位图
+    private View mLayoutBar; // 占位图
+
     private ImageView mIvControl;
-    private View mTvBarRight;
+
+    private OnPPTListener mListener;
+
 
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, MeetingPPTActivity.class)
@@ -87,6 +92,36 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
     public void initData() {
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
+
+        mListener = new OnPPTListener() {
+
+            @Override
+            public void onPrepare(boolean enablePlay) {
+                if (enablePlay) { // 有音频的时候
+                    showView(mLayoutControl);
+                    showView(mTvTime);
+//            mLayoutCp.setMaxProgress(all);
+                } else { // 没有音频的时候
+                    goneView(mLayoutControl);
+                    goneView(mTvTime);
+                }
+            }
+
+            @Override
+            public void onStart(boolean enablePlay) {
+                mIvControl.setSelected(enablePlay);
+            }
+
+            @Override
+            public void onProgress(long currSeconds) {
+                mTvTime.setText(Util.formatTime(currSeconds / 1000, DateUnit.minute));
+                mLayoutCp.setProgress((int) currSeconds);
+            }
+
+            @Override
+            public void onStop() {
+            }
+        };
     }
 
     @Override
@@ -104,10 +139,11 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
             }
         });
 
+        // TODO: 临时布局
         mTvBarMid = new TextView(this);
-
         bar.addViewMid(mTvBarMid);
-        mTvBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> MeetingRecordActivity.nav(MeetingPPTActivity.this, mPpt));
+
+        mLayoutBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> MeetingRecordActivity.nav(MeetingPPTActivity.this, mPPT));
     }
 
     @Override
@@ -118,19 +154,21 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
     @Override
     public void findViews() {
         super.findViews();
-        mView = findView(R.id.meeting_ppt_v_progress);
-        mControl = findView(R.id.meeting_ppt_layout_control);
+
+        mLayoutCp = findView(R.id.meeting_ppt_layout_progress);
+        mLayoutControl = findView(R.id.meeting_ppt_layout_control);
         mTvTime = findView(R.id.meeting_ppt_tv_time);
-        mBarView = findView(R.id.meeting_ppt_view);
+        mLayoutBar = findView(R.id.meeting_ppt_view);
         mIvControl = findView(R.id.meeting_ppt_iv_control);
         mLayoutLandscape = findView(R.id.video_layout_function);
         mLayoutPortrait = findView(R.id.meeting_ppt_layout_portrait);
-        mParams = getViewPager().getLayoutParams(); // viewPager的布局参数
     }
 
     @Override
     public void setViews() {
         super.setViews();
+
+        mParams = getViewPager().getLayoutParams(); // viewPager的布局参数
 
         mIsPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 
@@ -150,9 +188,11 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
 
             @Override
             public void onPageSelected(int position) { // 切换viewPager改变中间的提示
-                mTvBarMid.setText(position + 1 + "/" + mDetails.size());
+                mTvBarMid.setText(position + 1 + "/" + mCourses.size());
                 mTvTime.setText("加载中");
-                mView.setProgress(0);
+                mLayoutCp.setProgress(0);
+
+                mCourses.get(position).getType();
             }
 
             @Override
@@ -162,35 +202,32 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
         });
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.toPpt(mMeetId, mModuleId));
+        exeNetworkReq(NetFactory.toPPT(mMeetId, mModuleId));
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Ppt.class);
+        return JsonParser.ev(r.getText(), PPT.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
-        Result<Ppt> r = (Result<Ppt>) result;
+
+        Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
-            mPpt = r.getData();
-            Course course = mPpt.getEv(TPpt.course);
-            mDetails = course.getList(TCourse.details);
+            mPPT = r.getData();
+            CourseInfo courseInfo = mPPT.getEv(TPPT.course);
+            mCourses = courseInfo.getList(TCourseInfo.details);
             // 初始显示
-            if (mDetails.size() > 0) {
-                mTvBarMid.setText("1/" + mDetails.size());
+            if (mCourses.size() > 0) {
+                mTvBarMid.setText("1/" + mCourses.size());
             } else {
-                mTvBarMid.setText("0/" + mDetails.size());
+                mTvBarMid.setText("0/" + mCourses.size());
             }
             // 逐个添加Frag
-            BaseMeetingPPTFrag frag;
-            for (Detail detail : mDetails) {
-                frag = getPPTFrag(detail);
-                frag.setDetail(detail);
-                frag.setMeetId(mMeetId);
-                add(frag);
+            for (Course course : mCourses) {
+                addPPTFrag(course);
             }
             invalidate();
         }
@@ -200,41 +237,80 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
      * 根据返回的url确定添加的frag的类型
      * 优先判断video
      *
-     * @param detail
+     * @param course
      * @return
      */
-    @NonNull
-    private BaseMeetingPPTFrag getPPTFrag(Detail detail) {
-        if (TextUtil.isEmpty(detail.getString(TDetail.videoUrl))) {
-            MeetingPPTPicFrag picFrag = new MeetingPPTPicFrag();
-            picFrag.setOnPPTPicListener(this);
-            return picFrag;
-        } else {
-            MeetingPPTVideoFrag videoFrag = new MeetingPPTVideoFrag();
-            return videoFrag;
+    private void addPPTFrag(Course course) {
+        BaseCourseFrag frag = null;
+
+        switch (course.getType()) {
+            case CourseType.audio: {
+//                frag = new audioc
+            }
+            break;
+            case CourseType.pic: {
+
+            }
+            break;
+            case CourseType.pic_audio: {
+                frag = new PicAudioCourseFrag();
+            }
+            break;
+        }
+
+        Bundle b = new Bundle();
+        b.putString(Extra.KMeetId, mMeetId);
+        b.putSerializable(Extra.KData, course);
+        frag.setArguments(b);
+
+        frag.setOnPPTListener(mListener);
+
+        if (frag != null) {
+            add(frag);
         }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meeting_ppt_iv_left: // 上一页
-                int currPro = getCurrentItem() - 1;
-                if (mDetails != null && currPro >= 0) {
-                    setCurrentItem(currPro);
+            case R.id.meeting_ppt_iv_left: {
+                // 上一页
+                if (mCourses == null) {
+                    break;
                 }
-                break;
-            case R.id.meeting_ppt_iv_right: // 下一页
+
+                int preItem = getCurrentItem() - 1;
+                if (preItem >= 0) {
+                    setCurrentItem(preItem);
+                } else {
+                    // FIXME: 提示语
+                    showToast("已经是首页");
+                }
+            }
+            break;
+            case R.id.meeting_ppt_iv_right: {
+                // 下一页
+                if (mCourses == null) {
+                    break;
+                }
+
                 int currNext = getCurrentItem() + 1;
-                if (mDetails != null && currNext < mDetails.size()) {
+                if (currNext < mCourses.size()) {
                     setCurrentItem(currNext);
+                } else {
+                    // FIXME: 提示语
+                    showToast("到头了");
                 }
-                break;
-            case R.id.meeting_ppt_iv_control: // 控制
-                BaseMeetingPPTFrag pptFrag = (BaseMeetingPPTFrag) getData().get(getCurrentItem());
+            }
+            break;
+            case R.id.meeting_ppt_iv_control: {
+                // 控制
+                BaseCourseFrag pptFrag = getItem(getCurrentItem());
                 mIvControl.setSelected(!mIvControl.isSelected());
+                // TODO: 加入toggle listener
                 pptFrag.toggle();
-                break;
+            }
+            break;
             case R.id.meeting_ppt_iv_first: // 第一页
                 setCurrentItem(0);
                 break;
@@ -245,27 +321,9 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
     }
 
     @Override
-    public void OnAudio(boolean has, int all) {
-        if (has) { // 有音频的时候
-            showView(mControl);
-            showView(mTvTime);
-            mView.setMaxProgress(all);
-            mIvControl.setSelected(true);
-        } else { // 没有音频的时候
-            goneView(mControl);
-            goneView(mTvTime);
-        }
-    }
-
-    @Override
-    public void OnPlay(long time) {
-        mTvTime.setText(Util.formatTime(time / 1000, DateUnit.minute));
-        mView.setProgress((int) time);
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) { // 竖屏
             mIsPortrait = true;
             mParams.height = fitDp(KViewPagerHDp);
@@ -273,9 +331,9 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
 
             showView(mLayoutPortrait);
             goneView(mLayoutLandscape);
-            showView(mBarView);
+            showView(mLayoutBar);
             showView(mTvBarMid);
-            showView(mTvBarRight);
+            showView(mLayoutBarRight);
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) { // 横屏
             mIsPortrait = false;
             mParams.height = MATCH_PARENT;
@@ -283,10 +341,15 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
 
             showView(mLayoutLandscape);
             goneView(mLayoutPortrait);
-            goneView(mBarView);
+            goneView(mLayoutBar);
             goneView(mTvBarMid);
-            goneView(mTvBarRight);
+            goneView(mLayoutBarRight);
         }
+    }
+
+    @Override
+    protected BaseCourseFrag getItem(int position) {
+        return (BaseCourseFrag) super.getItem(position);
     }
 
 }

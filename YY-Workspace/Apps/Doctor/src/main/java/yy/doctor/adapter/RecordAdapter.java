@@ -6,8 +6,8 @@ import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.util.TextUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.RecordVH;
-import yy.doctor.model.meet.Detail;
-import yy.doctor.model.meet.Detail.TDetail;
+import yy.doctor.model.meet.Course;
+import yy.doctor.model.meet.Course.TCourse;
 
 /**
  * 会议记录的Adapter
@@ -16,7 +16,7 @@ import yy.doctor.model.meet.Detail.TDetail;
  * @since : 2017/4/26
  */
 
-public class RecordAdapter extends MultiAdapterEx<Detail, RecordVH> {
+public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
     private String mImgUrl;
     private String mAudioUrl;
@@ -74,9 +74,9 @@ public class RecordAdapter extends MultiAdapterEx<Detail, RecordVH> {
 
     @Override
     public int getItemViewType(int position) {
-        mImgUrl = getData().get(position).getString(TDetail.imgUrl);
-        mAudioUrl = getData().get(position).getString(TDetail.audioUrl);
-        mVideoUrl = getData().get(position).getString(TDetail.videoUrl);
+        mImgUrl = getData().get(position).getString(TCourse.imgUrl);
+        mAudioUrl = getData().get(position).getString(TCourse.audioUrl);
+        mVideoUrl = getData().get(position).getString(TCourse.videoUrl);
 
         if (!TextUtil.isEmpty(mVideoUrl)) { // 有视频
             return RecordType.video;

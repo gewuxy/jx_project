@@ -42,7 +42,7 @@
                 android:layout_height="80dp">
 
                 <yy.doctor.view.CircleProgressView
-                    android:id="@+id/meeting_ppt_v_progress"
+                    android:id="@+id/meeting_ppt_layout_progress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     view:circle_backProgress="@color/transparent"

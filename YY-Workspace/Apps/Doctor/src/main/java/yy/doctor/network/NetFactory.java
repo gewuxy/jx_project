@@ -589,8 +589,8 @@ public class NetFactory {
     /**
      * 微课(语音+PPT)入口
      */
-    public static NetworkReq toPpt(String meetId, String moduleId) {
-        return toBase(UrlMeet.KToPpt, meetId, moduleId);
+    public static NetworkReq toPPT(String meetId, String moduleId) {
+        return toBase(UrlMeet.KToPPT, meetId, moduleId);
     }
 
     /**
@@ -618,7 +618,7 @@ public class NetFactory {
      * 微课学习提交
      */
     public static SubmitBuilder submitPpt() {
-        return new SubmitBuilder(UrlMeet.KToPpt);
+        return new SubmitBuilder(UrlMeet.KToPPT);
     }
 
     /**

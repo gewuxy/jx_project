@@ -85,6 +85,7 @@ public class CircleProgressView extends View {
         mMaxProgress = maxProgress;
     }
 
+    // FIXME: 外部计算百分比
     public void setProgress(int progress) {
         mProgress = progress;
         invalidate();

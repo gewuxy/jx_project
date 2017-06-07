@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/meeting_ppt_iv_default"
+        android:id="@+id/meeting_ppt_pic_iv_place_holder"
         android:src="@mipmap/ic_default_meeting_ppt_pic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

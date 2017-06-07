@@ -78,7 +78,7 @@ public class UrlUtil {
         String KToExam = KMeetBase + "toexam";
         String KToSurvey = KMeetBase + "tosurvey";
         String KToSign = KMeetBase + "tosign";
-        String KToPpt = KMeetBase + "toppt";
+        String KToPPT = KMeetBase + "toppt";
         String KToVideo = KMeetBase + "tovideo";
 
         String KSubmitSur = KMeetBase + "submitsur";

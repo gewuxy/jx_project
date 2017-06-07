@@ -1,10 +1,8 @@
 package yy.doctor.model.meet;
 
-import java.io.Serializable;
-
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindObj;
-import yy.doctor.model.meet.Ppt.TPpt;
+import yy.doctor.model.meet.PPT.TPPT;
 
 /**
  * 微课信息
@@ -13,10 +11,12 @@ import yy.doctor.model.meet.Ppt.TPpt;
  * @since : 2017/5/8
  */
 
-public class Ppt extends EVal<TPpt> implements Serializable {
-    public enum TPpt {
-        @BindObj(Course.class)
+public class PPT extends EVal<TPPT> {
+
+    public enum TPPT {
+        @BindObj(CourseInfo.class)
         course,//微课
+
         courseId,//微课ID
         id,//微课明细ID
         meetId,//会议ID
