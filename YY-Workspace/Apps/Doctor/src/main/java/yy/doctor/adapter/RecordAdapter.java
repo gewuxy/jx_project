@@ -3,6 +3,7 @@ package yy.doctor.adapter;
 import android.support.annotation.IntDef;
 
 import lib.ys.adapter.MultiAdapterEx;
+import lib.ys.util.TextUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.RecordVH;
 import yy.doctor.model.meet.Detail;
@@ -17,52 +18,73 @@ import yy.doctor.model.meet.Detail.TDetail;
 
 public class RecordAdapter extends MultiAdapterEx<Detail, RecordVH> {
 
+    private String mImgUrl;
+    private String mAudioUrl;
+    private String mVideoUrl;
+
     @IntDef({
-            RecordType.text,
-            RecordType.image,
-            RecordType.location,
+            RecordType.pic,
             RecordType.video,
             RecordType.sound,
     })
     private @interface RecordType {
-        int text = 0;
-        int image = 1;
-        int location = 2;
-        int video = 3;
-        int sound = 4;
+        int pic = 0;
+        int video = 1;
+        int sound = 2;
     }
 
 
     @Override
     public int getConvertViewResId(int itemType) {
         switch (itemType) {
-            case RecordType.text:
-                return R.layout.layout_meeting_record_text;
-            case RecordType.image:
-                return R.layout.layout_meeting_record_image;
+            case RecordType.pic:
+                return R.layout.layout_meeting_record_pic;
+            case RecordType.video:
+                return R.layout.layout_meeting_record_video;
             case RecordType.sound:
                 return R.layout.layout_meeting_record_sound;
-            default:
-                break;
         }
-
-        return R.layout.layout_meeting_record_text;
+        return R.layout.layout_meeting_record_video;
     }
 
     @Override
     protected void initView(int position, RecordVH holder, int itemType) {
-        super.initView(position, holder, itemType);
+        switch (itemType) {
+            case RecordType.pic:
+                break;
+            case RecordType.video:
+                break;
+            case RecordType.sound:
+                break;
+        }
     }
 
     @Override
     protected void refreshView(int position, RecordVH holder, int itemType) {
+        switch (itemType) {
+            case RecordType.pic:
+                holder.getIv().placeHolder(R.drawable.meeting_record_image_bg).url(mImgUrl).load();
+                break;
+            case RecordType.video:
+                break;
+            case RecordType.sound:
+                break;
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        getItem(position).getString(TDetail.imgUrl);
+        mImgUrl = getData().get(position).getString(TDetail.imgUrl);
+        mAudioUrl = getData().get(position).getString(TDetail.audioUrl);
+        mVideoUrl = getData().get(position).getString(TDetail.videoUrl);
 
-        return position;
+        if (!TextUtil.isEmpty(mVideoUrl)) { // 有视频
+            return RecordType.video;
+        } else if (!TextUtil.isEmpty(mImgUrl)) { // 有图片
+            return RecordType.pic;
+        } else { // 只有音频
+            return RecordType.sound;
+        }
     }
 
     @Override

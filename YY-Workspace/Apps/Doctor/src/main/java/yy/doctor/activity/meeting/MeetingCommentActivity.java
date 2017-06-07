@@ -51,10 +51,6 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
 
     @Override
     public void initData() {
-        for (int i = 0; i < 14; ++i) {
-            addItem("");
-        }
-
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
     }
 
@@ -101,10 +97,10 @@ public class MeetingCommentActivity extends BaseListActivity<String, CommentAdap
         setViewState(ViewState.normal);
         if (id == KHistories) {
             ListResult<Comment> r = (ListResult<Comment>) result;
-            List<Comment> data = r.getData();
-            if (data.size() > 0) {
-                for (Comment histories : data) {
-                    LogMgr.d(TAG, histories.getString(TComment.message));
+            List<Comment> comments = r.getData();
+            if (comments != null) {
+                for (Comment comment : comments) {
+                    LogMgr.d(TAG, comment.getString(TComment.message));
                 }
             }
         } else if (id == KSend) {

@@ -15,11 +15,13 @@ public class CacheUtil extends CacheUtilEx {
 
     private static final String KDownloadCacheDef = KHomeDir + "cache/download/";
     private static final String KUnitNumCacheDef = KDownloadCacheDef + "unit_num/";
+    private static final String KMeetingCacheDef = KDownloadCacheDef + "meeting/";
 
 
     private static String mBmpCacheDir;
     private static String mDownloadCacheDir;
     private static String mUnitNumCacheDir;
+    private static String mMeetingCacheDir;
 
     static {
         init(KHomeDir);
@@ -27,6 +29,7 @@ public class CacheUtil extends CacheUtilEx {
         mBmpCacheDir = makeDir(KBmpCacheDef);
         mDownloadCacheDir = makeDir(KDownloadCacheDef);
         mUnitNumCacheDir = makeDir(KUnitNumCacheDef);
+        mMeetingCacheDir = makeDir(KMeetingCacheDef);
     }
 
     public static String getBmpCacheDir() {
@@ -43,6 +46,15 @@ public class CacheUtil extends CacheUtilEx {
 
     public static File getUnitNumCacheFile(int id, String fileName) {
         File destFile = new File(getUnitNumCacheDir(id) + fileName);
+        return destFile;
+    }
+
+    public static String getMeetingCacheDir(String id) {
+        return mMeetingCacheDir + id + File.separator;
+    }
+
+    public static File getMeetingCacheFile(String id, String fileName) {
+        File destFile = new File(getMeetingCacheDir(id) + fileName);
         return destFile;
     }
 }

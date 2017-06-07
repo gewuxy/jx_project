@@ -22,7 +22,8 @@
                 android:layout_height="169dp"
                 android:src="@mipmap/ic_default_meeting_content_detail"/>
 
-            <ImageView
+            <lib.ys.network.image.NetworkImageView
+                android:id="@+id/meeting_record_pic_iv"
                 android:layout_width="293dp"
                 android:layout_height="169dp"
                 android:background="@drawable/meeting_record_image_bg"/>

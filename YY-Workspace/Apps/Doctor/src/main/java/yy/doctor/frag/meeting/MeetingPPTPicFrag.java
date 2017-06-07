@@ -1,19 +1,23 @@
 package yy.doctor.frag.meeting;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import java.io.File;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import lib.ys.LogMgr;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.util.TextUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
 import yy.doctor.model.meet.Detail.TDetail;
 import yy.doctor.network.NetFactory;
@@ -26,18 +30,20 @@ import yy.doctor.util.CacheUtil;
  * @since : 2017/6/3
  */
 
-public class MeetingPPTPicFrag extends BaseMeetingPPTFrag implements OnCompletionListener, OnPreparedListener, CountDown.OnCountDownListener {
+public class MeetingPPTPicFrag extends BaseMeetingPPTFrag implements OnCompletionListener, OnCountDownListener {
     // TODO: 2017/6/6 切换音乐
 
     private NetworkPhotoView mIvPpt;
     private ImageView mIvDefault;
-    private MediaPlayer mMp;
-    private CountDown mCountDown;
 
-    private File mFile;
-    private boolean mNeedPlay = false;
+    private boolean mCanPlay = false; // onVisible在setViews之前调用
+    private boolean mVisible = false; // 没下载之前显示
     private int mRemainTime; // 剩余时间
+    private String mFile; // 文件的路径
     private OnPPTPicListener mOnPPTPicListener;
+    private MediaPlayer mMp;
+//    private CountDown mCountDown;
+
 
     public interface OnPPTPicListener {
         void OnAudio(boolean has, int all);
@@ -64,7 +70,6 @@ public class MeetingPPTPicFrag extends BaseMeetingPPTFrag implements OnCompletio
     @Override
     public void setViews() {
         String imgUrl = mDetail.getString(TDetail.imgUrl);
-        String audioUrl = mDetail.getString(TDetail.audioUrl);
 
         if (!TextUtil.isEmpty(imgUrl)) {
             mIvPpt.url(imgUrl)
@@ -78,35 +83,29 @@ public class MeetingPPTPicFrag extends BaseMeetingPPTFrag implements OnCompletio
                     .load();
         }
 
+        String audioUrl = mDetail.getString(TDetail.audioUrl);
         if (!TextUtil.isEmpty(audioUrl)) {
             // 有音频资源
+            mMp = new MediaPlayer();
+            mMp.setOnCompletionListener(this);
+            mMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-            // 文件夹
-            String filePath = CacheUtil.getDownloadCacheDir() + "meetId/" + mMeetId + "/";
-            File fileDir = new File(filePath);
-            if (!fileDir.exists()) {
-                fileDir.mkdirs();
-            }
-
-            // 文件
+            // 文件名
             String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1);
             String fileName = audioUrl.hashCode() + "." + type;
-            mFile = new File(filePath + fileName);
-            if (mFile.exists() && mNeedPlay) {
-                // 存在播放
-                mMp = MediaPlayer.create(getContext(), Uri.fromFile(mFile));
-                mMp.setOnCompletionListener(this);
-                mMp.setOnPreparedListener(this);
-//                if (mMp != null) {
-//                    stop();
-//                }
-                if (mOnPPTPicListener != null) {
-                    mOnPPTPicListener.OnAudio(true, mMp.getDuration());
-                }
-                mMp.prepareAsync();
-            } else {
+            // 文件夹名字
+            String filePath = CacheUtil.getMeetingCacheDir(mMeetId);
+            mFile = filePath + fileName;
+
+            File file = CacheUtil.getMeetingCacheFile(mMeetId, fileName);
+
+            if (!file.exists()) {
                 // 不存在下载
                 exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
+            } else {
+                // 存在可以播放
+                mCanPlay = true;
+                play();
             }
         } else {
             // 没有音频资源
@@ -117,83 +116,85 @@ public class MeetingPPTPicFrag extends BaseMeetingPPTFrag implements OnCompletio
     }
 
     @Override
-    public void onPrepared(MediaPlayer mp) {
-        start();
-        mRemainTime = mMp.getDuration() / 1000;
-    }
-
-    @Override
     public void onCompletion(MediaPlayer mp) {
         mMp.release();
     }
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
-        if (progress == 100 && mNeedPlay) {
-            mMp = MediaPlayer.create(getContext(), Uri.fromFile(mFile));
-            mMp.setOnCompletionListener(this);
-            mMp.setOnPreparedListener(this);
-//            if (mMp != null) {
-//                mMp.stop();
-//            }
-            mMp.prepareAsync();
-        }
-    }
-
-    @Override
-    public void toggle() {
-        if (mMp != null) {
-            if (mMp.isPlaying()) {
-                mMp.pause();
-            } else {
-                start();
+        if (progress == 100) {
+            LogMgr.d(TAG, mFile + "下载完成");
+            mCanPlay = true;
+            if (mVisible) {
+                play();
             }
         }
     }
 
     @Override
+    public void toggle() {
+        /*if (mMp != null) {
+            if (mMp.isPlaying()) {
+                stop();
+            } else {
+                start();
+            }
+        }*/
+    }
+
+    @Override
     protected void onVisible() {
-        mNeedPlay = true;
-        if (mMp != null) {
-            stop();
-            mMp.prepareAsync();
-        }
+        LogMgr.d(TAG,mFile + "------------Visible");
+        mVisible = true;
+        play();
     }
 
     @Override
     protected void onInvisible() {
-        mNeedPlay = false;
+        LogMgr.d(TAG,mFile + "------------Invisible");
+        mVisible = false;
         if (mMp != null) {
             stop();
             mMp.release();
-            mMp = null;
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mNeedPlay = false;
-        if (mMp != null) {
-            stop();
-            mMp.release();
-            mMp = null;
+    /**
+     * 初始播放
+     */
+    private void play() {
+        if (mMp != null && mCanPlay) {
+            Observable.just(mMp)
+                    .doOnSubscribe(subscription -> {
+                        mMp.reset();
+                        mMp.setDataSource(mFile);
+                        mMp.prepare();
+                        mRemainTime = mMp.getDuration() / 1000;
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mediaPlayer -> {
+                        start();
+                        if (mOnPPTPicListener != null) {
+                            mOnPPTPicListener.OnAudio(true, mMp.getDuration());
+                        }
+                    });
         }
     }
 
     private void start() {
         mMp.start();
-        recycle();
-        if (mCountDown == null) {
-            mCountDown = new CountDown(mRemainTime);
-            mCountDown.setListener(this);
-        }
-        mCountDown.start();
+//        countStop();
+//        if (mCountDown == null) {
+//            mCountDown = new CountDown(mRemainTime);
+//            mCountDown.setListener(this);
+//        }
+//        mCountDown.start();
     }
 
     private void stop() {
         mMp.stop();
-        recycle();
+//        countStop();
         mRemainTime = (mMp.getDuration() - mMp.getCurrentPosition()) / 1000;
     }
 
@@ -209,9 +210,9 @@ public class MeetingPPTPicFrag extends BaseMeetingPPTFrag implements OnCompletio
         }
     }
 
-    public void recycle() {
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
-    }
+//    public void countStop() {
+//        if (mCountDown != null) {
+//            mCountDown.stop();
+//        }
+//    }
 }

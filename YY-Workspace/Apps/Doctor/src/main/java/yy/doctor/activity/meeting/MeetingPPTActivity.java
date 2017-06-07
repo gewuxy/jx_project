@@ -51,6 +51,7 @@ import yy.doctor.view.CircleProgressView;
 
 public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListener {
 
+    private static final int KVpSize = 3;
     private final int KViewPagerHDp = 271;
 
     private String mMeetId;
@@ -68,6 +69,7 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
     private View mLayoutPortrait; // 竖屏布局
     private View mBarView; // 占位图
     private ImageView mIvControl;
+    private View mTvBarRight;
 
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, MeetingPPTActivity.class)
@@ -105,7 +107,7 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
         mTvBarMid = new TextView(this);
 
         bar.addViewMid(mTvBarMid);
-        bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> MeetingRecordActivity.nav(MeetingPPTActivity.this, mPpt));
+        mTvBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> MeetingRecordActivity.nav(MeetingPPTActivity.this, mPpt));
     }
 
     @Override
@@ -130,6 +132,8 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
     public void setViews() {
         super.setViews();
 
+        mIsPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+
         setOnClickListener(R.id.meeting_ppt_iv_left);
         setOnClickListener(R.id.meeting_ppt_iv_right);
         setOnClickListener(R.id.meeting_ppt_iv_control);
@@ -137,6 +141,7 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
         setOnClickListener(R.id.meeting_ppt_iv_comment);
         setOnClickListener(R.id.meeting_ppt_layout_control);
 
+        setOffscreenPageLimit(KVpSize);
         setOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -269,6 +274,8 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
             showView(mLayoutPortrait);
             goneView(mLayoutLandscape);
             showView(mBarView);
+            showView(mTvBarMid);
+            showView(mTvBarRight);
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) { // 横屏
             mIsPortrait = false;
             mParams.height = MATCH_PARENT;
@@ -277,6 +284,8 @@ public class MeetingPPTActivity extends BaseVPActivity implements OnPPTPicListen
             showView(mLayoutLandscape);
             goneView(mLayoutPortrait);
             goneView(mBarView);
+            goneView(mTvBarMid);
+            goneView(mTvBarRight);
         }
     }
 
