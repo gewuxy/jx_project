@@ -8,7 +8,7 @@
 
     <!-- 竖屏布局 -->
     <LinearLayout
-        android:id="@+id/meeting_ppt_layout_portrait"
+        android:id="@+id/meeting_ppt_layout_p"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -50,7 +50,7 @@
                     view:circle_widthDp="3dp"/>
 
                 <ImageView
-                    android:id="@+id/meeting_ppt_iv_control"
+                    android:id="@+id/meeting_ppt_iv_control_p"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/meeting_ppt_control_selector"/>
@@ -67,7 +67,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/meeting_ppt_tv_time"
+            android:id="@+id/meeting_ppt_tv_time_p"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -117,10 +117,10 @@
             android:layout_below="@id/meeting_ppt_view"
             android:id="@+id/vp"
             android:layout_width="match_parent"
-            android:layout_height="271dp"/>
+            android:layout_height="270dp"/>
         <!-- 横屏布局 -->
         <LinearLayout
-            android:id="@+id/video_layout_function"
+            android:id="@+id/meeting_ppt_layout_l"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignBottom="@id/vp"
@@ -130,7 +130,7 @@
             android:visibility="gone">
 
             <ImageView
-                android:id="@+id/video_iv_control"
+                android:id="@+id/meeting_ppt_iv_control_l"
                 android:layout_width="32dp"
                 android:layout_height="36dp"
                 android:layout_marginLeft="12dp"
@@ -138,7 +138,7 @@
                 android:src="@drawable/meet_play_stop_selector"/>
 
             <TextView
-                android:id="@+id/video_tv_time"
+                android:id="@+id/meeting_ppt_tv_time_l"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -147,7 +147,7 @@
                 android:textSize="14dp"/>
 
             <SeekBar
-                android:id="@+id/video_sb_progress"
+                android:id="@+id/meeting_ppt_sb_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

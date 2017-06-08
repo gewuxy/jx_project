@@ -83,11 +83,14 @@
             android:name=".activity.meeting.MeetingDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.MeetingPPTActivity"
+            android:name=".activity.meeting.MeetingCourseActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".activity.meeting.MeetingRecordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.MeetingSearchResultActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.meeting.MeetingSearchActivity"

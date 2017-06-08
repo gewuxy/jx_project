@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -50,7 +52,7 @@ import yy.doctor.util.Util;
 
 /**
  * 会议详情界面
- *
+ * <p>
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -99,6 +101,8 @@ public class MeetingDetailsActivity extends BaseActivity {
     private TextView mTvTime;//时长
     private String mLatitude;//经度
     private String mLongitude;//维度
+    private TextView mTvIntro; // 会议简介
+//    private ImageView mIvCollection; // navBar的收藏
 
     /**
      * functionId,模块功能ID
@@ -116,6 +120,18 @@ public class MeetingDetailsActivity extends BaseActivity {
         int exam = 3;//考试
         int que = 4;//问卷
         int sign = 5;//签到
+    }
+
+    /**
+     * functionId,模块功能ID
+     */
+    @IntDef({
+            CollectType.yes,
+            CollectType.no,
+    })
+    private @interface CollectType {
+        int yes = 0; // 没有收藏
+        int no = 1; // 收藏
     }
 
     public static void nav(Context context, String meetId) {
@@ -144,7 +160,10 @@ public class MeetingDetailsActivity extends BaseActivity {
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, "会议详情", this);
         //TODO:右边图标的事件
-        bar.addViewRight(R.mipmap.nar_bar_ic_collection, v -> showToast("收藏"));
+        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> showToast("收藏"));
+//        if (mIvCollection == null) {
+//            getCollection(layout);
+//        }
         bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> new ShareDialog(MeetingDetailsActivity.this).show());
     }
 
@@ -153,6 +172,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvPlay = findView(R.id.meeting_detail_iv_play);
         mTvDate = findView(R.id.meeting_detail_tv_date);
         mTvTime = findView(R.id.meeting_detail_tv_time);
+        mTvIntro = findView(R.id.meeting_detail_tv_intro);
         mIvNumber = findView(R.id.meeting_detail_iv_number);
         mTvAward = findView(R.id.meeting_detail_tv_award);
         mTvTitle = findView(R.id.meeting_detail_tv_title);
@@ -162,7 +182,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvGN = findView(R.id.meeting_tv_guest_name);
         mTvGP = findView(R.id.meeting_tv_guest_post);
         mTvGH = findView(R.id.meeting_tv_guest_hospital);
-        mIvGP = findView(R.id.meeting_niv_guest_portrait);
+        mIvGP = findView(R.id.meeting_iv_guest_portrait);
 
         //模块相关
         mLlModules = findView(R.id.meeting_detail_layout_modules);
@@ -185,7 +205,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_detail_video_see:
-                MeetingPPTActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
+                MeetingCourseActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
                 break;
         }
     }
@@ -248,6 +268,16 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param info
      */
     private void refreshViews(MeetDetail info) {
+        // 是否收藏
+//        switch (info.getInt(TMeetDetail.stored)) {
+//            case CollectType.yes:
+//                mIvCollection.setSelected(true);
+//                break;
+//            case CollectType.no:
+//                mIvCollection.setSelected(false);
+//                break;
+//        }
+
         long startTime = info.getLong(TMeetDetail.startTime);
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
         mTvTime.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
@@ -257,6 +287,8 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvSection.setText(info.getString(TMeetDetail.meetType));
 
         mTvGN.setText(info.getString(TMeetDetail.lecturer));
+
+        mTvIntro.setText(Html.fromHtml(info.getString(TMeetDetail.introduction)));
 
         //添加包含的模块
         modules(info.getList(TMeetDetail.modules));
@@ -383,6 +415,22 @@ public class MeetingDetailsActivity extends BaseActivity {
                 sign();
             }
         });
+    }
+
+    /**
+     * 获取收藏按钮
+     *
+     * @param layout
+     */
+    private void getCollection(ViewGroup layout) {
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View childView = layout.getChildAt(i);
+            if (childView instanceof ViewGroup) {
+                getCollection((ViewGroup) childView);
+            } else if (childView instanceof TextView) {
+//                mIvCollection = (ImageView) childView;
+            }
+        }
     }
 
     @Override

@@ -84,13 +84,20 @@ public class VideoActivity extends BaseActivity implements
                 goneView(mFunction);
                 finish();
             } else {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 切换为竖屏
-                Observable.just((Runnable) () ->
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)) // 设置回默认值
-                        .delay(1000, TimeUnit.MILLISECONDS)
-                        .subscribe(Runnable::run);
+                toPortrait();
             }
         });
+    }
+
+    /**
+     * 切换为竖屏
+     */
+    private void toPortrait() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Observable.just((Runnable) () ->
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)) // 设置回默认值
+                .delay(1000, TimeUnit.MILLISECONDS)
+                .subscribe(Runnable::run);
     }
 
     @Override
@@ -106,7 +113,7 @@ public class VideoActivity extends BaseActivity implements
         mFunction = findView(R.id.video_layout_function);
         mIvControl = findView(R.id.video_iv_control);
         mTvTime = findView(R.id.video_tv_time);
-        mSbProgress = findView(R.id.video_sb_progress);
+        mSbProgress = findView(R.id.meeting_ppt_sb_progress);
         mLoading = findView(R.id.video_loading);
     }
 
@@ -226,25 +233,28 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.video_iv_control:
+            case R.id.video_iv_control: {
                 if (mVideo.getCurrentPosition() == mVideo.getDuration()) {
                     mVideo.prepared(mAllTime);
                 }
                 mVideo.toggleState();
                 mIvControl.setSelected(!mIvControl.isSelected());
-                break;
-            case R.id.video_layout:
+            }
+            break;
+            case R.id.video_layout: {
                 if (mFunction.getVisibility() == View.VISIBLE) {
                     goneView(mFunction);
                     if (!mIsPortrait) { // 横屏
                         goneView(getNavBar());
                     }
+                    mCountDown.stop();
                 } else {
                     showView(mFunction);
                     showView(getNavBar());
                     countDown();
                 }
-                break;
+            }
+            break;
         }
     }
 
@@ -322,6 +332,9 @@ public class VideoActivity extends BaseActivity implements
     public void onBackPressed() {
         goneView(mLayoutVideo);
         goneView(mFunction);
+        if (!mIsPortrait) {
+            toPortrait();
+        }
         super.onBackPressed();
     }
 

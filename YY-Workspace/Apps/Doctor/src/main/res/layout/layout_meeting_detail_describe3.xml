@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="62dp"
     android:layout_marginLeft="@dimen/margin"
     android:layout_marginRight="@dimen/margin"
     android:background="@drawable/meeting_details_intro_bg"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    tools:showIn="@layout/activity_meeting_details">
+    android:orientation="horizontal">
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/meeting_niv_guest_portrait"
+        android:id="@+id/meeting_iv_guest_portrait"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginBottom="9dp"
@@ -33,12 +31,12 @@
                 style="@style/tv"
                 android:text="王学廉"
                 android:textColor="@color/text_333"
+                android:layout_marginRight="8dp"
                 android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/meeting_tv_guest_post"
                 style="@style/tv"
-                android:layout_marginLeft="8dp"
                 android:text="副主任"
                 android:textColor="@color/text_333"
                 android:textSize="14dp"/>

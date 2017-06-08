@@ -122,6 +122,7 @@ public class UrlUtil {
     public interface UrlSearch {
         String KSearchRecUnitNum = "publicAccount/recommend";
         String KSearchUnitNum = "publicAccount/search";
+        String KSearchMeeting = "meet/search";
     }
 
 }

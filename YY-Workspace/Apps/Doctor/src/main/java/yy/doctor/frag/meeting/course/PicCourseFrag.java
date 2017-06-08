@@ -12,6 +12,5 @@ public class PicCourseFrag extends PicAudioCourseFrag {
     @Override
     public void setViews() {
         setPic();
-        onPrepare(false);
     }
 }

@@ -2,51 +2,58 @@
   "code": "0",
   "data": {
     "eduCredits": 0,
-    "endTime": 1494399392000,
-    "id": "17042512131640894904",
-    "lecturer": "杨主任",
-    "meetName": "测试会议哈哈",
-    "meetType": "儿科",
+    "endTime": 1498795980000,
+    "id": "17060312172856248750",
+    "introduction": "<p>个人简介: 李昆明，男，博士，教授，主任医师。现任第四军医大学唐都医院神 经外科副主任。长期从事立体定向和功能神经外科工作，积极参与了微电极导 向定向手术治疗帕金森病新技术的引进、创新及推广工作，采用脑深部电刺激技 术（脑起搏器技术）和毁损技术治疗帕金森病、扭转痉挛、原发性震颤、痉挛性 斜颈、舞蹈症患者3000余例，手术疗效明显，并发症发生率低；应用全息、实 时、可视神经导航技术结合微电极导向手术治疗精神病（精神分裂症、躁狂症、 强迫症、抑郁症、焦虑症）、疼痛等取得显著疗效。</p><p>课题：《2型糖尿病的三级预防》</p><p>讲师：孙丰雷，主治医师，山东省中医院老年病科。</p><p>内容简介：</p><p>1.糖尿病的诊断及分型；<br>2.糖尿病的流行病学；<br>3.糖尿病的三级预防。</p><p><br></p>",
+    "lecturer": "王长喜",
+    "lecturerDepart": "泌尿外科",
+    "lecturerHead": "http://www.medcn.com:8081/file/headimg/17060312162454484613.png",
+    "lecturerHos": "广州海印南院",
+    "lecturerTitle": "主任医师",
+    "meetName": "神经外科测试会议二",
+    "meetType": "神经外科",
     "modules": [
       {
         "active": true,
-        "functionId": 5,
-        "id": 4,
-        "meetId": "17042512131640894904",
-        "moduleName": "签到"
-      },
-      {
-        "active": true,
         "functionId": 1,
-        "id": 7,
-        "meetId": "17042512131640894904",
+        "id": 33,
+        "mainFlag": true,
+        "meetId": "17060312172856248750",
         "moduleName": "微课"
       },
       {
         "active": true,
         "functionId": 3,
-        "id": 8,
-        "meetId": "17042512131640894904",
+        "id": 34,
+        "meetId": "17060312172856248750",
         "moduleName": "考试"
       },
       {
+        "active": true,
         "functionId": 4,
-        "id": 10,
-        "meetId": "17042512131640894904",
+        "id": 35,
+        "meetId": "17060312172856248750",
         "moduleName": "问卷"
       },
       {
         "active": true,
+        "functionId": 5,
+        "id": 36,
+        "meetId": "17060312172856248750",
+        "moduleName": "签到"
+      },
+      {
+        "active": true,
         "functionId": 2,
-        "id": 12,
-        "meetId": "17042512131640894904",
+        "id": 37,
+        "meetId": "17060312172856248750",
         "moduleName": "视频"
       }
     ],
-    "organizer": "yaya大讲堂",
+    "organizer": "佛山公众号",
     "requiredXs": false,
-    "startTime": 1493270190000,
-    "state": 1,
-    "xsCredits": 100
+    "startTime": 1496463180000,
+    "state": 2,
+    "stored": 0
   }
 }

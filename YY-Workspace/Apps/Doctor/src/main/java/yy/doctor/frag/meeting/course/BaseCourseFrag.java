@@ -1,6 +1,7 @@
 package yy.doctor.frag.meeting.course;
 
 import android.os.Bundle;
+import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFrag;
@@ -17,8 +18,7 @@ public abstract class BaseCourseFrag extends BaseFrag {
     private Course mCourse;
     private String mMeetId;
 
-    private OnPPTListener mListener;
-
+    private OnCourseListener mListener;
 
     @Override
     public void initData() {
@@ -44,51 +44,59 @@ public abstract class BaseCourseFrag extends BaseFrag {
 
     abstract public void toggle();
 
-    public interface OnPPTListener {
+    public interface OnCourseListener {
         /**
          * 准备工作
          *
-         * @param enablePlay 是否有播放功能(音视频)
+         * @param allMilliseconds  播放总进度(毫秒)
          */
-        void onPrepare(boolean enablePlay);
+        void onPrepare(long allMilliseconds);
 
-        void onStart(boolean enablePlay);
+        void onPlay(boolean enablePlay,long allMilliseconds);
 
         /**
          * 播放中
          *
-         * @param currSeconds 当前播放进度(秒)
+         * @param currMilliseconds 当前播放进度(毫秒)
          */
-        void onProgress(long currSeconds);
+        void onProgress(long currMilliseconds);
 
         void onStop();
+
+        void onClick();
     }
 
-    public void setOnPPTListener(OnPPTListener l) {
+    public void setOnPPTListener(OnCourseListener l) {
         mListener = l;
     }
 
-    protected void onPrepare(boolean enablePlay) {
+    protected void onPrepare(long allMilliseconds) {
         if (mListener != null) {
-            mListener.onPrepare(enablePlay);
+            mListener.onPrepare(allMilliseconds);
         }
     }
 
-    protected void onStart(boolean enablePlay) {
+    protected void onPlay(boolean enablePlay,long allMilliseconds) {
         if (mListener != null) {
-            mListener.onStart(enablePlay);
+            mListener.onPlay(enablePlay,allMilliseconds);
         }
     }
 
-    protected void onProgress(long currSeconds) {
+    protected void onProgress(long currMilliseconds) {
         if (mListener != null) {
-            mListener.onProgress(currSeconds);
+            mListener.onProgress(currMilliseconds);
         }
     }
 
     protected void onPlayStop() {
         if (mListener != null) {
             mListener.onStop();
+        }
+    }
+
+    protected void onCourseClick() {
+        if (mListener != null) {
+            mListener.onClick();
         }
     }
 }

@@ -561,6 +561,18 @@ public class NetFactory {
     }
 
     /**
+     * 搜索会议
+     *
+     * @param keyword
+     * @return
+     */
+    public static NetworkReq searchMeeting(String keyword) {
+        return newPost(UrlSearch.KSearchMeeting)
+                .param(SearchParam.KKeyword, keyword)
+                .build();
+    }
+
+    /**
      * 关注过的公众的所有会议
      */
     public static NetworkReq meets(int state) {
