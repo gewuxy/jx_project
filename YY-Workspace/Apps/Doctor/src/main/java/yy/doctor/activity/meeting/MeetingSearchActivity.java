@@ -11,8 +11,8 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.view.FlowLayout;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.util.Util;
 import yy.doctor.activity.meeting.MeetingSearchResultActivity.SearchType;
+import yy.doctor.util.Util;
 
 /**
  * 搜索会议界面

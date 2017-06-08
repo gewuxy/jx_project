@@ -13,7 +13,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @since : 2017/4/28
  */
 
-public class  TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
+public class TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_exam_topic_case_item;

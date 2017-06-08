@@ -114,6 +114,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
 
     /**
      * 获取一个用于打开Word文件的intent
+     *
      * @param param
      * @return
      */
@@ -128,6 +129,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
 
     /**
      * 获取一个用于打开PDF文件的intent
+     *
      * @param param
      * @return
      */
@@ -142,6 +144,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
 
     /**
      * 获取一个用于打开PPT文件的intent
+     *
      * @param param
      * @return
      */

@@ -30,7 +30,7 @@ public class RootLayout extends FrameLayout {
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_UP:
-                if (mOnRootTouchListener!=null) {
+                if (mOnRootTouchListener != null) {
                     mOnRootTouchListener.onTouchUp();
                 }
                 break;

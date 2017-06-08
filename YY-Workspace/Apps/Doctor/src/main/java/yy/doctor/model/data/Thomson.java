@@ -10,9 +10,9 @@ import yy.doctor.model.data.Thomson.TThomson;
 
 public class Thomson extends EVal<TThomson> {
 
-    public enum  TThomson {
-        id,	// 栏目id
-        name,	// 栏目名字
-        leaf,	// 是否是叶子节点	如果为true 则下一级为数据 否则为栏目
+    public enum TThomson {
+        id,    // 栏目id
+        name,    // 栏目名字
+        leaf,    // 是否是叶子节点	如果为true 则下一级为数据 否则为栏目
     }
 }

@@ -11,8 +11,8 @@ import yy.doctor.R;
 /**
  * 双按钮(2行提示)的提示框
  * 形如: **********************
- *         ******************
- *        ******       *******
+ * ******************
+ * ******       *******
  *
  * @author : GuoXuan
  * @since : 2017/5/23
@@ -26,8 +26,9 @@ public class CommonTwoDialog extends BaseDialog {
     private TextView mTvRight;//右键
     private OnLayoutListener mOnLayoutListener;
 
-    public interface OnLayoutListener{
+    public interface OnLayoutListener {
         void leftClick(View v);
+
         void rightClick(View v);
     }
 

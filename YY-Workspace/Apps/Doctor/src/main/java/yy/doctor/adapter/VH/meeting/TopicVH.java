@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
-import lib.ys.view.NestCheckBox;
 import yy.doctor.R;
 
 /**

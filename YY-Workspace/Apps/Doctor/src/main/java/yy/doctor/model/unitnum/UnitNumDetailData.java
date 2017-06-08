@@ -15,7 +15,7 @@ public class UnitNumDetailData extends EVal<TUnitNumDetailData> {
         createTime,
         materialName,   //资料名称
         materialUrl,   //资料url
-        materialType,	//资料类型
+        materialType,    //资料类型
     }
 
 }

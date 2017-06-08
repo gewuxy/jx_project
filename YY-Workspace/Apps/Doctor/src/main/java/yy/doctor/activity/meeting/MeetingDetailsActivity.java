@@ -40,10 +40,10 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
-import yy.doctor.model.meet.Module;
-import yy.doctor.model.meet.Module.TModule;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
+import yy.doctor.model.meet.Module;
+import yy.doctor.model.meet.Module.TModule;
 import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.network.JsonParser;
@@ -160,7 +160,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, "会议详情", this);
-        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector,null/* v -> exeNetworkReq(NetFactory.collectMeeting(mMeetId, mCollect))*/);
+        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, null/* v -> exeNetworkReq(NetFactory.collectMeeting(mMeetId, mCollect))*/);
         if (mIvCollection == null) {
             getCollection(layout);
         }

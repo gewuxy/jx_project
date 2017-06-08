@@ -18,6 +18,7 @@ import yy.doctor.util.Util;
 public class EpnUseRuleActivity extends BaseWebViewActivity {
 
     private String mUrl;
+
     public static void nav(Context context, String url) {
         Intent i = new Intent(context, EpnUseRuleActivity.class);
         i.putExtra(Extra.KData, url);

@@ -60,5 +60,5 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
         String url = item.getString(TThomsonDetail.filePath);
         DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize);
     }
-    
+
 }

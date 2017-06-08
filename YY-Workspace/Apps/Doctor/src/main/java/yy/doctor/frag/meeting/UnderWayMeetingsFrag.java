@@ -1,6 +1,5 @@
 package yy.doctor.frag.meeting;
 
-import lib.ys.config.AppConfig.RefreshWay;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.network.NetFactory;
 
@@ -12,19 +11,13 @@ import yy.doctor.network.NetFactory;
  */
 
 public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
+
     @Override
     public void initData() {
     }
 
     @Override
     public void getDataFromNet() {
-
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-        refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.meets(MeetsState.under_way));
     }
 

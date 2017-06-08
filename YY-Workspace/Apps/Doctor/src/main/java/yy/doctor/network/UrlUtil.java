@@ -90,7 +90,7 @@ public class UrlUtil {
         String KVideo = KMeetBase + "video/sublist";
         String KHistories = KMeetBase + "message/histories";
 
-        String KCollectMeeting = KMeetBase +  "store";
+        String KCollectMeeting = KMeetBase + "store";
     }
 
     public interface UrlData {

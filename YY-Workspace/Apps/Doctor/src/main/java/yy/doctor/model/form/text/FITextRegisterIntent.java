@@ -25,7 +25,7 @@ public class FITextRegisterIntent extends FormItem {
 
     @Override
     public boolean check() {
-        return false;
+        return checkInput();
     }
 
     @Override
@@ -52,11 +52,13 @@ public class FITextRegisterIntent extends FormItem {
         String strCity = data.getStringExtra(Extra.KCity);
         String strArea = data.getStringExtra(Extra.KArea);
         if (strArea == null) {
-            put(TFormElem.name, strProvince + " " + strCity);
-            put(TFormElem.val, strProvince + " " + strCity);
+            String text = strProvince + " " + strCity;
+            put(TFormElem.name, text);
+            save(text, text);
         } else {
-            put(TFormElem.name, strProvince + " " + strCity + "-" +strArea);
-            put(TFormElem.val, strProvince + " " + strCity + "-" +strArea);
+            String text = strProvince + " " + strCity + "-" + strArea;
+            put(TFormElem.name, text);
+            save(text, text);
         }
     }
 

@@ -21,7 +21,7 @@ import yy.doctor.util.Util;
  * @since 2017/5/23
  */
 
-public class AreaActivity extends BaseSRListActivity<Area, AreaAdapter>{
+public class AreaActivity extends BaseSRListActivity<Area, AreaAdapter> {
 
     private static final int KAreaRequestCode = 20;
     private String mCityId;

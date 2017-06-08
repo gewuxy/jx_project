@@ -16,11 +16,11 @@ public class RecMeeting extends EVal<TRecMeeting> implements IHome {
 
     public enum TRecMeeting {
 
-        id,	//会议ID
-        lecturer,	//主讲者
-        lecturerTile,	//主讲者职位
-        meetName,	//会议名称
-        meetType,	//会议科室类型
+        id,    //会议ID
+        lecturer,    //主讲者
+        lecturerTile,    //主讲者职位
+        meetName,    //会议名称
+        meetType,    //会议科室类型
         endTime,
         startTime,
         pubUserHead,
@@ -28,5 +28,5 @@ public class RecMeeting extends EVal<TRecMeeting> implements IHome {
         lecturerImg,
         stored, // 是否已经收藏， 0 未收藏  1 收藏
         state, // 0 草稿    1 未开始  2 进行中   3 已结束
-        }
+    }
 }

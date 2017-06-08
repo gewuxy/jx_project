@@ -14,7 +14,6 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Result;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
@@ -98,6 +97,7 @@ public class RegisterActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.text_register_intent)
                 .related(RelatedId.location)
+                .hint("省市")
                 .intent(new Intent(this, ProvinceActivity.class))
                 .build());
 
@@ -157,25 +157,25 @@ public class RegisterActivity extends BaseFormActivity {
         String strDepartment = "";
         String strLicence = "";
 
-        if (BuildConfig.TEST) {
-            strInvite = "02123456789";
-            mUserName = "18194529@qq.com";
-            strNickname = mUserName;
-            strLinkman = "test1";
-            strMobile = "";
-            strPwd = "123456";
-            strPwdNg = "123456";
-            strProvince = "广东";
-            strCity = "广州";
-            strHospital = "第一医院";
-            strDepartment = "";
-            strLicence = "";
-            mPwd = "123456";
-            //登录
-            refresh(RefreshWay.embed);
-            exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
-            return;
-        }
+//        if (BuildConfig.TEST) {
+//            strInvite = "02123456789";
+//            mUserName = "18194529@qq.com";
+//            strNickname = mUserName;
+//            strLinkman = "test1";
+//            strMobile = "";
+//            strPwd = "123456";
+//            strPwdNg = "123456";
+//            strProvince = "广东";
+//            strCity = "广州";
+//            strHospital = "第一医院";
+//            strDepartment = "";
+//            strLicence = "";
+//            mPwd = "123456";
+//            //登录
+//            refresh(RefreshWay.embed);
+//            exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
+//            return;
+//        }
 
         if (!check()) {
             return;

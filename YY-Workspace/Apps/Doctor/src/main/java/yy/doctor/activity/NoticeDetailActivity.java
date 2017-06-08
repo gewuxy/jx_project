@@ -16,7 +16,7 @@ import yy.doctor.util.Util;
  * @since 2017/6/8
  */
 
-public class NoticeDetailActivity extends BaseWebViewActivity{
+public class NoticeDetailActivity extends BaseWebViewActivity {
 
     private String mUrl;
 

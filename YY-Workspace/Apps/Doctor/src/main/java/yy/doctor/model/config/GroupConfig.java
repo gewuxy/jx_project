@@ -7,7 +7,7 @@ import java.util.List;
  * @since 2017/5/24
  */
 
-public class GroupConfig  {
+public class GroupConfig {
 
     private Config mGroup;
     private List<Config> mChildren;

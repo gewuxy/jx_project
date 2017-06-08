@@ -481,7 +481,7 @@ public class NetFactory {
      * @param pageSize
      * @return
      */
-    public static NetworkReq unitNumData(int id,int pageNum, int pageSize) {
+    public static NetworkReq unitNumData(int id, int pageNum, int pageSize) {
         return newGet(UrlUnitNum.KUnitNumData)
                 .param(UnitNumDetailParam.KId, id)
                 .param(UnitNumDetailParam.KPageNum, pageNum)
@@ -491,6 +491,7 @@ public class NetFactory {
 
     /**
      * 单位号资料下载
+     *
      * @param url
      * @param filePath
      * @param fileName
@@ -502,7 +503,7 @@ public class NetFactory {
     }
 
     /**
-     *  汤森路透的所有信息
+     * 汤森路透的所有信息
      *
      * @return
      */
@@ -760,6 +761,7 @@ public class NetFactory {
 
     /**
      * 获取download请求
+     *
      * @param url
      * @param filePath
      * @param fileName

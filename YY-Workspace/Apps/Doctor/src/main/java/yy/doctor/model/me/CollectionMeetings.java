@@ -11,14 +11,14 @@ import yy.doctor.model.me.CollectionMeetings.TCollectionMeetings;
 public class CollectionMeetings extends EVal<TCollectionMeetings> {
 
     public enum TCollectionMeetings {
-        meetName,	// 会议名称
-        meetType,	// 会议科室类型
-        startTime,	// 会议开始时间
-        endTime,	// 会议结束时间
-        state,	// 会议状态
-        ownerId,	// 会议发布者id
-        nickName,	// 会议发布者昵称
-        headimg,	// 会议发布者头像
+        meetName,    // 会议名称
+        meetType,    // 会议科室类型
+        startTime,    // 会议开始时间
+        endTime,    // 会议结束时间
+        state,    // 会议状态
+        ownerId,    // 会议发布者id
+        nickName,    // 会议发布者昵称
+        headimg,    // 会议发布者头像
     }
 
 }

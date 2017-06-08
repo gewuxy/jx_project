@@ -22,5 +22,5 @@ public class ThomsonDetail extends EVal<TThomsonDetail> {
         rootCategory, //
         summary, //
         updateDate, //	修订日期
-        }
+    }
 }

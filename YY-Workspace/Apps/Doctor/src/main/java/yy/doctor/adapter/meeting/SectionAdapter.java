@@ -6,7 +6,7 @@ import yy.doctor.adapter.VH.meeting.SectionVH;
 
 /**
  * 科室列表的Adapter(在主界面上的)
- *
+ * <p>
  * 日期 : 2017/4/24
  * 创建人 : guoxuan
  */

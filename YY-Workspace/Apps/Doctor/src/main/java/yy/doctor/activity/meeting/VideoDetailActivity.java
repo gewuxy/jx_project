@@ -10,7 +10,6 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.IListResult;
-import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;

@@ -120,7 +120,7 @@ public class ShareDialog extends BaseDialog {
         setGravity(Gravity.BOTTOM);
 
         mPlatformList = JShareInterface.getPlatformList();
-        LogMgr.d(TAG,  "mPlatformList = " + mPlatformList.size());
+        LogMgr.d(TAG, "mPlatformList = " + mPlatformList.size());
         for (int i = 0; i < mPlatformList.size(); ++i) {
             LogMgr.d(TAG, "platname = " + mPlatformList.get(i));
         }

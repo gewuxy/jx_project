@@ -66,7 +66,7 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
                 break;
             case RecordType.pic_audio:
                 // 区别于纯图片的功能
-            case RecordType.pic:{
+            case RecordType.pic: {
                 // 图片,图片+音频共有的功能
                 NetworkImageView iv = holder.getIv();
                 iv.placeHolder(KPicBack).url(mImgUrl).load();

@@ -1,5 +1,6 @@
 package lib.ys.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -200,6 +201,7 @@ public class DeviceUtil {
         }
     }
 
+    @SuppressLint("WifiManagerLeak")
     public static WifiInfo getWifiInfo() {
         WifiManager wifi = (WifiManager) AppEx.ct().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();

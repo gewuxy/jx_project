@@ -17,10 +17,10 @@ public class RecUnitNum extends EVal<TRecUnitNum> implements IHome {
     public enum TRecUnitNum {
 
         attention, // 1 表示已经关注    0 表示未关注
-        id,	//单位号Id
-        nickname,	//公众号昵称
-        headimg,	//公众号头像
+        id,    //单位号Id
+        nickname,    //公众号昵称
+        headimg,    //公众号头像
 
-        }
+    }
 
 }

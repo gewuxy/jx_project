@@ -26,6 +26,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     private TitleGradeFrag mTitleGradeFrag;
     private TitleCategoryFrag mTitleCategoryFrag;
     private String mGrade;
+
     @Override
     public void initData() {
         mGrade = "高级";

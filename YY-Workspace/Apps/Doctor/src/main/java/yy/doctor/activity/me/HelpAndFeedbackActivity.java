@@ -81,7 +81,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.jing_xin)
                 .name("敬信")
-               .build());
+                .build());
 
         addItem(new Builder(FormType.divider_large).build());
 

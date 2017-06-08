@@ -1,8 +1,8 @@
 package lib.network.provider;
 
 import lib.network.LogNetwork;
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
+import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 
 /**

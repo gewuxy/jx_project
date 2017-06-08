@@ -16,9 +16,9 @@ import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.RecordAdapter;
+import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
-import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.PPT;
 import yy.doctor.model.meet.PPT.TPPT;
 

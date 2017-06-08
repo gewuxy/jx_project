@@ -59,7 +59,7 @@ public class EpnRechargeActivity extends BaseActivity {
                     //支付成功后显示充值后的的象数数量  改变本地的象数数量
                     int epnNum = Profile.inst().getInt(TProfile.credits) + mRechargeSum * 10;
                     Profile.inst().update(Profile.inst().put(TProfile.credits, epnNum));
-                    mTvEpn.setText(epnNum+"");
+                    mTvEpn.setText(epnNum + "");
                 } else {
                     // 判断resultStatus 为非"9000"则代表可能支付失败
                     // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）

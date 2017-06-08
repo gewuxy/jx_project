@@ -8,7 +8,7 @@ import yy.doctor.adapter.VH.SectionDetailVH;
  * @author CaiXiang
  * @since 2017/5/2
  */
-public class SectionNameAdapter extends AdapterEx<String,SectionDetailVH> {
+public class SectionNameAdapter extends AdapterEx<String, SectionDetailVH> {
 
     @Override
     public int getConvertViewResId() {

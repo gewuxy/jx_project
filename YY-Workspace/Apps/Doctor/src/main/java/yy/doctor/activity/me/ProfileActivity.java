@@ -279,7 +279,7 @@ public class ProfileActivity extends BaseFormActivity {
             public void onClick(View v) {
                 refresh(RefreshWay.dialog);
                 //如果头像修改了就先上传头像，成功后再修改其他资料
-                if ( mBmp != null ) {
+                if (mBmp != null) {
                     exeNetworkReq(KReqUpHeaderImgId, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
                 } else {
                     modify();
@@ -456,7 +456,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .licence(getRelateVal(RelatedId.certification_number))
                 .title(getRelateVal(RelatedId.title))
                 .place(getRelateVal(RelatedId.position))
-                .gender(getRelatedItem(RelatedId.sex).getInt(TFormElem.val,0))
+                .gender(getRelatedItem(RelatedId.sex).getInt(TFormElem.val, 0))
                 .degree(getRelateVal(RelatedId.education_background))
                 .province(mStrProvince)
                 .city(mStrCity)

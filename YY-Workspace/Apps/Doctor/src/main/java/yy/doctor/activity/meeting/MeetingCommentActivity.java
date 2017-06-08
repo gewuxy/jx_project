@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -18,7 +18,6 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.network.ListResult;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.CommentAdapter;

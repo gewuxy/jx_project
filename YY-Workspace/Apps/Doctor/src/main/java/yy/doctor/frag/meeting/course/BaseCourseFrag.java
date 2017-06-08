@@ -1,7 +1,6 @@
 package yy.doctor.frag.meeting.course;
 
 import android.os.Bundle;
-import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFrag;
@@ -48,11 +47,11 @@ public abstract class BaseCourseFrag extends BaseFrag {
         /**
          * 准备工作
          *
-         * @param allMilliseconds  播放总进度(毫秒)
+         * @param allMilliseconds 播放总进度(毫秒)
          */
         void onPrepare(long allMilliseconds);
 
-        void onPlay(boolean enablePlay,long allMilliseconds);
+        void onPlay(boolean enablePlay, long allMilliseconds);
 
         /**
          * 播放中
@@ -76,9 +75,9 @@ public abstract class BaseCourseFrag extends BaseFrag {
         }
     }
 
-    protected void onPlay(boolean enablePlay,long allMilliseconds) {
+    protected void onPlay(boolean enablePlay, long allMilliseconds) {
         if (mListener != null) {
-            mListener.onPlay(enablePlay,allMilliseconds);
+            mListener.onPlay(enablePlay, allMilliseconds);
         }
     }
 

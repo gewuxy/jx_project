@@ -335,7 +335,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     private void createShortcut() {
         Intent shortcutIntent = new Intent();
         //设置点击快捷方式时启动的Activity,因为是从Lanucher中启动，所以包名类名要写全。
-        shortcutIntent.setComponent(new ComponentName(getPackageName(),  LaunchTempActivity.class.getName()));
+        shortcutIntent.setComponent(new ComponentName(getPackageName(), LaunchTempActivity.class.getName()));
         LogMgr.d(TAG, " getPackageName() = " + getPackageName());
         LogMgr.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTempActivity.class.getName());
         //设置启动的模式

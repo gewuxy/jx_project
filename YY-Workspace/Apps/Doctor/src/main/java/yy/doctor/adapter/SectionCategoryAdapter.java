@@ -11,7 +11,7 @@ import yy.doctor.model.Section.TSection;
  * @author CaiXiang
  * @since 2017/5/2
  */
-public class SectionCategoryAdapter extends AdapterEx<Section,SectionVH> {
+public class SectionCategoryAdapter extends AdapterEx<Section, SectionVH> {
 
     private int mSelectedItem = 0;
 

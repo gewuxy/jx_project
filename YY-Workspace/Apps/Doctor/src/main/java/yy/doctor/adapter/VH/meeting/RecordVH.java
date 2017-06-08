@@ -17,5 +17,7 @@ public class RecordVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public NetworkImageView getIv() {return getView(R.id.meeting_record_pic_iv);}
+    public NetworkImageView getIv() {
+        return getView(R.id.meeting_record_pic_iv);
+    }
 }

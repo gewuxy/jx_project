@@ -11,6 +11,7 @@ import yy.doctor.Constants.TSex;
 
 /**
  * global config 全局配置
+ *
  * @author CaiXiang
  * @since 2017/5/17
  */
@@ -82,6 +83,7 @@ public class GlConfig {
     }
 
     private static GlConfig mInst = null;
+
     public synchronized static GlConfig inst() {
         if (mInst == null) {
             if (mInst == null) {

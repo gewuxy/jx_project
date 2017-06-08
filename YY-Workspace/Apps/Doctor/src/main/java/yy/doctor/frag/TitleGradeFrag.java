@@ -51,7 +51,7 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     }
 
     public interface OnGradeListener {
-        void onGradeSelected(int position, String grade );
+        void onGradeSelected(int position, String grade);
     }
 
     public void setGradeListener(OnGradeListener l) {

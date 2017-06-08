@@ -2,7 +2,6 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;

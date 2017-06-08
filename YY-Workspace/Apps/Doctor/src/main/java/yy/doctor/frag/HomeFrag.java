@@ -1,8 +1,6 @@
 package yy.doctor.frag;
 
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -49,6 +47,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
 
     private List<RecUnitNum> mRecUnitNums;
     private List<IHome> mRecMeetings;
+    private List<String> mBanners;
 
     private EditText mEtSearch;
     private View mViewNotice;
@@ -88,15 +87,12 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
 //        mBadgeView.setBackground(15, Color.parseColor("#e6600e"));
 //        mBadgeView.setGravity(Gravity.RIGHT | Gravity.TOP);
 //        mBadgeView.setTextColor(Color.parseColor("#e6600e"));
-        mBadgeView.setBadgeMargin(0,0,0,0);
+        mBadgeView.setBadgeMargin(0, 0, 0, 0);
         mBadgeView.setTargetView(mViewNotice);
 
-        mEtSearch.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                startActivity(MeetingSearchActivity.class);
-                return true;
-            }
+        mEtSearch.setOnTouchListener((v, event) -> {
+            startActivity(MeetingSearchActivity.class);
+            return true;
         });
 
         getAdapter().setTvAttentionListener(this);
@@ -104,6 +100,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
 
     @Override
     public void getDataFromNet() {
+        if (initComplete()) {
+            mBannerReqIsOK = false;
+            mUnitNumReqIsOK = false;
+            mMeetingReqIsOK = false;
+        }
         exeNetworkReq(KReqIdBanner, NetFactory.banner());
         exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
         exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting());
@@ -131,7 +132,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             result = evs(r.getText(), Banner.class);
             mBannerReqIsOK = result.isSucceed();
             if (mBannerReqIsOK) {
-                mBannerView.setData(result.getData());
+                mBanners = result.getData();
             }
         } else if (id == KReqIdUnitNum) {
             result = evs(r.getText(), RecUnitNum.class);
@@ -163,6 +164,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         ListResult r = (ListResult) result;
         if (id == KReqIdBanner) {
             mBannerReqIsOK = r.isSucceed();
+            mBannerView.setData(mBanners);
         } else if (id == KReqIdUnitNum) {
             mUnitNumReqIsOK = r.isSucceed();
         } else if (id == KReqIdMeeting) {

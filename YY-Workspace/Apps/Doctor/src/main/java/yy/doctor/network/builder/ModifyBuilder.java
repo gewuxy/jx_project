@@ -162,20 +162,22 @@ public class ModifyBuilder {
 
     /**
      * 性别
-     * @param gender  1表示男 2表示女 0表示未设置
+     *
+     * @param gender 1表示男 2表示女 0表示未设置
      * @return
      */
-    public ModifyBuilder gender(int gender){
+    public ModifyBuilder gender(int gender) {
         mBuilder.param(ProfileParam.KGender, gender);
         return this;
     }
 
     /**
      * 学历
+     *
      * @param degree
      * @return
      */
-    public ModifyBuilder degree(String degree){
+    public ModifyBuilder degree(String degree) {
         mBuilder.param(ProfileParam.KDegree, degree);
         return this;
     }
