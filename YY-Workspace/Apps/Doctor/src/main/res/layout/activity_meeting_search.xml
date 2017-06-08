@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/meeting_search_tv_number"
+            android:id="@+id/meeting_search_tv_unit_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="34dp"

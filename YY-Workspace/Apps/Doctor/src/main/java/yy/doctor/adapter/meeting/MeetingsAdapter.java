@@ -1,6 +1,7 @@
 package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
+import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
@@ -27,6 +28,7 @@ public class MeetingsAdapter extends AdapterEx<Meeting, MeetingsVH> {
         holder.getIvNum()
                 .placeHolder(R.mipmap.ic_default_unit_num)
                 .url(getItem(position).getString(TMeeting.headimg))
+                .renderer(new CircleRenderer())
                 .load();
         holder.getTvTitle().setText(getItem(position).getString(TMeeting.meetName));
         holder.getTvSection().setText(getItem(position).getString(TMeeting.meetType));

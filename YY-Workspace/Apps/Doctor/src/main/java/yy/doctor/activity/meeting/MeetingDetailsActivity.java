@@ -102,7 +102,8 @@ public class MeetingDetailsActivity extends BaseActivity {
     private String mLatitude;//经度
     private String mLongitude;//维度
     private TextView mTvIntro; // 会议简介
-//    private ImageView mIvCollection; // navBar的收藏
+    private ImageView mIvCollection; // navBar的收藏
+    private int mCollect;
 
     /**
      * functionId,模块功能ID
@@ -126,12 +127,12 @@ public class MeetingDetailsActivity extends BaseActivity {
      * functionId,模块功能ID
      */
     @IntDef({
-            CollectType.yes,
             CollectType.no,
+            CollectType.yes,
     })
     private @interface CollectType {
-        int yes = 0; // 没有收藏
-        int no = 1; // 收藏
+        int no = 0; // 收藏
+        int yes = 1; // 没有收藏
     }
 
     public static void nav(Context context, String meetId) {
@@ -159,11 +160,10 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, "会议详情", this);
-        //TODO:右边图标的事件
-        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> showToast("收藏"));
-//        if (mIvCollection == null) {
-//            getCollection(layout);
-//        }
+        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector,null/* v -> exeNetworkReq(NetFactory.collectMeeting(mMeetId, mCollect))*/);
+        if (mIvCollection == null) {
+            getCollection(layout);
+        }
         bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> new ShareDialog(MeetingDetailsActivity.this).show());
     }
 
@@ -269,14 +269,15 @@ public class MeetingDetailsActivity extends BaseActivity {
      */
     private void refreshViews(MeetDetail info) {
         // 是否收藏
-//        switch (info.getInt(TMeetDetail.stored)) {
-//            case CollectType.yes:
-//                mIvCollection.setSelected(true);
-//                break;
-//            case CollectType.no:
-//                mIvCollection.setSelected(false);
-//                break;
-//        }
+        mCollect = info.getInt(TMeetDetail.stored);
+        switch (mCollect) {
+            case CollectType.yes:
+                mIvCollection.setSelected(true);
+                break;
+            case CollectType.no:
+                mIvCollection.setSelected(false);
+                break;
+        }
 
         long startTime = info.getLong(TMeetDetail.startTime);
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
@@ -427,8 +428,8 @@ public class MeetingDetailsActivity extends BaseActivity {
             View childView = layout.getChildAt(i);
             if (childView instanceof ViewGroup) {
                 getCollection((ViewGroup) childView);
-            } else if (childView instanceof TextView) {
-//                mIvCollection = (ImageView) childView;
+            } else if (childView instanceof ImageView) {
+                mIvCollection = (ImageView) childView;
             }
         }
     }
