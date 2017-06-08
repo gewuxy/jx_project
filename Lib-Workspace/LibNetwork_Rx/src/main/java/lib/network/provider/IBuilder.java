@@ -13,14 +13,14 @@ public interface IBuilder {
      *
      * @return
      */
-    int id();
+    int getId();
 
     /**
      * 绑定的tag(class name)
      *
      * @return
      */
-    Object tag();
+    Object getTag();
 
     @NetworkMethod
     int getMethod();

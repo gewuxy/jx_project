@@ -23,10 +23,6 @@ public class CollectionMeetingVH extends ViewHolderEx {
         return getView(R.id.meeting_item_tv_title);
     }
 
-    public ImageView getIvState() {
-        return getView(R.id.meeting_item_iv_state);
-    }
-
     public TextView getTvState() {
         return getView(R.id.meeting_item_tv_state);
     }

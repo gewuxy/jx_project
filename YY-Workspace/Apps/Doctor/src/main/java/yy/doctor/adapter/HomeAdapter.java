@@ -1,13 +1,10 @@
 package yy.doctor.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.util.res.ResLoader;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
@@ -19,6 +16,7 @@ import yy.doctor.model.home.IHome.HomeType;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecMeeting.TRecMeeting;
 import yy.doctor.model.home.RecUnitNums;
+import yy.doctor.util.UISetter;
 
 /**
  * @author CaiXiang
@@ -43,7 +41,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
     @Override
     protected void refreshView(int position, HomeVH holder, int itemType) {
         if (itemType == HomeType.meeting) {
-            RecMeeting meeting = (RecMeeting)getItem(position);
+            RecMeeting meeting = (RecMeeting) getItem(position);
             holder.getTvTitle().setText(meeting.getString(TRecMeeting.meetName));
             //holder.getTvSpeakerName().setText(meeting.getString(TRecMeeting.lecturer));
             //holder.getTvSpeakerRank().setText(meeting.getString(TRecMeeting.lecturerTile));
@@ -60,38 +58,14 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             } else {
                 goneView(holder.getTvCollection());
             }
-            //会议状态判断
-            if (meeting.getInt(TRecMeeting.state) == MeetsState.not_started) {
-                holder.getTvStatus().setText("未开始");
-                holder.getTvStatus().setTextColor(ResLoader.getColor(R.color.text_01b557));
-                holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_not_started);
-            } else if (meeting.getInt(TRecMeeting.state) == MeetsState.under_way) {
-                holder.getTvStatus().setText("进行中");
-                holder.getTvStatus().setTextColor(ResLoader.getColor(R.color.text_e6600e));
-                holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_under_way);
-            } else if (meeting.getInt(TRecMeeting.state) == MeetsState.retrospect) {
-                holder.getTvStatus().setText("精彩回顾");
-                holder.getTvStatus().setTextColor(ResLoader.getColor(R.color.text_5cb0de));
-                holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_retrospect);
-            } else {
-                //do nothing
-            }
+
+            @MeetsState int state = meeting.getInt(TRecMeeting.state);
+            UISetter.setMeetState(state, holder.getTvStatus());
 
             //单位号头像点击事件
-            holder.getIvUnit().setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UnitNumDetailActivity.nav(getContext(), meeting.getInt(TRecMeeting.pubUserId));
-                }
-            });
+            holder.getIvUnit().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), meeting.getInt(TRecMeeting.pubUserId)));
             //会议点击事件
-            holder.getMeetingItemLayout().setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    MeetingDetailsActivity.nav(getContext(), meeting.getString(TRecMeeting.id));
-                }
-            });
+            holder.getMeetingItemLayout().setOnClickListener(v -> MeetingDetailsActivity.nav(getContext(), meeting.getString(TRecMeeting.id)));
         } else {
             RecUnitNums UnitNums = (RecUnitNums) getItem(position);
             mHomeUnitNumAdapter.setData(UnitNums.getData());
@@ -105,13 +79,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                 }
             });
 
-            holder.getRecyclerViewFooter().setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    showToast("8525");
-                }
-            });
+            holder.getRecyclerViewFooter().setOnClickListener(v -> showToast("8525"));
         }
     }
 

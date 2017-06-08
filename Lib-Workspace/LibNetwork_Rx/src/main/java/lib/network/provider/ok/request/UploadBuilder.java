@@ -38,7 +38,7 @@ public class UploadBuilder extends PostBuilder {
         List<BytePair> byteParams = getReq().getByteParams();
         if (byteParams != null) {
             Observable.fromIterable(byteParams)
-                    .subscribe(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(tag(), id(), p.getVal())));
+                    .subscribe(p -> builder.addFile(p.getName(), p.getName(), DeleteOnExit.inst().add(getTag(), getId(), p.getVal())));
         }
 
         List<FilePair> fileParams = getReq().getFileParams();

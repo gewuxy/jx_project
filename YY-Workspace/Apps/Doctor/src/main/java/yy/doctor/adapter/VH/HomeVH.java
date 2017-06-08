@@ -2,7 +2,6 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,10 +23,6 @@ public class HomeVH extends ViewHolderEx {
 
     public TextView getTvTitle() {
         return getView(R.id.home_meeting_item_tv_title);
-    }
-
-    public ImageView getIvStatus() {
-        return getView(R.id.home_meeting_item_iv_status);
     }
 
     public TextView getTvStatus() {

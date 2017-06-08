@@ -2,7 +2,6 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -22,10 +21,6 @@ public class UnitNumDetailVH extends ViewHolderEx {
 
     public TextView getTvTitle() {
         return getView(R.id.meeting_item_tv_title);
-    }
-
-    public ImageView getIvState() {
-        return getView(R.id.meeting_item_iv_state);
     }
 
     public TextView getTvState() {

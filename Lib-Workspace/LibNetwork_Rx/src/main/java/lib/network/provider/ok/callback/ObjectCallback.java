@@ -41,7 +41,7 @@ public class ObjectCallback extends Callback<Object> {
 
     @Override
     public Object parseNetworkResponse(Response response, int id) throws Exception {
-        if (response.isSuccessful()) {
+        if (response.isSuccessful() && mBuilder.getListener() != null) {
             // 直接在子线程调用, 在子线程解析
             return mBuilder.getListener().onNetworkResponse(id, toNetworkResp(response));
         } else {
@@ -53,7 +53,7 @@ public class ObjectCallback extends Callback<Object> {
     public void onError(Call call, Exception e, int id) {
         if (call.isCanceled()) {
             LogNetwork.e("cancel call = " + id);
-            mDelivery.deliverError(mBuilder, new CancelError());
+            mDelivery.deliverError(mBuilder, new CancelError(id));
         } else {
             if (e instanceof JSONException || e instanceof NullPointerException) {
                 mDelivery.deliverError(mBuilder, new ParseNetError(id, "数据解析错误", e));
@@ -62,7 +62,7 @@ public class ObjectCallback extends Callback<Object> {
             }
         }
 
-        DeleteOnExit.inst().delete(mBuilder.tag(), mBuilder.id());
+        DeleteOnExit.inst().delete(mBuilder.getTag(), mBuilder.getId());
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ObjectCallback extends Callback<Object> {
             mDelivery.deliverError(mBuilder, new CallbackEmptyError());
         }
 
-        DeleteOnExit.inst().delete(mBuilder.tag(), mBuilder.id());
+        DeleteOnExit.inst().delete(mBuilder.getTag(), mBuilder.getId());
     }
 
     private NetworkResp toNetworkResp(Response response) {

@@ -2,12 +2,12 @@ package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TimeUtil;
-import lib.ys.util.res.ResLoader;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingsVH;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
@@ -36,43 +36,7 @@ public class MeetingsAdapter extends AdapterEx<Meeting, MeetingsVH> {
                 Util.timeParse(getItem(position).getLong(TMeeting.endTime) -
                         getItem(position).getLong(TMeeting.startTime)));
 
-        setState(position, holder);
+        @MeetsState int state = getItem(position).getInt(TMeeting.state);
+        UISetter.setMeetState(state, holder.getTvState());
     }
-
-    /**
-     * 设置会议状态
-     *
-     * @param position
-     * @param holder
-     */
-    private void setState(int position, MeetingsVH holder) {
-        int state = getItem(position).getInt(TMeeting.state);
-        String strState = null;
-        int resId = 0;
-        int colorId = 0;
-        switch (state) {
-            case MeetsState.not_started: {
-                strState = "未开始";
-                resId = R.mipmap.meeting_ic_not_started;
-                colorId = R.color.text_01b557;
-            }
-            break;
-            case MeetsState.under_way: {
-                strState = "进行中";
-                resId = R.mipmap.meeting_ic_under_way;
-                colorId = R.color.text_e6600e;
-            }
-            break;
-            case MeetsState.retrospect: {
-                strState = "精彩回顾";
-                resId = R.mipmap.meeting_ic_retrospect;
-                colorId = R.color.text_5cb0de;
-            }
-            break;
-        }
-        holder.getTvState().setText(strState);
-        holder.getTvState().setTextColor(ResLoader.getColor(colorId));
-        holder.getIvState().setImageDrawable(ResLoader.getDrawable(resId));
-    }
-
 }

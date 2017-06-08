@@ -28,21 +28,21 @@ abstract public class BaseProvider implements NativeNetworkListener {
             LogNetwork.d("=====================");
         }
         if (b.getListener() != null) {
-            b.getListener().onNetworkProgress(b.id(), progress, totalSize);
+            b.getListener().onNetworkProgress(b.getId(), progress, totalSize);
         }
     }
 
     @Override
     public void onSuccess(IBuilder b, Object obj) {
         if (b.getListener() != null) {
-            b.getListener().onNetworkSuccess(b.id(), obj);
+            b.getListener().onNetworkSuccess(b.getId(), obj);
         }
     }
 
     @Override
     public void onError(IBuilder b, NetError error) {
         if (b.getListener() != null) {
-            b.getListener().onNetworkError(b.id(), error);
+            b.getListener().onNetworkError(b.getId(), error);
         }
     }
 

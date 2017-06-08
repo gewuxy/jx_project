@@ -62,11 +62,11 @@ abstract public class BaseBuilder implements IBuilder {
     }
 
     @Override
-    public int id() {
+    public int getId() {
         return mId;
     }
 
-    public Object tag() {
+    public Object getTag() {
         return mTag;
     }
 
