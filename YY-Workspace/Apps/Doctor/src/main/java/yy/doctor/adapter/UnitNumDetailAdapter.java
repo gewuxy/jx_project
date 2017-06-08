@@ -33,4 +33,5 @@ public class UnitNumDetailAdapter extends AdapterEx<UnitNumDetailMeeting, UnitNu
         @MeetsState int state = item.getInt(TUnitNumDetailMeeting.state);
         UISetter.setMeetState(state, holder.getTvState());
     }
+
 }

@@ -10,6 +10,7 @@ import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
+import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
@@ -29,7 +30,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, "单位号", this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> showToast("852"));
+        bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> startActivity(MeetingSearchActivity.class));
     }
 
     @Override

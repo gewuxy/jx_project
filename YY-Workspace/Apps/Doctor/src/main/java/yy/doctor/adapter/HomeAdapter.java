@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
@@ -17,6 +18,7 @@ import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecMeeting.TRecMeeting;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.util.UISetter;
+import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
@@ -45,6 +47,9 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             holder.getTvTitle().setText(meeting.getString(TRecMeeting.meetName));
             //holder.getTvSpeakerName().setText(meeting.getString(TRecMeeting.lecturer));
             //holder.getTvSpeakerRank().setText(meeting.getString(TRecMeeting.lecturerTile));
+            holder.getTvSection().setText(meeting.getString(TRecMeeting.meetType));
+            holder.getTvData().setText(TimeUtil.formatMilli(meeting.getLong(TRecMeeting.startTime), "MM月dd日 HH:mm"));
+            holder.getTvDuration().setText(Util.timeParse(meeting.getLong(TRecMeeting.endTime) - meeting.getLong(TRecMeeting.startTime)));
             holder.getIvSpeaker()
                     .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
                     .load();
@@ -58,7 +63,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             } else {
                 goneView(holder.getTvCollection());
             }
-
+            //判断会议状态
             @MeetsState int state = meeting.getInt(TRecMeeting.state);
             UISetter.setMeetState(state, holder.getTvStatus());
 

@@ -2,7 +2,6 @@ package yy.doctor.util;
 
 import android.app.Activity;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -96,29 +95,33 @@ public class Util extends BaseUtil {
     }
 
     /**
-     * 按X.X小时的格式格式化毫秒值
+     * 格式化时间   毫秒值
      *
      * @param milliseconds 秒单位
      * @return
      */
     public static String timeParse(long milliseconds) {
-        // FIXME: 会议时间转换??????
-        StringBuffer parse = new StringBuffer();
 
+        StringBuffer parse = new StringBuffer();
         long oneDayMillis = TimeUnit.DAYS.toMillis(1);
+        long oneHourMills = TimeUnit.HOURS.toMillis(1);
+        long oneMinuteMills = TimeUnit.MINUTES.toMillis(1);
+        long oneSecondMills = TimeUnit.SECONDS.toMillis(1);
         if (milliseconds >= oneDayMillis) {
             parse.append(milliseconds / oneDayMillis)
                     .append("天");
-            milliseconds %= oneDayMillis;
+        } else if (milliseconds < oneDayMillis && milliseconds >= oneHourMills) {
+            parse.append(milliseconds / oneHourMills)
+                    .append("小时");
+        } else if (milliseconds < oneHourMills && milliseconds >= oneMinuteMills) {
+            parse.append(milliseconds / oneMinuteMills)
+                    .append("分钟");
+        } else if (milliseconds < oneMinuteMills && milliseconds >= oneSecondMills) {
+            parse.append(milliseconds / oneMinuteMills)
+                    .append("秒");
         }
 
-        BigDecimal b = new BigDecimal(milliseconds);
-        //保留1位小数,四舍五入
-        float result = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-        return parse
-                .append(result)
-                .append("小时")
-                .toString();
+        return parse.toString();
     }
 
 }

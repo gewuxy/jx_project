@@ -1,6 +1,8 @@
 package yy.doctor.frag;
 
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -8,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.NoticeActivity;
+import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeAdapter.onTvAttentionListener;
 import yy.doctor.model.home.Banner;
@@ -24,6 +26,7 @@ import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.network.NetFactory;
+import yy.doctor.view.BadgeView;
 import yy.doctor.view.BannerView;
 
 import static lib.yy.network.BaseJsonParser.evs;
@@ -48,6 +51,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     private List<IHome> mRecMeetings;
 
     private EditText mEtSearch;
+    private View mViewNotice;
+    private BadgeView mBadgeView;
     private BannerView mBannerView;
 
     @Override
@@ -58,7 +63,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     public void initNavBar(NavBar bar) {
         View v = inflate(R.layout.layout_home_nav_bar);
         bar.addViewRight(v, null);
-        bar.addViewRight(R.mipmap.nav_bar_ic_notice, v1 -> startActivity(NoticeActivity.class));
+
+        mViewNotice = bar.addViewRight(R.mipmap.nav_bar_ic_notice, v1 -> startActivity(NoticeActivity.class));
     }
 
     @Override
@@ -77,6 +83,21 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     @Override
     public void setViews() {
         super.setViews();
+
+        mBadgeView = new BadgeView(getContext());
+//        mBadgeView.setBackground(15, Color.parseColor("#e6600e"));
+//        mBadgeView.setGravity(Gravity.RIGHT | Gravity.TOP);
+//        mBadgeView.setTextColor(Color.parseColor("#e6600e"));
+        mBadgeView.setBadgeMargin(0,0,0,0);
+        mBadgeView.setTargetView(mViewNotice);
+
+        mEtSearch.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                startActivity(MeetingSearchActivity.class);
+                return true;
+            }
+        });
 
         getAdapter().setTvAttentionListener(this);
     }

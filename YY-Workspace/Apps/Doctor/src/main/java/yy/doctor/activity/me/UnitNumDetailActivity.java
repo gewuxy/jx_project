@@ -32,6 +32,8 @@ import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.adapter.UnitNumDetailAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
@@ -40,6 +42,7 @@ import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailMeeting;
+import yy.doctor.model.unitnum.UnitNumDetailMeeting.TUnitNumDetailMeeting;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
@@ -116,7 +119,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
             @Override
             public void onClick(View v) {
-                showToast("555");
+                startActivity(MeetingSearchActivity.class);
             }
         });
         bar.addViewRight(R.mipmap.nav_bar_ic_more, new OnClickListener() {
@@ -209,7 +212,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
     @Override
     public void onItemClick(View v, int position) {
-        showToast(position + "");
+        MeetingDetailsActivity.nav(this, getItem(position).getString(TUnitNumDetailMeeting.id));
     }
 
     @Override

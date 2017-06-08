@@ -52,6 +52,7 @@ public class UrlUtil {
         String KUpHeaderImg = "user/upheadimg";
         String KChangePwd = "user/resetpwd";
         String KCollectionMeetings = "myFavorite";
+        String KBindJPush = "bindJpush";
     }
 
     public interface UrlRegister {

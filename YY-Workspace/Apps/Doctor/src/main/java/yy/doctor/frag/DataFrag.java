@@ -15,6 +15,7 @@ import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
+import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.frag.data.ClinicalGuideFrag;
 import yy.doctor.frag.data.ClinicalShareFrag;
 import yy.doctor.frag.data.DrugListbFrag;
@@ -73,7 +74,7 @@ public class DataFrag extends BaseVPFrag {
 
             @Override
             public void onClick(View v) {
-                showToast("585");
+                startActivity(MeetingSearchActivity.class);
             }
         });
 

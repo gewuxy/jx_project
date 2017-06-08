@@ -15,7 +15,6 @@ public class JPushReceiver extends BaseJPushReceiver {
     @Override
     protected void onRegistrationId(Context context, String id) {
         LogMgr.d("www", "onRegistrationId: id = " + id);
-
     }
 
     @Override
@@ -32,4 +31,5 @@ public class JPushReceiver extends BaseJPushReceiver {
     protected void onOpenNotification(Context context) {
 
     }
+
 }

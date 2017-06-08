@@ -55,6 +55,7 @@ public class NetFactory {
         String KPassword = "password";
         String KOldPwd = "oldpwd";
         String KNewPwd = "newpwd";
+        String KJPushRegisterId = "registionId";
     }
 
     public interface MeetParam {
@@ -217,6 +218,18 @@ public class NetFactory {
         return newGet(UrlUser.KLogin)
                 .param(UserParam.KUserName, name)
                 .param(UserParam.KPassword, pwd)
+                .build();
+    }
+
+    /**
+     * 绑定极光推送的ID
+     *
+     * @param registerId
+     * @return
+     */
+    public static NetworkReq bindJPush(String registerId) {
+        return newGet(UrlUser.KBindJPush)
+                .param(UserParam.KJPushRegisterId, registerId)
                 .build();
     }
 
