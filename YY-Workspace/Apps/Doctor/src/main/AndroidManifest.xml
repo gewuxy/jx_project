@@ -50,6 +50,9 @@
             android:name=".activity.NoticeActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.NoticeDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.BannerActivity"
             android:screenOrientation="portrait"/>
 
@@ -180,6 +183,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.UnitNumDetailActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.SectionActivity"
@@ -199,6 +204,12 @@
         <activity
             android:name=".activity.me.TitleActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.LaunchTempActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
 
         <!-- service -->
         <service android:name=".serv.LogoutServ"/>
@@ -223,11 +234,9 @@
             </intent-filter>
         </receiver>
 
-        <!--88391aa0f118d8646d1fb6e3-->
-        <!--d8a2e61332cb4ca402246d1f-->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="d8a2e61332cb4ca402246d1f" />
+            android:value="88391aa0f118d8646d1fb6e3" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

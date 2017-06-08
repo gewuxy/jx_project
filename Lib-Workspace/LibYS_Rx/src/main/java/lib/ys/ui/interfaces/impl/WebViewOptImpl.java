@@ -66,7 +66,6 @@ public class WebViewOptImpl {
         settings.setDomStorageEnabled(mHost.enableDomStorage());
         settings.setAllowFileAccess(true);
 
-
         webView.setScrollBarStyle(mHost.getScrollBarStyle());
 
         webView.setWebViewClient(mHost.getWebViewClient());

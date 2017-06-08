@@ -20,6 +20,7 @@ public class UnitNumDataAdapter extends AdapterEx<UnitNumDetailData, UnitNumData
     @Override
     protected void refreshView(int position, UnitNumDataVH holder) {
 
+
         holder.getTv().setText(getItem(position).getString(TUnitNumDetailData.materialName));
 
     }

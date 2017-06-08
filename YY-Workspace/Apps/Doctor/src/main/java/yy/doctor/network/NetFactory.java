@@ -489,6 +489,15 @@ public class NetFactory {
     }
 
     /**
+     *  汤森路透的所有信息
+     *
+     * @return
+     */
+    public static NetworkReq thomsonAll() {
+        return newGet(UrlData.KThomsonAll).build();
+    }
+
+    /**
      * 汤森路透
      *
      * @param preId 不传值的时候，返回汤森路透下一层的子栏目，传值的时候返回该preId下面的子栏目

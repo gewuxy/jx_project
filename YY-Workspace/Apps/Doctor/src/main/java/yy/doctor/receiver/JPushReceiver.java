@@ -1,7 +1,9 @@
 package yy.doctor.receiver;
 
 import android.content.Context;
+
 import lib.jg.jpush.BaseJPushReceiver;
+import lib.ys.LogMgr;
 
 /**
  * @author CaiXiang
@@ -12,6 +14,7 @@ public class JPushReceiver extends BaseJPushReceiver {
 
     @Override
     protected void onRegistrationId(Context context, String id) {
+        LogMgr.d("www", "onRegistrationId: id = " + id);
 
     }
 

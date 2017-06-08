@@ -112,6 +112,8 @@ public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsLis
     @Override
     protected ListView createRootView(Context context, AttributeSet attrs) {
         ListView lv = new ListView(context, attrs);
+        lv.setDivider(null);
+        lv.setDividerHeight(0);
         // Set it to this so it can be used in ListActivity/ListFragment
         lv.setId(android.R.id.list);
         return lv;

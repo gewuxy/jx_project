@@ -2,6 +2,7 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -21,12 +22,20 @@ public class NoticeVH extends ViewHolderEx {
         return getView(R.id.notice_item_tv_content);
     }
 
+    public ImageView getIvDot() {
+        return getView(R.id.notice_item_iv_dot);
+    }
+
+    public TextView getTvUnitUnm() {
+        return getView(R.id.notice_item_tv_unit);
+    }
+
     public TextView getTvTime() {
         return getView(R.id.notice_item_tv_time);
     }
 
-    public TextView getTvUnit() {
-        return getView(R.id.notice_item_tv_unit);
+    public ImageView getIvArrow() {
+        return getView(R.id.notice_item_iv_arrow);
     }
 
 }

@@ -16,6 +16,7 @@ import yy.doctor.model.unitnum.UnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -27,6 +28,7 @@ import yy.doctor.util.Util;
 public class UnitNumDataActivity extends BaseListActivity<UnitNumDetailData, UnitNumDataAdapter> {
 
     private int mId;
+    private String mFilePath;
 
     public static void nav(Context context, int id) {
         Intent i = new Intent(context, UnitNumDataActivity.class)
@@ -49,6 +51,7 @@ public class UnitNumDataActivity extends BaseListActivity<UnitNumDetailData, Uni
     public void setViews() {
         super.setViews();
 
+        mFilePath = CacheUtil.getUnitNumCacheDir(String.valueOf(mId));
         refresh(RefreshWay.dialog);
         exeNetworkReq(NetFactory.unitNumData(mId, 1, 15));
     }
@@ -58,7 +61,7 @@ public class UnitNumDataActivity extends BaseListActivity<UnitNumDetailData, Uni
         super.onItemClick(v, position);
 
         UnitNumDetailData item = getItem(position);
-        DownloadDataActivity.nav(this, mId, item.getString(TUnitNumDetailData.materialName),
+        DownloadDataActivity.nav(this, mFilePath, item.getString(TUnitNumDetailData.materialName),
                 item.getString(TUnitNumDetailData.materialUrl), item.getString(TUnitNumDetailData.materialType),
                 item.getLong(TUnitNumDetailData.fileSize));
     }

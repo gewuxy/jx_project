@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.util.res.ResLoader;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
@@ -62,12 +63,15 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             //会议状态判断
             if (meeting.getInt(TRecMeeting.state) == MeetsState.not_started) {
                 holder.getTvStatus().setText("未开始");
+                holder.getTvStatus().setTextColor(ResLoader.getColor(R.color.text_01b557));
                 holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_not_started);
             } else if (meeting.getInt(TRecMeeting.state) == MeetsState.under_way) {
                 holder.getTvStatus().setText("进行中");
+                holder.getTvStatus().setTextColor(ResLoader.getColor(R.color.text_e6600e));
                 holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_under_way);
             } else if (meeting.getInt(TRecMeeting.state) == MeetsState.retrospect) {
                 holder.getTvStatus().setText("精彩回顾");
+                holder.getTvStatus().setTextColor(ResLoader.getColor(R.color.text_5cb0de));
                 holder.getIvStatus().setImageResource(R.mipmap.meeting_ic_retrospect);
             } else {
                 //do nothing

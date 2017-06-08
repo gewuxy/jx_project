@@ -15,7 +15,6 @@ public class ClinicalShareFrag extends BaseFrag {
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -26,18 +25,14 @@ public class ClinicalShareFrag extends BaseFrag {
 
     @Override
     public void initNavBar(NavBar bar) {
-
     }
 
     @Override
     public void findViews() {
-
     }
 
     @Override
     public void setViews() {
-
     }
-
 
 }

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import org.json.JSONException;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
 import yy.doctor.model.Logout;
@@ -20,22 +19,18 @@ import yy.doctor.sp.SpUser;
  */
 public class LogoutServ extends ServiceEx {
 
-
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        LogMgr.d(TAG, "fds1");
         exeNetworkReq(NetFactory.logout());
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
-        LogMgr.d(TAG, "fds2");
         return JsonParser.ev(r.getText(), Logout.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        LogMgr.d(TAG, "fds3");
         Result<Logout> r = (Result<Logout>) result;
 
         if (r.isSucceed()) {

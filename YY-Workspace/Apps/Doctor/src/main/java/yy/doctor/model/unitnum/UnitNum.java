@@ -13,7 +13,7 @@ public class UnitNum extends EVal<TUnitNum> {
 
         alpha,  //首字母
         headimg,    //公众号头像
-        Id,       //公众号Id
+        id,       //公众号id
         nickname,    //公众号昵称
 
     }

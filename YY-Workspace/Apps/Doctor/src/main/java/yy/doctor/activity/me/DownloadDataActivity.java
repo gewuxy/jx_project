@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.DownloadNotifier;
@@ -16,7 +18,6 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ;
-import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
@@ -38,19 +39,17 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private ImageView mIvDownload;
     private boolean mIsDownload = false;
 
-    private int mUnitNumId;
     private String mFileName;
     private String mUrl;
     private String mType;
     private long mFileSize;
     private String mFileSizeKB;
     private String mFileHashCodeName;
-    private String mDownloadDir;
-//    private String mFilePath;
+    private String mFilePath;
 
-    public static void nav(Context context, int unitNumId, String name, String url, String type, long size) {
+    public static void nav(Context context, String filePath, String name, String url, String type, long size) {
         Intent i = new Intent(context, DownloadDataActivity.class)
-                .putExtra(Extra.KUnitNumId, unitNumId)
+                .putExtra(Extra.KFilePath, filePath)
                 .putExtra(Extra.KName, name)
                 .putExtra(Extra.KData, url)
                 .putExtra(Extra.KType, type)
@@ -61,7 +60,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     @Override
     public void initData() {
         DownloadNotifier.inst().add(this);
-        mUnitNumId = getIntent().getIntExtra(Extra.KUnitNumId, 10);
+
+        mFilePath = getIntent().getStringExtra(Extra.KFilePath);
         mFileName = getIntent().getStringExtra(Extra.KName);
         mUrl = getIntent().getStringExtra(Extra.KData);
         mType = getIntent().getStringExtra(Extra.KType);
@@ -69,15 +69,14 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + "K";
         mFileHashCodeName = String.valueOf(mUrl.hashCode()) + "." + mType;
-        //先判断存放文件的文件夹是否存在
 
-//        mFilePath = CacheUtil.getUnitNumCacheDir(mUnitNumId);
-        CacheUtil.getUnitNumCacheFile(mUnitNumId, mFileHashCodeName);
+//        CacheUtil.getUnitNumCacheFile(String.valueOf(mUnitNumId), mFileHashCodeName);
         //先判断文件是否已经存在  通过url的hashcode
-//        if (CacheUtil.getUnitNumCacheFile(mUnitNumId, mFileHashCodeName).exists()) {
-//            OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
-//            finish();
-//        }
+        File f = new File(mFilePath, mFileHashCodeName);
+        if (f.exists()) {
+            OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
+            finish();
+        }
     }
 
     @NonNull
@@ -126,7 +125,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                     mTvStatus.setText("正在下载...");
                     Intent intent = new Intent(this, DownloadServ.class);
                     intent.putExtra(Extra.KData, mUrl)
-                            .putExtra(Extra.KUnitNumId, mUnitNumId)
+                            .putExtra(Extra.KFilePath, mFilePath)
                             .putExtra(Extra.KType, mType);
                     startService(intent);
                 }
@@ -153,8 +152,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             mTvNum.setText(downloadSize + "K");
             //下载完成跳转
             if (progress == 100) {
-//                OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
-//                finish();
+                OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
+                finish();
             }
         } else if (type == totalSize) {
             long totalSize = (long) data;

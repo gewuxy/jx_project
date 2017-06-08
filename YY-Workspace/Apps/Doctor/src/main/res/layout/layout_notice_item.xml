@@ -4,50 +4,69 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:paddingLeft="@dimen/margin"
-        android:paddingRight="@dimen/margin">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/notice_item_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:lineSpacingExtra="6dp"
+            android:text="血管病的研究电话地方干部大范甘迪电饭锅都发割发代首电饭锅地方地方"
+            android:textSize="14dp"
+            android:textColor="@color/text_333"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/notice_item_tv_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/notice_item_tv_content"
+            <ImageView
+                android:id="@+id/notice_item_iv_dot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="血管病的研究"
-                android:textSize="14dp"
-                android:textColor="@color/text_333"/>
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/notice_ic_dot"/>
+
+            <TextView
+                android:id="@+id/notice_item_tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="YaYa专家讲堂"
+                android:textSize="12dp"
+                android:textColor="@color/text_888"/>
 
             <TextView
                 android:id="@+id/notice_item_tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:layout_marginLeft="8dp"
                 android:text="2017-04-16 12:50"
                 android:textSize="10dp"
                 android:textColor="@color/text_888"/>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/notice_item_tv_unit"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/notice_item_iv_arrow"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="YaYa专家讲堂"
-            android:layout_marginTop="10dp"
-            android:textSize="12dp"
-            android:textColor="@color/text_888"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_arrow_right"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -11,6 +11,7 @@ import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.register.RegisterActivity;
 import yy.doctor.model.Profile;
@@ -28,9 +29,11 @@ public class LoginActivity extends BaseActivity {
 
     private AutoCompleteEditText mEtName;
     private EditText mEtPwd;
+    private String mRequest;
 
     @Override
     public void initData() {
+        mRequest = getIntent().getStringExtra(Extra.KData);
     }
 
     @NonNull
@@ -106,7 +109,12 @@ public class LoginActivity extends BaseActivity {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
-            startActivity(MainActivity.class);
+            //判断跳转到哪里
+            if (mRequest == null) {
+                startActivity(MainActivity.class);
+            } else {
+                setResult(RESULT_OK);
+            }
             finish();
         } else {
             showToast(r.getError());

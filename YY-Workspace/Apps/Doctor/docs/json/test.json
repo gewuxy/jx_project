@@ -2,14 +2,56 @@
   "code": "0",
   "data": [
     {
-      "endTime": 1494399392000,
-      "id": "17042512131640894904",
-      "meetName": "测试会议哈哈",
-      "meetType": "儿科",
-      "pubUserHead": "/headimg/1495606447341.png",
-      "pubUserId": 14,
-      "startTime": 1493270190000,
-      "stored": 0
+      "authed": true,
+      "author": "汤森路透",
+      "categoryId": "17051817321067996389",
+      "dataFrom": "汤森路透",
+      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051915590440755797.pdf",
+      "fileSize": 1515,
+      "id": "17051915590566189016",
+      "rootCategory": "17051816403418566342",
+      "summary": "",
+      "title": "Breast Cancer 2016",
+      "updateDate": 1495180960000
+    },
+    {
+      "authed": true,
+      "author": "汤森路透",
+      "categoryId": "17051817321067996389",
+      "dataFrom": "汤森路透",
+      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051916033234359054.pdf",
+      "fileSize": 1491,
+      "id": "17051916033373019620",
+      "rootCategory": "17051816403418566342",
+      "summary": "",
+      "title": "Lung Cancer 2016",
+      "updateDate": 1495181013000
+    },
+    {
+      "authed": true,
+      "author": "汤森路透",
+      "categoryId": "17051817321067996389",
+      "dataFrom": "汤森路透",
+      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051916040823733901.pdf",
+      "fileSize": 1019,
+      "id": "17051916040942127249",
+      "rootCategory": "17051816403418566342",
+      "summary": "",
+      "title": "Neurologic Cancer 2016",
+      "updateDate": 1495181049000
+    },
+    {
+      "authed": true,
+      "author": "汤森路透",
+      "categoryId": "17051817321067996389",
+      "dataFrom": "汤森路透",
+      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051916043234870550.pdf",
+      "fileSize": 1247,
+      "id": "17051916043358613429",
+      "rootCategory": "17051816403418566342",
+      "summary": "",
+      "title": "Prostate Cancer 2016",
+      "updateDate": 1495181073000
     }
   ]
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.ys.LogMgr;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
@@ -23,7 +24,6 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
@@ -42,6 +42,7 @@ import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailMeeting;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -80,6 +81,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     private UnitNumDetail mUnitNumDetail;
 
     private int mUnitNumId;
+    private String mUnitNumName;
 
     public static void nav(Context context, int unitUnmId) {
         Intent i = new Intent(context, UnitNumDetailActivity.class)
@@ -158,8 +160,6 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     public void setViews() {
         super.setViews();
 
-        getLv().setDividerHeight(fitDp(1));
-        getLv().setDivider(ResLoader.getDrawable(R.drawable.divider));
         exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, 1, 8));
 
         mZoomView.setZoomEnabled(true);
@@ -245,7 +245,6 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
                 dialog.addItem(data.get(i), KColorCancel);
             }
         }
-
         dialog.show();
     }
 
@@ -288,9 +287,9 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
                     @Override
                     public void onClick(View v) {
-                        DownloadDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id),
-                                fileItem.getString(TUnitNumDetailData.materialName), fileItem.getString(TUnitNumDetailData.materialUrl),
-                                fileItem.getString(TUnitNumDetailData.materialType), fileItem.getLong(TUnitNumDetailData.fileSize));
+                        DownloadDataActivity.nav(UnitNumDetailActivity.this, CacheUtil.getUnitNumCacheDir(String.valueOf(mUnitNumId)),
+                                fileItem.getString(TUnitNumDetailData.materialName), fileItem.getString(TUnitNumDetailData.materialUrl), fileItem.getString(TUnitNumDetailData.materialType),
+                                fileItem.getLong(TUnitNumDetailData.fileSize));
                     }
                 });
             }
@@ -333,9 +332,12 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     private void createShortcut() {
         Intent shortcutIntent = new Intent();
         //设置点击快捷方式时启动的Activity,因为是从Lanucher中启动，所以包名类名要写全。
-        shortcutIntent.setComponent(new ComponentName(getPackageName(), "yy.doctor.activity.me." + UnitNumDetailActivity.class.getSimpleName()));
+        shortcutIntent.setComponent(new ComponentName(getPackageName(),  LaunchTempActivity.class.getName()));
+        LogMgr.d(TAG, " getPackageName() = " + getPackageName());
+        LogMgr.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTempActivity.class.getName());
         //设置启动的模式
         shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NEW_TASK);
+        shortcutIntent.putExtra(Extra.KUnitNumId, mUnitNumId);
 
         Intent resultIntent = new Intent();
         //设置快捷方式图标

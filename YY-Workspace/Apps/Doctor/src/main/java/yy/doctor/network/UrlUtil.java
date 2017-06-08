@@ -93,6 +93,7 @@ public class UrlUtil {
     }
 
     public interface UrlData {
+        String KThomsonAll = "data/thomson/all";
         String KThomson = "data/thomson/category";
         String KThomSonData = "data/thomson/datas";
         String KPreview = "data/view";

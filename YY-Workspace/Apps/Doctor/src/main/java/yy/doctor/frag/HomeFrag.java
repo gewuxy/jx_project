@@ -1,7 +1,6 @@
 package yy.doctor.frag;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -59,13 +58,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     public void initNavBar(NavBar bar) {
         View v = inflate(R.layout.layout_home_nav_bar);
         bar.addViewRight(v, null);
-        bar.addViewRight(R.mipmap.nav_bar_ic_notice, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(NoticeActivity.class);
-            }
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_notice, v1 -> startActivity(NoticeActivity.class));
     }
 
     @Override
@@ -103,7 +96,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         if (attention == 1) {
             // do nothing
         } else {
-            LogMgr.d(TAG, "222");
             tv.setSelected(true);
             tv.setClickable(false);
             tv.setText("已关注");
@@ -132,12 +124,28 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
                     num.put(TRecUnitNum.attention, 0);
                 }
             }
+
         } else if (id == KReqIdMeeting) {
             result = evs(r.getText(), RecMeeting.class);
             mMeetingReqIsOK = result.isSucceed();
             if (mMeetingReqIsOK) {
                 mRecMeetings = result.getData();
             }
+        }
+
+        return result;
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        //确保所有数据都已经获取
+        ListResult r = (ListResult) result;
+        if (id == KReqIdBanner) {
+            mBannerReqIsOK = r.isSucceed();
+        } else if (id == KReqIdUnitNum) {
+            mUnitNumReqIsOK = r.isSucceed();
+        } else if (id == KReqIdMeeting) {
+            mMeetingReqIsOK = r.isSucceed();
         }
 
         // 拼接数据
@@ -155,17 +163,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             homes.addAll(mRecMeetings);
 
             ret.setData(homes);
-            return ret;
-        } else {
-            // do nothing
-        }
-        return result;
-    }
 
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        if (mBannerReqIsOK && mUnitNumReqIsOK && mMeetingReqIsOK) {
-            super.onNetworkSuccess(id, result);
+            super.onNetworkSuccess(id, ret);
         }
     }
 

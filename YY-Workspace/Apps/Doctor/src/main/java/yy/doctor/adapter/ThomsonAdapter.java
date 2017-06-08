@@ -3,12 +3,14 @@ package yy.doctor.adapter;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.ThomsonVH;
+import yy.doctor.model.data.ThomsonDetail;
+import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
 
 /**
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class ThomsonAdapter extends AdapterEx<String, ThomsonVH> {
+public class ThomsonAdapter extends AdapterEx<ThomsonDetail, ThomsonVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -18,6 +20,7 @@ public class ThomsonAdapter extends AdapterEx<String, ThomsonVH> {
     @Override
     protected void refreshView(int position, ThomsonVH holder) {
 
+        holder.getTv().setText(getItem(position).getString(TThomsonDetail.title));
     }
 
 }
