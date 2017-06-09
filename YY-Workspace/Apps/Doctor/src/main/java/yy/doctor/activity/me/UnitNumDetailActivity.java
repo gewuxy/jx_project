@@ -270,12 +270,14 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
             mTvName.setText(mUnitNumDetail.getString(TUnitNumDetail.nickname));
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
             mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + " " + mUnitNumDetail.getString(TUnitNumDetail.city));
+
             //判断用户是否已经关注过此单位号
             if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == 1) {
                 mTvAttention.setText("已关注");
                 mTvAttention.setSelected(true);
                 mTvAttention.setClickable(false);
             }
+            mTvIntroduction.setText(mUnitNumDetail.getString(TUnitNumDetail.sign));
 
             List<UnitNumDetailData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
             int listSize = listFile.size();
