@@ -40,16 +40,6 @@
                 android:textSize="12dp"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/meeting_search_nav_bar_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:gravity="center_vertical"
-            android:text="搜索"
-            android:textColor="@color/white"
-            android:textSize="14dp"/>
     </LinearLayout>
 
 </LinearLayout>

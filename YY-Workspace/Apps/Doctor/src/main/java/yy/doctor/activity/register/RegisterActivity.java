@@ -83,13 +83,13 @@ public class RegisterActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(new Builder(FormType.et_register_pwd)
                 .related(RelatedId.pwd)
                 .hint("密码")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(new Builder(FormType.et_register_pwd)
                 .related(RelatedId.marksure_pwd)
                 .hint("确认密码")
                 .build());
@@ -157,6 +157,25 @@ public class RegisterActivity extends BaseFormActivity {
         String strDepartment = "";
         String strLicence = "";
 
+        /*if (BuildConfig.TEST) {
+            strInvite = "02123456789";
+            mUserName = "18194529@qq.com";
+            strNickname = mUserName;
+            strLinkman = "test1";
+            strMobile = "";
+            strPwd = "123456";
+            strPwdNg = "123456";
+            strProvince = "广东";
+            strCity = "广州";
+            strHospital = "第一医院";
+            strDepartment = "";
+            strLicence = "";
+            mPwd = "123456";
+            //登录
+            refresh(RefreshWay.embed);
+            exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
+            return;
+        }*/
 //        if (BuildConfig.TEST) {
 //            strInvite = "02123456789";
 //            mUserName = "18194529@qq.com";

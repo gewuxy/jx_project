@@ -18,11 +18,10 @@ public class Topic extends EVal<TTopic> {
         qtype,//试题类型
         title,//问题
         rightKey,//正确答案
-        sort,//问卷序号
+        sort,//试题序号
+
         @BindList(Choice.class)
-        options,//考试选项
-        @BindList(Choice.class)
-        optionList,//问卷选项
+        options, // 考试/问卷选项
 
         /**
          * 本地字段

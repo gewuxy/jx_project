@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseVPActivity;
@@ -46,15 +47,15 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     private static final long KDuration = 300l; //动画时长
     public static final int KVpSize = 3;
 
-    private String mPaperId;
-    private String mMeetId;
-    private String mModuleId;
+    protected String mPaperId;
+    protected String mMeetId;
+    protected String mModuleId;
 
-    private Paper mPaper;           //整套考题
+    protected Paper mPaper;           //整套考题
     private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
 
     private GridView mGv;           //考题情况列表
-    private TextView mTvAll;        //总数
+    protected TextView mTvAll;        //总数
     private TextView mTvCount;      //已完成数
     private LinearLayout mLayout;   //考题情况
 
@@ -63,10 +64,10 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     private boolean mHasAnimation;  //是否有动画在执行
     private boolean mTopicCaseShow; //是否在查看考题
 
-    private int mCount;             //完成数量
+    protected int mCount;             //完成数量
     private View mViewMid;          //NavBar中边的View(显示考试情况的时候显示)
     private TextView mTvNavCount;   //完成情况
-    private TextView mTvNavAll;     //总数
+    protected TextView mTvNavAll;     //总数
 
     protected Intro mIntro;
     protected List<Topic> mAllTopics;
@@ -83,32 +84,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
-        mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
 
-        mPaperId = mIntro.getString(TIntro.id);
-        mPaper = mIntro.getEv(TIntro.paper);
-        mAllTopics = mPaper.getList(TPaper.questions);
-
-        TopicFrag topicFrag = null;
-        int all = mAllTopics.size();
-        for (int i = 0; i < mAllTopics.size(); i++) {
-            topicFrag = new TopicFrag();
-            Topic topic = mAllTopics.get(i);
-            topicFrag.setTopic(topic);
-            //最后一题
-            if (i == mAllTopics.size() - 1) {
-                topicFrag.isLast();
-            }
-            topicFrag.setOnNextListener(v -> {
-                getAnswer(mAllTopics);
-                if (getCurrentItem() < all - 1) {
-                    setCurrentItem(getCurrentItem() + 1);
-                } else {
-                    lastTopic(all - mCount);
-                }
-            });
-            add(topicFrag);
-        }
     }
 
     /**
@@ -162,14 +138,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
         setOnClickListener(R.id.topic_layout_case_all);
         setOnClickListener(R.id.topic_tv_nar_bar_all);
-        setGv();
 
         setOffscreenPageLimit(KVpSize);
-
-        //第一题
-        String topicId = mAllTopics.get(0).getString(TTopic.id);
-        mTvAll.setText(topicId + "/" + mAllTopics.size());
-        mTvNavAll.setText(topicId + "/" + mAllTopics.size());
 
         setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -180,7 +150,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             @Override
             public void onPageSelected(int position) {
                 Topic topic = mAllTopics.get(position);
-                String count = topic.getString(TTopic.id);
+                String count = topic.getString(TTopic.sort);
                 mTvAll.setText(count + "/" + mAllTopics.size());
                 mTvNavAll.setText(count + "/" + mAllTopics.size());
             }
@@ -234,7 +204,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      *
      * @param topics
      */
-    private List<Answer> getAnswer(List<Topic> topics) {
+    protected List<Answer> getAnswer(List<Topic> topics) {
         List<Answer> answers = new ArrayList<>();//题号,答案
         mCount = 0;
         List<Choice> choices;
@@ -242,9 +212,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         StringBuffer answerStr;
         for (Topic topic : topics) {
             choices = topic.getList(TTopic.options);
-            if (choices == null) {
-                choices = topic.getList(TTopic.optionList);
-            }
 
             answer = new Answer();
             answer.put(TAnswer.id, topic.getString(TTopic.id));
@@ -276,20 +243,13 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      * 提交答案
      */
     protected void submit() {
-        Intent i = new Intent(BaseTopicActivity.this, ExamEndActivity.class)
-                .putExtra(Extra.KMeetId, mMeetId)
-                .putExtra(Extra.KModuleId, mModuleId)
-                .putExtra(Extra.KPaperId, mPaperId)
-                .putExtra(Extra.KData, (Serializable) getAnswer(mAllTopics));
-        LaunchUtil.startActivity(BaseTopicActivity.this, i);
-        finish();
     }
 
     /**
      * 设置GridView
      * Adapter{@link TopicCaseAdapter}
      */
-    private void setGv() {
+    protected void setGv() {
         mTopicCaseAdapter = new TopicCaseAdapter();
         mTopicCaseAdapter.addAll(mAllTopics);
 

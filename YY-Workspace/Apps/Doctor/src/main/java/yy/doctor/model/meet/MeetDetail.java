@@ -15,6 +15,10 @@ public class MeetDetail extends EVal<TMeetDetail> {
     public enum TMeetDetail {
         id,
         lecturer, // 主讲者
+        lecturerDepart, // 科室
+        lecturerHead, // 头像
+        lecturerHos, // 医院
+        lecturerTitle, // 职责
 
         meetName, // 会议名称
         meetType, // 会议科室类型
@@ -30,6 +34,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         endTime, // 结束时间
         state, // 会议状态
         xsCredits,
+        attention, // 是否关注了
         introduction, // 简介
     }
 }

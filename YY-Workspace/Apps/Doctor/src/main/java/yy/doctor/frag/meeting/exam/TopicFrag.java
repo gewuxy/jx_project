@@ -76,12 +76,9 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
         setBackgroundResource(R.color.white);
 
         //设置题目
-        mTvQ.setText(mTopic.getString(TTopic.id) + ". " + mTopic.getString(TTopic.title));
+        mTvQ.setText(mTopic.getString(TTopic.sort) + ". " + mTopic.getString(TTopic.title));
         //设置选项
         mChoices = mTopic.getList(TTopic.options);
-        if (mChoices == null) {
-            mChoices = mTopic.getList(TTopic.optionList);
-        }
         setData(mChoices);
 
         //单选隐藏下一题的按钮

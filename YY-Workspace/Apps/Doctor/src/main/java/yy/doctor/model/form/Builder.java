@@ -5,6 +5,7 @@ import lib.yy.model.form.FormItem;
 import yy.doctor.model.form.edit.FIEdit;
 import yy.doctor.model.form.edit.FIEditIntent;
 import yy.doctor.model.form.edit.FIEditRegister;
+import yy.doctor.model.form.edit.FIEditRegisterPwd;
 import yy.doctor.model.form.text.FIContent;
 import yy.doctor.model.form.text.FIContentText;
 import yy.doctor.model.form.text.FIText;
@@ -35,6 +36,7 @@ public class Builder extends FormBuilderEx<FormItem> {
             case FormType.content_text: {
                 item = new FIContentText();
             }
+
             break;
             case FormType.text: {
                 item = new FIText();
@@ -72,6 +74,10 @@ public class Builder extends FormBuilderEx<FormItem> {
             break;
             case FormType.et_register: {
                 item = new FIEditRegister();
+            }
+            break;
+            case FormType.et_register_pwd: {
+                item = new FIEditRegisterPwd();
             }
             break;
 

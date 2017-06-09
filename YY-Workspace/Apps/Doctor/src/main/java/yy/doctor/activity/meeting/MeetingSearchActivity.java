@@ -39,8 +39,9 @@ public class MeetingSearchActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
-        View v = inflate(R.layout.layout_meeting_nav_bar_search);
-        bar.addViewLeft(v, null);
+        View view = inflate(R.layout.layout_meeting_nav_bar_search);
+        bar.addViewLeft(view, null);
+        bar.addTextViewRight("搜索", v -> search(mEtSearch.getText().toString().trim()));
     }
 
     @Override
@@ -53,7 +54,6 @@ public class MeetingSearchActivity extends BaseActivity {
     public void setViews() {
         setOnClickListener(R.id.meeting_search_tv_unit_num);
         setOnClickListener(R.id.meeting_search_tv_meeting);
-        setOnClickListener(R.id.meeting_search_nav_bar_tv);
 
         setLayout();
     }
@@ -83,9 +83,6 @@ public class MeetingSearchActivity extends BaseActivity {
                 break;
             case R.id.meeting_search_tv_meeting:
                 MeetingSearchResultActivity.nav(MeetingSearchActivity.this, SearchType.meeting, null);
-                break;
-            case R.id.meeting_search_nav_bar_tv:
-                search(mEtSearch.getText().toString().trim());
                 break;
         }
     }

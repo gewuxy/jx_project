@@ -26,9 +26,11 @@ import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.permission.Permission;
@@ -40,10 +42,10 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
-import yy.doctor.model.meet.MeetDetail;
-import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.Module;
 import yy.doctor.model.meet.Module.TModule;
+import yy.doctor.model.meet.MeetDetail;
+import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.network.JsonParser;
@@ -59,51 +61,52 @@ import yy.doctor.util.Util;
 
 public class MeetingDetailsActivity extends BaseActivity {
 
-    private static final int KModuleCount = 4;//模块数
-    private static final int KMeetDetail = 0;//会议详情
-    private static final int KSign = 1;//签到
+    private static final int KModuleCount = 4; // 模块数
+    private static final int KMeetDetail = 0; // 会议详情
+    private static final int KSign = 1; // 签到
+    private static final int KCollection = 2; // 收藏
 
-    private final int KDividerWDp = 1;//分割线的宽
-    private final int KDividerHDp = 16;//分割线的高
-    private final int KExamResId = R.mipmap.meeting_ic_exam;//考试
-    private final int KQueResId = R.mipmap.meeting_ic_questionnaire;//问卷
-    private final int KVideoResId = R.mipmap.meeting_ic_video;//视频
-    private final int KSignResId = R.mipmap.meeting_ic_sign;//签到
+    private final int KDividerWDp = 1; // 分割线的宽
+    private final int KDividerHDp = 16; // 分割线的高
+    private final int KExamResId = R.mipmap.meeting_ic_exam; // 考试
+    private final int KQueResId = R.mipmap.meeting_ic_questionnaire; // 问卷
+    private final int KVideoResId = R.mipmap.meeting_ic_video; // 视频
+    private final int KSignResId = R.mipmap.meeting_ic_sign; // 签到
 
     private String mMeetId;
     private TextView mTvAward;
-    private TextView mTvTitle;//会议名称
-    private TextView mTvSection;//会议科室
+    private TextView mTvTitle; // 会议名称
+    private TextView mTvSection; // 会议科室
 
-    //播放图片
-    private NetworkImageView mIvPlay;
-    //公众号图标
-    private NetworkImageView mIvNumber;
+    private NetworkImageView mIvPlay; // 播放图片
+    private NetworkImageView mIvNumber; // 公众号图标
+    private NetworkImageView mIvGP; // 头像
 
-    //主讲者
-    private TextView mTvGN;//名字
-    private TextView mTvGP;//职位
-    private TextView mTvGH;//医院
-    private NetworkImageView mIvGP;//头像
+    // 主讲者
+    private TextView mTvGN; // 名字
+    private TextView mTvGP; // 职位
+    private TextView mTvGH; // 医院
 
-    //底部按钮
-    private View mDivider;//分割线
-    private LinearLayout mLlModules;//模块的容器
-    private TextView mTvSee;//观看会议
-    private int mModuleCount;//底部添加的模块数
-    private LayoutParams mModuleParams;//模块的参数
-    private LayoutParams mDividerParams;//分割线的参数
+    // 底部按钮
+    private int mModuleCount; // 底部添加的模块数
+    private LinearLayout mLlModules; // 模块的容器
+    private View mDivider; // 分割线
+    private LayoutParams mModuleParams; // 模块的参数
+    private LayoutParams mDividerParams; // 分割线的参数
+    private TextView mTvSee; // 观看会议
 
-    private LocationDialog mLocationDialog;//定位框
-    private OnLocationNotify mObserver;
+    private LocationDialog mLocationDialog; // 定位框
+    private OnLocationNotify mObserver; // 定位通知
     private MapList<Integer, String> mMapList;
-    private TextView mTvDate;//时间
-    private TextView mTvTime;//时长
-    private String mLatitude;//经度
-    private String mLongitude;//维度
+    private TextView mTvDate; // 时间
+    private TextView mTvTime; // 时长
+    private String mLatitude; // 经度
+    private String mLongitude; // 维度
     private TextView mTvIntro; // 会议简介
     private ImageView mIvCollection; // navBar的收藏
-    private int mCollect;
+    private int mCollect; // 收藏的标志
+    private boolean mAttention; // 是否关注了
+    private TextView mTvUnitNum; // 单位号
 
     /**
      * functionId,模块功能ID
@@ -160,7 +163,26 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, "会议详情", this);
-        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, null/* v -> exeNetworkReq(NetFactory.collectMeeting(mMeetId, mCollect))*/);
+        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
+            if (mAttention) {
+                switch (mCollect) {
+                    case CollectType.yes:
+                        mIvCollection.setSelected(false);
+                        mCollect = CollectType.no;
+                        showToast("取消收藏成功");
+                        break;
+                    case CollectType.no:
+                        mIvCollection.setSelected(true);
+                        mCollect = CollectType.yes;
+                        showToast("收藏成功");
+                        break;
+                }
+                exeNetworkReq(KCollection, NetFactory.collectMeeting(mMeetId, mCollect));
+            } else {
+                showToast("请先关注会议");
+            }
+
+        });
         if (mIvCollection == null) {
             getCollection(layout);
         }
@@ -172,29 +194,27 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvPlay = findView(R.id.meeting_detail_iv_play);
         mTvDate = findView(R.id.meeting_detail_tv_date);
         mTvTime = findView(R.id.meeting_detail_tv_time);
-        mTvIntro = findView(R.id.meeting_detail_tv_intro);
         mIvNumber = findView(R.id.meeting_detail_iv_number);
         mTvAward = findView(R.id.meeting_detail_tv_award);
         mTvTitle = findView(R.id.meeting_detail_tv_title);
         mTvSection = findView(R.id.meeting_detail_tv_section);
+        mTvUnitNum = findView(R.id.meeting_detail_tv_unit_num);
 
-        //嘉宾相关
+        // 嘉宾相关
         mTvGN = findView(R.id.meeting_tv_guest_name);
         mTvGP = findView(R.id.meeting_tv_guest_post);
         mTvGH = findView(R.id.meeting_tv_guest_hospital);
         mIvGP = findView(R.id.meeting_iv_guest_portrait);
 
-        //模块相关
+        mTvIntro = findView(R.id.meeting_detail_tv_intro);
+
+        // 模块相关
         mLlModules = findView(R.id.meeting_detail_layout_modules);
         mTvSee = findView(R.id.meeting_detail_video_see);
     }
 
     @Override
     public void setViews() {
-        mIvPlay.placeHolder(R.mipmap.ic_default_meeting_content_detail).load();
-        mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large).load();
-        mIvGP.placeHolder(R.mipmap.ic_default_meeting_guest).load();
-
         setOnClickListener(mTvSee);
 
         refresh(RefreshWay.embed);
@@ -232,16 +252,16 @@ public class MeetingDetailsActivity extends BaseActivity {
                 showToast(r.getError());
             }
         } else if (id == KSign) {
-            //是否已签到
+            // 是否已签到
             stopRefresh();
             Result<Sign> r = (Result<Sign>) result;
             if (r.isSucceed()) {
                 Sign signData = r.getData();
                 boolean finished = signData.getBoolean(TSign.finished);
-                if (finished) {//已签到直接显示结果
+                if (finished) { // 已签到直接显示结果
                     setViewState(ViewState.normal);
                     showToast("已签到");
-                } else {//未签到跳转再请求签到
+                } else { // 未签到跳转再请求签到
                     Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
                             .putExtra(Extra.KMeetId, mMeetId)
                             .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
@@ -268,8 +288,8 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param info
      */
     private void refreshViews(MeetDetail info) {
-        // 是否收藏
-        mCollect = info.getInt(TMeetDetail.stored);
+        mCollect = info.getInt(TMeetDetail.stored); // 收藏
+        mAttention = info.getBoolean(TMeetDetail.attention); // 关注
         switch (mCollect) {
             case CollectType.yes:
                 mIvCollection.setSelected(true);
@@ -279,19 +299,42 @@ public class MeetingDetailsActivity extends BaseActivity {
                 break;
         }
 
-        long startTime = info.getLong(TMeetDetail.startTime);
+        mIvPlay.placeHolder(R.mipmap.ic_default_meeting_content_detail).load();
+        long startTime = info.getLong(TMeetDetail.startTime); // 开始时间
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
         mTvTime.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
 
-        mTvAward.setText("本次会议奖励象数:" + info.getString(TMeetDetail.xsCredits) + ",还有260人能够获得奖励.");
+        // 会议
         mTvTitle.setText(info.getString(TMeetDetail.meetName));
+        mTvAward.setText("本次会议奖励象数:" + info.getString(TMeetDetail.xsCredits) + ",还有260人能够获得奖励.");
         mTvSection.setText(info.getString(TMeetDetail.meetType));
 
-        mTvGN.setText(info.getString(TMeetDetail.lecturer));
+        // 单位号
+        mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large).load();
+        mTvUnitNum.setText(info.getString(TMeetDetail.organizer));
 
+        // 主讲者
+        mTvGN.setText(info.getString(TMeetDetail.lecturer));
+        mIvGP.placeHolder(R.mipmap.ic_default_meeting_guest)
+                .url(info.getString(TMeetDetail.lecturerHead))
+                .renderer(new CircleRenderer())
+                .load();
+        // 职责和医院没有的话就隐藏
+        String obligation = info.getString(TMeetDetail.lecturerTitle); // 职责
+        if (TextUtil.isEmpty(obligation)) {
+            goneView(mTvGP);
+        } else {
+            mTvGP.setText(obligation);
+        }
+        String hospital = info.getString(TMeetDetail.lecturerHos); // 医院
+        if (TextUtil.isEmpty(hospital)) {
+            goneView(mTvGH);
+        } else {
+            mTvGH.setText(hospital);
+        }
         mTvIntro.setText(Html.fromHtml(info.getString(TMeetDetail.introduction)));
 
-        //添加包含的模块
+        // 模块
         modules(info.getList(TMeetDetail.modules));
     }
 
@@ -312,24 +355,49 @@ public class MeetingDetailsActivity extends BaseActivity {
             String moduleIdName = module.getString(TModule.moduleName);
             switch (type) {
                 case FunctionType.exam:
-                    addModule(KExamResId, moduleIdName, v ->
-                            ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam)));
+                    addModule(KExamResId, moduleIdName, v -> {
+                                if (mAttention) {
+                                    ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam));
+                                } else {
+                                    showToast("请先关注会议");
+                                }
+                            }
+
+                    );
                     break;
 
                 case FunctionType.que:
-                    addModule(KQueResId, moduleIdName, null);
+                    addModule(KQueResId, moduleIdName, v -> {
+                                if (mAttention) {
+                                    QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, moduleId);
+                                } else {
+                                    showToast("请先关注会议");
+                                }
+                            }
+                    );
                     break;
 
                 case FunctionType.video:
-                    addModule(KVideoResId, moduleIdName, v ->
-                            VideoCategoryActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.video)));
+                    addModule(KVideoResId, moduleIdName, v -> {
+                                if (mAttention) {
+                                    VideoCategoryActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.video));
+                                } else {
+                                    showToast("请先关注会议");
+                                }
+                            }
+                    );
                     break;
 
                 case FunctionType.sign:
                     addModule(KSignResId, moduleIdName, v -> {
-                        if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
-                            sign();
+                        if (mAttention) {
+                            if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
+                                sign();
+                            }
+                        } else {
+                            showToast("请先关注会议");
                         }
+
                     });
                     break;
             }

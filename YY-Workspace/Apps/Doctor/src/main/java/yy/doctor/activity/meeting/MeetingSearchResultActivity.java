@@ -64,8 +64,9 @@ public class MeetingSearchResultActivity extends BaseSRListActivity<IRec, RecAda
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
-        View v = inflate(R.layout.layout_meeting_nav_bar_search);
-        bar.addViewLeft(v, null);
+        View view = inflate(R.layout.layout_meeting_nav_bar_search);
+        bar.addViewLeft(view, null);
+        bar.addTextViewRight("搜索", null);
     }
 
     @Override

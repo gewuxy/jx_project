@@ -40,6 +40,7 @@ public @interface FormType {
     int et = 20;
     int et_intent = 21;
     int et_register = 22;
+    int et_register_pwd = 23;
 
     int profile_checkbox = 30;
 

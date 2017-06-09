@@ -72,7 +72,7 @@ public class NetFactory {
         String KPositionId = "positionId";//签到位置
 
         String KAnswer = "answer";//答案
-        String KItemJson = "itemJSON";//答案列表
+        String KItemJson = "itemJson";//答案列表
 
         String KUseTime = "useTime";//微课用时
 

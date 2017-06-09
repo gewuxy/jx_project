@@ -1,6 +1,7 @@
 package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -11,9 +12,12 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
+import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Answer;
+import yy.doctor.model.meet.exam.TopicResult;
+import yy.doctor.model.meet.exam.TopicResult.TTopicResult;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -23,17 +27,24 @@ import yy.doctor.util.Util;
  * @since 2017/4/28
  */
 public class ExamEndActivity extends BaseActivity {
-    // TODO: 2017/5/23 算分
+    // TODO
     private String mMeetId;
     private String mModuleId;
-    private List<Answer> mAnswers;
-    private String mPaperId;
+    private String mPaperId; // 试卷Id
+    private long mTime; // 考试用时
+    private List<Answer> mAnswers; // 答案
+
+    private TextView mTvTime;
+    private TextView mTvScore;
+    private TextView mTvRight;
+    private TextView mTvError;
 
     @Override
     public void initData() {
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
         mPaperId = getIntent().getStringExtra(Extra.KPaperId);
+        mTime = getIntent().getLongExtra(Extra.KTime, 0);
         mAnswers = (List<Answer>) getIntent().getSerializableExtra(Extra.KData);
     }
 
@@ -50,6 +61,10 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void findViews() {
+        mTvTime = findView(R.id.exam_end_tv_time);
+        mTvScore = findView(R.id.exam_end_tv_score);
+        mTvRight = findView(R.id.exam_end_tv_right_num);
+        mTvError = findView(R.id.exam_end_tv_error_num);
     }
 
     @Override
@@ -65,17 +80,20 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+        return JsonParser.ev(r.getText(), TopicResult.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         setViewState(ViewState.normal);
-        Result response = (Result) result;
+        Result<TopicResult> response = (Result<TopicResult>) result;
         if (response.isSucceed()) {
-            showToast("成功" + response.getCode());
+            TopicResult r = response.getData();
+            mTvScore.setText(r.getString(TTopicResult.score));
+            mTvRight.setText(r.getString(TTopicResult.rightCount));
+            mTvError.setText(r.getString(TTopicResult.errorCount));
+            mTvTime.setText(Util.formatTime(mTime, DateUnit.minute));
         } else {
-            showToast("失败" + response.getCode());
         }
     }
 

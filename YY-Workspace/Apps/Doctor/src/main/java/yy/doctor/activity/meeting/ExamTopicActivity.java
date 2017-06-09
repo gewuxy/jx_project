@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -20,10 +21,14 @@ import lib.ys.util.LaunchUtil;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.CommonOneDialog;
 import yy.doctor.dialog.CommonTwoDialog;
+import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.model.meet.exam.Paper.TPaper;
+import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.util.Util;
 
 /**
@@ -39,7 +44,8 @@ public class ExamTopicActivity extends BaseTopicActivity {
     private final int KXClose = 2;//X秒后自动关闭
 
     private TextView mTvTime;
-    private int mUseTime;//做题时间
+    private long mCanUseTime; // 可以做题时间
+    private long mUseTime; // 做题时间
     private DisposableSubscriber<Long> mSub;
     private CommonOneDialog mCloseDialog;//离考试结束的提示框
     private CommonOneDialog mSubmitDialog;
@@ -56,7 +62,33 @@ public class ExamTopicActivity extends BaseTopicActivity {
     @Override
     public void initData() {
         super.initData();
-        mUseTime = mIntro.getInt(TIntro.usetime) * 60;
+
+        mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
+        mPaper = mIntro.getEv(TIntro.paper);
+        mPaperId = mPaper.getString(TPaper.id);
+        mAllTopics = mPaper.getList(TPaper.questions);
+
+        TopicFrag topicFrag = null;
+        int all = mAllTopics.size();
+        for (int i = 0; i < mAllTopics.size(); i++) {
+            topicFrag = new TopicFrag();
+            Topic topic = mAllTopics.get(i);
+            topicFrag.setTopic(topic);
+            //最后一题
+            if (i == mAllTopics.size() - 1) {
+                topicFrag.isLast();
+            }
+            topicFrag.setOnNextListener(v -> {
+                getAnswer(mAllTopics);
+                if (getCurrentItem() < all - 1) {
+                    setCurrentItem(getCurrentItem() + 1);
+                } else {
+                    lastTopic(all - mCount);
+                }
+            });
+            add(topicFrag);
+        }
+        mCanUseTime = mIntro.getInt(TIntro.usetime) * 60;
     }
 
     @Override
@@ -65,16 +97,25 @@ public class ExamTopicActivity extends BaseTopicActivity {
         mTvLeft.setText("考试");
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(Util.formatTime(mUseTime, DateUnit.hour));
+        mTvTime.setText(Util.formatTime(mCanUseTime, DateUnit.hour));
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
         Flowable.interval(0, 1, TimeUnit.SECONDS)
-                .take(mUseTime + 1)
-                .map(aLong -> mUseTime - aLong) // 转换成倒数的时间
+                .take(mCanUseTime + 1)
+                .map(aLong -> mCanUseTime - aLong) // 转换成倒数的时间
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(createSub());
         bar.addViewMid(mTvTime);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();//第一题
+        setGv();
+        String topicId = mAllTopics.get(0).getString(TTopic.sort);
+        mTvAll.setText(topicId + "/" + mAllTopics.size());
+        mTvNavAll.setText(topicId + "/" + mAllTopics.size());
     }
 
     @Override
@@ -121,6 +162,18 @@ public class ExamTopicActivity extends BaseTopicActivity {
     }
 
     @Override
+    protected void submit() {
+        Intent i = new Intent(ExamTopicActivity.this, ExamEndActivity.class)
+                .putExtra(Extra.KMeetId, mMeetId)
+                .putExtra(Extra.KModuleId, mModuleId)
+                .putExtra(Extra.KPaperId, mPaperId)
+                .putExtra(Extra.KTime, mUseTime)
+                .putExtra(Extra.KData, (Serializable) getAnswer(mAllTopics));
+        LaunchUtil.startActivity(ExamTopicActivity.this, i);
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mSub != null && !mSub.isDisposed()) {
@@ -146,6 +199,7 @@ public class ExamTopicActivity extends BaseTopicActivity {
 
             @Override
             public void onNext(@NonNull Long aLong) {
+                mUseTime = mCanUseTime - aLong;
                 mTvTime.setText(Util.formatTime(aLong.intValue(), DateUnit.hour));
                 // 剩余5分钟
                 if (aLong == KFiveMin) {

@@ -22,7 +22,7 @@ public class TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
     @Override
     protected void refreshView(int position, TopicCaseVH holder) {
         Topic item = getItem(position);
-        holder.getText().setText(item.getString(TTopic.id));
+        holder.getText().setText(item.getString(TTopic.sort));
         holder.getText().setSelected(item.getBoolean(TTopic.finish));
     }
 
