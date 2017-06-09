@@ -11,7 +11,6 @@ import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
-import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.activity.NoticeActivity;
 import yy.doctor.activity.meeting.MeetingSearchActivity;
@@ -21,7 +20,6 @@ import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecUnitNum;
-import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.network.NetFactory;
 import yy.doctor.view.BadgeView;
@@ -88,7 +86,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         super.setViews();
 
         mBadgeView = new BadgeView(getContext());
-        mBadgeView.setBadgeMargin(0, 7, 7, 0);
+        mBadgeView.setBadgeMargin(0, 8, 8, 0);
         mBadgeView.setTargetView(mViewNotice);
 
         getAdapter().setTvAttentionListener(this);
@@ -140,12 +138,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             if (mUnitNumReqIsOK) {
                 mRecUnitNums = result.getData();
             }
-
-            if (BuildConfig.TEST) {
-                for (RecUnitNum num : mRecUnitNums) {
-                    num.put(TRecUnitNum.attention, 0);
-                }
-            }
         } else if (id == KReqIdMeeting) {
             result = evs(r.getText(), RecMeeting.class);
             mMeetingReqIsOK = result.isSucceed();
@@ -178,14 +170,23 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             ListResult<IHome> ret = new ListResult();
             List<IHome> homes = new ArrayList<>();
 
-            homes.addAll(mRecMeetings);
+            //截断推荐会议
+            List<IHome> threeMeetings = new ArrayList<>();
+            List<IHome> fiveMeetings = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                threeMeetings.add(mRecMeetings.get(i));
+            }
+            for (int i = 3; i < mRecMeetings.size(); ++i) {
+                fiveMeetings.add(mRecMeetings.get(i));
+            }
+
+            homes.addAll(threeMeetings);
 
             RecUnitNums nums = new RecUnitNums();
             nums.setData(mRecUnitNums);
             homes.add(nums);
 
-            // FIXME: 为了添加多一些测试数据
-            homes.addAll(mRecMeetings);
+            homes.addAll(fiveMeetings);
 
             ret.setData(homes);
 

@@ -17,7 +17,6 @@ import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.frag.data.ClinicalGuideFrag;
-import yy.doctor.frag.data.ClinicalShareFrag;
 import yy.doctor.frag.data.DrugListbFrag;
 import yy.doctor.frag.data.ThomsonFrag;
 
@@ -36,13 +35,11 @@ public class DataFrag extends BaseVPFrag {
             PageType.thomson_lib,
             PageType.drug_list,
             PageType.clinical_guide,
-            PageType.clinical_share,
     })
     private @interface PageType {
         int thomson_lib = 0;  //汤森路透
         int drug_list = 1;    //药品目录
         int clinical_guide = 2;   //临床指南
-        int clinical_share = 3;   //临床分享
     }
 
     private ViewGroup mLayoutTab;
@@ -57,7 +54,6 @@ public class DataFrag extends BaseVPFrag {
         add(new ThomsonFrag());
         add(new DrugListbFrag());
         add(new ClinicalGuideFrag());
-        add(new ClinicalShareFrag());
 
     }
 
@@ -126,7 +122,6 @@ public class DataFrag extends BaseVPFrag {
         addTab(PageType.thomson_lib, "汤森路透");
         addTab(PageType.drug_list, "药品目录");
         addTab(PageType.clinical_guide, "临床指南");
-        addTab(PageType.clinical_share, "临床分享");
 
         invalidate();
     }

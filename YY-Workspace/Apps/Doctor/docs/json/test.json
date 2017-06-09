@@ -1,57 +1,21 @@
 {
   "code": "0",
-  "data": [
-    {
-      "authed": true,
-      "author": "汤森路透",
-      "categoryId": "17051817321067996389",
-      "dataFrom": "汤森路透",
-      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051915590440755797.pdf",
-      "fileSize": 1515,
-      "id": "17051915590566189016",
-      "rootCategory": "17051816403418566342",
-      "summary": "",
-      "title": "Breast Cancer 2016",
-      "updateDate": 1495180960000
-    },
-    {
-      "authed": true,
-      "author": "汤森路透",
-      "categoryId": "17051817321067996389",
-      "dataFrom": "汤森路透",
-      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051916033234359054.pdf",
-      "fileSize": 1491,
-      "id": "17051916033373019620",
-      "rootCategory": "17051816403418566342",
-      "summary": "",
-      "title": "Lung Cancer 2016",
-      "updateDate": 1495181013000
-    },
-    {
-      "authed": true,
-      "author": "汤森路透",
-      "categoryId": "17051817321067996389",
-      "dataFrom": "汤森路透",
-      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051916040823733901.pdf",
-      "fileSize": 1019,
-      "id": "17051916040942127249",
-      "rootCategory": "17051816403418566342",
-      "summary": "",
-      "title": "Neurologic Cancer 2016",
-      "updateDate": 1495181049000
-    },
-    {
-      "authed": true,
-      "author": "汤森路透",
-      "categoryId": "17051817321067996389",
-      "dataFrom": "汤森路透",
-      "filePath": "http://www.medcn.com:8081/file/data/17051816403418566342/17051817321067996389/17051916043234870550.pdf",
-      "fileSize": 1247,
-      "id": "17051916043358613429",
-      "rootCategory": "17051816403418566342",
-      "summary": "",
-      "title": "Prostate Cancer 2016",
-      "updateDate": 1495181073000
-    }
-  ]
+  "data": {
+    "city": "秦皇岛市",
+    "cmeId": "85",
+    "department": "普内科",
+    "gender": 0,
+    "hosLevel": "三级",
+    "hospital": "北京公安医院",
+    "id": 16,
+    "licence": "54",
+    "linkman": "巫彩祥",
+    "mobile": "13800000002",
+    "nickname": "巫彩祥",
+    "province": "河北省",
+    "title": "其他 医师",
+    "token": "b6ceb4e79fbd40c4becc841804878239",
+    "username": "wucaixiang@medcn.cn",
+    "zone": "山海关区"
+  }
 }

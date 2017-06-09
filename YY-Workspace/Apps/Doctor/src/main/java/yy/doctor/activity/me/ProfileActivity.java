@@ -49,7 +49,10 @@ import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 import static yy.doctor.model.Profile.TProfile.city;
+import static yy.doctor.model.Profile.TProfile.cmeId;
 import static yy.doctor.model.Profile.TProfile.department;
+import static yy.doctor.model.Profile.TProfile.headimg;
+import static yy.doctor.model.Profile.TProfile.hosLevel;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
@@ -175,8 +178,9 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.hospital_grade)
                 .name("医院级别")
-                .hint(R.string.hint_not_fill)
+                .text(Profile.inst().getString(hosLevel))
                 .data(GlConfig.inst().getHospitalGrade())
+                .hint(R.string.hint_not_fill)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -210,6 +214,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et)
                 .related(RelatedId.CME_number)
                 .name("CME卡号")
+                .text(Profile.inst().getString(cmeId))
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -315,6 +320,7 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
+                .url(Profile.inst().getString(headimg))
                 .renderer(new CircleRenderer())
                 .load();
     }

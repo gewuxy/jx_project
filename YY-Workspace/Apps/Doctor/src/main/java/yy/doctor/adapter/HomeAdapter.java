@@ -10,6 +10,7 @@ import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.activity.meeting.MeetingSearchActivity;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.adapter.VH.HomeVH;
 import yy.doctor.model.home.IHome;
@@ -43,35 +44,45 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
     @Override
     protected void refreshView(int position, HomeVH holder, int itemType) {
         if (itemType == HomeType.meeting) {
-            RecMeeting item = (RecMeeting) getItem(position);
-            holder.getTvTitle().setText(item.getString(TRecMeeting.meetName));
-            //holder.getTvSpeakerName().setText(meeting.getString(TRecMeeting.lecturer));
-            //holder.getTvSpeakerRank().setText(meeting.getString(TRecMeeting.lecturerTile));
-            holder.getTvSection().setText(item.getString(TRecMeeting.meetType));
-            holder.getTvData().setText(TimeUtil.formatMilli(item.getLong(TRecMeeting.startTime), "MM月dd日 HH:mm"));
-            holder.getTvDuration().setText(Util.timeParse(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
-            holder.getIvSpeaker()
-                    .url(item.getString(TRecMeeting.lecturerImg))
-                    .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
-                    .load();
-            holder.getIvUnit()
-                    .placeHolder(R.mipmap.ic_default_home_meeting_unit_num)
-                    .renderer(new CircleRenderer())
-                    .load();
+
+            RecMeeting meeting = (RecMeeting) getItem(position);
+
+            holder.getTvTitle().setText(meeting.getString(TRecMeeting.meetName));
+
+            //判断会议状态
+            @MeetsState int state = meeting.getInt(TRecMeeting.state);
+            UISetter.setMeetState(state, holder.getTvStatus());
+
+            holder.getTvSection().setText(meeting.getString(TRecMeeting.meetType));
+            holder.getTvData().setText(TimeUtil.formatMilli(meeting.getLong(TRecMeeting.startTime), "MM月dd日 HH:mm"));
+            holder.getTvDuration().setText(Util.timeParse(meeting.getLong(TRecMeeting.endTime) - meeting.getLong(TRecMeeting.startTime)));
+
+            holder.getTvSpeakerName().setText(meeting.getString(TRecMeeting.lecturer));
+            holder.getTvSpeakerRank().setText(meeting.getString(TRecMeeting.lecturerTile));
+
             //判断用户是否已经收藏过这个会议
-            if (item.getInt(TRecMeeting.stored) == 1) {
+            if (meeting.getInt(TRecMeeting.stored) == 1) {
                 showView(holder.getTvCollection());
             } else {
                 goneView(holder.getTvCollection());
             }
-            //判断会议状态
-            @MeetsState int state = item.getInt(TRecMeeting.state);
-            UISetter.setMeetState(state, holder.getTvStatus());
+
+            holder.getIvSpeaker()
+                    .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
+                    .url(meeting.getString(TRecMeeting.lecturerImg))
+                    .load();
+            holder.getIvUnit()
+                    .placeHolder(R.mipmap.ic_default_home_meeting_unit_num)
+                    .renderer(new CircleRenderer())
+                    .url(meeting.getString(TRecMeeting.pubUserHead))
+                    .load();
+            holder.getTvHospital().setText(meeting.getString(TRecMeeting.lecturerHos));
 
             //单位号头像点击事件
-            holder.getIvUnit().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), item.getInt(TRecMeeting.pubUserId)));
+            holder.getIvUnit().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), meeting.getInt(TRecMeeting.pubUserId)));
             //会议点击事件
-            holder.getMeetingItemLayout().setOnClickListener(v -> MeetingDetailsActivity.nav(getContext(), item.getString(TRecMeeting.id)));
+            holder.getMeetingItemLayout().setOnClickListener(v -> MeetingDetailsActivity.nav(getContext(), meeting.getString(TRecMeeting.id)));
+
         } else {
             RecUnitNums UnitNums = (RecUnitNums) getItem(position);
             mHomeUnitNumAdapter.setData(UnitNums.getData());
@@ -85,7 +96,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                 }
             });
 
-            holder.getRecyclerViewFooter().setOnClickListener(v -> showToast("8525"));
+            holder.getRecyclerViewFooter().setOnClickListener(v -> startActivity(MeetingSearchActivity.class));
         }
     }
 

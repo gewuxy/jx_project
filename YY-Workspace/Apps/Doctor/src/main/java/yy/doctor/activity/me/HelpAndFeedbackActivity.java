@@ -130,12 +130,16 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.feedback: {
-                Intent data = new Intent(Intent.ACTION_SEND);
-                data.setType("plain/text");
-                data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
-                data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
-                data.putExtra(Intent.EXTRA_TEXT, "");
-                startActivity(data);
+                try {
+                    Intent data = new Intent(Intent.ACTION_SEND);
+                    data.setType("plain/text");
+                    data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
+                    data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
+                    data.putExtra(Intent.EXTRA_TEXT, "");
+                    startActivity(data);
+                } catch (Exception e) {
+                    showToast("没有安装相应软件");
+                }
             }
             break;
         }

@@ -20,7 +20,10 @@ public class ThomsonAdapter extends AdapterEx<ThomsonDetail, ThomsonVH> {
     @Override
     protected void refreshView(int position, ThomsonVH holder) {
 
+        ThomsonDetail item = getItem(position);
         holder.getTv().setText(getItem(position).getString(TThomsonDetail.title));
+        String size = item.getLong(TThomsonDetail.fileSize) / 1024 + "K";
+        holder.getTvSize().setText(size);
     }
 
 }

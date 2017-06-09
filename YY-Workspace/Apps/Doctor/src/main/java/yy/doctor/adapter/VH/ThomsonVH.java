@@ -21,4 +21,8 @@ public class ThomsonVH extends ViewHolderEx {
         return getView(R.id.thomson_item_tv);
     }
 
+    public TextView getTvSize() {
+        return getView(R.id.thomson_item_tv_size);
+    }
+
 }

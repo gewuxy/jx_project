@@ -29,7 +29,6 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.network.Result;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
@@ -95,9 +94,6 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     @Override
     public void initData() {
         mUnitNumId = getIntent().getIntExtra(Extra.KData, 0);
-        if (BuildConfig.TEST) {
-            mUnitNumId = 14;
-        }
     }
 
     @Override

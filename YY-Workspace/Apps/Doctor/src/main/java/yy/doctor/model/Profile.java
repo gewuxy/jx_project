@@ -25,10 +25,12 @@ public class Profile extends EVal<TProfile> {
         licence, //执业许可证号
         major,
         place,  //职务
-        title,  //职位
+        title,  //职称
         hospital,
         department,  //科室
         address,
+        hosLevel, //医院等级
+        cmeId,  // CME卡号
     }
 
     private static Profile mInst = null;
@@ -61,4 +63,9 @@ public class Profile extends EVal<TProfile> {
     public void saveToSp() {
         SpUser.inst().save(this);
     }
+
+    public void clearProfile() {
+        Profile.inst().clear();
+    }
+
 }

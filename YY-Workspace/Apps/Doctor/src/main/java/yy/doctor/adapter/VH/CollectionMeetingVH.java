@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
-import lib.ys.view.photoViewer.NetworkPhotoView;
+import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 
 /**
@@ -38,7 +38,7 @@ public class CollectionMeetingVH extends ViewHolderEx {
         return getView(R.id.meeting_item_tv_data);
     }
 
-    public NetworkPhotoView getIvUnitNum() {
+    public NetworkImageView getIvUnitNum() {
         return getView(R.id.meeting_item_iv_unit_num);
     }
 

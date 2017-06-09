@@ -45,7 +45,7 @@ public class UrlUtil {
     public interface UrlUser {
         String KAd = "advert";
         String KLogin = "login";
-        String KLogout = "download";
+        String KLogout = "logout";
         String KForgetPwd = "regist/pwd/reset";
         String KProfile = "user/info";
         String KModify = "user/modify";

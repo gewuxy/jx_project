@@ -1,6 +1,7 @@
 package yy.doctor.adapter;
 
 import lib.ys.adapter.GroupAdapterEx;
+import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.UnitNumVH;
 import yy.doctor.model.unitnum.GroupUnitNum;
@@ -34,7 +35,10 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, UnitNumVH holder) {
         UnitNum item = getChild(groupPosition, childPosition);
 
-        holder.getIvChild().placeHolder(R.mipmap.ic_default_epc).load();
+        holder.getIvChild().placeHolder(R.mipmap.ic_default_epc)
+                .renderer(new CircleRenderer())
+                .url(item.getString(TUnitNum.headimg))
+                .load();
         holder.getTvChild().setText(item.getString(TUnitNum.nickname));
     }
 

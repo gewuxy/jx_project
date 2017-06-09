@@ -251,4 +251,5 @@ public class ToggleButton extends View implements OnClickListener {
         mCurrView = view;
         setToggleState(!mCheck, true, true);
     }
+
 }

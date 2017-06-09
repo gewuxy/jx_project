@@ -9,6 +9,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
 import yy.doctor.model.Logout;
+import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpUser;
@@ -33,6 +34,7 @@ public class LogoutServ extends ServiceEx {
     public void onNetworkSuccess(int id, Object result) {
         Result<Logout> r = (Result<Logout>) result;
 
+        Profile.inst().clear();
         if (r.isSucceed()) {
             SpUser.inst().clear();
         } else {

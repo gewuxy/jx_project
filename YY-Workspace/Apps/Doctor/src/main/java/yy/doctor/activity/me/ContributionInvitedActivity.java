@@ -12,6 +12,8 @@ import yy.doctor.util.Util;
  */
 public class ContributionInvitedActivity extends BaseWebViewActivity {
 
+    private String mUrl = "https://yyks.medyaya.cn/upload/app-text-zgqs.html";
+
     @Override
     public void initData() {
     }
@@ -23,6 +25,6 @@ public class ContributionInvitedActivity extends BaseWebViewActivity {
 
     @Override
     protected void onLoadStart() {
-
+        loadUrl(mUrl);
     }
 }

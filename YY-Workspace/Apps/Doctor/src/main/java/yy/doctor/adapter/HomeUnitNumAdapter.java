@@ -32,8 +32,12 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
 
         List<RecUnitNum> list = getData();
         RecUnitNum unitNum = list.get(position);
+
         holder.getTvName().setText(unitNum.getString(TRecUnitNum.nickname));
-        holder.getIv().placeHolder(R.mipmap.ic_default_home_unit_num).load();
+        holder.getIv().placeHolder(R.mipmap.ic_default_home_unit_num)
+                .url(unitNum.getString(TRecUnitNum.headimg))
+                .load();
+
         holder.getIv().setOnClickListener(new OnClickListener() {
 
             @Override
@@ -41,6 +45,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
                 UnitNumDetailActivity.nav(getContext(), unitNum.getInt(TRecUnitNum.id));
             }
         });
+
         //判断用户是否已经关注过这个单位号
         TextView tvAttention = holder.getTvAttention();
         if (unitNum.getInt(TRecUnitNum.attention) == 1) {
@@ -48,6 +53,8 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
             tvAttention.setClickable(false);
             tvAttention.setText("已关注");
         }
+
+        //关注的点击事件
         tvAttention.setOnClickListener(v -> {
             if (mListener != null) {
                 if (tvAttention.isClickable()) {

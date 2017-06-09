@@ -39,6 +39,10 @@ public class CacheUtil extends CacheUtilEx {
         return mBmpCacheDir;
     }
 
+    public static String getMeetingSoundCacheDir() {
+        return mMeetingCacheDir;
+    }
+
     public static String getDownloadCacheDir() {
         return mDownloadCacheDir;
     }

@@ -3,8 +3,6 @@ package yy.doctor.adapter;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import java.util.List;
-
 import lib.ys.adapter.PagerAdapterEx;
 import yy.doctor.R;
 import yy.doctor.activity.BannerActivity;
@@ -31,14 +29,17 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
     @Override
     protected void refreshView(int position, BannerVH holder) {
 
-        List<Banner> list = getData();
-        holder.getIv().placeHolder(R.mipmap.ic_default_banner).load();
+        Banner item = getItem(position);
+        holder.getIv().placeHolder(R.mipmap.ic_default_banner)
+                .url(item.getString(TBanner.pageUrl))
+                .load();
+
         holder.getIv().setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                BannerActivity.nav(getContext(), list.get(position).getString(TBanner.link), list.get(position).getString(TBanner.title));
+                BannerActivity.nav(getContext(), item.getString(TBanner.link), item.getString(TBanner.title));
             }
         });
 

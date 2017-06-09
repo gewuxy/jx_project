@@ -17,6 +17,8 @@ public class UnitNumDetailMeeting extends EVal<TUnitNumDetailMeeting> {
         startTime,    //开始时间
         endTime,    //结束时间
         state,    //会议状态  0表示草稿 1表示未开始 2表示进行中 3已结束 4已关闭'
+        nickname,    // 会议发布者昵称
+        headimg,    // 会议发布者头像
     }
 
 }

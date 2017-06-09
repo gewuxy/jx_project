@@ -12,7 +12,7 @@
         android:id="@+id/change_pwd_et_old"
         android:layout_marginTop="@dimen/margin"
         android:inputType="textPassword"
-        android:hint="旧密码"/>
+        android:hint="输入旧密码"/>
 
     <View
         style="@style/divider"/>

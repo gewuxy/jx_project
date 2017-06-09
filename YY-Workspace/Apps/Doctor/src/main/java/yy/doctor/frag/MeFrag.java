@@ -142,6 +142,7 @@ public class MeFrag extends BaseFormFrag {
         setOnClickListener(R.id.layout_me_header);
         mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
                 .renderer(new CircleRenderer())
+                .url(Profile.inst().getString(TProfile.headimg))
                 //.renderer(new CornerRenderer(fitDp(15)))  圆角
                 .load();
     }

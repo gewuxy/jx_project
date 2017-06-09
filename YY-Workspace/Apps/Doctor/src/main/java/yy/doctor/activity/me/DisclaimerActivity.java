@@ -12,6 +12,7 @@ import yy.doctor.util.Util;
  */
 public class DisclaimerActivity extends BaseWebViewActivity {
 
+    private String mUrl  = "https://yyks.medyaya.cn/upload/app-text-mzsm.html";
     @Override
     public void initData() {
     }
@@ -23,6 +24,7 @@ public class DisclaimerActivity extends BaseWebViewActivity {
 
     @Override
     protected void onLoadStart() {
-
+        loadUrl(mUrl);
     }
+
 }

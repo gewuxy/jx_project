@@ -12,6 +12,8 @@ import yy.doctor.util.Util;
  */
 public class JXActivity extends BaseWebViewActivity {
 
+    private String mUrl = "https://yyks.medyaya.cn/upload/app-text-jx.html";
+
     @Override
     public void initData() {
     }
@@ -23,7 +25,7 @@ public class JXActivity extends BaseWebViewActivity {
 
     @Override
     protected void onLoadStart() {
-        getWebView().loadUrl("https://www.baidu.com/");
+        getWebView().loadUrl(mUrl);
     }
 
 }

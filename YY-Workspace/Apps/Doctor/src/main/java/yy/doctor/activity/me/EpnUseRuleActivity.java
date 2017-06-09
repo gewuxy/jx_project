@@ -17,7 +17,7 @@ import yy.doctor.util.Util;
  */
 public class EpnUseRuleActivity extends BaseWebViewActivity {
 
-    private String mUrl;
+    private String mUrl = "https://yyks.medyaya.cn/upload/app-text-xssy.html";
 
     public static void nav(Context context, String url) {
         Intent i = new Intent(context, EpnUseRuleActivity.class);
@@ -37,7 +37,7 @@ public class EpnUseRuleActivity extends BaseWebViewActivity {
 
     @Override
     protected void onLoadStart() {
-
+        loadUrl(mUrl);
     }
 
 }

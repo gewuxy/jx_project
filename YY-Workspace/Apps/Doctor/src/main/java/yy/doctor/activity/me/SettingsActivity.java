@@ -6,11 +6,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
 import lib.ys.view.ToggleButton;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
@@ -22,6 +27,7 @@ import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.serv.LogoutServ;
+import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -37,6 +43,9 @@ public class SettingsActivity extends BaseFormActivity {
 
     private ToggleButton mTog;
     private TextView mTvExit;
+
+    private String mImgSize;
+    private String mSoundSize;
 
     @IntDef({
             RelatedId.check_version,
@@ -64,6 +73,13 @@ public class SettingsActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
+        try {
+            mImgSize = (FileUtil.getFolderSize(new File(CacheUtil.getBmpCacheDir())) / 1024) / 1024 + "M";
+            mSoundSize = (FileUtil.getFolderSize(new File(CacheUtil.getMeetingSoundCacheDir())) / 1024) / 1024 + "M";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.content_text)
@@ -83,7 +99,7 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(new Builder(FormType.content)
                 .name("清理图片缓存")
                 .related(RelatedId.clear_img_cache)
-                .text("88M")
+                .text(mImgSize)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -91,7 +107,7 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(new Builder(FormType.content)
                 .name("清理声音缓存")
                 .related(RelatedId.clear_sound_cache)
-                .text("66M")
+                .text(mSoundSize)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -119,8 +135,8 @@ public class SettingsActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
+        mTog.setToggleState(true);
         mTvExit.setOnClickListener(this);
-
     }
 
     @Override
@@ -142,7 +158,7 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.check_version: {
-                showToast("852");
+                showToast("已是最新版本");
             }
             break;
             case RelatedId.change_password: {
@@ -202,8 +218,18 @@ public class SettingsActivity extends BaseFormActivity {
             public void onDialogItemClick(int position) {
 
                 if (position == 0) {
-                    showToast("555");
+
+                    Observable.just("888")
+                            .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(s -> {
+                                getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
+                                refreshRelatedItem(RelatedId.clear_img_cache);
+                                showToast("图片缓存清理完毕");
+                    });
                 }
+
             }
         });
         for (int i = 0; i < data.size(); ++i) {
@@ -228,7 +254,15 @@ public class SettingsActivity extends BaseFormActivity {
             public void onDialogItemClick(int position) {
 
                 if (position == 0) {
-                    showToast("666");
+                    Observable.just("666")
+                            .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(s -> {
+                                getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
+                                refreshRelatedItem(RelatedId.clear_sound_cache);
+                                showToast("声音缓存清理完毕");
+                            });
                 }
             }
         });

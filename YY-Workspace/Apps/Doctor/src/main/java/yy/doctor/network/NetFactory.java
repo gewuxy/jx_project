@@ -43,7 +43,7 @@ public class NetFactory {
         String KLinkman = "linkman";//真实名字
         String KMobile = "mobile";//手机号
         String KPwd = "password";//密码
-        String KProvince = "provice";//省份
+        String KProvince = "province";//省份
         String KCity = "city";//城市
         String KArea = "zone"; // 区县
         String KHospital = "hospital";//医院
