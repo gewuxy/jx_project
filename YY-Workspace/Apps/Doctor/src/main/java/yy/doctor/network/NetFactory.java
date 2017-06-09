@@ -45,6 +45,7 @@ public class NetFactory {
         String KPwd = "password";//密码
         String KProvince = "provice";//省份
         String KCity = "city";//城市
+        String KArea = "zone"; // 区县
         String KHospital = "hospital";//医院
         String KDepartment = "department";//科室
         String KLicence = "licence";//执业许可证号
@@ -90,18 +91,22 @@ public class NetFactory {
     }
 
     public interface ProfileParam {
-        String KNickname = "nickname";   //用户昵称
-        String KLinkman = "linkman";   //真实姓名
-        String KMobile = "mobile";    //手机号
         String KHeadImgUrl = "headimg";   //头像地址
-        String KProvince = "province";   //省份
-        String KCity = "city";    //城市
-        String KLicence = "licence";   //执业许可证
-        String KMajor = "major";    //专长
-        String KPlace = "place";   //职务
-        String KTitle = "title";   //职位
+        String KLinkman = "linkman";   //真实姓名
         String KHospital = "hospital";   //医院
         String KDepartment = "department";   //科室
+        String KHospitalLevel = "hosLevel";  //医院等级
+        String KCMEId = "cmeId";  //CME卡号
+        String KLicence = "licence";   //执业许可证
+        String KTitle = "title";   //职称
+        String KProvince = "province";   //省份
+        String KCity = "city";    //城市
+        String KArea = "zone";  //区
+
+        String KNickname = "nickname";   //用户昵称
+        String KMobile = "mobile";    //手机号
+        String KMajor = "major";    //专长
+        String KPlace = "place";   //职务
         String KAddress = "address";   //地址
         String KGender = "gender";    //性别
         String KDegree = "degree";  //学历

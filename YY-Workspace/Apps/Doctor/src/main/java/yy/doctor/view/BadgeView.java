@@ -221,7 +221,7 @@ public class BadgeView extends TextView {
      * converts dip to px
      */
     private int dip2Px(float dip) {
-        return (int) (dip * getContext().getResources().getDisplayMetrics().density + 0.5f);
+        return DpFitter.dp(dip);
     }
 
 }

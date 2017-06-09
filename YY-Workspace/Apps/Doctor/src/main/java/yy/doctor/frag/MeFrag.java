@@ -85,7 +85,7 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_collection)
-                .name("收藏会议")
+                .name("收藏的会议")
                 .related(RelatedId.my_collection)
                 .build());
 

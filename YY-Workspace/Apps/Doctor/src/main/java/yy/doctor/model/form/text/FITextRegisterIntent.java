@@ -56,7 +56,7 @@ public class FITextRegisterIntent extends FormItem {
             put(TFormElem.name, text);
             save(text, text);
         } else {
-            String text = strProvince + " " + strCity + "-" + strArea;
+            String text = strProvince + " " + strCity + " " + strArea;
             put(TFormElem.name, text);
             save(text, text);
         }

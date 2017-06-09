@@ -111,10 +111,16 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (data != null) {
+                String str = null;
                 mProvince = data.getStringExtra(Extra.KProvince);
                 mCity = data.getStringExtra(Extra.KCity);
-                //mArea = data.getStringExtra(Extra.KArea);
-                mTvLocation.setText(getResources().getString(R.string.hospital_location) + mProvince + " " + mCity);
+                mArea = data.getStringExtra(Extra.KArea);
+                if (mArea != null) {
+                    str = mProvince + " " + mCity;
+                } else {
+                    str = mProvince + " " + mCity + " " + mArea;
+                }
+                mTvLocation.setText(getResources().getString(R.string.hospital_location) + str);
                 exeNetworkReq(0, NetFactory.hospital(mCity));
             }
         }

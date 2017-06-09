@@ -54,6 +54,7 @@ import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
 import static yy.doctor.model.Profile.TProfile.province;
+import static yy.doctor.model.Profile.TProfile.zone;
 
 /**
  * 我的资料
@@ -127,6 +128,7 @@ public class ProfileActivity extends BaseFormActivity {
         int education_background = 25;
         int address = 26;
 
+
         int is_open = 30;
     }
 
@@ -171,7 +173,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
 
         addItem(new Builder(FormType.text_dialog)
-                .related(RelatedId.education_background)
+                .related(RelatedId.hospital_grade)
                 .name("医院级别")
                 .hint(R.string.hint_not_fill)
                 .data(GlConfig.inst().getHospitalGrade())
@@ -206,9 +208,8 @@ public class ProfileActivity extends BaseFormActivity {
                 .build());*/
 
         addItem(new Builder(FormType.et)
-                .related(RelatedId.certification_number)
+                .related(RelatedId.CME_number)
                 .name("CME卡号")
-                .text("456")
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -255,13 +256,20 @@ public class ProfileActivity extends BaseFormActivity {
                 .build());
         addItem(new Builder(FormType.divider).build());*/
 
+        String str;
         mStrProvince = Profile.inst().getString(province);
         mStrCity = Profile.inst().getString(city);
+        mStrArea = Profile.inst().getString(zone);
+        if (mStrArea != null) {
+            str = mStrProvince + " " + mStrCity + " " + mStrArea;
+        } else {
+            str = mStrProvince + " " + mStrCity;
+        }
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name("所在省市")
                 .intent(new Intent(this, ProvinceActivity.class))
-                .text(mStrProvince + " " + mStrCity)
+                .text(str)
                 .hint(R.string.hint_not_fill)
                 .build());
 
@@ -430,36 +438,35 @@ public class ProfileActivity extends BaseFormActivity {
     private void modify() {
 
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
-        //省市区的级别
-        int level = getRelatedItem(RelatedId.address).getInt(TFormElem.column);
+        LogMgr.d(TAG, "省市 = " + str);
         mStrProvince = str.substring(0, str.indexOf(" "));
-        if (level == 2) {
-            mStrCity = str.substring(str.indexOf(" ") + 1, str.length());
-        } else {
-            String cityArea = str.substring(str.indexOf(" ") + 1, str.length());
-            mStrCity = cityArea.substring(0, cityArea.indexOf(" "));
-            mStrArea = cityArea.substring(cityArea.indexOf(" ") + 1, cityArea.length());
+        String[] strs = str.split(" ");
+        for (int i = 0; i < strs.length; i++) {
+            String s = strs[i];
+            if (i == 0) {
+                mStrProvince = s;
+            } else if (i == 1) {
+                mStrCity = s;
+            } else {
+                mStrArea = s;
+            }
         }
-        LogMgr.d(TAG, "level = " + level);
         LogMgr.d(TAG, "province = " + mStrProvince);
         LogMgr.d(TAG, "city = " + mStrCity);
         LogMgr.d(TAG, "area = " + mStrArea);
 
         NetworkReq r = NetFactory.newModifyBuilder()
                 .headImgUrl(mAvatarUrl)
-                .nickname(getRelateVal(RelatedId.nickname))
                 .linkman(getRelateVal(RelatedId.name))
                 .hospital(getRelateVal(RelatedId.hospital))
                 .department(getRelateVal(RelatedId.departments))
-                .nickname(getRelateVal(RelatedId.nickname))
-                .mobile(getRelateVal(RelatedId.phone_number))
+                .hospitalLevel(getRelateVal(RelatedId.hospital_grade))
+                .cmeId(getRelateVal(RelatedId.CME_number))
                 .licence(getRelateVal(RelatedId.certification_number))
                 .title(getRelateVal(RelatedId.title))
-                .place(getRelateVal(RelatedId.position))
-                .gender(getRelatedItem(RelatedId.sex).getInt(TFormElem.val, 0))
-                .degree(getRelateVal(RelatedId.education_background))
                 .province(mStrProvince)
                 .city(mStrCity)
+                .area(mStrArea)
                 .builder();
         refresh(RefreshWay.dialog);
         exeNetworkReq(KReqModifyId, r);

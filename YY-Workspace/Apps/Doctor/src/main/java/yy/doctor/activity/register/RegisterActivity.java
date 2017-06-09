@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
+import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
@@ -73,13 +74,13 @@ public class RegisterActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.email)
-                .hint("邮箱")
+                .hint("电子邮箱")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.name)
-                .hint("姓名")
+                .hint("真实姓名")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -143,58 +144,27 @@ public class RegisterActivity extends BaseFormActivity {
      * 注册操作
      */
     private void enroll() {
-        //TODO:参数都要?
-        String strInvite = mActCode.getText().toString().trim();
+
         mUserName = getItemStr(RelatedId.email);
-        String strNickname = mUserName;
-        String strLinkman = getItemStr(RelatedId.name);
-        String strMobile = "";
         String strPwd = getItemStr(RelatedId.pwd);
         String strPwdNg = getItemStr(RelatedId.marksure_pwd);
-        String strProvince = "";
-        String strCity = getItemStr(RelatedId.location);
-        String strHospital = getItemStr(RelatedId.hospital);
-        String strDepartment = "";
-        String strLicence = "";
 
-        /*if (BuildConfig.TEST) {
-            strInvite = "02123456789";
-            mUserName = "18194529@qq.com";
-            strNickname = mUserName;
-            strLinkman = "test1";
-            strMobile = "";
-            strPwd = "123456";
-            strPwdNg = "123456";
-            strProvince = "广东";
-            strCity = "广州";
-            strHospital = "第一医院";
-            strDepartment = "";
-            strLicence = "";
-            mPwd = "123456";
-            //登录
-            refresh(RefreshWay.embed);
-            exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
-            return;
-        }*/
-//        if (BuildConfig.TEST) {
-//            strInvite = "02123456789";
-//            mUserName = "18194529@qq.com";
-//            strNickname = mUserName;
-//            strLinkman = "test1";
-//            strMobile = "";
-//            strPwd = "123456";
-//            strPwdNg = "123456";
-//            strProvince = "广东";
-//            strCity = "广州";
-//            strHospital = "第一医院";
-//            strDepartment = "";
-//            strLicence = "";
-//            mPwd = "123456";
-//            //登录
-//            refresh(RefreshWay.embed);
-//            exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
-//            return;
-//        }
+        String strProvince = null;
+        String strCity = null;
+        String strArea = null;
+        String str = getItemStr(RelatedId.location);
+        LogMgr.d(TAG, " address = " + str);
+        String[] strs = str.split(" ");
+        for (int i = 0; i < strs.length; i++) {
+            String s = strs[i];
+            if (i == 0) {
+                strProvince = s;
+            } else if (i == 1) {
+                strCity = s;
+            } else {
+                strArea = s;
+            }
+        }
 
         if (!check()) {
             return;
@@ -208,17 +178,14 @@ public class RegisterActivity extends BaseFormActivity {
         //注册
         refresh(RefreshWay.dialog);
         exeNetworkReq(KRegister, NetFactory.register()
-                .username(mUserName)
-                .nickname(strNickname)
-                .linkman(strLinkman)
-                .pwd(mPwd)
-                .mobile(strMobile)
+                .username(getItemStr(RelatedId.email))
+                .linkman(getItemStr(RelatedId.name))
+                .pwd(getItemStr(RelatedId.pwd))
                 .province(strProvince)
                 .city(strCity)
-                .hospital(strHospital)
-                .department(strDepartment)
-                .licence(strLicence)
-                .invite(strInvite)
+                .area(strArea)
+                .hospital(getItemStr(RelatedId.hospital))
+                .invite(mActCode.getText().toString().trim())
                 .build());
     }
 

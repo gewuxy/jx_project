@@ -25,13 +25,13 @@ public class FITextIntent extends FIText {
         String strArea = data.getStringExtra(Extra.KArea);
         //判断是否有区县
         if (strArea == null) {
-            put(TFormElem.text, strProvince + " " + strCity);
-            put(TFormElem.val, strProvince + " " + strCity);
-            put(TFormElem.column, 2);
+            String text = strProvince + " " + strCity;
+            put(TFormElem.text, text);
+            save(text, text);
         } else {
-            put(TFormElem.text, strProvince + " " + strCity + " " + strArea);
-            put(TFormElem.val, strProvince + " " + strCity + " " + strArea);
-            put(TFormElem.column, 3);
+            String text = strProvince + " " + strCity + " " + strArea;
+            put(TFormElem.text, text);
+            put(TFormElem.val, text);
         }
     }
 

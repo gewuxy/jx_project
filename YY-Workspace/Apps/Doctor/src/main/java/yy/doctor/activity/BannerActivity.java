@@ -20,16 +20,19 @@ import yy.doctor.util.Util;
 public class BannerActivity extends BaseWebViewActivity {
 
     private String mUrl;
+    private String mTitle;
 
-    public static void nav(Context context, String url) {
+    public static void nav(Context context, String url, String title) {
         Intent i = new Intent(context, BannerActivity.class);
         i.putExtra(Extra.KData, url);
+        i.putExtra(Extra.KName, title);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
         mUrl = getIntent().getStringExtra(Extra.KData);
+        mTitle = getIntent().getStringExtra(Extra.KName);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class BannerActivity extends BaseWebViewActivity {
 
             @Override
             public void onClick(View v) {
-                ShareDialog shareDialog = new ShareDialog(BannerActivity.this, mUrl);
+                ShareDialog shareDialog = new ShareDialog(BannerActivity.this, mUrl, mTitle);
                 shareDialog.show();
             }
         });

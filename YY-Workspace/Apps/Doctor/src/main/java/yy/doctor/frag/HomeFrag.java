@@ -1,7 +1,7 @@
 package yy.doctor.frag;
 
 import android.view.View;
-import android.widget.EditText;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -49,7 +49,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     private List<IHome> mRecMeetings;
     private List<String> mBanners;
 
-    private EditText mEtSearch;
     private View mViewNotice;
     private BadgeView mBadgeView;
     private BannerView mBannerView;
@@ -60,8 +59,14 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
 
     @Override
     public void initNavBar(NavBar bar) {
-        View v = inflate(R.layout.layout_home_nav_bar);
-        bar.addViewRight(v, null);
+        View v = inflate(R.layout.layout_home_nav_bar_search);
+        bar.addViewRight(v, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(MeetingSearchActivity.class);
+            }
+        });
 
         mViewNotice = bar.addViewRight(R.mipmap.nav_bar_ic_notice, v1 -> startActivity(NoticeActivity.class));
     }
@@ -75,7 +80,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     public void findViews() {
         super.findViews();
 
-        mEtSearch = findView(R.id.home_nav_bar_et);
         mBannerView = findView(R.id.home_header_banner);
     }
 
@@ -84,16 +88,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         super.setViews();
 
         mBadgeView = new BadgeView(getContext());
-//        mBadgeView.setBackground(15, Color.parseColor("#e6600e"));
-//        mBadgeView.setGravity(Gravity.RIGHT | Gravity.TOP);
-//        mBadgeView.setTextColor(Color.parseColor("#e6600e"));
-        mBadgeView.setBadgeMargin(0, 0, 0, 0);
+        mBadgeView.setBadgeMargin(0, 7, 7, 0);
         mBadgeView.setTargetView(mViewNotice);
-
-        mEtSearch.setOnTouchListener((v, event) -> {
-            startActivity(MeetingSearchActivity.class);
-            return true;
-        });
 
         getAdapter().setTvAttentionListener(this);
     }
@@ -127,6 +123,10 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+
+        if (id == KReqIdAttention) {
+            return true;
+        }
         ListResult result = null;
         if (id == KReqIdBanner) {
             result = evs(r.getText(), Banner.class);
@@ -146,7 +146,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
                     num.put(TRecUnitNum.attention, 0);
                 }
             }
-
         } else if (id == KReqIdMeeting) {
             result = evs(r.getText(), RecMeeting.class);
             mMeetingReqIsOK = result.isSucceed();
@@ -160,6 +159,9 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        if (id == KReqIdAttention) {
+            return;
+        }
         //确保所有数据都已经获取
         ListResult r = (ListResult) result;
         if (id == KReqIdBanner) {

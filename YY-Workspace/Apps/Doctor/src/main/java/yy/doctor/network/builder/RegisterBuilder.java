@@ -81,6 +81,15 @@ public class RegisterBuilder {
     }
 
     /**
+     * @param area 区县
+     * @return
+     */
+    public RegisterBuilder area(String area) {
+        mBuilder.param(RegisterParam.KArea, area);
+        return this;
+    }
+
+    /**
      * @param hospital 医院名称
      */
     public RegisterBuilder hospital(String hospital) {

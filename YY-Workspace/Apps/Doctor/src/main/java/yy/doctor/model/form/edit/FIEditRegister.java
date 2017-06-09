@@ -21,4 +21,5 @@ public class FIEditRegister extends FIEdit {
     public int getContentViewResId() {
         return R.layout.form_item_edit_register;
     }
+
 }

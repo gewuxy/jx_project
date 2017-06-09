@@ -39,6 +39,8 @@ public class ModifyBuilder {
         return this;
     }
 
+
+
     /**
      * 手机号
      *
@@ -58,6 +60,39 @@ public class ModifyBuilder {
      */
     public ModifyBuilder headImgUrl(String headImgUrl) {
         mBuilder.param(ProfileParam.KHeadImgUrl, headImgUrl);
+        return this;
+    }
+
+    /**
+     * 医院
+     *
+     * @param hospital
+     * @return
+     */
+    public ModifyBuilder hospital(String hospital) {
+        mBuilder.param(ProfileParam.KHospital, hospital);
+        return this;
+    }
+
+    /**
+     * 医院等级
+     *
+     * @param hospitalLevel
+     * @return
+     */
+    public ModifyBuilder hospitalLevel(String hospitalLevel) {
+        mBuilder.param(ProfileParam.KHospitalLevel, hospitalLevel);
+        return this;
+    }
+
+    /**
+     * 科室
+     *
+     * @param department
+     * @return
+     */
+    public ModifyBuilder department(String department) {
+        mBuilder.param(ProfileParam.KDepartment, department);
         return this;
     }
 
@@ -84,6 +119,28 @@ public class ModifyBuilder {
     }
 
     /**
+     * 区县
+     *
+     * @param area
+     * @return
+     */
+    public ModifyBuilder area(String area) {
+        mBuilder.param(ProfileParam.KArea, area);
+        return this;
+    }
+
+    /**
+     * CME卡号
+     *
+     * @param cmeId
+     * @return
+     */
+    public ModifyBuilder cmeId(String cmeId) {
+        mBuilder.param(ProfileParam.KCMEId, cmeId);
+        return this;
+    }
+
+    /**
      * 执业许可证
      *
      * @param licence
@@ -93,6 +150,19 @@ public class ModifyBuilder {
         mBuilder.param(ProfileParam.KLicence, licence);
         return this;
     }
+
+    /**
+     * 职称
+     *
+     * @param title
+     * @return
+     */
+    public ModifyBuilder title(String title) {
+        mBuilder.param(ProfileParam.KTitle, title);
+        return this;
+    }
+
+
 
     /**
      * 专长
@@ -113,39 +183,6 @@ public class ModifyBuilder {
      */
     public ModifyBuilder place(String place) {
         mBuilder.param(ProfileParam.KPlace, place);
-        return this;
-    }
-
-    /**
-     * 职位
-     *
-     * @param title
-     * @return
-     */
-    public ModifyBuilder title(String title) {
-        mBuilder.param(ProfileParam.KTitle, title);
-        return this;
-    }
-
-    /**
-     * 医院
-     *
-     * @param hospital
-     * @return
-     */
-    public ModifyBuilder hospital(String hospital) {
-        mBuilder.param(ProfileParam.KHospital, hospital);
-        return this;
-    }
-
-    /**
-     * 科室
-     *
-     * @param department
-     * @return
-     */
-    public ModifyBuilder department(String department) {
-        mBuilder.param(ProfileParam.KDepartment, department);
         return this;
     }
 

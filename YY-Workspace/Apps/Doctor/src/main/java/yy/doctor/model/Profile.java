@@ -20,6 +20,7 @@ public class Profile extends EVal<TProfile> {
         mobile,
         province,
         city,
+        zone,
         credits, //象数
         licence, //执业许可证号
         major,

@@ -39,18 +39,13 @@ public class ShareDialog extends BaseDialog {
     private TextView mTvCancel;
 
     private List<String> mPlatformList;
-    private String mShareUrl = "https://www.baidu.com/";
+    private String mShareUrl ;
     private String mShareText = "YaYa医师欢迎您，这里有您感兴趣的学术会议，寻找探讨专业知识的群体";
-    private String mShareTitle = "YaYa医师";
+    private String mShareTitle ;
     private String mPlatName;
 
     public ShareDialog(Context context) {
         super(context);
-    }
-
-    public ShareDialog(Context context, String mShareUrl) {
-        super(context);
-        this.mShareUrl = mShareUrl;
     }
 
     public ShareDialog(Context context, String mShareUrl, String mShareTitle) {
