@@ -2,8 +2,11 @@ package yy.doctor.frag.meeting;
 
 import android.view.View;
 
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
+import lib.yy.Notifier;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingsAdapter;
@@ -16,6 +19,7 @@ import yy.doctor.model.meet.Meeting.TMeeting;
  */
 
 abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsAdapter> {
+    protected String mDepart;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -30,5 +34,13 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsA
     public void onItemClick(View v, int position) {
         String meetId = getItem(position).getString(TMeeting.id);
         MeetingDetailsActivity.nav(getContext(), meetId);
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.change) {
+            mDepart = (String) data;
+            getDataFromNet();
+        }
     }
 }

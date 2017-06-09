@@ -26,6 +26,8 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 
 /**
+ * 问卷
+ *
  * @author : GuoXuan
  * @since : 2017/4/27
  */
@@ -80,8 +82,8 @@ public class QueTopicActivity extends BaseTopicActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        setViewState(ViewState.normal);
         Result<Intro> r = (Result<Intro>) result;
+        setViewState(ViewState.normal);
         if (r.isSucceed()) {
             mIntro = r.getData();
             mPaper = mIntro.getEv(TIntro.paper);
@@ -112,11 +114,14 @@ public class QueTopicActivity extends BaseTopicActivity {
                 add(topicFrag);
                 invalidate();
             }
+            String topicId = mAllTopics.get(0).getString(TTopic.sort);
+            mTvAll.setText(topicId + "/" + mAllTopics.size());
+            mTvNavAll.setText(topicId + "/" + mAllTopics.size());
+            setGv();
+        } else {
+            showToast(r.getError());
         }
-        String topicId = mAllTopics.get(0).getString(TTopic.sort);
-        mTvAll.setText(topicId + "/" + mAllTopics.size());
-        mTvNavAll.setText(topicId + "/" + mAllTopics.size());
-        setGv();
+
     }
 
     @Override

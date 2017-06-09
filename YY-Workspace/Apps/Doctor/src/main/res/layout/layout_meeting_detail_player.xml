@@ -10,6 +10,13 @@
         android:id="@+id/meeting_detail_iv_play"
         android:layout_width="match_parent"
         android:layout_height="226dp"/>
+    
+    <ImageView
+        android:id="@+id/meeting_detail_iv_play_course"
+        android:layout_centerInParent="true"
+        android:layout_width="81dp"
+        android:layout_height="81dp"
+        android:src="@mipmap/meeting_ppt_ic_play_course"/>
 
     <LinearLayout
         android:layout_width="match_parent"

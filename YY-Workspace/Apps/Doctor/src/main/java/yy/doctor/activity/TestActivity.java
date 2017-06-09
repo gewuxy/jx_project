@@ -35,7 +35,7 @@ public class TestActivity extends BaseTestActivity {
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("个人资料", ProfileActivity.class);
-        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this, "17042512131640894904", "8"));
+        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this, "17042512131640894904", "8",""));
         add("视频", VideoActivity.class);
         add("会议详情", MeetingDetailsActivity.class);
 

@@ -13,20 +13,28 @@
         <ImageView style="@style/iv.meeting.record.symbol"/>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="293dp"
+            android:layout_height="169dp">
+
+            <lib.ys.network.image.NetworkImageView
+                android:id="@+id/meeting_record_pic_iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
             <ImageView
                 android:id="@+id/record_location_iv"
-                android:layout_width="293dp"
-                android:layout_height="169dp"
-                android:src="@mipmap/ic_default_meeting_content_detail"/>
-
-            <lib.ys.network.image.NetworkImageView
-                android:id="@+id/meeting_record_pic_iv"
-                android:layout_width="293dp"
-                android:layout_height="169dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/meeting_record_image_bg"/>
+
+            <ImageView
+                android:id="@+id/meeting_record_pic_iv_audio"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:padding="4dp"
+                android:src="@drawable/pic_audio_animation"/>
         </RelativeLayout>
 
     </LinearLayout>

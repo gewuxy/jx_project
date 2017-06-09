@@ -61,6 +61,7 @@ public class NetFactory {
 
     public interface MeetParam {
         String KState = "state";//会议状态
+        String KDepart = "depart";//
 
         String KMeetId = "meetId";//会议
         String KPaperId = "paperId";//试卷
@@ -581,9 +582,10 @@ public class NetFactory {
     /**
      * 关注过的公众的所有会议
      */
-    public static NetworkReq meets(int state) {
-        return newGet(UrlMeet.KMeets)
+    public static NetworkReq meets(int state, String depart) {
+        return newPost(UrlMeet.KMeets)
                 .param(MeetParam.KState, state)
+                .param(MeetParam.KDepart, depart)
                 .build();
     }
 

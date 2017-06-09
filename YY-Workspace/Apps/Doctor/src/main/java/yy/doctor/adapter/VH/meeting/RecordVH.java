@@ -2,6 +2,7 @@ package yy.doctor.adapter.VH.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
@@ -17,7 +18,11 @@ public class RecordVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public NetworkImageView getIv() {
-        return getView(R.id.meeting_record_pic_iv);
+    public NetworkImageView getIvPic() {
+        return getView(R.id.meeting_record_pic_iv_image);
+    }
+
+    public ImageView getIvPicAudio() {
+        return getView(R.id.meeting_record_pic_iv_audio);
     }
 }

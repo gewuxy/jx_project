@@ -101,6 +101,7 @@
     <string name="exam_xs_close">s后自动关闭</string>
     <string name="exam_submit_sure">确认提交</string>
     <string name="exam_continue">继续</string>
+    <string name="exam_host">主办方:</string>
 
     <string name="video_studied">已学习</string>
 

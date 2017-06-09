@@ -30,6 +30,7 @@ import yy.doctor.view.RootLayout.OnRootTouchListener;
  */
 public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionListener, OnCountDownListener, OnRootTouchListener {
 
+    // TODO: 2017/6/9 停止
     private NetworkPhotoView mIvPPT;
     private ImageView mIvHolder;
 
@@ -183,12 +184,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     public void play() {
         if (getVisible()) { // 系统的isVisible()不准确
             mMp.start();
-        }
-    }
-
-    public void start() {
-        if (preparePlay()) {
-            play();
             countStop();
             if (mCountDown == null) {
                 mCountDown = new CountDown(mRemainTime);
@@ -196,6 +191,12 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
             }
             mCountDown.start();
             onPlay(true, mMp.getDuration());
+        }
+    }
+
+    public void start() {
+        if (preparePlay()) {
+            play();
         }
     }
 
@@ -214,7 +215,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
             mRemainTime = 0;
         }
         countStop();
-        onPlay(false, 0);
     }
 
     public void seekTo(int msec) {
@@ -230,6 +230,9 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void onCompletion(MediaPlayer mp) {
         onPlayStop();
+        mAudioExist = true;
+        preparePlay();
+        end();
     }
 
     @Override
@@ -241,6 +244,18 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
         if (mMp != null) {
             onProgress(mMp.getCurrentPosition());
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stop();
     }
 
     @Override

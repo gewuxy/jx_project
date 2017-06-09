@@ -13,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingSearchActivity;
@@ -105,7 +107,10 @@ public class MeetingFrag extends BaseVPFrag {
      */
     private void showSection(View anchor) {
         if (mPopup == null) {
-            mPopup = new SectionPopup(getContext(), text -> mTvSection.setText(text));
+            mPopup = new SectionPopup(getContext(), text -> {
+                mTvSection.setText(text);
+                notify(NotifyType.change, text);
+            });
             mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
         }
         mPopup.showAsDropDown(anchor);

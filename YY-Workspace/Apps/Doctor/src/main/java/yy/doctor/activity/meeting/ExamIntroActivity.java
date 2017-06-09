@@ -42,25 +42,26 @@ import yy.doctor.util.Util;
 
 public class ExamIntroActivity extends BaseActivity {
 
-    private Paper mPaper;//本次考试试题信息
-    private String mMeetId;//会议ID
-    private String mModuleId;//模块ID
-
-    private long mStartTime;//考试开始时间
-    private long mEndTime;  //考试结束时间
-    private long mCurTime;  //服务器当前时间
-
-    private TextView mTvTitle;  //试卷名称
-    private TextView mTvHost;   //主办方
-    private TextView mTvCount;  //总题数
-    private TextView mTvTime;   //考试时间
-
-    private DisposableSubscriber<Long> mSub;//倒计时
-    private boolean mCanStart;//是否能开始考试
-
-    private CommonOneDialog mStartDialog;//考试未开始的提示框
-    private CommonOneDialog mEndDialog;//考试已结束的提示框
+    private Paper mPaper; // 本次考试试题信息
     private Intro mIntro;
+    private String mHost; // 会议主办方
+    private String mMeetId; // 会议ID
+    private String mModuleId; // 模块ID
+
+    private long mStartTime; // 考试开始时间
+    private long mEndTime; // 考试结束时间
+    private long mCurTime; // 服务器当前时间
+
+    private TextView mTvTitle; // 试卷名称
+    private TextView mTvHost; // 主办方
+    private TextView mTvCount; // 总题数
+    private TextView mTvTime; // 考试时间
+
+    private DisposableSubscriber<Long> mSub; // 倒计时
+    private boolean mCanStart; // 是否能开始考试
+
+    private CommonOneDialog mStartDialog; // 考试未开始的提示框
+    private CommonOneDialog mEndDialog; // 考试已结束的提示框
 
     @StringDef({
             TimeFormat.simple_ymd,
@@ -74,18 +75,19 @@ public class ExamIntroActivity extends BaseActivity {
         String from_h_to_m_24 = "HH:mm";
     }
 
-    public static void nav(Context context, String meetId, String moduleId) {
+    public static void nav(Context context, String meetId, String moduleId, String host) {
         Intent i = new Intent(context, ExamIntroActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
-                .putExtra(Extra.KModuleId, moduleId);
+                .putExtra(Extra.KModuleId, moduleId)
+                .putExtra(Extra.KData, host);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
-        Intent intent = getIntent();
-        mMeetId = intent.getStringExtra(Extra.KMeetId);
-        mModuleId = intent.getStringExtra(Extra.KModuleId);
+        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
+        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
+        mHost = getIntent().getStringExtra(Extra.KData);
     }
 
     @NonNull
@@ -142,7 +144,8 @@ public class ExamIntroActivity extends BaseActivity {
             }
 
             mTvTitle.setText(mPaper.getString(TPaper.name));
-            mTvCount.setText(mPaper.getList(TPaper.questions).size() + "道题");
+            mTvHost.setText(getString(R.string.exam_host) + mHost);
+            mTvCount.setText(mPaper.getList(TPaper.questions).size() + "道题目");
             mTvTime.setText(getTime(mStartTime, mEndTime));
         } else {
             showToast(r.getError());

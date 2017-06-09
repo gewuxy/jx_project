@@ -28,6 +28,7 @@ import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseVPActivity;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -52,7 +53,7 @@ import yy.doctor.view.CircleProgressView;
  * @since : 2017/4/24
  */
 
-public class MeetingCourseActivity extends BaseVPActivity implements CountDown.OnCountDownListener {
+public class MeetingCourseActivity extends BaseVPActivity implements OnCountDownListener {
 
     private static final int KVpSize = 3; // Vp缓存的数量
     private final int KViewPagerHDp = 270; // 每张PPT的高度
@@ -134,7 +135,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements CountDown.O
 
             @Override
             public void onClick() {
-                if (!mIsPortrait) { // 横屏
+                if (!mIsPortrait) {
+                    // 横屏
                     if (mLayoutL.getVisibility() == View.VISIBLE) {
                         goneView(mLayoutL);
                         goneView(getNavBar());
@@ -145,6 +147,12 @@ public class MeetingCourseActivity extends BaseVPActivity implements CountDown.O
                         countDown();
                     }
                 }
+            }
+
+            @Override
+            public void end() {
+                mIvControlP.setSelected(false);
+                mIvControlL.setSelected(true);
             }
         };
     }
@@ -264,7 +272,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements CountDown.O
             }
 
             @Override
-            public void onPageSelected(int position) { // 切换viewPager改变中间的提示
+            public void onPageSelected(int position) {
+                // 切换viewPager改变提示
                 mTvSelect.setText(String.valueOf(position + 1));
                 mTvTimeP.setText("加载中");
                 mLayoutCp.setProgress(0);
@@ -308,17 +317,22 @@ public class MeetingCourseActivity extends BaseVPActivity implements CountDown.O
         if (r.isSucceed()) {
             mPPT = r.getData();
             CourseInfo courseInfo = mPPT.getEv(TPPT.course);
-            mCourses = courseInfo.getList(TCourseInfo.details);
-            mTvAll.setText(String.valueOf(mCourses.size()));
-            if (mCourses.size() > 0) {
-                // 初始显示
-                mTvSelect.setText("1");
-                // 逐个添加Frag
-                for (Course course : mCourses) {
-                    addPPTFrag(course);
+            if (courseInfo != null) {
+                mCourses = courseInfo.getList(TCourseInfo.details);
+                mTvAll.setText(String.valueOf(mCourses.size()));
+                if (mCourses.size() > 0) {
+                    // 初始显示
+                    mTvSelect.setText("1");
+                    // 逐个添加Frag
+                    for (Course course : mCourses) {
+                        addPPTFrag(course);
+                    }
+                    invalidate();
                 }
-                invalidate();
+            } else {
+
             }
+
         }
     }
 
@@ -398,10 +412,12 @@ public class MeetingCourseActivity extends BaseVPActivity implements CountDown.O
                 pptFrag.toggle();
             }
             break;
-            case R.id.meeting_ppt_iv_first: // 第一页
+            case R.id.meeting_ppt_iv_first:
+                // 切换到第一页
                 setCurrentItem(0);
                 break;
-            case R.id.meeting_ppt_iv_comment: // 评论
+            case R.id.meeting_ppt_iv_comment:
+                // 评论
                 MeetingCommentActivity.nav(MeetingCourseActivity.this, mMeetId);
                 break;
         }

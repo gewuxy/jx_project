@@ -1,6 +1,9 @@
 package yy.doctor.adapter;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
+import android.view.View;
+import android.widget.ImageView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.NetworkImageView;
@@ -19,11 +22,13 @@ import yy.doctor.model.meet.Course.TCourse;
 
 public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
-    private static final int KPicBack = R.drawable.meeting_record_image_bg; // 默认图
+    private static final int KPicBack = R.mipmap.ic_default_meeting_content_detail; // 默认图
 
     private String mImgUrl;
     private String mAudioUrl;
     private String mVideoUrl;
+    private int mLastPosition; // 上一个PicAudio的position
+    private AnimationDrawable mLastAnimation; // 上一个PicAudio的动画
 
     @IntDef({
             RecordType.video,
@@ -55,6 +60,15 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
     @Override
     protected void initView(int position, RecordVH holder, int itemType) {
+        switch (itemType) {
+            case RecordType.audio:
+                break;
+            case RecordType.pic_audio: {
+                AnimationDrawable animation = (AnimationDrawable) holder.getIvPicAudio().getDrawable();
+                animation.stop();
+            }
+            break;
+        }
     }
 
     @Override
@@ -64,11 +78,13 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
                 break;
             case RecordType.audio:
                 break;
-            case RecordType.pic_audio:
+            case RecordType.pic_audio: {
                 // 区别于纯图片的功能
+                setOnViewClickListener(position, holder.getIvPicAudio());
+            }
             case RecordType.pic: {
                 // 图片,图片+音频共有的功能
-                NetworkImageView iv = holder.getIv();
+                NetworkImageView iv = holder.getIvPic();
                 iv.placeHolder(KPicBack).url(mImgUrl).load();
                 setOnViewClickListener(position, iv);
             }
@@ -103,5 +119,24 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     @Override
     public int getViewTypeCount() {
         return RecordType.class.getDeclaredFields().length;
+    }
+
+    @Override
+    protected void onViewClick(int position, View v) {
+        if (v instanceof NetworkImageView) {
+
+        } else if (v instanceof ImageView) {
+            AnimationDrawable animation = (AnimationDrawable) getCacheVH(position).getIvPicAudio().getDrawable();
+            if (mLastPosition != position) {
+                animation.start();
+            } else {
+                animation.stop();
+            }
+            if (mLastAnimation != null) {
+                mLastAnimation.stop();
+            } else {
+                mLastAnimation = animation;
+            }
+        }
     }
 }

@@ -14,27 +14,34 @@ import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 public class MeetDetail extends EVal<TMeetDetail> {
     public enum TMeetDetail {
         id,
+        state, // 会议状态
+        stored, // 是否收藏
+        attention, // 是否关注了
+
+        coverUrl, //
+        startTime, // 开始时间
+        endTime, // 结束时间
+
+        meetName, // 会议名称
+        meetType, // 会议科室类型
+
+        headimg, // 单位号头像
+        organizer, // 会议主办方
+
         lecturer, // 主讲者
         lecturerDepart, // 科室
         lecturerHead, // 头像
         lecturerHos, // 医院
         lecturerTitle, // 职责
 
-        meetName, // 会议名称
-        meetType, // 会议科室类型
+        eduCredits, // 是否需要象数，0需要,1奖励
+        requiredXs, // 是否支付过象数
+        attendAble, // 能否参加会议
 
         @BindList(Module.class)
         modules, // 会议包含的模块
 
-        stored, // 是否收藏
-        organizer, // 会议主办方
-        eduCredits, // 是否需要象数
-        requiredXs, // 是否支付过象数
-        startTime, // 开始时间
-        endTime, // 结束时间
-        state, // 会议状态
-        xsCredits,
-        attention, // 是否关注了
+
         introduction, // 简介
     }
 }

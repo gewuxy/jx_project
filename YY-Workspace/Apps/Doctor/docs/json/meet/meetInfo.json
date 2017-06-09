@@ -2,14 +2,15 @@
   "code": "0",
   "data": {
     "attention": true,
+    "coverUrl": "http://www.medcn.com:8081/file/default.png",
     "eduCredits": 0,
     "endTime": 1498795980000,
-    "headimg": "/headimg/1495870906404.png",
+    "headimg": "http://www.medcn.com:8081/file//headimg/1495870906404.png",
     "id": "17060312172856248750",
     "introduction": "<p>个人简介: 李昆明，男，博士，教授，主任医师。现任第四军医大学唐都医院神 经外科副主任。长期从事立体定向和功能神经外科工作，积极参与了微电极导 向定向手术治疗帕金森病新技术的引进、创新及推广工作，采用脑深部电刺激技 术（脑起搏器技术）和毁损技术治疗帕金森病、扭转痉挛、原发性震颤、痉挛性 斜颈、舞蹈症患者3000余例，手术疗效明显，并发症发生率低；应用全息、实 时、可视神经导航技术结合微电极导向手术治疗精神病（精神分裂症、躁狂症、 强迫症、抑郁症、焦虑症）、疼痛等取得显著疗效。</p><p>课题：《2型糖尿病的三级预防》</p><p>讲师：孙丰雷，主治医师，山东省中医院老年病科。</p><p>内容简介：</p><p>1.糖尿病的诊断及分型；<br>2.糖尿病的流行病学；<br>3.糖尿病的三级预防。</p><p><br></p>",
     "lecturer": "王长喜",
     "lecturerDepart": "泌尿外科",
-    "lecturerHead": "http://www.medcn.com:8081/file/headimg/17060312162454484613.png",
+    "lecturerHead": "http://www.medcn.com:8081/file/headimg/17060914112759877375.png",
     "lecturerHos": "广州海印南院",
     "lecturerTitle": "主任医师",
     "meetName": "神经外科测试会议二",
@@ -57,6 +58,6 @@
     "requiredXs": false,
     "startTime": 1496463180000,
     "state": 2,
-    "stored": 0
+    "stored": 1
   }
 }

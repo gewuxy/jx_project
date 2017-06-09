@@ -20,6 +20,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.login,
             NotifyType.logout,
             NotifyType.finish,
+            NotifyType.change,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -37,6 +38,10 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 关闭其他页面
          */
         int finish = 2;
+        /**
+         * 科室改变
+         */
+        int change = 3;
     }
 
     public interface OnNotify {

@@ -73,10 +73,12 @@ public class MeetingDetailsActivity extends BaseActivity {
     private final int KVideoResId = R.mipmap.meeting_ic_video; // 视频
     private final int KSignResId = R.mipmap.meeting_ic_sign; // 签到
 
-    private String mMeetId;
+    private String mHost; // 主办方
+    private String mMeetId; // 会议Id
     private TextView mTvAward;
     private TextView mTvTitle; // 会议名称
     private TextView mTvSection; // 会议科室
+    private TextView mTvUnitNum; // 单位号
 
     private NetworkImageView mIvPlay; // 播放图片
     private NetworkImageView mIvNumber; // 公众号图标
@@ -94,6 +96,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private LayoutParams mModuleParams; // 模块的参数
     private LayoutParams mDividerParams; // 分割线的参数
     private TextView mTvSee; // 观看会议
+    private ImageView mIvPlayCourse; // 观看会议
 
     private LocationDialog mLocationDialog; // 定位框
     private OnLocationNotify mObserver; // 定位通知
@@ -109,7 +112,8 @@ public class MeetingDetailsActivity extends BaseActivity {
     private int mCollectType; // 收藏的标志
 
     private boolean mAttention; // 是否关注了
-    private TextView mTvUnitNum; // 单位号
+    private boolean mEduType; // 需要还是奖励
+    private boolean mAttendAble;
 
     /**
      * functionId,模块功能ID
@@ -129,9 +133,6 @@ public class MeetingDetailsActivity extends BaseActivity {
         int sign = 5;//签到
     }
 
-    /**
-     * functionId,模块功能ID
-     */
     @IntDef({
             CollectType.no,
             CollectType.yes,
@@ -139,6 +140,23 @@ public class MeetingDetailsActivity extends BaseActivity {
     private @interface CollectType {
         int no = 0; // 收藏
         int yes = 1; // 没有收藏
+    }
+
+    @IntDef({
+            EduType.no,
+            EduType.yes,
+    })
+    private @interface EduType {
+        int no = 0; // 需要象数
+        int yes = 1; // 奖励象数
+    }
+
+    private boolean getEduType(@EduType int eduCredits) {
+        if (EduType.no == eduCredits) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void nav(Context context, String meetId) {
@@ -195,6 +213,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void findViews() {
         mIvPlay = findView(R.id.meeting_detail_iv_play);
+        mIvPlayCourse = findView(R.id.meeting_detail_iv_play_course);
         mTvDate = findView(R.id.meeting_detail_tv_date);
         mTvTime = findView(R.id.meeting_detail_tv_time);
         mIvNumber = findView(R.id.meeting_detail_iv_number);
@@ -219,6 +238,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void setViews() {
         setOnClickListener(mTvSee);
+        setOnClickListener(mIvPlayCourse);
 
         refresh(RefreshWay.embed);
         exeNetworkReq(KMeetDetail, NetFactory.meetInfo(mMeetId));
@@ -228,7 +248,16 @@ public class MeetingDetailsActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_detail_video_see:
-                MeetingCourseActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
+            case R.id.meeting_detail_iv_play_course:
+                if (mAttention) {
+                    if (mAttendAble) {
+                        MeetingCourseActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
+                    } else {
+                        showToast("不能参加");
+                    }
+                } else {
+                    showToast("请先关注会议");
+                }
                 break;
         }
     }
@@ -293,8 +322,13 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param info
      */
     private void refreshViews(MeetDetail info) {
-        mCollectType = info.getInt(TMeetDetail.stored); // 收藏
+        @CollectType int stored = info.getInt(TMeetDetail.stored);
+        mCollectType = stored; // 收藏
         mAttention = info.getBoolean(TMeetDetail.attention); // 关注
+        mAttendAble = info.getBoolean(TMeetDetail.attendAble); // 能参加
+        @EduType int edu = info.getInt(TMeetDetail.eduCredits); // 需要还是奖励
+        mEduType = getEduType(edu);
+
         switch (mCollectType) {
             case CollectType.yes:
                 mIvCollection.setSelected(true);
@@ -304,25 +338,30 @@ public class MeetingDetailsActivity extends BaseActivity {
                 break;
         }
 
-        mIvPlay.placeHolder(R.mipmap.ic_default_meeting_content_detail).load();
+        mIvPlay.placeHolder(R.mipmap.ic_default_meeting_content_detail)
+                .url(info.getString(TMeetDetail.coverUrl))
+                .load();
         long startTime = info.getLong(TMeetDetail.startTime); // 开始时间
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
         mTvTime.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
 
         // 会议
         mTvTitle.setText(info.getString(TMeetDetail.meetName));
-        mTvAward.setText("本次会议奖励象数:" + info.getString(TMeetDetail.xsCredits) + ",还有260人能够获得奖励.");
+//        mTvAward.setText("本次会议奖励象数:" + info.getString(TMeetDetail.xsCredits) + ",还有260人能够获得奖励.");
         mTvSection.setText(info.getString(TMeetDetail.meetType));
 
         // 单位号
-        mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large).load();
-        mTvUnitNum.setText(info.getString(TMeetDetail.organizer));
+        mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large)
+                .url(info.getString(TMeetDetail.headimg))
+                .renderer(new CircleRenderer())
+                .load();
+        mHost = info.getString(TMeetDetail.organizer);
+        mTvUnitNum.setText(mHost);
 
         // 主讲者
         mTvGN.setText(info.getString(TMeetDetail.lecturer));
         mIvGP.placeHolder(R.mipmap.ic_default_meeting_guest)
                 .url(info.getString(TMeetDetail.lecturerHead))
-                .renderer(new CircleRenderer())
                 .load();
         // 职责和医院没有的话就隐藏
         String obligation = info.getString(TMeetDetail.lecturerTitle); // 职责
@@ -362,7 +401,11 @@ public class MeetingDetailsActivity extends BaseActivity {
                 case FunctionType.exam:
                     addModule(KExamResId, moduleIdName, v -> {
                                 if (mAttention) {
-                                    ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam));
+                                    if (mAttendAble) {
+                                        ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam), mHost);
+                                    } else {
+                                        showToast("不能参加");
+                                    }
                                 } else {
                                     showToast("请先关注会议");
                                 }
@@ -374,7 +417,11 @@ public class MeetingDetailsActivity extends BaseActivity {
                 case FunctionType.que:
                     addModule(KQueResId, moduleIdName, v -> {
                                 if (mAttention) {
-                                    QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, moduleId);
+                                    if (mAttendAble) {
+                                        QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, moduleId);
+                                    } else {
+                                        showToast("不能参加");
+                                    }
                                 } else {
                                     showToast("请先关注会议");
                                 }
@@ -385,7 +432,11 @@ public class MeetingDetailsActivity extends BaseActivity {
                 case FunctionType.video:
                     addModule(KVideoResId, moduleIdName, v -> {
                                 if (mAttention) {
-                                    VideoCategoryActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.video));
+                                    if (mAttendAble) {
+                                        VideoCategoryActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.video));
+                                    } else {
+                                        showToast("不能参加");
+                                    }
                                 } else {
                                     showToast("请先关注会议");
                                 }
@@ -396,9 +447,14 @@ public class MeetingDetailsActivity extends BaseActivity {
                 case FunctionType.sign:
                     addModule(KSignResId, moduleIdName, v -> {
                         if (mAttention) {
-                            if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
-                                sign();
+                            if (mAttendAble) {
+                                if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
+                                    sign();
+                                }
+                            } else {
+                                showToast("不能参加");
                             }
+
                         } else {
                             showToast("请先关注会议");
                         }

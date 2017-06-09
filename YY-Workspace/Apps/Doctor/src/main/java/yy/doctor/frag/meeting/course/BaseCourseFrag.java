@@ -63,6 +63,8 @@ public abstract class BaseCourseFrag extends BaseFrag {
         void onStop();
 
         void onClick();
+
+        void end();
     }
 
     public void setOnPPTListener(OnCourseListener l) {
@@ -96,6 +98,12 @@ public abstract class BaseCourseFrag extends BaseFrag {
     protected void onCourseClick() {
         if (mListener != null) {
             mListener.onClick();
+        }
+    }
+
+    protected void end() {
+        if (mListener != null) {
+            mListener.end();
         }
     }
 }

@@ -18,7 +18,7 @@ public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.meets(MeetsState.under_way));
+        exeNetworkReq(NetFactory.meets(MeetsState.under_way, mDepart));
     }
 
 }
