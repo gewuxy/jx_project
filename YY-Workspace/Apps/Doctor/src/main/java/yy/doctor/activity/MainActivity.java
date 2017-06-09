@@ -18,6 +18,7 @@ import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseVPActivity;
 import lib.yy.network.Result;
+import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.frag.DataFrag;
@@ -91,10 +92,15 @@ public class MainActivity extends BaseVPActivity {
 
         setCurrentItem(mCurrPage);
 
-        // 静默更新用户数据
-        if (SpUser.inst().needUpdateProfile()) {
+        if (BuildConfig.TEST) {
             exeNetworkReq(0, NetFactory.profile());
+        } else {
+            // 静默更新用户数据
+            if (SpUser.inst().needUpdateProfile()) {
+                exeNetworkReq(0, NetFactory.profile());
+            }
         }
+
     }
 
     private void addIndicators() {

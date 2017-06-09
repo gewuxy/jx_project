@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -21,8 +20,8 @@ import lib.ys.util.LaunchUtil;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.CommonTwoDialog;
 import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.dialog.CommonTwoDialog;
 import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
@@ -43,10 +42,12 @@ public class ExamTopicActivity extends BaseTopicActivity {
 
     private final int KXClose = 2;//X秒后自动关闭
 
-    private TextView mTvTime;
     private long mCanUseTime; // 可以做题时间
     private long mUseTime; // 做题时间
     private DisposableSubscriber<Long> mSub;
+
+    private TextView mTvTime;
+
     private CommonOneDialog mCloseDialog;//离考试结束的提示框
     private CommonOneDialog mSubmitDialog;
     private CommonTwoDialog mSubDialog;
@@ -168,7 +169,7 @@ public class ExamTopicActivity extends BaseTopicActivity {
                 .putExtra(Extra.KModuleId, mModuleId)
                 .putExtra(Extra.KPaperId, mPaperId)
                 .putExtra(Extra.KTime, mUseTime)
-                .putExtra(Extra.KData, (Serializable) getAnswer(mAllTopics));
+                .putExtra(Extra.KData, getAnswer(mAllTopics));
         LaunchUtil.startActivity(ExamTopicActivity.this, i);
         finish();
     }

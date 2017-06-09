@@ -42,10 +42,10 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
-import yy.doctor.model.meet.Module;
-import yy.doctor.model.meet.Module.TModule;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
+import yy.doctor.model.meet.Module;
+import yy.doctor.model.meet.Module.TModule;
 import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.network.JsonParser;
@@ -104,7 +104,10 @@ public class MeetingDetailsActivity extends BaseActivity {
     private String mLongitude; // 维度
     private TextView mTvIntro; // 会议简介
     private ImageView mIvCollection; // navBar的收藏
-    private int mCollect; // 收藏的标志
+
+    @CollectType
+    private int mCollectType; // 收藏的标志
+
     private boolean mAttention; // 是否关注了
     private TextView mTvUnitNum; // 单位号
 
@@ -165,19 +168,19 @@ public class MeetingDetailsActivity extends BaseActivity {
         Util.addBackIcon(bar, "会议详情", this);
         ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
             if (mAttention) {
-                switch (mCollect) {
+                switch (mCollectType) {
                     case CollectType.yes:
                         mIvCollection.setSelected(false);
-                        mCollect = CollectType.no;
+                        mCollectType = CollectType.no;
                         showToast("取消收藏成功");
                         break;
                     case CollectType.no:
                         mIvCollection.setSelected(true);
-                        mCollect = CollectType.yes;
+                        mCollectType = CollectType.yes;
                         showToast("收藏成功");
                         break;
                 }
-                exeNetworkReq(KCollection, NetFactory.collectMeeting(mMeetId, mCollect));
+                exeNetworkReq(KCollection, NetFactory.collectMeeting(mMeetId, mCollectType));
             } else {
                 showToast("请先关注会议");
             }
@@ -252,16 +255,18 @@ public class MeetingDetailsActivity extends BaseActivity {
                 showToast(r.getError());
             }
         } else if (id == KSign) {
-            // 是否已签到
+            // 判断是否已签到
             stopRefresh();
             Result<Sign> r = (Result<Sign>) result;
             if (r.isSucceed()) {
                 Sign signData = r.getData();
                 boolean finished = signData.getBoolean(TSign.finished);
-                if (finished) { // 已签到直接显示结果
+                if (finished) {
+                    // 已签到直接显示结果
                     setViewState(ViewState.normal);
                     showToast("已签到");
-                } else { // 未签到跳转再请求签到
+                } else {
+                    // 未签到跳转再请求签到
                     Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
                             .putExtra(Extra.KMeetId, mMeetId)
                             .putExtra(Extra.KModuleId, mMapList.getByKey(FunctionType.sign))
@@ -288,9 +293,9 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param info
      */
     private void refreshViews(MeetDetail info) {
-        mCollect = info.getInt(TMeetDetail.stored); // 收藏
+        mCollectType = info.getInt(TMeetDetail.stored); // 收藏
         mAttention = info.getBoolean(TMeetDetail.attention); // 关注
-        switch (mCollect) {
+        switch (mCollectType) {
             case CollectType.yes:
                 mIvCollection.setSelected(true);
                 break;

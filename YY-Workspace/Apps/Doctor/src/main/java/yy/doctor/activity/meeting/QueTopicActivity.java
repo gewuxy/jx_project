@@ -90,7 +90,9 @@ public class QueTopicActivity extends BaseTopicActivity {
 
             TopicFrag topicFrag = null;
             int all = mAllTopics.size();
-            LogMgr.d(TAG, "" + all);
+
+            LogMgr.d(TAG, "onNetworkSuccess: all = " + all);
+
             for (int i = 0; i < mAllTopics.size(); i++) {
                 topicFrag = new TopicFrag();
                 Topic topic = mAllTopics.get(i);

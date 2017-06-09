@@ -1,6 +1,5 @@
 package yy.doctor.activity.meeting;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -12,26 +11,20 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
-import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.model.meet.exam.Choice;
 import yy.doctor.model.meet.exam.Choice.TChoice;
 import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
-import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 
@@ -61,7 +54,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
     private Animation mEnter;       //进入动画
     private Animation mLeave;       //离开动画
-    private boolean mHasAnimation;  //是否有动画在执行
+    private boolean mIsAnimating;  //是否有动画在执行
     private boolean mTopicCaseShow; //是否在查看考题
 
     protected int mCount;             //完成数量
@@ -79,7 +72,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
     @Override
     public void initData() {
-        mHasAnimation = false;
+        mIsAnimating = false;
         mTopicCaseShow = false;
 
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
@@ -204,8 +197,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      *
      * @param topics
      */
-    protected List<Answer> getAnswer(List<Topic> topics) {
-        List<Answer> answers = new ArrayList<>();//题号,答案
+    protected ArrayList<Answer> getAnswer(List<Topic> topics) {
+        ArrayList<Answer> answers = new ArrayList<>();//题号,答案
         mCount = 0;
         List<Choice> choices;
         Answer answer;
@@ -267,7 +260,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      */
     protected void topicCaseVisibility(boolean showState) {
         //没有动画执行的时候
-        if (!mHasAnimation) {
+        if (!mIsAnimating) {
             if (showState) {
                 mTopicCaseAdapter.notifyDataSetChanged();
             }
@@ -290,12 +283,12 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         animation.setAnimationListener(new AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                mHasAnimation = true;
+                mIsAnimating = true;
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mHasAnimation = false;
+                mIsAnimating = false;
             }
 
             @Override
