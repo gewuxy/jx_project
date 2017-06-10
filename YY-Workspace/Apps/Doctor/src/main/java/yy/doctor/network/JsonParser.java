@@ -2,6 +2,8 @@ package yy.doctor.network;
 
 import org.json.JSONException;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import lib.ys.model.EVal;
@@ -61,6 +63,7 @@ public class JsonParser extends BaseJsonParser {
             g.add(child);
         }
 
+        Collections.sort(mapList, (lhs, rhs) -> lhs.getTag().charAt(0) - rhs.getTag().charAt(0));
         retResult.setData(mapList);
         return retResult;
     }
