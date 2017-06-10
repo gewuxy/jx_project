@@ -41,7 +41,6 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-
 public class ExamIntroActivity extends BaseActivity implements OnCountDownListener {
 
     private Paper mPaper; // 本次考试试题信息
@@ -193,7 +192,10 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             case R.id.exam_intro_tv_start:
                 // 点击开始考试
                 if (mCanStart) {
-                    // TODO: 2017/6/10
+                    // 时间段考试
+                    long useTime = mIntro.getLong(TIntro.usetime);
+                    long surplusTime = mEndTime - mCurTime;
+                    mIntro.put(TIntro.time, surplusTime > useTime ? surplusTime : useTime);
                     ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                     finish();
                 } else if (mStartTime > mCurTime) {

@@ -59,7 +59,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         super.initData();
 
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
-        mAllUseTime = mIntro.getInt(TIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
+        mAllUseTime = mIntro.getInt(TIntro.time) * TimeUnit.MINUTES.toSeconds(1);
         initFrag();
     }
 
