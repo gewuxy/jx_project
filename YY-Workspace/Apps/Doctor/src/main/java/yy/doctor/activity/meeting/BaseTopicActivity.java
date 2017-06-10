@@ -1,7 +1,7 @@
 package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,12 +19,15 @@ import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
+import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.model.meet.exam.Choice;
 import yy.doctor.model.meet.exam.Choice.TChoice;
 import yy.doctor.model.meet.exam.Intro;
+import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
+import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 
@@ -34,21 +37,14 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-
 public abstract class BaseTopicActivity extends BaseVPActivity {
 
     private static final long KDuration = 300l; //动画时长
     public static final int KVpSize = 3;
 
-    protected String mPaperId;
-    protected String mMeetId;
-    protected String mModuleId;
-
-    protected Paper mPaper;           //整套考题
     private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
 
     private GridView mGv;           //考题情况列表
-    protected TextView mTvAll;        //总数
     private TextView mTvCount;      //已完成数
     private LinearLayout mLayout;   //考题情况
 
@@ -57,17 +53,28 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     private boolean mIsAnimating;  //是否有动画在执行
     private boolean mTopicCaseShow; //是否在查看考题
 
-    protected int mCount;             //完成数量
     private View mViewMid;          //NavBar中边的View(显示考试情况的时候显示)
     private TextView mTvNavCount;   //完成情况
-    protected TextView mTvNavAll;     //总数
 
+    protected int mCount; // 完成数量
+    protected String mPaperId;
+    protected String mMeetId;
+    protected String mModuleId;
     protected Intro mIntro;
+    protected Paper mPaper; // 整套考题
     protected List<Topic> mAllTopics;
-    protected TextView mTvLeft;     //NavBar左边的TextView
+    protected TextView mTvAll; // 总数(底部)
+    protected TextView mTvNavAll; // 总数(NavBar)
+    protected TextView mTvLeft; // NavBar左边的TextView
 
     protected boolean getTopicCaseShow() {
         return mTopicCaseShow;
+    }
+
+    @NonNull
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_topic;
     }
 
     @Override
@@ -77,15 +84,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
-
-    }
-
-    /**
-     * 按提交
-     *
-     * @param noFinish
-     */
-    protected void lastTopic(int noFinish) {
     }
 
     @Override
@@ -108,10 +106,20 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         goneView(mViewMid);
     }
 
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_topic;
+    /**
+     * 获取左边文字
+     *
+     * @param layout
+     */
+    private void getTvLeft(ViewGroup layout) {
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View childView = layout.getChildAt(i);
+            if (childView instanceof ViewGroup) {
+                getTvLeft((ViewGroup) childView);
+            } else if (childView instanceof TextView) {
+                mTvLeft = (TextView) childView;
+            }
+        }
     }
 
     @Override
@@ -134,23 +142,19 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
         setOffscreenPageLimit(KVpSize);
 
-        setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        setOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                Topic topic = mAllTopics.get(position);
-                String count = topic.getString(TTopic.sort);
-                mTvAll.setText(count + "/" + mAllTopics.size());
-                mTvNavAll.setText(count + "/" + mAllTopics.size());
+                mTvAll.setText(getProgress(position));
+                mTvNavAll.setText(getProgress(position));
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -233,16 +237,47 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     }
 
     /**
-     * 提交答案
+     * 加载TopicFrag
      */
-    protected void submit() {
+    protected void initFrag() {
+        mPaper = mIntro.getEv(TIntro.paper);
+        mPaperId = mPaper.getString(TPaper.id);
+        mAllTopics = mPaper.getList(TPaper.questions);
+
+        TopicFrag topicFrag = null;
+        int size = mAllTopics.size();
+
+        for (int i = 0; i < size; i++) {
+            topicFrag = new TopicFrag();
+            Topic topic = mAllTopics.get(i);
+            topicFrag.setTopic(topic);
+            //最后一题
+            if (i == mAllTopics.size() - 1) {
+                topicFrag.isLast();
+            }
+            topicFrag.setOnNextListener(v -> {
+                getAnswer(mAllTopics);
+                if (getCurrentItem() < size - 1) {
+                    setCurrentItem(getCurrentItem() + 1);
+                } else {
+                    trySubmit(size - mCount);
+                }
+            });
+            add(topicFrag);
+        }
     }
 
     /**
-     * 设置GridView
+     * 设置GridView 和初始化
      * Adapter{@link TopicCaseAdapter}
      */
-    protected void setGv() {
+    protected void initFirstGv() {
+        if (mAllTopics.size() > 0) {
+            //第一题
+            mTvAll.setText(getProgress(0));
+            mTvNavAll.setText(getProgress(0));
+        }
+
         mTopicCaseAdapter = new TopicCaseAdapter();
         mTopicCaseAdapter.addAll(mAllTopics);
 
@@ -298,18 +333,30 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     }
 
     /**
-     * 获取左边文字
+     * 获取当前题目占总题目的百分比
      *
-     * @param layout
+     * @param position
+     * @return
      */
-    private void getTvLeft(ViewGroup layout) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View childView = layout.getChildAt(i);
-            if (childView instanceof ViewGroup) {
-                getTvLeft((ViewGroup) childView);
-            } else if (childView instanceof TextView) {
-                mTvLeft = (TextView) childView;
-            }
+    protected String getProgress(int position) {
+        StringBuffer sb = new StringBuffer();
+        if (mAllTopics != null && mAllTopics.size() > 0) {
+            sb.append(mAllTopics.get(position).getString(TTopic.sort))
+                    .append("/")
+                    .append(mAllTopics.size());
         }
+        return sb.toString();
     }
+
+    /**
+     * 提交答案
+     */
+    protected abstract void submit();
+
+    /**
+     * 按提交
+     *
+     * @param noFinish
+     */
+    protected abstract void trySubmit(int noFinish);
 }

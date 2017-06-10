@@ -41,7 +41,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         @BindList(Module.class)
         modules, // 会议包含的模块
 
-
+        reason, // 不能参加会议的理由
         introduction, // 简介
     }
 }

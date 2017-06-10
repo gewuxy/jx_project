@@ -655,6 +655,12 @@ public class NetFactory {
     public static SubmitBuilder submitEx() {
         return new SubmitBuilder(UrlMeet.KSubmitEx);
     }
+    /**
+     * 问卷提交
+     */
+    public static SubmitBuilder submitSur() {
+        return new SubmitBuilder(UrlMeet.KSubmitSur);
+    }
 
     /**
      * 微课学习提交

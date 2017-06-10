@@ -24,10 +24,10 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     private TextView mTvQ;
     private TextView mTvBtn;
-    private Topic mTopic;                   //该题目的信息
+    private Topic mTopic; // 该题目的信息
     private List<Choice> mChoices;
     private OnNextListener mOnNextListener;
-    private boolean isLast;//最后一题
+    private boolean isLast; // 最后一题
 
     public interface OnNextListener {
         void onNext(View v);
@@ -63,9 +63,9 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
     @Override
     public void findViews() {
         super.findViews();
+
         mTvQ = findView(R.id.exam_topic_tv_question);
         mTvBtn = findView(R.id.exam_topic_footer_tv_btn);
-
     }
 
     @Override

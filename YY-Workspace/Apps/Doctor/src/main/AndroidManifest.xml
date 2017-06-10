@@ -111,6 +111,9 @@
             android:name=".activity.meeting.ExamEndActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.meeting.QueEndActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.meeting.VideoCategoryActivity"
             android:screenOrientation="portrait"/>
         <activity

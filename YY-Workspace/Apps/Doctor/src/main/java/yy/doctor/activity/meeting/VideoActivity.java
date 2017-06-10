@@ -29,6 +29,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -44,7 +45,8 @@ public class VideoActivity extends BaseActivity implements
         OnPreparedListener,
         OnErrorListener,
         VideoViewListener,
-        OnCompletionListener, CountDown.OnCountDownListener {
+        OnCompletionListener,
+        OnCountDownListener {
 
     private static final int KVideoHDp = 204; // 视频高度
     private static final int KVanishTime = 3; // 自动隐藏功能栏时间

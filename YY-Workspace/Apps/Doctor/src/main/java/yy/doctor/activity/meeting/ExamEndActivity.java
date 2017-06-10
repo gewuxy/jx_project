@@ -1,6 +1,7 @@
 package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
@@ -23,11 +24,13 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
+ * 考试结果界面
+ *
  * @author CaiXiang
  * @since 2017/4/28
  */
 public class ExamEndActivity extends BaseActivity {
-    // TODO
+
     private String mMeetId;
     private String mModuleId;
     private String mPaperId; // 试卷Id
@@ -38,6 +41,7 @@ public class ExamEndActivity extends BaseActivity {
     private TextView mTvScore;
     private TextView mTvRight;
     private TextView mTvError;
+    private TextView mTvFinish;
 
     @Override
     public void initData() {
@@ -65,10 +69,13 @@ public class ExamEndActivity extends BaseActivity {
         mTvScore = findView(R.id.exam_end_tv_score);
         mTvRight = findView(R.id.exam_end_tv_right_num);
         mTvError = findView(R.id.exam_end_tv_error_num);
+        mTvFinish = findView(R.id.exam_end_tv_btn);
     }
 
     @Override
     public void setViews() {
+        setOnClickListener(mTvFinish);
+
         refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.submitEx()
                 .meetId(mMeetId)
@@ -101,5 +108,14 @@ public class ExamEndActivity extends BaseActivity {
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
         setViewState(ViewState.error);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.exam_end_tv_btn:
+                finish();
+                break;
+        }
     }
 }

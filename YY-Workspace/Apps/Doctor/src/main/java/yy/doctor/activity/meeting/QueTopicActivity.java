@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -16,12 +15,7 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.CommonTwoDialog;
 import yy.doctor.dialog.CommonTwoDialog.OnLayoutListener;
-import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.meet.exam.Intro.TIntro;
-import yy.doctor.model.meet.exam.Paper.TPaper;
-import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 
@@ -31,7 +25,6 @@ import yy.doctor.network.NetFactory;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-
 public class QueTopicActivity extends BaseTopicActivity {
 
     private CommonTwoDialog mSubDialog;
@@ -47,32 +40,21 @@ public class QueTopicActivity extends BaseTopicActivity {
     @Override
     public void initNavBar(NavBar bar) {
         super.initNavBar(bar);
-        mTvLeft.setText("问卷");
-        mBarRight = bar.addTextViewRight("提交", v -> lastTopic(mAllTopics.size() - mCount));
-    }
 
-    @Override
-    protected void topicCaseVisibility(boolean showState) {
-        super.topicCaseVisibility(showState);
-        if (getTopicCaseShow()) {
-            mTvLeft.setText("题目");
-            goneView(mBarRight);
-        } else {
-            mTvLeft.setText("问卷");
-            showView(mBarRight);
-        }
+        mTvLeft.setText("问卷");
+        mBarRight = bar.addTextViewRight("提交", v -> {
+            if (mAllTopics != null && mAllTopics.size() > 0) {
+                trySubmit(mAllTopics.size() - mCount);
+            }
+        });
     }
 
     @Override
     public void setViews() {
         super.setViews();
+
         refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.toSurvey(mMeetId, mModuleId));
-    }
-
-    @Override
-    protected void submit() {
-        showToast("提交重写");
     }
 
     @Override
@@ -83,53 +65,24 @@ public class QueTopicActivity extends BaseTopicActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<Intro> r = (Result<Intro>) result;
-        setViewState(ViewState.normal);
         if (r.isSucceed()) {
+            setViewState(ViewState.normal);
             mIntro = r.getData();
-            mPaper = mIntro.getEv(TIntro.paper);
-            mPaperId = mPaper.getString(TPaper.id);
-            mAllTopics = mPaper.getList(TPaper.questions);
 
-            TopicFrag topicFrag = null;
-            int size = mAllTopics.size();
-
-            LogMgr.d(TAG, "onNetworkSuccess: all = " + size);
-
-            for (int i = 0; i < size; i++) {
-                topicFrag = new TopicFrag();
-                Topic topic = mAllTopics.get(i);
-                topicFrag.setTopic(topic);
-                //最后一题
-                if (i == mAllTopics.size() - 1) {
-                    topicFrag.isLast();
-                }
-                topicFrag.setOnNextListener(v -> {
-                    getAnswer(mAllTopics);
-                    if (getCurrentItem() < size - 1) {
-                        setCurrentItem(getCurrentItem() + 1);
-                    } else {
-                        lastTopic(size - mCount);
-                    }
-                });
-                add(topicFrag);
+            if (mIntro != null) {
+                initFrag();
                 invalidate();
             }
 
-            if (size != 0) {
-                String topicId = mAllTopics.get(0).getString(TTopic.sort);
-                String topic = topicId + "/" + size;
-                mTvAll.setText(topic);
-                mTvNavAll.setText(topic);
-            }
-            setGv();
+            initFirstGv();
         } else {
+            setViewState(ViewState.error);
             showToast(r.getError());
         }
-
     }
 
     @Override
-    protected void lastTopic(int noFinish) {
+    protected void trySubmit(int noFinish) {
         //考试时间未完
         if (mSubDialog == null) {
             mSubDialog = new CommonTwoDialog(QueTopicActivity.this);
@@ -157,6 +110,29 @@ public class QueTopicActivity extends BaseTopicActivity {
                     }
                 });
         mSubDialog.show();
+    }
+
+    @Override
+    protected void submit() {
+        Intent i = new Intent(QueTopicActivity.this, QueEndActivity.class)
+                .putExtra(Extra.KMeetId, mMeetId)
+                .putExtra(Extra.KModuleId, mModuleId)
+                .putExtra(Extra.KPaperId, mPaperId)
+                .putExtra(Extra.KData, getAnswer(mAllTopics));
+        LaunchUtil.startActivity(QueTopicActivity.this, i);
+        finish();
+    }
+
+    @Override
+    protected void topicCaseVisibility(boolean showState) {
+        super.topicCaseVisibility(showState);
+        if (getTopicCaseShow()) {
+            mTvLeft.setText("题目");
+            goneView(mBarRight);
+        } else {
+            mTvLeft.setText("问卷");
+            showView(mBarRight);
+        }
     }
 
     @Override

@@ -27,9 +27,9 @@ public interface Constants extends BaseConstants {
             MeetsState.retrospect,
     })
     @interface MeetsState {
-        int not_started = 1;//未开始
-        int under_way = 2;//进行中
-        int retrospect = 3;//精彩回顾
+        int not_started = 1; // 未开始
+        int under_way = 2; // 进行中
+        int retrospect = 3; // 精彩回顾
     }
 
     @IntDef({

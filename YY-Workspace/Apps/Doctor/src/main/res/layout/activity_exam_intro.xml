@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -28,7 +28,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="104dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="16dp"
@@ -40,20 +40,30 @@
             android:id="@+id/exam_intro_tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
             android:text="100道题"
             android:textColor="@color/text_333"
-            android:textSize="18dp"/>
+            android:textSize="17dp"/>
 
         <TextView
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
             android:id="@+id/exam_intro_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="15dp"
             android:text="2017/4/12 14:00~15:00"
-            android:textColor="@color/text_333"
-            android:textSize="18dp"/>
+            android:textColor="@color/text_888"
+            android:textSize="17dp"/>
+
+        <TextView
+            android:id="@+id/exam_intro_tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:layout_marginTop="15dp"
+            android:text="考试未开始"
+            android:textSize="17dp"/>
 
     </LinearLayout>
 

@@ -114,6 +114,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private boolean mAttention; // 是否关注了
     private boolean mEduType; // 需要还是奖励
     private boolean mAttendAble;
+    private String mReason; // 不能参加会议的原因
 
     /**
      * functionId,模块功能ID
@@ -253,7 +254,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                     if (mAttendAble) {
                         MeetingCourseActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
                     } else {
-                        showToast("不能参加");
+                        showToast(mReason);
                     }
                 } else {
                     showToast("请先关注会议");
@@ -328,6 +329,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         mAttendAble = info.getBoolean(TMeetDetail.attendAble); // 能参加
         @EduType int edu = info.getInt(TMeetDetail.eduCredits); // 需要还是奖励
         mEduType = getEduType(edu);
+        mReason = info.getString(TMeetDetail.reason);
 
         switch (mCollectType) {
             case CollectType.yes:
@@ -404,7 +406,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                     if (mAttendAble) {
                                         ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam), mHost);
                                     } else {
-                                        showToast("不能参加");
+                                        showToast(mReason);
                                     }
                                 } else {
                                     showToast("请先关注会议");
@@ -420,7 +422,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                     if (mAttendAble) {
                                         QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, moduleId);
                                     } else {
-                                        showToast("不能参加");
+                                        showToast(mReason);
                                     }
                                 } else {
                                     showToast("请先关注会议");
@@ -435,7 +437,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                     if (mAttendAble) {
                                         VideoCategoryActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.video));
                                     } else {
-                                        showToast("不能参加");
+                                        showToast(mReason);
                                     }
                                 } else {
                                     showToast("请先关注会议");
@@ -452,7 +454,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                     sign();
                                 }
                             } else {
-                                showToast("不能参加");
+                                showToast(mReason);
                             }
 
                         } else {

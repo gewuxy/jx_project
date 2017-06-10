@@ -46,52 +46,33 @@ public class Util extends BaseUtil {
      * @return
      */
     public static String formatTime(long seconds, @DateUnit int unit) {
-        long millis = seconds * Milli.KSecond;
-        String format = null;
-        switch (unit) {
-            case DateUnit.hour: {
-                format = TimeFormat.from_h_24;
+        StringBuffer sb = new StringBuffer();
+        if (DateUnit.hour == unit) {
+            long hour = seconds / TimeUnit.HOURS.toSeconds(1);
+            if (hour < 10) {
+                sb.append(0);
             }
-            break;
-            case DateUnit.minute: {
-                format = TimeFormat.from_m;
-            }
-            break;
-            case DateUnit.second: {
-                format = TimeFormat.only_ss;
-            }
-            break;
+            sb.append(hour).append(":");
+            unit = DateUnit.minute;
         }
 
-        return TimeUtil.formatMilli(millis, format);
+        if (DateUnit.minute == unit) {
+            long min = seconds / TimeUnit.HOURS.toMinutes(1) % TimeUnit.MINUTES.toSeconds(1);
+            if (min < 10) {
+                sb.append(0);
+            }
+            sb.append(min).append(":");
+            unit = DateUnit.second;
+        }
 
-//        StringBuffer sb = new StringBuffer();
-//        if (DateUnit.hour == unit) {
-//            long hour = useTime / MilliUtil.KOneHour;
-//            if (hour < 10) {
-//                sb.append(0);
-//            }
-//            sb.append(hour).append(":");
-//            unit = DateUnit.minute;
-//        }
-//
-//        if (DateUnit.minute == unit) {
-//            int min = useTime / 60 % 60;
-//            if (min < 10) {
-//                sb.append(0);
-//            }
-//            sb.append(min).append(":");
-//            unit = DateUnit.kSecond;
-//        }
-//
-//        if (DateUnit.kSecond == unit) {
-//            int sec = useTime % 60;
-//            if (sec < 10) {
-//                sb.append(0);
-//            }
-//            sb.append(sec);
-//        }
-//        return sb.toString();
+        if (DateUnit.second == unit) {
+            long sec = seconds % TimeUnit.MINUTES.toSeconds(1);
+            if (sec < 10) {
+                sb.append(0);
+            }
+            sb.append(sec);
+        }
+        return sb.toString();
     }
 
     /**

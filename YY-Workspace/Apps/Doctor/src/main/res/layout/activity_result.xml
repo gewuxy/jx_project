@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/result_iv_welcome"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:gravity="center"
@@ -26,14 +27,14 @@
             style="@style/divider"/>
 
         <ImageView
-            android:id="@+id/sign_iv_result"
+            android:id="@+id/result_iv_result"
             android:layout_width="58dp"
             android:layout_height="58dp"
             android:layout_marginTop="32dp"
-            android:src="@mipmap/sign_ic_success"/>
+            android:src="@mipmap/result_ic_success"/>
 
         <TextView
-            android:id="@+id/sign_tv_result"
+            android:id="@+id/result_tv_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="14dp"
@@ -43,7 +44,7 @@
             android:textSize="14dp"/>
 
         <TextView
-            android:id="@+id/sign_tv_result_msg"
+            android:id="@+id/result_tv_result_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -53,7 +54,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/sign_tv_return"
+        android:id="@+id/result_tv_return"
         style="@style/tv.common"
         android:background="@drawable/sign_btn_selector"
         android:text="返回"/>
