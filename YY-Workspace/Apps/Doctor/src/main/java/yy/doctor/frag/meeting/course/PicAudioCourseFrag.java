@@ -249,12 +249,14 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void onStart() {
         super.onStart();
+        // FIXME: 不好使
         start();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        // FIXME: 不好使
         stop();
     }
 

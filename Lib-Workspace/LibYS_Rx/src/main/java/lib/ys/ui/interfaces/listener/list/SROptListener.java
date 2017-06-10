@@ -26,7 +26,7 @@ public interface SROptListener<T> {
 
     boolean isFirstRefresh();
 
-    View getFooterEmptyView();
+    View createEmptyFooterView();
 
     String getLastItemId();
 

@@ -61,7 +61,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     }
 
     @Override
-    public View getFooterEmptyView() {
+    public View createEmptyFooterView() {
         return null;
     }
 

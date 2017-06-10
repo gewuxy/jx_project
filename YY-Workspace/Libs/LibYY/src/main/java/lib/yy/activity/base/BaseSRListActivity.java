@@ -1,16 +1,18 @@
 package lib.yy.activity.base;
 
 import android.os.Bundle;
+import android.view.View;
 
 import org.json.JSONException;
 
-import lib.ys.adapter.interfaces.IAdapter;
 import lib.network.model.interfaces.IListResult;
+import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.list.SRListActivityEx;
 import lib.ys.util.GenericUtil;
 import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.Notifier.OnNotify;
+import lib.yy.R;
 import lib.yy.network.BaseJsonParser;
 
 /**
@@ -46,5 +48,10 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
     @Override
     public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
+    }
+
+    @Override
+    public View createEmptyFooterView() {
+        return inflate(R.layout.layout_empty_footer);
     }
 }

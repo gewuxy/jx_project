@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -39,7 +40,7 @@ import yy.doctor.util.CacheUtil;
 
 public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapter> implements OnAdapterClickListener, OnCompletionListener {
     // TODO: 2017/6/6 未完
-    private int mCurrent; // 当前选的
+    private int mCurrId; // 当前选的
     private String mMeetId;
     private MediaPlayer mPlayer;
     private PPT mPPT;
@@ -56,7 +57,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     @Override
     public void initData() {
         mPPT = (PPT) getIntent().getSerializableExtra(Extra.KData);
-        mCurrent = getIntent().getIntExtra(Extra.KId, 0);
+        mCurrId = getIntent().getIntExtra(Extra.KId, 0);
         mMeetId = mPPT.getString(TPPT.meetId);
         mCourseInfo = mPPT.getEv(TPPT.course);
         mCourses = mCourseInfo.getList(TCourseInfo.details);
@@ -89,7 +90,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     public void setViews() {
         super.setViews();
         setOnAdapterClickListener(this);
-        getLv().setSelection(mCurrent);
+        setSelection(mCurrId);
     }
 
     @Override
@@ -127,7 +128,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
                     mPlayer.setDataSource(filePath + fileName);
                     mPlayer.prepare();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LogMgr.e(TAG, "onAdapterClick", e);
                 }
                 mPlayer.start();
             }

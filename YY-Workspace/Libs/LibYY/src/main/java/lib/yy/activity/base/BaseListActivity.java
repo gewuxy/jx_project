@@ -38,5 +38,4 @@ abstract public class BaseListActivity<T, A extends IAdapter<T>> extends ListAct
     @Override
     public void onNotify(@NotifyType int type, Object data) {
     }
-
 }

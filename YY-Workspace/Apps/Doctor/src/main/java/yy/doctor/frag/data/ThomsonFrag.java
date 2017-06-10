@@ -45,7 +45,7 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
     }
 
     @Override
-    public View getFooterEmptyView() {
+    public View createEmptyFooterView() {
         return inflate(R.layout.frag_data_empty);
     }
 

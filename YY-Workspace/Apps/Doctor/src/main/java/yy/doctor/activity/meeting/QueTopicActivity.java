@@ -91,11 +91,11 @@ public class QueTopicActivity extends BaseTopicActivity {
             mAllTopics = mPaper.getList(TPaper.questions);
 
             TopicFrag topicFrag = null;
-            int all = mAllTopics.size();
+            int size = mAllTopics.size();
 
-            LogMgr.d(TAG, "onNetworkSuccess: all = " + all);
+            LogMgr.d(TAG, "onNetworkSuccess: all = " + size);
 
-            for (int i = 0; i < mAllTopics.size(); i++) {
+            for (int i = 0; i < size; i++) {
                 topicFrag = new TopicFrag();
                 Topic topic = mAllTopics.get(i);
                 topicFrag.setTopic(topic);
@@ -105,18 +105,22 @@ public class QueTopicActivity extends BaseTopicActivity {
                 }
                 topicFrag.setOnNextListener(v -> {
                     getAnswer(mAllTopics);
-                    if (getCurrentItem() < all - 1) {
+                    if (getCurrentItem() < size - 1) {
                         setCurrentItem(getCurrentItem() + 1);
                     } else {
-                        lastTopic(all - mCount);
+                        lastTopic(size - mCount);
                     }
                 });
                 add(topicFrag);
                 invalidate();
             }
-            String topicId = mAllTopics.get(0).getString(TTopic.sort);
-            mTvAll.setText(topicId + "/" + mAllTopics.size());
-            mTvNavAll.setText(topicId + "/" + mAllTopics.size());
+
+            if (size != 0) {
+                String topicId = mAllTopics.get(0).getString(TTopic.sort);
+                String topic = topicId + "/" + size;
+                mTvAll.setText(topic);
+                mTvNavAll.setText(topic);
+            }
             setGv();
         } else {
             showToast(r.getError());

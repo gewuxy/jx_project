@@ -70,7 +70,7 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
-    public View getFooterEmptyView() {
+    public View createEmptyFooterView() {
         return null;
     }
 

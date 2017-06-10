@@ -64,7 +64,7 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    public View getFooterEmptyView() {
+    public View createEmptyFooterView() {
         return null;
     }
 

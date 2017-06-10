@@ -61,7 +61,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public View getFooterEmptyView() {
+    public View createEmptyFooterView() {
         return null;
     }
 

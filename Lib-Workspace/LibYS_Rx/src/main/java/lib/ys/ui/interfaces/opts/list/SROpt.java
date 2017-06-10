@@ -459,7 +459,7 @@ public class SROpt<T> implements ISRListener {
     }
 
     private View createFooterEmptyView() {
-        return mSROptListener.getFooterEmptyView();
+        return mSROptListener.createEmptyFooterView();
     }
 
     private void showFooterEmptyView() {
