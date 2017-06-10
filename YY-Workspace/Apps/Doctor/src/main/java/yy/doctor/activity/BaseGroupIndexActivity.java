@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
@@ -72,11 +73,10 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
         mSideBar.setTextSize(mLetterSize);
         mSideBar.setColor(KLetterColorNormal);
         mSideBar.setColorFocus(KLetterColorFocus);
-        mSideBar.setOnTouchLetterChangeListener((s, isFocus) -> {
-            mTvLetter.setText(s);
+        mSideBar.setOnTouchLetterChangeListener((index, isFocus) -> {
+            mTvLetter.setText(mSideBarLetters[index]);
             mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
-            //getListOpt().setSelectedGroup(1);
-
+            setSelectedGroup(index);
         });
 
     }
@@ -91,6 +91,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
             for (int i = 0; i < data.size(); i++) {
                 mSideBarLetters[i] = data.get(i).getTag();
             }
+            Arrays.sort(mSideBarLetters);
         }
 
         return r;
@@ -109,4 +110,5 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
 
         expandAllGroup();
     }
+
 }
