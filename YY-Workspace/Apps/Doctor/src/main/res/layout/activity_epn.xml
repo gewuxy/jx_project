@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_my_elephant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/epn_tv_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -26,13 +27,24 @@
             android:id="@+id/epn_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/epn_tv_my"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="30dp"
             android:text="888"
             android:textSize="30dp"
             android:textColor="@color/white"/>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/epn_tv"
+            android:layout_alignBottom="@+id/epn_tv"
+            android:text="个"
+            android:textSize="18dp"
+            android:textColor="@color/text_80fff"/>
+
+    </RelativeLayout>
 
     <TextView
         style="@style/tv.common"

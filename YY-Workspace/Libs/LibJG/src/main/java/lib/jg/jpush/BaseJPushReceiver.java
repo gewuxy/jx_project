@@ -8,8 +8,6 @@ import android.os.Bundle;
 import cn.jpush.android.api.JPushInterface;
 import lib.ys.LogMgr;
 
-import static android.R.id.message;
-
 /**
  * 自定义接收器
  * <p>
