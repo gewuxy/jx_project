@@ -9,6 +9,7 @@ import android.widget.TextView;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
@@ -63,7 +64,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, mGoodName, this);
+        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "兑换", this);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.mobile)
-                .hint("手机号")
+                .hint("手机号码")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -150,12 +151,12 @@ public class ExchangeActivity extends BaseFormActivity {
                     return;
                 }
                 NetworkReq r = NetFactory.newExchangeBuilder()
-                        .goodsId("000001")
-                        .price("85")
-                        .receiver("都是广")
-                        .phone("15860062000")
-                        .province("广东广州")
-                        .address("故事机加快速度啊速度快解放的看法")
+                        .goodsId(mGoodId)
+                        .price(mEpn)
+                        .receiver(getRelatedItem(RelatedId.receiver).getString(TFormElem.text))
+                        .phone(getRelatedItem(RelatedId.mobile).getString(TFormElem.text))
+                        .province(getRelatedItem(RelatedId.province_city).getString(TFormElem.text))
+                        .address(getRelatedItem(RelatedId.address).getString(TFormElem.text))
                         .builder();
                 refresh(RefreshWay.dialog);
                 exeNetworkReq(r);

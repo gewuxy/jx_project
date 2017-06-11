@@ -27,4 +27,7 @@ public interface Extra {
     String KProvince = "province";
     String KCity = "city";
     String KArea = "area";
+
+    String KLogout = "logout";
+    String KJPushRegisterId = "JPushRegisterId";
 }

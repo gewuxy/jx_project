@@ -54,6 +54,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     }
 
     @Override
+    protected View createFooterView() {
+        return inflate(R.layout.layout_help_and_feedback_footer);
+    }
+
+    @Override
     public void initData() {
         super.initData();
 
@@ -80,7 +85,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.jing_xin)
-                .name("敬信")
+                .name("敬信科技")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());

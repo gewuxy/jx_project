@@ -24,6 +24,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.MapList;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -88,6 +89,13 @@ public class MeetingDetailsActivity extends BaseActivity {
     private TextView mTvGN; // 名字
     private TextView mTvGP; // 职位
     private TextView mTvGH; // 医院
+
+    //资料
+    private View mLayoutData;   // 查看资料
+    private TextView mTvFileNum;  //文件个数
+    private ImageView mIvFileArrow;  //箭头
+    private LinearLayout mLayoutFile;  // 文件布局
+    private View mVFileLargeDivider;  //分割线
 
     // 底部按钮
     private int mModuleCount; // 底部添加的模块数
@@ -230,6 +238,13 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvGP = findView(R.id.meeting_iv_guest_portrait);
 
         mTvIntro = findView(R.id.meeting_detail_tv_intro);
+
+        //文件
+        mLayoutData = findView(R.id.meeting_detail_layout_data);
+        mTvFileNum = findView(R.id.meeting_detail_tv_data);
+        mIvFileArrow = findView(R.id.meeting_detail_iv_data);
+        mLayoutFile = findView(R.id.meeting_detail_layout_file);
+        mVFileLargeDivider = findView(R.id.meeting_detail_view_divider);
 
         // 模块相关
         mLlModules = findView(R.id.meeting_detail_layout_modules);
@@ -593,4 +608,22 @@ public class MeetingDetailsActivity extends BaseActivity {
             mLocationDialog = null;
         }
     }
+
+    /**
+     * 添加文件item
+     *
+     * @param text
+     * @param l
+     */
+    public void addFileItem(CharSequence text, OnClickListener l) {
+
+        View v = getLayoutInflater().inflate(R.layout.layout_unit_num_detail_file_item, null);
+        TextView tv = (TextView) v.findViewById(R.id.unit_num_detail_file_item_tv_name);
+        tv.setText(text);
+        v.setOnClickListener(l);
+
+        LayoutFitter.fit(v);
+        mLayoutFile.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
+    }
+
 }

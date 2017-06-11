@@ -131,7 +131,6 @@ public class ProfileActivity extends BaseFormActivity {
         int education_background = 25;
         int address = 26;
 
-
         int is_open = 30;
     }
 
@@ -147,7 +146,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.name)
                 .name("姓名")
                 .text(Profile.inst().getString(linkman))
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .enable(false)
                 .build());
 
@@ -156,10 +155,10 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_more)
-                .name("医院")
+                .name("单位")
                 .intent(new Intent(this, HospitalActivity.class))
                 .text(Profile.inst().getString(hospital))
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -170,7 +169,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("科室")
                 .intent(new Intent(this, SectionActivity.class))
                 .text(Profile.inst().getString(department))
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -180,7 +179,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("医院级别")
                 .text(Profile.inst().getString(hosLevel))
                 .data(GlConfig.inst().getHospitalGrade())
-                .hint(R.string.hint_not_fill)
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -211,11 +210,12 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.is_open)
                 .build());*/
 
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.CME_number)
-                .name("CME卡号")
-                .text(Profile.inst().getString(cmeId))
-                .hint(R.string.hint_not_fill)
+        addItem(new Builder(FormType.text_intent)
+                .related(RelatedId.title)
+                .name("职称")
+                .intent(new Intent(this, TitleActivity.class))
+                .text(Profile.inst().getString(TProfile.title))
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -224,17 +224,16 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.certification_number)
                 .name("职业资格证号")
                 .text(Profile.inst().getString(licence))
-                .hint(R.string.hint_not_fill)
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
 
-        addItem(new Builder(FormType.text_intent)
-                .related(RelatedId.title)
-                .name("职称")
-                .intent(new Intent(this, TitleActivity.class))
-                .text(Profile.inst().getString(TProfile.title))
-                .hint(R.string.hint_not_fill)
+        addItem(new Builder(FormType.et)
+                .related(RelatedId.CME_number)
+                .name("CME卡号")
+                .text(Profile.inst().getString(cmeId))
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -265,6 +264,7 @@ public class ProfileActivity extends BaseFormActivity {
         mStrProvince = Profile.inst().getString(province);
         mStrCity = Profile.inst().getString(city);
         mStrArea = Profile.inst().getString(zone);
+
         if (mStrArea != null) {
             str = mStrProvince + " " + mStrCity + " " + mStrArea;
         } else {
@@ -275,7 +275,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("所在省市")
                 .intent(new Intent(this, ProvinceActivity.class))
                 .text(str)
-                .hint(R.string.hint_not_fill)
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -319,7 +319,7 @@ public class ProfileActivity extends BaseFormActivity {
         super.setViews();
 
         mLayoutProfileHeader.setOnClickListener(this);
-        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
+        mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
                 .url(Profile.inst().getString(headimg))
                 .renderer(new CircleRenderer())
                 .load();
@@ -500,13 +500,15 @@ public class ProfileActivity extends BaseFormActivity {
                 UpHeadImage upHeadImage = r.getData();
                 mAvatarUrl = upHeadImage.getString(TUpHeadImage.url);
                 showToast("头像设置成功");
+                //头像路径保存到本地
+                Profile.inst().put(TProfile.headimg, mAvatarUrl);
                 modify();
             }
         } else {
             stopRefresh();
             Result<Modify> r = (Result<Modify>) result;
             if (r.isSucceed()) {
-                showToast("资料修改成功");
+                showToast("更新成功");
                 Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));
                 Profile.inst().update(Profile.inst().put(TProfile.city, mStrCity));
             } else {

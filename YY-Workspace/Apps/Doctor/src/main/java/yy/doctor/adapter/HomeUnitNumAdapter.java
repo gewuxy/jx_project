@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
+import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.adapter.VH.HomeUnitNumVH;
@@ -35,10 +36,11 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
 
         holder.getTvName().setText(unitNum.getString(TRecUnitNum.nickname));
         holder.getIv().placeHolder(R.mipmap.ic_default_home_unit_num)
+                .renderer(new CircleRenderer())
                 .url(unitNum.getString(TRecUnitNum.headimg))
                 .load();
 
-        holder.getIv().setOnClickListener(new OnClickListener() {
+        holder.getLayout().setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {

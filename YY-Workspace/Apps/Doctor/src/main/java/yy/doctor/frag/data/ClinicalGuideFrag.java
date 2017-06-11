@@ -12,7 +12,6 @@ import yy.doctor.R;
  */
 public class ClinicalGuideFrag extends BaseFrag {
 
-
     @Override
     public void initData() {
     }

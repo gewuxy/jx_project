@@ -23,7 +23,7 @@ public class ExchangeBuilder {
      * @param goodsId
      * @return
      */
-    public ExchangeBuilder goodsId(String goodsId) {
+    public ExchangeBuilder goodsId(int goodsId) {
         mBuilder.param(EpcExchangeParam.KGoodsId, goodsId);
         return this;
     }
@@ -34,7 +34,7 @@ public class ExchangeBuilder {
      * @param price
      * @return
      */
-    public ExchangeBuilder price(String price) {
+    public ExchangeBuilder price(int price) {
         mBuilder.param(EpcExchangeParam.KPrice, price);
         return this;
     }

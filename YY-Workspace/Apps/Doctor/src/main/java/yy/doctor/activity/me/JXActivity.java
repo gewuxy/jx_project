@@ -20,7 +20,7 @@ public class JXActivity extends BaseWebViewActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "敬信", this);
+        Util.addBackIcon(bar, "敬信科技", this);
     }
 
     @Override

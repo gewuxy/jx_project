@@ -46,6 +46,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private String mFileSizeKB;
     private String mFileHashCodeName;
     private String mFilePath;
+    private Intent mDownloadServ;
 
     public static void nav(Context context, String filePath, String name, String url, String type, long size) {
         Intent i = new Intent(context, DownloadDataActivity.class)
@@ -123,11 +124,13 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
                     mTvStatus.setText("正在下载...");
-                    Intent intent = new Intent(this, DownloadServ.class);
-                    intent.putExtra(Extra.KData, mUrl)
+                    mDownloadServ = new Intent(this, DownloadServ.class);
+                    mDownloadServ.putExtra(Extra.KData, mUrl)
                             .putExtra(Extra.KFilePath, mFilePath)
                             .putExtra(Extra.KType, mType);
-                    startService(intent);
+                    startService(mDownloadServ);
+                    //现在不提供断点下载 点击下载按钮后就不能点击暂停
+                    mIvDownload.setClickable(false);
                 }
                 mIsDownload = !mIsDownload;
             }
@@ -138,6 +141,10 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mDownloadServ != null) {
+            stopService(mDownloadServ);
+        }
         DownloadNotifier.inst().remove(this);
     }
 

@@ -77,7 +77,7 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_attention_unit_num)
-                .name("关注的单位号")
+                .name("单位号")
                 .related(RelatedId.my_attention)
                 .build());
 
@@ -85,7 +85,7 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_collection)
-                .name("收藏的会议")
+                .name("会议收藏")
                 .related(RelatedId.my_collection)
                 .build());
 
@@ -93,7 +93,7 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_epn)
-                .name("我的象数")
+                .name("象数")
                 .text(Profile.inst().getString(TProfile.credits) + "象数")
                 .related(RelatedId.my_epn)
                 .build());
@@ -140,7 +140,7 @@ public class MeFrag extends BaseFormFrag {
         mTvHospital.setText(Profile.inst().getString(hospital));
 
         setOnClickListener(R.id.layout_me_header);
-        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
+        mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
                 .renderer(new CircleRenderer())
                 .url(Profile.inst().getString(TProfile.headimg))
                 //.renderer(new CornerRenderer(fitDp(15)))  圆角

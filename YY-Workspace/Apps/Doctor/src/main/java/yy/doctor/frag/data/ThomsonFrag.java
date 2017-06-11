@@ -5,7 +5,6 @@ import android.view.View;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
-import yy.doctor.R;
 import yy.doctor.activity.me.DownloadDataActivity;
 import yy.doctor.adapter.ThomsonAdapter;
 import yy.doctor.model.data.ThomsonDetail;
@@ -42,11 +41,6 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
     @Override
     public boolean enableRefreshWhenInit() {
         return true;
-    }
-
-    @Override
-    public View createEmptyFooterView() {
-        return inflate(R.layout.frag_data_empty);
     }
 
     @Override

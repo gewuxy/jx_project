@@ -145,7 +145,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
                 mRecMeetings = result.getData();
             }
         }
-
         return result;
     }
 
@@ -170,7 +169,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             ListResult<IHome> ret = new ListResult();
             List<IHome> homes = new ArrayList<>();
 
-            //截断推荐会议
+            //数据分组  推荐会议
             List<IHome> threeMeetings = new ArrayList<>();
             List<IHome> fiveMeetings = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
@@ -189,7 +188,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             homes.addAll(fiveMeetings);
 
             ret.setData(homes);
-
             super.onNetworkSuccess(id, ret);
         }
     }

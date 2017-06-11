@@ -39,10 +39,12 @@ public class UnitNumDetailAdapter extends AdapterEx<UnitNumDetailMeeting, UnitNu
         holder.getTvDepartments().setText(item.getString(TUnitNumDetailMeeting.meetType));
         holder.getTvTime().setText(TimeUtil.formatMilli(item.getLong(TUnitNumDetailMeeting.startTime), "MM月dd日 HH:mm"));
         holder.getTvDuration().setText("时长:" + Util.timeParse(item.getLong(TUnitNumDetailMeeting.endTime) - item.getLong(TUnitNumDetailMeeting.startTime)));
+
         holder.getIvUnitNum().placeHolder(R.mipmap.ic_default_home_unit_num)
                 .renderer(new CircleRenderer())
                 .url(item.getString(TUnitNumDetailMeeting.headimg))
                 .load();
+
         holder.getTvUnitNum().setText(item.getString(TUnitNumDetailMeeting.nickname));
     }
 

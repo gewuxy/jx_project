@@ -17,12 +17,14 @@ public class Order extends EVal<TOrder> {
         createTime,    //下单时间
         phone,    //手机号
         zoneCode,    //邮政编码
-        status,    //订单状态
+        status,    //订单状态  0表示待处理 1表示已接受订单 2表示已发货 3表示商品已接收
         postNo,    //物流单号
         postUnit,    //物流单位
         postType,    //配送方式
         name,    //商品名字
         price,    //商品价格
+        address,  //地址
+        province,  //省市
 
     }
 }

@@ -1,21 +1,29 @@
 {
   "code": "0",
-  "data": {
-    "city": "秦皇岛市",
-    "cmeId": "85",
-    "department": "普内科",
-    "gender": 0,
-    "hosLevel": "三级",
-    "hospital": "北京公安医院",
-    "id": 16,
-    "licence": "54",
-    "linkman": "巫彩祥",
-    "mobile": "13800000002",
-    "nickname": "巫彩祥",
-    "province": "河北省",
-    "title": "其他 医师",
-    "token": "b6ceb4e79fbd40c4becc841804878239",
-    "username": "wucaixiang@medcn.cn",
-    "zone": "山海关区"
-  }
+  "data": [
+    {
+      "createTime": 1497085246000,
+      "name": "手机",
+      "orderNo": "17061017004603181184",
+      "phone": "15915849148",
+      "postNo": "17061017004603371558",
+      "postType": "",
+      "postUnit": "",
+      "price": 1200,
+      "receiver": "测试",
+      "status": 0
+    },
+    {
+      "createTime": 1497083697000,
+      "name": "手机",
+      "orderNo": "17061016345757343064",
+      "phone": "15860062000",
+      "postNo": "17061016345757429051",
+      "postType": "",
+      "postUnit": "",
+      "price": 1200,
+      "receiver": "都是广",
+      "status": 0
+    }
+  ]
 }

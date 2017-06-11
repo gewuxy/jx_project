@@ -221,7 +221,7 @@
 
 
         <!-- service -->
-        <service android:name=".serv.LogoutServ"/>
+        <service android:name=".serv.CommonServ"/>
         <service android:name=".serv.DownloadServ"/>
 
         <!--极光推送-->

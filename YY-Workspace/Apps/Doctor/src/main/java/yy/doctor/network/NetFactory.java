@@ -236,6 +236,7 @@ public class NetFactory {
     public static NetworkReq bindJPush(String registerId) {
         return newGet(UrlUser.KBindJPush)
                 .param(UserParam.KJPushRegisterId, registerId)
+                .retry(5, 1)
                 .build();
     }
 

@@ -35,7 +35,7 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, UnitNumVH holder) {
         UnitNum item = getChild(groupPosition, childPosition);
 
-        holder.getIvChild().placeHolder(R.mipmap.ic_default_epc)
+        holder.getIvChild().placeHolder(R.mipmap.ic_default_unit_num)
                 .renderer(new CircleRenderer())
                 .url(item.getString(TUnitNum.headimg))
                 .load();

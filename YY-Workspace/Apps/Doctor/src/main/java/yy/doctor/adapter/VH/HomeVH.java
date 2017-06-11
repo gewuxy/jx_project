@@ -2,7 +2,6 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,10 +66,6 @@ public class HomeVH extends ViewHolderEx {
 
     public WrapRecyclerView getRecyclerView() {
         return getView(R.id.home_recycler_view);
-    }
-
-    public LinearLayout getRecyclerViewFooter() {
-        return getView(R.id.home_recycler_view_footer);
     }
 
 }

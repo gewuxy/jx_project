@@ -8,6 +8,8 @@ import android.os.Bundle;
 import cn.jpush.android.api.JPushInterface;
 import lib.ys.LogMgr;
 
+import static android.R.id.message;
+
 /**
  * 自定义接收器
  * <p>
@@ -31,9 +33,13 @@ abstract public class BaseJPushReceiver extends BroadcastReceiver {
             onRegistrationId(context, regId);
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(action)) {
-            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-            LogMgr.d(TAG, "接收到推送下来的自定义消息: " + message);
-            onMessage(context, message);
+            String message = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            String content = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+            String title = bundle.getString(JPushInterface.EXTRA_TITLE);
+            LogMgr.d(TAG, "接收到推送下来的自定义消息: message " + message);
+            LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + content);
+            LogMgr.d(TAG, "接收到推送下来的自定义消息: title " + title);
+            onMessage(context, message, content, title);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(action)) {
             String msg = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -73,7 +79,7 @@ abstract public class BaseJPushReceiver extends BroadcastReceiver {
      *
      * @param message
      */
-    abstract protected void onMessage(Context context, String message);
+    abstract protected void onMessage(Context context, String message, String content, String title);
 
     /**
      * 接收到通知消息, 会自动使用默认样式弹出到通知栏, 不需要做处理

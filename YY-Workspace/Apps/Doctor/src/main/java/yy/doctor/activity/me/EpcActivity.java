@@ -25,7 +25,6 @@ import yy.doctor.network.NetFactory;
  */
 public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
-    private List<Integer> mListGoodId;
     private List<Epc> list;
 
     @Override
@@ -40,7 +39,6 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
     public void onItemClick(View v, int position) {
-        super.onItemClick(v, position);
 
         EpcDetailActivity.nav(EpcActivity.this, list.get(position).getInt(TEpc.id), list.get(position).getString(TEpc.name));
     }

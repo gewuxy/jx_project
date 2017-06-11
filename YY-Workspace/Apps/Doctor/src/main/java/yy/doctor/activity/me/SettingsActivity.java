@@ -1,5 +1,6 @@
 package yy.doctor.activity.me;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -13,12 +14,14 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import lib.ys.LogMgr;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.view.ToggleButton;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
 import yy.doctor.dialog.BottomDialog;
@@ -26,7 +29,7 @@ import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
-import yy.doctor.serv.LogoutServ;
+import yy.doctor.serv.CommonServ;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -75,9 +78,19 @@ public class SettingsActivity extends BaseFormActivity {
 
         try {
             mImgSize = (FileUtil.getFolderSize(new File(CacheUtil.getBmpCacheDir())) / 1024) / 1024 + "M";
-            mSoundSize = (FileUtil.getFolderSize(new File(CacheUtil.getMeetingSoundCacheDir())) / 1024) / 1024 + "M";
+            LogMgr.d(TAG, " mImgSize = " + mImgSize);
         } catch (Exception e) {
             e.printStackTrace();
+            mImgSize = "0M";
+            LogMgr.d(TAG, " error mImgSize = " + mImgSize);
+        }
+        try {
+            mSoundSize = (FileUtil.getFolderSize(new File(CacheUtil.getMeetingSoundCacheDir())) / 1024) / 1024 + "M";
+            LogMgr.d(TAG, " mSoundSize = " + mSoundSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mSoundSize = "0M";
+            LogMgr.d(TAG, " error  mSoundSize = " + mImgSize);
         }
 
         addItem(new Builder(FormType.divider).build());
@@ -186,7 +199,9 @@ public class SettingsActivity extends BaseFormActivity {
 
                 dialog.dismiss();
 
-                startService(LogoutServ.class);
+                Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
+                intent.putExtra(Extra.KType, Extra.KLogout);
+                startService(intent);
 
                 SettingsActivity.this.notify(NotifyType.logout);
                 startActivity(LoginActivity.class);
@@ -227,7 +242,7 @@ public class SettingsActivity extends BaseFormActivity {
                                 getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
                                 refreshRelatedItem(RelatedId.clear_img_cache);
                                 showToast("图片缓存清理完毕");
-                    });
+                            });
                 }
 
             }

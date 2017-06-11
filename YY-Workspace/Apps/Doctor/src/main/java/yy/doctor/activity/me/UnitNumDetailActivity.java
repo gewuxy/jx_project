@@ -107,6 +107,11 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     }
 
     @Override
+    public View createHeaderView() {
+        return inflate(R.layout.layout_unit_num_detail_header);
+    }
+
+    @Override
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, this);
@@ -151,41 +156,12 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
     }
 
     @Override
-    public View createHeaderView() {
-        return inflate(R.layout.layout_unit_num_detail_header);
-    }
-
-    @Override
     public void setViews() {
         super.setViews();
 
         exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, 1, 8));
 
         mZoomView.setZoomEnabled(true);
-        mIvAvatar.res(R.mipmap.form_ic_personal_head)
-                .renderer(new CircleRenderer())
-                .load();
-
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                int w = mLayoutHeaderRoot.getWidth();
-                int h = mLayoutHeaderRoot.getHeight();
-                if (w == 0 || h == 0) {
-                    return;
-                }
-                AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(w, h);
-                mZoomView.setHeaderLayoutParams(localObject);
-
-                mIvZoom.res(R.mipmap.form_ic_personal_head)
-                        .addInterceptor(new CutInterceptor(w, h))
-                        //.addInterceptor(new BlurInterceptor(UnitNumDetailActivity.this))
-                        .load();
-
-                removeOnGlobalLayoutListener(this);
-            }
-        });
 
         setOnClickListener(R.id.unit_num_detail_layout_file);
         setOnClickListener(R.id.unit_num_detail_tv_attention);
@@ -263,9 +239,37 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
         if (id == KReqIdUnitNumDetail) {
             Result<UnitNumDetail> r = (Result<UnitNumDetail>) result;
             mUnitNumDetail = r.getData();
+
+            mIvAvatar.placeHolder(R.mipmap.ic_default_unit_num)
+                    .url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
+                    .renderer(new CircleRenderer())
+                    .load();
+            //头像高斯模糊处理
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int w = mLayoutHeaderRoot.getWidth();
+                    int h = mLayoutHeaderRoot.getHeight();
+                    if (w == 0 || h == 0) {
+                        return;
+                    }
+                    AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(w, h);
+                    mZoomView.setHeaderLayoutParams(localObject);
+
+                    mIvZoom.placeHolder(R.mipmap.ic_default_unit_num)
+                            .url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
+                            .addInterceptor(new CutInterceptor(w, h))
+                            //.addInterceptor(new BlurInterceptor(UnitNumDetailActivity.this))
+                            .load();
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
+
             mTvName.setText(mUnitNumDetail.getString(TUnitNumDetail.nickname));
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
             mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + " " + mUnitNumDetail.getString(TUnitNumDetail.city));
+            mTvIntroduction.setText(mUnitNumDetail.getString(TUnitNumDetail.sign));
 
             //判断用户是否已经关注过此单位号
             if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == 1) {
@@ -273,7 +277,6 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
                 mTvAttention.setSelected(true);
                 mTvAttention.setClickable(false);
             }
-            mTvIntroduction.setText(mUnitNumDetail.getString(TUnitNumDetail.sign));
 
             List<UnitNumDetailData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
             int listSize = listFile.size();
@@ -306,7 +309,6 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
                     }
                 });
             }
-
             setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
         } else if (id == KReqIdAttention) {  //关注
             Result r = (Result) result;

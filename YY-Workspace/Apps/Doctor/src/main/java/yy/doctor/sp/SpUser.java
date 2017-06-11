@@ -21,6 +21,7 @@ public class SpUser extends SpBase {
 
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
+        String KJPushRegisterId = "jp_register_id";
     }
 
     private SpUser(Context context, String fileName) {
@@ -60,4 +61,13 @@ public class SpUser extends SpBase {
     public void updateProfileRefreshTime() {
         save(SpUserKey.KProfileUpdateTime, System.currentTimeMillis());
     }
+
+    /**
+     * 保存极光推送RegisterId
+     * @param id
+     */
+    public void jPushRegisterId(String id) {
+        save(SpUserKey.KJPushRegisterId, id);
+    }
+
 }

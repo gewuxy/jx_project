@@ -18,6 +18,10 @@ public class HomeUnitNumVH extends RecyclerViewHolderEx {
         super(itemView);
     }
 
+    public View getLayout() {
+        return getView(R.id.home_unit_num_layout);
+    }
+
     public NetworkImageView getIv() {
         return getView(R.id.home_unit_num_item_iv);
     }

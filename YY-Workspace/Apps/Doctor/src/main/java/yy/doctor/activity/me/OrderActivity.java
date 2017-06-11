@@ -55,6 +55,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     public void setViews() {
         super.setViews();
 
+        setDividerHeight(0);
         setOnClickListener(R.id.order_tv);
     }
 

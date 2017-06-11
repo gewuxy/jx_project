@@ -19,13 +19,15 @@ import yy.doctor.util.Util;
  */
 public class CollectionMeetingActivity extends BaseSRListActivity<CollectionMeetings, CollectionMeetingAdapter> {
 
+    //没有会议时    你还没有收藏会议
+
     @Override
     public void initData() {
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "收藏的会议", this);
+        Util.addBackIcon(bar, "会议收藏", this);
     }
 
     @Override

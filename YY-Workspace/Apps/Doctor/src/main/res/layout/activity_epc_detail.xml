@@ -85,7 +85,7 @@
         android:layout_marginRight="@dimen/margin"
         android:lineSpacingExtra="@dimen/margin"
         android:layout_marginTop="18dp"
-        android:text="是的肌肤好事是的接口方式是的肌肤开始是的尽快发货那是的时间的反馈撒时间看到你的"
+        android:text=""
         android:textSize="14dp"
         android:textColor="@color/text_333"/>
 
@@ -93,7 +93,7 @@
         android:id="@+id/epc_detail_tv_btn"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="@drawable/btn_selector_blue"
+        android:background="@drawable/epc_detail_btn_selector_blue"
         android:gravity="center"
         android:text="立即兑换"
         android:textSize="14dp"

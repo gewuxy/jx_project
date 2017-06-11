@@ -29,7 +29,6 @@ public class UnitNumDetail extends EVal<TUnitNumDetail> {
         //会议
         @BindList(UnitNumDetailMeeting.class)
         meetingDTOList,
-
     }
 
 }

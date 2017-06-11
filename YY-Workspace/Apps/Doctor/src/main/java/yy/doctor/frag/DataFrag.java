@@ -54,7 +54,6 @@ public class DataFrag extends BaseVPFrag {
         add(new ThomsonFrag());
         add(new DrugListbFrag());
         add(new ClinicalGuideFrag());
-
     }
 
     @Override

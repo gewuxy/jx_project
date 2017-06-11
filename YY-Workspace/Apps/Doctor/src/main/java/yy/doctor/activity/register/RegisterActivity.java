@@ -12,6 +12,7 @@ import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.RegexUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Result;
@@ -25,6 +26,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
+import yy.doctor.view.AutoCompleteEditText;
 
 /**
  * 注册界面
@@ -37,6 +39,7 @@ public class RegisterActivity extends BaseFormActivity {
     private static final int KRegister = 0;
     private static final int KLogin = 1;
 
+    private AutoCompleteEditText mEtEmail;
     private EditText mActCode;      //填写激活码
     private TextView mGetActCode;   //获取激活码
     private TextView mRegister;     //注册
@@ -44,7 +47,6 @@ public class RegisterActivity extends BaseFormActivity {
     private String mPwd;            //密码
 
     @IntDef({
-            RelatedId.email,
             RelatedId.name,
             RelatedId.pwd,
             RelatedId.marksure_pwd,
@@ -53,7 +55,6 @@ public class RegisterActivity extends BaseFormActivity {
             RelatedId.activation_code,
     })
     private @interface RelatedId {
-        int email = 0;
         int name = 1;
         int pwd = 2;
         int marksure_pwd = 3;
@@ -70,12 +71,6 @@ public class RegisterActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
-
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.et_register)
-                .related(RelatedId.email)
-                .hint("电子邮箱")
-                .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
@@ -103,12 +98,16 @@ public class RegisterActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.hospital)
                 .hint("医院名称")
                 .drawable(R.mipmap.ic_more)
                 .build());
+    }
+
+    @Override
+    protected View createHeaderView() {
+        return inflate(R.layout.layout_edit_email);
     }
 
     @Override
@@ -120,6 +119,7 @@ public class RegisterActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
+        mEtEmail = findView(R.id.register_auto_et_emai);
         mActCode = findView(R.id.register_et_activation_code);
         mGetActCode = findView(R.id.register_get_activation_code);
         mRegister = findView(R.id.register);
@@ -145,7 +145,7 @@ public class RegisterActivity extends BaseFormActivity {
      */
     private void enroll() {
 
-        mUserName = getItemStr(RelatedId.email);
+        mUserName = mEtEmail.getText().toString().trim();
         String strPwd = getItemStr(RelatedId.pwd);
         String strPwdNg = getItemStr(RelatedId.marksure_pwd);
 
@@ -169,8 +169,23 @@ public class RegisterActivity extends BaseFormActivity {
         if (!check()) {
             return;
         }
+        //检查邮箱
+        if (!RegexUtil.isEmail(mUserName)) {
+            showToast("请输入正确邮箱");
+            return;
+        }
+        //检查姓名 是否有特殊符号
+        if (RegexUtil.checkString(getItemStr(RelatedId.name))) {
+            showToast("请输入真实姓名");
+            return;
+        }
+
+        if (strPwd.length() < 6) {
+            showToast("请输入6位以上密码");
+            return;
+        }
         if (!strPwd.equals(strPwdNg)) {
-            showToast("密码不一致");
+            showToast("请核对密码是否一致");
             return;
         }
         mPwd = strPwd;
@@ -178,7 +193,7 @@ public class RegisterActivity extends BaseFormActivity {
         //注册
         refresh(RefreshWay.dialog);
         exeNetworkReq(KRegister, NetFactory.register()
-                .username(getItemStr(RelatedId.email))
+                .username(mUserName)
                 .linkman(getItemStr(RelatedId.name))
                 .pwd(getItemStr(RelatedId.pwd))
                 .province(strProvince)
@@ -213,12 +228,8 @@ public class RegisterActivity extends BaseFormActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             String hospital = data.getStringExtra(Extra.KData);
-            //String province = data.getStringExtra(Extra.KProvince);
-            //String city = data.getStringExtra(Extra.KCity);
             getRelatedItem(RelatedId.hospital).put(TFormElem.text, hospital);
             refreshRelatedItem(RelatedId.hospital);
-            //getRelatedItem(RelatedId.location).put(TFormElem.text, province + " " + city);
-            //refreshRelatedItem(RelatedId.location);
         }
     }
 

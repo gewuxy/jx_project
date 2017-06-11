@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="8dp"
-                android:hint="搜索单位号或者会议关键字"
+                android:hint="搜索单位号或者会议"
                 android:textColor="@color/text_66fff"
                 android:textColorHint="@color/text_66fff"
                 android:textSize="12dp"/>
