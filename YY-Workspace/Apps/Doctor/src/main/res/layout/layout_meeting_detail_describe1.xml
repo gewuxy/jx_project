@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="86dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="@dimen/margin"
@@ -12,6 +12,7 @@
     <TextView
         android:id="@+id/meeting_detail_tv_title"
         style="@style/tv"
+        android:layout_marginTop="14dp"
         android:text="河北省第29届神经病报告"
         android:textColor="@color/text_0882e7"
         android:textSize="16dp"/>
@@ -27,6 +28,7 @@
     <TextView
         android:id="@+id/meeting_detail_tv_section"
         style="@style/tv.meeting.detail"
+        android:layout_marginBottom="14dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="6dp"
         android:text="内科"

@@ -41,4 +41,9 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsA
             refresh();
         }
     }
+
+    @Override
+    protected String getEmptyText() {
+        return "会议";
+    }
 }

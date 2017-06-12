@@ -2,6 +2,7 @@ package yy.doctor.activity.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,10 +27,6 @@ public class MeetingSearchActivity extends BaseActivity {
     private FlowLayout mFlowLayout;//底部科室列表
     private EditText mEtSearch;
 
-    @Override
-    public void initData() {
-    }
-
     @NonNull
     @Override
     public int getContentViewId() {
@@ -37,9 +34,14 @@ public class MeetingSearchActivity extends BaseActivity {
     }
 
     @Override
+    public void initData() {
+    }
+
+    @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
+        mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         bar.addViewLeft(view, null);
         bar.addTextViewRight("搜索", v -> search(mEtSearch.getText().toString().trim()));
     }
@@ -47,7 +49,6 @@ public class MeetingSearchActivity extends BaseActivity {
     @Override
     public void findViews() {
         mFlowLayout = findView(R.id.meeting_search_flowlayout);
-        mEtSearch = findView(R.id.meeting_search_nav_bar_et);
     }
 
     @Override
@@ -56,6 +57,11 @@ public class MeetingSearchActivity extends BaseActivity {
         setOnClickListener(R.id.meeting_search_tv_meeting);
 
         setLayout();
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        mEtSearch.setFocusable(true);
+        mEtSearch.setFocusableInTouchMode(true);
+        mEtSearch.requestFocus();
     }
 
     /**
@@ -70,7 +76,7 @@ public class MeetingSearchActivity extends BaseActivity {
             view = inflate(R.layout.layout_meeting_search_section);
             tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
             tvSection.setText(name);
-            view.setOnClickListener(v -> search(name));
+            view.setOnClickListener(v -> MeetingSearchResultActivity.nav(MeetingSearchActivity.this, SearchType.meeting, name));
             mFlowLayout.addView(view);
         }
     }

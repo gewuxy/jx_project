@@ -1,16 +1,18 @@
 {
   "code": "0",
   "data": {
-    "endTime": 1495945634000,
-    "id": 2,
-    "meetId": "17042512131640894904",
-    "moduleId": 8,
+    "endTime": 1498814579000,
+    "finishTimes": 12,
+    "finished": true,// 考过
+    "id": 6,
+    "meetId": "17060312172856248750",
+    "moduleId": 34,
     "paper": {
-      "id": 2,
-      "name": "2017卫生资格《初级护士》模考一",
+      "id": 5,
+      "name": "神经外科测试会议二",
       "questions": [
         {
-          "id": 61,
+          "id": 105,
           "options": [
             {
               "key": "A",
@@ -33,12 +35,14 @@
               "value": "先穿近侧，再穿远侧"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "A",
+          "sort": 1,
           "title": "床上擦浴擦洗上肢和胸腹部时，为患者脱穿衣服的正确顺序是"
         },
         {
-          "id": 62,
+          "id": 106,
           "options": [
             {
               "key": "A",
@@ -61,12 +65,14 @@
               "value": "牛奶"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "D",
+          "sort": 2,
           "title": "婴儿为了补充铁剂，最早需要添加的辅助食品是"
         },
         {
-          "id": 63,
+          "id": 107,
           "options": [
             {
               "key": "A",
@@ -89,12 +95,14 @@
               "value": "0.39"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "D",
+          "sort": 3,
           "title": "属于气体杀菌剂的是"
         },
         {
-          "id": 64,
+          "id": 108,
           "options": [
             {
               "key": "A",
@@ -117,12 +125,14 @@
               "value": "过氧化氢"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "A",
+          "sort": 4,
           "title": "皮内注射时选用的消毒剂通常是"
         },
         {
-          "id": 65,
+          "id": 109,
           "options": [
             {
               "key": "A",
@@ -145,12 +155,14 @@
               "value": "味觉"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "B",
+          "sort": 5,
           "title": "临终患者最后消失的感觉是"
         },
         {
-          "id": 66,
+          "id": 110,
           "options": [
             {
               "key": "A",
@@ -173,12 +185,14 @@
               "value": "动脉注射"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "C",
+          "sort": 6,
           "title": "无需抽回血的注射术是"
         },
         {
-          "id": 67,
+          "id": 111,
           "options": [
             {
               "key": "A",
@@ -201,12 +215,14 @@
               "value": "取出枕头，扫净拍松后放回患者头下"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "E",
+          "sort": 7,
           "title": "患者男性，22岁，踢球时不慎致胫骨骨折入院，现进行胫骨牵引，护士在整理床单位时，正确的做法是"
         },
         {
-          "id": 68,
+          "id": 112,
           "options": [
             {
               "key": "A",
@@ -229,12 +245,14 @@
               "value": "加深患者昏迷程度"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "B",
+          "sort": 8,
           "title": "患者男性，67岁，昏迷，用热水袋时要求水温不超过50℃，其原因是"
         },
         {
-          "id": 69,
+          "id": 113,
           "options": [
             {
               "key": "A",
@@ -257,12 +275,14 @@
               "value": "先取下活动义齿，用热水冲洗干净"
             }
           ],
+          "point": 5,
           "qtype": 0,
           "rightKey": "D",
+          "sort": 9,
           "title": "特殊患者口腔护理，如有活动义齿，应"
         },
         {
-          "id": 70,
+          "id": 114,
           "options": [
             {
               "key": "A",
@@ -285,12 +305,14 @@
               "value": "灌肠"
             }
           ],
+          "point": 5,
           "qtype": 1,
           "rightKey": "ACDE",
+          "sort": 10,
           "title": "吞服强酸、强碱类腐蚀性药物的患者，可以进行的护理操作是"
         },
         {
-          "id": 71,
+          "id": 115,
           "options": [
             {
               "key": "A",
@@ -313,12 +335,14 @@
               "value": "每次吸痰时间不超过25秒"
             }
           ],
+          "point": 5,
           "qtype": 1,
           "rightKey": "ABCE",
+          "sort": 11,
           "title": "使用电动吸引器吸痰时，不正确的是"
         },
         {
-          "id": 72,
+          "id": 116,
           "options": [
             {
               "key": "A",
@@ -341,12 +365,14 @@
               "value": "体积变小"
             }
           ],
+          "point": 5,
           "qtype": 1,
           "rightKey": "ABDE",
+          "sort": 12,
           "title": "随着年龄的增长，不属于老年人大脑的明显改变是"
         },
         {
-          "id": 73,
+          "id": 117,
           "options": [
             {
               "key": "A",
@@ -369,12 +395,14 @@
               "value": "抗酸杆菌"
             }
           ],
+          "point": 5,
           "qtype": 1,
           "rightKey": "BCDE",
+          "sort": 13,
           "title": "下面选项不是引起人类结核病的主要结核菌的是"
         },
         {
-          "id": 74,
+          "id": 118,
           "options": [
             {
               "key": "A",
@@ -397,50 +425,171 @@
               "value": "血管紧张素转换酶"
             }
           ],
+          "point": 5,
           "qtype": 1,
           "rightKey": "ABCD",
+          "sort": 14,
           "title": "促使血管紧张素Ⅰ转换为Ⅱ的物质下面错误的是"
         },
         {
-          "id": 75,
-          "options": [],
+          "id": 119,
+          "options": [
+            {
+              "key": "A",
+              "value": ""
+            },
+            {
+              "key": "B",
+              "value": ""
+            },
+            {
+              "key": "C",
+              "value": ""
+            },
+            {
+              "key": "D",
+              "value": ""
+            },
+            {
+              "key": "E",
+              "value": ""
+            }
+          ],
+          "point": 5,
           "qtype": 2,
           "rightKey": "39～41℃",
+          "sort": 15,
           "title": "大量不保留灌肠时，灌肠液的温度常为"
         },
         {
-          "id": 76,
-          "options": [],
+          "id": 120,
+          "options": [
+            {
+              "key": "A",
+              "value": ""
+            },
+            {
+              "key": "B",
+              "value": ""
+            },
+            {
+              "key": "C",
+              "value": ""
+            },
+            {
+              "key": "D",
+              "value": ""
+            },
+            {
+              "key": "E",
+              "value": ""
+            }
+          ],
+          "point": 5,
           "qtype": 2,
           "rightKey": "共同参与型",
+          "sort": 16,
           "title": "患者男性，67岁，大学教授，因高血压住院治疗。适用于该患者的最佳护患关系模式为"
         },
         {
-          "id": 77,
-          "options": [],
+          "id": 121,
+          "options": [
+            {
+              "key": "A",
+              "value": ""
+            },
+            {
+              "key": "B",
+              "value": ""
+            },
+            {
+              "key": "C",
+              "value": ""
+            },
+            {
+              "key": "D",
+              "value": ""
+            },
+            {
+              "key": "E",
+              "value": ""
+            }
+          ],
+          "point": 5,
           "qtype": 2,
           "rightKey": "4000～6000ml",
+          "sort": 17,
           "title": "肝硬化合并腹水患者腹腔穿刺时，每次放腹水在"
         },
         {
-          "id": 78,
-          "options": [],
+          "id": 122,
+          "options": [
+            {
+              "key": "A",
+              "value": ""
+            },
+            {
+              "key": "B",
+              "value": ""
+            },
+            {
+              "key": "C",
+              "value": ""
+            },
+            {
+              "key": "D",
+              "value": ""
+            },
+            {
+              "key": "E",
+              "value": ""
+            }
+          ],
+          "point": 5,
           "qtype": 2,
           "rightKey": "心血管病变",
+          "sort": 18,
           "title": "糖尿病最严重而突出的并发症是"
         },
         {
-          "id": 79,
-          "options": [],
+          "id": 123,
+          "options": [
+            {
+              "key": "A",
+              "value": ""
+            },
+            {
+              "key": "B",
+              "value": ""
+            },
+            {
+              "key": "C",
+              "value": ""
+            },
+            {
+              "key": "D",
+              "value": ""
+            },
+            {
+              "key": "E",
+              "value": ""
+            }
+          ],
+          "point": 10,
           "qtype": 2,
           "rightKey": "球部",
+          "sort": 19,
           "title": "十二指肠溃疡的好发部位是"
         }
-      ]
+      ],
+      "totalPoint": 100//总分
     },
-    "serverTime": 1494997858910,
-    "startTime": 1494995231000,
+    "passScore": 60,
+    "resitTimes": 3, // 可考次数
+    "score": 0,
+    "serverTime": 1497231179773,
+    "startTime": 1496049764000,
     "timeLimitType": 0,
-    "usetime": 30
+    "usetime": 50
   }
 }

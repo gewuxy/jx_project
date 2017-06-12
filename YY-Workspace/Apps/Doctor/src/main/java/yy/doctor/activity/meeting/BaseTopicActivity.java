@@ -39,8 +39,8 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  */
 public abstract class BaseTopicActivity extends BaseVPActivity {
 
-    private static final long KDuration = 300l; //动画时长
-    public static final int KVpSize = 3;
+    private static final int KDuration = 300; //动画时长
+    private static final int KVpSize = 3;
 
     private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
 
@@ -141,6 +141,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         setOnClickListener(R.id.topic_tv_nar_bar_all);
 
         setOffscreenPageLimit(KVpSize);
+        setScrollDuration(KDuration);
 
         setOnPageChangeListener(new OnPageChangeListener() {
             @Override

@@ -37,10 +37,7 @@ public class ExamEndActivity extends BaseActivity {
     private long mTime; // 考试用时
     private List<Answer> mAnswers; // 答案
 
-    private TextView mTvTime;
     private TextView mTvScore;
-    private TextView mTvRight;
-    private TextView mTvError;
     private TextView mTvFinish;
 
     @Override
@@ -65,10 +62,7 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mTvTime = findView(R.id.exam_end_tv_time);
         mTvScore = findView(R.id.exam_end_tv_score);
-        mTvRight = findView(R.id.exam_end_tv_right_num);
-        mTvError = findView(R.id.exam_end_tv_error_num);
         mTvFinish = findView(R.id.exam_end_tv_btn);
     }
 
@@ -92,15 +86,13 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        setViewState(ViewState.normal);
         Result<TopicResult> response = (Result<TopicResult>) result;
         if (response.isSucceed()) {
+            setViewState(ViewState.normal);
             TopicResult r = response.getData();
             mTvScore.setText(r.getString(TTopicResult.score));
-            mTvRight.setText(r.getString(TTopicResult.rightCount));
-            mTvError.setText(r.getString(TTopicResult.errorCount));
-            mTvTime.setText(Util.formatTime(mTime, DateUnit.minute));
         } else {
+            setViewState(ViewState.error);
         }
     }
 

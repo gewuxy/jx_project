@@ -59,7 +59,8 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         super.initData();
 
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
-        mAllUseTime = mIntro.getInt(TIntro.time) * TimeUnit.MINUTES.toSeconds(1);
+        mAllUseTime = mIntro.getLong(TIntro.time) * TimeUnit.MINUTES.toSeconds(1);
+
         initFrag();
     }
 
@@ -75,12 +76,13 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
+        mTvTime.setPadding(0, 0, fitDp(12), 0);
 
         mCountDown = new CountDown(mAllUseTime);
         mCountDown.setListener(this);
         mCountDown.start();
 
-        bar.addViewMid(mTvTime);
+        bar.addViewRight(mTvTime, null);
     }
 
     @Override

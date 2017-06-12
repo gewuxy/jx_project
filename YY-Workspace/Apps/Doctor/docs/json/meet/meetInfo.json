@@ -1,9 +1,10 @@
 {
   "code": "0",
   "data": {
+    "attendAble": true,
     "attention": true,
-    "coverUrl": "http://www.medcn.com:8081/file/default.png",
-    "eduCredits": 0,
+    "coverUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314091841672767.jpg",
+    "eduCredits": 0, // 奖励
     "endTime": 1498795980000,
     "headimg": "http://www.medcn.com:8081/file//headimg/1495870906404.png",
     "id": "17060312172856248750",
@@ -13,6 +14,7 @@
     "lecturerHead": "http://www.medcn.com:8081/file/headimg/17060914112759877375.png",
     "lecturerHos": "广州海印南院",
     "lecturerTitle": "主任医师",
+    "materials": [],// 资料
     "meetName": "神经外科测试会议二",
     "meetType": "神经外科",
     "modules": [
@@ -55,9 +57,9 @@
     ],
     "organizer": "佛山公众号",
     "pubUserId": 14,
-    "requiredXs": false,
+    "requiredXs": false, // 需要
     "startTime": 1496463180000,
     "state": 2,
-    "stored": 1
+    "stored": 0
   }
 }

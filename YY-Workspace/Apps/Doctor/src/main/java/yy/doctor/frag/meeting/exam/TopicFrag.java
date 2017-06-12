@@ -76,7 +76,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
         setBackgroundResource(R.color.white);
 
         //设置题目
-        mTvQ.setText(mTopic.getString(TTopic.sort) + ". " + mTopic.getString(TTopic.title));
+        StringBuffer title = new StringBuffer(mTopic.getString(TTopic.sort));
         //设置选项
         mChoices = mTopic.getList(TTopic.options);
         setData(mChoices);
@@ -86,13 +86,16 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
             mTvBtn.setVisibility(View.GONE);
             getAdapter().setIsSingle(true);
             getAdapter().setOnItemCheckListener(v -> toNext(v));
+            title.append(".(单选)");
         } else {
             // 设置多选
             getAdapter().setIsSingle(false);
             getAdapter().setOnItemCheckListener(v -> mTopic.put(TTopic.finish, v.isSelected()));
             //下一题
             mTvBtn.setOnClickListener(v -> toNext(v));
+            title.append(".(多选)");
         }
+        mTvQ.setText(title.append(mTopic.getString(TTopic.title)).toString());
 
         if (isLast) {
             mTvBtn.setText("提交");

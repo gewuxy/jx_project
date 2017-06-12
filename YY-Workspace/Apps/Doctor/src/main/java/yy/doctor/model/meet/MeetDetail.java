@@ -3,6 +3,7 @@ package yy.doctor.model.meet;
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
+import yy.doctor.model.unitnum.UnitNumDetailData;
 
 /**
  * 会议详情
@@ -35,8 +36,13 @@ public class MeetDetail extends EVal<TMeetDetail> {
         lecturerTitle, // 职责
 
         eduCredits, // 是否需要象数，0需要,1奖励
+        remainAward, // 剩余奖励人数
         requiredXs, // 是否支付过象数
         attendAble, // 能否参加会议
+        xsCredits, // 象数
+
+        @BindList(UnitNumDetailData.class)
+        materials, // 资料
 
         @BindList(Module.class)
         modules, // 会议包含的模块

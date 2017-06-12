@@ -32,9 +32,12 @@ import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.frag.meeting.course.AudioCourseFrag;
 import yy.doctor.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.frag.meeting.course.BaseCourseFrag.OnCourseListener;
 import yy.doctor.frag.meeting.course.PicAudioCourseFrag;
+import yy.doctor.frag.meeting.course.PicCourseFrag;
+import yy.doctor.frag.meeting.course.VideoCourseFrag;
 import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.CourseInfo;
@@ -54,7 +57,7 @@ import yy.doctor.view.CircleProgressView;
  */
 
 public class MeetingCourseActivity extends BaseVPActivity implements OnCountDownListener {
-
+    // FIXME: 2017/6/10 默认图
     private static final int KVpSize = 3; // Vp缓存的数量
     private final int KViewPagerHDp = 270; // 每张PPT的高度
     private final int KVanishTime = 3; // 横屏显示时间
@@ -214,6 +217,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         touch(mIvControlL);
         touch(mLayoutL);
         touch(mTvTimeL);
+        getViewPager().setBackgroundColor(Color.TRANSPARENT);
 
         mSb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
@@ -332,7 +336,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             } else {
 
             }
-
+        } else {
+            showToast(r.getError());
         }
     }
 
@@ -348,13 +353,20 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         switch (course.getType()) {
             case CourseType.audio: {
-
+                frag = new AudioCourseFrag();
             }
             break;
+
+            case CourseType.video: {
+                frag = new VideoCourseFrag();
+            }
+            break;
+
             case CourseType.pic: {
-
+                frag = new PicCourseFrag();
             }
             break;
+
             case CourseType.pic_audio: {
                 frag = new PicAudioCourseFrag();
             }

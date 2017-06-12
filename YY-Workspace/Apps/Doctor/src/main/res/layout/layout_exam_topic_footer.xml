@@ -10,7 +10,7 @@
         style="@style/tv.common"
         android:layout_marginTop="22dp"
         android:background="@drawable/tv_selector_white_stroke"
-        android:text="下一题"
-        android:textColor="@color/text_888"/>
+        android:text="确定"
+        android:textColor="@color/topic_text_selector"/>
 
 </LinearLayout>

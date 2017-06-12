@@ -42,7 +42,7 @@ import yy.doctor.util.Util;
  * @since : 2017/4/27
  */
 public class ExamIntroActivity extends BaseActivity implements OnCountDownListener {
-
+    // FIXME: 2017/6/10 重考
     private Paper mPaper; // 本次考试试题信息
     private Intro mIntro;
     private String mHost; // 会议主办方
@@ -57,13 +57,13 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
     private TextView mTvHost; // 主办方
     private TextView mTvCount; // 总题数
     private TextView mTvTime; // 考试时间
-    private TextView mTvState; // 考试状态
+    private TextView mTvScore; // 过往成绩
 
     private boolean mCanStart; // 是否能开始考试
 
     private CommonOneDialog mStartDialog; // 考试未开始的提示框
     private CommonOneDialog mEndDialog; // 考试已结束的提示框
-    private CountDown mCountDown;
+    private CountDown mCountDown; // fixme:改为Handler
 
     @StringDef({
             TimeFormat.simple_ymd,
@@ -109,7 +109,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
         mTvHost = findView(R.id.exam_intro_tv_host);
         mTvCount = findView(R.id.exam_intro_tv_count);
         mTvTime = findView(R.id.exam_intro_tv_time);
-        mTvState = findView(R.id.exam_intro_tv_state);
+        mTvScore = findView(R.id.exam_intro_tv_score);
     }
 
     @Override
@@ -134,9 +134,9 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             mPaper = mIntro.getEv(TIntro.paper);
 
             //获取起始结束时间
-            mStartTime = mIntro.getLong(Intro.TIntro.startTime);
-            mEndTime = mIntro.getLong(Intro.TIntro.endTime);
-            mCurTime = mIntro.getLong(Intro.TIntro.serverTime);
+            mStartTime = mIntro.getLong(TIntro.startTime);
+            mEndTime = mIntro.getLong(TIntro.endTime);
+            mCurTime = mIntro.getLong(TIntro.serverTime);
 
             mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
             if (mEndTime > mCurTime) {
@@ -151,7 +151,6 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             mTvHost.setText(getString(R.string.exam_host) + mHost);
             mTvCount.setText(mPaper.getList(TPaper.questions).size() + "道题目");
             mTvTime.setText(getTime(mStartTime, mEndTime));
-            changeExamState();
         } else {
             showToast(r.getError());
         }
@@ -167,17 +166,17 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             // 未开始
             text = "未开始";
             color = ResLoader.getColor(R.color.text_01b557);
-        } else if (mCurTime > mStartTime) {
-            // 结束
+        } else if (mCurTime >= mStartTime && mCurTime <= mEndTime) {
+            // 进行中
             text = "进行中";
             color = ResLoader.getColor(R.color.text_e6600e);
         } else {
-            // 进行中
-            text = "精彩回顾";
+            // 结束
+            text = "已结束";
             color = ResLoader.getColor(R.color.text_5cb0de);
         }
-        mTvState.setTextColor(color);
-        mTvState.setText(text);
+        mTvScore.setTextColor(color);
+        mTvScore.setText(text);
     }
 
     @Override
@@ -194,8 +193,8 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
                 if (mCanStart) {
                     // 时间段考试
                     long useTime = mIntro.getLong(TIntro.usetime);
-                    long surplusTime = mEndTime - mCurTime;
-                    mIntro.put(TIntro.time, surplusTime > useTime ? surplusTime : useTime);
+                    long surplusTime = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1);
+                    mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
                     ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                     finish();
                 } else if (mStartTime > mCurTime) {
@@ -241,14 +240,12 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
         if (remainCount == 0) {
             // 倒数结束(考试结束)
             mCanStart = false;
-            changeExamState();
         } else {
             // 每次的倒数
             mCurTime += TimeUnit.MINUTES.toMillis(1);
             if (!mCanStart && mCurTime >= mStartTime) {
                 // 未开始到进行中
                 mCanStart = true;
-                changeExamState();
             }
         }
     }

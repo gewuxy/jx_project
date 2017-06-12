@@ -19,31 +19,47 @@ public class RecVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public TextView getTvTitle() {
+    /**
+     * 会议
+     */
+
+    public TextView getTvMeetTitle() {
         return getView(R.id.meeting_item_tv_title);
     }
 
-    public TextView getTvState() {
+    public TextView getTvMeetState() {
         return getView(R.id.meeting_item_tv_state);
     }
 
-    public TextView getTvDepartments() {
+    public TextView getTvMeetSection() {
         return getView(R.id.meeting_item_tv_section);
     }
 
-    public TextView getTvTime() {
+    public TextView getTvMeetTime() {
         return getView(R.id.meeting_item_tv_time);
     }
 
-    public TextView getTvDuration() {
+    public TextView getTvMeetData() {
         return getView(R.id.meeting_item_tv_data);
     }
 
-    public NetworkImageView getIvUnitNum() {
+    public NetworkImageView getIvMeetUN() {
         return getView(R.id.meeting_item_iv_unit_num);
     }
 
-    public TextView getTvUnitNum() {
+    public TextView getTvMeetUN() {
         return getView(R.id.meeting_item_tv_unit_num);
+    }
+
+    /**
+     * 单位号
+     */
+
+    public NetworkImageView getIvUnitNumUN() {
+        return getView(R.id.unit_num_iv);
+    }
+
+    public TextView getTvUnitNumUN() {
+        return getView(R.id.unit_num_tv);
     }
 }

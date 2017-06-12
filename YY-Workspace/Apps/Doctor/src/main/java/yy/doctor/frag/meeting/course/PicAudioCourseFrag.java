@@ -1,5 +1,6 @@
 package yy.doctor.frag.meeting.course;
 
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -41,7 +42,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
 
     private MediaPlayer mMp;
     private CountDown mCountDown;
-    private RootLayout mLayout;
+    protected RootLayout mLayout;
 
     public void setRemainTime(int remainTime) {
         mRemainTime = remainTime;
@@ -66,6 +67,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
         setPic();
         setAudio();
         mLayout.setOnRootTouchListener(this);
+
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     protected void setPic() {

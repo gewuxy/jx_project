@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="226dp"
-    tools:showIn="@layout/activity_meeting_details">
+    android:layout_height="226dp">
 
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/meeting_detail_iv_play"
@@ -13,9 +11,12 @@
     
     <ImageView
         android:id="@+id/meeting_detail_iv_play_course"
-        android:layout_centerInParent="true"
-        android:layout_width="81dp"
-        android:layout_height="81dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="@dimen/margin"
         android:src="@mipmap/meeting_ppt_ic_play_course"/>
 
     <LinearLayout
