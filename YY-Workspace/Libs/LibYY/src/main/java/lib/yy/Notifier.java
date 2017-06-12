@@ -20,7 +20,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.login,
             NotifyType.logout,
             NotifyType.finish,
-            NotifyType.change,
+            NotifyType.section_change,
             NotifyType.profile_change,
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -42,7 +42,7 @@ public class Notifier extends NotifierEx<OnNotify> {
         /**
          * 科室改变
          */
-        int change = 3;
+        int section_change = 3;
 
         /**
          * 个人资料更新

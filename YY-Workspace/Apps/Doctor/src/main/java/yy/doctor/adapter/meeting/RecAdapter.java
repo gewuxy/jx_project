@@ -2,7 +2,6 @@ package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.util.TimeUtil;
 import yy.doctor.Constants;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.RecVH;
@@ -12,7 +11,6 @@ import yy.doctor.model.search.IRec;
 import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.util.UISetter;
-import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -25,22 +23,22 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
         switch (itemType) {
             // 搜索会议
             case RecType.meeting: {
-                Meeting meeting = (Meeting) getItem(position);
+                Meeting item = (Meeting) getItem(position);
 
                 holder.getIvMeetUN()
                         .placeHolder(R.mipmap.ic_default_unit_num)
-                        .url(meeting.getString(TMeeting.headimg))
+                        .url(item.getString(TMeeting.headimg))
                         .renderer(new CircleRenderer())
                         .load();
-                holder.getTvMeetTitle().setText(meeting.getString(TMeeting.meetName));
-                holder.getTvMeetSection().setText(meeting.getString(TMeeting.meetType));
-                holder.getTvMeetUN().setText(meeting.getString(TMeeting.organizer));
-                holder.getTvMeetTime().setText(TimeUtil.formatMilli(meeting.getLong(TMeeting.startTime), "MM月dd日 HH:mm"));
-                holder.getTvMeetData().setText("时长:" +
-                        Util.timeParse(meeting.getLong(TMeeting.endTime) -
-                                meeting.getLong(TMeeting.startTime)));
+                holder.getTvMeetTitle().setText(item.getString(TMeeting.meetName));
+                holder.getTvMeetSection().setText(item.getString(TMeeting.meetType));
+                holder.getTvMeetUN().setText(item.getString(TMeeting.organizer));
 
-                @Constants.MeetsState int state = meeting.getInt(TMeeting.state);
+                long startTime = item.getLong(TMeeting.startTime);
+                long endTime = item.getLong(TMeeting.endTime);
+                UISetter.setDateDuration(holder.getTvMeetDate(), holder.getTvMeetDuration(), startTime, endTime);
+
+                @Constants.MeetsState int state = item.getInt(TMeeting.state);
                 UISetter.setMeetState(state, holder.getTvMeetState());
             }
             break;

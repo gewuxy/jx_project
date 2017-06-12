@@ -2,7 +2,6 @@ package yy.doctor.adapter.VH.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -35,12 +34,12 @@ public class RecVH extends ViewHolderEx {
         return getView(R.id.meeting_item_tv_section);
     }
 
-    public TextView getTvMeetTime() {
-        return getView(R.id.meeting_item_tv_time);
+    public TextView getTvMeetDate() {
+        return getView(R.id.meeting_item_tv_date);
     }
 
-    public TextView getTvMeetData() {
-        return getView(R.id.meeting_item_tv_data);
+    public TextView getTvMeetDuration() {
+        return getView(R.id.meeting_item_tv_duration);
     }
 
     public NetworkImageView getIvMeetUN() {

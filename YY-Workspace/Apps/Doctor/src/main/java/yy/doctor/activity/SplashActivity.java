@@ -37,9 +37,7 @@ public class SplashActivity extends SplashActivityEx {
         mIv.setImageResource(R.mipmap.splash_bg);
 
         //检查有没有定位权限   没有的话直接弹dialog
-        if (checkPermission(KPermissionCodeLocation, Permission.location)) {
-        }
-
+        checkPermission(KPermissionCodeLocation, Permission.location);
     }
 
     @Override

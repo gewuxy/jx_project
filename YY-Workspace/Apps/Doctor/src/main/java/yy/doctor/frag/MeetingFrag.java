@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
@@ -21,7 +20,7 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.MeetingSearchActivity;
+import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.frag.meeting.NotStartedMeetingsFrag;
 import yy.doctor.frag.meeting.RetrospectMeetingsFrag;
 import yy.doctor.frag.meeting.UnderWayMeetingsFrag;
@@ -99,7 +98,7 @@ public class MeetingFrag extends BaseVPFrag {
             showSection(bar);
         });
 
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, v1 -> startActivity(MeetingSearchActivity.class));
+        bar.addViewRight(R.mipmap.nav_bar_ic_search, v1 -> startActivity(SearchActivity.class));
     }
 
     /**
@@ -109,7 +108,7 @@ public class MeetingFrag extends BaseVPFrag {
         if (mPopup == null) {
             mPopup = new SectionPopup(getContext(), text -> {
                 mTvSection.setText(text);
-                notify(NotifyType.change, text);
+                notify(NotifyType.section_change, text);
             });
             mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
         }

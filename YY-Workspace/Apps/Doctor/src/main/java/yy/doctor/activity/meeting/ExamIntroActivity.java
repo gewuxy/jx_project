@@ -63,7 +63,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
 
     private CommonOneDialog mStartDialog; // 考试未开始的提示框
     private CommonOneDialog mEndDialog; // 考试已结束的提示框
-    private CountDown mCountDown; // fixme:改为Handler
+    private CountDown mCountDown; // FIXME:改为Handler
 
     @StringDef({
             TimeFormat.simple_ymd,

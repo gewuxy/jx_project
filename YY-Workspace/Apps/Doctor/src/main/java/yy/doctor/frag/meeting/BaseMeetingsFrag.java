@@ -36,7 +36,7 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsA
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.change) {
+        if (type == NotifyType.section_change) {
             mDepart = (String) data;
             refresh();
         }

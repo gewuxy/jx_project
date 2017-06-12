@@ -106,7 +106,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private OnLocationNotify mObserver; // 定位通知
     private MapList<Integer, String> mMapList;
     private TextView mTvDate; // 时间
-    private TextView mTvTime; // 时长
+    private TextView mTvDuration; // 时长
     private String mLatitude; // 经度
     private String mLongitude; // 维度
     private TextView mTvIntro; // 会议简介
@@ -120,6 +120,8 @@ public class MeetingDetailsActivity extends BaseActivity {
     private boolean mAttendAble; // 能否参加会议
     private String mReason; // 不能参加会议的原因
     private boolean mNoPPT;
+
+    // FIXME: View TextView ImageView -> 自定义view
 
     // 底部按钮
     private View mLayoutExam; // 考试模块
@@ -214,7 +216,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     public void findViews() {
         mIvPlay = findView(R.id.meeting_detail_iv_play);
         mTvDate = findView(R.id.meeting_detail_tv_date);
-        mTvTime = findView(R.id.meeting_detail_tv_time);
+        mTvDuration = findView(R.id.meeting_detail_tv_time);
         mIvNumber = findView(R.id.meeting_detail_iv_number);
         mTvAward = findView(R.id.meeting_detail_tv_award);
         mTvTitle = findView(R.id.meeting_detail_tv_title);
@@ -490,7 +492,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 .load();
         long startTime = info.getLong(TMeetDetail.startTime); // 开始时间
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
-        mTvTime.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
+        mTvDuration.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
 
         // 会议
         mTvTitle.setText(info.getString(TMeetDetail.meetName));

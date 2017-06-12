@@ -171,7 +171,7 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public void setRefreshLocalState(boolean state) {
+    public void enableLocalRefresh(boolean state) {
         mSROpt.setRefreshLocalState(state);
     }
 

@@ -12,7 +12,7 @@ import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.activity.NoticeActivity;
-import yy.doctor.activity.meeting.MeetingSearchActivity;
+import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeAdapter.onTvAttentionListener;
 import yy.doctor.model.home.Banner;
@@ -57,7 +57,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     @Override
     public void initNavBar(NavBar bar) {
         View v = inflate(R.layout.layout_home_nav_bar_search);
-        bar.addViewRight(v, v12 -> startActivity(MeetingSearchActivity.class));
+        bar.addViewRight(v, v12 -> startActivity(SearchActivity.class));
 
         mViewNotice = bar.addViewRight(R.mipmap.nav_bar_ic_notice, v1 -> startActivity(NoticeActivity.class));
     }

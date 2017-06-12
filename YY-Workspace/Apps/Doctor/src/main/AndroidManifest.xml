@@ -90,10 +90,10 @@
             android:name=".activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.MeetingSearchResultActivity"
+            android:name=".activity.meeting.search.MeetingResultActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.MeetingSearchActivity"
+            android:name=".activity.meeting.search.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.meeting.MeetingCommentActivity"
@@ -226,7 +226,6 @@
             android:screenOrientation="portrait"/>
 
 
-
         <!-- service -->
         <service android:name=".serv.CommonServ"/>
         <service android:name=".serv.DownloadServ"/>
@@ -237,22 +236,22 @@
             android:enabled="true">
             <intent-filter>
                 <!--Required 用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
                 <!--Required 用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
                 <!--Required 用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
                 <!--Required 用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
-                <category android:name="${applicationId}" />
+                <action android:name="cn.jpush.android.intent.CONNECTION"/>
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>
 
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="88391aa0f118d8646d1fb6e3" />
+            android:value="88391aa0f118d8646d1fb6e3"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

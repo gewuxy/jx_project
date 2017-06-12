@@ -168,7 +168,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     }
 
     @Override
-    public void setRefreshLocalState(boolean state) {
+    public void enableLocalRefresh(boolean state) {
         mSROpt.setRefreshLocalState(state);
     }
 

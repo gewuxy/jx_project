@@ -1,16 +1,16 @@
-package yy.doctor.activity.meeting;
+package yy.doctor.activity.meeting.search;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.KeyboardUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseSRListActivity;
@@ -31,7 +31,7 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/3
  */
-public class MeetingSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
+public class MeetingResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
 
     private final int KRecUnitNum = 0; // 热门单位号
     private final int KUnitNum = 1; // 搜索单位号
@@ -56,7 +56,7 @@ public class MeetingSearchResultActivity extends BaseSRListActivity<IRec, RecAda
     }
 
     public static void nav(Context context, @SearchType int searchType, String searchContent) {
-        Intent i = new Intent(context, MeetingSearchResultActivity.class)
+        Intent i = new Intent(context, MeetingResultActivity.class)
                 .putExtra(Extra.KType, searchType)
                 .putExtra(Extra.KData, searchContent);
         LaunchUtil.startActivity(context, i);
@@ -89,13 +89,12 @@ public class MeetingSearchResultActivity extends BaseSRListActivity<IRec, RecAda
 
         if (TextUtil.isEmpty(mSearchContent)) {
             if (mSearchType == SearchType.meeting) {
-                // EditText 获取焦点
-                mEtSearch.setFocusable(true);
-                mEtSearch.setFocusableInTouchMode(true);
-                mEtSearch.requestFocus();
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                runOnUIThread(() -> {
+                    mEtSearch.requestFocus();
+                    KeyboardUtil.showFromView(mEtSearch);
+                });
                 // 不能下拉
-                setRefreshLocalState(false);
+                enableSRRefresh(false);
             }
         } else {
             mEtSearch.setText(mSearchContent);
@@ -125,17 +124,17 @@ public class MeetingSearchResultActivity extends BaseSRListActivity<IRec, RecAda
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         ListResult result = null;
-        if ( id == KMeeting) {
+        if (id == KMeeting) {
             // 会议
             result = JsonParser.evs(r.getText(), Meeting.class);
-        } else if (id == KUnitNum){
+        } else if (id == KUnitNum) {
             // 单位号
             result = JsonParser.evs(r.getText(), UnitNum.class);
         } else {
             // 推荐单位号
             result = JsonParser.evs(r.getText(), UnitNum.class);
         }
-        LogMgr.d(TAG,"onNetworkResponse:"+ r.getText());
+        LogMgr.d(TAG, "onNetworkResponse:" + r.getText());
         return result;
     }
 
@@ -147,6 +146,6 @@ public class MeetingSearchResultActivity extends BaseSRListActivity<IRec, RecAda
 
     @Override
     public void onClick(View v) {
-        setRefreshLocalState(true);
+        enableLocalRefresh(true);
     }
 }

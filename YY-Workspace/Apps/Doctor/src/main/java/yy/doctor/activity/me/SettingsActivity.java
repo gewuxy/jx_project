@@ -74,26 +74,25 @@ public class SettingsActivity extends BaseFormActivity {
         Util.addBackIcon(bar, "设置", this);
     }
 
+    private String getFolderSize(String... path) {
+        long size = 0;
+        try {
+            for (String s : path) {
+                size += FileUtil.getFolderSize(new File(s));
+            }
+        } catch (Exception e) {
+            LogMgr.e(TAG, "getFolderSize", e);
+        }
+
+        return size / 1024 / 1024 + KM;
+    }
+
     @Override
     public void initData() {
         super.initData();
 
-        try {
-            mImgSize = (FileUtil.getFolderSize(new File(CacheUtil.getBmpCacheDir())) + FileUtil.getFolderSize(new File(CacheUtil.getUploadCacheDir()))) / 1024 / 1024 + KM;
-            LogMgr.d(TAG, " mImgSize = " + mImgSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mImgSize = "0" + KM;
-            LogMgr.d(TAG, " error mImgSize = " + mImgSize);
-        }
-        try {
-            mSoundSize = (FileUtil.getFolderSize(new File(CacheUtil.getMeetingSoundCacheDir())) / 1024) / 1024 + KM;
-            LogMgr.d(TAG, " mSoundSize = " + mSoundSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mSoundSize = "0" + KM;
-            LogMgr.d(TAG, " error  mSoundSize = " + mImgSize);
-        }
+        mImgSize = getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
+        mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
 
         addItem(new Builder(FormType.divider).build());
 

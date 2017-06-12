@@ -1,8 +1,7 @@
-package yy.doctor.activity.meeting;
+package yy.doctor.activity.meeting.search;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -12,17 +11,17 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.view.FlowLayout;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.MeetingSearchResultActivity.SearchType;
+import yy.doctor.activity.meeting.search.MeetingResultActivity.SearchType;
 import yy.doctor.util.Util;
 
 /**
- * 搜索会议界面
+ * 搜索单位号和会议
  *
  * @author : GuoXuan
  * @since : 2017/4/26
  */
 
-public class MeetingSearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity {
 
     private FlowLayout mFlowLayout;//底部科室列表
     private EditText mEtSearch;
@@ -58,10 +57,10 @@ public class MeetingSearchActivity extends BaseActivity {
 
         setLayout();
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        mEtSearch.setFocusable(true);
-        mEtSearch.setFocusableInTouchMode(true);
-        mEtSearch.requestFocus();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//        mEtSearch.setFocusable(true);
+//        mEtSearch.setFocusableInTouchMode(true);
+//        mEtSearch.requestFocus();
     }
 
     /**
@@ -76,7 +75,7 @@ public class MeetingSearchActivity extends BaseActivity {
             view = inflate(R.layout.layout_meeting_search_section);
             tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
             tvSection.setText(name);
-            view.setOnClickListener(v -> MeetingSearchResultActivity.nav(MeetingSearchActivity.this, SearchType.meeting, name));
+            view.setOnClickListener(v -> MeetingResultActivity.nav(SearchActivity.this, SearchType.meeting, name));
             mFlowLayout.addView(view);
         }
     }
@@ -85,10 +84,10 @@ public class MeetingSearchActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_search_tv_unit_num:
-                MeetingSearchResultActivity.nav(MeetingSearchActivity.this, SearchType.unit_num, null);
+                MeetingResultActivity.nav(SearchActivity.this, SearchType.unit_num, null);
                 break;
             case R.id.meeting_search_tv_meeting:
-                MeetingSearchResultActivity.nav(MeetingSearchActivity.this, SearchType.meeting, null);
+                MeetingResultActivity.nav(SearchActivity.this, SearchType.meeting, null);
                 break;
         }
     }
@@ -97,6 +96,6 @@ public class MeetingSearchActivity extends BaseActivity {
      * 进行搜索
      */
     private void search(String search) {
-        MeetingSearchResultActivity.nav(MeetingSearchActivity.this, SearchType.all, search);
+        MeetingResultActivity.nav(SearchActivity.this, SearchType.all, search);
     }
 }

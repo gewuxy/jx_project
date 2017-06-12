@@ -519,7 +519,8 @@ public class ProfileActivity extends BaseFormActivity {
                 if (!TextUtil.isEmpty(mStrArea)) {
                     Profile.inst().update(Profile.inst().put(TProfile.zone, mStrArea));
                 }
-                ProfileActivity.this.notify(NotifyType.profile_change);
+
+                notify(NotifyType.profile_change);
             } else {
                 showToast(r.getError());
             }

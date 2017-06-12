@@ -1,17 +1,13 @@
 package yy.doctor.adapter;
 
-import java.util.List;
-
 import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.UnitNumDetailVH;
 import yy.doctor.model.unitnum.UnitNumDetailMeeting;
 import yy.doctor.model.unitnum.UnitNumDetailMeeting.TUnitNumDetailMeeting;
 import yy.doctor.util.UISetter;
-import yy.doctor.util.Util;
 
 /**
  * @auther yuansui
@@ -27,18 +23,18 @@ public class UnitNumDetailAdapter extends AdapterEx<UnitNumDetailMeeting, UnitNu
 
     @Override
     protected void refreshView(int position, UnitNumDetailVH holder) {
-
-        List<UnitNumDetailMeeting> list = getData();
-        UnitNumDetailMeeting item = list.get(position);
+        UnitNumDetailMeeting item = getItem(position);
 
         holder.getTvTitle().setText(item.getString(TUnitNumDetailMeeting.meetName));
 
         @MeetsState int state = item.getInt(TUnitNumDetailMeeting.state);
         UISetter.setMeetState(state, holder.getTvState());
 
-        holder.getTvDepartments().setText(item.getString(TUnitNumDetailMeeting.meetType));
-        holder.getTvTime().setText(TimeUtil.formatMilli(item.getLong(TUnitNumDetailMeeting.startTime), "MM月dd日 HH:mm"));
-        holder.getTvDuration().setText("时长:" + Util.timeParse(item.getLong(TUnitNumDetailMeeting.endTime) - item.getLong(TUnitNumDetailMeeting.startTime)));
+        holder.getTvSection().setText(item.getString(TUnitNumDetailMeeting.meetType));
+
+        long startTime = item.getLong(TUnitNumDetailMeeting.startTime);
+        long endTime = item.getLong(TUnitNumDetailMeeting.endTime);
+        UISetter.setDateDuration(holder.getTvDate(), holder.getTvDuration(), startTime, endTime);
 
         holder.getIvUnitNum().placeHolder(R.mipmap.ic_default_home_unit_num)
                 .renderer(new CircleRenderer())

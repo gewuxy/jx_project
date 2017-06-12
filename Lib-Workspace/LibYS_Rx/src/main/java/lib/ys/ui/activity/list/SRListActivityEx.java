@@ -170,7 +170,7 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
-    public void setRefreshLocalState(boolean state) {
+    public void enableLocalRefresh(boolean state) {
         mSROpt.setRefreshLocalState(state);
     }
 

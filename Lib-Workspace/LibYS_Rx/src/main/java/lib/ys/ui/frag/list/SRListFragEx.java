@@ -172,7 +172,7 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
-    public void setRefreshLocalState(boolean state) {
+    public void enableLocalRefresh(boolean state) {
         mSROpt.setRefreshLocalState(state);
     }
 

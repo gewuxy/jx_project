@@ -217,7 +217,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         touch(mIvControlL);
         touch(mLayoutL);
         touch(mTvTimeL);
-        getViewPager().setBackgroundColor(Color.TRANSPARENT);
 
         mSb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override

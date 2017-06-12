@@ -2,14 +2,12 @@ package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingsVH;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.util.UISetter;
-import yy.doctor.util.Util;
 
 /**
  * @author : GuoXuan
@@ -33,10 +31,10 @@ public class MeetingsAdapter extends AdapterEx<Meeting, MeetingsVH> {
         holder.getTvTitle().setText(getItem(position).getString(TMeeting.meetName));
         holder.getTvSection().setText(getItem(position).getString(TMeeting.meetType));
         holder.getTvNum().setText(getItem(position).getString(TMeeting.organizer));
-        holder.getTvTime().setText(TimeUtil.formatMilli(getItem(position).getLong(TMeeting.startTime), "MM月dd日 HH:mm"));
-        holder.getTvData().setText("时长:" +
-                Util.timeParse(getItem(position).getLong(TMeeting.endTime) -
-                        getItem(position).getLong(TMeeting.startTime)));
+
+        long startTime = getItem(position).getLong(TMeeting.startTime);
+        long endTime = getItem(position).getLong(TMeeting.endTime);
+        UISetter.setDateDuration(holder.getTvDate(), holder.getTvDuration(), startTime, endTime);
 
         @MeetsState int state = getItem(position).getInt(TMeeting.state);
         UISetter.setMeetState(state, holder.getTvState());

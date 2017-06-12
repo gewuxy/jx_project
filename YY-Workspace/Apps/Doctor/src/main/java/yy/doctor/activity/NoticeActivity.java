@@ -37,9 +37,4 @@ public class NoticeActivity extends BaseSRListActivity<String, NoticeAdapter> {
     public void getDataFromNet() {
 
     }
-
-    @Override
-    protected String getEmptyText() {
-        return "暂时没有相关通知";
-    }
 }

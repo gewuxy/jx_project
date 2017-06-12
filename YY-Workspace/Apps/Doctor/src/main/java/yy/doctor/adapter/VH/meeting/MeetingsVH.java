@@ -30,12 +30,12 @@ public class MeetingsVH extends ViewHolderEx {
         return getView(R.id.meeting_item_tv_section);
     }
 
-    public TextView getTvTime() {
-        return getView(R.id.meeting_item_tv_time);
+    public TextView getTvDate() {
+        return getView(R.id.meeting_item_tv_date);
     }
 
-    public TextView getTvData() {
-        return getView(R.id.meeting_item_tv_data);
+    public TextView getTvDuration() {
+        return getView(R.id.meeting_item_tv_duration);
     }
 
     public NetworkImageView getIvNum() {

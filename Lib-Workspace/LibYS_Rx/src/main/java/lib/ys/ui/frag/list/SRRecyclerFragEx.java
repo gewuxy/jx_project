@@ -168,7 +168,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void setRefreshLocalState(boolean state) {
+    public void enableLocalRefresh(boolean state) {
         mSROpt.setRefreshLocalState(state);
     }
 

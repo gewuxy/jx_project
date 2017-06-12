@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import lib.ys.fitter.DpFitter;
+import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
@@ -56,5 +57,10 @@ public class UISetter {
         tv.setText(text);
         tv.setTextColor(color);
         tv.setCompoundDrawables(d, null, null, null);
+    }
+
+    public static void setDateDuration(TextView tvDate, TextView tvDuration, long startTime, long endTime) {
+        tvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
+        tvDuration.setText("时长:" + Util.timeParse(endTime - startTime));
     }
 }

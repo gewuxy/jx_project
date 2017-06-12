@@ -41,12 +41,12 @@
                 android:text="肿瘤科"/>
 
             <TextView
-                android:id="@+id/meeting_item_tv_time"
+                android:id="@+id/meeting_item_tv_date"
                 style="@style/tv.meeting"
                 android:text="@string/default_date"/>
 
             <TextView
-                android:id="@+id/meeting_item_tv_data"
+                android:id="@+id/meeting_item_tv_duration"
                 style="@style/tv.meeting"
                 android:text="@string/default_time"/>
 

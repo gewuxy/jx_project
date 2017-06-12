@@ -35,7 +35,7 @@ public interface SROptListener<T> {
      *
      * @param state
      */
-    void setRefreshLocalState(boolean state);
+    void enableLocalRefresh(boolean state);
 
     /**
      * 翻页规则, 默认使用{@link ListConfig#getType()}, 可更改

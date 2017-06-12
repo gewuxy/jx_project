@@ -32,7 +32,7 @@ import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.activity.meeting.MeetingSearchActivity;
+import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.UnitNumDetailAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
@@ -120,7 +120,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
             @Override
             public void onClick(View v) {
-                startActivity(MeetingSearchActivity.class);
+                startActivity(SearchActivity.class);
             }
         });
         bar.addViewRight(R.mipmap.nav_bar_ic_more, new OnClickListener() {

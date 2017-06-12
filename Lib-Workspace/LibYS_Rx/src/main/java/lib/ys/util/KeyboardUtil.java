@@ -43,7 +43,6 @@ public class KeyboardUtil {
 
     /**
      * * 弹出输入法键盘
-     * PS: 前提是view已经通过requestFocus()或其他方式获取完焦点, 不然无效
      *
      * @param v
      */
