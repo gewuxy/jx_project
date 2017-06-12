@@ -1,0 +1,51 @@
+package lib.network.provider.ok;
+
+import java.util.concurrent.TimeUnit;
+
+import lib.network.Network;
+import okhttp3.Call;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocketListener;
+
+/**
+ * @auther yuansui
+ * @since 2017/6/10
+ */
+
+public class OkClient {
+    private OkHttpClient mClient;
+
+    private static OkClient mInst;
+
+    private OkClient() {
+        mClient = new OkHttpClient.Builder()
+                .connectTimeout(Network.getConfig().getConnectTimeout(), TimeUnit.MILLISECONDS)
+                .readTimeout(Network.getConfig().getReadTimeout(), TimeUnit.MILLISECONDS)
+                .writeTimeout(300000, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+    }
+
+    public static synchronized OkClient inst() {
+        if (mInst == null) {
+            mInst = new OkClient();
+        }
+        return mInst;
+    }
+
+    public Call newCall(Request r) {
+        return mClient.newCall(r);
+    }
+
+    public void newWebSocket(Request request, WebSocketListener listener) {
+        mClient.newWebSocket(request, listener);
+    }
+
+    public OkHttpClient addInterceptor(Interceptor interceptor) {
+        return mClient.newBuilder()
+                .addNetworkInterceptor(interceptor)
+                .build();
+    }
+}

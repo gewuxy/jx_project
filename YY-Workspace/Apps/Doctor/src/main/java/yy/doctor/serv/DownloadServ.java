@@ -16,7 +16,6 @@ import yy.doctor.network.NetFactory;
 
 public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
-    private boolean isNotifyTotalSize = false;
     private String mUrl;
     private String mFilePath;
     private String mType;
@@ -37,11 +36,12 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
-        if (!isNotifyTotalSize) {
-            DownloadServ.this.notify(DownloadNotifyType.totalSize, totalSize);
-            isNotifyTotalSize = true;
-        }
-        DownloadServ.this.notify(DownloadNotifyType.progress, progress);
+        notify(DownloadNotifyType.progress, new Download(progress, totalSize));
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        notify(DownloadNotifyType.complete, null);
     }
 
     //通知
@@ -53,8 +53,21 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
         DownloadNotifier.inst().notify(type, data);
     }
 
-    protected void notify(@DownloadNotifyType int type) {
-        DownloadNotifier.inst().notify(type);
-    }
+    public class Download {
+        private long mTotalSize;
+        private float mProgress;
 
+        public Download(float p, long size) {
+            mProgress = p;
+            mTotalSize = size;
+        }
+
+        public long getTotalSize() {
+            return mTotalSize;
+        }
+
+        public float getProgress() {
+            return mProgress;
+        }
+    }
 }

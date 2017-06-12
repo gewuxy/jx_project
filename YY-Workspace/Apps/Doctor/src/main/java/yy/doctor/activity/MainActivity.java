@@ -170,6 +170,7 @@ public class MainActivity extends BaseVPActivity {
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
+            // TODO: 通知我的界面修改资料
         }
     }
 

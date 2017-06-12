@@ -62,10 +62,11 @@ import yy.doctor.util.Util;
 
 public class MeetingDetailsActivity extends BaseActivity {
 
+    private static final int KIdMeetDetail = 0; // 会议详情
+    private static final int KIdSign = 1; // 签到
+    private static final int KIdCollection = 2; // 收藏
+
     private static final int KModuleCount = 4; // 模块数
-    private static final int KMeetDetail = 0; // 会议详情
-    private static final int KSign = 1; // 签到
-    private static final int KCollection = 2; // 收藏
 
     private final int KDividerWDp = 1; // 分割线的宽
     private final int KDividerHDp = 16; // 分割线的高
@@ -207,7 +208,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                         showToast("收藏成功");
                         break;
                 }
-                exeNetworkReq(KCollection, NetFactory.collectMeeting(mMeetId, mCollectType));
+                exeNetworkReq(KIdCollection, NetFactory.collectMeeting(mMeetId, mCollectType));
             } else {
                 showToast("请先关注会议");
             }
@@ -257,7 +258,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         setOnClickListener(mIvPlayCourse);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(KMeetDetail, NetFactory.meetInfo(mMeetId));
+        exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
     }
 
     @Override
@@ -280,9 +281,9 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KMeetDetail) {
+        if (id == KIdMeetDetail) {
             return JsonParser.ev(r.getText(), MeetDetail.class);
-        } else if (id == KSign) {
+        } else if (id == KIdSign) {
             return JsonParser.ev(r.getText(), Sign.class);
         } else {
             return JsonParser.error(r.getText());
@@ -291,15 +292,15 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KMeetDetail) {
-            setViewState(ViewState.normal);
+        if (id == KIdMeetDetail) {
             Result<MeetDetail> r = (Result<MeetDetail>) result;
             if (r.isSucceed()) {
                 refreshViews(r.getData());
+                setViewState(ViewState.normal);
             } else {
-                showToast(r.getError());
+                onNetworkError(id, new NetError(id, r.getError()));
             }
-        } else if (id == KSign) {
+        } else if (id == KIdSign) {
             // 判断是否已签到
             stopRefresh();
             Result<Sign> r = (Result<Sign>) result;
@@ -534,7 +535,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 mLongitude = gps.getString(TGps.longitude);
                 LogMgr.d("Gps", mLatitude);
                 LogMgr.d("Gps", mLongitude);
-                exeNetworkReq(KSign, NetFactory.toSign(mMeetId, mMapList.getByKey(FunctionType.sign)));
+                exeNetworkReq(KIdSign, NetFactory.toSign(mMeetId, mMapList.getByKey(FunctionType.sign)));
             } else {
                 runOnUIThread(() -> stopRefresh());
                 //定位失败

@@ -1,7 +1,6 @@
 package yy.doctor.frag;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -58,13 +57,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
     @Override
     public void initNavBar(NavBar bar) {
         View v = inflate(R.layout.layout_home_nav_bar_search);
-        bar.addViewRight(v, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(MeetingSearchActivity.class);
-            }
-        });
+        bar.addViewRight(v, v12 -> startActivity(MeetingSearchActivity.class));
 
         mViewNotice = bar.addViewRight(R.mipmap.nav_bar_ic_notice, v1 -> startActivity(NoticeActivity.class));
     }

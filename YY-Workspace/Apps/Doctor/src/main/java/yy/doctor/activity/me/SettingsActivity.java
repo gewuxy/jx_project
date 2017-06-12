@@ -78,6 +78,8 @@ public class SettingsActivity extends BaseFormActivity {
 
         try {
             mImgSize = (FileUtil.getFolderSize(new File(CacheUtil.getBmpCacheDir())) / 1024) / 1024 + "M";
+            mImgSize += (FileUtil.getFolderSize(new File(CacheUtil.getUploadCacheDir())) / 1024) / 1024 + "M";
+
             LogMgr.d(TAG, " mImgSize = " + mImgSize);
         } catch (Exception e) {
             e.printStackTrace();

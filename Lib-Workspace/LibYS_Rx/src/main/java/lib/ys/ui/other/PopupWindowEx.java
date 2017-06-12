@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout.LayoutParams;
 
-import lib.network.Network;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.ConnectionNetError;
@@ -31,12 +30,14 @@ import lib.ys.ConstantsEx;
 import lib.ys.LogMgr;
 import lib.ys.R;
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.ui.interfaces.impl.NetworkOptImpl;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.InitOpt;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
+import okhttp3.WebSocketListener;
 
 
 abstract public class PopupWindowEx implements
@@ -60,7 +61,7 @@ abstract public class PopupWindowEx implements
     private Context mContext;
     private float mDimAmount = KDefaultDimAmount;
 
-    private Network mNetwork;
+    private NetworkOptImpl mNetworkImpl;
 
     // 背景变暗
     private boolean mEnableDim = false;
@@ -219,23 +220,31 @@ abstract public class PopupWindowEx implements
             return;
         }
 
-        if (mNetwork == null) {
-            mNetwork = new Network(getClass().getName(), this);
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetwork.execute(id, req, l);
+        mNetworkImpl.exeNetworkReq(id, req, l);
+    }
+
+    @Override
+    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
+        }
+        mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override
     public void cancelAllNetworkReq() {
-        if (mNetwork != null) {
-            mNetwork.cancelAll();
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelAllNetworkReq();
         }
     }
 
     @Override
     public void cancelNetworkReq(int id) {
-        if (mNetwork != null) {
-            mNetwork.cancel(id);
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelNetworkReq(id);
         }
     }
 
@@ -290,10 +299,7 @@ abstract public class PopupWindowEx implements
     @Override
     public void onDismiss() {
 
-        if (mNetwork != null) {
-            mNetwork.cancelAll();
-            mNetwork = null;
-        }
+        cancelAllNetworkReq();
 
         if (mEnableDim) {
             if (mDimWindow != null) {

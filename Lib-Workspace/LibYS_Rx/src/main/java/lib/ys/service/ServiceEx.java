@@ -6,20 +6,21 @@ import android.os.IBinder;
 
 import org.json.JSONException;
 
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.LogMgr;
 import lib.ys.ui.interfaces.impl.NetworkOptImpl;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
+import okhttp3.WebSocketListener;
 
 
 abstract public class ServiceEx extends Service implements NetworkOpt, OnNetworkListener {
 
     protected final String TAG = getClass().getSimpleName();
 
-    private NetworkOptImpl mNetwork;
+    private NetworkOptImpl mNetworkImpl;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -52,23 +53,31 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
 
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (mNetwork == null) {
-            mNetwork = new NetworkOptImpl(this, this);
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetwork.exeNetworkReq(id, req, l);
+        mNetworkImpl.exeNetworkReq(id, req, l);
+    }
+
+    @Override
+    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
+        }
+        mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override
     public void cancelAllNetworkReq() {
-        if (mNetwork != null) {
-            mNetwork.cancelAllNetworkReq();
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelAllNetworkReq();
         }
     }
 
     @Override
     public void cancelNetworkReq(int id) {
-        if (mNetwork != null) {
-            mNetwork.cancelNetworkReq(id);
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelNetworkReq(id);
         }
     }
 
@@ -101,8 +110,8 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
     }
 
     protected boolean retryNetworkRequest(int id) {
-        if (mNetwork != null) {
-            return mNetwork.retryNetworkRequest(id);
+        if (mNetworkImpl != null) {
+            return mNetworkImpl.retryNetworkRequest(id);
         }
         return false;
     }
@@ -111,9 +120,9 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
     public void onDestroy() {
         super.onDestroy();
 
-        if (mNetwork != null) {
-            mNetwork.onDestroy();
-            mNetwork = null;
+        if (mNetworkImpl != null) {
+            mNetworkImpl.onDestroy();
+            mNetworkImpl = null;
         }
     }
 

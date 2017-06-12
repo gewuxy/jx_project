@@ -31,9 +31,9 @@ import android.widget.EditText;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
@@ -69,6 +69,7 @@ import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.swipeBack.SwipeBackActivity;
+import okhttp3.WebSocketListener;
 
 abstract public class ActivityEx extends SwipeBackActivity implements
         InitOpt,
@@ -102,7 +103,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements
     /**
      * impls
      */
-    private NetworkOptImpl mNetwork;
+    private NetworkOptImpl mNetworkImpl;
     private PermissionOptImpl mPermission;
 
 
@@ -203,8 +204,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements
             mExitHandler = null;
         }
 
-        if (mNetwork != null) {
-            mNetwork.onDestroy();
+        if (mNetworkImpl != null) {
+            mNetworkImpl.onDestroy();
         }
     }
 
@@ -223,23 +224,31 @@ abstract public class ActivityEx extends SwipeBackActivity implements
 
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (mNetwork == null) {
-            mNetwork = new NetworkOptImpl(this, this);
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetwork.exeNetworkReq(id, req, l);
+        mNetworkImpl.exeNetworkReq(id, req, l);
+    }
+
+    @Override
+    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
+        }
+        mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override
     public void cancelAllNetworkReq() {
-        if (mNetwork != null) {
-            mNetwork.cancelAllNetworkReq();
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelAllNetworkReq();
         }
     }
 
     @Override
     public void cancelNetworkReq(int id) {
-        if (mNetwork != null) {
-            mNetwork.cancelNetworkReq(id);
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelNetworkReq(id);
         }
     }
 

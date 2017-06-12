@@ -81,13 +81,5 @@
 
 #上面是通用的
 
-#下面是自定义的
-
-#network lib
--keep class okhttp3.**
--keep class okio.**
--dontwarn okio.**
--dontwarn okhttp3.**
-
 #EVal
 -keep public class * extends lib.ys.model.EVal

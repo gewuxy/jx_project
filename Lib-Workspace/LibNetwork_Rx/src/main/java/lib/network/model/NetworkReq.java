@@ -67,7 +67,7 @@ public class NetworkReq {
     }
 
     @NetworkMethod
-    public int method() {
+    public int getMethod() {
         return mMethod;
     }
 

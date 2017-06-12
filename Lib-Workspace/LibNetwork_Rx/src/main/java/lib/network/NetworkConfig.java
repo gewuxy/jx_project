@@ -1,6 +1,7 @@
 package lib.network;
 
 import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 
 /**
  * @auther yuansui
@@ -10,6 +11,7 @@ import android.support.annotation.IntRange;
 public class NetworkConfig {
     private long mConnectTimeout;
     private long mReadTimeout;
+    private String mCacheDir;
 
     public long getConnectTimeout() {
         return mConnectTimeout;
@@ -19,6 +21,10 @@ public class NetworkConfig {
         return mReadTimeout;
     }
 
+    public String getCacheDir() {
+        return mCacheDir;
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -26,6 +32,7 @@ public class NetworkConfig {
     public static class Builder {
         private long mConnectTimeout;
         private long mReadTimeout;
+        private String mCacheDir;
 
         private Builder() {
         }
@@ -40,11 +47,17 @@ public class NetworkConfig {
             return this;
         }
 
+        public Builder cacheDir(@NonNull String dir) {
+            mCacheDir = dir;
+            return this;
+        }
+
         public NetworkConfig build() {
             NetworkConfig config = new NetworkConfig();
 
             config.mConnectTimeout = mConnectTimeout;
             config.mReadTimeout = mReadTimeout;
+            config.mCacheDir= mCacheDir;
 
             return config;
         }

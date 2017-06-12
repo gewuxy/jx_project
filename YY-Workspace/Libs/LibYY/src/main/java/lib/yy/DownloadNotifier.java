@@ -17,14 +17,11 @@ import lib.yy.DownloadNotifier.OnDownloadNotify;
 public class DownloadNotifier extends NotifierEx<OnDownloadNotify> {
 
     @IntDef({
-            DownloadNotifyType.totalSize,
             DownloadNotifyType.progress,
             DownloadNotifyType.complete,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface DownloadNotifyType {
-
-        int totalSize = 1;
         int progress = 2;
         int complete = 3;
     }

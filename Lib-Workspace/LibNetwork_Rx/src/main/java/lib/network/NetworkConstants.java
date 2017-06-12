@@ -30,7 +30,7 @@ public interface NetworkConstants {
         String KContentRanges = "Content-Range";
     }
 
-    interface ContentType {
+    interface MediaType {
         String KStream = "application/octet-stream";
     }
 }

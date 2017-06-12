@@ -43,6 +43,7 @@ public class App extends BaseApp {
         return NetworkConfig.newBuilder()
                 .connectTimeout(30000)
                 .readTimeout(30000)
+                .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();
     }
 

@@ -25,9 +25,9 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import java.lang.reflect.Field;
 
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
@@ -58,6 +58,7 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
+import okhttp3.WebSocketListener;
 
 abstract public class FragEx extends Fragment implements
         InitOpt,
@@ -90,7 +91,7 @@ abstract public class FragEx extends Fragment implements
     /**
      * impls
      */
-    private NetworkOptImpl mNetwork;
+    private NetworkOptImpl mNetworkImpl;
     private PermissionOptImpl mPermission;
 
     @Override
@@ -322,23 +323,31 @@ abstract public class FragEx extends Fragment implements
 
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (mNetwork == null) {
-            mNetwork = new NetworkOptImpl(this, this);
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetwork.exeNetworkReq(id, req, l);
+        mNetworkImpl.exeNetworkReq(id, req, l);
+    }
+
+    @Override
+    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOptImpl(this, this);
+        }
+        mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override
     public void cancelAllNetworkReq() {
-        if (mNetwork != null) {
-            mNetwork.cancelAllNetworkReq();
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelAllNetworkReq();
         }
     }
 
     @Override
     public void cancelNetworkReq(int id) {
-        if (mNetwork != null) {
-            mNetwork.cancelNetworkReq(id);
+        if (mNetworkImpl != null) {
+            mNetworkImpl.cancelNetworkReq(id);
         }
     }
 
@@ -498,8 +507,8 @@ abstract public class FragEx extends Fragment implements
     public void onDestroy() {
         super.onDestroy();
 
-        if (mNetwork != null) {
-            mNetwork.onDestroy();
+        if (mNetworkImpl != null) {
+            mNetworkImpl.onDestroy();
         }
     }
 

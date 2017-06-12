@@ -3,6 +3,7 @@ package yy.doctor.adapter;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.CommentVH;
+import yy.doctor.model.meet.Comment;
 
 /**
  * 评论的Adapter
@@ -11,7 +12,7 @@ import yy.doctor.adapter.VH.CommentVH;
  * @since : 2017/5/2
  */
 
-public class CommentAdapter extends AdapterEx<String, CommentVH> {
+public class CommentAdapter extends AdapterEx<Comment, CommentVH> {
 
     @Override
     public int getConvertViewResId() {

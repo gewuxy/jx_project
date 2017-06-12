@@ -2,16 +2,14 @@ package lib.network;
 
 
 import android.content.Context;
-
-import com.zhy.http.okhttp.OkHttpUtils;
-
-import java.util.concurrent.TimeUnit;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.OkProvider;
-import okhttp3.OkHttpClient;
+import okhttp3.WebSocketListener;
 
 /**
  * 网络任务执行者
@@ -24,21 +22,22 @@ public class Network {
     private BaseProvider mProvider;
 
     private static Context mContext;
+    private static NetworkConfig mConfig;
 
     public Network(Object tag, OnNetworkListener listener) {
         mListener = listener;
         mProvider = new OkProvider(tag);
     }
 
-    public void execute(int id, NetworkReq task) {
-        execute(id, task, mListener);
+    public void load(int id, @NonNull NetworkReq req, @Nullable OnNetworkListener l) {
+        if (l == null) {
+            l = mListener;
+        }
+        mProvider.load(req, id, l);
     }
 
-    public void execute(int id, NetworkReq request, OnNetworkListener listener) {
-        if (listener == null) {
-            listener = mListener;
-        }
-        mProvider.load(request, id, listener);
+    public void loadWebSocket(@NonNull NetworkReq req, @NonNull WebSocketListener l) {
+        mProvider.loadWebSocket(req, l);
     }
 
     public void cancel(int id) {
@@ -55,18 +54,14 @@ public class Network {
 
     public static void init(Context context, NetworkConfig config) {
         mContext = context;
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .addInterceptor(new LoggerInterceptor("TAG"))
-                .connectTimeout(config.getConnectTimeout(), TimeUnit.MILLISECONDS)
-                .readTimeout(config.getReadTimeout(), TimeUnit.MILLISECONDS)
-                //其他配置
-                .build();
-
-        OkHttpUtils.initClient(okHttpClient);
+        mConfig = config;
     }
 
     public static Context getContext() {
         return mContext;
+    }
+
+    public static NetworkConfig getConfig() {
+        return mConfig;
     }
 }

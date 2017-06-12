@@ -38,9 +38,6 @@ public class UrlUtil {
         return mBase;
     }
 
-    public interface UrlMain {
-        String KTttttt = "";
-    }
 
     public interface UrlUser {
         String KAd = "advert";
@@ -91,6 +88,8 @@ public class UrlUtil {
         String KHistories = KMeetBase + "message/histories";
 
         String KCollectMeeting = KMeetBase +  "favorite";
+
+        String KComment = KMeetBase + "im";
     }
 
     public interface UrlData {

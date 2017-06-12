@@ -18,10 +18,9 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ;
+import yy.doctor.serv.DownloadServ.Download;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
-
-import static lib.yy.DownloadNotifier.DownloadNotifyType.totalSize;
 
 /**
  * 资料下载页面
@@ -31,6 +30,8 @@ import static lib.yy.DownloadNotifier.DownloadNotifyType.totalSize;
  */
 
 public class DownloadDataActivity extends BaseActivity implements OnDownloadNotify {
+
+    private static final String KByteSymbol = "K";
 
     private CircleProgressView mProgressBar;
     private TextView mTvNum;
@@ -152,21 +153,20 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     @Override
     public void onDownloadNotify(@DownloadNotifyType int type, Object data) {
         if (type == DownloadNotifyType.progress) {
-            float pro = (float) data;
-            int progress = (int) pro;
+            Download download = (Download) data;
+            int progress = (int) download.getProgress();
             mProgressBar.setProgress(progress);
-            long downloadSize = (long) (mFileSize * ((float) progress / 100.0));
-            mTvNum.setText(downloadSize + "K");
-            //下载完成跳转
-            if (progress == 100) {
-                OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
-                finish();
-            }
-        } else if (type == totalSize) {
-            long totalSize = (long) data;
+
+            long totalSize = download.getTotalSize();
             mFileSize = totalSize / 1024;
-            mTvTotal.setText(mFileSize + "K");
-            mTvNum.setText("0K");
+            mTvTotal.setText(mFileSize + KByteSymbol);
+
+            long downloadSize = (long) (mFileSize * ((float) progress / 100f));
+            mTvNum.setText(downloadSize + KByteSymbol);
+        } else if (type == DownloadNotifyType.complete) {
+            //下载完成跳转
+            OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
+            finish();
         }
     }
 

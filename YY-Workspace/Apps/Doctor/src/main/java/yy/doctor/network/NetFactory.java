@@ -733,6 +733,14 @@ public class NetFactory {
                 .build();
     }
 
+    /**
+     * 会议评论 web socket
+     * @return
+     */
+    public static NetworkReq commentIM() {
+        return newGet(UrlMeet.KComment).build();
+    }
+
     /*********************************
      * 以下是工具
      */

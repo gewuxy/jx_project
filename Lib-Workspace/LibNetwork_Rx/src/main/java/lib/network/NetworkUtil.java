@@ -1,5 +1,7 @@
 package lib.network;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import lib.network.model.param.BasePair;
@@ -24,7 +26,7 @@ public class NetworkUtil {
      * @param params
      * @return
      */
-    public static String generateGetUrl(String url, List<CommonPair> params) {
+    public static String generateGetUrl(@NonNull String url, @NonNull List<CommonPair> params) {
         if (params == null || params.isEmpty()) {
             return url;
         }

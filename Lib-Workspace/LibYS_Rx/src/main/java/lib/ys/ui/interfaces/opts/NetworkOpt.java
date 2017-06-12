@@ -3,6 +3,7 @@ package lib.ys.ui.interfaces.opts;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.interfaces.OnNetworkListener;
+import okhttp3.WebSocketListener;
 
 /**
  * 网络操作
@@ -35,6 +36,7 @@ public interface NetworkOpt {
      */
     void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l);
 
+    void exeWebSocketReq(NetworkReq req, WebSocketListener l);
     /**
      * 取消所有网络任务
      */

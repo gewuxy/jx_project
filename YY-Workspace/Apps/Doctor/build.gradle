@@ -9,11 +9,12 @@ android {
         applicationId "com.zhuanyeban.yaya"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6602
-        versionName "6.6.02"
+        versionCode 6603
+        versionName "6.6.03"
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
                 // LibYS里的混淆, 相对路径为3级
+                '../../../Lib-Workspace/LibNetwork_Rx/proguard-network.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-ys.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-fresco.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-permission.pro',
@@ -23,13 +24,6 @@ android {
                 '../../Libs/LibJG/proguard-jg.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
-
-//        manifestPlaceholders = [
-//                JSHARE_PKGNAME : applicationId,
-//                JPUSH_APPKEY : "88391aa0f118d8646d1fb6e3", //极光控制台创建应用得到的AppKey.
-//                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
-//        ]
-
     }
 
     signingConfigs {

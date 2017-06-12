@@ -2,10 +2,8 @@ package yy.doctor.frag.meeting;
 
 import android.view.View;
 
-import lib.ys.LogMgr;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
@@ -40,7 +38,7 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsA
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.change) {
             mDepart = (String) data;
-            getDataFromNet();
+            refresh();
         }
     }
 }

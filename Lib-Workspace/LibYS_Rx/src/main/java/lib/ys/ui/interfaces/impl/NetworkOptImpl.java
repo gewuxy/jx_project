@@ -3,14 +3,15 @@ package lib.ys.ui.interfaces.impl;
 import android.util.SparseArray;
 
 import lib.network.Network;
+import lib.network.model.NetworkReq;
 import lib.network.model.err.ConnectionNetError;
 import lib.network.model.err.NetError;
-import lib.network.model.NetworkReq;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.R;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.res.ResLoader;
+import okhttp3.WebSocketListener;
 
 
 /**
@@ -62,7 +63,15 @@ public class NetworkOptImpl implements NetworkOpt {
         if (mNetwork == null) {
             mNetwork = new Network(mHost.getClass().getName(), mNetworkLsn);
         }
-        mNetwork.execute(id, req, l);
+        mNetwork.load(id, req, l);
+    }
+
+    @Override
+    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+        if (mNetwork == null) {
+            mNetwork = new Network(mHost.getClass().getName(), mNetworkLsn);
+        }
+        mNetwork.loadWebSocket(req, l);
     }
 
     @Override
