@@ -1,7 +1,5 @@
 package lib.network.model;
 
-import java.io.InputStream;
-
 import lib.network.NetworkUtil;
 
 
@@ -12,7 +10,7 @@ import lib.network.NetworkUtil;
  */
 public class NetworkResp {
     private String mText = NetworkUtil.KTextEmpty;
-    private InputStream mInputStream;
+    private byte[] mBytes;
 
     public void setText(String text) {
         mText = text;
@@ -22,11 +20,11 @@ public class NetworkResp {
         return mText;
     }
 
-    public void setInputStream(InputStream is) {
-        mInputStream = is;
+    public byte[] getBytes() {
+        return mBytes;
     }
 
-    public InputStream getInputStream() {
-        return mInputStream;
+    public void setBytes(byte[] bytes) {
+        mBytes = bytes;
     }
 }

@@ -22,12 +22,11 @@ public class CommonCallback extends OkCallback {
 
     @Override
     public void onResponse(Call call, Response response) throws IOException {
-        String str = response.body().string();
-
-        LogNetwork.e("resp = " + str);
+        String text = response.body().string();
+        LogNetwork.d("resp = " + text);
 
         NetworkResp resp = new NetworkResp();
-        resp.setText(str);
+        resp.setText(text);
 
         Integer id = (Integer) call.request().tag();
         try {

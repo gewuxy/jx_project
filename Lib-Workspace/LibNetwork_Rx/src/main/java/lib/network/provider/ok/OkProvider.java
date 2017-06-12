@@ -1,6 +1,7 @@
 package lib.network.provider.ok;
 
-import android.util.SparseArray;
+import java.util.HashMap;
+import java.util.Map;
 
 import lib.network.LogNetwork;
 import lib.network.NetworkUtil;
@@ -10,6 +11,7 @@ import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.callback.CommonCallback;
 import lib.network.provider.ok.callback.DownloadCallback;
+import lib.network.provider.ok.callback.DownloadFileCallback;
 import lib.network.provider.ok.task.DownloadTask;
 import lib.network.provider.ok.task.GetTask;
 import lib.network.provider.ok.task.PostTask;
@@ -24,19 +26,19 @@ import okhttp3.WebSocketListener;
  */
 public class OkProvider extends BaseProvider {
 
-    private SparseArray<Call> mCallMap;
+    private Map<Integer, Call> mCallMap;
 
     public OkProvider(Object tag) {
         super(tag);
 
-        mCallMap = new SparseArray<>();
+        mCallMap = new HashMap<>();
     }
 
     @Override
     public void load(NetworkReq req, final int id, final OnNetworkListener lsn) {
         // FIXME: id的检测应该是在网络callback的时候进行, 暂时先放到这里, 如果出问题的话再更改
-        if (mCallMap.get(id) != null) {
-            if (mCallMap.get(id).isExecuted()) {
+        if (getCall(id) != null) {
+            if (getCall(id).isExecuted()) {
                 mCallMap.remove(id);
             } else {
                 return;
@@ -57,13 +59,19 @@ public class OkProvider extends BaseProvider {
                 task = new UploadTask(id, req, new CommonCallback(lsn));
             }
             break;
+            case NetworkMethod.download: {
+                task = new DownloadTask(id, req, new DownloadCallback(lsn));
+            }
+            break;
             case NetworkMethod.download_file: {
-                task = new DownloadTask(id, req, new DownloadCallback(lsn, req.getDir(), req.getFileName()));
+                task = new DownloadTask(id, req, new DownloadFileCallback(lsn, req.getDir(), req.getFileName()));
             }
             break;
         }
 
-        task.run();
+        if (task != null) {
+            task.run();
+        }
     }
 
     @Override
@@ -80,7 +88,7 @@ public class OkProvider extends BaseProvider {
 
     @Override
     public void cancel(int id) {
-        Call c = mCallMap.get(id);
+        Call c = getCall(id);
         if (c != null) {
             c.cancel();
             mCallMap.remove(id);
@@ -89,5 +97,12 @@ public class OkProvider extends BaseProvider {
 
     @Override
     public void cancelAll() {
+        for (Call call : mCallMap.values()) {
+            call.cancel();
+        }
+    }
+
+    private Call getCall(int id) {
+        return mCallMap.get(id);
     }
 }
