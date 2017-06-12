@@ -23,6 +23,9 @@ public class CommonCallback extends OkCallback {
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         String str = response.body().string();
+
+        LogNetwork.e("resp = " + str);
+
         NetworkResp resp = new NetworkResp();
         resp.setText(str);
 
