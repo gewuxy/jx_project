@@ -22,7 +22,7 @@ public class ThomsonAdapter extends AdapterEx<ThomsonDetail, ThomsonVH> {
 
         ThomsonDetail item = getItem(position);
         holder.getTv().setText(getItem(position).getString(TThomsonDetail.title));
-        String size = item.getLong(TThomsonDetail.fileSize) / 1024 + "K";
+        String size = item.getLong(TThomsonDetail.fileSize) + "K";
         holder.getTvSize().setText(size);
     }
 

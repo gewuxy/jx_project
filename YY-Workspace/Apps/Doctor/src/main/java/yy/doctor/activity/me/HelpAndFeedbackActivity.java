@@ -110,6 +110,8 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         super.setViews();
 
         mTvVersion.setText(mVersion);
+        setOnClickListener(R.id.help_and_feedback_footer_tv_agreement);
+        setOnClickListener(R.id.help_and_feedback_footer_tv_privacy);
     }
 
     @Override
@@ -145,6 +147,22 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                 } catch (Exception e) {
                     showToast("没有安装相应软件");
                 }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+        switch (id) {
+            case R.id.help_and_feedback_footer_tv_agreement: {
+                startActivity(ServiceAgreementActivity.class);
+            }
+            break;
+            case R.id.help_and_feedback_footer_tv_privacy: {
+                startActivity(DataPrivacyActivity.class);
             }
             break;
         }

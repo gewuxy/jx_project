@@ -25,9 +25,11 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
@@ -146,7 +148,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.name)
                 .name("姓名")
                 .text(Profile.inst().getString(linkman))
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .enable(false)
                 .build());
 
@@ -155,10 +157,10 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_more)
-                .name("医院")
+                .name("单位")
                 .intent(new Intent(this, HospitalActivity.class))
                 .text(Profile.inst().getString(hospital))
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -169,7 +171,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("科室")
                 .intent(new Intent(this, SectionActivity.class))
                 .text(Profile.inst().getString(department))
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
@@ -179,7 +181,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name("医院级别")
                 .text(Profile.inst().getString(hosLevel))
                 .data(GlConfig.inst().getHospitalGrade())
-                .hint(R.string.hint_not_fill)
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -210,33 +212,29 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.is_open)
                 .build());*/
 
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.CME_number)
-                .name("CME卡号")
-                .text(Profile.inst().getString(cmeId))
-                .hint(R.string.hint_not_fill)
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.certification_number)
-                .name("职业资格证号")
-                .text(Profile.inst().getString(licence))
-                .hint(R.string.hint_not_fill)
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.title)
                 .name("职称")
                 .intent(new Intent(this, TitleActivity.class))
                 .text(Profile.inst().getString(TProfile.title))
-                .hint(R.string.hint_not_fill)
+                .hint("选填")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.et)
+                .related(RelatedId.certification_number)
+                .name("职业资格证号")
+                .text(Profile.inst().getString(licence))
+                .hint("选填")
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.et)
+                .related(RelatedId.CME_number)
+                .name("CME卡号")
+                .text(Profile.inst().getString(cmeId))
+                .hint("选填")
+                .build());
 
         /*addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
@@ -269,12 +267,13 @@ public class ProfileActivity extends BaseFormActivity {
         } else {
             str = mStrProvince + " " + mStrCity;
         }
+        addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name("所在省市")
                 .intent(new Intent(this, ProvinceActivity.class))
                 .text(str)
-                .hint(R.string.hint_not_fill)
+                .hint("必填")
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -372,21 +371,17 @@ public class ProfileActivity extends BaseFormActivity {
                     }
                     break;
                 }
-
             }
         });
 
         for (int i = 0; i < data.size(); ++i) {
-
             if (i != (data.size() - 1)) {
                 dialog.addItem(data.get(i), KColorNormal);
             } else {
                 dialog.addItem(data.get(i), KColorCancel);
             }
         }
-
         dialog.show();
-
     }
 
     private void getPhotoFromAlbum() {
@@ -500,7 +495,8 @@ public class ProfileActivity extends BaseFormActivity {
                 mAvatarUrl = upHeadImage.getString(TUpHeadImage.url);
 
                 LogMgr.d(TAG, "onNetworkSuccess: 头像设置成功 = " + mAvatarUrl);
-
+                //头像路径保存到本地
+                Profile.inst().update(Profile.inst().put(TProfile.headimg, mAvatarUrl));
                 modify();
             } else {
                 onNetworkError(id, new NetError(id, r.getError()));
@@ -509,14 +505,21 @@ public class ProfileActivity extends BaseFormActivity {
             stopRefresh();
             Result<Modify> r = (Result<Modify>) result;
             if (r.isSucceed()) {
-                showToast("资料修改成功");
+                showToast("更新成功");
+                //更新本地的数据
+                Profile.inst().update(Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital)));
+                Profile.inst().update(Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments)));
+                Profile.inst().update(Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade)));
+                Profile.inst().update(Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title)));
+                Profile.inst().update(Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number)));
+                Profile.inst().update(Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number)));
+
                 Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));
                 Profile.inst().update(Profile.inst().put(TProfile.city, mStrCity));
-
-                mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
-                        .url(mAvatarUrl)
-                        .renderer(new CircleRenderer())
-                        .load();
+                if (!TextUtil.isEmpty(mStrArea)) {
+                    Profile.inst().update(Profile.inst().put(TProfile.zone, mStrArea));
+                }
+                ProfileActivity.this.notify(NotifyType.profile_change);
             } else {
                 showToast(r.getError());
             }

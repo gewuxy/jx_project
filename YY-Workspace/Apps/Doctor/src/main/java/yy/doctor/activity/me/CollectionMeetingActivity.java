@@ -19,8 +19,6 @@ import yy.doctor.util.Util;
  */
 public class CollectionMeetingActivity extends BaseSRListActivity<CollectionMeetings, CollectionMeetingAdapter> {
 
-    //没有会议时    你还没有收藏会议
-
     @Override
     public void initData() {
     }
@@ -42,4 +40,8 @@ public class CollectionMeetingActivity extends BaseSRListActivity<CollectionMeet
         MeetingDetailsActivity.nav(this, item.getString(TCollectionMeetings.id));
     }
 
+    @Override
+    protected String getEmptyText() {
+        return "你还没有收藏会议";
+    }
 }

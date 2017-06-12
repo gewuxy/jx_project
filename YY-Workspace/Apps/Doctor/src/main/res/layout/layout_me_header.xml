@@ -5,10 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="12dp"/>
-
     <LinearLayout
         android:id="@+id/layout_me_header"
         android:layout_width="match_parent"
@@ -58,9 +54,5 @@
             android:src="@mipmap/ic_arrow_right"/>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin"/>
 
 </LinearLayout>

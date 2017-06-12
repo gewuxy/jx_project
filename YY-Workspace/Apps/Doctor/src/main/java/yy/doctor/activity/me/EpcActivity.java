@@ -59,4 +59,8 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
         return r;
     }
 
+    @Override
+    protected String getEmptyText() {
+        return "暂时没有相关内容";
+    }
 }

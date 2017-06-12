@@ -49,7 +49,7 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
 
         ThomsonDetail item = getItem(position);
         String filePath = CacheUtil.getThomsonCacheDir(item.getString(TThomsonDetail.categoryId));
-        long fileSize = item.getInt(TThomsonDetail.fileSize);
+        long fileSize = item.getInt(TThomsonDetail.fileSize) * 1024;
         String fileName = item.getString(TThomsonDetail.title);
         String url = item.getString(TThomsonDetail.filePath);
         DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize);

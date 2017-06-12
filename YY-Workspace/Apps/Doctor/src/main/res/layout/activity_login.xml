@@ -4,16 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
     <ImageView
-        android:layout_width="174dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="42dp"
-        android:layout_marginTop="42dp"
-        android:src="@mipmap/login_ic"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="65dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="65dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11dp"
+            android:textColor="@color/text_666"
+            android:text="YaYa医师 V"/>
+
+        <TextView
+            android:id="@+id/login_tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_666"
+            android:textSize="11dp"
+            android:text="6.5.20"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

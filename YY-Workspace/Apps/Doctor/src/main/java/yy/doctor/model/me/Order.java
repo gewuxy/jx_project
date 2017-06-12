@@ -25,6 +25,5 @@ public class Order extends EVal<TOrder> {
         price,    //商品价格
         address,  //地址
         province,  //省市
-
     }
 }

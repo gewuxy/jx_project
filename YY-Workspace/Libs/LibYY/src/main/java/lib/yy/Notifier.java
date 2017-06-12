@@ -21,6 +21,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.logout,
             NotifyType.finish,
             NotifyType.change,
+            NotifyType.profile_change,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -42,6 +43,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 科室改变
          */
         int change = 3;
+
+        /**
+         * 个人资料更新
+         */
+        int profile_change = 4;
     }
 
     public interface OnNotify {

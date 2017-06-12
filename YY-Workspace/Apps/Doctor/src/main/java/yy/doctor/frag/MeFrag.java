@@ -8,6 +8,7 @@ import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.activity.me.CollectionMeetingActivity;
@@ -75,6 +76,7 @@ public class MeFrag extends BaseFormFrag {
     public void initData() {
         super.initData();
 
+        addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_attention_unit_num)
                 .name("单位号")
@@ -194,5 +196,22 @@ public class MeFrag extends BaseFormFrag {
     @Override
     protected boolean useLazyLoad() {
         return true;
+    }
+
+    //修改个人资料
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+
+        if (type == NotifyType.profile_change) {
+            mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
+                    .renderer(new CircleRenderer())
+                    .url(Profile.inst().getString(TProfile.headimg))
+                    //.renderer(new CornerRenderer(fitDp(15)))  圆角
+                    .load();
+            mTvName.setText(Profile.inst().getString(linkman) + "  " + Profile.inst().getString(department));
+            mTvHospital.setText(Profile.inst().getString(hospital));
+            getRelatedItem(RelatedId.my_epn).put(TFormElem.text, Profile.inst().getString(TProfile.credits) + "象数");
+            refreshRelatedItem(RelatedId.my_epn);
+        }
     }
 }

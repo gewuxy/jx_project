@@ -77,4 +77,9 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
         exeNetworkReq(NetFactory.order());
     }
 
+    @Override
+    protected String getEmptyText() {
+        return "暂时没有相关内容";
+    }
+
 }

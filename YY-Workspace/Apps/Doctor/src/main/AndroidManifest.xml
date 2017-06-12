@@ -211,6 +211,12 @@
             android:name=".activity.me.OpenDownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.me.DataPrivacyActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.ServiceAgreementActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.me.TitleActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -218,6 +224,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
+
 
 
         <!-- service -->

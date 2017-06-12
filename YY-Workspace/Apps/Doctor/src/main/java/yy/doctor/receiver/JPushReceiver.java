@@ -27,29 +27,31 @@ import yy.doctor.sp.SpUser.SpUserKey;
 
 public class JPushReceiver extends BaseJPushReceiver {
 
+    private static String TAG = "JPushReceiver";
+
     @Override
     protected void onRegistrationId(Context context, String id) {
-        LogMgr.d("www", "onRegistrationId: id = " + id);
+        LogMgr.d(TAG, "onRegistrationId: id = " + id);
         if (!TextUtil.isEmpty(id) && TextUtil.isEmpty(SpUser.inst().getString(SpUserKey.KJPushRegisterId))) {
             Intent intent = new Intent(context, CommonServ.class);
             intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
                     .putExtra(Extra.KData, id);
             context.startService(intent);
-            LogMgr.d("www", "启动绑定极光服务");
+            LogMgr.d(TAG, "启动绑定极光服务");
         }
     }
 
     //自定义消息
     @Override
     protected void onMessage(Context context, String message,String content, String title) {
-        LogMgr.d("www", " 自定义消息 jpush onMessage = " + message);
+        LogMgr.d(TAG, " 自定义消息 jpush onMessage = " + message);
+        LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + message);
+        LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + content);
+        LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + title);
         try {
-            LogMgr.d("www", "接收到推送下来的自定义消息: content " + message);
-            LogMgr.d("www", "接收到推送下来的自定义消息: content " + content);
-            LogMgr.d("www", "接收到推送下来的自定义消息: content " + title);
             JPushMsg jPushMsg = new JPushMsg();
             jPushMsg.parse(message);
-            LogMgr.d("www", "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
+            LogMgr.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
 
             Intent intent  = new Intent(context, MeetingDetailsActivity.class);
             intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
@@ -67,7 +69,7 @@ public class JPushReceiver extends BaseJPushReceiver {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            LogMgr.d("www", " jpush msg 解析数据 error = " + e.getMessage());
+            LogMgr.d(TAG, " jpush msg 解析数据 error = " + e.getMessage());
         }
     }
 
@@ -75,7 +77,7 @@ public class JPushReceiver extends BaseJPushReceiver {
     @Override
     protected void onNotification(Context context, String message) {
         //解析数据
-        LogMgr.d("www", " 普通消息 jpush onNotification = " + message);
+        LogMgr.d(TAG, " 普通消息 jpush onNotification = " + message);
     }
 
     //点击事件

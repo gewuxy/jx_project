@@ -1,7 +1,7 @@
 package yy.doctor.activity;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.adapter.NoticeAdapter;
 import yy.doctor.util.Util;
 
@@ -11,7 +11,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class NoticeActivity extends BaseListActivity<String, NoticeAdapter> {
+public class NoticeActivity extends BaseSRListActivity<String, NoticeAdapter> {
 
     @Override
     public void initData() {
@@ -19,20 +19,27 @@ public class NoticeActivity extends BaseListActivity<String, NoticeAdapter> {
         for (int i = 0; i < 12; ++i) {
             addItem(i + "");
         }
-
     }
 
     @Override
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, "通知", this);
-
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        //getLv().setDivider(R.color.divider);
+    }
+
+    @Override
+    public void getDataFromNet() {
+
+    }
+
+    @Override
+    protected String getEmptyText() {
+        return "暂时没有相关通知";
     }
 }

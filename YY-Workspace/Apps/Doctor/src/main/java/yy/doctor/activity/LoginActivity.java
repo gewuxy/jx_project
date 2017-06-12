@@ -3,10 +3,12 @@ package yy.doctor.activity;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
@@ -27,6 +29,7 @@ import yy.doctor.view.AutoCompleteEditText;
  */
 public class LoginActivity extends BaseActivity {
 
+    private TextView mTvVersion;
     private AutoCompleteEditText mEtName;
     private EditText mEtPwd;
     private String mRequest;
@@ -49,6 +52,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void findViews() {
 
+        mTvVersion = findView(R.id.login_tv_version);
         mEtName = findView(R.id.login_et_name);
         mEtPwd = findView(R.id.login_et_pwd);
     }
@@ -56,6 +60,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void setViews() {
 
+        mTvVersion.setText(DeviceUtil.getAppVersionName());
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);

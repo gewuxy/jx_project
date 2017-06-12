@@ -31,7 +31,7 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
 
         // 不想影响子类的findView重写
         mTvEmpty = findView(R.id.empty_footer_tv);
-        mTvEmpty.setText("暂时没有相关" + getEmptyText());
+        mTvEmpty.setText(getEmptyText());
     }
 
     @Override

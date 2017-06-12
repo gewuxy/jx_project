@@ -55,4 +55,9 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     public IListResult<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
         return JsonParser.groupIndex(text, GroupUnitNum.class, TUnitNum.alpha);
     }
+
+    @Override
+    protected String getEmptyText() {
+        return "暂时没有相关内容";
+    }
 }

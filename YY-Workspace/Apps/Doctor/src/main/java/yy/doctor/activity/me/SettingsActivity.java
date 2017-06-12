@@ -44,6 +44,8 @@ public class SettingsActivity extends BaseFormActivity {
     private static final int KColorNormal = Color.parseColor("#666666");
     private static final int KColorCancel = Color.parseColor("#01b557");
 
+    private static final String KM = "M";
+
     private ToggleButton mTog;
     private TextView mTvExit;
 
@@ -77,21 +79,19 @@ public class SettingsActivity extends BaseFormActivity {
         super.initData();
 
         try {
-            mImgSize = (FileUtil.getFolderSize(new File(CacheUtil.getBmpCacheDir())) / 1024) / 1024 + "M";
-            mImgSize += (FileUtil.getFolderSize(new File(CacheUtil.getUploadCacheDir())) / 1024) / 1024 + "M";
-
+            mImgSize = (FileUtil.getFolderSize(new File(CacheUtil.getBmpCacheDir())) + FileUtil.getFolderSize(new File(CacheUtil.getUploadCacheDir()))) / 1024 / 1024 + KM;
             LogMgr.d(TAG, " mImgSize = " + mImgSize);
         } catch (Exception e) {
             e.printStackTrace();
-            mImgSize = "0M";
+            mImgSize = "0" + KM;
             LogMgr.d(TAG, " error mImgSize = " + mImgSize);
         }
         try {
-            mSoundSize = (FileUtil.getFolderSize(new File(CacheUtil.getMeetingSoundCacheDir())) / 1024) / 1024 + "M";
+            mSoundSize = (FileUtil.getFolderSize(new File(CacheUtil.getMeetingSoundCacheDir())) / 1024) / 1024 + KM;
             LogMgr.d(TAG, " mSoundSize = " + mSoundSize);
         } catch (Exception e) {
             e.printStackTrace();
-            mSoundSize = "0M";
+            mSoundSize = "0" + KM;
             LogMgr.d(TAG, " error  mSoundSize = " + mImgSize);
         }
 

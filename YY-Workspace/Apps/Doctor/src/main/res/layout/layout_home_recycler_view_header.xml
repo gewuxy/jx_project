@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="推荐公众号"
+        android:text="推荐单位号"
         android:textColor="@color/text_81"
         android:textSize="9dp"/>
 
