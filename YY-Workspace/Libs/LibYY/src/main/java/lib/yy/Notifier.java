@@ -22,6 +22,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.finish,
             NotifyType.section_change,
             NotifyType.profile_change,
+            NotifyType.unit_num_attention_change
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -48,6 +49,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 个人资料更新
          */
         int profile_change = 4;
+
+        /**
+         * 单位号关注改变
+         */
+        int unit_num_attention_change = 5;
     }
 
     public interface OnNotify {

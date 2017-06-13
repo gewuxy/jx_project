@@ -1,24 +1,26 @@
 package yy.doctor.frag;
 
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.activity.NoticeActivity;
+import yy.doctor.activity.me.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
-import yy.doctor.adapter.HomeAdapter.onTvAttentionListener;
+import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecUnitNum;
+import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.network.NetFactory;
 import yy.doctor.view.BadgeView;
@@ -30,7 +32,7 @@ import static lib.yy.network.BaseJsonParser.evs;
  * @author CaiXiang   extends BaseSRListFrag<Home>
  * @since 2017/4/5
  */
-public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTvAttentionListener {
+public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAttentionListener {
 
     private static final int KReqIdBanner = 1;
     private static final int KReqIdMeeting = 2;
@@ -81,8 +83,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         mBadgeView = new BadgeView(getContext());
         mBadgeView.setBadgeMargin(0, 8, 8, 0);
         mBadgeView.setTargetView(mViewNotice);
-
-        getAdapter().setTvAttentionListener(this);
     }
 
     @Override
@@ -95,19 +95,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         exeNetworkReq(KReqIdBanner, NetFactory.banner());
         exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
         exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting());
-    }
-
-    @Override
-    public void onTvAttentionClick(int attention, int unitNumId, TextView tv) {
-        //判断是否已经关注
-        if (attention == 1) {
-            // do nothing
-        } else {
-            tv.setSelected(true);
-            tv.setClickable(false);
-            tv.setText("已关注");
-            exeNetworkReq(KReqIdAttention, NetFactory.attention(unitNumId, KAttention));
-        }
     }
 
     @Override
@@ -173,6 +160,14 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
             homes.addAll(threeMeetings);
 
             RecUnitNums nums = new RecUnitNums();
+
+//            // FIXME: 2017/6/13  测试使用
+//            if (BuildConfig.TEST) {
+//                for (RecUnitNum num : mRecUnitNums) {
+//                    num.put(TRecUnitNum.attention, 0);
+//                }
+//            }
+
             nums.setData(mRecUnitNums);
             homes.add(nums);
 
@@ -183,4 +178,32 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         }
     }
 
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.unit_num_attention_change) {
+            AttentionUnitNum attentionUnitNum = (AttentionUnitNum) data;
+            int unitNumId = attentionUnitNum.getUnitNumId();
+            int attention = attentionUnitNum.getAttention();
+            for (int i = 0; i < mRecUnitNums.size(); ++i) {
+                RecUnitNum item = mRecUnitNums.get(i);
+                if (item.getInt(TRecUnitNum.id) == unitNumId) {
+                    item.put(TRecUnitNum.attention, attention);
+                    getAdapter().refreshAttentionState(i, attention);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAttentionChanged(int attention, int unitNumId) {
+        exeNetworkReq(KReqIdAttention, NetFactory.attention(unitNumId, KAttention));
+    }
+
+    @Override
+    public void onDataSetChanged() {
+        super.onDataSetChanged();
+
+        getAdapter().setTvAttentionListener(this);
+    }
 }

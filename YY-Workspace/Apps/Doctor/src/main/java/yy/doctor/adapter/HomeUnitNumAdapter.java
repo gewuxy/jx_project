@@ -1,10 +1,7 @@
 package yy.doctor.adapter;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
-
-import java.util.List;
 
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -12,6 +9,7 @@ import yy.doctor.R;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.adapter.VH.HomeUnitNumVH;
 import yy.doctor.model.home.RecUnitNum;
+import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 
 /**
@@ -30,47 +28,71 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
 
     @Override
     protected void refreshView(int position, HomeUnitNumVH holder) {
+        RecUnitNum item = getItem(position);
 
-        List<RecUnitNum> list = getData();
-        RecUnitNum unitNum = list.get(position);
-
-        holder.getTvName().setText(unitNum.getString(TRecUnitNum.nickname));
+        holder.getTvName().setText(item.getString(TRecUnitNum.nickname));
         holder.getIv().placeHolder(R.mipmap.ic_default_home_unit_num)
                 .renderer(new CircleRenderer())
-                .url(unitNum.getString(TRecUnitNum.headimg))
+                .url(item.getString(TRecUnitNum.headimg))
                 .load();
 
-        holder.getLayout().setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                UnitNumDetailActivity.nav(getContext(), unitNum.getInt(TRecUnitNum.id));
-            }
-        });
-
         //判断用户是否已经关注过这个单位号
-        TextView tvAttention = holder.getTvAttention();
-        if (unitNum.getInt(TRecUnitNum.attention) == 1) {
-            tvAttention.setSelected(true);
-            tvAttention.setClickable(false);
-            tvAttention.setText("已关注");
-        }
+        nativeSetAttention(holder.getTvAttention(), item.getInt(TRecUnitNum.attention));
 
         //关注的点击事件
-        tvAttention.setOnClickListener(v -> {
-            if (mListener != null) {
-                if (tvAttention.isClickable()) {
-                    mListener.onAttentionClick(unitNum.getInt(TRecUnitNum.attention), unitNum.getInt(TRecUnitNum.id), tvAttention);
+        setOnViewClickListener(position, holder.getTvAttention());
+        setOnViewClickListener(position, holder.getLayout());
+    }
+
+    @Override
+    protected void onViewClick(int position, View v) {
+        int id = v.getId();
+
+        RecUnitNum item = getItem(position);
+        switch (id) {
+            case R.id.home_unit_num_layout: {
+                UnitNumDetailActivity.nav(getContext(), item.getInt(TRecUnitNum.id));
+            }
+            break;
+            case R.id.home_unit_num_item_tv_attention: {
+                if (mListener != null) {
+                    int attention = item.getInt(TRecUnitNum.attention);
+                    if (attention == Attention.no) {
+                        setTvAttention(position, Attention.yes);
+                        mListener.onAttentionChanged(attention, item.getInt(TRecUnitNum.id));
+                    }
                 }
             }
-        });
+            break;
+        }
     }
 
     public interface onAttentionListener {
-        void onAttentionClick(int attention, int unitNumId, TextView tv);
+        void onAttentionChanged(int attention, int unitNumId);
     }
 
     public void setAttentionListener(onAttentionListener l) {
         mListener = l;
+    }
+
+    public void setTvAttention(int pos, int attention) {
+        if (getCacheVH(pos) == null) {
+            return;
+        }
+
+        TextView tv = getCacheVH(pos).getTvAttention();
+        nativeSetAttention(tv, attention);
+    }
+
+    private void nativeSetAttention(TextView tv, int attention) {
+        if (attention == 1) {
+            tv.setText("已关注");
+            tv.setSelected(true);
+            tv.setClickable(false);
+        } else {
+            tv.setText("关注");
+            tv.setSelected(false);
+            tv.setClickable(true);
+        }
     }
 }

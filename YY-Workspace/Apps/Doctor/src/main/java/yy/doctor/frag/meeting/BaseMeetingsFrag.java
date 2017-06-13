@@ -7,7 +7,7 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.adapter.meeting.MeetingsAdapter;
+import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 
@@ -16,7 +16,7 @@ import yy.doctor.model.meet.Meeting.TMeeting;
  * @since 2017/4/24
  */
 
-abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsAdapter> {
+abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     protected String mDepart;
 
     @Override
@@ -44,6 +44,6 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingsA
 
     @Override
     protected String getEmptyText() {
-        return "会议";
+        return "暂时没有相关会议";
     }
 }

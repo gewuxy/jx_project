@@ -54,7 +54,7 @@
         android:layout_marginTop="@dimen/margin_large"
         android:gravity="center_vertical"
         android:drawableLeft="@drawable/unit_num_detail_tv_attention_selector"
-        android:paddingLeft="22dp"
+        android:paddingLeft="25dp"
         android:drawablePadding="4dp"
         android:background="@drawable/unit_num_detail_tv_attention_bg_selector"
         android:text="关注"

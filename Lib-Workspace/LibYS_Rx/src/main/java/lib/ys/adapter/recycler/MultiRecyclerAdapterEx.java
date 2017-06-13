@@ -2,6 +2,7 @@ package lib.ys.adapter.recycler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lib.ys.AppEx;
 import lib.ys.LogMgr;
@@ -45,10 +47,17 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
     private HashMap<View, ViewClickListener> mMapClickLsn = null;
     private OnAdapterClickListener mOnAdapterClickListener;
 
+    private Map<VH, KeeperVH> mMapVH;
+
     private Class<VH> mVHClass;
 
     public MultiRecyclerAdapterEx() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
+        if (mVHClass == null) {
+            throw new IllegalStateException("can not find view holder");
+        }
+
+        mMapVH = new HashMap<>();
     }
 
     @Override
@@ -81,6 +90,7 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+        setViewHolderKeeper(position, holder, getItemViewType(position));
         refreshView(position, holder, getItemViewType(position));
     }
 
@@ -377,5 +387,49 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
     @Override
     public void showToast(@StringRes int... resId) {
         AppEx.showToast(resId);
+    }
+
+    public class KeeperVH {
+        private int mPosition;
+        private int mItemType;
+        private VH mHolder;
+
+        public KeeperVH(int position, VH holder, int itemType) {
+            mPosition = position;
+            mItemType = itemType;
+            mHolder = holder;
+        }
+    }
+
+    private void setViewHolderKeeper(int position, VH holder, int itemType) {
+        KeeperVH keeper = mMapVH.get(holder);
+        if (keeper == null) {
+            keeper = new KeeperVH(position, holder, itemType);
+            mMapVH.put(holder, keeper);
+        } else {
+            keeper.mPosition = position;
+        }
+    }
+
+    // 内部查找
+    @Nullable
+    private VH getCacheVH(int position, int itemType) {
+        for (KeeperVH keeper : mMapVH.values()) {
+            if (keeper.mPosition == position && keeper.mItemType == itemType) {
+                return keeper.mHolder;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 通过位置查找viewHolder
+     *
+     * @param position
+     * @return 没有则返回null
+     */
+    @Nullable
+    public final VH getCacheVH(int position) {
+        return getCacheVH(position, getItemViewType(position));
     }
 }

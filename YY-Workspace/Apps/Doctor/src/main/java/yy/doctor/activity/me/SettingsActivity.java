@@ -14,22 +14,31 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.FileUtil;
 import lib.ys.view.ToggleButton;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
+import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.dialog.CommonDialog;
+import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.model.me.CheckAppVersion;
+import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ;
+import yy.doctor.sp.SpUser;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -172,7 +181,7 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.check_version: {
-                showToast("已是最新版本");
+                exeNetworkReq(NetFactory.checkAppVersion());
             }
             break;
             case RelatedId.change_password: {
@@ -187,6 +196,28 @@ public class SettingsActivity extends BaseFormActivity {
                 showDialogClearSoundCache();
             }
             break;
+        }
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), CheckAppVersion.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+
+        Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
+        if (r.isSucceed()) {
+            //保存更新时间
+            SpUser.inst().updateAppRefreshTime();
+            CheckAppVersion data = r.getData();
+            //  判断版本是否需要更新
+            if (DeviceUtil.getAppVersion() < data.getInt(TCheckAppVersion.version)) {
+                new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
+            } else {
+                showToast("已是最新版本");
+            }
         }
     }
 

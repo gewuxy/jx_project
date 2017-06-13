@@ -106,9 +106,6 @@
 
     </LinearLayout>
 
-    <View
-        style="@style/divider"/>
-
     <LinearLayout
         android:id="@+id/unit_num_detail_file_layout_content"
         android:layout_width="match_parent"

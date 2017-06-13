@@ -1,29 +1,14 @@
 {
   "code": "0",
-  "data": [
-    {
-      "createTime": 1497085246000,
-      "name": "手机",
-      "orderNo": "17061017004603181184",
-      "phone": "15915849148",
-      "postNo": "17061017004603371558",
-      "postType": "",
-      "postUnit": "",
-      "price": 1200,
-      "receiver": "测试",
-      "status": 0
-    },
-    {
-      "createTime": 1497083697000,
-      "name": "手机",
-      "orderNo": "17061016345757343064",
-      "phone": "15860062000",
-      "postNo": "17061016345757429051",
-      "postType": "",
-      "postUnit": "",
-      "price": 1200,
-      "receiver": "都是广",
-      "status": 0
-    }
-  ]
+  "data": {
+    "appType": "yaya_yishi",
+    "details": "6.5.22测试版",
+    "downLoadUrl": "http://www.medcn.com:8081/file/appstore/android/YaYa医师_v6.5.22-beta.apk",
+    "driveTag": "android",
+    "fileSize": 15142000,
+    "id": 1,
+    "updateTime": 1496887339000,
+    "version": "v6.5.22beta"
+  }
 }
+

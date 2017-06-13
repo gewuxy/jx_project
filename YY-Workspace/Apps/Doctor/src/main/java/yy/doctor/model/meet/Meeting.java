@@ -12,6 +12,7 @@ import yy.doctor.model.search.IRec;
  */
 
 public class Meeting extends EVal<TMeeting> implements IRec {
+
     @Override
     public int getType() {
         return RecType.meeting;
@@ -27,4 +28,5 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         startTime, // 开始时间
         endTime, // 结束时间
     }
+
 }

@@ -22,6 +22,7 @@ public class SpUser extends SpBase {
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
         String KJPushRegisterId = "jp_register_id";
+        String KAppUpdateTime = "app_update_time";
     }
 
     private SpUser(Context context, String fileName) {
@@ -60,6 +61,27 @@ public class SpUser extends SpBase {
      */
     public void updateProfileRefreshTime() {
         save(SpUserKey.KProfileUpdateTime, System.currentTimeMillis());
+    }
+
+    /**
+     * 是否需要更新app, 暂定间隔为2天
+     * @return
+     */
+    public boolean needUpdateApp() {
+        long time = System.currentTimeMillis();
+        long diff = time - getLong(SpUserKey.KAppUpdateTime);
+        if (diff >= TimeUnit.DAYS.toMillis(2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 保存更新app刷新时间
+     */
+    public void updateAppRefreshTime() {
+        save(SpUserKey.KAppUpdateTime, System.currentTimeMillis());
     }
 
     /**

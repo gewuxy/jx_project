@@ -50,6 +50,7 @@ public class UrlUtil {
         String KChangePwd = "user/resetpwd";
         String KCollectionMeetings = "myFavorite";
         String KBindJPush = "bindJpush";
+        String KCheckAppVersion = "version/newly";
     }
 
     public interface UrlRegister {

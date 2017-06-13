@@ -43,6 +43,7 @@ public class CollectionMeetingAdapter extends AdapterEx<CollectionMeetings, Coll
                 .url(item.getString(TCollectionMeetings.headimg))
                 .renderer(new CircleRenderer())
                 .load();
+
         holder.getTvUnitNum().setText(item.getString(TCollectionMeetings.nickname));
     }
 

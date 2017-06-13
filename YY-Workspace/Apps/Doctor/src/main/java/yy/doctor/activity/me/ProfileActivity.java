@@ -317,7 +317,7 @@ public class ProfileActivity extends BaseFormActivity {
         super.setViews();
 
         mLayoutProfileHeader.setOnClickListener(this);
-        mIvAvatar.placeHolder(R.mipmap.form_ic_personal_head)
+        mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
                 .url(mAvatarUrl)
                 .renderer(new CircleRenderer())
                 .load();

@@ -13,8 +13,9 @@ import yy.doctor.R;
  * @since : 2017/4/28
  */
 
-public class MeetingsVH extends ViewHolderEx {
-    public MeetingsVH(@NonNull View convertView) {
+public class MeetingVH extends ViewHolderEx {
+
+    public MeetingVH(@NonNull View convertView) {
         super(convertView);
     }
 
@@ -38,11 +39,11 @@ public class MeetingsVH extends ViewHolderEx {
         return getView(R.id.meeting_item_tv_duration);
     }
 
-    public NetworkImageView getIvNum() {
+    public NetworkImageView getIvUnitNum() {
         return getView(R.id.meeting_item_iv_unit_num);
     }
 
-    public TextView getTvNum() {
+    public TextView getTvUnitNum() {
         return getView(R.id.meeting_item_tv_unit_num);
     }
 }

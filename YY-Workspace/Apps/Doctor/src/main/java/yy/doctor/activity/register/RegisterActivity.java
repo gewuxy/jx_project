@@ -180,8 +180,8 @@ public class RegisterActivity extends BaseFormActivity {
             return;
         }
 
-        if (strPwd.length() < 6) {
-            showToast("请输入6位以上密码");
+        if (strPwd.length() < 6 && strPwd.length() > 18) {
+            showToast("请输入6位以上18位以下密码");
             return;
         }
         if (!strPwd.equals(strPwdNg)) {

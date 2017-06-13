@@ -1,7 +1,6 @@
 package yy.doctor.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -26,7 +25,7 @@ import yy.doctor.util.Util;
  */
 public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
-    private onTvAttentionListener mListener;
+    private onAttentionListener mListener;
     private HomeUnitNumAdapter mHomeUnitNumAdapter;
 
     @Override
@@ -35,6 +34,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             mHomeUnitNumAdapter = new HomeUnitNumAdapter();
+            mHomeUnitNumAdapter.setAttentionListener(mListener);
             holder.getRecyclerView().setLayoutManager(linearLayoutManager);
             holder.getRecyclerView().setAdapter(mHomeUnitNumAdapter);
         }
@@ -59,12 +59,12 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             holder.getTvSpeakerName().setText(item.getString(TRecMeeting.lecturer));
             holder.getTvSpeakerRank().setText(item.getString(TRecMeeting.lecturerTile));
 
-            //判断用户是否已经收藏过这个会议
-            if (item.getInt(TRecMeeting.stored) == 1) {
+            //判断用户是否已经收藏过这个会议  此功能已经取消
+            /*if (item.getInt(TRecMeeting.stored) == 1) {
                 showView(holder.getTvCollection());
             } else {
                 goneView(holder.getTvCollection());
-            }
+            }*/
 
             holder.getIvSpeaker()
                     .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
@@ -85,15 +85,6 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
         } else {
             RecUnitNums items = (RecUnitNums) getItem(position);
             mHomeUnitNumAdapter.setData(items.getData());
-            mHomeUnitNumAdapter.setAttentionListener(new onAttentionListener() {
-
-                @Override
-                public void onAttentionClick(int attention, int unitNumId, TextView tv) {
-                    if (mListener != null) {
-                        mListener.onTvAttentionClick(attention, unitNumId, tv);
-                    }
-                }
-            });
         }
     }
 
@@ -123,12 +114,11 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
         return HomeType.class.getDeclaredFields().length;
     }
 
-    public interface onTvAttentionListener {
-        void onTvAttentionClick(int attention, int unitNumId, TextView tv);
-    }
-
-    public void setTvAttentionListener(onTvAttentionListener l) {
+    public void setTvAttentionListener(onAttentionListener l) {
         mListener = l;
     }
 
+    public void refreshAttentionState(int position, int attention) {
+        mHomeUnitNumAdapter.setTvAttention(position, attention);
+    }
 }

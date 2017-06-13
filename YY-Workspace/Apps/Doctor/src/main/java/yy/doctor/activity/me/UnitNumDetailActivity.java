@@ -26,6 +26,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseListActivity;
 import lib.yy.network.Result;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
@@ -33,15 +34,15 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.search.SearchActivity;
-import yy.doctor.adapter.UnitNumDetailAdapter;
+import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
+import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
-import yy.doctor.model.unitnum.UnitNumDetailMeeting;
-import yy.doctor.model.unitnum.UnitNumDetailMeeting.TUnitNumDetailMeeting;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
@@ -53,7 +54,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/4/25
  */
-public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting, UnitNumDetailAdapter> {
+public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdapter> {
 
     private static final int KColorNoAttention = Color.parseColor("#d14b4b");
     private static final int KColorNormal = Color.parseColor("#666666");
@@ -184,7 +185,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
     @Override
     public void onItemClick(View v, int position) {
-        MeetingDetailsActivity.nav(this, getItem(position).getString(TUnitNumDetailMeeting.id));
+        MeetingDetailsActivity.nav(this, getItem(position).getString(TMeeting.id));
     }
 
     @Override
@@ -280,7 +281,7 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
             List<UnitNumDetailData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
             int listSize = listFile.size();
-            if (listSize == 0) {
+            if (listSize == 0 || listFile == null) {
                 goneView(mVFileLayout);
                 goneView(mVLargeDivider);
             }
@@ -317,6 +318,8 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
                 mTvAttention.setText("已关注");
                 mTvAttention.setSelected(true);
                 mTvAttention.setClickable(false);
+                //通知首页的单位号改变状态
+                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, 1));
             }
         } else if (id == KReqIdNoAttention) {  //取消关注
             Result r = (Result) result;
@@ -325,6 +328,8 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
                 mTvAttention.setText("关注");
                 mTvAttention.setSelected(false);
                 mTvAttention.setClickable(true);
+                //通知首页的单位号改变状态
+                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, 0));
             }
         }
     }
@@ -370,6 +375,25 @@ public class UnitNumDetailActivity extends BaseListActivity<UnitNumDetailMeeting
 
         LayoutFitter.fit(v);
         mLayoutFile.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
+    }
+
+    public class AttentionUnitNum {
+
+        private int mUnitNumId;
+        private int mAttention;
+
+        public AttentionUnitNum(int unitNumId, int attention) {
+            mUnitNumId = unitNumId;
+            mAttention = attention;
+        }
+
+        public int getUnitNumId() {
+            return mUnitNumId;
+        }
+
+        public int getAttention() {
+            return mAttention;
+        }
     }
 
 }

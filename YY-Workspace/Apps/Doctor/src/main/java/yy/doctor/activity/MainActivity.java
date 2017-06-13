@@ -13,6 +13,7 @@ import android.widget.TextView;
 import lib.network.model.NetworkResp;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
@@ -21,11 +22,14 @@ import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.frag.DataFrag;
 import yy.doctor.frag.HomeFrag;
 import yy.doctor.frag.MeFrag;
 import yy.doctor.frag.MeetingFrag;
 import yy.doctor.model.Profile;
+import yy.doctor.model.me.CheckAppVersion;
+import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpUser;
@@ -49,6 +53,9 @@ public class MainActivity extends BaseVPActivity {
     public static final int KTabMeeting = 1;
     public static final int KTabData = 2;
     public static final int KTabMe = 3;
+
+    private static final int KReqIdProfile = 1;
+    private static final int KReqIdApp = 2;
 
     private LinearLayout mLayoutTab;
     private View mTabPrev;
@@ -93,11 +100,16 @@ public class MainActivity extends BaseVPActivity {
         setCurrentItem(mCurrPage);
 
         if (BuildConfig.TEST) {
-            exeNetworkReq(0, NetFactory.profile());
+            exeNetworkReq(KReqIdProfile, NetFactory.profile());
+            //exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
         } else {
             // 静默更新用户数据
             if (SpUser.inst().needUpdateProfile()) {
-                exeNetworkReq(0, NetFactory.profile());
+                exeNetworkReq(KReqIdProfile, NetFactory.profile());
+            }
+            //判断是否需要检查版本
+            if (SpUser.inst().needUpdateApp()) {
+                exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
             }
         }
 
@@ -161,17 +173,35 @@ public class MainActivity extends BaseVPActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
+        if (id == KReqIdProfile) {
+            return JsonParser.ev(r.getText(), Profile.class);
+        } else {
+            return JsonParser.ev(r.getText(), CheckAppVersion.class);
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Result<Profile> r = (Result<Profile>) result;
-        if (r.isSucceed()) {
-            Profile.inst().update(r.getData());
-            SpUser.inst().updateProfileRefreshTime();
 
-            notify(NotifyType.profile_change);
+        if (id == KReqIdProfile) {
+            Result<Profile> r = (Result<Profile>) result;
+            if (r.isSucceed()) {
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+
+                notify(NotifyType.profile_change);
+            }
+        } else if (id == KReqIdApp) {
+            Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
+            if (r.isSucceed()) {
+                //保存更新时间
+                SpUser.inst().updateAppRefreshTime();
+                CheckAppVersion data = r.getData();
+                //  判断版本是否需要更新
+                if (DeviceUtil.getAppVersion() < data.getInt(TCheckAppVersion.version)) {
+                    new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
+                }
+            }
         }
     }
 

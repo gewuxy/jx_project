@@ -5,9 +5,9 @@ import android.view.View;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.adapter.CollectionMeetingAdapter;
-import yy.doctor.model.me.CollectionMeetings;
-import yy.doctor.model.me.CollectionMeetings.TCollectionMeetings;
+import yy.doctor.adapter.meeting.MeetingAdapter;
+import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -17,7 +17,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class CollectionMeetingActivity extends BaseSRListActivity<CollectionMeetings, CollectionMeetingAdapter> {
+public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
     @Override
     public void initData() {
@@ -36,8 +36,8 @@ public class CollectionMeetingActivity extends BaseSRListActivity<CollectionMeet
     @Override
     public void onItemClick(View v, int position) {
 
-        CollectionMeetings item = getItem(position);
-        MeetingDetailsActivity.nav(this, item.getString(TCollectionMeetings.id));
+        Meeting item = getItem(position);
+        MeetingDetailsActivity.nav(this, item.getString(TMeeting.id));
     }
 
     @Override

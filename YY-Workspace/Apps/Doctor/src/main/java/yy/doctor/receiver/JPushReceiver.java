@@ -44,7 +44,6 @@ public class JPushReceiver extends BaseJPushReceiver {
     //自定义消息
     @Override
     protected void onMessage(Context context, String message,String content, String title) {
-        LogMgr.d(TAG, " 自定义消息 jpush onMessage = " + message);
         LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + message);
         LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + content);
         LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + title);
@@ -53,8 +52,14 @@ public class JPushReceiver extends BaseJPushReceiver {
             jPushMsg.parse(message);
             LogMgr.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
 
-            Intent intent  = new Intent(context, MeetingDetailsActivity.class);
-            intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
+            Intent intent  = new Intent();
+            // type==1 推送的是会议的
+            if (jPushMsg.getString(TJPushMsg.msgType).equals("1")) {
+                intent.setClass(context, MeetingDetailsActivity.class);
+                intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
+            } else {
+                //do nothing
+            }
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.setAutoCancel(true);//点击后消失
             builder.setSmallIcon(R.mipmap.ic_launcher);//设置通知栏消息标题的头像
@@ -66,7 +71,6 @@ public class JPushReceiver extends BaseJPushReceiver {
             builder.setContentIntent(intentPend);
             NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             manager.notify(0, builder.build());
-
         } catch (JSONException e) {
             e.printStackTrace();
             LogMgr.d(TAG, " jpush msg 解析数据 error = " + e.getMessage());

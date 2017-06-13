@@ -30,7 +30,7 @@
             android:layout_below="@+id/epn_tv_my"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="30dp"
-            android:text="888"
+            android:text=""
             android:textSize="30dp"
             android:textColor="@color/white"/>
 
@@ -40,6 +40,7 @@
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/epn_tv"
             android:layout_alignBottom="@+id/epn_tv"
+            android:layout_marginBottom="4dp"
             android:text="个"
             android:textSize="18dp"
             android:textColor="@color/text_80fff"/>

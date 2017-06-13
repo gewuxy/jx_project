@@ -68,28 +68,24 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.disclaimer)
                 .name("免责声明")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.notice)
                 .name("征稿启事")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.jing_xin)
                 .name("敬信科技")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.feedback)
                 .name("意见反馈")

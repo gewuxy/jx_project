@@ -2,6 +2,7 @@ package yy.doctor.model.unitnum;
 
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
+import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 
 /**
@@ -27,7 +28,7 @@ public class UnitNumDetail extends EVal<TUnitNumDetail> {
         materialDTOList,
 
         //会议
-        @BindList(UnitNumDetailMeeting.class)
+        @BindList(Meeting.class)
         meetingDTOList,
     }
 

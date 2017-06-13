@@ -6,6 +6,7 @@ import java.util.List;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
+import lib.ys.util.DeviceUtil;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlData;
@@ -31,6 +32,12 @@ import yy.doctor.network.builder.SubmitBuilder;
 public class NetFactory {
 
     private static final String TAG = NetFactory.class.getSimpleName();
+
+    private interface BaseParam {
+        String KOSVersion = "os_version";
+        String KDevice = "os_type";
+        String KAppVersion = "app_version";
+    }
 
     private interface CommonParam {
         String KToken = "token";
@@ -355,6 +362,16 @@ public class NetFactory {
     public static NetworkReq city(String preId) {
         return newGet(UrlRegister.KCity)
                 .param(CityParam.KCity, preId)
+                .build();
+    }
+
+
+    /**
+     * 检查app版本
+     * @return
+     */
+    public static NetworkReq checkAppVersion() {
+        return newGet(UrlUser.KCheckAppVersion)
                 .build();
     }
 
@@ -798,8 +815,9 @@ public class NetFactory {
     private static List<CommonPair> getBaseHeader() {
         List<CommonPair> ps = new ArrayList<>();
 
-        // TODO: ???公共参数
-        // ps.add(newPair(BaseParam.device_os, "android"));
+        ps.add(newPair(BaseParam.KDevice, "android"));
+        ps.add(newPair(BaseParam.KOSVersion, DeviceUtil.getSystemVersion()));
+        ps.add(newPair(BaseParam.KAppVersion, DeviceUtil.getAppVersion()));
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
