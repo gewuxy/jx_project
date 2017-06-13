@@ -42,10 +42,9 @@ import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetailData;
-import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.util.CacheUtil;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
@@ -80,6 +79,7 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
     private ImageView mIvArrows;
     private LinearLayout mLayoutFile;
     private View mVLargeDivider;
+    private View mDivider;
 
     private UnitNumDetail mUnitNumDetail;
 
@@ -154,6 +154,7 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
         mIvArrows = findView(R.id.unit_num_detail_iv_arrow);
         mLayoutFile = findView(R.id.unit_num_detail_file_layout_content);
         mVLargeDivider = findView(R.id.unit_num_detail_large_divider);
+        mDivider = findView(R.id.unit_num_detail_divider);
     }
 
     @Override
@@ -282,22 +283,11 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
             List<UnitNumDetailData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
             int listSize = listFile.size();
             if (listSize == 0 || listFile == null) {
+                goneView(mDivider);
                 goneView(mVFileLayout);
                 goneView(mVLargeDivider);
             }
 
-            for (int i = 0; i < listFile.size(); i++) {
-                UnitNumDetailData fileItem = listFile.get(i);
-                addFileItem(fileItem.getString(TUnitNumDetailData.materialName), new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        DownloadDataActivity.nav(UnitNumDetailActivity.this, CacheUtil.getUnitNumCacheDir(String.valueOf(mUnitNumId)),
-                                fileItem.getString(TUnitNumDetailData.materialName), fileItem.getString(TUnitNumDetailData.materialUrl), fileItem.getString(TUnitNumDetailData.materialType),
-                                fileItem.getLong(TUnitNumDetailData.fileSize));
-                    }
-                });
-            }
             int datumNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
             if (datumNum > 3) {
                 mTvFileNum.setText("查看全部" + datumNum + "个文件");
@@ -310,6 +300,9 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
                     }
                 });
             }
+
+            UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
+
             setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
         } else if (id == KReqIdAttention) {  //关注
             Result r = (Result) result;

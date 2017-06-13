@@ -105,6 +105,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private ImageView mIvFileArrow; // 箭头
     private LinearLayout mLayoutFile; // 文件布局
     private View mDividerFile; // 分割线
+    private View mDivider;
 
     private LocationDialog mLocationDialog; // 定位框
     private OnLocationNotify mObserver; // 定位通知
@@ -245,6 +246,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvFileNum = findView(R.id.meeting_detail_tv_data);
         mIvFileArrow = findView(R.id.meeting_detail_iv_data);
         mDividerFile = findView(R.id.meeting_detail_view_divider);
+        mDivider = findView(R.id.meeting_detail_divider);
 
         // 模块
         mLayoutExam = findView(R.id.meeting_detail_layout_exam);
@@ -572,13 +574,19 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvUnitNum.setText(mHost);
 
         // 资料
-        mMaterials = info.getList(TMeetDetail.materials);
-        if (mMaterials == null || mMaterials.size() == 0) {
-            goneView(mLayoutData);
-            goneView(mDividerFile);
-        } else {
-            // FIXME: 2017/6/12 彩祥的锅
-        }
+        goneView(mDivider);
+        goneView(mLayoutData);
+        goneView(mDividerFile);
+
+        // FIXME: 2017/6/13  caixiang
+//        mMaterials = info.getList(TMeetDetail.materials);
+//        if (mMaterials == null || mMaterials.size() == 0) {
+//            goneView(mDivider);
+//            goneView(mLayoutData);
+//            goneView(mDividerFile);
+//        } else {
+//            UISetter.setFileData(mLayoutFile, mMaterials, mNumberId);
+//        }
 
         // 主讲者
         mTvGN.setText(info.getString(TMeetDetail.lecturer));
