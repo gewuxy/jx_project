@@ -2,8 +2,6 @@ package yy.doctor.adapter;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
-import android.view.View;
-import android.widget.ImageView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.NetworkImageView;
@@ -27,8 +25,6 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     private String mImgUrl;
     private String mAudioUrl;
     private String mVideoUrl;
-    private int mLastPosition; // 上一个PicAudio的position
-    private AnimationDrawable mLastAnimation; // 上一个PicAudio的动画
 
     @IntDef({
             RecordType.video,
@@ -60,15 +56,6 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
     @Override
     protected void initView(int position, RecordVH holder, int itemType) {
-        switch (itemType) {
-            case RecordType.audio:
-                break;
-            case RecordType.pic_audio: {
-                AnimationDrawable animation = (AnimationDrawable) holder.getIvPicAudio().getDrawable();
-                animation.stop();
-            }
-            break;
-        }
     }
 
     @Override
@@ -81,6 +68,12 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
             case RecordType.pic_audio: {
                 // 区别于纯图片的功能
                 setOnViewClickListener(position, holder.getIvPicAudio());
+                AnimationDrawable animation = (AnimationDrawable) holder.getIvPicAudio().getDrawable();
+                if (getItem(position).getBoolean(TCourse.play)) {
+                    animation.start();
+                } else {
+                    animation.stop();
+                }
             }
             case RecordType.pic: {
                 // 图片,图片+音频共有的功能
@@ -121,22 +114,4 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
         return RecordType.class.getDeclaredFields().length;
     }
 
-    @Override
-    protected void onViewClick(int position, View v) {
-        if (v instanceof NetworkImageView) {
-
-        } else if (v instanceof ImageView) {
-            AnimationDrawable animation = (AnimationDrawable) getCacheVH(position).getIvPicAudio().getDrawable();
-            if (mLastPosition != position) {
-                animation.start();
-            } else {
-                animation.stop();
-            }
-            if (mLastAnimation != null) {
-                mLastAnimation.stop();
-            } else {
-                mLastAnimation = animation;
-            }
-        }
-    }
 }

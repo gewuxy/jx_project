@@ -97,8 +97,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onTv
         exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting());
     }
 
-    private boolean isAttention = false;
-
     @Override
     public void onTvAttentionClick(int attention, int unitNumId, TextView tv) {
         //判断是否已经关注

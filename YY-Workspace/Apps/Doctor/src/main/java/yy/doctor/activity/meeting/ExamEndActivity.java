@@ -13,7 +13,6 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
-import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Answer;
@@ -34,18 +33,23 @@ public class ExamEndActivity extends BaseActivity {
     private String mMeetId;
     private String mModuleId;
     private String mPaperId; // 试卷Id
-    private long mTime; // 考试用时
+    private int mCount; // 考试次数
+    private int mPass; // 及格线
     private List<Answer> mAnswers; // 答案
 
     private TextView mTvScore;
+    private TextView mTvPass;
+    private TextView mTvCount;
     private TextView mTvFinish;
+    private View mLayout;
 
     @Override
     public void initData() {
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
         mPaperId = getIntent().getStringExtra(Extra.KPaperId);
-        mTime = getIntent().getLongExtra(Extra.KTime, 0);
+        mCount = getIntent().getIntExtra(Extra.KNum, 0);
+        mPass = getIntent().getIntExtra(Extra.KPass, 0);
         mAnswers = (List<Answer>) getIntent().getSerializableExtra(Extra.KData);
     }
 
@@ -63,12 +67,18 @@ public class ExamEndActivity extends BaseActivity {
     @Override
     public void findViews() {
         mTvScore = findView(R.id.exam_end_tv_score);
+        mTvPass = findView(R.id.exam_end_tv_pass);
+        mLayout = findView(R.id.exam_end_layout_hint);
+        mTvCount = findView(R.id.exam_end_tv_count);
         mTvFinish = findView(R.id.exam_end_tv_btn);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(mTvFinish);
+
+        mTvCount.setText(String.valueOf(mCount));
+        mTvPass.setText(String.valueOf(mPass));
 
         refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.submitEx()
@@ -90,7 +100,12 @@ public class ExamEndActivity extends BaseActivity {
         if (response.isSucceed()) {
             setViewState(ViewState.normal);
             TopicResult r = response.getData();
-            mTvScore.setText(r.getString(TTopicResult.score));
+            int score = r.getInt(TTopicResult.score);
+            if (score > mPass) {
+                // 及格隐藏
+                hideView(mLayout);
+            }
+            mTvScore.setText(String.valueOf(score));
         } else {
             setViewState(ViewState.error);
         }

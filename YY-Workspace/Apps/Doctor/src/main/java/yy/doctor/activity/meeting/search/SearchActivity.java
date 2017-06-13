@@ -11,7 +11,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.view.FlowLayout;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.search.MeetingResultActivity.SearchType;
+import yy.doctor.activity.meeting.search.ResultActivity.SearchType;
 import yy.doctor.util.Util;
 
 /**
@@ -56,11 +56,6 @@ public class SearchActivity extends BaseActivity {
         setOnClickListener(R.id.meeting_search_tv_meeting);
 
         setLayout();
-
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-//        mEtSearch.setFocusable(true);
-//        mEtSearch.setFocusableInTouchMode(true);
-//        mEtSearch.requestFocus();
     }
 
     /**

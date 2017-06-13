@@ -56,7 +56,7 @@
       }
     ],
     "organizer": "佛山公众号",
-    "pubUserId": 14,
+    "pubUserId": 14, // 公众号Id
     "requiredXs": false, // 需要
     "startTime": 1496463180000,
     "state": 2,

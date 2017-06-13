@@ -64,7 +64,7 @@ public class SignActivity extends BaseResultActivity {
 
     @Override
     protected void successResult() {
-        mTvResult.setText("签到已成功");
+        mTvResult.setText("签到成功");
     }
 
     @Override

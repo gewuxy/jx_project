@@ -15,12 +15,11 @@ import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
-import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.ProvinceAdapter;
-import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Province;
 import yy.doctor.model.Province.TProvince;
 import yy.doctor.network.NetFactory;
@@ -49,6 +48,7 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     private String mProvince;
     private String mCity;
     private String mArea;
+    private HintDialogSec mDialog;
 
     @Override
     public void initData() {
@@ -93,14 +93,7 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
             mAnimation.stop();
             goneView(mLocationLayout);
             showView(mTvLocationFailure);
-            new CommonOneDialog(this)
-                    .setTvMainHint("请在系统设置中，打开“隐私-定位服务")
-                    .setTvMainColor(ResLoader.getColor(R.color.text_666))
-                    .setTvMainSize(fitDp(15))
-                    .setTvSecondaryColor(ResLoader.getColor(R.color.text_666))
-                    .setTvSecondarySize(fitDp(15))
-                    .setTvSecondaryHint("并允许定位服务")
-                    .show();
+            showLocDialog();
         }
 
         //item点击事件
@@ -108,6 +101,17 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
             Province province = getItem(position);
             CityActivity.nav(this, province.getString(TProvince.id), province.getString(TProvince.name));
         });
+    }
+
+    private void showLocDialog() {
+        if (mDialog == null) {
+            mDialog = new HintDialogSec(ProvinceActivity.this);
+            mDialog.addButton("知道了", "#0682e6", v -> mDialog.dismiss());
+
+            mDialog.setMainHint("请在系统设置中，打开“隐私-定位服务");
+            mDialog.setSecHint("并允许定位服务");
+        }
+        mDialog.show();
     }
 
     //定位
@@ -139,15 +143,8 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
                             showView(mTvLocationFailure);
                             //LogMgr.d("Gps", "失败");
                             mLocation = null;
-                            new CommonOneDialog(ProvinceActivity.this)
-                                    .setTvMainHint("请在系统设置中，打开“隐私-定位服务")
-                                    .setTvMainColor(ResLoader.getColor(R.color.text_666))
-                                    .setTvMainSize(fitDp(15))
-                                    .setTvSecondaryColor(ResLoader.getColor(R.color.text_666))
-                                    .setTvSecondarySize(fitDp(15))
-                                    .setTvSecondaryHint("并允许定位服务")
-                                    .setTvSureText("知道了")
-                                    .show();
+
+                            showLocDialog();
                         }
                         LocationNotifier.inst().remove(mObserver);
                         Location.inst().stop();
@@ -183,4 +180,13 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+            mDialog = null;
+        }
+    }
 }

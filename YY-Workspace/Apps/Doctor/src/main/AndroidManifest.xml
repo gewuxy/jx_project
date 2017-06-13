@@ -224,6 +224,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.meeting.search.UnitNumResultActivity"/>
 
 
         <!-- service -->

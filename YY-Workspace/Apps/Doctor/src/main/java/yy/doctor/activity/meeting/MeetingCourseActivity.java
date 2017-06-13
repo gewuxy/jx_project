@@ -55,9 +55,8 @@ import yy.doctor.view.CircleProgressView;
  * @auther : GuoXuan
  * @since : 2017/4/24
  */
-
 public class MeetingCourseActivity extends BaseVPActivity implements OnCountDownListener {
-    // FIXME: 2017/6/10 默认图
+
     private static final int KVpSize = 3; // Vp缓存的数量
     private final int KViewPagerHDp = 270; // 每张PPT的高度
     private final int KVanishTime = 3; // 横屏显示时间
@@ -132,8 +131,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onStop() {
-                mIvControlP.setSelected(true);
-                mIvControlL.setSelected(false);
             }
 
             @Override
@@ -291,8 +288,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                         break;
                     default:
                         // 没有音视频的时候
-                        goneView(mLayoutControl);
-                        goneView(mTvTimeP);
+                        hideView(mLayoutControl);
+                        hideView(mTvTimeP);
                         break;
                 }
             }
@@ -323,7 +320,21 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             if (courseInfo != null) {
                 mCourses = courseInfo.getList(TCourseInfo.details);
                 mTvAll.setText(String.valueOf(mCourses.size()));
-                if (mCourses.size() > 0) {
+                if (mCourses != null && mCourses.size() > 0) {
+                    switch (mCourses.get(0).getType()) {
+                        case CourseType.pic_audio:
+                        case CourseType.audio:
+                        case CourseType.video:
+                            // 有音视频的时候
+                            showView(mLayoutControl);
+                            showView(mTvTimeP);
+                            break;
+                        default:
+                            // 没有音视频的时候
+                            hideView(mLayoutControl);
+                            hideView(mTvTimeP);
+                            break;
+                    }
                     // 初始显示
                     mTvSelect.setText("1");
                     // 逐个添加Frag
@@ -396,8 +407,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 if (preItem >= 0) {
                     setCurrentItem(preItem);
                 } else {
-                    // FIXME: 提示语
-                    showToast("已经是首页");
+                    showToast("这是第一页喔");
                 }
             }
             break;
@@ -411,8 +421,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 if (currNext < mCourses.size()) {
                     setCurrentItem(currNext);
                 } else {
-                    // FIXME: 提示语
-                    showToast("到头了");
+                    showToast("已是最后一页");
                 }
             }
             break;
@@ -506,7 +515,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
     @Override
     public void onCountDownErr() {
-
     }
 
     @Override
@@ -538,8 +546,18 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (data != null) {
             setCurrentItem(data.getIntExtra(Extra.KId, 0));
+        }
+        BaseCourseFrag item = getItem(getCurrentItem());
+        if (item instanceof PicAudioCourseFrag) {
+            ((PicAudioCourseFrag) item).preparePlay();
+            mLayoutCp.setProgress(0);
+            mIvControlL.setSelected(true);
+            mIvControlP.setSelected(false);
+            mTvTimeL.setText("00:00");
+            mTvTimeP.setText("00:00");
         }
     }
 }

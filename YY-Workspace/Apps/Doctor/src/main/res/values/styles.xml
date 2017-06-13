@@ -73,6 +73,11 @@
         <item name="android:textColor">#ccc</item>
     </style>
 
+    <style name="tv.exam.end">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/text_888</item>
+    </style>
+
     <style name="divider.meeting">
         <item name="android:background">@color/divider</item>
         <item name="android:layout_width">1dp</item>

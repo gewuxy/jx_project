@@ -46,6 +46,6 @@ public class NativeListener {
     public void onError(int id, NetError error, OnNetworkListener l) {
         Observable.just(l)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(lsn -> lsn.onNetworkSuccess(id, error));
+                .subscribe(lsn -> lsn.onNetworkError(id, error));
     }
 }

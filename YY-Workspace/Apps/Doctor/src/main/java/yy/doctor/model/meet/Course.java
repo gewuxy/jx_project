@@ -20,6 +20,8 @@ public class Course extends EVal<TCourse> {
         imgUrl, // 微课图片明细路径
         sort, // 微课明细序号
         videoUrl, // 微课视频明细路径
+
+        play, // 是否在播放
     }
 
     @IntDef({

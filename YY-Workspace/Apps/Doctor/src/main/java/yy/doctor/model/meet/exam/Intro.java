@@ -21,8 +21,13 @@ public class Intro extends EVal<TIntro> implements Serializable {
         serverTime, // 服务器当前时间
         startTime, // 起始时间
         endTime, // 结束时间
-        usetime, // 考试用时
+        usetime, // 考试可用时间
         paperId, // 试卷/会议问卷ID
+        finished, // 是否考过
+        score, // 分数
+        finishTimes, // 考过次数
+        resitTimes, // 可考次数
+        passScore, // 及格分数
 
         @BindObj(Paper.class)
         paper, // 试卷(问卷)信息

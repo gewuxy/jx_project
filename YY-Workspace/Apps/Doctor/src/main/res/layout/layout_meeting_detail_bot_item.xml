@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/meeting_detail_iv_module"
         style="@style/iv.meeting"
-        android:src="@mipmap/meeting_ic_sign"/>
+        android:src="@mipmap/meeting_ic_sign_have"/>
 
     <TextView
         android:id="@+id/meeting_detail_tv_module"

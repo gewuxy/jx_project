@@ -2,6 +2,7 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.view.View;
@@ -19,6 +20,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseListActivity;
+import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.RecordAdapter;
@@ -33,7 +35,7 @@ import yy.doctor.util.CacheUtil;
 
 /**
  * 会议记录界面
- * <p>
+ *
  * 日期 : 2017/4/26
  * 创建人 : guoxuan
  */
@@ -46,6 +48,10 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     private PPT mPPT;
     private CourseInfo mCourseInfo;
     private List<Course> mCourses;
+    private String mPath;
+
+    private boolean mIsPlaying;
+    private AnimationDrawable mLastAnimation;
 
     public static void nav(Context context, PPT ppt, int current) {
         Intent i = new Intent(context, MeetingRecordActivity.class)
@@ -56,6 +62,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void initData() {
+        mIsPlaying = false;
         mPPT = (PPT) getIntent().getSerializableExtra(Extra.KData);
         mCurrId = getIntent().getIntExtra(Extra.KId, 0);
         mMeetId = mPPT.getString(TPPT.meetId);
@@ -74,11 +81,15 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, mCourseInfo.getString(TCourseInfo.title), v -> {
             // 把前面的页面关了
             notify(NotifyType.finish);
+            setResult(RESULT_OK, null);
             finish();
         });
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
-        bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> finish());
+        bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> {
+            setResult(RESULT_OK, null);
+            finish();
+        });
     }
 
     @Override
@@ -105,44 +116,87 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         } else if (v instanceof ImageView) {
             // 点击右下角的音频图片
 
-            // 播放音乐
             if (mPlayer == null) {
                 mPlayer = new MediaPlayer();
                 mPlayer.setOnCompletionListener(this);
             }
 
-            String audioUrl = mCourses.get(position).getString(TCourse.audioUrl); // 路径
-            String filePath = CacheUtil.getMeetingCacheDir(mMeetId); // 文件夹名字
-            String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1); // 文件类型
-            String fileName = audioUrl.hashCode() + "." + type; // 文件名
+            // 改变状态
+            boolean play = getItem(position).getBoolean(TCourse.play);
+            getItem(position).put(TCourse.play, !play);
+            mIsPlaying = !mIsPlaying;
 
-            // 优化存到MapList中
-            File file = CacheUtil.getMeetingCacheFile(mMeetId, fileName);
-            if (!file.exists()) {
-                // 不存在下载
-                exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
-            } else {
-                // 存在播放
-                mPlayer.reset();
-                try {
-                    mPlayer.setDataSource(filePath + fileName);
-                    mPlayer.prepare();
-                } catch (IOException e) {
-                    LogMgr.e(TAG, "onAdapterClick", e);
-                }
-                mPlayer.start();
+            // 停止上面的动画,点击的动画对应播放/ 停止
+            if (mLastAnimation != null) {
+                mLastAnimation.stop();
             }
+            AnimationDrawable animation = (AnimationDrawable) getAdapter().getCacheVH(position).getIvPicAudio().getDrawable();
+            if (!play) {
+                animation.start();
+            } else {
+                animation.stop();
+            }
+            mLastAnimation = animation;
+
+            if (mIsPlaying) {
+                // 播放音乐
+                String audioUrl = mCourses.get(position).getString(TCourse.audioUrl); // 路径
+                String filePath = CacheUtil.getMeetingCacheDir(mMeetId); // 文件夹名字
+                String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1); // 文件类型
+                String fileName = audioUrl.hashCode() + "." + type; // 文件名
+                mPath = filePath + fileName;
+
+                File file = CacheUtil.getMeetingCacheFile(mMeetId, fileName);
+                if (!file.exists()) {
+                    // 不存在下载
+                    exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
+                } else {
+                    // 存在播放
+                    mPlayer.reset();
+                    try {
+                        mPlayer.setDataSource(mPath);
+                        mPlayer.prepare();
+                    } catch (IOException e) {
+                        LogMgr.e(TAG, "onAdapterClick", e);
+                    }
+                    mPlayer.start();
+                }
+            } else {
+                mPlayer.pause();
+            }
+
         }
 
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-
+        // mPath 不会为空(只有下载请求网络了)
+        Result r = (Result) result;
+        if (r.isSucceed()) {
+            mPlayer.reset();
+            try {
+                mPlayer.setDataSource(mPath);
+                mPlayer.prepare();
+            } catch (IOException e) {
+                LogMgr.e(TAG, "onAdapterClick", e);
+            }
+            mPlayer.start();
+        } else {
+            showToast(r.getError());
+        }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mPlayer != null) {
+            mPlayer.release();
+        }
     }
 }

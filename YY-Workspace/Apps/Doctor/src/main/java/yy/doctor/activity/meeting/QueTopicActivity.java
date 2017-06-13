@@ -2,7 +2,6 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
@@ -12,9 +11,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
-import yy.doctor.R;
-import yy.doctor.dialog.CommonTwoDialog;
-import yy.doctor.dialog.CommonTwoDialog.OnLayoutListener;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -27,7 +23,6 @@ import yy.doctor.network.NetFactory;
  */
 public class QueTopicActivity extends BaseTopicActivity {
 
-    private CommonTwoDialog mSubDialog;
     private TextView mBarRight;
 
     public static void nav(Context context, String meetId, String moduleId) {
@@ -82,34 +77,14 @@ public class QueTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    protected void trySubmit(int noFinish) {
-        //考试时间未完
-        if (mSubDialog == null) {
-            mSubDialog = new CommonTwoDialog(QueTopicActivity.this);
-        }
+    protected String setDialogHint(int noFinish) {
         if (noFinish > 0) {
             //还有没作答
-            mSubDialog.setTvMainHint("还有" + noFinish + "题未完成")
-                    .setTvSecondaryHint("是否确认提交问卷?");
+            return "还有" + noFinish + "题未完成\n是否确认提交问卷?";
         } else {
             //全部作答完了
-            mSubDialog.setTvMainHint("确定提交问卷?")
-                    .hideSecond();
+            return "确定提交问卷?";
         }
-        mSubDialog.mTvLeft(getString(R.string.exam_submit_sure))
-                .mTvRight(getString(R.string.exam_continue))
-                .setLayoutListener(new OnLayoutListener() {
-                    @Override
-                    public void leftClick(View v) {
-                        submit();
-                    }
-
-                    @Override
-                    public void rightClick(View v) {
-
-                    }
-                });
-        mSubDialog.show();
     }
 
     @Override
@@ -132,18 +107,6 @@ public class QueTopicActivity extends BaseTopicActivity {
         } else {
             mTvLeft.setText("问卷");
             showView(mBarRight);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mSubDialog != null) {
-            if (mSubDialog.isShowing()) {
-                mSubDialog.dismiss();
-            }
-            mSubDialog = null;
         }
     }
 

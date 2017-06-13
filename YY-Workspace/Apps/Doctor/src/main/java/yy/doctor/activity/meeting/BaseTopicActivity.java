@@ -19,6 +19,7 @@ import lib.yy.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
+import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.frag.meeting.exam.TopicFrag;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
@@ -66,6 +67,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     protected TextView mTvAll; // 总数(底部)
     protected TextView mTvNavAll; // 总数(NavBar)
     protected TextView mTvLeft; // NavBar左边的TextView
+    private HintDialogMain mSubDialog;
+    private HintDialogMain mExitDialog;
 
     protected boolean getTopicCaseShow() {
         return mTopicCaseShow;
@@ -93,7 +96,16 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             if (getTopicCaseShow()) {
                 topicCaseVisibility(false);
             } else {
-                finish();
+                if (mExitDialog == null) {
+                    mExitDialog = new HintDialogMain(BaseTopicActivity.this);
+                    mExitDialog.setHint("确定退出考试?");
+                    mExitDialog.addButton("确定", "#0682e6", v1 -> {
+                        finish();
+                        mExitDialog.dismiss();
+                    });
+                    mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
+                }
+                mExitDialog.show();
             }
         });
         if (mTvLeft == null) {
@@ -350,14 +362,47 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     }
 
     /**
+     * 按提交
+     *
+     * @param noFinish
+     */
+    protected void trySubmit(int noFinish) {
+        //考试时间未完
+        if (mSubDialog == null) {
+            mSubDialog = new HintDialogMain(BaseTopicActivity.this);
+            mSubDialog.setHint(setDialogHint(noFinish));
+
+            mSubDialog.addButton("确定", "#0682e6", v -> {
+                submit();
+                mSubDialog.dismiss();
+            });
+            mSubDialog.addButton("取消", "#666666", v -> mSubDialog.dismiss());
+        }
+        mSubDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mSubDialog != null) {
+            if (mSubDialog.isShowing()) {
+                mSubDialog.dismiss();
+            }
+            mSubDialog = null;
+        }
+    }
+
+    /**
      * 提交答案
      */
     protected abstract void submit();
 
     /**
-     * 按提交
+     * 设置提交时Dialog的提示语
      *
      * @param noFinish
+     * @return
      */
-    protected abstract void trySubmit(int noFinish);
+    protected abstract String setDialogHint(int noFinish);
 }

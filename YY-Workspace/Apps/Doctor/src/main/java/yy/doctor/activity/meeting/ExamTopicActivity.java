@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -18,8 +17,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.CommonOneDialog;
-import yy.doctor.dialog.CommonTwoDialog;
+import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.util.Util;
@@ -42,9 +40,8 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
 
     private TextView mTvTime;
 
-    private CommonOneDialog mCloseDialog;//离考试结束的提示框
-    private CommonOneDialog mSubmitDialog;
-    private CommonTwoDialog mSubDialog;
+    private HintDialogSec mCloseDialog;//离考试结束的提示框
+    private HintDialogSec mSubmitDialog;
 
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
@@ -105,46 +102,27 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
     }
 
     @Override
-    protected void trySubmit(int noFinish) {
-        //考试时间未完
-        if (mSubDialog == null) {
-            mSubDialog = new CommonTwoDialog(ExamTopicActivity.this);
-        }
-        if (noFinish > 0) {
-            //还有没作答
-            mSubDialog.setTvMainHint("还有" + noFinish + "题未完成,继续提交将不得分")
-                    .setTvSecondaryHint("是否确认提交答卷?");
-        } else {
-            //全部作答完了
-            mSubDialog.setTvMainHint("确定提交答案?")
-                    .hideSecond();
-        }
-        mSubDialog.mTvLeft(getString(R.string.exam_submit_sure))
-                .mTvRight(getString(R.string.exam_continue))
-                .setLayoutListener(new CommonTwoDialog.OnLayoutListener() {
-                    @Override
-                    public void leftClick(View v) {
-                        submit();
-                    }
-
-                    @Override
-                    public void rightClick(View v) {
-
-                    }
-                });
-        mSubDialog.show();
-    }
-
-    @Override
     protected void submit() {
         Intent i = new Intent(ExamTopicActivity.this, ExamEndActivity.class)
                 .putExtra(Extra.KMeetId, mMeetId)
                 .putExtra(Extra.KModuleId, mModuleId)
                 .putExtra(Extra.KPaperId, mPaperId)
-                .putExtra(Extra.KTime, mUseTime)
+                .putExtra(Extra.KPass, mIntro.getInt(TIntro.passScore))
+                .putExtra(Extra.KNum, mIntro.getInt(TIntro.resitTimes) - 1)
                 .putExtra(Extra.KData, getAnswer(mAllTopics));
         LaunchUtil.startActivity(ExamTopicActivity.this, i);
         finish();
+    }
+
+    @Override
+    protected String setDialogHint(int noFinish) {
+        if (noFinish > 0) {
+            //还有没作答
+            return "还有" + noFinish + "题未完成,继续提交将不得分是否确认提交答卷?";
+        } else {
+            //全部作答完了
+            return "确定提交答案?";
+        }
     }
 
     private void recycleDialog(DialogEx dialog) {
@@ -163,25 +141,35 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         if (remainCount != 0) {
             if (remainCount == KFiveMin) {
                 // 剩余5分钟
-                mCloseDialog = new CommonOneDialog(ExamTopicActivity.this) {
+                if (mCloseDialog == null) {
+                    mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
+                    mCloseDialog.setMainHint(getString(R.string.exam_five_min));
+                    mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
+                    mCloseDialog.addButton("确定", "#0682e6", v -> mCloseDialog.dismiss());
+                }
+                // FIXME: 2017/6/13 倒数
+                mCloseDialog.show();
+                /*{
                     @Override
                     public void close(Long aLong) {
                         setTvSecondaryHint(aLong + getString(R.string.exam_xs_close));
                     }
                 }
                         .setTvMainHint(getString(R.string.exam_five_min))
-                        .setTvSecondaryHint(KXClose + getString(R.string.exam_xs_close));
-                mCloseDialog.start(KXClose);
+                        .setTvSecondaryHint(KXClose + getString(R.string.exam_xs_close))
+                mCloseDialog.start(KXClose);*/
             }
         } else {
-            mSubmitDialog = new CommonOneDialog(ExamTopicActivity.this)
-                    .setTvMainHint(getString(R.string.exam_end))
-                    .setTvSecondaryHint(getString(R.string.exam_submit));
-            mSubmitDialog.setCancelable(false);
-            mSubmitDialog.setOnClickListener(v -> {
-                mSubmitDialog.dismiss();
-                submit();
-            });
+            if (mSubmitDialog == null) {
+                mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
+                mSubmitDialog.setMainHint(getString(R.string.exam_end));
+                mSubmitDialog.setSecHint(getString(R.string.exam_submit));
+                mSubmitDialog.setCancelable(false);
+                mSubmitDialog.addButton("确定", "#0682e6", v -> {
+                    mSubmitDialog.dismiss();
+                    submit();
+                });
+            }
             mSubmitDialog.show();
         }
     }
@@ -200,7 +188,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
 
         recycleDialog(mCloseDialog);
         recycleDialog(mSubmitDialog);
-        recycleDialog(mSubDialog);
     }
 
 }

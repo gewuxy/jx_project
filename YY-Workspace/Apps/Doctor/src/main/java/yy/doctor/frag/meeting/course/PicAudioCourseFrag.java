@@ -122,7 +122,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     /**
      * 准备播放
      */
-    private boolean preparePlay() {
+    public boolean preparePlay() {
         if (mAudioExist) {
             if (mMp == null) {
                 mMp = new MediaPlayer();
@@ -250,16 +250,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        // FIXME: 不好使
-        start();
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-        // FIXME: 不好使
         stop();
     }
 

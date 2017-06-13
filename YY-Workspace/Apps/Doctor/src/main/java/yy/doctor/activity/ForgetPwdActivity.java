@@ -2,17 +2,14 @@ package yy.doctor.activity;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.R;
-import yy.doctor.dialog.CommonOneDialog;
+import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.model.ForgetPwd;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -28,6 +25,7 @@ import yy.doctor.view.AutoCompleteEditText;
 public class ForgetPwdActivity extends BaseActivity {
 
     private AutoCompleteEditText mEt;
+    private HintDialogMain mDialog;
 
     @Override
     public void initData() {
@@ -85,28 +83,27 @@ public class ForgetPwdActivity extends BaseActivity {
 
         Result<ForgetPwd> r = (Result<ForgetPwd>) result;
         if (r.isSucceed()) {
-            CommonOneDialog dialog = new CommonOneDialog(ForgetPwdActivity.this) {
-
-                @Override
-                public void setTvSecondary(TextView tvSecondary) {
-                    tvSecondary.setVisibility(View.GONE);
-                }
-            };
-            dialog.setTvMainHint("重置密码的邮已经发送至您的邮箱")
-                    .setTvMainColor(ResLoader.getColor(R.color.text_666))
-                    .setTvMainSize(fitDp(15))
-                    .setTvSureText("知道了")
-                    .setOnClickListener(new OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            finish();
-                        }
-                    })
-                    .show();
+            if (mDialog == null) {
+                mDialog = new HintDialogMain(ForgetPwdActivity.this);
+                mDialog.setHint("重置密码的邮已经发送至您的邮箱");
+                mDialog.addButton("知道了", "#0682e6", v -> {
+                    mDialog.dismiss();
+                    finish();
+                });
+            }
+            mDialog.show();
         } else {
             showToast(r.getError());
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+            mDialog = null;
+        }
+    }
 }
