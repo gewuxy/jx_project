@@ -94,6 +94,6 @@ public class VideoDetailActivity extends BaseSRListActivity<Detail, VideoDetailA
 
     @Override
     public void onAdapterClick(int position, View v) {
-        startActivity(VideoActivity.class);
+        VideoActivity.nav(VideoDetailActivity.this, getItem(position).getString(TDetail.url));
     }
 }

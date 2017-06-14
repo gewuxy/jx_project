@@ -83,7 +83,6 @@ public class MeetingDetailsActivity extends BaseActivity {
     private final int KVideoResId = R.mipmap.meeting_ic_video_have; // 视频
     private final int KSignResId = R.mipmap.meeting_ic_sign_have; // 签到
 
-    private String mHost; // 主办方
     private String mMeetId; // 会议Id
     private TextView mTvAward;
     private TextView mTvTitle; // 会议名称
@@ -120,37 +119,36 @@ public class MeetingDetailsActivity extends BaseActivity {
     @CollectType
     private int mCollectType; // 收藏的标志
 
-    private boolean mAttention; // 是否关注了单位号
-    private boolean mEpnType; // 需要还是奖励
-    private boolean mAttendAble; // 能否参加会议
-    private String mReason; // 不能参加会议的原因
+    @EpnType
+    private int mEpnType; // 需要还是奖励
+    private int mEpn; // 象数
+
     private boolean mNoPPT;
 
     // FIXME: View TextView ImageView -> 自定义view
-
     // 底部按钮
     private View mLayoutExam; // 考试模块
     private TextView mTvExam;
-    private ImageView mIvExam;
 
+    private ImageView mIvExam;
     private View mLayoutQue; // 问卷模块
     private TextView mTvQue;
-    private ImageView mIvQue;
 
+    private ImageView mIvQue;
     private View mLayoutVideo; // 视频模块
     private TextView mTvVideo;
-    private ImageView mIvVideo;
 
+    private ImageView mIvVideo;
     private View mLayoutSign; // 签到模块
     private TextView mTvSign;
-    private ImageView mIvSign;
 
+    private ImageView mIvSign;
     private TextView mTvSee; // 会议模块
     private List<UnitNumDetailData> mMaterials;
-    private int mEpn; // 象数
     private HintDialogMain mEpnDialog; // 要支付象数的对话框
     private HintDialogMain mAttentionDialog; // 关注的对话框
-    private int mNumberId; // 公众号id
+
+    private MeetDetail mMeetDetail;
 
     /**
      * functionId,模块功能ID
@@ -177,6 +175,23 @@ public class MeetingDetailsActivity extends BaseActivity {
     private @interface CollectType {
         int no = 0; // 收藏
         int yes = 1; // 没有收藏
+    }
+
+    @IntDef({
+            EpnType.need,
+            EpnType.award,
+    })
+    private @interface EpnType {
+        int need = 0; // 需要象数
+        int award = 1; // 奖励象数
+    }
+
+    private boolean needPay(@EpnType int type){
+        if (type == EpnType.need) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void nav(Context context, String meetId) {
@@ -276,32 +291,34 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        if (mAttention) { // 关注
-            if (mAttendAble) { // 参加
-                if (!mEpnType ) {
-                    if (mEpn > 0) {
-                        mEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                        mEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
-                        mEpnDialog.addButton("确认支付", "#0682e6", v1 -> {
-                            mEpnDialog.dismiss();
-                            toModule(v);
-                        });
-                        mEpnDialog.addButton("取消", "#666666", v1 -> mEpnDialog.dismiss());
-                        mEpnDialog.show();
-                    } else {
+        if (mMeetDetail.getBoolean(TMeetDetail.attention)) {
+            // 关注了
+            if (mMeetDetail.getBoolean(TMeetDetail.attendAble)) {
+                // 可以参加
+                if (needPay(mEpnType) && mEpn > 0 && !mMeetDetail.getBoolean(TMeetDetail.requiredXs)) {
+                    // !mEpnType 需要象数
+                    // mEpn > 0 不是免费
+                    // requiredXs false 没支付过
+                    mEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
+                    mEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
+                    mEpnDialog.addButton("确认支付", "#0682e6", v1 -> {
+                        mEpnDialog.dismiss();
                         toModule(v);
-                    }
+                    });
+                    mEpnDialog.addButton("取消", "#666666", v1 -> mEpnDialog.dismiss());
+                    mEpnDialog.show();
                 } else {
                     toModule(v);
                 }
             } else {
-                showToast(mReason);
+                showToast(mMeetDetail.getString(TMeetDetail.reason));
             }
         } else {
             if (mAttentionDialog == null) {
                 mAttentionDialog = new HintDialogMain(MeetingDetailsActivity.this);
                 mAttentionDialog.setHint("请先关注会议");
-                mAttentionDialog.addButton("确认关注", "#0682e6", v1 -> exeNetworkReq(KIdAttention, NetFactory.attention(mNumberId, 1)));
+                mAttentionDialog.addButton("确认关注", "#0682e6", v1 ->
+                        exeNetworkReq(KIdAttention, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1)));
                 mAttentionDialog.addButton("取消", "#666666", v1 -> mAttentionDialog.dismiss());
             }
             mAttentionDialog.show();
@@ -310,9 +327,11 @@ public class MeetingDetailsActivity extends BaseActivity {
 
     /**
      * 模块的功能
+     *
      * @param v
      */
     private void toModule(View v) {
+        mMeetDetail.put(TMeetDetail.requiredXs, true); // 支付象数
         switch (v.getId()) {
             case R.id.meeting_detail_iv_play: {
                 if (!mNoPPT) {
@@ -358,7 +377,8 @@ public class MeetingDetailsActivity extends BaseActivity {
      * 考试
      */
     private void getExamInfo() {
-        ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.exam), mHost);
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(KIdExam, NetFactory.toExam(mMeetId,  mMapList.getByKey(FunctionType.exam)));
     }
 
     /**
@@ -428,7 +448,8 @@ public class MeetingDetailsActivity extends BaseActivity {
             case KIdMeetDetail: {
                 Result<MeetDetail> r = (Result<MeetDetail>) result;
                 if (r.isSucceed()) {
-                    refreshViews(r.getData());
+                    mMeetDetail = r.getData();
+                    refreshViews(mMeetDetail);
                     setViewState(ViewState.normal);
                 } else {
                     onNetworkError(id, new NetError(id, r.getError()));
@@ -437,6 +458,15 @@ public class MeetingDetailsActivity extends BaseActivity {
             break;
 
             case KIdExam: {
+                stopRefresh();
+                Result r = (Result) result;
+                if (r.isSucceed()) {
+                    ExamIntroActivity.nav(MeetingDetailsActivity.this,
+                            mMeetId, mMapList.getByKey(FunctionType.exam),
+                            mMeetDetail.getString(TMeetDetail.organizer));
+                } else {
+                    showToast(r.getError());
+                }
             }
             break;
 
@@ -528,10 +558,9 @@ public class MeetingDetailsActivity extends BaseActivity {
     private void refreshViews(MeetDetail info) {
         @CollectType int stored = info.getInt(TMeetDetail.stored);
         mCollectType = stored; // 收藏
-        mAttention = info.getBoolean(TMeetDetail.attention); // 关注
-        mAttendAble = info.getBoolean(TMeetDetail.attendAble); // 能否参加
-        mReason = info.getString(TMeetDetail.reason); // 不能参加的原因
-        mEpnType = info.getBoolean(TMeetDetail.eduCredits); // 需要还是奖励
+
+        @EpnType int edu = info.getInt(TMeetDetail.eduCredits);
+        mEpnType = edu; // 需要还是奖励
 
         switch (mCollectType) {
             case CollectType.yes:
@@ -556,22 +585,20 @@ public class MeetingDetailsActivity extends BaseActivity {
         if (mEpn == 0) {
             goneView(mTvAward);
         } else {
-            if (mEpnType) {
-                mTvAward.setText("本次会议奖励象数 : " + mEpn + "个,还有" + info.getString(TMeetDetail.remainAward) + "人可领取");
-            } else {
+            if (needPay(mEpnType)) {
                 mTvAward.setText("本次会议需支付象数 : " + mEpn + "个");
+            } else {
+                mTvAward.setText("本次会议奖励象数 : " + mEpn + "个,还有" + info.getString(TMeetDetail.remainAward) + "人可领取");
             }
         }
         mTvSection.setText(info.getString(TMeetDetail.meetType));
 
         // 单位号
-        mNumberId = info.getInt(TMeetDetail.pubUserId); // 公众号
         mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large)
                 .url(info.getString(TMeetDetail.headimg))
                 .renderer(new CircleRenderer())
                 .load();
-        mHost = info.getString(TMeetDetail.organizer);
-        mTvUnitNum.setText(mHost);
+        mTvUnitNum.setText(info.getString(TMeetDetail.organizer));
 
         // 资料
         goneView(mDivider);

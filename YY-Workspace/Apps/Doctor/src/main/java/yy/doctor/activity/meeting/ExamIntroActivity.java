@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
+import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -29,6 +31,7 @@ import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
 import yy.doctor.model.meet.exam.Paper.TPaper;
+import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -152,7 +155,10 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
 
             mTvTitle.setText(mPaper.getString(TPaper.name));
             mTvHost.setText(getString(R.string.exam_host) + mHost);
-            mTvCount.setText(mPaper.getList(TPaper.questions).size() + "道题目");
+            List<Topic> topics = mPaper.getList(TPaper.questions);
+            if (topics != null && topics.size() > 0) {
+                mTvCount.setText(topics.size() + "道题目");
+            }
             mTvTime.setText(getTime(mStartTime, mEndTime));
         } else {
             setViewState(ViewState.error);
@@ -174,8 +180,16 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
                 if (mCanStart) {
                     // 时间段考试
                     long useTime = mIntro.getLong(TIntro.usetime);
-                    long surplusTime = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1);
-                    mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
+                    long surplusTime = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1); // 离考试结束的时间
+                    if (useTime < 0) {
+                        long examTime = (mEndTime - mStartTime) / TimeUnit.MINUTES.toMillis(1); // 考试时间段
+                        mIntro.put(TIntro.time, examTime < surplusTime ? examTime : surplusTime);
+                    } else {
+                        mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
+                    }
+                    LogMgr.d(TAG, "onClick:useTime" + useTime);
+                    LogMgr.d(TAG, "onClick:surplusTime" + surplusTime);
+                    LogMgr.d(TAG, "onClick:time" + mIntro.getLong(TIntro.time));
                     ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                     finish();
                 } else {

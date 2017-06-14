@@ -137,6 +137,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     @Override
     public void findViews() {
         super.findViews();
+
         mLayout = findView(R.id.topic_case_all_layout);
         mGv = findView(R.id.topic_case_all_gv);
         mTvAll = findView(R.id.topic_tv_case_all);

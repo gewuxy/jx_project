@@ -13,6 +13,7 @@
         <ImageView style="@style/iv.meeting.record.symbol"/>
 
         <TextView
+            android:id="@+id/meeting_record_tv_audio"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginRight="36dp"

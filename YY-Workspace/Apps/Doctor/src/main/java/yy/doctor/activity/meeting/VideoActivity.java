@@ -1,5 +1,7 @@
 package yy.doctor.activity.meeting;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -26,11 +28,13 @@ import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
@@ -66,9 +70,15 @@ public class VideoActivity extends BaseActivity implements
     private NetVideoView mVideo; // 播放控件
     private RelativeLayout mLayoutVideo; // 播放容器
 
+    public static void nav(Context context, String url) {
+        Intent i = new Intent(context, VideoActivity.class)
+                .putExtra(Extra.KData, url);
+        LaunchUtil.startActivity(context, i);
+    }
+
     @Override
     public void initData() {
-        mUriString = "http://baobab.wdjcdn.com/1458625865688ONE.mp4";
+        mUriString = getIntent().getStringExtra(Extra.KData);
     }
 
     @NonNull
@@ -315,7 +325,8 @@ public class VideoActivity extends BaseActivity implements
                 showToast("播放器准备超时");
                 break;
             default:
-                return false; // 不处理
+                showToast("播放错误");
+                return false;
         }
         return true;
     }

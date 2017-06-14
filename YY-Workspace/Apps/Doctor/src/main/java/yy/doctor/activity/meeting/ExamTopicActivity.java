@@ -28,7 +28,7 @@ import yy.doctor.util.Util;
  */
 
 public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownListener {
-
+    // FIXME: 2017/6/14 5分钟倒计时
     private static final int KTextSizeDp = 16;
     private static final long KFiveMin = TimeUnit.MINUTES.toSeconds(5);
 

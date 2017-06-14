@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="100道题"
+            android:text="0道题"
             android:textColor="@color/text_333"
             android:textSize="17dp"/>
 

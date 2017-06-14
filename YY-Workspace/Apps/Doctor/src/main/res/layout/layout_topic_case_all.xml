@@ -4,7 +4,7 @@
     android:id="@+id/topic_case_all_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/translucent"
+    android:background="#4D000000"
     android:gravity="bottom"
     android:orientation="vertical"
     android:visibility="gone">
@@ -12,7 +12,7 @@
     <GridView
         android:id="@+id/topic_case_all_gv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="190dp"
         android:background="@color/white"
         android:listSelector="@color/white"
         android:numColumns="6"

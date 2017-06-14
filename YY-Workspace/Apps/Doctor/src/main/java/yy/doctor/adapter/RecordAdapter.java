@@ -64,6 +64,7 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
             case RecordType.video:
                 break;
             case RecordType.audio:
+                setOnViewClickListener(position, holder.getTvAudio());
                 break;
             case RecordType.pic_audio: {
                 // 区别于纯图片的功能

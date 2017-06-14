@@ -6,6 +6,8 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.List;
+
 import lib.network.model.NetworkResp;
 import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.other.NavBar;
@@ -43,6 +45,11 @@ public class ResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
     private String mSearchContent; // 搜索内容
     private EditText mEtSearch;
     private View mEmpty;
+    private List<Meeting> mMeets;
+    private List<UnitNum> mUnitNums;
+
+    private boolean mMeetReqIsOK;
+    private boolean mUnitNumReqIsOK;
 
     /**
      * 搜索类型
@@ -139,32 +146,24 @@ public class ResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
         if (id == KMeeting) {
             // 会议
             result = JsonParser.evs(r.getText(), Meeting.class);
-//            mBannerReqIsOK
-        } else if (id == KUnitNum) {
-            // 单位号
-            result = JsonParser.evs(r.getText(), UnitNum.class);
+            mMeetReqIsOK = result.isSucceed();
+            if (mMeetReqIsOK) {
+                mMeets = result.getData();
+            }
         } else {
-            // 推荐单位号
+            // 单位号 / 推荐单位号
             result = JsonParser.evs(r.getText(), UnitNum.class);
+            mUnitNumReqIsOK = result.isSucceed();
+            if (mUnitNumReqIsOK) {
+                mUnitNums = result.getData();
+            }
         }
         return result;
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-//        if (id == KReqIdBanner) {
-//            result = evs(r.getText(), Banner.class);
-//            mBannerReqIsOK = result.isSucceed();
-//            if (mBannerReqIsOK) {
-//                mBanners = result.getData();
-//            }
-//        } else if (id == KReqIdUnitNum) {
-//            result = evs(r.getText(), RecUnitNum.class);
-//            mUnitNumReqIsOK = result.isSucceed();
-//            if (mUnitNumReqIsOK) {
-//                mRecUnitNums = result.getData();
-//            }
-//        }
+
 
         setViewState(DecorViewEx.ViewState.normal);
         super.onNetworkSuccess(id, result);
