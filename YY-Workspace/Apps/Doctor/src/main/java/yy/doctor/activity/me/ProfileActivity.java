@@ -18,7 +18,7 @@ import java.util.List;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
@@ -438,7 +438,7 @@ public class ProfileActivity extends BaseFormActivity {
     private void modify() {
 
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
-        LogMgr.d(TAG, "省市 = " + str);
+        YSLog.d(TAG, "省市 = " + str);
         mStrProvince = str.substring(0, str.indexOf(" "));
         String[] strs = str.split(" ");
         for (int i = 0; i < strs.length; i++) {
@@ -451,9 +451,9 @@ public class ProfileActivity extends BaseFormActivity {
                 mStrArea = s;
             }
         }
-        LogMgr.d(TAG, "province = " + mStrProvince);
-        LogMgr.d(TAG, "city = " + mStrCity);
-        LogMgr.d(TAG, "area = " + mStrArea);
+        YSLog.d(TAG, "province = " + mStrProvince);
+        YSLog.d(TAG, "city = " + mStrCity);
+        YSLog.d(TAG, "area = " + mStrArea);
 
         NetworkReq r = NetFactory.newModifyBuilder()
                 .headImgUrl(mAvatarUrl)
@@ -494,7 +494,7 @@ public class ProfileActivity extends BaseFormActivity {
                 UpHeadImage upHeadImage = r.getData();
                 mAvatarUrl = upHeadImage.getString(TUpHeadImage.url);
 
-                LogMgr.d(TAG, "onNetworkSuccess: 头像设置成功 = " + mAvatarUrl);
+                YSLog.d(TAG, "onNetworkSuccess: 头像设置成功 = " + mAvatarUrl);
                 //头像路径保存到本地
                 Profile.inst().update(Profile.inst().put(TProfile.headimg, mAvatarUrl));
                 modify();

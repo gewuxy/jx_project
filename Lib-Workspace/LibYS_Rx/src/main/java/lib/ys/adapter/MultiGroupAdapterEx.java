@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import lib.ys.AppEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
@@ -128,7 +128,7 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
         try {
             t = mTs.get(groupPosition);
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
 
         return t;

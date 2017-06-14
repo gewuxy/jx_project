@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 public class FileUtil {
 
@@ -31,7 +31,7 @@ public class FileUtil {
             File myFilePath = new File(filePath);
             myFilePath.delete(); // 删除空文件夹
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
     }
 
@@ -68,7 +68,7 @@ public class FileUtil {
         try {
             delAllFile(folderPath); // 删除完里面所有内容
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
     }
 
@@ -155,7 +155,7 @@ public class FileUtil {
             return true;
 
         } catch (Exception ex) {
-            LogMgr.d(TAG, ex);
+            YSLog.d(TAG, ex);
             return false;
         }
     }
@@ -166,7 +166,7 @@ public class FileUtil {
                 input.close();
             }
         } catch (IOException e) {
-            LogMgr.d(TAG, e);
+            YSLog.d(TAG, e);
         }
     }
 
@@ -176,7 +176,7 @@ public class FileUtil {
                 output.close();
             }
         } catch (IOException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
     }
 
@@ -188,7 +188,7 @@ public class FileUtil {
             }
 
         } catch (IOException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
     }
 
@@ -199,7 +199,7 @@ public class FileUtil {
             }
 
         } catch (IOException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
     }
 
@@ -210,7 +210,7 @@ public class FileUtil {
             oos.writeObject(obj);
 
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         } finally {
             closeOutStream(oos);
         }

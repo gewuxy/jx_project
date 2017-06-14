@@ -3,7 +3,7 @@ package lib.network.provider.ok;
 import java.util.HashMap;
 import java.util.Map;
 
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkMethod;
 import lib.network.model.NetworkReq;
@@ -78,7 +78,7 @@ public class OkProvider extends BaseProvider {
     @Override
     public WebSocket loadWebSocket(NetworkReq req, WebSocketListener lsn) {
         String url = NetworkUtil.generateGetUrl(req.getUrl(), req.getParams());
-        LogNetwork.d("url_web socket = " + url);
+        NetworkLog.d("url_web socket = " + url);
 
         Request realReq = new Request.Builder()
                 .url(url)

@@ -2,7 +2,7 @@ package lib.ys.crash;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.util.UtilEx;
 
 public class CrashMgr implements UncaughtExceptionHandler {
@@ -46,7 +46,7 @@ public class CrashMgr implements UncaughtExceptionHandler {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                LogMgr.e(TAG, e);
+                YSLog.e(TAG, e);
             }
             // 退出程序
             killSelf();

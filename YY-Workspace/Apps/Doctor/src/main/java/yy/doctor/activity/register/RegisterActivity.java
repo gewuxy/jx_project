@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
@@ -153,7 +153,7 @@ public class RegisterActivity extends BaseFormActivity {
         String strCity = null;
         String strArea = null;
         String str = getItemStr(RelatedId.location);
-        LogMgr.d(TAG, " address = " + str);
+        YSLog.d(TAG, " address = " + str);
         String[] strs = str.split(" ");
         for (int i = 0; i < strs.length; i++) {
             String s = strs[i];

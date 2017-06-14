@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import cn.jpush.android.api.JPushInterface;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 /**
  * 自定义接收器
@@ -27,27 +27,27 @@ abstract public class BaseJPushReceiver extends BroadcastReceiver {
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(action)) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            LogMgr.d(TAG, "接收Registration Id : " + regId);
+            YSLog.d(TAG, "接收Registration Id : " + regId);
             onRegistrationId(context, regId);
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(action)) {
             String message = bundle.getString(JPushInterface.EXTRA_EXTRA);
             String content = bundle.getString(JPushInterface.EXTRA_MESSAGE);
             String title = bundle.getString(JPushInterface.EXTRA_TITLE);
-            LogMgr.d(TAG, "接收到推送下来的自定义消息: message " + message);
-            LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + content);
-            LogMgr.d(TAG, "接收到推送下来的自定义消息: title " + title);
+            YSLog.d(TAG, "接收到推送下来的自定义消息: message " + message);
+            YSLog.d(TAG, "接收到推送下来的自定义消息: content " + content);
+            YSLog.d(TAG, "接收到推送下来的自定义消息: title " + title);
             onMessage(context, message, content, title);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(action)) {
             String msg = bundle.getString(JPushInterface.EXTRA_EXTRA);
             int notificationId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            LogMgr.d(TAG, "接收到推送下来的通知的ID: " + notificationId);
-            LogMgr.d(TAG, "onReceive: msg = " + msg);
+            YSLog.d(TAG, "接收到推送下来的通知的ID: " + notificationId);
+            YSLog.d(TAG, "onReceive: msg = " + msg);
             onNotification(context, msg);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            LogMgr.d(TAG, "用户点击打开了通知");
+            YSLog.d(TAG, "用户点击打开了通知");
             onOpenNotification(context);
         }
         /**

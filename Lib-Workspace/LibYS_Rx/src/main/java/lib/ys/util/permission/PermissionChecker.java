@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.util.DeviceUtil;
 
 public class PermissionChecker {
@@ -117,7 +117,7 @@ public class PermissionChecker {
         CheckTask task = mMap.get(requestCode);
         if (idx == ConstantsEx.KErrNotFound) {
             // 全部都允许
-            LogMgr.d(TAG, "onRequestPermissionsResult()" + "通过");
+            YSLog.d(TAG, "onRequestPermissionsResult()" + "通过");
             mMap.remove(requestCode);
             task.getListener().onPermissionResult(task.getCode(), PermissionResult.granted);
         } else {
@@ -130,10 +130,10 @@ public class PermissionChecker {
             }
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(act, permissions[idx])) {
-                LogMgr.d(TAG, "onRequestPermissionsResult()" + "再次询问");
+                YSLog.d(TAG, "onRequestPermissionsResult()" + "再次询问");
                 requestPermission(task);
             } else {
-                LogMgr.d(TAG, "onRequestPermissionsResult()" + "不通过");
+                YSLog.d(TAG, "onRequestPermissionsResult()" + "不通过");
                 task.getListener().onPermissionResult(task.getCode(), PermissionResult.denied);
             }
         }

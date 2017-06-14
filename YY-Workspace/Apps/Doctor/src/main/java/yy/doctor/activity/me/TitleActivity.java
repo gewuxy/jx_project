@@ -3,7 +3,7 @@ package yy.doctor.activity.me;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
@@ -58,7 +58,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     @Override
     public void onGradeSelected(int position, String grade) {
         mGrade = grade;
-        LogMgr.d(TAG, "grade = " + grade);
+        YSLog.d(TAG, "grade = " + grade);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         Intent i = new Intent();
         i.putExtra(Extra.KProvince, mGrade);
         i.putExtra(Extra.KCity, category);
-        LogMgr.d(TAG, "category = " + category);
+        YSLog.d(TAG, "category = " + category);
         setResult(RESULT_OK, i);
         finish();
     }

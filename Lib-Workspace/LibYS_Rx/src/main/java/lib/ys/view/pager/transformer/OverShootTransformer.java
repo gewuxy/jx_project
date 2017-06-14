@@ -3,7 +3,7 @@ package lib.ys.view.pager.transformer;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 /**
  * FIXME: 未完成, 因为无法判断方向, 暂时没有好方法
@@ -38,17 +38,17 @@ public class OverShootTransformer extends BaseTransformer {
             float scaleFactor = mInterpolator.getInterpolation(base);
 //            scaleFactor -= position;
             int x = (int) ((int) (scaleFactor * pageWidth) - (base) * pageWidth);
-            LogMgr.d("www", "onTurn: x = " + x);
-            LogMgr.d("www", "onTurn: scale = " + scaleFactor);
-            LogMgr.d("www", "onTurn: dis = " + (scaleFactor * pageWidth));
-            LogMgr.d("www", "onTurn: position = " + position);
+            YSLog.d("www", "onTurn: x = " + x);
+            YSLog.d("www", "onTurn: scale = " + scaleFactor);
+            YSLog.d("www", "onTurn: dis = " + (scaleFactor * pageWidth));
+            YSLog.d("www", "onTurn: position = " + position);
             if (x > 0) {
 
                 v.setTranslationX(-x);
             }
         }
 
-        LogMgr.d("www", "onTurn: ======================= = ");
+        YSLog.d("www", "onTurn: ======================= = ");
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.Network;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkReq;
@@ -42,7 +42,7 @@ public class UploadTask extends Task {
     @Override
     public Request buildRealReq() {
         String url = NetworkUtil.generateGetUrl(getReq().getUrl(), getReq().getParams());
-        LogNetwork.d("url_upload = " + url);
+        NetworkLog.d("url_upload = " + url);
 
         MultipartBody.Builder b = new Builder().setType(MultipartBody.FORM);
 
@@ -214,20 +214,20 @@ public class UploadTask extends Task {
                     bos = new BufferedOutputStream(fos);
                     bos.write(bytes);
                 } catch (Exception e) {
-                    LogNetwork.e(e);
+                    NetworkLog.e(e);
                 } finally {
                     if (bos != null) {
                         try {
                             bos.close();
                         } catch (IOException e) {
-                            LogNetwork.e(e);
+                            NetworkLog.e(e);
                         }
                     }
                     if (fos != null) {
                         try {
                             fos.close();
                         } catch (IOException e) {
-                            LogNetwork.e(e);
+                            NetworkLog.e(e);
                         }
                     }
                 }

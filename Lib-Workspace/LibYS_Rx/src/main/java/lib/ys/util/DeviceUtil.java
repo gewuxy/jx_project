@@ -27,7 +27,7 @@ import java.util.List;
 
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 
@@ -133,7 +133,7 @@ public class DeviceUtil {
                 }
             }
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
         return imei;
     }
@@ -181,7 +181,7 @@ public class DeviceUtil {
                 apiKey = metaData.getString(metaKey);
             }
         } catch (NameNotFoundException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
             apiKey = ConstantsEx.KEmptyValue;
         }
         return apiKey;
@@ -197,7 +197,7 @@ public class DeviceUtil {
             appInfo = AppEx.ct().getPackageManager().getApplicationInfo(AppEx.ct().getPackageName(), PackageManager.GET_META_DATA);
             appInfo.metaData.putString(key, value);
         } catch (NameNotFoundException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
     }
 
@@ -222,7 +222,7 @@ public class DeviceUtil {
         try {
             version = Build.VERSION.SDK_INT;
         } catch (NumberFormatException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
         return version;
     }
@@ -256,7 +256,7 @@ public class DeviceUtil {
                 return "";
             }
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
         return versionName;
     }
@@ -269,7 +269,7 @@ public class DeviceUtil {
             PackageInfo packageInfo = packageManager.getPackageInfo(AppEx.ct().getPackageName(), 0);
             versionCode = packageInfo.versionCode;
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
         return versionCode;
     }

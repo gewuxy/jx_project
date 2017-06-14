@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 public class MoneyUtil {
 
@@ -28,11 +28,11 @@ public class MoneyUtil {
 //			LogMgr.d(TAG, "number = " + number.toString());
 //			LogMgr.d(TAG, "ret = " + ret);
         } catch (ParseException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
             try {
                 ret = Double.valueOf(money);
             } catch (NumberFormatException e2) {
-                LogMgr.e(TAG, e2);
+                YSLog.e(TAG, e2);
             }
         }
 
@@ -60,7 +60,7 @@ public class MoneyUtil {
             DecimalFormat df = new DecimalFormat(KDecimalFormat);
             ret = df.format(ret);
         } catch (ParseException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
 
         return ret;

@@ -6,7 +6,7 @@ import android.view.ViewTreeObserver;
 
 import com.pili.pldroid.player.widget.PLVideoView;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
@@ -129,13 +129,13 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
 
     @Override
     public void onCountDownErr() {
-        LogMgr.d(TAG, "onCountDownErr()");
+        YSLog.d(TAG, "onCountDownErr()");
     }
 
     @Override
     public void onCountDown(long remainCount) {
         if (mListener != null) {
-            LogMgr.d(TAG,"count" + remainCount);
+            YSLog.d(TAG,"count" + remainCount);
             mListener.onVideoProgress(getCurrentPosition() / 1000);
         }
     }

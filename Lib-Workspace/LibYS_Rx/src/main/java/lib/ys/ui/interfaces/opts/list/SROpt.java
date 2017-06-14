@@ -13,7 +13,7 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx.ListConstants;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
@@ -184,7 +184,7 @@ public class SROpt<T> implements ISRListener {
     }
 
     public Object onNetworkResponse(int id, NetworkResp nr, String tag) throws Exception {
-        LogMgr.d(tag, nr.getText());
+        YSLog.d(tag, nr.getText());
         return mSROptListener.parseNetworkResponse(id, nr.getText());
     }
 
@@ -380,7 +380,7 @@ public class SROpt<T> implements ISRListener {
      * 网络数据刷新成功
      */
     private void onNetRefreshSuccess() {
-        LogMgr.d(TAG, "onNetRefreshSuccess()");
+        YSLog.d(TAG, "onNetRefreshSuccess()");
 
         mSROptListener.setViewState(ViewState.normal);
 
@@ -404,7 +404,7 @@ public class SROpt<T> implements ISRListener {
      * 网络数据刷新错误
      */
     protected void onNetRefreshError() {
-        LogMgr.d(TAG, "onNetRefreshError()");
+        YSLog.d(TAG, "onNetRefreshError()");
 
         if (useErrorView() && mScrollOpt.isEmpty()) {
             mSROptListener.setViewState(ViewState.error);
@@ -433,7 +433,7 @@ public class SROpt<T> implements ISRListener {
     }
 
     private void onLocalRefreshSuccess() {
-        LogMgr.d(TAG, "onLocalRefreshSuccess()");
+        YSLog.d(TAG, "onLocalRefreshSuccess()");
 
         mSROptListener.setViewState(ViewState.normal);
 
@@ -447,7 +447,7 @@ public class SROpt<T> implements ISRListener {
     }
 
     private void onLocalRefreshError() {
-        LogMgr.d(TAG, "onLocalRefreshError()");
+        YSLog.d(TAG, "onLocalRefreshError()");
 
         if (useErrorView() && mScrollOpt.isEmpty()) {
             mSROptListener.setViewState(ViewState.error);

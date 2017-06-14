@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.AppEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
@@ -61,7 +61,7 @@ abstract public class PagerAdapterEx<T, VH extends IViewHolder> extends PagerAda
             }
             t = mTs.get(position);
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
 
         return t;

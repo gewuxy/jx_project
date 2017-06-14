@@ -9,7 +9,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.network.NetFactory;
@@ -79,7 +79,7 @@ public class SubmitBuilder {
                         o.put(MeetParam.KAnswer, answer.getString(TAnswer.answer));
                         o.put(MeetParam.KQuestionId, answer.getString(TAnswer.id));
                     } catch (JSONException e) {
-                        LogMgr.e(TAG, MeetParam.KItemJson, e);
+                        YSLog.e(TAG, MeetParam.KItemJson, e);
                     }
 
                     arr.put(o);

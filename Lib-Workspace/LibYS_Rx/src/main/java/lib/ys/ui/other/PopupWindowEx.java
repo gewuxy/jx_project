@@ -27,7 +27,7 @@ import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.R;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.impl.NetworkOptImpl;
@@ -192,12 +192,12 @@ abstract public class PopupWindowEx implements
     public void onNetworkError(int id, NetError error) {
         Exception e = error.getException();
         if (e != null) {
-            LogMgr.d(TAG, "onNetworkError: id = " + id);
-            LogMgr.d(TAG, "onNetworkError: e = " + e.getMessage());
-            LogMgr.d(TAG, "onNetworkError: msg = " + error.getMessage());
-            LogMgr.d(TAG, "onNetworkError: end=======================");
+            YSLog.d(TAG, "onNetworkError: id = " + id);
+            YSLog.d(TAG, "onNetworkError: e = " + e.getMessage());
+            YSLog.d(TAG, "onNetworkError: msg = " + error.getMessage());
+            YSLog.d(TAG, "onNetworkError: end=======================");
         } else {
-            LogMgr.d(TAG, "onNetworkError(): " + "tag = [" + id + "], error = [" + error.getMessage() + "]");
+            YSLog.d(TAG, "onNetworkError(): " + "tag = [" + id + "], error = [" + error.getMessage() + "]");
         }
     }
 

@@ -1,21 +1,19 @@
-package lib.ys;
+package lib.network;
 
 import android.util.Log;
 
-public final class LogMgr {
+public final class NetworkLog {
+
+    private static final String TAG = NetworkLog.class.getSimpleName();
 
     private static final String KSeparate = "=========";
-    private static boolean mIsDebug = true;
+    private static final boolean mIsDebug = true;
 
-    private LogMgr() {
+    private NetworkLog() {
     }
 
     public static boolean isDebug() {
         return mIsDebug;
-    }
-
-    public static void setDebugState(boolean isDebug) {
-        mIsDebug = isDebug;
     }
 
     public static int v(String tag, String msg) {
@@ -37,6 +35,14 @@ public final class LogMgr {
     public static int d(String tag, String msg) {
         if (mIsDebug) {
             return Log.d(tag, msg);
+        } else {
+            return 0;
+        }
+    }
+
+    public static int d(String msg) {
+        if (mIsDebug) {
+            return Log.d(TAG, msg);
         } else {
             return 0;
         }
@@ -66,27 +72,33 @@ public final class LogMgr {
         }
     }
 
+    public static void e(String msg, Throwable tr) {
+        if (mIsDebug) {
+            Log.e(TAG, msg, tr);
+        }
+    }
+
     public static void e(String tag, String msg, Throwable tr) {
         if (mIsDebug) {
             Log.e(tag, msg, tr);
         }
     }
 
-    public static void d(String tag, Throwable e) {
+    public static void e(Throwable e) {
         if (mIsDebug) {
-            Log.d(tag, KSeparate + e.getClass().getSimpleName() + KSeparate, e);
-        }
-    }
-
-    public static void e(String tag, Throwable e) {
-        if (mIsDebug) {
-            Log.e(tag, KSeparate + e.getClass().getSimpleName() + KSeparate, e);
+            Log.e(TAG, KSeparate + e.getClass().getSimpleName() + KSeparate, e);
         }
     }
 
     public static void e(String tag, String log) {
         if (mIsDebug) {
             Log.e(tag, log);
+        }
+    }
+
+    public static void e(String log) {
+        if (mIsDebug) {
+            Log.e(TAG, log);
         }
     }
 

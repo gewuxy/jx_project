@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.model.EVal;
 import lib.network.model.interfaces.IListResult;
 import lib.network.model.interfaces.IResult;
@@ -34,7 +34,7 @@ public class JsonUtil {
         try {
             ret = json.optString(tag);
         } catch (Exception e) {
-            LogMgr.d(TAG, tag, e);
+            YSLog.d(TAG, tag, e);
         }
 
         return ret;
@@ -45,7 +45,7 @@ public class JsonUtil {
         try {
             ret = json.optInt(tag);
         } catch (Exception e) {
-            LogMgr.d(TAG, tag, e);
+            YSLog.d(TAG, tag, e);
         }
         return ret;
     }
@@ -55,7 +55,7 @@ public class JsonUtil {
         try {
             ret = json.optLong(tag);
         } catch (Exception e) {
-            LogMgr.d(TAG, tag, e);
+            YSLog.d(TAG, tag, e);
         }
         return ret;
     }
@@ -65,7 +65,7 @@ public class JsonUtil {
         try {
             ret = json.optDouble(tag);
         } catch (Exception e) {
-            LogMgr.d(TAG, tag, e);
+            YSLog.d(TAG, tag, e);
         }
         return ret;
     }
@@ -162,7 +162,7 @@ public class JsonUtil {
                 map.put(key, object.get(key));
             }
         } catch (JSONException e) {
-            LogMgr.e(TAG, "toMap", e);
+            YSLog.e(TAG, "toMap", e);
         }
 
         return map;

@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import lib.network.model.NetworkReq;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
@@ -183,7 +183,7 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
 
     protected void setOnClickListener(@NonNull View v) {
         if (v == null) {
-            LogMgr.d(TAG, "setOnClickListener()" + "v is null");
+            YSLog.d(TAG, "setOnClickListener()" + "v is null");
             return;
         }
         v.setOnClickListener(this);
@@ -191,7 +191,7 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
 
     protected void removeOnClickListener(@NonNull View v) {
         if (v == null) {
-            LogMgr.d(TAG, "removeOnClickListener()" + "v is null");
+            YSLog.d(TAG, "removeOnClickListener()" + "v is null");
             return;
         }
         v.setClickable(false);

@@ -3,7 +3,7 @@ package yy.doctor.adapter.meeting;
 import android.view.View;
 import android.widget.ImageView;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicVH;
@@ -62,7 +62,7 @@ public class TopicAdapter extends AdapterEx<Choice, TopicVH> {
             }
 
             if (mOnItemCheckListener != null) {
-                LogMgr.d(TAG, "Checked");
+                YSLog.d(TAG, "Checked");
                 mOnItemCheckListener.onItemCheckListener(ivAnswer);
             }
         });

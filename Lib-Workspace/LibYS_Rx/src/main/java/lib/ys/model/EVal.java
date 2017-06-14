@@ -17,7 +17,7 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.model.inject.BindInit;
 import lib.ys.model.inject.BindList;
 import lib.ys.model.inject.BindObj;
@@ -437,7 +437,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 }
             }
         } catch (Exception e) {
-            LogMgr.e(TAG, "toCommonJson", e);
+            YSLog.e(TAG, "toCommonJson", e);
         }
 
         return obj;
@@ -518,7 +518,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
         try {
             setStoreText(this, text);
         } catch (JSONException e) {
-            LogMgr.e(TAG, "put", e);
+            YSLog.e(TAG, "put", e);
         }
     }
 
@@ -544,7 +544,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             try {
                 clz = Class.forName(className);
             } catch (ClassNotFoundException ex) {
-                LogMgr.e(TAG, className, ex);
+                YSLog.e(TAG, className, ex);
                 continue;
             }
 
@@ -586,7 +586,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             try {
                 clz = Class.forName(className);
             } catch (ClassNotFoundException e) {
-                LogMgr.e(TAG, className, e);
+                YSLog.e(TAG, className, e);
                 continue;
             }
 
@@ -637,7 +637,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             try {
                 t.parse(text);
             } catch (JSONException e) {
-                LogMgr.e("EVal", "newJSONInst", e);
+                YSLog.e("EVal", "newJSONInst", e);
             }
         }
 

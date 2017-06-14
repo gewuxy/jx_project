@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 /**
  * 生成设备唯一ID的工具
@@ -50,7 +50,7 @@ public class DeviceIdUtil {
                 return putId(pref, UUID.randomUUID());
             }
         } catch (Exception e) {
-            LogMgr.e(TAG, "getId", e);
+            YSLog.e(TAG, "getId", e);
         }
 
         return mId;

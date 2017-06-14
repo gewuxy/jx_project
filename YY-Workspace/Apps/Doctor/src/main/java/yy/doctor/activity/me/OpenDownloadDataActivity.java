@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.activity.base.BaseActivity;
@@ -106,7 +106,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
                 }
                 startActivity(intent);
             } catch (Exception e) {
-                LogMgr.d(TAG, " error msg " + e.getMessage());
+                YSLog.d(TAG, " error msg " + e.getMessage());
                 showToast("没有安装相应的软件");
             }
         }

@@ -4,7 +4,7 @@ import android.view.View;
 
 import java.lang.reflect.Field;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.model.inject.ViewId;
 
 
@@ -47,7 +47,7 @@ public class InjectUtil {
                     f.setAccessible(true);
                     f.set(host, v);
                 } catch (Exception e) {
-                    LogMgr.e(clz.getSimpleName(), "injectViews", e);
+                    YSLog.e(clz.getSimpleName(), "injectViews", e);
                 }
             }
         }

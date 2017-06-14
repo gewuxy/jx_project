@@ -20,7 +20,7 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.MapList;
@@ -407,13 +407,13 @@ public class MeetingDetailsActivity extends BaseActivity {
                 //定位成功
                 mLatitude = gps.getString(TGps.latitude);
                 mLongitude = gps.getString(TGps.longitude);
-                LogMgr.d(TAG, "Gps-Latitude:" + mLatitude);
-                LogMgr.d(TAG, "Gps-Longitude:" + mLongitude);
+                YSLog.d(TAG, "Gps-Latitude:" + mLatitude);
+                YSLog.d(TAG, "Gps-Longitude:" + mLongitude);
                 exeNetworkReq(KIdSign, NetFactory.toSign(mMeetId, mMapList.getByKey(FunctionType.sign)));
             } else {
                 runOnUIThread(() -> stopRefresh());
                 //定位失败
-                LogMgr.d(TAG, "Gps:失败");
+                YSLog.d(TAG, "Gps:失败");
                 if (mLocationDialog == null) {
                     initDialog();
                 }

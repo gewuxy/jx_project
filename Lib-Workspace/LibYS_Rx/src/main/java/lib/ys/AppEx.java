@@ -49,7 +49,7 @@ abstract public class AppEx extends Application {
 
         if (enableCatchCrash()) {
             CrashMgr.inst().init(e -> {
-                LogMgr.e(TAG, "handleCrashException", e);
+                YSLog.e(TAG, "handleCrashException", e);
                 handleCrash(e);
                 return true;
             });

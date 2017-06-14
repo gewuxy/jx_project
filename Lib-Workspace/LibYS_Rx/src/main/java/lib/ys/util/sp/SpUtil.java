@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.model.EVal;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -44,7 +44,7 @@ public class SpUtil {
         } else if (value instanceof Serializable) {
             return save(sp, key, (Serializable) value);
         } else {
-            LogMgr.d(TAG, "未知类型 = " + value);
+            YSLog.d(TAG, "未知类型 = " + value);
             return false;
         }
     }
@@ -89,7 +89,7 @@ public class SpUtil {
             oos.close();
             baos.close();
         } catch (IOException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
             return false;
         }
         return true;
@@ -216,7 +216,7 @@ public class SpUtil {
             bais.close();
             return ret;
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
         return null;
     }

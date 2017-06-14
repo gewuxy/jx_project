@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
@@ -334,8 +334,8 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
         Intent shortcutIntent = new Intent();
         //设置点击快捷方式时启动的Activity,因为是从Lanucher中启动，所以包名类名要写全。
         shortcutIntent.setComponent(new ComponentName(getPackageName(), LaunchTempActivity.class.getName()));
-        LogMgr.d(TAG, " getPackageName() = " + getPackageName());
-        LogMgr.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTempActivity.class.getName());
+        YSLog.d(TAG, " getPackageName() = " + getPackageName());
+        YSLog.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTempActivity.class.getName());
         //设置启动的模式
         shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.putExtra(Extra.KUnitNumId, mUnitNumId);
