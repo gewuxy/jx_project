@@ -368,6 +368,7 @@ public class NetFactory {
 
     /**
      * 检查app版本
+     *
      * @return
      */
     public static NetworkReq checkAppVersion() {
@@ -684,6 +685,7 @@ public class NetFactory {
     public static SubmitBuilder submitEx() {
         return new SubmitBuilder(UrlMeet.KSubmitEx);
     }
+
     /**
      * 问卷提交
      */
@@ -763,10 +765,14 @@ public class NetFactory {
 
     /**
      * 会议评论 web socket
+     *
      * @return
      */
-    public static NetworkReq commentIM() {
-        return newGet(UrlMeet.KComment).build();
+    public static NetworkReq commentIM(String meetId) {
+        return NetworkReq.newBuilder("ws://www.medcn.com:8081/v7/api/im")
+                .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
+                .param(MeetParam.KMeetId, meetId)
+                .build();
     }
 
     /*********************************

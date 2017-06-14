@@ -141,12 +141,10 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         if (remainCount != 0) {
             if (remainCount == KFiveMin) {
                 // 剩余5分钟
-                if (mCloseDialog == null) {
-                    mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
-                    mCloseDialog.setMainHint(getString(R.string.exam_five_min));
-                    mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
-                    mCloseDialog.addButton("确定", "#0682e6", v -> mCloseDialog.dismiss());
-                }
+                mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
+                mCloseDialog.setMainHint(getString(R.string.exam_five_min));
+                mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
+                mCloseDialog.addButton("确定", "#0682e6", v -> mCloseDialog.dismiss());
                 // FIXME: 2017/6/13 倒数
                 mCloseDialog.show();
                 /*{
@@ -160,16 +158,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
                 mCloseDialog.start(KXClose);*/
             }
         } else {
-            if (mSubmitDialog == null) {
-                mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
-                mSubmitDialog.setMainHint(getString(R.string.exam_end));
-                mSubmitDialog.setSecHint(getString(R.string.exam_submit));
-                mSubmitDialog.setCancelable(false);
-                mSubmitDialog.addButton("确定", "#0682e6", v -> {
-                    mSubmitDialog.dismiss();
-                    submit();
-                });
-            }
+            mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
+            mSubmitDialog.setMainHint(getString(R.string.exam_end));
+            mSubmitDialog.setSecHint(getString(R.string.exam_submit));
+            mSubmitDialog.setCancelable(false);
+            mSubmitDialog.addButton("确定", "#0682e6", v -> {
+                mSubmitDialog.dismiss();
+                submit();
+            });
             mSubmitDialog.show();
         }
     }
