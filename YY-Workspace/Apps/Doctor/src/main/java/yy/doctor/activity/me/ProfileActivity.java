@@ -418,7 +418,7 @@ public class ProfileActivity extends BaseFormActivity {
                 mBmp = ClipImageActivity.mBmp;
                 mCircleBmp = BmpUtil.toCircle(mBmp);
                 mIvAvatar.setImageBitmap(mCircleBmp);
-                //LogMgr.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
+                //YSLog.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
     }

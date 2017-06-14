@@ -14,7 +14,7 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -165,7 +165,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             comment.put(TComment.sendTime, jb.getString("sendTime"));
             comment.put(TComment.headimg, jb.getString("headimg"));
         } catch (JSONException e) {
-            LogMgr.d(TAG, "toComment:" + e.toString());
+            YSLog.d(TAG, "toComment:" + e.toString());
         }
         return comment;
     }
@@ -174,12 +174,12 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
-            LogMgr.d(TAG, "onOpen:" + response.message());
+            YSLog.d(TAG, "onOpen:" + response.message());
         }
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
-            LogMgr.d(TAG, "onMessage:String" + text);
+            YSLog.d(TAG, "onMessage:String" + text);
             runOnUIThread(() -> {
                 addItem(toComment(text));
                 invalidate();
@@ -190,22 +190,22 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
         @Override
         public void onMessage(WebSocket webSocket, ByteString bytes) {
-            LogMgr.d(TAG, "onMessage:ByteString" + bytes);
+            YSLog.d(TAG, "onMessage:ByteString" + bytes);
         }
 
         @Override
         public void onClosing(WebSocket webSocket, int code, String reason) {
-            LogMgr.d(TAG, "onClosing:" + reason);
+            YSLog.d(TAG, "onClosing:" + reason);
         }
 
         @Override
         public void onClosed(WebSocket webSocket, int code, String reason) {
-            LogMgr.d(TAG, "onClosed:" + reason);
+            YSLog.d(TAG, "onClosed:" + reason);
         }
 
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            LogMgr.d(TAG, "onFailure:");
+            YSLog.d(TAG, "onFailure:");
             // 2S秒后重连
             runOnUIThread(() -> exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener()), 2000);
         }

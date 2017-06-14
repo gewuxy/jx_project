@@ -141,7 +141,7 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
                         } else {
                             //定位失败  显示dialog
                             showView(mTvLocationFailure);
-                            //LogMgr.d("Gps", "失败");
+                            //YSLog.d("Gps", "失败");
                             mLocation = null;
 
                             showLocDialog();

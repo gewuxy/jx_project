@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import org.json.JSONException;
 
 import lib.jg.jpush.BaseJPushReceiver;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
@@ -37,25 +37,25 @@ public class JPushReceiver extends BaseJPushReceiver {
 
     @Override
     protected void onRegistrationId(Context context, String id) {
-        LogMgr.d(TAG, "onRegistrationId: id = " + id);
+        YSLog.d(TAG, "onRegistrationId: id = " + id);
         if (!TextUtil.isEmpty(id) && TextUtil.isEmpty(SpUser.inst().getString(SpUserKey.KJPushRegisterId))) {
             Intent intent = new Intent(context, CommonServ.class);
             intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
                     .putExtra(Extra.KData, id);
             context.startService(intent);
-            LogMgr.d(TAG, "启动绑定极光服务");
+            YSLog.d(TAG, "启动绑定极光服务");
         }
     }
 
     //自定义消息
     @Override
     protected void onMessage(Context context, String message) {
-        LogMgr.d(TAG, "接收到推送下来的自定义消息: message " + message);
+        YSLog.d(TAG, "接收到推送下来的自定义消息: message " + message);
 
         try {
             JPushMsg jPushMsg = new JPushMsg();
             jPushMsg.parse(message);
-            LogMgr.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
+            YSLog.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
 
             //把消息添加进数据库
             Notice notice = new Notice();
@@ -93,7 +93,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             manager.notify(0, builder.build());
         } catch (JSONException e) {
             e.printStackTrace();
-            LogMgr.d(TAG, " jpush msg 解析数据 error = " + e.getMessage());
+            YSLog.d(TAG, " jpush msg 解析数据 error = " + e.getMessage());
         }
     }
 
@@ -101,13 +101,13 @@ public class JPushReceiver extends BaseJPushReceiver {
     @Override
     protected void onNotification(Context context, String message) {
         //解析数据
-        LogMgr.d(TAG, " 普通消息 jpush onNotification = " + message);
+        YSLog.d(TAG, " 普通消息 jpush onNotification = " + message);
     }
 
     //点击事件
     @Override
     protected void onOpenNotification(Context context) {
-        LogMgr.d(TAG, " 点击事件 jpush onOpenNotification ");
+        YSLog.d(TAG, " 点击事件 jpush onOpenNotification ");
     }
 
 }
