@@ -30,4 +30,7 @@ public interface Extra {
 
     String KLogout = "logout";
     String KJPushRegisterId = "JPushRegisterId";
+
+    String KMeetingType = "meeting";
+    String KUnitNumType = "unitNum";
 }

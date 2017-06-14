@@ -17,14 +17,12 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.CutInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseListActivity;
@@ -296,7 +294,7 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
                     @Override
                     public void onClick(View v) {
-                        UnitNumDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id));
+                        UnitNumDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id), Extra.KUnitNumType);
                     }
                 });
             }
@@ -351,23 +349,6 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
         resultIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         sendBroadcast(resultIntent);
-    }
-
-    /**
-     * 添加文件item
-     *
-     * @param text
-     * @param l
-     */
-    public void addFileItem(CharSequence text, OnClickListener l) {
-
-        View v = getLayoutInflater().inflate(R.layout.layout_unit_num_detail_file_item, null);
-        TextView tv = (TextView) v.findViewById(R.id.unit_num_detail_file_item_tv_name);
-        tv.setText(text);
-        v.setOnClickListener(l);
-
-        LayoutFitter.fit(v);
-        mLayoutFile.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
     }
 
     public class AttentionUnitNum {

@@ -11,9 +11,15 @@ import org.json.JSONException;
 import lib.jg.jpush.BaseJPushReceiver;
 import lib.ys.LogMgr;
 import lib.ys.util.TextUtil;
+import lib.yy.Notifier;
+import lib.yy.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.model.Notice;
+import yy.doctor.model.Notice.TNotice;
+import yy.doctor.model.NoticeManager;
+import yy.doctor.model.NoticeSize;
 import yy.doctor.model.jpush.JPushMsg;
 import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 import yy.doctor.serv.CommonServ;
@@ -43,14 +49,28 @@ public class JPushReceiver extends BaseJPushReceiver {
 
     //自定义消息
     @Override
-    protected void onMessage(Context context, String message,String content, String title) {
-        LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + message);
-        LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + content);
-        LogMgr.d(TAG, "接收到推送下来的自定义消息: content " + title);
+    protected void onMessage(Context context, String message) {
+        LogMgr.d(TAG, "接收到推送下来的自定义消息: message " + message);
+
         try {
             JPushMsg jPushMsg = new JPushMsg();
             jPushMsg.parse(message);
             LogMgr.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
+
+            //把消息添加进数据库
+            Notice notice = new Notice();
+            notice.put(TNotice.content, jPushMsg.getString(TJPushMsg.content));
+            notice.put(TNotice.from, jPushMsg.getString(TJPushMsg.senderName));
+            notice.put(TNotice.time, jPushMsg.getString(TJPushMsg.sendTime));
+            notice.put(TNotice.msgType, jPushMsg.getString(TJPushMsg.msgType));
+            notice.put(TNotice.meetId, jPushMsg.getString(TJPushMsg.meetId));
+            notice.put(TNotice.is_read, false);
+            notice.setContent(notice.toStoreJson());
+            NoticeManager.inst().insert(notice);
+            //通知主页面出现小红点
+            Notifier.inst().notify(NotifyType.receiver_notice);
+            //未读消息数加 1
+            NoticeSize.homeInst().add(1);
 
             Intent intent  = new Intent();
             // type==1 推送的是会议的
@@ -64,8 +84,8 @@ public class JPushReceiver extends BaseJPushReceiver {
             builder.setAutoCancel(true);//点击后消失
             builder.setSmallIcon(R.mipmap.ic_launcher);//设置通知栏消息标题的头像
             builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-            builder.setContentText(content);//通知内容
-            builder.setContentTitle(title);
+            builder.setContentText(jPushMsg.getString(TJPushMsg.content));//通知内容
+            builder.setContentTitle(jPushMsg.getString(TJPushMsg.title));
             //利用PendingIntent来包装我们的intent对象,使其延迟跳转
             PendingIntent intentPend = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(intentPend);
@@ -87,7 +107,7 @@ public class JPushReceiver extends BaseJPushReceiver {
     //点击事件
     @Override
     protected void onOpenNotification(Context context) {
-
+        LogMgr.d(TAG, " 点击事件 jpush onOpenNotification ");
     }
 
 }

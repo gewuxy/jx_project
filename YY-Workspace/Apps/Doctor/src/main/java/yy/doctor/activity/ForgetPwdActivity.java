@@ -5,6 +5,7 @@ import android.view.View;
 
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
@@ -29,7 +30,6 @@ public class ForgetPwdActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -57,17 +57,20 @@ public class ForgetPwdActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
 
-        mEt.setFocusable(false);
         int id = v.getId();
         switch (id) {
             case R.id.forget_pwd_tv: {
-                if (TextUtil.isEmpty(mEt.getText().toString())) {
+                if (TextUtil.isEmpty(mEt.getText().toString().trim())) {
                     showToast("请输入电子邮箱");
-                } else {
-                    exeNetworkReq(NetFactory.forgetPwd(mEt.getText().toString().trim()));
+                    return;
                 }
+                //检查邮箱
+                if (!RegexUtil.isEmail(mEt.getText().toString().trim())) {
+                    showToast("请输入正确邮箱");
+                    return;
+                }
+                exeNetworkReq(NetFactory.forgetPwd(mEt.getText().toString().trim()));
             }
             break;
         }
@@ -106,4 +109,5 @@ public class ForgetPwdActivity extends BaseActivity {
             mDialog = null;
         }
     }
+
 }

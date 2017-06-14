@@ -189,21 +189,21 @@ public class ProfileActivity extends BaseFormActivity {
         /*addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
                 .name("昵称")
-                .text(Profile.inst().getString(nickname))
+                .text(Profile.homeInst().getString(nickname))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et)
                 .related(RelatedId.phone_number)
                 .name("手机号")
-                .text(Profile.inst().getString(mobile))
+                .text(Profile.homeInst().getString(mobile))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et)
                 .related(RelatedId.email)
                 .name("电子邮箱")
-                .text(Profile.inst().getString(username))
+                .text(Profile.homeInst().getString(username))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider_large).build());*/
@@ -239,7 +239,7 @@ public class ProfileActivity extends BaseFormActivity {
         /*addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
                 .name("职务")
-                .text(Profile.inst().getString(place))
+                .text(Profile.homeInst().getString(place))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider).build());
@@ -247,14 +247,14 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.sex)
                 .name("性别")
                 .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getSexConfigs())
+                .data(GlConfig.homeInst().getSexConfigs())
                 .build());
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.education_background)
                 .name("学历")
                 .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getEducationBgConfigs())
+                .data(GlConfig.homeInst().getEducationBgConfigs())
                 .build());
         addItem(new Builder(FormType.divider).build());*/
 

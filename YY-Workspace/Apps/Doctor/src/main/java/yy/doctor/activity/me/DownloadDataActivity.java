@@ -76,7 +76,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         //先判断文件是否已经存在  通过url的hashcode
         File f = new File(mFilePath, mFileHashCodeName);
         if (f.exists()) {
-            OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
             finish();
         }
     }
@@ -165,7 +165,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             mTvNum.setText(downloadSize + KByteSymbol);
         } else if (type == DownloadNotifyType.complete) {
             //下载完成跳转
-            OpenDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
             finish();
         }
     }

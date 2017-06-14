@@ -208,7 +208,7 @@
             android:name=".activity.me.DownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.OpenDownloadDataActivity"
+            android:name=".activity.me.LaunchDownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.DataPrivacyActivity"

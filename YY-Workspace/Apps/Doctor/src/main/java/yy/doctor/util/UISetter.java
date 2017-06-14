@@ -11,6 +11,7 @@ import java.util.List;
 
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
@@ -28,6 +29,11 @@ import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
 public class UISetter {
 
     private static final int KMeetIconSizeDp = 11;
+
+    private static String mFileName;
+    private static String mFileUrl;
+    private static String mFileType;
+    private static long mFileSize;
 
     /**
      * 根据会议状态
@@ -79,16 +85,26 @@ public class UISetter {
 
         for (int i = 0; i < listFile.size(); i++) {
             UnitNumDetailData fileItem = listFile.get(i);
-            addFileItem(layout, fileItem.getString(TUnitNumDetailData.materialName), new OnClickListener() {
+
+            mFileSize = fileItem.getLong(TUnitNumDetailData.fileSize);
+            mFileName = fileItem.getString(TUnitNumDetailData.materialName);
+            if (TextUtil.isEmpty(mFileName)) {
+                mFileName = fileItem.getString(TUnitNumDetailData.name);
+                mFileUrl = fileItem.getString(TUnitNumDetailData.fileUrl);
+                mFileType = fileItem.getString(TUnitNumDetailData.fileType);
+            } else {
+                mFileName = fileItem.getString(TUnitNumDetailData.materialName);
+                mFileUrl = fileItem.getString(TUnitNumDetailData.materialUrl);
+                mFileType = fileItem.getString(TUnitNumDetailData.materialType);
+            }
+
+            addFileItem(layout, mFileName, new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     DownloadDataActivity.nav(v.getContext(),
                             CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
-                            fileItem.getString(TUnitNumDetailData.materialName),
-                            fileItem.getString(TUnitNumDetailData.materialUrl),
-                            fileItem.getString(TUnitNumDetailData.materialType),
-                            fileItem.getLong(TUnitNumDetailData.fileSize));
+                            mFileName, mFileUrl, mFileType, mFileSize);
                 }
             });
         }
@@ -111,6 +127,5 @@ public class UISetter {
         LayoutFitter.fit(v);
         layout.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
     }
-
 
 }

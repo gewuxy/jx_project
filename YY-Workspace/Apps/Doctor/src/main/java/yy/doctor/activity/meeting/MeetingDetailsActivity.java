@@ -22,7 +22,6 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.LogMgr;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.MapList;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -35,11 +34,11 @@ import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.activity.me.UnitNumDataActivity;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
@@ -56,6 +55,7 @@ import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.unitnum.UnitNumDetailData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
@@ -601,19 +601,26 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvUnitNum.setText(info.getString(TMeetDetail.organizer));
 
         // 资料
-        goneView(mDivider);
-        goneView(mLayoutData);
-        goneView(mDividerFile);
+        int fileNum = info.getInt(TMeetDetail.materialCount);
+        if (fileNum > 3) {
+            showView(mIvFileArrow);
+            mTvFileNum.setText("查看全部" + fileNum + "个文件");
+            mLayoutData.setOnClickListener(new OnClickListener() {
 
-        // FIXME: 2017/6/13  caixiang
-//        mMaterials = info.getList(TMeetDetail.materials);
-//        if (mMaterials == null || mMaterials.size() == 0) {
-//            goneView(mDivider);
-//            goneView(mLayoutData);
-//            goneView(mDividerFile);
-//        } else {
-//            UISetter.setFileData(mLayoutFile, mMaterials, mNumberId);
-//        }
+                @Override
+                public void onClick(View v) {
+                    UnitNumDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType);
+                }
+            });
+        }
+        mMaterials = info.getList(TMeetDetail.materials);
+        if (mMaterials == null || mMaterials.size() == 0) {
+            goneView(mDivider);
+            goneView(mLayoutData);
+            goneView(mDividerFile);
+        } else {
+            UISetter.setFileData(mLayoutFile, mMaterials, info.getInt(TMeetDetail.pubUserId));
+        }
 
         // 主讲者
         mTvGN.setText(info.getString(TMeetDetail.lecturer));
@@ -761,23 +768,6 @@ public class MeetingDetailsActivity extends BaseActivity {
             }
             mEpnDialog = null;
         }
-    }
-
-    /**
-     * 添加文件item
-     *
-     * @param text
-     * @param l
-     */
-    public void addFileItem(CharSequence text, OnClickListener l) {
-
-        View v = getLayoutInflater().inflate(R.layout.layout_unit_num_detail_file_item, null);
-        TextView tv = (TextView) v.findViewById(R.id.unit_num_detail_file_item_tv_name);
-        tv.setText(text);
-        v.setOnClickListener(l);
-
-        LayoutFitter.fit(v);
-        mLayoutFile.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
     }
 
 }

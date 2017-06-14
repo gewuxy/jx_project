@@ -625,6 +625,17 @@ public class NetFactory {
                 .build();
     }
 
+    /**
+     * 会议资料
+     * @param meetingId
+     * @return
+     */
+    public static NetworkReq meetingData(String meetingId) {
+        return newGet(UrlMeet.KMeetingData)
+                .param(MeetParam.KMeetId, meetingId)
+                .build();
+    }
+
     public static NetworkReq toBase(String url, String meetId, String moduleId) {
         return newGet(url)
                 .param(MeetParam.KMeetId, meetId)

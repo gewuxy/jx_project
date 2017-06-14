@@ -22,16 +22,16 @@
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="6dp"
             android:text="血管病的研究电话地方干部大范甘迪电饭锅都发割发代首电饭锅地方地方"
-            android:textSize="14dp"
-            android:textColor="@color/text_333"/>
+            android:textColor="@color/text_333"
+            android:textSize="14dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/notice_item_tv_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/notice_item_iv_dot"
@@ -45,8 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="YaYa专家讲堂"
-                android:textSize="12dp"
-                android:textColor="@color/text_888"/>
+                android:textColor="@color/text_888"
+                android:textSize="12dp"/>
 
             <TextView
                 android:id="@+id/notice_item_tv_time"
@@ -54,8 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text="2017-04-16 12:50"
-                android:textSize="10dp"
-                android:textColor="@color/text_888"/>
+                android:textColor="@color/text_888"
+                android:textSize="10dp"/>
 
         </LinearLayout>
 
