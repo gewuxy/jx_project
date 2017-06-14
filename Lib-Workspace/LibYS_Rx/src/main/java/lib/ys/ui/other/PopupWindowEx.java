@@ -37,6 +37,7 @@ import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 
@@ -227,11 +228,11 @@ abstract public class PopupWindowEx implements
     }
 
     @Override
-    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+    public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetworkImpl == null) {
             mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetworkImpl.exeWebSocketReq(req, l);
+        return mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override

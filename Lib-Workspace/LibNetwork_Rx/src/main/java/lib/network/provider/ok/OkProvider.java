@@ -19,6 +19,7 @@ import lib.network.provider.ok.task.Task;
 import lib.network.provider.ok.task.UploadTask;
 import okhttp3.Call;
 import okhttp3.Request;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 /**
@@ -75,7 +76,7 @@ public class OkProvider extends BaseProvider {
     }
 
     @Override
-    public void loadWebSocket(NetworkReq req, WebSocketListener lsn) {
+    public WebSocket loadWebSocket(NetworkReq req, WebSocketListener lsn) {
         String url = NetworkUtil.generateGetUrl(req.getUrl(), req.getParams());
         LogNetwork.d("url_web socket = " + url);
 
@@ -83,7 +84,7 @@ public class OkProvider extends BaseProvider {
                 .url(url)
                 .build();
 
-        OkClient.inst().newWebSocket(realReq, lsn);
+        return OkClient.inst().newWebSocket(realReq, lsn);
     }
 
     @Override

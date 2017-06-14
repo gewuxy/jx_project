@@ -58,6 +58,7 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 abstract public class FragEx extends Fragment implements
@@ -330,11 +331,11 @@ abstract public class FragEx extends Fragment implements
     }
 
     @Override
-    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+    public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetworkImpl == null) {
             mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetworkImpl.exeWebSocketReq(req, l);
+        return mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override

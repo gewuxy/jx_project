@@ -7,6 +7,7 @@ import okhttp3.Call;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 /**
@@ -39,8 +40,8 @@ public class OkClient {
         return mClient.newCall(r);
     }
 
-    public void newWebSocket(Request request, WebSocketListener listener) {
-        mClient.newWebSocket(request, listener);
+    public WebSocket newWebSocket(Request request, WebSocketListener listener) {
+        return mClient.newWebSocket(request, listener);
     }
 
     public OkHttpClient addInterceptor(Interceptor interceptor) {

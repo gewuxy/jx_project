@@ -13,6 +13,7 @@ import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.LogMgr;
 import lib.ys.ui.interfaces.impl.NetworkOptImpl;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 
@@ -60,11 +61,11 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
     }
 
     @Override
-    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+    public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetworkImpl == null) {
             mNetworkImpl = new NetworkOptImpl(this, this);
         }
-        mNetworkImpl.exeWebSocketReq(req, l);
+        return mNetworkImpl.exeWebSocketReq(req, l);
     }
 
     @Override

@@ -11,6 +11,7 @@ import lib.ys.R;
 import lib.ys.ui.interfaces.opts.NetworkOpt;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.res.ResLoader;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 
@@ -67,11 +68,11 @@ public class NetworkOptImpl implements NetworkOpt {
     }
 
     @Override
-    public void exeWebSocketReq(NetworkReq req, WebSocketListener l) {
+    public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetwork == null) {
             mNetwork = new Network(mHost.getClass().getName(), mNetworkLsn);
         }
-        mNetwork.loadWebSocket(req, l);
+        return mNetwork.loadWebSocket(req, l);
     }
 
     @Override

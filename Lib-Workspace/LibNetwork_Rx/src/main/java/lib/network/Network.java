@@ -9,6 +9,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.BaseProvider;
 import lib.network.provider.ok.OkProvider;
+import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 /**
@@ -36,8 +37,8 @@ public class Network {
         mProvider.load(req, id, l);
     }
 
-    public void loadWebSocket(@NonNull NetworkReq req, @NonNull WebSocketListener l) {
-        mProvider.loadWebSocket(req, l);
+    public WebSocket loadWebSocket(@NonNull NetworkReq req, @NonNull WebSocketListener l) {
+        return mProvider.loadWebSocket(req, l);
     }
 
     public void cancel(int id) {
