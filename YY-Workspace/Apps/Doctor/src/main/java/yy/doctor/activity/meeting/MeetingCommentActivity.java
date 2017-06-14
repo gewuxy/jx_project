@@ -9,7 +9,7 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.activity.base.BaseListActivity;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -28,7 +28,7 @@ import yy.doctor.util.Util;
  * @since : 2017/5/2
  */
 
-public class MeetingCommentActivity extends BaseSRListActivity<Comment, CommentAdapter> {
+public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
     private TextView mTvSend;
     private EditText mEtSend;
@@ -74,7 +74,7 @@ public class MeetingCommentActivity extends BaseSRListActivity<Comment, CommentA
     public void setViews() {
         super.setViews();
 
-        mTvSend.setOnClickListener(this);
+        setOnClickListener(mTvSend);
 
         exeWebSocketReq(NetFactory.commentIM(), new CommentListener());
     }

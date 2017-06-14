@@ -1,10 +1,10 @@
 package lib.ys.util;
 
 import android.support.annotation.StringDef;
-import android.text.format.DateFormat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.text.SimpleDateFormat;
 
 /**
  * 转换时间显示样式
@@ -56,7 +56,8 @@ public class TimeUtil {
      * @return
      */
     public static String formatMilli(long milli, String format) {
-        return DateFormat.format(format, milli).toString();
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(milli);
     }
 
     public static String formatMilli(String milli, String format) {

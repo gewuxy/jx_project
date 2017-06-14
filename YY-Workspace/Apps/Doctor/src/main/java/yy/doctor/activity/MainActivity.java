@@ -13,7 +13,6 @@ import android.widget.TextView;
 import lib.network.model.NetworkResp;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
@@ -101,7 +100,7 @@ public class MainActivity extends BaseVPActivity {
 
         if (BuildConfig.TEST) {
             exeNetworkReq(KReqIdProfile, NetFactory.profile());
-            //exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
+            exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
         } else {
             // 静默更新用户数据
             if (SpUser.inst().needUpdateProfile()) {
@@ -197,8 +196,8 @@ public class MainActivity extends BaseVPActivity {
                 //保存更新时间
                 SpUser.inst().updateAppRefreshTime();
                 CheckAppVersion data = r.getData();
-                //  判断版本是否需要更新
-                if (DeviceUtil.getAppVersion() < data.getInt(TCheckAppVersion.version)) {
+                if (data != null) {
+                    //  判断版本是否需要更新
                     new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
                 }
             }

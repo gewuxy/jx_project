@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import lib.network.model.NetworkResp;
 import lib.ys.LogMgr;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.network.image.NetworkImageView;
@@ -30,12 +31,13 @@ import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.PPT;
 import yy.doctor.model.meet.PPT.TPPT;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
 
 /**
  * 会议记录界面
- *
+ * <p>
  * 日期 : 2017/4/26
  * 创建人 : guoxuan
  */
@@ -81,13 +83,13 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, mCourseInfo.getString(TCourseInfo.title), v -> {
             // 把前面的页面关了
             notify(NotifyType.finish);
-            setResult(RESULT_OK, null);
+            setResult(RESULT_OK);
             finish();
         });
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
         bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> {
-            setResult(RESULT_OK, null);
+            setResult(RESULT_OK);
             finish();
         });
     }
@@ -167,6 +169,11 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
         }
 
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.error(r.getText());
     }
 
     @Override

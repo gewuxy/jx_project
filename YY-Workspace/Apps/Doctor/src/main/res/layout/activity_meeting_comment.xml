@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/text_006ebd"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="53dp"
-        android:background="@drawable/transparent"
-        android:divider="@drawable/transparent"
-        android:dividerHeight="0dp"
-        android:fadingEdge="none"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:listSelector="@drawable/transparent"
-        android:scrollingCache="false">
-    </ListView>
+        android:layout_weight="1">
+
+        <include layout="@layout/list_layout_no_divider"/>
+    </RelativeLayout>
 
     <View
         style="@style/divider"
         android:layout_above="@+id/meeting_comment_ll"
+        android:layout_weight="0"
         android:background="#663da1f4"/>
 
     <LinearLayout
@@ -31,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_alignParentBottom="true"
+        android:layout_weight="0"
         android:background="@color/text_006ebd"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -61,4 +56,4 @@
             android:textSize="10dp"/>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
