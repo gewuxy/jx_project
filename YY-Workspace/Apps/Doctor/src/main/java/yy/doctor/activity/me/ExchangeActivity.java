@@ -14,10 +14,13 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.Exchange;
@@ -77,28 +80,24 @@ public class ExchangeActivity extends BaseFormActivity {
         mEpn = i.getIntExtra(Extra.KNum, 0);
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.receiver)
                 .hint("收货人")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.mobile)
                 .hint("手机号码")
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.province_city)
-                .hint("广东 广州")
+                .hint("输入省市")
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.address)
                 .hint("详细地址")
@@ -150,6 +149,12 @@ public class ExchangeActivity extends BaseFormActivity {
                 if (!check()) {
                     return;
                 }
+                //检查象数是否够
+                if (Profile.inst().getInt(TProfile.credits) < mEpn) {
+                    showToast("象数不足,无法兑换");
+                    return;
+                }
+                refresh(RefreshWay.dialog);
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId(mGoodId)
                         .price(mEpn)
@@ -158,7 +163,6 @@ public class ExchangeActivity extends BaseFormActivity {
                         .province(getRelatedItem(RelatedId.province_city).getString(TFormElem.text))
                         .address(getRelatedItem(RelatedId.address).getString(TFormElem.text))
                         .builder();
-                refresh(RefreshWay.dialog);
                 exeNetworkReq(r);
             }
             break;
@@ -179,6 +183,9 @@ public class ExchangeActivity extends BaseFormActivity {
         if (r.isSucceed()) {
             showToast("兑换成功");
             startActivity(OrderActivity.class);
+            int epn = Profile.inst().getInt(TProfile.credits) - mEpn;
+            Profile.inst().update(Profile.inst().put(TProfile.credits, epn));
+            notify(NotifyType.profile_change);
         } else {
             showToast(r.getError());
         }

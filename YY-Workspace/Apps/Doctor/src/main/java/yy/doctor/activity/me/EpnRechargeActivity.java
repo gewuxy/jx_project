@@ -20,6 +20,8 @@ import alipay.PayResult;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -61,6 +63,7 @@ public class EpnRechargeActivity extends BaseActivity {
                     //支付成功后显示充值后的的象数数量  改变本地的象数数量
                     int epnNum = Profile.inst().getInt(TProfile.credits) + mRechargeSum * 10;
                     Profile.inst().update(Profile.inst().put(TProfile.credits, epnNum));
+                    EpnRechargeActivity.this.notify(NotifyType.profile_change);
                     mTvEpn.setText(epnNum + "");
                 } else {
                     // 判断resultStatus 为非"9000"则代表可能支付失败
@@ -153,7 +156,12 @@ public class EpnRechargeActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.recharge_tv_pay: {
-                mRechargeSum = Integer.valueOf(mEtRechargeNum.getText().toString().trim());
+                String str = mEtRechargeNum.getText().toString().trim();
+                if (TextUtil.isEmpty(str)) {
+                    showToast("请输入充值金额");
+                    return;
+                }
+                mRechargeSum = Integer.valueOf(str);
                 exeNetworkReq(NetFactory.epnRecharge("象数充值", mRechargeSum));
             }
             break;

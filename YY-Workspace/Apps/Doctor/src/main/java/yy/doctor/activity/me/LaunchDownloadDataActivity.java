@@ -25,7 +25,7 @@ import yy.doctor.util.Util;
  * @since 2017/5/17
  */
 
-public class OpenDownloadDataActivity extends BaseActivity {
+public class LaunchDownloadDataActivity extends BaseActivity {
 
     private ImageView mIv;
     private TextView mTvName;
@@ -38,7 +38,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
     private String mSize;
 
     public static void nav(Context context, String filePath, String hashCodeName, String type, String num, String fileName) {
-        Intent i = new Intent(context, OpenDownloadDataActivity.class)
+        Intent i = new Intent(context, LaunchDownloadDataActivity.class)
                 .putExtra(Extra.KFilePath, filePath)
                 .putExtra(Extra.KName, hashCodeName)
                 .putExtra(Extra.KType, type)
@@ -59,7 +59,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_open_download_data;
+        return R.layout.activity_launch_download_data;
     }
 
     @Override
@@ -70,9 +70,9 @@ public class OpenDownloadDataActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mIv = findView(R.id.open_download_data_ic);
-        mTvName = findView(R.id.open_download_data_tv_name);
-        mTvSize = findView(R.id.open_download_data_tv_size);
+        mIv = findView(R.id.launch_download_data_ic);
+        mTvName = findView(R.id.launch_download_data_tv_name);
+        mTvSize = findView(R.id.launch_download_data_tv_size);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class OpenDownloadDataActivity extends BaseActivity {
      * @return
      */
     public Intent getWordFileIntent(String param) {
-        Intent intent = new Intent("Intent.ACTION_VIEW");
+        Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri uri = Uri.fromFile(new File(param));
@@ -154,6 +154,21 @@ public class OpenDownloadDataActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri uri = Uri.fromFile(new File(param));
         intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
+        return intent;
+    }
+
+    /**
+     * 获取一个用于打开Excel文件的intent
+     * @param param
+     * @return
+     */
+    public static Intent getExcelFileIntent( String param ){
+
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri uri = Uri.fromFile(new File(param ));
+        intent.setDataAndType(uri, "application/vnd.ms-excel");
         return intent;
     }
 

@@ -22,7 +22,9 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.finish,
             NotifyType.section_change,
             NotifyType.profile_change,
-            NotifyType.unit_num_attention_change
+            NotifyType.unit_num_attention_change,
+            NotifyType.receiver_notice,
+            NotifyType.read_all_notice,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -54,6 +56,16 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 单位号关注改变
          */
         int unit_num_attention_change = 5;
+
+        /**
+         * 收到通知
+         */
+        int receiver_notice = 6;
+
+        /**
+         * 通知都已经读完
+         */
+        int read_all_notice = 7;
     }
 
     public interface OnNotify {

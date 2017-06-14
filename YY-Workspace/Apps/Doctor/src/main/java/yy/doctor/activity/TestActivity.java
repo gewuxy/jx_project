@@ -15,6 +15,7 @@ import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.ExamTopicActivity;
+import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.VideoActivity;
 import yy.doctor.activity.register.ProvinceActivity;
@@ -47,6 +48,8 @@ public class TestActivity extends BaseTestActivity {
 
         add("象数使用规则", EpnUseRuleActivity.class);
         add("我的象数", EpnActivity.class);
+
+        add("评论", v -> MeetingCommentActivity.nav(this,"17060312172856248750"));
 
         add("对话框11", v -> {
             HintDialogMain mDialog = new HintDialogMain(TestActivity.this);

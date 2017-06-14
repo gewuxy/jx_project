@@ -96,15 +96,13 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             if (getTopicCaseShow()) {
                 topicCaseVisibility(false);
             } else {
-                if (mExitDialog == null) {
-                    mExitDialog = new HintDialogMain(BaseTopicActivity.this);
-                    mExitDialog.setHint("确定退出考试?");
-                    mExitDialog.addButton("确定", "#0682e6", v1 -> {
-                        finish();
-                        mExitDialog.dismiss();
-                    });
-                    mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
-                }
+                mExitDialog = new HintDialogMain(BaseTopicActivity.this);
+                mExitDialog.setHint("确定退出考试?");
+                mExitDialog.addButton("确定", "#0682e6", v1 -> {
+                    finish();
+                    mExitDialog.dismiss();
+                });
+                mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
                 mExitDialog.show();
             }
         });
@@ -369,16 +367,14 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      */
     protected void trySubmit(int noFinish) {
         //考试时间未完
-        if (mSubDialog == null) {
-            mSubDialog = new HintDialogMain(BaseTopicActivity.this);
-            mSubDialog.setHint(setDialogHint(noFinish));
+        mSubDialog = new HintDialogMain(BaseTopicActivity.this);
+        mSubDialog.setHint(setDialogHint(noFinish));
 
-            mSubDialog.addButton("确定", "#0682e6", v -> {
-                submit();
-                mSubDialog.dismiss();
-            });
-            mSubDialog.addButton("取消", "#666666", v -> mSubDialog.dismiss());
-        }
+        mSubDialog.addButton("确定", "#0682e6", v -> {
+            submit();
+            mSubDialog.dismiss();
+        });
+        mSubDialog.addButton("取消", "#666666", v -> mSubDialog.dismiss());
         mSubDialog.show();
     }
 

@@ -6,10 +6,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Collections;
+import java.util.List;
+
+import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.LogMgr;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.activity.base.BaseListActivity;
+import lib.yy.network.Result;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -18,6 +31,10 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.CommentAdapter;
 import yy.doctor.model.meet.Comment;
+import yy.doctor.model.meet.Comment.TComment;
+import yy.doctor.model.meet.CommentHistories;
+import yy.doctor.model.meet.CommentHistories.TCommentHistories;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -27,19 +44,17 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/2
  */
-
 public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
     private TextView mTvSend;
     private EditText mEtSend;
-    private static final int KHistories = 0;
-    private static final int KSend = 1;
     private String mMeetId;
+    private WebSocket mWebSocket;
 
     public static void nav(Context context, String meetId) {
         Intent i = new Intent(context, MeetingCommentActivity.class)
                 .putExtra(Extra.KMeetId, meetId);
-        LaunchUtil.startActivity(context, i);
+        LaunchUtil.startActivityForResult(context, i,0);
     }
 
     @Override
@@ -76,51 +91,139 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
         setOnClickListener(mTvSend);
 
-        exeWebSocketReq(NetFactory.commentIM(), new CommentListener());
+        refresh(RefreshWay.embed);
+        exeNetworkReq(NetFactory.histories(mMeetId));
+        mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
     }
 
     @Override
-    public void getDataFromNet() {
-        exeNetworkReq(KHistories, NetFactory.histories(mMeetId));
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), CommentHistories.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        Result<CommentHistories> r = (Result<CommentHistories>) result;
+        if (r.isSucceed()) {
+            setViewState(ViewState.normal);
+            List<Comment> comments = r.getData().getList(TCommentHistories.datas);
+            Collections.sort(comments, (lhs, rhs) -> lhs.getLong(TComment.sendTime) > rhs.getLong(TComment.sendTime) ? 1 : -1);
+            addAll(comments);
+            setSelection(getCount());
+        } else {
+            setViewState(ViewState.error);
+            showToast(r.getError());
+        }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+        setViewState(ViewState.error);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_comment_tv_send:
-                String message = mEtSend.getText().toString().trim();
-//                refresh(RefreshWay.dialog);
-//                exeNetworkReq(KSend, NetFactory.send(mMeetId, meesage, "0"));
-                break;
-            default:
+                String message = toJson(mEtSend.getText().toString().trim());
+                if (TextUtil.isEmpty(message)) {
+                    showToast("请输入评论内容");
+                    return;
+                }
+                mWebSocket.send(message);
                 break;
         }
+    }
+
+    /**
+     * 转化为指定json的格式
+     *
+     * @param s
+     * @return
+     */
+    private String toJson(String s) {
+        Comment comment = new Comment();
+        comment.put(TComment.meetId, mMeetId);
+        comment.put(TComment.message, s);
+        return comment.toCommonJson();
+    }
+
+    /**
+     * 转化为item的数据类型
+     *
+     * @param text
+     * @return
+     */
+    private Comment toComment(String text) {
+        Comment comment = new Comment();
+        JSONObject jb = null;
+        try {
+            jb = new JSONObject(text);
+            comment.put(TComment.sender, jb.getString("sender"));
+            comment.put(TComment.message, jb.getString("message"));
+            comment.put(TComment.sendTime, jb.getString("sendTime"));
+            comment.put(TComment.headimg, jb.getString("headimg"));
+        } catch (JSONException e) {
+            LogMgr.d(TAG, "toComment:" + e.toString());
+        }
+        return comment;
     }
 
     public class CommentListener extends WebSocketListener {
 
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
+            LogMgr.d(TAG, "onOpen:" + response.message());
         }
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
+            LogMgr.d(TAG, "onMessage:String" + text);
+            runOnUIThread(() -> {
+                addItem(toComment(text));
+                invalidate();
+                setSelection(getCount());
+                mEtSend.setText("");
+            });
         }
 
         @Override
         public void onMessage(WebSocket webSocket, ByteString bytes) {
+            LogMgr.d(TAG, "onMessage:ByteString" + bytes);
         }
 
         @Override
         public void onClosing(WebSocket webSocket, int code, String reason) {
+            LogMgr.d(TAG, "onClosing:" + reason);
         }
 
         @Override
         public void onClosed(WebSocket webSocket, int code, String reason) {
+            LogMgr.d(TAG, "onClosed:" + reason);
         }
 
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            LogMgr.d(TAG, "onFailure:");
+            // 2S秒后重连
+            runOnUIThread(() -> exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener()), 2000);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mWebSocket != null) {
+            mWebSocket.close(3000, "主动关闭");
+            mWebSocket = null;
+        }
+    }
+
+    @Override
+    public void finish() {
+        setResult(RESULT_OK);
+        super.finish();
     }
 }

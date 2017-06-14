@@ -70,12 +70,19 @@ public class ChangePwdActivity extends BaseActivity {
                 String confirmPwd = mEtConfirmPwd.getText().toString();
                 if (TextUtil.isEmpty(oldPwd)) {
                     showToast("请输入旧密码");
+                    return;
                 } else if (TextUtil.isEmpty(newPwd)) {
                     showToast("请输入新密码");
+                    return;
                 } else if (TextUtil.isEmpty(confirmPwd)) {
                     showToast("请输入确认密码");
+                    return;
                 } else if (!newPwd.equals(confirmPwd)) {
                     showToast("确认密码与新密码不一致！");
+                    return;
+                } else if (newPwd.length() < 6 || newPwd.length() > 18) {
+                    showToast("请输入6~18位密码");
+                    return;
                 } else {
                     refresh(RefreshWay.dialog);
                     exeNetworkReq(NetFactory.changePwd(oldPwd, newPwd));
