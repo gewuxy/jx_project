@@ -16,6 +16,7 @@ import yy.doctor.activity.me.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
+import yy.doctor.model.NoticeSize;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
@@ -83,6 +84,13 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mBadgeView = new BadgeView(getContext());
         mBadgeView.setBadgeMargin(0, 8, 8, 0);
         mBadgeView.setTargetView(mViewNotice);
+        //判断小红点是否出现
+        if (NoticeSize.homeInst().size() > 0) {
+            showView(mBadgeView);
+        } else {
+            hideView(mBadgeView);
+        }
+
     }
 
     @Override
@@ -161,13 +169,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
             RecUnitNums nums = new RecUnitNums();
 
-//            // FIXME: 2017/6/13  测试使用
-//            if (BuildConfig.TEST) {
-//                for (RecUnitNum num : mRecUnitNums) {
-//                    num.put(TRecUnitNum.attention, 0);
-//                }
-//            }
-
             nums.setData(mRecUnitNums);
             homes.add(nums);
 
@@ -192,6 +193,12 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                     break;
                 }
             }
+        } else if (type == NotifyType.receiver_notice) {
+            //显示小红点
+            showView(mBadgeView);
+        } else if (type == NotifyType.read_all_notice) {
+            //隐藏小红点
+            hideView(mBadgeView);
         }
     }
 
@@ -206,4 +213,5 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
         getAdapter().setTvAttentionListener(this);
     }
+
 }

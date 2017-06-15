@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.NativeListener;
@@ -45,14 +45,14 @@ public class DownloadFileCallback extends OkCallback {
 
             NativeListener.inst().onSuccess(id, null, getListener());
         } catch (Exception e) {
-            LogNetwork.e(e);
+            NetworkLog.e(e);
             NativeListener.inst().onError(id, new NetError(id, e.getMessage()), getListener());
         } finally {
             if (os != null) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    LogNetwork.e(e);
+                    NetworkLog.e(e);
                 }
             }
         }

@@ -42,6 +42,8 @@ public class MeetDetail extends EVal<TMeetDetail> {
         attendAble, // 能否参加会议
         xsCredits, // 象数
 
+        materialCount,  //  资料数
+
         @BindList(UnitNumDetailData.class)
         materials, // 资料
 

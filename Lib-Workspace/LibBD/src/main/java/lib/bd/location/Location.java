@@ -9,7 +9,7 @@ import com.baidu.location.LocationClientOption;
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Place.TPlace;
 import lib.ys.AppEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 public class Location {
 
@@ -46,10 +46,10 @@ public class Location {
                 return;
             }
 
-            LogMgr.d(TAG, "onReceiveLocation1 = " + location.getCity());
-            LogMgr.d(TAG, "onReceiveLocation2 = " + location.getLocType());
+            YSLog.d(TAG, "onReceiveLocation1 = " + location.getCity());
+            YSLog.d(TAG, "onReceiveLocation2 = " + location.getLocType());
             if (location == null || location.getLocType() != 161) {
-                LogMgr.d(TAG, "onReceiveLocation: location failed");
+                YSLog.d(TAG, "onReceiveLocation: location failed");
                 LocationNotifier.inst().notify(false, null);
                 return;
             }

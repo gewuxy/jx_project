@@ -18,7 +18,7 @@ import java.util.List;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
@@ -189,21 +189,21 @@ public class ProfileActivity extends BaseFormActivity {
         /*addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
                 .name("昵称")
-                .text(Profile.inst().getString(nickname))
+                .text(Profile.homeInst().getString(nickname))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et)
                 .related(RelatedId.phone_number)
                 .name("手机号")
-                .text(Profile.inst().getString(mobile))
+                .text(Profile.homeInst().getString(mobile))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et)
                 .related(RelatedId.email)
                 .name("电子邮箱")
-                .text(Profile.inst().getString(username))
+                .text(Profile.homeInst().getString(username))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider_large).build());*/
@@ -239,7 +239,7 @@ public class ProfileActivity extends BaseFormActivity {
         /*addItem(new Builder(FormType.et)
                 .related(RelatedId.position)
                 .name("职务")
-                .text(Profile.inst().getString(place))
+                .text(Profile.homeInst().getString(place))
                 .hint(R.string.hint_not_fill)
                 .build());
         addItem(new Builder(FormType.divider).build());
@@ -247,14 +247,14 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.sex)
                 .name("性别")
                 .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getSexConfigs())
+                .data(GlConfig.homeInst().getSexConfigs())
                 .build());
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.education_background)
                 .name("学历")
                 .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getEducationBgConfigs())
+                .data(GlConfig.homeInst().getEducationBgConfigs())
                 .build());
         addItem(new Builder(FormType.divider).build());*/
 
@@ -418,7 +418,7 @@ public class ProfileActivity extends BaseFormActivity {
                 mBmp = ClipImageActivity.mBmp;
                 mCircleBmp = BmpUtil.toCircle(mBmp);
                 mIvAvatar.setImageBitmap(mCircleBmp);
-                //LogMgr.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
+                //YSLog.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
     }
@@ -438,7 +438,7 @@ public class ProfileActivity extends BaseFormActivity {
     private void modify() {
 
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
-        LogMgr.d(TAG, "省市 = " + str);
+        YSLog.d(TAG, "省市 = " + str);
         mStrProvince = str.substring(0, str.indexOf(" "));
         String[] strs = str.split(" ");
         for (int i = 0; i < strs.length; i++) {
@@ -451,9 +451,9 @@ public class ProfileActivity extends BaseFormActivity {
                 mStrArea = s;
             }
         }
-        LogMgr.d(TAG, "province = " + mStrProvince);
-        LogMgr.d(TAG, "city = " + mStrCity);
-        LogMgr.d(TAG, "area = " + mStrArea);
+        YSLog.d(TAG, "province = " + mStrProvince);
+        YSLog.d(TAG, "city = " + mStrCity);
+        YSLog.d(TAG, "area = " + mStrArea);
 
         NetworkReq r = NetFactory.newModifyBuilder()
                 .headImgUrl(mAvatarUrl)
@@ -494,7 +494,7 @@ public class ProfileActivity extends BaseFormActivity {
                 UpHeadImage upHeadImage = r.getData();
                 mAvatarUrl = upHeadImage.getString(TUpHeadImage.url);
 
-                LogMgr.d(TAG, "onNetworkSuccess: 头像设置成功 = " + mAvatarUrl);
+                YSLog.d(TAG, "onNetworkSuccess: 头像设置成功 = " + mAvatarUrl);
                 //头像路径保存到本地
                 Profile.inst().update(Profile.inst().put(TProfile.headimg, mAvatarUrl));
                 modify();

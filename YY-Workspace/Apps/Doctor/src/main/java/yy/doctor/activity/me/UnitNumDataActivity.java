@@ -4,17 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.activity.base.BaseListActivity;
-import lib.yy.network.ListResult;
+import lib.ys.util.TextUtil;
+import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.adapter.UnitNumDataAdapter;
 import yy.doctor.model.unitnum.UnitNumDetailData;
 import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
-import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
@@ -25,20 +22,29 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class UnitNumDataActivity extends BaseListActivity<UnitNumDetailData, UnitNumDataAdapter> {
+public class UnitNumDataActivity extends BaseSRListActivity<UnitNumDetailData, UnitNumDataAdapter> {
 
     private int mId;
+    private String mType;
     private String mFilePath;
 
-    public static void nav(Context context, int id) {
+    private static String mFileName;
+    private static String mFileUrl;
+    private static String mFileType;
+    private static long mFileSize;
+
+
+    public static void nav(Context context, int id, String type) {
         Intent i = new Intent(context, UnitNumDataActivity.class)
-                .putExtra(Extra.KData, id);
+                .putExtra(Extra.KData, id)
+                .putExtra(Extra.KType, type);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
         mId = getIntent().getIntExtra(Extra.KData, 10);
+        mType = getIntent().getStringExtra(Extra.KType);
     }
 
     @Override
@@ -51,9 +57,20 @@ public class UnitNumDataActivity extends BaseListActivity<UnitNumDetailData, Uni
     public void setViews() {
         super.setViews();
 
-        mFilePath = CacheUtil.getUnitNumCacheDir(String.valueOf(mId));
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.unitNumData(mId, 1, 15));
+        if (mType.equals(Extra.KUnitNumType)) {
+            mFilePath = CacheUtil.getUnitNumCacheDir(String.valueOf(mId));
+        } else if (mType.equals(Extra.KMeetingType)) {
+            mFilePath = CacheUtil.getMeetingCacheDir(String.valueOf(mId));
+        }
+    }
+
+    @Override
+    public void getDataFromNet() {
+        if (mType.equals(Extra.KUnitNumType)) {
+            exeNetworkReq(NetFactory.unitNumData(mId, 1, 15));
+        } else if (mType.equals(Extra.KMeetingType)) {
+            exeNetworkReq(NetFactory.meetingData(String.valueOf(mId)));
+        }
     }
 
     @Override
@@ -61,25 +78,21 @@ public class UnitNumDataActivity extends BaseListActivity<UnitNumDetailData, Uni
         super.onItemClick(v, position);
 
         UnitNumDetailData item = getItem(position);
-        DownloadDataActivity.nav(this, mFilePath, item.getString(TUnitNumDetailData.materialName),
-                item.getString(TUnitNumDetailData.materialUrl), item.getString(TUnitNumDetailData.materialType),
-                item.getLong(TUnitNumDetailData.fileSize));
-    }
 
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.evs(r.getText(), UnitNumDetailData.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-
-        stopRefresh();
-        ListResult<UnitNumDetailData> r = (ListResult<UnitNumDetailData>) result;
-        if (r.isSucceed()) {
-            setData(r.getData());
-            invalidate();
+        mFileSize = item.getLong(TUnitNumDetailData.fileSize);
+        mFileName = item.getString(TUnitNumDetailData.materialName);
+        if (TextUtil.isEmpty(mFileName)) {
+            mFileName = item.getString(TUnitNumDetailData.name);
+            mFileUrl = item.getString(TUnitNumDetailData.fileUrl);
+            mFileType = item.getString(TUnitNumDetailData.fileType);
+        } else {
+            mFileName = item.getString(TUnitNumDetailData.materialName);
+            mFileUrl = item.getString(TUnitNumDetailData.materialUrl);
+            mFileType = item.getString(TUnitNumDetailData.materialType);
         }
+
+        DownloadDataActivity.nav(this, mFilePath, mFileName,
+                mFileUrl, mFileType, mFileSize);
     }
 
 }

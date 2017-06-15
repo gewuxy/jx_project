@@ -3,7 +3,7 @@ package yy.doctor.activity.me;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
@@ -26,7 +26,7 @@ public class LaunchTempActivity extends BaseActivity {
     @Override
     public void initData() {
         mUnitNumId = getIntent().getIntExtra(Extra.KUnitNumId, 100);
-        LogMgr.d(TAG, " UnitNumId = " + mUnitNumId);
+        YSLog.d(TAG, " UnitNumId = " + mUnitNumId);
     }
 
     @NonNull

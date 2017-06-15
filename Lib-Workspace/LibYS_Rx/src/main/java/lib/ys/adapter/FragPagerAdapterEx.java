@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.interfaces.IPagerTitle;
 
 /**
@@ -61,7 +61,7 @@ abstract public class FragPagerAdapterEx<T extends Fragment, TITLE extends IPage
             }
             t = mTs.get(position);
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
 
         return t;

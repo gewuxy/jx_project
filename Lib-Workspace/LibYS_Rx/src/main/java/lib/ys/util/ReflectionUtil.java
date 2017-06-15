@@ -2,7 +2,7 @@ package lib.ys.util;
 
 import java.lang.reflect.Constructor;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 /**
  * 反射类
@@ -38,7 +38,7 @@ public class ReflectionUtil {
                 t = (T) cs[i].newInstance(args);
                 break;
             } catch (Exception e) {
-                LogMgr.e(TAG, "newInst", e);
+                YSLog.e(TAG, "newInst", e);
                 continue;
             }
         }
@@ -66,7 +66,7 @@ public class ReflectionUtil {
                 t = (T) cs[i].newInstance(args);
                 break;
             } catch (Exception e) {
-                LogMgr.e(TAG, "newDeclaredInst", e);
+                YSLog.e(TAG, "newDeclaredInst", e);
                 continue;
             }
         }

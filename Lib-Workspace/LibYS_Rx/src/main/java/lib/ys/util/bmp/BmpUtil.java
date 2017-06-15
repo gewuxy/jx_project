@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import lib.ys.AppEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.FileUtil;
 import lib.ys.util.UIUtil;
@@ -225,13 +225,13 @@ public class BmpUtil {
             bmp.compress(format, quality, baos);
             bytes = baos.toByteArray();
         } catch (Exception e) {
-            LogMgr.e(TAG, "compress", e);
+            YSLog.e(TAG, "compress", e);
         } finally {
             if (baos != null) {
                 try {
                     baos.close();
                 } catch (IOException e) {
-                    LogMgr.e(TAG, "compress", e);
+                    YSLog.e(TAG, "compress", e);
                 }
             }
         }
@@ -255,10 +255,10 @@ public class BmpUtil {
             fos = new FileOutputStream(destFile);
             result = bmp.compress(format, quality, fos);
         } catch (OutOfMemoryError error) {
-            LogMgr.e(TAG, "compress" + destFile.toString(), error);
+            YSLog.e(TAG, "compress" + destFile.toString(), error);
             System.gc();
         } catch (Exception e) {
-            LogMgr.e(TAG, "compress", e);
+            YSLog.e(TAG, "compress", e);
         } finally {
             FileUtil.closeOutStream(fos);
         }
@@ -652,7 +652,7 @@ public class BmpUtil {
             fileOutputStream = new FileOutputStream(file);
             bmp.compress(format, quality, fileOutputStream);
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
             result = false;
         } finally {
             if (fileOutputStream != null) {
@@ -660,7 +660,7 @@ public class BmpUtil {
                     fileOutputStream.flush();
                     fileOutputStream.close();
                 } catch (IOException e) {
-                    LogMgr.e(TAG, e);
+                    YSLog.e(TAG, e);
                 }
             }
         }
@@ -737,7 +737,7 @@ public class BmpUtil {
                     break;
             }
         } catch (Throwable t) {
-            LogMgr.e(TAG, "getImageDegree", t);
+            YSLog.e(TAG, "getImageDegree", t);
         }
         return degree;
     }

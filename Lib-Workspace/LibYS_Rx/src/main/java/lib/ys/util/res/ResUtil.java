@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 public final class ResUtil {
 
@@ -146,13 +146,13 @@ public final class ResUtil {
             is.read(buffer);
             content = new String(buffer);
         } catch (IOException e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    LogMgr.e(TAG, e);
+                    YSLog.e(TAG, e);
                 }
             }
         }

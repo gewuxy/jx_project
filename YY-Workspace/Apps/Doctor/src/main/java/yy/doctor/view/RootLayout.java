@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 /**
  * @auther : GuoXuan
@@ -26,7 +26,7 @@ public class RootLayout extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        LogMgr.d("RootLayout", "point");
+        YSLog.d("RootLayout", "point");
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_UP:

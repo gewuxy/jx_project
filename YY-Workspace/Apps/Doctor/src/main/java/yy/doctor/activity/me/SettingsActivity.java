@@ -15,10 +15,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.FileUtil;
 import lib.ys.view.ToggleButton;
 import lib.yy.Notifier.NotifyType;
@@ -90,7 +89,7 @@ public class SettingsActivity extends BaseFormActivity {
                 size += FileUtil.getFolderSize(new File(s));
             }
         } catch (Exception e) {
-            LogMgr.e(TAG, "getFolderSize", e);
+            YSLog.e(TAG, "getFolderSize", e);
         }
 
         return size / 1024 / 1024 + KM;
@@ -213,7 +212,7 @@ public class SettingsActivity extends BaseFormActivity {
             SpUser.inst().updateAppRefreshTime();
             CheckAppVersion data = r.getData();
             //  判断版本是否需要更新
-            if (DeviceUtil.getAppVersion() < data.getInt(TCheckAppVersion.version)) {
+            if (data != null) {
                 new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
             } else {
                 showToast("已是最新版本");

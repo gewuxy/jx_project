@@ -2,7 +2,7 @@ package lib.network.provider;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 
@@ -32,10 +32,10 @@ public class NativeListener {
     }
 
     public void onProgress(int id, float progress, long totalSize, OnNetworkListener l) {
-        if (LogNetwork.isDebug()) {
-            LogNetwork.d("progress = " + progress);
-            LogNetwork.d("contentLength = " + totalSize);
-            LogNetwork.d("=====================");
+        if (NetworkLog.isDebug()) {
+            NetworkLog.d("progress = " + progress);
+            NetworkLog.d("contentLength = " + totalSize);
+            NetworkLog.d("=====================");
         }
 
         Observable.just(l)

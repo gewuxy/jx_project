@@ -9,7 +9,7 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import lib.ys.AppEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 
 /**
@@ -33,7 +33,7 @@ public class JPush {
                 String id = (String) msg.obj;
 
                 if (mContext == null) {
-                    LogMgr.e(TAG, "handleMessage context = null");
+                    YSLog.e(TAG, "handleMessage context = null");
                     mContext = AppEx.getContext();
 
                     mHandler.sendMessageDelayed(mHandler.obtainMessage(0, id), 1000);
@@ -44,8 +44,8 @@ public class JPush {
 
                     @Override
                     public void gotResult(int code, String alias, Set<String> tags) {
-                        LogMgr.d(TAG, "gotResult: code = " + code);
-                        LogMgr.d(TAG, "gotResult: alias = " + alias);
+                        YSLog.d(TAG, "gotResult: code = " + code);
+                        YSLog.d(TAG, "gotResult: alias = " + alias);
 
                         switch (code) {
                             case 0: {
@@ -53,13 +53,13 @@ public class JPush {
                             }
                             break;
                             case 6002: {
-                                LogMgr.d(TAG, "gotResult() " + "失败");
+                                YSLog.d(TAG, "gotResult() " + "失败");
                                 // 延迟 30 秒来调用 Handler 设置别名
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(0, alias), 1000 * 30);
                             }
                             break;
                             default: {
-                                LogMgr.d(TAG, "gotResult: error code = " + code);
+                                YSLog.d(TAG, "gotResult: error code = " + code);
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(0, alias), 1000 * 30);
                             }
                             break;

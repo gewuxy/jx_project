@@ -2,7 +2,7 @@ package lib.network.provider.ok.callback;
 
 import java.io.IOException;
 
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.ParseNetError;
 import lib.network.model.interfaces.OnNetworkListener;
@@ -34,7 +34,7 @@ public class DownloadCallback extends OkCallback {
                 NativeListener.inst().onSuccess(id, result, getListener());
             }
         } catch (Exception e) {
-            LogNetwork.e("onResponse", e);
+            NetworkLog.e("onResponse", e);
             NativeListener.inst().onError(id, new ParseNetError(id, e.getMessage()), getListener());
         }
     }

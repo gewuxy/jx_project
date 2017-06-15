@@ -1,19 +1,21 @@
-package lib.network;
+package lib.ys;
 
 import android.util.Log;
 
-public final class LogNetwork {
-
-    private static final String TAG = LogNetwork.class.getSimpleName();
+public final class YSLog {
 
     private static final String KSeparate = "=========";
-    private static final boolean mIsDebug = true;
+    private static boolean mIsDebug = true;
 
-    private LogNetwork() {
+    private YSLog() {
     }
 
     public static boolean isDebug() {
         return mIsDebug;
+    }
+
+    public static void setDebugState(boolean isDebug) {
+        mIsDebug = isDebug;
     }
 
     public static int v(String tag, String msg) {
@@ -22,6 +24,7 @@ public final class LogNetwork {
         } else {
             return 0;
         }
+
     }
 
     public static int v(String tag, String msg, Throwable tr) {
@@ -35,14 +38,6 @@ public final class LogNetwork {
     public static int d(String tag, String msg) {
         if (mIsDebug) {
             return Log.d(tag, msg);
-        } else {
-            return 0;
-        }
-    }
-
-    public static int d(String msg) {
-        if (mIsDebug) {
-            return Log.d(TAG, msg);
         } else {
             return 0;
         }
@@ -72,33 +67,27 @@ public final class LogNetwork {
         }
     }
 
-    public static void e(String msg, Throwable tr) {
-        if (mIsDebug) {
-            Log.e(TAG, msg, tr);
-        }
-    }
-
     public static void e(String tag, String msg, Throwable tr) {
         if (mIsDebug) {
             Log.e(tag, msg, tr);
         }
     }
 
-    public static void e(Throwable e) {
+    public static void d(String tag, Throwable e) {
         if (mIsDebug) {
-            Log.e(TAG, KSeparate + e.getClass().getSimpleName() + KSeparate, e);
+            Log.d(tag, KSeparate + e.getClass().getSimpleName() + KSeparate, e);
+        }
+    }
+
+    public static void e(String tag, Throwable e) {
+        if (mIsDebug) {
+            Log.e(tag, KSeparate + e.getClass().getSimpleName() + KSeparate, e);
         }
     }
 
     public static void e(String tag, String log) {
         if (mIsDebug) {
             Log.e(tag, log);
-        }
-    }
-
-    public static void e(String log) {
-        if (mIsDebug) {
-            Log.e(TAG, log);
         }
     }
 

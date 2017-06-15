@@ -6,7 +6,7 @@ import android.widget.ExpandableListView;
 import org.json.JSONException;
 
 import lib.network.model.interfaces.IListResult;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
@@ -41,7 +41,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         UnitNum item = (UnitNum) getChild(groupPosition, childPosition);
-        LogMgr.d(TAG, " item.getInt(TUnitNum.id) = " + item.getInt(TUnitNum.id));
+        YSLog.d(TAG, " item.getInt(TUnitNum.id) = " + item.getInt(TUnitNum.id));
         UnitNumDetailActivity.nav(this, item.getInt(TUnitNum.id));
         return true;
     }

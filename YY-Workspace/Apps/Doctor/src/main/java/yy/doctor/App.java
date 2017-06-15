@@ -5,7 +5,7 @@ import android.os.StrictMode;
 
 import lib.jg.JG;
 import lib.network.NetworkConfig;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
@@ -50,7 +50,7 @@ public class App extends BaseApp {
     @Override
     protected void init() {
         // log
-        LogMgr.setDebugState(BuildConfig.DEBUG_LOG);
+        YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
 

@@ -2,7 +2,7 @@ package lib.network.provider.ok.task;
 
 import java.util.List;
 
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkReq;
 import lib.network.model.param.CommonPair;
@@ -25,7 +25,7 @@ public class PostTask extends Task {
     @Override
     public Request buildRealReq() {
         String url = NetworkUtil.generateGetUrl(getReq().getUrl(), getReq().getParams());
-        LogNetwork.d("url_post = " + url);
+        NetworkLog.d("url_post = " + url);
 
         FormBody.Builder b = new FormBody.Builder();
         List<CommonPair> params = getReq().getParams();

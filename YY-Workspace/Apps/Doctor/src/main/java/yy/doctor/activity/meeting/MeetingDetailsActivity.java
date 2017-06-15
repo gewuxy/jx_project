@@ -20,9 +20,8 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.MapList;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -36,13 +35,17 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.activity.me.UnitNumDataActivity;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
@@ -56,6 +59,7 @@ import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.unitnum.UnitNumDetailData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
@@ -129,24 +133,25 @@ public class MeetingDetailsActivity extends BaseActivity {
     // 底部按钮
     private View mLayoutExam; // 考试模块
     private TextView mTvExam;
-
     private ImageView mIvExam;
+
     private View mLayoutQue; // 问卷模块
     private TextView mTvQue;
-
     private ImageView mIvQue;
+
     private View mLayoutVideo; // 视频模块
     private TextView mTvVideo;
-
     private ImageView mIvVideo;
+
     private View mLayoutSign; // 签到模块
     private TextView mTvSign;
-
     private ImageView mIvSign;
+
     private TextView mTvSee; // 会议模块
     private List<UnitNumDetailData> mMaterials;
-    private HintDialogMain mEpnDialog; // 要支付象数的对话框
-    private HintDialogMain mAttentionDialog; // 关注的对话框
+    private HintDialogMain mPayEpnDialog; // 支付象数
+    private HintDialogMain mNoEpnDialog; // 象数不足
+    private HintDialogMain mAttentionDialog; // 关注
 
     private MeetDetail mMeetDetail;
 
@@ -299,14 +304,26 @@ public class MeetingDetailsActivity extends BaseActivity {
                     // !mEpnType 需要象数
                     // mEpn > 0 不是免费
                     // requiredXs false 没支付过
-                    mEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                    mEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
-                    mEpnDialog.addButton("确认支付", "#0682e6", v1 -> {
-                        mEpnDialog.dismiss();
-                        toModule(v);
-                    });
-                    mEpnDialog.addButton("取消", "#666666", v1 -> mEpnDialog.dismiss());
-                    mEpnDialog.show();
+                    int surplus = Profile.inst().getInt(TProfile.credits);
+                    if (surplus < mEpn) {
+                        // 象数不足
+                        mNoEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
+                        mNoEpnDialog.setHint("象数不足");
+                        mNoEpnDialog.addButton("知道了", "#0682e6", v1 -> mNoEpnDialog.dismiss());
+                        mNoEpnDialog.show();
+                    } else {
+                        mPayEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
+                        mPayEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
+                        mPayEpnDialog.addButton("确认支付", "#0682e6", v1 -> {
+                            mMeetDetail.put(TMeetDetail.requiredXs, true); // 支付象数
+                            Profile.inst().put(TProfile.credits,surplus - mEpn);
+                            notify(NotifyType.profile_change);
+                            mPayEpnDialog.dismiss();
+                            toModule(v);
+                        });
+                        mPayEpnDialog.addButton("取消", "#666666", v1 -> mPayEpnDialog.dismiss());
+                        mPayEpnDialog.show();
+                    }
                 } else {
                     toModule(v);
                 }
@@ -331,7 +348,6 @@ public class MeetingDetailsActivity extends BaseActivity {
      * @param v
      */
     private void toModule(View v) {
-        mMeetDetail.put(TMeetDetail.requiredXs, true); // 支付象数
         switch (v.getId()) {
             case R.id.meeting_detail_iv_play: {
                 if (!mNoPPT) {
@@ -407,13 +423,13 @@ public class MeetingDetailsActivity extends BaseActivity {
                 //定位成功
                 mLatitude = gps.getString(TGps.latitude);
                 mLongitude = gps.getString(TGps.longitude);
-                LogMgr.d(TAG, "Gps-Latitude:" + mLatitude);
-                LogMgr.d(TAG, "Gps-Longitude:" + mLongitude);
+                YSLog.d(TAG, "Gps-Latitude:" + mLatitude);
+                YSLog.d(TAG, "Gps-Longitude:" + mLongitude);
                 exeNetworkReq(KIdSign, NetFactory.toSign(mMeetId, mMapList.getByKey(FunctionType.sign)));
             } else {
                 runOnUIThread(() -> stopRefresh());
                 //定位失败
-                LogMgr.d(TAG, "Gps:失败");
+                YSLog.d(TAG, "Gps:失败");
                 if (mLocationDialog == null) {
                     initDialog();
                 }
@@ -601,19 +617,26 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvUnitNum.setText(info.getString(TMeetDetail.organizer));
 
         // 资料
-        goneView(mDivider);
-        goneView(mLayoutData);
-        goneView(mDividerFile);
+        int fileNum = info.getInt(TMeetDetail.materialCount);
+        if (fileNum > 3) {
+            showView(mIvFileArrow);
+            mTvFileNum.setText("查看全部" + fileNum + "个文件");
+            mLayoutData.setOnClickListener(new OnClickListener() {
 
-        // FIXME: 2017/6/13  caixiang
-//        mMaterials = info.getList(TMeetDetail.materials);
-//        if (mMaterials == null || mMaterials.size() == 0) {
-//            goneView(mDivider);
-//            goneView(mLayoutData);
-//            goneView(mDividerFile);
-//        } else {
-//            UISetter.setFileData(mLayoutFile, mMaterials, mNumberId);
-//        }
+                @Override
+                public void onClick(View v) {
+                    UnitNumDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType);
+                }
+            });
+        }
+        mMaterials = info.getList(TMeetDetail.materials);
+        if (mMaterials == null || mMaterials.size() == 0) {
+            goneView(mDivider);
+            goneView(mLayoutData);
+            goneView(mDividerFile);
+        } else {
+            UISetter.setFileData(mLayoutFile, mMaterials, info.getInt(TMeetDetail.pubUserId));
+        }
 
         // 主讲者
         mTvGN.setText(info.getString(TMeetDetail.lecturer));
@@ -755,29 +778,12 @@ public class MeetingDetailsActivity extends BaseActivity {
             mLocationDialog = null;
         }
 
-        if (mEpnDialog != null) {
-            if (mEpnDialog.isShowing()) {
-                mEpnDialog.dismiss();
+        if (mPayEpnDialog != null) {
+            if (mPayEpnDialog.isShowing()) {
+                mPayEpnDialog.dismiss();
             }
-            mEpnDialog = null;
+            mPayEpnDialog = null;
         }
-    }
-
-    /**
-     * 添加文件item
-     *
-     * @param text
-     * @param l
-     */
-    public void addFileItem(CharSequence text, OnClickListener l) {
-
-        View v = getLayoutInflater().inflate(R.layout.layout_unit_num_detail_file_item, null);
-        TextView tv = (TextView) v.findViewById(R.id.unit_num_detail_file_item_tv_name);
-        tv.setText(text);
-        v.setOnClickListener(l);
-
-        LayoutFitter.fit(v);
-        mLayoutFile.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
     }
 
 }

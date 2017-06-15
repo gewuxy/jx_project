@@ -18,8 +18,10 @@ import java.util.regex.Pattern;
 import alipay.Pay;
 import alipay.PayResult;
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
+import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -61,6 +63,7 @@ public class EpnRechargeActivity extends BaseActivity {
                     //支付成功后显示充值后的的象数数量  改变本地的象数数量
                     int epnNum = Profile.inst().getInt(TProfile.credits) + mRechargeSum * 10;
                     Profile.inst().update(Profile.inst().put(TProfile.credits, epnNum));
+                    EpnRechargeActivity.this.notify(NotifyType.profile_change);
                     mTvEpn.setText(epnNum + "");
                 } else {
                     // 判断resultStatus 为非"9000"则代表可能支付失败
@@ -153,7 +156,12 @@ public class EpnRechargeActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.recharge_tv_pay: {
-                mRechargeSum = Integer.valueOf(mEtRechargeNum.getText().toString().trim());
+                String str = mEtRechargeNum.getText().toString().trim();
+                if (TextUtil.isEmpty(str)) {
+                    showToast("请输入充值金额");
+                    return;
+                }
+                mRechargeSum = Integer.valueOf(str);
                 exeNetworkReq(NetFactory.epnRecharge("象数充值", mRechargeSum));
             }
             break;
@@ -177,7 +185,7 @@ public class EpnRechargeActivity extends BaseActivity {
         if (r.getInt(TEpnRecharge.code) == 0) {
             String info = r.getString(TEpnRecharge.data);
             //String info = "body=充值20元，购买象数&subject=敬信药草园象数充值&sign_type=MD5&notify_url=http://www.medcn.cn:8080/charge!getAlipayNotify&out_trade_no=201705191716376833&sign=9d9d5d38115a8be8eb87ce846494e0cd&_input_charset=utf-8&it_b_pay=1m&total_fee=20&service=mobile.securitypay.pay&seller_id=med@medcn.cn&partner=2088801846603680&payment_type=1";
-            LogMgr.d(TAG, "OrderInfo = "  + info);
+            YSLog.d(TAG, "OrderInfo = "  + info);
             Pay.aliPay(EpnRechargeActivity.this, info, mHandler);
         } else {
             showToast("象数充值失败");

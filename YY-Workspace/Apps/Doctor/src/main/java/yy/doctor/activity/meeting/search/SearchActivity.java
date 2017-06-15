@@ -8,10 +8,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.ys.view.FlowLayout;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.search.ResultActivity.SearchType;
 import yy.doctor.util.Util;
 
 /**
@@ -42,7 +42,14 @@ public class SearchActivity extends BaseActivity {
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         bar.addViewLeft(view, null);
-        bar.addTextViewRight("搜索", v -> search(mEtSearch.getText().toString().trim()));
+        bar.addTextViewRight("搜索", v ->{
+            String search = mEtSearch.getText().toString().trim();
+            if (TextUtil.isEmpty(search)) {
+                showToast("请输入搜索内容");
+                return;
+            }
+            ResultActivity.nav(SearchActivity.this, search);
+        } );
     }
 
     @Override
@@ -70,7 +77,7 @@ public class SearchActivity extends BaseActivity {
             view = inflate(R.layout.layout_meeting_search_section);
             tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
             tvSection.setText(name);
-            view.setOnClickListener(v -> MeetingResultActivity.nav(SearchActivity.this, SearchType.meeting, name));
+            view.setOnClickListener(v -> MeetingResultActivity.nav(SearchActivity.this, name));
             mFlowLayout.addView(view);
         }
     }
@@ -79,18 +86,12 @@ public class SearchActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_search_tv_unit_num:
-                MeetingResultActivity.nav(SearchActivity.this, SearchType.unit_num, null);
+                UnitNumResultActivity.nav(SearchActivity.this, null);
                 break;
             case R.id.meeting_search_tv_meeting:
-                MeetingResultActivity.nav(SearchActivity.this, SearchType.meeting, null);
+                MeetingResultActivity.nav(SearchActivity.this, null);
                 break;
         }
     }
 
-    /**
-     * 进行搜索
-     */
-    private void search(String search) {
-        MeetingResultActivity.nav(SearchActivity.this, SearchType.all, search);
-    }
 }

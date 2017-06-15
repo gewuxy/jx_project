@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -159,7 +159,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
                         mPlayer.setDataSource(mPath);
                         mPlayer.prepare();
                     } catch (IOException e) {
-                        LogMgr.e(TAG, "onAdapterClick", e);
+                        YSLog.e(TAG, "onAdapterClick", e);
                     }
                     mPlayer.start();
                 }
@@ -186,7 +186,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
                 mPlayer.setDataSource(mPath);
                 mPlayer.prepare();
             } catch (IOException e) {
-                LogMgr.e(TAG, "onAdapterClick", e);
+                YSLog.e(TAG, "onAdapterClick", e);
             }
             mPlayer.start();
         } else {

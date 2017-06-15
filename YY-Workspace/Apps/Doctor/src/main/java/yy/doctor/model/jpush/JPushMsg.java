@@ -11,8 +11,17 @@ import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 public class JPushMsg extends EVal<TJPushMsg> {
 
     public enum TJPushMsg {
+        content,
         msgType,
         meetId,
+        sendTime,
+        senderName,
+        title,
+
+        groupId,
+        receiver,
+        sender,
+        state
     }
 
 }

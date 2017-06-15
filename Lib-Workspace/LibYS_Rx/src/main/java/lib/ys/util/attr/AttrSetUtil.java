@@ -3,7 +3,7 @@ package lib.ys.util.attr;
 import android.util.AttributeSet;
 
 import lib.ys.ConstantsEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 
 /**
  * @author yuansui
@@ -65,12 +65,12 @@ public class AttrSetUtil {
 
     public static void toString(AttributeSet attrs) {
         int count = attrs.getAttributeCount();
-        LogMgr.d("www", "toString: count  = " + count);
+        YSLog.d("www", "toString: count  = " + count);
 
         for (int i = 0; i < count; ++i) {
-            LogMgr.d("www", "toString: name = " + attrs.getAttributeName(i));
+            YSLog.d("www", "toString: name = " + attrs.getAttributeName(i));
 //            LogMgr.d("www", "toString: name res = " + set.getAttributeNameResource(i));
-            LogMgr.d("www", "toString: name value = " + attrs.getAttributeValue(i));
+            YSLog.d("www", "toString: name value = " + attrs.getAttributeValue(i));
 
 
         }

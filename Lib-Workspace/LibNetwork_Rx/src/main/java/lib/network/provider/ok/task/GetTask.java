@@ -1,6 +1,6 @@
 package lib.network.provider.ok.task;
 
-import lib.network.LogNetwork;
+import lib.network.NetworkLog;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkReq;
 import lib.network.provider.ok.callback.OkCallback;
@@ -21,7 +21,7 @@ public class GetTask extends Task {
     @Override
     public Request buildRealReq() {
         String url = NetworkUtil.generateGetUrl(getReq().getUrl(), getReq().getParams());
-        LogNetwork.d("url_get = " + url);
+        NetworkLog.d("url_get = " + url);
 
         Request.Builder reqBuilder = new Request.Builder()
                 .tag(getId())

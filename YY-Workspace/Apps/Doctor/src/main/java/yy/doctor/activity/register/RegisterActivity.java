@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
@@ -153,7 +153,7 @@ public class RegisterActivity extends BaseFormActivity {
         String strCity = null;
         String strArea = null;
         String str = getItemStr(RelatedId.location);
-        LogMgr.d(TAG, " address = " + str);
+        YSLog.d(TAG, " address = " + str);
         String[] strs = str.split(" ");
         for (int i = 0; i < strs.length; i++) {
             String s = strs[i];
@@ -180,8 +180,8 @@ public class RegisterActivity extends BaseFormActivity {
             return;
         }
 
-        if (strPwd.length() < 6 && strPwd.length() > 18) {
-            showToast("请输入6位以上18位以下密码");
+        if (strPwd.length() < 6 || strPwd.length() > 18) {
+            showToast("请输入6~18位密码");
             return;
         }
         if (!strPwd.equals(strPwdNg)) {

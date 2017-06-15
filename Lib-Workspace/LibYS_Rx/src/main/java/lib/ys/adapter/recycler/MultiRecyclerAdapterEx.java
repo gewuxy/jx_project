@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import lib.ys.AppEx;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.VH.RecyclerViewHolderEx;
 import lib.ys.adapter.interfaces.IAdapter;
@@ -174,7 +174,7 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
         try {
             t = mTs.get(position);
         } catch (Exception e) {
-            LogMgr.e(TAG, e);
+            YSLog.e(TAG, e);
         }
 
         return t;

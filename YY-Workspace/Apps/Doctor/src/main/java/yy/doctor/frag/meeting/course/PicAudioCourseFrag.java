@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import java.io.File;
 
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.util.TextUtil;
@@ -135,7 +135,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
                     mMp.prepare();
                     mRemainTime = mMp.getDuration() / 1000;
                 } catch (Exception e) {
-                    LogMgr.e(TAG, "preparePlay", e);
+                    YSLog.e(TAG, "preparePlay", e);
                 }
             } else {
                 onPrepare(mMp.getDuration());
@@ -150,7 +150,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void toggle() {
         if (mMp == null) {
-            LogMgr.d(TAG, "toggle 没有mp");
+            YSLog.d(TAG, "toggle 没有mp");
             return;
         }
 

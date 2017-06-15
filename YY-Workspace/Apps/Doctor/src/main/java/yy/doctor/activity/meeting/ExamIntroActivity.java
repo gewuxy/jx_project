@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.LogMgr;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -187,9 +187,9 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
                     } else {
                         mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
                     }
-                    LogMgr.d(TAG, "onClick:useTime" + useTime);
-                    LogMgr.d(TAG, "onClick:surplusTime" + surplusTime);
-                    LogMgr.d(TAG, "onClick:time" + mIntro.getLong(TIntro.time));
+                    YSLog.d(TAG, "onClick:useTime" + useTime);
+                    YSLog.d(TAG, "onClick:surplusTime" + surplusTime);
+                    YSLog.d(TAG, "onClick:time" + mIntro.getLong(TIntro.time));
                     ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                     finish();
                 } else {
