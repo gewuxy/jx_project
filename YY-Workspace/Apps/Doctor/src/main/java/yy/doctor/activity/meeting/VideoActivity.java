@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
+import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -79,6 +81,9 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void initData() {
         mUriString = getIntent().getStringExtra(Extra.KData);
+        YSLog.d("qwer", mUriString);
+        YSLog.d("qwer", "uri = " + Uri.parse(mUriString));
+        mUriString = "http://oa.gyfyy.com:81/kj/" + Uri.encode("微创胸外科手术的展望（15：36）.mp4");
     }
 
     @NonNull
@@ -325,7 +330,7 @@ public class VideoActivity extends BaseActivity implements
                 showToast("播放器准备超时");
                 break;
             default:
-                showToast("播放错误");
+                showToast("播放错误" + errorCode);
                 return false;
         }
         return true;

@@ -23,13 +23,28 @@ public class VideoDetailAdapter extends AdapterEx<Detail, VideoVH> {
     protected void refreshView(int position, VideoVH holder) {
         setOnViewClickListener(position, holder.getLayout());
         holder.getTvMain().setText(getItem(position).getString(TDetail.name));
-        holder.getTvSecondary().setText(getContext().getString(R.string.video_studied) + format(getItem(position).getLong(TDetail.duration)));
+        long duration = getItem(position).getLong(TDetail.duration);
+        if (duration > 0) {
+            holder.getTvSecondary().setText(getContext().getString(R.string.video_studied) + format(duration));
+        }
     }
 
-    private String format(long time) {
-        StringBuffer sb = new StringBuffer(time + "");
-        if (time > TimeUnit.DAYS.toSeconds(1)) {
-            // FIXME: 2017/6/14
+    public static String format(long time) {
+        StringBuffer sb = new StringBuffer();
+        long hour = TimeUnit.HOURS.toSeconds(1);
+        if (time > hour) {
+           sb.append(time / hour).append("时");
+            time %= hour;
+        }
+
+        long minute = TimeUnit.MINUTES.toSeconds(1);
+        if (time > minute) {
+           sb.append(time / minute).append("分");
+            time %= minute;
+        }
+
+        if (time > 0) {
+           sb.append(time).append("秒");
         }
         return sb.toString();
     }

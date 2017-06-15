@@ -49,8 +49,8 @@ public class VideoDetailActivity extends BaseSRListActivity<Detail, VideoDetailA
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "视频", this);
-        mBarTvRight = bar.addTextViewRight("", null);
+        Util.addBackIcon(bar, getString(R.string.video), this);
+        mBarTvRight = bar.addTextViewRight(getString(R.string.video_studied) + "0", null);
     }
 
     @Override
@@ -76,13 +76,18 @@ public class VideoDetailActivity extends BaseSRListActivity<Detail, VideoDetailA
         IListResult<Detail> r = (IListResult<Detail>) result;
         if (r.isSucceed()) {
             mDetails = r.getData();
+            if (mDetails == null || mDetails.size() <= 0) {
+                return;
+            }
             addAll(mDetails);
 
             long time = 0;
             for (Detail detail : mDetails) {
                 time += detail.getLong(TDetail.duration);
             }
-            mBarTvRight.setText(getString(R.string.video_studied));
+            if (time > 0) {
+                mBarTvRight.setText(getString(R.string.video_studied) + VideoDetailAdapter.format(time));
+            }
         }
     }
 

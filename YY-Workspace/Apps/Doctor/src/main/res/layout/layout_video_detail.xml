@@ -27,7 +27,7 @@
                 android:id="@+id/video_detail_tv_secondary"
                 style="@style/tv"
                 android:layout_marginTop="6dp"
-                android:text="未学习"
+                android:text="已学习0"
                 android:textColor="@color/text_888"
                 android:textSize="12dp"/>
         </LinearLayout>

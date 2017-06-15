@@ -35,7 +35,7 @@ import yy.doctor.util.Util;
  */
 
 public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCategoryAdapter> implements OnAdapterClickListener {
-
+    // FIXME: 2017/6/15 跟VideoDetailActivity合并
     private String mMeetId;
     private String mModuleId;
     private List<Detail> mDetails;
