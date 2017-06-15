@@ -158,10 +158,15 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             //数据分组  推荐会议
             List<IHome> threeMeetings = new ArrayList<>();
             List<IHome> fiveMeetings = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
+
+            int index = 0;
+            int size = mRecMeetings.size();
+            for (int i = 0; i < 3 && i < size; i++) {
                 threeMeetings.add(mRecMeetings.get(i));
+                index++;
             }
-            for (int i = 3; i < mRecMeetings.size(); ++i) {
+
+            for (int i = index; i < (5 + index) && i < size; ++i) {
                 fiveMeetings.add(mRecMeetings.get(i));
             }
 
