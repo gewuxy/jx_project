@@ -49,13 +49,13 @@
             android:id="@+id/login_et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:layout_marginLeft="@dimen/margin"
-            android:singleLine="true"
+            android:background="@null"
             android:hint="电子邮箱"
+            android:singleLine="true"
+            android:textColor="@color/text_666"
             android:textColorHint="@color/text_b3"
-            android:textSize="14dp"
-            android:textColor="@color/text_666"/>
+            android:textSize="14dp" />
 
     </RelativeLayout>
 

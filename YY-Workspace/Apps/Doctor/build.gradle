@@ -145,7 +145,7 @@ dependencies {
 apply plugin: 'org.greenrobot.greendao'
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
