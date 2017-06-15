@@ -91,18 +91,24 @@
     </string-array>
 
     <!--Meeting_exam-->
+    <string name="exam">考试</string>
     <string name="exam_no_start">考试还未开始</string>
     <string name="exam_stop">考试已停止答卷</string>
     <string name="exam_end">该考试会议已结束</string>
     <string name="exam_participation">请稍后再参与</string>
     <string name="exam_contact">如需考试请联系主办方咨询</string>
     <string name="exam_submit">请确认提交答卷</string>
-    <string name="exam_five_min">距离考试结束还有5分钟</string>
+    <string name="exam_finish">距离考试结束还有</string>
     <string name="exam_xs_close">s后自动关闭</string>
     <string name="exam_submit_sure">确认提交</string>
     <string name="exam_continue">继续</string>
     <string name="exam_host">主办方:</string>
 
+    <string name="que">问卷</string>
+    <string name="submit">提交</string>
+
     <string name="video_studied">已学习</string>
+
+    <string name="minute">分钟</string>
 
 </resources>

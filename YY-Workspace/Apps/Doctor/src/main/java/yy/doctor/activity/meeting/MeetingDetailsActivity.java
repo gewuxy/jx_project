@@ -379,7 +379,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         }
     }
 
-    // FIXME: 2017/6/12 暂时只有PPT和问卷进入要先请求
+    // FIXME: 2017/6/12 除了视频列表进入要先请求
 
     /**
      * PPT

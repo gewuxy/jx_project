@@ -110,8 +110,8 @@ public class CountDown {
     }
 
     public interface OnCountDownListener {
-        void onCountDownErr();
         void onCountDown(long remainCount);
+        void onCountDownErr();
     }
 
     public void setListener(OnCountDownListener l) {

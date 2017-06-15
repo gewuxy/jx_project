@@ -14,7 +14,6 @@ import yy.doctor.activity.me.TitleActivity;
 import yy.doctor.activity.me.UnitNumActivity;
 import yy.doctor.activity.me.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
-import yy.doctor.activity.meeting.ExamTopicActivity;
 import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.VideoActivity;
@@ -94,9 +93,8 @@ public class TestActivity extends BaseTestActivity {
         });
         add("对话框22", v -> {
             HintDialogSec mCloseDialog = new HintDialogSec(TestActivity.this);
-            mCloseDialog.setMainHint(getString(R.string.exam_five_min));
+            mCloseDialog.setMainHint(getString(R.string.exam_finish));
             mCloseDialog.setSecHint(2 + getString(R.string.exam_xs_close));
-            // FIXME: 2017/6/13 倒数
             mCloseDialog.addButton("确定", "#0682e6", v1 -> mCloseDialog.dismiss());
             mCloseDialog.show();
         });

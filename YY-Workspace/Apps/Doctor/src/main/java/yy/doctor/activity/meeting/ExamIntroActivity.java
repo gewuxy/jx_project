@@ -43,7 +43,7 @@ import yy.doctor.util.Util;
  * @since : 2017/4/27
  */
 public class ExamIntroActivity extends BaseActivity implements OnCountDownListener {
-    // FIXME: 2017/6/10 重考
+
     private Paper mPaper; // 本次考试试题信息
     private Intro mIntro;
     private String mHost; // 会议主办方
@@ -179,17 +179,15 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
                 // 点击开始考试
                 if (mCanStart) {
                     // 时间段考试
-                    long useTime = mIntro.getLong(TIntro.usetime);
-                    long surplusTime = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1); // 离考试结束的时间
+                    long useTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toMillis(1);
+                    long surplusTime = mEndTime - mCurTime; // 离考试结束的时间
                     if (useTime < 0) {
-                        long examTime = (mEndTime - mStartTime) / TimeUnit.MINUTES.toMillis(1); // 考试时间段
+                        // 服务器没给时间
+                        long examTime = mEndTime - mStartTime; // 考试时间段
                         mIntro.put(TIntro.time, examTime < surplusTime ? examTime : surplusTime);
                     } else {
                         mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
                     }
-                    YSLog.d(TAG, "onClick:useTime" + useTime);
-                    YSLog.d(TAG, "onClick:surplusTime" + surplusTime);
-                    YSLog.d(TAG, "onClick:time" + mIntro.getLong(TIntro.time));
                     ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                     finish();
                 } else {

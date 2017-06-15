@@ -13,10 +13,11 @@ import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.util.UISetter;
 
 /**
+ * 搜索
+ *
  * @auther : GuoXuan
  * @since : 2017/6/8
  */
-
 public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
     @Override
     protected void refreshView(int position, RecVH holder, int itemType) {
@@ -52,6 +53,15 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 holder.getTvUnitNumUN().setText(unitNum.getString(UnitNum.TUnitNum.nickname));
             }
             break;
+
+            case RecType.more: {
+                if (getItemViewType(position - 1) == RecType.unit_num) {
+                    holder.getTvMore().setText("查看更多单位号");
+                } else {
+                    holder.getTvMore().setText("查看更多会议");
+                }
+            }
+            break;
         }
     }
 
@@ -62,6 +72,12 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 return R.layout.layout_meeting_item;
             case RecType.unit_num:
                 return R.layout.layout_unit_num_item;
+            case RecType.hot:
+                return R.layout.layout_reach_hot;
+            case RecType.margin:
+                return R.layout.layout_reach_margin;
+            case RecType.more:
+                return R.layout.layout_reach_more;
         }
         return -1;
     }

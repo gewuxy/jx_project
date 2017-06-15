@@ -2,7 +2,6 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -11,6 +10,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
+import yy.doctor.R;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -23,8 +23,6 @@ import yy.doctor.network.NetFactory;
  */
 public class QueTopicActivity extends BaseTopicActivity {
 
-    private TextView mBarRight;
-
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, QueTopicActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
@@ -36,8 +34,9 @@ public class QueTopicActivity extends BaseTopicActivity {
     public void initNavBar(NavBar bar) {
         super.initNavBar(bar);
 
-        mTvLeft.setText("问卷");
-        mBarRight = bar.addTextViewRight("提交", v -> {
+        bar.addTextViewMid(getString(R.string.que));
+
+        bar.addTextViewRight(getString(R.string.submit), v -> {
             if (mAllTopics != null && mAllTopics.size() > 0) {
                 trySubmit(mAllTopics.size() - mCount);
             }
@@ -96,18 +95,6 @@ public class QueTopicActivity extends BaseTopicActivity {
                 .putExtra(Extra.KData, getAnswer(mAllTopics));
         LaunchUtil.startActivity(QueTopicActivity.this, i);
         finish();
-    }
-
-    @Override
-    protected void topicCaseVisibility(boolean showState) {
-        super.topicCaseVisibility(showState);
-        if (getTopicCaseShow()) {
-            mTvLeft.setText("题目");
-            goneView(mBarRight);
-        } else {
-            mTvLeft.setText("问卷");
-            showView(mBarRight);
-        }
     }
 
 }

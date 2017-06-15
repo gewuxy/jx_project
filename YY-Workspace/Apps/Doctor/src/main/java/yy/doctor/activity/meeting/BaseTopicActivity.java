@@ -3,7 +3,6 @@ package yy.doctor.activity.meeting;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
@@ -39,23 +38,20 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @since : 2017/4/28
  */
 public abstract class BaseTopicActivity extends BaseVPActivity {
-
+    // FIXME: 2017/6/15 情况界面
     private static final int KDuration = 300; //动画时长
     private static final int KVpSize = 3;
 
     private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
 
     private GridView mGv;           //考题情况列表
-    private TextView mTvCount;      //已完成数
+    private TextView mTvFinish;      //已完成数
+    private TextView mTvAllFinish; // 已完成数(查看考题)
     private LinearLayout mLayout;   //考题情况
 
     private Animation mEnter;       //进入动画
     private Animation mLeave;       //离开动画
     private boolean mIsAnimating;  //是否有动画在执行
-    private boolean mTopicCaseShow; //是否在查看考题
-
-    private View mViewMid;          //NavBar中边的View(显示考试情况的时候显示)
-    private TextView mTvNavCount;   //完成情况
 
     protected int mCount; // 完成数量
     protected String mPaperId;
@@ -64,15 +60,10 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     protected Intro mIntro;
     protected Paper mPaper; // 整套考题
     protected List<Topic> mAllTopics;
-    protected TextView mTvAll; // 总数(底部)
-    protected TextView mTvNavAll; // 总数(NavBar)
-    protected TextView mTvLeft; // NavBar左边的TextView
+    protected TextView mTvCase; // 总数(底部)
+    protected TextView mTvAllCase; // 总数(查看考题)
     private HintDialogMain mSubDialog;
     private HintDialogMain mExitDialog;
-
-    protected boolean getTopicCaseShow() {
-        return mTopicCaseShow;
-    }
 
     @NonNull
     @Override
@@ -83,7 +74,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     @Override
     public void initData() {
         mIsAnimating = false;
-        mTopicCaseShow = false;
 
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
@@ -91,65 +81,28 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        //添加左边text
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, "", v -> {
-            if (getTopicCaseShow()) {
-                topicCaseVisibility(false);
-            } else {
-                mExitDialog = new HintDialogMain(BaseTopicActivity.this);
-                mExitDialog.setHint("确定退出考试?");
-                mExitDialog.addButton("确定", "#0682e6", v1 -> {
-                    finish();
-                    mExitDialog.dismiss();
-                });
-                mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
-                mExitDialog.show();
-            }
-        });
-        if (mTvLeft == null) {
-            getTvLeft((ViewGroup) bar.getLayoutLeft());
-        }
-        //添加中间text
-        //试题情况可见时显示
-        mViewMid = inflate(R.layout.layout_exam_topic_nav_bar);
-        bar.addViewMid(mViewMid);
-        goneView(mViewMid);
-    }
-
-    /**
-     * 获取左边文字
-     *
-     * @param layout
-     */
-    private void getTvLeft(ViewGroup layout) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View childView = layout.getChildAt(i);
-            if (childView instanceof ViewGroup) {
-                getTvLeft((ViewGroup) childView);
-            } else if (childView instanceof TextView) {
-                mTvLeft = (TextView) childView;
-            }
-        }
+        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> exit());
     }
 
     @Override
     public void findViews() {
         super.findViews();
 
-        mLayout = findView(R.id.topic_case_all_layout);
+        mLayout = findView(R.id.topic_case_all_layout_progress);
         mGv = findView(R.id.topic_case_all_gv);
-        mTvAll = findView(R.id.topic_tv_case_all);
-        mTvCount = findView(R.id.topic_tv_case_finish_count);
-        mTvNavCount = (TextView) mViewMid.findViewById(R.id.topic_tv_nar_bar_finish_count);
-        mTvNavAll = (TextView) mViewMid.findViewById(R.id.topic_tv_nar_bar_all);
+        mTvCase = findView(R.id.topic_case_tv_all);
+        mTvAllCase = findView(R.id.topic_case_all_tv_all);
+        mTvFinish = findView(R.id.topic_case_tv_finish);
+        mTvAllFinish = findView(R.id.topic_case_all_tv_finish);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.topic_layout_case_all);
-        setOnClickListener(R.id.topic_tv_nar_bar_all);
+        setOnClickListener(R.id.topic_case_layout_progress);
+        setOnClickListener(R.id.topic_case_all_layout_all);
+        setOnClickListener(R.id.topic_case_all_layout_progress);
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
@@ -161,8 +114,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mTvAll.setText(getProgress(position));
-                mTvNavAll.setText(getProgress(position));
+                mTvCase.setText(getProgress(position));
+                mTvAllCase.setText(getProgress(position));
             }
 
             @Override
@@ -173,36 +126,38 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
     @Override
     public void onClick(View v) {
+        if (mEnter == null) {
+            mEnter = new TranslateAnimation(
+                    Animation.RELATIVE_TO_SELF,
+                    0.0f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.0f,
+                    Animation.RELATIVE_TO_SELF,
+                    1.0f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.0f);
+            setAnimation(mEnter);
+        }
+        if (mLeave == null) {
+            mLeave = new TranslateAnimation(
+                    Animation.RELATIVE_TO_SELF,
+                    0.0f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.0f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.0f,
+                    Animation.RELATIVE_TO_SELF,
+                    1.0f);
+            setAnimation(mLeave);
+        }
         switch (v.getId()) {
-            case R.id.topic_layout_case_all:
-                if (mEnter == null) {
-                    mEnter = new TranslateAnimation(
-                            Animation.RELATIVE_TO_SELF,
-                            0.0f,
-                            Animation.RELATIVE_TO_SELF,
-                            0.0f,
-                            Animation.RELATIVE_TO_SELF,
-                            1.0f,
-                            Animation.RELATIVE_TO_SELF,
-                            0.0f);
-                    setAnimation(mEnter);
-                }
-                if (mLeave == null) {
-                    mLeave = new TranslateAnimation(
-                            Animation.RELATIVE_TO_SELF,
-                            0.0f,
-                            Animation.RELATIVE_TO_SELF,
-                            0.0f,
-                            Animation.RELATIVE_TO_SELF,
-                            0.0f,
-                            Animation.RELATIVE_TO_SELF,
-                            1.0f);
-                    setAnimation(mLeave);
-                }
-
+            case R.id.topic_case_layout_progress:
                 topicCaseVisibility(true);
                 break;
-            case R.id.topic_tv_nar_bar_all:
+            case R.id.topic_case_all_layout_all:
+                topicCaseVisibility(false);
+                break;
+            case R.id.topic_case_all_layout_progress:
                 topicCaseVisibility(false);
                 break;
         }
@@ -243,8 +198,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             }
         }
 
-        mTvCount.setText(String.valueOf(mCount));
-        mTvNavCount.setText("已完成" + mCount);
+        mTvFinish.setText(String.valueOf(mCount));
+        mTvAllFinish.setText(String.valueOf(mCount));
         return answers;
     }
 
@@ -286,8 +241,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     protected void initFirstGv() {
         if (mAllTopics.size() > 0) {
             //第一题
-            mTvAll.setText(getProgress(0));
-            mTvNavAll.setText(getProgress(0));
+            mTvCase.setText(getProgress(0));
+            mTvAllCase.setText(getProgress(0));
         }
 
         mTopicCaseAdapter = new TopicCaseAdapter();
@@ -295,54 +250,12 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
 
         mGv.setAdapter(mTopicCaseAdapter);
         mGv.setOnItemClickListener((parent, view, position, id) -> {
-            setCurrentItem(position);
             topicCaseVisibility(false);
+            setCurrentItem(position);
         });
     }
 
-    /**
-     * 考题情况是否显示
-     *
-     * @param showState true显示,false不显示
-     */
-    protected void topicCaseVisibility(boolean showState) {
-        //没有动画执行的时候
-        if (!mIsAnimating) {
-            if (showState) {
-                mTopicCaseAdapter.notifyDataSetChanged();
-            }
-            mTopicCaseShow = showState;
-            mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
-            mLayout.startAnimation(showState ? mEnter : mLeave);
-            mViewMid.setVisibility(showState ? View.VISIBLE : View.GONE);
-        }
-    }
 
-    /**
-     * Animation设置
-     * 设置播放时长
-     * 设置监听
-     *
-     * @param animation
-     */
-    private void setAnimation(Animation animation) {
-        animation.setDuration(KDuration);
-        animation.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                mIsAnimating = true;
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mIsAnimating = false;
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
 
     /**
      * 获取当前题目占总题目的百分比
@@ -388,6 +301,65 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             }
             mSubDialog = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+
+    /**
+     * 退出提示
+     */
+    private void exit() {
+        mExitDialog = new HintDialogMain(BaseTopicActivity.this);
+        mExitDialog.setHint("确定退出?");
+        mExitDialog.addButton("确定", "#0682e6", v1 -> {
+            finish();
+            mExitDialog.dismiss();
+        });
+        mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
+        mExitDialog.show();
+    }
+
+    /**
+     * 考题情况是否显示
+     *
+     * @param showState true显示,false不显示
+     */
+    private void topicCaseVisibility(boolean showState) {
+        //没有动画执行的时候
+        if (!mIsAnimating) {
+            if (showState) {
+                mTopicCaseAdapter.notifyDataSetChanged();
+            }
+            mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
+            mLayout.startAnimation(showState ? mEnter : mLeave);
+        }
+    }
+
+    /**
+     * Animation设置,设置播放时长,设置监听
+     *
+     * @param animation
+     */
+    private void setAnimation(Animation animation) {
+        animation.setDuration(KDuration);
+        animation.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mIsAnimating = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mIsAnimating = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
     }
 
     /**

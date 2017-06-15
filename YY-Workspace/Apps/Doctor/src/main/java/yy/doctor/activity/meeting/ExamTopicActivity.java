@@ -28,20 +28,19 @@ import yy.doctor.util.Util;
  */
 
 public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownListener {
-    // FIXME: 2017/6/14 5分钟倒计时
+
     private static final int KTextSizeDp = 16;
     private static final long KFiveMin = TimeUnit.MINUTES.toSeconds(5);
 
-    private final int KXClose = 2;//X秒后自动关闭
+    private final int KXClose = 2; // X秒后自动关闭
 
-    private long mAllUseTime; // 剩余做题的时间
-    private long mUseTime; // 做题的时间
+    private long mUseTime; // 剩余做题的时间
     private CountDown mCountDown;
 
     private TextView mTvTime;
 
-    private HintDialogSec mCloseDialog;//离考试结束的提示框
-    private HintDialogSec mSubmitDialog;
+    private HintDialogSec mCloseDialog; // 离考试结束的提示框
+    private HintDialogSec mSubmitDialog; // 提交的提示框
 
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
@@ -56,7 +55,11 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         super.initData();
 
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
-        mAllUseTime = mIntro.getLong(TIntro.time) * TimeUnit.MINUTES.toSeconds(1);
+        mUseTime = mIntro.getLong(TIntro.time) / 1000;
+
+        if (mUseTime <= KFiveMin) {
+            last5((int) (mUseTime / TimeUnit.MINUTES.toSeconds(1)));
+        }
 
         initFrag();
     }
@@ -65,17 +68,17 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
     public void initNavBar(NavBar bar) {
         super.initNavBar(bar);
 
-        mTvLeft.setText("考试");
+        bar.addTextViewMid(getString(R.string.exam));
 
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(Util.formatTime(mAllUseTime, DateUnit.hour));
+        mTvTime.setText(Util.formatTime(mUseTime, DateUnit.hour));
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
         mTvTime.setPadding(0, 0, fitDp(12), 0);
 
-        mCountDown = new CountDown(mAllUseTime);
+        mCountDown = new CountDown(mUseTime);
         mCountDown.setListener(this);
         mCountDown.start();
 
@@ -87,18 +90,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         super.setViews();
 
         initFirstGv();
-    }
-
-    @Override
-    protected void topicCaseVisibility(boolean showState) {
-        super.topicCaseVisibility(showState);
-        if (getTopicCaseShow()) {
-            mTvLeft.setText("题目");
-            goneView(mTvTime);
-        } else {
-            mTvLeft.setText("考试");
-            showView(mTvTime);
-        }
     }
 
     @Override
@@ -125,39 +116,16 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         }
     }
 
-    private void recycleDialog(DialogEx dialog) {
-        if (dialog != null) {
-            if (dialog.isShowing()) {
-                dialog.dismiss();
-            }
-            dialog = null;
-        }
-    }
-
     @Override
     public void onCountDown(long remainCount) {
-        mUseTime = mAllUseTime - remainCount;
         mTvTime.setText(Util.formatTime(remainCount, DateUnit.hour));
         if (remainCount != 0) {
             if (remainCount == KFiveMin) {
-                // 剩余5分钟
-                mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
-                mCloseDialog.setMainHint(getString(R.string.exam_five_min));
-                mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
-                mCloseDialog.addButton("确定", "#0682e6", v -> mCloseDialog.dismiss());
-                // FIXME: 2017/6/13 倒数
-                mCloseDialog.show();
-                /*{
-                    @Override
-                    public void close(Long aLong) {
-                        setTvSecondaryHint(aLong + getString(R.string.exam_xs_close));
-                    }
-                }
-                        .setTvMainHint(getString(R.string.exam_five_min))
-                        .setTvSecondaryHint(KXClose + getString(R.string.exam_xs_close))
-                mCloseDialog.start(KXClose);*/
+                // 剩余5分钟提示
+                last5(5);
             }
         } else {
+            // 考试结束强制提交
             mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
             mSubmitDialog.setMainHint(getString(R.string.exam_end));
             mSubmitDialog.setSecHint(getString(R.string.exam_submit));
@@ -168,6 +136,17 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
             });
             mSubmitDialog.show();
         }
+    }
+
+    // 小于5分钟提示
+    private void last5(int last) {
+        mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
+        mCloseDialog.setMainHint(getString(R.string.exam_finish) + last + getString(R.string.minute));
+        mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
+        mCloseDialog.setCountHint(getString(R.string.exam_xs_close));
+        mCloseDialog.addButton("确定", "#0682e6", v -> mCloseDialog.dismiss());
+        mCloseDialog.start(KXClose);
+        mCloseDialog.show();
     }
 
     @Override
@@ -186,4 +165,12 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         recycleDialog(mSubmitDialog);
     }
 
+    private void recycleDialog(DialogEx dialog) {
+        if (dialog != null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            dialog = null;
+        }
+    }
 }

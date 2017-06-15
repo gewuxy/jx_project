@@ -81,11 +81,6 @@ public class CircleProgressView extends View {
         canvas.drawArc(mRectF, -90, (mProgress / mMaxProgress) * 360, false, mPaint);
     }
 
-    public void setMaxProgress(float maxProgress) {
-        mMaxProgress = maxProgress;
-    }
-
-    // FIXME: 外部计算百分比
     public void setProgress(int progress) {
         mProgress = progress;
         invalidate();

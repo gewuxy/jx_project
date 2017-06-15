@@ -1,28 +1,76 @@
 {
   "code": "0",
-  "data": [
-    {
-      "attendAble": false,
-      "endTime": 1494399392000,
-      "headimg": "http://www.medcn.com:8081/file//headimg/1495870906404.png",
-      "id": "17042512131640894904",
-      "meetName": "测试会议哈哈",
-      "meetType": "儿科",
-      "organizer": "yaya大讲堂",
-      "startTime": 1493270190000,
-      "state": 1
+  "data": {
+    "endTime": 1497517800000,
+    "finishTimes": 0,
+    "finished": false,
+    "id": 56,
+    "meetId": "17061517011737778025",
+    "moduleId": 177,
+    "paper": {
+      "id": 81,
+      "name": "快结束会议，考试",
+      "questions": [
+        {
+          "id": 725,
+          "options": [
+            {
+              "key": "A",
+              "value": "1"
+            },
+            {
+              "key": "B",
+              "value": "2"
+            },
+            {
+              "key": "C",
+              "value": "3"
+            },
+            {
+              "key": "D",
+              "value": "4"
+            }
+          ],
+          "point": 40,
+          "qtype": 0,
+          "rightKey": "A",
+          "sort": 1,
+          "title": "啊啊啊"
+        },
+        {
+          "id": 726,
+          "options": [
+            {
+              "key": "A",
+              "value": "4"
+            },
+            {
+              "key": "B",
+              "value": "3"
+            },
+            {
+              "key": "C",
+              "value": "2"
+            },
+            {
+              "key": "D",
+              "value": "1"
+            }
+          ],
+          "point": 40,
+          "qtype": 1,
+          "rightKey": "A",
+          "sort": 2,
+          "title": "万维网"
+        }
+      ],
+      "totalPoint": 80
     },
-    {
-      "attendAble": false,
-      "endTime": 1497517260000,
-      "headimg": "http://www.medcn.com:8081/file//headimg/1495870906404.png",
-      "id": "17061317032743484793",
-      "introduction": "<p><br></p>",
-      "meetName": "未开始会议",
-      "meetType": "普内科",
-      "organizer": "敬信单位号",
-      "startTime": 1497430860000,
-      "state": 1
-    }
-  ]
+    "passScore": 60,
+    "resitTimes": 3,
+    "score": 0,
+    "serverTime": 1497517489389,
+    "startTime": 1497430740000,
+    "usetime": 20
+  }
 }

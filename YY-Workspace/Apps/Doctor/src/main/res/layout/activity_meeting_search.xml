@@ -7,34 +7,50 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="76dp">
 
         <TextView
             android:id="@+id/meeting_search_tv_unit_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginRight="34dp"
+            android:layout_toLeftOf="@+id/meeting_search_divider"
+            android:padding="8dp"
             android:text="搜索单位号"
             android:textColor="@color/text_006ebd"
             android:textSize="12dp"/>
 
-        <View
-            style="@style/divider.meeting"
-            android:layout_height="18dp"/>
+        <LinearLayout
+            android:id="@id/meeting_search_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="18dp"
+                android:layout_centerHorizontal="true"
+                android:background="@color/divider"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/meeting_search_tv_meeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="34dp"
+            android:layout_toRightOf="@+id/meeting_search_divider"
+            android:padding="8dp"
             android:text="搜索会议"
             android:textColor="@color/text_006ebd"
             android:textSize="12dp"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         style="@style/divider"/>

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.LaunchUtil;
 import lib.yy.network.ListResult;
 import yy.doctor.Extra;
+import yy.doctor.model.search.Hot;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -34,8 +36,6 @@ public class UnitNumResultActivity extends ResultActivity {
         super.setViews();
 
         mEtSearch.setHint("搜索单位号");
-        mTvEmpty = findView(lib.yy.R.id.empty_footer_tv);
-        mTvEmpty.setText(getEmptyText());
     }
 
     @Override
@@ -46,6 +46,8 @@ public class UnitNumResultActivity extends ResultActivity {
 
     @Override
     protected void search() {
+        // 把原来的remove
+        setData(null);
         refresh(RefreshWay.embed);
         exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent));
     }
@@ -59,14 +61,28 @@ public class UnitNumResultActivity extends ResultActivity {
     public void onNetworkSuccess(int id, Object result) {
         ListResult r = (ListResult) result;
         if (r.isSucceed()) {
-            setViewState(ViewState.normal);
             mUnitNums = r.getData();
+            if (id == KRecUnitNum) {
+                // 推荐的单位号要显示热门单位号
+                addItem(new Hot());
+            }
             if (mUnitNums != null && mUnitNums.size() > 0) {
                 addAll(mUnitNums);
-                invalidate();
             }
+            setViewState(ViewState.normal);
+            invalidate();
         } else {
+            onNetworkError(id, new NetError(id, r.getError()));
             showToast(r.getError());
+        }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+
+        if (id == KRecUnitNum) {
+            setViewState(ViewState.normal);
         }
     }
 

@@ -31,7 +31,6 @@ import yy.doctor.view.RootLayout.OnRootTouchListener;
  */
 public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionListener, OnCountDownListener, OnRootTouchListener {
 
-    // TODO: 2017/6/9 停止
     private NetworkPhotoView mIvPPT;
     private ImageView mIvHolder;
 

@@ -90,9 +90,6 @@
             android:name=".activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.search.MeetingResultActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activity.meeting.search.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -125,6 +122,17 @@
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".activity.meeting.SignActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- search -->
+        <activity
+            android:name=".activity.meeting.search.MeetingResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.search.UnitNumResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.meeting.search.ResultActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -223,9 +231,6 @@
             android:name=".activity.me.LaunchTempActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.meeting.search.UnitNumResultActivity"
             android:screenOrientation="portrait"/>
 
 

@@ -13,6 +13,7 @@ import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.KeyboardUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseListActivity;
@@ -26,6 +27,8 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.search.IRec.RecType;
+import yy.doctor.model.search.Margin;
+import yy.doctor.model.search.More;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.network.JsonParser;
@@ -48,13 +51,13 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
     protected TextView mTvEmpty;
 
     protected List<IRec> mMeets;
-
     protected List<IRec> mUnitNums;
+
     private boolean mMeetReqIsOK;
     private boolean mUnitNumReqIsOK;
 
     public static void nav(Context context, String searchContent) {
-        Intent i = new Intent(context, MeetingResultActivity.class)
+        Intent i = new Intent(context, ResultActivity.class)
                 .putExtra(Extra.KData, searchContent);
         LaunchUtil.startActivity(context, i);
     }
@@ -81,8 +84,11 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
                 showToast("请输入搜索内容");
                 return;
             }
+            // 键盘显示就隐藏
+            if (KeyboardUtil.isActive()) {
+                KeyboardUtil.hideFromView(mEtSearch);
+            }
             search();
-            // FIXME: 2017/6/14 隐藏键盘?
         });
     }
 
@@ -90,6 +96,10 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
     public void setViews() {
         super.setViews();
 
+        mTvEmpty = findView(R.id.empty_footer_tv);
+        if (mTvEmpty != null) {
+            mTvEmpty.setText(getEmptyText());
+        }
         if (!TextUtil.isEmpty(mSearchContent)) {
             mEtSearch.setText(mSearchContent);
             search();
@@ -99,18 +109,17 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
     }
 
     /**
-     * 搜索为空
+     * 搜索为空,默认的展示
      */
     protected void searchEmpty() {
 
     }
 
     /**
-     * 搜索不为空
+     * 搜索不为空,请求网络
      */
     protected void search() {
-        mTvEmpty = findView(lib.yy.R.id.empty_footer_tv);
-        mTvEmpty.setText(getEmptyText());
+        setData(null);
         refresh(RefreshWay.embed);
         exeNetworkReq(KMeeting, NetFactory.searchMeeting(mSearchContent));
         exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent));
@@ -123,6 +132,7 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
             // 会议
             result = JsonParser.evs(r.getText(), Meeting.class);
             mMeetReqIsOK = result.isSucceed();
+            // onNetworkSuccess接数据可能为空 ,因为这不在主线程
             if (mMeetReqIsOK) {
                 mMeets = result.getData();
             }
@@ -145,21 +155,53 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
             // 会议
             mMeetReqIsOK = r.isSucceed();
         } else {
-            // 单位号 / 推荐单位号
+            // 单位号
             mUnitNumReqIsOK = r.isSucceed();
         }
 
         if (mMeetReqIsOK && mUnitNumReqIsOK) {
+            boolean haveUnitNum = mUnitNums != null && mUnitNums.size() > 0;
+            boolean haveMeet = mMeets != null && mMeets.size() > 0;
+
+            // 先添加单位号
+            if (haveUnitNum) {
+                if (mUnitNums.size() > 3) {
+                    // 超过三个显示三个和更多
+                    for (int i = 0; i < 3; i++) {
+                        addItem(mUnitNums.get(i));
+                    }
+                    // 显示更多
+                    addItem(new More());
+                } else {
+                    addAll(mUnitNums);
+                }
+            }
+
+            // 如果单位号和会议都有才添加分割线
+            if (haveUnitNum && haveMeet) {
+                addItem(new Margin());
+            }
+
+            // 再添加会议的
+            if (haveMeet) {
+                if (mMeets.size() > 3) {
+                    // 超过三个显示三个
+                    for (int i = 0; i < 3; i++) {
+                        addItem(mMeets.get(i));
+                    }
+                    // 显示更多
+                    addItem(new More());
+                } else {
+                    addAll(mMeets);
+                }
+            }
+
             setViewState(ViewState.normal);
-            if (mUnitNums != null && mUnitNums.size() > 0) {
-                addAll(mUnitNums);
-            }
-            if (mMeets != null && mMeets.size() > 0) {
-                addAll(mMeets);
-            }
             invalidate();
             mMeetReqIsOK = false;
             mUnitNumReqIsOK = false;
+        } else {
+            showToast(r.getError());
         }
     }
 
@@ -183,12 +225,21 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
                 MeetingDetailsActivity.nav(ResultActivity.this, ((Meeting) getItem(position)).getString(TMeeting.id));
             }
             break;
+
+            case RecType.more: {
+                if (getAdapter().getItemViewType(position - 1) == RecType.unit_num) {
+                    UnitNumResultActivity.nav(ResultActivity.this, mSearchContent);
+                } else {
+                    MeetingResultActivity.nav(ResultActivity.this, mSearchContent);
+                }
+            }
+            break;
         }
     }
 
     @Override
     public View createEmptyView() {
-        return inflate(lib.yy.R.layout.layout_empty_footer);
+        return inflate(R.layout.layout_empty_footer);
     }
 
     protected String getEmptyText() {

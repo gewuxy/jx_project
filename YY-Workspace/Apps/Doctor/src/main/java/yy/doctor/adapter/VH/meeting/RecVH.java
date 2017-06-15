@@ -9,6 +9,8 @@ import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 
 /**
+ * 搜索
+ *
  * @auther : GuoXuan
  * @since : 2017/6/8
  */
@@ -60,5 +62,9 @@ public class RecVH extends ViewHolderEx {
 
     public TextView getTvUnitNumUN() {
         return getView(R.id.unit_num_tv);
+    }
+
+    public TextView getTvMore() {
+        return getView(R.id.reach_more_tv);
     }
 }
