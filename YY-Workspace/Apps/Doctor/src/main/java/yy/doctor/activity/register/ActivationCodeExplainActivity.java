@@ -17,17 +17,14 @@ public class ActivationCodeExplainActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
     }
 
     @Override
     public void setViews() {
-
     }
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -40,7 +37,6 @@ public class ActivationCodeExplainActivity extends BaseActivity {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, "获取激活码", this);
-
     }
 
 }

@@ -7,7 +7,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
-import yy.doctor.activity.me.UnitNumDetailActivity;
+import yy.doctor.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.adapter.VH.HomeVH;

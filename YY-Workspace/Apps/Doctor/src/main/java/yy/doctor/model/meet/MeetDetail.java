@@ -3,7 +3,7 @@ package yy.doctor.model.meet;
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
-import yy.doctor.model.unitnum.UnitNumDetailData;
+import yy.doctor.model.unitnum.FileData;
 
 /**
  * 会议详情
@@ -44,7 +44,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
 
         materialCount,  //  资料数
 
-        @BindList(UnitNumDetailData.class)
+        @BindList(FileData.class)
         materials, // 资料
 
         @BindList(Module.class)

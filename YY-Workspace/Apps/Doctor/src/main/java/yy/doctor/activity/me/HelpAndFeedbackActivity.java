@@ -22,6 +22,16 @@ import yy.doctor.util.Util;
  */
 public class HelpAndFeedbackActivity extends BaseFormActivity {
 
+    //更新日志
+    private String mUrlUpdateLog = "http://www.medcn.com:8081/v7/view/article/17061509463772693761";
+    //免责声明  服务协议
+    private String mUrlDisclaimer = "http://www.medcn.com:8081/v7/view/article/17051509491821468946";
+    //征稿启事
+    private String mUrlContributionInvited = "http://www.medcn.com:8081/v7/view/article/17061510041163617023";
+    //敬信科技
+    private String mUrlJX = "http://www.medcn.com:8081/v7/view/article/17061510101320742806";
+    //隐私保密
+
     @IntDef({
             RelatedId.update_log,
             RelatedId.disclaimer,
@@ -107,7 +117,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
         mTvVersion.setText(mVersion);
         setOnClickListener(R.id.help_and_feedback_footer_tv_agreement);
-        setOnClickListener(R.id.help_and_feedback_footer_tv_privacy);
     }
 
     @Override
@@ -117,19 +126,19 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.update_log: {
-                startActivity(UpdateLogActivity.class);
+                CommonWebViewActivity.nav(this, "更新日志", mUrlUpdateLog);
             }
             break;
             case RelatedId.disclaimer: {
-                startActivity(DisclaimerActivity.class);
+                CommonWebViewActivity.nav(this, "免责声明", mUrlDisclaimer);
             }
             break;
             case RelatedId.notice: {
-                startActivity(ContributionInvitedActivity.class);
+                CommonWebViewActivity.nav(this, "征稿启事", mUrlContributionInvited);
             }
             break;
             case RelatedId.jing_xin: {
-                startActivity(JXActivity.class);
+                CommonWebViewActivity.nav(this, "敬信科技", mUrlJX);
             }
             break;
             case RelatedId.feedback: {
@@ -154,11 +163,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.help_and_feedback_footer_tv_agreement: {
-                startActivity(ServiceAgreementActivity.class);
-            }
-            break;
-            case R.id.help_and_feedback_footer_tv_privacy: {
-                startActivity(DataPrivacyActivity.class);
+                CommonWebViewActivity.nav(this, "服务协议", mUrlDisclaimer);
             }
             break;
         }

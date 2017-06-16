@@ -15,9 +15,9 @@ public interface IStats {
 
     void onActivityPause(Context context, String tag);
 
-    void onFragmentVisible(String tag);
+    void onFragmentVisible(Context context, String tag);
 
-    void onFragmentInvisible(String tag);
+    void onFragmentInvisible(Context context, String tag);
 
     void onEvent(Context context, String eventId);
 

@@ -2,6 +2,7 @@ package yy.doctor.serv;
 
 import android.content.Intent;
 
+import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.DownloadNotifier;
 import lib.yy.DownloadNotifier.DownloadNotifyType;
@@ -30,6 +31,17 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
         mType = intent.getStringExtra(Extra.KType);
         mFileHashCode = String.valueOf(mUrl.hashCode()) + "." + mType;
+
+        //打乱文件名
+        int shift = mFileHashCode.length() / 2;
+        StringBuffer sb = new StringBuffer();
+        char[] chars = mFileHashCode.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = (char) (chars[i] + shift);
+            sb.append(c);
+        }
+        YSLog.d(TAG, "sb = " + sb.toString());
+        mFileHashCode = sb.toString();
 
         exeNetworkReq(NetFactory.downloadData(mUrl, mFilePath, mFileHashCode));
     }

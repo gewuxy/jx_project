@@ -9,6 +9,7 @@ import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
+import yy.doctor.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.sp.SpUser;
 
 /**

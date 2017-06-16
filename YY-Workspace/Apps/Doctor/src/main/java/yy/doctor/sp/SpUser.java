@@ -21,8 +21,8 @@ public class SpUser extends SpBase {
 
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
-        String KJPushRegisterId = "jp_register_id";
         String KAppUpdateTime = "app_update_time";
+        String KBadgeNum = "badge_num";
     }
 
     private SpUser(Context context, String fileName) {
@@ -85,11 +85,19 @@ public class SpUser extends SpBase {
     }
 
     /**
-     * 保存极光推送RegisterId
-     * @param id
+     * 保存小红点数
+     * @param num
      */
-    public void jPushRegisterId(String id) {
-        save(SpUserKey.KJPushRegisterId, id);
+    public void updateBadgeNum(int num) {
+        save(SpUserKey.KBadgeNum, num);
+    }
+
+    /**
+     * 小红点数
+     * @return
+     */
+    public int badgeNum() {
+        return getInt(SpUserKey.KBadgeNum);
     }
 
 }

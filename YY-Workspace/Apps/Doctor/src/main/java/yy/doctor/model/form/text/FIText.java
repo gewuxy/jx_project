@@ -21,7 +21,7 @@ public class FIText extends FormItem {
 
     @Override
     public boolean check() {
-        return false;
+        return true;
     }
 
     @Override

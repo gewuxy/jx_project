@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 
 import org.json.JSONException;
 
+import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
@@ -13,7 +15,6 @@ import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpUser;
-import yy.doctor.sp.SpUser.SpUserKey;
 
 /**
  * 常驻服务
@@ -52,19 +53,25 @@ public class CommonServ extends ServiceEx {
         switch (id) {
             case KReqIdLogout: {
                 if (r.isSucceed()) {
+                    //清空个人信息，把极光绑定改为false 登录后需要重新绑定
                     SpUser.inst().clear();
+                    SpJPush.inst().jPushIsRegister(false);
                 } else {
                     retryNetworkRequest(id);
                     return;
                 }
-                Profile.inst().clear();
+                Profile.inst().clearProfile();
             }
             break;
             case KReqIdJPushRegisterId: {
                 if (r.isSucceed()) {
-                    SpUser.inst().save(SpUserKey.KJPushRegisterId, mJPushRegisterId);
+                    YSLog.d(TAG, "极光推送绑定成功");
+                    SpJPush.inst().jPushRegisterId(mJPushRegisterId);
+                    SpJPush.inst().jPushIsRegister(true);
                 } else {
+                    YSLog.d(TAG, "极光推送绑定失败");
                     retryNetworkRequest(id);
+                    SpJPush.inst().jPushIsRegister(false);
                     return;
                 }
             }

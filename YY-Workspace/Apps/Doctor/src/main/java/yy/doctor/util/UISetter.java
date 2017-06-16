@@ -18,8 +18,8 @@ import lib.ys.util.view.LayoutUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.DownloadDataActivity;
-import yy.doctor.model.unitnum.UnitNumDetailData;
-import yy.doctor.model.unitnum.UnitNumDetailData.TUnitNumDetailData;
+import yy.doctor.model.unitnum.FileData;
+import yy.doctor.model.unitnum.FileData.TFileData;
 
 /**
  * @auther yuansui
@@ -81,21 +81,21 @@ public class UISetter {
         tvDuration.setText("时长:" + Util.timeParse(endTime - startTime));
     }
 
-    public static void setFileData(LinearLayout layout,List<UnitNumDetailData> listFile, int id) {
+    public static void setFileData(LinearLayout layout, List<FileData> listFile, int id) {
 
         for (int i = 0; i < listFile.size(); i++) {
-            UnitNumDetailData fileItem = listFile.get(i);
+            FileData fileItem = listFile.get(i);
 
-            mFileSize = fileItem.getLong(TUnitNumDetailData.fileSize);
-            mFileName = fileItem.getString(TUnitNumDetailData.materialName);
+            mFileSize = fileItem.getLong(TFileData.fileSize);
+            mFileName = fileItem.getString(TFileData.materialName);
             if (TextUtil.isEmpty(mFileName)) {
-                mFileName = fileItem.getString(TUnitNumDetailData.name);
-                mFileUrl = fileItem.getString(TUnitNumDetailData.fileUrl);
-                mFileType = fileItem.getString(TUnitNumDetailData.fileType);
+                mFileName = fileItem.getString(TFileData.name);
+                mFileUrl = fileItem.getString(TFileData.fileUrl);
+                mFileType = fileItem.getString(TFileData.fileType);
             } else {
-                mFileName = fileItem.getString(TUnitNumDetailData.materialName);
-                mFileUrl = fileItem.getString(TUnitNumDetailData.materialUrl);
-                mFileType = fileItem.getString(TUnitNumDetailData.materialType);
+                mFileName = fileItem.getString(TFileData.materialName);
+                mFileUrl = fileItem.getString(TFileData.materialUrl);
+                mFileType = fileItem.getString(TFileData.materialType);
             }
 
             addFileItem(layout, mFileName, new OnClickListener() {

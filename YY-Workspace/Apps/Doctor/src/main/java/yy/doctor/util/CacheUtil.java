@@ -15,10 +15,9 @@ public class CacheUtil extends CacheUtilEx {
 
     private static final String KDownloadCacheDef = KHomeDir + "cache/download/";
     private static final String KUnitNumCacheDef = KDownloadCacheDef + "unit_num/";
-    private static final String KThomsonCacheDef = KDownloadCacheDef + "thomson/";
+    private static final String KThomsonCacheDef = KDownloadCacheDef + "thomson".hashCode() + "/";
     private static final String KMeetingCacheDef = KDownloadCacheDef + "meeting/";
     private static final String KUploadCacheDef = KHomeDir + "upload/tmp/";
-
 
     private static String mBmpCacheDir;
     private static String mDownloadCacheDir;

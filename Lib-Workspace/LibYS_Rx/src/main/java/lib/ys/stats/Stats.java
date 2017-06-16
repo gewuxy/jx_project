@@ -35,18 +35,18 @@ public class Stats {
         mIStats.onActivityPause(context, tag);
     }
 
-    public static void onFragmentVisible(String tag) {
+    public static void onFragmentVisible(Context context, String tag) {
         if (mEnableDebug || mIStats == null) {
             return;
         }
-        mIStats.onFragmentVisible(tag);
+        mIStats.onFragmentVisible(context, tag);
     }
 
-    public static void onFragmentInvisible(String tag) {
+    public static void onFragmentInvisible(Context context, String tag) {
         if (mEnableDebug || mIStats == null) {
             return;
         }
-        mIStats.onFragmentInvisible(tag);
+        mIStats.onFragmentInvisible(context, tag);
     }
 
     public static void onEvent(Context context, String eventId) {

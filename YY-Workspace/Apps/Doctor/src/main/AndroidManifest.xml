@@ -47,13 +47,10 @@
             android:name=".activity.ForgetPwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.NoticeActivity"
+            android:name=".activity.home.NoticeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.NoticeDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.BannerActivity"
+            android:name=".activity.home.BannerActivity"
             android:screenOrientation="portrait"/>
 
         <!-- register -->
@@ -153,84 +150,66 @@
             android:name=".activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.EpnActivity"
+            android:name=".activity.me.epn.EpnActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ProfileActivity"
+            android:name=".activity.me.profile.ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".activity.me.EpnRechargeActivity"
+            android:name=".activity.me.epn.EpnRechargeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.ChangePwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.EpnUseRuleActivity"
+            android:name=".activity.me.epn.EpnDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.JXActivity"
+            android:name=".activity.me.epc.EpcActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.DisclaimerActivity"
+            android:name=".activity.me.epc.ExchangeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ContributionInvitedActivity"
+            android:name=".activity.me.epc.EpcDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.UpdateLogActivity"
+            android:name=".activity.me.epc.OrderActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.EpnDetailsActivity"
+            android:name=".activity.me.unitnum.UnitNumActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.EpcActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.ExchangeActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.EpcDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.OrderActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.UnitNumActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.UnitNumDetailActivity"
+            android:name=".activity.me.unitnum.UnitNumDetailActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.SectionActivity"
+            android:name=".activity.me.profile.SectionActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ClipImageActivity"
+            android:name=".activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.UnitNumDataActivity"
+            android:name=".activity.me.unitnum.FileDataActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.DownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.LaunchDownloadDataActivity"
+            android:name=".activity.me.unitnum.LaunchDownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.DataPrivacyActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.ServiceAgreementActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.me.TitleActivity"
+            android:name=".activity.me.profile.TitleActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.me.LaunchTempActivity"
             android:exported="true"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.me.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -248,12 +227,15 @@
                 <action android:name="cn.jpush.android.intent.REGISTRATION"/>
                 <!--Required 用户接收SDK消息的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
+
                 <!--Required 用户接收SDK通知栏信息的intent-->
-                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
-                &lt;!&ndash;Required 用户打开自定义通知栏的intent&ndash;&gt;
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>-->
-                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <!--<action android:name="cn.jpush.android.intent.CONNECTION"/>-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>-->
+
+                <!--Required 用户打开自定义通知栏的intent-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>-->
+
+                 <!--接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION"/>
                 <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>

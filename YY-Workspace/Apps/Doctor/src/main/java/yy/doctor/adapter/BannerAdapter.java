@@ -5,7 +5,7 @@ import android.view.View.OnClickListener;
 
 import lib.ys.adapter.PagerAdapterEx;
 import yy.doctor.R;
-import yy.doctor.activity.BannerActivity;
+import yy.doctor.activity.home.BannerActivity;
 import yy.doctor.adapter.VH.BannerVH;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.Banner.TBanner;

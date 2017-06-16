@@ -20,7 +20,7 @@ import lib.yy.activity.base.BaseListActivity;
 import lib.yy.network.ListResult;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.activity.me.UnitNumDetailActivity;
+import yy.doctor.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.RecAdapter;
 import yy.doctor.model.meet.Meeting;

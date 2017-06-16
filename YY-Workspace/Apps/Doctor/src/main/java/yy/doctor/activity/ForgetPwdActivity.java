@@ -88,7 +88,7 @@ public class ForgetPwdActivity extends BaseActivity {
         if (r.isSucceed()) {
             if (mDialog == null) {
                 mDialog = new HintDialogMain(ForgetPwdActivity.this);
-                mDialog.setHint("重置密码的邮已经发送至您的邮箱");
+                mDialog.setHint("重置密码的邮件已经发送至您的邮箱");
                 mDialog.addButton("知道了", "#0682e6", v -> {
                     mDialog.dismiss();
                     finish();

@@ -4,12 +4,14 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import lib.jg.JG;
+import lib.jg.JAnalyticsStats;
 import lib.network.NetworkConfig;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.NavBarConfig;
+import lib.ys.stats.Stats;
 import lib.ys.ui.other.NavBar;
 import lib.yy.BaseApp;
 import yy.doctor.network.UrlUtil;
@@ -77,9 +79,9 @@ public class App extends BaseApp {
             StrictMode.setVmPolicy(builder.build());
         }
 
-        JG.init(this, BuildConfig.DEBUG_NETWORK);
+        JG.init(this, BuildConfig.DEBUG_LOG);
+        Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
 
-//        Stats.init("", BuildConfig.DEBUG_LOG);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.DownloadNotifier;
@@ -17,6 +18,7 @@ import lib.yy.DownloadNotifier.OnDownloadNotify;
 import lib.yy.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.activity.me.unitnum.LaunchDownloadDataActivity;
 import yy.doctor.serv.DownloadServ;
 import yy.doctor.serv.DownloadServ.Download;
 import yy.doctor.util.Util;
@@ -46,6 +48,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private long mFileSize;
     private String mFileSizeKB;
     private String mFileHashCodeName;
+    private long mFileHashCode;
     private String mFilePath;
     private Intent mDownloadServ;
 
@@ -70,16 +73,30 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + "K";
-        mFileHashCodeName = String.valueOf(mUrl.hashCode()) + "." + mType;
+        mFileHashCodeName = String.valueOf((mUrl.hashCode() + "." + mType));
 
-//        CacheUtil.getUnitNumCacheFile(String.valueOf(mUnitNumId), mFileHashCodeName);
+        //打乱文件名
+        int shift = mFileHashCodeName.length() / 2;
+        StringBuffer sb = new StringBuffer();
+        char[] chars = mFileHashCodeName.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = (char) (chars[i] + shift);
+            sb.append(c);
+        }
+        YSLog.d(TAG, "sb = " + sb.toString());
+        mFileHashCodeName = sb.toString();
+
         //先判断文件是否已经存在  通过url的hashcode
         File f = new File(mFilePath, mFileHashCodeName);
         if (f.exists()) {
             LaunchDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
             finish();
         }
+
     }
+
+
+
 
     @NonNull
     @Override
@@ -108,7 +125,6 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
 
         mIvDownload.setOnClickListener(this);
         mProgressBar.setProgress(0);
-
         mTvTotal.setText(mFileSizeKB);
     }
 

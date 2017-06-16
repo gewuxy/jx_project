@@ -34,13 +34,12 @@ import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.activity.me.UnitNumDataActivity;
+import yy.doctor.activity.me.unitnum.FileDataActivity;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
@@ -56,7 +55,7 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.unitnum.UnitNumDetailData;
+import yy.doctor.model.unitnum.FileData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.UISetter;
@@ -148,7 +147,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private ImageView mIvSign;
 
     private TextView mTvSee; // 会议模块
-    private List<UnitNumDetailData> mMaterials;
+    private List<FileData> mMaterials;
     private HintDialogMain mPayEpnDialog; // 支付象数
     private HintDialogMain mNoEpnDialog; // 象数不足
     private HintDialogMain mAttentionDialog; // 关注
@@ -625,7 +624,7 @@ public class MeetingDetailsActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
-                    UnitNumDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType);
+                    FileDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType);
                 }
             });
         }

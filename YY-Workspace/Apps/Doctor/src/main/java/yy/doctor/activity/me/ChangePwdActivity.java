@@ -59,7 +59,6 @@ public class ChangePwdActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
 
         int id = v.getId();
         switch (id) {

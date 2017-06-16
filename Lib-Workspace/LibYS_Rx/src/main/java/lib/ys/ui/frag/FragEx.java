@@ -164,10 +164,10 @@ abstract public class FragEx extends Fragment implements
 
         if (visible) {
             onVisible();
-            Stats.onFragmentVisible(TAG);
+            Stats.onFragmentVisible(getContext(), TAG);
         } else {
             onInvisible();
-            Stats.onFragmentInvisible(TAG);
+            Stats.onFragmentInvisible(getContext(), TAG);
         }
     }
 

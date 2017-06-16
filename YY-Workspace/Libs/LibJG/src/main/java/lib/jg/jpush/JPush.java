@@ -8,9 +8,9 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import lib.jg.jpush.SpJPush.SpJPushKey;
 import lib.ys.AppEx;
 import lib.ys.YSLog;
-import lib.ys.util.TextUtil;
 
 /**
  * @author yuansui
@@ -25,6 +25,7 @@ public class JPush {
     private Context mContext;
     private int mWhat;
 
+    //bd90b96a0dc4ca3064782df216fa52ab
     private JPush() {
         mHandler = new Handler() {
 
@@ -49,7 +50,7 @@ public class JPush {
 
                         switch (code) {
                             case 0: {
-                                SpPush.inst().save(SpPush.KKeyAlias, alias);
+                                SpJPush.inst().save(SpJPushKey.KKeyAlias, alias);
                             }
                             break;
                             case 6002: {
@@ -77,26 +78,13 @@ public class JPush {
         return mInst;
     }
 
-    public void init(boolean isDebug) {
-        mContext = AppEx.getContext();
-
-        JPushInterface.setDebugMode(isDebug); // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(mContext); // 初始化 JPush
-    }
-
-    public void login(String id) {
-        if (TextUtil.isEmpty(SpPush.inst().getString(SpPush.KKeyAlias))) {
-            mHandler.sendMessage(mHandler.obtainMessage(mWhat, id));
-        }
-    }
-
     /**
      * 在已登录的情况下再次登录其他的号码
      *
      * @param id
      */
     public void changeLogin(String id) {
-        SpPush.inst().clear();
+        SpJPush.inst().clear();
         mHandler.sendMessage(mHandler.obtainMessage(mWhat, id));
     }
 
@@ -106,6 +94,6 @@ public class JPush {
         }
         mWhat++;
         mHandler.sendMessage(mHandler.obtainMessage(mWhat, ""));
-        SpPush.inst().clear();
     }
+
 }

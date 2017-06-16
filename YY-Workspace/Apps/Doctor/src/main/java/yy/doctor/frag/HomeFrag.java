@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.YSLog;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
 import yy.doctor.R;
-import yy.doctor.activity.NoticeActivity;
-import yy.doctor.activity.me.UnitNumDetailActivity.AttentionUnitNum;
+import yy.doctor.activity.home.NoticeActivity;
+import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
@@ -41,9 +44,17 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private static final int KReqIdAttention = 4;
     private static final int KAttention = 1;  //关注单位号
 
+    private static final int KFirstSection = 3;
+    private static final int KSecondSection = 5;
+
+    private static final int KBadgeMarginTop = 8;
+    private static final int KBadgeMarginLeft = 0;
+
     private boolean mBannerReqIsOK = false;
     private boolean mUnitNumReqIsOK = false;
     private boolean mMeetingReqIsOK = false;
+
+    private boolean mIsNetworkError = false;
 
     private List<RecUnitNum> mRecUnitNums;
     private List<IHome> mRecMeetings;
@@ -82,10 +93,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         super.setViews();
 
         mBadgeView = new BadgeView(getContext());
-        mBadgeView.setBadgeMargin(0, 8, 8, 0);
+        mBadgeView.setBadgeMargin(KBadgeMarginLeft, KBadgeMarginTop, KBadgeMarginTop, KBadgeMarginLeft);
         mBadgeView.setTargetView(mViewNotice);
         //判断小红点是否出现
-        if (NoticeSize.homeInst().size() > 0) {
+        YSLog.d(TAG, " 小红点个数 = " + NoticeSize.inst().getCount());
+        if (NoticeSize.inst().getCount() > 0) {
             showView(mBadgeView);
         } else {
             hideView(mBadgeView);
@@ -135,12 +147,27 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+
+        setViewState(ViewState.error);
+    }
+
+    @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KReqIdAttention) {
             return;
         }
         //确保所有数据都已经获取
         ListResult r = (ListResult) result;
+        if (!r.isSucceed()) {
+            YSLog.d(TAG, " network error id = " + id);
+            if ( !mIsNetworkError) {
+                onNetworkError(id, new NetError(id, r.getError()));
+                YSLog.d(TAG, " error id = " + id);
+                mIsNetworkError = true;
+            }
+        }
         if (id == KReqIdBanner) {
             mBannerReqIsOK = r.isSucceed();
             mBannerView.setData(mBanners);
@@ -156,28 +183,28 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             List<IHome> homes = new ArrayList<>();
 
             //数据分组  推荐会议
-            List<IHome> threeMeetings = new ArrayList<>();
-            List<IHome> fiveMeetings = new ArrayList<>();
+            List<IHome> firstSectionMeetings = new ArrayList<>();
+            List<IHome> secondSectionMeetings = new ArrayList<>();
 
             int index = 0;
             int size = mRecMeetings.size();
-            for (int i = 0; i < 3 && i < size; i++) {
-                threeMeetings.add(mRecMeetings.get(i));
+            for (int i = 0; i < KFirstSection && i < size; i++) {
+                firstSectionMeetings.add(mRecMeetings.get(i));
                 index++;
             }
 
-            for (int i = index; i < (5 + index) && i < size; ++i) {
-                fiveMeetings.add(mRecMeetings.get(i));
+            for (int i = index; i < (KSecondSection + index) && i < size; ++i) {
+                secondSectionMeetings.add(mRecMeetings.get(i));
             }
 
-            homes.addAll(threeMeetings);
+            homes.addAll(firstSectionMeetings);
 
             RecUnitNums nums = new RecUnitNums();
 
             nums.setData(mRecUnitNums);
             homes.add(nums);
 
-            homes.addAll(fiveMeetings);
+            homes.addAll(secondSectionMeetings);
 
             ret.setData(homes);
             super.onNetworkSuccess(id, ret);
@@ -217,6 +244,20 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         super.onDataSetChanged();
 
         getAdapter().setTvAttentionListener(this);
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        YSLog.d(TAG, " super.onRetryClick() = " + super.onRetryClick());
+        mIsNetworkError = false;
+
+        //return super.onRetryClick();
+        if (super.onRetryClick()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

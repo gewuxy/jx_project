@@ -9,8 +9,8 @@ import android.support.v4.app.NotificationCompat;
 import org.json.JSONException;
 
 import lib.jg.jpush.BaseJPushReceiver;
+import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
-import lib.ys.util.TextUtil;
 import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
 import yy.doctor.Extra;
@@ -22,9 +22,6 @@ import yy.doctor.model.NoticeManager;
 import yy.doctor.model.NoticeSize;
 import yy.doctor.model.jpush.JPushMsg;
 import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
-import yy.doctor.serv.CommonServ;
-import yy.doctor.sp.SpUser;
-import yy.doctor.sp.SpUser.SpUserKey;
 
 /**
  * @author CaiXiang
@@ -38,13 +35,8 @@ public class JPushReceiver extends BaseJPushReceiver {
     @Override
     protected void onRegistrationId(Context context, String id) {
         YSLog.d(TAG, "onRegistrationId: id = " + id);
-        if (!TextUtil.isEmpty(id) && TextUtil.isEmpty(SpUser.inst().getString(SpUserKey.KJPushRegisterId))) {
-            Intent intent = new Intent(context, CommonServ.class);
-            intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
-                    .putExtra(Extra.KData, id);
-            context.startService(intent);
-            YSLog.d(TAG, "启动绑定极光服务");
-        }
+        SpJPush.inst().jPushRegisterId(id);
+        YSLog.d(TAG, "保存的RegistrationId = " + SpJPush.inst().registerId());
     }
 
     //自定义消息
@@ -69,28 +61,32 @@ public class JPushReceiver extends BaseJPushReceiver {
             NoticeManager.inst().insert(notice);
             //通知主页面出现小红点
             Notifier.inst().notify(NotifyType.receiver_notice);
+
             //未读消息数加 1
-            NoticeSize.homeInst().add(1);
+            NoticeSize.inst().add();
 
             Intent intent  = new Intent();
-            // type==1 推送的是会议的
-            if (jPushMsg.getString(TJPushMsg.msgType).equals("1")) {
-                intent.setClass(context, MeetingDetailsActivity.class);
-                intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
-            } else {
-                //do nothing
-            }
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.setAutoCancel(true);//点击后消失
             builder.setSmallIcon(R.mipmap.ic_launcher);//设置通知栏消息标题的头像
             builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
             builder.setContentText(jPushMsg.getString(TJPushMsg.content));//通知内容
             builder.setContentTitle(jPushMsg.getString(TJPushMsg.title));
+
+            // type==1 推送的是会议的  ==0 是普通消息
+            if (jPushMsg.getString(TJPushMsg.msgType).equals("1")) {
+                intent.setClass(context, MeetingDetailsActivity.class);
+                intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
+            } else {
+                //do nothing
+            }
+
             //利用PendingIntent来包装我们的intent对象,使其延迟跳转
             PendingIntent intentPend = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(intentPend);
             NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             manager.notify(0, builder.build());
+
         } catch (JSONException e) {
             e.printStackTrace();
             YSLog.d(TAG, " jpush msg 解析数据 error = " + e.getMessage());

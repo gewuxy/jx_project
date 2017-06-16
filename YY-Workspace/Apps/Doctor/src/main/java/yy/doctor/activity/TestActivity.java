@@ -4,15 +4,14 @@ import lib.yy.test.BaseTestActivity;
 import yy.doctor.R;
 import yy.doctor.activity.me.ChangePwdActivity;
 import yy.doctor.activity.me.DownloadDataActivity;
-import yy.doctor.activity.me.EpcActivity;
-import yy.doctor.activity.me.EpcDetailActivity;
-import yy.doctor.activity.me.EpnActivity;
-import yy.doctor.activity.me.EpnUseRuleActivity;
-import yy.doctor.activity.me.ExchangeActivity;
-import yy.doctor.activity.me.ProfileActivity;
-import yy.doctor.activity.me.TitleActivity;
-import yy.doctor.activity.me.UnitNumActivity;
-import yy.doctor.activity.me.UnitNumDetailActivity;
+import yy.doctor.activity.me.epc.EpcActivity;
+import yy.doctor.activity.me.epc.EpcDetailActivity;
+import yy.doctor.activity.me.epn.EpnActivity;
+import yy.doctor.activity.me.epc.ExchangeActivity;
+import yy.doctor.activity.me.profile.ProfileActivity;
+import yy.doctor.activity.me.profile.TitleActivity;
+import yy.doctor.activity.me.unitnum.UnitNumActivity;
+import yy.doctor.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
@@ -45,7 +44,6 @@ public class TestActivity extends BaseTestActivity {
         add("修改密码", ChangePwdActivity.class);
         add("忘记密码", ForgetPwdActivity.class);
 
-        add("象数使用规则", EpnUseRuleActivity.class);
         add("我的象数", EpnActivity.class);
 
         add("评论", v -> MeetingCommentActivity.nav(this,"17060312172856248750"));

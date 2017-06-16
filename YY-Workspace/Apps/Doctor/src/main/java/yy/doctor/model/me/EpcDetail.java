@@ -17,7 +17,6 @@ public class EpcDetail extends EVal<TEpcDetail> {
         picture,    //商品图片url
         description,    //商品描述
         buyLimit,    //限购数
-
     }
 
 }

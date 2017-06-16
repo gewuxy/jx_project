@@ -10,10 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
+import lib.ys.util.UtilEx;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseVPActivity;
@@ -31,6 +35,7 @@ import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.serv.CommonServ;
 import yy.doctor.sp.SpUser;
 
 public class MainActivity extends BaseVPActivity {
@@ -91,6 +96,9 @@ public class MainActivity extends BaseVPActivity {
     public void setViews() {
         super.setViews();
 
+        YSLog.d(TAG, "wucaixiang@medcn.cn md5 =  " + UtilEx.md5("wucaixiang@medcn.cn"));
+        YSLog.d(TAG, "888888@medcn.cn md5 =  " + UtilEx.md5("888888@medcn.cn"));
+
         addIndicators();
 
         setOffscreenPageLimit(getCount());
@@ -101,6 +109,16 @@ public class MainActivity extends BaseVPActivity {
         if (BuildConfig.TEST) {
             exeNetworkReq(KReqIdProfile, NetFactory.profile());
             exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
+            // 判断是否已经绑定极光推送
+            YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
+            YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
+            if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
+                Intent intent = new Intent(this, CommonServ.class);
+                intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
+                        .putExtra(Extra.KData, SpJPush.inst().registerId());
+                startService(intent);
+                YSLog.d(TAG, "启动绑定极光服务");
+            }
         } else {
             // 静默更新用户数据
             if (SpUser.inst().needUpdateProfile()) {
@@ -109,6 +127,16 @@ public class MainActivity extends BaseVPActivity {
             //判断是否需要检查版本
             if (SpUser.inst().needUpdateApp()) {
                 exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
+            }
+            // 判断是否已经绑定极光推送
+            YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
+            YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
+            if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
+                Intent intent = new Intent(this, CommonServ.class);
+                intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
+                        .putExtra(Extra.KData, SpJPush.inst().registerId());
+                startService(intent);
+                YSLog.d(TAG, "启动绑定极光服务");
             }
         }
 
@@ -157,7 +185,6 @@ public class MainActivity extends BaseVPActivity {
             v.setSelected(true);
             mTabPrev = v;
         }
-
         fit(v);
 
         LayoutParams p = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
