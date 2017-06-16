@@ -90,9 +90,8 @@ public class UrlUtil {
 
         String KCollectMeeting = KMeetBase +  "favorite";
 
-        String KComment = KMeetBase + "im";
-
         String KMeetingData = KMeetBase + "pageMaterial";
+        String KMeetingVideoRecord = KMeetBase + "video/record";
     }
 
     public interface UrlData {

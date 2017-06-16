@@ -116,6 +116,16 @@ public class SubmitBuilder {
         return this;
     }
 
+    /**
+     * 是否完成
+     * @param finish
+     * @return
+     */
+    public SubmitBuilder isFinish(boolean finish) {
+        mBuilder.param(MeetParam.KFinish, String.valueOf(finish));
+        return this;
+    }
+
     public NetworkReq builder() {
         return mBuilder.build();
     }

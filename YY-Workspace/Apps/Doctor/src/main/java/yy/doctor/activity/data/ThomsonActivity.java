@@ -59,15 +59,11 @@ public class ThomsonActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
-
     }
 
     @Override
     public void setViews() {
 
-
     }
-
 
 }
