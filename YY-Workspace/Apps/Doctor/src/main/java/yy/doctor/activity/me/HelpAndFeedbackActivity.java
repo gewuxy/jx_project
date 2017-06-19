@@ -30,7 +30,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     private String mUrlContributionInvited = "http://www.medcn.com:8081/v7/view/article/17061510041163617023";
     //敬信科技
     private String mUrlJX = "http://www.medcn.com:8081/v7/view/article/17061510101320742806";
-    //隐私保密
 
     @IntDef({
             RelatedId.update_log,

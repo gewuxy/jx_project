@@ -23,7 +23,6 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
-import yy.doctor.model.me.Exchange;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 
@@ -175,7 +174,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Exchange.class);
+        return JsonParser.error(r.getText());
     }
 
     @Override
@@ -183,7 +182,7 @@ public class ExchangeActivity extends BaseFormActivity {
         super.onNetworkSuccess(id, result);
 
         stopRefresh();
-        Result<Exchange> r = (Result<Exchange>) result;
+        Result r = (Result) result;
         if (r.isSucceed()) {
             showToast("兑换成功");
             int epn = Profile.inst().getInt(TProfile.credits) - mEpn;
@@ -195,4 +194,5 @@ public class ExchangeActivity extends BaseFormActivity {
             showToast(r.getError());
         }
     }
+
 }

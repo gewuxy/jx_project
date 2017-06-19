@@ -64,7 +64,7 @@ public class SpUser extends SpBase {
     }
 
     /**
-     * 是否需要更新app, 暂定间隔为2天
+     * 是否需要检查app有没有更新, 暂定间隔为2天
      * @return
      */
     public boolean needUpdateApp() {

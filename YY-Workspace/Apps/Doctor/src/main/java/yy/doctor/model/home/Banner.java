@@ -10,12 +10,10 @@ import yy.doctor.model.home.Banner.TBanner;
 public class Banner extends EVal<TBanner> {
 
     public enum TBanner {
-
         id,    //广告id
         pageUrl,    //广告图片
         link,    //链接
         title, //标题
-
     }
 
 }

@@ -9,6 +9,8 @@ import yy.doctor.model.me.Order;
 import yy.doctor.model.me.Order.TOrder;
 
 /**
+ * 订单的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/27
  */

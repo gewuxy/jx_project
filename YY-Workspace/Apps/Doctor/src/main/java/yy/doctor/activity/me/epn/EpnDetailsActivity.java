@@ -29,9 +29,4 @@ public class EpnDetailsActivity extends BaseSRListActivity<EpnDetails, EpnDetail
         exeNetworkReq(NetFactory.epnDetails());
     }
 
-//    @Override
-//    public IListResponse<EpnDetails> parseNetworkResponse(int id, String text) throws JSONException {
-//        return JsonParser.evs(text, EpnDetails.class);
-//    }
-
 }

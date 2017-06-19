@@ -1,4 +1,4 @@
-package yy.doctor.model;
+package yy.doctor.model.notice;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
@@ -7,7 +7,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.Notice.TNotice;
+import yy.doctor.model.notice.Notice.TNotice;
+
 
 /**
  * @auther yuansui

@@ -21,6 +21,10 @@ public class Course extends EVal<TCourse> {
         sort, // 微课明细序号
         videoUrl, // 微课视频明细路径
 
+        /******************
+         * 以下是自定义字段
+         */
+
         play, // 是否在播放
         studyTime, // 学习时间
     }

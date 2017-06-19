@@ -7,6 +7,8 @@ import yy.doctor.model.Province;
 import yy.doctor.model.Province.TProvince;
 
 /**
+ * 省份的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/28
  */
@@ -24,4 +26,5 @@ public class ProvinceAdapter extends AdapterEx<Province, ProvinceCityAreaVH> {
         holder.getTv().setText(province.getString(TProvince.name));
         setOnViewClickListener(position, holder.getLayout());
     }
+
 }

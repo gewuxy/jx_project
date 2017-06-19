@@ -4,10 +4,12 @@ import lib.ys.adapter.AdapterEx;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.SectionVH;
-import yy.doctor.model.Section;
-import yy.doctor.model.Section.TSection;
+import yy.doctor.model.me.Section;
+import yy.doctor.model.me.Section.TSection;
 
 /**
+ * 科室的adapter（一级）
+ *
  * @author CaiXiang
  * @since 2017/5/2
  */

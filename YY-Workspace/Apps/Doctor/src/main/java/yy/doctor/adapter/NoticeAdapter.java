@@ -5,10 +5,12 @@ import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.NoticeVH;
-import yy.doctor.model.Notice;
-import yy.doctor.model.Notice.TNotice;
+import yy.doctor.model.notice.Notice;
+import yy.doctor.model.notice.Notice.TNotice;
 
 /**
+ * 通知的adapter
+ *
  * @author CaiXiang
  * @since 2017/5/3
  */

@@ -20,6 +20,8 @@ import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
+ * 首页的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/10
  */

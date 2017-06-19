@@ -11,8 +11,8 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
 import yy.doctor.adapter.SectionCategoryAdapter;
-import yy.doctor.model.Section;
-import yy.doctor.model.Section.TSection;
+import yy.doctor.model.me.Section;
+import yy.doctor.model.me.Section.TSection;
 import yy.doctor.network.NetFactory;
 
 /**

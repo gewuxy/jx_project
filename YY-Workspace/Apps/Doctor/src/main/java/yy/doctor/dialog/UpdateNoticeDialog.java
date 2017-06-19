@@ -12,6 +12,8 @@ import yy.doctor.R;
 import yy.doctor.serv.DownloadApkServ;
 
 /**
+ * 更新提醒的dialog
+ *
  * @author CaiXiang
  * @since 2017/4/14
  */

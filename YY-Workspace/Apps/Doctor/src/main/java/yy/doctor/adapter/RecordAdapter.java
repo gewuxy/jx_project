@@ -4,6 +4,9 @@ import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
 import android.widget.ImageView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
@@ -29,6 +32,7 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
             RecordType.pic,
             RecordType.pic_audio,
     })
+    @Retention(RetentionPolicy.SOURCE)
     public @interface RecordType {
         int video = 0;
         int audio = 1;

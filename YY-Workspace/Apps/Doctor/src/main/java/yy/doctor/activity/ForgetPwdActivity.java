@@ -11,7 +11,6 @@ import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogMain;
-import yy.doctor.model.ForgetPwd;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -78,13 +77,13 @@ public class ForgetPwdActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), ForgetPwd.class);
+        return JsonParser.error(r.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
 
-        Result<ForgetPwd> r = (Result<ForgetPwd>) result;
+        Result r = (Result) result;
         if (r.isSucceed()) {
             if (mDialog == null) {
                 mDialog = new HintDialogMain(ForgetPwdActivity.this);

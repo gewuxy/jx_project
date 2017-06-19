@@ -164,10 +164,10 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         boolean play = getItem(position).getBoolean(TCourse.play);
         // 防止同一个没有改变状态
         getItem(position).put(TCourse.play, !play);
-        if (!play) {
-            animation.start();
-        } else {
+        if (play) {
             animation.stop();
+        } else {
+            animation.start();
         }
 
         //  没有播放 / 点击不同的条目

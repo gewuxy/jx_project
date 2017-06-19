@@ -15,6 +15,5 @@ public class Ad extends EVal<TAd> {
 
         id,
         pageUrl,
-
     }
 }

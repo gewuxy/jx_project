@@ -1,7 +1,7 @@
-package yy.doctor.model;
+package yy.doctor.model.me;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.Section.TSection;
+import yy.doctor.model.me.Section.TSection;
 
 /**
  * 科室的数据

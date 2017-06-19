@@ -5,6 +5,8 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.SectionDetailVH;
 
 /**
+ * 科室的adapter（二级）
+ *
  * @author CaiXiang
  * @since 2017/5/2
  */

@@ -16,7 +16,6 @@ public class EpnDetails extends EVal<TEpnDetails> {
         oppositeName,
         description,
         type,
-
     }
 
 }

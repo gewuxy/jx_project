@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -35,12 +34,11 @@ import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
-import yy.doctor.model.unitnum.FileData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.UISetter;
@@ -116,21 +114,8 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
         Util.addBackIcon(bar, this);
         setNavBarAutoAlphaByScroll(fitDp(219), bar);
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(SearchActivity.class);
-            }
-        });
-        bar.addViewRight(R.mipmap.nav_bar_ic_more, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                showDialogCancelAttention();
-            }
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
+        bar.addViewRight(R.mipmap.nav_bar_ic_more, v -> showDialogCancelAttention());
 
     }
 
@@ -201,15 +186,11 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
         data.add("添加到桌面");
         data.add("取消");
 
-        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
-
-            @Override
-            public void onDialogItemClick(int position) {
-                if (position == 0) {
-                    exeNetworkReq(KReqIdNoAttention, NetFactory.attention(mUnitNumId, KNoAttention));
-                } else if (position == 1) {
-                    createShortcut();
-                }
+        final BottomDialog dialog = new BottomDialog(this, position -> {
+            if (position == 0) {
+                exeNetworkReq(KReqIdNoAttention, NetFactory.attention(mUnitNumId, KNoAttention));
+            } else if (position == 1) {
+                createShortcut();
             }
         });
         for (int i = 0; i < data.size(); ++i) {
@@ -267,7 +248,8 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
                 }
             });
 
-            mTvName.setText(mUnitNumDetail.getString(TUnitNumDetail.nickname));
+            mUnitNumName = mUnitNumDetail.getString(TUnitNumDetail.nickname);
+            mTvName.setText(mUnitNumName);
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
             mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + " " + mUnitNumDetail.getString(TUnitNumDetail.city));
             mTvIntroduction.setText(mUnitNumDetail.getString(TUnitNumDetail.sign));
@@ -291,13 +273,7 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
             if (datumNum > 3) {
                 mTvFileNum.setText("查看全部" + datumNum + "个文件");
                 showView(mIvArrows);
-                mVFileLayout.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id), Extra.KUnitNumType);
-                    }
-                });
+                mVFileLayout.setOnClickListener(v -> FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id), Extra.KUnitNumType));
             }
 
             UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
@@ -342,11 +318,11 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
         Intent resultIntent = new Intent();
         //设置快捷方式图标
         resultIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_default_home_meeting_speaker));
+                Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher));
         //启动的Intent
         resultIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         //设置快捷方式的名称
-        resultIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "测试");
+        resultIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, mUnitNumName);
 
         resultIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         sendBroadcast(resultIntent);

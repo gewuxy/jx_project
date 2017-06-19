@@ -11,6 +11,8 @@ import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.Banner.TBanner;
 
 /**
+ * Banner的adapter
+ *
  * @author CaiXiang
  * @since 2017/5/4
  */

@@ -6,8 +6,8 @@ import yy.doctor.activity.me.ChangePwdActivity;
 import yy.doctor.activity.me.DownloadDataActivity;
 import yy.doctor.activity.me.epc.EpcActivity;
 import yy.doctor.activity.me.epc.EpcDetailActivity;
-import yy.doctor.activity.me.epn.EpnActivity;
 import yy.doctor.activity.me.epc.ExchangeActivity;
+import yy.doctor.activity.me.epn.EpnActivity;
 import yy.doctor.activity.me.profile.ProfileActivity;
 import yy.doctor.activity.me.profile.TitleActivity;
 import yy.doctor.activity.me.unitnum.UnitNumActivity;
@@ -124,6 +124,4 @@ public class TestActivity extends BaseTestActivity {
         add("职称", TitleActivity.class);
         add("资料下载", DownloadDataActivity.class);
     }
-
-
 }

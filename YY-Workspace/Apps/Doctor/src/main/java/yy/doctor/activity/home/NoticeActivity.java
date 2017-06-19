@@ -12,10 +12,10 @@ import lib.yy.activity.base.BaseListActivity;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.NoticeAdapter;
-import yy.doctor.model.Notice;
-import yy.doctor.model.Notice.TNotice;
-import yy.doctor.model.NoticeManager;
-import yy.doctor.model.NoticeSize;
+import yy.doctor.model.notice.Notice;
+import yy.doctor.model.notice.Notice.TNotice;
+import yy.doctor.model.notice.NoticeManager;
+import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.util.Util;
 
 /**
@@ -38,7 +38,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "通知", this);
+        Util.addBackIcon(bar, getString(R.string.notice), this);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
     public void setViews() {
         super.setViews();
 
-        mTvEmpty.setText("暂时没有相关通知");
+        mTvEmpty.setText(R.string.notice_empty);
         setData(mNotices);
         invalidate();
     }
@@ -71,10 +71,6 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
             hideView(getAdapter().getCacheVH(position).getIvDot());
         }
 
-        item.put(TNotice.is_read, true);
-        item.setContent(item.toStoreJson());
-        NoticeManager.inst().update(item);
-
         YSLog.d(TAG, " msgType = " + item.getInt(TNotice.msgType));
         //判断是否有跳转事件  有就跳转会议详情页面
         if (item.getInt(TNotice.msgType) == 1) {
@@ -83,19 +79,19 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
             // do nothing
         }
 
-        //未读消息数 -1
-        NoticeSize.inst().reduce();
-    }
+        //判断消息是否读过
+        if ( !item.getBoolean(TNotice.is_read)) {
+            item.put(TNotice.is_read, true);
+            item.setContent(item.toStoreJson());
+            NoticeManager.inst().update(item);
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+            //未读消息数 -1
+            NoticeNum.inst().reduce();
+        }
 
         //判断消息是否都已经读完
-        YSLog.d(TAG, " 小红点 = " + NoticeSize.inst().getCount() );
-        if (NoticeSize.inst().getCount() > 0) {
-            notify(NotifyType.receiver_notice);
-        } else {
+        YSLog.d(TAG, " 小红点 = " + NoticeNum.inst().getCount() );
+        if (NoticeNum.inst().getCount() == 0) {
             notify(NotifyType.read_all_notice);
         }
     }

@@ -1,4 +1,4 @@
-package yy.doctor.model;
+package yy.doctor.model.notice;
 
 import yy.doctor.sp.SpUser;
 
@@ -9,15 +9,19 @@ import yy.doctor.sp.SpUser;
  * @since 2017/6/14
  */
 
-public class NoticeSize {
+public class NoticeNum {
 
-    private static NoticeSize mInst = null;
+    private static NoticeNum mInst = null;
     private static int count;
 
-    public synchronized static NoticeSize inst() {
+    public synchronized static NoticeNum inst() {
         if (mInst == null) {
-            mInst = new NoticeSize();
-            count = 0;
+            mInst = new NoticeNum();
+            if (SpUser.inst().badgeNum() > 0) {
+                count = SpUser.inst().badgeNum();
+            } else {
+                count = 0;
+            }
         }
         return mInst;
     }
@@ -29,6 +33,9 @@ public class NoticeSize {
 
     public void reduce() {
         count --;
+        if (count < 0) {
+            count = 0;
+        }
         SpUser.inst().updateBadgeNum(count);
     }
 

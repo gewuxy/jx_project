@@ -2,8 +2,6 @@ package yy.doctor.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -39,19 +37,15 @@ public class BannerActivity extends BaseWebViewActivity {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, "详情", this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_share, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ShareDialog shareDialog = new ShareDialog(BannerActivity.this, mUrl, mTitle);
-                shareDialog.show();
-            }
+        bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
+            ShareDialog shareDialog = new ShareDialog(BannerActivity.this, mUrl, mTitle);
+            shareDialog.show();
         });
     }
 
     @Override
     protected void onLoadStart() {
-        getWebView().loadUrl(mUrl);
+        loadUrl(mUrl);
     }
 
 }

@@ -3,8 +3,6 @@ package yy.doctor.activity.data;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;

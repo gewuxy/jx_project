@@ -17,6 +17,7 @@ import yy.doctor.network.NetFactory;
 
 public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
+    private static final String KDot = ".";
     private String mUrl;
     private String mFilePath;
     private String mType;
@@ -30,7 +31,7 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
         mFilePath = intent.getStringExtra(Extra.KFilePath);
 
         mType = intent.getStringExtra(Extra.KType);
-        mFileHashCode = String.valueOf(mUrl.hashCode()) + "." + mType;
+        mFileHashCode = String.valueOf(mUrl.hashCode()) + KDot + mType;
 
         //打乱文件名
         int shift = mFileHashCode.length() / 2;
@@ -40,7 +41,7 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
             char c = (char) (chars[i] + shift);
             sb.append(c);
         }
-        YSLog.d(TAG, "sb = " + sb.toString());
+        YSLog.d(TAG, " StringBuffer = " + sb.toString());
         mFileHashCode = sb.toString();
 
         exeNetworkReq(NetFactory.downloadData(mUrl, mFilePath, mFileHashCode));

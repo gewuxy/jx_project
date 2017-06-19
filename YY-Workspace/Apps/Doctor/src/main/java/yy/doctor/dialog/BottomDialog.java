@@ -20,6 +20,8 @@ import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 
 /**
+ * 在底部的dialog
+ *
  * @author CaiXiang
  * @since 2017/4/19
  */
@@ -36,7 +38,6 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -49,7 +50,6 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
     public void findViews() {
 
         mLv = findView(R.id.dialog_bottom_layout_content);
-
     }
 
     @Override

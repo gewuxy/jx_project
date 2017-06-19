@@ -13,6 +13,8 @@ import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 
 /**
+ * 普通的dialog
+ *
  * @author yuansui
  * @since 2017/4/13
  */

@@ -23,6 +23,8 @@ import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 
 /**
+ * 分享的dialog
+ *
  * @author CaiXiang
  * @since 2017/4/19
  */

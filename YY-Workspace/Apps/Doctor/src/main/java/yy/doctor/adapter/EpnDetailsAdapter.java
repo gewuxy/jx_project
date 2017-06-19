@@ -11,6 +11,8 @@ import yy.doctor.model.me.EpnDetails;
 import yy.doctor.model.me.EpnDetails.TEpnDetails;
 
 /**
+ * 象数详情的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/26
  */

@@ -65,14 +65,7 @@ public class DataFrag extends BaseVPFrag {
     public void initNavBar(NavBar bar) {
 
         bar.addTextViewMid("数据中心");
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(SearchActivity.class);
-            }
-        });
-
+        bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
     }
 
     @Override

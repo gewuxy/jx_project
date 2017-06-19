@@ -39,10 +39,9 @@ import yy.doctor.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.frag.meeting.course.BaseCourseFrag.OnCourseListener;
 import yy.doctor.frag.meeting.course.PicAudioCourseFrag;
 import yy.doctor.frag.meeting.course.PicCourseFrag;
-import yy.doctor.frag.meeting.course.VideoCourseFrag;
 import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.model.meet.Course.CourseType;
+import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.PPT;
@@ -242,20 +241,19 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                long playTime = (long) (mSb.getProgress() / 100.0 * mAllMilliseconds);
+                int playTime = (int) (mSb.getProgress() / 100f * mAllMilliseconds);
+                PicAudioCourseFrag frag = null;
                 switch (mCourses.get(getCurrentItem()).getType()) {
                     case CourseType.pic_audio:
-                        // 音频+图片的时候
-                        PicAudioCourseFrag picAudioFrag = (PicAudioCourseFrag) getItem(getCurrentItem());
-                        picAudioFrag.seekTo((int) playTime);
-                        picAudioFrag.setRemainTime((int) (mAllMilliseconds - playTime) / 1000);
-                        break;
-                    case CourseType.audio:
-                        AudioCourseFrag audioFrag = (AudioCourseFrag) getItem(getCurrentItem());
-                        audioFrag.seekTo((int) playTime);
-                        audioFrag.setRemainTime((int) (mAllMilliseconds - playTime) / 1000);
-                        break;
+                    case CourseType.audio: {
+                        frag = (PicAudioCourseFrag) getItem(getCurrentItem());
+                    }
+                    break;
                 }
+
+                frag.seekTo(playTime);
+                frag.setRemainTime((int) (mAllMilliseconds - playTime) / 1000);
+
                 countDown();
             }
         });
@@ -535,7 +533,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         for (Course course : mCourses) {
             stayTimes.add(course.getLong(TCourse.studyTime, 0));
         }
-        YSLog.d(TAG,"finish:"+ stayTimes.toString());
+        YSLog.d(TAG, "finish:" + stayTimes.toString());
     }
 
     @Override

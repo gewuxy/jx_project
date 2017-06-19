@@ -34,6 +34,7 @@ import yy.doctor.view.CircleProgressView;
 public class DownloadDataActivity extends BaseActivity implements OnDownloadNotify {
 
     private static final String KByteSymbol = "K";
+    private static final String KDot = ".";
 
     private CircleProgressView mProgressBar;
     private TextView mTvNum;
@@ -48,7 +49,6 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private long mFileSize;
     private String mFileSizeKB;
     private String mFileHashCodeName;
-    private long mFileHashCode;
     private String mFilePath;
     private Intent mDownloadServ;
 
@@ -72,8 +72,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         mType = getIntent().getStringExtra(Extra.KType);
         mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
 
-        mFileSizeKB = String.valueOf(mFileSize / 1024) + "K";
-        mFileHashCodeName = String.valueOf((mUrl.hashCode() + "." + mType));
+        mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
+        mFileHashCodeName = String.valueOf((mUrl.hashCode() + KDot + mType));
 
         //打乱文件名
         int shift = mFileHashCodeName.length() / 2;
@@ -83,7 +83,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             char c = (char) (chars[i] + shift);
             sb.append(c);
         }
-        YSLog.d(TAG, "sb = " + sb.toString());
+        YSLog.d(TAG, " StringBuffer = " + sb.toString());
         mFileHashCodeName = sb.toString();
 
         //先判断文件是否已经存在  通过url的hashcode
@@ -94,9 +94,6 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         }
 
     }
-
-
-
 
     @NonNull
     @Override

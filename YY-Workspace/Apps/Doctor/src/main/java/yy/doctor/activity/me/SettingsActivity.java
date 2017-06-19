@@ -27,7 +27,6 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.form.Builder;
@@ -258,24 +257,19 @@ public class SettingsActivity extends BaseFormActivity {
         data.add("清理图片缓存");
         data.add("取消");
 
-        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
+        final BottomDialog dialog = new BottomDialog(this, position -> {
 
-            @Override
-            public void onDialogItemClick(int position) {
+            if (position == 0) {
 
-                if (position == 0) {
-
-                    Observable.just("888")
-                            .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(s -> {
-                                getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
-                                refreshRelatedItem(RelatedId.clear_img_cache);
-                                showToast("图片缓存清理完毕");
-                            });
-                }
-
+                Observable.just("888")
+                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(s -> {
+                            getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
+                            refreshRelatedItem(RelatedId.clear_img_cache);
+                            showToast("图片缓存清理完毕");
+                        });
             }
         });
         for (int i = 0; i < data.size(); ++i) {
@@ -294,22 +288,18 @@ public class SettingsActivity extends BaseFormActivity {
         data.add("清理声音缓存");
         data.add("取消");
 
-        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
+        final BottomDialog dialog = new BottomDialog(this, position -> {
 
-            @Override
-            public void onDialogItemClick(int position) {
-
-                if (position == 0) {
-                    Observable.just("666")
-                            .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(s -> {
-                                getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
-                                refreshRelatedItem(RelatedId.clear_sound_cache);
-                                showToast("声音缓存清理完毕");
-                            });
-                }
+            if (position == 0) {
+                Observable.just("666")
+                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(s -> {
+                            SettingsActivity.this.getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
+                            SettingsActivity.this.refreshRelatedItem(RelatedId.clear_sound_cache);
+                            SettingsActivity.this.showToast("声音缓存清理完毕");
+                        });
             }
         });
         for (int i = 0; i < data.size(); ++i) {

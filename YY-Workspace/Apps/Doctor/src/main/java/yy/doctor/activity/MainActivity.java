@@ -55,6 +55,7 @@ public class MainActivity extends BaseVPActivity {
 
     public static final int KTabHome = 0;
     public static final int KTabMeeting = 1;
+
     public static final int KTabData = 2;
     public static final int KTabMe = 3;
 
@@ -144,10 +145,10 @@ public class MainActivity extends BaseVPActivity {
 
     private void addIndicators() {
 
-        addIndicator(KTabHome, R.drawable.main_selector_home, "首页");
-        addIndicator(KTabMeeting, R.drawable.main_selector_meeting, "会议");
-        addIndicator(KTabData, R.drawable.main_selector_data, "数据");
-        addIndicator(KTabMe, R.drawable.main_selector_me, "我");
+        addIndicator(KTabHome, R.drawable.main_selector_home, getString(R.string.title_home));
+        addIndicator(KTabMeeting, R.drawable.main_selector_meeting, getString(R.string.title_meeting));
+        addIndicator(KTabData, R.drawable.main_selector_data, getString(R.string.title_data));
+        addIndicator(KTabMe, R.drawable.main_selector_me, getString(R.string.title_me));
 
         setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -246,4 +247,5 @@ public class MainActivity extends BaseVPActivity {
 
         SingletonImpl.inst().freeAll();
     }
+
 }

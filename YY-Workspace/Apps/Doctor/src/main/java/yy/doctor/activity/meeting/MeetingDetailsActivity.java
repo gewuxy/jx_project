@@ -6,7 +6,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

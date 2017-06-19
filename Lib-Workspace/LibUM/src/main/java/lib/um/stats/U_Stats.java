@@ -21,14 +21,6 @@ public class U_Stats implements IStats {
         MobclickAgent.startWithConfigure(config);
     }
 
-    public void onFragmentVisible(String tag) {
-        MobclickAgent.onPageStart(tag);
-    }
-
-    public void onFragmentInvisible(String tag) {
-        MobclickAgent.onPageEnd(tag);
-    }
-
     public void onActivityResume(Context context, String tag) {
         MobclickAgent.onPageStart(tag);
         MobclickAgent.onResume(context);
@@ -39,6 +31,16 @@ public class U_Stats implements IStats {
         MobclickAgent.onPause(context);
     }
 
+    @Override
+    public void onFragmentVisible(Context context, String tag) {
+        MobclickAgent.onPageStart(tag);
+    }
+
+    @Override
+    public void onFragmentInvisible(Context context, String tag) {
+        MobclickAgent.onPageEnd(tag);
+    }
+
     public void onEvent(Context context, String eventId) {
         MobclickAgent.onEvent(context, eventId);
     }
@@ -46,4 +48,5 @@ public class U_Stats implements IStats {
     public void onEvent(Context context, String eventId, HashMap<String, String> map) {
         MobclickAgent.onEvent(context, eventId, map);
     }
+
 }

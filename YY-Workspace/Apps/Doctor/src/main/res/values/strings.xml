@@ -3,16 +3,20 @@
 
     <string name="company_name">敬信•YaYa医师 V</string>
 
-    <!--toast-->
-    <string name="toast_hint_tttt">YaYa新医师</string>
-
     <!--hint-->
     <string name="hint_not_fill">未填写</string>
+    <string name="optional">选填</string>
+    <string name="required">必填</string>
 
     <string name="cancel">取消</string>
 
     <!--KTitle-->
+    <string name="title_home">首页</string>
     <string name="title_meeting">会议</string>
+    <string name="title_data">数据</string>
+    <string name="title_me">我</string>
+
+
 
 
     <!-- register_text -->
@@ -113,5 +117,25 @@
     <string name="video_studied">已学习</string>
 
     <string name="minute">分钟</string>
+
+    <string name="notice">通知</string>
+    <string name="notice_empty">暂时没有相关通知</string>
+
+    <!--个人资料-->
+    <string name="user_profile">我的资料</string>
+    <string name="user_save">完成并保存</string>
+    <string name="user_save_success">更新成功</string>
+    <string name="user_name">姓名</string>
+    <string name="user_hospital">单位</string>
+    <string name="user_section">科室</string>
+    <string name="user_hospital_grade">医院级别</string>
+    <string name="user_title">职称</string>
+    <string name="user_certification_number">职业资格证号</string>
+    <string name="user_CME_number">CME卡号</string>
+    <string name="user_city">所在省市</string>
+    <string name="user_photo_permission">请开启拍照权限</string>
+    <string name="user_album_permission">请开启查看相册权限</string>
+    <string name="take_photo">拍照</string>
+    <string name="from_album_select">从相册中选择照片</string>
 
 </resources>

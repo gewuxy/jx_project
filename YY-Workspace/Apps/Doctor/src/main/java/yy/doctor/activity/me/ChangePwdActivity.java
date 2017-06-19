@@ -11,7 +11,6 @@ import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.R;
-import yy.doctor.model.me.ChangePwd;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -93,14 +92,14 @@ public class ChangePwdActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), ChangePwd.class);
+        return JsonParser.error(r.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
 
         stopRefresh();
-        Result<ChangePwd> r = (Result<ChangePwd>) result;
+        Result r = (Result) result;
         if (r.isSucceed()) {
             showToast("密码修改成功");
             finish();

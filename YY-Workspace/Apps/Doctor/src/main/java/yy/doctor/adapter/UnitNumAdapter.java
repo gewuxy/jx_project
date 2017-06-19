@@ -9,6 +9,8 @@ import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 
 /**
+ * 单位号的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/27
  */

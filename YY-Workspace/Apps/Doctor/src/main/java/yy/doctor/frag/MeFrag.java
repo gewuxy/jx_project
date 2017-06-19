@@ -28,6 +28,8 @@ import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.linkman;
 
 /**
+ * 我
+ *
  * @author CaiXiang
  * @since 2017/4/6
  */
@@ -64,7 +66,6 @@ public class MeFrag extends BaseFormFrag {
     public void initNavBar(NavBar bar) {
 
         bar.addTextViewMid("个人中心");
-
     }
 
     @Override

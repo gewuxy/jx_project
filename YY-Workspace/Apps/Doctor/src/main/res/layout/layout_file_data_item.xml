@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/margin"
-            android:text="大声道是的肌肤好"
+            android:text=""
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 

@@ -12,6 +12,8 @@ import yy.doctor.model.form.menu.Builder;
 import yy.doctor.model.form.menu.MenuType;
 
 /**
+ * 侧滑菜单
+ *
  * @author CaiXiang
  * @since 2017/4/5
  */

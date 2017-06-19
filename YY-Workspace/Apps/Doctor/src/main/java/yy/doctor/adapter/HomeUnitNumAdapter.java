@@ -13,6 +13,8 @@ import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 
 /**
+ * 首页单位号的adapter
+ *
  * @author CaiXiang
  * @since 2017/5/17
  */
@@ -85,7 +87,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
     }
 
     private void nativeSetAttention(TextView tv, int attention) {
-        if (attention == 1) {
+        if (attention == Attention.yes) {
             tv.setText("已关注");
             tv.setSelected(true);
             tv.setClickable(false);

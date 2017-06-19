@@ -58,7 +58,6 @@ public class CheckBoxDialog extends BaseDialog {
 
         tv.setText(text);
 
-
         LayoutFitter.fit(v);
 
         mLayoutContent.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));

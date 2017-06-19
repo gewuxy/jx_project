@@ -1,11 +1,13 @@
-package yy.doctor.model;
+package yy.doctor.model.notice;
 
 import java.util.List;
 
 import yy.doctor.App;
-import yy.doctor.model.Notice.TNotice;
-import yy.doctor.model.NoticeDao.Properties;
+import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.notice.DaoMaster.DevOpenHelper;
+import yy.doctor.model.notice.Notice.TNotice;
+import yy.doctor.model.notice.NoticeDao.Properties;
 
 /**
  * 通知数据库的管理类
@@ -21,7 +23,7 @@ public class NoticeManager {
     private static NoticeManager mInst = null;
 
     private NoticeManager() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(App.getContext(), "notice.db", null);
+        DevOpenHelper devOpenHelper = new DevOpenHelper(App.getContext(), "notice.db", null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
         mDao = daoMaster.newSession().getNoticeDao();
     }

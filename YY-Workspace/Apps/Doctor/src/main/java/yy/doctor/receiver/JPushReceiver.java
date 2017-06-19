@@ -16,10 +16,10 @@ import lib.yy.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.model.Notice;
-import yy.doctor.model.Notice.TNotice;
-import yy.doctor.model.NoticeManager;
-import yy.doctor.model.NoticeSize;
+import yy.doctor.model.notice.Notice;
+import yy.doctor.model.notice.Notice.TNotice;
+import yy.doctor.model.notice.NoticeManager;
+import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.model.jpush.JPushMsg;
 import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 
@@ -31,6 +31,7 @@ import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 public class JPushReceiver extends BaseJPushReceiver {
 
     private static String TAG = "JPushReceiver";
+    private static int KMsgMeetingType = 1;
 
     @Override
     protected void onRegistrationId(Context context, String id) {
@@ -63,7 +64,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             Notifier.inst().notify(NotifyType.receiver_notice);
 
             //未读消息数加 1
-            NoticeSize.inst().add();
+            NoticeNum.inst().add();
 
             Intent intent  = new Intent();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
@@ -74,7 +75,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             builder.setContentTitle(jPushMsg.getString(TJPushMsg.title));
 
             // type==1 推送的是会议的  ==0 是普通消息
-            if (jPushMsg.getString(TJPushMsg.msgType).equals("1")) {
+            if (jPushMsg.getInt(TJPushMsg.msgType) == KMsgMeetingType) {
                 intent.setClass(context, MeetingDetailsActivity.class);
                 intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
             } else {

@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.res.ResLoader;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseFormActivity;
 import lib.yy.network.Result;
@@ -37,8 +37,6 @@ import yy.doctor.R;
 import yy.doctor.activity.register.HospitalActivity;
 import yy.doctor.activity.register.ProvinceActivity;
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
-import yy.doctor.model.Modify;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.config.GlConfig;
@@ -143,48 +141,42 @@ public class ProfileActivity extends BaseFormActivity {
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.et)
                 .related(RelatedId.name)
-                .name("姓名")
+                .name(R.string.user_name)
                 .text(Profile.inst().getString(linkman))
-                .hint("必填")
+                .hint(R.string.required)
                 .enable(false)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.ic_more)
-                .name("单位")
+                .name(R.string.user_hospital)
                 .intent(new Intent(this, HospitalActivity.class))
                 .text(Profile.inst().getString(hospital))
-                .hint("必填")
+                .hint(R.string.required)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.departments)
                 .drawable(R.mipmap.ic_more)
-                .name("科室")
+                .name(R.string.user_section)
                 .intent(new Intent(this, SectionActivity.class))
                 .text(Profile.inst().getString(department))
-                .hint("必填")
+                .hint(R.string.required)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.hospital_grade)
-                .name("医院级别")
+                .name(R.string.user_hospital_grade)
                 .text(Profile.inst().getString(hosLevel))
                 .data(GlConfig.inst().getHospitalGrade())
-                .hint("选填")
+                .hint(R.string.optional)
                 .build());
-
-        addItem(new Builder(FormType.divider_large).build());
 
         /*addItem(new Builder(FormType.et)
                 .related(RelatedId.nickname)
@@ -212,28 +204,29 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.is_open)
                 .build());*/
 
+        addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.title)
-                .name("职称")
+                .name(R.string.user_title)
                 .intent(new Intent(this, TitleActivity.class))
                 .text(Profile.inst().getString(TProfile.title))
-                .hint("选填")
+                .hint(R.string.optional)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et)
                 .related(RelatedId.certification_number)
-                .name("职业资格证号")
+                .name(R.string.user_certification_number)
                 .text(Profile.inst().getString(licence))
-                .hint("选填")
+                .hint(R.string.optional)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et)
                 .related(RelatedId.CME_number)
-                .name("CME卡号")
+                .name(R.string.user_CME_number)
                 .text(Profile.inst().getString(cmeId))
-                .hint("选填")
+                .hint(R.string.optional)
                 .build());
 
         /*addItem(new Builder(FormType.et)
@@ -270,10 +263,10 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
-                .name("所在省市")
+                .name(R.string.user_city)
                 .intent(new Intent(this, ProvinceActivity.class))
                 .text(str)
-                .hint("必填")
+                .hint(R.string.required)
                 .build());
 
         addItem(new Builder(FormType.divider_large)
@@ -283,18 +276,14 @@ public class ProfileActivity extends BaseFormActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "我的资料", this);
-        bar.addTextViewRight("完成并保存", new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                refresh(RefreshWay.dialog);
-                //如果头像修改了就先上传头像，成功后再修改其他资料
-                if (mBmp != null) {
-                    exeNetworkReq(KReqUpHeaderImgId, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
-                } else {
-                    modify();
-                }
+        Util.addBackIcon(bar, R.string.user_profile, this);
+        bar.addTextViewRight(R.string.user_save, v -> {
+            refresh(RefreshWay.dialog);
+            //如果头像修改了就先上传头像，成功后再修改其他资料
+            if (mBmp != null) {
+                exeNetworkReq(KReqUpHeaderImgId, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
+            } else {
+                modify();
             }
         });
     }
@@ -348,29 +337,25 @@ public class ProfileActivity extends BaseFormActivity {
     private void showDialogSelectPhoto() {
 
         final List<String> data = new ArrayList<>();
-        data.add("从相册中选择照片");
-        data.add("拍照");
-        data.add("取消");
+        data.add(getString(R.string.from_album_select));
+        data.add(getString(R.string.take_photo));
+        data.add(getString(R.string.cancel));
 
-        final BottomDialog dialog = new BottomDialog(this, new OnDialogItemClickListener() {
+        final BottomDialog dialog = new BottomDialog(this, position -> {
 
-            @Override
-            public void onDialogItemClick(int position) {
-
-                switch (position) {
-                    case 0: {
-                        if (checkPermission(KPermissionCodePhoto, Permission.storage)) {
-                            getPhotoFromAlbum();
-                        }
+            switch (position) {
+                case 0: {
+                    if (checkPermission(KPermissionCodePhoto, Permission.storage)) {
+                        getPhotoFromAlbum();
                     }
-                    break;
-                    case 1: {
-                        if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
-                            getPhotoFromTakePhoto();
-                        }
-                    }
-                    break;
                 }
+                break;
+                case 1: {
+                    if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
+                        getPhotoFromTakePhoto();
+                    }
+                }
+                break;
             }
         });
 
@@ -481,7 +466,7 @@ public class ProfileActivity extends BaseFormActivity {
         if (id == KReqUpHeaderImgId) {
             return JsonParser.ev(r.getText(), UpHeadImage.class);
         } else {
-            return JsonParser.ev(r.getText(), Modify.class);
+            return JsonParser.error(r.getText());
         }
     }
 
@@ -503,9 +488,9 @@ public class ProfileActivity extends BaseFormActivity {
             }
         } else {
             stopRefresh();
-            Result<Modify> r = (Result<Modify>) result;
+            Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("更新成功");
+                showToast(ResLoader.getString(R.string.user_save_success));
                 //更新本地的数据
                 Profile.inst().update(Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital)));
                 Profile.inst().update(Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments)));
@@ -537,7 +522,7 @@ public class ProfileActivity extends BaseFormActivity {
                 break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    showToast("请开启拍照权限");
+                    showToast(ResLoader.getString(R.string.user_photo_permission));
                 }
                 break;
             }
@@ -549,7 +534,7 @@ public class ProfileActivity extends BaseFormActivity {
                 break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    showToast("请开启查看相册权限");
+                    showToast(ResLoader.getString(R.string.user_album_permission));
                 }
                 break;
             }

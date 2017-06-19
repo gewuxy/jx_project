@@ -8,6 +8,8 @@ import yy.doctor.model.City;
 import yy.doctor.model.City.TCity;
 
 /**
+ * 城市的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/28
  */

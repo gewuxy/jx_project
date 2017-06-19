@@ -8,6 +8,8 @@ import yy.doctor.model.Area;
 import yy.doctor.model.Area.TArea;
 
 /**
+ * 地区的adapter
+ *
  * @author CaiXiang
  * @since 2017/5/23
  */

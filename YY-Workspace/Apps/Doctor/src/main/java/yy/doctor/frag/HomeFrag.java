@@ -19,7 +19,7 @@ import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.activity.meeting.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
-import yy.doctor.model.NoticeSize;
+import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
@@ -96,8 +96,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mBadgeView.setBadgeMargin(KBadgeMarginLeft, KBadgeMarginTop, KBadgeMarginTop, KBadgeMarginLeft);
         mBadgeView.setTargetView(mViewNotice);
         //判断小红点是否出现
-        YSLog.d(TAG, " 小红点个数 = " + NoticeSize.inst().getCount());
-        if (NoticeSize.inst().getCount() > 0) {
+        YSLog.d(TAG, " 小红点个数 = " + NoticeNum.inst().getCount());
+        if (NoticeNum.inst().getCount() > 0) {
             showView(mBadgeView);
         } else {
             hideView(mBadgeView);

@@ -7,6 +7,8 @@ import yy.doctor.model.data.ThomsonDetail;
 import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
 
 /**
+ * 汤森路透的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/27
  */

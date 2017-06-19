@@ -8,6 +8,8 @@ import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
 
 /**
+ * 象城的adapter
+ *
  * @author CaiXiang
  * @since 2017/4/26
  */
