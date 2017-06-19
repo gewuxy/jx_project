@@ -22,6 +22,7 @@ public class Course extends EVal<TCourse> {
         videoUrl, // 微课视频明细路径
 
         play, // 是否在播放
+        studyTime, // 学习时间
     }
 
     @IntDef({
@@ -36,6 +37,9 @@ public class Course extends EVal<TCourse> {
         int pic_audio = 0;
         int audio = 1;
         int pic = 2;
+        /**
+         * @deprecated 这版本没有视频
+         */
         int video = 3;
     }
 
@@ -61,9 +65,9 @@ public class Course extends EVal<TCourse> {
                 } else {
                     mType = CourseType.pic_audio;
                 }
-            } else {
+            } /*else {
                 mType = CourseType.video;
-            }
+            }*/
         }
         return mType;
     }

@@ -2,6 +2,7 @@ package yy.doctor.adapter;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
+import android.widget.ImageView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.NetworkImageView;
@@ -22,17 +23,13 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
     private static final int KPicBack = R.mipmap.ic_default_meeting_content_detail; // 默认图
 
-    private String mImgUrl;
-    private String mAudioUrl;
-    private String mVideoUrl;
-
     @IntDef({
             RecordType.video,
             RecordType.audio,
             RecordType.pic,
             RecordType.pic_audio,
     })
-    private @interface RecordType {
+    public @interface RecordType {
         int video = 0;
         int audio = 1;
         int pic = 2;
@@ -64,22 +61,19 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
             case RecordType.video:
                 break;
             case RecordType.audio:
-                setOnViewClickListener(position, holder.getTvAudio());
+                setOnViewClickListener(position, holder.getLayoutAudio());
+                animation(position, holder.getIvAudio());
                 break;
             case RecordType.pic_audio: {
                 // 区别于纯图片的功能
-                setOnViewClickListener(position, holder.getIvPicAudio());
-                AnimationDrawable animation = (AnimationDrawable) holder.getIvPicAudio().getDrawable();
-                if (getItem(position).getBoolean(TCourse.play)) {
-                    animation.start();
-                } else {
-                    animation.stop();
-                }
+                ImageView iv = holder.getIvPicAudio();
+                setOnViewClickListener(position, iv);
+                animation(position, iv);
             }
             case RecordType.pic: {
                 // 图片,图片+音频共有的功能
                 NetworkImageView iv = holder.getIvPic();
-                iv.placeHolder(KPicBack).url(mImgUrl).load();
+                iv.placeHolder(KPicBack).url(getItem(position).getString(TCourse.imgUrl)).load();
                 setOnViewClickListener(position, iv);
             }
             break;
@@ -88,16 +82,16 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
     @Override
     public int getItemViewType(int position) {
-        mImgUrl = getItem(position).getString(TCourse.imgUrl);
-        mAudioUrl = getItem(position).getString(TCourse.audioUrl);
-        mVideoUrl = getItem(position).getString(TCourse.videoUrl);
+        String imgUrl = getItem(position).getString(TCourse.imgUrl);
+        String audioUrl = getItem(position).getString(TCourse.audioUrl);
+        String videoUrl = getItem(position).getString(TCourse.videoUrl);
 
-        if (!TextUtil.isEmpty(mVideoUrl)) {
+        if (!TextUtil.isEmpty(videoUrl)) {
             // 有视频
             return RecordType.video;
-        } else if (!TextUtil.isEmpty(mAudioUrl)) {
+        } else if (!TextUtil.isEmpty(audioUrl)) {
             // 有音频
-            if (!TextUtil.isEmpty(mImgUrl)) {
+            if (!TextUtil.isEmpty(imgUrl)) {
                 // 有音频且有图片
                 return RecordType.pic_audio;
             } else {
@@ -113,6 +107,16 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     @Override
     public int getViewTypeCount() {
         return RecordType.class.getDeclaredFields().length;
+    }
+
+
+    private void animation(int position, ImageView iv) {
+        AnimationDrawable animation = (AnimationDrawable) iv.getDrawable();
+        if (getItem(position).getBoolean(TCourse.play)) {
+            animation.start();
+        } else {
+            animation.stop();
+        }
     }
 
 }

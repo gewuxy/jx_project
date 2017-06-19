@@ -118,4 +118,39 @@ public class TextUtil {
     public static String filterNull(String str) {
         return str == null ? KTextEmpty : str;
     }
+
+
+    /**
+     * 把url的中文转换url格式
+     *
+     * @param s
+     * @return
+     */
+    public static String toUtf8(String s) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (c >= 0 && c <= 255) {
+                // 非中文
+                sb.append(c);
+            } else {
+
+                byte[] b;
+                try {
+                    b = String.valueOf(c).getBytes("utf-8");
+                } catch (Exception ex) {
+                    b = new byte[0];
+                }
+
+                for (int j = 0; j < b.length; j++) {
+                    int k = b[j];
+                    if (k < 0)
+                        k += 256;
+                    sb.append("%" + Integer.toHexString(k).toUpperCase());
+                }
+            }
+        }
+        return sb.toString();
+    }
 }

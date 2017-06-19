@@ -12,20 +12,37 @@
 
         <ImageView style="@style/iv.meeting.record.symbol"/>
 
-        <TextView
-            android:id="@+id/meeting_record_tv_audio"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
+        <LinearLayout
+            android:id="@+id/meeting_record_layout_audio"
+            android:orientation="horizontal"
             android:layout_marginRight="36dp"
             android:background="@drawable/meeting_record_text_bg"
-            android:drawableLeft="@mipmap/meeting_ic_sound_default"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:paddingLeft="11dp"
-            android:paddingRight="@dimen/margin"
-            android:text="60''"
-            android:textColor="@color/text_333"
-            android:textSize="12dp"/>
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_height="32dp">
+
+            <ImageView
+                android:layout_marginLeft="@dimen/margin"
+                android:id="@+id/meeting_record_iv_audio"
+                android:src="@drawable/audio_animation"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_width="8dp"
+                android:layout_height="7dp"/>
+
+            <TextView
+                android:id="@+id/meeting_record_tv_audio"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60''"
+                android:textColor="@color/text_333"
+                android:textSize="12dp"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <View style="@style/divider.record"/>

@@ -63,70 +63,59 @@ import yy.doctor.util.Util;
 
 /**
  * 会议详情界面
- * <p>
+ *
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
 public class MeetingDetailsActivity extends BaseActivity {
-
+    // FIXME: 2017/6/19 象数奖励
     private static final int KIdMeetDetail = 0; // 会议详情
     private static final int KIdCollection = 1; // 收藏
-    private static final int KIdAttention = 7; // 关注
+    private static final int KIdAttention = 2; // 关注
 
-    private static final int KIdExam = 2; // 考试
-    private static final int KIdQue = 3; // 问卷
-    private static final int KIdVideo = 4; // 视频
-    private static final int KIdSign = 5; // 签到
-    private static final int KIdCourse = 6; // PPT
+    private static final int KIdExam = 3; // 考试
+    private static final int KIdQue = 4; // 问卷
+    private static final int KIdVideo = 5; // 视频
+    private static final int KIdSign = 6; // 签到
+    private static final int KIdCourse = 7; // PPT
 
-    private static final int KTextColor = ResLoader.getColor(R.color.text_333);
+    private static final int KTextColor = ResLoader.getColor(R.color.text_333); // 模块没有时的颜色
 
     private final int KExamResId = R.mipmap.meeting_ic_exam_have; // 考试
     private final int KQueResId = R.mipmap.meeting_ic_que_have; // 问卷
     private final int KVideoResId = R.mipmap.meeting_ic_video_have; // 视频
     private final int KSignResId = R.mipmap.meeting_ic_sign_have; // 签到
 
-    private String mMeetId; // 会议Id
-    private TextView mTvAward;
-    private TextView mTvTitle; // 会议名称
-    private TextView mTvSection; // 会议科室
-    private TextView mTvUnitNum; // 单位号
+    private ImageView mIvCollection; // navBar的收藏
 
     private NetworkImageView mIvPlay; // 播放图片
-    private NetworkImageView mIvNumber; // 公众号图标
-    private NetworkImageView mIvGP; // 头像
+    private TextView mTvDate; // 会议开始时间
+    private TextView mTvDuration; // 会议时长
 
-    // 主讲者
-    private TextView mTvGN; // 名字
-    private TextView mTvGP; // 职位
-    private TextView mTvGH; // 医院
+    // 会议介绍
+    private TextView mTvTitle; // 会议名称
+    private TextView mTvEpn; // 象数相关
+    private TextView mTvSection; // 会议科室
+
+    // 单位号介绍
+    private NetworkImageView mIvNumber; // 单位号图标
+    private TextView mTvUnitNum; // 单位号
 
     //资料
     private View mLayoutData; // 查看资料
     private TextView mTvFileNum; // 文件个数
     private ImageView mIvFileArrow; // 箭头
     private LinearLayout mLayoutFile; // 文件布局
-    private View mDividerFile; // 分割线
-    private View mDivider;
+    private View mDividerFile; // 分割线(大)
+    private View mDivider; // 分割线
 
-    private LocationDialog mLocationDialog; // 定位框
-    private OnLocationNotify mObserver; // 定位通知
-    private MapList<Integer, String> mMapList;
-    private TextView mTvDate; // 时间
-    private TextView mTvDuration; // 时长
-    private String mLatitude; // 经度
-    private String mLongitude; // 维度
+    // 主讲者
+    private NetworkImageView mIvGP; // 头像
+    private TextView mTvGN; // 名字
+    private TextView mTvGP; // 职位
+    private TextView mTvGH; // 医院
+
     private TextView mTvIntro; // 会议简介
-    private ImageView mIvCollection; // navBar的收藏
-
-    @CollectType
-    private int mCollectType; // 收藏的标志
-
-    @EpnType
-    private int mEpnType; // 需要还是奖励
-    private int mEpn; // 象数
-
-    private boolean mNoPPT;
 
     // FIXME: View TextView ImageView -> 自定义view
     // 底部按钮
@@ -147,12 +136,28 @@ public class MeetingDetailsActivity extends BaseActivity {
     private ImageView mIvSign;
 
     private TextView mTvSee; // 会议模块
+
+    @CollectType
+    private int mCollectType; // 收藏的标志
+
+    @EpnType
+    private int mEpnType; // 需要还是奖励
+
+    private int mEpn; // 象数
+    private boolean mNoPPT; // 是否有PPT
+    private String mMeetId; // 会议Id
+    private String mLatitude; // 经度
+    private String mLongitude; // 维度
+    private MeetDetail mMeetDetail; // 会议详情信息
+    private OnLocationNotify mObserver; // 定位通知
+
+    private MapList<Integer, String> mMapList;
     private List<FileData> mMaterials;
+
+    private LocationDialog mLocationDialog; // 定位失败
     private HintDialogMain mPayEpnDialog; // 支付象数
     private HintDialogMain mNoEpnDialog; // 象数不足
     private HintDialogMain mAttentionDialog; // 关注
-
-    private MeetDetail mMeetDetail;
 
     /**
      * functionId,模块功能ID
@@ -165,11 +170,11 @@ public class MeetingDetailsActivity extends BaseActivity {
             FunctionType.sign,
     })
     private @interface FunctionType {
-        int ppt = 1;//微课
-        int video = 2;//视频
-        int exam = 3;//考试
-        int que = 4;//问卷
-        int sign = 5;//签到
+        int ppt = 1; // 微课
+        int video = 2; // 视频
+        int exam = 3; // 考试
+        int que = 4; // 问卷
+        int sign = 5; // 签到
     }
 
     @IntDef({
@@ -190,7 +195,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         int award = 1; // 奖励象数
     }
 
-    private boolean needPay(@EpnType int type){
+    private boolean needPay(@EpnType int type) {
         if (type == EpnType.need) {
             return true;
         } else {
@@ -207,29 +212,29 @@ public class MeetingDetailsActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_meeting_details;
+        return R.layout.activity_meeting_detail;
     }
 
     @Override
     public void initData() {
-        mNoPPT = false;
+        mNoPPT = false; // 默认没有PPT
         mMeetId = getIntent().getStringExtra(Extra.KData);
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "会议详情", this);
+        Util.addBackIcon(bar, getString(R.string.meeting_detail), this);
         ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
             switch (mCollectType) {
                 case CollectType.yes:
                     mIvCollection.setSelected(false);
                     mCollectType = CollectType.no;
-                    showToast("取消收藏成功");
+                    showToast(R.string.cancel_collect);
                     break;
                 case CollectType.no:
                     mIvCollection.setSelected(true);
                     mCollectType = CollectType.yes;
-                    showToast("收藏成功");
+                    showToast(R.string.collect);
                     break;
             }
             exeNetworkReq(KIdCollection, NetFactory.collectMeeting(mMeetId, mCollectType));
@@ -245,19 +250,15 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvPlay = findView(R.id.meeting_detail_iv_play);
         mTvDate = findView(R.id.meeting_detail_tv_date);
         mTvDuration = findView(R.id.meeting_detail_tv_time);
-        mIvNumber = findView(R.id.meeting_detail_iv_number);
-        mTvAward = findView(R.id.meeting_detail_tv_award);
+
+        // 会议相关
         mTvTitle = findView(R.id.meeting_detail_tv_title);
+        mTvEpn = findView(R.id.meeting_detail_tv_award);
         mTvSection = findView(R.id.meeting_detail_tv_section);
+
+        // 单位号相关
+        mIvNumber = findView(R.id.meeting_detail_iv_number);
         mTvUnitNum = findView(R.id.meeting_detail_tv_unit_num);
-
-        // 嘉宾相关
-        mTvGN = findView(R.id.meeting_tv_guest_name);
-        mTvGP = findView(R.id.meeting_tv_guest_post);
-        mTvGH = findView(R.id.meeting_tv_guest_hospital);
-        mIvGP = findView(R.id.meeting_iv_guest_portrait);
-
-        mTvIntro = findView(R.id.meeting_detail_tv_intro);
 
         //文件
         mLayoutData = findView(R.id.meeting_detail_layout_data);
@@ -266,6 +267,14 @@ public class MeetingDetailsActivity extends BaseActivity {
         mIvFileArrow = findView(R.id.meeting_detail_iv_data);
         mDividerFile = findView(R.id.meeting_detail_view_divider);
         mDivider = findView(R.id.meeting_detail_divider);
+
+        // 嘉宾相关
+        mTvGN = findView(R.id.meeting_tv_guest_name);
+        mTvGP = findView(R.id.meeting_tv_guest_post);
+        mTvGH = findView(R.id.meeting_tv_guest_hospital);
+        mIvGP = findView(R.id.meeting_iv_guest_portrait);
+
+        mTvIntro = findView(R.id.meeting_detail_tv_intro);
 
         // 模块
         mLayoutExam = findView(R.id.meeting_detail_layout_exam);
@@ -300,27 +309,27 @@ public class MeetingDetailsActivity extends BaseActivity {
             if (mMeetDetail.getBoolean(TMeetDetail.attendAble)) {
                 // 可以参加
                 if (needPay(mEpnType) && mEpn > 0 && !mMeetDetail.getBoolean(TMeetDetail.requiredXs)) {
-                    // !mEpnType 需要象数
+                    // needPay 需要象数
                     // mEpn > 0 不是免费
                     // requiredXs false 没支付过
-                    int surplus = Profile.inst().getInt(TProfile.credits);
+                    int surplus = Profile.inst().getInt(TProfile.credits); // 剩余象数
                     if (surplus < mEpn) {
                         // 象数不足
                         mNoEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
                         mNoEpnDialog.setHint("象数不足");
-                        mNoEpnDialog.addButton("知道了", "#0682e6", v1 -> mNoEpnDialog.dismiss());
+                        mNoEpnDialog.addButton("知道了", v1 -> mNoEpnDialog.dismiss());
                         mNoEpnDialog.show();
                     } else {
                         mPayEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
                         mPayEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
-                        mPayEpnDialog.addButton("确认支付", "#0682e6", v1 -> {
+                        mPayEpnDialog.addButton("确认支付", v1 -> {
                             mMeetDetail.put(TMeetDetail.requiredXs, true); // 支付象数
-                            Profile.inst().put(TProfile.credits,surplus - mEpn);
+                            Profile.inst().put(TProfile.credits, surplus - mEpn);
                             notify(NotifyType.profile_change);
                             mPayEpnDialog.dismiss();
                             toModule(v);
                         });
-                        mPayEpnDialog.addButton("取消", "#666666", v1 -> mPayEpnDialog.dismiss());
+                        mPayEpnDialog.addButton(getString(R.string.cancel), "#666666", v1 -> mPayEpnDialog.dismiss());
                         mPayEpnDialog.show();
                     }
                 } else {
@@ -330,13 +339,11 @@ public class MeetingDetailsActivity extends BaseActivity {
                 showToast(mMeetDetail.getString(TMeetDetail.reason));
             }
         } else {
-            if (mAttentionDialog == null) {
-                mAttentionDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                mAttentionDialog.setHint("请先关注会议");
-                mAttentionDialog.addButton("确认关注", "#0682e6", v1 ->
-                        exeNetworkReq(KIdAttention, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1)));
-                mAttentionDialog.addButton("取消", "#666666", v1 -> mAttentionDialog.dismiss());
-            }
+            mAttentionDialog = new HintDialogMain(MeetingDetailsActivity.this);
+            mAttentionDialog.setHint("请先关注会议");
+            mAttentionDialog.addButton("确认关注", v1 ->
+                    exeNetworkReq(KIdAttention, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1)));
+            mAttentionDialog.addButton(getString(R.string.cancel), "#666666", v1 -> mAttentionDialog.dismiss());
             mAttentionDialog.show();
         }
     }
@@ -393,7 +400,7 @@ public class MeetingDetailsActivity extends BaseActivity {
      */
     private void getExamInfo() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdExam, NetFactory.toExam(mMeetId,  mMapList.getByKey(FunctionType.exam)));
+        exeNetworkReq(KIdExam, NetFactory.toExam(mMeetId, mMapList.getByKey(FunctionType.exam)));
     }
 
     /**
@@ -429,9 +436,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 runOnUIThread(() -> stopRefresh());
                 //定位失败
                 YSLog.d(TAG, "Gps:失败");
-                if (mLocationDialog == null) {
-                    initDialog();
-                }
+                initDialog();
                 mLocationDialog.show();
             }
             LocationNotifier.inst().remove(mObserver);
@@ -598,12 +603,12 @@ public class MeetingDetailsActivity extends BaseActivity {
         mEpn = info.getInt(TMeetDetail.xsCredits);
         // 不奖励也不支付未免费, 隐藏
         if (mEpn == 0) {
-            goneView(mTvAward);
+            goneView(mTvEpn);
         } else {
             if (needPay(mEpnType)) {
-                mTvAward.setText("本次会议需支付象数 : " + mEpn + "个");
+                mTvEpn.setText("本次会议需支付象数 : " + mEpn + "个");
             } else {
-                mTvAward.setText("本次会议奖励象数 : " + mEpn + "个,还有" + info.getString(TMeetDetail.remainAward) + "人可领取");
+                mTvEpn.setText("本次会议奖励象数 : " + mEpn + "个,还有" + info.getString(TMeetDetail.remainAward) + "人可领取");
             }
         }
         mTvSection.setText(info.getString(TMeetDetail.meetType));
@@ -620,13 +625,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         if (fileNum > 3) {
             showView(mIvFileArrow);
             mTvFileNum.setText("查看全部" + fileNum + "个文件");
-            mLayoutData.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    FileDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType);
-                }
-            });
+            mLayoutData.setOnClickListener(v -> FileDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType));
         }
         mMaterials = info.getList(TMeetDetail.materials);
         if (mMaterials == null || mMaterials.size() == 0) {
@@ -729,9 +728,7 @@ public class MeetingDetailsActivity extends BaseActivity {
             break;
             case PermissionResult.denied:
             case PermissionResult.never_ask: {
-                if (mLocationDialog == null) {
-                    initDialog();
-                }
+                initDialog();
                 mLocationDialog.show();
             }
             break;
@@ -776,7 +773,6 @@ public class MeetingDetailsActivity extends BaseActivity {
             }
             mLocationDialog = null;
         }
-
         if (mPayEpnDialog != null) {
             if (mPayEpnDialog.isShowing()) {
                 mPayEpnDialog.dismiss();

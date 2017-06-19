@@ -126,12 +126,12 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_comment_tv_send:
-                String message = toJson(mEtSend.getText().toString().trim());
+                String message = mEtSend.getText().toString().trim();
                 if (TextUtil.isEmpty(message)) {
                     showToast("请输入评论内容");
                     return;
                 }
-                mWebSocket.send(message);
+                mWebSocket.send(toJson(message));
                 break;
         }
     }

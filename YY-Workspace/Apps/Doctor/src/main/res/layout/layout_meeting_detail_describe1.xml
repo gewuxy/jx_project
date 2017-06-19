@@ -7,7 +7,7 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="@dimen/margin"
-    tools:showIn="@layout/activity_meeting_details">
+    tools:showIn="@layout/activity_meeting_detail">
 
     <TextView
         android:id="@+id/meeting_detail_tv_title"

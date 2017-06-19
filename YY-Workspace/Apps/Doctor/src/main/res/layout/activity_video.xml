@@ -1,77 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:orientation="vertical">
 
     <View
-        android:id="@+id/meeting_ppt_view"
+        android:id="@+id/video_view_nav_bar"
         style="@style/v"
         android:layout_height="44dp"/>
 
-
     <RelativeLayout
-        android:id="@+id/video_layout_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/meeting_ppt_view">
-        <LinearLayout
-            android:id="@+id/video_loading"
-            android:layout_centerInParent="true"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/video_layout_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:layout_below="@id/meeting_ppt_view">
+
+            <LinearLayout
+                android:id="@+id/video_layout_load"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/video_layout_function"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#33000000"
-        android:gravity="center_vertical"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:layout_alignBottom="@id/video_layout_video">
+        <LinearLayout
+            android:id="@+id/video_layout_function"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/video_layout_video"
+            android:background="#33000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/video_iv_control"
-            android:layout_width="32dp"
-            android:layout_height="36dp"
-            android:padding="10dp"
-            android:layout_marginLeft="12dp"
-            android:src="@drawable/meet_play_stop_selector"/>
+            <ImageView
+                android:id="@+id/video_iv_control"
+                android:layout_width="32dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="12dp"
+                android:padding="10dp"
+                android:src="@drawable/meet_play_stop_selector"/>
 
-        <TextView
-            android:id="@+id/video_tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:text="00:00"
-            android:textColor="#99ffffff"
-            android:textSize="14dp"/>
+            <TextView
+                android:id="@+id/video_tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="00:00"
+                android:textColor="#99ffffff"
+                android:textSize="14dp"/>
 
-        <SeekBar
-            android:id="@+id/meeting_ppt_sb_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="22dp"
-            android:max="100"
-            android:layout_weight="1"
-            android:maxHeight="3dp"
-            android:minHeight="3dp"
-            android:progressDrawable="@drawable/meeting_ppt_seekbar_progress"
-            android:thumb="@mipmap/meeting_ppt_ic_progress"
-            android:thumbOffset="0dp"/>
-    </LinearLayout>
+            <SeekBar
+                android:id="@+id/video_sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="22dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:maxHeight="3dp"
+                android:minHeight="3dp"
+                android:progressDrawable="@drawable/meeting_ppt_seekbar_progress"
+                android:thumb="@mipmap/meeting_ppt_ic_progress"
+                android:thumbOffset="0dp"/>
+        </LinearLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -48,13 +48,7 @@ public class ThomsonActivity extends BaseActivity {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, mName, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_home, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(MainActivity.class);
-            }
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_home, v -> startActivity(MainActivity.class));
     }
 
     @Override

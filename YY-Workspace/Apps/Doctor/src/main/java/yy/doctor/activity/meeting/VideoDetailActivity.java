@@ -30,11 +30,13 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/24
  */
-
 public class VideoDetailActivity extends BaseSRListActivity<Detail, VideoDetailAdapter> implements OnAdapterClickListener {
+
     private String mPreId;
     private List<Detail> mDetails;
-    private TextView mBarTvRight;
+    private TextView mBarTvRight; // 右边的文本
+    private long mStudyTime; // 学习时间
+    private int mClickPosition; // 点击第几个
 
     public static void nav(Context context, String preId) {
         Intent i = new Intent(context, VideoDetailActivity.class)
@@ -81,12 +83,12 @@ public class VideoDetailActivity extends BaseSRListActivity<Detail, VideoDetailA
             }
             addAll(mDetails);
 
-            long time = 0;
+            mStudyTime = 0;
             for (Detail detail : mDetails) {
-                time += detail.getLong(TDetail.duration);
+                mStudyTime += detail.getLong(TDetail.duration);
             }
-            if (time > 0) {
-                mBarTvRight.setText(getString(R.string.video_studied) + VideoDetailAdapter.format(time));
+            if (mStudyTime > 0) {
+                mBarTvRight.setText(getString(R.string.video_studied) + VideoDetailAdapter.format(mStudyTime));
             }
         }
     }
@@ -99,6 +101,22 @@ public class VideoDetailActivity extends BaseSRListActivity<Detail, VideoDetailA
 
     @Override
     public void onAdapterClick(int position, View v) {
-        VideoActivity.nav(VideoDetailActivity.this, getItem(position).getString(TDetail.url));
+        VideoActivity.nav(VideoDetailActivity.this,
+                mDetails.get(position));
+        mClickPosition = position;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            long duration = data.getLongExtra(Extra.KData, 0);
+            mStudyTime += duration;
+            if (mStudyTime > 0) {
+                mBarTvRight.setText(getString(R.string.video_studied) + VideoDetailAdapter.format(mStudyTime));
+            }
+            getItem(mClickPosition).put(TDetail.duration, duration + getItem(mClickPosition).getLong(TDetail.duration));
+            invalidate();
+        }
     }
 }

@@ -162,11 +162,15 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
 
     @Override
     protected void onVisible() {
+        super.onVisible();
+
         start();
     }
 
     @Override
     protected void onInvisible() {
+        super.onInvisible();
+
         stop();
     }
 

@@ -100,14 +100,16 @@
     <string name="exam_submit">请确认提交答卷</string>
     <string name="exam_finish">距离考试结束还有</string>
     <string name="exam_xs_close">s后自动关闭</string>
-    <string name="exam_submit_sure">确认提交</string>
-    <string name="exam_continue">继续</string>
     <string name="exam_host">主办方:</string>
 
+    <string name="meeting_detail">会议详情</string>
+    <string name="cancel_collect">取消收藏成功</string>
+    <string name="collect">收藏成功</string>
     <string name="que">问卷</string>
     <string name="submit">提交</string>
-    <string name="video">视频</string>
+    <string name="enough">象数不足</string>
 
+    <string name="video">视频</string>
     <string name="video_studied">已学习</string>
 
     <string name="minute">分钟</string>

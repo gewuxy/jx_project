@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="62dp"
     android:gravity="center_vertical"
-    tools:showIn="@layout/activity_meeting_details">
+    tools:showIn="@layout/activity_meeting_detail">
 
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/meeting_detail_iv_number"

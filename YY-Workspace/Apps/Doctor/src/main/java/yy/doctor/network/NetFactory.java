@@ -703,6 +703,13 @@ public class NetFactory {
     }
 
     /**
+     * 微课学习提交
+     */
+    public static SubmitBuilder submitVideo() {
+        return new SubmitBuilder(UrlMeet.KMeetingVideoRecord);
+    }
+
+    /**
      * 签到
      */
     public static SignBuilder sign() {

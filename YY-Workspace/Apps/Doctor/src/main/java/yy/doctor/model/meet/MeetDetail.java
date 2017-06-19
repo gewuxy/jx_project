@@ -19,7 +19,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         stored, // 是否收藏
         attention, // 是否关注了
 
-        coverUrl, //
+        coverUrl, // 缩略图
         startTime, // 开始时间
         endTime, // 结束时间
 
@@ -31,7 +31,6 @@ public class MeetDetail extends EVal<TMeetDetail> {
         organizer, // 会议主办方
 
         lecturer, // 主讲者
-        lecturerDepart, // 科室
         lecturerHead, // 头像
         lecturerHos, // 医院
         lecturerTitle, // 职责
@@ -39,8 +38,11 @@ public class MeetDetail extends EVal<TMeetDetail> {
         eduCredits, // 是否需要象数，0需要,1奖励
         remainAward, // 剩余奖励人数
         requiredXs, // 是否支付过象数
-        attendAble, // 能否参加会议
+        attended, // 参加过(奖励过和支付过)
         xsCredits, // 象数
+
+        attendAble, // 能否参加会议
+        reason, // 不能参加会议的理由
 
         materialCount,  //  资料数
 
@@ -50,7 +52,6 @@ public class MeetDetail extends EVal<TMeetDetail> {
         @BindList(Module.class)
         modules, // 会议包含的模块
 
-        reason, // 不能参加会议的理由
         introduction, // 简介
     }
 }

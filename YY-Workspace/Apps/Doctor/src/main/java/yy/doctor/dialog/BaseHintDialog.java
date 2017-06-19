@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
@@ -104,7 +105,7 @@ public class BaseHintDialog extends BaseDialog {
      * @param l
      * @return
      */
-    public void addButton(String text, String colorString, View.OnClickListener l){
+    public void addButton(String text, String colorString, OnClickListener l){
         TextView tv = new TextView(getContext());
         tv.setBackgroundResource(R.drawable.tv_selector_white);
         tv.setGravity(Gravity.CENTER);
@@ -113,5 +114,9 @@ public class BaseHintDialog extends BaseDialog {
         tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         tv.setOnClickListener(l);
         addButtons(tv);
+    }
+
+    public void addButton(String text, OnClickListener l) {
+        addButton(text, "#0682e6", l);
     }
 }

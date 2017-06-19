@@ -38,7 +38,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @since : 2017/4/28
  */
 public abstract class BaseTopicActivity extends BaseVPActivity {
-    // FIXME: 2017/6/15 情况界面
+
     private static final int KDuration = 300; //动画时长
     private static final int KVpSize = 3;
 
@@ -283,11 +283,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         mSubDialog = new HintDialogMain(BaseTopicActivity.this);
         mSubDialog.setHint(setDialogHint(noFinish));
 
-        mSubDialog.addButton("确定", "#0682e6", v -> {
+        mSubDialog.addButton("确定", v -> {
             submit();
             mSubDialog.dismiss();
         });
-        mSubDialog.addButton("取消", "#666666", v -> mSubDialog.dismiss());
+        mSubDialog.addButton(getString(R.string.cancel), "#666666", v -> mSubDialog.dismiss());
         mSubDialog.show();
     }
 
@@ -314,11 +314,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     private void exit() {
         mExitDialog = new HintDialogMain(BaseTopicActivity.this);
         mExitDialog.setHint("确定退出?");
-        mExitDialog.addButton("确定", "#0682e6", v1 -> {
+        mExitDialog.addButton("确定", v1 -> {
             finish();
             mExitDialog.dismiss();
         });
-        mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
+        mExitDialog.addButton(getString(R.string.cancel), "#666666", v1 -> mExitDialog.dismiss());
         mExitDialog.show();
     }
 

@@ -26,6 +26,7 @@ public class CommonServ extends ServiceEx {
 
     private static final int KReqIdLogout = 1;
     private static final int KReqIdJPushRegisterId = 2;
+    private static final int KReqIdVideo = 2;
 
     private String mJPushRegisterId;
 

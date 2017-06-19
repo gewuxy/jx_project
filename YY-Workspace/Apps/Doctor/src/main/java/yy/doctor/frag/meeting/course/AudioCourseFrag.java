@@ -12,6 +12,7 @@ public class AudioCourseFrag extends PicAudioCourseFrag {
     @Override
     public void setViews() {
         setAudio();
+        mLayout.setOnRootTouchListener(this);
         setBackgroundColor(Color.TRANSPARENT);
     }
 }

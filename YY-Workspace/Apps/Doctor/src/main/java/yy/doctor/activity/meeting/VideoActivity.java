@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -25,12 +24,14 @@ import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import lib.jg.jpush.SpJPush;
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
@@ -38,6 +39,9 @@ import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.meet.video.Detail;
+import yy.doctor.model.meet.video.Detail.TDetail;
+import yy.doctor.serv.CommonServ;
 import yy.doctor.util.Util;
 
 /**
@@ -58,32 +62,35 @@ public class VideoActivity extends BaseActivity implements
     private static final int KVanishTime = 3; // 自动隐藏功能栏时间
 
     private long mAllTime; // 视频总时长(s)
+    private long mDuration; // 本次学习时长
+    private long mLastDuration; // 之前学习时长
     private boolean mIsPortrait; // 屏幕方向
     private String mUriString; // 播放地址
+    private Detail mDetail;
     private CountDown mCountDown; // 倒计时
 
-    private View mView; // 占NavBar的view
-    private View mFunction; // 功能栏
-    private View mLayout; // 整个界面
-    private View mLoading; // 加载中的视图
+    private View mViewAll; // 整个界面
+    private View mViewLoad; // 加载中的视图
+    private View mViewNavBar; // 占NavBar的view
+    private View mViewFunction; // 功能栏
     private SeekBar mSbProgress; // 进度条
     private TextView mTvTime; // 显示播放时间
     private ImageView mIvControl; // 控制播放暂停
     private NetVideoView mVideo; // 播放控件
     private RelativeLayout mLayoutVideo; // 播放容器
 
-    public static void nav(Context context, String url) {
+    public static void nav(Context context, Detail detail) {
         Intent i = new Intent(context, VideoActivity.class)
-                .putExtra(Extra.KData, url);
-        LaunchUtil.startActivity(context, i);
+                .putExtra(Extra.KData, detail);
+        LaunchUtil.startActivityForResult(context, i, 0);
     }
 
     @Override
     public void initData() {
-        mUriString = getIntent().getStringExtra(Extra.KData);
-        YSLog.d("qwer", mUriString);
-        YSLog.d("qwer", "uri = " + Uri.parse(mUriString));
-        mUriString = "http://oa.gyfyy.com:81/kj/" + Uri.encode("微创胸外科手术的展望（15：36）.mp4");
+        mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
+        mUriString = TextUtil.toUtf8(mDetail.getString(TDetail.url));
+        mLastDuration = mDetail.getLong(TDetail.duration);
+        mDuration = 0;
     }
 
     @NonNull
@@ -98,10 +105,68 @@ public class VideoActivity extends BaseActivity implements
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             if (mIsPortrait) {
                 goneView(mLayoutVideo);
-                goneView(mFunction);
+                goneView(mViewFunction);
                 finish();
             } else {
                 toPortrait();
+            }
+        });
+    }
+
+    @Override
+    protected TNavBarState getNavBarState() {
+        return TNavBarState.above;
+    }
+
+    @Override
+    public void findViews() {
+        mTvTime = findView(R.id.video_tv_time);
+        mIvControl = findView(R.id.video_iv_control);
+        mSbProgress = findView(R.id.video_sb);
+
+        mViewAll = findView(R.id.video_layout);
+        mViewLoad = findView(R.id.video_layout_load);
+        mLayoutVideo = findView(R.id.video_layout_video);
+        mViewNavBar = findView(R.id.video_view_nav_bar);
+        mViewFunction = findView(R.id.video_layout_function);
+    }
+
+    @Override
+    public void setViews() {
+        setOnClickListener(mViewAll);
+        setOnClickListener(mIvControl);
+
+        touch(mViewFunction, false);
+        touch(mIvControl, false);
+        touch(mTvTime, false);
+        touch(mSbProgress, true);
+
+        // 添加VideoView
+        getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+
+            @Override
+            public boolean onPreDraw() {
+                runOnUIThread(() -> {
+                    // 初始化NetVideoView
+                    mVideo = new NetVideoView(VideoActivity.this);
+                    mVideo.setOnBufferingUpdateListener(VideoActivity.this);
+                    mVideo.setOnPreparedListener(VideoActivity.this);
+                    mVideo.setOnProListener(VideoActivity.this);
+                    mVideo.setOnErrorListener(VideoActivity.this);
+                    mVideo.setOnCompletionListener(VideoActivity.this);
+                    mVideo.setBufferingIndicator(mViewLoad);
+                    mVideo.setVideoPath(mUriString);
+                    showView(mViewLoad);
+                    showView(mViewFunction);
+                    countDown();
+
+                    mIsPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+                    int videoH = mIsPortrait ? fitDp(KVideoHDp) : LayoutUtil.MATCH_PARENT; // 区分横竖屏高度
+                    mLayoutVideo.addView(mVideo, 0, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, videoH));
+                }, 300);
+
+                removeOnPreDrawListener(this);
+                return true;
             }
         });
     }
@@ -117,93 +182,12 @@ public class VideoActivity extends BaseActivity implements
                 .subscribe(Runnable::run);
     }
 
-    @Override
-    protected TNavBarState getNavBarState() {
-        return TNavBarState.above;
-    }
-
-    @Override
-    public void findViews() {
-        mView = findView(R.id.meeting_ppt_view);
-        mLayout = findView(R.id.video_layout);
-        mLayoutVideo = findView(R.id.video_layout_video);
-        mFunction = findView(R.id.video_layout_function);
-        mIvControl = findView(R.id.video_iv_control);
-        mTvTime = findView(R.id.video_tv_time);
-        mSbProgress = findView(R.id.meeting_ppt_sb_progress);
-        mLoading = findView(R.id.video_loading);
-    }
-
-    @Override
-    public void setViews() {
-        setOnClickListener(mLayout);
-        setOnClickListener(mIvControl);
-
-        touch(mFunction);
-        touch(mIvControl);
-        touch(mTvTime);
-
-        mSbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mTvTime.setText(Util.formatTime((long) (mSbProgress.getProgress() / 100.0 * mAllTime), DateUnit.minute));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                if (mCountDown != null) {
-                    mCountDown.stop();
-                }
-                mVideo.pause();
-                mVideo.recycle();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                long playTime = (long) (mSbProgress.getProgress() / 100.0 * mAllTime);
-                mVideo.prepared(mAllTime - playTime);
-                mVideo.seekTo(playTime * 1000);
-                mVideo.start();
-                mIvControl.setSelected(false);
-                countDown();
-            }
-        });
-
-        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-            @Override
-            public boolean onPreDraw() {
-                runOnUIThread(() -> {
-                    // 初始化NetVideoView
-                    mVideo = new NetVideoView(VideoActivity.this);
-                    mVideo.setOnBufferingUpdateListener(VideoActivity.this);
-                    mVideo.setOnPreparedListener(VideoActivity.this);
-                    mVideo.setOnProListener(VideoActivity.this);
-                    mVideo.setOnErrorListener(VideoActivity.this);
-                    mVideo.setOnCompletionListener(VideoActivity.this);
-                    mVideo.setBufferingIndicator(mLoading);
-                    mVideo.setVideoPath(mUriString);
-                    showView(mLoading);
-                    showView(mFunction);
-                    countDown();
-
-                    mIsPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-                    int videoH = mIsPortrait ? fitDp(KVideoHDp) : LayoutUtil.MATCH_PARENT; // 区分横竖屏高度
-                    mLayoutVideo.addView(mVideo, 0, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, videoH));
-                }, 300);
-
-                removeOnPreDrawListener(this);
-                return true;
-            }
-        });
-    }
-
     /**
      * 控件按下取消倒数消失
      *
      * @param view
      */
-    private void touch(View view) {
+    private void touch(View view, boolean dispose) {
         view.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -217,7 +201,7 @@ public class VideoActivity extends BaseActivity implements
                     countDown();
                     break;
             }
-            return false;
+            return dispose;
         });
     }
 
@@ -233,18 +217,18 @@ public class VideoActivity extends BaseActivity implements
     }
 
     @Override
-    public void onCountDownErr() {
-
-    }
-
-    @Override
     public void onCountDown(long remainCount) {
+        mDuration++;
         if (remainCount == 0) {
             if (!mIsPortrait) {
                 goneView(getNavBar());
             }
-            goneView(mFunction);
+            goneView(mViewFunction);
         }
+    }
+
+    @Override
+    public void onCountDownErr() {
     }
 
     @Override
@@ -258,15 +242,16 @@ public class VideoActivity extends BaseActivity implements
                 mIvControl.setSelected(!mIvControl.isSelected());
             }
             break;
+
             case R.id.video_layout: {
-                if (mFunction.getVisibility() == View.VISIBLE) {
-                    goneView(mFunction);
+                if (mViewFunction.getVisibility() == View.VISIBLE) {
+                    goneView(mViewFunction);
                     if (!mIsPortrait) { // 横屏
                         goneView(getNavBar());
                     }
                     mCountDown.stop();
                 } else {
-                    showView(mFunction);
+                    showView(mViewFunction);
                     showView(getNavBar());
                     countDown();
                 }
@@ -278,21 +263,41 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) { // 竖屏
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // 竖屏
             mIsPortrait = true;
             mVideo.rotatePortrait(fitDp(KVideoHDp));
 
-            showView(mView);
+            showView(mViewNavBar);
             showView(getNavBar());
-        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) { // 横屏
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // 横屏
             mIsPortrait = false;
             mVideo.rotateLandscape();
 
-            goneView(mView);
-            if (mFunction.getVisibility() == View.GONE) {
+            goneView(mViewNavBar);
+            if (mViewFunction.getVisibility() == View.GONE) {
                 goneView(getNavBar());
             }
         }
+    }
+
+    @Override
+    public void onBufferingUpdate(PLMediaPlayer plMediaPlayer, int i) {
+        mSbProgress.setSecondaryProgress(i);
+    }
+
+    @Override
+    public void onPrepared(PLMediaPlayer plMediaPlayer) {
+        // 总时长
+        mAllTime = plMediaPlayer.getDuration() / 1000;
+        long start = mLastDuration % mAllTime; // 开始时间(s)
+        long residue = mAllTime - start; // 剩余时间(s)
+        mSbProgress.setProgress((int) (start * 100.0 / mAllTime));
+        mTvTime.setText(Util.formatTime(start, DateUnit.minute));
+        mVideo.seekTo(start * 1000);
+        // 开始倒计时
+        mVideo.prepared(residue);
     }
 
     @Override
@@ -300,18 +305,6 @@ public class VideoActivity extends BaseActivity implements
         int percent = (int) (progress * 100.0 / mAllTime);
         mSbProgress.setProgress(percent);
         mTvTime.setText(Util.formatTime(progress, DateUnit.minute));
-    }
-
-    @Override
-    public void onPrepared(PLMediaPlayer plMediaPlayer) {
-        // 开始倒计时,总时长
-        mAllTime = plMediaPlayer.getDuration() / 1000;
-        mVideo.prepared(mAllTime);
-    }
-
-    @Override
-    public void onBufferingUpdate(PLMediaPlayer plMediaPlayer, int i) {
-        mSbProgress.setSecondaryProgress(i);
     }
 
     @Override
@@ -349,11 +342,20 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void onBackPressed() {
         goneView(mLayoutVideo);
-        goneView(mFunction);
+        goneView(mViewFunction);
         if (!mIsPortrait) {
             toPortrait();
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void finish() {
+        setResult(RESULT_OK, new Intent().putExtra(Extra.KData, mDuration));
+        Intent intent = new Intent(this, CommonServ.class);
+        // FIXME: 2017/6/16
+        startService(intent);
+        super.finish();
     }
 
     @Override
