@@ -123,6 +123,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (id == KReqIdAttention) {
             return true;
         }
+
         ListResult result = null;
         if (id == KReqIdBanner) {
             result = evs(r.getText(), Banner.class);
@@ -162,7 +163,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         ListResult r = (ListResult) result;
         if (!r.isSucceed()) {
             YSLog.d(TAG, " network error id = " + id);
-            if ( !mIsNetworkError) {
+            if (!mIsNetworkError) {
                 onNetworkError(id, new NetError(id, r.getError()));
                 YSLog.d(TAG, " error id = " + id);
                 mIsNetworkError = true;
@@ -257,7 +258,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         } else {
             return false;
         }
-
     }
 
 }

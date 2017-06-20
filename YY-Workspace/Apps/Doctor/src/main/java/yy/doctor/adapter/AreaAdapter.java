@@ -24,8 +24,9 @@ public class AreaAdapter extends AdapterEx<Area, ProvinceCityAreaVH> {
     @Override
     protected void refreshView(int position, ProvinceCityAreaVH holder) {
 
+        Area item = getItem(position);
         ViewUtil.goneView(holder.getIvArrow());
-        holder.getTv().setText(getItem(position).getString(TArea.name));
+        holder.getTv().setText(item.getString(TArea.name));
         setOnViewClickListener(position, holder.getLayout());
     }
 

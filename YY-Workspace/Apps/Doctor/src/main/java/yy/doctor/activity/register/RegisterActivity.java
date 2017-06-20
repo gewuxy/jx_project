@@ -166,12 +166,12 @@ public class RegisterActivity extends BaseFormActivity {
             }
         }
 
-        if (!check()) {
-            return;
-        }
         //检查邮箱
         if (!RegexUtil.isEmail(mUserName)) {
             showToast("请输入正确邮箱");
+            return;
+        }
+        if (!check()) {
             return;
         }
         //检查姓名 是否有特殊符号

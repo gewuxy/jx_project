@@ -522,7 +522,7 @@ public class ProfileActivity extends BaseFormActivity {
                 break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    showToast(ResLoader.getString(R.string.user_photo_permission));
+                    showToast(getString(R.string.user_photo_permission));
                 }
                 break;
             }

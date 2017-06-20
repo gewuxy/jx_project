@@ -108,8 +108,6 @@ public class MainActivity extends BaseVPActivity {
         setCurrentItem(mCurrPage);
 
         if (BuildConfig.TEST) {
-            exeNetworkReq(KReqIdProfile, NetFactory.profile());
-            exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
             // 判断是否已经绑定极光推送
             YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
@@ -121,14 +119,6 @@ public class MainActivity extends BaseVPActivity {
                 YSLog.d(TAG, "启动绑定极光服务");
             }
         } else {
-            // 静默更新用户数据
-            if (SpUser.inst().needUpdateProfile()) {
-                exeNetworkReq(KReqIdProfile, NetFactory.profile());
-            }
-            //判断是否需要检查版本
-            if (SpUser.inst().needUpdateApp()) {
-                exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
-            }
             // 判断是否已经绑定极光推送
             YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
@@ -141,6 +131,20 @@ public class MainActivity extends BaseVPActivity {
             }
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 静默更新用户数据
+        if (SpUser.inst().needUpdateProfile()) {
+            exeNetworkReq(KReqIdProfile, NetFactory.profile());
+        }
+        //判断是否需要检查版本
+        if (SpUser.inst().needUpdateApp()) {
+            exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
+        }
     }
 
     private void addIndicators() {

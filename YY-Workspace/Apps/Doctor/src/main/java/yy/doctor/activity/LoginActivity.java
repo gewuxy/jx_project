@@ -9,6 +9,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
@@ -79,16 +80,16 @@ public class LoginActivity extends BaseActivity {
 
                 String strName = mEtName.getText().toString();
                 String strPwd = mEtPwd.getText().toString();
-                if (strName.isEmpty()) {
+                if (TextUtil.isEmpty(strName)) {
                     showToast("请输入用户名");
                     return;
                 }
-                if (strPwd.isEmpty()) {
+                if (TextUtil.isEmpty(strPwd)) {
                     showToast("请输入密码");
                     return;
                 }
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(0, NetFactory.login(strName, strPwd));
+                exeNetworkReq(NetFactory.login(strName, strPwd));
             }
             break;
             case R.id.login_tv_register: {

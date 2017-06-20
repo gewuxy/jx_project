@@ -20,4 +20,5 @@ public interface IHome {
 
     @HomeType
     int getType();
+
 }
