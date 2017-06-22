@@ -41,13 +41,14 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     @Override
     public void initData() {
         super.initData();
-        mProvince = "广东";//默认
-        mCity = "广州";
+        //默认
+        mProvince = getString(R.string.guang_dong);
+        mCity = getString(R.string.guang_zhou);
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "医院", this);
+        Util.addBackIcon(bar, R.string.hospital, this);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(0, NetFactory.hospital("广州市"));
+        exeNetworkReq(NetFactory.hospital(getString(R.string.guang_zhou_shi)));
     }
 
     @Override
@@ -115,8 +116,8 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
                 mCity = data.getStringExtra(Extra.KCity);
                 str = mProvince + " " + mCity;
 
-                mTvLocation.setText(getResources().getString(R.string.hospital_location) + str);
-                exeNetworkReq(0, NetFactory.hospital(mCity));
+                mTvLocation.setText(getString(R.string.hospital_location) + str);
+                exeNetworkReq(NetFactory.hospital(mCity));
             }
         }
     }

@@ -17,7 +17,6 @@ public class City extends EVal<TCity> {
         preId,
         regionType,
         spell,
-
     }
 
 }

@@ -65,7 +65,7 @@ public class RegisterActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "注册", this);
+        Util.addBackIcon(bar, R.string.register, this);
     }
 
     @Override
@@ -75,32 +75,32 @@ public class RegisterActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.name)
-                .hint("真实姓名")
+                .hint(R.string.real_name)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register_pwd)
                 .related(RelatedId.pwd)
-                .hint("密码")
+                .hint(R.string.pwd)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register_pwd)
                 .related(RelatedId.marksure_pwd)
-                .hint("确认密码")
+                .hint(R.string.confirm_pwd)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.text_register_intent)
                 .related(RelatedId.location)
-                .hint("省市")
+                .hint(R.string.province_city)
                 .intent(new Intent(this, ProvinceActivity.class))
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.hospital)
-                .hint("医院名称")
+                .hint(R.string.hospital_name)
                 .drawable(R.mipmap.ic_more)
                 .build());
     }
@@ -168,7 +168,7 @@ public class RegisterActivity extends BaseFormActivity {
 
         //检查邮箱
         if (!RegexUtil.isEmail(mUserName)) {
-            showToast("请输入正确邮箱");
+            showToast(R.string.input_right_email);
             return;
         }
         if (!check()) {
@@ -176,16 +176,16 @@ public class RegisterActivity extends BaseFormActivity {
         }
         //检查姓名 是否有特殊符号
         if (RegexUtil.checkString(getItemStr(RelatedId.name))) {
-            showToast("请输入真实姓名");
+            showToast(R.string.input_real_name);
             return;
         }
 
         if (strPwd.length() < 6 || strPwd.length() > 18) {
-            showToast("请输入6~18位密码");
+            showToast(R.string.input_right_pwd_num);
             return;
         }
         if (!strPwd.equals(strPwdNg)) {
-            showToast("请核对密码是否一致");
+            showToast(R.string.check_pwd_is_same);
             return;
         }
         mPwd = strPwd;

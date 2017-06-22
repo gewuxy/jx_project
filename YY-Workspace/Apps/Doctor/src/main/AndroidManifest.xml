@@ -87,7 +87,7 @@
             android:name=".activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.search.SearchActivity"
+            android:name=".activity.search.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.meeting.MeetingCommentActivity"
@@ -120,13 +120,13 @@
 
         <!-- search -->
         <activity
-            android:name=".activity.meeting.search.MeetingResultActivity"
+            android:name=".activity.search.MeetingResultActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.search.UnitNumResultActivity"
+            android:name=".activity.search.UnitNumResultActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.search.ResultActivity"
+            android:name=".activity.search.ResultActivity"
             android:screenOrientation="portrait"/>
 
 

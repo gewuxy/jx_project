@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import lib.bd.location.Gps;
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
@@ -19,7 +18,7 @@ import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.ProvinceAdapter;
-import yy.doctor.dialog.HintDialogSec;
+import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.Province;
 import yy.doctor.model.Province.TProvince;
 import yy.doctor.network.NetFactory;
@@ -48,16 +47,15 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     private String mProvince;
     private String mCity;
     private String mArea;
-    private HintDialogSec mDialog;
+    private BaseHintDialog mDialog;
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "省市", this);
+        Util.addBackIcon(bar, R.string.province_city, this);
     }
 
     @Override
@@ -105,11 +103,9 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
 
     private void showLocDialog() {
         if (mDialog == null) {
-            mDialog = new HintDialogSec(ProvinceActivity.this);
-            mDialog.addButton("知道了", "#0682e6", v -> mDialog.dismiss());
-
-            mDialog.setMainHint("请在系统设置中，打开“隐私-定位服务");
-            mDialog.setSecHint("并允许定位服务");
+            mDialog = new BaseHintDialog(ProvinceActivity.this);
+            mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
+            mDialog.addButton(getString(R.string.know), "#0682e6", v -> mDialog.dismiss());
         }
         mDialog.show();
     }
@@ -117,41 +113,33 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     //定位
     private void location() {
         Location.inst().start();
-        mObserver = new OnLocationNotify() {
+        mObserver = (isSuccess, gps) -> {
+            //返回主线程更新ui
+            runOnUIThread(() -> {
+                //停止动画 隐藏定位中布局
+                mAnimation.stop();
+                goneView(mLocationLayout);
+                if (isSuccess) {
+                    //定位成功
+                    goneView(mTvLocationFailure);
+                    Place place = (Place) gps.getObject(TGps.place);
+                    mLocationProvince = place.getString(TPlace.province);
+                    mLocationCity = place.getString(TPlace.city);
+                    mLocationArea = place.getString(TPlace.district);
+                    mLocation = mLocationProvince + " " + mLocationCity + " " + mLocationArea;
+                    mTvLocation.setText(mLocationProvince + " " + mLocationCity + " " + mLocationArea);
+                } else {
+                    //定位失败  显示dialog
+                    showView(mTvLocationFailure);
+                    //YSLog.d("Gps", "失败");
+                    mLocation = null;
 
-            @Override
-            public void onLocationResult(boolean isSuccess, Gps gps) {
-                //返回主线程更新ui
-                runOnUIThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        //停止动画 隐藏定位中布局
-                        mAnimation.stop();
-                        goneView(mLocationLayout);
-                        if (isSuccess) {
-                            //定位成功
-                            goneView(mTvLocationFailure);
-                            Place place = (Place) gps.getObject(TGps.place);
-                            mLocationProvince = place.getString(TPlace.province);
-                            mLocationCity = place.getString(TPlace.city);
-                            mLocationArea = place.getString(TPlace.district);
-                            mLocation = mLocationProvince + " " + mLocationCity + " " + mLocationArea;
-                            mTvLocation.setText(mLocationProvince + " " + mLocationCity + " " + mLocationArea);
-                        } else {
-                            //定位失败  显示dialog
-                            showView(mTvLocationFailure);
-                            //YSLog.d("Gps", "失败");
-                            mLocation = null;
-
-                            showLocDialog();
-                        }
-                        LocationNotifier.inst().remove(mObserver);
-                        Location.inst().stop();
-                        Location.inst().onDestroy();
-                    }
-                });
-            }
+                    showLocDialog();
+                }
+                LocationNotifier.inst().remove(mObserver);
+                Location.inst().stop();
+                Location.inst().onDestroy();
+            });
         };
         LocationNotifier.inst().add(mObserver);
     }
@@ -189,4 +177,5 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
             mDialog = null;
         }
     }
+
 }

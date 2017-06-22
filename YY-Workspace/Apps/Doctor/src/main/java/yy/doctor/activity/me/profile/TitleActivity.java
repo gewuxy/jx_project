@@ -29,7 +29,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     @Override
     public void initData() {
-        mGrade = "高级";
+        mGrade = getString(R.string.high_grade);
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "职称", this);
+        Util.addBackIcon(bar, R.string.title, this);
     }
 
     @Override

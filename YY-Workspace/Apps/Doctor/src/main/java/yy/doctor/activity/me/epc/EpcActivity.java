@@ -9,6 +9,7 @@ import yy.doctor.adapter.EpcAdapter;
 import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.Util;
 
 /**
  * 象城
@@ -24,8 +25,8 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "象城", this);
-        bar.addTextViewRight("订单", v -> startActivity(OrderActivity.class));
+        Util.addBackIcon(bar, R.string.epc, this);
+        bar.addTextViewRight(R.string.order, v -> startActivity(OrderActivity.class));
     }
 
     @Override

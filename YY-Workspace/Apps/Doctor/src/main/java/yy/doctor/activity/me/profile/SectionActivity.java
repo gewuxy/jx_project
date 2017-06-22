@@ -38,7 +38,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "科室", this);
+        Util.addBackIcon(bar, R.string.section, this);
     }
 
     @Override

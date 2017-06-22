@@ -44,7 +44,7 @@ public class CityActivity extends BaseSRListActivity<City, CityAdapter> {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "省市", this);
+        Util.addBackIcon(bar, R.string.province_city, this);
     }
 
     @Override

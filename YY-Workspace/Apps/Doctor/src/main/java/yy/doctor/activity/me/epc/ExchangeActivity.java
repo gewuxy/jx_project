@@ -25,6 +25,7 @@ import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.Util;
 
 /**
  * 兑换
@@ -68,7 +69,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "兑换", this);
+        Util.addBackIcon(bar, R.string.exchange, this);
     }
 
     @Override
@@ -84,25 +85,25 @@ public class ExchangeActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.receiver)
-                .hint("收货人")
+                .hint(R.string.receiver)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.mobile)
-                .hint("手机号码")
+                .hint(R.string.phone_num)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.province_city)
-                .hint("省市")
+                .hint(R.string.province_city)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.address)
-                .hint("详细地址")
+                .hint(R.string.address)
                 .build());
     }
 
@@ -131,8 +132,8 @@ public class ExchangeActivity extends BaseFormActivity {
         super.setViews();
 
         mTvName.setText(mGoodName);
-        mTvEpn.setText(mEpn + "象数");
-        mTvPayEpn.setText(mEpn + "象数");
+        mTvEpn.setText(mEpn + getString(R.string.epn));
+        mTvPayEpn.setText(mEpn + getString(R.string.epn));
 
         mIvGoods.placeHolder(R.mipmap.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))
@@ -154,7 +155,7 @@ public class ExchangeActivity extends BaseFormActivity {
                 }
                 //检查象数是否够
                 if (Profile.inst().getInt(TProfile.credits) < mEpn) {
-                    showToast("象数不足,无法兑换");
+                    showToast(R.string.no_enough_epn);
                     return;
                 }
                 refresh(RefreshWay.dialog);
@@ -184,7 +185,7 @@ public class ExchangeActivity extends BaseFormActivity {
         stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
-            showToast("兑换成功");
+            showToast(R.string.exchange_success);
             int epn = Profile.inst().getInt(TProfile.credits) - mEpn;
             Profile.inst().update(Profile.inst().put(TProfile.credits, epn));
             notify(NotifyType.profile_change);

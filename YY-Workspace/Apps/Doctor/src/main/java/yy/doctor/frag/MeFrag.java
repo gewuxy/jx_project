@@ -65,7 +65,7 @@ public class MeFrag extends BaseFormFrag {
     @Override
     public void initNavBar(NavBar bar) {
 
-        bar.addTextViewMid("个人中心");
+        bar.addTextViewMid(R.string.profile_center);
     }
 
     @Override
@@ -80,32 +80,29 @@ public class MeFrag extends BaseFormFrag {
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_attention_unit_num)
-                .name("单位号")
+                .name(R.string.unit_num)
                 .related(RelatedId.my_attention)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_collection)
-                .name("会议收藏")
+                .name(R.string.collection_meeting)
                 .related(RelatedId.my_collection)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_epn)
-                .name("象数")
-                .text(Profile.inst().getString(TProfile.credits) + "象数")
+                .name(R.string.epn)
+                .text(Profile.inst().getString(TProfile.credits) + getString(R.string.epn))
                 .related(RelatedId.my_epn)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_epc)
-                .name("象城")
+                .name(R.string.epc)
                 .related(RelatedId.epc)
                 .build());
 
@@ -113,15 +110,14 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_settings)
-                .name("设置")
+                .name(R.string.settings)
                 .related(RelatedId.settings)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_help_and_feedback)
-                .name("帮助与反馈")
+                .name(R.string.held_and_feedback)
                 .related(RelatedId.help_and_feedback)
                 .build());
     }
@@ -211,7 +207,7 @@ public class MeFrag extends BaseFormFrag {
                     .load();
             mTvName.setText(Profile.inst().getString(linkman) + "  " + Profile.inst().getString(department));
             mTvHospital.setText(Profile.inst().getString(hospital));
-            getRelatedItem(RelatedId.my_epn).put(TFormElem.text, Profile.inst().getString(TProfile.credits) + "象数");
+            getRelatedItem(RelatedId.my_epn).put(TFormElem.text, Profile.inst().getString(TProfile.credits) + getString(R.string.epn));
             refreshRelatedItem(RelatedId.my_epn);
         }
     }

@@ -3,8 +3,6 @@ package yy.doctor.activity.me.profile;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
@@ -42,29 +40,25 @@ public class ClipImageActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "头像", this);
-        bar.addTextViewRight("确定", new OnClickListener() {
+        Util.addBackIcon(bar, R.string.avatar, this);
+        bar.addTextViewRight(R.string.confirm, v -> {
 
-            @Override
-            public void onClick(View v) {
+            int screenW = mPv.getWidth();
+            int screenH = mPv.getHeight();
+            int startX = (screenW - KBmpSize) / 2;
+            int startY = (screenH - KBmpSize) / 2;
 
-                int screenW = mPv.getWidth();
-                int screenH = mPv.getHeight();
-                int startX = (screenW - KBmpSize) / 2;
-                int startY = (screenH - KBmpSize) / 2;
-
-                mPv.setDrawingCacheEnabled(true);
-                mPv.buildDrawingCache();
-                Bitmap bmp = mPv.getDrawingCache();
-                if (bmp != null) {
-                    mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
-                    setResult(RESULT_OK, getIntent());
-                    finish();
-                    //ImageView img = findView(R.id.img);
-                    //img.setImageBitmap(mBmp);
-                }
-                mPv.destroyDrawingCache();
+            mPv.setDrawingCacheEnabled(true);
+            mPv.buildDrawingCache();
+            Bitmap bmp = mPv.getDrawingCache();
+            if (bmp != null) {
+                mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
+                setResult(RESULT_OK, getIntent());
+                finish();
+                //ImageView img = findView(R.id.img);
+                //img.setImageBitmap(mBmp);
             }
+            mPv.destroyDrawingCache();
         });
     }
 

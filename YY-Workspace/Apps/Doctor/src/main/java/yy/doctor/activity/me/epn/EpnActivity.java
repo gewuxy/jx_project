@@ -36,8 +36,8 @@ public class EpnActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "象数", this);
-        bar.addTextViewRight("明细", v -> startActivity(EpnDetailsActivity.class));
+        Util.addBackIcon(bar, R.string.epn, this);
+        bar.addTextViewRight(R.string.epn_detail, v -> startActivity(EpnDetailsActivity.class));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class EpnActivity extends BaseActivity {
             }
             break;
             case R.id.epn_instruction: {
-                CommonWebViewActivity.nav(this, "象数使用规则", mUrlEpnUseRule);
+                CommonWebViewActivity.nav(this, getString(R.string.epn_use_rule), mUrlEpnUseRule);
             }
             break;
         }

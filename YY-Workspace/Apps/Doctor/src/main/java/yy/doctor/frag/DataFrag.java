@@ -2,6 +2,7 @@ package yy.doctor.frag;
 
 import android.graphics.Color;
 import android.support.annotation.IntDef;
+import android.support.annotation.StringRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +16,7 @@ import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.search.SearchActivity;
+import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.frag.data.ClinicalGuideFrag;
 import yy.doctor.frag.data.DrugListbFrag;
 import yy.doctor.frag.data.ThomsonFrag;
@@ -32,12 +33,12 @@ public class DataFrag extends BaseVPFrag {
     private static final int KIndicatorWidth = 50;
 
     @IntDef({
-            PageType.thomson_lib,
+            PageType.thomson,
             PageType.drug_list,
             PageType.clinical_guide,
     })
     private @interface PageType {
-        int thomson_lib = 0;  //汤森路透
+        int thomson = 0;  //汤森路透
         int drug_list = 1;    //药品目录
         int clinical_guide = 2;   //临床指南
     }
@@ -64,7 +65,7 @@ public class DataFrag extends BaseVPFrag {
     @Override
     public void initNavBar(NavBar bar) {
 
-        bar.addTextViewMid("数据中心");
+        bar.addTextViewMid(R.string.data_center);
         bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
     }
 
@@ -74,7 +75,6 @@ public class DataFrag extends BaseVPFrag {
 
         mLayoutTab = findView(R.id.data_layout_tab);
         mIndicator = findView(R.id.data_layout_indicator);
-
     }
 
     @Override
@@ -111,33 +111,29 @@ public class DataFrag extends BaseVPFrag {
 
     private void addTabs() {
 
-        addTab(PageType.thomson_lib, "汤森路透");
-        addTab(PageType.drug_list, "药品目录");
-        addTab(PageType.clinical_guide, "临床指南");
+        addTab(PageType.thomson, R.string.thomson);
+        addTab(PageType.drug_list, R.string.drug_list);
+        addTab(PageType.clinical_guide, R.string.clinical_guide);
 
         invalidate();
     }
 
-    private void addTab(final int index, CharSequence text) {
+    private void addTab(final int index, @StringRes int id) {
 
         View v = inflate(R.layout.layout_meeting_tab);
 
         TextView tv = (TextView) v.findViewById(R.id.meeting_tab_tv);
-        tv.setText(text);
+        tv.setText(getString(id));
         v.setTag(index);
 
         if (mTabListener == null) {
-            mTabListener = new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    setPreTab(v);
-                    setCurrentItem((Integer) v.getTag());
-                }
+            mTabListener = v1 -> {
+                setPreTab(v1);
+                setCurrentItem((Integer) v1.getTag());
             };
         }
 
-        if (index == PageType.thomson_lib) {
+        if (index == PageType.thomson) {
             setPreTab(v);
         }
 

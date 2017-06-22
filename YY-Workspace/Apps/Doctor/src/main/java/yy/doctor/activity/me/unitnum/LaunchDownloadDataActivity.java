@@ -64,7 +64,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "资料", this);
+        Util.addBackIcon(bar, R.string.file_data, this);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
                 startActivity(intent);
             } catch (Exception e) {
                 YSLog.d(TAG, " error msg " + e.getMessage());
-                showToast("没有安装相应的软件");
+                showToast(R.string.can_not_find_relevant_software);
             }
         }
     }

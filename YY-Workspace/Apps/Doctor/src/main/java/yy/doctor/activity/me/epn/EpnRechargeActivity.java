@@ -59,7 +59,7 @@ public class EpnRechargeActivity extends BaseActivity {
                 String resultStatus = payResult.getResultStatus();
                 // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                 if (TextUtils.equals(resultStatus, "9000")) {
-                    showToast("支付成功");
+                    showToast(R.string.pay_success);
                     //支付成功后显示充值后的的象数数量  改变本地的象数数量
                     int epnNum = Profile.inst().getInt(TProfile.credits) + mRechargeSum * 10;
                     Profile.inst().update(Profile.inst().put(TProfile.credits, epnNum));
@@ -69,10 +69,10 @@ public class EpnRechargeActivity extends BaseActivity {
                     // 判断resultStatus 为非"9000"则代表可能支付失败
                     // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                     if (TextUtils.equals(resultStatus, "8000")) {
-                        showToast("支付结果确认中");
+                        showToast(R.string.pay_ing);
                     } else {
                         // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                        showToast("支付失败");
+                        showToast(R.string.pay_fail);
                     }
                 }
             }
@@ -92,7 +92,7 @@ public class EpnRechargeActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "象数充值", this);
+        Util.addBackIcon(bar, R.string.epn_recharge, this);
     }
 
     @Override
@@ -135,13 +135,13 @@ public class EpnRechargeActivity extends BaseActivity {
                     editEnd--;
                 }
                 mEtRechargeNum.setSelection(editStart);
-                long payayNum;
+                long payNum;
                 String editStr = mEtRechargeNum.getText().toString().trim();
-                if (!"".equals(editStr)) {
-                    payayNum = Long.valueOf(editStr);
-                    mTvEpnRechargeNum.setText(payayNum * 10 + "个象数");
+                if (TextUtil.isEmpty(editStr)) {
+                    mTvEpnRechargeNum.setText(R.string.zero_epn);
                 } else {
-                    mTvEpnRechargeNum.setText("0个象数");
+                    payNum = Long.valueOf(editStr);
+                    mTvEpnRechargeNum.setText(payNum * 10 + getString(R.string.epn_unit));
                 }
                 // 恢复监听
                 mEtRechargeNum.addTextChangedListener(this);
@@ -158,11 +158,11 @@ public class EpnRechargeActivity extends BaseActivity {
             case R.id.recharge_tv_pay: {
                 String str = mEtRechargeNum.getText().toString().trim();
                 if (TextUtil.isEmpty(str)) {
-                    showToast("请输入充值金额");
+                    showToast(R.string.input_recharge_money);
                     return;
                 }
                 mRechargeSum = Integer.valueOf(str);
-                exeNetworkReq(NetFactory.epnRecharge("象数充值", mRechargeSum));
+                exeNetworkReq(NetFactory.epnRecharge(getString(R.string.epn_recharge), mRechargeSum));
             }
             break;
         }
@@ -184,11 +184,10 @@ public class EpnRechargeActivity extends BaseActivity {
         EpnRecharge r = (EpnRecharge) result;
         if (r.getInt(TEpnRecharge.code) == 0) {
             String info = r.getString(TEpnRecharge.data);
-            //String info = "body=充值20元，购买象数&subject=敬信药草园象数充值&sign_type=MD5&notify_url=http://www.medcn.cn:8080/charge!getAlipayNotify&out_trade_no=201705191716376833&sign=9d9d5d38115a8be8eb87ce846494e0cd&_input_charset=utf-8&it_b_pay=1m&total_fee=20&service=mobile.securitypay.pay&seller_id=med@medcn.cn&partner=2088801846603680&payment_type=1";
             YSLog.d(TAG, "OrderInfo = "  + info);
             Pay.aliPay(EpnRechargeActivity.this, info, mHandler);
         } else {
-            showToast("象数充值失败");
+            showToast(R.string.epn_recharge_fail);
         }
     }
 

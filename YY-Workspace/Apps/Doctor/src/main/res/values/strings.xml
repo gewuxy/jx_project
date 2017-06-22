@@ -3,21 +3,62 @@
 
     <string name="company_name">敬信•YaYa医师 V</string>
 
+    <string name="input_name">请输入用户名</string>
+    <string name="input_pwd">请输入密码</string>
+
+    <!--注册-->
+    <string name="register">注册</string>
+    <string name="real_name">真实姓名</string>
+    <string name="pwd">密码</string>
+    <string name="confirm_pwd">确认密码</string>
+    <string name="hospital_name">医院名称</string>
+    <string name="input_real_name">请输入真实姓名</string>
+    <string name="input_right_pwd_num">请输入6~18位密码</string>
+    <string name="check_pwd_is_same">请核对密码是否一致</string>
+    <string name="activation_code_explain">获取激活码</string>
+    <string name="hospital">医院</string>
+    <string name="guang_dong">广东</string>
+    <string name="guang_zhou">广州</string>
+    <string name="guang_zhou_shi">广州市</string>
+
     <!--hint-->
     <string name="hint_not_fill">未填写</string>
     <string name="optional">选填</string>
     <string name="required">必填</string>
 
     <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+
+    <string name="open_location_service">请在系统设置中，打开“隐私-定位服务</string>
+    <string name="allow_locate_permission">并允许定位服务</string>
+
+    <!--侧滑菜单-->
+    <string name="message">消息</string>
+    <string name="my_post">我的帖子</string>
+    <string name="meeting_remind">会议提醒</string>
+    <string name="invite_friend">邀请好友</string>
+    <string name="folder">文件夹</string>
+    <string name="my_folder">我的文件</string>
+    <string name="my_img">我的图片</string>
+
+    <!--数据中心-->
+    <string name="data_center">数据中心</string>
+    <string name="thomson">汤森路透</string>
+    <string name="drug_list">药品目录</string>
+    <string name="clinical_guide">临床指南</string>
+
+    <!--忘记密码-->
+    <string name="forget_pwd">忘记密码</string>
+    <string name="input_email">请输入电子邮箱</string>
+    <string name="input_right_email">请输入正确邮箱</string>
+    <string name="forget_pwd_success">重置密码的邮件已经发送至您的邮箱</string>
+    <string name="know">知道了</string>
 
     <!--KTitle-->
     <string name="title_home">首页</string>
     <string name="title_meeting">会议</string>
     <string name="title_data">数据</string>
     <string name="title_me">我</string>
-
-
-
 
     <!-- register_text -->
     <string name="register_key">激活码</string>
@@ -123,8 +164,66 @@
 
     <string name="minute">分钟</string>
 
+    <string name="can_not_find_relevant_software">没有安装相应软件</string>
+
+    <!--通知-->
     <string name="notice">通知</string>
     <string name="notice_empty">暂时没有相关通知</string>
+
+    <!--个人中心-->
+    <string name="profile_center">个人中心</string>
+
+    <!--会议收藏-->
+    <string name="collection_meeting">会议收藏</string>
+    <string name="collection_meeting_empty">你还没有收藏会议</string>
+
+    <!--资料下载-->
+    <string name="download_data">资料下载</string>
+    <string name="download_ing">正在下载...</string>
+    <string name="download_pause">暂停下载</string>
+    
+    <!--设置-->
+    <string name="settings">设置</string>
+    <string name="check_version">检查版本更新</string>
+    <string name="already_latest_version">已是最新版本</string>
+    <string name="clear_img_cache">清理图片缓存</string>
+    <string name="clear_sound_cache">清理声音缓存</string>
+    <string name="clear_img_cache_success">图片缓存清理完毕</string>
+    <string name="clear_sound_cache_success">声音缓存清理完毕</string>
+    <string name="exit_account">退出当前账号</string>
+    <string name="close_app">关闭YaYa</string>
+
+    <!--帮助与反馈-->
+    <string name="held_and_feedback">帮助与反馈</string>
+    <string name="update_log">更新日志</string>
+    <string name="disclaimer">免责声明</string>
+    <string name="contribution_invited">征稿启事</string>
+    <string name="jing_xin">敬信科技</string>
+    <string name="opinion_feedback">意见反馈</string>
+    <string name="service_agreement">服务协议</string>
+    <string name="email_subject">YaYa医师--意见反馈</string>
+
+    <!--修改密码-->
+    <string name="change_pwd">修改密码</string>
+    <string name="input_old_pwd">请输入旧密码</string>
+    <string name="input_new_pwd">请输入新密码</string>
+    <string name="input_confirm_pwd">请输入确认密码</string>
+    <string name="confirm_no_equal_new">确认密码与新密码不一致！</string>
+    <string name="pwd_places_no_right">请输入6~18位密码</string>
+    <string name="pwd_change_success">密码修改成功</string>
+
+    <!--单位号-->
+    <string name="unit_num">单位号</string>
+    <string name="file_data">资料</string>
+    <string name="cancel_attention">不再关注</string>
+    <string name="add_to_desktop">添加到桌面</string>
+    <string name="attention_num_unit">人</string>
+    <string name="already_attention">已关注</string>
+    <string name="attention">关注</string>
+    <string name="attention_success">关注成功</string>
+    <string name="cancel_attention_success">已取消关注</string>
+    <string name="check_all">查看全部</string>
+    <string name="file_num">个文件</string>
 
     <!--个人资料-->
     <string name="user_profile">我的资料</string>
@@ -142,5 +241,35 @@
     <string name="user_album_permission">请开启查看相册权限</string>
     <string name="take_photo">拍照</string>
     <string name="from_album_select">从相册中选择照片</string>
+    <string name="avatar">头像</string>
+    <string name="section">科室</string>
+    <string name="title">职称</string>
+    <string name="high_grade">高级</string>
+
+    <!--象数-->
+    <string name="epn">象数</string>
+    <string name="epn_detail">明细</string>
+    <string name="epn_use_rule">象数使用规则</string>
+
+    <!--象数充值-->
+    <string name="epn_recharge">象数充值</string>
+    <string name="epn_unit">个象数</string>
+    <string name="zero_epn">0个象数</string>
+    <string name="input_recharge_money">请输入充值金额</string>
+    <string name="epn_recharge_fail">象数充值失败</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_ing">支付结果确认中</string>
+
+    <!--象城-->
+    <string name="epc">象城</string>
+    <string name="order">订单</string>
+    <string name="exchange">兑换</string>
+    <string name="no_enough_epn">象数不足,无法兑换</string>
+    <string name="exchange_success">兑换成功</string>
+    <string name="address">详细地址</string>
+    <string name="province_city">省市</string>
+    <string name="phone_num">手机号码</string>
+    <string name="receiver">收货人</string>
 
 </resources>

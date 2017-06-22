@@ -6,7 +6,6 @@ import android.view.View;
 import java.util.List;
 
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.dialog.BottomDialog.OnDialogItemClickListener;
 import yy.doctor.model.config.Config;
 
 /**
@@ -21,15 +20,11 @@ public class FITextDialog extends FIText {
     public boolean onItemClick(Object host, View v) {
 
         final List<Config> data = getList(TFormElem.data);
-        BottomDialog dialog = new BottomDialog(v.getContext(), new OnDialogItemClickListener() {
+        BottomDialog dialog = new BottomDialog(v.getContext(), position -> {
 
-            @Override
-            public void onDialogItemClick(int position) {
-
-                put(TFormElem.text, data.get(position).getName());
-                put(TFormElem.val, data.get(position).getVal());
-                refresh();
-            }
+            put(TFormElem.text, data.get(position).getName());
+            put(TFormElem.val, data.get(position).getVal());
+            refresh();
         });
         for (int i = 0; i < data.size(); ++i) {
             dialog.addItem(data.get(i).getName(), KColorNormal);

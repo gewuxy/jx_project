@@ -23,7 +23,7 @@ public class NoticeManager {
     private static NoticeManager mInst = null;
 
     private NoticeManager() {
-        DevOpenHelper devOpenHelper = new DevOpenHelper(App.getContext(), "notice.db", null);
+        DevOpenHelper devOpenHelper = new DevOpenHelper(App.getContext(), "contribution_invited.db", null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
         mDao = daoMaster.newSession().getNoticeDao();
     }

@@ -39,7 +39,7 @@ public class ChangePwdActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "修改密码", this);
+        Util.addBackIcon(bar, R.string.change_pwd, this);
     }
 
     @Override
@@ -67,19 +67,19 @@ public class ChangePwdActivity extends BaseActivity {
                 String newPwd = mEtNewPwd.getText().toString();
                 String confirmPwd = mEtConfirmPwd.getText().toString();
                 if (TextUtil.isEmpty(oldPwd)) {
-                    showToast("请输入旧密码");
+                    showToast(R.string.input_old_pwd);
                     return;
                 } else if (TextUtil.isEmpty(newPwd)) {
-                    showToast("请输入新密码");
+                    showToast(R.string.input_new_pwd);
                     return;
                 } else if (TextUtil.isEmpty(confirmPwd)) {
-                    showToast("请输入确认密码");
+                    showToast(R.string.input_confirm_pwd);
                     return;
                 } else if (!newPwd.equals(confirmPwd)) {
-                    showToast("确认密码与新密码不一致！");
+                    showToast(R.string.confirm_no_equal_new);
                     return;
                 } else if (newPwd.length() < 6 || newPwd.length() > 18) {
-                    showToast("请输入6~18位密码");
+                    showToast(R.string.pwd_places_no_right);
                     return;
                 } else {
                     refresh(RefreshWay.dialog);
@@ -101,7 +101,7 @@ public class ChangePwdActivity extends BaseActivity {
         stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
-            showToast("密码修改成功");
+            showToast(R.string.pwd_change_success);
             finish();
         } else {
             showToast(r.getError());

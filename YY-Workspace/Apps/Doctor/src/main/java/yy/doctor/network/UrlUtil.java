@@ -15,7 +15,7 @@ public class UrlUtil {
 
     private static void init() {
         if (mIsDebug) {
-            // 测试线  10.0.0.234/
+            // 测试线  10.0.0.250:8082/
             mHostName = KHttpDef + "www.medcn.com:8081/v7/";
         } else {
             // 正式线

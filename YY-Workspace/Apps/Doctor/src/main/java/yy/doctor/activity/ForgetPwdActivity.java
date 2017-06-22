@@ -39,7 +39,7 @@ public class ForgetPwdActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "忘记密码", this);
+        Util.addBackIcon(bar, R.string.forget_pwd, this);
     }
 
     @Override
@@ -61,12 +61,12 @@ public class ForgetPwdActivity extends BaseActivity {
         switch (id) {
             case R.id.forget_pwd_tv: {
                 if (TextUtil.isEmpty(mEt.getText().toString().trim())) {
-                    showToast("请输入电子邮箱");
+                    showToast(R.string.input_email);
                     return;
                 }
                 //检查邮箱
                 if (!RegexUtil.isEmail(mEt.getText().toString().trim())) {
-                    showToast("请输入正确邮箱");
+                    showToast(R.string.input_right_email);
                     return;
                 }
                 exeNetworkReq(NetFactory.forgetPwd(mEt.getText().toString().trim()));
@@ -87,8 +87,8 @@ public class ForgetPwdActivity extends BaseActivity {
         if (r.isSucceed()) {
             if (mDialog == null) {
                 mDialog = new HintDialogMain(ForgetPwdActivity.this);
-                mDialog.setHint("重置密码的邮件已经发送至您的邮箱");
-                mDialog.addButton("知道了", "#0682e6", v -> {
+                mDialog.setHint(getString(R.string.forget_pwd_success));
+                mDialog.addButton(getString(R.string.know), "#0682e6", v -> {
                     mDialog.dismiss();
                     finish();
                 });

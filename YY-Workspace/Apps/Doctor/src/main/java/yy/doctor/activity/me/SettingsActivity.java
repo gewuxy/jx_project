@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.io.File;
@@ -78,7 +77,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "设置", this);
+        Util.addBackIcon(bar, R.string.settings, this);
     }
 
     private String getFolderSize(String... path) {
@@ -102,31 +101,27 @@ public class SettingsActivity extends BaseFormActivity {
         mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
 
         addItem(new Builder(FormType.divider).build());
-
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.check_version)
-                .name("检查版本更新")
+                .name(R.string.check_version)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.content_text)
                 .related(RelatedId.change_password)
-                .name("修改密码")
+                .name(R.string.change_pwd)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-
-        addItem(new Builder(FormType.content)
-                .name("清理图片缓存")
+        addItem(new Builder(FormType.content_text)
+                .name(R.string.clear_img_cache)
                 .related(RelatedId.clear_img_cache)
                 .text(mImgSize)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-
-        addItem(new Builder(FormType.content)
-                .name("清理声音缓存")
+        addItem(new Builder(FormType.content_text)
+                .name(R.string.clear_sound_cache)
                 .related(RelatedId.clear_sound_cache)
                 .text(mSoundSize)
                 .build());
@@ -214,7 +209,7 @@ public class SettingsActivity extends BaseFormActivity {
             if (data != null) {
                 new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
             } else {
-                showToast("已是最新版本");
+                showToast(R.string.already_latest_version);
             }
         }
     }
@@ -222,31 +217,23 @@ public class SettingsActivity extends BaseFormActivity {
     private void showDialogExit() {
 
         final CommonDialog dialog = new CommonDialog(this);
-        dialog.addItem("退出当前账号", new OnClickListener() {
+        dialog.addItem(getString(R.string.exit_account), v -> {
 
-            @Override
-            public void onClick(View v) {
+            dialog.dismiss();
 
-                dialog.dismiss();
+            Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
+            intent.putExtra(Extra.KType, Extra.KLogout);
+            startService(intent);
 
-                Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
-                intent.putExtra(Extra.KType, Extra.KLogout);
-                startService(intent);
-
-                SettingsActivity.this.notify(NotifyType.logout);
-                startActivity(LoginActivity.class);
-                finish();
-            }
+            SettingsActivity.this.notify(NotifyType.logout);
+            startActivity(LoginActivity.class);
+            finish();
         });
 
-        dialog.addItem("关闭YaYa", new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                SettingsActivity.this.notify(NotifyType.logout);
-                finish();
-            }
+        dialog.addItem(getString(R.string.close_app), v -> {
+            dialog.dismiss();
+            SettingsActivity.this.notify(NotifyType.logout);
+            finish();
         });
         dialog.show();
     }
@@ -254,8 +241,8 @@ public class SettingsActivity extends BaseFormActivity {
     private void showDialogClearImgCache() {
 
         final List<String> data = new ArrayList<>();
-        data.add("清理图片缓存");
-        data.add("取消");
+        data.add(getString(R.string.clear_img_cache));
+        data.add(getString(R.string.cancel));
 
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
@@ -268,7 +255,7 @@ public class SettingsActivity extends BaseFormActivity {
                         .subscribe(s -> {
                             getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
                             refreshRelatedItem(RelatedId.clear_img_cache);
-                            showToast("图片缓存清理完毕");
+                            showToast(R.string.clear_img_cache_success);
                         });
             }
         });
@@ -285,8 +272,8 @@ public class SettingsActivity extends BaseFormActivity {
     private void showDialogClearSoundCache() {
 
         final List<String> data = new ArrayList<>();
-        data.add("清理声音缓存");
-        data.add("取消");
+        data.add(getString(R.string.clear_sound_cache));
+        data.add(getString(R.string.cancel));
 
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
@@ -296,9 +283,9 @@ public class SettingsActivity extends BaseFormActivity {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s -> {
-                            SettingsActivity.this.getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
-                            SettingsActivity.this.refreshRelatedItem(RelatedId.clear_sound_cache);
-                            SettingsActivity.this.showToast("声音缓存清理完毕");
+                            getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
+                            refreshRelatedItem(RelatedId.clear_sound_cache);
+                            showToast(getString(R.string.clear_sound_cache_success));
                         });
             }
         });

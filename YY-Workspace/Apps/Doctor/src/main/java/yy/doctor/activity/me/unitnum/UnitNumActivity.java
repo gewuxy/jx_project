@@ -10,7 +10,7 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
-import yy.doctor.activity.meeting.search.SearchActivity;
+import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
@@ -29,13 +29,13 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "单位号", this);
+        Util.addBackIcon(bar, R.string.unit_num, this);
         bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> startActivity(SearchActivity.class));
     }
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(0, NetFactory.unitNum());
+        exeNetworkReq(NetFactory.unitNum());
     }
 
     @Override

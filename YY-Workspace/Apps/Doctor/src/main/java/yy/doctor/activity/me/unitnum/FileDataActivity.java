@@ -9,6 +9,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
+import yy.doctor.R;
 import yy.doctor.activity.me.DownloadDataActivity;
 import yy.doctor.adapter.FileDataAdapter;
 import yy.doctor.model.unitnum.FileData;
@@ -50,7 +51,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "资料", this);
+        Util.addBackIcon(bar, R.string.file_data, this);
     }
 
     @Override

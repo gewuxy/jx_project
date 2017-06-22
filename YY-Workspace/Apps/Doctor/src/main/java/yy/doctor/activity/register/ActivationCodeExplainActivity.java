@@ -36,7 +36,7 @@ public class ActivationCodeExplainActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "获取激活码", this);
+        Util.addBackIcon(bar, R.string.activation_code_explain, this);
     }
 
 }

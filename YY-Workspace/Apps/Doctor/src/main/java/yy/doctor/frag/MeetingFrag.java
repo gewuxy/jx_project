@@ -20,7 +20,7 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseVPFrag;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.search.SearchActivity;
+import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.frag.meeting.NotStartedMeetingsFrag;
 import yy.doctor.frag.meeting.RetrospectMeetingsFrag;
 import yy.doctor.frag.meeting.UnderWayMeetingsFrag;

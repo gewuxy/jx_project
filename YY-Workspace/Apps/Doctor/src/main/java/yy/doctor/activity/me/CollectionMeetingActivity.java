@@ -4,6 +4,7 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
+import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
@@ -25,7 +26,7 @@ public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, Meeti
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "会议收藏", this);
+        Util.addBackIcon(bar, R.string.collection_meeting, this);
     }
 
     @Override
@@ -42,6 +43,7 @@ public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, Meeti
 
     @Override
     protected String getEmptyText() {
-        return "你还没有收藏会议";
+        return getString(R.string.collection_meeting_empty);
     }
+
 }

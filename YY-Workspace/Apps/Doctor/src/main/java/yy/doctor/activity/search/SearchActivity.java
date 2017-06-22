@@ -1,4 +1,4 @@
-package yy.doctor.activity.meeting.search;
+package yy.doctor.activity.search;
 
 import android.support.annotation.NonNull;
 import android.view.View;

@@ -9,6 +9,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.OrderAdapter;
 import yy.doctor.model.me.Order;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.Util;
 
 /**
  * 订单
@@ -33,7 +34,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     @Override
     public void initNavBar(NavBar bar) {
 
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "订单", this);
+        Util.addBackIcon(bar, R.string.order, this);
         bar.addViewRight(R.mipmap.nav_bar_ic_i, v -> {
             if (isTvShow) {
                 mTv.setVisibility(View.GONE);

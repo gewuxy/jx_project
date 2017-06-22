@@ -15,7 +15,7 @@ import yy.doctor.model.notice.Notice.TNotice;
  * @since 2017/6/12
  */
 
-@Entity(active = true, nameInDb = "notice")
+@Entity(active = true, nameInDb = "contribution_invited")
 public class Notice extends EVal<TNotice> {
 
     public enum TNotice {

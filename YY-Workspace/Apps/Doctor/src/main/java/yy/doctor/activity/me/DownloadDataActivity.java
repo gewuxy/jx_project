@@ -104,7 +104,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "资料下载", this);
+        Util.addBackIcon(bar, R.string.download_data, this);
     }
 
     @Override
@@ -134,10 +134,10 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             case R.id.download_iv: {
                 if (mIsDownload) {
                     mIvDownload.setImageResource(R.mipmap.download_ic_start);
-                    mTvStatus.setText("暂停下载");
+                    mTvStatus.setText(R.string.download_pause);
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
-                    mTvStatus.setText("正在下载...");
+                    mTvStatus.setText(R.string.download_ing);
                     mDownloadServ = new Intent(this, DownloadServ.class);
                     mDownloadServ.putExtra(Extra.KData, mUrl)
                             .putExtra(Extra.KFilePath, mFilePath)

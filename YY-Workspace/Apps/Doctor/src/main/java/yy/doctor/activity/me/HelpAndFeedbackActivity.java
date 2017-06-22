@@ -34,7 +34,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     @IntDef({
             RelatedId.update_log,
             RelatedId.disclaimer,
-            RelatedId.notice,
+            RelatedId.contribution_invited,
             RelatedId.jing_xin,
 
             RelatedId.feedback,
@@ -43,7 +43,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
         int update_log = 1;
         int disclaimer = 2;
-        int notice = 3;
+        int contribution_invited = 3;
         int jing_xin = 4;
 
         int feedback = 5;
@@ -54,7 +54,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "帮助与反馈", this);
+        Util.addBackIcon(bar, R.string.held_and_feedback, this);
     }
 
     @Override
@@ -73,31 +73,31 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.update_log)
-                .name("更新日志")
+                .name(R.string.update_log)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.disclaimer)
-                .name("免责声明")
+                .name(R.string.disclaimer)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.content_text)
-                .related(RelatedId.notice)
-                .name("征稿启事")
+                .related(RelatedId.contribution_invited)
+                .name(R.string.contribution_invited)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.jing_xin)
-                .name("敬信科技")
+                .name(R.string.jing_xin)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.feedback)
-                .name("意见反馈")
+                .name(R.string.opinion_feedback)
                 .build());
 
         mVersion = DeviceUtil.getAppVersionName();
@@ -125,19 +125,19 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.update_log: {
-                CommonWebViewActivity.nav(this, "更新日志", mUrlUpdateLog);
+                CommonWebViewActivity.nav(this, getString(R.string.update_log), mUrlUpdateLog);
             }
             break;
             case RelatedId.disclaimer: {
-                CommonWebViewActivity.nav(this, "免责声明", mUrlDisclaimer);
+                CommonWebViewActivity.nav(this, getString(R.string.disclaimer), mUrlDisclaimer);
             }
             break;
-            case RelatedId.notice: {
-                CommonWebViewActivity.nav(this, "征稿启事", mUrlContributionInvited);
+            case RelatedId.contribution_invited: {
+                CommonWebViewActivity.nav(this, getString(R.string.contribution_invited), mUrlContributionInvited);
             }
             break;
             case RelatedId.jing_xin: {
-                CommonWebViewActivity.nav(this, "敬信科技", mUrlJX);
+                CommonWebViewActivity.nav(this, getString(R.string.jing_xin), mUrlJX);
             }
             break;
             case RelatedId.feedback: {
@@ -145,11 +145,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                     Intent data = new Intent(Intent.ACTION_SEND);
                     data.setType("plain/text");
                     data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
-                    data.putExtra(Intent.EXTRA_SUBJECT, "YaYa医师--意见反馈");
+                    data.putExtra(Intent.EXTRA_SUBJECT, R.string.email_subject);
                     data.putExtra(Intent.EXTRA_TEXT, "");
                     startActivity(data);
                 } catch (Exception e) {
-                    showToast("没有安装相应软件");
+                    showToast(R.string.can_not_find_relevant_software);
                 }
             }
             break;
@@ -162,7 +162,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.help_and_feedback_footer_tv_agreement: {
-                CommonWebViewActivity.nav(this, "服务协议", mUrlDisclaimer);
+                CommonWebViewActivity.nav(this, getString(R.string.service_agreement), mUrlDisclaimer);
             }
             break;
         }

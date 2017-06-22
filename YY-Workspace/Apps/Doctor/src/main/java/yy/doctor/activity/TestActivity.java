@@ -1,7 +1,9 @@
 package yy.doctor.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lib.yy.test.BaseTestActivity;
-import yy.doctor.R;
 import yy.doctor.activity.me.ChangePwdActivity;
 import yy.doctor.activity.me.DownloadDataActivity;
 import yy.doctor.activity.me.epc.EpcActivity;
@@ -17,8 +19,6 @@ import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.VideoActivity;
 import yy.doctor.activity.register.ProvinceActivity;
-import yy.doctor.dialog.HintDialogMain;
-import yy.doctor.dialog.HintDialogSec;
 
 /**
  * @auther yuansui
@@ -48,73 +48,6 @@ public class TestActivity extends BaseTestActivity {
 
         add("评论", v -> MeetingCommentActivity.nav(this,"17060312172856248750"));
 
-        add("对话框11", v -> {
-            HintDialogMain mDialog = new HintDialogMain(TestActivity.this);
-            mDialog.setHint("重置密码的邮已经发送至您的邮箱");
-            mDialog.addButton("知道了", "#0682e6", v1 -> {
-                mDialog.dismiss();
-                finish();
-            });
-            mDialog.show();
-        });
-
-        add("对话框12", v -> {
-
-            HintDialogMain mExitDialog = new HintDialogMain(TestActivity.this);
-            mExitDialog.setHint("确定退出考试?");
-            mExitDialog.addButton("确定", "#0682e6", v1 -> {
-                finish();
-                mExitDialog.dismiss();
-            });
-            mExitDialog.addButton("取消", "#666666", v1 -> mExitDialog.dismiss());
-            mExitDialog.show();
-
-        });
-        add("对话框13", v -> {
-
-            HintDialogMain mSubDialog = new HintDialogMain(TestActivity.this);
-            mSubDialog.setHint("还有几题");
-
-            mSubDialog.addButton("确定", "#0682e6", v1 -> {
-                mSubDialog.dismiss();
-            });
-            mSubDialog.addButton("取消", "#666666", v1 -> mSubDialog.dismiss());
-            mSubDialog.show();
-
-        });
-        add("对话框21", v -> {
-            HintDialogSec mDialog = new HintDialogSec(TestActivity.this);
-            mDialog = new HintDialogSec(TestActivity.this);
-            HintDialogSec finalMDialog = mDialog;
-            mDialog.addButton("确定", "#0682e6", v1 -> finalMDialog.dismiss());
-            mDialog.show();
-        });
-        add("对话框22", v -> {
-            HintDialogSec mCloseDialog = new HintDialogSec(TestActivity.this);
-            mCloseDialog.setMainHint(getString(R.string.exam_finish));
-            mCloseDialog.setSecHint(2 + getString(R.string.exam_xs_close));
-            mCloseDialog.addButton("确定", "#0682e6", v1 -> mCloseDialog.dismiss());
-            mCloseDialog.show();
-        });
-        add("对话框23", v -> {
-            HintDialogSec mSubmitDialog = new HintDialogSec(TestActivity.this);
-            mSubmitDialog.setMainHint(getString(R.string.exam_end));
-            mSubmitDialog.setSecHint(getString(R.string.exam_submit));
-            mSubmitDialog.setCancelable(false);
-            mSubmitDialog.addButton("确定", "#0682e6", v1 -> {
-                mSubmitDialog.dismiss();
-            });
-        });
-        add("对话框24", v -> {
-            HintDialogSec mDialog = new HintDialogSec(TestActivity.this);
-            mDialog.addButton("知道了", "#0682e6", v1 -> mDialog.dismiss());
-
-            mDialog.setMainHint("请在系统设置中，打开“隐私-定位服务");
-            mDialog.setSecHint("并允许定位服务");
-            mDialog.show();
-        });
-
-
         add("单位号详情", UnitNumDetailActivity.class);
         add("象城", EpcActivity.class);
         add("兑换", ExchangeActivity.class);
@@ -123,5 +56,25 @@ public class TestActivity extends BaseTestActivity {
         add("省", ProvinceActivity.class);
         add("职称", TitleActivity.class);
         add("资料下载", DownloadDataActivity.class);
+    }
+
+    private void test() {
+        List<String> list = new ArrayList<>();
+        List<String> delayRemovelist = new ArrayList<>();
+        List<String> delayAddlist = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+
+
+
+        for (int i = 0; i < list.size(); ++i) {
+            list.get(i).hashCode();
+        }
+
+        for (int i = 0; i < delayRemovelist.size(); ++i) {
+            list.remove(delayRemovelist.get(i));
+        }
+        delayRemovelist.clear();
     }
 }

@@ -19,6 +19,7 @@ import yy.doctor.model.me.EpcDetail;
 import yy.doctor.model.me.EpcDetail.TEpcDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.Util;
 
 /**
  * 商品详情
@@ -62,7 +63,7 @@ public class EpcDetailActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, mGoodName, this);
+        Util.addBackIcon(bar, mGoodName, this);
     }
 
     @Override

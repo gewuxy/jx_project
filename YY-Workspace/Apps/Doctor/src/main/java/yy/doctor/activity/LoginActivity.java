@@ -67,7 +67,6 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv_forget_pwd);
         if (BuildConfig.TEST) {
             mEtName.setText("wucaixiang@medcn.cn");
-            mEtPwd.setText("123456");
         }
     }
 
@@ -81,11 +80,11 @@ public class LoginActivity extends BaseActivity {
                 String strName = mEtName.getText().toString();
                 String strPwd = mEtPwd.getText().toString();
                 if (TextUtil.isEmpty(strName)) {
-                    showToast("请输入用户名");
+                    showToast(R.string.input_name);
                     return;
                 }
                 if (TextUtil.isEmpty(strPwd)) {
-                    showToast("请输入密码");
+                    showToast(R.string.input_pwd);
                     return;
                 }
                 refresh(RefreshWay.dialog);

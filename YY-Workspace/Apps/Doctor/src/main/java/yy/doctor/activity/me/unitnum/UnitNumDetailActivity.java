@@ -31,9 +31,10 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.me.LaunchTempActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.activity.meeting.search.SearchActivity;
+import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
+import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
@@ -91,7 +92,7 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
     @Override
     public void initData() {
-        mUnitNumId = getIntent().getIntExtra(Extra.KData, 0);
+        mUnitNumId = getIntent().getIntExtra(Extra.KData, 10);
     }
 
     @Override
@@ -182,9 +183,9 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
     private void showDialogCancelAttention() {
 
         final List<String> data = new ArrayList<>();
-        data.add("不再关注");
-        data.add("添加到桌面");
-        data.add("取消");
+        data.add(getString(R.string.cancel_attention));
+        data.add(getString(R.string.add_to_desktop));
+        data.add(getString(R.string.cancel));
 
         final BottomDialog dialog = new BottomDialog(this, position -> {
             if (position == 0) {
@@ -250,13 +251,13 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
             mUnitNumName = mUnitNumDetail.getString(TUnitNumDetail.nickname);
             mTvName.setText(mUnitNumName);
-            mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + "人");
+            mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
             mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + " " + mUnitNumDetail.getString(TUnitNumDetail.city));
             mTvIntroduction.setText(mUnitNumDetail.getString(TUnitNumDetail.sign));
 
             //判断用户是否已经关注过此单位号
             if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == 1) {
-                mTvAttention.setText("已关注");
+                mTvAttention.setText(R.string.already_attention);
                 mTvAttention.setSelected(true);
                 mTvAttention.setClickable(false);
             }
@@ -271,7 +272,7 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
             int datumNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
             if (datumNum > 3) {
-                mTvFileNum.setText("查看全部" + datumNum + "个文件");
+                mTvFileNum.setText(getString(R.string.check_all) + datumNum + getString(R.string.file_num));
                 showView(mIvArrows);
                 mVFileLayout.setOnClickListener(v -> FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id), Extra.KUnitNumType));
             }
@@ -282,22 +283,22 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
         } else if (id == KReqIdAttention) {  //关注
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("关注成功");
-                mTvAttention.setText("已关注");
+                showToast(R.string.attention_success);
+                mTvAttention.setText(R.string.already_attention);
                 mTvAttention.setSelected(true);
                 mTvAttention.setClickable(false);
                 //通知首页的单位号改变状态
-                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, 1));
+                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.yes));
             }
         } else if (id == KReqIdNoAttention) {  //取消关注
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("已取消关注");
-                mTvAttention.setText("关注");
+                showToast(R.string.cancel_attention_success);
+                mTvAttention.setText(R.string.attention);
                 mTvAttention.setSelected(false);
                 mTvAttention.setClickable(true);
                 //通知首页的单位号改变状态
-                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, 0));
+                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.no));
             }
         }
     }

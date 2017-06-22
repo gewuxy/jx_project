@@ -2,6 +2,8 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -14,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -64,6 +65,21 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
 
     private HintDialogSec mDialog; // 提示不能考试的原因
     private CountDown mCountDown; // FIXME:改为Handler
+
+    private Handler handler = new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+                case 0: {
+                    mCanStart = false;
+                }
+                break;
+            }
+        }
+    };
 
     @StringDef({
             TimeFormat.simple_ymd,
@@ -148,9 +164,10 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             if (mEndTime > mCurTime) {
                 // 未结束的话开始计时
                 Long maxCount = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1);
-                mCountDown = new CountDown(maxCount, TimeUnit.MINUTES);
-                mCountDown.setListener(this);
-                mCountDown.start();
+//                mCountDown = new CountDown(maxCount, TimeUnit.MINUTES);
+//                mCountDown.setListener(this);
+//                mCountDown.start();
+                handler.sendEmptyMessageDelayed(0, maxCount);
             }
 
             mTvTitle.setText(mPaper.getString(TPaper.name));

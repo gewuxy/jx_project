@@ -16,7 +16,7 @@ import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.activity.home.NoticeActivity;
 import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
-import yy.doctor.activity.meeting.search.SearchActivity;
+import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.model.notice.NoticeNum;
@@ -33,6 +33,8 @@ import yy.doctor.view.BannerView;
 import static lib.yy.network.BaseJsonParser.evs;
 
 /**
+ * 首页
+ *
  * @author CaiXiang   extends BaseSRListFrag<Home>
  * @since 2017/4/5
  */

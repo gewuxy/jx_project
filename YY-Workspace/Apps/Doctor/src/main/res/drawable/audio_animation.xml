@@ -3,16 +3,16 @@
                 android:oneshot="false">
 
     <item
-        android:drawable="@mipmap/audio_animation1"
+        android:drawable="@mipmap/meeting_ic_audio_animation1"
         android:duration="200" />
     <item
-        android:drawable="@mipmap/audio_animation2"
+        android:drawable="@mipmap/meeting_ic_audio_animation2"
         android:duration="200" />
     <item
-        android:drawable="@mipmap/audio_animation3"
+        android:drawable="@mipmap/meeting_ic_audio_animation3"
         android:duration="200" />
     <item
-        android:drawable="@mipmap/audio_animation4"
+        android:drawable="@mipmap/meeting_ic_audio_animation4"
         android:duration="200" />
 
 </animation-list>

@@ -6,6 +6,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.EpnDetailsAdapter;
 import yy.doctor.model.me.EpnDetails;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.Util;
 
 /**
  * 象数明细
@@ -21,7 +22,7 @@ public class EpnDetailsActivity extends BaseSRListActivity<EpnDetails, EpnDetail
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, "明细", this);
+        Util.addBackIcon(bar, R.string.epn_detail, this);
     }
 
     @Override
