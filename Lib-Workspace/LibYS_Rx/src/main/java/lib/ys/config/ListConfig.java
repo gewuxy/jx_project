@@ -20,18 +20,23 @@ public class ListConfig {
      */
     @IntDef({
             PageDownType.offset,
+            PageDownType.init_offset,
             PageDownType.page,
             PageDownType.last_id,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PageDownType {
         int offset = 0;
-        int page = 1;
-        int last_id = 2;
+        int init_offset = 1;
+        int page = 2;
+        int last_id = 3;
     }
 
     @PageDownType
     private int mType = PageDownType.offset; // 默认根据个数偏移
+
+    @PageDownType
+    private int mInitOffset = PageDownType.offset;
 
     private Class<? extends BaseHeader> mHeaderClz = null;
     private Class<? extends BaseFooter> mFooterClz = null;
@@ -43,6 +48,11 @@ public class ListConfig {
     @PageDownType
     public int getType() {
         return mType;
+    }
+
+    @PageDownType
+    public int getInitOffset() {
+        return mInitOffset;
     }
 
     public Class<? extends BaseHeader> getHeaderClz() {
@@ -59,11 +69,19 @@ public class ListConfig {
         @PageDownType
         private int mType = PageDownType.offset; // 默认根据个数偏移
 
+        @PageDownType
+        private int mInitOffset = PageDownType.offset;
+
         private Class<? extends BaseHeader> mHeaderClz = null;
         private Class<? extends BaseFooter> mFooterClz = null;
 
         public Builder type(@PageDownType int type) {
             mType = type;
+            return this;
+        }
+
+        public Builder initOffset(@PageDownType int initOffset) {
+            mInitOffset = initOffset;
             return this;
         }
 
@@ -81,6 +99,7 @@ public class ListConfig {
             config.mType = mType;
             config.mHeaderClz = mHeaderClz;
             config.mFooterClz = mFooterClz;
+            config.mInitOffset = mInitOffset;
 
             return config;
         }
