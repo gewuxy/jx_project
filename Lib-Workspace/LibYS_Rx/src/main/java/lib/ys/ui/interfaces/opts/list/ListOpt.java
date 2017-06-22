@@ -113,11 +113,11 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
         }
 
         if (!mListener.needDelayAddEmptyView()) {
-            addEmptyViewIfNoNull();
+            addEmptyViewIfNonNull();
         }
     }
 
-    public void addEmptyViewIfNoNull() {
+    public void addEmptyViewIfNonNull() {
         if (mEmptyView != null) {
             mLv.setEmptyView(mEmptyView);
         }

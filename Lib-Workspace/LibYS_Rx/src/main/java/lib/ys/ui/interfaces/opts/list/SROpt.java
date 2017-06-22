@@ -155,7 +155,7 @@ public class SROpt<T> implements ISRListener {
     @Override
     public boolean onAutoLoadMore() {
         mLoadMore = true;
-        if (DeviceUtil.isNetworkEnable()) {
+        if (DeviceUtil.isNetworkEnabled()) {
             mSROptListener.getDataFromNet();
             return true;
         } else {
@@ -166,7 +166,7 @@ public class SROpt<T> implements ISRListener {
     @Override
     public boolean onManualLoadMore() {
         mLoadMore = true;
-        if (DeviceUtil.isNetworkEnable()) {
+        if (DeviceUtil.isNetworkEnabled()) {
             mSRLayout.startLoadMore();
             return true;
         } else {
@@ -201,7 +201,7 @@ public class SROpt<T> implements ISRListener {
 
         mTsNet = response.getData();
 
-        switch (getListPageUpType()) {
+        switch (getListPageDownType()) {
             case PageDownType.offset: {
                 mOffset += mTsNet.size();
             }
@@ -259,7 +259,7 @@ public class SROpt<T> implements ISRListener {
             mSROptListener.refresh(mSROptListener.getInitRefreshWay());
             mFirstRefresh = false;
             // 第一次刷新以后再添加empty view
-            mScrollOpt.addEmptyViewIfNoNull();
+            mScrollOpt.addEmptyViewIfNonNull();
         } else {
             mSROptListener.refresh(RefreshWay.swipe);
         }
@@ -292,7 +292,7 @@ public class SROpt<T> implements ISRListener {
     }
 
     @PageDownType
-    private int getListPageUpType() {
+    private int getListPageDownType() {
         return mSROptListener.getListPageDownType();
     }
 
@@ -333,7 +333,7 @@ public class SROpt<T> implements ISRListener {
         if (mRefreshLocal) {
             getDataFromLocal();
         } else {
-            if (DeviceUtil.isNetworkEnable()) {
+            if (DeviceUtil.isNetworkEnabled()) {
                 mSROptListener.getDataFromNet();
             } else {
                 AppEx.showToast(R.string.toast_network_disconnect);

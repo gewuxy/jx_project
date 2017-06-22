@@ -213,7 +213,7 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mGroupListOpt.addEmptyViewIfNoNull();
+        mGroupListOpt.addEmptyViewIfNonNull();
     }
 
     @Override

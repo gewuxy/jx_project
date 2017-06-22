@@ -56,7 +56,7 @@ public class NetworkOptImpl implements NetworkOpt {
             mMapRetryTask.put(id, req);
         }
 
-        if (!DeviceUtil.isNetworkEnable()) {
+        if (!DeviceUtil.isNetworkEnabled()) {
             mNetworkLsn.onNetworkError(id, new ConnectionNetError(ResLoader.getString(R.string.toast_network_disconnect)));
             return;
         }

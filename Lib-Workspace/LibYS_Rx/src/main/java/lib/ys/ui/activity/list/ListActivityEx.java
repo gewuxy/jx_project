@@ -208,7 +208,7 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityE
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mListOpt.addEmptyViewIfNoNull();
+        mListOpt.addEmptyViewIfNonNull();
     }
 
     @Override

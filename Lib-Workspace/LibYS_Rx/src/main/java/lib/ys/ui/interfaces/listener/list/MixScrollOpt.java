@@ -23,7 +23,7 @@ public interface MixScrollOpt<T> {
 
     boolean isEmpty();
 
-    void addEmptyViewIfNoNull();
+    void addEmptyViewIfNonNull();
 
     void setData(List<T> data);
 

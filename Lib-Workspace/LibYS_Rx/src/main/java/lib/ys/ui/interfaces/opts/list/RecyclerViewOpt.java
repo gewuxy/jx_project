@@ -142,11 +142,11 @@ public class RecyclerViewOpt<T> implements MixScrollOpt<T> {
         }
 
         if (!mListener.needDelayAddEmptyView()) {
-            addEmptyViewIfNoNull();
+            addEmptyViewIfNonNull();
         }
     }
 
-    public void addEmptyViewIfNoNull() {
+    public void addEmptyViewIfNonNull() {
         if (mEmptyView != null) {
 //            mRv.setEmptyView(mEmptyView);
         }

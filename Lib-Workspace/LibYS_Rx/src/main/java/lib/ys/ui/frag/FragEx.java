@@ -561,7 +561,7 @@ abstract public class FragEx extends Fragment implements
 
     @Override
     public boolean onRetryClick() {
-        if (!DeviceUtil.isNetworkEnable()) {
+        if (!DeviceUtil.isNetworkEnabled()) {
             showToast(R.string.toast_network_disconnect);
             return true;
         }

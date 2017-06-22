@@ -209,7 +209,7 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mListOpt.addEmptyViewIfNoNull();
+        mListOpt.addEmptyViewIfNonNull();
     }
 
     @Override

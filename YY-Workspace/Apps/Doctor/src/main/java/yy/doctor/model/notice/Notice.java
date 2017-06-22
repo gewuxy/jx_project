@@ -23,9 +23,13 @@ public class Notice extends EVal<TNotice> {
         time,
         from,
         content,
-        is_read,
         msgType,
         meetId,
+
+        /**
+         * 自定义字段
+         */
+        is_read,
     }
 
     @Id

@@ -81,7 +81,7 @@ public class DeviceUtil {
 //        }
 //    }
 
-    public static boolean isNetworkEnable() {
+    public static boolean isNetworkEnabled() {
         ConnectivityManager cm = (ConnectivityManager) AppEx.ct().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null) {

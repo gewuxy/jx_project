@@ -251,7 +251,7 @@ abstract public class RecyclerFragEx<T> extends FragEx implements RecyclerViewOp
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mRecyclerOpt.addEmptyViewIfNoNull();
+        mRecyclerOpt.addEmptyViewIfNonNull();
     }
 
     @Override

@@ -57,7 +57,7 @@ public class GroupListOpt<T, A extends IGroupAdapter<T>> extends ListOpt<T, A> i
         }
 
         if (!mListener.needDelayAddEmptyView()) {
-            addEmptyViewIfNoNull();
+            addEmptyViewIfNonNull();
         }
 
         mLv.setOnGroupClickListener(this);

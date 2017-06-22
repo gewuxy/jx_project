@@ -248,7 +248,7 @@ abstract public class RecyclerActivityEx<T> extends ActivityEx implements Recycl
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mRecyclerOpt.addEmptyViewIfNoNull();
+        mRecyclerOpt.addEmptyViewIfNonNull();
     }
 
     @Override

@@ -208,7 +208,7 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
 
     @Override
     public void addEmptyViewIfNoNull() {
-        mGroupListOpt.addEmptyViewIfNoNull();
+        mGroupListOpt.addEmptyViewIfNonNull();
     }
 
     @Override

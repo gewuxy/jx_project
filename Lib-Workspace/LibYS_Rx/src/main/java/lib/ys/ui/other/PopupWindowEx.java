@@ -216,7 +216,7 @@ abstract public class PopupWindowEx implements
     }
 
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (!DeviceUtil.isNetworkEnable()) {
+        if (!DeviceUtil.isNetworkEnabled()) {
             onNetworkError(id, new ConnectionNetError(mContext.getString(R.string.toast_network_disconnect)));
             return;
         }
