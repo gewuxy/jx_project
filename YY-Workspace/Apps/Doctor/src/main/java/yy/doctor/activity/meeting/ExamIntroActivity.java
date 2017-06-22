@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -25,6 +26,7 @@ import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
+import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
@@ -73,10 +75,13 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             super.handleMessage(msg);
 
             switch (msg.what) {
-                case 0: {
+                case 0:
+                    mCanStart = true;
+                    break;
+                case 1:
+                case 2:
                     mCanStart = false;
-                }
-                break;
+                    break;
             }
         }
     };
@@ -152,7 +157,11 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             //获取起始结束时间
             mStartTime = mIntro.getLong(TIntro.startTime);
             mEndTime = mIntro.getLong(TIntro.endTime);
-            mCurTime = mIntro.getLong(TIntro.serverTime);
+            mCurTime = mIntro.getLong(TIntro.serverTime)+100000;
+
+            if (BuildConfig.TEST) {
+                mCurTime += 10000;
+            }
 
             if (mIntro.getBoolean(TIntro.finished)) {
                 mTvScore.setText("过往成绩 : " + mIntro.getInt(TIntro.score) + "分");
@@ -161,13 +170,22 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             }
 
             mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
-            if (mEndTime > mCurTime) {
+            YSLog.d(TAG,mCanStart+"");
+            if (mStartTime >= mCurTime) {
+
+                    Long minCount = (mStartTime-mCurTime)/TimeUnit.MINUTES.toMillis(1);
+                    handler.sendEmptyMessageDelayed(0,minCount);
+                    Long totalCount = (mEndTime-mStartTime)/TimeUnit.MINUTES.toMillis(1);
+                    handler.sendEmptyMessageDelayed(1,minCount+totalCount);
+
                 // 未结束的话开始计时
-                Long maxCount = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1);
 //                mCountDown = new CountDown(maxCount, TimeUnit.MINUTES);
 //                mCountDown.setListener(this);
 //                mCountDown.start();
-                handler.sendEmptyMessageDelayed(0, maxCount);
+
+            }else if (mStartTime <= mCurTime && mCurTime < mEndTime) {
+                Long maxCount = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1);
+                handler.sendEmptyMessageDelayed(2, maxCount);
             }
 
             mTvTitle.setText(mPaper.getString(TPaper.name));
@@ -257,6 +275,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             }
         }
     }
+
 
     @Override
     public void onCountDownErr() {
