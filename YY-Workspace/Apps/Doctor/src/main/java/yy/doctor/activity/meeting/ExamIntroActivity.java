@@ -26,7 +26,6 @@ import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
@@ -68,7 +67,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
     private HintDialogSec mDialog; // 提示不能考试的原因
     private CountDown mCountDown; // FIXME:改为Handler
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -157,11 +156,9 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             //获取起始结束时间
             mStartTime = mIntro.getLong(TIntro.startTime);
             mEndTime = mIntro.getLong(TIntro.endTime);
-            mCurTime = mIntro.getLong(TIntro.serverTime)+100000;
+            mCurTime = mIntro.getLong(TIntro.serverTime);
 
-            if (BuildConfig.TEST) {
-                mCurTime += 10000;
-            }
+
 
             if (mIntro.getBoolean(TIntro.finished)) {
                 mTvScore.setText("过往成绩 : " + mIntro.getInt(TIntro.score) + "分");
@@ -170,22 +167,22 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             }
 
             mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
-            YSLog.d(TAG,mCanStart+"");
-            if (mStartTime >= mCurTime) {
+            YSLog.d(TAG, mCanStart + "");
+            if (mStartTime >= mCurTime) {     //还没到考试时间进去
 
-                    Long minCount = (mStartTime-mCurTime)/TimeUnit.MINUTES.toMillis(1);
-                    handler.sendEmptyMessageDelayed(0,minCount);
-                    Long totalCount = (mEndTime-mStartTime)/TimeUnit.MINUTES.toMillis(1);
-                    handler.sendEmptyMessageDelayed(1,minCount+totalCount);
+                Long minCount = mStartTime - mCurTime;   //注意传值是毫秒的单位
+                handler.sendEmptyMessageDelayed(0, minCount);//到考试时间了发消息给handle
+                Long totalCount = mEndTime - mStartTime;
+                handler.sendEmptyMessageDelayed(1, minCount + totalCount);//考试时间结束了发消息
 
                 // 未结束的话开始计时
 //                mCountDown = new CountDown(maxCount, TimeUnit.MINUTES);
 //                mCountDown.setListener(this);
 //                mCountDown.start();
 
-            }else if (mStartTime <= mCurTime && mCurTime < mEndTime) {
-                Long maxCount = (mEndTime - mCurTime) / TimeUnit.MINUTES.toMillis(1);
-                handler.sendEmptyMessageDelayed(2, maxCount);
+            } else if (mStartTime <= mCurTime && mCurTime < mEndTime) {//过了开考时间还没到结束时间
+                Long maxCount = mEndTime - mCurTime;
+                handler.sendEmptyMessageDelayed(2, maxCount);//考试时间结束发消息
             }
 
             mTvTitle.setText(mPaper.getString(TPaper.name));
