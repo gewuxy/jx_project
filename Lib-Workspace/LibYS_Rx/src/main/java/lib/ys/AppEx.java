@@ -9,6 +9,7 @@ import android.widget.Toast;
 import lib.network.Network;
 import lib.network.NetworkConfig;
 import lib.ys.config.AppConfig;
+import lib.ys.config.ListConfig;
 import lib.ys.crash.CrashMgr;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.DeviceUtil;
@@ -24,7 +25,8 @@ abstract public class AppEx extends Application {
 
     protected static Context mContext;
 
-    private static AppConfig mConfig;
+    private static AppConfig mAppConfig;
+    private static ListConfig mListConfig;
 
 
     @Override
@@ -45,7 +47,8 @@ abstract public class AppEx extends Application {
 
         Network.init(this, configureNetwork());
 
-        mConfig = configureApp();
+        mAppConfig = configureApp();
+        mListConfig = configureList();
 
         if (enableCatchCrash()) {
             CrashMgr.inst().init(e -> {
@@ -65,8 +68,21 @@ abstract public class AppEx extends Application {
      */
     abstract protected AppConfig configureApp();
 
+    /**
+     * 设置List
+     *
+     * @return
+     */
+    protected ListConfig configureList() {
+        return ListConfig.newBuilder().build();
+    }
+
     public static AppConfig getConfig() {
-        return mConfig;
+        return mAppConfig;
+    }
+
+    public static ListConfig getListConfig() {
+        return mListConfig;
     }
 
     abstract protected NetworkConfig configureNetwork();

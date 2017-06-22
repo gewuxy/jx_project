@@ -3,20 +3,20 @@ package yy.doctor;
 import android.os.Build;
 import android.os.StrictMode;
 
-import lib.jg.JG;
 import lib.jg.JAnalyticsStats;
+import lib.jg.JG;
 import lib.network.NetworkConfig;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
+import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.ys.ui.other.NavBar;
 import lib.yy.BaseApp;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;
-import yy.doctor.view.ListFooter;
 
 /**
  * @author yuansui
@@ -50,6 +50,14 @@ public class App extends BaseApp {
     }
 
     @Override
+    protected ListConfig configureList() {
+        return ListConfig.newBuilder()
+                .type(PageDownType.page)
+//                .footerClz(ListFooter.class)
+                .build();
+    }
+
+    @Override
     protected void init() {
         // log
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
@@ -70,8 +78,6 @@ public class App extends BaseApp {
                 .focusBgDrawableRes(R.drawable.nav_bar_selector)
                 .build();
         NavBar.initialize(navBarConfig);
-
-        ListConfig.footerClz(ListFooter.class);
 
         // 临时的
         if (Build.VERSION.SDK_INT >= 24/*Build.VERSION_CODES.N*/) {

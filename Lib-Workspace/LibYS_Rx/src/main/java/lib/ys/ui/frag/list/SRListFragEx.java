@@ -8,13 +8,13 @@ import org.json.JSONException;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IListResult;
+import lib.ys.AppEx;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.SROptListener;
 import lib.ys.ui.interfaces.opts.list.SROpt;
@@ -168,7 +168,7 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     @Override
     @PageDownType
     public int getListPageDownType() {
-        return ListConfig.getType();
+        return AppEx.getListConfig().getType();
     }
 
     @Override

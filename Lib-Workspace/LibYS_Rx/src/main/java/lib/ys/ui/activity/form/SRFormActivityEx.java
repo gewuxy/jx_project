@@ -3,13 +3,13 @@ package lib.ys.ui.activity.form;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
-import lib.network.model.err.NetError;
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx;
-import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.view.swipeRefresh.base.BaseSRLayout;
 import lib.ys.view.swipeRefresh.interfaces.ISRListener;

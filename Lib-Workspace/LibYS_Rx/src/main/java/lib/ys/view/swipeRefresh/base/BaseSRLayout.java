@@ -14,7 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 
-import lib.ys.config.ListConfig;
+import lib.ys.AppEx;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.LayoutUtil;
@@ -76,7 +76,7 @@ abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mTotalDragDistance = DpFitter.dp(KDragMaxDistanceDp);
 
-        mHeader = ReflectionUtil.newInst(ListConfig.getHeaderClz(), getContext(), this);
+        mHeader = ReflectionUtil.newInst(AppEx.getListConfig().getHeaderClz(), getContext(), this);
         if (mHeader == null) {
             mHeader = new DefaultLayoutHeader(getContext(), this);
         }

@@ -31,33 +31,58 @@ public class ListConfig {
     }
 
     @PageDownType
-    private static int mType = PageDownType.offset; // 默认根据个数偏移
+    private int mType = PageDownType.offset; // 默认根据个数偏移
 
-    private static Class<? extends BaseHeader> mHeaderClz = null;
-    private static Class<? extends BaseFooter> mFooterClz = null;
+    private Class<? extends BaseHeader> mHeaderClz = null;
+    private Class<? extends BaseFooter> mFooterClz = null;
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 
     @PageDownType
-    public static int getType() {
+    public int getType() {
         return mType;
     }
 
-    public static void type(@PageDownType int type) {
-        mType = type;
-    }
-
-    public static void headerClz(Class<? extends BaseHeader> clz) {
-        mHeaderClz = clz;
-    }
-
-    public static Class<? extends BaseHeader> getHeaderClz() {
+    public Class<? extends BaseHeader> getHeaderClz() {
         return mHeaderClz;
     }
 
-    public static Class<? extends BaseFooter> getFooterClz() {
+    public Class<? extends BaseFooter> getFooterClz() {
         return mFooterClz;
     }
 
-    public static void footerClz(Class<? extends BaseFooter> clz) {
-        mFooterClz = clz;
+
+    public static class Builder {
+
+        @PageDownType
+        private int mType = PageDownType.offset; // 默认根据个数偏移
+
+        private Class<? extends BaseHeader> mHeaderClz = null;
+        private Class<? extends BaseFooter> mFooterClz = null;
+
+        public Builder type(@PageDownType int type) {
+            mType = type;
+            return this;
+        }
+
+        public Builder footerClz(Class<? extends BaseFooter> clz) {
+            return this;
+        }
+
+        public Builder headerClz(Class<? extends BaseHeader> clz) {
+            return this;
+        }
+
+        public ListConfig build() {
+            ListConfig config = new ListConfig();
+
+            config.mType = mType;
+            config.mHeaderClz = mHeaderClz;
+            config.mFooterClz = mFooterClz;
+
+            return config;
+        }
     }
 }

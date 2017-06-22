@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 
+import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.config.ListConfig;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
@@ -55,7 +55,7 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
     abstract public void addHeaderView(View v);
 
     private void createFooterView(Context context) {
-        mLoadMoreFooterView = ReflectionUtil.newInst(ListConfig.getFooterClz(), context);
+        mLoadMoreFooterView = ReflectionUtil.newInst(AppEx.getListConfig().getFooterClz(), context);
         if (mLoadMoreFooterView == null) {
             // 加载失败, 使用默认的
             mLoadMoreFooterView = new DefaultFooter(context);

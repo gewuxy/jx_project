@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import lib.network.NetworkLog;
 import lib.network.Network;
+import lib.network.NetworkLog;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkReq;
 import lib.network.model.interfaces.OnNetworkListener;

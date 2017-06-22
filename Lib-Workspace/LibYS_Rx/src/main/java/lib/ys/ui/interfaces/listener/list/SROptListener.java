@@ -7,10 +7,10 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import lib.network.model.interfaces.IListResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 
 /**

@@ -4,8 +4,8 @@ import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.param.CommonPair;
-import lib.network.provider.ok.callback.OkCallback;
 import lib.network.provider.ok.OkClient;
+import lib.network.provider.ok.callback.OkCallback;
 import okhttp3.Call;
 import okhttp3.Request;
 

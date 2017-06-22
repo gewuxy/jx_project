@@ -38,23 +38,8 @@ abstract public class NotifierEx<I> {
                 .map(aClass -> (I[]) Array.newInstance(aClass, mObservers.size()))
                 .map(is -> mObservers.toArray(is))
                 .flatMap(is -> Flowable.fromArray(is))
-//                .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> callback(i, type, data));
-
-
-//        I[] arrays = null;
-//        synchronized (this) {
-//            Class clz = GenericUtil.getClassType(getClass());
-//            arrays = (I[]) Array.newInstance(clz, mObservers.size());
-//            arrays = mObservers.toArray(arrays);
-//        }
-//
-//        if (arrays != null) {
-//            Observable.fromArray(arrays)
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(i -> callback(i, type, data));
-//        }
     }
 
     abstract protected void callback(I o, int type, Object data);

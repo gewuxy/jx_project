@@ -23,7 +23,7 @@ public class FileDataAdapter extends AdapterEx<FileData, FileDataVH> {
     @Override
     protected void refreshView(int position, FileDataVH holder) {
 
-        if ( !TextUtil.isEmpty(getItem(position).getString(TFileData.materialName)) ) {
+        if (!TextUtil.isEmpty(getItem(position).getString(TFileData.materialName))) {
             holder.getTv().setText(getItem(position).getString(TFileData.materialName));
         } else {
             holder.getTv().setText(getItem(position).getString(TFileData.name));

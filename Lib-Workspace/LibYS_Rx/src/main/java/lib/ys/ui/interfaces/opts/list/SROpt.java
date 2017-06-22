@@ -11,14 +11,14 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx.ListConstants;
-import lib.ys.YSLog;
 import lib.ys.R;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.fitter.LayoutFitter;
-import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.listener.MixOnScrollListener;
 import lib.ys.ui.interfaces.listener.list.MixScrollOpt;

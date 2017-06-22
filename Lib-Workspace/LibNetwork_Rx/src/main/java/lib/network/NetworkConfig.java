@@ -57,7 +57,7 @@ public class NetworkConfig {
 
             config.mConnectTimeout = mConnectTimeout;
             config.mReadTimeout = mReadTimeout;
-            config.mCacheDir= mCacheDir;
+            config.mCacheDir = mCacheDir;
 
             return config;
         }
