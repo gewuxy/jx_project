@@ -13,9 +13,11 @@ import yy.doctor.model.meet.video.Course.TCourse;
 
 public class Course extends EVal<TCourse> {
     public enum TCourse {
+
         @BindList(Detail.class)
-        details,//课程明细
-        id,//明细id
-        title,//课程名称
+        details, // 课程明细
+
+        id, // 明细id
+        title, // 课程名称
     }
 }

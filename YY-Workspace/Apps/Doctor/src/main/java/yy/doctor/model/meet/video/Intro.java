@@ -14,8 +14,10 @@ import yy.doctor.model.meet.video.Intro.TIntro;
 public class Intro extends EVal<TIntro> {
 
     public enum TIntro {
+
         @BindObj(Course.class)
         course,//视频课程信息
+
         id,//课程id
         meetId,//会议id
         moduleId,//模块id

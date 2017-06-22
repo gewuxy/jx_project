@@ -193,7 +193,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
                 } else {
                     if (mDialog == null) {
                         mDialog = new HintDialogSec(ExamIntroActivity.this);
-                        mDialog.addButton("确定", "#0682e6", v1 -> mDialog.dismiss());
+                        mDialog.addButton("确定", v1 -> mDialog.dismiss());
                     }
 
                     if (mStartTime > mCurTime) {

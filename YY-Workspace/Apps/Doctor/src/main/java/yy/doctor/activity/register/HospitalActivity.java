@@ -21,18 +21,17 @@ import yy.doctor.util.Util;
 
 /**
  * 选择医院的界面
- * <p>
+ *
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
 
 public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, HospitalAdapter> {
 
-    private TextView mTvChange;// 改变按钮
-    private TextView mTvLocation;// 选择的地址
+    private TextView mTvChange; // 改变按钮
+    private TextView mTvLocation; // 选择的地址
     private String mProvince;
     private String mCity;
-    private String mArea;
 
     @Override
     public int getContentViewId() {

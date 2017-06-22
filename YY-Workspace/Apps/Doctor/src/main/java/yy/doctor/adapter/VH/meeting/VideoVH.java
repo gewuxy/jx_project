@@ -19,18 +19,14 @@ public class VideoVH extends ViewHolderEx {
     }
 
     public RelativeLayout getLayout() {
-        return getView(R.id.video_detail_layout);
+        return getView(R.id.video_category_layout);
+    }
+    
+    public TextView getTvName() {
+        return getView(R.id.video_category_tv_name);
     }
 
-    public TextView getTvCategory() {
-        return getView(R.id.video_category_tv);
-    }
-
-    public TextView getTvMain() {
-        return getView(R.id.video_detail_tv_main);
-    }
-
-    public TextView getTvSecondary() {
-        return getView(R.id.video_detail_tv_secondary);
+    public TextView getTvStudy() {
+        return getView(R.id.video_category_tv_study);
     }
 }

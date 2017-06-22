@@ -8,4 +8,11 @@
         <!-- 进度条的宽度 -->
         <attr name="circle_widthDp" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="ModuleView">
+        <attr name="module_text" format="string"/>
+        <!-- 进度条的宽度 -->
+        <attr name="module_src" format="reference"/>
+    </declare-styleable>
+
 </resources>

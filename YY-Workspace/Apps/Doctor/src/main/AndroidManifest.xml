@@ -111,9 +111,6 @@
             android:name=".activity.meeting.VideoCategoryActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.VideoDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activity.meeting.VideoActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"/>

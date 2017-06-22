@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
+    xmlns:moduleView="http://schemas.android.com/apk/res-auto"
     android:layout_alignParentBottom="true"
     android:background="#dbdbdb"
     android:orientation="horizontal"
@@ -17,93 +18,57 @@
         android:orientation="horizontal">
 
         <!-- 考试 -->
-        <LinearLayout
+        <yy.doctor.view.ModuleView
             android:id="@+id/meeting_detail_layout_exam"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/meeting_detail_iv_exam"
-                style="@style/iv.meeting"
-                android:src="@mipmap/meeting_ic_exam"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_exam"
-                style="@style/tv.meeting.button"
-                android:text="考试"/>
-        </LinearLayout>
+            moduleView:module_src="@mipmap/meeting_ic_exam"
+            moduleView:module_text="考试"
+            android:orientation="horizontal"/>
 
         <View
             style="@style/v.meeting"/>
 
         <!-- 问卷 -->
-        <LinearLayout
+        <yy.doctor.view.ModuleView
             android:id="@+id/meeting_detail_layout_que"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/meeting_detail_iv_que"
-                style="@style/iv.meeting"
-                android:src="@mipmap/meeting_ic_que"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_que"
-                style="@style/tv.meeting.button"
-                android:text="问卷"/>
-        </LinearLayout>
+            moduleView:module_src="@mipmap/meeting_ic_que"
+            moduleView:module_text="问卷"
+            android:orientation="horizontal"/>
 
         <View
             style="@style/v.meeting"/>
 
         <!-- 视频 -->
-        <LinearLayout
+        <yy.doctor.view.ModuleView
             android:id="@+id/meeting_detail_layout_video"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/meeting_detail_iv_video"
-                style="@style/iv.meeting"
-                android:src="@mipmap/meeting_ic_video"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_video"
-                style="@style/tv.meeting.button"
-                android:text="视频"/>
-        </LinearLayout>
+            moduleView:module_src="@mipmap/meeting_ic_video"
+            moduleView:module_text="视频"
+            android:orientation="horizontal"/>
 
         <View
             style="@style/v.meeting"/>
 
         <!-- 签到 -->
-        <LinearLayout
+        <yy.doctor.view.ModuleView
             android:id="@+id/meeting_detail_layout_sign"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/meeting_detail_iv_sign"
-                style="@style/iv.meeting"
-                android:src="@mipmap/meeting_ic_sign"/>
-
-            <TextView
-                android:id="@+id/meeting_detail_tv_sign"
-                style="@style/tv.meeting.button"
-                android:text="签到"/>
-        </LinearLayout>
+            moduleView:module_src="@mipmap/meeting_ic_sign"
+            moduleView:module_text="签到"
+            android:orientation="horizontal"/>
 
     </LinearLayout>
 

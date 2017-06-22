@@ -12,10 +12,13 @@
         },
         {
           "courseId": 1,
-          "id": 2,
-          "name": "广医骨外科培训第二期",
-          "preId": 0,
-          "type": 0
+          "duration": 1200,
+          "id": 4,
+          "name": "王主任第一讲",
+          "preId": 1,
+          "type": 1,
+          "url": "http://128.1.226.186/file/PLAY/61213.mp4",
+          "videoType": 1
         }
       ],
       "id": 1,

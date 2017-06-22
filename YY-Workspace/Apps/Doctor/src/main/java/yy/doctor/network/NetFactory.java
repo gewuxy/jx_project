@@ -83,7 +83,7 @@ public class NetFactory {
         String KAnswer = "answer";//答案
         String KItemJson = "itemJson";//答案列表
 
-        String KUseTime = "usedTime";//微课用时  秒
+        String KUseTime = "usedtime";//微课用时  秒
 
         String KMessage = "message";//留言内容
         String KMsgType = "msgType";//留言类型

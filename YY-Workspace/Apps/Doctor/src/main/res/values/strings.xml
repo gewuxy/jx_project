@@ -114,7 +114,12 @@
     <string name="enough">象数不足</string>
 
     <string name="video">视频</string>
-    <string name="video_studied">已学习</string>
+    <string name="video_add_up">累计 </string>
+    <string name="video_add_up_all">总计:</string>
+    <string name="video_studied_no_start">未开始学习</string>
+    <string name="video_no_see">未观看</string>
+
+    <string name="meeting_comment">评论</string>
 
     <string name="minute">分钟</string>
 

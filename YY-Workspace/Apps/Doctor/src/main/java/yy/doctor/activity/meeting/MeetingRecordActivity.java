@@ -17,6 +17,7 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.UIUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseListActivity;
@@ -34,6 +35,7 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
+import yy.doctor.util.Util;
 
 /**
  * 会议记录界面
@@ -80,12 +82,14 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, mCourseInfo.getString(TCourseInfo.title), v -> {
+        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             // 把前面的页面关了
             notify(NotifyType.finish);
             setResult(RESULT_OK);
             finish();
         });
+
+        bar.addTextViewMid(mCourseInfo.getString(TCourseInfo.title));
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
         bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> {

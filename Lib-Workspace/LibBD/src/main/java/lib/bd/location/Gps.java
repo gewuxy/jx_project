@@ -9,7 +9,8 @@ public class Gps extends EVal<TGps> {
     public enum TGps {
         longitude,
         latitude,
+
         @BindObj(Place.class)
-        place,
+        place, // 地点(省市区)
     }
 }

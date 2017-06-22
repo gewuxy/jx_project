@@ -20,7 +20,6 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/4/26
  */
-
 public class SearchActivity extends BaseActivity {
 
     private FlowLayout mFlowLayout;//底部科室列表

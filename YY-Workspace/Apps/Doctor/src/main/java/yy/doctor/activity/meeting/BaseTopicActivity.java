@@ -279,7 +279,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      * @param noFinish
      */
     protected void trySubmit(int noFinish) {
-        //考试时间未完
+        // 未做完
         mSubDialog = new HintDialogMain(BaseTopicActivity.this);
         mSubDialog.setHint(setDialogHint(noFinish));
 

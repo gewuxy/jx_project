@@ -46,6 +46,8 @@ import yy.doctor.util.Util;
  */
 public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
+    private static final int KCloseNormal = 1000; //  1000表示正常关闭,意思是建议的连接已经完成了
+
     private TextView mTvSend;
     private EditText mEtSend;
     private String mMeetId;
@@ -74,7 +76,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "评论", this);
+        Util.addBackIcon(bar, R.string.meeting_comment, this);
     }
 
     @Override
@@ -216,7 +218,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         super.onDestroy();
 
         if (mWebSocket != null) {
-            mWebSocket.close(3000, "主动关闭");
+            mWebSocket.close(KCloseNormal, "主动关闭");
             mWebSocket = null;
         }
     }

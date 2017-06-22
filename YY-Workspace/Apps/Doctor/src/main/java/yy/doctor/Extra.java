@@ -16,6 +16,7 @@ public interface Extra {
     String KFilePath = "filePath";
     String KPage = "page";
     String KNum = "num";
+    String KSubmit = "submit";
 
     String KPass = "pass";
     String KPaperId = "paperId";
@@ -31,6 +32,7 @@ public interface Extra {
 
     String KLogout = "logout";
     String KJPushRegisterId = "JPushRegisterId";
+    String KSubmitPPT = "submit_PPT";
 
     String KMeetingType = "meeting";
     String KUnitNumType = "unitNum";

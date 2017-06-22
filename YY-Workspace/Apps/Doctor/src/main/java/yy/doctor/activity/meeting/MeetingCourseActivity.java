@@ -15,14 +15,16 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.MapList;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -41,7 +43,6 @@ import yy.doctor.frag.meeting.course.PicAudioCourseFrag;
 import yy.doctor.frag.meeting.course.PicCourseFrag;
 import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.Course.CourseType;
-import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.PPT;
@@ -58,7 +59,7 @@ import yy.doctor.view.CircleProgressView;
  * @since : 2017/4/24
  */
 public class MeetingCourseActivity extends BaseVPActivity implements OnCountDownListener {
-    // FIXME: 2017/6/19 外面统计
+
     private static final int KVpSize = 3; // Vp缓存的数量
     private final int KViewPagerHDp = 270; // 每张PPT的高度
     private final int KVanishTime = 3; // 横屏显示时间
@@ -71,6 +72,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     private OnCourseListener mListener;
     private PPT mPPT; // PPT
     private List<Course> mCourses; // PPT的内容
+    private Map<Integer , Long> mTimes; // 学习时间
 
     private ViewGroup.LayoutParams mParams; // PPT 的布局参数
 
@@ -91,6 +93,9 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     private View mLayoutP; // 竖屏布局
     private View mLayoutL; // 横屏布局
 
+    private long mStartTime; // 开始时间
+    private int mLastPosition; // 上一次的position
+
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, MeetingCourseActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
@@ -107,6 +112,10 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     public void initData() {
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
+
+        mStartTime = System.currentTimeMillis();
+        mLastPosition = 0;
+        mTimes = new HashMap<>();
 
         mListener = new OnCourseListener() {
 
@@ -275,6 +284,11 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onPageSelected(int position) {
+
+                long curTime = System.currentTimeMillis();
+                mTimes.put(mLastPosition, curTime - mStartTime);
+                mStartTime = curTime;
+                mLastPosition = position;
                 // 切换viewPager改变提示
                 mTvSelect.setText(String.valueOf(position + 1));
                 mTvTimeP.setText("加载中");
@@ -529,11 +543,12 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         if (mCountDown != null) {
             mCountDown.stop();
         }
-        List<Long> stayTimes = new ArrayList<>();
-        for (Course course : mCourses) {
-            stayTimes.add(course.getLong(TCourse.studyTime, 0));
+        long curTime = System.currentTimeMillis();
+        mTimes.put(mLastPosition, curTime - mStartTime);
+        for (Integer key : mTimes.keySet()) {
+            // FIXME: 2017/6/21 提交
+            YSLog.d(TAG,"onDestroy:---key"+ key + "value" + mTimes.get(key));
         }
-        YSLog.d(TAG, "finish:" + stayTimes.toString());
     }
 
     @Override

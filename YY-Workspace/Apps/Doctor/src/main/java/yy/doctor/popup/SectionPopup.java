@@ -56,6 +56,7 @@ public class SectionPopup extends PopupWindowEx {
 
         mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
 
+        // 分割线
         mRv.addItemDecoration(new GridDivider(
                 DpFitter.dp(KDividerHeight),
                 R.drawable.section_divider_bg));

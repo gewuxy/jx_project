@@ -6,25 +6,27 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:background="@color/white"
-        android:id="@+id/video_detail_layout"
+        android:id="@+id/video_category_layout"
         android:layout_width="match_parent"
-        android:layout_height="62dp">
+        android:layout_height="62dp"
+        android:background="@color/white">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
+
             <TextView
-                android:id="@+id/video_detail_tv_main"
+                android:id="@+id/video_category_tv_name"
                 style="@style/tv"
                 android:text="大视频"
                 android:textColor="@color/text_333"
                 android:textSize="14dp"/>
+
             <TextView
-                android:id="@+id/video_detail_tv_secondary"
+                android:id="@+id/video_category_tv_study"
                 style="@style/tv"
                 android:layout_marginTop="6dp"
                 android:text="已学习0"

@@ -12,6 +12,8 @@ import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.model.Profile;
+import yy.doctor.model.meet.Submit;
+import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpUser;
@@ -26,9 +28,10 @@ public class CommonServ extends ServiceEx {
 
     private static final int KReqIdLogout = 1;
     private static final int KReqIdJPushRegisterId = 2;
-    private static final int KReqIdVideo = 2;
+    private static final int KReqIdVideo = 3;
 
     private String mJPushRegisterId;
+    private Submit mSubmit;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -38,6 +41,16 @@ public class CommonServ extends ServiceEx {
         } else if (type.equals(Extra.KJPushRegisterId)) {
             mJPushRegisterId = intent.getStringExtra(Extra.KData);
             exeNetworkReq(KReqIdJPushRegisterId, NetFactory.bindJPush(mJPushRegisterId));
+        } else if (type.equals(Extra.KSubmitPPT)) {
+            mSubmit = (Submit) intent.getSerializableExtra(Extra.KData);
+            exeNetworkReq(KReqIdVideo, NetFactory.submitVideo()
+                    .meetId(mSubmit.getString(TSubmit.meetId))
+                    .moduleId(mSubmit.getString(TSubmit.moduleId))
+                    .courseId(mSubmit.getString(TSubmit.courseId))
+                    .detailId(mSubmit.getString(TSubmit.detailId))
+                    .useTime(mSubmit.getString(TSubmit.usedtime))
+                    .isFinish(mSubmit.getBoolean(TSubmit.finished))
+                    .builder());
         }
     }
 
@@ -64,6 +77,7 @@ public class CommonServ extends ServiceEx {
                 Profile.inst().clearProfile();
             }
             break;
+
             case KReqIdJPushRegisterId: {
                 if (r.isSucceed()) {
                     YSLog.d(TAG, "极光推送绑定成功");
@@ -74,6 +88,16 @@ public class CommonServ extends ServiceEx {
                     retryNetworkRequest(id);
                     SpJPush.inst().jPushIsRegister(false);
                     return;
+                }
+            }
+            break;
+
+            case KReqIdVideo:{
+                if (r.isSucceed()) {
+                    YSLog.d(TAG,"onNetworkSuccess:记录成功");
+                } else {
+                    retryNetworkRequest(id);
+                    YSLog.d(TAG,"onNetworkSuccess:记录失败");
                 }
             }
             break;

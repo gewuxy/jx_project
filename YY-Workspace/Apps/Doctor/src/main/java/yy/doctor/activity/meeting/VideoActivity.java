@@ -24,10 +24,8 @@ import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import lib.jg.jpush.SpJPush;
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
-import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -39,6 +37,8 @@ import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.meet.Submit;
+import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.model.meet.video.Detail;
 import yy.doctor.model.meet.video.Detail.TDetail;
 import yy.doctor.serv.CommonServ;
@@ -63,7 +63,6 @@ public class VideoActivity extends BaseActivity implements
 
     private long mAllTime; // 视频总时长(s)
     private long mDuration; // 本次学习时长
-    private long mLastDuration; // 之前学习时长
     private boolean mIsPortrait; // 屏幕方向
     private String mUriString; // 播放地址
     private Detail mDetail;
@@ -78,18 +77,20 @@ public class VideoActivity extends BaseActivity implements
     private ImageView mIvControl; // 控制播放暂停
     private NetVideoView mVideo; // 播放控件
     private RelativeLayout mLayoutVideo; // 播放容器
+    private Submit mSubmit; // 提交记录时间的需要数据
 
-    public static void nav(Context context, Detail detail) {
+    public static void nav(Context context, Detail detail, Submit submit) {
         Intent i = new Intent(context, VideoActivity.class)
-                .putExtra(Extra.KData, detail);
+                .putExtra(Extra.KData, detail)
+                .putExtra(Extra.KSubmit, submit);
         LaunchUtil.startActivityForResult(context, i, 0);
     }
 
     @Override
     public void initData() {
         mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
+        mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KSubmit);
         mUriString = TextUtil.toUtf8(mDetail.getString(TDetail.url));
-        mLastDuration = mDetail.getLong(TDetail.duration);
         mDuration = 0;
     }
 
@@ -235,9 +236,6 @@ public class VideoActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.video_iv_control: {
-                if (mVideo.getCurrentPosition() == mVideo.getDuration()) {
-                    mVideo.prepared(mAllTime);
-                }
                 mVideo.toggleState();
                 mIvControl.setSelected(!mIvControl.isSelected());
             }
@@ -291,7 +289,7 @@ public class VideoActivity extends BaseActivity implements
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         // 总时长
         mAllTime = plMediaPlayer.getDuration() / 1000;
-        long start = mLastDuration % mAllTime; // 开始时间(s)
+        long start = mDetail.getLong(TDetail.userdtime, 0) % mAllTime; // 开始时间(s)
         long residue = mAllTime - start; // 剩余时间(s)
         mSbProgress.setProgress((int) (start * 100.0 / mAllTime));
         mTvTime.setText(Util.formatTime(start, DateUnit.minute));
@@ -336,6 +334,7 @@ public class VideoActivity extends BaseActivity implements
         mVideo.setAVOptions(options);
         mVideo.setVideoPath(mUriString);
         mVideo.recycle();
+        mVideo.prepared(mAllTime);
         mIvControl.setSelected(true);
     }
 
@@ -352,8 +351,12 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void finish() {
         setResult(RESULT_OK, new Intent().putExtra(Extra.KData, mDuration));
-        Intent intent = new Intent(this, CommonServ.class);
-        // FIXME: 2017/6/16
+        boolean finish = mDetail.getLong(TDetail.userdtime, 0) + mDuration > mAllTime;
+        mSubmit.put(TSubmit.usedtime, mDuration + mDetail.getLong(TDetail.userdtime, 0));
+        mSubmit.put(TSubmit.finished, finish);
+        Intent intent = new Intent(this, CommonServ.class)
+                .putExtra(Extra.KType, Extra.KSubmitPPT)
+                .putExtra(Extra.KData, mSubmit);
         startService(intent);
         super.finish();
     }
@@ -361,6 +364,7 @@ public class VideoActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (mVideo != null) {
             mVideo.recycle();
             mVideo.stopPlayback();

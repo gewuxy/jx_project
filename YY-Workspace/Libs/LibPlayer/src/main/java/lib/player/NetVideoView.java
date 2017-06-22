@@ -39,6 +39,7 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
 
     public NetVideoView(Context context) {
         super(context);
+
         init();
     }
 
@@ -135,7 +136,6 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
     @Override
     public void onCountDown(long remainCount) {
         if (mListener != null) {
-            YSLog.d(TAG,"count" + remainCount);
             mListener.onVideoProgress(getCurrentPosition() / 1000);
         }
     }
