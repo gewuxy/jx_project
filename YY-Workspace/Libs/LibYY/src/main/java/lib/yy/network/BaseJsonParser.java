@@ -47,6 +47,7 @@ public class BaseJsonParser extends JsonParserEx {
         r.setCode(code);
         r.setError(getString(object, GlobalTag.msg));
 
+
         if (code == 100) {
             Notifier.inst().notify(NotifyType.token_out_of_date);
         }
