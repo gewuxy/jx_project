@@ -8,11 +8,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
-import lib.network.model.interfaces.IListResult;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
@@ -35,12 +32,11 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
- * 视频列表(大分类)界面
+ * 视频列表(分类)界面
  *
  * @author : GuoXuan
  * @since : 2017/5/24
  */
-
 public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCategoryAdapter> implements OnAdapterClickListener {
 
     private static final int KIdToVideo = 0;
@@ -92,57 +88,41 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        ListResult<Detail> listResult = null;
+        List<Detail> details = null;
         if (id == KIdToVideo) {
             // 筛选需要的数据类型
             Result<Intro> result = JsonParser.ev(r.getText(), Intro.class);
-            ListResult<Detail> listResult = new ListResult<>();
+            listResult = new ListResult<>();
             if (result.isSucceed()) {
                 Intro intro = result.getData();
                 Course course = intro.getEv(TIntro.course);
                 mSubmit.put(TSubmit.courseId, course.getString(TCourse.id));
-                List<Detail> mDetails = course.getList(TCourse.details);
-                listResult.setData(mDetails);
+                details = course.getList(TCourse.details);
+                listResult.setData(details);
             }
-            return listResult;
         } else if (id == KIdVideo) {
-            return JsonParser.evs(r.getText(), Detail.class);
-        } else {
-            return JsonParser.error(r.getText());
+            listResult = JsonParser.evs(r.getText(), Detail.class);
+            details = listResult.getData();
         }
+        mStudyTime = 0;
+        for (Detail detail : details) {
+            mStudyTime += detail.getLong(TDetail.userdtime, 0);
+            if (mBarTvRight.getVisibility() == View.GONE && detail.getBoolean(TDetail.type)) {
+                // 有文件的时候就要显示
+                runOnUIThread(() -> showView(mBarTvRight));
+            }
+        }
+        return listResult;
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        IListResult<Detail> r = (IListResult<Detail>) result;
-        if (r.isSucceed()) {
-            setViewState(ViewState.normal);
-            List<Detail> mDetails = r.getData();
-            if (mDetails == null || mDetails.size() <= 0) {
-                return;
-            }
-            addAll(mDetails);
+    public void onNetRefreshSuccess() {
+        super.onNetRefreshSuccess();
 
-            mStudyTime = 0;
-            for (Detail detail : mDetails) {
-                mStudyTime += detail.getLong(TDetail.userdtime);
-                if (mBarTvRight.getVisibility() == View.GONE && detail.getBoolean(TDetail.type)) {
-                    // 有文件的时候
-                    showView(mBarTvRight);
-                }
-            }
-            if (mStudyTime > 0) {
-                mBarTvRight.setText(getString(R.string.video_add_up_all) + VideoCategoryAdapter.format(mStudyTime));
-            }
-        } else {
-            onNetworkError(id, new NetError(id, r.getError()));
+        if (mStudyTime > 0) {
+            mBarTvRight.setText(getString(R.string.video_add_up_all) + VideoCategoryAdapter.format(mStudyTime));
         }
-    }
-
-    @Override
-    public void onNetworkError(int id, NetError error) {
-        super.onNetworkError(id, error);
-
-        setViewState(ViewState.error);
     }
 
     @Override
@@ -168,7 +148,6 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
             if (mStudyTime > 0) {
                 mBarTvRight.setText(getString(R.string.video_add_up_all) + VideoCategoryAdapter.format(mStudyTime));
             }
-            YSLog.d(TAG,"onActivityResult:"+ duration);
             getItem(mClickPosition).put(TDetail.userdtime, duration + getItem(mClickPosition).getLong(TDetail.userdtime));
             invalidate();
         }
