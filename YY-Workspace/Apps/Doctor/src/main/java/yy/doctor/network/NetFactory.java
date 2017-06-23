@@ -161,8 +161,10 @@ public class NetFactory {
         String KBuyLimit = "buyLimit";   //商品限购数
     }
 
-    public interface EpcDetailParam {
-        String KEpcDetail = "id";  //商品id
+    public interface EpcParam {
+        String KGoodsId = "id";  //商品id
+        String KPageNum = "pageNum";
+        String KPageSize = "pageSize";
     }
 
     public interface CollectMeetingParam {
@@ -245,7 +247,7 @@ public class NetFactory {
     public static NetworkReq bindJPush(String registerId) {
         return newGet(UrlUser.KBindJPush)
                 .param(UserParam.KJPushRegisterId, registerId)
-                .retry(5, 1)
+                .retry(5, 2)
                 .build();
     }
 
@@ -269,7 +271,7 @@ public class NetFactory {
     public static NetworkReq logout() {
         return newGet(UrlUser.KLogout)
                 .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
-                .retry(5, 1)
+                .retry(5, 2)
                 .build();
     }
 
@@ -383,19 +385,14 @@ public class NetFactory {
      *
      * @param pageNum
      * @param pageSize
-     * @param type     该值为空或0时，表示会议类型
-     * @return
+     * @return  该值为空或0时，表示会议类型
      */
-    public static NetworkReq collectionMeetings(int pageNum, int pageSize, int type) {
+    public static NetworkReq collectionMeetings(int pageNum, int pageSize) {
         return newGet(UrlUser.KCollectionMeetings)
                 .param(CollectionMeetingsParam.KPageNum, pageNum)
                 .param(CollectionMeetingsParam.KPageSize, pageSize)
-                .param(CollectionMeetingsParam.KType, type)
+                .param(CollectionMeetingsParam.KType, "0")
                 .build();
-    }
-
-    public static NetworkReq collectionMeetings(int pageNum, int pageSize) {
-        return collectionMeetings(pageNum, pageSize, 0);
     }
 
     /**
@@ -431,21 +428,27 @@ public class NetFactory {
 
     /**
      * 订单
-     *
+     * @param page
+     * @param pageSize
      * @return
      */
-    public static NetworkReq order() {
+    public static NetworkReq order(int page, int pageSize) {
         return newGet(UrlEpc.KOrder)
+                .param(EpcParam.KPageNum, page)
+                .param(EpcParam.KPageSize, pageSize)
                 .build();
     }
 
     /**
      * 象城
-     *
+     * @param page
+     * @param pageSize
      * @return
      */
-    public static NetworkReq epc() {
+    public static NetworkReq epc(int page, int pageSize) {
         return newGet(UrlEpc.KEpc)
+                .param(EpcParam.KPageNum, page)
+                .param(EpcParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -457,7 +460,7 @@ public class NetFactory {
      */
     public static NetworkReq epcDetail(int id) {
         return newGet(UrlEpc.KEpcDetail)
-                .param(EpcDetailParam.KEpcDetail, id)
+                .param(EpcParam.KGoodsId, id)
                 .build();
     }
 
@@ -534,8 +537,11 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq thomsonAll() {
-        return newGet(UrlData.KThomsonAll).build();
+    public static NetworkReq thomsonAll(int page, int pageSize) {
+        return newGet(UrlData.KThomsonAll)
+                .param(ThomsonParam.KPageNum, page)
+                .param(ThomsonParam.KPageSize, pageSize)
+                .build();
     }
 
     /**
@@ -603,10 +609,12 @@ public class NetFactory {
     /**
      * 关注过的公众的所有会议
      */
-    public static NetworkReq meets(int state, String depart) {
+    public static NetworkReq meets(int state, String depart, int page, int pageSize) {
         return newPost(UrlMeet.KMeets)
                 .param(MeetParam.KState, state)
                 .param(MeetParam.KDepart, depart)
+                .param(MeetParam.KPageNum, page)
+                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -677,8 +685,13 @@ public class NetFactory {
     /**
      * 视频入口
      */
-    public static NetworkReq toVideo(String meetId, String moduleId) {
-        return toBase(UrlMeet.KToVideo, meetId, moduleId);
+    public static NetworkReq toVideo(String meetId, String moduleId, int page, int pageSize) {
+        return newGet(UrlMeet.KToVideo)
+                .param(MeetParam.KMeetId, meetId)
+                .param(MeetParam.KModuleId, moduleId)
+                .param(MeetParam.KPageNum, page)
+                .param(MeetParam.KPageSize, pageSize)
+                .build();
     }
 
     /**
@@ -730,9 +743,11 @@ public class NetFactory {
     /**
      * 查询视频子目录
      */
-    public static NetworkReq video(String preId) {
+    public static NetworkReq video(String preId, int page, int pageSize) {
         return newGet(UrlMeet.KVideo)
                 .param(MeetParam.KPreId, preId)
+                .param(MeetParam.KPageNum, page)
+                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 

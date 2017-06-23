@@ -1,8 +1,5 @@
 package yy.doctor.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lib.yy.test.BaseTestActivity;
 import yy.doctor.activity.me.ChangePwdActivity;
 import yy.doctor.activity.me.DownloadDataActivity;
@@ -14,7 +11,6 @@ import yy.doctor.activity.me.profile.ProfileActivity;
 import yy.doctor.activity.me.profile.TitleActivity;
 import yy.doctor.activity.me.unitnum.UnitNumActivity;
 import yy.doctor.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.activity.meeting.ExamIntroActivity;
 import yy.doctor.activity.meeting.MeetingCommentActivity;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.activity.meeting.VideoActivity;
@@ -36,7 +32,6 @@ public class TestActivity extends BaseTestActivity {
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("个人资料", ProfileActivity.class);
-        add("开始考试", v -> ExamIntroActivity.nav(TestActivity.this, "17042512131640894904", "8", ""));
         add("视频", VideoActivity.class);
         add("会议详情", MeetingDetailsActivity.class);
 
@@ -46,7 +41,7 @@ public class TestActivity extends BaseTestActivity {
 
         add("我的象数", EpnActivity.class);
 
-        add("评论", v -> MeetingCommentActivity.nav(this,"17060312172856248750"));
+        add("评论", v -> MeetingCommentActivity.nav(this, "17060312172856248750"));
 
         add("单位号详情", UnitNumDetailActivity.class);
         add("象城", EpcActivity.class);
@@ -58,23 +53,4 @@ public class TestActivity extends BaseTestActivity {
         add("资料下载", DownloadDataActivity.class);
     }
 
-    private void test() {
-        List<String> list = new ArrayList<>();
-        List<String> delayRemovelist = new ArrayList<>();
-        List<String> delayAddlist = new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-
-
-
-        for (int i = 0; i < list.size(); ++i) {
-            list.get(i).hashCode();
-        }
-
-        for (int i = 0; i < delayRemovelist.size(); ++i) {
-            list.remove(delayRemovelist.get(i));
-        }
-        delayRemovelist.clear();
-    }
 }

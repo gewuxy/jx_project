@@ -241,7 +241,12 @@ public class MainActivity extends BaseVPActivity {
         super.onNotify(type, data);
 
         if (type == NotifyType.logout) {
-            MainActivity.this.finish();
+            finish();
+        } else if (type == NotifyType.token_out_of_date) {
+
+            startActivity(LoginActivity.class);
+
+            finish();
         }
     }
 

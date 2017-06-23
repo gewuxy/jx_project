@@ -25,6 +25,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.unit_num_attention_change,
             NotifyType.receiver_notice,
             NotifyType.read_all_notice,
+            NotifyType.token_out_of_date,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -66,6 +67,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 通知都已经读完
          */
         int read_all_notice = 7;
+
+        /**
+         * token过期
+         */
+        int token_out_of_date = 8;
     }
 
     public interface OnNotify {

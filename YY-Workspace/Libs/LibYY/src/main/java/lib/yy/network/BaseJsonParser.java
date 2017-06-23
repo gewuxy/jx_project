@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import lib.ys.model.EVal;
 import lib.network.model.interfaces.IResult;
 import lib.ys.network.result.JsonParserEx;
+import lib.yy.Notifier;
+import lib.yy.Notifier.NotifyType;
 
 /**
  * @author yuansui
@@ -44,6 +46,10 @@ public class BaseJsonParser extends JsonParserEx {
 
         r.setCode(code);
         r.setError(getString(object, GlobalTag.msg));
+
+        if (code == 100) {
+            Notifier.inst().notify(NotifyType.token_out_of_date);
+        }
 
         return code != ErrorCode.ok;
     }

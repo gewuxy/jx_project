@@ -127,6 +127,8 @@ public class SubmitBuilder {
     }
 
     public NetworkReq builder() {
-        return mBuilder.build();
+        return mBuilder
+                .retry(5, 2)
+                .build();
     }
 }

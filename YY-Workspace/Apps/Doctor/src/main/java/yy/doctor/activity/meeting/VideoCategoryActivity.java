@@ -8,7 +8,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -80,10 +79,15 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     public void getDataFromNet() {
         if (TextUtil.isEmpty(mPreId)) {
             exeNetworkReq(KIdToVideo, NetFactory.toVideo(mSubmit.getString(TSubmit.meetId),
-                    mSubmit.getString(TSubmit.moduleId)));
+                    mSubmit.getString(TSubmit.moduleId), getOffset(), getLimit()));
         } else {
-            exeNetworkReq(KIdVideo, NetFactory.video(mPreId));
+            exeNetworkReq(KIdVideo, NetFactory.video(mPreId, getOffset(), getLimit()));
         }
+    }
+
+    @Override
+    public int getLimit() {
+        return Extra.KPageSize;
     }
 
     @Override
@@ -152,4 +156,5 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
             invalidate();
         }
     }
+
 }

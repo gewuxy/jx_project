@@ -20,6 +20,7 @@ public class SpUser extends SpBase {
     private static SpUser mInst = null;
 
     public interface SpUserKey {
+        String KUserName = "user_name";
         String KProfileUpdateTime = "update_time";
         String KAppUpdateTime = "app_update_time";
         String KBadgeNum = "badge_num";
@@ -39,6 +40,22 @@ public class SpUser extends SpBase {
     @Override
     public void update(Observable o, Object arg) {
         mInst = null;
+    }
+
+    /**
+     * 保存用户名
+     * @param userName
+     */
+    public void saveUserName(String userName) {
+        save(SpUserKey.KUserName, userName);
+    }
+
+    /**
+     * 获取用户名
+     * @return
+     */
+    public String getUserName() {
+        return getString(SpUserKey.KUserName);
     }
 
     /**
@@ -97,7 +114,11 @@ public class SpUser extends SpBase {
      * @return
      */
     public int badgeNum() {
-        return getInt(SpUserKey.KBadgeNum);
+        if (getInt(SpUserKey.KBadgeNum) < 0) {
+            return 0;
+        } else {
+            return getInt(SpUserKey.KBadgeNum);
+        }
     }
 
 }

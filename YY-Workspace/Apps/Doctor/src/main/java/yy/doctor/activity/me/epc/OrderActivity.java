@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.OrderAdapter;
 import yy.doctor.model.me.Order;
@@ -75,7 +76,11 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.order());
+        exeNetworkReq(NetFactory.order(getOffset(), getLimit()));
     }
 
+    @Override
+    public int getLimit() {
+        return Extra.KPageSize;
+    }
 }

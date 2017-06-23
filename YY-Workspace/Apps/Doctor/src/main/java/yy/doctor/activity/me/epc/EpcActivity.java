@@ -4,6 +4,7 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.EpcAdapter;
 import yy.doctor.model.me.Epc;
@@ -37,6 +38,11 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.epc());
+        exeNetworkReq(NetFactory.epc(getOffset(), getLimit()));
+    }
+
+    @Override
+    public int getLimit() {
+        return Extra.KPageSize;
     }
 }

@@ -36,4 +36,6 @@ public interface Extra {
 
     String KMeetingType = "meeting";
     String KUnitNumType = "unitNum";
+
+    int KPageSize = 8;
 }

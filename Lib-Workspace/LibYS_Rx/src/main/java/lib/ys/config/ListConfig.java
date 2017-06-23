@@ -20,23 +20,20 @@ public class ListConfig {
      */
     @IntDef({
             PageDownType.offset,
-            PageDownType.init_offset,
             PageDownType.page,
             PageDownType.last_id,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PageDownType {
         int offset = 0;
-        int init_offset = 1;
-        int page = 2;
-        int last_id = 3;
+        int page = 1;
+        int last_id = 2;
     }
 
     @PageDownType
     private int mType = PageDownType.offset; // 默认根据个数偏移
 
-    @PageDownType
-    private int mInitOffset = PageDownType.offset;
+    private int mInitOffset = 0;
 
     private Class<? extends BaseHeader> mHeaderClz = null;
     private Class<? extends BaseFooter> mFooterClz = null;
@@ -50,7 +47,6 @@ public class ListConfig {
         return mType;
     }
 
-    @PageDownType
     public int getInitOffset() {
         return mInitOffset;
     }
@@ -69,8 +65,7 @@ public class ListConfig {
         @PageDownType
         private int mType = PageDownType.offset; // 默认根据个数偏移
 
-        @PageDownType
-        private int mInitOffset = PageDownType.offset;
+        private int mInitOffset = 0;
 
         private Class<? extends BaseHeader> mHeaderClz = null;
         private Class<? extends BaseFooter> mFooterClz = null;
@@ -80,7 +75,7 @@ public class ListConfig {
             return this;
         }
 
-        public Builder initOffset(@PageDownType int initOffset) {
+        public Builder initOffset(int initOffset) {
             mInitOffset = initOffset;
             return this;
         }

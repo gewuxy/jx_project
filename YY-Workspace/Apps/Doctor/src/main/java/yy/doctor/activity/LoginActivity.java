@@ -13,13 +13,13 @@ import lib.ys.util.TextUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
-import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.register.RegisterActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.sp.SpUser;
 import yy.doctor.view.AutoCompleteEditText;
 
 /**
@@ -65,9 +65,7 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
-        if (BuildConfig.TEST) {
-            mEtName.setText("wucaixiang@medcn.cn");
-        }
+        mEtName.setText(SpUser.inst().getUserName());
     }
 
     @Override
@@ -114,6 +112,8 @@ public class LoginActivity extends BaseActivity {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
+            //保存用户名
+            SpUser.inst().saveUserName(mEtName.getText().toString().trim());
             //判断跳转到哪里
             if (mRequest == null) {
                 startActivity(MainActivity.class);
@@ -129,6 +129,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         super.onNotify(type, data);
+
         if (type == NotifyType.login) {
             LoginActivity.this.finish();
         }

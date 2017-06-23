@@ -1,6 +1,7 @@
 package yy.doctor.frag.meeting;
 
 import yy.doctor.Constants.MeetsState;
+import yy.doctor.Extra;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -18,7 +19,12 @@ public class NotStartedMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.meets(MeetsState.not_started, mDepart));
+        exeNetworkReq(NetFactory.meets(MeetsState.not_started, mDepart, getOffset(), getLimit()));
+    }
+
+    @Override
+    public int getLimit() {
+        return Extra.KPageSize;
     }
 
 }

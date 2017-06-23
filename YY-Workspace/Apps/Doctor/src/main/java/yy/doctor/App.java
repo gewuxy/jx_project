@@ -53,7 +53,7 @@ public class App extends BaseApp {
     protected ListConfig configureList() {
         return ListConfig.newBuilder()
                 .type(PageDownType.page)
-                .initOffset(PageDownType.init_offset)
+                .initOffset(1)
 //                .footerClz(ListFooter.class)
                 .build();
     }
