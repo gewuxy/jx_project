@@ -5,7 +5,6 @@ import android.view.View;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.frag.base.BaseSRListFrag;
-import yy.doctor.Extra;
 import yy.doctor.activity.me.DownloadDataActivity;
 import yy.doctor.adapter.ThomsonAdapter;
 import yy.doctor.model.data.ThomsonDetail;
@@ -37,11 +36,6 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
     @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.thomsonAll(getOffset(), getLimit()));
-    }
-
-    @Override
-    public int getLimit() {
-        return Extra.KPageSize;
     }
 
     @Override

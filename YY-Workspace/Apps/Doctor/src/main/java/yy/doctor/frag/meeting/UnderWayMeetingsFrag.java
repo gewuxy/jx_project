@@ -1,7 +1,6 @@
 package yy.doctor.frag.meeting;
 
 import yy.doctor.Constants.MeetsState;
-import yy.doctor.Extra;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -20,10 +19,5 @@ public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
     @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.meets(MeetsState.under_way, mDepart, getOffset(), getLimit()));
-    }
-
-    @Override
-    public int getLimit() {
-        return Extra.KPageSize;
     }
 }

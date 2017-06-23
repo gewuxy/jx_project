@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
 import lib.ys.view.swipeRefresh.header.BaseHeader;
 
@@ -33,7 +34,8 @@ public class ListConfig {
     @PageDownType
     private int mType = PageDownType.offset; // 默认根据个数偏移
 
-    private int mInitOffset = 0;
+    private int mInitOffset = ListConstants.KDefaultInitOffset;
+    private int mLimit = ListConstants.KDefaultLimit;
 
     private Class<? extends BaseHeader> mHeaderClz = null;
     private Class<? extends BaseFooter> mFooterClz = null;
@@ -51,6 +53,10 @@ public class ListConfig {
         return mInitOffset;
     }
 
+    public int getLimit() {
+        return mLimit;
+    }
+
     public Class<? extends BaseHeader> getHeaderClz() {
         return mHeaderClz;
     }
@@ -65,7 +71,8 @@ public class ListConfig {
         @PageDownType
         private int mType = PageDownType.offset; // 默认根据个数偏移
 
-        private int mInitOffset = 0;
+        private int mInitOffset = ListConstants.KDefaultInitOffset;
+        private int mLimit = ListConstants.KDefaultLimit;
 
         private Class<? extends BaseHeader> mHeaderClz = null;
         private Class<? extends BaseFooter> mFooterClz = null;
@@ -77,6 +84,11 @@ public class ListConfig {
 
         public Builder initOffset(int initOffset) {
             mInitOffset = initOffset;
+            return this;
+        }
+
+        public Builder limit(int limit) {
+            mLimit = limit;
             return this;
         }
 
@@ -92,9 +104,12 @@ public class ListConfig {
             ListConfig config = new ListConfig();
 
             config.mType = mType;
+
             config.mHeaderClz = mHeaderClz;
             config.mFooterClz = mFooterClz;
+
             config.mInitOffset = mInitOffset;
+            config.mLimit = mLimit;
 
             return config;
         }

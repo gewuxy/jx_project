@@ -19,13 +19,13 @@ import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.adapter.HomeAdapter;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
-import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
+import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.NetFactory;
 import yy.doctor.view.BadgeView;
 import yy.doctor.view.BannerView;
@@ -251,15 +251,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public boolean onRetryClick() {
-        YSLog.d(TAG, " super.onRetryClick() = " + super.onRetryClick());
         mIsNetworkError = false;
-
-        //return super.onRetryClick();
-        if (super.onRetryClick()) {
-            return true;
-        } else {
-            return false;
-        }
+        return super.onRetryClick();
     }
 
 }

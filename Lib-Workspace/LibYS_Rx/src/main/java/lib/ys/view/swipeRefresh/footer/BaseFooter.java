@@ -10,17 +10,18 @@ import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.ys.view.swipeRefresh.interfaces.IExtend;
+import lib.ys.view.swipeRefresh.interfaces.Extend;
 
 /**
  * @author yuansui
  */
-abstract public class BaseFooter extends LinearLayout implements IExtend {
+abstract public class BaseFooter extends LinearLayout implements Extend {
 
     private View mContentView;
     private OnRetryClickListener mOnRetryClickLsn;
 
-    private TState mState = TState.normal;
+    @ExtendState
+    private int mState = ExtendState.normal;
 
     public BaseFooter(Context context) {
         super(context);
@@ -48,7 +49,7 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
             if (mOnRetryClickLsn != null) {
                 boolean result = mOnRetryClickLsn.onRetryClick();
                 if (result) {
-                    changeState(TState.loading);
+                    changeState(ExtendState.loading);
                 }
             }
         });
@@ -67,7 +68,7 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
     }
 
     @Override
-    public final void changeState(TState state) {
+    public final void changeState(@ExtendState int state) {
         if (mState == state) {
             return;
         }
@@ -76,21 +77,21 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
         mState = state;
     }
 
-    private void onStateChanged(TState state) {
+    private void onStateChanged(@ExtendState int state) {
         switch (state) {
-            case normal:
+            case ExtendState.normal:
                 onNormal();
                 break;
-            case ready:
+            case ExtendState.ready:
                 onReady();
                 break;
-            case loading:
+            case ExtendState.loading:
                 onLoading();
                 break;
-            case failed:
+            case ExtendState.failed:
                 onFailed();
                 break;
-            case finish:
+            case ExtendState.finish:
                 onFinish();
                 break;
         }

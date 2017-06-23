@@ -29,14 +29,14 @@ import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
-import lib.ys.view.swipeRefresh.interfaces.ISRListener;
+import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 
 /**
  * 下拉刷新和加载更多组件
  *
  * @author yuansui
  */
-public class SROpt<T> implements ISRListener {
+public class SROpt<T> implements OnSRListener {
 
     private static final String TAG = SROpt.class.getSimpleName();
 
@@ -114,7 +114,7 @@ public class SROpt<T> implements ISRListener {
         }
     }
 
-    protected void setSRListener(ISRListener lsn) {
+    protected void setSRListener(OnSRListener lsn) {
         mSRLayout.setSRListener(lsn);
     }
 

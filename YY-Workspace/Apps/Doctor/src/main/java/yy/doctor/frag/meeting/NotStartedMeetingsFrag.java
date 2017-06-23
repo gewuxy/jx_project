@@ -1,12 +1,11 @@
 package yy.doctor.frag.meeting;
 
 import yy.doctor.Constants.MeetsState;
-import yy.doctor.Extra;
 import yy.doctor.network.NetFactory;
 
 /**
  * 会议等待中列表
- *
+ * <p>
  * 日期 : 2017/4/24
  * 创建人 : guoxuan
  */
@@ -21,10 +20,4 @@ public class NotStartedMeetingsFrag extends BaseMeetingsFrag {
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.meets(MeetsState.not_started, mDepart, getOffset(), getLimit()));
     }
-
-    @Override
-    public int getLimit() {
-        return Extra.KPageSize;
-    }
-
 }

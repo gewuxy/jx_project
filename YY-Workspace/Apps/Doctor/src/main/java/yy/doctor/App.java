@@ -54,6 +54,7 @@ public class App extends BaseApp {
         return ListConfig.newBuilder()
                 .type(PageDownType.page)
                 .initOffset(1)
+                .limit(Extra.KPageSize)
 //                .footerClz(ListFooter.class)
                 .build();
     }

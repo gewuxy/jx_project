@@ -21,14 +21,14 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.scrollableLayout.ScrollableLayout;
 import lib.ys.view.swipeRefresh.header.BaseHeader;
 import lib.ys.view.swipeRefresh.header.DefaultLayoutHeader;
-import lib.ys.view.swipeRefresh.interfaces.IExtend.TState;
-import lib.ys.view.swipeRefresh.interfaces.ISRCtrl;
-import lib.ys.view.swipeRefresh.interfaces.ISRListener;
+import lib.ys.view.swipeRefresh.interfaces.Extend.ExtendState;
+import lib.ys.view.swipeRefresh.interfaces.SROpt;
+import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 
 /**
  * 下拉刷新的外部layout, 根据网上代码更改
  */
-abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
+abstract public class BaseSRLayout extends ViewGroup implements SROpt {
 
     private static final int KMaxDragRate = 1;
     public static final int KDragMaxDistanceDp = 60;
@@ -57,7 +57,7 @@ abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
     private float mFromDragPercent;
     private boolean mNotify;
 
-    protected ISRListener mListener;
+    protected OnSRListener mListener;
     private boolean mEnable = true;
     private boolean mIsAnimating = false;
 
@@ -203,9 +203,9 @@ abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
 
                 mHeader.setPercent(mCurrentDragPercent, true);
                 if (mCurrentDragPercent >= KMaxDragRate) {
-                    mHeader.changeState(TState.ready);
+                    mHeader.changeState(ExtendState.ready);
                 } else {
-                    mHeader.changeState(TState.normal);
+                    mHeader.changeState(ExtendState.normal);
                 }
 
                 setTargetOffsetTop(targetY - mCurrentOffsetTop, true);
@@ -269,14 +269,14 @@ abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
         mHeader.startAnimation(mAnimateToCorrectPosition);
 
         if (mRefreshing) {
-            mHeader.changeState(TState.loading);
+            mHeader.changeState(ExtendState.loading);
             if (mNotify) {
                 if (mListener != null) {
                     mListener.onSwipeRefresh();
                 }
             }
         } else {
-            mHeader.changeState(TState.normal);
+            mHeader.changeState(ExtendState.normal);
             animateOffsetToStartPosition();
         }
         mCurrentOffsetTop = mContentView.getTop();
@@ -348,7 +348,7 @@ abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            mHeader.changeState(TState.normal);
+            mHeader.changeState(ExtendState.normal);
             mCurrentOffsetTop = mContentView.getTop();
             mIsAnimating = false;
         }
@@ -410,7 +410,7 @@ abstract public class BaseSRLayout extends ViewGroup implements ISRCtrl {
     }
 
     @Override
-    public void setSRListener(ISRListener listener) {
+    public void setSRListener(OnSRListener listener) {
         mListener = listener;
     }
 

@@ -17,13 +17,13 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
 import lib.ys.view.swipeRefresh.footer.DefaultFooter;
-import lib.ys.view.swipeRefresh.interfaces.IExtend.TState;
-import lib.ys.view.swipeRefresh.interfaces.ISRLoadMoreListener;
+import lib.ys.view.swipeRefresh.interfaces.Extend.ExtendState;
+import lib.ys.view.swipeRefresh.interfaces.SRLoadMoreOpt;
 
 /**
  * @author yuansui
  */
-abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLoadMoreListener {
+abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements SRLoadMoreOpt {
 
     private BaseFooter mLoadMoreFooterView;
 
@@ -79,9 +79,9 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
         if (mIsLoadingMore) {
             mIsLoadingMore = false;
             if (isSucceed) {
-                mLoadMoreFooterView.changeState(TState.normal);
+                mLoadMoreFooterView.changeState(ExtendState.normal);
             } else {
-                mLoadMoreFooterView.changeState(TState.failed);
+                mLoadMoreFooterView.changeState(ExtendState.failed);
             }
         }
     }
@@ -93,9 +93,9 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
             boolean result = mListener.onAutoLoadMore();
             if (result) {
                 mIsLoadingMore = true;
-                mLoadMoreFooterView.changeState(TState.loading);
+                mLoadMoreFooterView.changeState(ExtendState.loading);
             } else {
-                mLoadMoreFooterView.changeState(TState.failed);
+                mLoadMoreFooterView.changeState(ExtendState.failed);
             }
         }
     }
@@ -112,23 +112,26 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
 
     @Override
     public void setLoadMoreState(boolean state) {
-        if (!mAutoLoadMoreEnabled) {
-            return;
+        if (mAutoLoadMoreEnabled) {
+            changeState(state);
         }
 
-        changeState(state);
     }
 
     private void changeState(boolean state) {
+        if (mCurrState == state) {
+            return;
+        }
+
         mCurrState = state;
-        if (!state) {
-            mLoadMoreFooterView.hide();
-            mLoadMoreFooterView.setOnClickListener(null);
-        } else {
+        if (state) {
             mIsLoadingMore = false;
             mLoadMoreFooterView.show();
-            mLoadMoreFooterView.changeState(TState.normal);
+            mLoadMoreFooterView.changeState(ExtendState.normal);
             mLoadMoreFooterView.setOnClickListener(v -> startLoadMore());
+        } else {
+            mLoadMoreFooterView.hide();
+            mLoadMoreFooterView.setOnClickListener(null);
         }
     }
 

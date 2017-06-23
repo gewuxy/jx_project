@@ -1,6 +1,6 @@
 package lib.ys.view.swipeRefresh.interfaces;
 
-public interface ISRCtrl {
+public interface SROpt {
 
     /**
      * 自动下拉刷新
@@ -12,7 +12,7 @@ public interface ISRCtrl {
      */
     void stopRefresh();
 
-    void setSRListener(ISRListener lsn);
+    void setSRListener(OnSRListener lsn);
 
     /**
      * 是否正在下拉刷新

@@ -5,7 +5,7 @@ package lib.ys.view.swipeRefresh.interfaces;
  *
  * @author yuansui
  */
-public interface ISRLoadMoreListener {
+public interface SRLoadMoreOpt {
 
     /**
      * 是否正在加载更多

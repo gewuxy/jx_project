@@ -26,6 +26,7 @@ abstract public class BaseLayoutHeader extends BaseHeader {
 
         if (getViewTreeObserver().isAlive()) {
             getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+
                 @Override
                 public boolean onPreDraw() {
                     /**

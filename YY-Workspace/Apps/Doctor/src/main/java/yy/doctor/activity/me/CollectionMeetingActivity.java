@@ -4,7 +4,6 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.activity.base.BaseSRListActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
@@ -33,11 +32,6 @@ public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, Meeti
     @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.collectionMeetings(getOffset(), getLimit()));
-    }
-
-    @Override
-    public int getLimit() {
-        return Extra.KPageSize;
     }
 
     @Override

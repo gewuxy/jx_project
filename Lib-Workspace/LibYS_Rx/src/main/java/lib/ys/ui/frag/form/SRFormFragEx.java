@@ -12,7 +12,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormItemEx;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.view.swipeRefresh.base.BaseSRLayout;
-import lib.ys.view.swipeRefresh.interfaces.ISRListener;
+import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 
 /**
  * @author yuansui
@@ -40,7 +40,7 @@ abstract public class SRFormFragEx<T extends FormItemEx<VH>, VH extends ViewHold
     public void setViews() {
         super.setViews();
 
-        mSRLayout.setSRListener(new ISRListener() {
+        mSRLayout.setSRListener(new OnSRListener() {
 
             @Override
             public void onSwipeRefresh() {

@@ -61,10 +61,11 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void setViews() {
 
-        mTvVersion.setText(DeviceUtil.getAppVersionName());
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
+
+        mTvVersion.setText(DeviceUtil.getAppVersionName());
         mEtName.setText(SpUser.inst().getUserName());
     }
 

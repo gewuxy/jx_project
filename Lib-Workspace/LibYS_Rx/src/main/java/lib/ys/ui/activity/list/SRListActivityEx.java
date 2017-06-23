@@ -127,7 +127,7 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
 
     @Override
     public int getLimit() {
-        return ListConstants.KDefaultLimit;
+        return AppEx.getListConfig().getLimit();
     }
 
     @Override

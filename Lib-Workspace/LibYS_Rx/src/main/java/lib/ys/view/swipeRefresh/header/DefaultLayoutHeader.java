@@ -66,9 +66,9 @@ public class DefaultLayoutHeader extends BaseLayoutHeader {
         goneView(mLayoutLoading);
         mProgressView.stop();
 
-        if (getLastState() == TState.ready) {
+        if (getLastState() == ExtendState.ready) {
             mIvArrow.startAnimation(getAnimRotateDown());
-        } else if (getLastState() == TState.loading) {
+        } else if (getLastState() == ExtendState.loading) {
             mIvArrow.clearAnimation();
         }
 
@@ -80,7 +80,7 @@ public class DefaultLayoutHeader extends BaseLayoutHeader {
         showView(mLayoutRefresh);
         goneView(mLayoutLoading);
 
-        if (getLastState() != TState.ready) {
+        if (getLastState() != ExtendState.ready) {
             mIvArrow.clearAnimation();
             mIvArrow.startAnimation(getAnimRotateUp());
             mTvHint.setText(R.string.sr_list_header_hint_ready);

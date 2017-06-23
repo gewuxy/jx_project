@@ -8,18 +8,19 @@ import lib.ys.util.UIUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.swipeRefresh.base.BaseSRLayout;
-import lib.ys.view.swipeRefresh.interfaces.IExtend;
+import lib.ys.view.swipeRefresh.interfaces.Extend;
 
 /**
  * @author yuansui
  */
-abstract public class BaseHeader extends LinearLayout implements IExtend {
+abstract public class BaseHeader extends LinearLayout implements Extend {
 
     private BaseSRLayout mSRLayout;
     private float mPercent;
     private View mContentView;
 
-    private TState mState = TState.normal;
+    @ExtendState
+    private int mState = ExtendState.normal;
 
     public BaseHeader(Context context, BaseSRLayout layout) {
         super(context);
@@ -68,7 +69,7 @@ abstract public class BaseHeader extends LinearLayout implements IExtend {
     }
 
     @Override
-    public final void changeState(TState state) {
+    public final void changeState(@ExtendState int state) {
         if (mState == state) {
             return;
         }
@@ -77,25 +78,26 @@ abstract public class BaseHeader extends LinearLayout implements IExtend {
         mState = state;
     }
 
-    protected TState getLastState() {
+    @ExtendState
+    protected int getLastState() {
         return mState;
     }
 
-    private void onStateChanged(TState state) {
+    private void onStateChanged(@ExtendState int state) {
         switch (state) {
-            case normal:
+            case ExtendState.normal:
                 onNormal();
                 break;
-            case ready:
+            case ExtendState.ready:
                 onReady();
                 break;
-            case loading:
+            case ExtendState.loading:
                 onLoading();
                 break;
-            case failed:
+            case ExtendState.failed:
                 onFailed();
                 break;
-            case finish:
+            case ExtendState.finish:
                 onFinish();
                 break;
         }

@@ -132,7 +132,7 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
 
     @Override
     public int getLimit() {
-        return ListConstants.KDefaultLimit;
+        return AppEx.getListConfig().getLimit();
     }
 
     @Override

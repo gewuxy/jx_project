@@ -1,6 +1,6 @@
 package lib.ys.view.swipeRefresh.interfaces;
 
-public interface ISRListener {
+public interface OnSRListener {
 
     /**
      * 下拉刷新
