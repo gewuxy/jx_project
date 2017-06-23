@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -67,6 +68,18 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
     private HintDialogSec mDialog; // 提示不能考试的原因
     private CountDown mCountDown; // FIXME:改为Handler
 
+    @IntDef(
+            {
+                    StartType.can_start,
+                    StartType.can_not_start,
+            }
+    )
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface StartType {
+        int can_start = 0;
+        int can_not_start = 1;
+    }
+
     private Handler handler = new Handler() {
 
         @Override
@@ -74,11 +87,10 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             super.handleMessage(msg);
 
             switch (msg.what) {
-                case 0:
+                case StartType.can_start:
                     mCanStart = true;
                     break;
-                case 1:
-                case 2:
+                case StartType.can_not_start:
                     mCanStart = false;
                     break;
             }
@@ -159,7 +171,6 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             mCurTime = mIntro.getLong(TIntro.serverTime);
 
 
-
             if (mIntro.getBoolean(TIntro.finished)) {
                 mTvScore.setText("过往成绩 : " + mIntro.getInt(TIntro.score) + "分");
             } else {
@@ -168,21 +179,14 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
 
             mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
             YSLog.d(TAG, mCanStart + "");
-            if (mStartTime >= mCurTime) {     //还没到考试时间进去
-
-                Long minCount = mStartTime - mCurTime;   //注意传值是毫秒的单位
-                handler.sendEmptyMessageDelayed(0, minCount);//到考试时间了发消息给handle
-                Long totalCount = mEndTime - mStartTime;
-                handler.sendEmptyMessageDelayed(1, minCount + totalCount);//考试时间结束了发消息
-
-                // 未结束的话开始计时
-//                mCountDown = new CountDown(maxCount, TimeUnit.MINUTES);
-//                mCountDown.setListener(this);
-//                mCountDown.start();
-
-            } else if (mStartTime <= mCurTime && mCurTime < mEndTime) {//过了开考时间还没到结束时间
-                Long maxCount = mEndTime - mCurTime;
-                handler.sendEmptyMessageDelayed(2, maxCount);//考试时间结束发消息
+            long mDifStart = mStartTime - mCurTime;
+            long mDifEnd = mEndTime - mCurTime;
+            long mTotalTime = mEndTime - mStartTime;
+            if (mDifStart >= 0) {//还没到考试时间进去
+                handler.sendEmptyMessageDelayed(StartType.can_start, mDifStart);//到考试时间了发消息给handle
+                handler.sendEmptyMessageDelayed(StartType.can_not_start, mDifStart + mTotalTime);//考试时间结束了发消息
+            } else if (mDifStart < 0 && mDifEnd >= 0) {//过了开考时间还没到结束时间
+                handler.sendEmptyMessageDelayed(StartType.can_not_start, mDifEnd);//考试时间结束发消息
             }
 
             mTvTitle.setText(mPaper.getString(TPaper.name));
@@ -210,19 +214,19 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
             case R.id.exam_intro_tv_start:
                 // 点击开始考试
                 if (mCanStart) {
-                    // 时间段考试
-                    long useTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toMillis(1);
-                    long surplusTime = mEndTime - mCurTime; // 离考试结束的时间
-                    if (useTime < 0) {
-                        // 服务器没给时间
-                        long examTime = mEndTime - mStartTime; // 考试时间段
-                        mIntro.put(TIntro.time, examTime < surplusTime ? examTime : surplusTime);
+                        // 时间段考试
+                        long useTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toMillis(1);
+                        long surplusTime = mEndTime - mCurTime; // 离考试结束的时间
+                        if (useTime < 0) {
+                            // 服务器没给时间
+                            long examTime = mEndTime - mStartTime; // 考试时间段
+                            mIntro.put(TIntro.time, examTime < surplusTime ? examTime : surplusTime);
+                        } else {
+                            mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
+                        }
+                        ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
+                        finish();
                     } else {
-                        mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
-                    }
-                    ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
-                    finish();
-                } else {
                     if (mDialog == null) {
                         mDialog = new HintDialogSec(ExamIntroActivity.this);
                         mDialog.addButton("确定", v1 -> mDialog.dismiss());
