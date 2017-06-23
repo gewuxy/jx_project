@@ -101,8 +101,8 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
-    public void stopLoadMore() {
-        mSROpt.stopLoadMore();
+    public void stopLoadMore(boolean isSucceed) {
+        mSROpt.stopLoadMore(isSucceed);
     }
 
     @Override

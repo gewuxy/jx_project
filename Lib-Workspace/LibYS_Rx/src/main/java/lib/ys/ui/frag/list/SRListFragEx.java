@@ -106,8 +106,8 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
-    public void stopLoadMore() {
-        mSROpt.stopLoadMore();
+    public void stopLoadMore(boolean isSucceed) {
+        mSROpt.stopLoadMore(isSucceed);
     }
 
     @Override

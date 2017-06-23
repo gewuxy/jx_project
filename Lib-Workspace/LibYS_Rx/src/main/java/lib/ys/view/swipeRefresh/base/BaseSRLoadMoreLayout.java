@@ -30,7 +30,8 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
     private MixOnScrollListener mScrollListener;
 
     private boolean mIsLoadingMore;
-    private boolean mEnableAutoLoadMore = true;
+    private boolean mAutoLoadMoreEnabled = true;
+    private boolean mCurrState = true;
 
     public BaseSRLoadMoreLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -74,10 +75,14 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
     }
 
     @Override
-    public void stopLoadMore() {
+    public void stopLoadMore(boolean isSucceed) {
         if (mIsLoadingMore) {
             mIsLoadingMore = false;
-            mLoadMoreFooterView.changeState(TState.normal);
+            if (isSucceed) {
+                mLoadMoreFooterView.changeState(TState.normal);
+            } else {
+                mLoadMoreFooterView.changeState(TState.failed);
+            }
         }
     }
 
@@ -96,21 +101,27 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
     }
 
     @Override
-    public void stopLoadMoreFailed() {
-        if (mIsLoadingMore) {
-            mIsLoadingMore = false;
-            mLoadMoreFooterView.changeState(TState.failed);
-        }
-    }
-
-    @Override
-    public void enableAutoLoadMore(boolean enable) {
-        if (mEnableAutoLoadMore == enable) {
+    public void enableAutoLoadMore(boolean enabled) {
+        if (mAutoLoadMoreEnabled == enabled) {
             return;
         }
 
-        mEnableAutoLoadMore = enable;
-        if (!mEnableAutoLoadMore) {
+        mAutoLoadMoreEnabled = enabled;
+        changeState(enabled);
+    }
+
+    @Override
+    public void setLoadMoreState(boolean state) {
+        if (!mAutoLoadMoreEnabled) {
+            return;
+        }
+
+        changeState(state);
+    }
+
+    private void changeState(boolean state) {
+        mCurrState = state;
+        if (!state) {
             mLoadMoreFooterView.hide();
             mLoadMoreFooterView.setOnClickListener(null);
         } else {
@@ -126,7 +137,7 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
 
             @Override
             public void onScrollStateChanged(RecyclerView rv, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && !mIsLoadingMore && mEnableAutoLoadMore) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !mIsLoadingMore && mAutoLoadMoreEnabled && mCurrState) {
                     RecyclerView.LayoutManager layoutManager = rv.getLayoutManager();
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
@@ -173,7 +184,7 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (mListener != null && !mIsLoadingMore && mEnableAutoLoadMore) {
+                if (mListener != null && !mIsLoadingMore && mAutoLoadMoreEnabled && mCurrState) {
                     int total = visibleItemCount + firstVisibleItem;
                     if (DeviceUtil.getBrand().equals(ConstantsEx.KBrandMeiZu)) {
                         // 单独处理魅族的手机, 他们计算的visibleItemCount就是比正常的少一个, 奇葩
@@ -204,6 +215,6 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements ISRLo
     }
 
     public boolean isAutoLoadMoreEnabled() {
-        return mEnableAutoLoadMore;
+        return mAutoLoadMoreEnabled;
     }
 }

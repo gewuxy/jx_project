@@ -80,7 +80,7 @@ public interface SROptListener<T> {
      */
     IListResult<T> parseNetworkResponse(int what, String text) throws JSONException;
 
-    void stopLoadMore();
+    void stopLoadMore(boolean isSucceed);
 
     boolean isSwipeRefreshing();
 

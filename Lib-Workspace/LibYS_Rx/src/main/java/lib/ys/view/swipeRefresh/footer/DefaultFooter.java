@@ -63,5 +63,7 @@ public class DefaultFooter extends BaseFooter {
 
     @Override
     public void onFinish() {
+        mProgressView.stop();
+        hide();
     }
 }

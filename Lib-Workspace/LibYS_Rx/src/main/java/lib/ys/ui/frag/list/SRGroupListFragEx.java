@@ -102,8 +102,8 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public void stopLoadMore() {
-        mSROpt.stopLoadMore();
+    public void stopLoadMore(boolean isSucceed) {
+        mSROpt.stopLoadMore(isSucceed);
     }
 
     @Override

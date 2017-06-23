@@ -1,6 +1,8 @@
 package lib.ys.view.swipeRefresh.interfaces;
 
 /**
+ * 加载更多监听
+ *
  * @author yuansui
  */
 public interface ISRLoadMoreListener {
@@ -14,8 +16,10 @@ public interface ISRLoadMoreListener {
 
     /**
      * 停止加载更多, 重置footer
+     *
+     * @param isSucceed
      */
-    void stopLoadMore();
+    void stopLoadMore(boolean isSucceed);
 
     /**
      * 开始底部load more
@@ -23,14 +27,11 @@ public interface ISRLoadMoreListener {
     void startLoadMore();
 
     /**
-     * 底部显示加载更多失败
-     */
-    void stopLoadMoreFailed();
-
-    /**
-     * 设置是否能自动加载更多
+     * 设置是否开启滑动底部自动加载更多
      *
      * @param enable
      */
     void enableAutoLoadMore(boolean enable);
+
+    void setLoadMoreState(boolean state);
 }

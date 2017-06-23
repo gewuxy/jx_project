@@ -102,7 +102,8 @@ public class SROpt<T> implements ISRListener {
         mScrollOpt.hideFooterView();
         hideFooterEmptyView();
 
-        enableAutoLoadMore(false);
+        setLoadMoreState(false);
+
         setSRListener(this);
 
         if (mSROptListener.enableRefreshWhenInit()) {
@@ -121,12 +122,8 @@ public class SROpt<T> implements ISRListener {
         mSRLayout.setOnScrollListener(listener);
     }
 
-    public void stopLoadMore() {
-        mSRLayout.stopLoadMore();
-    }
-
-    private void stopLoadMoreFailed() {
-        mSRLayout.stopLoadMoreFailed();
+    public void stopLoadMore(boolean isSucceed) {
+        mSRLayout.stopLoadMore(isSucceed);
     }
 
     public boolean isSwipeRefreshing() {
@@ -135,6 +132,10 @@ public class SROpt<T> implements ISRListener {
 
     public void enableAutoLoadMore(boolean enable) {
         mSRLayout.enableAutoLoadMore(enable);
+    }
+
+    private void setLoadMoreState(boolean state) {
+        mSRLayout.setLoadMoreState(state);
     }
 
     public void setRefreshEnable(boolean enable) {
@@ -222,11 +223,11 @@ public class SROpt<T> implements ISRListener {
             // 分页加载
             mScrollOpt.addAll(mTsNet);
             mScrollOpt.invalidate();
-            stopLoadMore();
+            stopLoadMore(true);
 
             if (mTsNet.size() < getLimit()) {
                 // 数据不够
-                enableAutoLoadMore(false);
+                setLoadMoreState(false);
                 mScrollOpt.showFooterView();
             }
             mLoadMore = false;
@@ -391,11 +392,10 @@ public class SROpt<T> implements ISRListener {
 
         // size < limit 表示没有更多数据了
         if (mTsNet.size() >= getLimit()) {
-            enableAutoLoadMore(mSRLayout.isAutoLoadMoreEnabled() & true);
+            setLoadMoreState(mSRLayout.isAutoLoadMoreEnabled());
         } else {
-            enableAutoLoadMore(false);
+            setLoadMoreState(false);
         }
-//        determineFooterStatus();
 
         mSROptListener.onNetRefreshSuccess();
     }
@@ -411,20 +411,13 @@ public class SROpt<T> implements ISRListener {
         } else {
             mSROptListener.setViewState(ViewState.normal);
             if (mLoadMore) {
-                stopLoadMoreFailed();
+                stopLoadMore(false);
             } else {
+                stopLoadMore(true);
+                setLoadMoreState(false);
+
                 if (mFooterEmptyView == null) {
-                    enableAutoLoadMore(false);
-                    stopLoadMore();
                     mScrollOpt.showFooterView();
-                } else {
-                    enableAutoLoadMore(false);
-                    stopLoadMore();
-                    /**
-                     * TODO: 已经监听了数据的变化, 暂时注释掉这里, 可能会出现问题
-                     * {@link #onDataSetChanged()}
-                     */
-//                    determineFooterStatus();
                 }
             }
         }

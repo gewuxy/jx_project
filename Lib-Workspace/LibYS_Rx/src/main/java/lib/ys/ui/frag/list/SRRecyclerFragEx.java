@@ -99,8 +99,8 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void stopLoadMore() {
-        mSROpt.stopLoadMore();
+    public void stopLoadMore(boolean isSucceed) {
+        mSROpt.stopLoadMore(isSucceed);
     }
 
     @Override

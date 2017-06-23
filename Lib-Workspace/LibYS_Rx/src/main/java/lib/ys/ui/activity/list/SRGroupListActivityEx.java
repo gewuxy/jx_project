@@ -100,8 +100,8 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    public void stopLoadMore() {
-        mSROpt.stopLoadMore();
+    public void stopLoadMore(boolean isSucceed) {
+        mSROpt.stopLoadMore(isSucceed);
     }
 
     @Override
