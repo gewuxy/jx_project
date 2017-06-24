@@ -28,7 +28,7 @@ import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 /**
  * 下拉刷新的外部layout, 根据网上代码更改
  */
-abstract public class BaseSRLayout extends ViewGroup implements SROpt {
+abstract public class BaseSRLayout<T extends View> extends ViewGroup implements SROpt {
 
     private static final int KMaxDragRate = 1;
     public static final int KDragMaxDistanceDp = 60;
@@ -37,7 +37,7 @@ abstract public class BaseSRLayout extends ViewGroup implements SROpt {
     public static final int KMaxAnimDuration = 700;
     private static final int KInvalidPointer = -1;
 
-    private View mContentView;
+    private T mContentView;
 
     private Interpolator mDecelerateInterpolator;
     private int mTouchSlop;
@@ -96,7 +96,7 @@ abstract public class BaseSRLayout extends ViewGroup implements SROpt {
         return mHeader;
     }
 
-    abstract protected View initContentView(Context context, AttributeSet attrs);
+    abstract protected T initContentView(Context context, AttributeSet attrs);
 
     /**
      * This method sets padding for the refresh (progress) view.
@@ -429,7 +429,7 @@ abstract public class BaseSRLayout extends ViewGroup implements SROpt {
         return mRefreshing;
     }
 
-    protected View getContentView() {
+    public T getContentView() {
         return mContentView;
     }
 }

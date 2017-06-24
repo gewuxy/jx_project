@@ -44,6 +44,7 @@ public class SpUser extends SpBase {
 
     /**
      * 保存用户名
+     *
      * @param userName
      */
     public void saveUserName(String userName) {
@@ -52,6 +53,7 @@ public class SpUser extends SpBase {
 
     /**
      * 获取用户名
+     *
      * @return
      */
     public String getUserName() {
@@ -82,6 +84,7 @@ public class SpUser extends SpBase {
 
     /**
      * 是否需要检查app有没有更新, 暂定间隔为2天
+     *
      * @return
      */
     public boolean needUpdateApp() {
@@ -103,6 +106,7 @@ public class SpUser extends SpBase {
 
     /**
      * 保存小红点数
+     *
      * @param num
      */
     public void updateBadgeNum(int num) {
@@ -111,14 +115,11 @@ public class SpUser extends SpBase {
 
     /**
      * 小红点数
+     *
      * @return
      */
     public int badgeNum() {
-        if (getInt(SpUserKey.KBadgeNum) < 0) {
-            return 0;
-        } else {
-            return getInt(SpUserKey.KBadgeNum);
-        }
+        return getInt(SpUserKey.KBadgeNum, 0);
     }
 
 }

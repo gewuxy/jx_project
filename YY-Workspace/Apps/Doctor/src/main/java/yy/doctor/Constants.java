@@ -18,6 +18,11 @@ public interface Constants extends BaseConstants {
         int KDividerHeight = 14; // 分割线高度
     }
 
+    interface PageConstants {
+        int KPage = 1;
+        int KPageSize = 8;  //分页加载时 每页加载的条目数
+    }
+
     /**
      * 会议状态
      */

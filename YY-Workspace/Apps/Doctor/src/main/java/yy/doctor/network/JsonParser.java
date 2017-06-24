@@ -3,7 +3,6 @@ package yy.doctor.network;
 import org.json.JSONException;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import lib.ys.model.EVal;
@@ -45,12 +44,14 @@ public class JsonParser extends BaseJsonParser {
             return retResult;
         }
 
+        MapList<String, T> mapList = new MapList<>();
+
         List<C> list = r.getData();
         if (list.isEmpty()) {
+            retResult.setData(mapList);
             return retResult;
         }
 
-        MapList<String, T> mapList = new MapList<>();
         for (C child : list) {
             String tag = child.getString(key);
             T g = mapList.getByKey(tag);

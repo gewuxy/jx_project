@@ -213,6 +213,7 @@
     <string name="pwd_change_success">密码修改成功</string>
 
     <!--单位号-->
+    <string name="attention_unit_num_empty">你还没有关注单位号</string>
     <string name="unit_num">单位号</string>
     <string name="file_data">资料</string>
     <string name="cancel_attention">不再关注</string>

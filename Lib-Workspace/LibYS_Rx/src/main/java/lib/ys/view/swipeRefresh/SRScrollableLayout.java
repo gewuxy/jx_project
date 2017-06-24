@@ -24,9 +24,8 @@ import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
  *
  * @author yuansui
  */
-public class SRScrollableLayout extends BaseSRLoadMoreLayout implements ScrollableContainer {
+public class SRScrollableLayout extends BaseSRLoadMoreLayout<ScrollableLayout> implements ScrollableContainer {
 
-    private ScrollableLayout mLayout;
     private View mScrollableView;
     private View mFooterWaitToAdd;
 
@@ -35,24 +34,24 @@ public class SRScrollableLayout extends BaseSRLoadMoreLayout implements Scrollab
     }
 
     @Override
-    protected View initContentView(Context context, AttributeSet attrs) {
-        mLayout = new ScrollableLayout(context, attrs);
-        mLayout.getHelper().setCurrentScrollableContainer(this);
-        mLayout.setOrientation(LinearLayout.VERTICAL);
-        mLayout.setId(R.id.sr_scrollable_view);
-        return mLayout;
+    protected ScrollableLayout initContentView(Context context, AttributeSet attrs) {
+        ScrollableLayout layout = new ScrollableLayout(context, attrs);
+        layout.getHelper().setCurrentScrollableContainer(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setId(R.id.sr_scrollable_view);
+        return layout;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (mLayout.getChildCount() == 0) {
+        if (getContentView().getChildCount() == 0) {
             List<View> views = new ArrayList<View>();
 
             // 先寻找需要修改的几个view, 不能直接同步删除和添加
             int count = getChildCount();
             for (int i = 0; i < count; ++i) {
                 View v = getChildAt(i);
-                if (v.equals(mLayout) || v.equals(getHeader())) {
+                if (v.equals(getContentView()) || v.equals(getHeader())) {
                     continue;
                 }
                 views.add(v);
@@ -61,11 +60,11 @@ public class SRScrollableLayout extends BaseSRLoadMoreLayout implements Scrollab
             for (int i = 0; i < views.size(); ++i) {
                 View v = views.get(i);
                 removeView(v);
-                mLayout.addView(v);
+                getContentView().addView(v);
             }
 
             if (mScrollableView == null) {
-                mScrollableView = findScrollableView(mLayout);
+                mScrollableView = findScrollableView(getContentView());
                 if (mScrollableView == null) {
                     throw new IllegalStateException("can not find AbsListView/ScrollView/RecyclerView");
                 } else {
@@ -125,7 +124,10 @@ public class SRScrollableLayout extends BaseSRLoadMoreLayout implements Scrollab
 
     @Override
     public void addHeaderView(View v) {
+    }
 
+    @Override
+    public void removeHeaderView(View v) {
     }
 
     @Override

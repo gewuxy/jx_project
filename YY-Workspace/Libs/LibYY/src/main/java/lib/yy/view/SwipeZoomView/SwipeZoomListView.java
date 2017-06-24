@@ -10,17 +10,19 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.view.swipeRefresh.SRListLayout;
+import lib.yy.R;
 
 /**
  * 网上代码整理
  *
  * @author yuansui
  */
-public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsListView.OnScrollListener {
+public class SwipeZoomListView extends BaseSwipeZoom<SRListLayout> {
     private static final String TAG = SwipeZoomListView.class.getSimpleName();
     private FrameLayout mHeaderContainer;
     private int mHeaderHeight;
@@ -39,7 +41,26 @@ public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsLis
 
     public SwipeZoomListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mRootView.setOnScrollListener(this);
+
+        mRootView.setOnScrollListener(new MixOnScrollListener() {
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (mZoomView != null && !isHideHeader() && isPullToZoomEnabled()) {
+                    float f = mHeaderHeight - mHeaderContainer.getBottom();
+                    Log.d(TAG, "onScroll --> f = " + f);
+                    if (isParallax()) {
+                        if ((f > 0.0F) && (f < mHeaderHeight)) {
+                            int i = (int) (0.65D * f);
+                            mHeaderContainer.scrollTo(0, -i);
+                        } else if (mHeaderContainer.getScrollY() != 0) {
+                            mHeaderContainer.scrollTo(0, 0);
+                        }
+                    }
+                }
+            }
+        });
+
         mScalingRunnable = new ScalingRunnable();
     }
 
@@ -78,7 +99,7 @@ public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsLis
 
     private void removeHeaderView() {
         if (mHeaderContainer != null) {
-            mRootView.removeHeaderView(mHeaderContainer);
+//            mRootView.removeHeaderView(mHeaderContainer);
         }
     }
 
@@ -101,22 +122,11 @@ public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsLis
         }
     }
 
-    public void setAdapter(ListAdapter adapter) {
-        mRootView.setAdapter(adapter);
-    }
-
-    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        mRootView.setOnItemClickListener(listener);
-    }
-
     @Override
-    protected ListView createRootView(Context context, AttributeSet attrs) {
-        ListView lv = new ListView(context, attrs);
-        lv.setDivider(null);
-        lv.setDividerHeight(0);
-        // Set it to this so it can be used in ListActivity/ListFragment
-        lv.setId(android.R.id.list);
-        return lv;
+    protected SRListLayout createRootView(Context context, AttributeSet attrs) {
+        SRListLayout layout = new SRListLayout(context, attrs);
+        layout.setId(R.id.sr_list_layout);
+        return layout;
     }
 
     /**
@@ -147,22 +157,16 @@ public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsLis
     }
 
     private boolean isFirstItemVisible() {
-        final Adapter adapter = mRootView.getAdapter();
+        final Adapter adapter = mRootView.getContentView().getAdapter();
 
         if (null == adapter || adapter.isEmpty()) {
             return true;
         } else {
-            /**
-             * This check should really just be:
-             * mRootView.getFirstVisiblePosition() == 0, but PtRListView
-             * internally use a HeaderView which messes the positions up. For
-             * now we'll just add one to account for it and rely on the inner
-             * condition which checks getTop().
-             */
-            if (mRootView.getFirstVisiblePosition() <= 1) {
-                final View firstVisibleChild = mRootView.getChildAt(0);
+            ListView lv = mRootView.getContentView();
+            if (lv.getFirstVisiblePosition() <= 0) {
+                final View firstVisibleChild = lv.getChildAt(0);
                 if (firstVisibleChild != null) {
-                    return firstVisibleChild.getTop() >= mRootView.getTop();
+                    return firstVisibleChild.getTop() >= lv.getTop();
                 }
             }
         }
@@ -217,28 +221,6 @@ public class SwipeZoomListView extends BaseSwipeZoom<ListView> implements AbsLis
             mHeaderHeight = mHeaderContainer.getHeight();
         }
     }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        Log.d(TAG, "onScrollStateChanged --> ");
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mZoomView != null && !isHideHeader() && isPullToZoomEnabled()) {
-            float f = mHeaderHeight - mHeaderContainer.getBottom();
-            Log.d(TAG, "onScroll --> f = " + f);
-            if (isParallax()) {
-                if ((f > 0.0F) && (f < mHeaderHeight)) {
-                    int i = (int) (0.65D * f);
-                    mHeaderContainer.scrollTo(0, -i);
-                } else if (mHeaderContainer.getScrollY() != 0) {
-                    mHeaderContainer.scrollTo(0, 0);
-                }
-            }
-        }
-    }
-
 
     class ScalingRunnable implements Runnable {
         protected long mDuration;

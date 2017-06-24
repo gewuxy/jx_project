@@ -13,32 +13,35 @@ import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
  *
  * @author yuansui
  */
-public class SRListLayout extends BaseSRLoadMoreLayout {
-
-    private ListView mLv;
+public class SRListLayout extends BaseSRLoadMoreLayout<ListView> {
 
     public SRListLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected View initContentView(Context context, AttributeSet attrs) {
-        mLv = new ListView(context, attrs);
-        mLv.setId(R.id.sr_list_view);
-        return mLv;
+    protected ListView initContentView(Context context, AttributeSet attrs) {
+        ListView lv = new ListView(context, attrs);
+        lv.setId(R.id.sr_list_view);
+        return lv;
     }
 
     @Override
     protected void addLoadMoreFooterView(View footerView) {
-        mLv.addFooterView(footerView);
+        getContentView().addFooterView(footerView);
     }
 
     @Override
     public void addHeaderView(View v) {
-        mLv.addHeaderView(v);
+        getContentView().addHeaderView(v);
+    }
+
+    @Override
+    public void removeHeaderView(View v) {
+        getContentView().removeHeaderView(v);
     }
 
     public void setSelection(int position) {
-        mLv.setSelection(position);
+        getContentView().setSelection(position);
     }
 }

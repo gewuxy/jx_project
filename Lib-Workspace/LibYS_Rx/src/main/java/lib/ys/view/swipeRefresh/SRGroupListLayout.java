@@ -13,28 +13,31 @@ import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
  *
  * @author yuansui
  */
-public class SRGroupListLayout extends BaseSRLoadMoreLayout {
-
-    private FloatingGroupListView mLv;
+public class SRGroupListLayout extends BaseSRLoadMoreLayout<FloatingGroupListView> {
 
     public SRGroupListLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected View initContentView(Context context, AttributeSet attrs) {
-        mLv = new FloatingGroupListView(context, attrs);
-        mLv.setId(R.id.sr_group_list_view);
-        return mLv;
+    protected FloatingGroupListView initContentView(Context context, AttributeSet attrs) {
+        FloatingGroupListView lv = new FloatingGroupListView(context, attrs);
+        lv.setId(R.id.sr_group_list_view);
+        return lv;
     }
 
     @Override
     protected void addLoadMoreFooterView(View footerView) {
-        mLv.addFooterView(footerView);
+        getContentView().addFooterView(footerView);
     }
 
     @Override
     public void addHeaderView(View v) {
-        mLv.addHeaderView(v);
+        getContentView().addHeaderView(v);
+    }
+
+    @Override
+    public void removeHeaderView(View v) {
+        getContentView().removeHeaderView(v);
     }
 }

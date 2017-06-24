@@ -15,6 +15,7 @@ import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.ys.ui.other.NavBar;
 import lib.yy.BaseApp;
+import yy.doctor.Constants.PageConstants;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;
 
@@ -53,8 +54,8 @@ public class App extends BaseApp {
     protected ListConfig configureList() {
         return ListConfig.newBuilder()
                 .type(PageDownType.page)
-                .initOffset(1)
-                .limit(Extra.KPageSize)
+                .initOffset(PageConstants.KPage)
+                .limit(PageConstants.KPageSize)
 //                .footerClz(ListFooter.class)
                 .build();
     }

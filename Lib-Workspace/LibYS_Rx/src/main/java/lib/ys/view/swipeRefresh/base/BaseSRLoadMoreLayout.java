@@ -23,7 +23,7 @@ import lib.ys.view.swipeRefresh.interfaces.SRLoadMoreOpt;
 /**
  * @author yuansui
  */
-abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements SRLoadMoreOpt {
+abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<T> implements SRLoadMoreOpt {
 
     private BaseFooter mLoadMoreFooterView;
 
@@ -54,6 +54,8 @@ abstract public class BaseSRLoadMoreLayout extends BaseSRLayout implements SRLoa
     abstract protected void addLoadMoreFooterView(View footerView);
 
     abstract public void addHeaderView(View v);
+
+    abstract public void removeHeaderView(View v);
 
     private void createFooterView(Context context) {
         mLoadMoreFooterView = ReflectionUtil.newInst(AppEx.getListConfig().getFooterClz(), context);

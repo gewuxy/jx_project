@@ -11,28 +11,31 @@ import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
 /**
  * @author yuansui
  */
-public class SRRecyclerLayout extends BaseSRLoadMoreLayout {
-
-    private WrapRecyclerView mRv;
+public class SRRecyclerLayout extends BaseSRLoadMoreLayout<WrapRecyclerView> {
 
     public SRRecyclerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected View initContentView(Context context, AttributeSet attrs) {
-        mRv = new WrapRecyclerView(context, attrs);
-        mRv.setId(R.id.sr_recycler_view);
-        return mRv;
+    protected WrapRecyclerView initContentView(Context context, AttributeSet attrs) {
+        WrapRecyclerView rv = new WrapRecyclerView(context, attrs);
+        rv.setId(R.id.sr_recycler_view);
+        return rv;
     }
 
     @Override
     protected void addLoadMoreFooterView(View footerView) {
-        mRv.addFooterView(footerView);
+        getContentView().addFooterView(footerView);
     }
 
     @Override
     public void addHeaderView(View v) {
-        mRv.addHeaderView(v);
+        getContentView().addHeaderView(v);
+    }
+
+    @Override
+    public void removeHeaderView(View v) {
+        // FIXME: 没有实现
     }
 }

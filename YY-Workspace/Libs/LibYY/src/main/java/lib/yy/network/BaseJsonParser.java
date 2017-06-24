@@ -4,11 +4,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import lib.ys.model.EVal;
 import lib.network.model.interfaces.IResult;
+import lib.ys.model.EVal;
 import lib.ys.network.result.JsonParserEx;
+import lib.ys.util.res.ResLoader;
 import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
+import lib.yy.R;
 
 /**
  * @author yuansui
@@ -23,6 +25,7 @@ public class BaseJsonParser extends JsonParserEx {
 
     public @interface ErrorCode {
         int ok = 0;
+        int user_unauthenticated = 100;  //用户未认证
         int un_know = -1000;
     }
 
@@ -34,21 +37,26 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    protected static boolean error(String text, IResult r) throws JSONException {
-        JSONObject object = new JSONObject(text);
-
+    protected static boolean error(String text, IResult r) {
         int code;
-        if (object.has(GlobalTag.err_code)) {
-            code = getInt(object, GlobalTag.err_code);
-        } else {
+        String errorStr;
+        try {
+            JSONObject object = new JSONObject(text);
+            if (object.has(GlobalTag.err_code)) {
+                code = getInt(object, GlobalTag.err_code);
+            } else {
+                code = ErrorCode.un_know;
+            }
+            errorStr = getString(object, GlobalTag.msg);
+
+        } catch (JSONException e) {
             code = ErrorCode.un_know;
+            errorStr = ResLoader.getString(R.string.server_error);
         }
-
         r.setCode(code);
-        r.setError(getString(object, GlobalTag.msg));
+        r.setError(errorStr);
 
-
-        if (code == 100) {
+        if (code == ErrorCode.user_unauthenticated) {
             Notifier.inst().notify(NotifyType.token_out_of_date);
         }
 

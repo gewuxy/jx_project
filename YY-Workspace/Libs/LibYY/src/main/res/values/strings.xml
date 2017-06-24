@@ -3,4 +3,7 @@
 
     <!--toast-->
     <string name="toast_hint_input">请输入</string>
+    
+    <string name="server_error">服务器错误</string>
+    
 </resources>

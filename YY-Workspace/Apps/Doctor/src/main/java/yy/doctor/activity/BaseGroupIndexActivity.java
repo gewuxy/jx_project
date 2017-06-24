@@ -59,6 +59,7 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
         super.setViews();
 
         enableSRRefresh(false);
+        enableAutoLoadMore(false);
 
         mSideBar.setTextSize(fitDp(10));
         mSideBar.setSingleHeight(fitDp(15));
@@ -87,6 +88,10 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
 
         if (r.isSucceed()) {
             List<T> data = r.getData();
+            if (data == null) {
+                return r;
+            }
+
             mSideBarLetters = new String[data.size()];
             for (int i = 0; i < data.size(); i++) {
                 mSideBarLetters[i] = data.get(i).getTag();

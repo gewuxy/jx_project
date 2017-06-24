@@ -9,7 +9,6 @@ import org.json.JSONException;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.config.ListConfig;
 import lib.ys.ui.activity.list.SRListActivityEx;
 import lib.ys.util.GenericUtil;
 import lib.yy.Notifier;
@@ -68,7 +67,6 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
     public int getInitOffset() {
         return AppEx.getListConfig().getInitOffset();
     }
-
 
     protected String getEmptyText() {
         return "没有相关内容";

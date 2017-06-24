@@ -24,7 +24,9 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.Notifier.NotifyType;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.network.BaseJsonParser.ErrorCode;
+import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.Extra;
@@ -51,7 +53,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/4/25
  */
-public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdapter> {
+public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
     private static final int KColorNoAttention = Color.parseColor("#d14b4b");
     private static final int KColorNormal = Color.parseColor("#666666");
@@ -101,11 +103,6 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
     }
 
     @Override
-    public int getListViewResId() {
-        return android.R.id.list;
-    }
-
-    @Override
     public View createHeaderView() {
         return inflate(R.layout.layout_unit_num_detail_header);
     }
@@ -145,12 +142,18 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
     public void setViews() {
         super.setViews();
 
-        exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, 1, 8));
+        //exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, 1, 8));
 
+        enableSRRefresh(false);
         mZoomView.setZoomEnabled(true);
 
         setOnClickListener(R.id.unit_num_detail_layout_file);
         setOnClickListener(R.id.unit_num_detail_tv_attention);
+    }
+
+    @Override
+    public void getDataFromNet() {
+        exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, getOffset(), getLimit()));
     }
 
     @Override
@@ -209,7 +212,11 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
 
         if (id == KReqIdUnitNumDetail) {
-            return JsonParser.ev(r.getText(), UnitNumDetail.class);
+            if (getOffset() != getInitOffset()) {
+                return JsonParser.evs(r.getText(), Meeting.class);
+            } else {
+                return JsonParser.ev(r.getText(), UnitNumDetail.class);
+            }
         } else {
             return JsonParser.error(r.getText());
         }
@@ -219,7 +226,18 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
     public void onNetworkSuccess(int id, Object result) {
 
         if (id == KReqIdUnitNumDetail) {
+            if (getOffset() != getInitOffset()) {
+                // 翻页逻辑
+                super.onNetworkSuccess(id, result);
+                return;
+            }
+
             Result<UnitNumDetail> r = (Result<UnitNumDetail>) result;
+            if (!r.isSucceed()) {
+                super.onNetworkSuccess(id, result);
+                return;
+            }
+
             mUnitNumDetail = r.getData();
 
             mIvAvatar.placeHolder(R.mipmap.ic_default_unit_num)
@@ -278,7 +296,11 @@ public class UnitNumDetailActivity extends BaseListActivity<Meeting, MeetingAdap
 
             UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
 
-            setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
+            ListResult<Meeting> meetingResult = new ListResult<>();
+            meetingResult.setCode(ErrorCode.ok);
+            meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
+            super.onNetworkSuccess(id, meetingResult);
+
         } else if (id == KReqIdAttention) {  //关注
             Result r = (Result) result;
             if (r.isSucceed()) {

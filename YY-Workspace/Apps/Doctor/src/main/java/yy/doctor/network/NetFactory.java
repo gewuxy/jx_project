@@ -98,6 +98,8 @@ public class NetFactory {
 
     private interface HomeParam {
         String KType = "type";
+        String KPageNum = "pageNum";
+        String KPageSize = "pageSize";
     }
 
     public interface ProfileParam {
@@ -290,8 +292,10 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq recommendMeeting() {
+    public static NetworkReq recommendMeeting(int page, int pageSize) {
         return newGet(UrlHome.KRecommendMeeting)
+                .param(HomeParam.KPageNum, page)
+                .param(HomeParam.KPageSize, pageSize)
                 .build();
     }
 

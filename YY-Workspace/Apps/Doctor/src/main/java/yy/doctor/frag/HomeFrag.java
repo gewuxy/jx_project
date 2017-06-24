@@ -13,6 +13,7 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
+import yy.doctor.Constants.PageConstants;
 import yy.doctor.R;
 import yy.doctor.activity.home.NoticeActivity;
 import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
@@ -116,7 +117,12 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         }
         exeNetworkReq(KReqIdBanner, NetFactory.banner());
         exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
-        exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting());
+        exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting(getOffset(), getLimit()));
+    }
+
+    @Override
+    public int getLimit() {
+        return PageConstants.KPageSize;
     }
 
     @Override

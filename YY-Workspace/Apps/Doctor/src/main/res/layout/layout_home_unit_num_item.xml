@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
-    android:background="@drawable/home_unit_num_bg">
+    android:background="@drawable/item_selector">
 
     <LinearLayout
         android:id="@+id/home_unit_num_layout"

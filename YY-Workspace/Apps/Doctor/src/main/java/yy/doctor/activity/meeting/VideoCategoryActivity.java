@@ -86,11 +86,6 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     }
 
     @Override
-    public int getLimit() {
-        return Extra.KPageSize;
-    }
-
-    @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         ListResult<Detail> listResult = null;
         List<Detail> details = null;

@@ -13,28 +13,31 @@ import lib.ys.view.swipeRefresh.base.BaseSRLoadMoreLayout;
  *
  * @author yuansui
  */
-public class SRGridLayout extends BaseSRLoadMoreLayout {
-
-    private GridViewEx mGv;
+public class SRGridLayout extends BaseSRLoadMoreLayout<GridViewEx> {
 
     public SRGridLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected View initContentView(Context context, AttributeSet attrs) {
-        mGv = new GridViewEx(context, attrs);
-        mGv.setId(R.id.sr_grid_view);
-        return mGv;
+    protected GridViewEx initContentView(Context context, AttributeSet attrs) {
+        GridViewEx gv = new GridViewEx(context, attrs);
+        gv.setId(R.id.sr_grid_view);
+        return gv;
     }
 
     @Override
     protected void addLoadMoreFooterView(View v) {
-        mGv.addFooterView(v);
+        getContentView().addFooterView(v);
     }
 
     @Override
     public void addHeaderView(View v) {
-        mGv.addHeaderView(v);
+        getContentView().addHeaderView(v);
+    }
+
+    @Override
+    public void removeHeaderView(View v) {
+        getContentView().removeHeaderView(v);
     }
 }
