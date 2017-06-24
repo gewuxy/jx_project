@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
-import lib.yy.activity.base.BaseFormActivity;
+import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;

@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup.MarginLayoutParams;
 
 import lib.ys.ConstantsEx;
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 
@@ -31,7 +31,7 @@ public class DividerForm extends BaseForm {
     }
 
     @Override
-    protected void refresh(FormItemVH holder) {
+    protected void refresh(FormVH holder) {
         int h = getInt(TFormElem.height);
         if (h > 0) {
             MarginLayoutParams params = (MarginLayoutParams) holder.getDivider().getLayoutParams();

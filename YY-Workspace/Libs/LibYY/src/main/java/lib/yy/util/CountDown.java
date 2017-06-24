@@ -111,6 +111,7 @@ public class CountDown {
 
     public interface OnCountDownListener {
         void onCountDown(long remainCount);
+
         void onCountDownErr();
     }
 

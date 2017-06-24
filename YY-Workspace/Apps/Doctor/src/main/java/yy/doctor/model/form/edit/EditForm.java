@@ -7,7 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import lib.ys.util.DeviceUtil;
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.Constants;
 import yy.doctor.R;
@@ -36,7 +36,7 @@ public class EditForm extends BaseForm {
     }
 
     @Override
-    protected void init(FormItemVH holder) {
+    protected void init(FormVH holder) {
         super.init(holder);
 
         holder.getEt().addTextChangedListener(new TextWatcher() {
@@ -64,7 +64,7 @@ public class EditForm extends BaseForm {
     }
 
     @Override
-    protected void refresh(FormItemVH holder) {
+    protected void refresh(FormVH holder) {
         super.refresh(holder);
 
         int d = getInt(TFormElem.drawable);

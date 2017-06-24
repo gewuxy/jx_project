@@ -3,7 +3,7 @@ package yy.doctor.activity.me.epc;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.EpcAdapter;
 import yy.doctor.model.me.Epc;

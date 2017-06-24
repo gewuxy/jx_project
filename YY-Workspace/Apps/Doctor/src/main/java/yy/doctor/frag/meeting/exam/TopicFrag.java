@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.frag.base.BaseListFrag;
+import lib.yy.ui.frag.base.BaseListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicAdapter;
 import yy.doctor.model.meet.exam.Choice;

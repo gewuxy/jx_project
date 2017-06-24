@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@id/form_item_et"
+                android:id="@id/form_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/margin"
@@ -33,7 +33,7 @@
                 android:textSize="14dp"/>
 
             <ImageView
-                android:id="@id/form_item_iv"
+                android:id="@id/form_iv"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_gravity="center_vertical"

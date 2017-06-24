@@ -9,7 +9,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TimeUtil;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;

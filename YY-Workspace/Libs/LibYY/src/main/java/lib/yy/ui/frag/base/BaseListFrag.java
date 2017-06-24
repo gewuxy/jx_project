@@ -1,4 +1,4 @@
-package lib.yy.frag.base;
+package lib.yy.ui.frag.base;
 
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.frag.list.ListFragEx;

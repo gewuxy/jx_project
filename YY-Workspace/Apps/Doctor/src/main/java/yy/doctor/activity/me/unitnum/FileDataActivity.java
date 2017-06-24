@@ -7,7 +7,7 @@ import android.view.View;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.me.DownloadDataActivity;

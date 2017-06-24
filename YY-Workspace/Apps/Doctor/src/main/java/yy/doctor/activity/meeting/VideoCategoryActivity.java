@@ -12,7 +12,7 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import yy.doctor.Extra;

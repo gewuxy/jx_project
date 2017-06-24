@@ -3,7 +3,7 @@ package yy.doctor.frag.meeting.course;
 import android.os.Bundle;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.frag.base.BaseFrag;
+import lib.yy.ui.frag.base.BaseFrag;
 import yy.doctor.Extra;
 import yy.doctor.model.meet.Course;
 

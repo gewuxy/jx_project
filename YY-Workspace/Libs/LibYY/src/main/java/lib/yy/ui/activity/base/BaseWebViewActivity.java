@@ -1,4 +1,4 @@
-package lib.yy.activity.base;
+package lib.yy.ui.activity.base;
 
 
 import lib.ys.ui.activity.WebViewActivityEx;

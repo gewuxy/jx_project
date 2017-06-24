@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -34,7 +34,7 @@ public class TextRegisterIntentForm extends BaseForm {
     }
 
     @Override
-    protected void refresh(FormItemVH holder) {
+    protected void refresh(FormVH holder) {
         super.refresh(holder);
         setTextIfExist(holder.getTvText(), getString(TFormElem.name));
     }

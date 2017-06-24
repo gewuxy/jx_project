@@ -13,30 +13,30 @@ import lib.yy.R;
  * @author CaiXiang
  * @since 2017/4/5
  */
-public class FormItemVH extends ViewHolderEx {
+public class FormVH extends ViewHolderEx {
 
-    public FormItemVH(@NonNull View convertView) {
+    public FormVH(@NonNull View convertView) {
         super(convertView);
     }
 
     public TextView getTvName() {
-        return getView(R.id.form_item_tv_name);
+        return getView(R.id.form_tv_name);
     }
 
     public TextView getTvText() {
-        return getView(R.id.form_item_tv_text);
+        return getView(R.id.form_tv_text);
     }
 
     public ImageView getIv() {
-        return getView(R.id.form_item_iv);
+        return getView(R.id.form_iv);
     }
 
     public View getDivider() {
-        return getView(R.id.form_item_divider);
+        return getView(R.id.form_divider);
     }
 
     public EditText getEt() {
-        return getView(R.id.form_item_et);
+        return getView(R.id.form_et);
     }
 
 }

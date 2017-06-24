@@ -19,7 +19,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;

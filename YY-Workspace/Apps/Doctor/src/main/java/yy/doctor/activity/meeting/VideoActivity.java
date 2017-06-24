@@ -31,7 +31,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;

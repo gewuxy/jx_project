@@ -1,7 +1,7 @@
 package yy.doctor.activity.me.epn;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.EpnDetailsAdapter;
 import yy.doctor.model.me.EpnDetails;

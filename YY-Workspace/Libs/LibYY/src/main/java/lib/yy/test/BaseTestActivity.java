@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.ui.activity.base.BaseListActivity;
 
 /**
  * @author yuansui

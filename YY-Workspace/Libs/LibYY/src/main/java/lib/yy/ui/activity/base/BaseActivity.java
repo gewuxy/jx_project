@@ -1,19 +1,17 @@
-package lib.yy.activity.base;
+package lib.yy.ui.activity.base;
 
 import android.os.Bundle;
 
-import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.ui.activity.list.ListActivityEx;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
+import lib.ys.ui.activity.ActivityEx;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
- * @auther yuansui
- * @since 2017/4/19
+ * @author CaiXiang
+ * @since 2017.3.30
  */
-
-abstract public class BaseListActivity<T, A extends IAdapter<T>> extends ListActivityEx<T, A> implements OnNotify {
+abstract public class BaseActivity extends ActivityEx implements OnNotify {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,3 +37,4 @@ abstract public class BaseListActivity<T, A extends IAdapter<T>> extends ListAct
     public void onNotify(@NotifyType int type, Object data) {
     }
 }
+

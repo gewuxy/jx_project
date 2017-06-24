@@ -1,16 +1,16 @@
-package lib.yy.frag.base;
+package lib.yy.ui.frag.base;
 
-
-import lib.ys.ui.frag.FragEx;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
+import lib.ys.ui.frag.ViewPagerFragEx;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
- * @author CaiXiang
- * @since 2017/4/5
+ * @auther yuansui
+ * @since 2017/4/24
  */
-abstract public class BaseFrag extends FragEx implements OnNotify {
+
+abstract public class BaseVPFrag extends ViewPagerFragEx implements OnNotify {
 
     @Override
     protected void afterInitCompleted() {

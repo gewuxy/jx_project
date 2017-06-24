@@ -4,8 +4,8 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.frag.base.BaseSRListFrag;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;

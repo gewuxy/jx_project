@@ -2,7 +2,7 @@ package yy.doctor.model.form;
 
 import android.support.annotation.NonNull;
 
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 
@@ -29,7 +29,7 @@ public class DividerLargeForm extends BaseForm {
     }
 
     @Override
-    protected void refresh(FormItemVH holder) {
+    protected void refresh(FormVH holder) {
         super.refresh(holder);
         /*int h = getInt(TFormElem.height);
         if (h > 0) {

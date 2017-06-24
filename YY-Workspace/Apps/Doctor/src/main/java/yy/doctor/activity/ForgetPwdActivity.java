@@ -7,7 +7,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogMain;

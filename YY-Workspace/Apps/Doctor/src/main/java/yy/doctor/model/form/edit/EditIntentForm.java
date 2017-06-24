@@ -3,7 +3,7 @@ package yy.doctor.model.form.edit;
 import android.content.Intent;
 import android.view.View;
 
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import yy.doctor.Extra;
 
 /**
@@ -13,7 +13,7 @@ import yy.doctor.Extra;
 public class EditIntentForm extends EditForm {
 
     @Override
-    protected void init(FormItemVH holder) {
+    protected void init(FormVH holder) {
         super.init(holder);
 
         setOnClickListener(holder.getIv());

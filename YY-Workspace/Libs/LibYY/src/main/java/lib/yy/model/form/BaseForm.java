@@ -9,16 +9,16 @@ import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.R;
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 
 /**
  * @author CaiXiang
  * @since 2017/4/5
  */
-abstract public class BaseForm extends FormEx<FormItemVH> {
+abstract public class BaseForm extends FormEx<FormVH> {
 
     @Override
-    protected void refresh(FormItemVH holder) {
+    protected void refresh(FormVH holder) {
         if (holder.getTvText() != null) {
             if (!getString(TFormElem.hint).isEmpty()) {
                 holder.getTvText().setHint(getString(TFormElem.hint));

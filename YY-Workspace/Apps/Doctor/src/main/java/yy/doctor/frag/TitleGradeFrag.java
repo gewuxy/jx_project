@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.frag.base.BaseListFrag;
+import lib.yy.ui.frag.base.BaseListFrag;
 import yy.doctor.Constants.TDoctorGrade;
 import yy.doctor.adapter.TitleGradeAdapter;
 

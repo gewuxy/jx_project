@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;

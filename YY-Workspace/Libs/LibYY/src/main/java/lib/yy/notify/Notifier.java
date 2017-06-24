@@ -1,4 +1,4 @@
-package lib.yy;
+package lib.yy.notify;
 
 import android.support.annotation.IntDef;
 
@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.NotifierEx;
-import lib.yy.Notifier.OnNotify;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
  * 全局通知, 支持任意行为和数据

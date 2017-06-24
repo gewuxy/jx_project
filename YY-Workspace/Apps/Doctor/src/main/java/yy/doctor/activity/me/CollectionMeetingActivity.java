@@ -3,7 +3,7 @@ package yy.doctor.activity.me;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;

@@ -3,7 +3,7 @@ package yy.doctor.activity.register;
 import android.support.annotation.NonNull;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 

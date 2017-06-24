@@ -8,7 +8,7 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
-import lib.yy.frag.base.BaseSRListFrag;
+import lib.yy.ui.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
 import yy.doctor.adapter.SectionCategoryAdapter;
 import yy.doctor.model.me.Section;

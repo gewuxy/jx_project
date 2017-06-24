@@ -1,6 +1,5 @@
-package lib.yy.activity.base;
+package lib.yy.ui.frag.base;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,35 +7,34 @@ import org.json.JSONException;
 
 import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
-import lib.ys.adapter.interfaces.IGroupAdapter;
-import lib.ys.ui.activity.list.SRGroupListActivityEx;
+import lib.ys.adapter.interfaces.IAdapter;
+import lib.ys.ui.frag.list.SRListFragEx;
 import lib.ys.util.GenericUtil;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
 import lib.yy.R;
 import lib.yy.network.BaseJsonParser;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
- * 日期 : 2017/4/19
- * 创建人 : guoxuan
+ * @author CaiXiang
+ * @since 2017/4/10
  */
-abstract public class BaseSRGroupListActivity<T, A extends IGroupAdapter<T>> extends SRGroupListActivityEx<T, A> implements OnNotify {
+abstract public class BaseSRListFrag<T, A extends IAdapter<T>> extends SRListFragEx<T, A> implements OnNotify {
 
     private TextView mTvEmpty;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void afterInitCompleted() {
         Notifier.inst().add(this);
 
         // 不想影响子类的findView重写
         mTvEmpty = findView(R.id.empty_footer_tv);
-        mTvEmpty.setText(getEmptyText());
+        mTvEmpty.setText("暂时没有相关" + getEmptyText());
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         Notifier.inst().remove(this);
     }
@@ -69,7 +67,7 @@ abstract public class BaseSRGroupListActivity<T, A extends IGroupAdapter<T>> ext
     }
 
     protected String getEmptyText() {
-        return "暂时没有相关内容";
+        return "内容";
     }
 
 }

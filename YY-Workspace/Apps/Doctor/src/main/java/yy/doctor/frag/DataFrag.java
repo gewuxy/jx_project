@@ -17,7 +17,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
-import lib.yy.frag.base.BaseVPFrag;
+import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.activity.search.SearchActivity;
 import yy.doctor.frag.data.ClinicalGuideFrag;

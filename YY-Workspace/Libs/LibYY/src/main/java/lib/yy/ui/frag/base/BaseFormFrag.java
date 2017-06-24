@@ -1,26 +1,25 @@
-package lib.yy.activity.base;
+package lib.yy.ui.frag.base;
 
-import android.os.Bundle;
-
-import lib.ys.ui.activity.ActivityEx;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
+import lib.ys.ui.frag.form.FormFragEx;
+import lib.yy.adapter.VH.FormVH;
+import lib.yy.model.form.BaseForm;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
  * @author CaiXiang
- * @since 2017.3.30
+ * @since 2017/4/5
  */
-abstract public class BaseActivity extends ActivityEx implements OnNotify {
+abstract public class BaseFormFrag extends FormFragEx<BaseForm, FormVH> implements OnNotify {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void afterInitCompleted() {
         Notifier.inst().add(this);
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         Notifier.inst().remove(this);
     }
@@ -37,4 +36,3 @@ abstract public class BaseActivity extends ActivityEx implements OnNotify {
     public void onNotify(@NotifyType int type, Object data) {
     }
 }
-

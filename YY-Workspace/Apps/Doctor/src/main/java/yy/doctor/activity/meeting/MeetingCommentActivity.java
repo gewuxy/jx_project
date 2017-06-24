@@ -21,7 +21,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.ui.activity.base.BaseListActivity;
 import lib.yy.network.Result;
 import okhttp3.Response;
 import okhttp3.WebSocket;

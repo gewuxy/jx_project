@@ -5,7 +5,7 @@ import android.view.View;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.frag.base.BaseSRListFrag;
+import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.adapter.SectionNameAdapter;
 
 /**

@@ -14,7 +14,7 @@ import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
-import lib.yy.activity.base.BaseSRListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.ProvinceAdapter;

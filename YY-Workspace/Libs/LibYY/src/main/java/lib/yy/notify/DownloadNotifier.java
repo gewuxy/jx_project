@@ -1,4 +1,4 @@
-package lib.yy;
+package lib.yy.notify;
 
 import android.support.annotation.IntDef;
 
@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.NotifierEx;
-import lib.yy.DownloadNotifier.OnDownloadNotify;
+import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 
 /**
  * 下载的通知

@@ -3,7 +3,7 @@ package yy.doctor.frag.data;
 import android.support.annotation.NonNull;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.frag.base.BaseFrag;
+import lib.yy.ui.frag.base.BaseFrag;
 import yy.doctor.R;
 
 /**

@@ -1,11 +1,11 @@
-package lib.yy.activity.base;
+package lib.yy.ui.activity.base;
 
 import android.os.Bundle;
 
 import lib.ys.ui.activity.ViewPagerActivityEx;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
  * @author CaiXiang

@@ -11,7 +11,7 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
-import lib.yy.activity.base.BaseSRGroupListActivity;
+import lib.yy.ui.activity.base.BaseSRGroupListActivity;
 import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.model.BaseGroup;

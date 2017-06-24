@@ -4,7 +4,7 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.frag.base.BaseSRListFrag;
+import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.activity.me.DownloadDataActivity;
 import yy.doctor.adapter.ThomsonAdapter;
 import yy.doctor.model.data.ThomsonDetail;

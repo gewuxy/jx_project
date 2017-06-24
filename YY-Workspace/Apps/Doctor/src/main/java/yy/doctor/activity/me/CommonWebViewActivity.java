@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.activity.base.BaseWebViewActivity;
+import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.Extra;
 import yy.doctor.util.Util;
 

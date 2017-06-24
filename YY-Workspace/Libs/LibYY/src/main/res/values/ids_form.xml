@@ -2,14 +2,14 @@
 <resources>
 
     <!--表单字段-->
-    <item name="form_item_tv_name" type="id"/>
-    <item name="form_item_tv_text" type="id"/>
+    <item name="form_tv_name" type="id"/>
+    <item name="form_tv_text" type="id"/>
 
-    <item name="form_item_et" type="id"/>
+    <item name="form_et" type="id"/>
 
-    <item name="form_item_iv" type="id"/>
-    <item name="form_item_iv_arrow" type="id"/>
+    <item name="form_iv" type="id"/>
+    <item name="form_iv_arrow" type="id"/>
 
-    <item name="form_item_divider" type="id"/>
+    <item name="form_divider" type="id"/>
 
 </resources>

@@ -4,9 +4,9 @@ import android.content.Intent;
 
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
-import lib.yy.DownloadNotifier;
-import lib.yy.DownloadNotifier.DownloadNotifyType;
-import lib.yy.DownloadNotifier.OnDownloadNotify;
+import lib.yy.notify.DownloadNotifier;
+import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
+import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 import yy.doctor.Extra;
 import yy.doctor.network.NetFactory;
 

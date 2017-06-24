@@ -7,8 +7,8 @@ import java.util.List;
 
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.NoticeAdapter;

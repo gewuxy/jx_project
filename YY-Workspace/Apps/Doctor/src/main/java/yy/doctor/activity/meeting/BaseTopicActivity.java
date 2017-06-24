@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;

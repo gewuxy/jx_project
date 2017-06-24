@@ -1,19 +1,19 @@
-package lib.yy.activity.base;
+package lib.yy.ui.activity.base;
 
 import android.os.Bundle;
 
-import lib.ys.ui.activity.form.FormActivityEx;
-import lib.yy.Notifier;
-import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.BaseForm;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
+import lib.ys.adapter.interfaces.IGroupAdapter;
+import lib.ys.ui.activity.list.GroupListActivityEx;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
- * @author CaiXiang
- * @since 2017/4/12
+ * 日期 : 2017/4/19
+ * 创建人 : guoxuan
  */
-abstract public class BaseFormActivity extends FormActivityEx<BaseForm, FormItemVH> implements OnNotify {
+
+abstract public class BaseGroupListActivity<T, A extends IGroupAdapter<T>> extends GroupListActivityEx<T, A> implements OnNotify {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +38,4 @@ abstract public class BaseFormActivity extends FormActivityEx<BaseForm, FormItem
     @Override
     public void onNotify(@NotifyType int type, Object data) {
     }
-
 }

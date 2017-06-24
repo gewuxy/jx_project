@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.activity.base.BaseActivity;
+import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.util.Util;

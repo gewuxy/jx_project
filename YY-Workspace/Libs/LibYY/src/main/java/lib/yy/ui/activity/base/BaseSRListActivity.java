@@ -1,4 +1,4 @@
-package lib.yy.activity.base;
+package lib.yy.ui.activity.base;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +11,11 @@ import lib.ys.AppEx;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.list.SRListActivityEx;
 import lib.ys.util.GenericUtil;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
-import lib.yy.Notifier.OnNotify;
 import lib.yy.R;
 import lib.yy.network.BaseJsonParser;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
  * @author CaiXiang

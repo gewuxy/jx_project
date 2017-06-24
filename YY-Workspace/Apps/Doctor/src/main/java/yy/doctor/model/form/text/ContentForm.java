@@ -2,7 +2,7 @@ package yy.doctor.model.form.text;
 
 import android.support.annotation.NonNull;
 
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 import yy.doctor.model.form.FormType;
@@ -20,7 +20,7 @@ public class ContentForm extends BaseForm {
     }
 
     @Override
-    protected void refresh(FormItemVH holder) {
+    protected void refresh(FormVH holder) {
         super.refresh(holder);
 
         setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));

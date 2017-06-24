@@ -16,7 +16,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.activity.base.BaseListActivity;
+import lib.yy.ui.activity.base.BaseListActivity;
 import lib.yy.network.ListResult;
 import yy.doctor.Extra;
 import yy.doctor.R;

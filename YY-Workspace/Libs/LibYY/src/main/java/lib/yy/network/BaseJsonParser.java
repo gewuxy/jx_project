@@ -8,9 +8,9 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.model.EVal;
 import lib.ys.network.result.JsonParserEx;
 import lib.ys.util.res.ResLoader;
-import lib.yy.Notifier;
-import lib.yy.Notifier.NotifyType;
 import lib.yy.R;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @author yuansui

@@ -5,7 +5,7 @@ import android.text.InputType;
 import android.text.method.NumberKeyListener;
 import android.text.method.PasswordTransformationMethod;
 
-import lib.yy.adapter.VH.FormItemVH;
+import lib.yy.adapter.VH.FormVH;
 import yy.doctor.model.form.FormType;
 
 /**
@@ -21,7 +21,7 @@ public class EditRegisterPwdForm extends EditRegisterForm {
     }
 
     @Override
-    protected void init(FormItemVH holder) {
+    protected void init(FormVH holder) {
         super.init(holder);
 
         // 设置输入digits
