@@ -27,6 +27,7 @@ public class BaseJsonParser extends JsonParserEx {
         int ok = 0;
         int user_unauthenticated = 100;  //用户未认证
         int un_know = -1000;
+        int server_err = -999;
     }
 
     /**
@@ -50,7 +51,7 @@ public class BaseJsonParser extends JsonParserEx {
             errorStr = getString(object, GlobalTag.msg);
 
         } catch (JSONException e) {
-            code = ErrorCode.un_know;
+            code = ErrorCode.server_err;
             errorStr = ResLoader.getString(R.string.server_error);
         }
         r.setCode(code);

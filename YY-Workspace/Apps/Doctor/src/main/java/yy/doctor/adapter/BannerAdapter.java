@@ -1,8 +1,5 @@
 package yy.doctor.adapter;
 
-import android.view.View;
-import android.view.View.OnClickListener;
-
 import lib.ys.adapter.PagerAdapterEx;
 import yy.doctor.R;
 import yy.doctor.activity.home.BannerActivity;
@@ -36,15 +33,12 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
                 .url(item.getString(TBanner.pageUrl))
                 .load();
 
-        holder.getIv().setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                BannerActivity.nav(getContext(), item.getString(TBanner.link), item.getString(TBanner.title));
-            }
-        });
+        holder.getLayoutRoot().setOnClickListener(v -> BannerActivity.nav(getContext(), item.getString(TBanner.link), item.getString(TBanner.title)));
 
     }
 
+    @Override
+    public boolean isLoop() {
+        return true;
+    }
 }

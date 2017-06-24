@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
         android:color="@color/item_focus">
-    <item android:state_pressed="true">
-        <shape>
-            <solid android:color="@color/item_focus"/>
-        </shape>
-    </item>
-    <item android:state_pressed="false">
+    <item>
         <shape>
             <solid android:color="@color/white"/>
         </shape>

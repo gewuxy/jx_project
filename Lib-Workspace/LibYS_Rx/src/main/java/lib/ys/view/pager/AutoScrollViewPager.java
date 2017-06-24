@@ -88,6 +88,9 @@ public class AutoScrollViewPager extends ViewPager {
      * start auto scroll, first scroll delay time is {@link #getInterval()}
      */
     public void startAutoScroll() {
+        if (isAutoScroll) {
+            return;
+        }
         isAutoScroll = true;
         sendScrollMessage(interval);
     }
@@ -98,6 +101,9 @@ public class AutoScrollViewPager extends ViewPager {
      * @param delayTimeInMills first scroll delay time
      */
     public void startAutoScroll(int delayTimeInMills) {
+        if (isAutoScroll) {
+            return;
+        }
         isAutoScroll = true;
         sendScrollMessage(delayTimeInMills);
     }
@@ -106,6 +112,9 @@ public class AutoScrollViewPager extends ViewPager {
      * stop auto scroll
      */
     public void stopAutoScroll() {
+        if (!isAutoScroll) {
+            return;
+        }
         isAutoScroll = false;
         handler.removeMessages(SCROLL_WHAT);
     }
@@ -155,15 +164,8 @@ public class AutoScrollViewPager extends ViewPager {
         }
     }
 
-    /**
-     * <ul>
-     * if stopScrollWhenTouch is true
-     * <li>if event is down, stop auto scroll.</li>
-     * <li>if event is up, start auto scroll again.</li>
-     * </ul>
-     */
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         if (stopScrollWhenTouch) {
             if (ev.getAction() == MotionEvent.ACTION_DOWN && isAutoScroll) {
                 isStopByTouch = true;
@@ -198,11 +200,12 @@ public class AutoScrollViewPager extends ViewPager {
                     }
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
-                return super.onTouchEvent(ev);
+                return super.dispatchTouchEvent(ev);
             }
         }
         getParent().requestDisallowInterceptTouchEvent(true);
-        return super.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+
     }
 
     private class MyHandler extends Handler {

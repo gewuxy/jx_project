@@ -26,6 +26,7 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
     private A mAdapter;
     private AutoScrollViewPager mVp;
     private PageIndicator mIndicator;
+    private int mCurrItem;
 
     public BannerViewEx(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -64,10 +65,10 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
             throw new IllegalStateException("must have AutoScrollViewPager");
         }
 
-        setViewsValue();
+        setViews();
     }
 
-    private void setViewsValue() {
+    private void setViews() {
         /**
          * 设置banner viewpager的属性
          */
@@ -91,6 +92,7 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
 
         invalidate();
 
+        mVp.setCurrentItem(mCurrItem);
         mVp.startAutoScroll();
     }
 
@@ -146,6 +148,13 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
     public void onResume() {
         if (mVp != null) {
             mVp.startAutoScroll();
+        }
+    }
+
+    public void setCurrentItem(int item) {
+        mCurrItem = item;
+        if (mVp != null) {
+            mVp.setCurrentItem(item);
         }
     }
 

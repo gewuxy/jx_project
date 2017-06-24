@@ -9,8 +9,8 @@ android {
         applicationId "com.zhuanyeban.yaya"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6607
-        versionName "6.6.07"
+        versionCode 6608
+        versionName "6.6.08"
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
                 // LibYS里的混淆, 相对路径为3级

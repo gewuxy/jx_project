@@ -36,6 +36,9 @@
     <drawable name="nav_bar_bg_focus">#64000000</drawable>
     <color name="nav_bar_text_focus">#64000000</color>
 
+    <drawable name="banner_focus">#96cccccc</drawable>
+    <color name="banner_focus">#96cccccc</color>
+
     <!--text-->
     <color name="text_333">#333</color>
     <color name="text_6d">#6d6d6d</color>

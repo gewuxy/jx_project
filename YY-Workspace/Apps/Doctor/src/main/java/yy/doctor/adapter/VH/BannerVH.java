@@ -21,4 +21,8 @@ public class BannerVH extends ViewHolderEx {
         return getView(R.id.banner_view_iv);
     }
 
+    public View getLayoutRoot() {
+        return getView(R.id.banner_view_layout_root);
+    }
+
 }

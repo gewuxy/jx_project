@@ -180,6 +180,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (id == KReqIdBanner) {
             mBannerReqIsOK = r.isSucceed();
             mBannerView.setData(mBanners);
+            // 设置当前第一页的位置偏移, 支持初始化后直接手势右滑
+            mBannerView.setCurrentItem(mBanners.size() * 100);
         } else if (id == KReqIdUnitNum) {
             mUnitNumReqIsOK = r.isSucceed();
         } else if (id == KReqIdMeeting) {
@@ -261,4 +263,39 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         return super.onRetryClick();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mBannerView != null) {
+            mBannerView.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        
+        if (mBannerView != null) {
+            mBannerView.onPause();
+        }
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+
+        if (mBannerView != null) {
+            mBannerView.onResume();
+        }
+    }
+
+    @Override
+    protected void onInvisible() {
+        super.onInvisible();
+
+        if (mBannerView != null) {
+            mBannerView.onPause();
+        }
+    }
 }
