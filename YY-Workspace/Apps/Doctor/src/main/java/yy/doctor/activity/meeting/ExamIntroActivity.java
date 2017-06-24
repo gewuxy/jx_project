@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -181,6 +180,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
                 if (mCanStart) {
                     if (mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) > 0) {
                         ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
+                        ExamCount.inst().pause();
                         finish();
                     } else {
                         mDialog.setMainHint("不能再考了");
@@ -207,7 +207,6 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
     protected void onDestroy() {
         super.onDestroy();
 
-        ExamCount.inst().stop();
         if (mDialog != null) {
             if (mDialog.isShowing()) {
                 mDialog.dismiss();

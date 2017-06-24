@@ -159,10 +159,10 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         } else {
             // 考试结束强制提交
             mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
-            mSubmitDialog.setMainHint(getString(R.string.exam_end));
-            mSubmitDialog.setSecHint(getString(R.string.exam_submit));
+            mSubmitDialog.setMainHint(R.string.exam_end);
+            mSubmitDialog.setSecHint(R.string.exam_submit);
             mSubmitDialog.setCancelable(false);
-            mSubmitDialog.addButton("确定", v -> {
+            mSubmitDialog.addButton(R.string.confirm, v -> {
                 mSubmitDialog.dismiss();
                 submit();
             });
