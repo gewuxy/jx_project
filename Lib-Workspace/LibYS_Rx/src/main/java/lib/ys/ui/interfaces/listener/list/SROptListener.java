@@ -156,4 +156,9 @@ public interface SROptListener<T> {
     void resetNetDataState();
 
     List<T> getNetData();
+
+    /**
+     * 手动下拉刷新回调
+     */
+    void onSwipeRefresh();
 }

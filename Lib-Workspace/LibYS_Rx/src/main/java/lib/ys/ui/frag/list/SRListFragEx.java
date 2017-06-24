@@ -249,6 +249,10 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
+    public void onSwipeRefresh() {
+    }
+
+    @Override
     public void onDataSetChanged() {
         mSROpt.onDataSetChanged();
     }

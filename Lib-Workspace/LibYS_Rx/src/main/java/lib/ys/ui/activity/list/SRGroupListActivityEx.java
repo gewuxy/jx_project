@@ -246,6 +246,10 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
+    public void onSwipeRefresh() {
+    }
+
+    @Override
     public void onDataSetChanged() {
         mSROpt.onDataSetChanged();
     }

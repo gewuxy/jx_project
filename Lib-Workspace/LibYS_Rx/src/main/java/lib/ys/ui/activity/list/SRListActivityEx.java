@@ -247,6 +247,10 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
+    public void onSwipeRefresh() {
+    }
+
+    @Override
     public void onDataSetChanged() {
         mSROpt.onDataSetChanged();
     }

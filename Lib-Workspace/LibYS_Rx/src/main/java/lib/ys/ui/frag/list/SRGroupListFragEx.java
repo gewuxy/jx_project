@@ -248,6 +248,10 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
+    public void onSwipeRefresh() {
+    }
+
+    @Override
     public void onDataSetChanged() {
         mSROpt.onDataSetChanged();
     }
