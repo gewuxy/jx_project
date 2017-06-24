@@ -99,7 +99,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
                 .putExtra(Extra.KModuleId, mModuleId)
                 .putExtra(Extra.KPaperId, mPaperId)
                 .putExtra(Extra.KPass, mIntro.getInt(TIntro.passScore))
-                .putExtra(Extra.KNum, mIntro.getInt(TIntro.resitTimes) - 1)
+                .putExtra(Extra.KNum, mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
                 .putExtra(Extra.KData, getAnswer(mAllTopics));
         LaunchUtil.startActivity(ExamTopicActivity.this, i);
         finish();
