@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -116,7 +117,15 @@ public class BaseHintDialog extends BaseDialog {
         addButtons(tv);
     }
 
+    public void addButton(@StringRes int strRes, String colorString, OnClickListener l){
+        addButton(getContext().getString(strRes), colorString, l);
+    }
+
     public void addButton(String text, OnClickListener l) {
         addButton(text, "#0682e6", l);
+    }
+
+    public void addButton(@StringRes int strRes, OnClickListener l) {
+        addButton(getContext().getString(strRes), l);
     }
 }

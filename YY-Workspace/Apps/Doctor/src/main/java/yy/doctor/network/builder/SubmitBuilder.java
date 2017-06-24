@@ -116,6 +116,11 @@ public class SubmitBuilder {
         return this;
     }
 
+    public SubmitBuilder details(String details) {
+        mBuilder.param(MeetParam.KDetails, details);
+        return this;
+    }
+
     /**
      * 是否完成
      * @param finish

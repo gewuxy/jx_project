@@ -17,5 +17,6 @@ public class Submit extends EVal<TSubmit> {
         detailId, // 视频明细ID
         usedtime, // 明细用时
         finished, // 是否完成
+        times, // (视频明细ID,明细用时,是否完成)的集合
     }
 }

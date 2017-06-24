@@ -1,9 +1,13 @@
 package yy.doctor.serv;
 
 import android.content.Intent;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
 import org.json.JSONException;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
@@ -26,32 +30,69 @@ import yy.doctor.sp.SpUser;
  */
 public class CommonServ extends ServiceEx {
 
-    private static final int KReqIdLogout = 1;
-    private static final int KReqIdJPushRegisterId = 2;
-    private static final int KReqIdVideo = 3;
+    private static final int KIdLogout = 1;
+    private static final int KIdJPush = 2;
+    private static final int KIdVideo = 3;
+    private static final int KIdPPT = 4;
 
     private String mJPushRegisterId;
-    private Submit mSubmit;
+
+    @IntDef({
+            ReqType.logout,
+            ReqType.j_push,
+            ReqType.video,
+            ReqType.course,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ReqType {
+        int logout = 1;
+        int j_push = 2;
+        int video = 3;
+        int course = 4;
+
+    }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        String type = intent.getStringExtra(Extra.KType);
-        if (type.equals(Extra.KLogout)) {
-            exeNetworkReq(KReqIdLogout, NetFactory.logout());
-        } else if (type.equals(Extra.KJPushRegisterId)) {
-            mJPushRegisterId = intent.getStringExtra(Extra.KData);
-            exeNetworkReq(KReqIdJPushRegisterId, NetFactory.bindJPush(mJPushRegisterId));
-        } else if (type.equals(Extra.KSubmitPPT)) {
-            mSubmit = (Submit) intent.getSerializableExtra(Extra.KData);
-            exeNetworkReq(KReqIdVideo, NetFactory.submitVideo()
-                    .meetId(mSubmit.getString(TSubmit.meetId))
-                    .moduleId(mSubmit.getString(TSubmit.moduleId))
-                    .courseId(mSubmit.getString(TSubmit.courseId))
-                    .detailId(mSubmit.getString(TSubmit.detailId))
-                    .useTime(mSubmit.getString(TSubmit.usedtime))
-                    .isFinish(mSubmit.getBoolean(TSubmit.finished))
-                    .builder());
+        int type = intent.getIntExtra(Extra.KType, 0);
+        switch (type) {
+            case ReqType.logout: {
+                exeNetworkReq(KIdLogout, NetFactory.logout());
+            }
+            break;
+
+            case ReqType.j_push: {
+                mJPushRegisterId = intent.getStringExtra(Extra.KData);
+                exeNetworkReq(KIdJPush, NetFactory.bindJPush(mJPushRegisterId));
+            }
+            break;
+
+            case ReqType.video: {
+                Submit submit = (Submit) intent.getSerializableExtra(Extra.KData);
+                exeNetworkReq(KIdVideo, NetFactory.submitVideo()
+                        .meetId(submit.getString(TSubmit.meetId))
+                        .moduleId(submit.getString(TSubmit.moduleId))
+                        .courseId(submit.getString(TSubmit.courseId))
+                        .detailId(submit.getString(TSubmit.detailId))
+                        .useTime(submit.getString(TSubmit.usedtime))
+                        .isFinish(submit.getBoolean(TSubmit.finished))
+                        .builder());
+            }
+            break;
+
+            case ReqType.course: {
+                Submit submit = (Submit) intent.getSerializableExtra(Extra.KData);
+                exeNetworkReq(KIdPPT, NetFactory.submitPpt()
+                        .meetId(submit.getString(TSubmit.meetId))
+                        .moduleId(submit.getString(TSubmit.moduleId))
+                        .courseId(submit.getString(TSubmit.courseId))
+                        .details(submit.getString(TSubmit.times))
+                        .builder());
+
+            }
+            break;
         }
+
     }
 
     @Override
@@ -65,7 +106,7 @@ public class CommonServ extends ServiceEx {
 
         //通过id判断 执行的网络请求
         switch (id) {
-            case KReqIdLogout: {
+            case KIdLogout: {
                 if (r.isSucceed()) {
                     //清空个人信息，把极光绑定改为false 登录后需要重新绑定
                     SpUser.inst().clear();
@@ -78,7 +119,7 @@ public class CommonServ extends ServiceEx {
             }
             break;
 
-            case KReqIdJPushRegisterId: {
+            case KIdJPush: {
                 if (r.isSucceed()) {
                     YSLog.d(TAG, "极光推送绑定成功");
                     SpJPush.inst().jPushRegisterId(mJPushRegisterId);
@@ -92,12 +133,14 @@ public class CommonServ extends ServiceEx {
             }
             break;
 
-            case KReqIdVideo:{
+            // 记录时间的都同一操作
+            case KIdPPT:
+            case KIdVideo: {
                 if (r.isSucceed()) {
-                    YSLog.d(TAG,"onNetworkSuccess:记录成功");
+                    YSLog.d(TAG, "onNetworkSuccess:记录成功");
                 } else {
                     retryNetworkRequest(id);
-                    YSLog.d(TAG,"onNetworkSuccess:记录失败");
+                    YSLog.d(TAG, "onNetworkSuccess:记录失败");
                 }
             }
             break;

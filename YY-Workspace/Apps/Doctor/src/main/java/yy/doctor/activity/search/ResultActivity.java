@@ -119,8 +119,8 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
      * 搜索不为空,请求网络
      */
     protected void search() {
-        setData(null);
         refresh(RefreshWay.embed);
+        removeAll(); // 搜索前清空之前的数据集
         exeNetworkReq(KMeeting, NetFactory.searchMeeting(mSearchContent));
         exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent));
     }

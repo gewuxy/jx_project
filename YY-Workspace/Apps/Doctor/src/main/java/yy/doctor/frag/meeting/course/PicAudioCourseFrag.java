@@ -13,13 +13,16 @@ import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.util.TextUtil;
+import lib.ys.util.UtilEx;
 import lib.ys.view.photoViewer.NetworkPhotoView;
+import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
 import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
+import yy.doctor.util.Util;
 import yy.doctor.view.RootLayout;
 import yy.doctor.view.RootLayout.OnRootTouchListener;
 
@@ -42,6 +45,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     private MediaPlayer mMp;
     private CountDown mCountDown;
     protected RootLayout mLayout;
+    private boolean isFinish;
 
     public void setRemainTime(int remainTime) {
         mRemainTime = remainTime;
@@ -87,6 +91,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     protected void setAudio() {
+        isFinish = false;
         String audioUrl = getDetail().getString(TCourse.audioUrl);
 
         // 文件名
@@ -115,7 +120,14 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void onNetworkSuccess(int id, Object result) {
         mAudioExist = true;
-        start();
+        if (getVisible()) {
+            start();
+        }
+    }
+
+    @Override
+    public boolean isFinish(){
+        return isFinish;
     }
 
     /**
@@ -136,9 +148,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
                 } catch (Exception e) {
                     YSLog.e(TAG, "preparePlay", e);
                 }
-            } else {
-                onPrepare(mMp.getDuration());
-                return true;
             }
             onPrepare(mMp.getDuration());
             return true;
@@ -224,7 +233,10 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     public void seekTo(int msec) {
-        mMp.seekTo(msec);
+        if (mMp != null) {
+            mMp.seekTo(msec);
+
+        }
     }
 
     public void countStop() {
@@ -236,6 +248,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void onCompletion(MediaPlayer mp) {
         onPlayStop();
+        isFinish = true;
         mAudioExist = true;
         preparePlay();
         end();
@@ -281,4 +294,5 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     public void onTouchUp() {
         onCourseClick();
     }
+
 }

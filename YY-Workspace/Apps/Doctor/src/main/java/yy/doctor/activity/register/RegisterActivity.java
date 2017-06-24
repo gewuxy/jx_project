@@ -7,6 +7,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -54,6 +57,7 @@ public class RegisterActivity extends BaseFormActivity {
             RelatedId.hospital,
             RelatedId.activation_code,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int name = 1;
         int pwd = 2;

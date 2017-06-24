@@ -44,12 +44,12 @@ public class Util extends BaseUtil {
     }
 
     /**
-     * 把时间格式化为xx:xx:xx
+     * 格式化时间为xx:xx:xx
      *
-     * @param seconds
+     * @param seconds 秒单位
      * @return
      */
-    public static String formatTime(long seconds, @DateUnit int unit) {
+    public static String format(long seconds, @DateUnit int unit) {
         StringBuffer sb = new StringBuffer();
         if (DateUnit.hour == unit) {
             long hour = seconds / TimeUnit.HOURS.toSeconds(1);
@@ -80,12 +80,38 @@ public class Util extends BaseUtil {
     }
 
     /**
-     * 格式化时间   毫秒值
-     *
-     * @param milliseconds 秒单位
+     * 格式化时间 时分秒
+     * @param time 秒单位
      * @return
      */
-    public static String timeParse(long milliseconds) {
+    public static String format(long time) {
+        StringBuffer sb = new StringBuffer();
+        long hour = TimeUnit.HOURS.toSeconds(1);
+        if (time > hour) {
+            sb.append(time / hour).append("时");
+            time %= hour;
+        }
+
+        long minute = TimeUnit.MINUTES.toSeconds(1);
+        if (time > minute) {
+            sb.append(time / minute).append("分");
+            time %= minute;
+        }
+
+        if (time > 0) {
+            sb.append(time).append("秒");
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * 格式化时间(会舍弃部分值) 时分秒
+     *
+     * @param milliseconds 毫秒单位
+     * @return
+     */
+    public static String parse(long milliseconds) {
 
         StringBuffer parse = new StringBuffer();
         long oneDayMillis = TimeUnit.DAYS.toMillis(1);

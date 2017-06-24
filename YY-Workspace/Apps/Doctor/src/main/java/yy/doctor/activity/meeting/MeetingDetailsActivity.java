@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import lib.bd.location.Gps.TGps;
@@ -70,7 +72,7 @@ import yy.doctor.view.ModuleView;
  * 创建人 : guoxuan
  */
 public class MeetingDetailsActivity extends BaseActivity {
-
+    // FIXME: 2017/6/22 fenxiang
     private static final int KIdMeetDetail = 0; // 会议详情
     private static final int KIdCollection = 1; // 收藏
     private static final int KIdAttention = 2; // 关注
@@ -159,6 +161,7 @@ public class MeetingDetailsActivity extends BaseActivity {
             FunctionType.que,
             FunctionType.sign,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface FunctionType {
         int ppt = 1; // 微课
         int video = 2; // 视频
@@ -171,6 +174,7 @@ public class MeetingDetailsActivity extends BaseActivity {
             CollectType.no,
             CollectType.yes,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface CollectType {
         int no = 0; // 收藏
         int yes = 1; // 没有收藏
@@ -180,6 +184,7 @@ public class MeetingDetailsActivity extends BaseActivity {
             EpnType.need,
             EpnType.award,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface EpnType {
         int need = 0; // 需要象数
         int award = 1; // 奖励象数
@@ -286,7 +291,7 @@ public class MeetingDetailsActivity extends BaseActivity {
             // 关注了
             if (mMeetDetail.getBoolean(TMeetDetail.attendAble)) {
                 // 可以参加
-                if (mMeetDetail.getBoolean(TMeetDetail.attended)){
+                if (mMeetDetail.getBoolean(TMeetDetail.attended)) {
                     // 参加过(奖励过和支付过)
                     toModule(v);
                 } else {
@@ -311,7 +316,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                     mPayEpnDialog.dismiss();
                                     toModule(v);
                                 });
-                                mPayEpnDialog.addButton(getString(R.string.cancel), "#666666", v1 -> mPayEpnDialog.dismiss());
+                                mPayEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mPayEpnDialog.dismiss());
                                 mPayEpnDialog.show();
                             }
                         } else {
@@ -334,9 +339,8 @@ public class MeetingDetailsActivity extends BaseActivity {
             // 提示关注
             mAttentionDialog = new HintDialogMain(MeetingDetailsActivity.this);
             mAttentionDialog.setHint("请先关注会议");
-            mAttentionDialog.addButton("确认关注", v1 ->
-                    exeNetworkReq(KIdAttention, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1)));
-            mAttentionDialog.addButton(getString(R.string.cancel), "#666666", v1 -> mAttentionDialog.dismiss());
+            mAttentionDialog.addButton("确认关注", v1 -> exeNetworkReq(KIdAttention, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1)));
+            mAttentionDialog.addButton(R.string.cancel, "#666666", v1 -> mAttentionDialog.dismiss());
             mAttentionDialog.show();
         }
     }
@@ -549,8 +553,12 @@ public class MeetingDetailsActivity extends BaseActivity {
                 Result r = (Result) result;
                 if (r.isSucceed()) {
                     showToast("关注成功");
+                    mMeetDetail.put(TMeetDetail.attention, true);
                 } else {
                     showToast("关注失败");
+                }
+                if (mAttentionDialog != null) {
+                    mAttentionDialog.dismiss();
                 }
             }
             break;
@@ -592,7 +600,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 .load();
         long startTime = info.getLong(TMeetDetail.startTime); // 开始时间
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
-        mTvDuration.setText("时长:" + Util.timeParse(info.getLong(TMeetDetail.endTime) - startTime));
+        mTvDuration.setText("时长:" + Util.parse(info.getLong(TMeetDetail.endTime) - startTime));
 
         // 会议
         mTvTitle.setText(info.getString(TMeetDetail.meetName));

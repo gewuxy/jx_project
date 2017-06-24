@@ -30,10 +30,6 @@ public interface Extra {
     String KCity = "city";
     String KArea = "area";
 
-    String KLogout = "logout";
-    String KJPushRegisterId = "JPushRegisterId";
-    String KSubmitPPT = "submit_PPT";
-
     String KMeetingType = "meeting";
     String KUnitNumType = "unitNum";
 }

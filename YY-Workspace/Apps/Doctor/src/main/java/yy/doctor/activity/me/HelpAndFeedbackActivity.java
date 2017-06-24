@@ -5,6 +5,9 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -39,6 +42,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
             RelatedId.feedback,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
 
         int update_log = 1;

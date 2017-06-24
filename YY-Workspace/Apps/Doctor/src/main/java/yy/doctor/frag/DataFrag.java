@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
@@ -37,6 +40,7 @@ public class DataFrag extends BaseVPFrag {
             PageType.drug_list,
             PageType.clinical_guide,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface PageType {
         int thomson = 0;  //汤森路透
         int drug_list = 1;    //药品目录

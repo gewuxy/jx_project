@@ -2,6 +2,9 @@ package yy.doctor.model.meet;
 
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.model.EVal;
 import yy.doctor.model.meet.Course.TCourse;
 
@@ -26,7 +29,6 @@ public class Course extends EVal<TCourse> {
          */
 
         play, // 是否在播放
-        studyTime, // 学习时间
     }
 
     @IntDef({
@@ -36,6 +38,7 @@ public class Course extends EVal<TCourse> {
             CourseType.pic,
             CourseType.video,
     })
+    @Retention(RetentionPolicy.SOURCE)
     public @interface CourseType {
         int un_know = -1;
         int pic_audio = 0;

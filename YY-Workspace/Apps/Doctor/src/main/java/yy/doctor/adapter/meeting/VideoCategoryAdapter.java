@@ -8,6 +8,7 @@ import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.VideoVH;
 import yy.doctor.model.meet.video.Detail;
+import yy.doctor.util.Util;
 
 /**
  * @author : GuoXuan
@@ -29,7 +30,7 @@ public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
             // 1是文件
             long duration = getItem(position).getLong(Detail.TDetail.userdtime);
             if (duration > 0) {
-                tvStudyTime.setText(getContext().getString(R.string.video_add_up) + format(duration));
+                tvStudyTime.setText(getContext().getString(R.string.video_add_up) + Util.format(duration));
             } else {
                 tvStudyTime.setText(getContext().getString(R.string.video_no_see));
             }
@@ -39,23 +40,5 @@ public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
         }
     }
 
-    public static String format(long time) {
-        StringBuffer sb = new StringBuffer();
-        long hour = TimeUnit.HOURS.toSeconds(1);
-        if (time > hour) {
-            sb.append(time / hour).append("时");
-            time %= hour;
-        }
 
-        long minute = TimeUnit.MINUTES.toSeconds(1);
-        if (time > minute) {
-            sb.append(time / minute).append("分");
-            time %= minute;
-        }
-
-        if (time > 0) {
-            sb.append(time).append("秒");
-        }
-        return sb.toString();
-    }
 }

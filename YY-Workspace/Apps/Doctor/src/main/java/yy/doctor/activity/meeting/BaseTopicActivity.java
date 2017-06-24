@@ -20,6 +20,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.frag.meeting.exam.TopicFrag;
+import yy.doctor.frag.meeting.exam.TopicFrag.OnTopicListener;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.model.meet.exam.Choice;
@@ -37,7 +38,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public abstract class BaseTopicActivity extends BaseVPActivity {
+public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopicListener {
 
     private static final int KDuration = 300; //动画时长
     private static final int KVpSize = 3;
@@ -219,17 +220,10 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             Topic topic = mAllTopics.get(i);
             topicFrag.setTopic(topic);
             //最后一题
-            if (i == mAllTopics.size() - 1) {
+            if (i == size - 1) {
                 topicFrag.isLast();
             }
-            topicFrag.setOnNextListener(v -> {
-                getAnswer(mAllTopics);
-                if (getCurrentItem() < size - 1) {
-                    setCurrentItem(getCurrentItem() + 1);
-                } else {
-                    trySubmit(size - mCount);
-                }
-            });
+            topicFrag.setOnTopicListener(this);
             add(topicFrag);
         }
     }
@@ -254,8 +248,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
             setCurrentItem(position);
         });
     }
-
-
 
     /**
      * 获取当前题目占总题目的百分比
@@ -283,11 +275,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         mSubDialog = new HintDialogMain(BaseTopicActivity.this);
         mSubDialog.setHint(setDialogHint(noFinish));
 
-        mSubDialog.addButton("确定", v -> {
+        mSubDialog.addButton(R.string.confirm, v -> {
             submit();
             mSubDialog.dismiss();
         });
-        mSubDialog.addButton(getString(R.string.cancel), "#666666", v -> mSubDialog.dismiss());
+        mSubDialog.addButton(R.string.cancel, "#666666", v -> mSubDialog.dismiss());
         mSubDialog.show();
     }
 
@@ -314,11 +306,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
     private void exit() {
         mExitDialog = new HintDialogMain(BaseTopicActivity.this);
         mExitDialog.setHint("确定退出?");
-        mExitDialog.addButton("确定", v1 -> {
+        mExitDialog.addButton(R.string.confirm, v1 -> {
             finish();
             mExitDialog.dismiss();
         });
-        mExitDialog.addButton(getString(R.string.cancel), "#666666", v1 -> mExitDialog.dismiss());
+        mExitDialog.addButton(R.string.cancel, "#666666", v1 -> mExitDialog.dismiss());
         mExitDialog.show();
     }
 
@@ -362,6 +354,17 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
         });
     }
 
+    @Override
+    public void onNext() {
+        getAnswer(mAllTopics);
+        setCurrentItem(getCurrentItem() + 1);
+    }
+
+    @Override
+    public void onSubmit() {
+        trySubmit(mAllTopics.size() - mCount);
+    }
+
     /**
      * 提交答案
      */
@@ -374,4 +377,5 @@ public abstract class BaseTopicActivity extends BaseVPActivity {
      * @return
      */
     protected abstract String setDialogHint(int noFinish);
+
 }

@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
@@ -61,6 +64,7 @@ public class MeetingFrag extends BaseVPFrag {
             PageType.not_started,
             PageType.retrospect,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface PageType {
         int under_way = 0;//进行中
         int not_started = 1;//未开始

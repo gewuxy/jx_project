@@ -31,6 +31,7 @@ public interface Constants extends BaseConstants {
             MeetsState.under_way,
             MeetsState.retrospect,
     })
+    @Retention(RetentionPolicy.SOURCE)
     @interface MeetsState {
         int not_started = 1; // 未开始
         int under_way = 2; // 进行中

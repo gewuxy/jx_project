@@ -2,9 +2,6 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -17,16 +14,14 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
 import lib.yy.activity.base.BaseActivity;
 import lib.yy.network.Result;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
@@ -37,6 +32,8 @@ import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.ExamCount;
+import yy.doctor.util.ExamCount.OnCountListener;
 import yy.doctor.util.Util;
 
 /**
@@ -45,9 +42,8 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-public class ExamIntroActivity extends BaseActivity implements OnCountDownListener {
+public class ExamIntroActivity extends BaseActivity implements OnCountListener {
 
-    private Paper mPaper; // 本次考试试题信息
     private Intro mIntro;
     private String mHost; // 会议主办方
     private String mMeetId; // 会议ID
@@ -66,36 +62,6 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
     private boolean mCanStart; // 是否能开始考试
 
     private HintDialogSec mDialog; // 提示不能考试的原因
-    private CountDown mCountDown; // FIXME:改为Handler
-
-    @IntDef(
-            {
-                    StartType.can_start,
-                    StartType.can_not_start,
-            }
-    )
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface StartType {
-        int can_start = 0;
-        int can_not_start = 1;
-    }
-
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what) {
-                case StartType.can_start:
-                    mCanStart = true;
-                    break;
-                case StartType.can_not_start:
-                    mCanStart = false;
-                    break;
-            }
-        }
-    };
 
     @StringDef({
             TimeFormat.simple_ymd,
@@ -132,7 +98,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "考试", this);
+        Util.addBackIcon(bar, R.string.exam, this);
     }
 
     @Override
@@ -163,13 +129,12 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
             mIntro = r.getData();
-            mPaper = mIntro.getEv(TIntro.paper);
+            Paper paper = mIntro.getEv(TIntro.paper);
 
             //获取起始结束时间
             mStartTime = mIntro.getLong(TIntro.startTime);
             mEndTime = mIntro.getLong(TIntro.endTime);
             mCurTime = mIntro.getLong(TIntro.serverTime);
-
 
             if (mIntro.getBoolean(TIntro.finished)) {
                 mTvScore.setText("过往成绩 : " + mIntro.getInt(TIntro.score) + "分");
@@ -177,21 +142,19 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
                 hideView(mTvScore);
             }
 
-            mCanStart = mStartTime <= mCurTime && mCurTime < mEndTime;
-            YSLog.d(TAG, mCanStart + "");
-            long mDifStart = mStartTime - mCurTime;
-            long mDifEnd = mEndTime - mCurTime;
-            long mTotalTime = mEndTime - mStartTime;
-            if (mDifStart >= 0) {//还没到考试时间进去
-                handler.sendEmptyMessageDelayed(StartType.can_start, mDifStart);//到考试时间了发消息给handle
-                handler.sendEmptyMessageDelayed(StartType.can_not_start, mDifStart + mTotalTime);//考试时间结束了发消息
-            } else if (mDifStart < 0 && mDifEnd >= 0) {//过了开考时间还没到结束时间
-                handler.sendEmptyMessageDelayed(StartType.can_not_start, mDifEnd);//考试时间结束发消息
+            long difEnd = mEndTime - mCurTime; // 离考试结束还有多少时间
+            if (difEnd > 0) {
+                // 考试没结束
+                ExamCount.inst().prepared(difEnd / 1000);
+                ExamCount.inst().setOnCountListener(this);
+                ExamCount.inst().start();
             }
 
-            mTvTitle.setText(mPaper.getString(TPaper.name));
+            mCanStart = mStartTime <= mCurTime && difEnd > 0; // (mCurTime < mEndTime)
+
+            mTvTitle.setText(paper.getString(TPaper.name));
             mTvHost.setText(getString(R.string.exam_host) + mHost);
-            List<Topic> topics = mPaper.getList(TPaper.questions);
+            List<Topic> topics = paper.getList(TPaper.questions);
             if (topics != null && topics.size() > 0) {
                 mTvCount.setText(topics.size() + "道题目");
             }
@@ -213,33 +176,26 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
         switch (v.getId()) {
             case R.id.exam_intro_tv_start:
                 // 点击开始考试
+                mDialog = new HintDialogSec(ExamIntroActivity.this);
+                mDialog.addButton(R.string.confirm, v1 -> mDialog.dismiss());
                 if (mCanStart) {
-                        // 时间段考试
-                        long useTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toMillis(1);
-                        long surplusTime = mEndTime - mCurTime; // 离考试结束的时间
-                        if (useTime < 0) {
-                            // 服务器没给时间
-                            long examTime = mEndTime - mStartTime; // 考试时间段
-                            mIntro.put(TIntro.time, examTime < surplusTime ? examTime : surplusTime);
-                        } else {
-                            mIntro.put(TIntro.time, surplusTime < useTime ? surplusTime : useTime);
-                        }
+                    if (mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) > 0) {
                         ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                         finish();
                     } else {
-                    if (mDialog == null) {
-                        mDialog = new HintDialogSec(ExamIntroActivity.this);
-                        mDialog.addButton("确定", v1 -> mDialog.dismiss());
+                        mDialog.setMainHint("不能再考了");
+                        mDialog.setSecHint("已经没有重考次数了");
+                        mDialog.show();
                     }
-
-                    if (mStartTime > mCurTime) {
+                } else {
+                    if (ExamCount.inst().getSurplusTime() > 0) {
                         // 考试未开始
-                        mDialog.setMainHint(getString(R.string.exam_no_start));
-                        mDialog.setSecHint(getString(R.string.exam_participation));
+                        mDialog.setMainHint(R.string.exam_no_start);
+                        mDialog.setSecHint(R.string.exam_participation);
                     } else {
                         // 考试结束
-                        mDialog.setMainHint(getString(R.string.exam_end));
-                        mDialog.setSecHint(getString(R.string.exam_contact));
+                        mDialog.setMainHint(R.string.exam_end);
+                        mDialog.setSecHint(R.string.exam_contact);
                     }
                     mDialog.show();
                 }
@@ -251,35 +207,18 @@ public class ExamIntroActivity extends BaseActivity implements OnCountDownListen
     protected void onDestroy() {
         super.onDestroy();
 
+        ExamCount.inst().stop();
         if (mDialog != null) {
             if (mDialog.isShowing()) {
                 mDialog.dismiss();
             }
             mDialog = null;
         }
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
     }
 
     @Override
-    public void onCountDown(long remainCount) {
-        if (remainCount == 0) {
-            // 倒数结束(考试结束)
-            mCanStart = false;
-        } else {
-            // 每次的倒数
-            mCurTime += TimeUnit.MINUTES.toMillis(1);
-            if (!mCanStart && mCurTime >= mStartTime) {
-                // 未开始到进行中
-                mCanStart = true;
-            }
-        }
-    }
-
-
-    @Override
-    public void onCountDownErr() {
+    public void onCount(long remainCount) {
+        mCurTime += TimeUnit.MINUTES.toMillis(1);
     }
 
     /**

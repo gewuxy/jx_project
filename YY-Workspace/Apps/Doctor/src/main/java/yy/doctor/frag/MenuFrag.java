@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.form.FormItemEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFormFrag;
@@ -27,6 +30,7 @@ public class MenuFrag extends BaseFormFrag {
             RelatedId.file,
             RelatedId.img,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int msg = 0;
         int post = 1;

@@ -82,6 +82,7 @@ public class NetFactory {
 
         String KAnswer = "answer";//答案
         String KItemJson = "itemJson";//答案列表
+        String KDetails = "details";//答案列表
 
         String KUseTime = "usedtime";//微课用时  秒
 
@@ -716,7 +717,7 @@ public class NetFactory {
      * 微课学习提交
      */
     public static SubmitBuilder submitPpt() {
-        return new SubmitBuilder(UrlMeet.KToPPT);
+        return new SubmitBuilder(UrlMeet.KSubmitPPT);
     }
 
     /**

@@ -6,6 +6,9 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -51,6 +54,7 @@ public class ExchangeActivity extends BaseFormActivity {
             RelatedId.province_city,
             RelatedId.address,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int receiver = 0;
         int mobile = 1;

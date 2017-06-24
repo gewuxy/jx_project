@@ -15,6 +15,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +28,6 @@ import io.reactivex.Observable;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.model.MapList;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -42,13 +45,18 @@ import yy.doctor.frag.meeting.course.BaseCourseFrag.OnCourseListener;
 import yy.doctor.frag.meeting.course.PicAudioCourseFrag;
 import yy.doctor.frag.meeting.course.PicCourseFrag;
 import yy.doctor.model.meet.Course;
+import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.PPT;
 import yy.doctor.model.meet.PPT.TPPT;
+import yy.doctor.model.meet.Submit;
+import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.serv.CommonServ;
+import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
@@ -72,7 +80,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     private OnCourseListener mListener;
     private PPT mPPT; // PPT
     private List<Course> mCourses; // PPT的内容
-    private Map<Integer , Long> mTimes; // 学习时间
+    private Map<Integer, Long> mTimes; // 学习时间
 
     private ViewGroup.LayoutParams mParams; // PPT 的布局参数
 
@@ -135,7 +143,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 int progress = (int) ((float) currMilliseconds * 100 / mAllMilliseconds);
                 mSb.setProgress(progress);
                 mLayoutCp.setProgress(progress);
-                String time = Util.formatTime(currMilliseconds / 1000, DateUnit.minute);
+                String time = Util.format(currMilliseconds / 1000, DateUnit.minute);
                 mTvTimeP.setText(time);
                 mTvTimeL.setText(time);
             }
@@ -162,6 +170,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void end() {
+                mSb.setProgress(100);
                 mIvControlP.setSelected(false);
                 mIvControlL.setSelected(true);
             }
@@ -189,7 +198,10 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         mTvAll = (TextView) mLayoutBarMid.findViewById(R.id.meeting_nav_bar_all);
         bar.addViewMid(mLayoutBarMid);
 
-        mLayoutBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> MeetingRecordActivity.nav(MeetingCourseActivity.this, mPPT, getCurrentItem()));
+        mLayoutBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> {
+            saveStudy();
+            MeetingRecordActivity.nav(MeetingCourseActivity.this, mPPT, getCurrentItem());
+        });
     }
 
     @Override
@@ -229,7 +241,14 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         mSb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mTvTimeL.setText(Util.formatTime((long) (mSb.getProgress() / 100.0 * mAllMilliseconds / 1000), DateUnit.minute));
+                switch (mCourses.get(getCurrentItem()).getType()) {
+                    case CourseType.pic_audio:
+                    case CourseType.audio: {
+                        mTvTimeL.setText(Util.format((long) (mSb.getProgress() / 100.0 * mAllMilliseconds / 1000), DateUnit.minute));
+                    }
+                    break;
+
+                }
             }
 
             @Override
@@ -250,19 +269,17 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int playTime = (int) (mSb.getProgress() / 100f * mAllMilliseconds);
                 PicAudioCourseFrag frag = null;
                 switch (mCourses.get(getCurrentItem()).getType()) {
                     case CourseType.pic_audio:
                     case CourseType.audio: {
                         frag = (PicAudioCourseFrag) getItem(getCurrentItem());
+                        int playTime = (int) (mSb.getProgress() / 100f * mAllMilliseconds);
+                        frag.seekTo(playTime);
+                        frag.setRemainTime((int) (mAllMilliseconds - playTime) / 1000);
                     }
                     break;
                 }
-
-                frag.seekTo(playTime);
-                frag.setRemainTime((int) (mAllMilliseconds - playTime) / 1000);
-
                 countDown();
             }
         });
@@ -285,9 +302,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             @Override
             public void onPageSelected(int position) {
 
-                long curTime = System.currentTimeMillis();
-                mTimes.put(mLastPosition, curTime - mStartTime);
-                mStartTime = curTime;
+                saveStudy();
                 mLastPosition = position;
                 // 切换viewPager改变提示
                 mTvSelect.setText(String.valueOf(position + 1));
@@ -327,7 +342,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     @Override
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
-
         Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
             mPPT = r.getData();
@@ -363,6 +377,20 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         } else {
             showToast(r.getError());
         }
+    }
+
+    /**
+     * 保存查询时间
+     */
+    private void saveStudy() {
+        long curTime = System.currentTimeMillis();
+        Long study = mTimes.get(mLastPosition); // 本来记录的时间
+        if (study != null) {
+            // 有记录加上
+            curTime += study;
+        }
+        mTimes.put(mLastPosition, curTime - mStartTime);
+        mStartTime = System.currentTimeMillis(); // 下一页的开始时间
     }
 
     /**
@@ -447,6 +475,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 break;
             case R.id.meeting_ppt_iv_comment:
                 // 评论
+                saveStudy();
                 MeetingCommentActivity.nav(MeetingCourseActivity.this, mMeetId);
                 break;
         }
@@ -537,17 +566,45 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     }
 
     @Override
+    public void finish() {
+        super.finish();
+
+        saveStudy();
+
+        // 拼接需要的数据
+        JSONArray ja = new JSONArray();
+        try {
+            for (Integer key : mTimes.keySet()) {
+                JSONObject jsonObject = new JSONObject();
+                Course course = mCourses.get(key);
+                jsonObject.put("detailId", course.getLong(TCourse.id));
+                Long studyTime = mTimes.get(key);
+                jsonObject.put("usedtime", studyTime);
+                jsonObject.put("finished", getItem(key).isFinish());
+                ja.put(jsonObject);
+            }
+        } catch (JSONException e) {
+            YSLog.d(TAG, "onDestroy:" + e.toString());
+        }
+        Submit submit = new Submit();
+        submit.put(TSubmit.meetId, mPPT.getString(TPPT.meetId));
+        submit.put(TSubmit.moduleId, mPPT.getString(TPPT.moduleId));
+        submit.put(TSubmit.courseId, mPPT.getString(TPPT.courseId));
+        submit.put(TSubmit.times, ja.toString());
+
+        // 把需要的对象传给服务提交(失败再次提交)
+        Intent intent = new Intent(this, CommonServ.class)
+                .putExtra(Extra.KType, ReqType.course)
+                .putExtra(Extra.KData, submit);
+        startService(intent);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         if (mCountDown != null) {
             mCountDown.stop();
-        }
-        long curTime = System.currentTimeMillis();
-        mTimes.put(mLastPosition, curTime - mStartTime);
-        for (Integer key : mTimes.keySet()) {
-            // FIXME: 2017/6/21 提交
-            YSLog.d(TAG,"onDestroy:---key"+ key + "value" + mTimes.get(key));
         }
     }
 

@@ -20,6 +20,6 @@ public class PPT extends EVal<TPPT> {
         courseId,//微课ID
         id,//微课明细ID
         meetId,//会议ID
-        moduleID,//模块ID
+        moduleId,//模块ID
     }
 }

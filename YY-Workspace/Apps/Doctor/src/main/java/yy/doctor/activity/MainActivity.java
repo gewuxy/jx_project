@@ -36,6 +36,7 @@ import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ;
+import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpUser;
 
 public class MainActivity extends BaseVPActivity {
@@ -113,7 +114,7 @@ public class MainActivity extends BaseVPActivity {
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
             if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
                 Intent intent = new Intent(this, CommonServ.class);
-                intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
+                intent.putExtra(Extra.KType, ReqType.j_push)
                         .putExtra(Extra.KData, SpJPush.inst().registerId());
                 startService(intent);
                 YSLog.d(TAG, "启动绑定极光服务");
@@ -124,7 +125,7 @@ public class MainActivity extends BaseVPActivity {
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
             if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
                 Intent intent = new Intent(this, CommonServ.class);
-                intent.putExtra(Extra.KType, Extra.KJPushRegisterId)
+                intent.putExtra(Extra.KType, ReqType.j_push)
                         .putExtra(Extra.KData, SpJPush.inst().registerId());
                 startService(intent);
                 YSLog.d(TAG, "启动绑定极光服务");

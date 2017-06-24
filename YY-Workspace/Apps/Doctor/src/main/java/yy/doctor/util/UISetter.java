@@ -78,7 +78,7 @@ public class UISetter {
 
     public static void setDateDuration(TextView tvDate, TextView tvDuration, long startTime, long endTime) {
         tvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
-        tvDuration.setText("时长:" + Util.timeParse(endTime - startTime));
+        tvDuration.setText("时长:" + Util.parse(endTime - startTime));
     }
 
     public static void setFileData(LinearLayout layout, List<FileData> listFile, int id) {

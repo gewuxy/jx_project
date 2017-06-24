@@ -46,9 +46,9 @@ public class UnitNumResultActivity extends ResultActivity {
 
     @Override
     protected void search() {
-        // 把原来的remove
-        setData(null);
         refresh(RefreshWay.embed);
+        // 把原来的remove
+        removeAll();
         exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent));
     }
 

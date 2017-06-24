@@ -56,7 +56,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
             holder.getTvSection().setText(item.getString(TRecMeeting.meetType));
             holder.getTvData().setText(TimeUtil.formatMilli(item.getLong(TRecMeeting.startTime), "MM月dd日 HH:mm"));
-            holder.getTvDuration().setText(Util.timeParse(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
+            holder.getTvDuration().setText(Util.parse(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
 
             holder.getTvSpeakerName().setText(item.getString(TRecMeeting.lecturer));
             holder.getTvSpeakerRank().setText(item.getString(TRecMeeting.lecturerTile));

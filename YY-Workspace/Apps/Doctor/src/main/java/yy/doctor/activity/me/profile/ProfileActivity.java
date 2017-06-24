@@ -11,6 +11,8 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +115,7 @@ public class ProfileActivity extends BaseFormActivity {
 
             RelatedId.is_open,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int name = 0;
         int hospital = 1;

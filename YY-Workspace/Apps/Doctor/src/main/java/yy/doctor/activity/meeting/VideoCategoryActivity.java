@@ -47,6 +47,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     private long mStudyTime; // 学习时间
     private int mClickPosition; // 点击第几个
     private Submit mSubmit;
+    private boolean mNeedShow;
 
     public static void nav(Context context, Submit submit, String preId) {
         Intent i = new Intent(context, VideoCategoryActivity.class)
@@ -66,6 +67,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
         Util.addBackIcon(bar, R.string.video, this);
         mBarTvRight = bar.addTextViewRight(getString(R.string.video_studied_no_start), null);
         goneView(mBarTvRight); // 默认隐藏
+        mNeedShow = false;
     }
 
     @Override
@@ -107,32 +109,31 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
         mStudyTime = 0;
         for (Detail detail : details) {
             mStudyTime += detail.getLong(TDetail.userdtime, 0);
-            if (mBarTvRight.getVisibility() == View.GONE && detail.getBoolean(TDetail.type)) {
+            if (isFile(detail.getInt(TDetail.type))) {
                 // 有文件的时候就要显示
-                runOnUIThread(() -> showView(mBarTvRight));
+                mNeedShow = true;
             }
         }
+        runOnUIThread(() -> {
+            if (mNeedShow) {
+                showView(mBarTvRight);
+            }
+            if (mStudyTime > 0) {
+                mBarTvRight.setText(getString(R.string.video_add_up_all) + Util.format(mStudyTime));
+            }
+        });
         return listResult;
     }
 
     @Override
-    public void onNetRefreshSuccess() {
-        super.onNetRefreshSuccess();
-
-        if (mStudyTime > 0) {
-            mBarTvRight.setText(getString(R.string.video_add_up_all) + VideoCategoryAdapter.format(mStudyTime));
-        }
-    }
-
-    @Override
     public void onAdapterClick(int position, View v) {
-        if (getItem(position).getBoolean(TDetail.type)) {
-            // 1是文件
+        if (isFile(getItem(position).getInt(TDetail.type))) {
+            // 文件
             mSubmit.put(TSubmit.detailId, getItem(position).getString(TDetail.id));
             VideoActivity.nav(VideoCategoryActivity.this, getItem(position), mSubmit);
             mClickPosition = position;
         } else {
-            // 0是文件夹
+            // 文件夹
             VideoCategoryActivity.nav(VideoCategoryActivity.this, mSubmit,
                     getItem(position).getString(TDetail.id));
         }
@@ -145,11 +146,24 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
             long duration = data.getLongExtra(Extra.KData, 0);
             mStudyTime += duration;
             if (mStudyTime > 0) {
-                mBarTvRight.setText(getString(R.string.video_add_up_all) + VideoCategoryAdapter.format(mStudyTime));
+                mBarTvRight.setText(getString(R.string.video_add_up_all) + Util.format(mStudyTime));
             }
             getItem(mClickPosition).put(TDetail.userdtime, duration + getItem(mClickPosition).getLong(TDetail.userdtime));
             invalidate();
         }
+    }
+
+    /**
+     * 0 是文件夹
+     * 1 是文件
+     * @param type
+     * @return false 文件夹,true 文件
+     */
+    private boolean isFile(int type) {
+        if (type == 0) {
+            return false;
+        }
+        return true;
     }
 
 }

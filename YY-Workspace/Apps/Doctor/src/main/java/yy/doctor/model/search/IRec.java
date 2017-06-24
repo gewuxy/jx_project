@@ -2,6 +2,9 @@ package yy.doctor.model.search;
 
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * @auther : GuoXuan
  * @since : 2017/6/8
@@ -15,6 +18,7 @@ public interface IRec {
             RecType.margin,
             RecType.more,
     })
+    @Retention(RetentionPolicy.SOURCE)
     @interface RecType {
         int meeting = 0;
         int unit_num = 1;

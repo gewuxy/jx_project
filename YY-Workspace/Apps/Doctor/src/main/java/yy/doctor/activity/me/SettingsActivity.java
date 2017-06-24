@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ;
+import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpUser;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
@@ -66,6 +69,7 @@ public class SettingsActivity extends BaseFormActivity {
 
             RelatedId.clear_sound_cache,
     })
+    @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int check_version = 1;
 
@@ -222,7 +226,7 @@ public class SettingsActivity extends BaseFormActivity {
             dialog.dismiss();
 
             Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
-            intent.putExtra(Extra.KType, Extra.KLogout);
+            intent.putExtra(Extra.KType, ReqType.logout);
             startService(intent);
 
             SettingsActivity.this.notify(NotifyType.logout);

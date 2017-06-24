@@ -61,8 +61,8 @@ public class MeetingResultActivity extends ResultActivity {
 
     @Override
     protected void search() {
-        setData(null);
         refresh(RefreshWay.embed);
+        removeAll();
         exeNetworkReq(KMeeting, NetFactory.searchMeeting(mSearchContent));
     }
 

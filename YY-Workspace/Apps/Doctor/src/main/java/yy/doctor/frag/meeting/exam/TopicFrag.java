@@ -25,16 +25,16 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
     private TextView mTvQ;
     private TextView mTvBtn;
     private Topic mTopic; // 该题目的信息
-    private List<Choice> mChoices;
-    private OnNextListener mOnNextListener;
+    private OnTopicListener mOnTopicListener;
     private boolean isLast; // 最后一题
 
-    public interface OnNextListener {
-        void onNext(View v);
+    public interface OnTopicListener {
+        void onNext();
+        void onSubmit();
     }
 
-    public void setOnNextListener(OnNextListener onNextListener) {
-        mOnNextListener = onNextListener;
+    public void setOnTopicListener(OnTopicListener onTopicListener) {
+        mOnTopicListener = onTopicListener;
     }
 
     public void isLast() {
@@ -78,34 +78,38 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
         //设置题目
         StringBuffer title = new StringBuffer(mTopic.getString(TTopic.sort));
         //设置选项
-        mChoices = mTopic.getList(TTopic.options);
-        setData(mChoices);
+        setData(mTopic.getList(TTopic.options));
 
-        //单选隐藏下一题的按钮
         if (mTopic.getInt(TTopic.qtype) == 0) {
+            //单选隐藏下一题的按钮
             mTvBtn.setVisibility(View.GONE);
             getAdapter().setIsSingle(true);
-            getAdapter().setOnItemCheckListener(v -> toNext(v));
+            getAdapter().setOnItemCheckListener(v -> toNext());
             title.append(".(单选)");
         } else {
             // 设置多选
             getAdapter().setIsSingle(false);
             getAdapter().setOnItemCheckListener(v -> mTopic.put(TTopic.finish, v.isSelected()));
-            //下一题
-            mTvBtn.setOnClickListener(v -> toNext(v));
+            mTvBtn.setOnClickListener(v -> toNext());
             title.append(".(多选)");
         }
         mTvQ.setText(title.append(mTopic.getString(TTopic.title)).toString());
 
+        // 最后一题的时候
         if (isLast) {
             mTvBtn.setText("提交");
             mTvBtn.setVisibility(View.VISIBLE);
+            mTvBtn.setOnClickListener(v -> {
+                if (mOnTopicListener != null) {
+                    mOnTopicListener.onSubmit();
+                }
+            });
         }
     }
 
-    private void toNext(View v) {
-        if (mOnNextListener != null) {
-            mOnNextListener.onNext(v);
+    private void toNext() {
+        if (mOnTopicListener != null) {
+            mOnTopicListener.onNext();
         }
     }
 

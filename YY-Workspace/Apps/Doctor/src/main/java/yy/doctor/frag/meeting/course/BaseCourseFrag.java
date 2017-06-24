@@ -109,4 +109,6 @@ public abstract class BaseCourseFrag extends BaseFrag {
         }
     }
 
+    public abstract boolean isFinish();
+
 }

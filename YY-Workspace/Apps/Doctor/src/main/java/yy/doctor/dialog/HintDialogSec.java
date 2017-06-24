@@ -2,6 +2,7 @@ package yy.doctor.dialog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.widget.TextView;
 
 import lib.yy.util.CountDown;
@@ -43,8 +44,16 @@ public class HintDialogSec extends BaseHintDialog implements OnCountDownListener
         mTvMainHint.setText(hintMain);
     }
 
+    public void setMainHint(@StringRes int strRes) {
+        mTvMainHint.setText(getContext().getString(strRes));
+    }
+
     public void setSecHint(String hintSec) {
         mTvSecHint.setText(hintSec);
+    }
+
+    public void setSecHint(@StringRes int strRes) {
+        mTvSecHint.setText(getContext().getString(strRes));
     }
 
     public void setCountHint(String hint) {

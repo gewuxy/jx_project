@@ -12,14 +12,14 @@ import java.util.concurrent.TimeUnit;
 import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.util.ExamCount;
+import yy.doctor.util.ExamCount.OnCountListener;
 import yy.doctor.util.Util;
 
 /**
@@ -27,20 +27,18 @@ import yy.doctor.util.Util;
  * @since : 2017/4/27
  */
 
-public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownListener {
+public class ExamTopicActivity extends BaseTopicActivity implements OnCountListener {
 
     private static final int KTextSizeDp = 16;
     private static final long KFiveMin = TimeUnit.MINUTES.toSeconds(5);
 
     private final int KXClose = 2; // X秒后自动关闭
 
-    private long mUseTime; // 剩余做题的时间
-    private CountDown mCountDown;
-
     private TextView mTvTime;
 
     private HintDialogSec mCloseDialog; // 离考试结束的提示框
     private HintDialogSec mSubmitDialog; // 提交的提示框
+    private long mUseTime; // 剩余做题的时间
 
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
@@ -55,8 +53,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         super.initData();
 
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
-        mUseTime = mIntro.getLong(TIntro.time) / 1000;
+        mUseTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
 
+        long surplusTime = ExamCount.inst().getSurplusTime();
+
+        mUseTime = mUseTime > surplusTime ? surplusTime : mUseTime;
+
+        ExamCount.inst().setOnCountListener(this);
+        ExamCount.inst().start(mUseTime);
         if (mUseTime <= KFiveMin) {
             last5((int) (mUseTime / TimeUnit.MINUTES.toSeconds(1)));
         }
@@ -72,15 +76,11 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
 
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(Util.formatTime(mUseTime, DateUnit.hour));
+        mTvTime.setText(Util.format(mUseTime, DateUnit.hour));
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
         mTvTime.setPadding(0, 0, fitDp(12), 0);
-
-        mCountDown = new CountDown(mUseTime);
-        mCountDown.setListener(this);
-        mCountDown.start();
 
         bar.addViewRight(mTvTime, null);
     }
@@ -116,9 +116,41 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
         }
     }
 
+    // 小于5分钟提示
+    private void last5(int last) {
+        if (last <= 0) {
+            last = 1;
+        }
+        mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
+        mCloseDialog.setMainHint(getString(R.string.exam_finish) + last + getString(R.string.minute));
+        mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
+        mCloseDialog.setCountHint(getString(R.string.exam_xs_close));
+        mCloseDialog.addButton("确定", v -> mCloseDialog.dismiss());
+        mCloseDialog.start(KXClose);
+        mCloseDialog.show();
+    }
+
     @Override
-    public void onCountDown(long remainCount) {
-        mTvTime.setText(Util.formatTime(remainCount, DateUnit.hour));
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ExamCount.inst().stop();
+        recycleDialog(mCloseDialog);
+        recycleDialog(mSubmitDialog);
+    }
+
+    private void recycleDialog(DialogEx dialog) {
+        if (dialog != null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            dialog = null;
+        }
+    }
+
+    @Override
+    public void onCount(long remainCount) {
+        mTvTime.setText(Util.format(remainCount, DateUnit.hour));
         if (remainCount != 0) {
             if (remainCount == KFiveMin) {
                 // 剩余5分钟提示
@@ -130,47 +162,11 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountDownL
             mSubmitDialog.setMainHint(getString(R.string.exam_end));
             mSubmitDialog.setSecHint(getString(R.string.exam_submit));
             mSubmitDialog.setCancelable(false);
-            mSubmitDialog.addButton("确定", "#0682e6", v -> {
+            mSubmitDialog.addButton("确定", v -> {
                 mSubmitDialog.dismiss();
                 submit();
             });
             mSubmitDialog.show();
-        }
-    }
-
-    // 小于5分钟提示
-    private void last5(int last) {
-        mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
-        mCloseDialog.setMainHint(getString(R.string.exam_finish) + last + getString(R.string.minute));
-        mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
-        mCloseDialog.setCountHint(getString(R.string.exam_xs_close));
-        mCloseDialog.addButton("确定", "#0682e6", v -> mCloseDialog.dismiss());
-        mCloseDialog.start(KXClose);
-        mCloseDialog.show();
-    }
-
-    @Override
-    public void onCountDownErr() {
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
-
-        recycleDialog(mCloseDialog);
-        recycleDialog(mSubmitDialog);
-    }
-
-    private void recycleDialog(DialogEx dialog) {
-        if (dialog != null) {
-            if (dialog.isShowing()) {
-                dialog.dismiss();
-            }
-            dialog = null;
         }
     }
 }
