@@ -12,7 +12,7 @@ import yy.doctor.model.form.FormType;
  * @author GuoXuan
  * @since 2017/6/8
  */
-public class FIEditRegisterPwd extends FIEditRegister {
+public class EditRegisterPwdForm extends EditRegisterForm {
 
     @NonNull
     @Override

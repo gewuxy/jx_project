@@ -3,14 +3,14 @@ package yy.doctor.model.form;
 import android.support.annotation.NonNull;
 
 import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 
 /**
  * @author CaiXiang
  * @since 2017/4/7
  */
-public class FIDividerLarge extends FormItem {
+public class DividerLargeForm extends BaseForm {
 
     @NonNull
     @Override
@@ -25,7 +25,7 @@ public class FIDividerLarge extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_divider_large;
+        return R.layout.form_divider_large;
     }
 
     @Override

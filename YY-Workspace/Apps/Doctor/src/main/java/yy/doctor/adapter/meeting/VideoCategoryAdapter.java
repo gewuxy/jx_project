@@ -2,8 +2,6 @@ package yy.doctor.adapter.meeting;
 
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.VideoVH;

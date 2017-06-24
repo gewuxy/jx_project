@@ -10,7 +10,7 @@ import yy.doctor.model.meet.CommentHistories.TCommentHistories;
  */
 
 public class CommentHistories extends EVal<TCommentHistories> {
-    public  enum TCommentHistories{
+    public enum TCommentHistories {
         @BindList(Comment.class)
         datas,
     }

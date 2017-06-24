@@ -3,7 +3,7 @@ package yy.doctor.model.form.text;
 import android.support.annotation.NonNull;
 
 import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 import yy.doctor.model.form.FormType;
 
@@ -11,7 +11,7 @@ import yy.doctor.model.form.FormType;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class FIText extends FormItem {
+public class TextForm extends BaseForm {
 
     @NonNull
     @Override
@@ -26,7 +26,7 @@ public class FIText extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_text;
+        return R.layout.form_text;
     }
 
     @Override

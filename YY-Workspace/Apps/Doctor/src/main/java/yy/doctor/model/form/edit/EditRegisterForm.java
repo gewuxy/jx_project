@@ -9,7 +9,7 @@ import yy.doctor.model.form.FormType;
  * @author CaiXiang
  * @since 2017/4/17
  */
-public class FIEditRegister extends FIEdit {
+public class EditRegisterForm extends EditForm {
 
     @NonNull
     @Override
@@ -19,7 +19,7 @@ public class FIEditRegister extends FIEdit {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_edit_register;
+        return R.layout.form_edit_register;
     }
 
 }

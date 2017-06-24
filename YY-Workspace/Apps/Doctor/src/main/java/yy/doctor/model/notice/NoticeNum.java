@@ -27,12 +27,12 @@ public class NoticeNum {
     }
 
     public void add() {
-        count ++ ;
+        count++;
         SpUser.inst().updateBadgeNum(count);
     }
 
     public void reduce() {
-        count --;
+        count--;
         if (count < 0) {
             count = 0;
         }

@@ -3,8 +3,6 @@ package yy.doctor.frag.meeting.exam;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.List;
-
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseListFrag;
 import yy.doctor.R;
@@ -30,6 +28,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     public interface OnTopicListener {
         void onNext();
+
         void onSubmit();
     }
 

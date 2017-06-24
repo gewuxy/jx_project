@@ -8,7 +8,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.yy.activity.base.BaseFormActivity;

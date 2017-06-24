@@ -1,14 +1,11 @@
 package yy.doctor.frag.meeting.course;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.frag.base.BaseFrag;
 import yy.doctor.Extra;
 import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.TCourse;
 
 /**
  * @auther : GuoXuan

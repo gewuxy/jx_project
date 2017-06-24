@@ -21,7 +21,7 @@ public class FileData extends EVal<TFileData> {
 
         name, //  文件名
         fileUrl,  //  下载地址
-        fileType , //  文件类型
+        fileType, //  文件类型
         fileSizeStr, //  文件大小
         meetId, // 会议id
         userId, //  ？

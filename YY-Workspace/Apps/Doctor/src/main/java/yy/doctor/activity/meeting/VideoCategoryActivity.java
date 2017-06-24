@@ -156,6 +156,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     /**
      * 0 是文件夹
      * 1 是文件
+     *
      * @param type
      * @return false 文件夹,true 文件
      */

@@ -12,7 +12,7 @@ import yy.doctor.model.config.Config;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class FITextDialog extends FIText {
+public class TextDialogForm extends TextForm {
 
     private static final int KColorNormal = Color.parseColor("#666666");
 

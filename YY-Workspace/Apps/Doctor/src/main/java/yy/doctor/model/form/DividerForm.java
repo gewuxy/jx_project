@@ -5,14 +5,14 @@ import android.view.ViewGroup.MarginLayoutParams;
 
 import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 
 /**
  * @author CaiXiang
  * @since 2017/4/7
  */
-public class FIDivider extends FormItem {
+public class DividerForm extends BaseForm {
 
     @NonNull
     @Override
@@ -27,7 +27,7 @@ public class FIDivider extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_divider;
+        return R.layout.form_divider;
     }
 
     @Override

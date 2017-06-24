@@ -9,7 +9,7 @@ import android.support.annotation.StringRes;
 
 import java.util.List;
 
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormEx.TFormElem;
 import lib.ys.util.res.ResLoader;
 
 
@@ -18,7 +18,7 @@ import lib.ys.util.res.ResLoader;
  *
  * @author yuansui
  */
-abstract public class FormBuilderEx<Item extends FormItemEx> {
+abstract public class FormBuilderEx<FORM extends FormEx> {
 
     private int mType;
 
@@ -70,37 +70,37 @@ abstract public class FormBuilderEx<Item extends FormItemEx> {
         mVisible = true;
     }
 
-    public <T extends FormBuilderEx<Item>> T name(String name) {
+    public <T extends FormBuilderEx<FORM>> T name(String name) {
         mName = name;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T val(Object val) {
+    public <T extends FormBuilderEx<FORM>> T val(Object val) {
         mVal = val;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T key(Object key) {
+    public <T extends FormBuilderEx<FORM>> T key(Object key) {
         mKey = key;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T name(@StringRes int id) {
+    public <T extends FormBuilderEx<FORM>> T name(@StringRes int id) {
         mName = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T text(CharSequence text) {
+    public <T extends FormBuilderEx<FORM>> T text(CharSequence text) {
         mText = text;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T multiText(CharSequence... texts) {
+    public <T extends FormBuilderEx<FORM>> T multiText(CharSequence... texts) {
         mTextMulti = texts;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T multiText(@StringRes int... ids) {
+    public <T extends FormBuilderEx<FORM>> T multiText(@StringRes int... ids) {
         int len = ids.length;
         if (len == 0) {
             return (T) this;
@@ -114,202 +114,202 @@ abstract public class FormBuilderEx<Item extends FormItemEx> {
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T text(@StringRes int id) {
+    public <T extends FormBuilderEx<FORM>> T text(@StringRes int id) {
         mText = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T hint(String hint) {
+    public <T extends FormBuilderEx<FORM>> T hint(String hint) {
         mHint = hint;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T hint(@StringRes int id) {
+    public <T extends FormBuilderEx<FORM>> T hint(@StringRes int id) {
         mHint = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T tips(String tips) {
+    public <T extends FormBuilderEx<FORM>> T tips(String tips) {
         mTips = tips;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T tips(@StringRes int id) {
+    public <T extends FormBuilderEx<FORM>> T tips(@StringRes int id) {
         mTips = ResLoader.getString(id);
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T enable(boolean able) {
+    public <T extends FormBuilderEx<FORM>> T enable(boolean able) {
         mEnable = able;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T related(Object related) {
+    public <T extends FormBuilderEx<FORM>> T related(Object related) {
         mRelated = related;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T data(Object data) {
+    public <T extends FormBuilderEx<FORM>> T data(Object data) {
         mData = data;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T option(Object option) {
+    public <T extends FormBuilderEx<FORM>> T option(Object option) {
         mOption = option;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T host(Object host) {
+    public <T extends FormBuilderEx<FORM>> T host(Object host) {
         mHost = host;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T width(int w) {
+    public <T extends FormBuilderEx<FORM>> T width(int w) {
         mWidth = w;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T height(int h) {
+    public <T extends FormBuilderEx<FORM>> T height(int h) {
         mHeight = h;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T column(int c) {
+    public <T extends FormBuilderEx<FORM>> T column(int c) {
         mColumn = c;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T limit(int limit) {
+    public <T extends FormBuilderEx<FORM>> T limit(int limit) {
         mLimit = limit;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T background(@ColorInt int color) {
+    public <T extends FormBuilderEx<FORM>> T background(@ColorInt int color) {
         mBgColor = color;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T backgroundRes(@ColorRes int id) {
+    public <T extends FormBuilderEx<FORM>> T backgroundRes(@ColorRes int id) {
         mBgColor = ResLoader.getColor(id);
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T mode(int mode) {
+    public <T extends FormBuilderEx<FORM>> T mode(int mode) {
         mMode = mode;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T drawable(@DrawableRes int id) {
+    public <T extends FormBuilderEx<FORM>> T drawable(@DrawableRes int id) {
         mDrawableId = id;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T drawable(String url) {
+    public <T extends FormBuilderEx<FORM>> T drawable(String url) {
         mDrawableUrl = url;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T layout(@LayoutRes int id) {
+    public <T extends FormBuilderEx<FORM>> T layout(@LayoutRes int id) {
         mLayoutId = id;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T toast(String toast) {
+    public <T extends FormBuilderEx<FORM>> T toast(String toast) {
         mToast = toast;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T intent(Intent i) {
+    public <T extends FormBuilderEx<FORM>> T intent(Intent i) {
         mIntent = i;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T children(List children) {
+    public <T extends FormBuilderEx<FORM>> T children(List children) {
         mChildren = children;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T depend(Object depend) {
+    public <T extends FormBuilderEx<FORM>> T depend(Object depend) {
         mDepend = depend;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T regex(String regex) {
+    public <T extends FormBuilderEx<FORM>> T regex(String regex) {
         mRegex = regex;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T check(boolean check) {
+    public <T extends FormBuilderEx<FORM>> T check(boolean check) {
         mCheck = check;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T index(int index) {
+    public <T extends FormBuilderEx<FORM>> T index(int index) {
         mIndex = index;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T id(int id) {
+    public <T extends FormBuilderEx<FORM>> T id(int id) {
         mId = id;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T visible(boolean visible) {
+    public <T extends FormBuilderEx<FORM>> T visible(boolean visible) {
         mVisible = visible;
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<Item>> T observer(OnFormObserver observer) {
+    public <T extends FormBuilderEx<FORM>> T observer(OnFormObserver observer) {
         mObserver = observer;
         return (T) this;
     }
 
-    public Item build() {
-        Item i = build(mType);
+    public FORM build() {
+        FORM i = build(mType);
         saveItemValues(i);
         return i;
     }
 
-    abstract protected Item build(int type);
+    abstract protected FORM build(int type);
 
-    private void saveItemValues(Item item) {
-        putIfNotNull(item, TFormElem.name, mName);
-        putIfNotNull(item, TFormElem.text, mText);
-        putIfNotNull(item, TFormElem.text_multi, mTextMulti);
-        putIfNotNull(item, TFormElem.hint, mHint);
-        putIfNotNull(item, TFormElem.tips, mTips);
-        putIfNotNull(item, TFormElem.enable, mEnable);
-        putIfNotNull(item, TFormElem.related, mRelated);
-        putIfNotNull(item, TFormElem.data, mData);
-        putIfNotNull(item, TFormElem.option, mOption);
-        putIfNotNull(item, TFormElem.host, mHost);
-        putIfNotNull(item, TFormElem.width, mWidth);
-        putIfNotNull(item, TFormElem.height, mHeight);
-        putIfNotNull(item, TFormElem.column, mColumn);
-        putIfNotNull(item, TFormElem.background, mBgColor);
-        putIfNotNull(item, TFormElem.mode, mMode);
-        putIfNotNull(item, TFormElem.limit, mLimit);
-        putIfNotNull(item, TFormElem.drawable, mDrawableId);
-        putIfNotNull(item, TFormElem.drawable, mDrawableUrl);
-        putIfNotNull(item, TFormElem.layout, mLayoutId);
-        putIfNotNull(item, TFormElem.toast, mToast);
-        putIfNotNull(item, TFormElem.intent, mIntent);
-        putIfNotNull(item, TFormElem.children, mChildren);
-        putIfNotNull(item, TFormElem.depend, mDepend);
-        putIfNotNull(item, TFormElem.regex, mRegex);
-        putIfNotNull(item, TFormElem.check, mCheck);
-        putIfNotNull(item, TFormElem.index, mIndex);
-        putIfNotNull(item, TFormElem.id, mId);
-        putIfNotNull(item, TFormElem.visible, mVisible);
-        putIfNotNull(item, TFormElem.observer, mObserver);
+    private void saveItemValues(FORM FORM) {
+        putIfNotNull(FORM, TFormElem.name, mName);
+        putIfNotNull(FORM, TFormElem.text, mText);
+        putIfNotNull(FORM, TFormElem.text_multi, mTextMulti);
+        putIfNotNull(FORM, TFormElem.hint, mHint);
+        putIfNotNull(FORM, TFormElem.tips, mTips);
+        putIfNotNull(FORM, TFormElem.enable, mEnable);
+        putIfNotNull(FORM, TFormElem.related, mRelated);
+        putIfNotNull(FORM, TFormElem.data, mData);
+        putIfNotNull(FORM, TFormElem.option, mOption);
+        putIfNotNull(FORM, TFormElem.host, mHost);
+        putIfNotNull(FORM, TFormElem.width, mWidth);
+        putIfNotNull(FORM, TFormElem.height, mHeight);
+        putIfNotNull(FORM, TFormElem.column, mColumn);
+        putIfNotNull(FORM, TFormElem.background, mBgColor);
+        putIfNotNull(FORM, TFormElem.mode, mMode);
+        putIfNotNull(FORM, TFormElem.limit, mLimit);
+        putIfNotNull(FORM, TFormElem.drawable, mDrawableId);
+        putIfNotNull(FORM, TFormElem.drawable, mDrawableUrl);
+        putIfNotNull(FORM, TFormElem.layout, mLayoutId);
+        putIfNotNull(FORM, TFormElem.toast, mToast);
+        putIfNotNull(FORM, TFormElem.intent, mIntent);
+        putIfNotNull(FORM, TFormElem.children, mChildren);
+        putIfNotNull(FORM, TFormElem.depend, mDepend);
+        putIfNotNull(FORM, TFormElem.regex, mRegex);
+        putIfNotNull(FORM, TFormElem.check, mCheck);
+        putIfNotNull(FORM, TFormElem.index, mIndex);
+        putIfNotNull(FORM, TFormElem.id, mId);
+        putIfNotNull(FORM, TFormElem.visible, mVisible);
+        putIfNotNull(FORM, TFormElem.observer, mObserver);
 
-        putIfNotNull(item, TFormElem.key, mKey);
-        putIfNotNull(item, TFormElem.val, mVal);
+        putIfNotNull(FORM, TFormElem.key, mKey);
+        putIfNotNull(FORM, TFormElem.val, mVal);
     }
 
-    private void putIfNotNull(Item item, TFormElem key, Object value) {
+    private void putIfNotNull(FORM FORM, TFormElem key, Object value) {
         if (value != null) {
-            item.put(key, value);
+            FORM.put(key, value);
         }
     }
 

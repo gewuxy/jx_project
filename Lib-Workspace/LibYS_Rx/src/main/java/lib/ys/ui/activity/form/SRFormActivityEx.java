@@ -9,7 +9,7 @@ import lib.network.model.interfaces.IListResult;
 import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormItemEx;
+import lib.ys.form.FormEx;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.view.swipeRefresh.base.BaseSRLayout;
 import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
@@ -17,7 +17,7 @@ import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 /**
  * @author yuansui
  */
-abstract public class SRFormActivityEx<T extends FormItemEx<VH>, VH extends ViewHolderEx> extends FormActivityEx<T, VH> {
+abstract public class SRFormActivityEx<T extends FormEx<VH>, VH extends ViewHolderEx> extends FormActivityEx<T, VH> {
 
     private BaseSRLayout mSRLayout;
 

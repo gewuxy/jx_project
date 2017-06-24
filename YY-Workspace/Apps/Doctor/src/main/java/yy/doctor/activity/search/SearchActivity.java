@@ -41,14 +41,14 @@ public class SearchActivity extends BaseActivity {
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         bar.addViewLeft(view, null);
-        bar.addTextViewRight("搜索", v ->{
+        bar.addTextViewRight("搜索", v -> {
             String search = mEtSearch.getText().toString().trim();
             if (TextUtil.isEmpty(search)) {
                 showToast("请输入搜索内容");
                 return;
             }
             ResultActivity.nav(SearchActivity.this, search);
-        } );
+        });
     }
 
     @Override

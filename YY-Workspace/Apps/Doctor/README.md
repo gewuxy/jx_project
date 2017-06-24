@@ -1,9 +1,5 @@
 # 缩写
 
-##### FI 
-    f = form
-    i = item
-    
 ##### EPN 象数
     ep = elephant
      n = number

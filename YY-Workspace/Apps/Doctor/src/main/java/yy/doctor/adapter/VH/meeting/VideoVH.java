@@ -21,7 +21,7 @@ public class VideoVH extends ViewHolderEx {
     public RelativeLayout getLayout() {
         return getView(R.id.video_category_layout);
     }
-    
+
     public TextView getTvName() {
         return getView(R.id.video_category_tv_name);
     }

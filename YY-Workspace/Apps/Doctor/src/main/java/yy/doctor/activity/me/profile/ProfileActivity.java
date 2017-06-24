@@ -21,7 +21,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormEx.TFormElem;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;

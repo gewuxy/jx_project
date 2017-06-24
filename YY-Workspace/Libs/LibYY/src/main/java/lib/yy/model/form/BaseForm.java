@@ -4,7 +4,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.ConstantsEx;
-import lib.ys.form.FormItemEx;
+import lib.ys.form.FormEx;
 import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
@@ -15,7 +15,7 @@ import lib.yy.adapter.VH.FormItemVH;
  * @author CaiXiang
  * @since 2017/4/5
  */
-abstract public class FormItem extends FormItemEx<FormItemVH> {
+abstract public class BaseForm extends FormEx<FormItemVH> {
 
     @Override
     protected void refresh(FormItemVH holder) {

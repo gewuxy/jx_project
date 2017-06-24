@@ -17,7 +17,6 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.ys.util.UIUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.activity.base.BaseListActivity;
@@ -35,11 +34,10 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
-import yy.doctor.util.Util;
 
 /**
  * 会议记录界面
- *
+ * <p>
  * 日期 : 2017/4/26
  * 创建人 : guoxuan
  */

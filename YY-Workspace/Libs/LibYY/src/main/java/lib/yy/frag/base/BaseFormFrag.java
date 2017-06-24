@@ -5,13 +5,13 @@ import lib.yy.Notifier;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.Notifier.OnNotify;
 import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 
 /**
  * @author CaiXiang
  * @since 2017/4/5
  */
-abstract public class BaseFormFrag extends FormFragEx<FormItem, FormItemVH> implements OnNotify {
+abstract public class BaseFormFrag extends FormFragEx<BaseForm, FormItemVH> implements OnNotify {
 
     @Override
     protected void afterInitCompleted() {

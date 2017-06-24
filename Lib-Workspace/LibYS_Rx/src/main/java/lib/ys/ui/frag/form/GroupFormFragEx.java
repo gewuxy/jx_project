@@ -19,8 +19,8 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.form.OnFormViewClickListener;
-import lib.ys.form.group.ChildFormItemEx;
-import lib.ys.form.group.GroupFormItemEx;
+import lib.ys.form.group.ChildFormEx;
+import lib.ys.form.group.GroupFormEx;
 import lib.ys.form.group.OnGroupFormViewClickListener;
 import lib.ys.ui.frag.FragEx;
 import lib.ys.util.ReflectionUtil;
@@ -31,7 +31,7 @@ import lib.ys.util.view.LayoutUtil;
  *
  * @param <T>
  */
-abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx implements OnFormViewClickListener, OnGroupFormViewClickListener {
+abstract public class GroupFormFragEx<T extends GroupFormEx> extends FragEx implements OnFormViewClickListener, OnGroupFormViewClickListener {
 
     private List<T> mItems;
 
@@ -44,9 +44,9 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
     private HashMap<Object/* key */, T> mMapGroupRelated;
     private HashMap<T, Integer> mMapGroupResId;
 
-    private HashMap<View, ChildFormItemEx> mMapChildClick;
-    private HashMap<ChildFormItemEx, Integer> mMapChildResId;
-    private HashMap<Serializable/* key */, ChildFormItemEx> mMapChildConfig;
+    private HashMap<View, ChildFormEx> mMapChildClick;
+    private HashMap<ChildFormEx, Integer> mMapChildResId;
+    private HashMap<Serializable/* key */, ChildFormEx> mMapChildConfig;
 
     private HashMap<Integer, View> mMapChildBindGroup;
 
@@ -118,7 +118,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
             }
 
             // 添加child layouts
-            List<ChildFormItemEx> childItems = groupItem.getChildItems();
+            List<ChildFormEx> childItems = groupItem.getChildItems();
             if (childItems != null && !childItems.isEmpty()) {
                 // 创建一个linearLayout专门放置child layouts
                 LinearLayout childLayout = new LinearLayout(getActivity());
@@ -127,7 +127,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
                 mMapChildBindGroup.put(i, childLayout);
 
                 for (int j = 0; j < childItems.size(); ++j) {
-                    ChildFormItemEx childItem = childItems.get(j);
+                    ChildFormEx childItem = childItems.get(j);
                     addChildItemView(childItem, childLayout, i, j);
                 }
                 if (initCollapseAllGroup()) {
@@ -173,7 +173,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
      * @param childPosition
      * @return
      */
-    private <CHILD extends ChildFormItemEx> CHILD addChildItemView(CHILD item, LinearLayout root, int groupPosition, int childPosition) {
+    private <CHILD extends ChildFormEx> CHILD addChildItemView(CHILD item, LinearLayout root, int groupPosition, int childPosition) {
 //        View v = getLayoutInflater().inflate(item.getResId(), null);
 //        if (v == null) {
 //            return;
@@ -201,7 +201,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         return mMapGroupRelated;
     }
 
-    protected HashMap<Serializable, ChildFormItemEx> getMapChildConfig() {
+    protected HashMap<Serializable, ChildFormEx> getMapChildConfig() {
         return mMapChildConfig;
     }
 
@@ -213,7 +213,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         return mItems.get(groupPosition);
     }
 
-    protected ChildFormItemEx getChildItem(Serializable config) {
+    protected ChildFormEx getChildItem(Serializable config) {
         return mMapChildConfig.get(config);
     }
 
@@ -292,10 +292,10 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         // mMapChildConfig.put(childKeys.get(i), childItems.get(i));
         // }
         // }
-        List<ChildFormItemEx> childItems = item.getChildItems();
+        List<ChildFormEx> childItems = item.getChildItems();
         if (childItems != null && !childItems.isEmpty()) {
             for (int i = 0; i < childItems.size(); i++) {
-                ChildFormItemEx childItem = childItems.get(i);
+                ChildFormEx childItem = childItems.get(i);
 //                mMapChildResId.put(childItem, childItem.getResId());
 //                mMapChildConfig.put(childItem.getKey(), childItem);
             }
@@ -332,7 +332,7 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
         } else {
             int groupPosition = (requestCode >> ConstantsEx.KGroupOffset) & 0xff;
             int childPosition = (requestCode >> ConstantsEx.KChildOffset) & 0xff;
-            ChildFormItemEx childItem = (ChildFormItemEx) getGroupItem(groupPosition).getChildItems().get(childPosition);
+            ChildFormEx childItem = (ChildFormEx) getGroupItem(groupPosition).getChildItems().get(childPosition);
             childItem.onActivityResult(requestCode, resultCode, data);
             childItem.refresh();
         }
@@ -395,8 +395,8 @@ abstract public class GroupFormFragEx<T extends GroupFormItemEx> extends FragEx 
 
         @Override
         public void onClick(View v) {
-            if (mMapChildClick.get(v) instanceof ChildFormItemEx) {
-                ChildFormItemEx childItem = mMapChildClick.get(v);
+            if (mMapChildClick.get(v) instanceof ChildFormEx) {
+                ChildFormEx childItem = mMapChildClick.get(v);
                 onChildItemClick(childItem.getGroupPosition(), childItem.getChildPosition());
             } else {
                 onGroupItemClick(mMapGroupClick.get(v));

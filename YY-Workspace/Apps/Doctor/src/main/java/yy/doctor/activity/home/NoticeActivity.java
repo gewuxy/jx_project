@@ -80,7 +80,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
         }
 
         //判断消息是否读过
-        if ( !item.getBoolean(TNotice.is_read)) {
+        if (!item.getBoolean(TNotice.is_read)) {
             item.put(TNotice.is_read, true);
             item.setContent(item.toStoreJson());
             NoticeManager.inst().update(item);
@@ -90,7 +90,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
         }
 
         //判断消息是否都已经读完
-        YSLog.d(TAG, " 小红点 = " + NoticeNum.inst().getCount() );
+        YSLog.d(TAG, " 小红点 = " + NoticeNum.inst().getCount());
         if (NoticeNum.inst().getCount() == 0) {
             notify(NotifyType.read_all_notice);
         }

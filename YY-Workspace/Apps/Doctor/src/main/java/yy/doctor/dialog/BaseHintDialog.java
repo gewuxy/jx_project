@@ -57,6 +57,7 @@ public class BaseHintDialog extends BaseDialog {
 
     /**
      * 提示的布局
+     *
      * @param hintView
      */
     public void addHintView(View hintView) {
@@ -67,6 +68,7 @@ public class BaseHintDialog extends BaseDialog {
 
     /**
      * 按钮的布局
+     *
      * @param view
      */
     public void addButtons(View... view) {
@@ -106,7 +108,7 @@ public class BaseHintDialog extends BaseDialog {
      * @param l
      * @return
      */
-    public void addButton(String text, String colorString, OnClickListener l){
+    public void addButton(String text, String colorString, OnClickListener l) {
         TextView tv = new TextView(getContext());
         tv.setBackgroundResource(R.drawable.tv_selector_white);
         tv.setGravity(Gravity.CENTER);
@@ -117,7 +119,7 @@ public class BaseHintDialog extends BaseDialog {
         addButtons(tv);
     }
 
-    public void addButton(@StringRes int strRes, String colorString, OnClickListener l){
+    public void addButton(@StringRes int strRes, String colorString, OnClickListener l) {
         addButton(getContext().getString(strRes), colorString, l);
     }
 

@@ -40,7 +40,6 @@ public class ModifyBuilder {
     }
 
 
-
     /**
      * 手机号
      *
@@ -161,7 +160,6 @@ public class ModifyBuilder {
         mBuilder.param(ProfileParam.KTitle, title);
         return this;
     }
-
 
 
     /**

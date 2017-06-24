@@ -159,15 +159,16 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
     /**
      * 获取一个用于打开Excel文件的intent
+     *
      * @param param
      * @return
      */
-    public static Intent getExcelFileIntent( String param ){
+    public static Intent getExcelFileIntent(String param) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(param ));
+        Uri uri = Uri.fromFile(new File(param));
         intent.setDataAndType(uri, "application/vnd.ms-excel");
         return intent;
     }

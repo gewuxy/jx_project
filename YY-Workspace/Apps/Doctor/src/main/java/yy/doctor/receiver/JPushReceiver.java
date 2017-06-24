@@ -16,12 +16,12 @@ import lib.yy.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.model.jpush.JPushMsg;
+import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 import yy.doctor.model.notice.NoticeManager;
 import yy.doctor.model.notice.NoticeNum;
-import yy.doctor.model.jpush.JPushMsg;
-import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 
 /**
  * @author CaiXiang
@@ -66,7 +66,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             //未读消息数加 1
             NoticeNum.inst().add();
 
-            Intent intent  = new Intent();
+            Intent intent = new Intent();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.setAutoCancel(true);//点击后消失
             builder.setSmallIcon(R.mipmap.ic_launcher);//设置通知栏消息标题的头像

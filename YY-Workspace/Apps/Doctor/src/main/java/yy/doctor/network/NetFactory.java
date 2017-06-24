@@ -390,7 +390,7 @@ public class NetFactory {
      *
      * @param pageNum
      * @param pageSize
-     * @return  该值为空或0时，表示会议类型
+     * @return 该值为空或0时，表示会议类型
      */
     public static NetworkReq collectionMeetings(int pageNum, int pageSize) {
         return newGet(UrlUser.KCollectionMeetings)
@@ -433,6 +433,7 @@ public class NetFactory {
 
     /**
      * 订单
+     *
      * @param page
      * @param pageSize
      * @return
@@ -446,6 +447,7 @@ public class NetFactory {
 
     /**
      * 象城
+     *
      * @param page
      * @param pageSize
      * @return
@@ -643,6 +645,7 @@ public class NetFactory {
 
     /**
      * 会议资料
+     *
      * @param meetingId
      * @return
      */

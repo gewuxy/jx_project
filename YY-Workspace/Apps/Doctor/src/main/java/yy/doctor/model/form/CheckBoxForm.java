@@ -2,14 +2,14 @@ package yy.doctor.model.form;
 
 import android.support.annotation.NonNull;
 
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
 
 /**
  * @author CaiXiang
  * @since 2017/4/17
  */
-public class FICheckBox extends FormItem {
+public class CheckBoxForm extends BaseForm {
 
     @NonNull
     @Override
@@ -24,7 +24,7 @@ public class FICheckBox extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_checkbox;
+        return R.layout.form_checkbox;
     }
 
 }

@@ -9,7 +9,7 @@ import yy.doctor.model.meet.exam.TopicResult.TTopicResult;
  */
 
 public class TopicResult extends EVal<TTopicResult> {
-    
+
     public enum TTopicResult {
         errorCount, // 错误题数
         rightCount, // 正确题数

@@ -13,16 +13,13 @@ import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
 import lib.ys.util.TextUtil;
-import lib.ys.util.UtilEx;
 import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
 import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
-import yy.doctor.util.Util;
 import yy.doctor.view.RootLayout;
 import yy.doctor.view.RootLayout.OnRootTouchListener;
 
@@ -126,7 +123,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     @Override
-    public boolean isFinish(){
+    public boolean isFinish() {
         return isFinish;
     }
 

@@ -91,7 +91,7 @@ public class UrlUtil {
         String KVideo = KMeetBase + "video/sublist";
         String KHistories = KMeetBase + "message/histories";
 
-        String KCollectMeeting = KMeetBase +  "favorite";
+        String KCollectMeeting = KMeetBase + "favorite";
 
         String KMeetingData = KMeetBase + "pageMaterial";
         String KMeetingVideoRecord = KMeetBase + "video/record";

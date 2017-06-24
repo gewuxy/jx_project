@@ -20,9 +20,9 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.form.FormItemEx;
-import lib.ys.form.FormItemEx.TFormElem;
-import lib.ys.form.IFormHost;
+import lib.ys.form.FormEx;
+import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormHost;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.TransparencyType;
 import lib.ys.ui.activity.ActivityEx;
@@ -33,8 +33,8 @@ import lib.ys.view.StayScrollView;
 
 
 @SuppressWarnings("rawtypes")
-abstract public class FormActivityEx<T extends FormItemEx<VH>, VH extends ViewHolderEx> extends ActivityEx
-        implements OnFormViewClickListener, IFormHost {
+abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolderEx> extends ActivityEx
+        implements OnFormViewClickListener, FormHost {
 
     private List<T> mItems;
 

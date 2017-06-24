@@ -14,7 +14,7 @@ import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormEx.TFormElem;
 import lib.ys.model.EVal;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.frag.FragEx;
@@ -22,7 +22,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem> implements OnClickListener {
+abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> implements OnClickListener {
 
     /**
      * 元素

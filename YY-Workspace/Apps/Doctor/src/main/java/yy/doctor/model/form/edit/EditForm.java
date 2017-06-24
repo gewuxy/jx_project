@@ -8,7 +8,7 @@ import android.view.View;
 
 import lib.ys.util.DeviceUtil;
 import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 import yy.doctor.Constants;
 import yy.doctor.R;
 import yy.doctor.model.form.FormType;
@@ -17,7 +17,7 @@ import yy.doctor.model.form.FormType;
  * @author CaiXiang
  * @since 2017/4/17
  */
-public class FIEdit extends FormItem {
+public class EditForm extends BaseForm {
 
     @NonNull
     @Override
@@ -32,7 +32,7 @@ public class FIEdit extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_edit;
+        return R.layout.form_edit;
     }
 
     @Override

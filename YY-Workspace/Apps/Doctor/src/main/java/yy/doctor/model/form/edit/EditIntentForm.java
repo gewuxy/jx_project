@@ -10,7 +10,7 @@ import yy.doctor.Extra;
  * @author CaiXiang
  * @since 2017/5/2
  */
-public class FIEditIntent extends FIEdit {
+public class EditIntentForm extends EditForm {
 
     @Override
     protected void init(FormItemVH holder) {

@@ -8,25 +8,25 @@ import java.util.List;
 
 import lib.ys.ConstantsEx;
 import lib.ys.adapter.VH.ViewHolderEx;
-import lib.ys.form.FormItemEx;
+import lib.ys.form.FormEx;
 
 /**
  * TODO 未改完
  *
  * @param <VH>
  */
-abstract public class GroupFormItemEx<VH extends ViewHolderEx> extends FormItemEx<VH> {
+abstract public class GroupFormEx<VH extends ViewHolderEx> extends FormEx<VH> {
 
-    private List<ChildFormItemEx> mChildItems;
+    private List<ChildFormEx> mChildItems;
 
-    public void setChildItems(List<ChildFormItemEx> items) {
+    public void setChildItems(List<ChildFormEx> items) {
         if (mChildItems != null) {
             mChildItems.clear();
         }
         mChildItems = items;
     }
 
-    public List<ChildFormItemEx> getChildItems() {
+    public List<ChildFormEx> getChildItems() {
         return mChildItems;
     }
 

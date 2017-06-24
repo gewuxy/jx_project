@@ -56,7 +56,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     public static void nav(Context context, String meetId) {
         Intent i = new Intent(context, MeetingCommentActivity.class)
                 .putExtra(Extra.KMeetId, meetId);
-        LaunchUtil.startActivityForResult(context, i,0);
+        LaunchUtil.startActivityForResult(context, i, 0);
     }
 
     @Override

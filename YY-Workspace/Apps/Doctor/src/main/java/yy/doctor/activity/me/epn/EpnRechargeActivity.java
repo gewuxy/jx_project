@@ -184,7 +184,7 @@ public class EpnRechargeActivity extends BaseActivity {
         EpnRecharge r = (EpnRecharge) result;
         if (r.getInt(TEpnRecharge.code) == 0) {
             String info = r.getString(TEpnRecharge.data);
-            YSLog.d(TAG, "OrderInfo = "  + info);
+            YSLog.d(TAG, "OrderInfo = " + info);
             Pay.aliPay(EpnRechargeActivity.this, info, mHandler);
         } else {
             showToast(R.string.epn_recharge_fail);

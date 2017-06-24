@@ -44,11 +44,15 @@ public class Notice extends EVal<TNotice> {
     @Property(nameInDb = "timestamp")
     private long timestamp;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 951252399)
     private transient NoticeDao myDao;
 
@@ -132,7 +136,9 @@ public class Notice extends EVal<TNotice> {
         this.timestamp = timestamp;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1512276729)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

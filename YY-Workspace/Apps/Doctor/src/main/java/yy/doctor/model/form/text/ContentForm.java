@@ -1,28 +1,31 @@
-package yy.doctor.model.form.menu;
+package yy.doctor.model.form.text;
 
 import android.support.annotation.NonNull;
 
 import lib.yy.adapter.VH.FormItemVH;
-import lib.yy.model.form.FormItem;
+import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
+import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class FIGroup extends FormItem {
+public class ContentForm extends BaseForm {
 
     @NonNull
     @Override
     public int getType() {
-        return MenuType.group;
+        return FormType.content;
     }
 
     @Override
     protected void refresh(FormItemVH holder) {
         super.refresh(holder);
 
-        //holder.getTvText().setText();
+        setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
+
+        holder.getTvText().setText(getString(TFormElem.text));
     }
 
     @Override
@@ -32,6 +35,7 @@ public class FIGroup extends FormItem {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.form_item_menu_group;
+        return R.layout.form_content;
     }
+
 }

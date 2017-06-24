@@ -7,14 +7,14 @@ import android.view.View.OnClickListener;
 
 import lib.ys.ConstantsEx;
 import lib.ys.adapter.VH.ViewHolderEx;
-import lib.ys.form.FormItemEx;
+import lib.ys.form.FormEx;
 
 /**
  * TODO 未改完
  *
  * @param <VH>
  */
-abstract public class ChildFormItemEx<VH extends ViewHolderEx> extends FormItemEx<VH> implements OnClickListener {
+abstract public class ChildFormEx<VH extends ViewHolderEx> extends FormEx<VH> implements OnClickListener {
 
     private int mGroupPosition;
     private int mChildPosition;
