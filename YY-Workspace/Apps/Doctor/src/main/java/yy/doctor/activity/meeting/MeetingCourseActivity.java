@@ -171,6 +171,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             @Override
             public void end() {
                 mSb.setProgress(100);
+                mLayoutCp.setProgress(100);
                 mIvControlP.setSelected(false);
                 mIvControlL.setSelected(true);
             }
