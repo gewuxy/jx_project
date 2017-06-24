@@ -26,7 +26,7 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
     private A mAdapter;
     private AutoScrollViewPager mVp;
     private PageIndicator mIndicator;
-    private int mCurrItem;
+    private int mInitCurrItem;
 
     public BannerViewEx(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -92,7 +92,7 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
 
         invalidate();
 
-        mVp.setCurrentItem(mCurrItem);
+        mVp.setCurrentItem(mInitCurrItem);
         mVp.startAutoScroll();
     }
 
@@ -151,11 +151,8 @@ abstract public class BannerViewEx<T, A extends PagerAdapterEx> extends Relative
         }
     }
 
-    public void setCurrentItem(int item) {
-        mCurrItem = item;
-        if (mVp != null) {
-            mVp.setCurrentItem(item);
-        }
+    public void initCurrentItem(int item) {
+        mInitCurrItem = item;
     }
 
     public void onDestroy() {
