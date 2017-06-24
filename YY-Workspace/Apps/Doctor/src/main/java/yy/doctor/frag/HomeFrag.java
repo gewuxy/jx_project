@@ -13,7 +13,6 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.Notifier.NotifyType;
 import lib.yy.frag.base.BaseSRListFrag;
 import lib.yy.network.ListResult;
-import yy.doctor.Constants.PageConstants;
 import yy.doctor.R;
 import yy.doctor.activity.home.NoticeActivity;
 import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
@@ -56,6 +55,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private boolean mBannerReqIsOK = false;
     private boolean mUnitNumReqIsOK = false;
     private boolean mMeetingReqIsOK = false;
+    private boolean mIsFirstLoad = true;
+    private boolean mIsSwipeRefresh = false;
 
     private boolean mIsNetworkError = false;
 
@@ -106,23 +107,31 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             hideView(mBadgeView);
         }
 
+        exeNetworkReq(KReqIdBanner, NetFactory.banner());
+        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
     }
 
     @Override
     public void getDataFromNet() {
         if (initComplete()) {
-            mBannerReqIsOK = false;
-            mUnitNumReqIsOK = false;
             mMeetingReqIsOK = false;
         }
-        exeNetworkReq(KReqIdBanner, NetFactory.banner());
-        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
         exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting(getOffset(), getLimit()));
     }
 
     @Override
-    public int getLimit() {
-        return PageConstants.KPageSize;
+    public void onSwipeRefresh() {
+        super.onSwipeRefresh();
+
+        //重置数据
+        mBannerReqIsOK = false;
+        mUnitNumReqIsOK = false;
+        mMeetingReqIsOK = false;
+        mIsFirstLoad = true;
+        mIsSwipeRefresh = true;
+
+        exeNetworkReq(KReqIdBanner, NetFactory.banner());
+        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
     }
 
     @Override
@@ -167,13 +176,23 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (id == KReqIdAttention) {
             return;
         }
+
+        //判断是否所有数据都已经获取   刷新出现错误时不能显示加载错误  不做处理
+        if (mIsSwipeRefresh) {
+            if (!(mBanners != null && mRecUnitNums != null && mRecMeetings != null)) {
+                stopSwipeRefresh();
+                return;
+            }
+        }
+        mIsSwipeRefresh = false;
+
         //确保所有数据都已经获取
         ListResult r = (ListResult) result;
+
         if (!r.isSucceed()) {
-            YSLog.d(TAG, " network error id = " + id);
             if (!mIsNetworkError) {
                 onNetworkError(id, new NetError(id, r.getError()));
-                YSLog.d(TAG, " error id = " + id);
+                YSLog.d(TAG, "network error id = " + id);
                 mIsNetworkError = true;
             }
         }
@@ -181,7 +200,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             mBannerReqIsOK = r.isSucceed();
             mBannerView.setData(mBanners);
             // 设置当前第一页的位置偏移, 支持初始化后直接手势右滑
-//            mBannerView.setCurrentItem(mBanners.size() * 100);
+            mBannerView.initCurrentItem(mBanners.size() * 100);
         } else if (id == KReqIdUnitNum) {
             mUnitNumReqIsOK = r.isSucceed();
         } else if (id == KReqIdMeeting) {
@@ -193,29 +212,33 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             ListResult<IHome> ret = new ListResult();
             List<IHome> homes = new ArrayList<>();
 
-            //数据分组  推荐会议
-            List<IHome> firstSectionMeetings = new ArrayList<>();
-            List<IHome> secondSectionMeetings = new ArrayList<>();
+            // 第一次和下拉刷新加载需要拼接数据， 分页加载时不需要
+            if (mIsFirstLoad) {
+                //数据分组  推荐会议
+                List<IHome> firstSectionMeetings = new ArrayList<>();
+                List<IHome> secondSectionMeetings = new ArrayList<>();
 
-            int index = 0;
-            int size = mRecMeetings.size();
-            for (int i = 0; i < KFirstSection && i < size; i++) {
-                firstSectionMeetings.add(mRecMeetings.get(i));
-                index++;
+                int index = 0;
+                int size = mRecMeetings.size();
+                for (int i = 0; i < KFirstSection && i < size; i++) {
+                    firstSectionMeetings.add(mRecMeetings.get(i));
+                    index++;
+                }
+                for (int i = index; i < (KSecondSection + index) && i < size; ++i) {
+                    secondSectionMeetings.add(mRecMeetings.get(i));
+                }
+                homes.addAll(firstSectionMeetings);
+
+                RecUnitNums nums = new RecUnitNums();
+                nums.setData(mRecUnitNums);
+                homes.add(nums);
+
+                homes.addAll(secondSectionMeetings);
+
+                mIsFirstLoad = false;
+            } else {
+                homes.addAll(mRecMeetings);
             }
-
-            for (int i = index; i < (KSecondSection + index) && i < size; ++i) {
-                secondSectionMeetings.add(mRecMeetings.get(i));
-            }
-
-            homes.addAll(firstSectionMeetings);
-
-            RecUnitNums nums = new RecUnitNums();
-
-            nums.setData(mRecUnitNums);
-            homes.add(nums);
-
-            homes.addAll(secondSectionMeetings);
 
             ret.setData(homes);
             super.onNetworkSuccess(id, ret);
@@ -298,4 +321,5 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             mBannerView.onPause();
         }
     }
+
 }
