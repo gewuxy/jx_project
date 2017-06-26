@@ -42,7 +42,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     private MediaPlayer mMp;
     private CountDown mCountDown;
     protected RootLayout mLayout;
-    private boolean isFinish;
+    private boolean mIsFinish;
+    private boolean mExist; // 页面存在
 
     public void setRemainTime(int remainTime) {
         mRemainTime = remainTime;
@@ -53,6 +54,13 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public int getContentViewId() {
         return R.layout.layout_meeting_course_pic;
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        mExist = true;
     }
 
     @Override
@@ -88,7 +96,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     protected void setAudio() {
-        isFinish = false;
+        mIsFinish = false;
         String audioUrl = getDetail().getString(TCourse.audioUrl);
 
         // 文件名
@@ -117,14 +125,14 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void onNetworkSuccess(int id, Object result) {
         mAudioExist = true;
-        if (getVisible()) {
+        if (getVisible() && mExist) {
             start();
         }
     }
 
     @Override
     public boolean isFinish() {
-        return isFinish;
+        return mIsFinish;
     }
 
     /**
@@ -207,6 +215,9 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     public void start() {
+        if (mMp != null && mMp.isPlaying()) {
+            mMp.stop();
+        }
         if (preparePlay()) {
             play();
         }
@@ -245,7 +256,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     public void onCompletion(MediaPlayer mp) {
         onPlayStop();
-        isFinish = true;
+        mIsFinish = true;
         mAudioExist = true;
         preparePlay();
         end();
@@ -263,15 +274,10 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        stop();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
 
+        mExist = false;
         onPlayStop();
         if (mCountDown != null) {
             mCountDown.stop();
@@ -282,8 +288,10 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     public void onDestroy() {
         super.onDestroy();
 
+        mExist = false;
         if (mMp != null) {
-            mMp.release();
+            mMp.stop();
+            mMp = null;
         }
     }
 

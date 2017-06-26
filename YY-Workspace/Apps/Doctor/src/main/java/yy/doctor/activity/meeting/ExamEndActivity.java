@@ -11,6 +11,7 @@ import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
@@ -124,5 +125,12 @@ public class ExamEndActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        notify(NotifyType.study);
     }
 }

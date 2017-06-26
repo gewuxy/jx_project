@@ -724,10 +724,22 @@ public class NetFactory {
     }
 
     /**
-     * 微课学习提交
+     * 视频学习提交
      */
     public static SubmitBuilder submitVideo() {
         return new SubmitBuilder(UrlMeet.KMeetingVideoRecord);
+    }
+
+
+    /**
+     * 会议时间提交
+     */
+    public static NetworkReq submitMeet(String meetId, long useTime) {
+        return newGet(UrlMeet.KMeetingRecord)
+                .param(MeetParam.KMeetId, meetId)
+                .param(MeetParam.KUseTime, useTime)
+                .retry(6, 1000)
+                .build();
     }
 
     /**

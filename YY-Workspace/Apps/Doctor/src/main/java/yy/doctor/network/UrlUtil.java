@@ -16,9 +16,9 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线  10.0.0.250:8082/
-//            mHostName = KHttpDef + "www.medcn.com:8081/v7/";
+            mHostName = KHttpDef + "www.medcn.com:8081/v7/";
 //            mHostName = KHttpDef + "10.0.0.234:80/"; // 礼平电脑
-            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
+//            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
             mHostName = KHttpDef + "www.medcn.com:8081/v7/";
@@ -95,6 +95,7 @@ public class UrlUtil {
 
         String KMeetingData = KMeetBase + "pageMaterial";
         String KMeetingVideoRecord = KMeetBase + "video/record";
+        String KMeetingRecord = KMeetBase + "exit";
     }
 
     public interface UrlData {

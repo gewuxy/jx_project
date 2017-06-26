@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
@@ -61,6 +62,8 @@ import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.serv.CommonServ;
+import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 import yy.doctor.view.ModuleView;
@@ -143,6 +146,9 @@ public class MeetingDetailsActivity extends BaseActivity {
     private MeetDetail mMeetDetail; // 会议详情信息
     private OnLocationNotify mObserver; // 定位通知
 
+    private long mStartModuleTime;
+    private long mMeetTime; // 统一用通知不用result
+
     private MapList<Integer, String> mMapList; // 记录模块ID
     private List<FileData> mMaterials;
 
@@ -213,6 +219,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @Override
     public void initData() {
         mNoPPT = false; // 默认没有PPT
+        mMeetTime = 0;
         mMeetId = getIntent().getStringExtra(Extra.KData);
     }
 
@@ -416,6 +423,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         submit.put(TSubmit.meetId, mMeetId);
         submit.put(TSubmit.moduleId, mMapList.getByKey(FunctionType.video));
         VideoCategoryActivity.nav(MeetingDetailsActivity.this, submit, null);
+        mStartModuleTime = System.currentTimeMillis();
     }
 
     /**
@@ -481,6 +489,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 stopRefresh();
                 Result r = (Result) result;
                 if (r.isSucceed()) {
+                    mStartModuleTime = System.currentTimeMillis();
                     ExamIntroActivity.nav(MeetingDetailsActivity.this,
                             mMeetId, mMapList.getByKey(FunctionType.exam),
                             mMeetDetail.getString(TMeetDetail.organizer));
@@ -494,6 +503,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 stopRefresh();
                 Result r = (Result) result;
                 if (r.isSucceed()) {
+                    mStartModuleTime = System.currentTimeMillis();
                     QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.que));
                 } else {
                     showToast(r.getError());
@@ -516,6 +526,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                         // 已签到直接显示结果
                         showToast("已签到");
                     } else {
+                        mStartModuleTime = System.currentTimeMillis();
                         // 未签到跳转再请求签到
                         Intent i = new Intent(MeetingDetailsActivity.this, SignActivity.class)
                                 .putExtra(Extra.KMeetId, mMeetId)
@@ -538,6 +549,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                     PPT ppt = r.getData();
                     CourseInfo courseInfo = ppt.getEv(TPPT.course);
                     if (courseInfo != null) {
+                        mStartModuleTime = System.currentTimeMillis();
                         MeetingCourseActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.ppt));
                     } else {
                         showToast("没有PPT");
@@ -780,6 +792,19 @@ public class MeetingDetailsActivity extends BaseActivity {
             }
             mPayEpnDialog = null;
         }
+        Intent intent = new Intent(this, CommonServ.class)
+                .putExtra(Extra.KType, ReqType.meet)
+                .putExtra(Extra.KMeetId, mMeetId)
+                .putExtra(Extra.KData, mMeetTime / TimeUnit.SECONDS.toMillis(1));
+        startService(intent);
+
     }
 
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.study) {
+            mMeetTime += System.currentTimeMillis() - mStartModuleTime;
+            YSLog.d(TAG,"onNotify:"+ mMeetTime);
+        }
+    }
 }

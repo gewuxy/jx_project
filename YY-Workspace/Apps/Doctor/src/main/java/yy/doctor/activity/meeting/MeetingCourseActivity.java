@@ -381,7 +381,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     }
 
     /**
-     * 保存查询时间
+     * 保存停留时间
      */
     private void saveStudy() {
         long curTime = System.currentTimeMillis();
@@ -579,8 +579,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 JSONObject jsonObject = new JSONObject();
                 Course course = mCourses.get(key);
                 jsonObject.put("detailId", course.getLong(TCourse.id));
-                Long studyTime = mTimes.get(key);
-                jsonObject.put("usedtime", studyTime);
+                Long studyTime = mTimes.get(key) / TimeUnit.SECONDS.toMillis(1);
+                jsonObject.put("usedtime", studyTime == 0 ? 1 : studyTime);
                 jsonObject.put("finished", getItem(key).isFinish());
                 ja.put(jsonObject);
             }
@@ -598,6 +598,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 .putExtra(Extra.KType, ReqType.course)
                 .putExtra(Extra.KData, submit);
         startService(intent);
+
+        notify(NotifyType.study);
     }
 
     @Override

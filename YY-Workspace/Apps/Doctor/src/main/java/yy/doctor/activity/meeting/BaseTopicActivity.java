@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -307,6 +308,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         mExitDialog = new HintDialogMain(BaseTopicActivity.this);
         mExitDialog.setHint("确定退出?");
         mExitDialog.addButton(R.string.confirm, v1 -> {
+            // 退出考试/问卷
+            notify(NotifyType.study);
             finish();
             mExitDialog.dismiss();
         });

@@ -5,6 +5,7 @@ import java.util.List;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.Extra;
+import yy.doctor.R;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -29,7 +30,7 @@ public class QueEndActivity extends BaseResultActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "问卷", this);
+        Util.addBackIcon(bar, R.string.que, this);
     }
 
     @Override
@@ -45,16 +46,14 @@ public class QueEndActivity extends BaseResultActivity {
                 .builder());
     }
 
-
     @Override
     protected void successResult() {
         hideView(mTvResultMsg);
         hideView(mTvWelcome);
-        mTvResult.setText("感谢您的参与!");
+        mTvResult.setText(R.string.thank_join);
     }
 
     @Override
     protected void errorResult(String error) {
-
     }
 }

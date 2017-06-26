@@ -34,9 +34,9 @@ public class QueTopicActivity extends BaseTopicActivity {
     public void initNavBar(NavBar bar) {
         super.initNavBar(bar);
 
-        bar.addTextViewMid(getString(R.string.que));
+        bar.addTextViewMid(R.string.que);
 
-        bar.addTextViewRight(getString(R.string.submit), v -> {
+        bar.addTextViewRight(R.string.submit, v -> {
             if (mAllTopics != null && mAllTopics.size() > 0) {
                 trySubmit(mAllTopics.size() - mCount);
             }

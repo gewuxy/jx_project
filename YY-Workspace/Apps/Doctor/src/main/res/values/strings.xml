@@ -147,6 +147,7 @@
     <string name="exam_xs_close">s后自动关闭</string>
     <string name="exam_host">主办方:</string>
 
+    <string name="finish_exam">您已完成考试</string>
     <string name="meeting_detail">会议详情</string>
     <string name="cancel_collect">取消收藏成功</string>
     <string name="collect">收藏成功</string>
@@ -163,6 +164,7 @@
     <string name="meeting_comment">评论</string>
 
     <string name="minute">分钟</string>
+    <string name="thank_join">感谢您的参与!</string>
 
     <string name="can_not_find_relevant_software">没有安装相应软件</string>
 

@@ -9,6 +9,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TimeUtil;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
@@ -120,6 +121,14 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
         if (remainCount == 0) {
             finish();
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        // 退出
+        notify(NotifyType.study);
     }
 
     @Override

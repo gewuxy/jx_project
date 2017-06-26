@@ -34,6 +34,7 @@ public class CommonServ extends ServiceEx {
     private static final int KIdJPush = 2;
     private static final int KIdVideo = 3;
     private static final int KIdPPT = 4;
+    private static final int KIdMeet = 5;
 
     private String mJPushRegisterId;
 
@@ -42,6 +43,7 @@ public class CommonServ extends ServiceEx {
             ReqType.j_push,
             ReqType.video,
             ReqType.course,
+            ReqType.meet,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -49,6 +51,7 @@ public class CommonServ extends ServiceEx {
         int j_push = 2;
         int video = 3;
         int course = 4;
+        int meet = 5;
 
     }
 
@@ -88,7 +91,12 @@ public class CommonServ extends ServiceEx {
                         .courseId(submit.getString(TSubmit.courseId))
                         .details(submit.getString(TSubmit.times))
                         .builder());
+            }
+            break;
 
+            case ReqType.meet: {
+                exeNetworkReq(KIdMeet, NetFactory.submitMeet(intent.getStringExtra(Extra.KMeetId),
+                        intent.getLongExtra(Extra.KData, 0)));
             }
             break;
         }
@@ -135,6 +143,7 @@ public class CommonServ extends ServiceEx {
 
             // 记录时间的都同一操作
             case KIdPPT:
+            case KIdMeet:
             case KIdVideo: {
                 if (r.isSucceed()) {
                     YSLog.d(TAG, "onNetworkSuccess:记录成功");

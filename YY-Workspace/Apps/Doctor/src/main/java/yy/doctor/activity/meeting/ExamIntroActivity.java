@@ -19,6 +19,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
@@ -33,7 +34,6 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.ExamCount;
 import yy.doctor.util.ExamCount.OnCountListener;
-import yy.doctor.util.Util;
 
 /**
  * 考试介绍界面
@@ -97,7 +97,12 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.exam, this);
+        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+            // 没有进入考试
+            notify(NotifyType.study);
+            finish();
+        });
+        bar.addTextViewMid(R.string.exam);
     }
 
     @Override
@@ -175,19 +180,24 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start:
                 // 点击开始考试
-                mDialog = new HintDialogSec(ExamIntroActivity.this);
-                mDialog.addButton(R.string.confirm, v1 -> mDialog.dismiss());
+                if (mIntro.getInt(TIntro.score) > mIntro.getInt(TIntro.passScore)){
+                    // 及格不让再考
+                    showToast(R.string.finish_exam);
+                    return;
+                }
                 if (mCanStart) {
+                    // 考试进行中
                     if (mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) > 0) {
+                        // 还有考试次数
                         ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                         ExamCount.inst().pause();
                         finish();
                     } else {
-                        mDialog.setMainHint("不能再考了");
-                        mDialog.setSecHint("已经没有重考次数了");
-                        mDialog.show();
+                        showToast(R.string.finish_exam);
                     }
                 } else {
+                    mDialog = new HintDialogSec(ExamIntroActivity.this);
+                    mDialog.addButton(R.string.confirm, v1 -> mDialog.dismiss());
                     if (ExamCount.inst().getSurplusTime() > 0) {
                         // 考试未开始
                         mDialog.setMainHint(R.string.exam_no_start);

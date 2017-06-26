@@ -12,6 +12,7 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
@@ -64,8 +65,14 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.video, this);
-        mBarTvRight = bar.addTextViewRight(getString(R.string.video_studied_no_start), null);
+        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+            if (TextUtil.isEmpty(mPreId)) {
+                notify(NotifyType.study);
+            }
+            finish();
+        });
+        bar.addTextViewMid(R.string.video);
+        mBarTvRight = bar.addTextViewRight(R.string.video_studied_no_start, null);
         goneView(mBarTvRight); // 默认隐藏
         mNeedShow = false;
     }
