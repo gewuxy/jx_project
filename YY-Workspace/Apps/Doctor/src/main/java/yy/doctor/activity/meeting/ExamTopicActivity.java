@@ -18,6 +18,8 @@ import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.popup.TopicPopup;
+import yy.doctor.sp.SpUser;
 import yy.doctor.util.ExamCount;
 import yy.doctor.util.ExamCount.OnCountListener;
 import yy.doctor.util.Util;
@@ -39,6 +41,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     private HintDialogSec mCloseDialog; // 离考试结束的提示框
     private HintDialogSec mSubmitDialog; // 提交的提示框
     private long mUseTime; // 剩余做题的时间
+    private TopicPopup mTopicPopup;
 
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
@@ -56,11 +59,11 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         mUseTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
 
         long surplusTime = ExamCount.inst().getSurplusTime();
-
         mUseTime = mUseTime > surplusTime ? surplusTime : mUseTime;
 
         ExamCount.inst().setOnCountListener(this);
         ExamCount.inst().start(mUseTime);
+
         if (mUseTime <= KFiveMin) {
             last5((int) (mUseTime / TimeUnit.MINUTES.toSeconds(1)));
         }
@@ -72,7 +75,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     public void initNavBar(NavBar bar) {
         super.initNavBar(bar);
 
-        bar.addTextViewMid(getString(R.string.exam));
+        bar.addTextViewMid(R.string.exam);
 
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
@@ -88,6 +91,15 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     @Override
     public void setViews() {
         super.setViews();
+
+        // 第一次进入考试时提示
+        if (SpUser.inst().ifFirstEnterExam()) {
+            runOnUIThread(() -> {
+                mTopicPopup = new TopicPopup(ExamTopicActivity.this);
+                mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                SpUser.inst().saveEnterExam();
+            }, 300);
+        }
 
         initFirstGv();
     }
@@ -137,6 +149,10 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         ExamCount.inst().stop();
         recycleDialog(mCloseDialog);
         recycleDialog(mSubmitDialog);
+        if (mTopicPopup != null) {
+            mTopicPopup.dismiss();
+            mTopicPopup = null;
+        }
     }
 
     private void recycleDialog(DialogEx dialog) {
@@ -169,4 +185,5 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             mSubmitDialog.show();
         }
     }
+
 }

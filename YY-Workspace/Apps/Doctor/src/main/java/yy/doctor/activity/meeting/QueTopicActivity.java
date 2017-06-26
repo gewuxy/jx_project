@@ -2,6 +2,7 @@ package yy.doctor.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -14,6 +15,8 @@ import yy.doctor.R;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.popup.TopicPopup;
+import yy.doctor.sp.SpUser;
 
 /**
  * 问卷
@@ -22,6 +25,8 @@ import yy.doctor.network.NetFactory;
  * @since : 2017/4/27
  */
 public class QueTopicActivity extends BaseTopicActivity {
+
+    private TopicPopup mTopicPopup;
 
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, QueTopicActivity.class)
@@ -68,6 +73,16 @@ public class QueTopicActivity extends BaseTopicActivity {
                 invalidate();
             }
 
+            // 第一次进入考试时提示
+            if (SpUser.inst().ifFirstEnterQue()) {
+                runOnUIThread(() -> {
+                    mTopicPopup = new TopicPopup(QueTopicActivity.this);
+                    mTopicPopup.setCheck(R.mipmap.que_popup_check);
+                    mTopicPopup.setSlide(R.mipmap.que_popup_slide);
+                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                    SpUser.inst().saveEnterQue();
+                }, 300);
+            }
             initFirstGv();
         } else {
             setViewState(ViewState.error);
