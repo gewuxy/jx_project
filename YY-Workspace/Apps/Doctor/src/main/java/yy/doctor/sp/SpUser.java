@@ -24,6 +24,7 @@ public class SpUser extends SpBase {
         String KProfileUpdateTime = "update_time";
         String KAppUpdateTime = "app_update_time";
         String KBadgeNum = "badge_num";
+        String KIfFirstEnter = "if_first_enter";
     }
 
     private SpUser(Context context, String fileName) {
@@ -122,4 +123,14 @@ public class SpUser extends SpBase {
         return getInt(SpUserKey.KBadgeNum, 0);
     }
 
+    /**
+     * 保存是否是第一次进入考试界面
+     *
+     */
+    public Boolean ifFirstEnter(){
+        return getBoolean(SpUserKey.KIfFirstEnter,true);
+    }
+    public void save(){
+        save(SpUserKey.KIfFirstEnter,false);
+    }
 }
