@@ -518,7 +518,7 @@ public class NetFactory {
      * @param pageSize
      * @return
      */
-    public static NetworkReq unitNumData(int id, int pageNum, int pageSize) {
+    public static NetworkReq unitNumData(String id, int pageNum, int pageSize) {
         return newGet(UrlUnitNum.KUnitNumData)
                 .param(UnitNumDetailParam.KId, id)
                 .param(UnitNumDetailParam.KPageNum, pageNum)
@@ -649,9 +649,11 @@ public class NetFactory {
      * @param meetingId
      * @return
      */
-    public static NetworkReq meetingData(String meetingId) {
+    public static NetworkReq meetingData(String meetingId, int pageNum, int pageSize) {
         return newGet(UrlMeet.KMeetingData)
                 .param(MeetParam.KMeetId, meetingId)
+                .param(UnitNumDetailParam.KPageNum, pageNum)
+                .param(UnitNumDetailParam.KPageSize, pageSize)
                 .build();
     }
 

@@ -11,7 +11,7 @@
         <TextView
             style="@style/tv.form.name"
             android:layout_marginLeft="@dimen/margin"
-            android:text="清理缓存"/>
+            android:text=""/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             <TextView
                 style="@style/tv.form.text"
                 android:layout_marginRight="@dimen/margin"
-                android:text="100M"/>
+                android:text=""/>
 
             <ImageView
                 style="@style/iv.arrow.align_right"

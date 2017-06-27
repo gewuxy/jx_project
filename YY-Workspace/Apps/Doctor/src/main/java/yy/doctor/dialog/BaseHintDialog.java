@@ -110,7 +110,7 @@ public class BaseHintDialog extends BaseDialog {
      */
     public void addButton(String text, String colorString, OnClickListener l) {
         TextView tv = new TextView(getContext());
-        tv.setBackgroundResource(R.drawable.tv_selector_white);
+        tv.setBackgroundResource(R.drawable.item_selector);
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
         tv.setTextColor(Color.parseColor(colorString));

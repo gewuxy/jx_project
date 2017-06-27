@@ -2,7 +2,10 @@ package yy.doctor.activity.me;
 
 import android.view.View;
 
+import java.util.List;
+
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.activity.meeting.MeetingDetailsActivity;
@@ -46,4 +49,22 @@ public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, Meeti
         return getString(R.string.collection_meeting_empty);
     }
 
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        super.onNotify(type, data);
+
+        //会议取消收藏后，收藏会议列表要删除对应的会议
+        if (type == NotifyType.cancel_collection_meeting) {
+            String meetingId = (String) data;
+            List<Meeting> list = getData();
+            for (Meeting meeting : list) {
+                if (meetingId.equals(meeting.getString(TMeeting.id))) {
+                    getData().remove(meeting);
+                    invalidate();
+                    return;
+                }
+            }
+        }
+
+    }
 }

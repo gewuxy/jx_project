@@ -26,7 +26,7 @@ import yy.doctor.util.Util;
  */
 public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapter> {
 
-    private int mId;
+    private String mId;
     private String mType;
     private String mFilePath;
 
@@ -35,7 +35,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
     private static String mFileType;
     private static long mFileSize;
 
-    public static void nav(Context context, int id, String type) {
+    public static void nav(Context context, String id, String type) {
         Intent i = new Intent(context, FileDataActivity.class)
                 .putExtra(Extra.KData, id)
                 .putExtra(Extra.KType, type);
@@ -44,7 +44,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
 
     @Override
     public void initData() {
-        mId = getIntent().getIntExtra(Extra.KData, 10);
+        mId = getIntent().getStringExtra(Extra.KData);
         mType = getIntent().getStringExtra(Extra.KType);
     }
 
@@ -59,18 +59,18 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
         super.setViews();
 
         if (mType.equals(Extra.KUnitNumType)) {
-            mFilePath = CacheUtil.getUnitNumCacheDir(String.valueOf(mId));
+            mFilePath = CacheUtil.getUnitNumCacheDir(mId);
         } else if (mType.equals(Extra.KMeetingType)) {
-            mFilePath = CacheUtil.getMeetingCacheDir(String.valueOf(mId));
+            mFilePath = CacheUtil.getMeetingCacheDir(mId);
         }
     }
 
     @Override
     public void getDataFromNet() {
         if (mType.equals(Extra.KUnitNumType)) {
-            exeNetworkReq(NetFactory.unitNumData(mId, 1, 15));
+            exeNetworkReq(NetFactory.unitNumData(mId, getOffset(), getLimit()));
         } else if (mType.equals(Extra.KMeetingType)) {
-            exeNetworkReq(NetFactory.meetingData(String.valueOf(mId)));
+            exeNetworkReq(NetFactory.meetingData(mId, getOffset(), getLimit()));
         }
     }
 

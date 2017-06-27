@@ -155,7 +155,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
-                .drawable(R.mipmap.ic_more)
+                .drawable(R.mipmap.form_ic_more)
                 .name(R.string.user_hospital)
                 .intent(new Intent(this, HospitalActivity.class))
                 .text(Profile.inst().getString(hospital))
@@ -165,7 +165,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.departments)
-                .drawable(R.mipmap.ic_more)
+                .drawable(R.mipmap.form_ic_more)
                 .name(R.string.user_section)
                 .intent(new Intent(this, SectionActivity.class))
                 .text(Profile.inst().getString(department))

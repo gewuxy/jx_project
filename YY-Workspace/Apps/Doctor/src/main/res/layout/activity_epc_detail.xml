@@ -23,7 +23,6 @@
             android:id="@+id/epc_detail_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手工打磨"
             android:textSize="16dp"
             android:textColor="@color/text_333"/>
 
@@ -36,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="兑换值："
+                android:text="@string/exchange_price"
                 android:textSize="12dp"
                 android:textColor="@color/text_333"/>
 
@@ -44,14 +43,15 @@
                 android:id="@+id/epc_detail_tv_epn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1200"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="@color/text_0882e7"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 象数"
+                android:layout_marginLeft="3dp"
+                android:text="@string/epn"
                 android:textSize="10dp"
                 android:textColor="@color/text_333"/>
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_large"
-                android:text="全国配送商品"
+                android:text="@string/national_distribution_goods"
                 android:textSize="10dp"
                 android:textColor="@color/text_888"/>
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_large"
-                android:text="限购一份"
+                android:text="@string/purchase_limitation_one"
                 android:textSize="10dp"
                 android:textColor="@color/text_01b557"/>
 
@@ -85,7 +85,6 @@
         android:layout_marginRight="@dimen/margin"
         android:lineSpacingExtra="@dimen/margin"
         android:layout_marginTop="18dp"
-        android:text=""
         android:textSize="14dp"
         android:textColor="@color/text_333"/>
 
@@ -95,7 +94,7 @@
         android:layout_height="42dp"
         android:background="@drawable/epc_detail_btn_selector_blue"
         android:gravity="center"
-        android:text="立即兑换"
+        android:text="@string/immediately_exchange"
         android:textSize="14dp"
         android:textColor="@color/white"/>
 

@@ -48,8 +48,8 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
 
     @Override
     protected void onViewClick(int position, View v) {
-        int id = v.getId();
 
+        int id = v.getId();
         RecUnitNum item = getItem(position);
         switch (id) {
             case R.id.home_unit_num_layout: {
@@ -88,13 +88,14 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
 
     private void nativeSetAttention(TextView tv, int attention) {
         if (attention == Attention.yes) {
-            tv.setText("已关注");
+            tv.setText(R.string.already_attention);
             tv.setSelected(true);
             tv.setClickable(false);
         } else {
-            tv.setText("关注");
+            tv.setText(R.string.attention);
             tv.setSelected(false);
             tv.setClickable(true);
         }
     }
+
 }

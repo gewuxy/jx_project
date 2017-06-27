@@ -80,7 +80,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
         if (mType.equals("pdf")) {
             mIv.setImageResource(R.mipmap.open_data_ic_pdf);
-        } else if (mType.equals("ppt")) {
+        } else if (mType.equals("ppt") || mType.equals("pptx")) {
             mIv.setImageResource(R.mipmap.open_data_ic_ppt);
         } else {
             mIv.setImageResource(R.mipmap.open_data_ic_word);
@@ -99,7 +99,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             try {
                 if (mType.equals("pdf")) {
                     intent = getPdfFileIntent(mFilePath + mHashCodeName);
-                } else if (mType.equals("ppt")) {
+                } else if (mType.equals("ppt") || mType.equals("pptx")) {
                     intent = getPptFileIntent(mFilePath + mHashCodeName);
                 } else {
                     intent = getWordFileIntent(mFilePath + mHashCodeName);

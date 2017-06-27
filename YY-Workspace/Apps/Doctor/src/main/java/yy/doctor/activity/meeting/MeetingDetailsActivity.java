@@ -238,6 +238,10 @@ public class MeetingDetailsActivity extends BaseActivity {
             mIvCollection.setSelected(storedState);
             showToast(storedState ? R.string.collect : R.string.cancel_collect);
             exeNetworkReq(KIdCollection, NetFactory.collectMeeting(mMeetId, storedState ? CollectType.collect : CollectType.cancel));
+            //取消收藏时，要通知会议收藏列表去除相应的会议
+            if (!storedState) {
+                notify(NotifyType.cancel_collection_meeting, mMeetId);
+            }
         });
         getCollection(layout);
         // 分享
@@ -629,7 +633,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         if (fileNum > 3) {
             showView(mIvFileArrow);
             mTvFileNum.setText("查看全部" + fileNum + "个文件");
-            mLayoutData.setOnClickListener(v -> FileDataActivity.nav(MeetingDetailsActivity.this, info.getInt(TMeetDetail.pubUserId), Extra.KMeetingType));
+            mLayoutData.setOnClickListener(v -> FileDataActivity.nav(MeetingDetailsActivity.this, mMeetId, Extra.KMeetingType));
         }
         List<FileData> materials = info.getList(TMeetDetail.materials);
         if (materials == null || materials.size() == 0) {

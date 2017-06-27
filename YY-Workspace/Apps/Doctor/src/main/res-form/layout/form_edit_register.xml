@@ -13,7 +13,7 @@
         android:singleLine="true"
         android:textColor="#666666"
         android:textColorHint="#b3b3b3"
-        android:hint="未填写"/>
+        android:hint=""/>
 
     <ImageView
         android:id="@id/form_iv"

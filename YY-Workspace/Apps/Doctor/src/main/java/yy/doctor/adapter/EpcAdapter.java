@@ -7,6 +7,8 @@ import yy.doctor.adapter.VH.EpcVH;
 import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
 
+import static lib.ys.util.res.ResLoader.getString;
+
 /**
  * 象城的adapter
  *
@@ -26,7 +28,7 @@ public class EpcAdapter extends AdapterEx<Epc, EpcVH> {
         Epc item = getItem(position);
 
         holder.getTvName().setText(item.getString(TEpc.name));
-        holder.getTvEpn().setText(item.getString(TEpc.price) + "象数");
+        holder.getTvEpn().setText(item.getString(TEpc.price) + getString(R.string.epn));
 
         holder.getIv()
                 .placeHolder(R.mipmap.ic_default_epc)

@@ -72,7 +72,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
                 int childCount = getGroup(i).getChildrenCount();
                 YSLog.d(TAG, "childCount = " + childCount);
                 for (int j = 0; j < childCount; ++j) {
-                    UnitNum item = (UnitNum) getChild(i, j);
+                    UnitNum item = getChild(i, j);
                     if (item.getInt(TUnitNum.id) == unitNumId) {
                         //如果childCount == 1, 整个组都移除
                         if (childCount == 1) {

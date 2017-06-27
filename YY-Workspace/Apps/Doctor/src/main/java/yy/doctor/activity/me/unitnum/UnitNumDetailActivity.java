@@ -299,7 +299,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             if (datumNum > 3) {
                 mTvFileNum.setText(getString(R.string.check_all) + datumNum + getString(R.string.file_num));
                 showView(mIvArrows);
-                mVFileLayout.setOnClickListener(v -> FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getInt(TUnitNumDetail.id), Extra.KUnitNumType));
+                mVFileLayout.setOnClickListener(v -> FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getString(TUnitNumDetail.id), Extra.KUnitNumType));
             }
 
             UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);

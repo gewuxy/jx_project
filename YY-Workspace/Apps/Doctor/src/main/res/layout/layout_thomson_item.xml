@@ -44,7 +44,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin"
-            android:src="@mipmap/ic_arrow_right"/>
+            android:src="@mipmap/form_ic_arrow_right"/>
 
     </RelativeLayout>
 

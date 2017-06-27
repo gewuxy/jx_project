@@ -109,7 +109,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         addItem(new Builder(FormType.et_register)
                 .related(RelatedId.hospital)
                 .hint(R.string.hospital_name)
-                .drawable(R.mipmap.ic_more)
+                .drawable(R.mipmap.form_ic_more)
                 .build());
     }
 

@@ -17,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="事件方式是多久发货"
         android:textSize="14dp"
         android:textColor="@color/text_333"/>
 
@@ -26,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="32K"
         android:textSize="14dp"
         android:textColor="@color/text_888"/>
 
@@ -34,6 +32,6 @@
         style="@style/tv.common"
         android:id="@+id/open_download_data_tv_btn"
         android:layout_marginTop="32dp"
-        android:text="打开资料"/>
+        android:text="@string/open_data"/>
 
 </LinearLayout>

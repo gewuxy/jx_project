@@ -123,7 +123,7 @@ public class CommonServ extends ServiceEx {
                     retryNetworkRequest(id);
                     return;
                 }
-                Profile.inst().clearProfile();
+                Profile.inst().clear();
             }
             break;
 

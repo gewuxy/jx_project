@@ -55,7 +55,6 @@ public class ThomsonActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-
     }
 
 }

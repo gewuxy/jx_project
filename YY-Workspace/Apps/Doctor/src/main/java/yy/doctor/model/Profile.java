@@ -64,8 +64,4 @@ public class Profile extends EVal<TProfile> {
         SpUser.inst().save(this);
     }
 
-    public void clearProfile() {
-        Profile.inst().clear();
-    }
-
 }

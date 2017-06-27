@@ -64,6 +64,7 @@ public class CityActivity extends BaseSRListActivity<City, CityAdapter> {
     public void setViews() {
         super.setViews();
 
+        enableAutoLoadMore(false);
         if (ProvinceActivity.mLocation == null) {
             showView(mTvLocationFailure);
         } else {

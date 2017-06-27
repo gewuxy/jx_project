@@ -76,7 +76,8 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     @Override
     public void setViews() {
         super.setViews();
-        //mTvLocation.setText(mLocationProvince +" " + mLocationCity + " " + mLocationArea);
+
+        enableAutoLoadMore(false);
         //显示定位中布局
         showView(mLocationLayout);
         mIvLocation.setImageResource(R.drawable.province_location_anim);
@@ -174,8 +175,8 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
 
         if (mDialog != null) {
             mDialog.dismiss();
-            mDialog = null;
         }
+        mDialog = null;
     }
 
 }

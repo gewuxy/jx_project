@@ -112,9 +112,10 @@ public class LoginActivity extends BaseActivity {
 
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
-            Profile.inst().update(r.getData());
             //保存用户名
             SpUser.inst().saveUserName(mEtName.getText().toString().trim());
+            Profile.inst().clear();
+            Profile.inst().update(r.getData());
             //判断跳转到哪里
             if (mRequest == null) {
                 startActivity(MainActivity.class);

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="3dp"
-            android:text="象数余额:"
+            android:text="@string/epn_balance"
             android:textColor="@color/text_333"
             android:textSize="12dp"/>
 
@@ -25,8 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="2dp"
-            android:text="5752"
             android:textColor="@color/text_0882e7"
             android:textSize="20dp"/>
 
@@ -47,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="充值象数"
+            android:text="@string/recharge_epn"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 
@@ -63,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="0个象数"
+                android:text="@string/zero_epn"
                 android:textColor="@color/text_0882e7"
                 android:textSize="14dp"/>
 
@@ -72,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:gravity="center"
-                android:text="10个象数=1元"
+                android:text="@string/ten_epn_equal_one_yuan"
                 android:textColor="@color/text_b3"
                 android:textSize="10dp"/>
 
@@ -95,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="支付金额"
+            android:text="@string/pay_money"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 
@@ -105,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="元"
+            android:text="@string/yuan"
             android:textColor="@color/text_0882e7"
             android:textSize="14dp"/>
 
@@ -118,7 +116,7 @@
             android:gravity="right"
             android:inputType="number"
             android:maxLength="5"
-            android:hint="输入整数"
+            android:hint="@string/input_integer"
             android:textColor="@color/text_333"
             android:textSize="14dp"
             android:layout_alignBaseline="@+id/recharge_tv_yuan"
@@ -136,7 +134,7 @@
         android:layout_height="18dp"
         android:paddingLeft="@dimen/margin"
         android:gravity="center_vertical"
-        android:text="支付方式"
+        android:text="@string/pay_way"
         android:textColor="@color/text_888"
         android:textSize="10dp"/>
 
@@ -165,7 +163,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
             android:layout_toRightOf="@id/recharge_iv_alipay"
-            android:text="支付宝"
+            android:text="@string/alipay"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 
@@ -187,6 +185,6 @@
         style="@style/tv.common"
         android:id="@+id/recharge_tv_pay"
         android:layout_marginTop="24dp"
-        android:text="确定充值"/>
+        android:text="@string/confirm_recharge"/>
 
 </LinearLayout>

@@ -19,6 +19,7 @@ public class BannerActivity extends BaseWebViewActivity {
 
     private String mUrl;
     private String mTitle;
+    private ShareDialog mShareDialog;
 
     public static void nav(Context context, String url, String title) {
         Intent i = new Intent(context, BannerActivity.class);
@@ -36,10 +37,10 @@ public class BannerActivity extends BaseWebViewActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "详情", this);
+        Util.addBackIcon(bar, R.string.detail, this);
         bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
-            ShareDialog shareDialog = new ShareDialog(BannerActivity.this, mUrl, mTitle);
-            shareDialog.show();
+            mShareDialog = new ShareDialog(BannerActivity.this, mUrl, mTitle);
+            mShareDialog.show();
         });
     }
 
@@ -48,4 +49,16 @@ public class BannerActivity extends BaseWebViewActivity {
         loadUrl(mUrl);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mShareDialog != null) {
+            if (mShareDialog.isShowing()) {
+                mShareDialog.dismiss();
+            }
+            mShareDialog = null;
+        }
+
+    }
 }

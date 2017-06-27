@@ -31,7 +31,7 @@
         android:lineSpacingExtra="15dp"
         android:paddingLeft="26dp"
         android:paddingTop="48dp"
-        android:text="客服电话：020-38601688\n客服邮箱：service@medcn.cn\n服务时间：每周工作日：9:30-17:30"
+        android:text="@string/order_intro"
         android:textColor="@color/white"
         android:textSize="14dp"
         android:visibility="gone"/>

@@ -67,13 +67,13 @@ public class ChangePwdActivity extends BaseActivity {
                 String newPwd = mEtNewPwd.getText().toString();
                 String confirmPwd = mEtConfirmPwd.getText().toString();
                 if (TextUtil.isEmpty(oldPwd)) {
-                    showToast(R.string.input_old_pwd);
+                    showToast(R.string.please_input_old_pwd);
                     return;
                 } else if (TextUtil.isEmpty(newPwd)) {
-                    showToast(R.string.input_new_pwd);
+                    showToast(R.string.please_input_new_pwd);
                     return;
                 } else if (TextUtil.isEmpty(confirmPwd)) {
-                    showToast(R.string.input_confirm_pwd);
+                    showToast(R.string.please_input_confirm_pwd);
                     return;
                 } else if (!newPwd.equals(confirmPwd)) {
                     showToast(R.string.confirm_no_equal_new);

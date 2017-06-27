@@ -28,6 +28,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.token_out_of_date,
             NotifyType.cancel_attention,
             NotifyType.study,
+            NotifyType.cancel_collection_meeting
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -84,6 +85,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 学习
          */
         int study = 10;
+
+        /**
+         * 取消 收藏会议
+         */
+        int cancel_collection_meeting = 11;
     }
 
     public interface OnNotify {
@@ -107,4 +113,5 @@ public class Notifier extends NotifierEx<OnNotify> {
     protected void callback(OnNotify o, @NotifyType int type, Object data) {
         o.onNotify(type, data);
     }
+
 }

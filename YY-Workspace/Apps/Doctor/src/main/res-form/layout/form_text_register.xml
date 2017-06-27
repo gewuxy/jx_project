@@ -14,7 +14,7 @@
             android:singleLine="true"
             android:textColor="#666666"
             android:textColorHint="#b3b3b3"
-            android:hint="请选择省市"/>
+            android:hint=""/>
 
     </LinearLayout>
 

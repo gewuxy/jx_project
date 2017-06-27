@@ -55,10 +55,10 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private boolean mBannerReqIsOK = false;
     private boolean mUnitNumReqIsOK = false;
     private boolean mMeetingReqIsOK = false;
-    private boolean mIsFirstLoad = true;
-    private boolean mIsSwipeRefresh = false;
+    private boolean mIsLoadFirstPage = true;  //  是否是在加载第一页数据
+    private boolean mIsSwipeRefresh = false;  // 是否在下拉刷新
 
-    private boolean mIsNetworkError = false;
+    private boolean mIsNetworkError = false;  // 是否网络错误
 
     private List<RecUnitNum> mRecUnitNums;
     private List<IHome> mRecMeetings;
@@ -127,7 +127,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mBannerReqIsOK = false;
         mUnitNumReqIsOK = false;
         mMeetingReqIsOK = false;
-        mIsFirstLoad = true;
+        mIsLoadFirstPage = true;
         mIsSwipeRefresh = true;
 
         exeNetworkReq(KReqIdBanner, NetFactory.banner());
@@ -177,7 +177,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             return;
         }
 
-        //判断是否所有数据都已经获取   刷新出现错误时不能显示加载错误  不做处理
+        //刷新 判断是否所有数据都已经获取   刷新出现错误时不能显示加载错误  不做处理，还是显示以前的数据
         if (mIsSwipeRefresh) {
             if (!(mBanners != null && mRecUnitNums != null && mRecMeetings != null)) {
                 stopSwipeRefresh();
@@ -210,14 +210,14 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             if (mBanners != null && mBanners.size() > 0) {
                 mBannerView.setData(mBanners);
                 // 设置当前第一页的位置偏移, 支持初始化后直接手势右滑
-                mBannerView.initCurrentItem(mBanners.size() * 100);
+                mBannerView.initCurrentItem(mBanners.size() * 50);
             }
 
             ListResult<IHome> ret = new ListResult();
             List<IHome> homes = new ArrayList<>();
 
             // 第一次和下拉刷新加载需要拼接数据， 分页加载时不需要
-            if (mIsFirstLoad) {
+            if (mIsLoadFirstPage) {
                 //数据分组  推荐会议
                 List<IHome> firstSectionMeetings = new ArrayList<>();
                 List<IHome> secondSectionMeetings = new ArrayList<>();
@@ -241,7 +241,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
                 homes.addAll(secondSectionMeetings);
 
-                mIsFirstLoad = false;
+                mIsLoadFirstPage = false;
             } else {
                 homes.addAll(mRecMeetings);
             }
@@ -253,7 +253,9 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
+
         if (type == NotifyType.unit_num_attention_change) {
+            // 关注  取消关注后，首页对应的单位号的状态也要改变
             AttentionUnitNum attentionUnitNum = (AttentionUnitNum) data;
             int unitNumId = attentionUnitNum.getUnitNumId();
             int attention = attentionUnitNum.getAttention();

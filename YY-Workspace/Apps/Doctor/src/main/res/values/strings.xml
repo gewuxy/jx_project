@@ -20,6 +20,7 @@
     <string name="guang_dong">广东</string>
     <string name="guang_zhou">广州</string>
     <string name="guang_zhou_shi">广州市</string>
+    <string name="change">更改</string>
 
     <!--hint-->
     <string name="hint_not_fill">未填写</string>
@@ -29,17 +30,8 @@
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
 
-    <string name="open_location_service">请在系统设置中，打开“隐私-定位服务</string>
+    <string name="open_location_service">请在系统设置中，打开“隐私-定位服务”</string>
     <string name="allow_locate_permission">并允许定位服务</string>
-
-    <!--侧滑菜单-->
-    <string name="message">消息</string>
-    <string name="my_post">我的帖子</string>
-    <string name="meeting_remind">会议提醒</string>
-    <string name="invite_friend">邀请好友</string>
-    <string name="folder">文件夹</string>
-    <string name="my_folder">我的文件</string>
-    <string name="my_img">我的图片</string>
 
     <!--数据中心-->
     <string name="data_center">数据中心</string>
@@ -49,6 +41,8 @@
 
     <!--忘记密码-->
     <string name="forget_pwd">忘记密码</string>
+    <string name="email">电子邮箱</string>
+    <string name="submit_email">提交</string>
     <string name="input_email">请输入电子邮箱</string>
     <string name="input_right_email">请输入正确邮箱</string>
     <string name="forget_pwd_success">重置密码的邮件已经发送至您的邮箱</string>
@@ -59,6 +53,7 @@
     <string name="title_meeting">会议</string>
     <string name="title_data">数据</string>
     <string name="title_me">我</string>
+    <string name="detail">详情</string>
 
     <!-- register_text -->
     <string name="register_key">激活码</string>
@@ -185,6 +180,8 @@
     <string name="download_data">资料下载</string>
     <string name="download_ing">正在下载...</string>
     <string name="download_pause">暂停下载</string>
+    <string name="not_start_download">未开始下载</string>
+    <string name="open_data">打开资料</string>
     
     <!--设置-->
     <string name="settings">设置</string>
@@ -209,9 +206,13 @@
 
     <!--修改密码-->
     <string name="change_pwd">修改密码</string>
-    <string name="input_old_pwd">请输入旧密码</string>
-    <string name="input_new_pwd">请输入新密码</string>
-    <string name="input_confirm_pwd">请输入确认密码</string>
+    <string name="please_input_old_pwd">请输入旧密码</string>
+    <string name="please_input_new_pwd">请输入新密码</string>
+    <string name="please_input_confirm_pwd">请输入确认密码</string>
+    <string name="input_old_pwd">输入旧密码</string>
+    <string name="input_new_pwd">输入新密码</string>
+    <string name="confirm_new_pwd">确认新密码</string>
+    <string name="confirm_change">确认修改</string>
     <string name="confirm_no_equal_new">确认密码与新密码不一致！</string>
     <string name="pwd_places_no_right">请输入6~18位密码</string>
     <string name="pwd_change_success">密码修改成功</string>
@@ -255,11 +256,24 @@
     <string name="epn">象数</string>
     <string name="epn_detail">明细</string>
     <string name="epn_use_rule">象数使用规则</string>
+    <string name="epn_unit_ge">个</string>
+    <string name="recharge">充值</string>
+    <string name="know_epn">了解象数</string>
+    <string name="use_rule">使用规则</string>
 
     <!--象数充值-->
+    <string name="epn_balance">象数余额:</string>
+    <string name="recharge_epn">充值象数</string>
     <string name="epn_recharge">象数充值</string>
     <string name="epn_unit">个象数</string>
     <string name="zero_epn">0个象数</string>
+    <string name="ten_epn_equal_one_yuan">10个象数=1元</string>
+    <string name="pay_money">支付金额</string>
+    <string name="input_integer">输入整数</string>
+    <string name="yuan">元</string>
+    <string name="pay_way">支付方式</string>
+    <string name="alipay">支付宝</string>
+    <string name="confirm_recharge">确定充值</string>
     <string name="input_recharge_money">请输入充值金额</string>
     <string name="epn_recharge_fail">象数充值失败</string>
     <string name="pay_success">支付成功</string>
@@ -269,6 +283,7 @@
     <!--象城-->
     <string name="epc">象城</string>
     <string name="order">订单</string>
+    <string name="order_intro">客服电话：020-38601688\n客服邮箱：service@medcn.cn\n服务时间：每周工作日：9:30-17:30</string>
     <string name="exchange">兑换</string>
     <string name="no_enough_epn">象数不足,无法兑换</string>
     <string name="exchange_success">兑换成功</string>
@@ -276,5 +291,13 @@
     <string name="province_city">省市</string>
     <string name="phone_num">手机号码</string>
     <string name="receiver">收货人</string>
+    <string name="order_state_zero">待处理</string>
+    <string name="order_state_one">已接受订单</string>
+    <string name="order_state_two">已发货</string>
+    <string name="order_state_three">已签收</string>
+    <string name="exchange_price">兑换值：</string>
+    <string name="national_distribution_goods">全国配送商品</string>
+    <string name="purchase_limitation_one">限购一份</string>
+    <string name="immediately_exchange">立即兑换</string>
 
 </resources>
