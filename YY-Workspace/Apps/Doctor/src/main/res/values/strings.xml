@@ -161,9 +161,11 @@
     <string name="video_studied_no_start">未开始学习</string>
     <string name="video_no_see">未观看</string>
 
-    <string name="meeting_comment">评论</string>
+    <string name="comment">评论</string>
+    <string name="comment_import">请输入评论内容</string>
 
     <string name="minute">分钟</string>
+
     <string name="thank_join">感谢您的参与!</string>
 
     <string name="can_not_find_relevant_software">没有安装相应软件</string>

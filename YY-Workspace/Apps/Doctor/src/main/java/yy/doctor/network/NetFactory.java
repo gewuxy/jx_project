@@ -748,17 +748,6 @@ public class NetFactory {
     }
 
     /**
-     * 会议留言记录
-     */
-    public static NetworkReq histories(String meetId) {
-        return newGet(UrlMeet.KHistories)
-                .param(MeetParam.KMeetId, meetId)
-                .param(MeetParam.KPageSize, 10)
-                .param(MeetParam.KPageNum, 1)
-                .build();
-    }
-
-    /**
      * 查询视频子目录
      */
     public static NetworkReq video(String preId) {
@@ -770,7 +759,7 @@ public class NetFactory {
     /**
      * 会议留言记录
      */
-    public static NetworkReq histories(String meetId, String pageSize, String pageNum) {
+    public static NetworkReq histories(String meetId, int pageSize, int pageNum) {
         return newGet(UrlMeet.KHistories)
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KPageSize, pageSize)

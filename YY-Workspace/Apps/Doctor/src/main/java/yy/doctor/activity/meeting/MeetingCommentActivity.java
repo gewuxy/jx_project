@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
@@ -47,6 +48,10 @@ import yy.doctor.util.Util;
 public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
     private static final int KCloseNormal = 1000; //  1000表示正常关闭,意思是建议的连接已经完成了
+    private static final String KSender = "sender"; // 发送人名称
+    private static final String KMessage = "message"; // 发送内容
+    private static final String KSendTime = "sendTime"; // 发送时间
+    private static final String KHeadImg = "headimg"; // 发送人头像
 
     private TextView mTvSend;
     private EditText mEtSend;
@@ -76,7 +81,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.meeting_comment, this);
+        Util.addBackIcon(bar, R.string.comment, this);
     }
 
     @Override
@@ -92,9 +97,11 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         super.setViews();
 
         setOnClickListener(mTvSend);
-
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.histories(mMeetId));
+        /**
+         * @deprecated 这版本没有下拉加载以前数据
+         */
+        exeNetworkReq(NetFactory.histories(mMeetId, 100, 1));
         mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
     }
 
@@ -109,18 +116,19 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
             List<Comment> comments = r.getData().getList(TCommentHistories.datas);
+            // 排序(升序)
             Collections.sort(comments, (lhs, rhs) -> lhs.getLong(TComment.sendTime) > rhs.getLong(TComment.sendTime) ? 1 : -1);
             addAll(comments);
             setSelection(getCount());
         } else {
-            setViewState(ViewState.error);
-            showToast(r.getError());
+            onNetworkError(id, new NetError(id, r.getError()));
         }
     }
 
     @Override
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
+
         setViewState(ViewState.error);
     }
 
@@ -130,7 +138,8 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             case R.id.meeting_comment_tv_send:
                 String message = mEtSend.getText().toString().trim();
                 if (TextUtil.isEmpty(message)) {
-                    showToast("请输入评论内容");
+                    // 过滤空信息
+                    showToast(R.string.comment_import);
                     return;
                 }
                 mWebSocket.send(toJson(message));
@@ -159,13 +168,12 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
      */
     private Comment toComment(String text) {
         Comment comment = new Comment();
-        JSONObject jb = null;
         try {
-            jb = new JSONObject(text);
-            comment.put(TComment.sender, jb.getString("sender"));
-            comment.put(TComment.message, jb.getString("message"));
-            comment.put(TComment.sendTime, jb.getString("sendTime"));
-            comment.put(TComment.headimg, jb.getString("headimg"));
+            JSONObject jo = new JSONObject(text);
+            comment.put(TComment.sender, jo.getString(KSender));
+            comment.put(TComment.message, jo.getString(KMessage));
+            comment.put(TComment.sendTime, jo.getString(KSendTime));
+            comment.put(TComment.headimg, jo.getString(KHeadImg));
         } catch (JSONException e) {
             YSLog.d(TAG, "toComment:" + e.toString());
         }
@@ -183,9 +191,12 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         public void onMessage(WebSocket webSocket, String text) {
             YSLog.d(TAG, "onMessage:String" + text);
             runOnUIThread(() -> {
+                // 添加发送的数据
                 addItem(toComment(text));
                 invalidate();
+                // 跳转到最后一条
                 setSelection(getCount());
+                // 清空发送框
                 mEtSend.setText("");
             });
         }
@@ -209,7 +220,8 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             YSLog.d(TAG, "onFailure:");
             // 2S秒后重连
-            runOnUIThread(() -> exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener()), 2000);
+            runOnUIThread(() -> mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener()),
+                    TimeUnit.SECONDS.toMillis(2));
         }
     }
 
@@ -217,15 +229,11 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     protected void onDestroy() {
         super.onDestroy();
 
+        setResult(RESULT_OK);
         if (mWebSocket != null) {
-            mWebSocket.close(KCloseNormal, "主动关闭");
+            mWebSocket.close(KCloseNormal, "close");
             mWebSocket = null;
         }
     }
 
-    @Override
-    public void finish() {
-        setResult(RESULT_OK);
-        super.finish();
-    }
 }
