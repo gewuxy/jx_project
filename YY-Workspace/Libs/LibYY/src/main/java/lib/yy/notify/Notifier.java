@@ -28,7 +28,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.token_out_of_date,
             NotifyType.cancel_attention,
             NotifyType.study,
-            NotifyType.cancel_collection_meeting
+            NotifyType.cancel_collection_meeting,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {

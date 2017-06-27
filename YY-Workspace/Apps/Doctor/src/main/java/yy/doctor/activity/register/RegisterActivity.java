@@ -6,19 +6,22 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.bd.location.Place;
+import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -235,7 +238,21 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
             switch (relatedId) {
                 case RelatedId.hospital:
-                    startActivityForResult(HospitalActivity.class, 0);
+                    String location = "";
+                    Place place = new Place();
+                    String[] locations = location.split(" ");
+                    String province;
+                    String city;
+                    if (TextUtil.isEmpty(location)) {
+                        province = getString(R.string.guang_dong);
+                        city = getString(R.string.guang_zhou);
+                    } else {
+                        province = locations[0];
+                        city = locations[1];
+                    }
+                    place.put(TPlace.province, province);
+                    place.put(TPlace.city, city);
+                    HospitalActivity.nav(RegisterActivity.this, place);
                     break;
             }
         }

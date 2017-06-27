@@ -9,12 +9,11 @@
         android:layout_height="@dimen/edit_height">
 
         <TextView
-            style="@style/tv.form.name"
+            style="@style/tv.form.text"
             android:layout_marginLeft="@dimen/margin"
             android:singleLine="true"
             android:textColor="#666666"
-            android:textColorHint="#b3b3b3"
-            android:hint=""/>
+            android:textColorHint="#b3b3b3"/>
 
     </LinearLayout>
 

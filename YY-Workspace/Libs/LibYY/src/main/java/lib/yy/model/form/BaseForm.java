@@ -18,7 +18,7 @@ import lib.yy.adapter.VH.FormVH;
 abstract public class BaseForm extends FormEx<FormVH> {
 
     @Override
-    protected void refresh(FormVH holder) {
+    protected void  refresh(FormVH holder) {
         if (holder.getTvText() != null) {
             if (!getString(TFormElem.hint).isEmpty()) {
                 holder.getTvText().setHint(getString(TFormElem.hint));

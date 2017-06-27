@@ -88,7 +88,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin"
+            android:paddingLeft="5dp"
             android:text="注册账号"
+            android:gravity="center"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 
@@ -98,10 +100,12 @@
             android:background="@color/text_888"/>
 
         <TextView
+            android:gravity="center"
             android:id="@+id/login_tv_forget_pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin"
+            android:paddingRight="5dp"
             android:text="忘记密码"
             android:textColor="@color/text_333"
             android:textSize="14dp"/>

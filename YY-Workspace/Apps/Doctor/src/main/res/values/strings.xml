@@ -17,9 +17,8 @@
     <string name="check_pwd_is_same">请核对密码是否一致</string>
     <string name="activation_code_explain">获取激活码</string>
     <string name="hospital">医院</string>
-    <string name="guang_dong">广东</string>
-    <string name="guang_zhou">广州</string>
-    <string name="guang_zhou_shi">广州市</string>
+    <string name="guang_dong">广东省</string>
+    <string name="guang_zhou">广州市</string>
     <string name="change">更改</string>
 
     <!--hint-->

@@ -1,5 +1,6 @@
 package yy.doctor.activity.register;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -7,8 +8,11 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import lib.bd.location.Place;
+import lib.bd.location.Place.TPlace;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
@@ -34,6 +38,12 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     private String mProvince;
     private String mCity;
 
+    public static void nav(Context context, Place place) {
+        Intent i = new Intent(context, HospitalActivity.class)
+                .putExtra(Extra.KData, place);
+        LaunchUtil.startActivityForResult(context, i, 0);
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_hospital;
@@ -43,8 +53,9 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     public void initData() {
         super.initData();
         //默认
-        mProvince = getString(R.string.guang_dong);
-        mCity = getString(R.string.guang_zhou);
+        Place place = (Place) getIntent().getSerializableExtra(Extra.KData);
+        mProvince = place.getString(TPlace.province);
+        mCity = place.getString(TPlace.city);
     }
 
     @Override
@@ -64,12 +75,13 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     public void setViews() {
         super.setViews();
 
+        mTvLocation.setText(getString(R.string.hospital_location) + mProvince + " " + mCity);
         setOnClickListener(mTvChange);
     }
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.hospital(getString(R.string.guang_zhou_shi)));
+        exeNetworkReq(NetFactory.hospital(mCity));
     }
 
     @Override
@@ -101,8 +113,6 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
         switch (v.getId()) {
             case R.id.hospital_tv_change:
                 startActivityForResult(ProvinceActivity.class, 1);
-                break;
-            default:
                 break;
         }
     }

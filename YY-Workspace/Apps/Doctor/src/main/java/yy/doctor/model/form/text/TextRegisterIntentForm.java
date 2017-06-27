@@ -48,18 +48,21 @@ public class TextRegisterIntentForm extends BaseForm {
 
     @Override
     protected void onActivityResult(int position, Intent data) {
+
         String strProvince = data.getStringExtra(Extra.KProvince);
         String strCity = data.getStringExtra(Extra.KCity);
         String strArea = data.getStringExtra(Extra.KArea);
+        String text;
         if (strArea == null) {
-            String text = strProvince + " " + strCity;
+            text = strProvince + " " + strCity;
             put(TFormElem.name, text);
             save(text, text);
         } else {
-            String text = strProvince + " " + strCity + " " + strArea;
+            text = strProvince + " " + strCity + " " + strArea;
             put(TFormElem.name, text);
             save(text, text);
         }
+
     }
 
 }
