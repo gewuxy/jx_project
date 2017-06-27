@@ -2,8 +2,11 @@ package yy.doctor.activity.register;
 
 import android.content.Intent;
 import android.support.annotation.IntDef;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,19 +37,19 @@ import yy.doctor.view.AutoCompleteEditText;
 
 /**
  * 注册界面
- * <p>
+ *
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class RegisterActivity extends BaseFormActivity {
+public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener {
 
     private static final int KRegister = 0;
     private static final int KLogin = 1;
 
     private AutoCompleteEditText mEtEmail;
-    private EditText mActCode;      //填写激活码
-    private TextView mGetActCode;   //获取激活码
-    private TextView mRegister;     //注册
+    private EditText mEtActCode;      //填写激活码
+    private TextView mTvGetActCode;   //获取激活码
+    private TextView mTvRegister;     //注册
     private String mUserName;       //用户名
     private String mPwd;            //密码
 
@@ -125,12 +128,13 @@ public class RegisterActivity extends BaseFormActivity {
         super.findViews();
 
         mEtEmail = findView(R.id.register_auto_et_emai);
-        mActCode = findView(R.id.register_et_activation_code);
-        mGetActCode = findView(R.id.register_get_activation_code);
-        mRegister = findView(R.id.register);
+        mEtActCode = findView(R.id.register_et_activation_code);
+        mTvGetActCode = findView(R.id.register_get_activation_code);
+        mTvRegister = findView(R.id.register);
 
-        mGetActCode.setOnClickListener(this);
-        mRegister.setOnClickListener(this);
+        setOnClickListener(mTvGetActCode);
+        setOnClickListener(mTvRegister);
+        mEtActCode.setOnEditorActionListener(this);
     }
 
     @Override
@@ -143,6 +147,15 @@ public class RegisterActivity extends BaseFormActivity {
                 enroll();
                 break;
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_GO){
+            enroll();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -205,7 +218,7 @@ public class RegisterActivity extends BaseFormActivity {
                 .city(strCity)
                 .area(strArea)
                 .hospital(getItemStr(RelatedId.hospital))
-                .invite(mActCode.getText().toString().trim())
+                .invite(mEtActCode.getText().toString().trim())
                 .build());
     }
 
@@ -231,6 +244,7 @@ public class RegisterActivity extends BaseFormActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             String hospital = data.getStringExtra(Extra.KData);
             getRelatedItem(RelatedId.hospital).put(TFormElem.text, hospital);

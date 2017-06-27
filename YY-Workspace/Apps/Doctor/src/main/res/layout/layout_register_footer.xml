@@ -14,6 +14,10 @@
             android:id="@+id/register_et_activation_code"
             style="@style/et.common"
             android:layout_height="50dip"
+            android:singleLine="true"
+            android:inputType="number"
+            android:imeActionLabel="@string/register"
+            android:imeOptions="actionGo"
             android:hint="激活码"/>
 
         <TextView
