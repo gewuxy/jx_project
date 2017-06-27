@@ -75,9 +75,21 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
         }
 
         if (mTs == null) {
-            mTs = new ArrayList<T>();
+            mTs = new ArrayList<>();
         }
         mTs.add(groupItem);
+    }
+
+    @Override
+    public void add(int position, T groupItem) {
+        if (groupItem == null) {
+            return;
+        }
+
+        if (mTs == null) {
+            mTs = new ArrayList<>();
+        }
+        mTs.add(position, groupItem);
     }
 
     @Override
@@ -438,7 +450,7 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
         return count == 0 ? 0 : count - 1;
     }
 
-    protected int getLastChlidPosition(int groupPosition) {
+    protected int getLastChildPosition(int groupPosition) {
         int count = getChildrenCount(groupPosition);
         return count == 0 ? 0 : count - 1;
     }
@@ -608,6 +620,28 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
         super.unregisterDataSetObserver((DataSetObserver) observer);
     }
 
+    @Override
+    public void removeAll() {
+        if (mTs != null) {
+            mTs.clear();
+        }
+    }
+
+    @Override
+    public void remove(int position) {
+        if (mTs != null) {
+            mTs.remove(position);
+        }
+    }
+
+
+    @Override
+    public void remove(T item) {
+        if (mTs != null) {
+            mTs.remove(item);
+        }
+    }
+
     /*************************************************************************
      * 以下是Adapter的方法, 无用
      */
@@ -632,25 +666,5 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
     @Deprecated
     public final int getCount() {
         return 0;
-    }
-
-    @Override
-    @Deprecated
-    public final void removeAll() {
-    }
-
-    @Override
-    @Deprecated
-    public final void remove(int position) {
-    }
-
-    @Override
-    @Deprecated
-    public final void remove(T item) {
-    }
-
-    @Override
-    @Deprecated
-    public final void add(int position, T item) {
     }
 }

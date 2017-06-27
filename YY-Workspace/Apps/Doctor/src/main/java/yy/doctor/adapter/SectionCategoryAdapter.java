@@ -24,7 +24,7 @@ public class SectionCategoryAdapter extends AdapterEx<Section, SectionVH> {
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.layout_province_item;
+        return R.layout.layout_section_item;
     }
 
     @Override

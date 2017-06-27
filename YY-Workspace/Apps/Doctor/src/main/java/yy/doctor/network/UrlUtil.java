@@ -95,6 +95,8 @@ public class UrlUtil {
 
         String KMeetingData = KMeetBase + "pageMaterial";
         String KMeetingVideoRecord = KMeetBase + "video/record";
+
+        String KMeetShare = KMeetBase + "share?meetId=";
         String KMeetingRecord = KMeetBase + "exit";
     }
 

@@ -14,6 +14,7 @@ public class JPushMsg extends EVal<TJPushMsg> {
         content,
         msgType,
         meetId,
+        meetName,
         sendTime,
         senderName,
         title,

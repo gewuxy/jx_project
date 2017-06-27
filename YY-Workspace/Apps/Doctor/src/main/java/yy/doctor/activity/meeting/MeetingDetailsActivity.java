@@ -36,9 +36,9 @@ import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.me.unitnum.FileDataActivity;
@@ -62,6 +62,8 @@ import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.UrlUtil;
+import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.util.UISetter;
@@ -141,6 +143,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     private int mEpn; // 象数
     private boolean mNoPPT; // 是否有PPT
     private String mMeetId; // 会议Id
+    private String mMeetName; //  会议名字
     private String mLatitude; // 经度
     private String mLongitude; // 维度
     private MeetDetail mMeetDetail; // 会议详情信息
@@ -204,9 +207,10 @@ public class MeetingDetailsActivity extends BaseActivity {
         }
     }
 
-    public static void nav(Context context, String meetId) {
+    public static void nav(Context context, String meetId, String name) {
         Intent i = new Intent(context, MeetingDetailsActivity.class);
-        i.putExtra(Extra.KData, meetId);
+        i.putExtra(Extra.KData, meetId)
+        .putExtra(Extra.KName, name);
         LaunchUtil.startActivity(context, i);
     }
 
@@ -221,6 +225,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         mNoPPT = false; // 默认没有PPT
         mMeetTime = 0;
         mMeetId = getIntent().getStringExtra(Extra.KData);
+        mMeetName = getIntent().getStringExtra(Extra.KName);
     }
 
     @Override
@@ -244,7 +249,9 @@ public class MeetingDetailsActivity extends BaseActivity {
         if (mIvCollection == null) {
             getCollection(layout);
         }
-        bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> new ShareDialog(MeetingDetailsActivity.this).show());
+        String shareUrl = UrlUtil.getBaseUrl() + UrlMeet.KMeetShare + mMeetId;
+        bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> new ShareDialog(MeetingDetailsActivity.this, shareUrl, mMeetName).show());
+        YSLog.d(TAG, "share url = " + shareUrl);
     }
 
     @Override
@@ -441,11 +448,13 @@ public class MeetingDetailsActivity extends BaseActivity {
                 YSLog.d(TAG, "Gps-Longitude:" + mLongitude);
                 exeNetworkReq(KIdSign, NetFactory.toSign(mMeetId, mMapList.getByKey(FunctionType.sign)));
             } else {
-                runOnUIThread(() -> stopRefresh());
-                //定位失败
-                YSLog.d(TAG, "Gps:失败");
-                initDialog();
-                mLocationDialog.show();
+                runOnUIThread(() -> {
+                    stopRefresh();
+                    //定位失败
+                    YSLog.d(TAG, "Gps:失败");
+                    initDialog();
+                    mLocationDialog.show();
+                });
             }
             LocationNotifier.inst().remove(mObserver);
             Location.inst().stop();

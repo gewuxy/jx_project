@@ -67,6 +67,7 @@
         android:id="@+id/login_et_pwd"
         android:inputType="textPassword"
         android:singleLine="true"
+        android:maxLength="24"
         android:hint="密码"/>
 
     <TextView

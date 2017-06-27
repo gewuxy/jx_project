@@ -8,6 +8,7 @@ import org.json.JSONException;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
 import yy.doctor.activity.search.SearchActivity;
@@ -60,4 +61,33 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     protected String getEmptyText() {
         return getString(R.string.attention_unit_num_empty);
     }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+
+        //取消关注后，单位号列表也要删除对应单位号
+        if (type == NotifyType.cancel_attention) {
+            int unitNumId = (int) data;
+            for (int i = 0; i < getGroupCount(); i++) {
+                int childCount = getGroup(i).getChildCount();
+                YSLog.d(TAG, "childCount = " + childCount);
+                for (int j = 0; j < childCount; ++j) {
+                    UnitNum item = (UnitNum) getChild(i, j);
+                    if (item.getInt(TUnitNum.id) == unitNumId) {
+                        //如果childCount == 1, 整个组都移除
+                        if (childCount == 1) {
+                            YSLog.d(TAG, "remove group " + i);
+                            remove(i);
+                        } else {
+                            getGroup(i).remove(j);
+                        }
+                        invalidate();
+                        return;
+                    }
+                }
+            }
+        }
+
+    }
+
 }

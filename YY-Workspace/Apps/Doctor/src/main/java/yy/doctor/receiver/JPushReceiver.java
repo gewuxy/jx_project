@@ -57,6 +57,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             notice.put(TNotice.time, jPushMsg.getString(TJPushMsg.sendTime));
             notice.put(TNotice.msgType, jPushMsg.getString(TJPushMsg.msgType));
             notice.put(TNotice.meetId, jPushMsg.getString(TJPushMsg.meetId));
+            notice.put(TNotice.meetName, jPushMsg.getString(TJPushMsg.meetName));
             notice.put(TNotice.is_read, false);
             notice.setContent(notice.toStoreJson());
             NoticeManager.inst().insert(notice);

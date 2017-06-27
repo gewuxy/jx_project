@@ -25,6 +25,7 @@ public class Notice extends EVal<TNotice> {
         content,
         msgType,
         meetId,
+        meetName,
 
         /**
          * 自定义字段

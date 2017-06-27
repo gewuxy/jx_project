@@ -38,7 +38,7 @@ public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, Meeti
     public void onItemClick(View v, int position) {
 
         Meeting item = getItem(position);
-        MeetingDetailsActivity.nav(this, item.getString(TMeeting.id));
+        MeetingDetailsActivity.nav(this, item.getString(TMeeting.id), item.getString(TMeeting.meetName));
     }
 
     @Override

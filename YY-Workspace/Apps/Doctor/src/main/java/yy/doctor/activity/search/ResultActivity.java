@@ -222,7 +222,7 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
             break;
 
             case RecType.meeting: {
-                MeetingDetailsActivity.nav(ResultActivity.this, ((Meeting) getItem(position)).getString(TMeeting.id));
+                MeetingDetailsActivity.nav(ResultActivity.this, ((Meeting) getItem(position)).getString(TMeeting.id), ((Meeting) getItem(position)).getString(TMeeting.meetName));
             }
             break;
 

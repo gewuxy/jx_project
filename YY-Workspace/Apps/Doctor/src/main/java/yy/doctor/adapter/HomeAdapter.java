@@ -82,7 +82,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             //单位号头像点击事件
             holder.getIvUnit().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), item.getInt(TRecMeeting.pubUserId)));
             //会议点击事件
-            holder.getMeetingItemLayout().setOnClickListener(v -> MeetingDetailsActivity.nav(getContext(), item.getString(TRecMeeting.id)));
+            holder.getMeetingItemLayout().setOnClickListener(v -> MeetingDetailsActivity.nav(getContext(), item.getString(TRecMeeting.id), item.getString(TRecMeeting.meetName)));
 
         } else {
             RecUnitNums items = (RecUnitNums) getItem(position);

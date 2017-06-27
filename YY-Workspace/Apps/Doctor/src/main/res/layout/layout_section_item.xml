@@ -15,7 +15,6 @@
             android:layout_height="46dp"
             android:gravity="center_vertical"
             android:paddingLeft="24dp"
-            android:text="广东"
             android:textColor="@color/province_selector_text"
             android:textSize="16dp"/>
 

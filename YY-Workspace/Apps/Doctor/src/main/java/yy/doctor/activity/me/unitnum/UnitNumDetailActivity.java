@@ -142,8 +142,6 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     public void setViews() {
         super.setViews();
 
-        //exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, 1, 8));
-
         enableSRRefresh(false);
         mZoomView.setZoomEnabled(true);
 
@@ -163,6 +161,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
         if (id == R.id.unit_num_detail_tv_attention) {
             exeNetworkReq(KReqIdAttention, NetFactory.attention(mUnitNumId, KAttention));
+            //关注人数加1
+            mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + 1);
+            mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
         }
     }
 
@@ -173,7 +174,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     @Override
     public void onItemClick(View v, int position) {
-        MeetingDetailsActivity.nav(this, getItem(position).getString(TMeeting.id));
+        MeetingDetailsActivity.nav(this, getItem(position).getString(TMeeting.id), getItem(position).getString(TMeeting.meetName));
     }
 
     @Override
@@ -192,6 +193,13 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         final BottomDialog dialog = new BottomDialog(this, position -> {
             if (position == 0) {
                 exeNetworkReq(KReqIdNoAttention, NetFactory.attention(mUnitNumId, KNoAttention));
+                //关注人数减1
+                mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
+                mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
+
+                //通知单位号页面去掉这个单位号的item
+                notify(NotifyType.cancel_attention, mUnitNumDetail.getInt(TUnitNumDetail.id) );
+
             } else if (position == 1) {
                 createShortcut();
             }

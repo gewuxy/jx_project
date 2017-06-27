@@ -30,6 +30,11 @@ public class BaseGroup<T> {
         return mChildren.get(index);
     }
 
+    public boolean remove(int index) {
+        T t = mChildren.remove(index);
+        return t != null;
+    }
+
     public int getChildCount() {
         return mChildren.size();
     }

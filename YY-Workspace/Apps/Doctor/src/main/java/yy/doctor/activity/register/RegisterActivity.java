@@ -16,9 +16,9 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
@@ -28,6 +28,7 @@ import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.sp.SpUser;
 import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 
@@ -265,6 +266,8 @@ public class RegisterActivity extends BaseFormActivity {
             Result r = (Result) result;
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh
+                //保存用户名
+                SpUser.inst().saveUserName(mUserName);
                 exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
             } else {
                 stopRefresh();

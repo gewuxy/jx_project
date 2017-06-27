@@ -128,7 +128,7 @@ public class ShareDialog extends BaseDialog {
 
         ShareParams shareParams = new ShareParams();
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
-        shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher_48)));
+        shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
         shareParams.setTitle(mShareTitle);
         shareParams.setText(mShareText);
         shareParams.setUrl(mShareUrl);

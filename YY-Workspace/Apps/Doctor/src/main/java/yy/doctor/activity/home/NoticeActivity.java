@@ -74,7 +74,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
         YSLog.d(TAG, " msgType = " + item.getInt(TNotice.msgType));
         //判断是否有跳转事件  有就跳转会议详情页面
         if (item.getInt(TNotice.msgType) == 1) {
-            MeetingDetailsActivity.nav(this, item.getString(TNotice.meetId));
+            MeetingDetailsActivity.nav(this, item.getString(TNotice.meetId), item.getString(TNotice.meetName));
         } else {
             // do nothing
         }

@@ -181,10 +181,10 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (mIsSwipeRefresh) {
             if (!(mBanners != null && mRecUnitNums != null && mRecMeetings != null)) {
                 stopSwipeRefresh();
+                mIsSwipeRefresh = false;
                 return;
             }
         }
-        mIsSwipeRefresh = false;
 
         //确保所有数据都已经获取
         ListResult r = (ListResult) result;

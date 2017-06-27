@@ -45,7 +45,7 @@ public class DownloadApkServ extends ServiceEx {
 
         builder = new NotificationCompat.Builder(this);
 
-        builder.setSmallIcon(R.mipmap.ic_launcher_48);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle("YaYa医师");
         builder.setContentText("正在下载");
         //利用PendingIntent来包装我们的intent对象,使其延迟跳转
