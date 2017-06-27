@@ -62,11 +62,11 @@ public class UnitNumResultActivity extends ResultActivity {
         ListResult r = (ListResult) result;
         if (r.isSucceed()) {
             mUnitNums = r.getData();
-            if (id == KRecUnitNum) {
-                // 推荐的单位号要显示热门单位号
-                addItem(new Hot());
-            }
             if (mUnitNums != null && mUnitNums.size() > 0) {
+                if (id == KRecUnitNum) {
+                    // 推荐的单位号要显示热门单位号
+                    addItem(new Hot());
+                }
                 addAll(mUnitNums);
             }
             setViewState(ViewState.normal);

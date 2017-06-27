@@ -693,12 +693,10 @@ public class NetFactory {
     /**
      * 视频入口
      */
-    public static NetworkReq toVideo(String meetId, String moduleId, int page, int pageSize) {
+    public static NetworkReq toVideo(String meetId, String moduleId) {
         return newGet(UrlMeet.KToVideo)
                 .param(MeetParam.KMeetId, meetId)
                 .param(MeetParam.KModuleId, moduleId)
-                .param(MeetParam.KPageNum, page)
-                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -763,11 +761,9 @@ public class NetFactory {
     /**
      * 查询视频子目录
      */
-    public static NetworkReq video(String preId, int page, int pageSize) {
+    public static NetworkReq video(String preId) {
         return newGet(UrlMeet.KVideo)
                 .param(MeetParam.KPreId, preId)
-                .param(MeetParam.KPageNum, page)
-                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 

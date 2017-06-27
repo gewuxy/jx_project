@@ -55,6 +55,7 @@ import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.util.Util;
@@ -572,16 +573,19 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         saveStudy();
 
+        notify(NotifyType.study);
+
         // 拼接需要的数据
         JSONArray ja = new JSONArray();
         try {
+            JSONObject jsonObject;
+            long studyTime;
             for (Integer key : mTimes.keySet()) {
-                JSONObject jsonObject = new JSONObject();
-                Course course = mCourses.get(key);
-                jsonObject.put("detailId", course.getLong(TCourse.id));
-                Long studyTime = mTimes.get(key) / TimeUnit.SECONDS.toMillis(1);
-                jsonObject.put("usedtime", studyTime == 0 ? 1 : studyTime);
-                jsonObject.put("finished", getItem(key).isFinish());
+                jsonObject = new JSONObject();
+                jsonObject.put(MeetParam.KDetailId, mCourses.get(key).getLong(TCourse.id));
+                studyTime = mTimes.get(key) / TimeUnit.SECONDS.toMillis(1);
+                jsonObject.put(MeetParam.KUseTime, studyTime == 0 ? 1 : studyTime); // 至少传1秒
+                jsonObject.put(MeetParam.KFinish, getItem(key).isFinish());
                 ja.put(jsonObject);
             }
         } catch (JSONException e) {
@@ -598,8 +602,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 .putExtra(Extra.KType, ReqType.course)
                 .putExtra(Extra.KData, submit);
         startService(intent);
-
-        notify(NotifyType.study);
     }
 
     @Override

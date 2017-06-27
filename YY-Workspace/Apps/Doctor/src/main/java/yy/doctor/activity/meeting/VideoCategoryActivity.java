@@ -81,6 +81,8 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     public void setViews() {
         super.setViews();
 
+        // 后台没有分页返回
+        enableAutoLoadMore(false);
         setOnAdapterClickListener(this);
     }
 
@@ -88,9 +90,9 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     public void getDataFromNet() {
         if (TextUtil.isEmpty(mPreId)) {
             exeNetworkReq(KIdToVideo, NetFactory.toVideo(mSubmit.getString(TSubmit.meetId),
-                    mSubmit.getString(TSubmit.moduleId), getOffset(), getLimit()));
+                    mSubmit.getString(TSubmit.moduleId)));
         } else {
-            exeNetworkReq(KIdVideo, NetFactory.video(mPreId, getOffset(), getLimit()));
+            exeNetworkReq(KIdVideo, NetFactory.video(mPreId));
         }
     }
 

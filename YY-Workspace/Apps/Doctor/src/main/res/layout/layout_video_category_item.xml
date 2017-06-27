@@ -23,6 +23,9 @@
                 style="@style/tv"
                 android:text="大视频"
                 android:textColor="@color/text_333"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginRight="32dp"
                 android:textSize="14dp"/>
 
             <TextView

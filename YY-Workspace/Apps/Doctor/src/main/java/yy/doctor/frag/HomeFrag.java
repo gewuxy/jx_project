@@ -233,9 +233,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 }
                 homes.addAll(firstSectionMeetings);
 
-                RecUnitNums nums = new RecUnitNums();
-                nums.setData(mRecUnitNums);
-                homes.add(nums);
+                if (mRecUnitNums != null && mRecUnitNums.size() > 0){
+                    RecUnitNums nums = new RecUnitNums();
+                    nums.setData(mRecUnitNums);
+                    homes.add(nums);
+                }
 
                 homes.addAll(secondSectionMeetings);
 

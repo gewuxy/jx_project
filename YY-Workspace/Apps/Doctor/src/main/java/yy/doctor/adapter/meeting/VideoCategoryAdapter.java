@@ -30,7 +30,7 @@ public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
             if (duration > 0) {
                 tvStudyTime.setText(getContext().getString(R.string.video_add_up) + Util.format(duration));
             } else {
-                tvStudyTime.setText(getContext().getString(R.string.video_no_see));
+                tvStudyTime.setText(R.string.video_no_see);
             }
         } else {
             // 0是文件夹
