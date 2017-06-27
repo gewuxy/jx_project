@@ -49,6 +49,7 @@ public class NetworkRetry {
         return true;
     }
 
+    // FIXME: 延迟没有使用
     public long getDelay() {
         return mDelay;
     }

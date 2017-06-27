@@ -21,7 +21,9 @@ import lib.yy.notify.Notifier.OnNotify;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-abstract public class BaseSRGroupListActivity<T, A extends IGroupAdapter<T>> extends SRGroupListActivityEx<T, A> implements OnNotify {
+abstract public class BaseSRGroupListActivity<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends SRGroupListActivityEx<GROUP, CHILD, A>
+        implements OnNotify {
 
     private TextView mTvEmpty;
 
@@ -54,7 +56,7 @@ abstract public class BaseSRGroupListActivity<T, A extends IGroupAdapter<T>> ext
     }
 
     @Override
-    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<GROUP> parseNetworkResponse(int id, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
     }
 

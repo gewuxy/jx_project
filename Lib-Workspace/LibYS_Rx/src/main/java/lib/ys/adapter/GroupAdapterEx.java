@@ -1,8 +1,10 @@
 package lib.ys.adapter;
 
 import lib.ys.adapter.interfaces.IViewHolder;
+import lib.ys.model.GroupEx;
 
-abstract public class GroupAdapterEx<T, VH extends IViewHolder> extends MultiGroupAdapterEx<T, VH> {
+abstract public class GroupAdapterEx<GROUP extends GroupEx<CHILD>, CHILD, VH extends IViewHolder>
+        extends MultiGroupAdapterEx<GROUP, CHILD, VH> {
 
     @Override
     public final int getChildType(int groupPosition, int childPosition) {

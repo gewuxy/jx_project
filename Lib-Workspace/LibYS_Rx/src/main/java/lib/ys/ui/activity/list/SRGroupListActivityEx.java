@@ -22,11 +22,13 @@ import lib.ys.ui.interfaces.opts.list.SROpt;
 /**
  * 下拉刷新 group list
  *
- * @param <T>
+ * @param <GROUP>
  */
-abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> extends GroupListActivityEx<T, A> implements SROptListener {
+abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends GroupListActivityEx<GROUP, CHILD, A>
+        implements SROptListener {
 
-    private SROpt<T> mSROpt = new SROpt<>(this, getGroupListOpt());
+    private SROpt<GROUP> mSROpt = new SROpt<>(this, getGroupListOpt());
 
     @Override
     public int getContentViewId() {
@@ -82,7 +84,7 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    abstract public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException;
+    abstract public IListResult<GROUP> parseNetworkResponse(int id, String text) throws JSONException;
 
     @Override
     public void setOnScrollListener(MixOnScrollListener listener) {
@@ -182,7 +184,7 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    public List<T> onLocalTaskResponse() {
+    public List<GROUP> onLocalTaskResponse() {
         return null;
     }
 
@@ -192,7 +194,7 @@ abstract public class SRGroupListActivityEx<T, A extends IGroupAdapter<T>> exten
     }
 
     @Override
-    public List<T> getNetData() {
+    public List<GROUP> getNetData() {
         return mSROpt.getNetData();
     }
 

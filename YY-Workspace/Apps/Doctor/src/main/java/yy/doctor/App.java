@@ -13,7 +13,6 @@ import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
-import lib.ys.ui.other.NavBar;
 import lib.yy.BaseApp;
 import yy.doctor.Constants.PageConstants;
 import yy.doctor.network.UrlUtil;
@@ -51,6 +50,22 @@ public class App extends BaseApp {
     }
 
     @Override
+    protected NavBarConfig configureNavBar() {
+        return NavBarConfig.newBuilder()
+                .heightDp(KTitleBarHeightDp)
+                .bgColorRes(R.color.app_nav_bar_bg)
+                .iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp)
+                .iconSizeDp(KTitleBarIconSizeDp)
+                .textColorRes(R.color.nav_bar_text_selector)
+                .textMarginHorizontalDp(KTitleBarTextMarginHorizontalDp)
+                .textSizeLeftDp(KTitleBarTextSizeDp)
+                .textSizeMidDp(KTitleBarTextSizeDp)
+                .textSizeRightDp(KTitleBarTextSizeDp)
+                .focusBgDrawableRes(R.drawable.nav_bar_selector)
+                .build();
+    }
+
+    @Override
     protected ListConfig configureList() {
         return ListConfig.newBuilder()
                 .type(PageDownType.page)
@@ -66,21 +81,6 @@ public class App extends BaseApp {
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
-
-        // 导航栏
-        NavBarConfig navBarConfig = NavBarConfig.newBuilder()
-                .heightDp(KTitleBarHeightDp)
-                .bgColorRes(R.color.app_nav_bar_bg)
-                .iconPaddingHorizontalDp(KTitleBarIconPaddingHorizontalDp)
-                .iconSizeDp(KTitleBarIconSizeDp)
-                .textColorRes(R.color.nav_bar_text_selector)
-                .textMarginHorizontalDp(KTitleBarTextMarginHorizontalDp)
-                .textSizeLeftDp(KTitleBarTextSizeDp)
-                .textSizeMidDp(KTitleBarTextSizeDp)
-                .textSizeRightDp(KTitleBarTextSizeDp)
-                .focusBgDrawableRes(R.drawable.nav_bar_selector)
-                .build();
-        NavBar.initialize(navBarConfig);
 
         // 临时的
         if (Build.VERSION.SDK_INT >= 24/*Build.VERSION_CODES.N*/) {

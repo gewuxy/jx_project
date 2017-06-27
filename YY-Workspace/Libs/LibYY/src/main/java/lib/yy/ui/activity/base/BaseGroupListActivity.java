@@ -13,7 +13,9 @@ import lib.yy.notify.Notifier.OnNotify;
  * 创建人 : guoxuan
  */
 
-abstract public class BaseGroupListActivity<T, A extends IGroupAdapter<T>> extends GroupListActivityEx<T, A> implements OnNotify {
+abstract public class BaseGroupListActivity<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends GroupListActivityEx<GROUP, CHILD, A>
+        implements OnNotify {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

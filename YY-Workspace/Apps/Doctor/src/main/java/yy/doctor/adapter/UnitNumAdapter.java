@@ -14,7 +14,7 @@ import yy.doctor.model.unitnum.UnitNum.TUnitNum;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
+public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNum, UnitNumVH> {
 
     @Override
     public int getGroupConvertViewResId() {
@@ -43,20 +43,4 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNumVH> {
                 .load();
         holder.getTvChild().setText(item.getString(TUnitNum.nickname));
     }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return getGroup(groupPosition).getChildCount();
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public UnitNum getChild(int groupPosition, int childPosition) {
-        return getGroup(groupPosition).getChild(childPosition);
-    }
-
 }

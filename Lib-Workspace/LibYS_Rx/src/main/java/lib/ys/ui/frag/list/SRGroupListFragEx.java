@@ -22,11 +22,13 @@ import lib.ys.ui.interfaces.opts.list.SROpt;
 /**
  * 下拉刷新 group list
  *
- * @param <T>
+ * @param <GROUP>
  */
-abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends GroupListFragEx<T, A> implements SROptListener {
+abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends GroupListFragEx<GROUP, CHILD, A>
+        implements SROptListener {
 
-    private SROpt<T> mSROpt = new SROpt<>(this, getGroupListOpt());
+    private SROpt<GROUP> mSROpt = new SROpt<>(this, getGroupListOpt());
 
     @Override
     public int getContentViewId() {
@@ -82,7 +84,7 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IListResult<GROUP> parseNetworkResponse(int id, String text) throws JSONException {
         return null;
     }
 
@@ -184,7 +186,7 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public List<T> onLocalTaskResponse() {
+    public List<GROUP> onLocalTaskResponse() {
         return null;
     }
 
@@ -194,7 +196,7 @@ abstract public class SRGroupListFragEx<T, A extends IGroupAdapter<T>> extends G
     }
 
     @Override
-    public List<T> getNetData() {
+    public List<GROUP> getNetData() {
         return mSROpt.getNetData();
     }
 

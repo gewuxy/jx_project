@@ -22,9 +22,11 @@ import lib.ys.view.FloatingGroupListView;
 /**
  * 下拉刷新group listView fragment
  */
-abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends FragEx implements GroupListOptListener<T, A> {
+abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends FragEx
+        implements GroupListOptListener<GROUP, CHILD, A> {
 
-    private GroupListOpt<T, A> mGroupListOpt = new GroupListOpt<>(this);
+    private GroupListOpt<GROUP, CHILD, A> mGroupListOpt = new GroupListOpt<>(this);
 
 
     @Override
@@ -134,17 +136,17 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     }
 
     @Override
-    public void setData(List<T> data) {
+    public void setData(List<GROUP> data) {
         mGroupListOpt.setData(data);
     }
 
     @Override
-    public void addItem(T item) {
+    public void addItem(GROUP item) {
         mGroupListOpt.addItem(item);
     }
 
     @Override
-    public T getGroup(int groupPosition) {
+    public GROUP getGroup(int groupPosition) {
         return mGroupListOpt.getGroup(groupPosition);
     }
 
@@ -222,17 +224,17 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     }
 
     @Override
-    public void addItem(int position, T item) {
+    public void addItem(int position, GROUP item) {
         mGroupListOpt.addItem(position, item);
     }
 
     @Override
-    public void addAll(int position, List<T> item) {
+    public void addAll(int position, List<GROUP> item) {
         mGroupListOpt.addAll(position, item);
     }
 
     @Override
-    public void addAll(List<T> data) {
+    public void addAll(List<GROUP> data) {
         mGroupListOpt.addAll(data);
     }
 
@@ -242,7 +244,7 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     }
 
     @Override
-    public void remove(T item) {
+    public void remove(GROUP item) {
         mGroupListOpt.remove(item);
     }
 
@@ -252,7 +254,7 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     }
 
     @Override
-    public List<T> getData() {
+    public List<GROUP> getData() {
         return mGroupListOpt.getData();
     }
 
@@ -262,7 +264,7 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
     }
 
     @Override
-    public T getItem(int position) {
+    public GROUP getItem(int position) {
         return mGroupListOpt.getItem(position);
     }
 
@@ -361,7 +363,7 @@ abstract public class GroupListFragEx<T, A extends IGroupAdapter<T>> extends Fra
         return mGroupListOpt.getLv();
     }
 
-    protected GroupListOpt<T, A> getGroupListOpt() {
+    protected GroupListOpt<GROUP, CHILD, A> getGroupListOpt() {
         return mGroupListOpt;
     }
 }

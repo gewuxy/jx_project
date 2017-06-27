@@ -23,18 +23,20 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.model.GroupEx;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends BaseExpandableListAdapter
-        implements FitOpt, CommonOpt, IGroupAdapter<T> {
+abstract public class MultiGroupAdapterEx<GROUP extends GroupEx<CHILD>, CHILD, VH extends IViewHolder>
+        extends BaseExpandableListAdapter
+        implements FitOpt, CommonOpt, IGroupAdapter<GROUP, CHILD> {
 
     protected final String TAG = getClass().getSimpleName();
 
-    private List<T> mTs;
+    private List<GROUP> mGroups;
     private LayoutInflater mInflater = null;
 
     private Map<View, GroupViewClickListener> mMapGroupClickLsn;
@@ -59,56 +61,56 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
     }
 
     @Override
-    public void setData(List<T> data) {
-        mTs = data;
+    public void setData(List<GROUP> data) {
+        mGroups = data;
     }
 
     @Override
-    public List<T> getData() {
-        return mTs;
+    public List<GROUP> getData() {
+        return mGroups;
     }
 
     @Override
-    public void add(T groupItem) {
-        if (groupItem == null) {
+    public void add(GROUP group) {
+        if (group == null) {
             return;
         }
 
-        if (mTs == null) {
-            mTs = new ArrayList<>();
+        if (mGroups == null) {
+            mGroups = new ArrayList<>();
         }
-        mTs.add(groupItem);
+        mGroups.add(group);
     }
 
     @Override
-    public void add(int position, T groupItem) {
-        if (groupItem == null) {
+    public void add(int position, GROUP group) {
+        if (group == null) {
             return;
         }
 
-        if (mTs == null) {
-            mTs = new ArrayList<>();
+        if (mGroups == null) {
+            mGroups = new ArrayList<>();
         }
-        mTs.add(position, groupItem);
+        mGroups.add(position, group);
     }
 
     @Override
-    public void addAll(List<T> groups) {
+    public void addAll(List<GROUP> groups) {
         if (groups == null) {
             return;
         }
 
-        if (mTs == null) {
-            mTs = groups;
+        if (mGroups == null) {
+            mGroups = groups;
         } else {
-            mTs.addAll(groups);
+            mGroups.addAll(groups);
         }
     }
 
     @Override
-    public void addAll(int position, List<T> item) {
-        if (mTs != null && item != null) {
-            mTs.addAll(position, item);
+    public void addAll(int position, List<GROUP> groups) {
+        if (mGroups != null && groups != null) {
+            mGroups.addAll(position, groups);
         }
     }
 
@@ -122,7 +124,7 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
 
     @Override
     public int getGroupCount() {
-        return mTs == null ? 0 : mTs.size();
+        return mGroups == null ? 0 : mGroups.size();
     }
 
     @Override
@@ -131,37 +133,42 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
     }
 
     @Override
-    public T getGroup(int groupPosition) {
-        if (mTs == null) {
+    public GROUP getGroup(int groupPosition) {
+        if (mGroups == null) {
             return null;
         }
 
-        T t = null;
+        GROUP GROUP = null;
         try {
-            t = mTs.get(groupPosition);
+            GROUP = mGroups.get(groupPosition);
         } catch (Exception e) {
             YSLog.e(TAG, e);
         }
 
-        return t;
+        return GROUP;
     }
 
     /**
      * child item part
      **/
-
-    public boolean isChildrenEmpty(int groupPosition) {
+    public final boolean isChildrenEmpty(int groupPosition) {
         return getChildrenCount(groupPosition) == 0;
     }
 
     @Override
-    public abstract int getChildrenCount(int groupPosition);
+    public final int getChildrenCount(int groupPosition) {
+        return getGroup(groupPosition).getChildrenCount();
+    }
 
     @Override
-    public abstract long getChildId(int groupPosition, int childPosition);
+    public final long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
 
     @Override
-    public abstract Object getChild(int groupPosition, int childPosition);
+    public final CHILD getChild(int groupPosition, int childPosition) {
+        return getGroup(groupPosition).getChildAt(childPosition);
+    }
 
     /**
      * item attr part
@@ -622,23 +629,23 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
 
     @Override
     public void removeAll() {
-        if (mTs != null) {
-            mTs.clear();
+        if (mGroups != null) {
+            mGroups.clear();
         }
     }
 
     @Override
     public void remove(int position) {
-        if (mTs != null) {
-            mTs.remove(position);
+        if (mGroups != null) {
+            mGroups.remove(position);
         }
     }
 
 
     @Override
-    public void remove(T item) {
-        if (mTs != null) {
-            mTs.remove(item);
+    public void remove(GROUP item) {
+        if (mGroups != null) {
+            mGroups.remove(item);
         }
     }
 
@@ -652,7 +659,7 @@ abstract public class MultiGroupAdapterEx<T, VH extends IViewHolder> extends Bas
 
     @Override
     @Deprecated
-    public final T getItem(int position) {
+    public final GROUP getItem(int position) {
         return null;
     }
 

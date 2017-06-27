@@ -12,14 +12,14 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
  *
  * @author yuansui
  */
-public interface GroupListOptListener<T, A extends IGroupAdapter<T>> extends ListOptListener<T, A> {
+public interface GroupListOptListener<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>> extends ListOptListener<GROUP, A> {
     void setSelectedGroup(int groupPosition);
 
     int getGroupCount();
 
     int getChildrenCount(int groupPosition);
 
-    T getGroup(int groupPosition);
+    GROUP getGroup(int groupPosition);
 
     Object getChild(int groupPosition, int childPosition);
 

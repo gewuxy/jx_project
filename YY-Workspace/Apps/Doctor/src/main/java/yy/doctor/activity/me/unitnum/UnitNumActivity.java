@@ -26,7 +26,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/27
  */
-public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNumAdapter> {
+public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNum, UnitNumAdapter> {
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -69,7 +69,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
         if (type == NotifyType.cancel_attention) {
             int unitNumId = (int) data;
             for (int i = 0; i < getGroupCount(); i++) {
-                int childCount = getGroup(i).getChildCount();
+                int childCount = getGroup(i).getChildrenCount();
                 YSLog.d(TAG, "childCount = " + childCount);
                 for (int j = 0; j < childCount; ++j) {
                     UnitNum item = (UnitNum) getChild(i, j);
@@ -79,7 +79,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
                             YSLog.d(TAG, "remove group " + i);
                             remove(i);
                         } else {
-                            getGroup(i).remove(j);
+                            getGroup(i).removeChild(j);
                         }
                         invalidate();
                         return;

@@ -1,7 +1,6 @@
 package yy.doctor.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import lib.ys.model.GroupEx;
 
 
 /**
@@ -9,35 +8,9 @@ import java.util.List;
  * @since : 2017/4/29
  */
 
-public class BaseGroup<T> {
+public class BaseGroup<CHILD> extends GroupEx<CHILD> {
 
-    private List<T> mChildren;
     private String mTag;
-
-    public BaseGroup() {
-        mChildren = new ArrayList<>();
-    }
-
-    public void add(T t) {
-        mChildren.add(t);
-    }
-
-    public T getChild(int index) {
-        // 最大值判断 越界
-        if (index >= mChildren.size() || index < 0) {
-            return null;
-        }
-        return mChildren.get(index);
-    }
-
-    public boolean remove(int index) {
-        T t = mChildren.remove(index);
-        return t != null;
-    }
-
-    public int getChildCount() {
-        return mChildren.size();
-    }
 
     public String getTag() {
         return mTag;

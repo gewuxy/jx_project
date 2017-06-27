@@ -11,8 +11,8 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
-import lib.yy.ui.activity.base.BaseSRGroupListActivity;
 import lib.yy.network.ListResult;
+import lib.yy.ui.activity.base.BaseSRGroupListActivity;
 import yy.doctor.R;
 import yy.doctor.model.BaseGroup;
 
@@ -22,7 +22,8 @@ import yy.doctor.model.BaseGroup;
  * @author CaiXiang
  * @since 2017/4/27
  */
-abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGroupAdapter<T>> extends BaseSRGroupListActivity<T, A> {
+abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends BaseSRGroupListActivity<GROUP, CHILD, A> {
 
     private static final int KLetterColorNormal = Color.parseColor("#888888");
     private static final int KLetterColorFocus = Color.parseColor("#0882e7");
@@ -84,10 +85,10 @@ abstract public class BaseGroupIndexActivity<T extends BaseGroup, A extends IGro
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp nr) throws Exception {
-        ListResult<T> r = (ListResult<T>) super.onNetworkResponse(id, nr);
+        ListResult<GROUP> r = (ListResult<GROUP>) super.onNetworkResponse(id, nr);
 
         if (r.isSucceed()) {
-            List<T> data = r.getData();
+            List<GROUP> data = r.getData();
             if (data == null) {
                 return r;
             }

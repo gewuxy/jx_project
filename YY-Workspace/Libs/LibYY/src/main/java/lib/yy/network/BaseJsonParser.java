@@ -17,17 +17,17 @@ import lib.yy.notify.Notifier.NotifyType;
  */
 public class BaseJsonParser extends JsonParserEx {
 
-    public @interface GlobalTag {
-        String err_code = "code";
-        String msg = "err"; // 只有code != 0的时候才有
-        String data = "data";
+    public interface GlobalTag {
+        String KErrCode = "code";
+        String KMsg = "err"; // 只有code != 0的时候才有
+        String KData = "data";
     }
 
-    public @interface ErrorCode {
-        int ok = 0;
-        int user_unauthenticated = 100;  //用户未认证
-        int un_know = -1000;
-        int server_err = -999;
+    public interface ErrorCode {
+        int KOk = 0;
+        int KTokenExpired = 100;  //用户未认证
+        int KUnKnow = -1000;
+        int KServerErr = -999;
     }
 
     /**
@@ -43,25 +43,25 @@ public class BaseJsonParser extends JsonParserEx {
         String errorStr;
         try {
             JSONObject object = new JSONObject(text);
-            if (object.has(GlobalTag.err_code)) {
-                code = getInt(object, GlobalTag.err_code);
+            if (object.has(GlobalTag.KErrCode)) {
+                code = getInt(object, GlobalTag.KErrCode);
             } else {
-                code = ErrorCode.un_know;
+                code = ErrorCode.KUnKnow;
             }
-            errorStr = getString(object, GlobalTag.msg);
+            errorStr = getString(object, GlobalTag.KMsg);
 
         } catch (JSONException e) {
-            code = ErrorCode.server_err;
+            code = ErrorCode.KServerErr;
             errorStr = ResLoader.getString(R.string.server_error);
         }
         r.setCode(code);
         r.setError(errorStr);
 
-        if (code == ErrorCode.user_unauthenticated) {
+        if (code == ErrorCode.KTokenExpired) {
             Notifier.inst().notify(NotifyType.token_out_of_date);
         }
 
-        return code != ErrorCode.ok;
+        return code != ErrorCode.KOk;
     }
 
     /**
@@ -90,7 +90,7 @@ public class BaseJsonParser extends JsonParserEx {
             return null;
         }
         JSONObject obj = new JSONObject(text);
-        return obj.optJSONObject(GlobalTag.data);
+        return obj.optJSONObject(GlobalTag.KData);
     }
 
     /**
@@ -106,7 +106,7 @@ public class BaseJsonParser extends JsonParserEx {
             return null;
         }
         JSONObject obj = new JSONObject(text);
-        return obj.optJSONArray(GlobalTag.data);
+        return obj.optJSONArray(GlobalTag.KData);
     }
 
     /**

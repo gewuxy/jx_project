@@ -6,10 +6,10 @@ import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 /**
  * @author yuansui
  */
-public interface IGroupAdapter<T> extends IAdapter<T> {
-    T getGroup(int groupPosition);
+public interface IGroupAdapter<GROUP, CHILD> extends IAdapter<GROUP> {
+    GROUP getGroup(int groupPosition);
 
-    Object getChild(int groupPosition, int childPosition);
+    CHILD getChild(int groupPosition, int childPosition);
 
     int getGroupCount();
 

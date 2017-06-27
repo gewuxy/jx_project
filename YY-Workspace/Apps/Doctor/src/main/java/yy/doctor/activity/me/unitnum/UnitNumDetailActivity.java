@@ -305,7 +305,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
 
             ListResult<Meeting> meetingResult = new ListResult<>();
-            meetingResult.setCode(ErrorCode.ok);
+            meetingResult.setCode(ErrorCode.KOk);
             meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
             super.onNetworkSuccess(id, meetingResult);
 

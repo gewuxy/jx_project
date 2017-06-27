@@ -18,9 +18,11 @@ import lib.ys.ui.interfaces.opts.list.GroupListOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.FloatingGroupListView;
 
-abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends ActivityEx implements GroupListOptListener<T, A> {
+abstract public class GroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends ActivityEx
+        implements GroupListOptListener<GROUP, CHILD, A> {
 
-    private GroupListOpt<T, A> mGroupListOpt = new GroupListOpt<>(this);
+    private GroupListOpt<GROUP, CHILD, A> mGroupListOpt = new GroupListOpt<>(this);
 
 
     @Override
@@ -129,22 +131,22 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
     }
 
     @Override
-    public void setData(List<T> data) {
+    public void setData(List<GROUP> data) {
         mGroupListOpt.setData(data);
     }
 
     @Override
-    public void addItem(T item) {
+    public void addItem(GROUP item) {
         mGroupListOpt.addItem(item);
     }
 
     @Override
-    public T getGroup(int groupPosition) {
+    public GROUP getGroup(int groupPosition) {
         return mGroupListOpt.getGroup(groupPosition);
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
+    public CHILD getChild(int groupPosition, int childPosition) {
         return mGroupListOpt.getChild(groupPosition, childPosition);
     }
 
@@ -217,17 +219,17 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
     }
 
     @Override
-    public void addItem(int position, T item) {
+    public void addItem(int position, GROUP item) {
         mGroupListOpt.addItem(position, item);
     }
 
     @Override
-    public void addAll(int position, List<T> item) {
+    public void addAll(int position, List<GROUP> item) {
         mGroupListOpt.addAll(position, item);
     }
 
     @Override
-    public void addAll(List<T> data) {
+    public void addAll(List<GROUP> data) {
         mGroupListOpt.addAll(data);
     }
 
@@ -237,7 +239,7 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
     }
 
     @Override
-    public void remove(T item) {
+    public void remove(GROUP item) {
         mGroupListOpt.remove(item);
     }
 
@@ -247,7 +249,7 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
     }
 
     @Override
-    public List<T> getData() {
+    public List<GROUP> getData() {
         return mGroupListOpt.getData();
     }
 
@@ -257,7 +259,7 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
     }
 
     @Override
-    public T getItem(int position) {
+    public GROUP getItem(int position) {
         return mGroupListOpt.getItem(position);
     }
 
@@ -356,7 +358,7 @@ abstract public class GroupListActivityEx<T, A extends IGroupAdapter<T>> extends
         return mGroupListOpt.getLv();
     }
 
-    protected GroupListOpt<T, A> getGroupListOpt() {
+    protected GroupListOpt<GROUP, CHILD, A> getGroupListOpt() {
         return mGroupListOpt;
     }
 }

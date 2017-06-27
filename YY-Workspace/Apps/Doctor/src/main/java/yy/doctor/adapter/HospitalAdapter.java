@@ -12,8 +12,7 @@ import static yy.doctor.model.hospital.Hospital.THospital.name;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-
-public class HospitalAdapter extends GroupAdapterEx<GroupHospital, HospitalVH> {
+public class HospitalAdapter extends GroupAdapterEx<GroupHospital, Hospital, HospitalVH> {
 
     @Override
     public int getGroupConvertViewResId() {
@@ -35,20 +34,5 @@ public class HospitalAdapter extends GroupAdapterEx<GroupHospital, HospitalVH> {
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, HospitalVH holder) {
         Hospital item = getChild(groupPosition, childPosition);
         holder.getTvChild().setText(item.getString(name));
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return getGroup(groupPosition).getChildCount();
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public Hospital getChild(int groupPosition, int childPosition) {
-        return getGroup(groupPosition).getChild(childPosition);
     }
 }

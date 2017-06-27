@@ -14,6 +14,7 @@ import yy.doctor.R;
 import yy.doctor.activity.BaseGroupIndexActivity;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
+import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -26,7 +27,7 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 
-public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, HospitalAdapter> {
+public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hospital, HospitalAdapter> {
 
     private TextView mTvChange; // 改变按钮
     private TextView mTvLocation; // 选择的地址
@@ -73,7 +74,7 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        String hospital = getData().get(groupPosition).getChild(childPosition).getString(THospital.name);
+        String hospital = getChild(groupPosition, childPosition).getString(THospital.name);
         Intent intent = new Intent()
                 .putExtra(Extra.KProvince, mProvince)
                 .putExtra(Extra.KCity, mCity)

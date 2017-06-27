@@ -10,8 +10,10 @@ import lib.network.Network;
 import lib.network.NetworkConfig;
 import lib.ys.config.AppConfig;
 import lib.ys.config.ListConfig;
+import lib.ys.config.NavBarConfig;
 import lib.ys.crash.CrashMgr;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ProcessUtil;
 import lib.ys.util.TextUtil;
@@ -50,6 +52,8 @@ abstract public class AppEx extends Application {
         mAppConfig = configureApp();
         mListConfig = configureList();
 
+        NavBar.initialize(configureNavBar());
+
         if (enableCatchCrash()) {
             CrashMgr.inst().init(e -> {
                 YSLog.e(TAG, "handleCrashException", e);
@@ -86,6 +90,8 @@ abstract public class AppEx extends Application {
     }
 
     abstract protected NetworkConfig configureNetwork();
+
+    abstract protected NavBarConfig configureNavBar();
 
     /**
      * 设置主进程配置
