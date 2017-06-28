@@ -84,9 +84,12 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
 
         if (!TextUtil.isEmpty(imgUrl)) {
             mIvPPT.url(imgUrl)
+                    .resize(300, 300)
                     .listener(new NetworkImageListener() {
                         @Override
                         public void onImageSet(ImageInfo info) {
+                            YSLog.d(TAG, "onImageSet: w = " + info.getWidth());
+                            YSLog.d(TAG, "onImageSet: h = " + info.getHeight());
                             // 加载成功隐藏默认图
                             goneView(mIvHolder);
                         }

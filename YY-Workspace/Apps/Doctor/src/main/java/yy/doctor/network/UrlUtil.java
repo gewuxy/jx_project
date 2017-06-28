@@ -17,12 +17,12 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线  10.0.0.250:8082/
-            mBaseHost = "www.medcn.com/v7/";
+            mBaseHost = "www.medcn.com:8080/v7/";
 //            mHostName = KHttpDef + "10.0.0.234:80/"; // 礼平电脑
 //            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
-            mBaseHost = "www.medcn.com/v7/";
+            mBaseHost = "www.medcn.com:8080/v7/";
         }
 
         mHostName = KHttpDef + mBaseHost;

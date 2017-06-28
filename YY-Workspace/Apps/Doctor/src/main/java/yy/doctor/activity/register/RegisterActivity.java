@@ -6,7 +6,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -40,7 +39,7 @@ import yy.doctor.view.AutoCompleteEditText;
 
 /**
  * 注册界面
- *
+ * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
@@ -154,7 +153,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_GO){
+        if (actionId == EditorInfo.IME_ACTION_GO) {
             enroll();
             return true;
         }
@@ -234,27 +233,26 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
-        if (v instanceof ImageView) {
-            @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
-            switch (relatedId) {
-                case RelatedId.hospital:
-                    String location = "";
-                    Place place = new Place();
-                    String[] locations = location.split(" ");
-                    String province;
-                    String city;
-                    if (TextUtil.isEmpty(location)) {
-                        province = getString(R.string.guang_dong);
-                        city = getString(R.string.guang_zhou);
-                    } else {
-                        province = locations[0];
-                        city = locations[1];
-                    }
-                    place.put(TPlace.province, province);
-                    place.put(TPlace.city, city);
-                    HospitalActivity.nav(RegisterActivity.this, place);
-                    break;
+        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        switch (relatedId) {
+            case RelatedId.hospital: {
+                String location = "";
+                Place place = new Place();
+                String[] locations = location.split(" ");
+                String province;
+                String city;
+                if (TextUtil.isEmpty(location)) {
+                    province = getString(R.string.guang_dong);
+                    city = getString(R.string.guang_zhou);
+                } else {
+                    province = locations[0];
+                    city = locations[1];
+                }
+                place.put(TPlace.province, province);
+                place.put(TPlace.city, city);
+                HospitalActivity.nav(RegisterActivity.this, place);
             }
+            break;
         }
     }
 

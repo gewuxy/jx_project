@@ -17,18 +17,18 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.image.interceptor.CutInterceptor;
+import lib.ys.network.image.interceptor.BlurInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -45,6 +45,7 @@ import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.image.CutInterceptor;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
@@ -201,7 +202,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
 
                 //通知单位号页面去掉这个单位号的item
-                notify(NotifyType.cancel_attention, mUnitNumDetail.getInt(TUnitNumDetail.id) );
+                notify(NotifyType.cancel_attention, mUnitNumDetail.getInt(TUnitNumDetail.id));
 
             } else if (position == 1) {
                 createShortcut();
@@ -270,7 +271,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
                     mIvZoom.url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
                             .addInterceptor(new CutInterceptor(w, h))
-                            //.addInterceptor(new BlurInterceptor(UnitNumDetailActivity.this))
+                            .addInterceptor(new BlurInterceptor(UnitNumDetailActivity.this))
                             .load();
                     removeOnGlobalLayoutListener(this);
                 }

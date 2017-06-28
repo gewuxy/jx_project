@@ -23,14 +23,14 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.model.GroupEx;
+import lib.ys.model.IGroup;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class MultiGroupAdapterEx<GROUP extends GroupEx<CHILD>, CHILD, VH extends IViewHolder>
+abstract public class MultiGroupAdapterEx<GROUP extends IGroup<CHILD>, CHILD, VH extends IViewHolder>
         extends BaseExpandableListAdapter
         implements FitOpt, CommonOpt, IGroupAdapter<GROUP, CHILD> {
 

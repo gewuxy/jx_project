@@ -1,12 +1,8 @@
 package yy.doctor.activity.me.profile;
 
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
-import android.provider.MediaStore.Images;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -31,9 +27,9 @@ import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.register.HospitalActivity;
@@ -348,14 +344,12 @@ public class ProfileActivity extends BaseFormActivity {
 
             switch (position) {
                 case 0: {
-                    if (checkPermission(KPermissionCodePhoto, Permission.storage)) {
-                        getPhotoFromAlbum();
-                    }
+                    getPhotoFromAlbum();
                 }
                 break;
                 case 1: {
                     if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
-                        getPhotoFromTakePhoto();
+                        getPhotoFromCamera();
                     }
                 }
                 break;
@@ -376,7 +370,7 @@ public class ProfileActivity extends BaseFormActivity {
         PhotoUtil.fromAlbum(this, KCodeAlbum);
     }
 
-    private void getPhotoFromTakePhoto() {
+    private void getPhotoFromCamera() {
         mStrPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
         PhotoUtil.fromCamera(this, mStrPhotoPath, KCodePhotograph);
     }
@@ -520,7 +514,7 @@ public class ProfileActivity extends BaseFormActivity {
         if (code == KPermissionCodePhoto) {
             switch (result) {
                 case PermissionResult.granted: {
-                    getPhotoFromTakePhoto();
+                    getPhotoFromCamera();
                 }
                 break;
                 case PermissionResult.denied:
@@ -554,47 +548,6 @@ public class ProfileActivity extends BaseFormActivity {
         if (mCircleBmp != null && !mCircleBmp.isRecycled()) {
             mCircleBmp.recycle();
         }
-    }
-
-    /**
-     * 解决小米手机上获取图片路径为null的情况
-     *
-     * @param intent
-     * @return
-     */
-    public Uri getUri(Intent intent) {
-        Uri uri = intent.getData();
-        String type = intent.getType();
-        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
-            String path = uri.getEncodedPath();
-            if (path != null) {
-                path = Uri.decode(path);
-                ContentResolver cr = this.getContentResolver();
-                StringBuffer buff = new StringBuffer();
-                buff.append("(").append(Images.ImageColumns.DATA).append("=")
-                        .append("'" + path + "'").append(")");
-                Cursor cur = cr.query(Images.Media.EXTERNAL_CONTENT_URI,
-                        new String[]{Images.ImageColumns._ID},
-                        buff.toString(), null, null);
-                int index = 0;
-                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
-                    index = cur.getColumnIndex(Images.ImageColumns._ID);
-                    // set _id value
-                    index = cur.getInt(index);
-                }
-                if (index == 0) {
-                    // do nothing
-                } else {
-                    Uri uri_temp = Uri
-                            .parse("content://media/external/images/media/"
-                                    + index);
-                    if (uri_temp != null) {
-                        uri = uri_temp;
-                    }
-                }
-            }
-        }
-        return uri;
     }
 
 }

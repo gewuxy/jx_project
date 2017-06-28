@@ -1,9 +1,9 @@
 package lib.ys.adapter;
 
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.model.GroupEx;
+import lib.ys.model.IGroup;
 
-abstract public class GroupAdapterEx<GROUP extends GroupEx<CHILD>, CHILD, VH extends IViewHolder>
+abstract public class GroupAdapterEx<GROUP extends IGroup<CHILD>, CHILD, VH extends IViewHolder>
         extends MultiGroupAdapterEx<GROUP, CHILD, VH> {
 
     @Override

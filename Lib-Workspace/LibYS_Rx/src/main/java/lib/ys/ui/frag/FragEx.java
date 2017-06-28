@@ -784,6 +784,9 @@ abstract public class FragEx extends Fragment implements
      * @return
      */
     protected boolean checkPermission(int code, @Permission String... ps) {
+        if (mPermission == null) {
+            mPermission = new PermissionOptImpl(getContext(), this);
+        }
         return mPermission.checkPermission(code, ps);
     }
 

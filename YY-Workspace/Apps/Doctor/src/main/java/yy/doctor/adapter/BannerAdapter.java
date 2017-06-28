@@ -34,7 +34,6 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
                 .load();
 
         holder.getLayoutRoot().setOnClickListener(v -> BannerActivity.nav(getContext(), item.getString(TBanner.link), item.getString(TBanner.title)));
-
     }
 
     @Override

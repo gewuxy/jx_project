@@ -235,7 +235,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq login(String name, String pwd) {
-        return newGet(UrlUser.KLogin)
+        return newPost(UrlUser.KLogin)
                 .param(UserParam.KUserName, name)
                 .param(UserParam.KPassword, pwd)
                 .build();
