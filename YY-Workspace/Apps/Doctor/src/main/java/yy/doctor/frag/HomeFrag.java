@@ -56,7 +56,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private boolean mUnitNumReqIsOK = false;
     private boolean mMeetingReqIsOK = false;
     private boolean mIsLoadFirstPage = true;  //  是否是在加载第一页数据
-    private boolean mIsSwipeRefresh = false;  // 是否在下拉刷新
+    private boolean mIsSwipeRefresh = false;  // 是否正在下拉刷新
 
     private boolean mIsNetworkError = false;  // 是否网络错误
 
@@ -177,19 +177,18 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             return;
         }
 
-        //刷新 判断是否所有数据都已经获取   刷新出现错误时不能显示加载错误  不做处理，还是显示以前的数据
-        if (mIsSwipeRefresh) {
-            if (!(mBanners != null && mRecUnitNums != null && mRecMeetings != null)) {
-                stopSwipeRefresh();
-                mIsSwipeRefresh = false;
-                return;
-            }
-        }
-
         //确保所有数据都已经获取
         ListResult r = (ListResult) result;
 
         if (!r.isSucceed()) {
+
+            //刷新 判断是否所有数据都已经获取   刷新出现错误时不能显示加载错误  不做处理，还是显示以前的数据
+            if (mIsSwipeRefresh) {
+                stopSwipeRefresh();
+                mIsSwipeRefresh = false;
+                return;
+            }
+
             if (!mIsNetworkError) {
                 onNetworkError(id, new NetError(id, r.getError()));
                 YSLog.d(TAG, "network error id = " + id);

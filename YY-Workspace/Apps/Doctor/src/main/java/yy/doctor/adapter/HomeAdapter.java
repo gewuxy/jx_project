@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
@@ -58,8 +59,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             holder.getTvData().setText(TimeUtil.formatMilli(item.getLong(TRecMeeting.startTime), "MM月dd日 HH:mm"));
             holder.getTvDuration().setText(Util.parse(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
 
-            holder.getTvSpeakerName().setText(item.getString(TRecMeeting.lecturer));
-            holder.getTvSpeakerRank().setText(item.getString(TRecMeeting.lecturerTile));
+
 
             //判断用户是否已经收藏过这个会议  此功能已经取消
             /*if (item.getInt(TRecMeeting.stored) == 1) {
@@ -77,7 +77,17 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                     .renderer(new CircleRenderer())
                     .url(item.getString(TRecMeeting.pubUserHead))
                     .load();
-            holder.getTvHospital().setText(item.getString(TRecMeeting.lecturerHos));
+
+            holder.getTvSpeakerName().setText(item.getString(TRecMeeting.lecturer));
+            holder.getTvSpeakerRank().setText(item.getString(TRecMeeting.lecturerTile));
+
+            //判断是否有医院
+            String hospital = item.getString(TRecMeeting.lecturerHos);
+            if (TextUtil.isEmpty(hospital)) {
+                goneView(holder.getTvHospital());
+            } else {
+                holder.getTvHospital().setText(item.getString(TRecMeeting.lecturerHos));
+            }
 
             //单位号头像点击事件
             holder.getIvUnit().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), item.getInt(TRecMeeting.pubUserId)));

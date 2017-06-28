@@ -140,8 +140,7 @@
                     android:id="@+id/home_meeting_item_tv_speaker_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="王学"
+                    android:layout_marginRight="6dp"
                     android:textColor="@color/text_666"
                     android:textSize="12dp"/>
 
@@ -150,9 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/home_meeting_item_tv_speaker_name"
-                    android:layout_marginLeft="6dp"
                     android:layout_toRightOf="@id/home_meeting_item_tv_speaker_name"
-                    android:text="主任医师"
                     android:textColor="@color/text_666"
                     android:textSize="12dp"/>
 
@@ -160,8 +157,8 @@
                     android:id="@+id/home_meeting_item_tv_hospital"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_below="@id/home_meeting_item_tv_speaker_name"
-                    android:text="广东省医院"
                     android:textColor="@color/text_888"
                     android:textSize="9dp"/>
 

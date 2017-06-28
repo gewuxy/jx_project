@@ -1,6 +1,8 @@
 package yy.doctor.activity;
 
 import android.support.annotation.NonNull;
+import android.text.InputType;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,6 +63,21 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void setViews() {
 
+        // 设置密码输入范围
+        mEtPwd.setKeyListener(new NumberKeyListener() {
+
+            @Override
+            protected char[] getAcceptedChars() {
+                String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@#$%^&";
+                return chars.toCharArray();
+            }
+
+            @Override
+            public int getInputType() {
+                return InputType.TYPE_TEXT_VARIATION_PASSWORD;
+            }
+        });
+
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
@@ -76,8 +93,8 @@ public class LoginActivity extends BaseActivity {
         switch (id) {
             case R.id.login_tv: {
 
-                String strName = mEtName.getText().toString();
-                String strPwd = mEtPwd.getText().toString();
+                String strName = mEtName.getText().toString().trim();
+                String strPwd = mEtPwd.getText().toString().trim();
                 if (TextUtil.isEmpty(strName)) {
                     showToast(R.string.input_name);
                     return;

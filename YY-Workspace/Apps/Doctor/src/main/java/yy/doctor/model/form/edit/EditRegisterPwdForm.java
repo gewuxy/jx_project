@@ -29,7 +29,7 @@ public class EditRegisterPwdForm extends EditRegisterForm {
 
             @Override
             protected char[] getAcceptedChars() {
-                String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+                String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@#$%^&";
                 return chars.toCharArray();
             }
 

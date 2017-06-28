@@ -268,8 +268,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                     AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(w, h);
                     mZoomView.setHeaderLayoutParams(localObject);
 
-                    mIvZoom.placeHolder(R.mipmap.ic_default_unit_num)
-                            .url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
+                    mIvZoom.url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
                             .addInterceptor(new CutInterceptor(w, h))
                             //.addInterceptor(new BlurInterceptor(UnitNumDetailActivity.this))
                             .load();
