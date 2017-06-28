@@ -5,88 +5,102 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <lib.ys.network.image.NetworkImageView
-        android:id="@+id/epc_detail_iv"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="180dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/margin"
-        android:paddingTop="@dimen/margin_large"
-        android:paddingBottom="@dimen/margin_large">
-
-        <TextView
-            android:id="@+id/epc_detail_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/text_333"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <lib.ys.network.image.NetworkImageView
+                android:id="@+id/epc_detail_iv"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/margin"
+                android:paddingTop="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_large">
+
+                <TextView
+                    android:id="@+id/epc_detail_tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/text_333"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/exchange_price"
+                        android:textSize="12dp"
+                        android:textColor="@color/text_333"/>
+
+                    <TextView
+                        android:id="@+id/epc_detail_tv_epn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="14dp"
+                        android:textColor="@color/text_0882e7"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/epn"
+                        android:textSize="10dp"
+                        android:textColor="@color/text_333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_large"
+                        android:text="@string/national_distribution_goods"
+                        android:textSize="10dp"
+                        android:textColor="@color/text_888"/>
+
+                    <TextView
+                        android:id="@+id/epc_detail_tv_limitation_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_large"
+                        android:text="@string/purchase_limitation_one"
+                        android:textSize="10dp"
+                        android:textColor="@color/text_01b557"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/epc_detail_tv_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/exchange_price"
-                android:textSize="12dp"
-                android:textColor="@color/text_333"/>
-
-            <TextView
-                android:id="@+id/epc_detail_tv_epn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:lineSpacingExtra="@dimen/margin"
+                android:layout_marginTop="18dp"
                 android:textSize="14dp"
-                android:textColor="@color/text_0882e7"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:text="@string/epn"
-                android:textSize="10dp"
                 android:textColor="@color/text_333"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_large"
-                android:text="@string/national_distribution_goods"
-                android:textSize="10dp"
-                android:textColor="@color/text_888"/>
-
-            <TextView
-                android:id="@+id/epc_detail_tv_limitation_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_large"
-                android:text="@string/purchase_limitation_one"
-                android:textSize="10dp"
-                android:textColor="@color/text_01b557"/>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/epc_detail_tv_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:lineSpacingExtra="@dimen/margin"
-        android:layout_marginTop="18dp"
-        android:textSize="14dp"
-        android:textColor="@color/text_333"/>
+    </ScrollView>
 
     <TextView
         android:id="@+id/epc_detail_tv_btn"

@@ -256,6 +256,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                     .url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
                     .renderer(new CircleRenderer())
                     .load();
+
             //头像高斯模糊处理
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 

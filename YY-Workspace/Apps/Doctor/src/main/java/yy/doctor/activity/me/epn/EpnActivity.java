@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.activity.me.CommonWebViewActivity;
@@ -73,4 +74,14 @@ public class EpnActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        super.onNotify(type, data);
+
+        //充值象数后，像素值要改变
+        if (type == NotifyType.profile_change) {
+            mTvEpn.setText(Profile.inst().getString(TProfile.credits));
+        }
+
+    }
 }

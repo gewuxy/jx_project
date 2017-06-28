@@ -10,9 +10,9 @@ import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.ListResult;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.activity.home.NoticeActivity;
 import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
@@ -144,20 +144,17 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         ListResult result = null;
         if (id == KReqIdBanner) {
             result = evs(r.getText(), Banner.class);
-            mBannerReqIsOK = result.isSucceed();
-            if (mBannerReqIsOK) {
+            if (result.isSucceed()) {
                 mBanners = result.getData();
             }
         } else if (id == KReqIdUnitNum) {
             result = evs(r.getText(), RecUnitNum.class);
-            mUnitNumReqIsOK = result.isSucceed();
-            if (mUnitNumReqIsOK) {
+            if (result.isSucceed()) {
                 mRecUnitNums = result.getData();
             }
         } else if (id == KReqIdMeeting) {
             result = evs(r.getText(), RecMeeting.class);
-            mMeetingReqIsOK = result.isSucceed();
-            if (mMeetingReqIsOK) {
+            if (result.isSucceed()) {
                 mRecMeetings = result.getData();
             }
         }
@@ -182,7 +179,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
         if (!r.isSucceed()) {
 
-            //刷新 判断是否所有数据都已经获取   刷新出现错误时不能显示加载错误  不做处理，还是显示以前的数据
+            //刷新出现错误时不能显示加载错误  不做处理，还是显示以前的数据
             if (mIsSwipeRefresh) {
                 stopSwipeRefresh();
                 mIsSwipeRefresh = false;
@@ -195,6 +192,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 mIsNetworkError = true;
             }
         }
+
         if (id == KReqIdBanner) {
             mBannerReqIsOK = r.isSucceed();
         } else if (id == KReqIdUnitNum) {

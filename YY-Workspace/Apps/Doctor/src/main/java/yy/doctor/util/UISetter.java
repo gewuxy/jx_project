@@ -30,11 +30,6 @@ public class UISetter {
 
     private static final int KMeetIconSizeDp = 11;
 
-    private static String mFileName;
-    private static String mFileUrl;
-    private static String mFileType;
-    private static long mFileSize;
-
     /**
      * 根据会议状态
      *
@@ -82,29 +77,33 @@ public class UISetter {
     }
 
     public static void setFileData(LinearLayout layout, List<FileData> listFile, int id) {
-
+        String fileName;
+        String fileUrl;
+        String fileType;
         for (int i = 0; i < listFile.size(); i++) {
             FileData fileItem = listFile.get(i);
 
-            mFileSize = fileItem.getLong(TFileData.fileSize);
-            mFileName = fileItem.getString(TFileData.materialName);
-            if (TextUtil.isEmpty(mFileName)) {
-                mFileName = fileItem.getString(TFileData.name);
-                mFileUrl = fileItem.getString(TFileData.fileUrl);
-                mFileType = fileItem.getString(TFileData.fileType);
+            long fileSize = fileItem.getLong(TFileData.fileSize);
+            fileName = fileItem.getString(TFileData.materialName);
+            if (TextUtil.isEmpty(fileName)) {
+                fileName = fileItem.getString(TFileData.name);
+                fileUrl = fileItem.getString(TFileData.fileUrl);
+                fileType = fileItem.getString(TFileData.fileType);
             } else {
-                mFileName = fileItem.getString(TFileData.materialName);
-                mFileUrl = fileItem.getString(TFileData.materialUrl);
-                mFileType = fileItem.getString(TFileData.materialType);
+                fileUrl = fileItem.getString(TFileData.materialUrl);
+                fileType = fileItem.getString(TFileData.materialType);
             }
 
-            addFileItem(layout, mFileName, new OnClickListener() {
+            String finalFileName = fileName;
+            String finalFileUrl = fileUrl;
+            String finalFileType = fileType;
+            addFileItem(layout, fileName, new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     DownloadDataActivity.nav(v.getContext(),
                             CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
-                            mFileName, mFileUrl, mFileType, mFileSize);
+                            finalFileName, finalFileUrl, finalFileType, fileSize);
                 }
             });
         }
