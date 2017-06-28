@@ -8,6 +8,7 @@ public class UrlUtil {
 
     private static String KHttpDef = "http://";
     private static String mHostName = null;
+    private static String mBaseHost = null;
 
     protected static String mBase = null;
 
@@ -16,15 +17,17 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线  10.0.0.250:8082/
-            mHostName = KHttpDef + "www.medcn.com:8081/v7/";
+            mBaseHost = "www.medcn.com/v7/";
 //            mHostName = KHttpDef + "10.0.0.234:80/"; // 礼平电脑
 //            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
-            mHostName = KHttpDef + "www.medcn.com:8081/v7/";
+            mBaseHost = "www.medcn.com/v7/";
         }
 
+        mHostName = KHttpDef + mBaseHost;
         mBase = mHostName + "api/";
+        mBaseHost += "api";
     }
 
     public static void setDebug(boolean isDebug) {
@@ -40,6 +43,9 @@ public class UrlUtil {
         return mBase;
     }
 
+    public static String getBaseHost() {
+        return mBaseHost;
+    }
 
     public interface UrlUser {
         String KAd = "advert";
@@ -98,6 +104,9 @@ public class UrlUtil {
 
         String KMeetShare = KMeetBase + "share?meetId=";
         String KMeetingRecord = KMeetBase + "exit";
+
+        String KWs = "ws://";
+        String KIm = "/im";
     }
 
     public interface UrlData {

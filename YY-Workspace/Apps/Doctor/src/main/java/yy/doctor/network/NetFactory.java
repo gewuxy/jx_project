@@ -800,7 +800,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq commentIM(String meetId) {
-        return NetworkReq.newBuilder("ws://www.medcn.com:8081/v7/api/im")
+        return NetworkReq.newBuilder(UrlMeet.KWs + UrlUtil.getBaseHost() + UrlMeet.KIm)
                 .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
                 .param(MeetParam.KMeetId, meetId)
                 .build();

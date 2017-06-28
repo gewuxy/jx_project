@@ -10,6 +10,7 @@ import yy.doctor.R;
 import yy.doctor.activity.me.CommonWebViewActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.UrlUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -21,7 +22,7 @@ import yy.doctor.util.Util;
 public class EpnActivity extends BaseActivity {
 
     //象数使用规则 链接
-    private String mUrlEpnUseRule = "http://www.medcn.com:8081/v7/view/article/17061510101320742806";
+    private String mUrlEpnUseRule = UrlUtil.getHostName() +"/view/article/17061510101320742806";
     private TextView mTvEpn;
 
     @Override

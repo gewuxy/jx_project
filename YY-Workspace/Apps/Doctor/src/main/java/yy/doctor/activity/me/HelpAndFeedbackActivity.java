@@ -15,6 +15,7 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
+import yy.doctor.network.UrlUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -26,13 +27,13 @@ import yy.doctor.util.Util;
 public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     //更新日志
-    private String mUrlUpdateLog = "http://www.medcn.com:8081/v7/view/article/17061509463772693761";
+    private String mUrlUpdateLog = UrlUtil.getHostName() + "/view/article/17061509463772693761";
     //免责声明  服务协议
-    private String mUrlDisclaimer = "http://www.medcn.com:8081/v7/view/article/17051509491821468946";
+    private String mUrlDisclaimer = UrlUtil.getHostName() + "/view/article/17051509491821468946";
     //征稿启事
-    private String mUrlContributionInvited = "http://www.medcn.com:8081/v7/view/article/17061510041163617023";
+    private String mUrlContributionInvited = UrlUtil.getHostName() + "/view/article/17061510041163617023";
     //敬信科技
-    private String mUrlJX = "http://www.medcn.com:8081/v7/view/article/17061510101320742806";
+    private String mUrlJX = UrlUtil.getHostName() + "/view/article/17061510060938714106";
 
     @IntDef({
             RelatedId.update_log,
