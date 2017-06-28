@@ -1,6 +1,6 @@
 package yy.doctor.model;
 
-import lib.ys.model.GroupEx;
+import lib.ys.model.group.GroupEx;
 
 
 /**

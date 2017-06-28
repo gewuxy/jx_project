@@ -168,6 +168,9 @@ abstract public class FragEx extends Fragment implements
         } else {
             onInvisible();
             Stats.onFragmentInvisible(getContext(), TAG);
+            if (mInitComplete) {
+                LayoutFitter.clearFitSet();
+            }
         }
     }
 

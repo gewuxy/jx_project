@@ -23,7 +23,7 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.model.IGroup;
+import lib.ys.model.group.IGroup;
 import lib.ys.ui.interfaces.opts.CommonOpt;
 import lib.ys.ui.interfaces.opts.FitOpt;
 import lib.ys.util.GenericUtil;

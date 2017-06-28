@@ -1,7 +1,7 @@
 package lib.ys.adapter;
 
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.model.IGroup;
+import lib.ys.model.group.IGroup;
 
 abstract public class GroupAdapterEx<GROUP extends IGroup<CHILD>, CHILD, VH extends IViewHolder>
         extends MultiGroupAdapterEx<GROUP, CHILD, VH> {

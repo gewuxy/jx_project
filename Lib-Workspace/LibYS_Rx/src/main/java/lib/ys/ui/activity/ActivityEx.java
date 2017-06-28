@@ -200,6 +200,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements
     protected void onDestroy() {
         super.onDestroy();
 
+        LayoutFitter.clearFitSet();
+
         if (mExitHandler != null) {
             mExitHandler.removeMessages(0);
             mExitHandler = null;

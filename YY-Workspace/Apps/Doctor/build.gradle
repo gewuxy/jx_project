@@ -135,8 +135,8 @@ dependencies {
     compile project(':YY-Workspace:Libs:LibPay')
     compile project(':YY-Workspace:Libs:LibPlayer')
     compile project(':YY-Workspace:Libs:LibJG')
-
     compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 }
 
 /**

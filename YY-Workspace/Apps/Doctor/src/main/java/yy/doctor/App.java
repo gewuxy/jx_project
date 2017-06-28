@@ -3,6 +3,8 @@ package yy.doctor;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.network.NetworkConfig;
@@ -91,6 +93,9 @@ public class App extends BaseApp {
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
 
+        if (BuildConfig.DEBUG_LOG) {
+            LeakCanary.install(this);
+        }
     }
 
     @Override

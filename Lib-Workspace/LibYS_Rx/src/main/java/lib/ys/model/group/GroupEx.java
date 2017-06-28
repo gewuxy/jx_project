@@ -1,4 +1,4 @@
-package lib.ys.model;
+package lib.ys.model.group;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,10 +58,5 @@ abstract public class GroupEx<CHILD> implements IGroup<CHILD>, Serializable {
     @Override
     public int getChildrenCount() {
         return mChildren == null ? 0 : mChildren.size();
-    }
-
-    @Override
-    public boolean isChildrenEmpty() {
-        return getChildrenCount() == 0;
     }
 }
