@@ -2,6 +2,9 @@ package lib.ys.view.swipeRefresh.interfaces;
 
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * @author yuansui
  */
@@ -14,6 +17,7 @@ public interface Extend {
             ExtendState.ready,
             ExtendState.finish,
     })
+    @Retention(RetentionPolicy.SOURCE)
     @interface ExtendState {
         /******
          * 共用属性

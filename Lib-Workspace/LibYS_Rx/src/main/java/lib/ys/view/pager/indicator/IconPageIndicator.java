@@ -176,6 +176,8 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
             View child = mIconsLayout.getChildAt(i);
             boolean isSelected = (i == item);
             child.setSelected(isSelected);
+            // FIXME: 适应不同size的drawable, 期望有更好的方式
+            child.requestLayout();
             if (isSelected) {
                 animateToIcon(item);
             }
