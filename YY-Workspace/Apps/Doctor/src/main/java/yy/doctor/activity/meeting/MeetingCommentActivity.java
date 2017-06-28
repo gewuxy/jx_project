@@ -57,6 +57,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     private EditText mEtSend;
     private String mMeetId;
     private WebSocket mWebSocket;
+    private boolean mSuccess; // WebSocket连接成功
 
     public static void nav(Context context, String meetId) {
         Intent i = new Intent(context, MeetingCommentActivity.class)
@@ -66,6 +67,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
     @Override
     public void initData() {
+        mSuccess = false; // 没连接默认失败
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
     }
 
@@ -142,7 +144,13 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
                     showToast(R.string.comment_import);
                     return;
                 }
-                mWebSocket.send(toJson(message));
+                if (mSuccess){
+                    mWebSocket.send(toJson(message));
+                } else {
+                    showToast(R.string.send_error);
+                }
+                // 清空发送框
+                mEtSend.setText("");
                 break;
         }
     }
@@ -185,6 +193,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
             YSLog.d(TAG, "onOpen:" + response.message());
+            mSuccess = true; // 连接成功
         }
 
         @Override
@@ -196,8 +205,6 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
                 invalidate();
                 // 跳转到最后一条
                 setSelection(getCount());
-                // 清空发送框
-                mEtSend.setText("");
             });
         }
 
@@ -220,8 +227,18 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             YSLog.d(TAG, "onFailure:");
             // 2S秒后重连
-            runOnUIThread(() -> mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener()),
-                    TimeUnit.SECONDS.toMillis(2));
+            if (isFinishing()) {
+                return;
+            }
+            // 没退出继续发任务
+            runOnUIThread(() -> {
+                if (isFinishing()) {
+                   return;
+                }
+                // 没退出继续重连
+                mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
+            }, TimeUnit.SECONDS.toMillis(2));
+
         }
     }
 

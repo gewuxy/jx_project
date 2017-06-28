@@ -213,19 +213,14 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     @Override
     public void onNetworkSuccess(int id, Object result) {
         // mPath 不会为空(只有下载请求网络了)
-        Result r = (Result) result;
-        if (r.isSucceed()) {
-            mPlayer.reset();
-            try {
-                mPlayer.setDataSource(mPath);
-                mPlayer.prepare();
-            } catch (IOException e) {
-                YSLog.e(TAG, "onAdapterClick", e);
-            }
-            mPlayer.start();
-        } else {
-            showToast(r.getError());
+        mPlayer.reset();
+        try {
+            mPlayer.setDataSource(mPath);
+            mPlayer.prepare();
+        } catch (IOException e) {
+            YSLog.e(TAG, "onAdapterClick", e);
         }
+        mPlayer.start();
     }
 
     @Override

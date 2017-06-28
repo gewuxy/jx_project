@@ -161,6 +161,7 @@
     <string name="minute">分钟</string>
 
     <string name="thank_join">感谢您的参与!</string>
+    <string name="send_error">发送失败</string>
 
     <string name="can_not_find_relevant_software">没有安装相应软件</string>
 
