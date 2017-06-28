@@ -17,6 +17,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:padding="@dimen/margin"
+        android:visibility="gone"
         android:src="@mipmap/meeting_ppt_ic_play_course"/>
 
     <LinearLayout

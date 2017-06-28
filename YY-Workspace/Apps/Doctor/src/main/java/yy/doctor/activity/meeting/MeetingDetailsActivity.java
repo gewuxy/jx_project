@@ -72,7 +72,7 @@ import yy.doctor.view.ModuleView;
 
 /**
  * 会议详情界面
- *
+ * <p>
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
@@ -717,6 +717,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                     mNoPPT = true;
                     setOnClickListener(mTvSee);
                     setOnClickListener(mIvPlay);
+                    showView(findView(R.id.meeting_detail_iv_play_course)); // 有PPT的时候显示
                     mTvSee.setBackgroundResource(R.drawable.meet_detail_see_bg_selector);
                 }
                 break;
@@ -772,38 +773,29 @@ public class MeetingDetailsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+        // 防止Dialog泄露
         if (mLocationDialog != null) {
-            if (mLocationDialog.isShowing()) {
-                mLocationDialog.dismiss();
-            }
-            mLocationDialog = null;
+            mLocationDialog.dismiss();
         }
         if (mPayEpnDialog != null) {
-            if (mPayEpnDialog.isShowing()) {
-                mPayEpnDialog.dismiss();
-            }
-            mPayEpnDialog = null;
+            mPayEpnDialog.dismiss();
         }
         if (mShareDialog != null) {
-            if (mShareDialog.isShowing()) {
-                mShareDialog.dismiss();
-            }
-            mShareDialog = null;
+            mShareDialog.dismiss();
         }
-
+        // 开启服务提交会议学习时间
         Intent intent = new Intent(this, CommonServ.class)
                 .putExtra(Extra.KType, ReqType.meet)
                 .putExtra(Extra.KMeetId, mMeetId)
                 .putExtra(Extra.KData, mMeetTime / TimeUnit.SECONDS.toMillis(1));
         startService(intent);
-
     }
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.study) {
             mMeetTime += System.currentTimeMillis() - mStartModuleTime;
-            YSLog.d(TAG,"onNotify:"+ mMeetTime);
+            YSLog.d(TAG, "onNotify:" + mMeetTime);
         }
     }
 }

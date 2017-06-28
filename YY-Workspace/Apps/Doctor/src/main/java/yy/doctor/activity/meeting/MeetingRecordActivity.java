@@ -216,7 +216,8 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         if (isFinishing()) {
             return;
         }
-        if (id == mLastPosition) { // 没有重新点的时候才播放
+        if (id == mLastPosition) {
+            // 没有重新点的时候才播放
             mPlayer.reset();
             try {
                 mPlayer.setDataSource(mPath);
