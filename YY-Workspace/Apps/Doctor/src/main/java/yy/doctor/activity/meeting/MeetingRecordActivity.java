@@ -184,7 +184,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             File file = CacheUtil.getMeetingCacheFile(mMeetId, fileName);
             if (!file.exists()) {
                 // 不存在下载
-                exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
+                exeNetworkReq(position, NetFactory.newDownload(audioUrl, filePath, fileName).build());
             } else {
                 // 存在播放
                 mPlayer.reset();
@@ -213,14 +213,16 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     @Override
     public void onNetworkSuccess(int id, Object result) {
         // mPath 不会为空(只有下载请求网络了)
-        mPlayer.reset();
-        try {
-            mPlayer.setDataSource(mPath);
-            mPlayer.prepare();
-        } catch (IOException e) {
-            YSLog.e(TAG, "onAdapterClick", e);
+        if (id == mLastPosition) { // 没有重新点的时候才播放
+            mPlayer.reset();
+            try {
+                mPlayer.setDataSource(mPath);
+                mPlayer.prepare();
+            } catch (IOException e) {
+                YSLog.e(TAG, "onAdapterClick", e);
+            }
+            mPlayer.start();
         }
-        mPlayer.start();
     }
 
     @Override
