@@ -6,6 +6,8 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import lib.network.Network;
 import lib.network.NetworkConfig;
 import lib.ys.config.AppConfig;
@@ -40,6 +42,8 @@ abstract public class AppEx extends Application {
             initInChildProcess();
             return;
         }
+
+        LeakCanary.install(this);
 
         mContext = getApplicationContext();
 
