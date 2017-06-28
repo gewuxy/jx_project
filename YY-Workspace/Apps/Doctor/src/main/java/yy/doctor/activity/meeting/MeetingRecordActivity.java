@@ -213,6 +213,9 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     @Override
     public void onNetworkSuccess(int id, Object result) {
         // mPath 不会为空(只有下载请求网络了)
+        if (isFinishing()) {
+            return;
+        }
         if (id == mLastPosition) { // 没有重新点的时候才播放
             mPlayer.reset();
             try {
