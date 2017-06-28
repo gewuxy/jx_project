@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:layout_alignParentBottom="true">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/help_and_feedback_footer_layout"
+    <View
         android:layout_width="match_parent"
+        android:layout_height="135dp"/>
+
+    <TextView
+        android:id="@+id/help_and_feedback_footer_tv_agreement"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="160dp"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/help_and_feedback_footer_tv_agreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:textColor="@color/btn_bg_blue"
-            android:text="《服务协议》"/>
-
-    </LinearLayout>
+        android:textSize="10dp"
+        android:textColor="@color/btn_bg_blue"
+        android:text="《敬信科技YaYa医师服务协议》"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/help_and_feedback_footer_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="23dp"
         android:text="敬信科技版权所有"
         android:textSize="10dp"
         android:textColor="@color/text_888"/>
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Copyright © 2012-2017 Jingxin.All Rights Reserved."
+        android:textSize="10dp"
+        android:textColor="@color/text_888"/>
+
+</LinearLayout>

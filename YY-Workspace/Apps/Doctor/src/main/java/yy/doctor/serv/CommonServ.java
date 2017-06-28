@@ -15,12 +15,10 @@ import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
 import yy.doctor.Extra;
-import yy.doctor.model.Profile;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.sp.SpUser;
 
 /**
  * 常驻服务
@@ -37,6 +35,7 @@ public class CommonServ extends ServiceEx {
     private static final int KIdMeet = 5;
 
     private String mJPushRegisterId;
+    private String mToken;
 
     @IntDef({
             ReqType.logout,
@@ -60,7 +59,8 @@ public class CommonServ extends ServiceEx {
         int type = intent.getIntExtra(Extra.KType, 0);
         switch (type) {
             case ReqType.logout: {
-                exeNetworkReq(KIdLogout, NetFactory.logout());
+                mToken = intent.getStringExtra(Extra.KData);
+                exeNetworkReq(KIdLogout, NetFactory.logout(mToken));
             }
             break;
 
@@ -116,14 +116,12 @@ public class CommonServ extends ServiceEx {
         switch (id) {
             case KIdLogout: {
                 if (r.isSucceed()) {
-                    //清空个人信息，把极光绑定改为false 登录后需要重新绑定
-                    SpUser.inst().clear();
-                    SpJPush.inst().jPushIsRegister(false);
+                    YSLog.d(TAG, "退出账号成功");
                 } else {
                     retryNetworkRequest(id);
+                    YSLog.d(TAG, "退出账号失败");
                     return;
                 }
-                Profile.inst().clear();
             }
             break;
 

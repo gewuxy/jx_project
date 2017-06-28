@@ -15,21 +15,24 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.view.ToggleButton;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.LoginActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.CheckAppVersion;
@@ -38,6 +41,7 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
@@ -207,7 +211,7 @@ public class SettingsActivity extends BaseFormActivity {
         Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
         if (r.isSucceed()) {
             //保存更新时间
-            SpUser.inst().updateAppRefreshTime();
+            SpApp.inst().updateAppRefreshTime();
             CheckAppVersion data = r.getData();
             //  判断版本是否需要更新
             if (data != null) {
@@ -227,9 +231,16 @@ public class SettingsActivity extends BaseFormActivity {
 
             Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
             intent.putExtra(Extra.KType, ReqType.logout);
+            intent.putExtra(Extra.KData, Profile.inst().getString(TProfile.token));
             startService(intent);
 
             SettingsActivity.this.notify(NotifyType.logout);
+
+            //清空个人信息，把极光绑定改为false 登录后需要重新绑定
+            SpUser.inst().clear();
+            SpJPush.inst().jPushIsRegister(false);
+            Profile.inst().clear();
+
             startActivity(LoginActivity.class);
             finish();
         });

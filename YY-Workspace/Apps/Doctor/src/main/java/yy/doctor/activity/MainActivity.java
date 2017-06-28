@@ -19,9 +19,9 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.view.LayoutUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
-import lib.yy.network.Result;
 import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -37,6 +37,7 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 
 public class MainActivity extends BaseVPActivity {
@@ -143,7 +144,7 @@ public class MainActivity extends BaseVPActivity {
             exeNetworkReq(KReqIdProfile, NetFactory.profile());
         }
         //判断是否需要检查版本
-        if (SpUser.inst().needUpdateApp()) {
+        if (SpApp.inst().needUpdateApp()) {
             exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
         }
     }
@@ -227,7 +228,7 @@ public class MainActivity extends BaseVPActivity {
             Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
             if (r.isSucceed()) {
                 //保存更新时间
-                SpUser.inst().updateAppRefreshTime();
+                SpApp.inst().updateAppRefreshTime();
                 CheckAppVersion data = r.getData();
                 if (data != null) {
                     //  判断版本是否需要更新

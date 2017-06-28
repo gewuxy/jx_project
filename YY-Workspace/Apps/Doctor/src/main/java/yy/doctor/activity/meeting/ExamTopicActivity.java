@@ -19,7 +19,7 @@ import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.popup.TopicPopup;
-import yy.doctor.sp.SpUser;
+import yy.doctor.sp.SpApp;
 import yy.doctor.util.ExamCount;
 import yy.doctor.util.ExamCount.OnCountListener;
 import yy.doctor.util.Util;
@@ -93,11 +93,11 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         super.setViews();
 
         // 第一次进入考试时提示
-        if (SpUser.inst().ifFirstEnterExam()) {
+        if (SpApp.inst().ifFirstEnterExam()) {
             runOnUIThread(() -> {
                 mTopicPopup = new TopicPopup(ExamTopicActivity.this);
                 mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                SpUser.inst().saveEnterExam();
+                SpApp.inst().saveEnterExam();
             }, 300);
         }
 

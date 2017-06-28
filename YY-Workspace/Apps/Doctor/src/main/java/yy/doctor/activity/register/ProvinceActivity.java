@@ -138,7 +138,6 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
                     showLocDialog();
                 }
                 LocationNotifier.inst().remove(mObserver);
-                Location.inst().stop();
                 Location.inst().onDestroy();
             });
         };

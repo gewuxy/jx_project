@@ -10,16 +10,16 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.activity.register.RegisterActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.sp.SpUser;
+import yy.doctor.sp.SpApp;
 import yy.doctor.view.AutoCompleteEditText;
 
 /**
@@ -66,7 +66,7 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv_forget_pwd);
 
         mTvVersion.setText(DeviceUtil.getAppVersionName());
-        mEtName.setText(SpUser.inst().getUserName());
+        mEtName.setText(SpApp.inst().getUserName());
     }
 
     @Override
@@ -113,7 +113,7 @@ public class LoginActivity extends BaseActivity {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             //保存用户名
-            SpUser.inst().saveUserName(mEtName.getText().toString().trim());
+            SpApp.inst().saveUserName(mEtName.getText().toString().trim());
             Profile.inst().clear();
             Profile.inst().update(r.getData());
             //判断跳转到哪里

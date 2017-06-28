@@ -271,9 +271,9 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq logout() {
+    public static NetworkReq logout(String token) {
         return newGet(UrlUser.KLogout)
-                .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
+                .param(CommonParam.KToken, token)
                 .retry(5, 1000)
                 .build();
     }

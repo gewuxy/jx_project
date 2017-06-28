@@ -16,7 +16,7 @@ import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.popup.TopicPopup;
-import yy.doctor.sp.SpUser;
+import yy.doctor.sp.SpApp;
 
 /**
  * 问卷
@@ -74,13 +74,13 @@ public class QueTopicActivity extends BaseTopicActivity {
             }
 
             // 第一次进入考试时提示
-            if (SpUser.inst().ifFirstEnterQue()) {
+            if (SpApp.inst().ifFirstEnterQue()) {
                 runOnUIThread(() -> {
                     mTopicPopup = new TopicPopup(QueTopicActivity.this);
                     mTopicPopup.setCheck(R.mipmap.que_popup_check);
                     mTopicPopup.setSlide(R.mipmap.que_popup_slide);
                     mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                    SpUser.inst().saveEnterQue();
+                    SpApp.inst().saveEnterQue();
                 }, 300);
             }
             initFirstGv();

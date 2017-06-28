@@ -36,6 +36,7 @@
         style="@style/divider"/>
 
     <LinearLayout
+        android:id="@+id/unit_num_detail_intro_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

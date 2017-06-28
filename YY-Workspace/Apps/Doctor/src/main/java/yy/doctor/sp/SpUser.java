@@ -20,12 +20,8 @@ public class SpUser extends SpBase {
     private static SpUser mInst = null;
 
     public interface SpUserKey {
-        String KUserName = "user_name";
         String KProfileUpdateTime = "update_time";
-        String KAppUpdateTime = "app_update_time";
         String KBadgeNum = "badge_num";
-        String KFirstEnterExam = "first_enter_exam";
-        String KFirstEnterQue = "first_enter_que";
     }
 
     private SpUser(Context context, String fileName) {
@@ -42,24 +38,6 @@ public class SpUser extends SpBase {
     @Override
     public void update(Observable o, Object arg) {
         mInst = null;
-    }
-
-    /**
-     * 保存用户名
-     *
-     * @param userName
-     */
-    public void saveUserName(String userName) {
-        save(SpUserKey.KUserName, userName);
-    }
-
-    /**
-     * 获取用户名
-     *
-     * @return
-     */
-    public String getUserName() {
-        return getString(SpUserKey.KUserName);
     }
 
     /**
@@ -85,28 +63,6 @@ public class SpUser extends SpBase {
     }
 
     /**
-     * 是否需要检查app有没有更新, 暂定间隔为2天
-     *
-     * @return
-     */
-    public boolean needUpdateApp() {
-        long time = System.currentTimeMillis();
-        long diff = time - getLong(SpUserKey.KAppUpdateTime);
-        if (diff >= TimeUnit.DAYS.toMillis(2)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 保存更新app刷新时间
-     */
-    public void updateAppRefreshTime() {
-        save(SpUserKey.KAppUpdateTime, System.currentTimeMillis());
-    }
-
-    /**
      * 保存小红点数
      *
      * @param num
@@ -124,25 +80,4 @@ public class SpUser extends SpBase {
         return getInt(SpUserKey.KBadgeNum, 0);
     }
 
-    /**
-     * 判断是否是第一次进入考试界面
-     */
-    public Boolean ifFirstEnterExam() {
-        return getBoolean(SpUserKey.KFirstEnterExam, true);
-    }
-
-    public void saveEnterExam() {
-        save(SpUserKey.KFirstEnterExam, false);
-    }
-
-    /**
-     * 判断是否是第一次进入问卷界面
-     */
-    public Boolean ifFirstEnterQue() {
-        return getBoolean(SpUserKey.KFirstEnterQue, true);
-    }
-
-    public void saveEnterQue() {
-        save(SpUserKey.KFirstEnterQue, false);
-    }
 }

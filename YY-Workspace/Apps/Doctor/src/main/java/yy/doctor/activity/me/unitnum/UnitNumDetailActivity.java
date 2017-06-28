@@ -22,6 +22,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
@@ -75,6 +76,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private TextView mTvIntroduction;
     private TextView mTvFileNum;
 
+    private View mIntroLayout;
     private View mVFileLayout;
     private ImageView mIvArrows;
     private LinearLayout mLayoutFile;
@@ -130,6 +132,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         mTvAddress = findView(R.id.unit_num_detail_tv_address);
         mTvIntroduction = findView(R.id.unit_num_detail_tv_introduction);
 
+        mIntroLayout = findView(R.id.unit_num_detail_intro_layout);
         mTvFileNum = findView(R.id.unit_num_detail_tv_file_num);
         mVFileLayout = findView(R.id.unit_num_detail_layout_file);
         mIvArrows = findView(R.id.unit_num_detail_iv_arrow);
@@ -278,7 +281,14 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             mTvName.setText(mUnitNumName);
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
             mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + " " + mUnitNumDetail.getString(TUnitNumDetail.city));
-            mTvIntroduction.setText(mUnitNumDetail.getString(TUnitNumDetail.sign));
+
+            //判断是否有简介， 没有的话要gone
+            String intro = mUnitNumDetail.getString(TUnitNumDetail.sign);
+            if (TextUtil.isEmpty(intro)) {
+                goneView(mIntroLayout);
+            } else {
+                mTvIntroduction.setText(intro);
+            }
 
             //判断用户是否已经关注过此单位号
             if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == 1) {
