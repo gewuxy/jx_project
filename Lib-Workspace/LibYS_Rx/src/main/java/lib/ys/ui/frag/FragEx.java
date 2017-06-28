@@ -169,6 +169,7 @@ abstract public class FragEx extends Fragment implements
             onInvisible();
             Stats.onFragmentInvisible(getContext(), TAG);
             if (mInitComplete) {
+                // 在切换fragment的时候清除掉fitter的set, 保证内存能顺利回收
                 LayoutFitter.clearFitSet();
             }
         }

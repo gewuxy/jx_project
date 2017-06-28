@@ -92,6 +92,10 @@ public class App extends BaseApp {
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
+
+        if (BuildConfig.DEBUG_LOG) {
+            LeakCanary.install(this);
+        }
     }
 
     @Override

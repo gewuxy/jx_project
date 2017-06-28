@@ -78,7 +78,6 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
                 // 图片,图片+音频共有的功能
                 NetworkImageView iv = holder.getIvPic();
                 iv.placeHolder(KPicBack)
-                        .resize(200, 200)
                         .url(getItem(position).getString(TCourse.imgUrl))
                         .load();
                 setOnViewClickListener(position, iv);

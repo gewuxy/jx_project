@@ -12,6 +12,7 @@ import java.io.File;
 import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.util.CountDown;
@@ -84,7 +85,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
 
         if (!TextUtil.isEmpty(imgUrl)) {
             mIvPPT.url(imgUrl)
-                    .resize(300, 300)
                     .listener(new NetworkImageListener() {
                         @Override
                         public void onImageSet(ImageInfo info) {
@@ -187,6 +187,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     @Override
     protected void onInvisible() {
         super.onInvisible();
+
+        NetworkImageView.clearMemoryCache(getContext());
 
         stop();
     }
