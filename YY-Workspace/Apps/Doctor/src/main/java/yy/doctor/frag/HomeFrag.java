@@ -142,6 +142,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         ListResult result = null;
         if (id == KReqIdBanner) {
             result = evs(r.getText(), Banner.class);
+//            result.setCode(-1);
+//            result.setError("error");
             if (result.isSucceed()) {
                 mBanners = result.getData();
             }
@@ -160,19 +162,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
-        super.onNetworkError(id, error);
-
-        setViewState(ViewState.error);
-    }
-
-    @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KReqIdAttention) {
             return;
         }
 
-        //确保所有数据都已经获取
         ListResult r = (ListResult) result;
 
         if (!r.isSucceed()) {
@@ -184,10 +178,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 return;
             }
 
+            //3个网络请求中只要有一个错误，就要显示加载错误
             if (!mIsNetworkError) {
-                onNetworkError(id, new NetError(id, r.getError()));
                 YSLog.d(TAG, "network error id = " + id);
                 mIsNetworkError = true;
+                onNetworkError(id, new NetError(id, r.getError()));
             }
         }
 
@@ -199,7 +194,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             mMeetingReqIsOK = r.isSucceed();
         }
 
-        // 拼接数据
+        // 确保所有数据都已经获取才拼接数据
         if (mBannerReqIsOK && mUnitNumReqIsOK && mMeetingReqIsOK) {
 
             if (mBanners != null && mBanners.size() > 0) {
@@ -247,6 +242,13 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+
+        setViewState(ViewState.error);
+    }
+
+    @Override
     public void onNotify(@NotifyType int type, Object data) {
 
         if (type == NotifyType.unit_num_attention_change) {
@@ -285,6 +287,9 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public boolean onRetryClick() {
+        //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
+        exeNetworkReq(KReqIdBanner, NetFactory.banner());
+        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
         mIsNetworkError = false;
         return super.onRetryClick();
     }
