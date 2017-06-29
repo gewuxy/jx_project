@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.impl.list;
 
 import android.database.DataSetObserver;
 import android.support.annotation.CallSuper;
@@ -24,9 +24,9 @@ import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.ListOptListener;
-import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnListOptListener;
+import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
@@ -39,7 +39,7 @@ import lib.ys.util.view.ViewUtil;
  *
  * @author yuansui
  */
-public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, OnItemLongClickListener, MixScrollOpt<T> {
+public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, OnItemLongClickListener, IScrollMixOpt<T> {
 
     private ListView mLv;
     private Class<A> mAdapterClass;
@@ -51,9 +51,9 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     private DataSetObserver mDataSetObserver;
 
-    protected ListOptListener<T, A> mListener;
+    protected OnListOptListener<T, A> mListener;
 
-    public ListOpt(@NonNull ListOptListener<T, A> l) {
+    public ListOpt(@NonNull OnListOptListener<T, A> l) {
         if (l == null) {
             throw new IllegalStateException("ListOptListener must be NonNull");
         }
@@ -333,7 +333,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
                     final int h = height - th;
 
                     // 注意要用listener调用, 因为对于SRList来说, scroll的监听使用的方式不一样
-                    mListener.setOnScrollListener(new MixOnScrollListener() {
+                    mListener.setOnScrollListener(new OnScrollMixListener() {
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
                         }
@@ -350,7 +350,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
             });
         } else {
             final int h = height - th;
-            mListener.setOnScrollListener(new MixOnScrollListener() {
+            mListener.setOnScrollListener(new OnScrollMixListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                 }

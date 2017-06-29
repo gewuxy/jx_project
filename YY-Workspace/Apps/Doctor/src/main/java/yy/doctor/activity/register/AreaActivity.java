@@ -64,7 +64,7 @@ public class AreaActivity extends BaseSRListActivity<Area, AreaAdapter> {
     public void setViews() {
         super.setViews();
 
-        enableAutoLoadMore(false);
+        setAutoLoadMoreEnabled(false);
         if (ProvinceActivity.mLocation == null) {
             showView(mTvLocationFailure);
         } else {

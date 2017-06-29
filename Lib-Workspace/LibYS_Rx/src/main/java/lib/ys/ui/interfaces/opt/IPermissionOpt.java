@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts;
+package lib.ys.ui.interfaces.opt;
 
 import android.support.annotation.NonNull;
 
@@ -9,7 +9,7 @@ import lib.ys.util.permission.Permission;
  * @since 2017/5/8
  */
 
-public interface PermissionOpt {
+public interface IPermissionOpt {
     /**
      * 检查权限
      *

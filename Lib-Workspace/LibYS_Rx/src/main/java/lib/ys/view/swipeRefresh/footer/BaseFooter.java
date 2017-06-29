@@ -10,12 +10,12 @@ import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.ys.view.swipeRefresh.interfaces.Extend;
+import lib.ys.view.swipeRefresh.interfaces.IExtend;
 
 /**
  * @author yuansui
  */
-abstract public class BaseFooter extends LinearLayout implements Extend {
+abstract public class BaseFooter extends LinearLayout implements IExtend {
 
     private View mContentView;
     private OnRetryClickListener mOnRetryClickLsn;

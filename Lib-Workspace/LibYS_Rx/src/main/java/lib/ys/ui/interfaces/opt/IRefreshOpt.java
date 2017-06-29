@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts;
+package lib.ys.ui.interfaces.opt;
 
 
 import lib.ys.config.AppConfig.RefreshWay;
@@ -8,7 +8,7 @@ import lib.ys.config.AppConfig.RefreshWay;
  *
  * @author yuansui
  */
-public interface RefreshOpt {
+public interface IRefreshOpt {
 
     /**
      * 进行刷新

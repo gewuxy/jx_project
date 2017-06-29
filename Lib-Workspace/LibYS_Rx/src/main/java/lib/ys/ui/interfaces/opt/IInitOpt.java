@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts;
+package lib.ys.ui.interfaces.opt;
 
 
 import android.support.annotation.LayoutRes;
@@ -12,7 +12,7 @@ import lib.ys.ui.other.NavBar;
  *
  * @author yuansui
  */
-public interface InitOpt {
+public interface IInitOpt {
 
     /**
      * 初始化数据

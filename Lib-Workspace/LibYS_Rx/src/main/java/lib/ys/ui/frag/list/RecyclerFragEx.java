@@ -15,9 +15,9 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.VH.RecyclerViewHolderEx;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.ui.frag.FragEx;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.RecyclerViewOptListener;
-import lib.ys.ui.interfaces.opts.list.RecyclerViewOpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnRecyclerViewOptListener;
+import lib.ys.ui.interfaces.impl.list.RecyclerViewOpt;
 import lib.ys.view.recycler.WrapRecyclerView;
 
 /**
@@ -25,7 +25,7 @@ import lib.ys.view.recycler.WrapRecyclerView;
  *
  * @param <T>
  */
-abstract public class RecyclerFragEx<T> extends FragEx implements RecyclerViewOptListener<T> {
+abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerViewOptListener<T> {
 
     private RecyclerViewOpt<T> mRecyclerOpt = new RecyclerViewOpt<>(this);
 
@@ -222,7 +222,7 @@ abstract public class RecyclerFragEx<T> extends FragEx implements RecyclerViewOp
     }
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mRecyclerOpt.addOnScrollListener(listener);
     }
 

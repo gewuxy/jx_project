@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.impl.list;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -19,8 +19,8 @@ import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.adapter.recycler.OnRecyclerItemClickListener;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
-import lib.ys.ui.interfaces.listener.list.RecyclerViewOptListener;
+import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
+import lib.ys.ui.interfaces.listener.list.OnRecyclerViewOptListener;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.recycler.WrapRecyclerView;
@@ -30,7 +30,7 @@ import lib.ys.view.recycler.WrapRecyclerView;
  *
  * @author yuansui
  */
-public class RecyclerViewOpt<T> implements MixScrollOpt<T> {
+public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
 
     private WrapRecyclerView mRv;
     private IAdapter<T> mAdapter;
@@ -41,12 +41,12 @@ public class RecyclerViewOpt<T> implements MixScrollOpt<T> {
 
     private AdapterDataObserver mDataObserver;
 
-    private RecyclerViewOptListener<T> mListener;
+    private OnRecyclerViewOptListener<T> mListener;
 
     private OnRecyclerItemClickListener mClickLsn;
 
 
-    public RecyclerViewOpt(@NonNull RecyclerViewOptListener<T> l) {
+    public RecyclerViewOpt(@NonNull OnRecyclerViewOptListener<T> l) {
         if (l == null) {
             throw new IllegalStateException("OnRecyclerWidgetListener must be NonNull");
         }

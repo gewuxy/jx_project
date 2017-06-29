@@ -10,7 +10,6 @@ import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
-import static lib.ys.ui.interfaces.opts.FitOpt.MATCH_PARENT;
 
 /**
  * 日期 : 2017/5/26
@@ -63,8 +62,8 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
      * 设置横屏
      */
     public void rotateLandscape() {
-        mParams.width = MATCH_PARENT;
-        mParams.height = MATCH_PARENT;
+        mParams.width = LayoutParams.MATCH_PARENT;
+        mParams.height = LayoutParams.MATCH_PARENT;
         setLayoutParams(mParams);
     }
 
@@ -72,7 +71,7 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
      * 设置竖屏
      */
     public void rotatePortrait(int heightPx) {
-        mParams.width = MATCH_PARENT;
+        mParams.width = LayoutParams.MATCH_PARENT;
         mParams.height = heightPx;
         setLayoutParams(mParams);
     }

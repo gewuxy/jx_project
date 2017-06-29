@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.impl.list;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
@@ -14,7 +14,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
-import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
+import lib.ys.ui.interfaces.listener.list.OnGroupListOptListener;
 import lib.ys.util.UIUtil;
 import lib.ys.view.FloatingGroupListView;
 
@@ -23,14 +23,16 @@ import lib.ys.view.FloatingGroupListView;
  *
  * @author yuansui
  */
-public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>> extends ListOpt<GROUP, A> implements OnGroupClickListener, OnChildClickListener {
+public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends ListOpt<GROUP, A>
+        implements OnGroupClickListener, OnChildClickListener {
 
     private FloatingGroupListView mLv;
     private A mAdapter;
 
-    private GroupListOptListener mListener;
+    private OnGroupListOptListener mListener;
 
-    public GroupListOpt(@NonNull GroupListOptListener<GROUP, CHILD, A> l) {
+    public GroupListOpt(@NonNull OnGroupListOptListener<GROUP, CHILD, A> l) {
         super(l);
         mListener = l;
     }

@@ -14,14 +14,14 @@ import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnSROptListener;
+import lib.ys.ui.interfaces.impl.list.SROpt;
 
 /**
  * @author yuansui
  */
-abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements SROptListener {
+abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements OnSROptListener {
 
     private SROpt<T> mSROpt = new SROpt<>(this, getRecyclerOpt());
 
@@ -84,7 +84,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mSROpt.setOnScrollListener(listener);
     }
 
@@ -94,8 +94,8 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void enableSRRefresh(boolean enable) {
-        mSROpt.setRefreshEnable(enable);
+    public void setRefreshEnabled(boolean enable) {
+        mSROpt.setRefreshEnabled(enable);
     }
 
     @Override
@@ -109,8 +109,8 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements S
     }
 
     @Override
-    public void enableAutoLoadMore(boolean enable) {
-        mSROpt.enableAutoLoadMore(enable);
+    public void setAutoLoadMoreEnabled(boolean enable) {
+        mSROpt.setAutoLoadMoreEnabled(enable);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * @author yuansui
  */
-public interface Extend {
+public interface IExtend {
 
     @IntDef({
             ExtendState.normal,

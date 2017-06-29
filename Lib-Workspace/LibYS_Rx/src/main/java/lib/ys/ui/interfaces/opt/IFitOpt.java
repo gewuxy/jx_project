@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts;
+package lib.ys.ui.interfaces.opt;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +11,7 @@ import android.widget.TextView;
  *
  * @author yuansui
  */
-public interface FitOpt {
+public interface IFitOpt {
     int MATCH_PARENT = LayoutParams.MATCH_PARENT;
     int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
 

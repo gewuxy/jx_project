@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author yuansui
  */
-public interface MixScrollOpt<T> {
+public interface IScrollMixOpt<T> {
 
     void addFooterView(View v);
 

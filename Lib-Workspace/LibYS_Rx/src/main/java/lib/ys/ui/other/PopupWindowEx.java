@@ -30,10 +30,10 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.YSLog;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.impl.NetworkOptImpl;
-import lib.ys.ui.interfaces.opts.CommonOpt;
-import lib.ys.ui.interfaces.opts.InitOpt;
-import lib.ys.ui.interfaces.opts.NetworkOpt;
+import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.ys.ui.interfaces.opt.IInitOpt;
+import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
@@ -42,9 +42,9 @@ import okhttp3.WebSocketListener;
 
 
 abstract public class PopupWindowEx implements
-        InitOpt,
-        NetworkOpt,
-        CommonOpt,
+        IInitOpt,
+        INetworkOpt,
+        ICommonOpt,
         OnNetworkListener,
         OnDismissListener,
         OnClickListener {
@@ -62,7 +62,7 @@ abstract public class PopupWindowEx implements
     private Context mContext;
     private float mDimAmount = KDefaultDimAmount;
 
-    private NetworkOptImpl mNetworkImpl;
+    private NetworkOpt mNetworkImpl;
 
     // 背景变暗
     private boolean mEnableDim = false;
@@ -222,7 +222,7 @@ abstract public class PopupWindowEx implements
         }
 
         if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOptImpl(this, this);
+            mNetworkImpl = new NetworkOpt(this, this);
         }
         mNetworkImpl.exeNetworkReq(id, req, l);
     }
@@ -230,7 +230,7 @@ abstract public class PopupWindowEx implements
     @Override
     public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOptImpl(this, this);
+            mNetworkImpl = new NetworkOpt(this, this);
         }
         return mNetworkImpl.exeWebSocketReq(req, l);
     }

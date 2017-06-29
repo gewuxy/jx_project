@@ -42,8 +42,8 @@ public class SectionCategoryFrag extends BaseSRListFrag<Section, SectionCategory
 
         getLv().setVerticalScrollBarEnabled(false);
         setDividerHeight(fitDp(0));
-        enableSRRefresh(false);
-        enableAutoLoadMore(false);
+        setRefreshEnabled(false);
+        setAutoLoadMoreEnabled(false);
     }
 
     @Override

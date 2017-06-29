@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts.list;
+package lib.ys.ui.interfaces.impl.list;
 
 import android.os.Handler;
 import android.os.Message;
@@ -20,9 +20,9 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.MixScrollOpt;
-import lib.ys.ui.interfaces.listener.list.SROptListener;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
+import lib.ys.ui.interfaces.listener.list.OnSROptListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.res.ResLoader;
@@ -40,8 +40,8 @@ public class SROpt<T> implements OnSRListener {
 
     private static final String TAG = SROpt.class.getSimpleName();
 
-    private SROptListener mSROptListener;
-    private MixScrollOpt<T> mScrollOpt;
+    private OnSROptListener mSROptListener;
+    private IScrollMixOpt<T> mScrollOpt;
 
     // 翻页标识
     private String mLastId = ListConstants.KDefaultInitLastId;
@@ -63,7 +63,7 @@ public class SROpt<T> implements OnSRListener {
     private Handler mHandler;
 
 
-    public SROpt(@NonNull SROptListener<T> l, MixScrollOpt<T> scrollOpt) {
+    public SROpt(@NonNull OnSROptListener<T> l, IScrollMixOpt<T> scrollOpt) {
         mSROptListener = l;
         mScrollOpt = scrollOpt;
 
@@ -118,7 +118,7 @@ public class SROpt<T> implements OnSRListener {
         mSRLayout.setSRListener(lsn);
     }
 
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mSRLayout.setOnScrollListener(listener);
     }
 
@@ -130,16 +130,16 @@ public class SROpt<T> implements OnSRListener {
         return mSRLayout.isSwipeRefreshing();
     }
 
-    public void enableAutoLoadMore(boolean enable) {
-        mSRLayout.enableAutoLoadMore(enable);
+    public void setAutoLoadMoreEnabled(boolean enabled) {
+        mSRLayout.setAutoLoadMoreEnabled(enabled);
     }
 
     private void setLoadMoreState(boolean state) {
         mSRLayout.setLoadMoreState(state);
     }
 
-    public void setRefreshEnable(boolean enable) {
-        mSRLayout.setRefreshEnable(enable);
+    public void setRefreshEnabled(boolean enable) {
+        mSRLayout.setRefreshEnabled(enable);
     }
 
     @Override

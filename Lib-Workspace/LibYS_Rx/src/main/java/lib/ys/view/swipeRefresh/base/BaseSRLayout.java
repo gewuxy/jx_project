@@ -21,14 +21,13 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.scrollableLayout.ScrollableLayout;
 import lib.ys.view.swipeRefresh.header.BaseHeader;
 import lib.ys.view.swipeRefresh.header.DefaultLayoutHeader;
-import lib.ys.view.swipeRefresh.interfaces.Extend.ExtendState;
-import lib.ys.view.swipeRefresh.interfaces.SROpt;
+import lib.ys.view.swipeRefresh.interfaces.IExtend.ExtendState;
 import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 
 /**
  * 下拉刷新的外部layout, 根据网上代码更改
  */
-abstract public class BaseSRLayout<T extends View> extends ViewGroup implements SROpt {
+abstract public class BaseSRLayout<T extends View> extends ViewGroup {
 
     private static final int KMaxDragRate = 1;
     public static final int KDragMaxDistanceDp = 60;
@@ -58,7 +57,7 @@ abstract public class BaseSRLayout<T extends View> extends ViewGroup implements 
     private boolean mNotify;
 
     protected OnSRListener mListener;
-    private boolean mEnable = true;
+    private boolean mEnabled = true;
     private boolean mIsAnimating = false;
 
     public BaseSRLayout(Context context) {
@@ -123,7 +122,7 @@ abstract public class BaseSRLayout<T extends View> extends ViewGroup implements 
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!mEnable || !isEnabled() || canChildScrollUp() || mRefreshing || mIsAnimating) {
+        if (!mEnabled || !isEnabled() || canChildScrollUp() || mRefreshing || mIsAnimating) {
             return false;
         }
 
@@ -405,26 +404,38 @@ abstract public class BaseSRLayout<T extends View> extends ViewGroup implements 
         mContentView.layout(left, top + mCurrentOffsetTop, left + width - right, top + height - bottom + mCurrentOffsetTop);
     }
 
-    public void setRefreshEnable(boolean enable) {
-        mEnable = enable;
+    /**
+     * 是否能刷新
+     *
+     * @param enabled
+     */
+    public void setRefreshEnabled(boolean enabled) {
+        mEnabled = enabled;
     }
 
-    @Override
     public void setSRListener(OnSRListener listener) {
         mListener = listener;
     }
 
-    @Override
+    /**
+     * 自动下拉刷新
+     */
     public void startRefresh() {
         setRefreshing(true, true);
     }
 
-    @Override
+    /**
+     * 停止刷新
+     */
     public void stopRefresh() {
         setRefreshing(false, true);
     }
 
-    @Override
+    /**
+     * 是否正在下拉刷新
+     *
+     * @return
+     */
     public boolean isSwipeRefreshing() {
         return mRefreshing;
     }

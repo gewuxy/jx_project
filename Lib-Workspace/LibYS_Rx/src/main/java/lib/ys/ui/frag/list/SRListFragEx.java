@@ -15,9 +15,9 @@ import lib.ys.R;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnSROptListener;
+import lib.ys.ui.interfaces.impl.list.SROpt;
 
 
 /**
@@ -25,7 +25,7 @@ import lib.ys.ui.interfaces.opts.list.SROpt;
  *
  * @author yuansui
  */
-abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<T, A> implements SROptListener<T> {
+abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<T, A> implements OnSROptListener<T> {
 
     private SROpt<T> mSROpt = new SROpt<>(this, getListOpt());
 
@@ -91,7 +91,7 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     abstract public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException;
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mSROpt.setOnScrollListener(listener);
     }
 
@@ -101,8 +101,8 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
-    public void enableSRRefresh(boolean enable) {
-        mSROpt.setRefreshEnable(enable);
+    public void setRefreshEnabled(boolean enable) {
+        mSROpt.setRefreshEnabled(enable);
     }
 
     @Override
@@ -116,8 +116,8 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
     }
 
     @Override
-    public void enableAutoLoadMore(boolean enable) {
-        mSROpt.enableAutoLoadMore(enable);
+    public void setAutoLoadMoreEnabled(boolean enable) {
+        mSROpt.setAutoLoadMoreEnabled(enable);
     }
 
     @Override

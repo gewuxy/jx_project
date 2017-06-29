@@ -24,8 +24,8 @@ import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.opts.CommonOpt;
-import lib.ys.ui.interfaces.opts.FitOpt;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.ys.ui.interfaces.opt.IFitOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.ReflectionUtil;
@@ -34,7 +34,7 @@ import lib.ys.util.view.ViewUtil;
 /**
  * @author yuansui
  */
-abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx> extends Adapter<VH> implements FitOpt, CommonOpt, IAdapter<T> {
+abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx> extends Adapter<VH> implements IFitOpt, ICommonOpt, IAdapter<T> {
 
     protected final String TAG = getClass().getSimpleName();
 

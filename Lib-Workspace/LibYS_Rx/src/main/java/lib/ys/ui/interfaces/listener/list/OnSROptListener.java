@@ -18,7 +18,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
  *
  * @author yuansui
  */
-public interface SROptListener<T> {
+public interface OnSROptListener<T> {
 
     int getSRLayoutResId();
 
@@ -84,14 +84,14 @@ public interface SROptListener<T> {
 
     boolean isSwipeRefreshing();
 
-    void enableAutoLoadMore(boolean enable);
+    void setAutoLoadMoreEnabled(boolean enable);
 
     /**
      * 是否允许下拉刷新
      *
      * @param enable
      */
-    void enableSRRefresh(boolean enable);
+    void setRefreshEnabled(boolean enable);
 
     int getOffset();
 

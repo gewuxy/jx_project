@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts;
+package lib.ys.ui.interfaces.opt;
 
 
 import lib.network.model.NetworkReq;
@@ -11,7 +11,7 @@ import okhttp3.WebSocketListener;
  *
  * @author yuansui
  */
-public interface NetworkOpt {
+public interface INetworkOpt {
 
     int KDefaultId = -1;
 

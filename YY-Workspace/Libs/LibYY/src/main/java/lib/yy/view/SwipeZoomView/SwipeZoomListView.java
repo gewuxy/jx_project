@@ -13,7 +13,7 @@ import android.widget.Adapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.view.swipeRefresh.SRListLayout;
 import lib.yy.R;
 
@@ -42,7 +42,7 @@ public class SwipeZoomListView extends BaseSwipeZoom<SRListLayout> {
     public SwipeZoomListView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mRootView.setOnScrollListener(new MixOnScrollListener() {
+        mRootView.setOnScrollListener(new OnScrollMixListener() {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {

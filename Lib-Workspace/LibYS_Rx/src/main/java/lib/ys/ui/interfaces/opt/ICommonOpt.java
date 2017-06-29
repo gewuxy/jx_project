@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.opts;
+package lib.ys.ui.interfaces.opt;
 
 import android.content.Intent;
 import android.support.annotation.StringRes;
@@ -9,7 +9,7 @@ import android.view.View;
  *
  * @author yuansui
  */
-public interface CommonOpt {
+public interface ICommonOpt {
     /**
      * 显示view
      *

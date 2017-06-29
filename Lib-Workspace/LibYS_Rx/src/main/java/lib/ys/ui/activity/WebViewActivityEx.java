@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 
 import lib.ys.R;
 import lib.ys.ui.interfaces.IWebViewHost;
-import lib.ys.ui.interfaces.impl.WebViewOptImpl;
+import lib.ys.ui.interfaces.impl.WebViewOpt;
 
 
 abstract public class WebViewActivityEx extends ActivityEx implements IWebViewHost {
@@ -18,7 +18,7 @@ abstract public class WebViewActivityEx extends ActivityEx implements IWebViewHo
     private WebView mWebView;
     private ProgressBar mProgressBar;
 
-    private WebViewOptImpl mImpl;
+    private WebViewOpt mImpl;
 
     @Override
     public int getContentViewId() {
@@ -35,7 +35,7 @@ abstract public class WebViewActivityEx extends ActivityEx implements IWebViewHo
     @CallSuper
     @Override
     public void setViews() {
-        mImpl = new WebViewOptImpl(this);
+        mImpl = new WebViewOpt(this);
         mImpl.setViews(mProgressBar, mWebView);
 
         onLoadStart();

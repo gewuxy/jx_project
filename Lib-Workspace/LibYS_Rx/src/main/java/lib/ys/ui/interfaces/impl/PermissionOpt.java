@@ -3,7 +3,7 @@ package lib.ys.ui.interfaces.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import lib.ys.ui.interfaces.opts.PermissionOpt;
+import lib.ys.ui.interfaces.opt.IPermissionOpt;
 import lib.ys.util.permission.CheckTask;
 import lib.ys.util.permission.OnPermissionListener;
 import lib.ys.util.permission.Permission;
@@ -14,12 +14,12 @@ import lib.ys.util.permission.PermissionChecker;
  * @since 2017/5/8
  */
 
-public class PermissionOptImpl implements PermissionOpt {
+public class PermissionOpt implements IPermissionOpt {
 
     private Context mContext;
     private OnPermissionListener mLsn;
 
-    public PermissionOptImpl(@NonNull Context context, OnPermissionListener l) {
+    public PermissionOpt(@NonNull Context context, OnPermissionListener l) {
         mContext = context;
         mLsn = l;
     }

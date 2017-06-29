@@ -9,7 +9,7 @@ import android.widget.AbsListView.OnScrollListener;
  *
  * @author yuansui
  */
-public class MixOnScrollListener extends RecyclerView.OnScrollListener implements OnScrollListener {
+public class OnScrollMixListener extends RecyclerView.OnScrollListener implements OnScrollListener {
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {

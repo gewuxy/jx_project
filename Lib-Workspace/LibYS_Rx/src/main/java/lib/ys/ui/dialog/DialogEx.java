@@ -21,8 +21,8 @@ import android.view.WindowManager.LayoutParams;
 import lib.ys.AppEx;
 import lib.ys.R;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.opts.CommonOpt;
-import lib.ys.ui.interfaces.opts.InitOpt;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.ys.ui.interfaces.opt.IInitOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.view.ViewUtil;
@@ -30,8 +30,8 @@ import lib.ys.util.view.ViewUtil;
 
 abstract public class DialogEx implements
         OnClickListener,
-        InitOpt,
-        CommonOpt {
+        IInitOpt,
+        ICommonOpt {
 
     protected String TAG = getClass().getSimpleName();
 

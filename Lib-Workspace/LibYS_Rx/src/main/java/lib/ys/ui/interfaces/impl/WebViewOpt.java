@@ -29,14 +29,14 @@ import lib.ys.util.view.ViewUtil;
  * @since 2017/5/15
  */
 
-public class WebViewOptImpl {
+public class WebViewOpt {
 
     private IWebViewHost mHost;
 
     public ValueCallback<Uri> mUploadMessage;
     public ValueCallback<Uri[]> mUploadMsgs;
 
-    public WebViewOptImpl(IWebViewHost host) {
+    public WebViewOpt(IWebViewHost host) {
         if (host == null) {
             throw new NullPointerException("host can not be null");
         }

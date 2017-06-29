@@ -15,9 +15,9 @@ import lib.ys.R;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnSROptListener;
+import lib.ys.ui.interfaces.impl.list.SROpt;
 
 /**
  * 下拉刷新 group list
@@ -26,7 +26,7 @@ import lib.ys.ui.interfaces.opts.list.SROpt;
  */
 abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
         extends GroupListFragEx<GROUP, CHILD, A>
-        implements SROptListener {
+        implements OnSROptListener {
 
     private SROpt<GROUP> mSROpt = new SROpt<>(this, getGroupListOpt());
 
@@ -89,7 +89,7 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     }
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mSROpt.setOnScrollListener(listener);
     }
 
@@ -99,8 +99,8 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     }
 
     @Override
-    public void enableSRRefresh(boolean enable) {
-        mSROpt.setRefreshEnable(enable);
+    public void setRefreshEnabled(boolean enable) {
+        mSROpt.setRefreshEnabled(enable);
     }
 
     @Override
@@ -114,8 +114,8 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     }
 
     @Override
-    public void enableAutoLoadMore(boolean enable) {
-        mSROpt.enableAutoLoadMore(enable);
+    public void setAutoLoadMoreEnabled(boolean enable) {
+        mSROpt.setAutoLoadMoreEnabled(enable);
     }
 
     @Override

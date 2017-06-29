@@ -17,15 +17,15 @@ import lib.ys.YSLog;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.opts.CommonOpt;
-import lib.ys.ui.interfaces.opts.FitOpt;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.ys.ui.interfaces.opt.IFitOpt;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.ys.view.pager.indicator.IconPagerAdapter;
 
 abstract public class PagerAdapterEx<T, VH extends IViewHolder> extends PagerAdapter
-        implements FitOpt, CommonOpt, IconPagerAdapter {
+        implements IFitOpt, ICommonOpt, IconPagerAdapter {
 
     protected String TAG = getClass().getSimpleName();
 

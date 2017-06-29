@@ -15,9 +15,9 @@ import lib.ys.R;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.SROptListener;
-import lib.ys.ui.interfaces.opts.list.SROpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnSROptListener;
+import lib.ys.ui.interfaces.impl.list.SROpt;
 
 /**
  * 下拉刷新 group list
@@ -26,7 +26,7 @@ import lib.ys.ui.interfaces.opts.list.SROpt;
  */
 abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
         extends GroupListActivityEx<GROUP, CHILD, A>
-        implements SROptListener {
+        implements OnSROptListener {
 
     private SROpt<GROUP> mSROpt = new SROpt<>(this, getGroupListOpt());
 
@@ -87,7 +87,7 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
     abstract public IListResult<GROUP> parseNetworkResponse(int id, String text) throws JSONException;
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mSROpt.setOnScrollListener(listener);
     }
 
@@ -97,8 +97,8 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
     }
 
     @Override
-    public void enableSRRefresh(boolean enable) {
-        mSROpt.setRefreshEnable(enable);
+    public void setRefreshEnabled(boolean enabled) {
+        mSROpt.setRefreshEnabled(enabled);
     }
 
     @Override
@@ -112,8 +112,8 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
     }
 
     @Override
-    public void enableAutoLoadMore(boolean enable) {
-        mSROpt.enableAutoLoadMore(enable);
+    public void setAutoLoadMoreEnabled(boolean enabled) {
+        mSROpt.setAutoLoadMoreEnabled(enabled);
     }
 
     @Override

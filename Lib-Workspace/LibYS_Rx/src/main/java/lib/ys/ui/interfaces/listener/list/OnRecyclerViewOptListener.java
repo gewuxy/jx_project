@@ -6,16 +6,15 @@ import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.other.NavBar;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 
 /**
- * children view的所有方法
+ * list view的所有方法
  *
  * @author yuansui
  */
-public interface ListOptListener<T, A extends IAdapter<T>> {
-    int getListViewResId();
+public interface OnRecyclerViewOptListener<T> {
+    int getRvResId();
 
     View createHeaderView();
 
@@ -23,7 +22,9 @@ public interface ListOptListener<T, A extends IAdapter<T>> {
 
     View createEmptyView();
 
-    A getAdapter();
+    IAdapter<T> createAdapter();
+
+    IAdapter<T> getAdapter();
 
     void hideFooterView();
 
@@ -74,7 +75,7 @@ public interface ListOptListener<T, A extends IAdapter<T>> {
 
     void setOnAdapterClickListener(OnAdapterClickListener listener);
 
-    void setOnScrollListener(MixOnScrollListener listener);
+    void setOnScrollListener(OnScrollMixListener listener);
 
     int getItemRealPosition(int position);
 
@@ -135,14 +136,4 @@ public interface ListOptListener<T, A extends IAdapter<T>> {
 
     int getHeaderViewPosition();
 
-    /**
-     * 设置titleBar根据list的滑动来改变alpha
-     * 此方法和{@link #setOnScrollListener(MixOnScrollListener)}冲突, 只能使用其中一个
-     *
-     * @param height 最大高度时alpha为255
-     * @param navBar 需要改变的titleBar
-     */
-    void setNavBarAutoAlphaByScroll(int height, NavBar navBar);
-
-    void setDividerHeight(int height);
 }

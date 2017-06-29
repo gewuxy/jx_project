@@ -41,14 +41,14 @@ import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.dialog.DialogEx;
-import lib.ys.ui.interfaces.impl.NetworkOptImpl;
-import lib.ys.ui.interfaces.impl.PermissionOptImpl;
+import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.ui.interfaces.impl.PermissionOpt;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
-import lib.ys.ui.interfaces.opts.CommonOpt;
-import lib.ys.ui.interfaces.opts.FitOpt;
-import lib.ys.ui.interfaces.opts.InitOpt;
-import lib.ys.ui.interfaces.opts.NetworkOpt;
-import lib.ys.ui.interfaces.opts.RefreshOpt;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.ys.ui.interfaces.opt.IFitOpt;
+import lib.ys.ui.interfaces.opt.IInitOpt;
+import lib.ys.ui.interfaces.opt.INetworkOpt;
+import lib.ys.ui.interfaces.opt.IRefreshOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.InjectUtil.IInjectView;
@@ -62,14 +62,14 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 abstract public class FragEx extends Fragment implements
-        InitOpt,
-        NetworkOpt,
+        IInitOpt,
+        INetworkOpt,
         OnNetworkListener,
-        CommonOpt,
-        FitOpt,
+        ICommonOpt,
+        IFitOpt,
         OnClickListener,
         OnRetryClickListener,
-        RefreshOpt,
+        IRefreshOpt,
         OnPermissionListener,
         IInjectView {
 
@@ -92,8 +92,8 @@ abstract public class FragEx extends Fragment implements
     /**
      * impls
      */
-    private NetworkOptImpl mNetworkImpl;
-    private PermissionOptImpl mPermission;
+    private NetworkOpt mNetworkImpl;
+    private PermissionOpt mPermission;
 
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -329,7 +329,7 @@ abstract public class FragEx extends Fragment implements
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
         if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOptImpl(this, this);
+            mNetworkImpl = new NetworkOpt(this, this);
         }
         mNetworkImpl.exeNetworkReq(id, req, l);
     }
@@ -337,7 +337,7 @@ abstract public class FragEx extends Fragment implements
     @Override
     public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOptImpl(this, this);
+            mNetworkImpl = new NetworkOpt(this, this);
         }
         return mNetworkImpl.exeWebSocketReq(req, l);
     }
@@ -789,7 +789,7 @@ abstract public class FragEx extends Fragment implements
      */
     protected boolean checkPermission(int code, @Permission String... ps) {
         if (mPermission == null) {
-            mPermission = new PermissionOptImpl(getContext(), this);
+            mPermission = new PermissionOpt(getContext(), this);
         }
         return mPermission.checkPermission(code, ps);
     }

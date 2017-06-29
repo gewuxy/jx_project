@@ -12,15 +12,15 @@ import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.activity.ActivityEx;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
-import lib.ys.ui.interfaces.opts.list.GroupListOpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnGroupListOptListener;
+import lib.ys.ui.interfaces.impl.list.GroupListOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.FloatingGroupListView;
 
 abstract public class GroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
         extends ActivityEx
-        implements GroupListOptListener<GROUP, CHILD, A> {
+        implements OnGroupListOptListener<GROUP, CHILD, A> {
 
     private GroupListOpt<GROUP, CHILD, A> mGroupListOpt = new GroupListOpt<>(this);
 
@@ -41,6 +41,7 @@ abstract public class GroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<
         mGroupListOpt.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         mGroupListOpt.setViews();
@@ -272,7 +273,7 @@ abstract public class GroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<
     }
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mGroupListOpt.setOnScrollListener(listener);
     }
 

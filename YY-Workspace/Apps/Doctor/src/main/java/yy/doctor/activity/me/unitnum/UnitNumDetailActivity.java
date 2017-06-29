@@ -146,7 +146,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     public void setViews() {
         super.setViews();
 
-        enableSRRefresh(false);
+        setRefreshEnabled(false);
         mZoomView.setZoomEnabled(true);
 
         setOnClickListener(R.id.unit_num_detail_layout_file);

@@ -12,7 +12,7 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
  *
  * @author yuansui
  */
-public interface GroupListOptListener<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>> extends ListOptListener<GROUP, A> {
+public interface OnGroupListOptListener<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>> extends OnListOptListener<GROUP, A> {
     void setSelectedGroup(int groupPosition);
 
     int getGroupCount();
@@ -21,7 +21,7 @@ public interface GroupListOptListener<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     GROUP getGroup(int groupPosition);
 
-    Object getChild(int groupPosition, int childPosition);
+    CHILD getChild(int groupPosition, int childPosition);
 
     boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id);
 

@@ -11,17 +11,17 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.YSLog;
-import lib.ys.ui.interfaces.impl.NetworkOptImpl;
-import lib.ys.ui.interfaces.opts.NetworkOpt;
+import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.ui.interfaces.opt.INetworkOpt;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 
-abstract public class ServiceEx extends Service implements NetworkOpt, OnNetworkListener {
+abstract public class ServiceEx extends Service implements INetworkOpt, OnNetworkListener {
 
     protected final String TAG = getClass().getSimpleName();
 
-    private NetworkOptImpl mNetworkImpl;
+    private NetworkOpt mNetworkImpl;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -55,7 +55,7 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
         if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOptImpl(this, this);
+            mNetworkImpl = new NetworkOpt(this, this);
         }
         mNetworkImpl.exeNetworkReq(id, req, l);
     }
@@ -63,7 +63,7 @@ abstract public class ServiceEx extends Service implements NetworkOpt, OnNetwork
     @Override
     public WebSocket exeWebSocketReq(NetworkReq req, WebSocketListener l) {
         if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOptImpl(this, this);
+            mNetworkImpl = new NetworkOpt(this, this);
         }
         return mNetworkImpl.exeWebSocketReq(req, l);
     }

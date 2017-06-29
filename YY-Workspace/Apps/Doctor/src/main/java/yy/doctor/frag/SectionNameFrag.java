@@ -33,8 +33,8 @@ public class SectionNameFrag extends BaseSRListFrag<String, SectionNameAdapter> 
 
         getLv().setVerticalScrollBarEnabled(false);
         setDividerHeight(fitDp(0));
-        enableSRRefresh(false);
-        enableAutoLoadMore(false);
+        setRefreshEnabled(false);
+        setAutoLoadMoreEnabled(false);
     }
 
     @Override

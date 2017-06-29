@@ -77,7 +77,7 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     public void setViews() {
         super.setViews();
 
-        enableAutoLoadMore(false);
+        setAutoLoadMoreEnabled(false);
         //显示定位中布局
         showView(mLocationLayout);
         mIvLocation.setImageResource(R.drawable.province_location_anim);

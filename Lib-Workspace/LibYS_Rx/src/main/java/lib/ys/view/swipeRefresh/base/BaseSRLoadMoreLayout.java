@@ -12,22 +12,21 @@ import android.widget.AbsListView.OnScrollListener;
 
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
 import lib.ys.view.swipeRefresh.footer.DefaultFooter;
-import lib.ys.view.swipeRefresh.interfaces.Extend.ExtendState;
-import lib.ys.view.swipeRefresh.interfaces.SRLoadMoreOpt;
+import lib.ys.view.swipeRefresh.interfaces.IExtend.ExtendState;
 
 /**
  * @author yuansui
  */
-abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<T> implements SRLoadMoreOpt {
+abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<T> {
 
     private BaseFooter mLoadMoreFooterView;
 
-    private MixOnScrollListener mScrollListener;
+    private OnScrollMixListener mScrollListener;
 
     private boolean mIsLoadingMore;
     private boolean mAutoLoadMoreEnabled = true;
@@ -71,12 +70,20 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
         });
     }
 
-    @Override
+    /**
+     * 是否正在加载更多
+     *
+     * @return
+     */
     public boolean isLoadingMore() {
         return mIsLoadingMore;
     }
 
-    @Override
+    /**
+     * 停止加载更多, 重置footer
+     *
+     * @param isSucceed
+     */
     public void stopLoadMore(boolean isSucceed) {
         if (mIsLoadingMore) {
             mIsLoadingMore = false;
@@ -88,7 +95,9 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
         }
     }
 
-    @Override
+    /**
+     * 开始底部load more
+     */
     public void startLoadMore() {
         if (!mIsLoadingMore && mListener != null) {
 
@@ -102,8 +111,12 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
         }
     }
 
-    @Override
-    public void enableAutoLoadMore(boolean enabled) {
+    /**
+     * 设置是否开启滑动底部自动加载更多
+     *
+     * @param enabled
+     */
+    public void setAutoLoadMoreEnabled(boolean enabled) {
         if (mAutoLoadMoreEnabled == enabled) {
             return;
         }
@@ -112,7 +125,6 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
         changeState(enabled);
     }
 
-    @Override
     public void setLoadMoreState(boolean state) {
         if (mAutoLoadMoreEnabled) {
             changeState(state);
@@ -215,7 +227,7 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
      *
      * @param listener
      */
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mScrollListener = listener;
     }
 

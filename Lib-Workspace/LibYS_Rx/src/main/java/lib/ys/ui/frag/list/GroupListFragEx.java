@@ -12,9 +12,9 @@ import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.frag.FragEx;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.GroupListOptListener;
-import lib.ys.ui.interfaces.opts.list.GroupListOpt;
+import lib.ys.ui.interfaces.impl.list.GroupListOpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnGroupListOptListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.view.FloatingGroupListView;
 
@@ -24,7 +24,7 @@ import lib.ys.view.FloatingGroupListView;
  */
 abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
         extends FragEx
-        implements GroupListOptListener<GROUP, CHILD, A> {
+        implements OnGroupListOptListener<GROUP, CHILD, A> {
 
     private GroupListOpt<GROUP, CHILD, A> mGroupListOpt = new GroupListOpt<>(this);
 
@@ -151,7 +151,7 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
+    public CHILD getChild(int groupPosition, int childPosition) {
         return mGroupListOpt.getChild(groupPosition, childPosition);
     }
 
@@ -277,7 +277,7 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     }
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mGroupListOpt.setOnScrollListener(listener);
     }
 

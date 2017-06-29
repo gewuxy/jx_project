@@ -82,7 +82,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
         super.setViews();
 
         // 后台没有分页返回
-        enableAutoLoadMore(false);
+        setAutoLoadMoreEnabled(false);
         setOnAdapterClickListener(this);
     }
 

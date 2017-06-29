@@ -6,15 +6,16 @@ import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.other.NavBar;
 
 /**
- * list view的所有方法
+ * children view的所有方法
  *
  * @author yuansui
  */
-public interface RecyclerViewOptListener<T> {
-    int getRvResId();
+public interface OnListOptListener<T, A extends IAdapter<T>> {
+    int getListViewResId();
 
     View createHeaderView();
 
@@ -22,9 +23,7 @@ public interface RecyclerViewOptListener<T> {
 
     View createEmptyView();
 
-    IAdapter<T> createAdapter();
-
-    IAdapter<T> getAdapter();
+    A getAdapter();
 
     void hideFooterView();
 
@@ -75,7 +74,7 @@ public interface RecyclerViewOptListener<T> {
 
     void setOnAdapterClickListener(OnAdapterClickListener listener);
 
-    void setOnScrollListener(MixOnScrollListener listener);
+    void setOnScrollListener(OnScrollMixListener listener);
 
     int getItemRealPosition(int position);
 
@@ -136,4 +135,14 @@ public interface RecyclerViewOptListener<T> {
 
     int getHeaderViewPosition();
 
+    /**
+     * 设置titleBar根据list的滑动来改变alpha
+     * 此方法和{@link #setOnScrollListener(OnScrollMixListener)}冲突, 只能使用其中一个
+     *
+     * @param height 最大高度时alpha为255
+     * @param navBar 需要改变的titleBar
+     */
+    void setNavBarAutoAlphaByScroll(int height, NavBar navBar);
+
+    void setDividerHeight(int height);
 }

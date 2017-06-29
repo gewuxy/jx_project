@@ -8,7 +8,7 @@ import lib.network.model.err.ConnectionNetError;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.R;
-import lib.ys.ui.interfaces.opts.NetworkOpt;
+import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.res.ResLoader;
 import okhttp3.WebSocket;
@@ -20,7 +20,7 @@ import okhttp3.WebSocketListener;
  * @since 2017/5/8
  */
 
-public class NetworkOptImpl implements NetworkOpt {
+public class NetworkOpt implements INetworkOpt {
 
     private Network mNetwork;
     private OnNetworkListener mNetworkLsn;
@@ -28,7 +28,7 @@ public class NetworkOptImpl implements NetworkOpt {
     private SparseArray<NetworkReq> mMapRetryTask;
 
 
-    public NetworkOptImpl(Object host, OnNetworkListener networkLsn) {
+    public NetworkOpt(Object host, OnNetworkListener networkLsn) {
         mNetworkLsn = networkLsn;
         mHost = host;
 

@@ -59,8 +59,8 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     public void setViews() {
         super.setViews();
 
-        enableSRRefresh(false);
-        enableAutoLoadMore(false);
+        setRefreshEnabled(false);
+        setAutoLoadMoreEnabled(false);
 
         mSideBar.setTextSize(fitDp(10));
         mSideBar.setSingleHeight(fitDp(15));

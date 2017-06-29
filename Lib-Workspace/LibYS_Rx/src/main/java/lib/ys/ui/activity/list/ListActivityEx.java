@@ -10,12 +10,14 @@ import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.ActivityEx;
-import lib.ys.ui.interfaces.listener.MixOnScrollListener;
-import lib.ys.ui.interfaces.listener.list.ListOptListener;
-import lib.ys.ui.interfaces.opts.list.ListOpt;
+import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.listener.list.OnListOptListener;
+import lib.ys.ui.interfaces.impl.list.ListOpt;
 import lib.ys.ui.other.NavBar;
 
-abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityEx implements ListOptListener<T, A> {
+abstract public class ListActivityEx<T, A extends IAdapter<T>>
+        extends ActivityEx
+        implements OnListOptListener<T, A> {
 
     private ListOpt<T, A> mListOpt = new ListOpt<>(this);
 
@@ -179,7 +181,7 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>> extends ActivityE
     }
 
     @Override
-    public void setOnScrollListener(MixOnScrollListener listener) {
+    public void setOnScrollListener(OnScrollMixListener listener) {
         mListOpt.setOnScrollListener(listener);
     }
 
