@@ -114,7 +114,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, this);
-        setNavBarAutoAlphaByScroll(fitDp(219), bar);
+        changeAlphaByScroll(fitDp(219), bar);
         bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
         bar.addViewRight(R.mipmap.nav_bar_ic_more, v -> showDialogCancelAttention());
     }

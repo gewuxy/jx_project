@@ -11,14 +11,14 @@ import java.lang.annotation.RetentionPolicy;
 public interface IExtend {
 
     @IntDef({
-            ExtendState.normal,
-            ExtendState.loading,
-            ExtendState.failed,
-            ExtendState.ready,
-            ExtendState.finish,
+            IExtendStatus.normal,
+            IExtendStatus.loading,
+            IExtendStatus.failed,
+            IExtendStatus.ready,
+            IExtendStatus.finish,
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface ExtendState {
+    @interface IExtendStatus {
         /******
          * 共用属性
          */
@@ -37,7 +37,7 @@ public interface IExtend {
         int finish = 4; // 加载完成
     }
 
-    void changeState(@ExtendState int state);
+    void changeStatus(@IExtendStatus int status);
 
     void onNormal();
 

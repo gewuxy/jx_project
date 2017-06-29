@@ -19,8 +19,8 @@ abstract public class BaseHeader extends LinearLayout implements IExtend {
     private float mPercent;
     private View mContentView;
 
-    @ExtendState
-    private int mState = ExtendState.normal;
+    @IExtendStatus
+    private int mState = IExtendStatus.normal;
 
     public BaseHeader(Context context, BaseSRLayout layout) {
         super(context);
@@ -69,35 +69,35 @@ abstract public class BaseHeader extends LinearLayout implements IExtend {
     }
 
     @Override
-    public final void changeState(@ExtendState int state) {
-        if (mState == state) {
+    public final void changeStatus(@IExtendStatus int status) {
+        if (mState == status) {
             return;
         }
 
-        onStateChanged(state);
-        mState = state;
+        onStateChanged(status);
+        mState = status;
     }
 
-    @ExtendState
+    @IExtendStatus
     protected int getLastState() {
         return mState;
     }
 
-    private void onStateChanged(@ExtendState int state) {
+    private void onStateChanged(@IExtendStatus int state) {
         switch (state) {
-            case ExtendState.normal:
+            case IExtendStatus.normal:
                 onNormal();
                 break;
-            case ExtendState.ready:
+            case IExtendStatus.ready:
                 onReady();
                 break;
-            case ExtendState.loading:
+            case IExtendStatus.loading:
                 onLoading();
                 break;
-            case ExtendState.failed:
+            case IExtendStatus.failed:
                 onFailed();
                 break;
-            case ExtendState.finish:
+            case IExtendStatus.finish:
                 onFinish();
                 break;
         }

@@ -15,9 +15,9 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.VH.RecyclerViewHolderEx;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.ui.frag.FragEx;
+import lib.ys.ui.interfaces.impl.list.RecyclerViewOpt;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.ui.interfaces.listener.list.OnRecyclerViewOptListener;
-import lib.ys.ui.interfaces.impl.list.RecyclerViewOpt;
 import lib.ys.view.recycler.WrapRecyclerView;
 
 /**

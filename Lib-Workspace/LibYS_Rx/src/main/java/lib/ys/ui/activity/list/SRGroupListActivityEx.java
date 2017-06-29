@@ -74,7 +74,7 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
     abstract public void getDataFromNet();
 
     @Override
-    public boolean enableRefreshWhenInit() {
+    public boolean enableInitRefresh() {
         return true;
     }
 
@@ -248,7 +248,7 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
     }
 
     @Override
-    public void onSwipeRefresh() {
+    public void onSwipeRefreshAction() {
     }
 
     @Override

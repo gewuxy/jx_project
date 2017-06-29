@@ -51,7 +51,6 @@ import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.ui.interfaces.opt.IRefreshOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
-import lib.ys.util.InjectUtil.IInjectView;
 import lib.ys.util.UtilEx;
 import lib.ys.util.permission.OnPermissionListener;
 import lib.ys.util.permission.Permission;
@@ -64,14 +63,13 @@ import okhttp3.WebSocketListener;
 abstract public class FragEx extends Fragment implements
         IInitOpt,
         INetworkOpt,
-        OnNetworkListener,
         ICommonOpt,
         IFitOpt,
+        IRefreshOpt,
+        OnNetworkListener,
         OnClickListener,
         OnRetryClickListener,
-        IRefreshOpt,
-        OnPermissionListener,
-        IInjectView {
+        OnPermissionListener {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -373,7 +371,6 @@ abstract public class FragEx extends Fragment implements
         return getActivity() == null || getActivity().isFinishing();
     }
 
-    @Override
     public <T extends View> T findView(@IdRes int id) {
         return (T) mDecorView.findViewById(id);
     }

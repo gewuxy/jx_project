@@ -120,9 +120,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
-    public void onSwipeRefresh() {
-        super.onSwipeRefresh();
-
+    public void onSwipeRefreshAction() {
         //重置数据
         mBannerReqIsOK = false;
         mUnitNumReqIsOK = false;

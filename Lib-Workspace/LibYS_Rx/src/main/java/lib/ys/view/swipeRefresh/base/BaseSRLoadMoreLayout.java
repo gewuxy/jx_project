@@ -17,7 +17,7 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
 import lib.ys.view.swipeRefresh.footer.DefaultFooter;
-import lib.ys.view.swipeRefresh.interfaces.IExtend.ExtendState;
+import lib.ys.view.swipeRefresh.interfaces.IExtend.IExtendStatus;
 
 /**
  * @author yuansui
@@ -88,9 +88,9 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
         if (mIsLoadingMore) {
             mIsLoadingMore = false;
             if (isSucceed) {
-                mLoadMoreFooterView.changeState(ExtendState.normal);
+                mLoadMoreFooterView.changeStatus(IExtendStatus.normal);
             } else {
-                mLoadMoreFooterView.changeState(ExtendState.failed);
+                mLoadMoreFooterView.changeStatus(IExtendStatus.failed);
             }
         }
     }
@@ -104,9 +104,9 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
             boolean result = mListener.onAutoLoadMore();
             if (result) {
                 mIsLoadingMore = true;
-                mLoadMoreFooterView.changeState(ExtendState.loading);
+                mLoadMoreFooterView.changeStatus(IExtendStatus.loading);
             } else {
-                mLoadMoreFooterView.changeState(ExtendState.failed);
+                mLoadMoreFooterView.changeStatus(IExtendStatus.failed);
             }
         }
     }
@@ -141,7 +141,7 @@ abstract public class BaseSRLoadMoreLayout<T extends View> extends BaseSRLayout<
         if (state) {
             mIsLoadingMore = false;
             mLoadMoreFooterView.show();
-            mLoadMoreFooterView.changeState(ExtendState.normal);
+            mLoadMoreFooterView.changeStatus(IExtendStatus.normal);
             mLoadMoreFooterView.setOnClickListener(v -> startLoadMore());
         } else {
             mLoadMoreFooterView.hide();

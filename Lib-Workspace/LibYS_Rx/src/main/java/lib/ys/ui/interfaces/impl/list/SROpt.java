@@ -106,7 +106,7 @@ public class SROpt<T> implements OnSRListener {
 
         setSRListener(this);
 
-        if (mSROptListener.enableRefreshWhenInit()) {
+        if (mSROptListener.enableInitRefresh()) {
             if (hideHeaderWhenInit()) {
                 mScrollOpt.hideHeaderView();
             }
@@ -145,7 +145,7 @@ public class SROpt<T> implements OnSRListener {
     @Override
     public final void onSwipeRefresh() {
         // 保持调用顺序, 先通知外部处理再内部请求数据
-        mSROptListener.onSwipeRefresh();
+        mSROptListener.onSwipeRefreshAction();
         processRefresh();
         mSROptListener.setRefreshWay(RefreshWay.swipe);
     }

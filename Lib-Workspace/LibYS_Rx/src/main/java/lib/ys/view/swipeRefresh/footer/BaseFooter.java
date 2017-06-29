@@ -20,8 +20,8 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
     private View mContentView;
     private OnRetryClickListener mOnRetryClickLsn;
 
-    @ExtendState
-    private int mState = ExtendState.normal;
+    @IExtendStatus
+    private int mState = IExtendStatus.normal;
 
     public BaseFooter(Context context) {
         super(context);
@@ -49,7 +49,7 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
             if (mOnRetryClickLsn != null) {
                 boolean result = mOnRetryClickLsn.onRetryClick();
                 if (result) {
-                    changeState(ExtendState.loading);
+                    changeStatus(IExtendStatus.loading);
                 }
             }
         });
@@ -68,30 +68,30 @@ abstract public class BaseFooter extends LinearLayout implements IExtend {
     }
 
     @Override
-    public final void changeState(@ExtendState int state) {
-        if (mState == state) {
+    public final void changeStatus(@IExtendStatus int status) {
+        if (mState == status) {
             return;
         }
 
-        onStateChanged(state);
-        mState = state;
+        onStateChanged(status);
+        mState = status;
     }
 
-    private void onStateChanged(@ExtendState int state) {
+    private void onStateChanged(@IExtendStatus int state) {
         switch (state) {
-            case ExtendState.normal:
+            case IExtendStatus.normal:
                 onNormal();
                 break;
-            case ExtendState.ready:
+            case IExtendStatus.ready:
                 onReady();
                 break;
-            case ExtendState.loading:
+            case IExtendStatus.loading:
                 onLoading();
                 break;
-            case ExtendState.failed:
+            case IExtendStatus.failed:
                 onFailed();
                 break;
-            case ExtendState.finish:
+            case IExtendStatus.finish:
                 onFinish();
                 break;
         }

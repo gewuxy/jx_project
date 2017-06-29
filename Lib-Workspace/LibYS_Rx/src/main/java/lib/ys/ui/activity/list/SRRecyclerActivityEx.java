@@ -54,7 +54,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
 
         mSROpt.setViews();
 
-        if (getInitRefreshWay() == RefreshWay.embed && enableRefreshWhenInit()) {
+        if (getInitRefreshWay() == RefreshWay.embed && enableInitRefresh()) {
             // 为了更好的体验, 在embed loading显示之前先隐藏掉
             hideView(getDecorView().getContentView());
         }
@@ -69,7 +69,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     abstract public void getDataFromNet();
 
     @Override
-    public boolean enableRefreshWhenInit() {
+    public boolean enableInitRefresh() {
         return true;
     }
 
@@ -94,8 +94,8 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     }
 
     @Override
-    public void setRefreshEnabled(boolean enable) {
-        mSROpt.setRefreshEnabled(enable);
+    public void setRefreshEnabled(boolean enabled) {
+        mSROpt.setRefreshEnabled(enabled);
     }
 
     @Override
@@ -109,8 +109,8 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     }
 
     @Override
-    public void setAutoLoadMoreEnabled(boolean enable) {
-        mSROpt.setAutoLoadMoreEnabled(enable);
+    public void setAutoLoadMoreEnabled(boolean enabled) {
+        mSROpt.setAutoLoadMoreEnabled(enabled);
     }
 
     @Override

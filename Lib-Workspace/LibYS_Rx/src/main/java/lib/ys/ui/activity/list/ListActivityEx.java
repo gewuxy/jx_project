@@ -1,6 +1,7 @@
 package lib.ys.ui.activity.list;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
 
@@ -10,9 +11,9 @@ import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.ActivityEx;
+import lib.ys.ui.interfaces.impl.list.ListOpt;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.ui.interfaces.listener.list.OnListOptListener;
-import lib.ys.ui.interfaces.impl.list.ListOpt;
 import lib.ys.ui.other.NavBar;
 
 abstract public class ListActivityEx<T, A extends IAdapter<T>>
@@ -44,16 +45,19 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>>
         return R.id.list;
     }
 
+    @Nullable
     @Override
     public View createHeaderView() {
         return null;
     }
 
+    @Nullable
     @Override
     public View createFooterView() {
         return null;
     }
 
+    @Nullable
     @Override
     public View createEmptyView() {
         return null;
@@ -209,7 +213,7 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>>
     }
 
     @Override
-    public void addEmptyViewIfNoNull() {
+    public void addEmptyViewIfNonNull() {
         mListOpt.addEmptyViewIfNonNull();
     }
 
@@ -239,8 +243,8 @@ abstract public class ListActivityEx<T, A extends IAdapter<T>>
     }
 
     @Override
-    public void setNavBarAutoAlphaByScroll(int height, NavBar navBar) {
-        mListOpt.setNavBarAutoAlphaByScroll(height, navBar);
+    public void changeAlphaByScroll(int height, NavBar navBar) {
+        mListOpt.changeAlphaByScroll(height, navBar);
     }
 
     @Override

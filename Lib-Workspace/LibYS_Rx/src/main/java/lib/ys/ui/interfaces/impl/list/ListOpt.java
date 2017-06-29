@@ -25,8 +25,8 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnListOptListener;
 import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
+import lib.ys.ui.interfaces.listener.list.OnListOptListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
@@ -55,7 +55,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     public ListOpt(@NonNull OnListOptListener<T, A> l) {
         if (l == null) {
-            throw new IllegalStateException("ListOptListener must be NonNull");
+            throw new IllegalStateException("OnListOptListener can not be null");
         }
         mListener = l;
 
@@ -64,7 +64,11 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
     }
 
     @CallSuper
-    public void findViews(@NonNull View contentView, @NonNull @IdRes int listId, @Nullable View header, @Nullable View footer, @Nullable View empty) {
+    public void findViews(@NonNull View contentView,
+                          @IdRes int listId,
+                          @Nullable View header,
+                          @Nullable View footer,
+                          @Nullable View empty) {
         mLv = (ListView) contentView.findViewById(listId);
 
         LayoutInflater inflater = LayoutInflater.from(contentView.getContext());
@@ -315,58 +319,59 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
     /**
      * 根据高度自动变换titleBar的背景色透明度
      *
-     * @param height
-     * @param navBar
+     * @param height 变换透明的总高度
+     * @param bar    需要变换的navBar
      */
-    public void setNavBarAutoAlphaByScroll(final int height, final NavBar navBar) {
-        int th = navBar.getHeight();
-        if (th == 0 && navBar.getVisibility() != View.GONE && navBar.getViewTreeObserver().isAlive()) {
+    public void changeAlphaByScroll(final int height, final NavBar bar) {
+        if (bar.getHeight() == 0 && bar.getVisibility() != View.GONE && bar.getViewTreeObserver().isAlive()) {
             // 调用的时机不对. 获取不到titleBar的高度
-            navBar.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+            bar.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 
                 @Override
                 public boolean onPreDraw() {
-                    int th = navBar.getHeight();
-                    if (th == 0) {
+                    int barH = bar.getHeight();
+                    if (barH == 0) {
                         return true;
                     }
-                    final int h = height - th;
+                    final int realH = height - barH;
 
                     // 注意要用listener调用, 因为对于SRList来说, scroll的监听使用的方式不一样
                     mListener.setOnScrollListener(new OnScrollMixListener() {
+
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
                         }
 
                         @Override
                         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                            computeTitleBarAlpha(view, firstVisibleItem, navBar, h);
+                            setNavBarAlpha(view, firstVisibleItem, bar, realH);
                         }
                     });
 
-                    navBar.getViewTreeObserver().removeOnPreDrawListener(this);
+                    bar.getViewTreeObserver().removeOnPreDrawListener(this);
                     return true;
                 }
             });
         } else {
-            final int h = height - th;
+            final int realH = height - bar.getHeight();
             mListener.setOnScrollListener(new OnScrollMixListener() {
+
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                 }
 
                 @Override
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    computeTitleBarAlpha(view, firstVisibleItem, navBar, h);
+                    setNavBarAlpha(view, firstVisibleItem, bar, realH);
                 }
             });
         }
     }
 
-    private void computeTitleBarAlpha(AbsListView view, int firstVisibleItem, NavBar navBar, int h) {
+    private void setNavBarAlpha(AbsListView view, int firstVisibleItem, NavBar navBar, int height) {
         if (firstVisibleItem == 0) {
             float top = -view.getChildAt(0).getTop();
-            float rate = top / h;
+            float rate = top / height;
             if (rate > 1) {
                 rate = 1;
             }

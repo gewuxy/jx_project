@@ -1,5 +1,7 @@
 package lib.ys.ui.interfaces.listener.list;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import java.util.List;
@@ -17,12 +19,16 @@ import lib.ys.ui.other.NavBar;
 public interface OnListOptListener<T, A extends IAdapter<T>> {
     int getListViewResId();
 
+    @Nullable
     View createHeaderView();
 
+    @Nullable
     View createFooterView();
 
+    @Nullable
     View createEmptyView();
 
+    @NonNull
     A getAdapter();
 
     void hideFooterView();
@@ -33,7 +39,7 @@ public interface OnListOptListener<T, A extends IAdapter<T>> {
 
     void hideHeaderView();
 
-    void addEmptyViewIfNoNull();
+    void addEmptyViewIfNonNull();
 
     /**
      * PS: ListP里不实现
@@ -142,7 +148,7 @@ public interface OnListOptListener<T, A extends IAdapter<T>> {
      * @param height 最大高度时alpha为255
      * @param navBar 需要改变的titleBar
      */
-    void setNavBarAutoAlphaByScroll(int height, NavBar navBar);
+    void changeAlphaByScroll(int height, NavBar navBar);
 
     void setDividerHeight(int height);
 }

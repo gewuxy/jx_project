@@ -62,11 +62,11 @@ public interface OnSROptListener<T> {
     void showToast(String content);
 
     /**
-     * 是否允许界面初始化时自动加载网络数据
+     * 是否允许界面初始完之后自动加载网络数据
      *
      * @return
      */
-    boolean enableRefreshWhenInit();
+    boolean enableInitRefresh();
 
     void getDataFromNet();
 
@@ -84,14 +84,19 @@ public interface OnSROptListener<T> {
 
     boolean isSwipeRefreshing();
 
-    void setAutoLoadMoreEnabled(boolean enable);
+    /**
+     * 是否允许自动加载更多
+     *
+     * @param enabled
+     */
+    void setAutoLoadMoreEnabled(boolean enabled);
 
     /**
      * 是否允许下拉刷新
      *
-     * @param enable
+     * @param enabled
      */
-    void setRefreshEnabled(boolean enable);
+    void setRefreshEnabled(boolean enabled);
 
     int getOffset();
 
@@ -113,7 +118,7 @@ public interface OnSROptListener<T> {
     void onNetRefreshError();
 
     /**
-     * 是否在初始化后第一次获取数据时, 无数据后切换到faildView, 部分设计不允许切换
+     * 是否在初始化后第一次获取数据时, 无数据后切换到err View, 部分设计不允许切换
      *
      * @return
      */
@@ -127,7 +132,7 @@ public interface OnSROptListener<T> {
     int getInitOffset();
 
     /**
-     * 获取初始数据的时候是否隐藏header view
+     * 获取网络初始数据的时候是否隐藏header view
      *
      * @return
      */
@@ -158,7 +163,7 @@ public interface OnSROptListener<T> {
     List<T> getNetData();
 
     /**
-     * 手动下拉刷新回调
+     * 下拉刷新动作的回调
      */
-    void onSwipeRefresh();
+    void onSwipeRefreshAction();
 }

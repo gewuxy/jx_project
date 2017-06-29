@@ -74,7 +74,7 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     abstract public void getDataFromNet();
 
     @Override
-    public boolean enableRefreshWhenInit() {
+    public boolean enableInitRefresh() {
         return true;
     }
 
@@ -99,8 +99,8 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     }
 
     @Override
-    public void setRefreshEnabled(boolean enable) {
-        mSROpt.setRefreshEnabled(enable);
+    public void setRefreshEnabled(boolean enabled) {
+        mSROpt.setRefreshEnabled(enabled);
     }
 
     @Override
@@ -114,8 +114,8 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     }
 
     @Override
-    public void setAutoLoadMoreEnabled(boolean enable) {
-        mSROpt.setAutoLoadMoreEnabled(enable);
+    public void setAutoLoadMoreEnabled(boolean enabled) {
+        mSROpt.setAutoLoadMoreEnabled(enabled);
     }
 
     @Override
@@ -250,7 +250,7 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
     }
 
     @Override
-    public void onSwipeRefresh() {
+    public void onSwipeRefreshAction() {
     }
 
     @Override

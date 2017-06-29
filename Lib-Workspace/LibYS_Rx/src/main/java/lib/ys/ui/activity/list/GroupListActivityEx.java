@@ -210,7 +210,7 @@ abstract public class GroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<
     }
 
     @Override
-    public void addEmptyViewIfNoNull() {
+    public void addEmptyViewIfNonNull() {
         mGroupListOpt.addEmptyViewIfNonNull();
     }
 
@@ -346,8 +346,8 @@ abstract public class GroupListActivityEx<GROUP, CHILD, A extends IGroupAdapter<
     }
 
     @Override
-    public void setNavBarAutoAlphaByScroll(int height, NavBar navBar) {
-        mGroupListOpt.setNavBarAutoAlphaByScroll(height, navBar);
+    public void changeAlphaByScroll(int height, NavBar navBar) {
+        mGroupListOpt.changeAlphaByScroll(height, navBar);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class SectionNameFrag extends BaseSRListFrag<String, SectionNameAdapter> 
     }
 
     @Override
-    public boolean enableRefreshWhenInit() {
+    public boolean enableInitRefresh() {
         return false;
     }
 

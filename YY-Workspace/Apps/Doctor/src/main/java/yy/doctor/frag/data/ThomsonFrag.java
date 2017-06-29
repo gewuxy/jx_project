@@ -39,7 +39,7 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
     }
 
     @Override
-    public boolean enableRefreshWhenInit() {
+    public boolean enableInitRefresh() {
         return true;
     }
 

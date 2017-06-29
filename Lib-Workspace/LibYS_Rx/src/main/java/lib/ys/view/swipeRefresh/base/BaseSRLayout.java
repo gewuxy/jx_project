@@ -21,7 +21,7 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.scrollableLayout.ScrollableLayout;
 import lib.ys.view.swipeRefresh.header.BaseHeader;
 import lib.ys.view.swipeRefresh.header.DefaultLayoutHeader;
-import lib.ys.view.swipeRefresh.interfaces.IExtend.ExtendState;
+import lib.ys.view.swipeRefresh.interfaces.IExtend.IExtendStatus;
 import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 
 /**
@@ -202,9 +202,9 @@ abstract public class BaseSRLayout<T extends View> extends ViewGroup {
 
                 mHeader.setPercent(mCurrentDragPercent, true);
                 if (mCurrentDragPercent >= KMaxDragRate) {
-                    mHeader.changeState(ExtendState.ready);
+                    mHeader.changeStatus(IExtendStatus.ready);
                 } else {
-                    mHeader.changeState(ExtendState.normal);
+                    mHeader.changeStatus(IExtendStatus.normal);
                 }
 
                 setTargetOffsetTop(targetY - mCurrentOffsetTop, true);
@@ -268,14 +268,14 @@ abstract public class BaseSRLayout<T extends View> extends ViewGroup {
         mHeader.startAnimation(mAnimateToCorrectPosition);
 
         if (mRefreshing) {
-            mHeader.changeState(ExtendState.loading);
+            mHeader.changeStatus(IExtendStatus.loading);
             if (mNotify) {
                 if (mListener != null) {
                     mListener.onSwipeRefresh();
                 }
             }
         } else {
-            mHeader.changeState(ExtendState.normal);
+            mHeader.changeStatus(IExtendStatus.normal);
             animateOffsetToStartPosition();
         }
         mCurrentOffsetTop = mContentView.getTop();
@@ -347,7 +347,7 @@ abstract public class BaseSRLayout<T extends View> extends ViewGroup {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            mHeader.changeState(ExtendState.normal);
+            mHeader.changeStatus(IExtendStatus.normal);
             mCurrentOffsetTop = mContentView.getTop();
             mIsAnimating = false;
         }

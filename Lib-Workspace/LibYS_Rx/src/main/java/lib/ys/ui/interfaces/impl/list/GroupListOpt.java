@@ -3,6 +3,7 @@ package lib.ys.ui.interfaces.impl.list;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -39,7 +40,11 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
 
     @CallSuper
     @Override
-    public void findViews(View contentView, @IdRes int listId, View header, View footer, View empty) {
+    public void findViews(@NonNull View contentView,
+                          @IdRes int listId,
+                          @Nullable View header,
+                          @Nullable View footer,
+                          @Nullable View empty) {
         super.findViews(contentView, listId, header, footer, empty);
         mLv = (FloatingGroupListView) contentView.findViewById(listId);
     }

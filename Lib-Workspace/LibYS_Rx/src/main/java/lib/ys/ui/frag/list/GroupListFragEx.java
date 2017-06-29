@@ -1,6 +1,7 @@
 package lib.ys.ui.frag.list;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -56,16 +57,19 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
         return mGroupListOpt.getAdapter();
     }
 
+    @Nullable
     @Override
     public View createHeaderView() {
         return null;
     }
 
+    @Nullable
     @Override
     public View createFooterView() {
         return null;
     }
 
+    @Nullable
     @Override
     public View createEmptyView() {
         return null;
@@ -214,7 +218,7 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     }
 
     @Override
-    public void addEmptyViewIfNoNull() {
+    public void addEmptyViewIfNonNull() {
         mGroupListOpt.addEmptyViewIfNonNull();
     }
 
@@ -350,8 +354,8 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     }
 
     @Override
-    public void setNavBarAutoAlphaByScroll(int height, NavBar navBar) {
-        mGroupListOpt.setNavBarAutoAlphaByScroll(height, navBar);
+    public void changeAlphaByScroll(int height, NavBar navBar) {
+        mGroupListOpt.changeAlphaByScroll(height, navBar);
     }
 
     @Override
