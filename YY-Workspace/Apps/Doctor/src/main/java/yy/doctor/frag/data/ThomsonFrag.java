@@ -39,6 +39,11 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
     }
 
     @Override
+    public int getLimit() {
+        return 500;
+    }
+
+    @Override
     public boolean enableRefreshWhenInit() {
         return true;
     }

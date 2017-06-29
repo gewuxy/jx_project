@@ -146,6 +146,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     public void setViews() {
         super.setViews();
 
+        setDividerHeight(fitDp(1));
         enableSRRefresh(false);
         mZoomView.setZoomEnabled(true);
 
@@ -195,19 +196,19 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         data.add(getString(R.string.cancel));
 
         final BottomDialog dialog = new BottomDialog(this, position -> {
+
             if (position == 0) {
                 exeNetworkReq(KReqIdNoAttention, NetFactory.attention(mUnitNumId, KNoAttention));
                 //关注人数减1
                 mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
                 mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
-
                 //通知单位号页面去掉这个单位号的item
                 notify(NotifyType.cancel_attention, mUnitNumDetail.getInt(TUnitNumDetail.id));
-
             } else if (position == 1) {
                 createShortcut();
             }
         });
+
         for (int i = 0; i < data.size(); ++i) {
             if (i == 0) {
                 dialog.addItem(data.get(i), KColorNoAttention);
