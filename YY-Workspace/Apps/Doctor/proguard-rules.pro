@@ -24,4 +24,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-dontwarn yy.doctor.model.**
+-keep class yy.doctor.model.**{*;}
+
 

@@ -40,17 +40,19 @@ import static lib.yy.network.BaseJsonParser.evs;
  */
 public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAttentionListener {
 
-    private static final int KReqIdBanner = 1;
-    private static final int KReqIdMeeting = 2;
-    private static final int KReqIdUnitNum = 3;
-    private static final int KReqIdAttention = 4;
-    private static final int KAttention = 1;  //关注单位号
+    private final int KReqIdBanner = 1;
+    private final int KReqIdMeeting = 2;
+    private final int KReqIdUnitNum = 3;
+    private final int KReqIdAttention = 4;
+    private final int KAttention = 1;  //关注单位号
 
-    private static final int KFirstSection = 3;
-    private static final int KSecondSection = 5;
+    private final int KFirstSection = 3;
+    private final int KSecondSection = 5;
 
-    private static final int KBadgeMarginTop = 8;
-    private static final int KBadgeMarginLeft = 0;
+    private final int KBadgeMarginTop = 8;
+    private final int KBadgeMarginLeft = 0;
+
+    private final int KLimit = 8;
 
     private boolean mBannerReqIsOK = false;
     private boolean mUnitNumReqIsOK = false;
@@ -221,7 +223,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 }
                 homes.addAll(firstSectionMeetings);
 
-                if (mRecUnitNums != null && mRecUnitNums.size() > 0){
+                if (mRecUnitNums != null && mRecUnitNums.size() > 0) {
                     RecUnitNums nums = new RecUnitNums();
                     nums.setData(mRecUnitNums);
                     homes.add(nums);
@@ -328,4 +330,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         }
     }
 
+    @Override
+    public int getLimit() {
+        return KLimit;
+    }
 }
