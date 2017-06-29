@@ -289,10 +289,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         super.onDestroy();
 
         if (mSubDialog != null) {
-            if (mSubDialog.isShowing()) {
-                mSubDialog.dismiss();
-            }
-            mSubDialog = null;
+            mSubDialog.dismiss();
         }
     }
 

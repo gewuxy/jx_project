@@ -87,7 +87,11 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             finish();
         });
 
-        bar.addTextViewMid(mCourseInfo.getString(TCourseInfo.title));
+        String title = mCourseInfo.getString(TCourseInfo.title);
+        if (title.length() >= 12) {
+            title = title.substring(0, 12) + "...";
+        }
+        bar.addTextViewMid(title);
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
         bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> {
@@ -113,6 +117,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
         int itemType = getAdapter().getItemViewType(position);
         switch (itemType) {
+            case RecordType.video:
             case RecordType.pic: {
                 pic(position);
             }

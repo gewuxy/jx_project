@@ -1,6 +1,7 @@
 package lib.yy.util;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.reactivestreams.Subscription;
 
@@ -26,12 +27,21 @@ public class CountDown {
     private TimeUnit mTimeUnit;
     private OnCountDownListener mListener;
 
-    public CountDown(long secondTime) {
-        this(secondTime, TimeUnit.SECONDS);
+    public CountDown() {
+        this(0, TimeUnit.SECONDS);
     }
 
-    public CountDown(long time, @NonNull TimeUnit timeUnit) {
-        mCount = time;
+    public CountDown(long count) {
+        // 默认时间单位为秒
+        this(count, TimeUnit.SECONDS);
+    }
+
+    public CountDown(@NonNull TimeUnit timeUnit) {
+        this(0, timeUnit);
+    }
+
+    public CountDown(long count, @NonNull TimeUnit timeUnit) {
+        mCount = count;
         mTimeUnit = timeUnit;
     }
 
@@ -67,14 +77,26 @@ public class CountDown {
      * @return
      */
     public void start() {
-        start(0);
+        start(0, null);
     }
 
     public void start(long count) {
+        start(count, null);
+    }
+
+    public void start(@NonNull TimeUnit unit) {
+        start(0, unit);
+    }
+
+    public void start(long count, @Nullable TimeUnit unit) {
         dispose();
 
         if (count != 0) {
             mCount = count;
+        }
+
+        if (unit != null) {
+            mTimeUnit = unit;
         }
 
         Flowable.interval(0, 1, mTimeUnit)//0秒延迟

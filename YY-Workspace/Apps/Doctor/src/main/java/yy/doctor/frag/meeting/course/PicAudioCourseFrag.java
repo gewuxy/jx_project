@@ -30,7 +30,10 @@ import yy.doctor.view.RootLayout.OnRootTouchListener;
  * @auther yuansui
  * @since 2017/6/7
  */
-public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionListener, OnCountDownListener, OnRootTouchListener {
+public class PicAudioCourseFrag extends BaseCourseFrag implements
+        OnCompletionListener,
+        OnCountDownListener,
+        OnRootTouchListener {
 
     private NetworkPhotoView mIvPPT;
     private ImageView mIvHolder;
@@ -80,6 +83,10 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
         setBackgroundColor(Color.TRANSPARENT);
     }
 
+    public ImageView getIvHolder() {
+        return mIvHolder;
+    }
+
     protected void setPic() {
         String imgUrl = getDetail().getString(TCourse.imgUrl);
 
@@ -88,8 +95,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
                     .listener(new NetworkImageListener() {
                         @Override
                         public void onImageSet(ImageInfo info) {
-                            YSLog.d(TAG, "onImageSet: w = " + info.getWidth());
-                            YSLog.d(TAG, "onImageSet: h = " + info.getHeight());
                             // 加载成功隐藏默认图
                             goneView(mIvHolder);
                         }
@@ -157,7 +162,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
                     YSLog.e(TAG, "preparePlay", e);
                 }
             }
-            onPrepare(mMp.getDuration());
+            onPrepared(mMp.getDuration());
             return true;
         }
         return false;
@@ -248,7 +253,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnCompletionLi
     public void seekTo(int msec) {
         if (mMp != null) {
             mMp.seekTo(msec);
-
         }
     }
 

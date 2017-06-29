@@ -70,7 +70,7 @@ public abstract class BaseCourseFrag extends BaseFrag {
         mListener = l;
     }
 
-    protected void onPrepare(long allMilliseconds) {
+    protected void onPrepared(long allMilliseconds) {
         if (mListener != null) {
             mListener.onPrepare(allMilliseconds);
         }
@@ -104,6 +104,22 @@ public abstract class BaseCourseFrag extends BaseFrag {
         if (mListener != null) {
             mListener.end();
         }
+    }
+
+    public boolean preparePlay() {
+        return false;
+    }
+
+    public void setRemainTime(int remainTime) {
+
+    }
+
+    public void pause() {
+
+    }
+
+    public void seekTo(int msec) {
+
     }
 
     public abstract boolean isFinish();

@@ -22,7 +22,6 @@
                 android:layout_height="match_parent"/>
 
             <ImageView
-                android:id="@+id/record_location_iv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/meeting_record_image_bg"/>
