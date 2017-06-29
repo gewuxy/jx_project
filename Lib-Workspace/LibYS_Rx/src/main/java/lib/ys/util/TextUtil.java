@@ -75,7 +75,7 @@ public class TextUtil {
         int curLen = 0;
         int count = 0;
         for (int i = 0; i < text.length(); i++) {
-            int chr1 = (char) text.charAt(i);
+            int chr1 = text.charAt(i);
             if (chr1 >= KCNRangeMin && chr1 <= KCNRangeMax) {
                 // CN
                 curLen += oneCharLen;

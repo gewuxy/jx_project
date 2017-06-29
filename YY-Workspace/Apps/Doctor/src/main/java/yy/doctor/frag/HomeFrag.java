@@ -142,8 +142,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         ListResult result = null;
         if (id == KReqIdBanner) {
             result = evs(r.getText(), Banner.class);
-//            result.setCode(-1);
-//            result.setError("error");
             if (result.isSucceed()) {
                 mBanners = result.getData();
             }

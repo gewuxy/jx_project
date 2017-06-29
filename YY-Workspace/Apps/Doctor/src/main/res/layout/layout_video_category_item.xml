@@ -21,11 +21,11 @@
             <TextView
                 android:id="@+id/video_category_tv_name"
                 style="@style/tv"
+                android:layout_marginRight="32dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="大视频"
                 android:textColor="@color/text_333"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_marginRight="32dp"
                 android:textSize="14dp"/>
 
             <TextView

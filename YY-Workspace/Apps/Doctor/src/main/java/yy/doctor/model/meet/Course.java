@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.EVal;
+import lib.ys.util.TextUtil;
 import yy.doctor.model.meet.Course.TCourse;
 
 /**
@@ -60,17 +61,25 @@ public class Course extends EVal<TCourse> {
      */
     public int getType() {
         if (mType == CourseType.un_know) {
-            if (getString(TCourse.videoUrl).isEmpty()) {
-                // 不是视频
-                if (getString(TCourse.audioUrl).isEmpty()) {
-                    mType = CourseType.pic;
-                } else if (getString(TCourse.imgUrl).isEmpty()) {
-                    mType = CourseType.audio;
+            String imgUrl = getString(TCourse.imgUrl);
+            String audioUrl = getString(TCourse.audioUrl);
+            String videoUrl = getString(TCourse.videoUrl);
+
+            if (!TextUtil.isEmpty(videoUrl)) {
+                // 有视频
+                return CourseType.video;
+            } else if (!TextUtil.isEmpty(audioUrl)) {
+                // 有音频
+                if (!TextUtil.isEmpty(imgUrl)) {
+                    // 有音频且有图片
+                    return CourseType.pic_audio;
                 } else {
-                    mType = CourseType.pic_audio;
+                    // 只有音频
+                    return CourseType.audio;
                 }
             } else {
-                mType = CourseType.video;
+                // 只有图片
+                return CourseType.pic;
             }
         }
         return mType;

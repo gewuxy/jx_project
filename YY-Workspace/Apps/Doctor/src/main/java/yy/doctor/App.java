@@ -30,7 +30,7 @@ public class App extends BaseApp {
     private static final int KTitleBarIconSizeDp = 16;
     private static final int KTitleBarIconPaddingHorizontalDp = 12;
     private static final int KTitleBarTextMarginHorizontalDp = 12;
-    private static final int KTitleBarTextSizeDp = 16;
+    public static final int KTitleBarTextSizeDp = 16;
 
     @Override
     protected AppConfig configureApp() {

@@ -13,8 +13,8 @@
         <ImageView style="@style/iv.meeting.record.symbol"/>
 
         <RelativeLayout
-            android:layout_width="293dp"
-            android:layout_height="169dp">
+            android:layout_width="@dimen/meeting_record_item_width"
+            android:layout_height="@dimen/meeting_record_item_height">
 
             <lib.ys.network.image.NetworkImageView
                 android:id="@+id/meeting_record_pic_iv_image"

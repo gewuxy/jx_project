@@ -1,19 +1,15 @@
 package yy.doctor.adapter;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.media.MediaPlayer;
-import android.support.annotation.IntDef;
 import android.widget.ImageView;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import lib.ys.adapter.MultiAdapterEx;
+import lib.ys.fitter.DpFitter;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.util.TextUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.RecordVH;
 import yy.doctor.model.meet.Course;
+import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.Course.TCourse;
 
 /**
@@ -25,37 +21,28 @@ import yy.doctor.model.meet.Course.TCourse;
 
 public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
-//    private MediaPlayer mPlayer = new MediaPlayer();
+    private int mImgWidth;
+    private int mImgHeight;
 
-    private static final int KPicBack = R.mipmap.ic_default_meeting_content_detail; // 默认图
-
-    @IntDef({
-            RecordType.video,
-            RecordType.audio,
-            RecordType.pic,
-            RecordType.pic_audio,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface RecordType {
-        int video = 0;
-        int audio = 1;
-        int pic = 2;
-        int pic_audio = 3;
+    public RecordAdapter() {
+        mImgWidth = DpFitter.dimen(R.dimen.meeting_record_item_width);
+        mImgHeight = DpFitter.dimen(R.dimen.meeting_record_item_height);
     }
 
     @Override
     public int getConvertViewResId(int itemType) {
         switch (itemType) {
-            case RecordType.video:
+            case CourseType.video:
                 return R.layout.layout_meeting_record_video;
-            case RecordType.audio:
+            case CourseType.audio:
                 return R.layout.layout_meeting_record_audio;
-            case RecordType.pic:
+            case CourseType.pic:
                 return R.layout.layout_meeting_record_pic;
-            case RecordType.pic_audio:
+            case CourseType.pic_audio:
                 return R.layout.layout_meeting_record_pic_audio;
         }
-        return -1;
+
+        return R.layout.layout_meeting_record_pic;
     }
 
     @Override
@@ -65,26 +52,27 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     @Override
     protected void refreshView(int position, RecordVH holder, int itemType) {
         switch (itemType) {
-            case RecordType.video:
+            case CourseType.video: {
+                holder.getIvVideo().res(R.mipmap.meeting_record_ic_video).load();
                 setOnViewClickListener(position, holder.getIvVideo());
-                break;
-
-            case RecordType.audio: {
+            }
+            break;
+            case CourseType.audio: {
                 setOnViewClickListener(position, holder.getLayoutAudio());
                 animation(position, holder.getIvAudio());
             }
             break;
-
-            case RecordType.pic_audio: {
+            case CourseType.pic_audio: {
                 // 区别于纯图片的功能
                 ImageView iv = holder.getIvPicAudio();
                 setOnViewClickListener(position, iv);
                 animation(position, iv);
             }
-            case RecordType.pic: {
+            case CourseType.pic: {
                 // 图片,图片+音频共有的功能
                 NetworkImageView iv = holder.getIvPic();
-                iv.placeHolder(KPicBack)
+                iv.placeHolder(R.mipmap.ic_default_meeting_content_detail)
+                        .resize(mImgWidth, mImgHeight)
                         .url(getItem(position).getString(TCourse.imgUrl))
                         .load();
                 setOnViewClickListener(position, iv);
@@ -95,33 +83,13 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
 
     @Override
     public int getItemViewType(int position) {
-        String imgUrl = getItem(position).getString(TCourse.imgUrl);
-        String audioUrl = getItem(position).getString(TCourse.audioUrl);
-        String videoUrl = getItem(position).getString(TCourse.videoUrl);
-
-        if (!TextUtil.isEmpty(videoUrl)) {
-            // 有视频
-            return RecordType.video;
-        } else if (!TextUtil.isEmpty(audioUrl)) {
-            // 有音频
-            if (!TextUtil.isEmpty(imgUrl)) {
-                // 有音频且有图片
-                return RecordType.pic_audio;
-            } else {
-                // 只有音频
-                return RecordType.audio;
-            }
-        } else {
-            // 只有图片
-            return RecordType.pic;
-        }
+        return getItem(position).getType();
     }
 
     @Override
     public int getViewTypeCount() {
-        return RecordType.class.getDeclaredFields().length;
+        return CourseType.class.getDeclaredFields().length;
     }
-
 
     private void animation(int position, ImageView iv) {
         AnimationDrawable animation = (AnimationDrawable) iv.getDrawable();

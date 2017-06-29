@@ -17,15 +17,16 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseListActivity;
-import lib.yy.network.Result;
+import yy.doctor.App;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.RecordAdapter;
-import yy.doctor.adapter.RecordAdapter.RecordType;
 import yy.doctor.model.meet.Course;
+import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
@@ -87,10 +88,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             finish();
         });
 
-        String title = mCourseInfo.getString(TCourseInfo.title);
-        if (title.length() >= 12) {
-            title = title.substring(0, 12) + "...";
-        }
+        String title = TextUtil.cutString(mCourseInfo.getString(TCourseInfo.title), fitDp(App.KTitleBarTextSizeDp), fitDp(200), "...");
         bar.addTextViewMid(title);
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
@@ -117,19 +115,19 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
         int itemType = getAdapter().getItemViewType(position);
         switch (itemType) {
-            case RecordType.video:
-            case RecordType.pic: {
+            case CourseType.video:
+            case CourseType.pic: {
                 pic(position);
             }
             break;
 
-            case RecordType.audio: {
+            case CourseType.audio: {
                 audio(position, (AnimationDrawable) getAdapter()
                         .getCacheVH(position).getIvAudio().getDrawable());
             }
             break;
 
-            case RecordType.pic_audio: {
+            case CourseType.pic_audio: {
                 if (v instanceof NetworkImageView) {
                     pic(position);
                 } else {

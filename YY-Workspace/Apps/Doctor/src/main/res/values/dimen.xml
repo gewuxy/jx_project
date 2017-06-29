@@ -9,10 +9,8 @@
 
     <dimen name="edit_height">52dp</dimen>
 
-    <!--Sliding menu-->
-    <dimen name="sliding_menu_offset">60dp</dimen>
-    <dimen name="list_padding">10dp</dimen>
-    <dimen name="shadow_width">15dp</dimen>
-    <integer name="num_cols">1</integer>
+    <!--meeting record-->
+    <dimen name="meeting_record_item_width">293dp</dimen>
+    <dimen name="meeting_record_item_height">169dp</dimen>
 
 </resources>

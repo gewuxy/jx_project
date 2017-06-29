@@ -15,6 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_marginRight="@dimen/margin"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -23,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="科研成才之路"
                 android:textColor="@color/text_333"
                 android:textSize="14dp"/>
@@ -38,9 +39,9 @@
                     android:id="@+id/home_meeting_item_tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/meeting_ic_not_started"
                     android:drawablePadding="4dp"
                     android:text="未开始"
-                    android:drawableLeft="@mipmap/meeting_ic_not_started"
                     android:textColor="@color/text_01b557"
                     android:textSize="9dp"/>
 
@@ -83,13 +84,13 @@
                     android:id="@+id/home_meeting_item_tv_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_marginLeft="8dp"
                     android:drawableLeft="@mipmap/home_ic_meeting_collection"
                     android:drawablePadding="4dp"
                     android:text="已收藏"
                     android:textColor="@color/text_83c0f3"
-                    android:textSize="9dp"/>
+                    android:textSize="9dp"
+                    android:visibility="gone"/>
 
                 <!--<lib.ys.view.NestCheckBox
                     android:id="@+id/home_meeting_item_check_box_collection"
@@ -157,8 +158,8 @@
                     android:id="@+id/home_meeting_item_tv_hospital"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_below="@id/home_meeting_item_tv_speaker_name"
+                    android:layout_marginTop="10dp"
                     android:textColor="@color/text_888"
                     android:textSize="9dp"/>
 

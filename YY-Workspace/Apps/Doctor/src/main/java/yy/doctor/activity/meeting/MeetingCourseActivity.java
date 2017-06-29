@@ -28,13 +28,12 @@ import io.reactivex.Observable;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
-import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Constants.DateUnit;
@@ -620,9 +619,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         if (mCountDown != null) {
             mCountDown.stop();
+            mCountDown = null;
         }
-
-        NetworkImageView.clearMemoryCache(this);
     }
 
     @Override
