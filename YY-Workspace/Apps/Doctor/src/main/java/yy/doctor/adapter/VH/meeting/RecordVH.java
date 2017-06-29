@@ -11,8 +11,8 @@ import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 
 /**
- * 日期 : 2017/4/26
- * : guoxuan
+ * @author : guoxuan
+ * @since : 2017/4/26
  */
 
 public class RecordVH extends ViewHolderEx {
@@ -22,6 +22,10 @@ public class RecordVH extends ViewHolderEx {
 
     public NetworkImageView getIvPic() {
         return getView(R.id.meeting_record_pic_iv_image);
+    }
+
+    public ImageView getIvVideo() {
+        return getView(R.id.meeting_record_video_iv);
     }
 
     public ImageView getIvPicAudio() {

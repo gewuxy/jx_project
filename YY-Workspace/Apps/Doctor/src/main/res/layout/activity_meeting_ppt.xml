@@ -11,7 +11,6 @@
         android:id="@+id/meeting_ppt_layout_p"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:orientation="vertical">
 
         <View
@@ -46,8 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     view:circle_backProgress="@color/transparent"
-                    view:circle_progress="@color/white"
-                    view:circle_widthDp="3dp"/>
+                    view:circle_progress="@color/text_80fff"
+                    view:circle_widthDp="1dp"/>
 
                 <ImageView
                     android:id="@+id/meeting_ppt_iv_control_p"

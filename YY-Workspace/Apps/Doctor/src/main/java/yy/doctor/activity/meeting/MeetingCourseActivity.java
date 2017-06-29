@@ -45,6 +45,7 @@ import yy.doctor.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.frag.meeting.course.BaseCourseFrag.OnCourseListener;
 import yy.doctor.frag.meeting.course.PicAudioCourseFrag;
 import yy.doctor.frag.meeting.course.PicCourseFrag;
+import yy.doctor.frag.meeting.course.VideoCourseFrag;
 import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.Course.TCourse;
@@ -131,6 +132,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onPrepare(long allMilliseconds) {
+                mAllMilliseconds = allMilliseconds;
             }
 
             @Override
@@ -246,6 +248,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 switch (mCourses.get(getCurrentItem()).getType()) {
                     case CourseType.pic_audio:
+                    case CourseType.video:
                     case CourseType.audio: {
                         mTvTimeL.setText(Util.format((long) (mSb.getProgress() / 100.0 * mAllMilliseconds / 1000), DateUnit.minute));
                     }
@@ -261,22 +264,22 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 }
                 switch (mCourses.get(getCurrentItem()).getType()) {
                     case CourseType.pic_audio:
-                        // 音频+图片的时候
-                        ((PicAudioCourseFrag) getItem(getCurrentItem())).pause();
-                        break;
                     case CourseType.audio:
-                        ((AudioCourseFrag) getItem(getCurrentItem())).pause();
+                    case CourseType.video:
+                        // 有音频或视频的时候
+                        getItem(getCurrentItem()).pause();
                         break;
                 }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                PicAudioCourseFrag frag = null;
+
                 switch (mCourses.get(getCurrentItem()).getType()) {
                     case CourseType.pic_audio:
-                    case CourseType.audio: {
-                        frag = (PicAudioCourseFrag) getItem(getCurrentItem());
+                    case CourseType.audio:
+                    case CourseType.video: {
+                        BaseCourseFrag frag = getItem(getCurrentItem());
                         int playTime = (int) (mSb.getProgress() / 100f * mAllMilliseconds);
                         frag.seekTo(playTime);
                         frag.setRemainTime((int) (mAllMilliseconds - playTime) / 1000);
@@ -304,7 +307,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onPageSelected(int position) {
-
                 saveStudy();
                 mLastPosition = position;
                 // 切换viewPager改变提示
@@ -315,6 +317,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 switch (mCourses.get(position).getType()) {
                     case CourseType.pic_audio:
                     case CourseType.audio:
+                    case CourseType.video:
                         // 有音频的时候
                         showView(mLayoutControl);
                         showView(mTvTimeP);
@@ -356,10 +359,12 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                     switch (mCourses.get(0).getType()) {
                         case CourseType.pic_audio:
                         case CourseType.audio:
+                        case CourseType.video: {
                             // 有音频的时候
                             showView(mLayoutControl);
                             showView(mTvTimeP);
-                            break;
+                        }
+                        break;
                         default:
                             // 没有音频的时候
                             hideView(mLayoutControl);
@@ -409,6 +414,10 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         switch (course.getType()) {
             case CourseType.audio: {
                 frag = new AudioCourseFrag();
+            }
+            break;
+            case CourseType.video: {
+                frag = new VideoCourseFrag();
             }
             break;
 
@@ -628,16 +637,13 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         super.onActivityResult(requestCode, resultCode, data);
 
         int getCurrent = getCurrentItem();
-        BaseCourseFrag item = getItem(getCurrent);
-        if (item instanceof PicAudioCourseFrag) {
-            ((PicAudioCourseFrag) item).preparePlay();
-            mLayoutCp.setProgress(0);
-            // 同一页的起始状态
-            mIvControlL.setSelected(true);
-            mIvControlP.setSelected(false);
-            mTvTimeL.setText("00:00");
-            mTvTimeP.setText("00:00");
-        }
+        getItem(getCurrent).preparePlay();
+        mLayoutCp.setProgress(0);
+        // 同一页的起始状态
+        mIvControlL.setSelected(true);
+        mIvControlP.setSelected(false);
+        mTvTimeL.setText("00:00");
+        mTvTimeP.setText("00:00");
         if (data != null) {
             int setCurrent = data.getIntExtra(Extra.KId, 0);
             setCurrentItem(setCurrent);

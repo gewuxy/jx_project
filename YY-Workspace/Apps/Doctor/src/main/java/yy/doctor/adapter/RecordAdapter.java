@@ -1,6 +1,7 @@
 package yy.doctor.adapter;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.support.annotation.IntDef;
 import android.widget.ImageView;
 
@@ -23,6 +24,8 @@ import yy.doctor.model.meet.Course.TCourse;
  */
 
 public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
+
+//    private MediaPlayer mPlayer = new MediaPlayer();
 
     private static final int KPicBack = R.mipmap.ic_default_meeting_content_detail; // 默认图
 
@@ -63,11 +66,15 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     protected void refreshView(int position, RecordVH holder, int itemType) {
         switch (itemType) {
             case RecordType.video:
+                setOnViewClickListener(position, holder.getIvVideo());
                 break;
-            case RecordType.audio:
+
+            case RecordType.audio: {
                 setOnViewClickListener(position, holder.getLayoutAudio());
                 animation(position, holder.getIvAudio());
-                break;
+            }
+            break;
+
             case RecordType.pic_audio: {
                 // 区别于纯图片的功能
                 ImageView iv = holder.getIvPicAudio();
