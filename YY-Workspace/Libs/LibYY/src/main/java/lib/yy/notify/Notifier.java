@@ -30,6 +30,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.study,
             NotifyType.cancel_collection_meeting,
             NotifyType.preparePlay,
+            NotifyType.exit,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -96,6 +97,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 重新准备
          */
         int preparePlay = 12;
+
+        /**
+         * 退出app
+         */
+        int exit = 13;
     }
 
     public interface OnNotify {

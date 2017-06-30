@@ -80,7 +80,7 @@ public class ProfileActivity extends BaseFormActivity {
     private static final int KReqUpHeaderImgId = 10;
     private static final int KReqModifyId = 20;
 
-    private static final String KPhotoFileName = "avatar.jpg";
+    private static final String KPhotoCameraPrefix = "avatar";
 
     private RelativeLayout mLayoutProfileHeader;
     private NetworkImageView mIvAvatar;
@@ -380,7 +380,7 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     private void getPhotoFromCamera() {
-        mStrPhotoPath = CacheUtil.getBmpCacheDir() + KPhotoFileName;
+        mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + CacheUtil.KJpgExtend;
         PhotoUtil.fromCamera(this, mStrPhotoPath, KCodePhotograph);
     }
 
@@ -552,13 +552,10 @@ public class ProfileActivity extends BaseFormActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         //回收bitmap
-        if (mBmp != null && !mBmp.isRecycled()) {
-            ClipImageActivity.RecycleBmp();
-        }
-        if (mCircleBmp != null && !mCircleBmp.isRecycled()) {
-            mCircleBmp.recycle();
-        }
+        ClipImageActivity.recycleBmp();
+        BmpUtil.recycle(mCircleBmp);
     }
 
 }

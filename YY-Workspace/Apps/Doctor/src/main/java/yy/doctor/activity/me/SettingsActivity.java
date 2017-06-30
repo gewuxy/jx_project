@@ -247,7 +247,7 @@ public class SettingsActivity extends BaseFormActivity {
 
         dialog.addItem(getString(R.string.close_app), v -> {
             dialog.dismiss();
-            SettingsActivity.this.notify(NotifyType.logout);
+            SettingsActivity.this.notify(NotifyType.exit);
             finish();
         });
         dialog.show();

@@ -58,12 +58,11 @@ public class MainActivity extends BaseVPActivity {
 
     public static final int KTabHome = 0;
     public static final int KTabMeeting = 1;
-
     public static final int KTabData = 2;
     public static final int KTabMe = 3;
 
-    private static final int KReqIdProfile = 1;
-    private static final int KReqIdApp = 2;
+    private final int KReqIdProfile = 1;
+    private final int KReqIdApp = 2;
 
     private static final int KPermissionCodeLocation = 10;
 
@@ -139,6 +138,8 @@ public class MainActivity extends BaseVPActivity {
             }
         }
 
+        //检查有没有定位权限   没有的话直接弹dialog
+        checkPermission(KPermissionCodeLocation, Permission.location);
     }
 
     @Override
@@ -248,7 +249,7 @@ public class MainActivity extends BaseVPActivity {
     public void onNotify(@NotifyType int type, Object data) {
         super.onNotify(type, data);
 
-        if (type == NotifyType.logout) {
+        if (type == NotifyType.logout || type == NotifyType.exit) {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
 
@@ -265,4 +266,12 @@ public class MainActivity extends BaseVPActivity {
         SingletonImpl.inst().freeAll();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (enableExit()) {
+            super.onBackPressed();
+        } else {
+            showToast("再按一次退出");
+        }
+    }
 }

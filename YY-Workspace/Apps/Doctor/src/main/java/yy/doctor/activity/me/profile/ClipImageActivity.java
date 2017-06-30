@@ -73,7 +73,7 @@ public class ClipImageActivity extends BaseActivity {
         mPv.storage(mPath).load();
     }
 
-    public static void RecycleBmp() {
+    public static void recycleBmp() {
         BmpUtil.recycle(mBmp);
     }
 

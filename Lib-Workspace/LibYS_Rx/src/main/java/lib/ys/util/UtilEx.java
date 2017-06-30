@@ -3,17 +3,12 @@ package lib.ys.util;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.AnimRes;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -78,37 +73,6 @@ public class UtilEx {
         } else {
             android.text.ClipboardManager copy = (android.text.ClipboardManager) AppEx.ct().getSystemService(Context.CLIPBOARD_SERVICE);
             copy.setText(text);
-        }
-    }
-
-    /**
-     * 启动外部浏览器
-     *
-     * @param url
-     */
-    public static void startOuterBrowser(Context context, String url) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.parse(url);
-        intent.setData(uri);
-        context.startActivity(intent);
-    }
-
-    /**
-     * 获取调用市场评分的intent
-     *
-     * @return 如果没有, 返回null
-     */
-    public static Intent getMarketIntent() {
-        Intent intent_market = new Intent(Intent.ACTION_VIEW);
-        intent_market.setData(Uri.parse("market://details?id=" + AppEx.ct().getPackageName()));
-        // 检测intent是否可用
-        PackageManager packageManager = AppEx.ct().getPackageManager();
-        List<ResolveInfo> shareAppList = packageManager.queryIntentActivities(intent_market, PackageManager.MATCH_DEFAULT_ONLY);
-        if (shareAppList == null || shareAppList.size() == 0) {
-            return null;
-        } else {
-            return intent_market;
         }
     }
 

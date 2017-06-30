@@ -1,6 +1,10 @@
 package yy.doctor.model;
 
+import java.util.Observable;
+
+import lib.ys.impl.SingletonImpl;
 import lib.ys.model.EVal;
+import lib.ys.ui.interfaces.ISingleton;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.sp.SpUser;
 
@@ -40,6 +44,7 @@ public class Profile extends EVal<TProfile> {
             mInst = SpUser.inst().getEV(Profile.class);
             if (mInst == null) {
                 mInst = new Profile();
+                SingletonImpl.inst().addObserver(mInst);
             }
         }
         return mInst;
@@ -62,6 +67,11 @@ public class Profile extends EVal<TProfile> {
 
     public void saveToSp() {
         SpUser.inst().save(this);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        mInst = null;
     }
 
 }

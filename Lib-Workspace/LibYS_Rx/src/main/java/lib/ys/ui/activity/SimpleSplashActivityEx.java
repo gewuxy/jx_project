@@ -4,7 +4,6 @@ import android.support.annotation.CallSuper;
 import android.widget.ImageView;
 
 import lib.ys.R;
-import lib.ys.util.view.ViewUtil;
 
 
 abstract public class SimpleSplashActivityEx extends SplashActivityEx {
@@ -30,13 +29,6 @@ abstract public class SimpleSplashActivityEx extends SplashActivityEx {
         super.setViews();
 
         mIv.setImageResource(getSplashImageResId());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        ViewUtil.recycleIvBmp(mIv);
     }
 
     abstract protected int getSplashImageResId();

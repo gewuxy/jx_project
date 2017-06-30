@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
 
@@ -44,7 +45,9 @@ abstract public class SplashActivityEx extends ActivityEx {
         Observable.just((Runnable) () -> {
             goPast();
             finish();
-        }).delay(getPastDelay(), TimeUnit.MILLISECONDS).subscribe(Runnable::run);
+        }).delay(getPastDelay(), TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(Runnable::run);
     }
 
     /**

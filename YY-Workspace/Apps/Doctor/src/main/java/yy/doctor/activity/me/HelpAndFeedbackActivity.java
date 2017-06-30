@@ -1,6 +1,5 @@
 package yy.doctor.activity.me;
 
-import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.IntentAction;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Builder;
@@ -146,16 +146,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.feedback: {
-                try {
-                    Intent data = new Intent(Intent.ACTION_SEND);
-                    data.setType("plain/text");
-                    data.putExtra(Intent.EXTRA_EMAIL, new String[]{"mailto:app@medcn.cn"});
-                    data.putExtra(Intent.EXTRA_SUBJECT, R.string.email_subject);
-                    data.putExtra(Intent.EXTRA_TEXT, "");
-                    startActivity(data);
-                } catch (Exception e) {
-                    showToast(R.string.can_not_find_relevant_software);
-                }
+                IntentAction.mail()
+                        .address("app@medcn.cn")
+                        .subject(R.string.email_subject)
+                        .alert("没有邮件类应用")
+                        .launch();
             }
             break;
         }

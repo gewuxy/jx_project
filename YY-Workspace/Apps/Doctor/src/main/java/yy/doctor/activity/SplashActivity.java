@@ -1,9 +1,6 @@
 package yy.doctor.activity;
 
-import android.support.annotation.NonNull;
-import android.widget.ImageView;
-
-import lib.ys.ui.activity.SplashActivityEx;
+import lib.ys.ui.activity.SimpleSplashActivityEx;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -14,26 +11,11 @@ import yy.doctor.model.Profile;
  * @author CaiXiang
  * @since 2017/4/5
  */
-public class SplashActivity extends SplashActivityEx {
-
-    private ImageView mIv;
-
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_splash;
-    }
+public class SplashActivity extends SimpleSplashActivityEx {
 
     @Override
-    public void findViews() {
-        mIv = findView(R.id.splash_iv);
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        mIv.setImageResource(R.mipmap.splash_bg);
+    protected int getSplashImageResId() {
+        return R.mipmap.splash_bg;
     }
 
     @Override
@@ -52,5 +34,4 @@ public class SplashActivity extends SplashActivityEx {
             startActivity(LoginActivity.class);
         }
     }
-
 }
