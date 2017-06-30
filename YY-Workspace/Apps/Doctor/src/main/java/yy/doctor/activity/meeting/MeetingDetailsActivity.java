@@ -331,10 +331,13 @@ public class MeetingDetailsActivity extends BaseActivity {
                                 mPayEpnDialog.show();
                             }
                         } else {
-                            // 奖励象数的
-                            mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
-                            Profile.inst().put(TProfile.credits, surplus + mEpn);
-                            notify(NotifyType.profile_change);
+                            // FIXME: 2017/6/30 应该后台返回正确的,多人操作的时候
+                            if (mMeetDetail.getInt(TMeetDetail.remainAward) > 0) {
+                                // 奖励人数大于0奖励象数的
+                                mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
+                                Profile.inst().put(TProfile.credits, surplus + mEpn);
+                                notify(NotifyType.profile_change);
+                            }
                             toModule(v);
                         }
                     } else {
