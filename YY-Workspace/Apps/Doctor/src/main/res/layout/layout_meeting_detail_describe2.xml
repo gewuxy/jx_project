@@ -32,7 +32,7 @@
             android:layout_marginTop="6dp"
             android:textSize="12dp"
             android:textColor="@color/text_b3"
-            android:text="主办公众号"/>
+            android:text="主办单位号"/>
 
     </LinearLayout>
 

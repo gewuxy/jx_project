@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="广州公众号"
+            android:text=""
             android:textColor="@color/text_333"
             android:textSize="14dp"/>
 
