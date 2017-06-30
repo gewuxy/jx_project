@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme_SwipeBack">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -31,183 +31,183 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".activity.TestActivity"
+            android:name=".ui.activity.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ForgetPwdActivity"
+            android:name=".ui.activity.ForgetPwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.home.NoticeActivity"
+            android:name=".ui.activity.home.NoticeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.home.BannerActivity"
+            android:name=".ui.activity.home.BannerActivity"
             android:screenOrientation="portrait"/>
 
         <!-- register -->
         <activity
-            android:name=".activity.register.RegisterActivity"
+            android:name=".ui.activity.register.RegisterActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".activity.register.HospitalActivity"
+            android:name=".ui.activity.register.HospitalActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.register.ActivationCodeExplainActivity"
+            android:name=".ui.activity.register.ActivationCodeExplainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.register.ProvinceActivity"
+            android:name=".ui.activity.register.ProvinceActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.register.CityActivity"
+            android:name=".ui.activity.register.CityActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.register.AreaActivity"
+            android:name=".ui.activity.register.AreaActivity"
             android:screenOrientation="portrait"/>
 
 
         <!-- meeting -->
         <activity
-            android:name=".activity.meeting.MeetingDetailsActivity"
+            android:name=".ui.activity.meeting.MeetingDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.MeetingCourseActivity"
+            android:name=".ui.activity.meeting.MeetingCourseActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".activity.meeting.MeetingRecordActivity"
+            android:name=".ui.activity.meeting.MeetingRecordActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.search.SearchActivity"
+            android:name=".ui.activity.search.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.MeetingCommentActivity"
+            android:name=".ui.activity.meeting.MeetingCommentActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.ExamIntroActivity"
+            android:name=".ui.activity.meeting.ExamIntroActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.ExamTopicActivity"
+            android:name=".ui.activity.meeting.ExamTopicActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.QueTopicActivity"
+            android:name=".ui.activity.meeting.QueTopicActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.ExamEndActivity"
+            android:name=".ui.activity.meeting.ExamEndActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.QueEndActivity"
+            android:name=".ui.activity.meeting.QueEndActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.VideoCategoryActivity"
+            android:name=".ui.activity.meeting.VideoCategoryActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.meeting.VideoActivity"
+            android:name=".ui.activity.meeting.VideoActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".activity.meeting.SignActivity"
+            android:name=".ui.activity.meeting.SignActivity"
             android:screenOrientation="portrait"/>
 
         <!-- search -->
         <activity
-            android:name=".activity.search.MeetingResultActivity"
+            android:name=".ui.activity.search.MeetingResultActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.search.UnitNumResultActivity"
+            android:name=".ui.activity.search.UnitNumResultActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.search.ResultActivity"
+            android:name=".ui.activity.search.ResultActivity"
             android:screenOrientation="portrait"/>
 
 
         <!-- data -->
         <activity
-            android:name=".activity.data.ThomsonActivity"
+            android:name=".ui.activity.data.ThomsonActivity"
             android:screenOrientation="portrait"/>
 
 
         <!-- me -->
         <activity
-            android:name=".activity.me.HelpAndFeedbackActivity"
+            android:name=".ui.activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.CollectionMeetingActivity"
+            android:name=".ui.activity.me.CollectionMeetingActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.SettingsActivity"
+            android:name=".ui.activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.epn.EpnActivity"
+            android:name=".ui.activity.me.epn.EpnActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.profile.ProfileActivity"
+            android:name=".ui.activity.me.profile.ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".activity.me.epn.EpnRechargeActivity"
+            android:name=".ui.activity.me.epn.EpnRechargeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.ChangePwdActivity"
+            android:name=".ui.activity.me.ChangePwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.epn.EpnDetailsActivity"
+            android:name=".ui.activity.me.epn.EpnDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.epc.EpcActivity"
+            android:name=".ui.activity.me.epc.EpcActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.epc.ExchangeActivity"
+            android:name=".ui.activity.me.epc.ExchangeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.epc.EpcDetailActivity"
+            android:name=".ui.activity.me.epc.EpcDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.epc.OrderActivity"
+            android:name=".ui.activity.me.epc.OrderActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.unitnum.UnitNumActivity"
+            android:name=".ui.activity.me.unitnum.UnitNumActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.unitnum.UnitNumDetailActivity"
+            android:name=".ui.activity.me.unitnum.UnitNumDetailActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.profile.SectionActivity"
+            android:name=".ui.activity.me.profile.SectionActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.profile.ClipImageActivity"
+            android:name=".ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.unitnum.FileDataActivity"
+            android:name=".ui.activity.me.unitnum.FileDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.DownloadDataActivity"
+            android:name=".ui.activity.me.DownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.unitnum.LaunchDownloadDataActivity"
+            android:name=".ui.activity.me.unitnum.LaunchDownloadDataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.profile.TitleActivity"
+            android:name=".ui.activity.me.profile.TitleActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.LaunchTempActivity"
+            android:name=".ui.activity.me.LaunchTempActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.me.CommonWebViewActivity"
+            android:name=".ui.activity.me.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
 
 

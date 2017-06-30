@@ -15,7 +15,7 @@ import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.model.jpush.JPushMsg;
 import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 import yy.doctor.model.notice.Notice;

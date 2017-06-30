@@ -17,7 +17,7 @@ import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
-import yy.doctor.activity.me.DownloadDataActivity;
+import yy.doctor.ui.activity.me.DownloadDataActivity;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;

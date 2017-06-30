@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/section_frag_category"
-        android:name="yy.doctor.frag.SectionCategoryFrag"
+        android:name="yy.doctor.ui.frag.SectionCategoryFrag"
         android:layout_width="152dp"
         android:layout_height="match_parent"
         android:layout_weight="0"
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/section_frag_name"
-        android:name="yy.doctor.frag.SectionNameFrag"
+        android:name="yy.doctor.ui.frag.SectionNameFrag"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
