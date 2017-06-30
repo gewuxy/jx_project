@@ -1,7 +1,6 @@
 package lib.ys.util.permission;
 
 import android.Manifest.permission;
-import android.content.Context;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
@@ -73,8 +72,6 @@ public @interface Permission {
     /**
      * {@link permission#READ_EXTERNAL_STORAGE}
      * {@link permission#WRITE_EXTERNAL_STORAGE}
-     *
-     * @deprecated 不推荐使用, 6.0以上最好使用私有缓存{@link Context#getCacheDir()}
      */
     String storage = permission.READ_EXTERNAL_STORAGE;
 }

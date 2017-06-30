@@ -350,7 +350,9 @@ public class ProfileActivity extends BaseFormActivity {
 
             switch (position) {
                 case 0: {
-                    getPhotoFromAlbum();
+                    if (checkPermission(KPermissionCodeAlbum, Permission.storage)) {
+                        getPhotoFromAlbum();
+                    }
                 }
                 break;
                 case 1: {

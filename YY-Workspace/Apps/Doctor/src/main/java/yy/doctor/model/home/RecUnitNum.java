@@ -26,8 +26,8 @@ public class RecUnitNum extends EVal<TRecUnitNum> implements IHome {
          */
         attention, // 1 表示已经关注    0 表示未关注
         id,    //单位号Id
-        nickname,    //公众号昵称
-        headimg,    //公众号头像
+        nickname,    //单位号昵称
+        headimg,    //单位号头像
     }
 
     @IntDef({

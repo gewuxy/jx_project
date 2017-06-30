@@ -23,7 +23,7 @@ public class RecMeeting extends EVal<TRecMeeting> implements IHome {
         meetType,    //会议科室类型
         endTime,
         startTime,
-        pubUserHead, // 公众号头像
+        pubUserHead, // 单位号头像
         pubUserId, // 单位号id
         lecturerImg,  //主讲者头像
         lecturerHos, //主讲者医院

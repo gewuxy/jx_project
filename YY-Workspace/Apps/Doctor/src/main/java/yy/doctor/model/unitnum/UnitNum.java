@@ -18,9 +18,9 @@ public class UnitNum extends EVal<TUnitNum> implements IRec {
     public enum TUnitNum {
 
         alpha, // 首字母
-        headimg, // 公众号头像
-        id, // 公众号id
-        nickname, // 公众号昵称
+        headimg, // 单位号头像
+        id, // 单位号id
+        nickname, // 单位号昵称
 
     }
 }

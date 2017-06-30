@@ -27,7 +27,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         meetType, // 会议科室类型
 
         headimg, // 单位号头像
-        pubUserId, // 公众号Id
+        pubUserId, // 单位号Id
         organizer, // 会议主办方
 
         lecturer, // 主讲者

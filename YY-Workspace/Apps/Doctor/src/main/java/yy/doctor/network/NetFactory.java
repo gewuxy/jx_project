@@ -140,7 +140,7 @@ public class NetFactory {
     }
 
     private interface AttentionParam {
-        String KMasterId = "masterId";    // 关注/取消关注的公众号id
+        String KMasterId = "masterId";    // 关注/取消关注的单位号id
         String KTurnTo = "turnTo";     // 0:取消关注 1：关注
     }
 

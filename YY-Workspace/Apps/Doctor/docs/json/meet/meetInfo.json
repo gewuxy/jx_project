@@ -55,8 +55,8 @@
         "moduleName": "视频"
       }
     ],
-    "organizer": "佛山公众号",
-    "pubUserId": 14, // 公众号Id
+    "organizer": "佛山单位号",
+    "pubUserId": 14, // 单位号Id
     "requiredXs": false, // 需要
     "startTime": 1496463180000,
     "state": 2,
