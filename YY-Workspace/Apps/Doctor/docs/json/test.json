@@ -1,14 +1,76 @@
 {
-  "content": "推送测试会议四推送测试会议四推送测试会议四推送测试会议四推送测试会议四",
-  "groupId": 19,
-  "meetId": "17061315252800788876",
-  "msgType": 0,
-  "receiver": 16,
-  "sendTime": 1497433198680,
-  "sender": 14,
-  "senderName": "敬信单位号",
-  "state": 1,
-  "meetName": "敬信单位会议",
-  "title": "推送测试会议"
+  "code": "0",
+  "data": {
+    "endTime": 1498794600000,
+    "finishTimes": 0,
+    "finished": false,
+    "id": 196,
+    "meetId": "17063011462972316861",
+    "moduleId": 1290,
+    "paper": {
+      "id": 10000,
+      "name": "考试结束",
+      "questions": [
+        {
+          "id": 100000,
+          "options": [
+            {
+              "key": "A",
+              "value": "啊啊啊"
+            },
+            {
+              "key": "B",
+              "value": "啊啊啊"
+            },
+            {
+              "key": "C",
+              "value": "啊啊啊"
+            },
+            {
+              "key": "D",
+              "value": "啊啊"
+            }
+          ],
+          "point": 20,
+          "qtype": 0,
+          "rightKey": "A",
+          "sort": 1,
+          "title": "啊啊啊"
+        },
+        {
+          "id": 100001,
+          "options": [
+            {
+              "key": "A",
+              "value": "啊啊啊"
+            },
+            {
+              "key": "B",
+              "value": "啊啊啊"
+            },
+            {
+              "key": "C",
+              "value": "啊啊啊"
+            },
+            {
+              "key": "D",
+              "value": "啊啊啊"
+            }
+          ],
+          "point": 20,
+          "qtype": 1,
+          "rightKey": "ABC",
+          "sort": 2,
+          "title": "啊啊啊"
+        }
+      ],
+      "totalPoint": 40
+    },
+    "passScore": 30,
+    "resitTimes": 3,
+    "score": 0,
+    "serverTime": 1498794924750,
+    "startTime": 1498794180000,
+    "usetime": 10
+  }
 }
-

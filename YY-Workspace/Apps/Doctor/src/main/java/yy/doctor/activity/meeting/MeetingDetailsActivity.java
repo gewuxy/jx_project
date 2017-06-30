@@ -41,12 +41,15 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.activity.me.epn.EpnRechargeActivity;
 import yy.doctor.activity.me.unitnum.FileDataActivity;
+import yy.doctor.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
@@ -314,8 +317,12 @@ public class MeetingDetailsActivity extends BaseActivity {
                             if (surplus < mEpn) {
                                 // 象数不足
                                 mNoEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                                mNoEpnDialog.setHint("象数不足");
-                                mNoEpnDialog.addButton("知道了", v1 -> mNoEpnDialog.dismiss());
+                                mNoEpnDialog.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
+                                mNoEpnDialog.addButton("充值象数", v1 -> {
+                                    mNoEpnDialog.dismiss();
+                                    startActivity(EpnRechargeActivity.class);
+                                });
+                                mNoEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mNoEpnDialog.dismiss());
                                 mNoEpnDialog.show();
                             } else {
                                 mPayEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
@@ -572,6 +579,8 @@ public class MeetingDetailsActivity extends BaseActivity {
                 if (r.isSucceed()) {
                     showToast("关注成功");
                     mMeetDetail.put(TMeetDetail.attention, true);
+                    notify(NotifyType.unit_num_attention_change,
+                            new AttentionUnitNum(mMeetDetail.getInt(TMeetDetail.pubUserId), Attention.yes));
                 } else {
                     showToast("关注失败");
                 }
@@ -785,6 +794,9 @@ public class MeetingDetailsActivity extends BaseActivity {
         }
         if (mShareDialog != null) {
             mShareDialog.dismiss();
+        }
+        if (mAttentionDialog != null) {
+            mAttentionDialog.dismiss();
         }
         // 开启服务提交会议学习时间
         Intent intent = new Intent(this, CommonServ.class)

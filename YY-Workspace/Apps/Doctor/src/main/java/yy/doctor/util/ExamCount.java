@@ -11,6 +11,8 @@ import lib.yy.util.CountDown.OnCountDownListener;
  */
 public class ExamCount implements OnCountDownListener {
 
+    private static final String TAG = ExamCount.class.getSimpleName().toString();
+
     private static ExamCount mInst = null;
     private OnCountListener mOnCountListener;
     private CountDown mCountDown;
@@ -57,6 +59,11 @@ public class ExamCount implements OnCountDownListener {
         if (mCountDown != null) {
             mCountDown.stop();
         }
+    }
+
+    public void remove() {
+        stop();
+        mOnCountListener = null;
     }
 
     public long getSurplusTime() {

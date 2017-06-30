@@ -100,6 +100,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             // 没有进入考试
             notify(NotifyType.study);
+            ExamCount.inst().remove();
             finish();
         });
         bar.addTextViewMid(R.string.exam);
@@ -180,14 +181,14 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start:
                 // 点击开始考试
-                if (mIntro.getInt(TIntro.score) > mIntro.getInt(TIntro.passScore)){
+                if (mIntro.getInt(TIntro.score, 0) >= mIntro.getInt(TIntro.passScore)){
                     // 及格不让再考
                     showToast(R.string.finish_exam);
                     return;
                 }
                 if (mCanStart) {
                     // 考试进行中
-                    if (mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) > 0) {
+                    if (mIntro.getInt(TIntro.resitTimes) > mIntro.getInt(TIntro.finishTimes) ) {
                         // 还有考试次数
                         ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                         ExamCount.inst().pause();
@@ -198,7 +199,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
                 } else {
                     mDialog = new HintDialogSec(ExamIntroActivity.this);
                     mDialog.addButton(R.string.confirm, v1 -> mDialog.dismiss());
-                    if (ExamCount.inst().getSurplusTime() > 0) {
+                    if (mCurTime < mStartTime) {
                         // 考试未开始
                         mDialog.setMainHint(R.string.exam_no_start);
                         mDialog.setSecHint(R.string.exam_participation);
@@ -218,10 +219,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         super.onDestroy();
 
         if (mDialog != null) {
-            if (mDialog.isShowing()) {
-                mDialog.dismiss();
-            }
-            mDialog = null;
+            mDialog.dismiss();
         }
     }
 
@@ -252,5 +250,12 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
                     .append(TimeUtil.formatMilli(endTime, TimeFormat.from_y_to_m_24));
         }
         return time.toString();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        ExamCount.inst().remove();
     }
 }

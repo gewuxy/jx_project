@@ -19,12 +19,12 @@ import java.util.concurrent.TimeUnit;
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
 import lib.ys.YSLog;
-import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
 import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.util.Util;
 
 /**
  * PPT视频
@@ -81,7 +81,7 @@ public class VideoCourseFrag extends BaseCourseFrag implements
 
     @Override
     public void setViews() {
-        mVideoUrl = TextUtil.toUtf8(getDetail().getString(TCourse.videoUrl));
+        mVideoUrl = Util.convertUrl(getDetail().getString(TCourse.videoUrl));
         // 初始化NetVideoView
         initVideo();
         setOnClickListener(mLayout);

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-import lib.ys.ui.dialog.DialogEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import yy.doctor.Constants.DateUnit;
@@ -146,21 +145,15 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     protected void onDestroy() {
         super.onDestroy();
 
-        ExamCount.inst().stop();
-        recycleDialog(mCloseDialog);
-        recycleDialog(mSubmitDialog);
+        ExamCount.inst().remove();
+        if (mCloseDialog != null) {
+            mCloseDialog.dismiss();
+        }
+        if (mSubmitDialog != null) {
+            mSubmitDialog.dismiss();
+        }
         if (mTopicPopup != null) {
             mTopicPopup.dismiss();
-            mTopicPopup = null;
-        }
-    }
-
-    private void recycleDialog(DialogEx dialog) {
-        if (dialog != null) {
-            if (dialog.isShowing()) {
-                dialog.dismiss();
-            }
-            dialog = null;
         }
     }
 

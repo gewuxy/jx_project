@@ -102,7 +102,7 @@ public class ExamEndActivity extends BaseActivity {
             setViewState(ViewState.normal);
             TopicResult r = response.getData();
             int score = r.getInt(TTopicResult.score);
-            if (score > mPass) {
+            if (score >= mPass) {
                 // 及格隐藏
                 hideView(mLayout);
             }

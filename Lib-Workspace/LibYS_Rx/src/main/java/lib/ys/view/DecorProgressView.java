@@ -43,4 +43,11 @@ public class DecorProgressView extends ImageView implements IDecorProgressView {
     protected long getLoadingDuration() {
         return 500;
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        clearAnimation();
+    }
 }

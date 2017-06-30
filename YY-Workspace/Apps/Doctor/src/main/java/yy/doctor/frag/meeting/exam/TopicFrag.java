@@ -28,7 +28,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     public interface OnTopicListener {
         void onNext();
-
+        void onFinish();
         void onSubmit();
     }
 
@@ -51,12 +51,10 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-
     }
 
     @Override
@@ -83,15 +81,20 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
             //单选隐藏下一题的按钮
             mTvBtn.setVisibility(View.GONE);
             getAdapter().setIsSingle(true);
-            getAdapter().setOnItemCheckListener(v -> toNext());
+            getAdapter().setOnItemCheckListener(v ->  {
+                toFinish();
+                toNext();
+            });
             title.append(".(单选)");
         } else {
             // 设置多选
             getAdapter().setIsSingle(false);
-            getAdapter().setOnItemCheckListener(v -> mTopic.put(TTopic.finish, v.isSelected()));
-            mTvBtn.setOnClickListener(v -> toNext());
+            getAdapter().setOnItemCheckListener(v -> {
+                toFinish();
+            } );
             title.append(".(多选)");
         }
+        mTvBtn.setOnClickListener(v -> toNext());
         mTvQ.setText(title.append(mTopic.getString(TTopic.title)).toString());
 
         // 最后一题的时候
@@ -103,6 +106,12 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
                     mOnTopicListener.onSubmit();
                 }
             });
+        }
+    }
+
+    private void toFinish() {
+        if (mOnTopicListener != null) {
+            mOnTopicListener.onFinish();
         }
     }
 

@@ -29,7 +29,6 @@ import lib.player.NetVideoView.VideoViewListener;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
@@ -91,7 +90,7 @@ public class VideoActivity extends BaseActivity implements
     public void initData() {
         mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KSubmit);
-        mUriString = TextUtil.toUtf8(mDetail.getString(TDetail.url));
+        mUriString = Util.convertUrl(mDetail.getString(TDetail.url));
         mDuration = 0;
     }
 

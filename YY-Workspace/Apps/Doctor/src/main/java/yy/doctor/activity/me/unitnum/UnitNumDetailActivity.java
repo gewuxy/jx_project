@@ -370,7 +370,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         sendBroadcast(resultIntent);
     }
 
-    public class AttentionUnitNum {
+    public static class AttentionUnitNum {
 
         private int mUnitNumId;
         private int mAttention;

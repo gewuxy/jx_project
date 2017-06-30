@@ -355,8 +355,13 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     }
 
     @Override
-    public void onNext() {
+    public void onFinish() {
+        // FIXME: 2017/6/30 代优化
         getAnswer(mAllTopics);
+    }
+
+    @Override
+    public void onNext() {
         setCurrentItem(getCurrentItem() + 1);
     }
 

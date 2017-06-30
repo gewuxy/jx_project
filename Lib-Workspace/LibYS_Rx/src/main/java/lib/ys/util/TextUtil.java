@@ -9,6 +9,8 @@ import lib.ys.ConstantsEx;
 public class TextUtil {
 
     public static final String KTextEmpty = ConstantsEx.KEmptyValue;
+    public static final String KBlankUtf8Def = "%20";
+    public static final int KBlankIndex = 32;
 
     /**
      * 将String中的字符全角化。即将所有的数字、字母及标点全部转为全角字符，使它们与汉字同占两个字节
@@ -133,7 +135,15 @@ public class TextUtil {
 
             if (c >= 0 && c <= 255) {
                 // 非中文
-                sb.append(c);
+                if (c == KBlankIndex) {
+                    /**
+                     * 空格需要特殊处理
+                     * PS: 不能使用{@link java.net.URLEncoder#encode(String)}处理，会变成'+'，浏览器无法辨识
+                     */
+                    sb.append(KBlankUtf8Def);
+                } else {
+                    sb.append(c);
+                }
             } else {
 
                 byte[] b;
