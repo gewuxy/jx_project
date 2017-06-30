@@ -111,17 +111,19 @@ public abstract class BaseCourseFrag extends BaseFrag {
     }
 
     public void setRemainTime(int remainTime) {
-
     }
 
     public void pause() {
+    }
 
+    public void start() {
+    }
+
+    public void stop() {
     }
 
     public void seekTo(int msec) {
-
     }
 
     public abstract boolean isFinish();
-
 }

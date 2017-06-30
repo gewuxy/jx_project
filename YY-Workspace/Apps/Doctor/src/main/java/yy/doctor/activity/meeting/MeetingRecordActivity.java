@@ -83,7 +83,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     public void initNavBar(NavBar bar) {
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             // 把前面的页面关了
-            notify(NotifyType.finish);
+            notify(NotifyType.meeting_finish);
             setResult(RESULT_OK);
             finish();
         });
@@ -93,7 +93,6 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
         bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> {
-            setResult(RESULT_OK);
             finish();
         });
     }

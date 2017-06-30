@@ -19,7 +19,7 @@ public class Notifier extends NotifierEx<OnNotify> {
     @IntDef({
             NotifyType.login,
             NotifyType.logout,
-            NotifyType.finish,
+            NotifyType.meeting_finish,
             NotifyType.section_change,
             NotifyType.profile_change,
             NotifyType.unit_num_attention_change,
@@ -29,7 +29,6 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.cancel_attention,
             NotifyType.study,
             NotifyType.cancel_collection_meeting,
-            NotifyType.preparePlay,
             NotifyType.exit,
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -47,7 +46,7 @@ public class Notifier extends NotifierEx<OnNotify> {
         /**
          * 关闭其他页面
          */
-        int finish = 2;
+        int meeting_finish = 2;
         /**
          * 科室改变
          */
@@ -92,11 +91,6 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 取消 收藏会议
          */
         int cancel_collection_meeting = 11;
-
-        /**
-         * 重新准备
-         */
-        int preparePlay = 12;
 
         /**
          * 退出app

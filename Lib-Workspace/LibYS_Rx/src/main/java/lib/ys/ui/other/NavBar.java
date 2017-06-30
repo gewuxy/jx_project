@@ -163,12 +163,13 @@ public class NavBar extends RelativeLayout {
      * @param text
      * @param lsn
      */
-    public void addViewLeft(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
+    public <T extends View> T addViewLeft(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
         View v = createImageView(id, text, lsn);
         if (v != null) {
             mLayoutLeft.addView(v, getLinearParams());
             show();
         }
+        return (T) v;
     }
 
     /**
@@ -177,7 +178,7 @@ public class NavBar extends RelativeLayout {
      * @param v
      * @param lsn
      */
-    public void addViewLeft(View v, OnClickListener lsn) {
+    public <T extends View> T addViewLeft(View v, OnClickListener lsn) {
         LinearLayout.LayoutParams params = LayoutUtil.getLinearParams(WRAP_CONTENT, WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         if (lsn != null) {
@@ -185,6 +186,8 @@ public class NavBar extends RelativeLayout {
         }
         mLayoutLeft.addView(v, params);
         show();
+
+        return (T) v;
     }
 
     /***
@@ -192,7 +195,7 @@ public class NavBar extends RelativeLayout {
      *
      * @param id
      */
-    public View addViewRight(@DrawableRes int id, OnClickListener lsn) {
+    public <T extends View> T addViewRight(@DrawableRes int id, OnClickListener lsn) {
         if (id == 0) {
             return null;
         }
@@ -200,7 +203,7 @@ public class NavBar extends RelativeLayout {
         View v = createImageView(id, lsn);
         mLayoutRight.addView(v, getLinearParams());
         show();
-        return v;
+        return (T) v;
     }
 
     /**
@@ -209,7 +212,7 @@ public class NavBar extends RelativeLayout {
      * @param v
      * @param lsn
      */
-    public void addViewRight(View v, OnClickListener lsn) {
+    public <T extends View> T addViewRight(View v, OnClickListener lsn) {
         if (lsn != null) {
             v.setOnClickListener(lsn);
         }
@@ -219,6 +222,8 @@ public class NavBar extends RelativeLayout {
         params.weight = 1;
         mLayoutRight.addView(v, params);
         show();
+
+        return (T) v;
     }
 
 

@@ -28,6 +28,7 @@ import io.reactivex.Observable;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -106,6 +107,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     private long mStartTime; // 开始时间
     private int mLastPosition; // 上一次的position
 
+
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, MeetingCourseActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
@@ -153,6 +155,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onStop() {
+                mIvControlP.setSelected(false);
+                mIvControlL.setSelected(true);
             }
 
             @Override
@@ -182,6 +186,16 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mPPT != null) {
+            resetPlayStatus();
+            getItem(mLastPosition).stop();
+        }
+    }
+
+    @Override
     public void initNavBar(NavBar bar) {
         bar.setBackgroundColor(Color.TRANSPARENT);
 
@@ -203,7 +217,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         bar.addViewMid(mLayoutBarMid);
 
         mLayoutBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> {
-            saveStudy();
+            statsStudy();
             MeetingRecordActivity.nav(MeetingCourseActivity.this, mPPT, getCurrentItem());
         });
     }
@@ -299,34 +313,21 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         setOffscreenPageLimit(KVpSize);
         setOnPageChangeListener(new OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                saveStudy();
-                mLastPosition = position;
-                // 切换viewPager改变提示
-                mTvSelect.setText(String.valueOf(position + 1));
-                mTvTimeP.setText("加载中");
-                mLayoutCp.setProgress(0);
+                statsStudy();
 
-                switch (mCourses.get(position).getType()) {
-                    case CourseType.pic_audio:
-                    case CourseType.audio:
-                    case CourseType.video:
-                        // 有音频的时候
-                        showView(mLayoutControl);
-                        showView(mTvTimeP);
-                        break;
-                    default:
-                        // 没有音频的时候
-                        hideView(mLayoutControl);
-                        hideView(mTvTimeP);
-                        break;
-                }
+                setPlayStatus(position);
+                setStatus(position);
+
+                NetworkImageView.clearMemoryCache(MeetingCourseActivity.this);
+
+                mLastPosition = position;
             }
 
             @Override
@@ -337,6 +338,39 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         refresh(RefreshWay.dialog);
         exeNetworkReq(NetFactory.toPPT(mMeetId, mModuleId));
+    }
+
+    private void setPlayStatus(int position) {
+        if (position != mLastPosition) {
+            getItem(mLastPosition).stop();
+        }
+        // FIXME: 暂时无条件播放
+        getItem(position).start();
+    }
+
+    private void setStatus(int position) {
+        // 切换viewPager改变提示
+        mTvSelect.setText(String.valueOf(position + 1));
+        mTvTimeP.setText("加载中");
+        mLayoutCp.setProgress(0);
+
+        Course item = mCourses.get(position);
+        switch (item.getType()) {
+            case CourseType.pic_audio:
+            case CourseType.audio:
+            case CourseType.video: {
+                // 有音频的时候
+                showView(mLayoutControl);
+                showView(mTvTimeP);
+            }
+            break;
+            default: {
+                // 没有音频的时候
+                hideView(mLayoutControl);
+                hideView(mTvTimeP);
+            }
+            break;
+        }
     }
 
     @Override
@@ -389,7 +423,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     /**
      * 保存停留时间
      */
-    private void saveStudy() {
+    private void statsStudy() {
         long curTime = System.currentTimeMillis();
         Long study = mTimes.get(mLastPosition); // 本来记录的时间
         if (study != null) {
@@ -476,8 +510,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             case R.id.meeting_ppt_iv_control_p:
             case R.id.meeting_ppt_iv_control_l: {
                 // 控制
-                BaseCourseFrag pptFrag = getItem(getCurrentItem());
-                pptFrag.toggle();
+                getItem(getCurrentItem()).toggle();
             }
             break;
             case R.id.meeting_ppt_iv_first:
@@ -486,7 +519,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 break;
             case R.id.meeting_ppt_iv_comment:
                 // 评论
-                saveStudy();
+                statsStudy();
                 MeetingCommentActivity.nav(MeetingCourseActivity.this, mMeetId);
                 break;
         }
@@ -580,7 +613,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     public void finish() {
         super.finish();
 
-        saveStudy();
+        statsStudy();
 
         notify(NotifyType.study);
 
@@ -625,15 +658,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.finish) {
+        if (type == NotifyType.meeting_finish) {
             finish();
-        } else if (type == NotifyType.preparePlay) {
-            mLayoutCp.setProgress(0);
-            // 同一页的起始状态
-            mIvControlL.setSelected(true);
-            mIvControlP.setSelected(false);
-            mTvTimeL.setText("00:00");
-            mTvTimeP.setText("00:00");
         }
     }
 
@@ -641,22 +667,22 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        int getCurrent = getCurrentItem();
-        getItem(getCurrent).preparePlay();
+        if (resultCode != RESULT_OK || data == null) {
+            return;
+        }
+
+        int currId = data.getIntExtra(Extra.KId, 0);
+        if (currId != mLastPosition) {
+            setCurrentItem(currId);
+        }
+    }
+
+    private void resetPlayStatus() {
         mLayoutCp.setProgress(0);
         // 同一页的起始状态
         mIvControlL.setSelected(true);
         mIvControlP.setSelected(false);
         mTvTimeL.setText("00:00");
         mTvTimeP.setText("00:00");
-        if (data != null) {
-            int setCurrent = data.getIntExtra(Extra.KId, 0);
-            setCurrentItem(setCurrent);
-            if (getCurrent != setCurrent) {
-                // 不同页的起始状态
-                mIvControlL.setSelected(false);
-                mIvControlP.setSelected(true);
-            }
-        }
     }
 }

@@ -47,7 +47,6 @@ public class VideoCourseFrag extends BaseCourseFrag implements
     private String mVideoUrl;
     private long mRemainCount;
     private CountDown mCountDown;
-    private boolean mIsFirst; // 因为是第一次是自动播放
     private boolean mIsFinish; // 结束了没有
 
     public void setRemainTime(int remainTime) {
@@ -59,7 +58,6 @@ public class VideoCourseFrag extends BaseCourseFrag implements
     public void initData() {
         super.initData();
 
-        mIsFirst = true;
         mIsFinish = false;
 
         mCountDown = new CountDown();
@@ -166,7 +164,6 @@ public class VideoCourseFrag extends BaseCourseFrag implements
     @Override
     public void onCompletion(PLMediaPlayer plMediaPlayer) {
         end();
-        mIsFirst = false;
         mIsFinish = true;
     }
 
@@ -236,7 +233,6 @@ public class VideoCourseFrag extends BaseCourseFrag implements
             mRemainCount = (mVideo.getDuration() - mVideo.getCurrentPosition()) / 1000;
             onPlay(false, mVideo.getDuration());
         }
-        mIsFirst = false;
     }
 
     public void stop() {

@@ -30,6 +30,7 @@ public class AudioPlayer implements OnCompletionListener, OnCountDownListener {
     public interface OnPlayerListener {
         /**
          * 播放进度
+         *
          * @param currMilliseconds 毫秒
          */
         void onProgress(long currMilliseconds);

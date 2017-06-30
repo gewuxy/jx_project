@@ -60,7 +60,6 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             holder.getTvDuration().setText(Util.parse(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
 
 
-
             //判断用户是否已经收藏过这个会议  此功能已经取消
             /*if (item.getInt(TRecMeeting.stored) == 1) {
                 showView(holder.getTvCollection());

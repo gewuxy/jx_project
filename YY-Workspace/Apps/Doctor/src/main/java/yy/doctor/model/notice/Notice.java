@@ -137,7 +137,9 @@ public class Notice extends EVal<TNotice> {
         this.timestamp = timestamp;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1512276729)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

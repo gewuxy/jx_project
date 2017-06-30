@@ -12,7 +12,7 @@ import yy.doctor.sp.SpUser;
  * @author CaiXiang
  * @since 2017/4/1
  */
-public class Profile extends EVal<TProfile> {
+public class Profile extends EVal<TProfile> implements ISingleton {
 
     public enum TProfile {
         token, // 会话令牌

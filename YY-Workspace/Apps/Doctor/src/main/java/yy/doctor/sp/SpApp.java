@@ -13,7 +13,7 @@ import yy.doctor.App;
  * @since 2017/6/28
  */
 
-public class SpApp extends SpBase{
+public class SpApp extends SpBase {
 
     private static final String KFileName = "sp_app";
 

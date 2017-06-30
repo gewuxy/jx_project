@@ -12,10 +12,8 @@ import java.io.File;
 import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
-import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
@@ -47,13 +45,9 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     private MediaPlayer mMp;
     private CountDown mCountDown;
     protected RootLayout mLayout;
-    private boolean mIsFinish;
-    private boolean mExist; // 页面存在
 
-    public void setRemainTime(int remainTime) {
-        mRemainTime = remainTime;
-        start();
-    }
+    // 是否已经看完
+    private boolean mIsCompleted;
 
     @NonNull
     @Override
@@ -65,7 +59,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     public void initData() {
         super.initData();
 
-        mExist = true;
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
     }
 
     @Override
@@ -82,6 +77,11 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
         mLayout.setOnRootTouchListener(this);
 
         setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    public void setRemainTime(int remainTime) {
+        mRemainTime = remainTime;
+        start();
     }
 
     public ImageView getIvHolder() {
@@ -105,7 +105,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     }
 
     protected void setAudio() {
-        mIsFinish = false;
+        mIsCompleted = false;
         String audioUrl = getDetail().getString(TCourse.audioUrl);
 
         // 文件名
@@ -123,8 +123,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
         } else {
             // 存在可以播放
             mAudioExist = true;
-            preparePlay();
-
             if (getVisible()) { // 系统的isVisible()不准确
                 start();
             }
@@ -134,14 +132,15 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     @Override
     public void onNetworkSuccess(int id, Object result) {
         mAudioExist = true;
-        if (getVisible() && mExist) {
+
+        if (getVisible() && !isActivityFinishing()) {
             start();
         }
     }
 
     @Override
     public boolean isFinish() {
-        return mIsFinish;
+        return mIsCompleted;
     }
 
     /**
@@ -163,7 +162,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
                     YSLog.e(TAG, "preparePlay", e);
                 }
             }
-            onPrepared(mMp.getDuration());
+            // FIXME: 暂时不调用, 音频不需要显示总时长
+//            onPrepared(mMp.getDuration());
             return true;
         }
         return false;
@@ -171,32 +171,11 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
 
     @Override
     public void toggle() {
-        if (mMp == null) {
-            YSLog.d(TAG, "toggle 没有mp");
-            return;
-        }
-
-        if (mMp.isPlaying()) {
+        if (mMp != null && mMp.isPlaying()) {
             pause();
         } else {
             start();
         }
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-
-        start();
-    }
-
-    @Override
-    protected void onInvisible() {
-        super.onInvisible();
-
-        NetworkImageView.clearMemoryCache(getContext());
-
-        stop();
     }
 
     @Override
@@ -213,42 +192,35 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
      * 开始播放音频
      */
     public void play() {
-        if (getVisible()) { // 系统的isVisible()不准确
-            mMp.start();
-            countStop();
-            if (mCountDown == null) {
-                mCountDown = new CountDown(mRemainTime);
-                mCountDown.setListener(this);
-            }
-            mCountDown.start();
-            onPlay(true, mMp.getDuration());
-        }
+        mMp.start();
+        mCountDown.start(mRemainTime);
+        onPlay(true, mMp.getDuration());
     }
 
+    @Override
     public void start() {
-        if (mMp != null && mMp.isPlaying()) {
-            mMp.stop();
-        }
         if (preparePlay()) {
             play();
         }
     }
 
+    @Override
     public void pause() {
         if (mMp != null && mMp.isPlaying()) {
             mMp.pause();
             mRemainTime = (mMp.getDuration() - mMp.getCurrentPosition()) / 1000;
         }
-        countStop();
+        mCountDown.stop();
         onPlay(false, mMp.getDuration());
     }
 
+    @Override
     public void stop() {
         if (mMp != null) {
             onPlayStop();
             mRemainTime = 0;
         }
-        countStop();
+        mCountDown.stop();
     }
 
     public void seekTo(int msec) {
@@ -257,16 +229,10 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
         }
     }
 
-    public void countStop() {
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
-    }
-
     @Override
     public void onCompletion(MediaPlayer mp) {
         onPlayStop();
-        mIsFinish = true;
+        mIsCompleted = true;
         mAudioExist = true;
         preparePlay();
         end();
@@ -284,38 +250,18 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        preparePlay();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        notify(NotifyType.preparePlay);
-        mExist = false;
-        onPlayStop();
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mExist = false;
         if (mMp != null) {
             mMp.stop();
             mMp = null;
         }
+        stop();
     }
 
     @Override
     public void onTouchUp() {
         onCourseClick();
     }
-
 }

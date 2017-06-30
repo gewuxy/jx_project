@@ -23,7 +23,7 @@ import yy.doctor.util.Util;
 public class EpnActivity extends BaseActivity {
 
     //象数使用规则 链接
-    private String mUrlEpnUseRule = UrlUtil.getHostName() +"/view/article/17061510101320742806";
+    private String mUrlEpnUseRule = UrlUtil.getHostName() + "/view/article/17061510101320742806";
     private TextView mTvEpn;
 
     @Override

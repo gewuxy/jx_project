@@ -232,7 +232,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.meeting_detail, this);
         // 收藏
-        ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
+        ViewGroup layout = bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
             boolean storedState = true; // 默认没有关注, 故点击时关注(MeetDetail还没获取到数据时)
             if (mMeetDetail != null) {
                 storedState = !mMeetDetail.getBoolean(TMeetDetail.stored);

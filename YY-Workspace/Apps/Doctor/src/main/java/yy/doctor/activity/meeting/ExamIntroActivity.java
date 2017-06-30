@@ -19,9 +19,9 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
@@ -181,14 +181,14 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start:
                 // 点击开始考试
-                if (mIntro.getInt(TIntro.score, 0) >= mIntro.getInt(TIntro.passScore)){
+                if (mIntro.getInt(TIntro.score, 0) >= mIntro.getInt(TIntro.passScore)) {
                     // 及格不让再考
                     showToast(R.string.finish_exam);
                     return;
                 }
                 if (mCanStart) {
                     // 考试进行中
-                    if (mIntro.getInt(TIntro.resitTimes) > mIntro.getInt(TIntro.finishTimes) ) {
+                    if (mIntro.getInt(TIntro.resitTimes) > mIntro.getInt(TIntro.finishTimes)) {
                         // 还有考试次数
                         ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
                         ExamCount.inst().pause();

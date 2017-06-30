@@ -22,8 +22,8 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.ui.activity.base.BaseListActivity;
 import lib.yy.network.Result;
+import lib.yy.ui.activity.base.BaseListActivity;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -144,7 +144,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
                     showToast(R.string.comment_import);
                     return;
                 }
-                if (mSuccess){
+                if (mSuccess) {
                     mWebSocket.send(toJson(message));
                 } else {
                     showToast(R.string.send_error);
@@ -233,7 +233,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             // 没退出继续发任务
             runOnUIThread(() -> {
                 if (isFinishing()) {
-                   return;
+                    return;
                 }
                 // 没退出继续重连
                 mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());

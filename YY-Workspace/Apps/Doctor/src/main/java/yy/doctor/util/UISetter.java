@@ -130,6 +130,7 @@ public class UISetter {
 
     /**
      * 关注按钮的状态改变
+     *
      * @param tv
      * @param attention
      */

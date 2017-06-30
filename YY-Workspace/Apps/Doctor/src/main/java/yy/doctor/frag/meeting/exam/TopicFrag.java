@@ -28,7 +28,9 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     public interface OnTopicListener {
         void onNext();
+
         void onFinish();
+
         void onSubmit();
     }
 
@@ -81,7 +83,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
             //单选隐藏下一题的按钮
             mTvBtn.setVisibility(View.GONE);
             getAdapter().setIsSingle(true);
-            getAdapter().setOnItemCheckListener(v ->  {
+            getAdapter().setOnItemCheckListener(v -> {
                 toFinish();
                 toNext();
             });
@@ -91,7 +93,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
             getAdapter().setIsSingle(false);
             getAdapter().setOnItemCheckListener(v -> {
                 toFinish();
-            } );
+            });
             title.append(".(多选)");
         }
         mTvBtn.setOnClickListener(v -> toNext());
