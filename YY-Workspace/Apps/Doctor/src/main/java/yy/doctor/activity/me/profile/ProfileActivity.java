@@ -12,6 +12,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.bd.location.Place;
+import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
@@ -148,12 +150,16 @@ public class ProfileActivity extends BaseFormActivity {
                 .enable(false)
                 .build());
 
+        Place place = new Place();
+        place.put(TPlace.province, getString(R.string.guang_dong));
+        place.put(TPlace.city, getString(R.string.guang_zhou));
+
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.form_ic_more)
                 .name(R.string.user_hospital)
-                .intent(new Intent(this, HospitalActivity.class))
+                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, place))
                 .text(Profile.inst().getString(hospital))
                 .hint(R.string.required)
                 .build());
