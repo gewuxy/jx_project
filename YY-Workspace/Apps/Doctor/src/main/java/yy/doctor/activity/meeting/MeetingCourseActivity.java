@@ -627,6 +627,13 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.finish) {
             finish();
+        } else if (type == NotifyType.preparePlay) {
+            mLayoutCp.setProgress(0);
+            // 同一页的起始状态
+            mIvControlL.setSelected(true);
+            mIvControlP.setSelected(false);
+            mTvTimeL.setText("00:00");
+            mTvTimeP.setText("00:00");
         }
     }
 

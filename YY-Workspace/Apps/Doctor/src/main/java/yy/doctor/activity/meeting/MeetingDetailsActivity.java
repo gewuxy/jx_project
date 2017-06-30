@@ -233,7 +233,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         Util.addBackIcon(bar, R.string.meeting_detail, this);
         // 收藏
         ViewGroup layout = (ViewGroup) bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
-            boolean storedState = true; // 默认没有被选择,故点击时关注(MeetDetail还没获取到数据时)
+            boolean storedState = true; // 默认没有关注, 故点击时关注(MeetDetail还没获取到数据时)
             if (mMeetDetail != null) {
                 storedState = !mMeetDetail.getBoolean(TMeetDetail.stored);
                 mMeetDetail.put(TMeetDetail.stored, storedState);
@@ -241,7 +241,7 @@ public class MeetingDetailsActivity extends BaseActivity {
             mIvCollection.setSelected(storedState);
             showToast(storedState ? R.string.collect : R.string.cancel_collect);
             exeNetworkReq(KIdCollection, NetFactory.collectMeeting(mMeetId, storedState ? CollectType.collect : CollectType.cancel));
-            //取消收藏时，要通知会议收藏列表去除相应的会议
+            // 从收藏会议进入会议详情页, 取消收藏时, 通知会议收藏列表去除会议
             if (!storedState) {
                 notify(NotifyType.cancel_collection_meeting, mMeetId);
             }
@@ -277,7 +277,7 @@ public class MeetingDetailsActivity extends BaseActivity {
         mDividerFile = findView(R.id.meeting_detail_view_divider);
         mDivider = findView(R.id.meeting_detail_divider);
 
-        // 嘉宾相关
+        // 主讲者相关
         mTvGN = findView(R.id.meeting_tv_guest_name);
         mTvGP = findView(R.id.meeting_tv_guest_post);
         mTvGH = findView(R.id.meeting_tv_guest_hospital);
@@ -307,7 +307,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 // 可以参加
                 if (mMeetDetail.getBoolean(TMeetDetail.attended)) {
                     // 参加过(奖励过和支付过)
-                    toModule(v);
+                    toClickModule(v);
                 } else {
                     // 没有参加过
                     if (mEpn > 0) {
@@ -333,7 +333,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                     Profile.inst().saveToSp();
                                     notify(NotifyType.profile_change);
                                     mPayEpnDialog.dismiss();
-                                    toModule(v);
+                                    toClickModule(v);
                                 });
                                 mPayEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mPayEpnDialog.dismiss());
                                 mPayEpnDialog.show();
@@ -347,11 +347,11 @@ public class MeetingDetailsActivity extends BaseActivity {
                                 notify(NotifyType.profile_change);
                             }
                             mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
-                            toModule(v);
+                            toClickModule(v);
                         }
                     } else {
                         // 免费直接参加
-                        toModule(v);
+                        toClickModule(v);
                     }
                 }
             } else {
@@ -373,7 +373,7 @@ public class MeetingDetailsActivity extends BaseActivity {
      *
      * @param v
      */
-    private void toModule(View v) {
+    private void toClickModule(View v) {
         switch (v.getId()) {
             case R.id.meeting_detail_player_layout: {
                 if (!mNoPPT) {

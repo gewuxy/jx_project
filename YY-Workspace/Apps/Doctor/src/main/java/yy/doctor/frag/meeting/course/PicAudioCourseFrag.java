@@ -15,6 +15,7 @@ import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
@@ -283,9 +284,17 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        preparePlay();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
 
+        notify(NotifyType.preparePlay);
         mExist = false;
         onPlayStop();
         if (mCountDown != null) {

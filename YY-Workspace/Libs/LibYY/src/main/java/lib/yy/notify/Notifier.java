@@ -29,6 +29,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.cancel_attention,
             NotifyType.study,
             NotifyType.cancel_collection_meeting,
+            NotifyType.preparePlay,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -90,6 +91,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 取消 收藏会议
          */
         int cancel_collection_meeting = 11;
+
+        /**
+         * 重新准备
+         */
+        int preparePlay = 12;
     }
 
     public interface OnNotify {
