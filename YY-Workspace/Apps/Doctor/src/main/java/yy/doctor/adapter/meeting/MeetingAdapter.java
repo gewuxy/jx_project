@@ -1,6 +1,7 @@
 package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
+import lib.ys.fitter.DpFitter;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
@@ -15,6 +16,12 @@ import yy.doctor.util.UISetter;
  */
 
 public class MeetingAdapter extends AdapterEx<Meeting, MeetingVH> {
+
+    private int mImgSize;
+
+    public MeetingAdapter() {
+        mImgSize = DpFitter.dimen(R.dimen.meeting_item_unit_num_size);
+    }
 
     @Override
     public int getConvertViewResId() {
@@ -39,6 +46,7 @@ public class MeetingAdapter extends AdapterEx<Meeting, MeetingVH> {
 
         holder.getIvUnitNum()
                 .placeHolder(R.mipmap.ic_default_unit_num)
+                .resize(mImgSize, mImgSize)
                 .url(item.getString(TMeeting.headimg))
                 .renderer(new CircleRenderer())
                 .load();

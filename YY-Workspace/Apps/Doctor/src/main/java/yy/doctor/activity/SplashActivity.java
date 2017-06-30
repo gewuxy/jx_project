@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import lib.ys.ui.activity.SplashActivityEx;
-import lib.ys.util.permission.Permission;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -17,7 +16,6 @@ import yy.doctor.model.Profile;
  */
 public class SplashActivity extends SplashActivityEx {
 
-    private static final int KPermissionCodeLocation = 10;
     private ImageView mIv;
 
     @NonNull
@@ -34,10 +32,8 @@ public class SplashActivity extends SplashActivityEx {
     @Override
     public void setViews() {
         super.setViews();
-        mIv.setImageResource(R.mipmap.splash_bg);
 
-        //检查有没有定位权限   没有的话直接弹dialog
-        checkPermission(KPermissionCodeLocation, Permission.location);
+        mIv.setImageResource(R.mipmap.splash_bg);
     }
 
     @Override
@@ -56,4 +52,5 @@ public class SplashActivity extends SplashActivityEx {
             startActivity(LoginActivity.class);
         }
     }
+
 }

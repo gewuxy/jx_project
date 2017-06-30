@@ -18,11 +18,6 @@ public class JPushMsg extends EVal<TJPushMsg> {
         sendTime,
         senderName,
         title,
-
-        groupId,
-        receiver,
-        sender,
-        state
     }
 
 }

@@ -11,6 +11,7 @@ import yy.doctor.adapter.VH.HomeUnitNumVH;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
+import yy.doctor.util.UISetter;
 
 /**
  * 首页单位号的adapter
@@ -39,7 +40,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
                 .load();
 
         //判断用户是否已经关注过这个单位号
-        nativeSetAttention(holder.getTvAttention(), item.getInt(TRecUnitNum.attention));
+        UISetter.setAttention(holder.getTvAttention(), item.getInt(TRecUnitNum.attention));
 
         //关注的点击事件
         setOnViewClickListener(position, holder.getTvAttention());
@@ -61,6 +62,8 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
                     int attention = item.getInt(TRecUnitNum.attention);
                     if (attention == Attention.no) {
                         setTvAttention(position, Attention.yes);
+                        //改变数据源
+                        item.put(TRecUnitNum.attention, Attention.yes);
                         mListener.onAttentionChanged(attention, item.getInt(TRecUnitNum.id));
                     }
                 }
@@ -83,19 +86,8 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
         }
 
         TextView tv = getCacheVH(pos).getTvAttention();
-        nativeSetAttention(tv, attention);
+        UISetter.setAttention(tv, attention);
     }
 
-    private void nativeSetAttention(TextView tv, int attention) {
-        if (attention == Attention.yes) {
-            tv.setText(R.string.already_attention);
-            tv.setSelected(true);
-            tv.setClickable(false);
-        } else {
-            tv.setText(R.string.attention);
-            tv.setSelected(false);
-            tv.setClickable(true);
-        }
-    }
 
 }

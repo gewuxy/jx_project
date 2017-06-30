@@ -17,9 +17,10 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.RegexUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -92,8 +93,9 @@ public class ExchangeActivity extends BaseFormActivity {
                 .hint(R.string.receiver)
                 .build());
 
+        // FIXME: 2017/6/30 caixiang  要添加到。。。
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(new Builder(FormType.et_number)
                 .related(RelatedId.mobile)
                 .hint(R.string.phone_num)
                 .build());
@@ -157,11 +159,19 @@ public class ExchangeActivity extends BaseFormActivity {
                 if (!check()) {
                     return;
                 }
+
+                // FIXME: 2017/6/30 caixiang
+                //检查手机号格式是否正确
+                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getString(TFormElem.text))) {
+                    showToast(R.string.phone_error);
+                }
+
                 //检查象数是否够
                 if (Profile.inst().getInt(TProfile.credits) < mEpn) {
                     showToast(R.string.no_enough_epn);
                     return;
                 }
+
                 refresh(RefreshWay.dialog);
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId(mGoodId)
@@ -191,7 +201,8 @@ public class ExchangeActivity extends BaseFormActivity {
         if (r.isSucceed()) {
             showToast(R.string.exchange_success);
             int epn = Profile.inst().getInt(TProfile.credits) - mEpn;
-            Profile.inst().update(Profile.inst().put(TProfile.credits, epn));
+            Profile.inst().put(TProfile.credits, epn);
+            Profile.inst().saveToSp();
             notify(NotifyType.profile_change);
             startActivity(OrderActivity.class);
             finish();

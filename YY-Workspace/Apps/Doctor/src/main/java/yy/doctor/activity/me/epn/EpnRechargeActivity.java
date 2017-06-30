@@ -62,7 +62,8 @@ public class EpnRechargeActivity extends BaseActivity {
                     showToast(R.string.pay_success);
                     //支付成功后显示充值后的的象数数量  改变本地的象数数量
                     int epnNum = Profile.inst().getInt(TProfile.credits) + mRechargeSum * 10;
-                    Profile.inst().update(Profile.inst().put(TProfile.credits, epnNum));
+                    Profile.inst().put(TProfile.credits, epnNum);
+                    Profile.inst().saveToSp();
                     mTvEpn.setText(epnNum + "");
                     EpnRechargeActivity.this.notify(NotifyType.profile_change);
                 } else {

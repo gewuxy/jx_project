@@ -26,12 +26,10 @@ public class TextIntentForm extends TextForm {
         //判断是否有区县
         if (strArea == null) {
             String text = strProvince + " " + strCity;
-            put(TFormElem.text, text);
             save(text, text);
         } else {
             String text = strProvince + " " + strCity + " " + strArea;
-            put(TFormElem.text, text);
-            put(TFormElem.val, text);
+            save(text, text);
         }
     }
 

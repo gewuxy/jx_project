@@ -34,5 +34,6 @@ public class TextForm extends BaseForm {
         super.refresh(holder);
 
         setTextIfExist(holder.getTvText(), getString(TFormElem.text));
+        save(getString(TFormElem.text), getString(TFormElem.text));
     }
 }

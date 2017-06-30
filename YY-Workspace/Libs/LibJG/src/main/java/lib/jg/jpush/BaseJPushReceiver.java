@@ -31,7 +31,8 @@ abstract public class BaseJPushReceiver extends BroadcastReceiver {
             onRegistrationId(context, regId);
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(action)) {
-            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+
+            String message = bundle.getString(JPushInterface.EXTRA_EXTRA);
             String title = bundle.getString(JPushInterface.EXTRA_TITLE);
             YSLog.d(TAG, "接收到推送下来的自定义消息: message " + message);
             YSLog.d(TAG, "接收到推送下来的自定义消息: title " + title);

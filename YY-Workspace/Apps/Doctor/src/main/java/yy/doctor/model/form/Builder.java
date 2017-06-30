@@ -4,6 +4,7 @@ import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
+import yy.doctor.model.form.edit.EditNumberForm;
 import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
 import yy.doctor.model.form.text.ContentForm;
@@ -77,6 +78,10 @@ public class Builder extends FormBuilderEx<BaseForm> {
             break;
             case FormType.et_register_pwd: {
                 form = new EditRegisterPwdForm();
+            }
+            break;
+            case FormType.et_number: {
+                form = new EditNumberForm();
             }
             break;
 

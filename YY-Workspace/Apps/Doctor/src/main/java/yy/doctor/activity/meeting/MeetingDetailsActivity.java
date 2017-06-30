@@ -330,6 +330,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                                 mPayEpnDialog.addButton("确认支付", v1 -> {
                                     mMeetDetail.put(TMeetDetail.attended, true); // 支付象数 (参加过会议)
                                     Profile.inst().put(TProfile.credits, surplus - mEpn);
+                                    Profile.inst().saveToSp();
                                     notify(NotifyType.profile_change);
                                     mPayEpnDialog.dismiss();
                                     toModule(v);
@@ -342,6 +343,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                             if (mMeetDetail.getInt(TMeetDetail.remainAward) > 0) {
                                 // 奖励人数大于0奖励象数的
                                 Profile.inst().put(TProfile.credits, surplus + mEpn);
+                                Profile.inst().saveToSp();
                                 notify(NotifyType.profile_change);
                             }
                             mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
@@ -373,7 +375,7 @@ public class MeetingDetailsActivity extends BaseActivity {
      */
     private void toModule(View v) {
         switch (v.getId()) {
-            case R.id.meeting_detail_iv_play: {
+            case R.id.meeting_detail_player_layout: {
                 if (!mNoPPT) {
                     showToast("会议没有设置PPT");
                 }
@@ -382,18 +384,22 @@ public class MeetingDetailsActivity extends BaseActivity {
                 getCourseInfo();
             }
             break;
+
             case R.id.meeting_detail_layout_exam: {
                 getExamInfo();
             }
             break;
+
             case R.id.meeting_detail_layout_que: {
                 getQueInfo();
             }
             break;
+
             case R.id.meeting_detail_layout_video: {
                 getVideoInfo();
             }
             break;
+
             case R.id.meeting_detail_layout_sign: {
                 if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
                     getSignInfo();
@@ -728,7 +734,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                     // 有微课模块
                     mNoPPT = true;
                     setOnClickListener(mTvSee);
-                    setOnClickListener(mIvPlay);
+                    setOnClickListener(R.id.meeting_detail_player_layout);
                     showView(findView(R.id.meeting_detail_iv_play_course)); // 有PPT的时候显示
                     mTvSee.setBackgroundResource(R.drawable.meet_detail_see_bg_selector);
                 }

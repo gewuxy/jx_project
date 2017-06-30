@@ -13,4 +13,7 @@
     <dimen name="meeting_record_item_width">293dp</dimen>
     <dimen name="meeting_record_item_height">169dp</dimen>
 
+    <!--unitNum -->
+    <dimen name="meeting_item_unit_num_size">18dp</dimen>
+
 </resources>

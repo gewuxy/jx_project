@@ -245,6 +245,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
 
+        stopSwipeRefresh();
         setViewState(ViewState.error);
     }
 

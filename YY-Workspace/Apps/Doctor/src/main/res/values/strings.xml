@@ -285,6 +285,7 @@
     <string name="order">订单</string>
     <string name="order_intro">客服电话：020-38601688\n客服邮箱：service@medcn.cn\n服务时间：每周工作日：9:30-17:30</string>
     <string name="exchange">兑换</string>
+    <string name="phone_error">请输入正确的手机号码</string>
     <string name="no_enough_epn">象数不足,无法兑换</string>
     <string name="exchange_success">兑换成功</string>
     <string name="address">详细地址</string>

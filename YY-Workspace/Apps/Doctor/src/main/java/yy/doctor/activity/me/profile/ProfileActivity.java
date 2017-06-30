@@ -174,6 +174,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.required)
                 .build());
 
+        YSLog.d(TAG, "hospital level = " + Profile.inst().getString(hosLevel));
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text_dialog)
                 .related(RelatedId.hospital_grade)
@@ -445,6 +446,7 @@ public class ProfileActivity extends BaseFormActivity {
         YSLog.d(TAG, "city = " + mStrCity);
         YSLog.d(TAG, "area = " + mStrArea);
 
+        YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
         NetworkReq r = NetFactory.newModifyBuilder()
                 .headImgUrl(mAvatarUrl)
                 .linkman(getRelateVal(RelatedId.name))
@@ -497,18 +499,19 @@ public class ProfileActivity extends BaseFormActivity {
             if (r.isSucceed()) {
                 showToast(ResLoader.getString(R.string.user_save_success));
                 //更新本地的数据
-                Profile.inst().update(Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital)));
-                Profile.inst().update(Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments)));
-                Profile.inst().update(Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade)));
-                Profile.inst().update(Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title)));
-                Profile.inst().update(Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number)));
-                Profile.inst().update(Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number)));
+                Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
+                Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments));
+                Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade));
+                Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
+                Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
+                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
 
-                Profile.inst().update(Profile.inst().put(TProfile.province, mStrProvince));
-                Profile.inst().update(Profile.inst().put(TProfile.city, mStrCity));
+                Profile.inst().put(TProfile.province, mStrProvince);
+                Profile.inst().put(TProfile.city, mStrCity);
                 if (!TextUtil.isEmpty(mStrArea)) {
-                    Profile.inst().update(Profile.inst().put(TProfile.zone, mStrArea));
+                    Profile.inst().put(TProfile.zone, mStrArea);
                 }
+                Profile.inst().saveToSp();
 
                 notify(NotifyType.profile_change);
             } else {

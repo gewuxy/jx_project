@@ -62,7 +62,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private static final int KColorCancel = Color.parseColor("#01b557");
     private static final int KReqIdUnitNumDetail = 0;
     private static final int KReqIdAttention = 1;
-    private static final int KReqIdNoAttention = 2;
+    private static final int KReqIdCancelAttention = 2;
     private static final int KAttention = 1;  //关注
     private static final int KNoAttention = 0;  //取消关注
 
@@ -169,6 +169,12 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             //关注人数加1
             mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + 1);
             mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
+            //改变状态
+            UISetter.setAttention(mTvAttention, Attention.yes);
+
+            showToast(R.string.attention_success);
+            //通知首页的单位号改变状态
+            notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.yes));
         }
     }
 
@@ -188,6 +194,23 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         ViewUtil.recycleIvBmp(mIvZoom);
     }
 
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        super.onNotify(type, data);
+
+        if (type == NotifyType.unit_num_attention_change) {
+            // 关注  取消关注后，对应的单位号的关注状态也要改变
+            AttentionUnitNum attentionUnitNum = (AttentionUnitNum) data;
+            int unitNumId = attentionUnitNum.getUnitNumId();
+            int attention = attentionUnitNum.getAttention();
+            if (mUnitNumId == unitNumId) {
+                //改变状态
+                UISetter.setAttention(mTvAttention, attention);
+            }
+        }
+
+    }
+
     private void showDialogCancelAttention() {
 
         final List<String> data = new ArrayList<>();
@@ -198,10 +221,18 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
-                exeNetworkReq(KReqIdNoAttention, NetFactory.attention(mUnitNumId, KNoAttention));
+                exeNetworkReq(KReqIdCancelAttention, NetFactory.attention(mUnitNumId, KNoAttention));
                 //关注人数减1
                 mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
                 mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
+
+                //改变状态
+                UISetter.setAttention(mTvAttention, Attention.no);
+
+                showToast(R.string.cancel_attention_success);
+                //通知首页的单位号改变状态
+                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.no));
+
                 //通知单位号页面去掉这个单位号的item
                 notify(NotifyType.cancel_attention, mUnitNumDetail.getInt(TUnitNumDetail.id));
             } else if (position == 1) {
@@ -322,25 +353,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             super.onNetworkSuccess(id, meetingResult);
 
         } else if (id == KReqIdAttention) {  //关注
-            Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast(R.string.attention_success);
-                mTvAttention.setText(R.string.already_attention);
-                mTvAttention.setSelected(true);
-                mTvAttention.setClickable(false);
-                //通知首页的单位号改变状态
-                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.yes));
-            }
-        } else if (id == KReqIdNoAttention) {  //取消关注
-            Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast(R.string.cancel_attention_success);
-                mTvAttention.setText(R.string.attention);
-                mTvAttention.setSelected(false);
-                mTvAttention.setClickable(true);
-                //通知首页的单位号改变状态
-                notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.no));
-            }
+            return;
+        } else if (id == KReqIdCancelAttention) {  //取消关注
+            return;
         }
     }
 

@@ -18,6 +18,7 @@ import lib.ys.util.view.LayoutUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.activity.me.DownloadDataActivity;
+import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 
@@ -125,6 +126,23 @@ public class UISetter {
 
         LayoutFitter.fit(v);
         layout.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
+    }
+
+    /**
+     * 关注按钮的状态改变
+     * @param tv
+     * @param attention
+     */
+    public static void setAttention(TextView tv, int attention) {
+        if (attention == Attention.yes) {
+            tv.setText(R.string.already_attention);
+            tv.setSelected(true);
+            tv.setClickable(false);
+        } else {
+            tv.setText(R.string.attention);
+            tv.setSelected(false);
+            tv.setClickable(true);
+        }
     }
 
 }

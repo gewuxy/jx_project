@@ -1,6 +1,8 @@
 package yy.doctor.activity.me;
 
 import android.support.annotation.NonNull;
+import android.text.InputType;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.EditText;
 
@@ -8,8 +10,8 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.network.Result;
+import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -54,6 +56,23 @@ public class ChangePwdActivity extends BaseActivity {
     public void setViews() {
 
         setOnClickListener(R.id.change_pwd_tv);
+        NumberKeyListener numberKeyListener = new NumberKeyListener() {
+
+            @Override
+            protected char[] getAcceptedChars() {
+                String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@#$%^&";
+                return chars.toCharArray();
+            }
+
+            @Override
+            public int getInputType() {
+                return InputType.TYPE_TEXT_VARIATION_PASSWORD;
+            }
+        };
+        mEtOldPwd.setKeyListener(numberKeyListener);
+        mEtNewPwd.setKeyListener(numberKeyListener);
+        mEtConfirmPwd.setKeyListener(numberKeyListener);
+
     }
 
     @Override

@@ -18,6 +18,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UtilEx;
+import lib.ys.util.permission.Permission;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -64,6 +65,8 @@ public class MainActivity extends BaseVPActivity {
     private static final int KReqIdProfile = 1;
     private static final int KReqIdApp = 2;
 
+    private static final int KPermissionCodeLocation = 10;
+
     private LinearLayout mLayoutTab;
     private View mTabPrev;
 
@@ -101,6 +104,9 @@ public class MainActivity extends BaseVPActivity {
 
         YSLog.d(TAG, "wucaixiang@medcn.cn md5 =  " + UtilEx.md5("wucaixiang@medcn.cn"));
         YSLog.d(TAG, "888888@medcn.cn md5 =  " + UtilEx.md5("888888@medcn.cn"));
+
+        //检查有没有定位权限   没有的话直接弹dialog
+        checkPermission(KPermissionCodeLocation, Permission.location);
 
         addIndicators();
 
