@@ -9,6 +9,7 @@
 
     <include layout="@layout/layout_topic_case"/>
 
+    <include layout="@layout/layout_topic_case_all_background"/>
     <include layout="@layout/layout_topic_case_all"/>
 
 </RelativeLayout>

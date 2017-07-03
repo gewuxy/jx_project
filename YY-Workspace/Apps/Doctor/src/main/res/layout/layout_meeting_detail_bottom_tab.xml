@@ -25,9 +25,9 @@
             android:background="@drawable/item_selector"
             android:layout_weight="1"
             android:gravity="center"
+            android:orientation="horizontal"
             moduleView:module_src="@mipmap/meeting_ic_exam"
-            moduleView:module_text="考试"
-            android:orientation="horizontal"/>
+            moduleView:module_text="考试"/>
 
         <View
             style="@style/v.meeting"/>
@@ -40,9 +40,9 @@
             android:background="@drawable/item_selector"
             android:layout_weight="1"
             android:gravity="center"
+            android:orientation="horizontal"
             moduleView:module_src="@mipmap/meeting_ic_que"
-            moduleView:module_text="问卷"
-            android:orientation="horizontal"/>
+            moduleView:module_text="问卷"/>
 
         <View
             style="@style/v.meeting"/>
@@ -55,9 +55,9 @@
             android:background="@drawable/item_selector"
             android:layout_weight="1"
             android:gravity="center"
+            android:orientation="horizontal"
             moduleView:module_src="@mipmap/meeting_ic_video"
-            moduleView:module_text="视频"
-            android:orientation="horizontal"/>
+            moduleView:module_text="视频"/>
 
         <View
             style="@style/v.meeting"/>
@@ -70,9 +70,9 @@
             android:background="@drawable/item_selector"
             android:layout_weight="1"
             android:gravity="center"
+            android:orientation="horizontal"
             moduleView:module_src="@mipmap/meeting_ic_sign"
-            moduleView:module_text="签到"
-            android:orientation="horizontal"/>
+            moduleView:module_text="签到"/>
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.meeting;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
@@ -41,7 +42,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  */
 public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopicListener {
 
-    private static final int KDuration = 300; //动画时长
+    private static final int KDuration = 2000; //动画时长
     private static final int KVpSize = 3;
 
     private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
@@ -50,9 +51,12 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     private TextView mTvFinish;      //已完成数
     private TextView mTvAllFinish; // 已完成数(查看考题)
     private LinearLayout mLayout;   //考题情况
+    private LinearLayout mLayoutBg;  //考题背景
 
     private Animation mEnter;       //进入动画
     private Animation mLeave;       //离开动画
+    private Animation mBgVisible;   //背景显示
+    private Animation mBgGone;      //背景消失
     private boolean mIsAnimating;  //是否有动画在执行
 
     protected int mCount; // 完成数量
@@ -91,6 +95,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         super.findViews();
 
         mLayout = findView(R.id.topic_case_all_layout_progress);
+        mLayoutBg = findView(R.id.topic_case_all_background_layout_progress);
         mGv = findView(R.id.topic_case_all_gv);
         mTvCase = findView(R.id.topic_case_tv_all);
         mTvAllCase = findView(R.id.topic_case_all_tv_all);
@@ -105,6 +110,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         setOnClickListener(R.id.topic_case_layout_progress);
         setOnClickListener(R.id.topic_case_all_layout_all);
         setOnClickListener(R.id.topic_case_all_layout_progress);
+
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
@@ -150,7 +156,16 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
                     0.0f,
                     Animation.RELATIVE_TO_SELF,
                     1.0f);
+
             setAnimation(mLeave);
+        }
+        if(mBgVisible == null){
+            mBgVisible = new AlphaAnimation(0.0f,1.0f);
+            setAnimation(mBgVisible);
+        }
+        if (mBgGone ==null) {
+            mBgGone = new AlphaAnimation(1.0f,0.0f);
+            setAnimation(mBgGone);
         }
         switch (v.getId()) {
             case R.id.topic_case_layout_progress:
@@ -162,6 +177,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             case R.id.topic_case_all_layout_progress:
                 topicCaseVisibility(false);
                 break;
+
         }
     }
 
@@ -325,8 +341,10 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             if (showState) {
                 mTopicCaseAdapter.notifyDataSetChanged();
             }
-            mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
-            mLayout.startAnimation(showState ? mEnter : mLeave);
+                    mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
+                    mLayout.startAnimation(showState ? mEnter : mLeave);
+                    mLayoutBg.setVisibility(showState ? View.VISIBLE :View.GONE);
+                    mLayoutBg.startAnimation(showState ? mBgVisible:mBgGone);
         }
     }
 
@@ -346,6 +364,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             @Override
             public void onAnimationEnd(Animation animation) {
                 mIsAnimating = false;
+
             }
 
             @Override
