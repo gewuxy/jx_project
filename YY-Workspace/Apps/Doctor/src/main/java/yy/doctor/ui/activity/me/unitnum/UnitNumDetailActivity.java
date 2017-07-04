@@ -49,6 +49,7 @@ import yy.doctor.network.image.CutInterceptor;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
+
 /**
  * 单位号详情
  *
@@ -339,11 +340,14 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
 
             int datumNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
+            String dataNum = null;
+            String str = getString(R.string.check_all);
             if (datumNum > 3) {
-                mTvFileNum.setText(getString(R.string.check_all) + datumNum + getString(R.string.file_num));
+                dataNum = String.format(str,datumNum);
                 showView(mIvArrows);
                 mVFileLayout.setOnClickListener(v -> FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getString(TUnitNumDetail.id), Extra.KUnitNumType));
             }
+            mTvFileNum.setText(dataNum);
 
             UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
 
