@@ -43,7 +43,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  */
 public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopicListener {
 
-    private static final int KDuration = 2000; //动画时长
+    private static final int KDuration = 300; //动画时长
     private static final int KVpSize = 3;
 
     private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter

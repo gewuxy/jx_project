@@ -21,6 +21,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
+import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.res.ResLoader;
@@ -60,10 +61,24 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     private MeetDetail mMeetDetail; // 会议数据
 
+    private MapList<Integer,String> mMapList;
+
     private HintDialogMain mDialogEpnNoEnough; // 象数不足
     private HintDialogMain mDialogPayEpn; // 支付象数
     private HintDialogMain mDialogAttention; // 关注单位号
     private NetworkOpt mNetworkImpl;
+    private OnModulesListener mOnModulesListener;
+
+    public interface OnModulesListener {
+        void toExam(String moduleId);
+        void toQue(String moduleId);
+        void toVideo(String moduleId);
+        void toSign(String moduleId);
+        void toCourse(String moduleId);
+    }
+    public void setOnModulesListener(OnModulesListener l){
+        mOnModulesListener = l;
+    }
 
     @IntDef({
             ModuleType.ppt,
@@ -142,8 +157,14 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
     public void setModules(MeetDetail meetDetail) {
         mMeetDetail = meetDetail;
         List<Module> modules = meetDetail.getList(TMeetDetail.modules);
+        Module module;
+        int type;
+        mMapList = new MapList<>();
         for (int i = 0; i < modules.size(); i++) {
-            switch (modules.get(i).getInt(TModule.functionId)) {
+            module = modules.get(i);
+            type = module.getInt(TModule.functionId);
+            mMapList.add(Integer.valueOf(type), module.getString(TModule.id));
+            switch (type) {
                 // 有考试模块
                 case ModuleType.exam: {
                     setOnClickListener(mLayoutExam);
@@ -181,13 +202,13 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     @Override
     public void onClick(View v) {
-        if (mMeetDetail.getBoolean(TMeetDetail.attention)) {
+        if (mMeetDetail.getBoolean(TMeetDetail.attention) || true) {
             // 关注了
             if (mMeetDetail.getBoolean(TMeetDetail.attendAble)) {
                 // 可以参加
                 if (mMeetDetail.getBoolean(TMeetDetail.attended)) {
                     // 参加过(奖励过和支付过)
-//                    toClickModule(v);
+                    toClickModule(v);
                 } else {
                     // 没有参加过
                     int epn = mMeetDetail.getInt(TMeetDetail.xsCredits); // 象数
@@ -215,7 +236,7 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
                                     Profile.inst().saveToSp();
                                     notify(NotifyType.profile_change);
                                     mDialogPayEpn.dismiss();
-//                                    toClickModule(v);
+                                    toClickModule(v);
                                 });
                                 mDialogPayEpn.addButton(R.string.cancel, "#666666", v1 -> mDialogPayEpn.dismiss());
                                 mDialogPayEpn.show();
@@ -229,11 +250,11 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
                                 notify(NotifyType.profile_change);
                             }
                             mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
-//                            toClickModule(v);
+                            toClickModule(v);
                         }
                     } else {
                         // 免费直接参加
-//                        toClickModule(v);
+                        toClickModule(v);
                     }
                 }
             } else {
@@ -252,6 +273,42 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
             mDialogAttention.addButton(R.string.cancel, "#666666", v1 -> mDialogAttention.dismiss());
             mDialogAttention.show();
         }
+    }
+
+    private void toClickModule(View v) {
+        switch (v.getId()) {
+            case R.id.meet_module_layout_exam:{
+                if (mOnModulesListener != null) {
+                    mOnModulesListener.toExam(mMapList.getByKey(ModuleType.exam));
+                }
+            }
+                break;
+            case R.id.meet_module_layout_que:{
+                if (mOnModulesListener != null) {
+                    mOnModulesListener.toQue(mMapList.getByKey(ModuleType.que));
+                }
+            }
+            break;
+            case R.id.meet_module_layout_video:{
+                if (mOnModulesListener != null) {
+                    mOnModulesListener.toVideo(mMapList.getByKey(ModuleType.video));
+                }
+            }
+            break;
+            case R.id.meet_module_layout_sign:{
+                if (mOnModulesListener != null) {
+                    mOnModulesListener.toSign(mMapList.getByKey(ModuleType.sign));
+                }
+            }
+            break;
+            case R.id.meet_module_layout_course:{
+                if (mOnModulesListener != null) {
+                    mOnModulesListener.toCourse(mMapList.getByKey(ModuleType.ppt));
+                }
+            }
+            break;
+        }
+
     }
 
     /* 保持用法一致 */

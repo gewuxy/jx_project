@@ -26,14 +26,14 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.LoginActivity;
-import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
+import yy.doctor.ui.activity.LoginActivity;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 
@@ -62,6 +62,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             RelatedId.location,
             RelatedId.hospital,
             RelatedId.activation_code,
+            RelatedId.num,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
@@ -71,6 +72,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         int location = 4;
         int hospital = 5;
         int activation_code = 6;
+        int num = 7;
     }
 
     @Override
@@ -112,6 +114,12 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .related(RelatedId.hospital)
                 .hint(R.string.hospital_name)
                 .drawable(R.mipmap.form_ic_more)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.et_register_num, RegisterActivity.this)
+                .related(RelatedId.num)
+                .hint("输入手机号码")
                 .build());
     }
 

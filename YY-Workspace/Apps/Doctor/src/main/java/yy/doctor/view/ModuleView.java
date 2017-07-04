@@ -40,8 +40,18 @@ public class ModuleView extends LinearLayout {
 
         init();
     }
+   /* setData(){
+        //图片 ，文字
+        ///set
+
+    }*/
+   /*
+   * setOnclickListener
+   * */
+
 
     private void init() {
+
         View imageView = inflate(getContext(), R.layout.layout_module_view_image, null);
         mImageView = (ImageView) imageView.findViewById(R.id.module_view_iv);
         mImageView.setImageResource(mImageResId);
