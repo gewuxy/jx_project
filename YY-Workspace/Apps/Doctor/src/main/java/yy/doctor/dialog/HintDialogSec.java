@@ -19,8 +19,8 @@ public class HintDialogSec extends BaseHintDialog implements OnCountDownListener
 
     private TextView mTvMainHint; // 主提示
     private TextView mTvSecHint; // 副提示
-    private CountDown mCountDown;
-    private String mCountHint;
+    private CountDown mCountDown; // 倒计时
+    private String mCountHint; // 倒计时的提示语
 
     public HintDialogSec(Context context) {
         super(context);
@@ -40,24 +40,16 @@ public class HintDialogSec extends BaseHintDialog implements OnCountDownListener
         mTvSecHint = findView(R.id.dialog_sec_tv_sec);
     }
 
-    public void setMainHint(String hintMain) {
-        mTvMainHint.setText(hintMain);
-    }
-
     public void setMainHint(@StringRes int strRes) {
         mTvMainHint.setText(getContext().getString(strRes));
-    }
-
-    public void setSecHint(String hintSec) {
-        mTvSecHint.setText(hintSec);
     }
 
     public void setSecHint(@StringRes int strRes) {
         mTvSecHint.setText(getContext().getString(strRes));
     }
 
-    public void setCountHint(String hint) {
-        mCountHint = hint;
+    public void setCountHint(@StringRes int strRes) {
+        mCountHint = getContext().getResources().getString(strRes);
     }
 
     public void start(long time) {
@@ -76,7 +68,6 @@ public class HintDialogSec extends BaseHintDialog implements OnCountDownListener
 
     @Override
     public void onCountDownErr() {
-
     }
 
     @Override
@@ -87,4 +78,5 @@ public class HintDialogSec extends BaseHintDialog implements OnCountDownListener
             mCountDown.stop();
         }
     }
+
 }

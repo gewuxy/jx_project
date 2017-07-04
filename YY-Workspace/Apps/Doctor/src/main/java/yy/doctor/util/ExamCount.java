@@ -17,7 +17,7 @@ public class ExamCount implements OnCountDownListener {
     private static ExamCount mInst = null;
     private OnCountListener mOnCountListener;
     private CountDown mCountDown; // 倒计时
-    private long mSurplusTime; // 剩余时间
+    private long mRemainTime; // 剩余时间
 
     public interface OnCountListener {
         void onCount(long remainCount);
@@ -34,15 +34,15 @@ public class ExamCount implements OnCountDownListener {
         mOnCountListener = onCountListener;
     }
 
-    public long getSurplusTime() {
-        return mSurplusTime;
+    public long getRemainTime() {
+        return mRemainTime;
     }
 
     public void start(long count) {
         if (count == 0) {
             return;
         }
-        mSurplusTime = count;
+        mRemainTime = count;
 
         if (mCountDown == null) {
             mCountDown = new CountDown();
@@ -51,16 +51,23 @@ public class ExamCount implements OnCountDownListener {
         mCountDown.start(count);
     }
 
+    /**
+     * 释放资源
+     */
     public void remove() {
-        mCountDown.stop();
+        if (mCountDown != null) {
+            mCountDown.stop();
+            mCountDown = null;
+        }
         mOnCountListener = null;
     }
 
     @Override
     public void onCountDown(long remainCount) {
-        mSurplusTime--;
+        mRemainTime--;
+        YSLog.d(TAG, "onCountDown:mRemainTime" + mRemainTime);
         if (mOnCountListener != null) {
-            YSLog.d(TAG, "onCountDown:" + remainCount);
+            YSLog.d(TAG, "onCountDown:remainCount" + remainCount);
             mOnCountListener.onCount(remainCount);
         }
     }

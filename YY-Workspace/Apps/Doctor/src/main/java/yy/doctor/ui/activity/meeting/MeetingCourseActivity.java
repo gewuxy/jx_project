@@ -60,7 +60,7 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.util.Util;
+import yy.doctor.util.Time;
 import yy.doctor.view.CircleProgressView;
 
 /**
@@ -148,7 +148,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                 int progress = (int) ((float) currMilliseconds * 100 / mAllMilliseconds);
                 mSb.setProgress(progress);
                 mLayoutCp.setProgress(progress);
-                String time = Util.format(currMilliseconds / 1000, DateUnit.minute);
+                String time = Time.secondFormat(currMilliseconds / 1000, DateUnit.minute);
                 mTvTimeP.setText(time);
                 mTvTimeL.setText(time);
             }
@@ -263,7 +263,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
                     case CourseType.pic_audio:
                     case CourseType.video:
                     case CourseType.audio: {
-                        mTvTimeL.setText(Util.format((long) (mSb.getProgress() / 100.0 * mAllMilliseconds / 1000), DateUnit.minute));
+                        mTvTimeL.setText(Time.secondFormat((long) (mSb.getProgress() / 100.0 * mAllMilliseconds / 1000), DateUnit.minute));
                     }
                     break;
 

@@ -75,7 +75,7 @@ public class UISetter {
 
     public static void setDateDuration(TextView tvDate, TextView tvDuration, long startTime, long endTime) {
         tvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
-        tvDuration.setText("时长:" + Util.parse(endTime - startTime));
+        tvDuration.setText("时长:" + Time.milliFormat(endTime - startTime));
     }
 
     public static void setFileData(LinearLayout layout, List<FileData> listFile, int id) {
@@ -99,15 +99,9 @@ public class UISetter {
             String finalFileName = fileName;
             String finalFileUrl = fileUrl;
             String finalFileType = fileType;
-            addFileItem(layout, fileName, new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    DownloadDataActivity.nav(v.getContext(),
-                            CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
-                            finalFileName, finalFileUrl, finalFileType, fileSize);
-                }
-            });
+            addFileItem(layout, fileName, v -> DownloadDataActivity.nav(v.getContext(),
+                    CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
+                    finalFileName, finalFileUrl, finalFileType, fileSize));
         }
 
     }

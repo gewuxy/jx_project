@@ -131,6 +131,11 @@ public class CountDown {
         }
     }
 
+    public void recycle() {
+        stop();
+        mListener = null;
+    }
+
     public interface OnCountDownListener {
         void onCountDown(long remainCount);
 

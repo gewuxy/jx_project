@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -218,12 +219,15 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
         for (int i = 0; i < size; i++) {
             topicFrag = new TopicFrag();
+
             Topic topic = mAllTopics.get(i);
-            topicFrag.setTopic(topic);
+            Bundle b = new Bundle();
+            b.putSerializable(Extra.KData, topic);
             //最后一题
             if (i == size - 1) {
-                topicFrag.isLast();
+                topicFrag.setLast();
             }
+            topicFrag.setArguments(b);
             topicFrag.setOnTopicListener(this);
             add(topicFrag);
         }
@@ -272,7 +276,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * @param noFinish
      */
     protected void trySubmit(int noFinish) {
-        // 未做完
+        // 未答完
         mSubDialog = new HintDialogMain(BaseTopicActivity.this);
         mSubDialog.setHint(setDialogHint(noFinish));
 
@@ -290,6 +294,9 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
         if (mSubDialog != null) {
             mSubDialog.dismiss();
+        }
+        if (mExitDialog != null) {
+            mExitDialog.dismiss();
         }
     }
 

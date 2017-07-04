@@ -29,7 +29,7 @@ import yy.doctor.model.meet.video.Intro;
 import yy.doctor.model.meet.video.Intro.TIntro;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.util.Util;
+import yy.doctor.util.Time;
 
 /**
  * 视频列表(分类)界面
@@ -128,7 +128,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
                 showView(mBarTvRight);
             }
             if (mStudyTime > 0) {
-                mBarTvRight.setText(getString(R.string.video_add_up_all) + Util.format(mStudyTime));
+                mBarTvRight.setText(getString(R.string.video_add_up_all) + Time.secondFormat(mStudyTime));
             }
         });
         return listResult;
@@ -155,7 +155,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
             long duration = data.getLongExtra(Extra.KData, 0);
             mStudyTime += duration;
             if (mStudyTime > 0) {
-                mBarTvRight.setText(getString(R.string.video_add_up_all) + Util.format(mStudyTime));
+                mBarTvRight.setText(getString(R.string.video_add_up_all) + Time.secondFormat(mStudyTime));
             }
             getItem(mClickPosition).put(TDetail.userdtime, duration + getItem(mClickPosition).getLong(TDetail.userdtime));
             invalidate();
