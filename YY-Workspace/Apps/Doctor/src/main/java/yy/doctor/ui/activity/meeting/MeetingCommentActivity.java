@@ -177,11 +177,11 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     private Comment toComment(String text) {
         Comment comment = new Comment();
         try {
-            JSONObject jo = new JSONObject(text);
-            comment.put(TComment.sender, jo.getString(KSender));
-            comment.put(TComment.message, jo.getString(KMessage));
-            comment.put(TComment.sendTime, jo.getString(KSendTime));
-            comment.put(TComment.headimg, jo.getString(KHeadImg));
+            JSONObject object = new JSONObject(text);
+            comment.put(TComment.sender, object.getString(KSender));
+            comment.put(TComment.message, object.getString(KMessage));
+            comment.put(TComment.sendTime, object.getString(KSendTime));
+            comment.put(TComment.headimg, object.getString(KHeadImg));
         } catch (JSONException e) {
             YSLog.d(TAG, "toComment:" + e.toString());
         }

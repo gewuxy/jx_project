@@ -1,10 +1,12 @@
 package yy.doctor.ui.frag.meeting.exam;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicAdapter;
 import yy.doctor.model.meet.exam.Choice;
@@ -38,21 +40,16 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
         mOnTopicListener = onTopicListener;
     }
 
-    public void isLast() {
+    public void setLast() {
         isLast = true;
-    }
-
-    /**
-     * 设置单个考题
-     *
-     * @param topic
-     */
-    public void setTopic(Topic topic) {
-        mTopic = topic;
     }
 
     @Override
     public void initData() {
+        Bundle b = getArguments();
+        if (b != null) {
+            mTopic = (Topic) b.getSerializable(Extra.KData);
+        }
     }
 
     @Override

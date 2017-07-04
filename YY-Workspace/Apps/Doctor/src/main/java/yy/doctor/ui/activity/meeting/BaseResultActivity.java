@@ -33,7 +33,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
 
     protected TextView mTvWelcome; // 欢迎
     protected TextView mTvResult; // 结果
-    protected TextView mTvResultMsg; // 成功的时间 / 失败的原因 / 时间
+    protected TextView mTvResultMsg; // 成功的时间 / 失败的原因
 
     private CountDown mCountDown; // 倒计时
     private TextView mTvReturn; // 返回
@@ -49,6 +49,9 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     public void initData() {
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
+
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
     }
 
     @CallSuper
@@ -84,7 +87,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
             // 失败
             errorResult(r.getError());
         }
-        onFinish();
+        mCountDown.start(KReturnTime);
     }
 
     @Override
@@ -100,15 +103,6 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
                 finish();
                 break;
         }
-    }
-
-    /**
-     * 倒计时
-     */
-    private void onFinish() {
-        mCountDown = new CountDown(KReturnTime);
-        mCountDown.setListener(this);
-        mCountDown.start();
     }
 
     @Override
@@ -129,15 +123,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
 
         // 退出
         notify(NotifyType.study);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
+        mCountDown.recycle();
     }
 
     protected abstract void successResult();

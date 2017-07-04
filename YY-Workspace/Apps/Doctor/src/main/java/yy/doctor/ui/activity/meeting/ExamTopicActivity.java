@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -21,13 +22,14 @@ import yy.doctor.popup.TopicPopup;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.ExamCount;
 import yy.doctor.util.ExamCount.OnCountListener;
-import yy.doctor.util.Util;
+import yy.doctor.util.Time;
 
 /**
+ * 考试答题界面
+ *
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-
 public class ExamTopicActivity extends BaseTopicActivity implements OnCountListener {
 
     private static final int KTextSizeDp = 16;
@@ -42,6 +44,8 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     private long mUseTime; // 剩余做题的时间
     private TopicPopup mTopicPopup;
 
+    private boolean mHintFlag; // 是否提示过剩余时间
+
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
@@ -54,18 +58,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     public void initData() {
         super.initData();
 
+        mHintFlag = true;
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
+        long surplusTime = ExamCount.inst().getRemainTime();
         mUseTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
-
-        long surplusTime = ExamCount.inst().getSurplusTime();
         mUseTime = mUseTime > surplusTime ? surplusTime : mUseTime;
 
         ExamCount.inst().setOnCountListener(this);
         ExamCount.inst().start(mUseTime);
-
-        if (mUseTime <= KFiveMin) {
-            last5((int) (mUseTime / TimeUnit.MINUTES.toSeconds(1)));
-        }
 
         initFrag();
     }
@@ -78,7 +78,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
 
         //默认显示,外加倒计时
         mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(Util.format(mUseTime, DateUnit.hour));
+        mTvTime.setText(Time.secondFormat(mUseTime, DateUnit.hour));
         mTvTime.setGravity(Gravity.CENTER);
         mTvTime.setTextColor(Color.WHITE);
         mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
@@ -91,14 +91,22 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     public void setViews() {
         super.setViews();
 
-        // 第一次进入考试时提示
-        if (SpApp.inst().ifFirstEnterExam()) {
-            runOnUIThread(() -> {
-                mTopicPopup = new TopicPopup(ExamTopicActivity.this);
-                mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                SpApp.inst().saveEnterExam();
-            }, 300);
-        }
+        getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+
+            @Override
+            public boolean onPreDraw() {
+
+                if (SpApp.inst().ifFirstEnterExam()) {
+                    // 第一次进入考试时提示
+                    mTopicPopup = new TopicPopup(ExamTopicActivity.this);
+                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                    SpApp.inst().saveEnterExam();
+                }
+
+                removeOnPreDrawListener(this);
+                return true;
+            }
+        });
 
         initFirstGv();
     }
@@ -127,43 +135,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         }
     }
 
-    // 小于5分钟提示
-    private void last5(int last) {
-        if (last <= 0) {
-            last = 1;
-        }
-        mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
-        mCloseDialog.setMainHint(getString(R.string.exam_finish) + last + getString(R.string.minute));
-        mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
-        mCloseDialog.setCountHint(getString(R.string.exam_xs_close));
-        mCloseDialog.addButton("确定", v -> mCloseDialog.dismiss());
-        mCloseDialog.start(KXClose);
-        mCloseDialog.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        ExamCount.inst().remove();
-        if (mCloseDialog != null) {
-            mCloseDialog.dismiss();
-        }
-        if (mSubmitDialog != null) {
-            mSubmitDialog.dismiss();
-        }
-        if (mTopicPopup != null) {
-            mTopicPopup.dismiss();
-        }
-    }
-
     @Override
     public void onCount(long remainCount) {
-        mTvTime.setText(Util.format(remainCount, DateUnit.hour));
+        mTvTime.setText(Time.secondFormat(remainCount, DateUnit.hour));
         if (remainCount != 0) {
-            if (remainCount == KFiveMin) {
+            if (mHintFlag && remainCount <= KFiveMin) {
                 // 剩余5分钟提示
-                last5(5);
+                lastHint(remainCount);
+                mHintFlag = false;
             }
         } else {
             // 考试结束强制提交
@@ -176,6 +155,38 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
                 submit();
             });
             mSubmitDialog.show();
+        }
+    }
+
+    // 快结束的提示(只提示一次)
+    private void lastHint(long last) {
+        last /= TimeUnit.MINUTES.toSeconds(1);
+        if (last <= 0) {
+            // 最少提示一分钟
+            last = 1;
+        }
+        mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
+        mCloseDialog.setMainHint(getString(R.string.exam_finish) + last + getString(R.string.minute));
+        mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
+        mCloseDialog.setCountHint(R.string.exam_xs_close);
+        mCloseDialog.addButton(R.string.confirm, v -> mCloseDialog.dismiss());
+        mCloseDialog.start(KXClose);
+        mCloseDialog.show();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        ExamCount.inst().remove();
+        if (mCloseDialog != null) {
+            mCloseDialog.dismiss();
+        }
+        if (mSubmitDialog != null) {
+            mSubmitDialog.dismiss();
+        }
+        if (mTopicPopup != null) {
+            mTopicPopup.dismiss();
         }
     }
 

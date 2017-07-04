@@ -31,6 +31,7 @@ import yy.doctor.model.me.EpnRecharge.TEpnRecharge;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
+
 /**
  * 象数充值
  *
@@ -137,13 +138,17 @@ public class EpnRechargeActivity extends BaseActivity {
                 }
                 mEtRechargeNum.setSelection(editStart);
                 long payNum;
+                String epnNum = null;
                 String editStr = mEtRechargeNum.getText().toString().trim();
+                String str = getString(R.string.epn_unit);
                 if (TextUtil.isEmpty(editStr)) {
-                    mTvEpnRechargeNum.setText(R.string.zero_epn);
+                    epnNum = String.format(str,0);
+
                 } else {
                     payNum = Long.valueOf(editStr);
-                    mTvEpnRechargeNum.setText(payNum * 10 + getString(R.string.epn_unit));
+                    epnNum = String.format(str,payNum * 10);
                 }
+                mTvEpnRechargeNum.setText(epnNum);
                 // 恢复监听
                 mEtRechargeNum.addTextChangedListener(this);
             }

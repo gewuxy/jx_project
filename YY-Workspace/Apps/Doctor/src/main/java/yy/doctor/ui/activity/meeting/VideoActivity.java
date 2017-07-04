@@ -42,6 +42,7 @@ import yy.doctor.model.meet.video.Detail;
 import yy.doctor.model.meet.video.Detail.TDetail;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.util.Time;
 import yy.doctor.util.Util;
 
 /**
@@ -292,7 +293,7 @@ public class VideoActivity extends BaseActivity implements
         long start = mDetail.getLong(TDetail.userdtime, 0) % mAllTime; // 开始时间(s)
         long residue = mAllTime - start; // 剩余时间(s)
         mSbProgress.setProgress((int) (start * 100.0 / mAllTime));
-        mTvTime.setText(Util.format(start, DateUnit.minute));
+        mTvTime.setText(Time.secondFormat(start, DateUnit.minute));
         mVideo.seekTo(start * 1000);
         // 开始倒计时
         mVideo.prepared(residue);
@@ -302,7 +303,7 @@ public class VideoActivity extends BaseActivity implements
     public void onVideoProgress(long progress) {
         int percent = (int) (progress * 100.0 / mAllTime);
         mSbProgress.setProgress(percent);
-        mTvTime.setText(Util.format(progress, DateUnit.minute));
+        mTvTime.setText(Time.secondFormat(progress, DateUnit.minute));
     }
 
     @Override

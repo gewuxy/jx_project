@@ -4,7 +4,6 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
@@ -17,8 +16,8 @@ import yy.doctor.model.home.IHome.HomeType;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecMeeting.TRecMeeting;
 import yy.doctor.model.home.RecUnitNums;
+import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
-import yy.doctor.util.Util;
 
 /**
  * 首页的adapter
@@ -57,15 +56,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
             holder.getTvSection().setText(item.getString(TRecMeeting.meetType));
             holder.getTvData().setText(TimeUtil.formatMilli(item.getLong(TRecMeeting.startTime), "MM月dd日 HH:mm"));
-            holder.getTvDuration().setText(Util.parse(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
-
-
-            //判断用户是否已经收藏过这个会议  此功能已经取消
-            /*if (item.getInt(TRecMeeting.stored) == 1) {
-                showView(holder.getTvCollection());
-            } else {
-                goneView(holder.getTvCollection());
-            }*/
+            holder.getTvDuration().setText(Time.milliFormat(item.getLong(TRecMeeting.endTime) - item.getLong(TRecMeeting.startTime)));
 
             holder.getIvSpeaker()
                     .placeHolder(R.mipmap.ic_default_home_meeting_speaker)

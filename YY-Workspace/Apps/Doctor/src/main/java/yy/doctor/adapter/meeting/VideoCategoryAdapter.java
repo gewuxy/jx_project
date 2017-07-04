@@ -6,14 +6,17 @@ import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.VideoVH;
 import yy.doctor.model.meet.video.Detail;
-import yy.doctor.util.Util;
+import yy.doctor.util.Time;
 
 /**
+ * 视频列表的Adapter
+ *
  * @author : GuoXuan
  * @since : 2017/5/24
  */
 
 public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
+
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_video_category_item;
@@ -28,7 +31,7 @@ public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
             // 1是文件
             long duration = getItem(position).getLong(Detail.TDetail.userdtime);
             if (duration > 0) {
-                tvStudyTime.setText(getContext().getString(R.string.video_add_up) + Util.format(duration));
+                tvStudyTime.setText(getContext().getString(R.string.video_add_up) + Time.secondFormat(duration));
             } else {
                 tvStudyTime.setText(R.string.video_no_see);
             }
@@ -37,6 +40,5 @@ public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
             goneView(tvStudyTime);
         }
     }
-
 
 }

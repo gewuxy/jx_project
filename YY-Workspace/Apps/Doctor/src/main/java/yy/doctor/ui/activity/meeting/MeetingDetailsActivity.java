@@ -68,6 +68,7 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 import yy.doctor.view.ModuleView;
@@ -619,7 +620,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 .load();
         long startTime = info.getLong(TMeetDetail.startTime); // 开始时间
         mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
-        mTvDuration.setText("时长:" + Util.parse(info.getLong(TMeetDetail.endTime) - startTime));
+        mTvDuration.setText("时长:" + Time.milliFormat(info.getLong(TMeetDetail.endTime) - startTime));
 
         // 会议
         mTvTitle.setText(info.getString(TMeetDetail.meetName));

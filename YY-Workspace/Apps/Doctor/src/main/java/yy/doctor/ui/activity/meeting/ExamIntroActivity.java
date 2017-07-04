@@ -33,7 +33,6 @@ import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.ExamCount;
-import yy.doctor.util.ExamCount.OnCountListener;
 
 /**
  * 考试介绍界面
@@ -41,16 +40,15 @@ import yy.doctor.util.ExamCount.OnCountListener;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-public class ExamIntroActivity extends BaseActivity implements OnCountListener {
+public class ExamIntroActivity extends BaseActivity {
 
-    private Intro mIntro;
+    private Intro mIntro; // 考试信息
     private String mHost; // 会议主办方
     private String mMeetId; // 会议ID
     private String mModuleId; // 模块ID
 
     private long mStartTime; // 考试开始时间
     private long mEndTime; // 考试结束时间
-    private long mCurTime; // 服务器当前时间
 
     private TextView mTvTitle; // 试卷名称
     private TextView mTvHost; // 主办方
@@ -99,7 +97,9 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
     public void initNavBar(NavBar bar) {
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             // 没有进入考试
+            // 记录模块时间
             notify(NotifyType.study);
+            // 停止倒计时
             ExamCount.inst().remove();
             finish();
         });
@@ -134,35 +134,34 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
             mIntro = r.getData();
-            Paper paper = mIntro.getEv(TIntro.paper);
 
-            //获取起始结束时间
+            // 获取起始结束时间
             mStartTime = mIntro.getLong(TIntro.startTime);
             mEndTime = mIntro.getLong(TIntro.endTime);
-            mCurTime = mIntro.getLong(TIntro.serverTime);
+            long curTime = mIntro.getLong(TIntro.serverTime); // 服务器当前时间
 
             if (mIntro.getBoolean(TIntro.finished)) {
-                mTvScore.setText("过往成绩 : " + mIntro.getInt(TIntro.score) + "分");
+                mTvScore.setText(String.format("过往成绩 : %d 分", mIntro.getInt(TIntro.score, 0)));
             } else {
                 hideView(mTvScore);
             }
 
-            long difEnd = mEndTime - mCurTime; // 离考试结束还有多少时间
+            long difEnd = mEndTime - curTime; // 离考试结束还有多少时间
             if (difEnd > 0) {
                 // 考试没结束
-                ExamCount.inst().setOnCountListener(this);
-                ExamCount.inst().start(difEnd / 1000);
+                ExamCount.inst().start(difEnd / TimeUnit.SECONDS.toMillis(1));
             }
 
-            mCanStart = mStartTime <= mCurTime && difEnd > 0; // (mCurTime < mEndTime)
+            mCanStart = mStartTime <= curTime && difEnd > 0; // (mCurTime < mEndTime) 当前能不能考试
 
+            Paper paper = mIntro.getEv(TIntro.paper);
             mTvTitle.setText(paper.getString(TPaper.name));
             mTvHost.setText(getString(R.string.exam_host) + mHost);
             List<Topic> topics = paper.getList(TPaper.questions);
             if (topics != null && topics.size() > 0) {
-                mTvCount.setText(topics.size() + "道题目");
+                mTvCount.setText(String.format("%d道题目", topics.size()));
             }
-            mTvTime.setText(getTime(mStartTime, mEndTime));
+            mTvTime.setText(format(mStartTime, mEndTime));
         } else {
             setViewState(ViewState.error);
             showToast(r.getError());
@@ -172,6 +171,7 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
     @Override
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
+
         setViewState(ViewState.error);
     }
 
@@ -197,15 +197,8 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
                 } else {
                     mDialog = new HintDialogSec(ExamIntroActivity.this);
                     mDialog.addButton(R.string.confirm, v1 -> mDialog.dismiss());
-                    if (mCurTime < mStartTime) {
-                        // 考试未开始
-                        mDialog.setMainHint(R.string.exam_no_start);
-                        mDialog.setSecHint(R.string.exam_participation);
-                    } else {
-                        // 考试结束
-                        mDialog.setMainHint(R.string.exam_end);
-                        mDialog.setSecHint(R.string.exam_contact);
-                    }
+                    mDialog.setMainHint(R.string.exam_end);
+                    mDialog.setSecHint(R.string.exam_contact);
                     mDialog.show();
                 }
                 break;
@@ -213,23 +206,29 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        // 记录模块时间
+        notify(NotifyType.study);
+        // 停止倒计时
+        ExamCount.inst().remove();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        // PS: 有可能下一页再统计时间且不停止考试的倒计时
         if (mDialog != null) {
             mDialog.dismiss();
         }
     }
 
-    @Override
-    public void onCount(long remainCount) {
-        mCurTime += TimeUnit.MINUTES.toMillis(1);
-    }
-
     /**
      * 按格式显示起始结束时间
      */
-    private String getTime(long startTime, long endTime) {
+    private String format(long startTime, long endTime) {
         StringBuilder time = null;
         String startDate = TimeUtil.formatMilli(startTime, TimeFormat.simple_ymd);
         String endDate = TimeUtil.formatMilli(endTime, TimeFormat.simple_ymd);
@@ -250,10 +249,4 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
         return time.toString();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        ExamCount.inst().remove();
-    }
 }
