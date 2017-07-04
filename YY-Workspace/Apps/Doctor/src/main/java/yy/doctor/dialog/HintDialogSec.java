@@ -40,12 +40,24 @@ public class HintDialogSec extends BaseHintDialog implements OnCountDownListener
         mTvSecHint = findView(R.id.dialog_sec_tv_sec);
     }
 
+    public void setMainHint(String hintMain) {
+        mTvMainHint.setText(hintMain);
+    }
+
     public void setMainHint(@StringRes int strRes) {
         mTvMainHint.setText(getContext().getString(strRes));
     }
 
+    public void setSecHint(String hintSec) {
+        mTvSecHint.setText(hintSec);
+    }
+
     public void setSecHint(@StringRes int strRes) {
         mTvSecHint.setText(getContext().getString(strRes));
+    }
+
+    public void setCountHint(String hint) {
+        mCountHint = hint;
     }
 
     public void setCountHint(@StringRes int strRes) {
