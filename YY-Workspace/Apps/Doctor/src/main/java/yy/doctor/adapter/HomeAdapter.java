@@ -81,12 +81,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             holder.getTvSpeakerRank().setText(item.getString(TRecMeeting.lecturerTile));
 
             //判断是否有医院
-            String hospital = item.getString(TRecMeeting.lecturerHos);
-            if (TextUtil.isEmpty(hospital)) {
-                goneView(holder.getTvHospital());
-            } else {
-                holder.getTvHospital().setText(item.getString(TRecMeeting.lecturerHos));
-            }
+            UISetter.viewVisibility(item.getString(TRecMeeting.lecturerHos), holder.getTvHospital());
 
             //单位号头像点击事件
             holder.getIvUnit().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), item.getInt(TRecMeeting.pubUserId)));

@@ -296,6 +296,7 @@ public class VideoCourseFrag extends BaseCourseFrag implements
     public void onDestroyView() {
         super.onDestroyView();
 
+        mVideo = null;
         stop();
     }
 }

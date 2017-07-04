@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
     xmlns:moduleView="http://schemas.android.com/apk/res-auto"
-    android:layout_alignParentBottom="true"
-    android:background="#dbdbdb"
-    android:orientation="horizontal"
-    android:paddingTop="1dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,14 +17,9 @@
         <!-- 考试 -->
         <yy.doctor.view.ModuleView
             android:id="@+id/meet_module_layout_exam"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/item_selector"
-            android:layout_weight="1"
-            android:gravity="center"
+            style="@style/v.meeting.module"
             moduleView:module_src="@mipmap/meeting_ic_exam"
-            moduleView:module_text="考试"
-            android:orientation="horizontal"/>
+            moduleView:module_text="@string/exam"/>
 
         <View
             style="@style/v.meeting.divider"/>
@@ -35,49 +27,34 @@
         <!-- 问卷 -->
         <yy.doctor.view.ModuleView
             android:id="@+id/meet_module_layout_que"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/item_selector"
-            android:layout_weight="1"
-            android:gravity="center"
+            style="@style/v.meeting.module"
             moduleView:module_src="@mipmap/meeting_ic_que"
-            moduleView:module_text="问卷"
-            android:orientation="horizontal"/>
+            moduleView:module_text="@string/que"/>
 
         <View
             style="@style/v.meeting.divider"/>
 
         <!-- 视频 -->
         <yy.doctor.view.ModuleView
-            android:id="@+id/meeting_detail_layout_video"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/item_selector"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:id="@+id/meet_module_layout_video"
+            style="@style/v.meeting.module"
             moduleView:module_src="@mipmap/meeting_ic_video"
-            moduleView:module_text="视频"
-            android:orientation="horizontal"/>
+            moduleView:module_text="@string/video"/>
 
         <View
             style="@style/v.meeting.divider"/>
 
         <!-- 签到 -->
         <yy.doctor.view.ModuleView
-            android:id="@+id/meeting_detail_layout_sign"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/item_selector"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:id="@+id/meet_module_layout_sign"
+            style="@style/v.meeting.module"
             moduleView:module_src="@mipmap/meeting_ic_sign"
-            moduleView:module_text="签到"
-            android:orientation="horizontal"/>
-
+            moduleView:module_text="@string/sign"/>
     </LinearLayout>
 
+    <!-- 微课 -->
     <TextView
-        android:id="@+id/meeting_detail_video_see"
+        android:id="@+id/meet_module_layout_course"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:background="#ccc"
@@ -86,7 +63,7 @@
         android:gravity="center"
         android:paddingLeft="@dimen/margin_large"
         android:paddingRight="@dimen/margin_large"
-        android:text="会议"
+        android:text="@string/meet"
         android:textColor="@color/white"
         android:textSize="14dp"/>
 

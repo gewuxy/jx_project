@@ -30,7 +30,6 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import lib.ys.util.permission.Permission;
@@ -286,8 +285,8 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvIntro = findView(R.id.meeting_detail_tv_intro);
 
         // 模块相关
-        mLayoutExam = findView(R.id.meeting_detail_layout_exam);
-        mLayoutQue = findView(R.id.meeting_detail_layout_que);
+        mLayoutExam = findView(R.id.meet_module_layout_exam);
+        mLayoutQue = findView(R.id.meet_module_layout_que);
         mLayoutVideo = findView(R.id.meeting_detail_layout_video);
         mLayoutSign = findView(R.id.meeting_detail_layout_sign);
         mTvSee = findView(R.id.meeting_detail_video_see);
@@ -385,12 +384,12 @@ public class MeetingDetailsActivity extends BaseActivity {
             }
             break;
 
-            case R.id.meeting_detail_layout_exam: {
+            case R.id.meet_module_layout_exam: {
                 getExamInfo();
             }
             break;
 
-            case R.id.meeting_detail_layout_que: {
+            case R.id.meet_module_layout_que: {
                 getQueInfo();
             }
             break;
@@ -668,18 +667,9 @@ public class MeetingDetailsActivity extends BaseActivity {
                 .url(info.getString(TMeetDetail.lecturerHead))
                 .load();
         // 职责和医院没有的话就隐藏
-        String obligation = info.getString(TMeetDetail.lecturerTitle); // 职责
-        if (TextUtil.isEmpty(obligation)) {
-            goneView(mTvGP);
-        } else {
-            mTvGP.setText(obligation);
-        }
-        String hospital = info.getString(TMeetDetail.lecturerHos); // 医院
-        if (TextUtil.isEmpty(hospital)) {
-            goneView(mTvGH);
-        } else {
-            mTvGH.setText(hospital);
-        }
+        UISetter.viewVisibility(info.getString(TMeetDetail.lecturerTitle), mTvGP); // 职责
+        UISetter.viewVisibility(info.getString(TMeetDetail.lecturerHos), mTvGH); // 医院
+
         mTvIntro.setText(Html.fromHtml(info.getString(TMeetDetail.introduction)));
 
         // 模块处理
