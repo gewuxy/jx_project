@@ -1,5 +1,6 @@
 package yy.doctor.util;
 
+import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
@@ -11,11 +12,11 @@ import lib.yy.util.CountDown.OnCountDownListener;
  */
 public class ExamCount implements OnCountDownListener {
 
-    private static final String TAG = ExamCount.class.getSimpleName().toString();
+    public static final String TAG = ExamCount.class.getSimpleName().toString();
 
     private static ExamCount mInst = null;
     private OnCountListener mOnCountListener;
-    private CountDown mCountDown;
+    private CountDown mCountDown; // 倒计时
     private long mSurplusTime; // 剩余时间
 
     public interface OnCountListener {
@@ -33,52 +34,39 @@ public class ExamCount implements OnCountDownListener {
         mOnCountListener = onCountListener;
     }
 
-    public void prepared(long second) {
-        stop();
-        mSurplusTime = second;
-        mCountDown = new CountDown(second);
-        mCountDown.setListener(this);
+    public long getSurplusTime() {
+        return mSurplusTime;
     }
 
-    public void start() {
-        mCountDown.start();
-    }
-
-    public void start(long second) {
-        stop();
-        prepared(second);
-        start();
-    }
-
-    public void pause() {
-        stop();
-        prepared(mSurplusTime);
-    }
-
-    public void stop() {
-        if (mCountDown != null) {
-            mCountDown.stop();
+    public void start(long count) {
+        if (count == 0) {
+            return;
         }
+        mSurplusTime = count;
+
+        if (mCountDown == null) {
+            mCountDown = new CountDown();
+            mCountDown.setListener(this);
+        }
+        mCountDown.start(count);
     }
 
     public void remove() {
-        stop();
+        mCountDown.stop();
         mOnCountListener = null;
-    }
-
-    public long getSurplusTime() {
-        return mSurplusTime;
     }
 
     @Override
     public void onCountDown(long remainCount) {
         mSurplusTime--;
         if (mOnCountListener != null) {
+            YSLog.d(TAG, "onCountDown:" + remainCount);
             mOnCountListener.onCount(remainCount);
         }
     }
 
     @Override
     public void onCountDownErr() {
+        YSLog.d(TAG, "onCountDownErr:");
     }
 }

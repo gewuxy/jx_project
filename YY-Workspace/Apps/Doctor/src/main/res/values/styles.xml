@@ -44,8 +44,9 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="v.meeting"/>
     <!-- meeting 底部的分割线 -->
-    <style name="v.meeting">
+    <style name="v.meeting.divider">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">16dp</item>
         <item name="android:background">@drawable/divider</item>
@@ -122,6 +123,15 @@
         <item name="android:layout_marginLeft">21dp</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="v.meeting.module">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/item_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
 </resources>

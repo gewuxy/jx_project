@@ -150,9 +150,8 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
             long difEnd = mEndTime - mCurTime; // 离考试结束还有多少时间
             if (difEnd > 0) {
                 // 考试没结束
-                ExamCount.inst().prepared(difEnd / 1000);
                 ExamCount.inst().setOnCountListener(this);
-                ExamCount.inst().start();
+                ExamCount.inst().start(difEnd / 1000);
             }
 
             mCanStart = mStartTime <= mCurTime && difEnd > 0; // (mCurTime < mEndTime)
@@ -191,7 +190,6 @@ public class ExamIntroActivity extends BaseActivity implements OnCountListener {
                     if (mIntro.getInt(TIntro.resitTimes) > mIntro.getInt(TIntro.finishTimes)) {
                         // 还有考试次数
                         ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
-                        ExamCount.inst().pause();
                         finish();
                     } else {
                         showToast(R.string.finish_exam);

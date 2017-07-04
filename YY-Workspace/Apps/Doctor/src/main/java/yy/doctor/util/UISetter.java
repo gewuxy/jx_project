@@ -15,6 +15,7 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
+import lib.ys.util.view.ViewUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.ui.activity.me.DownloadDataActivity;
@@ -143,6 +144,21 @@ public class UISetter {
             tv.setText(R.string.attention);
             tv.setSelected(false);
             tv.setClickable(true);
+        }
+    }
+
+    /**
+     * 没有文字就隐藏TextView
+     * 有文字内容就设置给TextView
+     *
+     * @param text
+     * @param textView
+     */
+    public static void viewVisibility(String text, TextView textView) {
+        if (TextUtil.isEmpty(text)) {
+            ViewUtil.goneView(textView);
+        } else {
+            textView.setText(text);
         }
     }
 

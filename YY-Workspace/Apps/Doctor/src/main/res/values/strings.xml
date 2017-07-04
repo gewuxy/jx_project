@@ -146,10 +146,12 @@
     <string name="cancel_collect">取消收藏成功</string>
     <string name="collect">收藏成功</string>
     <string name="que">问卷</string>
+    <string name="sign">签到</string>
     <string name="submit">提交</string>
     <string name="enough">象数不足</string>
 
     <string name="video">视频</string>
+    <string name="meet">会议</string>
     <string name="video_add_up">累计 </string>
     <string name="video_add_up_all">总计:</string>
     <string name="video_studied_no_start">未开始学习</string>
