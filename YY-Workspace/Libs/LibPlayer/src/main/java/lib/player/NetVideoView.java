@@ -134,7 +134,7 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
 
     @Override
     public void onCountDown(long remainCount) {
-        if (mListener != null) {
+        if (mListener != null && isPlaying()) {
             mListener.onVideoProgress(getCurrentPosition() / 1000);
         }
     }
@@ -143,6 +143,7 @@ public class NetVideoView extends PLVideoView implements OnCountDownListener {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
+        mListener = null;
         stopPlayback();
         recycle();
     }

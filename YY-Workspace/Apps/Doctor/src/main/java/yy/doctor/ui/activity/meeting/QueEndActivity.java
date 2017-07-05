@@ -37,6 +37,7 @@ public class QueEndActivity extends BaseResultActivity {
     public void setViews() {
         super.setViews();
 
+        // FIXME: 问卷用时
         refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.submitSur()
                 .meetId(mMeetId)

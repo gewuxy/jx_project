@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
+import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -220,7 +221,6 @@ public class VideoActivity extends BaseActivity implements
 
     @Override
     public void onCountDown(long remainCount) {
-        mDuration++;
         if (remainCount == 0) {
             if (!mIsPortrait) {
                 goneView(getNavBar());
@@ -301,6 +301,8 @@ public class VideoActivity extends BaseActivity implements
 
     @Override
     public void onVideoProgress(long progress) {
+            mDuration++;
+            YSLog.d(TAG,"onCountDown:mDuration="+ mDuration);
         int percent = (int) (progress * 100.0 / mAllTime);
         mSbProgress.setProgress(percent);
         mTvTime.setText(Time.secondFormat(progress, DateUnit.minute));
@@ -381,7 +383,7 @@ public class VideoActivity extends BaseActivity implements
             mVideo.stopPlayback();
         }
         if (mCountDown != null) {
-            mCountDown.stop();
+            mCountDown.recycle();
         }
     }
 }

@@ -15,7 +15,6 @@ import java.lang.annotation.RetentionPolicy;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
@@ -44,35 +43,36 @@ import yy.doctor.view.AutoCompleteEditText;
  * 创建人 : guoxuan
  */
 public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener {
-
+    // FIXME: 激活码命名
     private static final int KRegister = 0;
     private static final int KLogin = 1;
 
-    private AutoCompleteEditText mEtEmail;
-    private EditText mEtActCode;      //填写激活码
-    private TextView mTvGetActCode;   //获取激活码
-    private TextView mTvRegister;     //注册
-    private String mUserName;       //用户名
-    private String mPwd;            //密码
+    private AutoCompleteEditText mEtEmail; // 邮箱
+    private EditText mEtActCode;      // 填写激活码
+    private TextView mTvGetActCode;   // 获取激活码
+    private TextView mTvRegister;     // 注册按钮
+
+    private String mUserName;       // 用户名
+    private String mPwd;            // 密码
 
     @IntDef({
             RelatedId.name,
             RelatedId.pwd,
-            RelatedId.marksure_pwd,
+            RelatedId.pwd_sure,
             RelatedId.location,
             RelatedId.hospital,
             RelatedId.activation_code,
-            RelatedId.num,
+            RelatedId.phone_number,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int name = 1;
         int pwd = 2;
-        int marksure_pwd = 3;
+        int pwd_sure = 3;
         int location = 4;
         int hospital = 5;
         int activation_code = 6;
-        int num = 7;
+        int phone_number = 7;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register_pwd)
-                .related(RelatedId.marksure_pwd)
+                .related(RelatedId.pwd_sure)
                 .hint(R.string.confirm_pwd)
                 .build());
 
@@ -116,11 +116,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .drawable(R.mipmap.form_ic_more)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
+        /*addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_phone_number)
-                .related(RelatedId.num)
+                .related(RelatedId.phone_number)
                 .hint(R.string.phone_number)
-                .build());
+                .build());*/
     }
 
     @Override
@@ -173,41 +173,27 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
      */
     private void enroll() {
 
+        // 检查邮箱
         mUserName = mEtEmail.getText().toString().trim();
-        String strPwd = getItemStr(RelatedId.pwd);
-        String strPwdNg = getItemStr(RelatedId.marksure_pwd);
-
-        String strProvince = null;
-        String strCity = null;
-        String strArea = null;
-        String str = getItemStr(RelatedId.location);
-        YSLog.d(TAG, " address = " + str);
-        String[] strs = str.split(" ");
-        for (int i = 0; i < strs.length; i++) {
-            String s = strs[i];
-            if (i == 0) {
-                strProvince = s;
-            } else if (i == 1) {
-                strCity = s;
-            } else {
-                strArea = s;
-            }
-        }
-
-        //检查邮箱
         if (!RegexUtil.isEmail(mUserName)) {
             showToast(R.string.input_right_email);
             return;
         }
+
+        // 判断空
         if (!check()) {
             return;
         }
-        //检查姓名 是否有特殊符号
+
+        // 检查姓名 是否有特殊符号
         if (RegexUtil.checkString(getItemStr(RelatedId.name))) {
             showToast(R.string.input_real_name);
             return;
         }
 
+        // 检查密码
+        String strPwd = getItemStr(RelatedId.pwd);
+        String strPwdNg = getItemStr(RelatedId.pwd_sure);
         if (strPwd.length() < 6 || strPwd.length() > 18) {
             showToast(R.string.input_right_pwd_num);
             return;
@@ -217,6 +203,15 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             return;
         }
         mPwd = strPwd;
+
+        String addresses = getItemStr(RelatedId.location);
+        String[] address = addresses.split(" ");
+        String strProvince = address[0];
+        String strCity = address[1];
+        String strArea = null;
+        if (address.length == 2) {
+            strArea = address[2];
+        }
 
         //注册
         refresh(RefreshWay.dialog);

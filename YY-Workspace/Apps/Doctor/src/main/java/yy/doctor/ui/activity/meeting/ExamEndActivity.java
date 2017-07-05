@@ -81,6 +81,7 @@ public class ExamEndActivity extends BaseActivity {
         mTvCount.setText(String.valueOf(mCount));
         mTvPass.setText(String.valueOf(mPass));
 
+        // FIXME: 考试用时
         refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.submitEx()
                 .meetId(mMeetId)

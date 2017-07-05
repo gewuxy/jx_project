@@ -13,8 +13,7 @@
         android:singleLine="true"
         android:textColor="#666666"
         android:textColorHint="#b3b3b3"
-        android:inputType="number"
-        />
+        android:inputType="number"/>
 
     <ImageView
         android:id="@id/form_iv"

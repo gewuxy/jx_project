@@ -69,8 +69,9 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     protected List<Topic> mAllTopics;
     protected TextView mTvCase; // 总数(底部)
     protected TextView mTvAllCase; // 总数(查看考题)
-    private HintDialogMain mSubDialog;
-    private HintDialogMain mExitDialog;
+
+    private HintDialogMain mSubDialog; // 提交提示
+    private HintDialogMain mExitDialog; // 退出提示
 
     @NonNull
     @Override
@@ -160,12 +161,12 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
             setAnimation(mLeave);
         }
-        if(mBgVisible == null){
-            mBgVisible = new AlphaAnimation(0.0f,1.0f);
+        if (mBgVisible == null) {
+            mBgVisible = new AlphaAnimation(0.0f, 1.0f);
             setAnimation(mBgVisible);
         }
-        if (mBgGone ==null) {
-            mBgGone = new AlphaAnimation(1.0f,0.0f);
+        if (mBgGone == null) {
+            mBgGone = new AlphaAnimation(1.0f, 0.0f);
             setAnimation(mBgGone);
         }
         switch (v.getId()) {
@@ -178,7 +179,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             case R.id.topic_case_all_layout_progress:
                 topicCaseVisibility(false);
                 break;
-
         }
     }
 
@@ -348,10 +348,10 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             if (showState) {
                 mTopicCaseAdapter.notifyDataSetChanged();
             }
-                    mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
-                    mLayout.startAnimation(showState ? mEnter : mLeave);
-                    mLayoutBg.setVisibility(showState ? View.VISIBLE :View.GONE);
-                    mLayoutBg.startAnimation(showState ? mBgVisible:mBgGone);
+            mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
+            mLayout.startAnimation(showState ? mEnter : mLeave);
+            mLayoutBg.setVisibility(showState ? View.VISIBLE : View.GONE);
+            mLayoutBg.startAnimation(showState ? mBgVisible : mBgGone);
         }
     }
 

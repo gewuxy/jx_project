@@ -132,7 +132,7 @@ public class CountDown {
     }
 
     public void recycle() {
-        stop();
+        dispose();
         mListener = null;
     }
 

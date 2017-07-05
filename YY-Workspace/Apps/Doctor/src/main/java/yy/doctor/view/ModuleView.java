@@ -21,8 +21,9 @@ import yy.doctor.R;
  */
 public class ModuleView extends LinearLayout {
 
-    private final String mText;
-    private final int mImageResId;
+    private final String mText; // 文字
+    private final int mImageResId; // 图标
+
     private TextView mTextView;
     private ImageView mImageView;
 
@@ -41,14 +42,13 @@ public class ModuleView extends LinearLayout {
         init();
     }
 
-
     private void init() {
-
+        // 左边的图标
         View imageView = inflate(getContext(), R.layout.layout_module_view_image, null);
         mImageView = (ImageView) imageView.findViewById(R.id.module_view_iv);
         mImageView.setImageResource(mImageResId);
         addView(imageView);
-
+        // 右边的文字
         View textView = inflate(getContext(), R.layout.layout_module_view_text, null);
         mTextView = (TextView) textView.findViewById(R.id.module_view_tv);
         mTextView.setText(mText);

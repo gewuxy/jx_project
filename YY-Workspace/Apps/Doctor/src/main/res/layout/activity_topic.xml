@@ -5,11 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_viewpager"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <include layout="@layout/layout_topic_case"/>
+        <include layout="@layout/layout_viewpager"/>
 
-    <include layout="@layout/layout_topic_case_all_background"/>
-    <include layout="@layout/layout_topic_case_all"/>
+        <include layout="@layout/layout_topic_case"/>
+    </LinearLayout>
+
+    <include layout="@layout/layout_all_topic_case_bg"/>
+
+    <include layout="@layout/layout_all_topic_case"/>
 
 </RelativeLayout>
