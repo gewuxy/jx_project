@@ -18,13 +18,28 @@ import yy.doctor.util.Util;
 
 public class BasePlaceActivity extends BaseSRListActivity<Provinces, ProvincesAdapter>{
 
-    private View mLocationLayout;
-    private ImageView mIvLocation;
-    private TextView mTvLocation;
-    private TextView mTvLocationFailure;
+    public View mLocationLayout;
+    public ImageView mIvLocation;
+    public TextView mTvLocation;
+    public TextView mTvLocationFailure;
 
     @Override
     public void initData() {
+    }
+    public View getLocationLayout() {
+        return mLocationLayout;
+    }
+
+    public ImageView getIvLocation() {
+        return mIvLocation;
+    }
+
+    public TextView getTvLocation() {
+        return mTvLocation;
+    }
+
+    public TextView getTvLocationFailure() {
+        return mTvLocationFailure;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package yy.doctor.ui.activity.register;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
@@ -30,11 +27,7 @@ public class ProvinceActivity extends BasePlaceActivity {
     public static String mLocation;
 
     private OnLocationNotify mObserver;
-    private View mLocationLayout;
-    private ImageView mIvLocation;
     private AnimationDrawable mAnimation;
-    private TextView mTvLocation;
-    private TextView mTvLocationFailure;
 
     private String mLocationProvince;
     private String mLocationCity;
@@ -45,25 +38,20 @@ public class ProvinceActivity extends BasePlaceActivity {
     public void initData() {
     }
 
-    @Override
-    public void findViews() {
-        super.findViews();
-
-        mLocationLayout = findView(R.id.layout_province_location_load_layout);
-        mIvLocation = findView(R.id.layout_province_location_load_iv);
-        mTvLocation = findView(R.id.layout_province_city_area_header_tv);
-        mTvLocationFailure = findView(R.id.layout_province_city_area_header_tv_failure);
-    }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setAutoLoadMoreEnabled(false);
+        getIvLocation();
+        getLocationLayout();
+        getTvLocation();
+        getTvLocationFailure();
+
         //显示定位中布局
-        showView(mLocationLayout);
-        mIvLocation.setImageResource(R.drawable.province_location_anim);
-        mAnimation = (AnimationDrawable) mIvLocation.getDrawable();
+        showView(getLocationLayout());
+        getIvLocation().setImageResource(R.drawable.province_location_anim);
+        mAnimation = (AnimationDrawable) getIvLocation().getDrawable();
         mAnimation.start();
 
         //检查有没有定位权限   没有的话直接弹dialog
@@ -72,8 +60,8 @@ public class ProvinceActivity extends BasePlaceActivity {
         } else {
             //停止动画 隐藏定位中布局  显示无法定位布局  显示dialog
             mAnimation.stop();
-            goneView(mLocationLayout);
-            showView(mTvLocationFailure);
+            goneView(getLocationLayout());
+            showView(getTvLocationFailure());
             showLocDialog();
         }
 
@@ -104,16 +92,16 @@ public class ProvinceActivity extends BasePlaceActivity {
                 goneView(mLocationLayout);
                 if (isSuccess) {
                     //定位成功
-                    goneView(mTvLocationFailure);
+                    goneView(getTvLocationFailure());
                     Place place = (Place) gps.getObject(TGps.place);
                     mLocationProvince = place.getString(TPlace.province);
                     mLocationCity = place.getString(TPlace.city);
                     mLocationArea = place.getString(TPlace.district);
                     mLocation = mLocationProvince + " " + mLocationCity + " " + mLocationArea;
-                    mTvLocation.setText(mLocationProvince + " " + mLocationCity + " " + mLocationArea);
+                    getTvLocation().setText(mLocationProvince + " " + mLocationCity + " " + mLocationArea);
                 } else {
                     //定位失败  显示dialog
-                    showView(mTvLocationFailure);
+                    showView(getTvLocationFailure());
                     //YSLog.d("Gps", "失败");
                     mLocation = null;
 
@@ -149,5 +137,4 @@ public class ProvinceActivity extends BasePlaceActivity {
         }
         mDialog = null;
     }
-
 }
