@@ -268,6 +268,7 @@
     <string name="recharge_epn">充值象数</string>
     <string name="epn_recharge">象数充值</string>
     <string name="epn_unit">%1$d个象数</string>
+    <string name="zero_epn">0个象数</string>
     <string name="ten_epn_equal_one_yuan">10个象数=1元</string>
     <string name="pay_money">支付金额</string>
     <string name="input_integer">输入整数</string>
@@ -293,10 +294,10 @@
     <string name="province_city">省市</string>
     <string name="phone_num">手机号码</string>
     <string name="receiver">收货人</string>
-    <string name="order_state_zero">待处理</string>
-    <string name="order_state_one">已接受订单</string>
-    <string name="order_state_two">已发货</string>
-    <string name="order_state_three">已签收</string>
+    <string name="order_state_pending">待处理</string>
+    <string name="order_state_accepted">已接受订单</string>
+    <string name="order_state_shipped">已发货</string>
+    <string name="order_state_received">已签收</string>
     <string name="exchange_price">兑换值：</string>
     <string name="national_distribution_goods">全国配送商品</string>
     <string name="purchase_limitation_one">限购一份</string>
