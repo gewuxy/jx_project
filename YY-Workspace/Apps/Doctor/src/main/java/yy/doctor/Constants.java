@@ -23,6 +23,12 @@ public interface Constants extends BaseConstants {
         int KPageSize = 20;  //分页加载时 每页加载的条目数
     }
 
+    interface FileTypeConstants {
+        String KPdf = "pdf";
+        String KPpt = "ppt";
+        String KPptX = "pptx";
+    }
+
     /**
      * 会议状态
      */
@@ -48,6 +54,20 @@ public interface Constants extends BaseConstants {
         int hour = 0;
         int minute = 1;
         int second = 2;
+    }
+
+    @IntDef({
+            OrderState.pending,
+            OrderState.accepted_order,
+            OrderState.shipped,
+            OrderState.received,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface OrderState {
+        int pending = 0;  // 待处理
+        int accepted_order = 1; // 已接受订单
+        int shipped = 2; // 已发货
+        int received = 3; // 已签收
     }
 
     /**
