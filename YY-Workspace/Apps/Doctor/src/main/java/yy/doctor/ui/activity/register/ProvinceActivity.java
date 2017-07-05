@@ -43,11 +43,6 @@ public class ProvinceActivity extends BasePlaceActivity {
     public void setViews() {
         super.setViews();
 
-        getIvLocation();
-        getLocationLayout();
-        getTvLocation();
-        getTvLocationFailure();
-
         //显示定位中布局
         showView(getLocationLayout());
         getIvLocation().setImageResource(R.drawable.province_location_anim);

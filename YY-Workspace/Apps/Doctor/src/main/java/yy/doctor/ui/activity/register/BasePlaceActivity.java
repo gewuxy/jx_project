@@ -26,6 +26,7 @@ public class BasePlaceActivity extends BaseSRListActivity<Provinces, ProvincesAd
     @Override
     public void initData() {
     }
+
     public View getLocationLayout() {
         return mLocationLayout;
     }
