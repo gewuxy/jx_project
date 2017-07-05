@@ -13,7 +13,6 @@ import yy.doctor.model.Area.TArea;
  * @author CaiXiang
  * @since 2017/5/23
  */
-
 public class AreaAdapter extends AdapterEx<Area, ProvinceCityAreaVH> {
 
     @Override

@@ -231,8 +231,7 @@
     <string name="attention">关注</string>
     <string name="attention_success">关注成功</string>
     <string name="cancel_attention_success">已取消关注</string>
-    <string name="check_all">查看全部</string>
-    <string name="file_num">个文件</string>
+    <string name="check_all">查看全部%1$d个文件</string>
 
     <!--个人资料-->
     <string name="user_profile">我的资料</string>
@@ -268,8 +267,7 @@
     <string name="epn_balance">象数余额:</string>
     <string name="recharge_epn">充值象数</string>
     <string name="epn_recharge">象数充值</string>
-    <string name="epn_unit">个象数</string>
-    <string name="zero_epn">0个象数</string>
+    <string name="epn_unit">%1$d个象数</string>
     <string name="ten_epn_equal_one_yuan">10个象数=1元</string>
     <string name="pay_money">支付金额</string>
     <string name="input_integer">输入整数</string>

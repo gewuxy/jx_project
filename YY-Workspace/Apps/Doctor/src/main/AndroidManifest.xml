@@ -74,6 +74,9 @@
         <activity
             android:name=".ui.activity.register.AreaActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.register.BasePlaceActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- meeting -->

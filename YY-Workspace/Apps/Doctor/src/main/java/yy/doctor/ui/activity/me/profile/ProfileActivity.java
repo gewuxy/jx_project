@@ -329,17 +329,6 @@ public class ProfileActivity extends BaseFormActivity {
         }
     }
 
-    @Override
-    protected void onFormItemClick(View v, int position) {
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
-    }
-
-    @Override
-    protected void onFormViewClick(View v, int position, Object related) {
-        super.onFormViewClick(v, position, related);
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
-    }
-
     private void showDialogSelectPhoto() {
 
         final List<String> data = new ArrayList<>();
@@ -508,7 +497,9 @@ public class ProfileActivity extends BaseFormActivity {
 
                 Profile.inst().put(TProfile.province, mStrProvince);
                 Profile.inst().put(TProfile.city, mStrCity);
-                if (!TextUtil.isEmpty(mStrArea)) {
+                if (TextUtil.isEmpty(mStrArea)) {
+                    Profile.inst().put(TProfile.zone, "");
+                } else {
                     Profile.inst().put(TProfile.zone, mStrArea);
                 }
                 Profile.inst().saveToSp();
@@ -546,6 +537,25 @@ public class ProfileActivity extends BaseFormActivity {
                 }
                 break;
             }
+        }
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+
+        if (type == NotifyType.province_finish) {
+            Place place = (Place) data;
+            mStrProvince = place.getString(TPlace.province);
+            mStrCity = place.getString(TPlace.city);
+            mStrArea = place.getString(TPlace.district);
+            String str;
+            if (mStrArea != null) {
+                str = mStrProvince + " " + mStrCity + " " + mStrArea;
+            } else {
+                str = mStrProvince + " " + mStrCity;
+            }
+            getRelatedItem(RelatedId.address).put(TFormElem.text, str);
+            refreshRelatedItem(RelatedId.address);
         }
     }
 

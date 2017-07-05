@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.register;
 
-import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,24 +11,20 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
-import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
-import lib.yy.ui.activity.base.BaseSRListActivity;
-import yy.doctor.Extra;
+import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.adapter.ProvinceAdapter;
 import yy.doctor.dialog.BaseHintDialog;
-import yy.doctor.model.Province;
-import yy.doctor.model.Province.TProvince;
+import yy.doctor.model.Provinces;
+import yy.doctor.model.Provinces.TProvinces;
 import yy.doctor.network.NetFactory;
-import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
  * @since 2017/5/23
  */
 
-public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapter> {
+public class ProvinceActivity extends BasePlaceActivity {
 
     private static final int KPermissionCodeLocation = 10;
     public static String mLocation;
@@ -44,23 +39,10 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     private String mLocationProvince;
     private String mLocationCity;
     private String mLocationArea;
-    private String mProvince;
-    private String mCity;
-    private String mArea;
     private BaseHintDialog mDialog;
 
     @Override
     public void initData() {
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.province_city, this);
-    }
-
-    @Override
-    public View createHeaderView() {
-        return inflate(R.layout.layout_province_city_area_header);
     }
 
     @Override
@@ -97,8 +79,8 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
 
         //item点击事件
         setOnAdapterClickListener((position, v) -> {
-            Province province = getItem(position);
-            CityActivity.nav(this, province.getString(TProvince.id), province.getString(TProvince.name));
+            Provinces province = getItem(position);
+            CityActivity.nav(this, province.getString(TProvinces.id), province.getString(TProvinces.name));
         });
     }
 
@@ -150,22 +132,12 @@ public class ProvinceActivity extends BaseSRListActivity<Province, ProvinceAdapt
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onNotify(@NotifyType int type, Object data) {
 
-        if (resultCode == RESULT_OK) {
-            mProvince = data.getStringExtra(Extra.KProvince);
-            mCity = data.getStringExtra(Extra.KCity);
-            mArea = data.getStringExtra(Extra.KArea);
-            Intent i = new Intent();
-            i.putExtra(Extra.KProvince, mProvince);
-            i.putExtra(Extra.KCity, mCity);
-            if (mArea != null) {
-                i.putExtra(Extra.KArea, mArea);
-            }
-            setResult(RESULT_OK, i);
+        if (type == NotifyType.province_finish) {
             finish();
         }
+
     }
 
     @Override

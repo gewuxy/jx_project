@@ -30,6 +30,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.study,
             NotifyType.cancel_collection_meeting,
             NotifyType.exit,
+            NotifyType.province_finish,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -96,6 +97,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 退出app
          */
         int exit = 13;
+
+        /**
+         * 结束省份页面
+         */
+        int province_finish = 14;
     }
 
     public interface OnNotify {
