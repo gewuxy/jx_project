@@ -26,10 +26,7 @@ public class Builder extends FormBuilderEx<BaseForm> {
     public Builder(int type) {
         super(type);
     }
-    public Builder(int type, Activity activity){
-        super(type);
-        this.mActivity = activity;
-    }
+
 
     @Override
     protected BaseForm build(int type) {
@@ -92,7 +89,7 @@ public class Builder extends FormBuilderEx<BaseForm> {
             }
             break;
             case FormType.et_phone_number:{
-                form = new EditPhoneNumberForm(mActivity);
+                form = new EditPhoneNumberForm();
             }
             break;
             case FormType.profile_checkbox: {

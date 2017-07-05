@@ -117,7 +117,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_phone_number, RegisterActivity.this)
+        addItem(new Builder(FormType.et_phone_number)
                 .related(RelatedId.num)
                 .hint(R.string.phone_number)
                 .build());
