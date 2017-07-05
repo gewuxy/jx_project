@@ -3,6 +3,7 @@ package yy.doctor.adapter;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
+import yy.doctor.Constants.OrderState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.OrderVH;
 import yy.doctor.model.me.Order;
@@ -32,26 +33,26 @@ public class OrderAdapter extends AdapterEx<Order, OrderVH> {
         holder.getTvOrderNum().setText(item.getString(TOrder.orderNo));
 
         int state = item.getInt(TOrder.status);
-        String str = null;
+        int id = 0;
         switch (state) {
-            case 0: {
-                str = getString(R.string.order_state_zero);
+            case OrderState.pending: {
+                id = R.string.order_state_pending;
             }
             break;
-            case 1: {
-                str = getString(R.string.order_state_one);
+            case OrderState.accepted_order: {
+                id = R.string.order_state_accepted;
             }
             break;
-            case 2: {
-                str = getString(R.string.order_state_two);
+            case OrderState.shipped: {
+                id = R.string.order_state_shipped;
             }
             break;
-            case 3: {
-                str = getString(R.string.order_state_three);
+            case OrderState.received: {
+                id = R.string.order_state_received;
             }
             break;
         }
-        holder.getTvStatus().setText(str);
+        holder.getTvStatus().setText(id);
 
         String strTime = TimeUtil.formatMilli(item.getLong(TOrder.createTime), TimeFormat.from_y_24);
         holder.getTvTime().setText(strTime);
