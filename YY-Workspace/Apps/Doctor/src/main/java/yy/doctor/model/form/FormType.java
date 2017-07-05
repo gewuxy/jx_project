@@ -22,11 +22,10 @@ import java.lang.annotation.RetentionPolicy;
         FormType.et_intent,
         FormType.et_register,
         FormType.et_number,
-        FormType.et_register_num,
+        FormType.et_phone_number,
 
         FormType.profile_checkbox,
 
-        FormType.pic_text,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -45,9 +44,8 @@ public @interface FormType {
     int et_register = 22;
     int et_register_pwd = 23;
     int et_number = 24;
-    int et_register_num = 25;
+    int et_phone_number = 25;
 
     int profile_checkbox = 30;
 
-    int pic_text = 6;
 }

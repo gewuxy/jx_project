@@ -4,15 +4,14 @@ import android.app.Activity;
 
 import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.BaseForm;
-import yy.doctor.model.form.edit.EdiRegisterNumForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditNumberForm;
+import yy.doctor.model.form.edit.EditPhoneNumberForm;
 import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
 import yy.doctor.model.form.text.ContentForm;
 import yy.doctor.model.form.text.ContentTextForm;
-import yy.doctor.model.form.text.PicTextForm;
 import yy.doctor.model.form.text.TextDialogForm;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.TextIntentForm;
@@ -92,18 +91,14 @@ public class Builder extends FormBuilderEx<BaseForm> {
                 form = new EditNumberForm();
             }
             break;
-            case FormType.et_register_num:{
-                form = new EdiRegisterNumForm(mActivity);
+            case FormType.et_phone_number:{
+                form = new EditPhoneNumberForm(mActivity);
             }
             break;
             case FormType.profile_checkbox: {
                 form = new CheckBoxForm();
             }
             break;
-
-            case FormType.pic_text:{
-                form = new PicTextForm();
-            }
         }
 
         return form;

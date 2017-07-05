@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import lib.yy.adapter.VH.FormVH;
+import yy.doctor.R;
 import yy.doctor.model.form.FormType;
 
 /**
@@ -15,16 +16,23 @@ import yy.doctor.model.form.FormType;
  * @since 2017/7/4
  */
 
-public class EdiRegisterNumForm extends EditNumberForm {
+public class EditPhoneNumberForm extends EditNumberForm {
     private boolean isAdd;
     Activity mActivity;
-    public EdiRegisterNumForm(Activity activity){
+
+    public EditPhoneNumberForm(Activity activity) {
         mActivity = activity;
     }
+
     @NonNull
     @Override
     public int getType() {
-        return FormType.et_register_num;
+        return FormType.et_phone_number;
+    }
+
+    @Override
+    public int getContentViewResId() {
+        return R.layout.form_edit_phone_number;
     }
 
     @Override
@@ -33,9 +41,9 @@ public class EdiRegisterNumForm extends EditNumberForm {
         holder.getEt().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (after ==1) {
+                if (after == 1) {
                     isAdd = true;
-                }else {
+                } else {
                     isAdd = false;
                 }
             }
@@ -43,8 +51,8 @@ public class EdiRegisterNumForm extends EditNumberForm {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String str = s.toString();
-                if ((str.length() == 3 || str.length() == 8) && str.charAt(str.length() -1) != ' ' && before > count) {
-                    str = str.substring(0,str.length()-1);
+                if ((str.length() == 3 || str.length() == 8) && str.charAt(str.length() - 1) != ' ' && before > count) {
+                    str = str.substring(0, str.length() - 1);
                     holder.getEt().setText(str);
                     holder.getEt().setSelection(str.length());
                 }
@@ -54,17 +62,17 @@ public class EdiRegisterNumForm extends EditNumberForm {
             public void afterTextChanged(Editable s) {
                 if (isAdd) {
                     if (null != holder.getEt()) {
-                        String str =  s.toString();
-                        if(!str.endsWith(" ")){
+                        String str = s.toString();
+                        if (!str.endsWith(" ")) {
                             int length = s.length();
                             if (length == 3 || length == 8) {
                                 String str1 = str + " "; //手动添加空格
                                 holder.getEt().setText(str1);
                                 holder.getEt().setSelection(str1.length());
                             }
-                           if (length >= 13) {
-                               hideBoard(mActivity);
-                           }
+                            if (length >= 13) {
+                                hideBoard(mActivity);
+                            }
                         }
                     }
                 }
@@ -72,12 +80,12 @@ public class EdiRegisterNumForm extends EditNumberForm {
         });
     }
 
-        public static void hideBoard(Activity activity) {
-            final View v = activity.getWindow().peekDecorView();
-            if (v != null && v.getWindowToken() != null) {
-                InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            }
+    public static void hideBoard(Activity activity) {
+        final View v = activity.getWindow().peekDecorView();
+        if (v != null && v.getWindowToken() != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
-
     }
+
+}

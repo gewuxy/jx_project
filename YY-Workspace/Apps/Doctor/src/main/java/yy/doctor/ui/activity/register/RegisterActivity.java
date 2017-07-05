@@ -117,9 +117,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_register_num, RegisterActivity.this)
+        addItem(new Builder(FormType.et_phone_number, RegisterActivity.this)
                 .related(RelatedId.num)
-                .hint("输入手机号码")
+                .hint(R.string.phone_number)
                 .build());
     }
 

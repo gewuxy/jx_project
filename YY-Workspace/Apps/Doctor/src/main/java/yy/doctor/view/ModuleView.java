@@ -40,14 +40,6 @@ public class ModuleView extends LinearLayout {
 
         init();
     }
-   /* setData(){
-        //图片 ，文字
-        ///set
-
-    }*/
-   /*
-   * setOnclickListener
-   * */
 
 
     private void init() {
