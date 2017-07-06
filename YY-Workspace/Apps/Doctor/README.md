@@ -8,3 +8,8 @@
     ep = elephant 
     c = city
 
+#### PCA 省市区
+    p = province
+    c = city
+    a = area
+

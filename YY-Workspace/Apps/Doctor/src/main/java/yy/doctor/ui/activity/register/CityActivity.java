@@ -8,8 +8,8 @@ import lib.bd.location.Place.TPlace;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
-import yy.doctor.model.Provinces;
-import yy.doctor.model.Provinces.TProvinces;
+import yy.doctor.model.Pca;
+import yy.doctor.model.Pca.TPca;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -17,7 +17,7 @@ import yy.doctor.network.NetFactory;
  * @since 2017/5/23
  */
 
-public class CityActivity extends BasePlaceActivity {
+public class CityActivity extends BasePcaActivity {
 
     private static final int KCityRequestCode = 10;
     private String mProvinceId;
@@ -41,16 +41,16 @@ public class CityActivity extends BasePlaceActivity {
         super.setViews();
 
         setOnAdapterClickListener((position, v) -> {
-            Provinces city = getItem(position);
+            Pca city = getItem(position);
             //如果level等于3就没有下一级了，直接返回
-            if (city.getInt(TProvinces.level) == 3) {
+            if (city.getInt(TPca.level) == 3) {
                 Place place = new Place();
                 place.put(TPlace.province, mProvince);
-                place.put(TPlace.city, city.getString(TProvinces.name));
+                place.put(TPlace.city, city.getString(TPca.name));
                 notify(NotifyType.province_finish, place);
                 finish();
             } else {
-                AreaActivity.nav(CityActivity.this, city.getString(TProvinces.id), mProvince, city.getString(TProvinces.name));
+                AreaActivity.nav(CityActivity.this, city.getString(TPca.id), mProvince, city.getString(TPca.name));
             }
         });
     }
@@ -62,10 +62,8 @@ public class CityActivity extends BasePlaceActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-
         if (type == NotifyType.province_finish) {
             finish();
         }
-
     }
 }

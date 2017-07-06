@@ -247,7 +247,6 @@ public class MainActivity extends BaseVPActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        super.onNotify(type, data);
 
         if (type == NotifyType.logout || type == NotifyType.exit) {
             finish();

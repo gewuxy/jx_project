@@ -62,7 +62,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
                     int attention = item.getInt(TRecUnitNum.attention);
                     if (attention == Attention.no) {
                         setTvAttention(position, Attention.yes);
-                        //改变数据源
+                        //改变源数据
                         item.put(TRecUnitNum.attention, Attention.yes);
                         mListener.onAttentionChanged(attention, item.getInt(TRecUnitNum.id));
                     }

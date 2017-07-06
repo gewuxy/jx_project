@@ -19,7 +19,7 @@ import yy.doctor.sp.SpUser;
  * @since 2017/6/6
  */
 
-public class LaunchTempActivity extends BaseActivity {
+public class LaunchTmpActivity extends BaseActivity {
 
     private static final int KRequestCode = 100;
     private int mUnitNumId;
@@ -50,12 +50,12 @@ public class LaunchTempActivity extends BaseActivity {
         runOnUIThread(() -> {
             if (SpUser.inst().needUpdateProfile()) {
                 //跳转到登录界面
-                Intent intent = new Intent(LaunchTempActivity.this, LoginActivity.class);
+                Intent intent = new Intent(LaunchTmpActivity.this, LoginActivity.class);
                 intent.putExtra(Extra.KData, "hello");
                 startActivityForResult(intent, KRequestCode);
             } else {
                 //跳转
-                UnitNumDetailActivity.nav(LaunchTempActivity.this, mUnitNumId);
+                UnitNumDetailActivity.nav(LaunchTmpActivity.this, mUnitNumId);
                 finish();
             }
         }, 200);

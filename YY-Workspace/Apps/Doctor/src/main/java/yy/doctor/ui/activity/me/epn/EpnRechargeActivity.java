@@ -143,7 +143,6 @@ public class EpnRechargeActivity extends BaseActivity {
                 String str = getString(R.string.epn_unit);
                 if (TextUtil.isEmpty(editStr)) {
                     epnNum = String.format(str,0);
-
                 } else {
                     payNum = Long.valueOf(editStr);
                     epnNum = String.format(str,payNum * 10);

@@ -27,7 +27,6 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.LoginActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.CommonDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
@@ -43,6 +42,7 @@ import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
+import yy.doctor.ui.activity.LoginActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -255,32 +255,35 @@ public class SettingsActivity extends BaseFormActivity {
 
     private void showDialogClearImgCache() {
 
-        final List<String> data = new ArrayList<>();
-        data.add(getString(R.string.clear_img_cache));
-        data.add(getString(R.string.cancel));
-
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
 
-                Observable.just("888")
-                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
+                Observable.fromCallable(() -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(s -> {
-                            getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
-                            refreshRelatedItem(RelatedId.clear_img_cache);
-                            showToast(R.string.clear_img_cache_success);
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
+                                refreshRelatedItem(RelatedId.clear_img_cache);
+                                showToast(R.string.clear_img_cache_success);
+                            }
                         });
+
+//                Observable.just("")
+//                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(s -> {
+//                            getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
+//                            refreshRelatedItem(RelatedId.clear_img_cache);
+//                            showToast(R.string.clear_img_cache_success);
+//                        });
             }
         });
-        for (int i = 0; i < data.size(); ++i) {
-            if (i != (data.size() - 1)) {
-                dialog.addItem(data.get(i), KColorNormal);
-            } else {
-                dialog.addItem(data.get(i), KColorCancel);
-            }
-        }
+        dialog.addItem(getString(R.string.clear_img_cache), KColorNormal);
+        dialog.addItem(getString(R.string.cancel), KColorCancel);
+
         dialog.show();
     }
 
@@ -293,24 +296,32 @@ public class SettingsActivity extends BaseFormActivity {
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
-                Observable.just("666")
-                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
+
+                Observable.fromCallable(() -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(s -> {
-                            getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
-                            refreshRelatedItem(RelatedId.clear_sound_cache);
-                            showToast(getString(R.string.clear_sound_cache_success));
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
+                                refreshRelatedItem(RelatedId.clear_sound_cache);
+                                showToast(getString(R.string.clear_sound_cache_success));
+                            }
                         });
+
+//                Observable.just("")
+//                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(s -> {
+//                            getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
+//                            refreshRelatedItem(RelatedId.clear_sound_cache);
+//                            showToast(getString(R.string.clear_sound_cache_success));
+//                        });
             }
         });
-        for (int i = 0; i < data.size(); ++i) {
-            if (i != (data.size() - 1)) {
-                dialog.addItem(data.get(i), KColorNormal);
-            } else {
-                dialog.addItem(data.get(i), KColorCancel);
-            }
-        }
+        dialog.addItem(getString(R.string.clear_sound_cache), KColorNormal);
+        dialog.addItem(getString(R.string.cancel), KColorCancel);
+
         dialog.show();
     }
 

@@ -1,8 +1,6 @@
 package yy.doctor.ui.activity;
 
 import android.support.annotation.NonNull;
-import android.text.InputType;
-import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,11 +15,12 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.register.RegisterActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
+import yy.doctor.ui.activity.register.RegisterActivity;
+import yy.doctor.util.UISetter;
 import yy.doctor.view.AutoCompleteEditText;
 
 /**
@@ -64,19 +63,7 @@ public class LoginActivity extends BaseActivity {
     public void setViews() {
 
         // 设置密码输入范围
-        mEtPwd.setKeyListener(new NumberKeyListener() {
-
-            @Override
-            protected char[] getAcceptedChars() {
-                String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@#$%^&";
-                return chars.toCharArray();
-            }
-
-            @Override
-            public int getInputType() {
-                return InputType.TYPE_TEXT_VARIATION_PASSWORD;
-            }
-        });
+        UISetter.setPwdRange(mEtPwd);
 
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
@@ -147,7 +134,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        super.onNotify(type, data);
 
         if (type == NotifyType.login) {
             LoginActivity.this.finish();

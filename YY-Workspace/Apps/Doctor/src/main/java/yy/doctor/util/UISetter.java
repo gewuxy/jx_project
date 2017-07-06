@@ -1,9 +1,12 @@
 package yy.doctor.util;
 
 import android.graphics.drawable.Drawable;
+import android.text.InputType;
+import android.text.method.NumberKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,10 +21,10 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.DownloadDataActivity;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
+import yy.doctor.ui.activity.me.DownloadDataActivity;
 
 /**
  * @auther yuansui
@@ -154,6 +157,27 @@ public class UISetter {
         } else {
             textView.setText(text);
         }
+    }
+
+    /**
+     * 设置密码的输入范围格式
+     * @param et
+     */
+    public static void setPwdRange(EditText et) {
+
+        et.setKeyListener(new NumberKeyListener() {
+
+            @Override
+            protected char[] getAcceptedChars() {
+                String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-×÷＝%√°′″{}()[].|*/#~,:;?\"‖&*@\\^,$–…'=+!><.-—_";
+                return chars.toCharArray();
+            }
+
+            @Override
+            public int getInputType() {
+                return InputType.TYPE_TEXT_VARIATION_PASSWORD;
+            }
+        });
     }
 
 }

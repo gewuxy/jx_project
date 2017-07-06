@@ -8,8 +8,8 @@ import lib.bd.location.Place.TPlace;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
-import yy.doctor.model.Provinces;
-import yy.doctor.model.Provinces.TProvinces;
+import yy.doctor.model.Pca;
+import yy.doctor.model.Pca.TPca;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -17,7 +17,7 @@ import yy.doctor.network.NetFactory;
  * @since 2017/5/23
  */
 
-public class AreaActivity extends BasePlaceActivity {
+public class AreaActivity extends BasePcaActivity {
 
     private static final int KAreaRequestCode = 20;
     private String mCityId;
@@ -45,11 +45,11 @@ public class AreaActivity extends BasePlaceActivity {
 
         setOnAdapterClickListener((position, v) -> {
 
-            Provinces area = getItem(position);
+            Pca area = getItem(position);
             Place place = new Place();
             place.put(TPlace.province, mProvince);
             place.put(TPlace.city, mCity);
-            place.put(TPlace.district, area.getString(TProvinces.name));
+            place.put(TPlace.district, area.getString(TPca.name));
             notify(NotifyType.province_finish, place);
             finish();
         });

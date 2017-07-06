@@ -218,13 +218,12 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
         mPwd = strPwd;
 
+        // 省市区
         String addresses = getItemStr(RelatedId.location);
         String[] address = addresses.split(" ");
-        String strProvince = address[0];
-        String strCity = address[1];
         String strArea = null;
         // area可能为空
-        if (address.length == 2) {
+        if (address.length == 3) {
             strArea = address[2];
         }
 
@@ -234,8 +233,8 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .username(mUserName)
                 .linkman(getItemStr(RelatedId.name))
                 .pwd(getItemStr(RelatedId.pwd))
-                .province(strProvince)
-                .city(strCity)
+                .province(address[0])
+                .city(address[1])
                 .area(strArea)
                 .hospital(getItemStr(RelatedId.hospital))
                 .invite(capcha)
@@ -289,6 +288,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 str = Province + " " + City;
             }
             getRelatedItem(RelatedId.location).put(TFormElem.name, str);
+            getRelatedItem(RelatedId.location).save(str, str);
             refreshRelatedItem(RelatedId.location);
         }
     }

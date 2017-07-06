@@ -10,14 +10,14 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.ui.activity.BaseGroupIndexActivity;
-import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.adapter.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.BaseGroupIndexActivity;
+import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.util.Util;
 
 /**

@@ -74,7 +74,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
         setGravity(Gravity.BOTTOM);
     }
 
-    public void addItem(CharSequence text, @ColorInt int color) {
+    public void addItem(String text, @ColorInt int color) {
 //        View v = getLayoutInflater().inflate(R.layout.layout_dialog_bottom_item, null);
 //
 //        TextView tv = (TextView) v.findViewById(R.KId.dialog_bottom_tv);
@@ -86,6 +86,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 //        LayoutFitter.fit(v);
 //
 //        mLv.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
+
         SpannableString ss = new SpannableString(text);
         ss.setSpan(new ForegroundColorSpan(color), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mAdapter.add(ss);

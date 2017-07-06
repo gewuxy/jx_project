@@ -7,8 +7,8 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.ProvincesAdapter;
-import yy.doctor.model.Provinces;
+import yy.doctor.adapter.PcaAdapter;
+import yy.doctor.model.Pca;
 import yy.doctor.util.Util;
 
 /**
@@ -16,16 +16,14 @@ import yy.doctor.util.Util;
  * @since 2017/7/4
  */
 
-public class BasePlaceActivity extends BaseSRListActivity<Provinces, ProvincesAdapter>{
+public class BasePcaActivity extends BaseSRListActivity<Pca, PcaAdapter>{
 
-    public View mLocationLayout;
-    public ImageView mIvLocation;
-    public TextView mTvLocation;
-    public TextView mTvLocationFailure;
+    public String mLocation;
 
-    @Override
-    public void initData() {
-    }
+    private View mLocationLayout;
+    private ImageView mIvLocation;
+    private TextView mTvLocation;
+    private TextView mTvLocationFailure;
 
     public View getLocationLayout() {
         return mLocationLayout;
@@ -41,6 +39,10 @@ public class BasePlaceActivity extends BaseSRListActivity<Provinces, ProvincesAd
 
     public TextView getTvLocationFailure() {
         return mTvLocationFailure;
+    }
+
+    @Override
+    public void initData() {
     }
 
     @Override
@@ -60,7 +62,6 @@ public class BasePlaceActivity extends BaseSRListActivity<Provinces, ProvincesAd
 
     @Override
     public void getDataFromNet() {
-
     }
 
     @Override
@@ -73,11 +74,11 @@ public class BasePlaceActivity extends BaseSRListActivity<Provinces, ProvincesAd
         super.setViews();
 
         setAutoLoadMoreEnabled(false);
-        if (ProvinceActivity.mLocation == null) {
+        if (mLocation == null) {
             showView(mTvLocationFailure);
         } else {
             goneView(mTvLocationFailure);
-            mTvLocation.setText(ProvinceActivity.mLocation);
+            mTvLocation.setText(mLocation);
         }
     }
 }

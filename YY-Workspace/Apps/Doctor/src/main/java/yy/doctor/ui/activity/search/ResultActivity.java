@@ -131,16 +131,14 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
         if (id == KMeeting) {
             // 会议
             result = JsonParser.evs(r.getText(), Meeting.class);
-            mMeetReqIsOK = result.isSucceed();
             // onNetworkSuccess接数据可能为空 ,因为这不在主线程
-            if (mMeetReqIsOK) {
+            if (result.isSucceed()) {
                 mMeets = result.getData();
             }
         } else {
             // 单位号
             result = JsonParser.evs(r.getText(), UnitNum.class);
-            mUnitNumReqIsOK = result.isSucceed();
-            if (mUnitNumReqIsOK) {
+            if (result.isSucceed()) {
                 mUnitNums = result.getData();
             }
         }

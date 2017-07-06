@@ -12,8 +12,8 @@ import lib.ys.util.permission.Permission;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.dialog.BaseHintDialog;
-import yy.doctor.model.Provinces;
-import yy.doctor.model.Provinces.TProvinces;
+import yy.doctor.model.Pca;
+import yy.doctor.model.Pca.TPca;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -21,10 +21,9 @@ import yy.doctor.network.NetFactory;
  * @since 2017/5/23
  */
 
-public class ProvinceActivity extends BasePlaceActivity {
+public class ProvinceActivity extends BasePcaActivity {
 
     private static final int KPermissionCodeLocation = 10;
-    public static String mLocation;
 
     private OnLocationNotify mObserver;
     private AnimationDrawable mAnimation;
@@ -37,7 +36,6 @@ public class ProvinceActivity extends BasePlaceActivity {
     @Override
     public void initData() {
     }
-
 
     @Override
     public void setViews() {
@@ -62,17 +60,15 @@ public class ProvinceActivity extends BasePlaceActivity {
 
         //item点击事件
         setOnAdapterClickListener((position, v) -> {
-            Provinces province = getItem(position);
-            CityActivity.nav(this, province.getString(TProvinces.id), province.getString(TProvinces.name));
+            Pca province = getItem(position);
+            CityActivity.nav(this, province.getString(TPca.id), province.getString(TPca.name));
         });
     }
 
     private void showLocDialog() {
-        if (mDialog == null) {
             mDialog = new BaseHintDialog(ProvinceActivity.this);
             mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-            mDialog.addButton(getString(R.string.know), "#0682e6", v -> mDialog.dismiss());
-        }
+            mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
         mDialog.show();
     }
 
@@ -84,7 +80,7 @@ public class ProvinceActivity extends BasePlaceActivity {
             runOnUIThread(() -> {
                 //停止动画 隐藏定位中布局
                 mAnimation.stop();
-                goneView(mLocationLayout);
+                goneView(getLocationLayout());
                 if (isSuccess) {
                     //定位成功
                     goneView(getTvLocationFailure());
@@ -120,7 +116,6 @@ public class ProvinceActivity extends BasePlaceActivity {
         if (type == NotifyType.province_finish) {
             finish();
         }
-
     }
 
     @Override
@@ -130,6 +125,5 @@ public class ProvinceActivity extends BasePlaceActivity {
         if (mDialog != null) {
             mDialog.dismiss();
         }
-        mDialog = null;
     }
 }

@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
@@ -23,6 +22,7 @@ import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
@@ -31,10 +31,6 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.Extra;
-import yy.doctor.R;
-import yy.doctor.ui.activity.me.LaunchTempActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.home.RecUnitNum.Attention;
@@ -46,9 +42,12 @@ import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.image.CutInterceptor;
+import yy.doctor.ui.activity.me.LaunchTmpActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
-
+import yy.doctor.R;
 
 /**
  * 单位号详情
@@ -64,8 +63,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private static final int KReqIdUnitNumDetail = 0;
     private static final int KReqIdAttention = 1;
     private static final int KReqIdCancelAttention = 2;
-    private static final int KAttention = 1;  //关注
-    private static final int KNoAttention = 0;  //取消关注
+    private static final int KFileLimit = 3;
 
     private SwipeZoomListView mZoomView;
     private NetworkImageView mIvZoom;
@@ -166,7 +164,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         int id = v.getId();
 
         if (id == R.id.unit_num_detail_tv_attention) {
-            exeNetworkReq(KReqIdAttention, NetFactory.attention(mUnitNumId, KAttention));
+            exeNetworkReq(KReqIdAttention, NetFactory.attention(mUnitNumId, Attention.yes));
             //关注人数加1
             mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + 1);
             mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
@@ -197,7 +195,6 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        super.onNotify(type, data);
 
         if (type == NotifyType.unit_num_attention_change) {
             // 关注  取消关注后，对应的单位号的关注状态也要改变
@@ -214,15 +211,10 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     private void showDialogCancelAttention() {
 
-        final List<String> data = new ArrayList<>();
-        data.add(getString(R.string.cancel_attention));
-        data.add(getString(R.string.add_to_desktop));
-        data.add(getString(R.string.cancel));
-
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
-                exeNetworkReq(KReqIdCancelAttention, NetFactory.attention(mUnitNumId, KNoAttention));
+                exeNetworkReq(KReqIdCancelAttention, NetFactory.attention(mUnitNumId, Attention.no));
                 //关注人数减1
                 mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
                 mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
@@ -241,15 +233,10 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
         });
 
-        for (int i = 0; i < data.size(); ++i) {
-            if (i == 0) {
-                dialog.addItem(data.get(i), KColorNoAttention);
-            } else if (i == 1) {
-                dialog.addItem(data.get(i), KColorNormal);
-            } else {
-                dialog.addItem(data.get(i), KColorCancel);
-            }
-        }
+        dialog.addItem(getString(R.string.cancel_attention), KColorNoAttention);
+        dialog.addItem(getString(R.string.add_to_desktop), KColorNormal);
+        dialog.addItem(getString(R.string.cancel), KColorCancel);
+
         dialog.show();
     }
 
@@ -316,7 +303,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             mTvAttentionNum.setText(mUnitNumDetail.getString(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
             mTvAddress.setText(mUnitNumDetail.getString(TUnitNumDetail.province) + " " + mUnitNumDetail.getString(TUnitNumDetail.city));
 
-            //判断是否有简介， 没有的话要gone
+            //判断是否有简介， 没有的话要gone掉layout
             String intro = mUnitNumDetail.getString(TUnitNumDetail.sign);
             if (TextUtil.isEmpty(intro)) {
                 goneView(mIntroLayout);
@@ -332,22 +319,21 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
 
             List<FileData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
-            int listSize = listFile.size();
-            if (listSize == 0 || listFile == null) {
+            int size = listFile.size();
+            if (size == 0 || listFile == null) {
                 goneView(mDivider);
                 goneView(mVFileLayout);
                 goneView(mVLargeDivider);
             }
 
-            int datumNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
-            String dataNum = null;
-            String str = getString(R.string.check_all);
-            if (datumNum > 3) {
-                dataNum = String.format(str,datumNum);
+            int fileNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
+            if (fileNum > KFileLimit) {
+                String dataNum = String.format(ResLoader.getString(R.string.check_all), fileNum);
+                mTvFileNum.setText(dataNum);
                 showView(mIvArrows);
-                mVFileLayout.setOnClickListener(v -> FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getString(TUnitNumDetail.id), Extra.KUnitNumType));
+                mVFileLayout.setOnClickListener(v ->
+                        FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getString(TUnitNumDetail.id), Extra.KUnitNumType));
             }
-            mTvFileNum.setText(dataNum);
 
             UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
 
@@ -369,9 +355,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private void createShortcut() {
         Intent shortcutIntent = new Intent();
         //设置点击快捷方式时启动的Activity,因为是从Lanucher中启动，所以包名类名要写全。
-        shortcutIntent.setComponent(new ComponentName(getPackageName(), LaunchTempActivity.class.getName()));
+        shortcutIntent.setComponent(new ComponentName(getPackageName(), LaunchTmpActivity.class.getName()));
         YSLog.d(TAG, " getPackageName() = " + getPackageName());
-        YSLog.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTempActivity.class.getName());
+        YSLog.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTmpActivity.class.getName());
         //设置启动的模式
         shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.putExtra(Extra.KUnitNumId, mUnitNumId);

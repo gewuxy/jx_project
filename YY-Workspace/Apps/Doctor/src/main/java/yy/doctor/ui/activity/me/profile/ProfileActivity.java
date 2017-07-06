@@ -9,8 +9,6 @@ import android.widget.RelativeLayout;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
@@ -34,8 +32,6 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.register.HospitalActivity;
-import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -46,6 +42,8 @@ import yy.doctor.model.me.UpHeadImage;
 import yy.doctor.model.me.UpHeadImage.TUpHeadImage;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.register.HospitalActivity;
+import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -331,11 +329,6 @@ public class ProfileActivity extends BaseFormActivity {
 
     private void showDialogSelectPhoto() {
 
-        final List<String> data = new ArrayList<>();
-        data.add(getString(R.string.from_album_select));
-        data.add(getString(R.string.take_photo));
-        data.add(getString(R.string.cancel));
-
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             switch (position) {
@@ -354,13 +347,10 @@ public class ProfileActivity extends BaseFormActivity {
             }
         });
 
-        for (int i = 0; i < data.size(); ++i) {
-            if (i != (data.size() - 1)) {
-                dialog.addItem(data.get(i), KColorNormal);
-            } else {
-                dialog.addItem(data.get(i), KColorCancel);
-            }
-        }
+        dialog.addItem(getString(R.string.from_album_select), KColorNormal);
+        dialog.addItem(getString(R.string.take_photo), KColorNormal);
+        dialog.addItem(getString(R.string.cancel), KColorCancel);
+
         dialog.show();
     }
 
@@ -420,17 +410,14 @@ public class ProfileActivity extends BaseFormActivity {
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
         YSLog.d(TAG, "省市 = " + str);
         mStrProvince = str.substring(0, str.indexOf(" "));
-        String[] strs = str.split(" ");
-        for (int i = 0; i < strs.length; i++) {
-            String s = strs[i];
-            if (i == 0) {
-                mStrProvince = s;
-            } else if (i == 1) {
-                mStrCity = s;
-            } else {
-                mStrArea = s;
-            }
+        String[] addresses = str.split(" ");
+        mStrProvince = addresses[0];
+        mStrCity = addresses[1];
+        mStrArea = "";
+        if (addresses.length == 3) {
+            mStrArea = addresses[2];
         }
+
         YSLog.d(TAG, "province = " + mStrProvince);
         YSLog.d(TAG, "city = " + mStrCity);
         YSLog.d(TAG, "area = " + mStrArea);

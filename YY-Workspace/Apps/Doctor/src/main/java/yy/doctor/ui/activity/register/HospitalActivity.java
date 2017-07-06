@@ -13,15 +13,16 @@ import lib.bd.location.Place.TPlace;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.BaseGroupIndexActivity;
 import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.model.hospital.GroupHospital;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.BaseGroupIndexActivity;
 import yy.doctor.util.Util;
 
 /**
@@ -112,24 +113,20 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
         super.onClick(v);
         switch (v.getId()) {
             case R.id.hospital_tv_change:
-                startActivityForResult(ProvinceActivity.class, 1);
+                startActivity(ProvinceActivity.class);
                 break;
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (data != null) {
-                String str = null;
-                mProvince = data.getStringExtra(Extra.KProvince);
-                mCity = data.getStringExtra(Extra.KCity);
-                str = mProvince + " " + mCity;
+    public void onNotify(@NotifyType int type, Object data) {
 
-                mTvLocation.setText(getString(R.string.hospital_location) + str);
-                exeNetworkReq(NetFactory.hospital(mCity));
-            }
+        if (type == NotifyType.province_finish) {
+            Place place = (Place) data;
+            String City = place.getString(TPlace.city);
+            String str = place.getString(TPlace.province) + " " + City;
+            mTvLocation.setText(getString(R.string.hospital_location) + str);
+            exeNetworkReq(NetFactory.hospital(City));
         }
     }
 

@@ -76,8 +76,6 @@ public class EpnActivity extends BaseActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        super.onNotify(type, data);
-
         //充值象数后，像素值要改变
         if (type == NotifyType.profile_change) {
             mTvEpn.setText(Profile.inst().getString(TProfile.credits));

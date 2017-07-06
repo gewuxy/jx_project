@@ -75,7 +75,7 @@
             android:name=".ui.activity.register.AreaActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.BasePlaceActivity"
+            android:name=".ui.activity.register.BasePcaActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -205,7 +205,7 @@
             android:name=".ui.activity.me.profile.TitleActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.LaunchTempActivity"
+            android:name=".ui.activity.me.LaunchTmpActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
