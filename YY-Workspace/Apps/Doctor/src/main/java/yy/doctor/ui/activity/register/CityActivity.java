@@ -40,6 +40,13 @@ public class CityActivity extends BasePcaActivity {
     public void setViews() {
         super.setViews();
 
+        if (ProvinceActivity.mLocation == null) {
+            showView(getTvLocationFailure());
+        } else {
+            goneView(getTvLocationFailure());
+            getTvLocation().setText(ProvinceActivity.mLocation);
+        }
+
         setOnAdapterClickListener((position, v) -> {
             Pca city = getItem(position);
             //如果level等于3就没有下一级了，直接返回

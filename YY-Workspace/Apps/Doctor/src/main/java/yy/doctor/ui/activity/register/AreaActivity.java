@@ -43,6 +43,13 @@ public class AreaActivity extends BasePcaActivity {
     public void setViews() {
         super.setViews();
 
+        if (ProvinceActivity.mLocation == null) {
+            showView(getTvLocationFailure());
+        } else {
+            goneView(getTvLocationFailure());
+            getTvLocation().setText(ProvinceActivity.mLocation);
+        }
+
         setOnAdapterClickListener((position, v) -> {
 
             Pca area = getItem(position);

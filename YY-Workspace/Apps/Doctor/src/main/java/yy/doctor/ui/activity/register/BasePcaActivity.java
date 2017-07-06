@@ -18,8 +18,6 @@ import yy.doctor.util.Util;
 
 public class BasePcaActivity extends BaseSRListActivity<Pca, PcaAdapter>{
 
-    public String mLocation;
-
     private View mLocationLayout;
     private ImageView mIvLocation;
     private TextView mTvLocation;
@@ -74,11 +72,5 @@ public class BasePcaActivity extends BaseSRListActivity<Pca, PcaAdapter>{
         super.setViews();
 
         setAutoLoadMoreEnabled(false);
-        if (mLocation == null) {
-            showView(mTvLocationFailure);
-        } else {
-            goneView(mTvLocationFailure);
-            mTvLocation.setText(mLocation);
-        }
     }
 }

@@ -16,8 +16,8 @@ public class UrlUtil {
 
     private static void init() {
         if (mIsDebug) {
-            // 测试线  10.0.0.250:8082/
-            mBaseHost = "www.medcn.com:8080/v7/";
+            // 测试线
+            mBaseHost = "app.medyaya.cn/v7/";
 //            mHostName = KHttpDef + "10.0.0.234:80/"; // 礼平电脑
 //            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
         } else {
@@ -27,7 +27,7 @@ public class UrlUtil {
 
         mHostName = KHttpDef + mBaseHost;
         mBase = mHostName + "api/";
-        mBaseHost += "api";
+        mBaseHost += "api/";
     }
 
     public static void setDebug(boolean isDebug) {

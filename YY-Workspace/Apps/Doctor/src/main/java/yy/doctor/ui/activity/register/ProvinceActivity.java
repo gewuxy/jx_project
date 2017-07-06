@@ -24,6 +24,7 @@ import yy.doctor.network.NetFactory;
 public class ProvinceActivity extends BasePcaActivity {
 
     private static final int KPermissionCodeLocation = 10;
+    public static String mLocation;
 
     private OnLocationNotify mObserver;
     private AnimationDrawable mAnimation;
@@ -89,7 +90,7 @@ public class ProvinceActivity extends BasePcaActivity {
                     mLocationCity = place.getString(TPlace.city);
                     mLocationArea = place.getString(TPlace.district);
                     mLocation = mLocationProvince + " " + mLocationCity + " " + mLocationArea;
-                    getTvLocation().setText(mLocationProvince + " " + mLocationCity + " " + mLocationArea);
+                    getTvLocation().setText(mLocation);
                 } else {
                     //定位失败  显示dialog
                     showView(getTvLocationFailure());
