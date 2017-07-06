@@ -2,6 +2,7 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -15,6 +16,10 @@ public class ThomsonVH extends ViewHolderEx {
 
     public ThomsonVH(@NonNull View convertView) {
         super(convertView);
+    }
+
+    public LinearLayout getThomsonItemLayout() {
+        return getView(R.id.thomson_item_layout);
     }
 
     public TextView getTv() {

@@ -41,9 +41,6 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        UnitNum item = (UnitNum) getChild(groupPosition, childPosition);
-        YSLog.d(TAG, " item.getInt(TUnitNum.id) = " + item.getInt(TUnitNum.id));
-        UnitNumDetailActivity.nav(this, item.getInt(TUnitNum.id));
         return true;
     }
 

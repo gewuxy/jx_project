@@ -6,10 +6,8 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.TMeeting;
 
 /**
  * @auther yuansui
@@ -26,13 +24,6 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingAd
     @Override
     public View createHeaderView() {
         return ViewUtil.inflateSpaceViewDp(1);
-    }
-
-    @Override
-    public void onItemClick(View v, int position) {
-        Meeting item = getItem(position);
-        String meetId = item.getString(TMeeting.id);
-        MeetingDetailsActivity.nav(getContext(), meetId, item.getString(TMeeting.meetName));
     }
 
     @Override

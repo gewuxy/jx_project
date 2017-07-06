@@ -5,12 +5,9 @@ import android.view.View;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import yy.doctor.ui.activity.me.DownloadDataActivity;
 import yy.doctor.adapter.ThomsonAdapter;
 import yy.doctor.model.data.ThomsonDetail;
-import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
 import yy.doctor.network.NetFactory;
-import yy.doctor.util.CacheUtil;
 
 /**
  * 汤森路透
@@ -46,18 +43,6 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
     @Override
     public boolean enableInitRefresh() {
         return true;
-    }
-
-    @Override
-    public void onItemClick(View v, int position) {
-        super.onItemClick(v, position);
-
-        ThomsonDetail item = getItem(position);
-        String filePath = CacheUtil.getThomsonCacheDir(item.getString(TThomsonDetail.categoryId));
-        long fileSize = item.getInt(TThomsonDetail.fileSize) * 1024;
-        String fileName = item.getString(TThomsonDetail.title);
-        String url = item.getString(TThomsonDetail.filePath);
-        DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize);
     }
 
 }

@@ -1,5 +1,8 @@
 package yy.doctor.adapter.meeting;
 
+import android.view.View;
+import android.view.View.OnClickListener;
+
 import lib.ys.adapter.AdapterEx;
 import lib.ys.fitter.DpFitter;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -8,6 +11,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.util.UISetter;
 
 /**
@@ -51,5 +55,13 @@ public class MeetingAdapter extends AdapterEx<Meeting, MeetingVH> {
                 .renderer(new CircleRenderer())
                 .load();
         holder.getTvUnitNum().setText(item.getString(TMeeting.organizer));
+
+        holder.getMeetingItemLayout().setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
+            }
+        });
     }
 }

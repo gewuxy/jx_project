@@ -2,6 +2,7 @@ package yy.doctor.adapter.VH.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -17,6 +18,10 @@ public class MeetingVH extends ViewHolderEx {
 
     public MeetingVH(@NonNull View convertView) {
         super(convertView);
+    }
+
+    public LinearLayout getMeetingItemLayout() {
+        return getView(R.id.meeting_item_layout);
     }
 
     public TextView getTvTitle() {

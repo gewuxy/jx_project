@@ -31,11 +31,11 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.Extra;
+import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
@@ -43,11 +43,9 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.image.CutInterceptor;
 import yy.doctor.ui.activity.me.LaunchTmpActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
-import yy.doctor.R;
 
 /**
  * 单位号详情
@@ -180,11 +178,6 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     @Override
     protected TNavBarState getNavBarState() {
         return TNavBarState.above;
-    }
-
-    @Override
-    public void onItemClick(View v, int position) {
-        MeetingDetailsActivity.nav(this, getItem(position).getString(TMeeting.id), getItem(position).getString(TMeeting.meetName));
     }
 
     @Override

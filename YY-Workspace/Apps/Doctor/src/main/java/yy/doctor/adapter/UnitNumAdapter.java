@@ -7,6 +7,7 @@ import yy.doctor.adapter.VH.UnitNumVH;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
 
 /**
  * 单位号的adapter
@@ -42,5 +43,7 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNum, UnitNu
                 .url(item.getString(TUnitNum.headimg))
                 .load();
         holder.getTvChild().setText(item.getString(TUnitNum.nickname));
+
+        holder.getUnitNumItemLayout().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), item.getInt(TUnitNum.id)));
     }
 }

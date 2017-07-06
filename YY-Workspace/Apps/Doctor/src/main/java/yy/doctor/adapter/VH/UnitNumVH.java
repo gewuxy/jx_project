@@ -2,6 +2,7 @@ package yy.doctor.adapter.VH;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -16,6 +17,10 @@ public class UnitNumVH extends ViewHolderEx {
 
     public UnitNumVH(@NonNull View convertView) {
         super(convertView);
+    }
+
+    public LinearLayout getUnitNumItemLayout() {
+        return getView(R.id.unit_num_item_layout);
     }
 
     public TextView getTvGroup() {
