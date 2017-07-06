@@ -10,7 +10,9 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
+import lib.ys.AppEx;
 import lib.ys.YSLog;
+import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -35,6 +37,8 @@ public class AudioPlayer implements
     private MediaPlayer mMp;
     private CountDown mCountDown; // 计时
     private OnPlayerListener mPlayerListener;
+    private MapList<Integer, String> mFiles;
+    private int mCode;
 
     public interface OnPlayerListener {
         /**
@@ -62,6 +66,7 @@ public class AudioPlayer implements
         mMp = new MediaPlayer();
         mMp.setOnCompletionListener(this);
         mMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mFiles = new MapList<>();
     }
 
     public synchronized static AudioPlayer inst() {
@@ -85,10 +90,12 @@ public class AudioPlayer implements
         String audioFilePath = filePath + fileName;
         // 检查文件是否存在
         File file = CacheUtil.getMeetingCacheFile(meetId, fileName);
+        mCode = audioFilePath.hashCode();
+        mFiles.add(Integer.valueOf(mCode), audioFilePath);
         if (!file.exists()) {
             // 不存在 下载
-            YSLog.d(TAG, "fileExist: download");
-            exeNetworkReq(audioFilePath.hashCode(), NetFactory.newDownload(audioUrl, filePath, fileName).build());
+            YSLog.d(TAG, "prepare:" + audioUrl);
+            exeNetworkReq(mCode, NetFactory.newDownload(audioUrl, filePath, fileName).build());
         } else {
             // 存在 准备播放
             preparePlay(audioFilePath);
@@ -104,6 +111,8 @@ public class AudioPlayer implements
             mMp.reset();
             mMp.setDataSource(path);
             mMp.prepare();
+            play();
+            YSLog.d(TAG, "preparePlay:" + path);
         } catch (Exception e) {
             YSLog.e(TAG, "start", e);
         }
@@ -132,6 +141,14 @@ public class AudioPlayer implements
      */
     public void pause() {
         mMp.pause();
+        mCountDown.stop();
+    }
+
+    /**
+     * 停止
+     */
+    public void stop() {
+        mMp.stop();
         mCountDown.stop();
     }
 
@@ -189,16 +206,18 @@ public class AudioPlayer implements
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-
+        YSLog.d(TAG, "onNetworkSuccess:" + mFiles.getByKey(id));
+        if (id == mCode) {
+            preparePlay(mFiles.getByKey(id));
+        }
     }
 
     @Override
     public void onNetworkError(int id, NetError error) {
-
+        AppEx.showToast(error.getMessage());
     }
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
-
     }
 }

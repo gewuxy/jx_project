@@ -296,12 +296,13 @@ public class VideoActivity extends BaseActivity implements
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         // 总时长
         mAllTime = plMediaPlayer.getDuration() / TimeUnit.SECONDS.toMillis(1);
-        long start = mDetail.getLong(TDetail.userdtime, 0) % mAllTime; // 开始时间(s)
-        long residue = mAllTime - start; // 剩余时间(s)
-        mSbProgress.setProgress((int) (start * 100.0 / mAllTime));
-        mTvTime.setText(Time.secondFormat(start, DateUnit.minute));
-        mVideo.seekTo(start * TimeUnit.SECONDS.toMillis(1));
         if (mFirst) {
+            // 第一次看
+            long start = mDetail.getLong(TDetail.userdtime, 0) % mAllTime; // 开始时间(s)
+            long residue = mAllTime - start; // 剩余时间(s)
+            mSbProgress.setProgress((int) (start * 100.0 / mAllTime));
+            mTvTime.setText(Time.secondFormat(start, DateUnit.minute));
+            mVideo.seekTo(start * TimeUnit.SECONDS.toMillis(1));
             mVideo.start();
             // 开始倒计时
             mVideo.prepared(residue);

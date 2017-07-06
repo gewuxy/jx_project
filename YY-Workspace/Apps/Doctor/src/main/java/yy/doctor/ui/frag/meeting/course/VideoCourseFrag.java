@@ -189,7 +189,7 @@ public class VideoCourseFrag extends BaseCourseFrag implements
     }
 
     public void start() {
-        if (!initComplete() || !getVisible()) {
+        if (!initComplete() || !getVisible() || mVideo == null) {
             return;
         }
 
@@ -200,6 +200,9 @@ public class VideoCourseFrag extends BaseCourseFrag implements
     public void play() {
         if (getVisible()) {
             // 系统的isVisible()不准确
+            if (mVideo == null) {
+                return;
+            }
             mVideo.start();
             mCountDown.start(mRemainCount);
 
