@@ -61,7 +61,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-
+        // 清空用户信息
+        Profile.inst().clear();
         // 设置密码输入范围
         UISetter.setPwdRange(mEtPwd);
 
@@ -118,7 +119,6 @@ public class LoginActivity extends BaseActivity {
         if (r.isSucceed()) {
             //保存用户名
             SpApp.inst().saveUserName(mEtName.getText().toString().trim());
-            Profile.inst().clear();
             Profile.inst().update(r.getData());
             //判断跳转到哪里
             if (mRequest == null) {

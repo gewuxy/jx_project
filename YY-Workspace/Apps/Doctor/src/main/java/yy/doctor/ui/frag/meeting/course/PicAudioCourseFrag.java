@@ -20,6 +20,7 @@ import yy.doctor.R;
 import yy.doctor.model.meet.Course.TCourse;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.CacheUtil;
+import yy.doctor.util.Util;
 import yy.doctor.view.RootLayout;
 import yy.doctor.view.RootLayout.OnRootTouchListener;
 
@@ -89,7 +90,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     }
 
     protected void setPic() {
-        String imgUrl = getDetail().getString(TCourse.imgUrl);
+        String imgUrl = Util.convertUrl(getDetail().getString(TCourse.imgUrl).trim());
 
         if (!TextUtil.isEmpty(imgUrl)) {
             mIvPPT.url(imgUrl)
@@ -106,7 +107,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
 
     protected void setAudio() {
         mIsCompleted = false;
-        String audioUrl = getDetail().getString(TCourse.audioUrl);
+        String audioUrl = Util.convertUrl(getDetail().getString(TCourse.audioUrl).trim());
 
         // 文件名
         String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1);

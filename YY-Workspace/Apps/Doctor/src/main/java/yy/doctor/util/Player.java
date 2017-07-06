@@ -1,8 +1,8 @@
 package yy.doctor.util;
 
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
+import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
+import com.pili.pldroid.player.PLMediaPlayer.OnCompletionListener;
 
 import java.io.File;
 
@@ -16,6 +16,7 @@ import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
+import yy.doctor.App;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -25,16 +26,18 @@ import yy.doctor.network.NetFactory;
  * @since : 2017/6/24
  */
 
-public class AudioPlayer implements
+public class Player implements
+        OnCountDownListener,
+        OnNetworkListener,
         OnCompletionListener,
-        OnCountDownListener, OnNetworkListener {
+        OnPreparedListener {
 
-    private static final String TAG = AudioPlayer.class.getSimpleName().toString();
+    private static final String TAG = Player.class.getSimpleName().toString();
     private static final int KTime = 3; // 默认数三秒
 
-    private static AudioPlayer mAudioPlayer;
+    private static Player mPlayer;
 
-    private MediaPlayer mMp;
+    private PLMediaPlayer mMp;
     private CountDown mCountDown; // 计时
     private OnPlayerListener mPlayerListener;
     private MapList<Integer, String> mFiles;
@@ -56,24 +59,24 @@ public class AudioPlayer implements
         void end();
     }
 
+    public synchronized static Player inst() {
+        if (mPlayer == null) {
+            mPlayer = new Player();
+        }
+        return mPlayer;
+    }
+
     public void setPlayerListener(OnPlayerListener playerListener) {
         mPlayerListener = playerListener;
     }
 
-    private AudioPlayer() {
+    private Player() {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
-        mMp = new MediaPlayer();
+        mMp = new PLMediaPlayer(App.getContext());
+        mMp.setOnPreparedListener(this);
         mMp.setOnCompletionListener(this);
-        mMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mFiles = new MapList<>();
-    }
-
-    public synchronized static AudioPlayer inst() {
-        if (mAudioPlayer == null) {
-            mAudioPlayer = new AudioPlayer();
-        }
-        return mAudioPlayer;
     }
 
     /**
@@ -86,7 +89,7 @@ public class AudioPlayer implements
         String fileName = audioUrl.hashCode() + "." + type;
         // 文件夹名字 (meetId)
         String filePath = CacheUtil.getMeetingCacheDir(meetId);
-        // 全路径 音频文件路径
+        // 全路径 (音频文件路径)
         String audioFilePath = filePath + fileName;
         // 检查文件是否存在
         File file = CacheUtil.getMeetingCacheFile(meetId, fileName);
@@ -110,8 +113,8 @@ public class AudioPlayer implements
         try {
             mMp.reset();
             mMp.setDataSource(path);
-            mMp.prepare();
-            play();
+            mMp.prepareAsync();
+
             YSLog.d(TAG, "preparePlay:" + path);
         } catch (Exception e) {
             YSLog.e(TAG, "start", e);
@@ -158,18 +161,24 @@ public class AudioPlayer implements
     public void recycle() {
         mMp.release();
         mMp = null;
-        mAudioPlayer = null;
+        mPlayer = null;
         mCountDown.recycle();
         mCountDown = null;
     }
 
+
+    @Override
+    public void onPrepared(PLMediaPlayer plMediaPlayer) {
+
+    }
+
     @Override
     public void onCountDown(long remainCount) {
-        int curr = mMp.getCurrentPosition();
-        int all = mMp.getDuration();
+        long curr = mMp.getCurrentPosition();
+        long all = mMp.getDuration();
 
         if (mPlayerListener != null) {
-            mPlayerListener.onProgress(curr, all, curr * 100 / all);
+            mPlayerListener.onProgress(curr, all, (int) (curr * 100 / all));
         }
 
         if (remainCount == 0 && curr < all) {
@@ -183,7 +192,7 @@ public class AudioPlayer implements
     }
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
+    public void onCompletion(PLMediaPlayer plMediaPlayer) {
         mCountDown.stop();
         if (mPlayerListener != null) {
             mPlayerListener.end();
