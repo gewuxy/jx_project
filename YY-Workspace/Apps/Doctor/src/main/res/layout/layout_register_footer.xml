@@ -11,7 +11,7 @@
         android:layout_marginTop="@dimen/margin">
 
         <EditText
-            android:id="@+id/register_et_activation_code"
+            android:id="@+id/register_et_capcha"
             style="@style/et.common"
             android:layout_height="50dip"
             android:singleLine="true"
@@ -21,7 +21,7 @@
             android:hint="激活码"/>
 
         <TextView
-            android:id="@+id/register_get_activation_code"
+            android:id="@+id/register_tv_capcha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

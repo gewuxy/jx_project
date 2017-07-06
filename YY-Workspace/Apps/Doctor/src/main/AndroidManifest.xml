@@ -63,7 +63,7 @@
             android:name=".ui.activity.register.HospitalActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.ActivationCodeExplainActivity"
+            android:name=".ui.activity.register.CapchaActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.register.ProvinceActivity"

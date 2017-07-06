@@ -13,7 +13,7 @@ import yy.doctor.util.Util;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class ActivationCodeExplainActivity extends BaseActivity {
+public class CapchaActivity extends BaseActivity {
 
     @Override
     public void findViews() {
@@ -30,13 +30,12 @@ public class ActivationCodeExplainActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_activation_code_explain;
+        return R.layout.activity_capcha;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-
-        Util.addBackIcon(bar, R.string.activation_code_explain, this);
+        Util.addBackIcon(bar, R.string.capcha, this);
     }
 
 }

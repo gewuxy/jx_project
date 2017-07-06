@@ -24,7 +24,7 @@ public class JsonUtil {
     public static Object getObject(JSONObject json, String tag) {
         Object ret = json.opt(tag);
         if (ret == null) {
-            return KJsonValueNull;
+            return null;
         }
         return ret;
     }

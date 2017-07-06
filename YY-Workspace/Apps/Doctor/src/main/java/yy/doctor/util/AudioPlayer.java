@@ -4,11 +4,17 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
-import java.util.concurrent.TimeUnit;
+import java.io.File;
 
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.YSLog;
+import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
+import yy.doctor.network.NetFactory;
 
 /**
  * 单例播放器
@@ -17,23 +23,28 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since : 2017/6/24
  */
 
-public class AudioPlayer implements OnCompletionListener, OnCountDownListener {
+public class AudioPlayer implements
+        OnCompletionListener,
+        OnCountDownListener, OnNetworkListener {
 
-    private static final String TAG = "AudioPlayer";
+    private static final String TAG = AudioPlayer.class.getSimpleName().toString();
+    private static final int KTime = 3; // 默认数三秒
 
     private static AudioPlayer mAudioPlayer;
+
     private MediaPlayer mMp;
+    private CountDown mCountDown; // 计时
     private OnPlayerListener mPlayerListener;
-    private CountDown mCountDown;
-    private long mRemainTime; // 剩余播放时间 s
 
     public interface OnPlayerListener {
         /**
-         * 播放进度
+         * 播放进度(100% 不一定会回调)
          *
-         * @param currMilliseconds 毫秒
+         * @param currMilliseconds 当前播放时间 (毫秒)
+         * @param allMilliseconds  音频总时长 (毫秒)
+         * @param progress         百分比
          */
-        void onProgress(long currMilliseconds);
+        void onProgress(long currMilliseconds, long allMilliseconds, int progress);
 
         /**
          * 播放结束
@@ -41,11 +52,16 @@ public class AudioPlayer implements OnCompletionListener, OnCountDownListener {
         void end();
     }
 
-    private AudioPlayer() {
-    }
-
     public void setPlayerListener(OnPlayerListener playerListener) {
         mPlayerListener = playerListener;
+    }
+
+    private AudioPlayer() {
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
+        mMp = new MediaPlayer();
+        mMp.setOnCompletionListener(this);
+        mMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
     public synchronized static AudioPlayer inst() {
@@ -55,85 +71,93 @@ public class AudioPlayer implements OnCompletionListener, OnCountDownListener {
         return mAudioPlayer;
     }
 
-    public void start(String path) {
-        if (mMp == null) {
-            mMp = new MediaPlayer();
-            mMp.setOnCompletionListener(this);
-            mMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+    /**
+     * @param meetId   会议的id
+     * @param audioUrl 音频的Url
+     */
+    public void prepare(String meetId, String audioUrl) {
+        // 文件名
+        String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1);
+        String fileName = audioUrl.hashCode() + "." + type;
+        // 文件夹名字 (meetId)
+        String filePath = CacheUtil.getMeetingCacheDir(meetId);
+        // 全路径 音频文件路径
+        String audioFilePath = filePath + fileName;
+        // 检查文件是否存在
+        File file = CacheUtil.getMeetingCacheFile(meetId, fileName);
+        if (!file.exists()) {
+            // 不存在 下载
+            YSLog.d(TAG, "fileExist: download");
+            exeNetworkReq(audioFilePath.hashCode(), NetFactory.newDownload(audioUrl, filePath, fileName).build());
+        } else {
+            // 存在 准备播放
+            preparePlay(audioFilePath);
         }
+
+    }
+
+    /**
+     * 准备播放
+     */
+    private void preparePlay(String path) {
         try {
             mMp.reset();
             mMp.setDataSource(path);
             mMp.prepare();
-            mMp.start();
-            mRemainTime = mMp.getDuration() / TimeUnit.SECONDS.toMillis(1);
-            startCount();
         } catch (Exception e) {
             YSLog.e(TAG, "start", e);
         }
     }
 
+    /**
+     * 播放
+     */
     public void play() {
-        if (mMp != null) {
-            mMp.start();
-            startCount();
-        }
+        mMp.start();
+        mCountDown.start(KTime);
     }
 
+    /**
+     * 拖拽
+     *
+     * @param msec 毫秒
+     */
     public void seekTo(int msec) {
-        if (mMp != null) {
-            mMp.seekTo(msec);
-        }
-        mRemainTime = mMp.getDuration() - msec;
-        startCount();
+        mMp.seekTo(msec);
+        mCountDown.start(KTime);
     }
 
+    /**
+     * 暂停
+     */
     public void pause() {
-        if (mMp != null) {
-            mMp.pause();
-        }
-        stopCount();
-    }
-
-    public void stop() {
-        if (mMp != null) {
-            mMp.reset();
-            mMp = null;
-            mRemainTime = 0;
-        }
-        stopCount();
-    }
-
-    public void release() {
-        if (mMp != null) {
-            mMp.release();
-        }
+        mMp.pause();
+        mCountDown.stop();
     }
 
     /**
-     * 开始计时
+     * 释放资源, 统一置空
      */
-    private void startCount() {
-        stopCount();
-        mCountDown = new CountDown(mRemainTime);
-        mCountDown.setListener(this);
-        mCountDown.start();
-    }
-
-    /**
-     * 停止计时
-     */
-    private void stopCount() {
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
+    public void recycle() {
+        mMp.release();
+        mMp = null;
+        mAudioPlayer = null;
+        mCountDown.recycle();
+        mCountDown = null;
     }
 
     @Override
     public void onCountDown(long remainCount) {
-        mRemainTime = remainCount;
-        if (mMp != null && mPlayerListener != null) {
-            mPlayerListener.onProgress(mMp.getCurrentPosition());
+        int curr = mMp.getCurrentPosition();
+        int all = mMp.getDuration();
+
+        if (mPlayerListener != null) {
+            mPlayerListener.onProgress(curr, all, curr * 100 / all);
+        }
+
+        if (remainCount == 0 && curr < all) {
+            // 计时结束, 音频没播放完重新开始计时
+            mCountDown.start(KTime);
         }
     }
 
@@ -143,8 +167,38 @@ public class AudioPlayer implements OnCompletionListener, OnCountDownListener {
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        mCountDown.stop();
         if (mPlayerListener != null) {
             mPlayerListener.end();
         }
+    }
+
+    private NetworkOpt mNetworkImpl;
+
+    private void exeNetworkReq(int id, NetworkReq req) {
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOpt(this, this);
+        }
+        mNetworkImpl.exeNetworkReq(id, req, this);
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+
+    }
+
+    @Override
+    public void onNetworkProgress(int id, float progress, long totalSize) {
+
     }
 }

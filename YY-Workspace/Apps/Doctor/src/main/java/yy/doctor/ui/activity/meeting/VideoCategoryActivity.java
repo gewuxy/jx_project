@@ -157,7 +157,10 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
             if (mStudyTime > 0) {
                 mBarTvRight.setText(getString(R.string.video_add_up_all) + Time.secondFormat(mStudyTime));
             }
-            getItem(mClickPosition).put(TDetail.userdtime, duration + getItem(mClickPosition).getLong(TDetail.userdtime));
+
+            Detail item = getItem(mClickPosition);
+            long useredTime = getItem(mClickPosition).getLong(TDetail.userdtime);
+            item.put(TDetail.userdtime, duration + useredTime);
             invalidate();
         }
     }
@@ -176,4 +179,8 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
         return true;
     }
 
+    @Override
+    protected String getEmptyText() {
+        return getString(R.string.video);
+    }
 }

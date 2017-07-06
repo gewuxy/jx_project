@@ -1,7 +1,5 @@
 package yy.doctor.model.form;
 
-import android.app.Activity;
-
 import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.model.form.edit.EditForm;
@@ -22,11 +20,10 @@ import yy.doctor.model.form.text.TextRegisterIntentForm;
  * @since 2017/4/6
  */
 public class Builder extends FormBuilderEx<BaseForm> {
-    Activity mActivity;
+
     public Builder(int type) {
         super(type);
     }
-
 
     @Override
     protected BaseForm build(int type) {

@@ -695,7 +695,10 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 put(e, JsonUtil.getEV(annotation.value(), obj.optJSONObject(e.name())));
             } else {
                 // 没有注释使用默认解析方式
-                put(e, JsonUtil.getObject(obj, e.name()));
+                Object o = JsonUtil.getObject(obj, e.name());
+                if (o != null) {
+                    put(e, o);
+                }
             }
         }
     }

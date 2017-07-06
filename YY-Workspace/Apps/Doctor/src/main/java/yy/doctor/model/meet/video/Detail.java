@@ -1,6 +1,7 @@
 package yy.doctor.model.meet.video;
 
 import lib.ys.model.EVal;
+import lib.ys.model.inject.BindInit;
 import yy.doctor.model.meet.video.Detail.TDetail;
 
 /**
@@ -20,6 +21,8 @@ public class Detail extends EVal<TDetail> {
         duration, // 视频时长
         url, // 视频URL
         videoType, // 视频连接类型
+
+        @BindInit(asLong = 0)
         userdtime, // 已学习时间
     }
 }

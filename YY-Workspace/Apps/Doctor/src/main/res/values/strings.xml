@@ -16,7 +16,7 @@
     <string name="input_real_name">请输入真实姓名</string>
     <string name="input_right_pwd_num">请输入6~18位密码</string>
     <string name="check_pwd_is_same">请核对密码是否一致</string>
-    <string name="activation_code_explain">获取激活码</string>
+    <string name="capcha">获取激活码</string>
     <string name="hospital">医院</string>
     <string name="guang_dong">广东省</string>
     <string name="guang_zhou">广州市</string>

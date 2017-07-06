@@ -6,6 +6,7 @@ import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.VideoVH;
 import yy.doctor.model.meet.video.Detail;
+import yy.doctor.model.meet.video.Detail.TDetail;
 import yy.doctor.util.Time;
 
 /**
@@ -25,11 +26,11 @@ public class VideoCategoryAdapter extends AdapterEx<Detail, VideoVH> {
     @Override
     protected void refreshView(int position, VideoVH holder) {
         setOnViewClickListener(position, holder.getLayout());
-        holder.getTvName().setText(getItem(position).getString(Detail.TDetail.name));
+        holder.getTvName().setText(getItem(position).getString(TDetail.name));
         TextView tvStudyTime = holder.getTvStudy();
-        if (getItem(position).getBoolean(Detail.TDetail.type)) {
+        if (getItem(position).getBoolean(TDetail.type)) {
             // 1是文件
-            long duration = getItem(position).getLong(Detail.TDetail.userdtime);
+            long duration = getItem(position).getLong(TDetail.userdtime);
             if (duration > 0) {
                 tvStudyTime.setText(getContext().getString(R.string.video_add_up) + Time.secondFormat(duration));
             } else {

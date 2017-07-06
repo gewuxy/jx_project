@@ -81,6 +81,8 @@ public class VideoActivity extends BaseActivity implements
     private RelativeLayout mLayoutVideo; // 播放容器
     private Submit mSubmit; // 提交记录时间的需要数据
 
+    private boolean mFirst; // 第一次自动播放
+
     public static void nav(Context context, Detail detail, Submit submit) {
         Intent i = new Intent(context, VideoActivity.class)
                 .putExtra(Extra.KData, detail)
@@ -92,8 +94,9 @@ public class VideoActivity extends BaseActivity implements
     public void initData() {
         mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KSubmit);
-        mUriString = Util.convertUrl(mDetail.getString(TDetail.url));
+        mUriString = Util.convertUrl(mDetail.getString(TDetail.url).trim());
         mDuration = 0;
+        mFirst = true;
     }
 
     @NonNull
@@ -158,6 +161,9 @@ public class VideoActivity extends BaseActivity implements
                     mVideo.setOnErrorListener(VideoActivity.this);
                     mVideo.setOnCompletionListener(VideoActivity.this);
                     mVideo.setBufferingIndicator(mViewLoad);
+                    AVOptions options = new AVOptions();
+                    options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0); // 设置不自动播放
+                    mVideo.setAVOptions(options);
                     mVideo.setVideoPath(mUriString);
                     showView(mViewLoad);
                     showView(mViewFunction);
@@ -289,20 +295,23 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         // 总时长
-        mAllTime = plMediaPlayer.getDuration() / 1000;
+        mAllTime = plMediaPlayer.getDuration() / TimeUnit.SECONDS.toMillis(1);
         long start = mDetail.getLong(TDetail.userdtime, 0) % mAllTime; // 开始时间(s)
         long residue = mAllTime - start; // 剩余时间(s)
         mSbProgress.setProgress((int) (start * 100.0 / mAllTime));
         mTvTime.setText(Time.secondFormat(start, DateUnit.minute));
-        mVideo.seekTo(start * 1000);
-        // 开始倒计时
-        mVideo.prepared(residue);
+        mVideo.seekTo(start * TimeUnit.SECONDS.toMillis(1));
+        if (mFirst) {
+            mVideo.start();
+            // 开始倒计时
+            mVideo.prepared(residue);
+        }
     }
 
     @Override
     public void onVideoProgress(long progress) {
-            mDuration++;
-            YSLog.d(TAG,"onCountDown:mDuration="+ mDuration);
+        mDuration++;
+        YSLog.d(TAG, "onCountDown:mDuration=" + mDuration);
         int percent = (int) (progress * 100.0 / mAllTime);
         mSbProgress.setProgress(percent);
         mTvTime.setText(Time.secondFormat(progress, DateUnit.minute));
@@ -324,21 +333,19 @@ public class VideoActivity extends BaseActivity implements
                 showToast("播放器准备超时");
                 break;
             default:
-                showToast("播放错误" + errorCode);
-                return false;
+                showToast("播放资源错误");
+                break;
         }
         return true;
     }
 
     @Override
     public void onCompletion(PLMediaPlayer plMediaPlayer) {
-        AVOptions options = new AVOptions();
-        options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0); // 第一次播放后不自动播放
-        mVideo.setAVOptions(options);
         mVideo.setVideoPath(mUriString);
         mVideo.recycle();
         mVideo.prepared(mAllTime);
         mIvControl.setSelected(true);
+        mFirst = false;
     }
 
     @Override
