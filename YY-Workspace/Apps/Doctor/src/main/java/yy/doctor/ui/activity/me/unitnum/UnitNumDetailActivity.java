@@ -252,14 +252,13 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
         if (id == KReqIdUnitNumDetail) {
             if (getOffset() != getInitOffset()) {
-                // 翻页逻辑
+                // 翻页逻辑 翻页时返回的数据结构不一样
                 super.onNetworkSuccess(id, result);
                 return;
             }
 
             Result<UnitNumDetail> r = (Result<UnitNumDetail>) result;
             if (!r.isSucceed()) {
-                super.onNetworkSuccess(id, result);
                 return;
             }
 
