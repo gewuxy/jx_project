@@ -19,9 +19,9 @@ import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
-import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.model.home.RecUnitNum.Attention;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 import yy.doctor.ui.activity.me.DownloadDataActivity;
@@ -41,25 +41,25 @@ public class UISetter {
      * @param state
      * @param tv
      */
-    public static void setMeetState(@MeetsState int state, TextView tv) {
+    public static void setMeetState(@MeetState int state, TextView tv) {
         String text = null;
         int color = 0;
         Drawable d = null;
 
         switch (state) {
-            case MeetsState.not_started: {
+            case MeetState.not_started: {
                 text = "未开始";
                 color = ResLoader.getColor(R.color.text_01b557);
                 d = ResLoader.getDrawable(R.mipmap.meeting_ic_not_started);
             }
             break;
-            case MeetsState.under_way: {
+            case MeetState.under_way: {
                 text = "进行中";
                 color = ResLoader.getColor(R.color.text_e6600e);
                 d = ResLoader.getDrawable(R.mipmap.meeting_ic_under_way);
             }
             break;
-            case MeetsState.retrospect: {
+            case MeetState.retrospect: {
                 text = "精彩回顾";
                 color = ResLoader.getColor(R.color.text_5cb0de);
                 d = ResLoader.getDrawable(R.mipmap.meeting_ic_retrospect);
@@ -161,6 +161,7 @@ public class UISetter {
 
     /**
      * 设置密码的输入范围格式
+     *
      * @param et
      */
     public static void setPwdRange(EditText et) {

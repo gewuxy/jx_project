@@ -85,7 +85,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
 
     public final <T extends EVal<E>> T put(EVal<E> o) {
         Observable.fromIterable(getEnumFields())
-                .filter(e -> !o.getString(e).isEmpty())
+                .filter(e -> TextUtil.isNotEmpty(o.getString(e)))
                 .subscribe(e -> put(e, o.getObject(e)));
         return (T) this;
     }

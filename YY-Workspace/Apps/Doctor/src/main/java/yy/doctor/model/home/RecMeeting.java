@@ -28,6 +28,10 @@ public class RecMeeting extends EVal<TRecMeeting> implements IHome {
         lecturerImg,  //主讲者头像
         lecturerHos, //主讲者医院
         stored, // 是否已经收藏， 0 未收藏  1 收藏
-        state, // 0 草稿    1 未开始  2 进行中   3 已结束
+
+        /**
+         * {@link yy.doctor.model.meet.Meeting.MeetState}
+         */
+        state,
     }
 }

@@ -13,23 +13,22 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/4/28
  */
-public class ProvinceCityAreaVH extends ViewHolderEx {
+public class PcdVH extends ViewHolderEx {
 
-
-    public ProvinceCityAreaVH(@NonNull View convertView) {
+    public PcdVH(@NonNull View convertView) {
         super(convertView);
     }
 
     public RelativeLayout getLayout() {
-        return getView(R.id.layout_province_city_area_item_layout);
+        return getView(R.id.pcd_item_layout);
     }
 
     public TextView getTv() {
-        return getView(R.id.layout_province_city_area_item_tv);
+        return getView(R.id.pcd_item_tv);
     }
 
     public ImageView getIvArrow() {
-        return getView(R.id.layout_province_city_area_item_iv);
+        return getView(R.id.pcd_item_iv);
     }
 
 }

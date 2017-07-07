@@ -2,10 +2,10 @@ package yy.doctor.adapter;
 
 import lib.ys.adapter.PagerAdapterEx;
 import yy.doctor.R;
-import yy.doctor.ui.activity.home.BannerActivity;
 import yy.doctor.adapter.VH.BannerVH;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.Banner.TBanner;
+import yy.doctor.ui.activity.home.BannerActivity;
 
 /**
  * Banner的adapter

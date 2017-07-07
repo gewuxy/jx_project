@@ -178,7 +178,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         //  没有播放 / 点击不同的条目
         if (!mIsPlaying || mLastPosition != position) {
             // 播放音乐
-            String audioUrl = Util.convertUrl(mCourses.get(position).getString(TCourse.audioUrl).trim()); // 路径
+            String audioUrl = Util.convertUrl(mCourses.get(position).getString(TCourse.audioUrl)); // 路径
             String filePath = CacheUtil.getMeetingCacheDir(mMeetId); // 文件夹名字
             String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1); // 文件类型
             String fileName = audioUrl.hashCode() + "." + type; // 文件名

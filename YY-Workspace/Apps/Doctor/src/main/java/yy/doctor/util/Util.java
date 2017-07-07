@@ -10,7 +10,9 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
+import yy.doctor.Constants;
 import yy.doctor.R;
+import yy.doctor.model.Pcd;
 
 /**
  * @author CaiXiang
@@ -43,6 +45,32 @@ public class Util extends BaseUtil {
     }
 
     public static String convertUrl(String url) {
-        return TextUtil.toUtf8(url);
+        return TextUtil.toUtf8(url.trim());
+    }
+
+    /**
+     * 根据省市区生成展示的字符串
+     *
+     * @param p
+     * @param c
+     * @param d
+     * @return
+     */
+    public static String generatePcd(String p, String c, String d) {
+        StringBuffer b = new StringBuffer()
+                .append(p)
+                .append(Pcd.KSplit)
+                .append(c);
+        if (TextUtil.isNotEmpty(d)) {
+            b.append(Pcd.KSplit).append(d);
+        }
+        return b.toString();
+    }
+
+    public static String generatePcd(String[] pcd) {
+        if (pcd.length < Pcd.KMaxCount) {
+            return Constants.KEmptyValue;
+        }
+        return generatePcd(pcd[Pcd.KProvince], pcd[Pcd.KCity], pcd[Pcd.KDistrict]);
     }
 }

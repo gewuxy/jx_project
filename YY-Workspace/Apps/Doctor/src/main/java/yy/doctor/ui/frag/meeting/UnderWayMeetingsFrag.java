@@ -1,6 +1,6 @@
 package yy.doctor.ui.frag.meeting;
 
-import yy.doctor.Constants.MeetsState;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -18,6 +18,6 @@ public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.meets(MeetsState.under_way, mDepart, getOffset(), getLimit()));
+        exeNetworkReq(NetFactory.meets(MeetState.under_way, mDepart, getOffset(), getLimit()));
     }
 }

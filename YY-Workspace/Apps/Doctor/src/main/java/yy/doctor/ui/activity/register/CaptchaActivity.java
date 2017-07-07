@@ -13,15 +13,7 @@ import yy.doctor.util.Util;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class CapchaActivity extends BaseActivity {
-
-    @Override
-    public void findViews() {
-    }
-
-    @Override
-    public void setViews() {
-    }
+public class CaptchaActivity extends BaseActivity {
 
     @Override
     public void initData() {
@@ -30,12 +22,20 @@ public class CapchaActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_capcha;
+        return R.layout.activity_captcha;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.capcha, this);
+        Util.addBackIcon(bar, R.string.title_fetch_captcha, this);
+    }
+
+    @Override
+    public void findViews() {
+    }
+
+    @Override
+    public void setViews() {
     }
 
 }

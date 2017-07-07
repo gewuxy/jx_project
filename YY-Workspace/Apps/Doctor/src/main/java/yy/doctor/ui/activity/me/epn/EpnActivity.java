@@ -8,10 +8,10 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.CommonWebViewActivity;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil;
+import yy.doctor.ui.activity.me.CommonWebViewActivity;
 import yy.doctor.util.Util;
 
 /**

@@ -22,8 +22,6 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
 import yy.doctor.dialog.HintDialogMain;
-import yy.doctor.ui.frag.meeting.exam.TopicFrag;
-import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.model.meet.exam.Choice;
@@ -34,6 +32,8 @@ import yy.doctor.model.meet.exam.Paper;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.ui.frag.meeting.exam.TopicFrag;
+import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
 
 /**
  * 考试(问卷)题目界面

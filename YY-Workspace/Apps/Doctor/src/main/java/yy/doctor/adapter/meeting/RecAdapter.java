@@ -2,14 +2,15 @@ package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
-import yy.doctor.Constants;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.RecVH;
 import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
+import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.util.UISetter;
 
 /**
@@ -19,6 +20,7 @@ import yy.doctor.util.UISetter;
  * @since : 2017/6/8
  */
 public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
+
     @Override
     protected void refreshView(int position, RecVH holder, int itemType) {
         switch (itemType) {
@@ -39,7 +41,7 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 long endTime = item.getLong(TMeeting.endTime);
                 UISetter.setDateDuration(holder.getTvMeetDate(), holder.getTvMeetDuration(), startTime, endTime);
 
-                @Constants.MeetsState int state = item.getInt(TMeeting.state);
+                @MeetState int state = item.getInt(TMeeting.state);
                 UISetter.setMeetState(state, holder.getTvMeetState());
             }
             break;
@@ -48,14 +50,14 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 UnitNum unitNum = (UnitNum) getItem(position);
                 holder.getIvUnitNumUN().placeHolder(R.mipmap.ic_default_epc)
                         .renderer(new CircleRenderer())
-                        .url(unitNum.getString(UnitNum.TUnitNum.headimg))
+                        .url(unitNum.getString(TUnitNum.headimg))
                         .load();
-                holder.getTvUnitNumUN().setText(unitNum.getString(UnitNum.TUnitNum.nickname));
+                holder.getTvUnitNumUN().setText(unitNum.getString(TUnitNum.nickname));
             }
             break;
 
             case RecType.more: {
-                if (getItemViewType(position - 1) == RecType.unit_num) {
+                if (getItemViewType(getLastItemPosition()) == RecType.unit_num) {
                     holder.getTvMore().setText("查看更多单位号");
                 } else {
                     holder.getTvMore().setText("查看更多会议");
@@ -78,8 +80,9 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 return R.layout.layout_reach_margin;
             case RecType.more:
                 return R.layout.layout_reach_more;
+            default:
+                return R.layout.layout_meeting_item;
         }
-        return -1;
     }
 
     @Override

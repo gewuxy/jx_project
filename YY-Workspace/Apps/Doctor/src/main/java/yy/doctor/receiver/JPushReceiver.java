@@ -15,13 +15,13 @@ import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.model.jpush.JPushMsg;
 import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 import yy.doctor.model.notice.NoticeManager;
 import yy.doctor.model.notice.NoticeNum;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 
 /**
  * @author CaiXiang

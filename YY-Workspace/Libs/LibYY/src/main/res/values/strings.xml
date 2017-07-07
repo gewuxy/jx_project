@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">LibYY</string>
-
     <!--toast-->
     <string name="toast_hint_input">请输入</string>
-    
+    <string name="toast_hint_select">请选择</string>
+    <string name="toast_hint_upload">请上传</string>
+
     <string name="server_error">服务器错误</string>
     
 </resources>

@@ -36,14 +36,10 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
-import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
-import yy.doctor.ui.activity.me.unitnum.FileDataActivity;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
@@ -69,6 +65,9 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
+import yy.doctor.ui.activity.me.unitnum.FileDataActivity;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
@@ -141,7 +140,7 @@ public class MeetingDetailsActivity extends BaseActivity {
     @EpnType
     private int mEpnType; // 需要还是奖励
 
-    private int mEpn; // 象数
+    private int mCostEpn; // 象数
     private boolean mNoPPT; // 是否有PPT
     private String mMeetId; // 会议Id
     private String mMeetName; //  会议名字
@@ -311,9 +310,9 @@ public class MeetingDetailsActivity extends BaseActivity {
                     toClickModule(v);
                 } else {
                     // 没有参加过
-                    if (mEpn > 0 && needPay(mEpnType)) {
+                    if (mCostEpn > 0 && needPay(mEpnType)) {
                         // 需要象数的
-                        if (Profile.inst().getInt(TProfile.credits) < mEpn) {
+                        if (Profile.inst().getInt(TProfile.credits) < mCostEpn) {
                             // 象数不足
                             mNoEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
                             mNoEpnDialog.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
@@ -325,7 +324,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                             mNoEpnDialog.show();
                         } else {
                             mPayEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                            mPayEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
+                            mPayEpnDialog.setHint("本会议需要支付" + mCostEpn + "象数");
                             mPayEpnDialog.addButton("确认支付", v1 -> {
                                 mPayEpnDialog.dismiss();
                                 toClickModule(v);
@@ -356,18 +355,18 @@ public class MeetingDetailsActivity extends BaseActivity {
      * 改变象数
      */
     private void notifyEpn() {
-        if (mEpn == 0) {
+        if (mCostEpn == 0) {
             return;
         }
 
-        int surplus = Profile.inst().getInt(TProfile.credits); // 剩余象数
+        int remainEpn = Profile.inst().getInt(TProfile.credits); // 剩余象数
         if (needPay(mEpnType)) {
-            Profile.inst().put(TProfile.credits, surplus - mEpn);
+            Profile.inst().put(TProfile.credits, remainEpn - mCostEpn);
         } else {
             // FIXME: 2017/6/30 应该后台返回正确的,多人操作的时候
             if (mMeetDetail.getInt(TMeetDetail.remainAward) > 0) {
                 // 奖励人数大于0奖励象数的
-                Profile.inst().put(TProfile.credits, surplus + mEpn);
+                Profile.inst().put(TProfile.credits, remainEpn + mCostEpn);
             }
         }
         Profile.inst().saveToSp();
@@ -638,15 +637,15 @@ public class MeetingDetailsActivity extends BaseActivity {
         mTvTitle.setText(info.getString(TMeetDetail.meetName));
         @EpnType int epnType = info.getInt(TMeetDetail.eduCredits);
         mEpnType = epnType; // 需要还是奖励
-        mEpn = info.getInt(TMeetDetail.xsCredits);
-        if (mEpn == 0) {
+        mCostEpn = info.getInt(TMeetDetail.xsCredits);
+        if (mCostEpn == 0) {
             // 不奖励也不支付算免费, 隐藏
             goneView(mTvEpn);
         } else {
             if (needPay(mEpnType)) {
-                mTvEpn.setText("本次会议需支付象数 : " + mEpn + "个");
+                mTvEpn.setText("本次会议需支付象数 : " + mCostEpn + "个");
             } else {
-                mTvEpn.setText("本次会议奖励象数 : " + mEpn + "个,还有" + info.getString(TMeetDetail.remainAward) + "人可领取");
+                mTvEpn.setText("本次会议奖励象数 : " + mCostEpn + "个,还有" + info.getString(TMeetDetail.remainAward) + "人可领取");
             }
         }
         mTvSection.setText(info.getString(TMeetDetail.meetType));

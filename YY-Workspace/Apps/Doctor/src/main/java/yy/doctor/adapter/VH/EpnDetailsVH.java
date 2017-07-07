@@ -25,7 +25,9 @@ public class EpnDetailsVH extends ViewHolderEx {
         return getView(R.id.epn_details_item_tv_status);
     }
 
-    public TextView geTvNum() {return getView(R.id.epn_details_item_tv_num);}
+    public TextView geTvNum() {
+        return getView(R.id.epn_details_item_tv_num);
+    }
 
     public TextView geTvContent() {
         return getView(R.id.epn_details_item_tv_content);

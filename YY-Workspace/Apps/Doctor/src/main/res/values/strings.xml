@@ -6,6 +6,14 @@
     <string name="input_name">请输入用户名</string>
     <string name="input_pwd">请输入密码</string>
 
+    <!--通用-->
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="province">省</string>
+    <string name="city">市</string>
+    <string name="district">区</string>
+    <string name="province_city">省市</string>
+
     <!--注册-->
     <string name="register">注册</string>
     <string name="real_name">真实姓名</string>
@@ -16,7 +24,6 @@
     <string name="input_real_name">请输入真实姓名</string>
     <string name="input_right_pwd_num">请输入6~18位密码</string>
     <string name="check_pwd_is_same">请核对密码是否一致</string>
-    <string name="capcha">获取激活码</string>
     <string name="hospital">医院</string>
     <string name="guang_dong">广东省</string>
     <string name="guang_zhou">广州市</string>
@@ -26,9 +33,6 @@
     <string name="hint_not_fill">未填写</string>
     <string name="optional">选填</string>
     <string name="required">必填</string>
-
-    <string name="cancel">取消</string>
-    <string name="confirm">确定</string>
 
     <string name="open_location_service">请在系统设置中，打开“隐私-定位服务”</string>
     <string name="allow_locate_permission">并允许定位服务</string>
@@ -53,7 +57,8 @@
     <string name="title_meeting">会议</string>
     <string name="title_data">数据</string>
     <string name="title_me">我</string>
-    <string name="detail">详情</string>
+    <string name="title_detail">详情</string>
+    <string name="title_fetch_captcha">获取激活码</string>
 
     <!-- register_text -->
     <string name="register_key">激活码</string>
@@ -185,7 +190,7 @@
     <string name="download_pause">暂停下载</string>
     <string name="not_start_download">未开始下载</string>
     <string name="open_data">打开资料</string>
-    
+
     <!--设置-->
     <string name="settings">设置</string>
     <string name="check_version">检查版本更新</string>
@@ -294,7 +299,6 @@
     <string name="no_enough_epn">象数不足,无法兑换</string>
     <string name="exchange_success">兑换成功</string>
     <string name="address">详细地址</string>
-    <string name="province_city">省市</string>
     <string name="phone_num">手机号码</string>
     <string name="receiver">收货人</string>
     <string name="order_state_pending">待处理</string>

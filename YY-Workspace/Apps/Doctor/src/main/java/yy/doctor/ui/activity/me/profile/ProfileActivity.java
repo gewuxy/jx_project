@@ -30,9 +30,11 @@ import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
+import yy.doctor.Constants;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
+import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.config.GlConfig;
@@ -65,20 +67,20 @@ import static yy.doctor.model.Profile.TProfile.zone;
  */
 public class ProfileActivity extends BaseFormActivity {
 
-    private static final int KColorNormal = Color.parseColor("#666666");
-    private static final int KColorCancel = Color.parseColor("#01b557");
+    private final int KColorNormal = Color.parseColor("#666666");
+    private final int KColorCancel = Color.parseColor("#01b557");
 
-    private static final int KCodeAlbum = 100;
-    private static final int KCodePhotograph = 200;
-    private static final int KCodeClipImage = 300;
+    private final int KCodeAlbum = 100;
+    private final int KCodePhotograph = 200;
+    private final int KCodeClipImage = 300;
 
-    private static final int KPermissionCodePhoto = 0;
-    private static final int KPermissionCodeAlbum = 1;
+    private final int KPermissionCodePhoto = 0;
+    private final int KPermissionCodeAlbum = 1;
 
-    private static final int KReqUpHeaderImgId = 10;
-    private static final int KReqModifyId = 20;
+    private final int KReqUpHeaderImgId = 10;
+    private final int KReqModifyId = 20;
 
-    private static final String KPhotoCameraPrefix = "avatar";
+    private final String KPhotoCameraPrefix = "avatar";
 
     private RelativeLayout mLayoutProfileHeader;
     private NetworkImageView mIvAvatar;
@@ -87,9 +89,8 @@ public class ProfileActivity extends BaseFormActivity {
     private Bitmap mCircleBmp;
     private String mStrPhotoPath;
     private String mAvatarUrl;
-    private String mStrProvince;
-    private String mStrCity;
-    private String mStrArea;
+
+    private String[] mPcd;
 
     @IntDef({
             RelatedId.name,
@@ -137,6 +138,8 @@ public class ProfileActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
+        mPcd = new String[Pcd.KMaxCount];
+
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);
 
         addItem(new Builder(FormType.divider_large).build());
@@ -148,6 +151,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .enable(false)
                 .build());
 
+        // FIXME: EVal加入init支持R.String
         Place place = new Place();
         place.put(TPlace.province, getString(R.string.guang_dong));
         place.put(TPlace.city, getString(R.string.guang_zhou));
@@ -255,26 +259,21 @@ public class ProfileActivity extends BaseFormActivity {
                 .build());
         addItem(new Builder(FormType.divider).build());*/
 
-        String str;
-        mStrProvince = Profile.inst().getString(province);
-        mStrCity = Profile.inst().getString(city);
-        mStrArea = Profile.inst().getString(zone);
-        if (mStrArea != null) {
-            str = mStrProvince + " " + mStrCity + " " + mStrArea;
-        } else {
-            str = mStrProvince + " " + mStrCity;
-        }
         addItem(new Builder(FormType.divider).build());
+
+        mPcd[Pcd.KProvince] = Profile.inst().getString(province);
+        mPcd[Pcd.KCity] = Profile.inst().getString(TProfile.city);
+        mPcd[Pcd.KDistrict] = Profile.inst().getString(zone);
+
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name(R.string.user_city)
                 .intent(new Intent(this, ProvinceActivity.class))
-                .text(str)
+                .text(Util.generatePcd(mPcd))
                 .hint(R.string.required)
                 .build());
 
-        addItem(new Builder(FormType.divider_large)
-                .build());
+        addItem(new Builder(FormType.divider_large).build());
     }
 
     @Override
@@ -409,18 +408,18 @@ public class ProfileActivity extends BaseFormActivity {
 
         String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
         YSLog.d(TAG, "省市 = " + str);
-        mStrProvince = str.substring(0, str.indexOf(" "));
-        String[] addresses = str.split(" ");
-        mStrProvince = addresses[0];
-        mStrCity = addresses[1];
-        mStrArea = "";
-        if (addresses.length == 3) {
-            mStrArea = addresses[2];
+
+
+        mPcd = null;
+        mPcd = new String[Pcd.KMaxCount];
+        String[] addresses = str.split(Pcd.KSplit);
+        for (int i = 0; i < addresses.length; ++i) {
+            mPcd[i] = addresses[i];
         }
 
-        YSLog.d(TAG, "province = " + mStrProvince);
-        YSLog.d(TAG, "city = " + mStrCity);
-        YSLog.d(TAG, "area = " + mStrArea);
+        YSLog.d(TAG, "province = " + mPcd[Pcd.KProvince]);
+        YSLog.d(TAG, "city = " + mPcd[Pcd.KCity]);
+        YSLog.d(TAG, "area = " + mPcd[Pcd.KDistrict]);
 
         YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
         NetworkReq r = NetFactory.newModifyBuilder()
@@ -432,9 +431,9 @@ public class ProfileActivity extends BaseFormActivity {
                 .cmeId(getRelateVal(RelatedId.CME_number))
                 .licence(getRelateVal(RelatedId.certification_number))
                 .title(getRelateVal(RelatedId.title))
-                .province(mStrProvince)
-                .city(mStrCity)
-                .area(mStrArea)
+                .province(mPcd[Pcd.KProvince])
+                .city(mPcd[Pcd.KCity])
+                .area(mPcd[Pcd.KDistrict])
                 .builder();
         refresh(RefreshWay.dialog);
         exeNetworkReq(KReqModifyId, r);
@@ -482,12 +481,12 @@ public class ProfileActivity extends BaseFormActivity {
                 Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
                 Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
 
-                Profile.inst().put(TProfile.province, mStrProvince);
-                Profile.inst().put(TProfile.city, mStrCity);
-                if (TextUtil.isEmpty(mStrArea)) {
-                    Profile.inst().put(TProfile.zone, "");
+                Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
+                Profile.inst().put(city, mPcd[Pcd.KCity]);
+                if (TextUtil.isEmpty(mPcd[Pcd.KDistrict])) {
+                    Profile.inst().put(TProfile.zone, Constants.KEmptyValue);
                 } else {
-                    Profile.inst().put(TProfile.zone, mStrArea);
+                    Profile.inst().put(TProfile.zone, mPcd[Pcd.KDistrict]);
                 }
                 Profile.inst().saveToSp();
 
@@ -532,16 +531,11 @@ public class ProfileActivity extends BaseFormActivity {
 
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
-            mStrProvince = place.getString(TPlace.province);
-            mStrCity = place.getString(TPlace.city);
-            mStrArea = place.getString(TPlace.district);
-            String str;
-            if (mStrArea != null) {
-                str = mStrProvince + " " + mStrCity + " " + mStrArea;
-            } else {
-                str = mStrProvince + " " + mStrCity;
-            }
-            getRelatedItem(RelatedId.address).put(TFormElem.text, str);
+            mPcd[Pcd.KProvince] = place.getString(TPlace.province);
+            mPcd[Pcd.KCity] = place.getString(TPlace.city);
+            mPcd[Pcd.KDistrict] = place.getString(TPlace.district);
+
+            getRelatedItem(RelatedId.address).put(TFormElem.text, Util.generatePcd(mPcd));
             refreshRelatedItem(RelatedId.address);
         }
     }

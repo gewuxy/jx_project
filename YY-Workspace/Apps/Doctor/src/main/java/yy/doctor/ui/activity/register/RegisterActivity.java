@@ -25,6 +25,7 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -150,7 +151,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_tv_capcha:
-                startActivity(CapchaActivity.class);
+                startActivity(CaptchaActivity.class);
                 break;
             case R.id.register:
                 enroll();
@@ -186,9 +187,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
 
         // 检查激活码是否为空
-        String capcha = mEtCapcha.getText().toString().trim();
-        if (TextUtil.isEmpty(capcha)) {
-            showToast("请输入" + getString(R.string.capcha));
+        String captcha = mEtCapcha.getText().toString().trim();
+        if (TextUtil.isEmpty(captcha)) {
+            showToast("请输入" + getString(R.string.title_fetch_captcha));
             return;
         }
 
@@ -200,7 +201,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
 
         // 检查姓名 是否有特殊符号
-        if (RegexUtil.checkString(getItemStr(RelatedId.name))) {
+        if (RegexUtil.checkSpecialSymbol(getItemStr(RelatedId.name))) {
             showToast(R.string.input_real_name);
             return;
         }
@@ -220,11 +221,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         // 省市区
         String addresses = getItemStr(RelatedId.location);
-        String[] address = addresses.split(" ");
-        String strArea = null;
-        // area可能为空
-        if (address.length == 3) {
-            strArea = address[2];
+        String[] pcd = new String[Pcd.KDistrict];
+        String[] address = addresses.split(Pcd.KSplit);
+        for (int i = 0; i < address.length; ++i) {
+            pcd[i] = address[i];
         }
 
         //注册
@@ -233,11 +233,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .username(mUserName)
                 .linkman(getItemStr(RelatedId.name))
                 .pwd(getItemStr(RelatedId.pwd))
-                .province(address[0])
-                .city(address[1])
-                .area(strArea)
+                .province(pcd[Pcd.KProvince])
+                .city(pcd[Pcd.KCity])
+                .area(pcd[Pcd.KDistrict])
                 .hospital(getItemStr(RelatedId.hospital))
-                .invite(capcha)
+                .invite(captcha)
                 .build());
     }
 
@@ -253,20 +253,22 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
         switch (relatedId) {
             case RelatedId.hospital: {
-                String location = "";
+                // 暂时不判断, 是否保留??
                 Place place = new Place();
-                String[] locations = location.split(" ");
-                String province;
-                String city;
-                if (TextUtil.isEmpty(location)) {
-                    province = getString(R.string.guang_dong);
-                    city = getString(R.string.guang_zhou);
-                } else {
-                    province = locations[0];
-                    city = locations[1];
-                }
-                place.put(TPlace.province, province);
-                place.put(TPlace.city, city);
+//                String location = "";
+//                String[] locations = location.split(" ");
+//                String province;
+//                String city;
+//                if (TextUtil.isEmpty(location)) {
+//                    province = getString(R.string.guang_dong);
+//                    city = getString(R.string.guang_zhou);
+//                } else {
+//                    province = locations[0];
+//                    city = locations[1];
+//                }
+
+                place.put(TPlace.province, getString(R.string.guang_dong));
+                place.put(TPlace.city, getString(R.string.guang_zhou));
                 HospitalActivity.nav(RegisterActivity.this, place);
             }
             break;
@@ -278,17 +280,14 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
-            String Province = place.getString(TPlace.province);
-            String City = place.getString(TPlace.city);
-            String Area = place.getString(TPlace.district);
-            String str;
-            if (Area != null) {
-                str = Province + " " + City + " " + Area;
-            } else {
-                str = Province + " " + City;
-            }
-            getRelatedItem(RelatedId.location).put(TFormElem.name, str);
-            getRelatedItem(RelatedId.location).save(str, str);
+
+            String p = place.getString(TPlace.province);
+            String c = place.getString(TPlace.city);
+            String d = place.getString(TPlace.district);
+            String pcdStr = Util.generatePcd(p, c, d);
+
+            getRelatedItem(RelatedId.location).put(TFormElem.name, pcdStr);
+            getRelatedItem(RelatedId.location).save(pcdStr, pcdStr);
             refreshRelatedItem(RelatedId.location);
         }
     }

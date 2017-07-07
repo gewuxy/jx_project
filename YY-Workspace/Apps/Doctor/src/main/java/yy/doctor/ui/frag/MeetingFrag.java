@@ -23,11 +23,11 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
+import yy.doctor.popup.SectionPopup;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.ui.frag.meeting.NotStartedMeetingsFrag;
 import yy.doctor.ui.frag.meeting.RetrospectMeetingsFrag;
 import yy.doctor.ui.frag.meeting.UnderWayMeetingsFrag;
-import yy.doctor.popup.SectionPopup;
 
 /**
  * 会议界面

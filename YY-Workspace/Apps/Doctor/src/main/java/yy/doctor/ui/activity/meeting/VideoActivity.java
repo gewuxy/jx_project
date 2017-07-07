@@ -94,7 +94,7 @@ public class VideoActivity extends BaseActivity implements
     public void initData() {
         mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KSubmit);
-        mUriString = Util.convertUrl(mDetail.getString(TDetail.url).trim());
+        mUriString = Util.convertUrl(mDetail.getString(TDetail.url));
         mDuration = 0;
         mFirst = true;
     }

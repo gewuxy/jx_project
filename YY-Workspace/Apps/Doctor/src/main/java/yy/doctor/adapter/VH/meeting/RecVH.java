@@ -16,13 +16,14 @@ import yy.doctor.R;
  */
 
 public class RecVH extends ViewHolderEx {
+
     public RecVH(@NonNull View convertView) {
         super(convertView);
     }
 
-    /**
+    /**********************************
      * 会议
-     */
+     *********************************/
 
     public TextView getTvMeetTitle() {
         return getView(R.id.meeting_item_tv_title);
@@ -52,16 +53,16 @@ public class RecVH extends ViewHolderEx {
         return getView(R.id.meeting_item_tv_unit_num);
     }
 
-    /**
+    /**********************************
      * 单位号
-     */
+     *********************************/
 
     public NetworkImageView getIvUnitNumUN() {
-        return getView(R.id.unit_num_iv);
+        return getView(R.id.unit_num_item_iv);
     }
 
     public TextView getTvUnitNumUN() {
-        return getView(R.id.unit_num_tv);
+        return getView(R.id.unit_num_item_tv);
     }
 
     public TextView getTvMore() {

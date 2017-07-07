@@ -27,10 +27,6 @@ import yy.doctor.BuildConfig;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.UpdateNoticeDialog;
-import yy.doctor.ui.frag.DataFrag;
-import yy.doctor.ui.frag.HomeFrag;
-import yy.doctor.ui.frag.MeFrag;
-import yy.doctor.ui.frag.MeetingFrag;
 import yy.doctor.model.Profile;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
@@ -40,6 +36,10 @@ import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
+import yy.doctor.ui.frag.DataFrag;
+import yy.doctor.ui.frag.HomeFrag;
+import yy.doctor.ui.frag.MeFrag;
+import yy.doctor.ui.frag.MeetingFrag;
 
 public class MainActivity extends BaseVPActivity {
 

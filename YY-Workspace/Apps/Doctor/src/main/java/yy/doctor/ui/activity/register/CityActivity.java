@@ -1,63 +1,74 @@
 package yy.doctor.ui.activity.register;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
-import yy.doctor.model.Pca;
-import yy.doctor.model.Pca.TPca;
+import yy.doctor.R;
+import yy.doctor.model.Pcd;
+import yy.doctor.model.Pcd.TPcd;
 import yy.doctor.network.NetFactory;
+import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
  * @since 2017/5/23
  */
 
-public class CityActivity extends BasePcaActivity {
+public class CityActivity extends BasePcdActivity {
 
-    private static final int KCityRequestCode = 10;
+    private String mPcdDesc;
     private String mProvinceId;
     private String mProvince;
 
-    public static void nav(Activity activity, String id, String province) {
-        Intent i = new Intent(activity, CityActivity.class);
-        i.putExtra(Extra.KData, id);
-        i.putExtra(Extra.KProvince, province);
-        LaunchUtil.startActivityForResult(activity, i, KCityRequestCode);
+    /**
+     * @param context
+     * @param pId      省份id
+     * @param province
+     * @param pcdDesc
+     */
+    public static void nav(Context context, String pId, String province, String pcdDesc) {
+        Intent i = new Intent(context, CityActivity.class)
+                .putExtra(Extra.KPcdDesc, pcdDesc)
+                .putExtra(Extra.KProvinceId, pId)
+                .putExtra(Extra.KProvince, province);
+        LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
-        mProvinceId = getIntent().getStringExtra(Extra.KData);
+        mProvinceId = getIntent().getStringExtra(Extra.KProvinceId);
         mProvince = getIntent().getStringExtra(Extra.KProvince);
+        mPcdDesc = getIntent().getStringExtra(Extra.KPcdDesc);
+    }
+
+    @Override
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, R.string.city, this);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        if (ProvinceActivity.mLocation == null) {
-            showView(getTvLocationFailure());
-        } else {
-            goneView(getTvLocationFailure());
-            getTvLocation().setText(ProvinceActivity.mLocation);
-        }
+        setLocation(mPcdDesc);
 
         setOnAdapterClickListener((position, v) -> {
-            Pca city = getItem(position);
+            Pcd item = getItem(position);
             //如果level等于3就没有下一级了，直接返回
-            if (city.getInt(TPca.level) == 3) {
+            if (item.getInt(TPcd.level) == Pcd.KLevelEnd) {
                 Place place = new Place();
                 place.put(TPlace.province, mProvince);
-                place.put(TPlace.city, city.getString(TPca.name));
+                place.put(TPlace.city, item.getString(TPcd.name));
                 notify(NotifyType.province_finish, place);
                 finish();
             } else {
-                AreaActivity.nav(CityActivity.this, city.getString(TPca.id), mProvince, city.getString(TPca.name));
+                DistrictActivity.nav(CityActivity.this, item.getString(TPcd.id), mProvince, item.getString(TPcd.name), getLocation());
             }
         });
     }

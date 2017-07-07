@@ -28,11 +28,11 @@ public class UnitNumVH extends ViewHolderEx {
     }
 
     public NetworkImageView getIvChild() {
-        return getView(R.id.unit_num_iv);
+        return getView(R.id.unit_num_item_iv);
     }
 
     public TextView getTvChild() {
-        return getView(R.id.unit_num_tv);
+        return getView(R.id.unit_num_item_tv);
     }
 
 }

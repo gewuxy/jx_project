@@ -37,7 +37,7 @@ public class BannerActivity extends BaseWebViewActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, R.string.detail, this);
+        Util.addBackIcon(bar, R.string.title_detail, this);
         bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
             mShareDialog = new ShareDialog(BannerActivity.this, mUrl, mTitle);
             mShareDialog.show();

@@ -15,12 +15,12 @@
         android:paddingLeft="@dimen/margin">
 
         <lib.ys.network.image.NetworkImageView
-            android:id="@+id/unit_num_iv"
+            android:id="@+id/unit_num_item_iv"
             android:layout_width="52dp"
             android:layout_height="52dp"/>
 
         <TextView
-            android:id="@+id/unit_num_tv"
+            android:id="@+id/unit_num_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

@@ -18,9 +18,9 @@ import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivity;
 import yy.doctor.serv.DownloadServ;
 import yy.doctor.serv.DownloadServ.Download;
+import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 

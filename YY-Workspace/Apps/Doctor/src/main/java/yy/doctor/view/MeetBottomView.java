@@ -61,7 +61,7 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     private MeetDetail mMeetDetail; // 会议数据
 
-    private MapList<Integer,String> mMapList;
+    private MapList<Integer, String> mMapList;
 
     private HintDialogMain mDialogEpnNoEnough; // 象数不足
     private HintDialogMain mDialogPayEpn; // 支付象数
@@ -71,12 +71,17 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     public interface OnModulesListener {
         void toExam(String moduleId);
+
         void toQue(String moduleId);
+
         void toVideo(String moduleId);
+
         void toSign(String moduleId);
+
         void toCourse(String moduleId);
     }
-    public void setOnModulesListener(OnModulesListener l){
+
+    public void setOnModulesListener(OnModulesListener l) {
         mOnModulesListener = l;
     }
 
@@ -268,7 +273,7 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
             mDialogAttention.addButton("确认关注", v1 -> {
 //                refresh(AppConfig.RefreshWay.embed);
 
-                exeNetworkReq(0,NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1));
+                exeNetworkReq(0, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1));
             });
             mDialogAttention.addButton(R.string.cancel, "#666666", v1 -> mDialogAttention.dismiss());
             mDialogAttention.show();
@@ -277,31 +282,31 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     private void toClickModule(View v) {
         switch (v.getId()) {
-            case R.id.meet_module_layout_exam:{
+            case R.id.meet_module_layout_exam: {
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toExam(mMapList.getByKey(ModuleType.exam));
                 }
             }
-                break;
-            case R.id.meet_module_layout_que:{
+            break;
+            case R.id.meet_module_layout_que: {
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toQue(mMapList.getByKey(ModuleType.que));
                 }
             }
             break;
-            case R.id.meet_module_layout_video:{
+            case R.id.meet_module_layout_video: {
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toVideo(mMapList.getByKey(ModuleType.video));
                 }
             }
             break;
-            case R.id.meet_module_layout_sign:{
+            case R.id.meet_module_layout_sign: {
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toSign(mMapList.getByKey(ModuleType.sign));
                 }
             }
             break;
-            case R.id.meet_module_layout_course:{
+            case R.id.meet_module_layout_course: {
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toCourse(mMapList.getByKey(ModuleType.ppt));
                 }

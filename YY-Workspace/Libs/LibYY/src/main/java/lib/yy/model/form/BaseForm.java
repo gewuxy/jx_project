@@ -71,15 +71,26 @@ abstract public class BaseForm extends FormEx<FormVH> {
                 showToast(getString(TFormElem.toast));
             }
             return false;
-        }
+        }/* else {
+            // TODO: 完善form regex
+            String regex = getString(TFormElem.regex);
+            boolean match = RegexUtil.match(regex, getString(val));
+            if (match) {
+                return true;
+            } else {
+                showToast("格式不匹配, 不能含有......");
+                return false;
+            }
+        }*/
         return true;
     }
-//
-//    /**
-//     * 检测"请上传"选项
-//     *
-//     * @return
-//     */
+
+
+    /**
+     * 检测"请上传"选项
+     *
+     * @return
+     */
 //    protected boolean checkUpload() {
 //        List list = getList(TFormElem.data);
 //        if (list == null || list.isEmpty()) {
@@ -92,16 +103,17 @@ abstract public class BaseForm extends FormEx<FormVH> {
 //        }
 //        return true;
 //    }
-//
-//    protected boolean checkSelector() {
-//        if (isEmpty(getString(TFormElem.val))) {
-//            if (getString(TFormElem.toast).isEmpty()) {
-//                showToast(ResLoader.getString(R.string.toast_hint_select) + getString(TFormElem.name));
-//            } else {
-//                showToast(getString(TFormElem.toast));
-//            }
-//            return false;
-//        }
-//        return true;
-//    }
+
+    //
+    protected boolean checkSelector() {
+        if (isEmpty(getString(TFormElem.val))) {
+            if (getString(TFormElem.toast).isEmpty()) {
+                showToast(ResLoader.getString(R.string.toast_hint_select) + getString(TFormElem.name));
+            } else {
+                showToast(getString(TFormElem.toast));
+            }
+            return false;
+        }
+        return true;
+    }
 }

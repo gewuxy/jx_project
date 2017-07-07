@@ -51,7 +51,7 @@ public class TextRegisterIntentForm extends BaseForm {
 
         String strProvince = data.getStringExtra(Extra.KProvince);
         String strCity = data.getStringExtra(Extra.KCity);
-        String strArea = data.getStringExtra(Extra.KArea);
+        String strArea = data.getStringExtra(Extra.KDistrict);
         String text;
         if (strArea == null) {
             text = strProvince + " " + strCity;

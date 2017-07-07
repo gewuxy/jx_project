@@ -5,10 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.util.TimeUtil;
-import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.adapter.VH.HomeVH;
 import yy.doctor.model.home.IHome;
@@ -16,6 +13,9 @@ import yy.doctor.model.home.IHome.HomeType;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecMeeting.TRecMeeting;
 import yy.doctor.model.home.RecUnitNums;
+import yy.doctor.model.meet.Meeting.MeetState;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 
@@ -51,7 +51,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
             holder.getTvTitle().setText(item.getString(TRecMeeting.meetName));
 
             //判断会议状态
-            @MeetsState int state = item.getInt(TRecMeeting.state);
+            @MeetState int state = item.getInt(TRecMeeting.state);
             UISetter.setMeetState(state, holder.getTvStatus());
 
             holder.getTvSection().setText(item.getString(TRecMeeting.meetType));

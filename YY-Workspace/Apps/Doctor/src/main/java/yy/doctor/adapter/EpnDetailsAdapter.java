@@ -36,15 +36,15 @@ public class EpnDetailsAdapter extends AdapterEx<EpnDetails, EpnDetailsVH> {
         // 判断是奖励还是支付，充值
         int resId = 0;
         switch (item.getInt(TEpnDetails.type)) {
-            case EpnDetailType.pay:{
+            case EpnDetailType.pay: {
                 resId = R.string.pay;
             }
             break;
-            case EpnDetailType.recharge:{
+            case EpnDetailType.recharge: {
                 resId = R.string.epn_detail_recharge;
             }
             break;
-            case EpnDetailType.award:{
+            case EpnDetailType.award: {
                 resId = R.string.award;
             }
             break;

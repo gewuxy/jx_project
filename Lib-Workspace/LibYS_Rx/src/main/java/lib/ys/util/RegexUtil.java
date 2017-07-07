@@ -55,15 +55,14 @@ public class RegexUtil {
     /**
      * 检查输入的数据中是否有特殊字符
      *
-     * @param qString 要检查的数据
-     * @param regx    特殊字符正则表达式
+     * @param input 要检查的数据
+     * @param regex 特殊字符正则表达式
      * @return boolean 如果包含正则表达式 <code> regx </code> 中定义的特殊字符，返回true； 否则返回false
      */
-    private static boolean hasCrossScriptRisk(String qString, String regx) {
-        if (qString != null) {
-            qString = qString.trim();
-            Pattern p = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(qString);
+    private static boolean hasCrossScriptRisk(CharSequence input, String regex) {
+        if (input != null) {
+            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(input);
             return m.find();
         }
         return false;
@@ -72,14 +71,14 @@ public class RegexUtil {
     /**
      * 检查输入的数据中是否有特殊字符
      *
-     * @param qString 要检查的数据
+     * @param input 要检查的数据
      * @return boolean 如果包含正则表达式 <code> regex </code> 中定义的特殊字符，返回true； 否则返回false
      */
-    public static boolean checkString(String qString) {
+    public static boolean checkSpecialSymbol(CharSequence input) {
         // String regx =
         // "!|！|@|◎|#|＃|(\\$)|￥|%|％|(\\^)|……|(\\&)|※|(\\*)|×|(\\()|（|(\\))|）|_|——|(\\+)|＋|(\\|)|§ ";
         String regex = "[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
-        return hasCrossScriptRisk(qString, regex);
+        return hasCrossScriptRisk(input, regex);
     }
 
     /**
@@ -108,7 +107,7 @@ public class RegexUtil {
      * @param str   要匹配的字符串
      * @return 如果str 符合 regex的正则表达式格式,返回<b>true</b>, 否则返回 <b>false</b>;
      */
-    private static boolean match(String regex, CharSequence str) {
+    public static boolean match(String regex, CharSequence str) {
         if (!TextUtils.isEmpty(str)) {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(str);

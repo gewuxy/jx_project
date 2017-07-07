@@ -29,21 +29,6 @@ public interface Constants extends BaseConstants {
         String KPptX = "pptx";
     }
 
-    /**
-     * 会议状态
-     */
-    @IntDef({
-            MeetsState.not_started,
-            MeetsState.under_way,
-            MeetsState.retrospect,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface MeetsState {
-        int not_started = 1; // 未开始
-        int under_way = 2; // 进行中
-        int retrospect = 3; // 精彩回顾
-    }
-
     @IntDef({
             DateUnit.hour,
             DateUnit.minute,
@@ -191,5 +176,4 @@ public interface Constants extends BaseConstants {
             return mDoctorCategory;
         }
     }
-
 }

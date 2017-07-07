@@ -6,10 +6,10 @@ import android.view.View.OnClickListener;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.fitter.DpFitter;
 import lib.ys.network.image.renderer.CircleRenderer;
-import yy.doctor.Constants.MeetsState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.util.UISetter;
@@ -39,7 +39,7 @@ public class MeetingAdapter extends AdapterEx<Meeting, MeetingVH> {
 
         holder.getTvTitle().setText(item.getString(TMeeting.meetName));
 
-        @MeetsState int state = item.getInt(TMeeting.state);
+        @MeetState int state = item.getInt(TMeeting.state);
         UISetter.setMeetState(state, holder.getTvState());
 
         holder.getTvSection().setText(item.getString(TMeeting.meetType));

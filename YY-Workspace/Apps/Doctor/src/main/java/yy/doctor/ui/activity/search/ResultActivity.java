@@ -20,8 +20,6 @@ import lib.yy.network.ListResult;
 import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.adapter.meeting.RecAdapter;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
@@ -33,6 +31,8 @@ import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.util.Util;
 
 /**

@@ -17,7 +17,7 @@ public class ThomsonDetail extends EVal<TThomsonDetail> {
         categoryId, //
         dataFrom, //
         author, // 作者
-        fileSize, // 文件大小
+        fileSize, // 文件大小, 单位: KB
         filePath, // 文件地址
         rootCategory, //
         summary, //

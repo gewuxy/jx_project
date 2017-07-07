@@ -26,9 +26,12 @@ public interface Extra {
     String KLatitude = "latitude";//维度
     String KLongitude = "longitude";//经度
 
+    String KPcdDesc = "pcd_desc";
     String KProvince = "province";
+    String KProvinceId = "province_id";
     String KCity = "city";
-    String KArea = "area";
+    String KCityId = "city_id";
+    String KDistrict = "district";
 
     String KMeetingType = "meeting";
     String KUnitNumType = "unitNum";

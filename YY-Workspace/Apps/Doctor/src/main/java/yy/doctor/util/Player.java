@@ -1,8 +1,8 @@
 package yy.doctor.util;
 
 import com.pili.pldroid.player.PLMediaPlayer;
-import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 import com.pili.pldroid.player.PLMediaPlayer.OnCompletionListener;
+import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 
 import java.io.File;
 

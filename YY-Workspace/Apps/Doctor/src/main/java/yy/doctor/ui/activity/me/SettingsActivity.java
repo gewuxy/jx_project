@@ -269,16 +269,6 @@ public class SettingsActivity extends BaseFormActivity {
                                 showToast(R.string.clear_img_cache_success);
                             }
                         });
-
-//                Observable.just("")
-//                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(s -> {
-//                            getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
-//                            refreshRelatedItem(RelatedId.clear_img_cache);
-//                            showToast(R.string.clear_img_cache_success);
-//                        });
             }
         });
         dialog.addItem(getString(R.string.clear_img_cache), KColorNormal);
@@ -307,16 +297,6 @@ public class SettingsActivity extends BaseFormActivity {
                                 showToast(getString(R.string.clear_sound_cache_success));
                             }
                         });
-
-//                Observable.just("")
-//                        .doOnSubscribe(disposable -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(s -> {
-//                            getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
-//                            refreshRelatedItem(RelatedId.clear_sound_cache);
-//                            showToast(getString(R.string.clear_sound_cache_success));
-//                        });
             }
         });
         dialog.addItem(getString(R.string.clear_sound_cache), KColorNormal);

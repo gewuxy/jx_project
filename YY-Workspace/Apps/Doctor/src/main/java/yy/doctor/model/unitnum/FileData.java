@@ -12,7 +12,7 @@ public class FileData extends EVal<TFileData> {
     public enum TFileData {
 
         id,  //资料id
-        fileSize, // 文件大小
+        fileSize, // 文件大小, 单位: byte
         createTime,
 
         materialName,   //资料名称

@@ -63,7 +63,7 @@
             android:name=".ui.activity.register.HospitalActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.CapchaActivity"
+            android:name=".ui.activity.register.CaptchaActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.register.ProvinceActivity"
@@ -72,10 +72,10 @@
             android:name=".ui.activity.register.CityActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.AreaActivity"
+            android:name=".ui.activity.register.DistrictActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.BasePcaActivity"
+            android:name=".ui.activity.register.BasePcdActivity"
             android:screenOrientation="portrait"/>
 
 

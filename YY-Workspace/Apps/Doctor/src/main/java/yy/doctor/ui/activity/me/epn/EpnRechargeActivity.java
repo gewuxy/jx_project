@@ -142,10 +142,10 @@ public class EpnRechargeActivity extends BaseActivity {
                 String editStr = mEtRechargeNum.getText().toString().trim();
                 String str = getString(R.string.epn_unit);
                 if (TextUtil.isEmpty(editStr)) {
-                    epnNum = String.format(str,0);
+                    epnNum = String.format(str, 0);
                 } else {
                     payNum = Long.valueOf(editStr);
-                    epnNum = String.format(str,payNum * 10);
+                    epnNum = String.format(str, payNum * 10);
                 }
                 mTvEpnRechargeNum.setText(epnNum);
                 // 恢复监听

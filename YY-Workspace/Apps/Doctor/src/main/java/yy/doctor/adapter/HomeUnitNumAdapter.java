@@ -6,11 +6,11 @@ import android.widget.TextView;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.adapter.VH.HomeUnitNumVH;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.util.UISetter;
 
 /**

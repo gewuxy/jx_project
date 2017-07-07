@@ -90,7 +90,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
     }
 
     protected void setPic() {
-        String imgUrl = Util.convertUrl(getDetail().getString(TCourse.imgUrl).trim());
+        String imgUrl = Util.convertUrl(getDetail().getString(TCourse.imgUrl));
 
         if (!TextUtil.isEmpty(imgUrl)) {
             mIvPPT.url(imgUrl)
@@ -107,7 +107,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
 
     protected void setAudio() {
         mIsCompleted = false;
-        String audioUrl = Util.convertUrl(getDetail().getString(TCourse.audioUrl).trim());
+        String audioUrl = Util.convertUrl(getDetail().getString(TCourse.audioUrl));
 
         // 文件名
         String type = audioUrl.substring(audioUrl.lastIndexOf(".") + 1);

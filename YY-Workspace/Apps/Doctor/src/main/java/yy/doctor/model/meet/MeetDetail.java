@@ -15,7 +15,12 @@ import yy.doctor.model.unitnum.FileData;
 public class MeetDetail extends EVal<TMeetDetail> {
     public enum TMeetDetail {
         id,
+
+        /**
+         * {@link yy.doctor.model.meet.Meeting.MeetState}
+         */
         state, // 会议状态
+
         stored, // 是否收藏 0收藏,1没有收藏
         attention, // 是否关注了
 

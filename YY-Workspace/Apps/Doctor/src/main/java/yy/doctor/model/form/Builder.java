@@ -85,7 +85,7 @@ public class Builder extends FormBuilderEx<BaseForm> {
                 form = new EditNumberForm();
             }
             break;
-            case FormType.et_phone_number:{
+            case FormType.et_phone_number: {
                 form = new EditPhoneNumberForm();
             }
             break;
