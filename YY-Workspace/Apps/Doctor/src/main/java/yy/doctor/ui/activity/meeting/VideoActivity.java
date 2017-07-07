@@ -346,6 +346,7 @@ public class VideoActivity extends BaseActivity implements
         mVideo.recycle();
         mVideo.prepared(mAllTime);
         mIvControl.setSelected(true);
+        goneView(mViewLoad);
         mFirst = false;
     }
 
