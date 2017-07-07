@@ -36,6 +36,7 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
@@ -310,47 +311,30 @@ public class MeetingDetailsActivity extends BaseActivity {
                     toClickModule(v);
                 } else {
                     // 没有参加过
-                    if (mEpn > 0) {
-                        int surplus = Profile.inst().getInt(TProfile.credits); // 剩余象数
-                        if (needPay(mEpnType)) {
-                            // 需要象数的
-                            if (surplus < mEpn) {
-                                // 象数不足
-                                mNoEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                                mNoEpnDialog.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
-                                mNoEpnDialog.addButton("充值象数", v1 -> {
-                                    mNoEpnDialog.dismiss();
-                                    startActivity(EpnRechargeActivity.class);
-                                });
-                                mNoEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mNoEpnDialog.dismiss());
-                                mNoEpnDialog.show();
-                            } else {
-                                mPayEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
-                                mPayEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
-                                mPayEpnDialog.addButton("确认支付", v1 -> {
-                                    mMeetDetail.put(TMeetDetail.attended, true); // 支付象数 (参加过会议)
-                                    Profile.inst().put(TProfile.credits, surplus - mEpn);
-                                    Profile.inst().saveToSp();
-                                    notify(NotifyType.profile_change);
-                                    mPayEpnDialog.dismiss();
-                                    toClickModule(v);
-                                });
-                                mPayEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mPayEpnDialog.dismiss());
-                                mPayEpnDialog.show();
-                            }
+                    if (mEpn > 0 && needPay(mEpnType)) {
+                        // 需要象数的
+                        if (Profile.inst().getInt(TProfile.credits) < mEpn) {
+                            // 象数不足
+                            mNoEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
+                            mNoEpnDialog.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
+                            mNoEpnDialog.addButton("充值象数", v1 -> {
+                                mNoEpnDialog.dismiss();
+                                startActivity(EpnRechargeActivity.class);
+                            });
+                            mNoEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mNoEpnDialog.dismiss());
+                            mNoEpnDialog.show();
                         } else {
-                            // FIXME: 2017/6/30 应该后台返回正确的,多人操作的时候
-                            if (mMeetDetail.getInt(TMeetDetail.remainAward) > 0) {
-                                // 奖励人数大于0奖励象数的
-                                Profile.inst().put(TProfile.credits, surplus + mEpn);
-                                Profile.inst().saveToSp();
-                                notify(NotifyType.profile_change);
-                            }
-                            mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
-                            toClickModule(v);
+                            mPayEpnDialog = new HintDialogMain(MeetingDetailsActivity.this);
+                            mPayEpnDialog.setHint("本会议需要支付" + mEpn + "象数");
+                            mPayEpnDialog.addButton("确认支付", v1 -> {
+                                mPayEpnDialog.dismiss();
+                                toClickModule(v);
+                            });
+                            mPayEpnDialog.addButton(R.string.cancel, "#666666", v1 -> mPayEpnDialog.dismiss());
+                            mPayEpnDialog.show();
                         }
                     } else {
-                        // 免费直接参加
+                        // 免费或者奖励直接参加
                         toClickModule(v);
                     }
                 }
@@ -366,6 +350,29 @@ public class MeetingDetailsActivity extends BaseActivity {
             mAttentionDialog.addButton(R.string.cancel, "#666666", v1 -> mAttentionDialog.dismiss());
             mAttentionDialog.show();
         }
+    }
+
+    /**
+     * 改变象数
+     */
+    private void notifyEpn() {
+        if (mEpn == 0) {
+            return;
+        }
+
+        int surplus = Profile.inst().getInt(TProfile.credits); // 剩余象数
+        if (needPay(mEpnType)) {
+            Profile.inst().put(TProfile.credits, surplus - mEpn);
+        } else {
+            // FIXME: 2017/6/30 应该后台返回正确的,多人操作的时候
+            if (mMeetDetail.getInt(TMeetDetail.remainAward) > 0) {
+                // 奖励人数大于0奖励象数的
+                Profile.inst().put(TProfile.credits, surplus + mEpn);
+            }
+        }
+        Profile.inst().saveToSp();
+        notify(NotifyType.profile_change);
+        mMeetDetail.put(TMeetDetail.attended, true); // 参加过会议
     }
 
     /**
@@ -439,6 +446,7 @@ public class MeetingDetailsActivity extends BaseActivity {
      * 视频
      */
     private void getVideoInfo() {
+        notifyEpn();
         Submit submit = new Submit();
         submit.put(TSubmit.meetId, mMeetId);
         submit.put(TSubmit.moduleId, mMapList.getByKey(FunctionType.video));
@@ -509,6 +517,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 stopRefresh();
                 Result r = (Result) result;
                 if (r.isSucceed()) {
+                    notifyEpn();
                     mStartModuleTime = System.currentTimeMillis();
                     ExamIntroActivity.nav(MeetingDetailsActivity.this,
                             mMeetId, mMapList.getByKey(FunctionType.exam),
@@ -523,6 +532,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 stopRefresh();
                 Result r = (Result) result;
                 if (r.isSucceed()) {
+                    notifyEpn();
                     mStartModuleTime = System.currentTimeMillis();
                     QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, mMapList.getByKey(FunctionType.que));
                 } else {
@@ -539,6 +549,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 stopRefresh();
                 Result<Sign> r = (Result<Sign>) result;
                 if (r.isSucceed()) {
+                    notifyEpn();
                     Sign signData = r.getData();
                     // 判断是否已签到
                     if (signData.getBoolean(TSign.finished)) {
@@ -565,6 +576,7 @@ public class MeetingDetailsActivity extends BaseActivity {
                 stopRefresh();
                 Result<PPT> r = (Result<PPT>) result;
                 if (r.isSucceed()) {
+                    notifyEpn();
                     PPT ppt = r.getData();
                     CourseInfo courseInfo = ppt.getEv(TPPT.course);
                     if (courseInfo != null) {
