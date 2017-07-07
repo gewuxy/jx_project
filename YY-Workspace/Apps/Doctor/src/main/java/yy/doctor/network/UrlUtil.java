@@ -22,7 +22,7 @@ public class UrlUtil {
 //            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
-            mBaseHost = "www.medcn.com:8080/v7/";
+            mBaseHost = "app.medyaya.cn/v7/";
         }
 
         mHostName = KHttpDef + mBaseHost;
