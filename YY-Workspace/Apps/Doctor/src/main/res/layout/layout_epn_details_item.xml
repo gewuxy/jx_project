@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/epn_details_item_tv_status"
-            android:text="12"
+            android:layout_marginLeft="4dp"
             android:textSize="14dp"
             android:textColor="@color/text_006ebd"/>
 
@@ -63,7 +63,6 @@
             android:layout_below="@+id/epn_details_item_tv_num"
             android:layout_marginTop="16dp"
             android:lineSpacingExtra="12dp"
-            android:text="及时的发货及时看是的尽快发空间撒是的开放接口都是是的肌肤可使肌肤可是对方开始的减肥可见分开的肌肤"
             android:textSize="14dp"
             android:textColor="@color/text_006ebd"/>
 

@@ -1,14 +1,15 @@
 package yy.doctor.adapter;
 
-import java.util.List;
-
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
+import yy.doctor.Constants.EpnDetailType;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.EpnDetailsVH;
 import yy.doctor.model.me.EpnDetails;
 import yy.doctor.model.me.EpnDetails.TEpnDetails;
+
+import static lib.ys.util.res.ResLoader.getString;
 
 /**
  * 象数详情的adapter
@@ -26,11 +27,29 @@ public class EpnDetailsAdapter extends AdapterEx<EpnDetails, EpnDetailsVH> {
     @Override
     protected void refreshView(int position, EpnDetailsVH holder) {
 
-        List<EpnDetails> list = getData();
-        String strTime = TimeUtil.formatMilli(list.get(position).getLong(TEpnDetails.costTime), TimeFormat.from_y_to_m_24);
+        EpnDetails item = getItem(position);
+        String strTime = TimeUtil.formatMilli(item.getLong(TEpnDetails.costTime), TimeFormat.from_y_to_m_24);
         holder.geTvTime().setText(strTime);
-        holder.geTvNum().setText(list.get(position).getString(TEpnDetails.cost));
-        holder.geTvContent().setText(list.get(position).getString(TEpnDetails.description));
+        holder.geTvNum().setText(String.format(getString(R.string.epn_unit), item.getInt(TEpnDetails.cost)));
+        holder.geTvContent().setText(item.getString(TEpnDetails.description));
+
+        // 判断是奖励还是支付，充值
+        int resId = 0;
+        switch (item.getInt(TEpnDetails.type)) {
+            case EpnDetailType.pay:{
+                resId = R.string.pay;
+            }
+            break;
+            case EpnDetailType.recharge:{
+                resId = R.string.epn_detail_recharge;
+            }
+            break;
+            case EpnDetailType.award:{
+                resId = R.string.award;
+            }
+            break;
+        }
+        holder.geTvType().setText(resId);
 
     }
 

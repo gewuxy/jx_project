@@ -15,7 +15,7 @@ public class EpnDetails extends EVal<TEpnDetails> {
         costTime,
         oppositeName,
         description,
-        type,
+        type,  // 0表示支付 1表示充值 2表示获得
     }
 
 }

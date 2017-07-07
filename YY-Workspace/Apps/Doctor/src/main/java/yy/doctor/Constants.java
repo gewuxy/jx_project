@@ -70,6 +70,18 @@ public interface Constants extends BaseConstants {
         int received = 3; // 已签收
     }
 
+    @IntDef({
+            EpnDetailType.pay,
+            EpnDetailType.recharge,
+            EpnDetailType.award
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface EpnDetailType {
+        int pay = 0;  // 表示支付
+        int recharge = 1; // 1表示充值
+        int award = 2;  // 2表示获得
+    }
+
     /**
      * 性别
      */

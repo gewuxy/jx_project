@@ -262,6 +262,9 @@
     <string name="recharge">充值</string>
     <string name="know_epn">了解象数</string>
     <string name="use_rule">使用规则</string>
+    <string name="pay">支付 :</string>
+    <string name="award">奖励 :</string>
+    <string name="epn_detail_recharge">充值 :</string>
 
     <!--象数充值-->
     <string name="epn_balance">象数余额:</string>
