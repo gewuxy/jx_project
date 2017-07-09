@@ -221,7 +221,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         // 省市区
         String addresses = getItemStr(RelatedId.location);
-        String[] pcd = new String[Pcd.KDistrict];
+        String[] pcd = new String[Pcd.KMaxCount];
         String[] address = addresses.split(Pcd.KSplit);
         for (int i = 0; i < address.length; ++i) {
             pcd[i] = address[i];

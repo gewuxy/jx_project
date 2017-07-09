@@ -68,7 +68,7 @@ public class Util extends BaseUtil {
     }
 
     public static String generatePcd(String[] pcd) {
-        if (pcd.length < Pcd.KMaxCount) {
+        if (pcd == null || pcd.length < Pcd.KMaxCount) {
             return Constants.KEmptyValue;
         }
         return generatePcd(pcd[Pcd.KProvince], pcd[Pcd.KCity], pcd[Pcd.KDistrict]);
