@@ -132,7 +132,9 @@
         <activity
             android:name=".ui.activity.search.ResultActivity"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".ui.frag.meeting.course.TestMeetingCourseActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- data -->
         <activity

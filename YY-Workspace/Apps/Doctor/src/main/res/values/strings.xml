@@ -135,7 +135,12 @@
         <item>自定义</item>
     </string-array>
 
-    <!--Meeting_exam-->
+    <!-- Meeting -->
+    <string name="meeting_epn_pay">本次会议需支付象数: %d 个</string>
+    <string name="meeting_epn_award">本次会议奖励象数: %1$d 个, 还有 %2$d 人可领取</string>
+    <string name="meeting_file_more">查看全部 %d 个文件</string>
+
+    <!-- Meeting_exam -->
     <string name="exam">考试</string>
     <string name="exam_no_start">考试还未开始</string>
     <string name="exam_stop">考试已停止答卷</string>
@@ -152,11 +157,13 @@
     <string name="cancel_collect">取消收藏成功</string>
     <string name="collect">收藏成功</string>
     <string name="que">问卷</string>
-    <string name="sign">签到</string>
     <string name="submit">提交</string>
     <string name="enough">象数不足</string>
     <string name="need_pay">"本会议需要支付%d象数"</string>
 
+    <!-- Meeting_sign -->
+    <string name="sign">签到</string>
+    <string name="signed">已签到</string>
 
     <string name="video">视频</string>
     <string name="meet">会议</string>

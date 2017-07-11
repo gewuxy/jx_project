@@ -1,5 +1,10 @@
 package yy.doctor.model.meet;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
@@ -13,6 +18,17 @@ import yy.doctor.model.unitnum.FileData;
  */
 
 public class MeetDetail extends EVal<TMeetDetail> {
+
+    @IntDef({
+            CollectType.cancel,
+            CollectType.collect,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CollectType {
+        int cancel = 0; // 收藏
+        int collect = 1; // 没有收藏
+    }
+
     public enum TMeetDetail {
         id,
 

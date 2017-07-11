@@ -114,7 +114,7 @@
         </LinearLayout>
     </ScrollView>
     <!-- 底部按钮 -->
-    <yy.doctor.view.MeetBottomView
+    <yy.doctor.view.MeetModuleView
         android:id="@+id/meeting_detail_modules"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"

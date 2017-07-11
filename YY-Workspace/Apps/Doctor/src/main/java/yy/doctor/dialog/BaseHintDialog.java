@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
@@ -109,11 +110,19 @@ public class BaseHintDialog extends BaseDialog {
      * @return
      */
     public void addButton(String text, String colorString, OnClickListener l) {
+        addBut(text, Color.parseColor(colorString), l);
+    }
+
+    public void addButton(@StringRes int strRes, int resId, OnClickListener l) {
+        addBut(getContext().getString(strRes), ResLoader.getColor(resId), l);
+    }
+
+    private void addBut(String text, int colorId, OnClickListener l) {
         TextView tv = new TextView(getContext());
         tv.setBackgroundResource(R.drawable.item_selector);
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
-        tv.setTextColor(Color.parseColor(colorString));
+        tv.setTextColor(colorId);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         tv.setOnClickListener(l);
         addButtons(tv);
