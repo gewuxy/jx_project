@@ -155,6 +155,8 @@
     <string name="sign">签到</string>
     <string name="submit">提交</string>
     <string name="enough">象数不足</string>
+    <string name="need_pay">"本会议需要支付%d象数"</string>
+
 
     <string name="video">视频</string>
     <string name="meet">会议</string>

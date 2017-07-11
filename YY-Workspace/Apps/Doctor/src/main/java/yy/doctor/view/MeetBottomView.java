@@ -16,28 +16,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-import lib.network.model.NetworkReq;
-import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
-import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.model.MapList;
-import lib.ys.ui.interfaces.impl.NetworkOpt;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.Module;
 import yy.doctor.model.meet.Module.TModule;
-import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
 
 /**
  * 会议底下的模块
@@ -45,7 +36,7 @@ import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
  * @auther : GuoXuan
  * @since : 2017/7/3
  */
-public class MeetBottomView extends LinearLayout implements OnClickListener, OnNetworkListener {
+public class MeetBottomView extends LinearLayout implements OnClickListener {
 
     private final int KTextColor = ResLoader.getColor(R.color.text_333); // 有模块时的颜色
     private final int KExamResId = R.mipmap.meeting_ic_exam_have; // 考试
@@ -61,28 +52,19 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     private MeetDetail mMeetDetail; // 会议数据
 
-    private MapList<Integer, String> mMapList;
-
-    private HintDialogMain mDialogEpnNoEnough; // 象数不足
-    private HintDialogMain mDialogPayEpn; // 支付象数
-    private HintDialogMain mDialogAttention; // 关注单位号
-    private NetworkOpt mNetworkImpl;
+    private MapList<Integer,String> mMapList;
     private OnModulesListener mOnModulesListener;
 
-    public interface OnModulesListener {
-        void toExam(String moduleId);
-
-        void toQue(String moduleId);
-
-        void toVideo(String moduleId);
-
-        void toSign(String moduleId);
-
-        void toCourse(String moduleId);
-    }
-
-    public void setOnModulesListener(OnModulesListener l) {
-        mOnModulesListener = l;
+    @IntDef({
+            HintType.attention,
+            HintType.pay,
+            HintType.recharge,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface HintType {
+        int attention = 0;
+        int pay = 1;
+        int recharge = 2;
     }
 
     @IntDef({
@@ -93,7 +75,7 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
             ModuleType.sign,
     })
     @Retention(RetentionPolicy.SOURCE)
-    private @interface ModuleType {
+    public @interface ModuleType {
         int ppt = 1; // 微课
         int video = 2; // 视频
         int exam = 3; // 考试
@@ -106,10 +88,23 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
             EpnType.award,
     })
     @Retention(RetentionPolicy.SOURCE)
-    private @interface EpnType {
+    public  @interface EpnType {
         int need = 0; // 需要象数
         int award = 1; // 奖励象数
     }
+
+    public interface OnModulesListener {
+        void toExam(String moduleId);
+        void toQue(String moduleId);
+        void toVideo(String moduleId);
+        void toSign(String moduleId);
+        void toCourse(String moduleId);
+        void toHint(int type);
+    }
+    public void setOnModulesListener(OnModulesListener l){
+        mOnModulesListener = l;
+    }
+
 
     private boolean needPay(@EpnType int type) {
         if (type == EpnType.need) {
@@ -207,7 +202,7 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     @Override
     public void onClick(View v) {
-        if (mMeetDetail.getBoolean(TMeetDetail.attention) || true) {
+        if (mMeetDetail.getBoolean(TMeetDetail.attention)) {
             // 关注了
             if (mMeetDetail.getBoolean(TMeetDetail.attendAble)) {
                 // 可以参加
@@ -224,27 +219,14 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
                             // 需要象数的
                             if (surplus < epn) {
                                 // 象数不足
-                                mDialogEpnNoEnough = new HintDialogMain(getContext());
-                                mDialogEpnNoEnough.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
-                                mDialogEpnNoEnough.addButton("充值象数", v1 -> {
-                                    mDialogEpnNoEnough.dismiss();
-                                    LaunchUtil.startActivity(getContext(), EpnRechargeActivity.class);
-                                });
-                                mDialogEpnNoEnough.addButton(R.string.cancel, "#666666", v1 -> mDialogEpnNoEnough.dismiss());
-                                mDialogEpnNoEnough.show();
+                                if (mOnModulesListener != null) {
+                                    mOnModulesListener.toHint(HintType.recharge);
+                                }
                             } else {
-                                mDialogPayEpn = new HintDialogMain(getContext());
-                                mDialogPayEpn.setHint("本会议需要支付" + epn + "象数");
-                                mDialogPayEpn.addButton("确认支付", v1 -> {
-                                    mMeetDetail.put(TMeetDetail.attended, true); // 支付象数 (参加过会议)
-                                    Profile.inst().put(TProfile.credits, surplus - epn);
-                                    Profile.inst().saveToSp();
-                                    notify(NotifyType.profile_change);
-                                    mDialogPayEpn.dismiss();
-                                    toClickModule(v);
-                                });
-                                mDialogPayEpn.addButton(R.string.cancel, "#666666", v1 -> mDialogPayEpn.dismiss());
-                                mDialogPayEpn.show();
+                                // 支付
+                                if (mOnModulesListener != null) {
+                                    mOnModulesListener.toHint(HintType.pay);
+                                }
                             }
                         } else {
                             // FIXME: 2017/6/30 应该后台返回正确的,多人操作的时候
@@ -252,7 +234,7 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
                                 // 奖励人数大于0奖励象数的
                                 Profile.inst().put(TProfile.credits, surplus + epn);
                                 Profile.inst().saveToSp();
-                                notify(NotifyType.profile_change);
+                                Notifier.inst().notify(NotifyType.profile_change);
                             }
                             mMeetDetail.put(TMeetDetail.attended, true); // 奖励象数 (参加过会议)
                             toClickModule(v);
@@ -264,49 +246,42 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
                 }
             } else {
                 // 不能参加的原因
-                showToast(mMeetDetail.getString(TMeetDetail.reason));
+                AppEx.showToast(mMeetDetail.getString(TMeetDetail.reason));
             }
         } else {
-            // 提示关注
-            mDialogAttention = new HintDialogMain(getContext());
-            mDialogAttention.setHint("请先关注会议");
-            mDialogAttention.addButton("确认关注", v1 -> {
-//                refresh(AppConfig.RefreshWay.embed);
-
-                exeNetworkReq(0, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1));
-            });
-            mDialogAttention.addButton(R.string.cancel, "#666666", v1 -> mDialogAttention.dismiss());
-            mDialogAttention.show();
+            if (mOnModulesListener != null) {
+                mOnModulesListener.toHint(HintType.attention);
+            }
         }
     }
 
     private void toClickModule(View v) {
         switch (v.getId()) {
-            case R.id.meet_module_layout_exam: {
+            case R.id.meet_module_layout_exam:{
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toExam(mMapList.getByKey(ModuleType.exam));
                 }
             }
-            break;
-            case R.id.meet_module_layout_que: {
+                break;
+            case R.id.meet_module_layout_que:{
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toQue(mMapList.getByKey(ModuleType.que));
                 }
             }
             break;
-            case R.id.meet_module_layout_video: {
+            case R.id.meet_module_layout_video:{
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toVideo(mMapList.getByKey(ModuleType.video));
                 }
             }
             break;
-            case R.id.meet_module_layout_sign: {
+            case R.id.meet_module_layout_sign:{
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toSign(mMapList.getByKey(ModuleType.sign));
                 }
             }
             break;
-            case R.id.meet_module_layout_course: {
+            case R.id.meet_module_layout_course:{
                 if (mOnModulesListener != null) {
                     mOnModulesListener.toCourse(mMapList.getByKey(ModuleType.ppt));
                 }
@@ -318,48 +293,11 @@ public class MeetBottomView extends LinearLayout implements OnClickListener, OnN
 
     /* 保持用法一致 */
 
-    private void notify(@NotifyType int type) {
-        Notifier.inst().notify(type);
-    }
-
-    private void showToast(String content) {
-        AppEx.showToast(content);
-    }
-
     private void setOnClickListener(@NonNull View v) {
         if (v != null) {
             v.setOnClickListener(this);
         }
     }
 
-    public void exeNetworkReq(int id, NetworkReq req) {
-        exeNetworkReq(id, req, this);
-    }
 
-    public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOpt(this, this);
-        }
-        mNetworkImpl.exeNetworkReq(id, req, l);
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-
-    }
-
-    @Override
-    public void onNetworkError(int id, NetError error) {
-
-    }
-
-    @Override
-    public void onNetworkProgress(int id, float progress, long totalSize) {
-
-    }
 }
