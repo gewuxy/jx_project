@@ -3,6 +3,7 @@ package yy.doctor.dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.util.TypedValue;
@@ -110,21 +111,23 @@ public class BaseHintDialog extends BaseDialog {
      * @return
      */
     public void addButton(String text, String colorString, OnClickListener l) {
-        addBut(text, Color.parseColor(colorString), l);
+        nativeAddButton(text, Color.parseColor(colorString), l);
     }
 
     public void addButton(@StringRes int strRes, int resId, OnClickListener l) {
-        addBut(getContext().getString(strRes), ResLoader.getColor(resId), l);
+        nativeAddButton(getContext().getString(strRes), ResLoader.getColor(resId), l);
     }
 
-    private void addBut(String text, int colorId, OnClickListener l) {
+    private void nativeAddButton(String text, @ColorInt int id, OnClickListener l) {
         TextView tv = new TextView(getContext());
+
         tv.setBackgroundResource(R.drawable.item_selector);
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
-        tv.setTextColor(colorId);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        tv.setTextColor(id);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
         tv.setOnClickListener(l);
+
         addButtons(tv);
     }
 

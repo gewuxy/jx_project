@@ -1,4 +1,4 @@
-package yy.doctor.model.meet;
+package yy.doctor.model.meet.module;
 
 import android.support.annotation.IntDef;
 
@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.Module.TModule;
+import yy.doctor.model.meet.module.Module.TModule;
 
 /**
  * 会议包含的模块
@@ -35,7 +35,12 @@ public class Module extends EVal<TModule> {
 
     public enum TModule {
         active,
+
+        /**
+         * {@link ModuleType}
+         */
         functionId,//模块功能ID
+
         id,
         meetId,
         moduleName,
