@@ -176,8 +176,7 @@ public class IntentAction {
 
         @Override
         public void launch() {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=" + AppEx.ct().getPackageName()));
+            Intent intent = getIntent();
             // 检测intent是否可用
             PackageManager packageManager = AppEx.ct().getPackageManager();
             List<ResolveInfo> shareAppList = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -187,6 +186,11 @@ public class IntentAction {
                 normalLaunch(intent);
             }
         }
-    }
 
+        public static Intent getIntent() {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=" + AppEx.ct().getPackageName()));
+            return intent;
+        }
+    }
 }

@@ -150,7 +150,7 @@ abstract public class SRRecyclerFragEx<T> extends RecyclerFragEx<T> implements O
 
     @Override
     public int getInitOffset() {
-        return ListConstants.KDefaultInitOffset;
+        return AppEx.getListConfig().getInitOffset();
     }
 
     @Override

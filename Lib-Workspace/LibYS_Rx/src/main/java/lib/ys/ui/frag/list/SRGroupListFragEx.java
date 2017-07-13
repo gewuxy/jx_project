@@ -15,9 +15,9 @@ import lib.ys.R;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
+import lib.ys.ui.interfaces.impl.list.SROpt;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.ui.interfaces.listener.list.OnSROptListener;
-import lib.ys.ui.interfaces.impl.list.SROpt;
 
 /**
  * 下拉刷新 group list
@@ -133,11 +133,13 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
         return ListConstants.KDefaultLimit;
     }
 
+    @CallSuper
     @Override
     public void onNetRefreshSuccess() {
         showView(getDecorView().getContentView());
     }
 
+    @CallSuper
     @Override
     public void onNetRefreshError() {
         showView(getDecorView().getContentView());
@@ -155,7 +157,7 @@ abstract public class SRGroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GR
 
     @Override
     public int getInitOffset() {
-        return ListConstants.KDefaultInitOffset;
+        return AppEx.getListConfig().getInitOffset();
     }
 
     @Override

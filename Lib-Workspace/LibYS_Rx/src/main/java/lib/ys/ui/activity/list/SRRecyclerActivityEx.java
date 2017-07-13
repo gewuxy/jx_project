@@ -150,7 +150,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
 
     @Override
     public int getInitOffset() {
-        return ListConstants.KDefaultInitOffset;
+        return AppEx.getListConfig().getInitOffset();
     }
 
     @Override

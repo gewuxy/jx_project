@@ -10,14 +10,13 @@ import java.util.List;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
-import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
+import lib.ys.ui.interfaces.impl.list.SROpt;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.ui.interfaces.listener.list.OnSROptListener;
-import lib.ys.ui.interfaces.impl.list.SROpt;
 
 
 /**
@@ -157,7 +156,7 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
 
     @Override
     public int getInitOffset() {
-        return ListConstants.KDefaultInitOffset;
+        return AppEx.getListConfig().getInitOffset();
     }
 
     @Override

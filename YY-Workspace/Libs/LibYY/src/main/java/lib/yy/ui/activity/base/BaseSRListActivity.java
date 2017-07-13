@@ -7,7 +7,6 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import lib.network.model.interfaces.IListResult;
-import lib.ys.AppEx;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.list.SRListActivityEx;
 import lib.ys.util.GenericUtil;
@@ -61,11 +60,6 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
     @Override
     public View createEmptyFooterView() {
         return inflate(R.layout.layout_empty_footer);
-    }
-
-    @Override
-    public int getInitOffset() {
-        return AppEx.getListConfig().getInitOffset();
     }
 
     protected String getEmptyText() {
