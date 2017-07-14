@@ -681,6 +681,11 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
             // 必须通过valueOf获取E, 因为fields[]的排列不是有序的
             E e = (E) E.valueOf(clz, f.getName());
 
+            Object o = JsonUtil.getObject(obj, e.name());
+            if (o == null) {
+                continue;
+            }
+
             if (f.isAnnotationPresent(BindList.class)) {
                 BindList annotation = f.getAnnotation(BindList.class);
                 Class val = annotation.value();
@@ -695,10 +700,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 put(e, JsonUtil.getEV(annotation.value(), obj.optJSONObject(e.name())));
             } else {
                 // 没有注释使用默认解析方式
-                Object o = JsonUtil.getObject(obj, e.name());
-                if (o != null) {
-                    put(e, o);
-                }
+                put(e, o);
             }
         }
     }

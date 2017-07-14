@@ -47,6 +47,10 @@ public class IntentAction {
         return new MarketAction();
     }
 
+    public static MapAction map() {
+        return new MapAction();
+    }
+
     abstract static public class BaseAction {
         protected boolean mCreateChooser;
         protected String mChooserTitle;
@@ -103,6 +107,9 @@ public class IntentAction {
 
         private String mText;
 
+        private MailAction() {
+        }
+
         public MailAction address(String a) {
             mAddress = a;
             return this;
@@ -151,6 +158,9 @@ public class IntentAction {
 
         private String mUrl;
 
+        private BrowserAction() {
+        }
+
         public BrowserAction url(String url) {
             mUrl = url;
             return this;
@@ -174,6 +184,9 @@ public class IntentAction {
 
     public static class MarketAction extends BaseAction {
 
+        private MarketAction() {
+        }
+
         @Override
         public void launch() {
             Intent intent = getIntent();
@@ -191,6 +204,64 @@ public class IntentAction {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=" + AppEx.ct().getPackageName()));
             return intent;
+        }
+    }
+
+    public static class MapAction extends BaseAction {
+
+        private double mLatitude;
+        private double mLongitude;
+        private String mName;
+
+        private MapAction() {
+        }
+
+        /**
+         * 纬度
+         *
+         * @param latitude
+         * @return
+         */
+        public MapAction latitude(double latitude) {
+            mLatitude = latitude;
+            return this;
+        }
+
+        /**
+         * 经度
+         */
+        public MapAction longitude(double longitude) {
+            mLongitude = longitude;
+            return this;
+        }
+
+        /**
+         * 地点名称
+         *
+         * @param name
+         * @return
+         */
+        public MapAction name(String name) {
+            mName = name;
+            return this;
+        }
+
+        @Override
+        public void launch() {
+            StringBuffer buffer = new StringBuffer()
+                    .append("geo:")
+                    .append(mLatitude)
+                    .append(",")
+                    .append(mLongitude);
+
+            if (TextUtil.isNotEmpty(mName)) {
+                buffer.append("?q=")
+                        .append(mName);
+            }
+
+            Uri mUri = Uri.parse(buffer.toString());
+            Intent mIntent = new Intent(Intent.ACTION_VIEW, mUri);
+            normalLaunch(mIntent);
         }
     }
 }
