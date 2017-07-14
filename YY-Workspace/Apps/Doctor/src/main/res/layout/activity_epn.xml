@@ -18,66 +18,76 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:textColor="@color/text_80fff"
             android:textSize="18dp"
-            android:visibility="invisible"
-            android:textColor="@color/text_80fff"/>
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/epn_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/epn_tv_my"
-            android:layout_marginTop="18dp"
             android:layout_marginBottom="30dp"
-            android:textSize="30dp"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="18dp"
+            android:textColor="@color/white"
+            android:textSize="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/epn_tv"
             android:layout_alignBottom="@+id/epn_tv"
             android:layout_marginBottom="4dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/epn_tv"
             android:text="@string/epn_unit_ge"
-            android:textSize="18dp"
-            android:textColor="@color/text_80fff"/>
+            android:textColor="@color/text_80fff"
+            android:textSize="18dp"/>
 
     </RelativeLayout>
 
     <TextView
-        style="@style/tv.common"
         android:id="@+id/epe_tv_btn"
-        android:layout_marginTop="42dp"
+        style="@style/tv.common"
         android:layout_below="@+id/layout_my_elephant"
+        android:layout_marginTop="42dp"
         android:text="@string/recharge"/>
+
+    <TextView
+        style="@style/tv.common"
+        android:id="@+id/epc_tv_btn"
+        android:layout_below="@+id/epe_tv_btn"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/epc_shape_blue"
+        android:text="进入象城"
+        android:textColor="@color/text_0882e7"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/know_epn"
-            android:textSize="14dp"
-            android:textColor="@color/text_808080"/>
+            android:textColor="@color/text_808080"
+            android:textSize="14dp"/>
 
         <TextView
             android:id="@+id/epn_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_marginLeft="3dp"
+            android:clickable="true"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="@string/use_rule"
-            android:textSize="14dp"
             android:textColor="@color/text_1ba0cc"
-            android:clickable="true"/>
+            android:textSize="14dp"/>
 
     </LinearLayout>
 
