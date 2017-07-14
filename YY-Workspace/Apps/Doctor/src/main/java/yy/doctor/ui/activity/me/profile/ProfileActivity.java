@@ -50,7 +50,6 @@ import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 import static yy.doctor.model.Profile.TProfile.city;
-import static yy.doctor.model.Profile.TProfile.cmeId;
 import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hosLevel;
 import static yy.doctor.model.Profile.TProfile.hospital;
@@ -173,7 +172,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .name(R.string.user_section)
                 .intent(new Intent(this, SectionActivity.class))
                 .text(Profile.inst().getString(department))
-                .hint(R.string.required)
+                .hint(R.string.user_input_section)
                 .build());
 
         YSLog.d(TAG, "hospital level = " + Profile.inst().getString(hosLevel));
@@ -226,15 +225,16 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.certification_number)
                 .name(R.string.user_certification_number)
                 .text(Profile.inst().getString(licence))
-                .hint(R.string.optional)
+                .hint(R.string.user_input_certification_number)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et)
+        addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.CME_number)
                 .name(R.string.user_CME_number)
-                .text(Profile.inst().getString(cmeId))
-                .hint(R.string.optional)
+                .intent(new Intent(this, CmeActivity.class))
+                .text(Profile.inst().getString(TProfile.cmeId))
+                .hint(R.string.user_input_CME_number)
                 .build());
 
         /*addItem(new Builder(FormType.et)
@@ -310,9 +310,9 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
-                .url(mAvatarUrl)
-                .renderer(new CircleRenderer())
-                .load();
+                 .url(mAvatarUrl)
+                 .renderer(new CircleRenderer())
+                 .load();
     }
 
     @Override
