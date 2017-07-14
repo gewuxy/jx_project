@@ -15,40 +15,40 @@
         android:orientation="horizontal">
 
         <!-- 考试 -->
-        <yy.doctor.view.ModuleView
+        <yy.doctor.view.meet.ModuleView
             android:id="@+id/meet_module_layout_exam"
             style="@style/v.meeting.module"
-            moduleView:module_src="@mipmap/meeting_ic_exam"
+            moduleView:module_src="@drawable/meeting_module_selector_exam"
             moduleView:module_text="@string/exam"/>
 
         <View
             style="@style/v.meeting.divider"/>
 
         <!-- 问卷 -->
-        <yy.doctor.view.ModuleView
+        <yy.doctor.view.meet.ModuleView
             android:id="@+id/meet_module_layout_que"
             style="@style/v.meeting.module"
-            moduleView:module_src="@mipmap/meeting_ic_que"
+            moduleView:module_src="@drawable/meeting_module_selector_que"
             moduleView:module_text="@string/que"/>
 
         <View
             style="@style/v.meeting.divider"/>
 
         <!-- 视频 -->
-        <yy.doctor.view.ModuleView
+        <yy.doctor.view.meet.ModuleView
             android:id="@+id/meet_module_layout_video"
             style="@style/v.meeting.module"
-            moduleView:module_src="@mipmap/meeting_ic_video"
+            moduleView:module_src="@drawable/meeting_module_selector_video"
             moduleView:module_text="@string/video"/>
 
         <View
             style="@style/v.meeting.divider"/>
 
         <!-- 签到 -->
-        <yy.doctor.view.ModuleView
+        <yy.doctor.view.meet.ModuleView
             android:id="@+id/meet_module_layout_sign"
             style="@style/v.meeting.module"
-            moduleView:module_src="@mipmap/meeting_ic_sign"
+            moduleView:module_src="@drawable/meeting_module_selector_sign"
             moduleView:module_text="@string/sign"/>
     </LinearLayout>
 

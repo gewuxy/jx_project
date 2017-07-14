@@ -2,11 +2,14 @@ package yy.doctor.util;
 
 import android.app.Activity;
 import android.support.annotation.StringRes;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.Arrays;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.ReflectionUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
@@ -72,5 +75,26 @@ public class Util extends BaseUtil {
             return Constants.KEmptyValue;
         }
         return generatePcd(pcd[Pcd.KProvince], pcd[Pcd.KCity], pcd[Pcd.KDistrict]);
+    }
+
+    /**
+     * 获取NavBar里需要的控件
+     * @param parent NavBar的控件
+     * @param clz
+     * @param <T>
+     * @return
+     */
+    public static  <T extends View> T getBarView(ViewGroup parent, Class<T> clz) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            View childView = parent.getChildAt(i);
+            if (childView instanceof ViewGroup) {
+                getBarView((ViewGroup) childView, clz);
+            } else {
+                if (childView.getClass().isAssignableFrom(clz)) {
+                    return (T) childView;
+                }
+            }
+        }
+        return ReflectionUtil.newInst(clz);
     }
 }

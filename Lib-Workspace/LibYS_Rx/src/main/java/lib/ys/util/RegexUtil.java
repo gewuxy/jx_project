@@ -6,19 +6,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author hyh 正则验证
+ * 正则验证
  */
 public class RegexUtil {
 
-    public @interface RegexRule {
-        String mail = "^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
-        String integer = "^[0-9]*$";
-        String decimal = "^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$";
+    public interface RegexRule {
+        String KMail = "^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        String KInteger = "^[0-9]*$";
+        String KDecimal = "^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$";
         /**
          * 中国区, 手机号码
          */
-        String mobile_cn = "^(1(2|3|4|5|6|7|8|9)[0-9])\\d{8}$";
-        String chinese = "^[\\u4E00-\\u9FA5]+$";
+        String KMobileCn = "^(1(2|3|4|5|6|7|8|9)[0-9])\\d{8}$";
+        String KChinese = "^[\\u4E00-\\u9FA5]+$";
     }
 
     /**
@@ -28,7 +28,7 @@ public class RegexUtil {
      * @return 如果是符合的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean isEmail(String str) {
-        return match(RegexRule.mail, str);
+        return match(RegexRule.KMail, str);
     }
 
     /**
@@ -38,18 +38,18 @@ public class RegexUtil {
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean isInteger(String str) {
-        return match(RegexRule.integer, str);
+        return match(RegexRule.KInteger, str);
     }
 
     public static boolean isDecimal(String text) {
-        return match(RegexRule.decimal, text);
+        return match(RegexRule.KDecimal, text);
     }
 
     /**
      * 检验是否是电话号码
      */
     public static boolean isMobileCN(CharSequence phone) {
-        return match(RegexRule.mobile_cn, phone);
+        return match(RegexRule.KMobileCn, phone);
     }
 
     /**
@@ -99,7 +99,7 @@ public class RegexUtil {
      * @return
      */
     public static boolean isChinese(String text) {
-        return match(RegexRule.chinese, text);
+        return match(RegexRule.KChinese, text);
     }
 
     /**

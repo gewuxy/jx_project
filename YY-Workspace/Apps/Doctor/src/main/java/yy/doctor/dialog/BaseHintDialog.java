@@ -3,6 +3,7 @@ package yy.doctor.dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.util.TypedValue;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
@@ -109,13 +111,23 @@ public class BaseHintDialog extends BaseDialog {
      * @return
      */
     public void addButton(String text, String colorString, OnClickListener l) {
+        nativeAddButton(text, Color.parseColor(colorString), l);
+    }
+
+    public void addButton(@StringRes int strRes, int resId, OnClickListener l) {
+        nativeAddButton(getContext().getString(strRes), ResLoader.getColor(resId), l);
+    }
+
+    private void nativeAddButton(String text, @ColorInt int id, OnClickListener l) {
         TextView tv = new TextView(getContext());
+
         tv.setBackgroundResource(R.drawable.item_selector);
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
-        tv.setTextColor(Color.parseColor(colorString));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        tv.setTextColor(id);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
         tv.setOnClickListener(l);
+
         addButtons(tv);
     }
 

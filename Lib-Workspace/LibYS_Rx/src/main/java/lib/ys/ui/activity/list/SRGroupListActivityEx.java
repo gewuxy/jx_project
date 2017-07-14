@@ -153,7 +153,7 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
 
     @Override
     public int getInitOffset() {
-        return ListConstants.KDefaultInitOffset;
+        return AppEx.getListConfig().getInitOffset();
     }
 
     @Override

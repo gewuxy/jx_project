@@ -28,6 +28,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -99,6 +100,7 @@ public class TabStripIndicator extends HorizontalScrollView {
     private boolean tabTextBold = false;
     private boolean mCanClick = true;
 
+    @ColorInt
     private int colorTabTextDefault, colorTabTextSelected;
     //	private Typeface tabTypeface = null;
     //	private int tabTypefaceStyle = Typeface.BOLD;
@@ -269,12 +271,9 @@ public class TabStripIndicator extends HorizontalScrollView {
     private void addTab(final int position, View tab) {
 
         tab.setFocusable(true);
-        tab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCanClick) {
-                    pager.setCurrentItem(position);
-                }
+        tab.setOnClickListener(v -> {
+            if (mCanClick) {
+                pager.setCurrentItem(position);
             }
         });
 
@@ -602,6 +601,14 @@ public class TabStripIndicator extends HorizontalScrollView {
 
         this.tabTextSize = textSizePx;
         updateTabStyles();
+    }
+
+    public void setTextColorNormal(@ColorInt int color) {
+        colorTabTextDefault = color;
+    }
+
+    public void setTextColorFocus(@ColorInt int color) {
+        colorTabTextSelected = color;
     }
 
     public int getTextSize() {

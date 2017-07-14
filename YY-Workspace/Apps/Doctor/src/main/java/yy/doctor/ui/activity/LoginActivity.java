@@ -1,14 +1,19 @@
 package yy.doctor.ui.activity;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.DeviceUtil;
+import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -31,10 +36,14 @@ import yy.doctor.view.AutoCompleteEditText;
  */
 public class LoginActivity extends BaseActivity {
 
-    private TextView mTvVersion;
+    private TextView mTvRegister;
     private AutoCompleteEditText mEtName;
     private EditText mEtPwd;
+    private CheckBox mCbVisible;
+    private ImageView mIvCancel;
+    private ImageView mIvCancelPwd;
     private String mRequest;
+
 
     @Override
     public void initData() {
@@ -54,9 +63,12 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTvVersion = findView(R.id.login_tv_version);
+        mTvRegister = findView(R.id.login_tv);
         mEtName = findView(R.id.login_et_name);
         mEtPwd = findView(R.id.login_et_pwd);
+        mCbVisible = findView(R.id.login_cb_visible_pwd);
+        mIvCancel = findView(R.id.login_iv_cancel);
+        mIvCancelPwd = findView(R.id.login_iv_cancel_pwd);
     }
 
     @Override
@@ -69,9 +81,88 @@ public class LoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_tv);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
+        setOnClickListener(R.id.login_cb_visible_pwd);
+        setOnClickListener(R.id.login_tv_wechat);
+        setOnClickListener(R.id.login_iv_cancel);
+        setOnClickListener(R.id.login_iv_cancel_pwd);
+        textChanged();
 
-        mTvVersion.setText(DeviceUtil.getAppVersionName());
         mEtName.setText(SpApp.inst().getUserName());
+
+        mCbVisible.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mEtPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                //把光标设置到当前文本末尾
+                mEtPwd.setSelection(mEtPwd.getText().length());
+            }else {
+                mEtPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                mEtPwd.setSelection(mEtPwd.getText().length());
+            }
+        });
+    }
+
+    public void textChanged() {
+
+        mTvRegister.setEnabled(false);
+        mTvRegister.setBackgroundResource(R.color.text_97cbf2);
+        mEtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (RegexUtil.isMobileCN(mEtName.getText().toString()) || RegexUtil.isEmail(mEtName.getText().toString())) {
+                    mTvRegister.setEnabled(true);
+                    mTvRegister.setBackgroundResource(R.drawable.btn_selector_blue);
+                } else {
+                    mTvRegister.setEnabled(false);
+                    mTvRegister.setBackgroundResource(R.color.text_97cbf2);
+                }
+
+                if (TextUtil.isEmpty(mEtName.getText())) {
+                    mIvCancel.setVisibility(View.GONE);
+                }else {
+                    mIvCancel.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mEtPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (TextUtil.isEmpty(mEtName.getText()) || TextUtil.isEmpty(mEtPwd.getText())) {
+                    mTvRegister.setEnabled(false);
+                    mTvRegister.setBackgroundResource(R.color.text_97cbf2);
+                } else {
+                    mTvRegister.setEnabled(true);
+                    mTvRegister.setBackgroundResource(R.drawable.btn_selector_blue);
+                }
+
+                if (TextUtil.isEmpty(mEtPwd.getText())) {
+                    mIvCancelPwd.setVisibility(View.GONE);
+                }else {
+                    mIvCancelPwd.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -101,6 +192,19 @@ public class LoginActivity extends BaseActivity {
             break;
             case R.id.login_tv_forget_pwd: {
                 startActivity(ForgetPwdActivity.class);
+            }
+            break;
+            case R.id.login_tv_wechat: {
+                startActivity(WeChatLoginActivity.class);
+            }
+            break;
+            case R.id.login_iv_cancel: {
+                mEtName.setText("");
+                SpApp.inst().saveUserName("");
+            }
+            break;
+            case R.id.login_iv_cancel_pwd: {
+                mEtPwd.setText("");
             }
             break;
         }

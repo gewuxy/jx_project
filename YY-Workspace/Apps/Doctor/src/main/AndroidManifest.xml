@@ -41,6 +41,9 @@
             android:theme="@android:style/Theme.NoTitleBar"/>
 
         <activity
+            android:name=".ui.activity.WeChatLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
@@ -73,9 +76,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.register.DistrictActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.register.BasePcdActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -132,7 +132,9 @@
         <activity
             android:name=".ui.activity.search.ResultActivity"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".ui.frag.meeting.course.TestMeetingCourseActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- data -->
         <activity
@@ -203,6 +205,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.profile.TitleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.profile.CmeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.LaunchTmpActivity"

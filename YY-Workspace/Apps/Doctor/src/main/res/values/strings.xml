@@ -3,7 +3,7 @@
 
     <string name="company_name">敬信•YaYa医师 V</string>
 
-    <string name="input_name">请输入用户名</string>
+    <string name="input_name">请输入邮箱或手机号</string>
     <string name="input_pwd">请输入密码</string>
 
     <!--通用-->
@@ -13,6 +13,12 @@
     <string name="city">市</string>
     <string name="district">区</string>
     <string name="province_city">省市</string>
+
+    <string name="login">登陆</string>
+    <string name="binding_login">绑定并登陆</string>
+    <string name="toregister">我要注册</string>
+    <string name="wechat_register">微信登陆</string>
+    <string name="wechat_binding">账号绑定</string>
 
     <!--注册-->
     <string name="register">注册</string>
@@ -36,6 +42,9 @@
 
     <string name="open_location_service">请在系统设置中，打开“隐私-定位服务”</string>
     <string name="allow_locate_permission">并允许定位服务</string>
+
+    <string name="email_phone">电子邮箱或手机号</string>
+
 
     <!--数据中心-->
     <string name="data_center">数据中心</string>
@@ -135,7 +144,12 @@
         <item>自定义</item>
     </string-array>
 
-    <!--Meeting_exam-->
+    <!-- Meeting -->
+    <string name="meeting_epn_pay">本次会议需支付象数: %d 个</string>
+    <string name="meeting_epn_award">本次会议奖励象数: %1$d 个, 还有 %2$d 人可领取</string>
+    <string name="meeting_file_more">查看全部 %d 个文件</string>
+
+    <!-- Meeting_exam -->
     <string name="exam">考试</string>
     <string name="exam_no_start">考试还未开始</string>
     <string name="exam_stop">考试已停止答卷</string>
@@ -152,11 +166,13 @@
     <string name="cancel_collect">取消收藏成功</string>
     <string name="collect">收藏成功</string>
     <string name="que">问卷</string>
-    <string name="sign">签到</string>
     <string name="submit">提交</string>
     <string name="enough">象数不足</string>
     <string name="need_pay">"本会议需要支付%d象数"</string>
 
+    <!-- Meeting_sign -->
+    <string name="sign">签到</string>
+    <string name="signed">已签到</string>
 
     <string name="video">视频</string>
     <string name="meet">会议</string>
@@ -260,6 +276,13 @@
     <string name="section">科室</string>
     <string name="title">职称</string>
     <string name="high_grade">高级</string>
+    <string name="user_input_section">请输入科室名称</string>
+    <string name="user_input_certification_number">请输入职业资格证号</string>
+    <string name="user_input_CME_number">请输入CME卡号</string>
+    <string name="user_input_Specialist">请选择专科</string>
+    <string name="user_input_academic">请完善个人学术专长资料</string>
+    <string name="academic_unit">%1$d/500</string>
+    <string name="save">保存</string>
 
     <!--象数-->
     <string name="epn">象数</string>
@@ -312,4 +335,14 @@
     <string name="purchase_limitation_one">限购一份</string>
     <string name="immediately_exchange">立即兑换</string>
 
+    <!-- swipe list -->
+    <string name="sr_list_header_hint_normal">下拉刷新</string>
+    <string name="sr_list_header_hint_ready">松开刷新</string>
+    <string name="sr_list_header_hint_loading">加载中…</string>
+
+    <string name="network_click_retry">网络加载出错, 点击屏幕重试</string>
+
+    <!-- toast -->
+    <string name="toast_network_disconnect">当前网络不可用，请检查网络设置</string>
+    <string name="toast_network_abort">加载失败</string>
 </resources>

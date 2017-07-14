@@ -12,6 +12,7 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.ui.activity.me.CommonWebViewActivity;
+import yy.doctor.ui.activity.me.epc.EpcActivity;
 import yy.doctor.util.Util;
 
 /**
@@ -55,6 +56,7 @@ public class EpnActivity extends BaseActivity {
 
         setOnClickListener(R.id.epn_instruction);
         setOnClickListener(R.id.epe_tv_btn);
+        setOnClickListener(R.id.epc_tv_btn);
     }
 
     @Override
@@ -69,6 +71,10 @@ public class EpnActivity extends BaseActivity {
             break;
             case R.id.epn_instruction: {
                 CommonWebViewActivity.nav(this, getString(R.string.epn_use_rule), mUrlEpnUseRule);
+            }
+            break;
+            case R.id.epc_tv_btn: {
+                startActivity(EpcActivity.class);
             }
             break;
         }

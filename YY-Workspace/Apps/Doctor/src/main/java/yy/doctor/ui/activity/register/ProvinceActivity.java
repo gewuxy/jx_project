@@ -78,7 +78,6 @@ public class ProvinceActivity extends BasePcdActivity {
 
     //定位
     private void location() {
-        Location.inst().start();
         mObserver = (isSuccess, gps) -> {
             //返回主线程更新ui
             runOnUIThread(() -> {
@@ -100,6 +99,7 @@ public class ProvinceActivity extends BasePcdActivity {
                 Location.inst().onDestroy();
             });
         };
+        Location.inst().start();
         LocationNotifier.inst().add(mObserver);
     }
 

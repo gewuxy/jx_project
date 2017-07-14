@@ -3,113 +3,154 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:background="@color/text_fff"
     android:focusable="true"
-    android:focusableInTouchMode="true">
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="65dp"
-        android:src="@mipmap/ic_launcher"/>
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="65dp"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11dp"
-            android:textColor="@color/text_666"
-            android:text="YaYa医师 V"/>
-
-        <TextView
-            android:id="@+id/login_tv_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_666"
-            android:textSize="11dp"
-            android:text="6.5.20"/>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-
-        <yy.doctor.view.AutoCompleteEditText
-            android:id="@+id/login_et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin"
-            android:background="@null"
-            android:hint="电子邮箱"
-            android:singleLine="true"
-            android:textColor="@color/text_666"
-            android:textColorHint="@color/text_b3"
-            android:textSize="14dp" />
-
-    </RelativeLayout>
-
-    <View
-        style="@style/divider"/>
-
-    <EditText
-        style="@style/et.common"
-        android:id="@+id/login_et_pwd"
-        android:inputType="textPassword"
-        android:singleLine="true"
-        android:maxLength="18"
-        android:hint="密码"/>
-
-    <TextView
-        android:id="@+id/login_tv"
-        style="@style/tv.common"
-        android:layout_marginTop="36dp"
-        android:text="登录"/>
-
-    <LinearLayout
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="42dp"
-        android:gravity="center_horizontal|bottom"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
-        <TextView
-            android:id="@+id/login_tv_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin"
-            android:paddingLeft="5dp"
-            android:text="注册账号"
-            android:gravity="center"
-            android:textColor="@color/text_333"
-            android:textSize="14dp"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="83dp"
+            android:src="@mipmap/ic_launcher_login"/>
+
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="60dp"
+            android:background="@color/white">
+
+            <yy.doctor.view.AutoCompleteEditText
+                android:id="@+id/login_et_name"
+                style="@style/et.login"
+                android:hint="@string/email_phone"
+                android:singleLine="true"/>
+
+            <ImageView
+                android:id="@+id/login_iv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="21dp"
+                android:src="@mipmap/login_ic_cancel"/>
+
+        </RelativeLayout>
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="14dp"
-            android:background="@color/text_888"/>
+            style="@style/divider"/>
+
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="52dp">
+
+            <EditText
+                android:id="@+id/login_et_pwd"
+                style="@style/et.login"
+                android:hint="@string/pwd"
+                android:maxLength="18"
+                android:singleLine="true"/>
+
+            <CheckBox
+                android:id="@+id/login_cb_visible_pwd"
+                android:layout_width="17dp"
+                android:layout_height="11dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:button="@drawable/login_checkbox_visible_selector"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/login_iv_cancel_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="24dp"
+                android:layout_toLeftOf="@+id/login_cb_visible_pwd"
+                android:src="@mipmap/login_ic_cancel"/>
+
+        </RelativeLayout>
+
+        <View
+            style="@style/divider"/>
 
         <TextView
-            android:gravity="center"
-            android:id="@+id/login_tv_forget_pwd"
-            android:layout_width="wrap_content"
+            android:id="@+id/login_tv"
+            style="@style/tv.common"
+            android:layout_width="280dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/login"
+            android:textColor="@color/text_fff"
+            android:textSize="15dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin"
-            android:paddingRight="5dp"
-            android:text="忘记密码"
-            android:textColor="@color/text_333"
-            android:textSize="14dp"/>
+            android:layout_marginTop="38dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/login_tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="@string/toregister"
+                android:textColor="@color/text_848a8d"
+                android:textSize="13dp"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="14dp"
+                android:background="@color/text_888"/>
+
+            <TextView
+                android:id="@+id/login_tv_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:gravity="center"
+                android:paddingRight="5dp"
+                android:text="@string/forget_pwd"
+                android:textColor="@color/text_848a8d"
+                android:textSize="13dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:src="@mipmap/login_wechat"/>
+
+            <TextView
+                android:id="@+id/login_tv_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="@string/wechat_register"
+                android:textColor="@color/text_2ab81f"
+                android:textSize="10dp"/>
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

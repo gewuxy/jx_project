@@ -7,7 +7,6 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import lib.network.model.interfaces.IListResult;
-import lib.ys.AppEx;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.activity.list.SRGroupListActivityEx;
 import lib.ys.util.GenericUtil;
@@ -63,11 +62,6 @@ abstract public class BaseSRGroupListActivity<GROUP, CHILD, A extends IGroupAdap
     @Override
     public View createEmptyFooterView() {
         return inflate(R.layout.layout_empty_footer);
-    }
-
-    @Override
-    public int getInitOffset() {
-        return AppEx.getListConfig().getInitOffset();
     }
 
     protected String getEmptyText() {

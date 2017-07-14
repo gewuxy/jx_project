@@ -103,12 +103,12 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.my_epn)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content)
-                .drawable(R.mipmap.form_ic_epc)
-                .name(R.string.epc)
-                .related(RelatedId.epc)
-                .build());
+//        addItem(new Builder(FormType.divider).build());
+//        addItem(new Builder(FormType.content)
+//                .drawable(R.mipmap.form_ic_epc)
+//                .name(R.string.epc)
+//                .related(RelatedId.epc)
+//                .build());
 
         addItem(new Builder(FormType.divider_large).build());
 
