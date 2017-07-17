@@ -59,6 +59,8 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
 
     @Override
     public void initData() {
+        notify(NotifyType.study_start);
+
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KData);
         mPreId = getIntent().getStringExtra(Extra.KId);
     }
@@ -67,7 +69,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     public void initNavBar(NavBar bar) {
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             if (TextUtil.isEmpty(mPreId)) {
-                notify(NotifyType.study);
+                notify(NotifyType.study_end);
             }
             finish();
         });

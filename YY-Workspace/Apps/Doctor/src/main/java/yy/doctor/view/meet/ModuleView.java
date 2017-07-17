@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import lib.ys.fitter.LayoutFitter;
+import lib.ys.util.LaunchUtil;
+import lib.ys.util.view.LayoutUtil;
 import yy.doctor.R;
 
 /**
@@ -26,29 +29,14 @@ public class ModuleView extends LinearLayout {
 
     public ModuleView(Context context) {
         super(context);
+
         init();
     }
-
-//    public ModuleView(Context context, @Nullable AttributeSet attrs) {
-//        this(context, attrs, 0);
-//    }
-//
-//    public ModuleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-//        super(context, attrs, defStyleAttr);
-//
-//        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ModuleView);
-//        mText = ta.getString(R.styleable.ModuleView_module_text);
-//        mImageResId = ta.getResourceId(R.styleable.ModuleView_module_src, -1);
-//        ta.recycle();
-//
-//        init();
-//    }
-
 
     private void init() {
         setGravity(Gravity.CENTER);
         setOrientation(HORIZONTAL);
-        setBackgroundResource(R.drawable.item_selector);
+        setBackgroundResource(R.drawable.meeting_module_selector_layout);
 
         // 左边的图标
         View imageView = inflate(getContext(), R.layout.layout_module_view_image, null);

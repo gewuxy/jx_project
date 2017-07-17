@@ -50,19 +50,19 @@ public class UISetter {
             case MeetState.not_started: {
                 text = "未开始";
                 color = ResLoader.getColor(R.color.text_01b557);
-                d = ResLoader.getDrawable(R.mipmap.meeting_ic_not_started);
+                d = ResLoader.getDrawable(R.mipmap.meeting_ic_state_not_started);
             }
             break;
             case MeetState.under_way: {
                 text = "进行中";
                 color = ResLoader.getColor(R.color.text_e6600e);
-                d = ResLoader.getDrawable(R.mipmap.meeting_ic_under_way);
+                d = ResLoader.getDrawable(R.mipmap.meeting_ic_state_under_way);
             }
             break;
             case MeetState.retrospect: {
                 text = "精彩回顾";
                 color = ResLoader.getColor(R.color.text_5cb0de);
-                d = ResLoader.getDrawable(R.mipmap.meeting_ic_retrospect);
+                d = ResLoader.getDrawable(R.mipmap.meeting_ic_state_retrospect);
             }
             break;
         }

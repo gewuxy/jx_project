@@ -12,9 +12,12 @@ import yy.doctor.model.meet.exam.Choice.TChoice;
 
 public class Choice extends EVal<TChoice> {
     public enum TChoice {
-        key,//选项
-        value,//选项内容
+        key, // 选项
+        value, // 选项内容
 
-        check, //选择情况
+        /**
+         * 本地字段
+         */
+        check, // 选择情况
     }
 }

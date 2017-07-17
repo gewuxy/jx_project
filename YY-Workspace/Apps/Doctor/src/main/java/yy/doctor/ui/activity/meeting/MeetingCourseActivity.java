@@ -122,6 +122,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
     @Override
     public void initData() {
+        notify(NotifyType.study_start);
+
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
 
@@ -615,7 +617,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         statsStudy();
 
-        notify(NotifyType.study);
+        notify(NotifyType.study_end);
 
         // 拼接需要的数据
         JSONArray ja = new JSONArray();

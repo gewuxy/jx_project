@@ -144,9 +144,15 @@
         <item>自定义</item>
     </string-array>
 
-    <!-- Meeting -->
-    <string name="meeting_epn_pay">本次会议需支付象数: %d 个</string>
-    <string name="meeting_epn_award">本次会议奖励象数: %1$d 个, 还有 %2$d 人可领取</string>
+    <!-- Meeting_detail -->
+    <string name="meeting_epn_pay_before">本次会议需支付象数: %d 个</string>
+    <string name="meeting_epn_pay_after">已成功支付%d象数</string>
+
+    <string name="meeting_epn_award_before">完成本次会议可获得%1$d象数，剩余%2$d个名额</string>
+    <string name="meeting_epn_award_after">已成功获得%d象数</string>
+
+    <string name="meeting_cme_award_before">完成本次会议可获得%1$d学分，剩余%2$d个名额</string>
+    <string name="meeting_cme_award_after">已成功获得%d学分</string>
     <string name="meeting_file_more">查看全部 %d 个文件</string>
 
     <!-- Meeting_exam -->
@@ -156,16 +162,23 @@
     <string name="exam_end">该考试会议已结束</string>
     <string name="exam_participation">请稍后再参与</string>
     <string name="exam_contact">如需考试请联系主办方咨询</string>
-    <string name="exam_submit">请确认提交答卷</string>
-    <string name="exam_finish">距离考试结束还有</string>
+    <string name="exam_finish">距离考试结束还有 %d 分钟</string>
+    <string name="exam_submit_confirm">请确认提交答卷</string>
+    <string name="exam_submit_hint_no_finish">还有 %d 题未完成, 继续提交将不得分是否确认提交答卷?</string>
+    <string name="exam_submit_hint_finish">确定提交答案?</string>
     <string name="exam_xs_close">s后自动关闭</string>
     <string name="exam_host">主办方:</string>
 
     <string name="finish_exam">您已完成考试</string>
     <string name="meeting_detail">会议详情</string>
+    <string name="meeting_intro">会议简介</string>
+    <string name="course_no">没有PPT文件</string>
     <string name="cancel_collect">取消收藏成功</string>
-    <string name="collect">收藏成功</string>
+    <string name="collect_no_start">收藏成功，关注并绑定YaYa医师微信公众号，在会议开始前15分钟可收到提醒。</string>
+    <string name="collect_finish">收藏成功</string>
     <string name="que">问卷</string>
+    <string name="que_submit_hint_no_finish">还有 %d 题未完成是否确认提交问卷?</string>
+    <string name="que_submit_hint_finish">确定提交问卷?</string>
     <string name="submit">提交</string>
     <string name="enough">象数不足</string>
     <string name="need_pay">"本会议需要支付%d象数"</string>

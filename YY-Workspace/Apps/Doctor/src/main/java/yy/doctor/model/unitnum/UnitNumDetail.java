@@ -11,6 +11,8 @@ import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 
 public class UnitNumDetail extends EVal<TUnitNumDetail> {
 
+    public static final int KFileLimit = 3; // 资料最多显示多少条
+
     public enum TUnitNumDetail {
 
         attention,  //是否已经关注单位号 1 已经关注  0 未关注

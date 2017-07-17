@@ -122,7 +122,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
         super.finish();
 
         // 退出
-        notify(NotifyType.study);
+        notify(NotifyType.study_end);
         mCountDown.recycle();
     }
 

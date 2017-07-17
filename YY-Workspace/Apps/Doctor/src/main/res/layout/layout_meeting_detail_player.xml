@@ -33,13 +33,13 @@
 
         <TextView
             android:id="@+id/meeting_detail_tv_date"
-            style="@style/tv.meeting.detail"
+            style="@style/tv.meeting.player"
             android:layout_marginRight="@dimen/margin"
             android:text="@string/default_date"/>
 
         <TextView
             android:id="@+id/meeting_detail_tv_time"
-            style="@style/tv.meeting.detail"
+            style="@style/tv.meeting.player"
             android:layout_marginRight="@dimen/margin"
             android:text="@string/default_time"/>
     </LinearLayout>

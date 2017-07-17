@@ -3,7 +3,6 @@ package yy.doctor.adapter.meeting;
 import android.view.View;
 import android.widget.ImageView;
 
-import lib.ys.YSLog;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicVH;
@@ -19,17 +18,17 @@ import yy.doctor.model.meet.exam.Choice.TChoice;
 
 public class TopicAdapter extends AdapterEx<Choice, TopicVH> {
 
-    private OnItemCheckListener mOnItemCheckListener;
-    private boolean mIsSingle;//是否单选
+    private OnChoiceListener mOnChoiceListener;
+    private boolean mIsSingle; // 是否单选
     private TopicVH lastTopicVH;
     private int lastPosition;
 
-    public interface OnItemCheckListener {
-        void onItemCheckListener(View v);
+    public interface OnChoiceListener {
+        void onItemCheckListener(String option, boolean selectState);
     }
 
-    public void setOnItemCheckListener(OnItemCheckListener onItemCheckListener) {
-        mOnItemCheckListener = onItemCheckListener;
+    public void setOnChoiceListener(OnChoiceListener onChoiceListener) {
+        mOnChoiceListener = onChoiceListener;
     }
 
     @Override
@@ -37,16 +36,17 @@ public class TopicAdapter extends AdapterEx<Choice, TopicVH> {
         return R.layout.layout_exam_topic_item;
     }
 
-
     @Override
     protected void refreshView(final int position, TopicVH holder) {
         Choice item = getItem(position);
 
-        holder.getTvAnswer().setText(item.getString(TChoice.key) + ". " + item.getString(TChoice.value));
+        String option = item.getString(TChoice.key); // 选项
+        holder.getTvAnswer().setText(option + ". " + item.getString(TChoice.value));
         ImageView ivAnswer = holder.getIvAnswer();
         ivAnswer.setSelected(item.getBoolean(TChoice.check));
         holder.getLayoutAnswer().setOnClickListener(v -> {
-            if (mIsSingle) {//单选
+            if (mIsSingle) {
+                // 单选
                 if (lastTopicVH != null) {
                     lastTopicVH.getIvAnswer().setSelected(false);
                     getItem(lastPosition).put(TChoice.check, false);
@@ -55,20 +55,20 @@ public class TopicAdapter extends AdapterEx<Choice, TopicVH> {
                 lastPosition = position;
                 ivAnswer.setSelected(true);
                 item.put(TChoice.check, true);
-            } else {//多选
+            } else {
+                // 多选
                 boolean selected = !ivAnswer.isSelected();
                 ivAnswer.setSelected(selected);
                 item.put(TChoice.check, selected);
             }
 
-            if (mOnItemCheckListener != null) {
-                YSLog.d(TAG, "Checked");
-                mOnItemCheckListener.onItemCheckListener(ivAnswer);
+            if (mOnChoiceListener != null) {
+                mOnChoiceListener.onItemCheckListener(option, item.getBoolean(TChoice.check));
             }
         });
     }
 
-    public void setIsSingle(boolean isSingle) {
+    public void setSingle(boolean isSingle) {
         mIsSingle = isSingle;
         notifyDataSetChanged();
     }

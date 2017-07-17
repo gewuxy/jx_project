@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -28,6 +32,8 @@ import yy.doctor.ui.activity.register.RegisterActivity;
 import yy.doctor.util.UISetter;
 import yy.doctor.view.AutoCompleteEditText;
 
+import static lib.ys.AppEx.showToast;
+
 /**
  * 登录
  *
@@ -44,10 +50,13 @@ public class LoginActivity extends BaseActivity {
     private ImageView mIvCancelPwd;
     private String mRequest;
 
+    private static final String KAppId = "wx83d3ea20a714b660";
+    private IWXAPI mApi;
 
     @Override
     public void initData() {
         mRequest = getIntent().getStringExtra(Extra.KData);
+        mApi = WXAPIFactory.createWXAPI(this, KAppId, true);
     }
 
     @NonNull
@@ -63,7 +72,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void findViews() {
 
-        mTvRegister = findView(R.id.login_tv);
+        mTvRegister = findView(R.id.login_tv_login);
         mEtName = findView(R.id.login_et_name);
         mEtPwd = findView(R.id.login_et_pwd);
         mCbVisible = findView(R.id.login_cb_visible_pwd);
@@ -78,11 +87,11 @@ public class LoginActivity extends BaseActivity {
         // 设置密码输入范围
         UISetter.setPwdRange(mEtPwd);
 
-        setOnClickListener(R.id.login_tv);
+        setOnClickListener(R.id.login_tv_login);
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
         setOnClickListener(R.id.login_cb_visible_pwd);
-        setOnClickListener(R.id.login_tv_wechat);
+        setOnClickListener(R.id.login_layout_wechat);
         setOnClickListener(R.id.login_iv_cancel);
         setOnClickListener(R.id.login_iv_cancel_pwd);
         textChanged();
@@ -94,7 +103,7 @@ public class LoginActivity extends BaseActivity {
                 mEtPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 //把光标设置到当前文本末尾
                 mEtPwd.setSelection(mEtPwd.getText().length());
-            }else {
+            } else {
                 mEtPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 mEtPwd.setSelection(mEtPwd.getText().length());
             }
@@ -123,7 +132,7 @@ public class LoginActivity extends BaseActivity {
 
                 if (TextUtil.isEmpty(mEtName.getText())) {
                     mIvCancel.setVisibility(View.GONE);
-                }else {
+                } else {
                     mIvCancel.setVisibility(View.VISIBLE);
                 }
 
@@ -153,7 +162,7 @@ public class LoginActivity extends BaseActivity {
 
                 if (TextUtil.isEmpty(mEtPwd.getText())) {
                     mIvCancelPwd.setVisibility(View.GONE);
-                }else {
+                } else {
                     mIvCancelPwd.setVisibility(View.VISIBLE);
                 }
             }
@@ -170,7 +179,7 @@ public class LoginActivity extends BaseActivity {
 
         int id = v.getId();
         switch (id) {
-            case R.id.login_tv: {
+            case R.id.login_tv_login: {
 
                 String strName = mEtName.getText().toString().trim();
                 String strPwd = mEtPwd.getText().toString().trim();
@@ -194,8 +203,13 @@ public class LoginActivity extends BaseActivity {
                 startActivity(ForgetPwdActivity.class);
             }
             break;
-            case R.id.login_tv_wechat: {
-                startActivity(WeChatLoginActivity.class);
+            case R.id.login_layout_wechat: {
+
+                final SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "none";
+                mApi.sendReq(req);
+//                startActivity(LoginActivity.class);
             }
             break;
             case R.id.login_iv_cancel: {

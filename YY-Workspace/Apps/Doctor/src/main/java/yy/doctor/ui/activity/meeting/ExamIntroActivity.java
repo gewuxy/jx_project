@@ -82,6 +82,8 @@ public class ExamIntroActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        notify(NotifyType.study_start);
+
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
         mHost = getIntent().getStringExtra(Extra.KData);
@@ -98,7 +100,7 @@ public class ExamIntroActivity extends BaseActivity {
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
             // 没有进入考试
             // 记录模块时间
-            notify(NotifyType.study);
+            notify(NotifyType.study_end);
             // 停止倒计时
             ExamCount.inst().remove();
             finish();
@@ -178,7 +180,7 @@ public class ExamIntroActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.exam_intro_tv_start:
+            case R.id.exam_intro_tv_start: {
                 // 点击开始考试
                 if (mIntro.getInt(TIntro.score, 0) >= mIntro.getInt(TIntro.passScore)) {
                     // 及格不让再考
@@ -201,7 +203,8 @@ public class ExamIntroActivity extends BaseActivity {
                     mDialog.setSecHint(R.string.exam_contact);
                     mDialog.show();
                 }
-                break;
+            }
+            break;
         }
     }
 
@@ -210,14 +213,14 @@ public class ExamIntroActivity extends BaseActivity {
         super.onBackPressed();
 
         // 记录模块时间
-        notify(NotifyType.study);
+        notify(NotifyType.study_end);
         // 停止倒计时
         ExamCount.inst().remove();
     }
 
     @Override
-    public void finish() {
-        super.finish();
+    protected void onDestroy() {
+        super.onDestroy();
 
         // PS: 有可能下一页再统计时间且不停止考试的倒计时
         if (mDialog != null) {

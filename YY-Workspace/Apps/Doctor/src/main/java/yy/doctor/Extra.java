@@ -23,8 +23,8 @@ public interface Extra {
     String KMeetId = "meetId";
     String KModuleId = "moduleId";
 
-    String KLatitude = "latitude";//维度
-    String KLongitude = "longitude";//经度
+    String KLatitude = "latitude"; // 维度
+    String KLongitude = "longitude"; // 经度
 
     String KPcdDesc = "pcd_desc";
     String KProvince = "province";

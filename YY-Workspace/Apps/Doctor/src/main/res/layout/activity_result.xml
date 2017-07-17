@@ -57,6 +57,6 @@
         android:id="@+id/result_tv_return"
         style="@style/tv.common"
         android:background="@drawable/sign_btn_selector"
-        android:text="返回"/>
+        android:text="3秒后返回"/>
 
 </LinearLayout>

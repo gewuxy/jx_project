@@ -79,21 +79,18 @@
             <View style="@style/divider"/>
 
             <View
-                style="@style/divider.main"
                 android:id="@+id/meeting_detail_view_divider"
+                style="@style/divider.main"
                 android:layout_height="@dimen/margin"
                 android:background="#f0f0f0"/>
 
             <!-- 主讲者信息 -->
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/tv.meeting.detail"
                 android:paddingBottom="14dp"
                 android:paddingLeft="@dimen/margin"
                 android:paddingTop="14dp"
-                android:text="主讲嘉宾"
-                android:textColor="#757575"
-                android:textSize="14dp"/>
+                android:text="@string/meeting_intro"/>
 
             <include layout="@layout/layout_meeting_detail_describe3"/>
 
@@ -108,15 +105,15 @@
                 android:lineSpacingExtra="14dp"
                 android:text="个人简介：担任某咖啡茶品配送服务部的市场部业务员。主要负责与经销商签定经销合同、办理产品的包装、运输、保险、货款结算、售后产品跟踪、市场反馈以及开拓新的销售渠道等。负责公司新业务员的培训，在实际工作中具体指导和协调业务员的销售工作，并多次受到公司的表扬"
                 android:textColor="@color/text_333"
-                android:textSize="16dp"/>
-
+                android:textSize="14dp"/>
 
         </LinearLayout>
     </ScrollView>
     <!-- 底部按钮 -->
     <yy.doctor.view.meet.ModuleLayout
         android:id="@+id/meeting_detail_modules"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="48dp"/>
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"/>
 </RelativeLayout>

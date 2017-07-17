@@ -7,6 +7,7 @@ import android.widget.TextView;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
+import yy.doctor.adapter.VH.UnitNumVH;
 
 /**
  * 搜索
@@ -17,52 +18,22 @@ import yy.doctor.R;
 
 public class RecVH extends ViewHolderEx {
 
+    private UnitNumVH mUnitNumVH;
+    private MeetingVH mMeetingVH;
+
     public RecVH(@NonNull View convertView) {
         super(convertView);
+
+        mUnitNumVH = new UnitNumVH(convertView);
+        mMeetingVH = new MeetingVH(convertView);
     }
 
-    /**********************************
-     * 会议
-     *********************************/
-
-    public TextView getTvMeetTitle() {
-        return getView(R.id.meeting_item_tv_title);
+    public UnitNumVH getUnitNumVH() {
+        return mUnitNumVH;
     }
 
-    public TextView getTvMeetState() {
-        return getView(R.id.meeting_item_tv_state);
-    }
-
-    public TextView getTvMeetSection() {
-        return getView(R.id.meeting_item_tv_section);
-    }
-
-    public TextView getTvMeetDate() {
-        return getView(R.id.meeting_item_tv_date);
-    }
-
-    public TextView getTvMeetDuration() {
-        return getView(R.id.meeting_item_tv_duration);
-    }
-
-    public NetworkImageView getIvMeetUN() {
-        return getView(R.id.meeting_item_iv_unit_num);
-    }
-
-    public TextView getTvMeetUN() {
-        return getView(R.id.meeting_item_tv_unit_num);
-    }
-
-    /**********************************
-     * 单位号
-     *********************************/
-
-    public NetworkImageView getIvUnitNumUN() {
-        return getView(R.id.unit_num_item_iv);
-    }
-
-    public TextView getTvUnitNumUN() {
-        return getView(R.id.unit_num_item_tv);
+    public MeetingVH getMeetingVH() {
+        return mMeetingVH;
     }
 
     public TextView getTvMore() {

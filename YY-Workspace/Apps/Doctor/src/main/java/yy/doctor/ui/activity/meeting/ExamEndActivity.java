@@ -132,6 +132,6 @@ public class ExamEndActivity extends BaseActivity {
     public void finish() {
         super.finish();
 
-        notify(NotifyType.study);
+        notify(NotifyType.study_end);
     }
 }

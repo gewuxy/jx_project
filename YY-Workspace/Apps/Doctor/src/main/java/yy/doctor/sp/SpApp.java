@@ -85,7 +85,7 @@ public class SpApp extends SpBase {
     /**
      * 判断是否是第一次进入考试界面
      */
-    public Boolean ifFirstEnterExam() {
+    public Boolean firstEnterExam() {
         return getBoolean(SpAppKey.KFirstEnterExam, true);
     }
 
@@ -96,7 +96,7 @@ public class SpApp extends SpBase {
     /**
      * 判断是否是第一次进入问卷界面
      */
-    public Boolean ifFirstEnterQue() {
+    public Boolean firstEnterQue() {
         return getBoolean(SpAppKey.KFirstEnterQue, true);
     }
 

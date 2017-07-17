@@ -15,7 +15,7 @@ import yy.doctor.model.meet.exam.Answer.TAnswer;
 public class Answer extends EVal<TAnswer> implements Serializable {
 
     public enum TAnswer {
-        id,//题号
-        answer,//答案
+        id, // 题号
+        answer, // 答案
     }
 }

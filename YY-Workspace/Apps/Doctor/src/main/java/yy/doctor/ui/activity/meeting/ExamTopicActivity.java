@@ -18,6 +18,7 @@ import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.popup.TopicPopup;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.ExamCount;
@@ -33,8 +34,8 @@ import yy.doctor.util.Time;
 public class ExamTopicActivity extends BaseTopicActivity implements OnCountListener {
 
     private static final int KTextSizeDp = 16;
-    private static final long KFiveMin = TimeUnit.MINUTES.toSeconds(5);
 
+    private final long KLastHint = TimeUnit.MINUTES.toSeconds(5); // 剩余多少提示
     private final int KXClose = 2; // X秒后自动关闭
 
     private TextView mTvTime;
@@ -42,9 +43,9 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     private HintDialogSec mCloseDialog; // 离考试结束的提示框
     private HintDialogSec mSubmitDialog; // 提交的提示框
     private long mUseTime; // 剩余做题的时间
-    private TopicPopup mTopicPopup;
+    private TopicPopup mTopicPopup; // App第一次考试
 
-    private boolean mHintFlag; // 是否提示过剩余时间
+    private boolean mShouldHint; // 是否可以提示剩余时间
 
     public static void nav(Context context, String meetId, String moduleId, Intro intro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
@@ -58,7 +59,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     public void initData() {
         super.initData();
 
-        mHintFlag = true;
+        mShouldHint = true;
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
         long surplusTime = ExamCount.inst().getRemainTime();
         mUseTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
@@ -96,7 +97,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             @Override
             public boolean onPreDraw() {
 
-                if (SpApp.inst().ifFirstEnterExam()) {
+                if (SpApp.inst().firstEnterExam()) {
                     // 第一次进入考试时提示
                     mTopicPopup = new TopicPopup(ExamTopicActivity.this);
                     mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
@@ -113,25 +114,26 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
 
     @Override
     protected void submit() {
+        // FIXME:
         Intent i = new Intent(ExamTopicActivity.this, ExamEndActivity.class)
                 .putExtra(Extra.KMeetId, mMeetId)
                 .putExtra(Extra.KModuleId, mModuleId)
-                .putExtra(Extra.KPaperId, mPaperId)
+                .putExtra(Extra.KPaperId, mPaper.getString(TPaper.id))
                 .putExtra(Extra.KPass, mIntro.getInt(TIntro.passScore))
                 .putExtra(Extra.KNum, mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
-                .putExtra(Extra.KData, getAnswer(mAllTopics));
+                .putExtra(Extra.KData, mAnswers);
         LaunchUtil.startActivity(ExamTopicActivity.this, i);
         finish();
     }
 
     @Override
-    protected String setDialogHint(int noFinish) {
+    protected String submitHint(int noFinish) {
         if (noFinish > 0) {
             //还有没作答
-            return "还有" + noFinish + "题未完成,继续提交将不得分是否确认提交答卷?";
+            return String.format(getString(R.string.exam_submit_hint_no_finish), noFinish);
         } else {
             //全部作答完了
-            return "确定提交答案?";
+            return getString(R.string.exam_submit_hint_finish);
         }
     }
 
@@ -139,16 +141,17 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     public void onCount(long remainCount) {
         mTvTime.setText(Time.secondFormat(remainCount, DateUnit.hour));
         if (remainCount != 0) {
-            if (mHintFlag && remainCount <= KFiveMin) {
+            // 没结束
+            if (mShouldHint && remainCount <= KLastHint) {
                 // 剩余5分钟提示
                 lastHint(remainCount);
-                mHintFlag = false;
+                mShouldHint = false;
             }
         } else {
             // 考试结束强制提交
             mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
             mSubmitDialog.setMainHint(R.string.exam_end);
-            mSubmitDialog.setSecHint(R.string.exam_submit);
+            mSubmitDialog.setSecHint(R.string.exam_submit_confirm);
             mSubmitDialog.setCancelable(false);
             mSubmitDialog.addButton(R.string.confirm, v -> {
                 mSubmitDialog.dismiss();
@@ -166,7 +169,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             last = 1;
         }
         mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
-        mCloseDialog.setMainHint(getString(R.string.exam_finish) + last + getString(R.string.minute));
+        mCloseDialog.setMainHint(String.format(getString(R.string.exam_finish), last));
         mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
         mCloseDialog.setCountHint(R.string.exam_xs_close);
         mCloseDialog.addButton(R.string.confirm, v -> mCloseDialog.dismiss());

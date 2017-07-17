@@ -6,15 +6,18 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import yy.doctor.R;
 import yy.doctor.model.meet.MeetDetail;
+import yy.doctor.model.meet.Submit;
+import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.model.meet.module.Module.ModuleType;
+import yy.doctor.ui.activity.meeting.VideoCategoryActivity;
 
 /**
+ * 不用先请求网络数据
+ *
  * @auther yuansui
  * @since 2017/7/12
  */
-
 public class VideoFunc extends BaseFunc {
-
 
     public VideoFunc(Context context, MeetDetail detail, OnFuncListener l) {
         super(context, detail, l);
@@ -22,7 +25,7 @@ public class VideoFunc extends BaseFunc {
 
     @Override
     protected CharSequence getText() {
-        return "视频";
+        return getContext().getString(R.string.video);
     }
 
     @Override
@@ -36,22 +39,24 @@ public class VideoFunc extends BaseFunc {
     }
 
     @Override
-    public void onClick() {
-
-    }
-
-    @Override
     protected NetworkReq getNetworkReq() {
         return null;
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(NetworkResp r) throws Exception {
         return null;
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(Object result) {
+    }
 
+    @Override
+    protected void attend() {
+        Submit submit = new Submit()
+                .put(TSubmit.meetId, getMeetId())
+                .put(TSubmit.moduleId, getModuleId());
+        VideoCategoryActivity.nav(getContext(), submit, null);
     }
 }

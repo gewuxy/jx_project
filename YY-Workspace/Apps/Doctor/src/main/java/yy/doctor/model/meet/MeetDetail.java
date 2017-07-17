@@ -9,6 +9,7 @@ import lib.ys.model.EVal;
 import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.unitnum.FileData;
 
 /**
@@ -30,15 +31,28 @@ public class MeetDetail extends EVal<TMeetDetail> {
         int collect = 1; // 没有收藏
     }
 
+    @IntDef({
+            EpnType.need,
+            EpnType.award,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface EpnType {
+        int need = 0; // 需要象数
+        int award = 1; // 奖励象数
+    }
+
     public enum TMeetDetail {
         id,
 
         /**
-         * {@link yy.doctor.model.meet.Meeting.MeetState}
+         * {@link MeetState}
          */
         state, // 会议状态
 
-        stored, // 是否收藏 0收藏,1没有收藏
+        /**
+         * {@link CollectType}
+         */
+        stored, // 是否收藏
         attention, // 是否关注了
 
         coverUrl, // 缩略图
@@ -57,7 +71,11 @@ public class MeetDetail extends EVal<TMeetDetail> {
         lecturerHos, // 医院
         lecturerTitle, // 职责
 
-        eduCredits, // 是否需要象数，0需要,1奖励
+        /**
+         * {@link EpnType}
+         */
+        eduCredits, // 是否需要象数
+
         remainAward, // 剩余奖励人数
         requiredXs, // 是否支付过象数
         attended, // 参加过(奖励过和支付过)

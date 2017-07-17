@@ -34,7 +34,7 @@
                 android:id="@+id/meeting_item_tv_state"
                 style="@style/tv.meeting"
                 android:layout_marginLeft="0dp"
-                android:drawableLeft="@mipmap/meeting_ic_retrospect"
+                android:drawableLeft="@mipmap/meeting_ic_state_retrospect"
                 android:drawablePadding="4dp"
                 android:text="精彩回顧"
                 android:textColor="@color/text_5cb0de"/>

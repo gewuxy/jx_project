@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.view.Gravity;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Intro;
+import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.popup.TopicPopup;
@@ -43,9 +46,16 @@ public class QueTopicActivity extends BaseTopicActivity {
 
         bar.addTextViewRight(R.string.submit, v -> {
             if (mAllTopics != null && mAllTopics.size() > 0) {
-                trySubmit(mAllTopics.size() - mCount);
+                toSubmit(mAllTopics.size() - mCount);
             }
         });
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        notify(NotifyType.study_start);
     }
 
     @Override
@@ -74,7 +84,7 @@ public class QueTopicActivity extends BaseTopicActivity {
             }
 
             // 第一次进入考试时提示
-            if (SpApp.inst().ifFirstEnterQue()) {
+            if (SpApp.inst().firstEnterQue()) {
                 runOnUIThread(() -> {
                     mTopicPopup = new TopicPopup(QueTopicActivity.this);
                     mTopicPopup.setCheck(R.mipmap.que_popup_check);
@@ -91,23 +101,31 @@ public class QueTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    protected String setDialogHint(int noFinish) {
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+
+        setViewState(ViewState.error);
+    }
+
+    @Override
+    protected String submitHint(int noFinish) {
         if (noFinish > 0) {
             //还有没作答
-            return "还有" + noFinish + "题未完成\n是否确认提交问卷?";
+            return String.format(getString(R.string.que_submit_hint_no_finish), noFinish);
         } else {
             //全部作答完了
-            return "确定提交问卷?";
+            return getString(R.string.que_submit_hint_finish);
         }
     }
 
     @Override
     protected void submit() {
+        // FIXME: 
         Intent i = new Intent(QueTopicActivity.this, QueEndActivity.class)
                 .putExtra(Extra.KMeetId, mMeetId)
                 .putExtra(Extra.KModuleId, mModuleId)
-                .putExtra(Extra.KPaperId, mPaperId)
-                .putExtra(Extra.KData, getAnswer(mAllTopics));
+                .putExtra(Extra.KPaperId, mPaper.getString(TPaper.id))
+                .putExtra(Extra.KData, mAnswers);
         LaunchUtil.startActivity(QueTopicActivity.this, i);
         finish();
     }

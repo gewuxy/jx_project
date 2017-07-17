@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.meeting;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,6 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import lib.bd.location.Gps;
-import lib.bd.location.Gps.TGps;
-import lib.bd.location.Location;
-import lib.bd.location.LocationNotifier;
-import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.YSLog;
@@ -30,37 +26,26 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
-import lib.ys.util.permission.Permission;
-import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.HintDialogMain;
-import yy.doctor.dialog.LocationDialog;
 import yy.doctor.dialog.ShareDialog;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
-import yy.doctor.model.home.RecUnitNum.Attention;
-import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.CollectType;
+import yy.doctor.model.meet.MeetDetail.EpnType;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
-import yy.doctor.model.meet.PPT;
-import yy.doctor.model.meet.PPT.TPPT;
-import yy.doctor.model.meet.Sign;
-import yy.doctor.model.meet.Sign.TSign;
-import yy.doctor.model.meet.exam.Intro;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.module.BaseFunc;
 import yy.doctor.model.meet.module.BaseFunc.OnFuncListener;
 import yy.doctor.model.meet.module.CourseFunc;
 import yy.doctor.model.meet.module.ExamFunc;
-import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.model.meet.module.QueFunc;
 import yy.doctor.model.meet.module.SignFunc;
 import yy.doctor.model.meet.module.VideoFunc;
 import yy.doctor.model.unitnum.FileData;
+import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.UrlUtil;
@@ -68,12 +53,10 @@ import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.ui.activity.me.unitnum.FileDataActivity;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 import yy.doctor.view.meet.ModuleLayout;
-import yy.doctor.view.meet.ModuleLayout.EpnType;
 
 /**
  * 会议详情界面
@@ -85,13 +68,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     private static final int KIdMeetDetail = 0; // 会议详情
     private static final int KIdCollection = 1; // 收藏
-    private static final int KIdAttention = 2; // 关注
-
-    private static final int KIdExam = 3; // 考试
-    private static final int KIdQue = 4; // 问卷
-    private static final int KIdVideo = 5; // 视频
-    private static final int KIdSign = 6; // 签到
-    private static final int KIdCourse = 7; // PPT
 
     private ImageView mIvCollection; // navBar的收藏
 
@@ -125,7 +101,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     private TextView mTvIntro; // 会议简介
 
-    private MapList<Integer, BaseFunc> mFuncs;
+    private MapList<Integer, BaseFunc> mFuncs; // 记录模块ID
     private ModuleLayout mModuleLayout; // 模块
 
     private MeetDetail mMeetDetail; // 会议详情信息
@@ -133,18 +109,10 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private int mCostEpn; // 象数
     private String mMeetId; // 会议Id
     private String mMeetName; //  会议名字
-    private Gps mGps; // 定位信息
-    private OnLocationNotify mObserver; // 定位通知
 
     private long mStartModuleTime; // 模块开始时间
     private long mMeetTime; // 统一用通知不用result
 
-    private MapList<Integer, String> mModules; // 记录模块ID
-
-    private LocationDialog mLocationDialog; // 定位失败
-    private HintDialogMain mDialogPayEpn; // 支付象数
-    private HintDialogMain mDialogEpnNotEnough; // 象数不足
-    private HintDialogMain mDialogAttention; // 关注
     private ShareDialog mShareDialog; // 分享
 
     public static void nav(Context context, String meetId, String name) {
@@ -173,17 +141,19 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         // 收藏
         ViewGroup group = bar.addViewRight(R.drawable.meeting_ppt_collection_selector, v -> {
             boolean storedState = true; // 默认没有关注, 故点击时关注(MeetDetail还没获取到数据时)
+            @StringRes int collectHint = R.string.collect_finish;
             if (mMeetDetail != null) {
                 // 状态取反
                 storedState = !mMeetDetail.getBoolean(TMeetDetail.stored);
                 mMeetDetail.put(TMeetDetail.stored, storedState);
+                if (MeetState.retrospect != mMeetDetail.getInt(TMeetDetail.state)) {
+                    collectHint = R.string.collect_no_start;
+                }
             }
             mIvCollection.setSelected(storedState);
-            showToast(storedState ? R.string.collect : R.string.cancel_collect);
+            showToast(storedState ? collectHint : R.string.cancel_collect);
             exeNetworkReq(KIdCollection, NetFactory.collectMeeting(mMeetId, storedState ? CollectType.collect : CollectType.cancel));
-            if (storedState) {
-                // no thing
-            } else {
+            if (!storedState) {
                 // 取消收藏(通知会议收藏列表去除会议)
                 notify(NotifyType.cancel_collection_meeting, mMeetId);
             }
@@ -205,8 +175,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
         // 会议相关
         mTvTitle = findView(R.id.meeting_detail_tv_title);
-        mTvEpn = findView(R.id.meeting_detail_tv_award);
         mTvSection = findView(R.id.meeting_detail_tv_section);
+        mTvEpn = findView(R.id.meeting_detail_tv_award);
+//        mTvEpn = findView(R.id.meeting_detail_tv_cmd);
 
         // 单位号相关
         mIvNumber = findView(R.id.meeting_detail_iv_number);
@@ -241,12 +212,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KIdMeetDetail) {
             return JsonParser.ev(r.getText(), MeetDetail.class);
-        } else if (id == KIdSign) {
-            return JsonParser.ev(r.getText(), Sign.class);
-        } else if (id == KIdQue) {
-            return JsonParser.ev(r.getText(), Intro.class);
-        } else if (id == KIdCourse) {
-            return JsonParser.ev(r.getText(), PPT.class);
         } else {
             return JsonParser.error(r.getText());
         }
@@ -254,98 +219,15 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        switch (id) {
-            case KIdMeetDetail: {
-                Result<MeetDetail> r = (Result<MeetDetail>) result;
-                if (r.isSucceed()) {
-                    mMeetDetail = r.getData();
-                    refreshViews(mMeetDetail);
-                    setViewState(ViewState.normal);
-                } else {
-                    onNetworkError(id, new NetError(id, r.getError()));
-                }
+        if (id == KIdMeetDetail) {
+            Result<MeetDetail> r = (Result<MeetDetail>) result;
+            if (r.isSucceed()) {
+                mMeetDetail = r.getData();
+                refreshViews(mMeetDetail);
+                setViewState(ViewState.normal);
+            } else {
+                onNetworkError(id, new NetError(id, r.getError()));
             }
-            break;
-            case KIdExam: {
-                stopRefresh();
-                Result r = (Result) result;
-                if (r.isSucceed()) {
-                    notifyEpn();
-                    mStartModuleTime = System.currentTimeMillis();
-                    ExamIntroActivity.nav(MeetingDetailsActivity.this, mMeetId, mModules.getByKey(ModuleType.exam),
-                            mMeetDetail.getString(TMeetDetail.organizer));
-                } else {
-                    showToast(r.getError());
-                }
-            }
-            break;
-            case KIdQue: {
-                stopRefresh();
-                Result r = (Result) result;
-                if (r.isSucceed()) {
-                    notifyEpn();
-                    mStartModuleTime = System.currentTimeMillis();
-                    QueTopicActivity.nav(MeetingDetailsActivity.this, mMeetId, mModules.getByKey(ModuleType.que));
-                } else {
-                    showToast(r.getError());
-                }
-            }
-            break;
-            case KIdSign: {
-                stopRefresh();
-                Result<Sign> r = (Result<Sign>) result;
-                if (r.isSucceed()) {
-                    notifyEpn();
-                    Sign signData = r.getData();
-                    if (signData.getBoolean(TSign.finished)) {
-                        // 提示已签到
-                        showToast(R.string.signed);
-                    } else {
-                        // 未签到去签到
-                        mStartModuleTime = System.currentTimeMillis();
-                        SignActivity.nav(MeetingDetailsActivity.this,
-                                mMeetId,
-                                mModules.getByKey(ModuleType.sign),
-                                signData.getString(TSign.id),
-                                mGps.getString(TGps.latitude),
-                                mGps.getString(TGps.longitude));
-                    }
-                } else {
-                    showToast(r.getError());
-                }
-            }
-            break;
-            case KIdCourse: {
-                stopRefresh();
-                Result<PPT> r = (Result<PPT>) result;
-                if (r.isSucceed()) {
-                    notifyEpn();
-                    PPT ppt = r.getData();
-                    CourseInfo courseInfo = ppt.getEv(TPPT.course);
-                    if (courseInfo != null) {
-                        mStartModuleTime = System.currentTimeMillis();
-                        MeetingCourseActivity.nav(MeetingDetailsActivity.this, mMeetId, mModules.getByKey(ModuleType.ppt));
-                    } else {
-                        showToast("没有PPT");
-                    }
-                } else {
-                    showToast(r.getError());
-                }
-            }
-            break;
-            case KIdAttention: {
-                stopRefresh();
-                Result r = (Result) result;
-                if (r.isSucceed()) {
-                    showToast("关注成功");
-                    mMeetDetail.put(TMeetDetail.attention, true);
-                    notify(NotifyType.unit_num_attention_change,
-                            new AttentionUnitNum(mMeetDetail.getInt(TMeetDetail.pubUserId), Attention.yes));
-                } else {
-                    showToast("关注失败");
-                }
-            }
-            break;
         }
     }
 
@@ -384,9 +266,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             goneView(mTvEpn);
         } else {
             if (mNeedPay) {
-                mTvEpn.setText(String.format(getString(R.string.meeting_epn_pay), mCostEpn));
+                mTvEpn.setText(String.format(getString(R.string.meeting_epn_pay_before), mCostEpn));
             } else {
-                mTvEpn.setText(String.format(getString(R.string.meeting_epn_award),
+                mTvEpn.setText(String.format(getString(R.string.meeting_epn_award_before),
                         mCostEpn, detail.getInt(TMeetDetail.remainAward, 0)));
             }
         }
@@ -401,7 +283,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
         // 资料
         int fileNum = detail.getInt(TMeetDetail.materialCount);
-        if (fileNum > 3) {
+        if (fileNum > UnitNumDetail.KFileLimit) {
             showView(mIvFileArrow);
             mTvFileNum.setText(String.format(getString(R.string.meeting_file_more), fileNum));
             mLayoutData.setOnClickListener(v -> FileDataActivity.nav(MeetingDetailsActivity.this, mMeetId, Extra.KMeetingType));
@@ -427,17 +309,18 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         mTvIntro.setText(Html.fromHtml(detail.getString(TMeetDetail.introduction)));
 
         mFuncs = new MapList<>();
+        BaseFunc func = null;
 
-        BaseFunc func = new ExamFunc(this, detail, this);
+        func = new ExamFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
         func = new QueFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
-        func = new SignFunc(this, detail, this);
+        func = new VideoFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
-        func = new VideoFunc(this, detail, this);
+        func = new SignFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
         func = new CourseFunc(this, detail, this);
@@ -447,196 +330,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         mModuleLayout
                 .setFuncs(mFuncs)
                 .setModules(detail)
-                .intoCourse(mIvPlay, mIvPlayCourse)
                 .load();
-    }
-
-//    @Override
-//    public void onModuleClick(int type, MapList<Integer, String> modules) {
-//        if (mModules == null) {
-//            mModules = modules;
-//        }
-//        String moduleId = mModules.getByKey(type);
-//        switch (type) {
-//            case ModuleType.exam: {
-//                refresh(RefreshWay.dialog);
-//                exeNetworkReq(KIdExam, NetFactory.toExam(mMeetId, moduleId));
-//            }
-//            break;
-//            case ModuleType.que: {
-//                refresh(RefreshWay.dialog);
-//                exeNetworkReq(KIdQue, NetFactory.toSurvey(mMeetId, moduleId));
-//            }
-//            break;
-//            case ModuleType.video: {
-//                mStartModuleTime = System.currentTimeMillis();
-//                Submit submit = new Submit()
-//                        .put(TSubmit.meetId, mMeetId)
-//                        .put(TSubmit.moduleId, moduleId);
-//                VideoCategoryActivity.nav(MeetingDetailsActivity.this, submit, null);
-//            }
-//            break;
-//            case ModuleType.sign: {
-//                getSignInfo();
-//            }
-//            break;
-//            case ModuleType.ppt: {
-//                refresh(RefreshWay.dialog);
-//                exeNetworkReq(KIdCourse, NetFactory.toPPT(mMeetId, moduleId));
-//            }
-//            break;
-//        }
-//    }
-
-//    @Override
-//    public void toShowDialog(int type, View v) {
-//        switch (type) {
-//            case DialogType.attention: {
-//                // 提示关注
-//                mDialogAttention = new HintDialogMain(MeetingDetailsActivity.this);
-//                mDialogAttention.setHint("请先关注会议");
-//                mDialogAttention.addButton("确认关注", v1 -> {
-//                    mDialogAttention.dismiss();
-//                    exeNetworkReq(KIdAttention, NetFactory.attention(mMeetDetail.getInt(TMeetDetail.pubUserId), 1));
-//                });
-//                mDialogAttention.addButton(R.string.cancel, R.color.text_666, v1 -> mDialogAttention.dismiss());
-//                mDialogAttention.show();
-//            }
-//            break;
-//            case DialogType.recharge: {
-//                // 提示充值
-//                mDialogEpnNotEnough = new HintDialogMain(MeetingDetailsActivity.this);
-//                mDialogEpnNotEnough.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
-//                mDialogEpnNotEnough.addButton("充值象数", v1 -> {
-//                    mDialogEpnNotEnough.dismiss();
-//                    startActivity(EpnRechargeActivity.class);
-//                });
-//                mDialogEpnNotEnough.addButton(R.string.cancel, R.color.text_666, v1 -> mDialogEpnNotEnough.dismiss());
-//                mDialogEpnNotEnough.show();
-//            }
-//            break;
-//            case DialogType.pay: {
-//                // 提示支付
-//                mDialogPayEpn = new HintDialogMain(MeetingDetailsActivity.this);
-//                mDialogPayEpn.setHint(String.format(getString(R.string.need_pay), mCostEpn));
-//                mDialogPayEpn.addButton("确认支付", v1 -> {
-//                    mDialogPayEpn.dismiss();
-//                    mModuleLayout.toClickModule(v);
-//                });
-//                mDialogPayEpn.addButton(R.string.cancel, R.color.text_666, v1 -> mDialogPayEpn.dismiss());
-//                mDialogPayEpn.show();
-//            }
-//            break;
-//        }
-//    }
-
-    /**
-     * 签到
-     */
-    private void getSignInfo() {
-        refresh(RefreshWay.dialog);
-        mObserver = (isSuccess, gps) -> {
-            if (isSuccess) {
-                //定位成功
-                mGps = gps;
-                exeNetworkReq(KIdSign, NetFactory.toSign(mMeetId, mModules.getByKey(ModuleType.sign)));
-            } else {
-                //定位失败
-                runOnUIThread(() -> {
-                    stopRefresh();
-                    showLocationDialog();
-                });
-            }
-            LocationNotifier.inst().remove(mObserver);
-            Location.inst().onDestroy();
-        };
-        Location.inst().start();
-        LocationNotifier.inst().add(mObserver);
-    }
-
-    @Override
-    public void onPermissionResult(int code, @PermissionResult int result) {
-        switch (result) {
-            case PermissionResult.granted: {
-                getSignInfo();
-            }
-            break;
-            case PermissionResult.denied:
-            case PermissionResult.never_ask: {
-                showLocationDialog();
-            }
-            break;
-        }
-    }
-
-    /**
-     * 初始化Dialog
-     */
-    private void showLocationDialog() {
-        mLocationDialog = new LocationDialog(MeetingDetailsActivity.this);
-        mLocationDialog.setLocationListener(v -> {
-            if (checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
-                getSignInfo();
-            }
-        });
-        mLocationDialog.show();
-    }
-
-    /**
-     * 改变象数        // FIXME: 后台返回
-     */
-    private void notifyEpn() {
-        if (mCostEpn == 0 || mMeetDetail.getBoolean(TMeetDetail.attended)) {
-            return;
-        }
-
-        int remainEpn = Profile.inst().getInt(TProfile.credits); // 剩余象数
-        if (mNeedPay) {
-            Profile.inst().put(TProfile.credits, remainEpn - mCostEpn);
-        } else {
-            if (mMeetDetail.getInt(TMeetDetail.remainAward) > 0) {
-                // 奖励人数大于0奖励象数的
-                Profile.inst().put(TProfile.credits, remainEpn + mCostEpn);
-            }
-        }
-        Profile.inst().saveToSp();
-        notify(NotifyType.profile_change);
-        mMeetDetail.put(TMeetDetail.attended, true); // 参加过会议
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // 防止Dialog泄露
-        if (mLocationDialog != null) {
-            mLocationDialog.dismiss();
-        }
-        if (mDialogPayEpn != null) {
-            mDialogPayEpn.dismiss();
-        }
-        if (mShareDialog != null) {
-            mShareDialog.dismiss();
-        }
-        if (mDialogAttention != null) {
-            mDialogAttention.dismiss();
-        }
-        // 开启服务提交会议学习时间
-        if (mMeetTime > 0) {
-            Intent intent = new Intent(this, CommonServ.class)
-                    .putExtra(Extra.KType, ReqType.meet)
-                    .putExtra(Extra.KMeetId, mMeetId)
-                    .putExtra(Extra.KData, mMeetTime / TimeUnit.SECONDS.toMillis(1));
-            startService(intent);
-        }
-    }
-
-    @Override
-    public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.study) {
-            mMeetTime += System.currentTimeMillis() - mStartModuleTime;
-            YSLog.d(TAG, "onNotify:" + mMeetTime);
-        }
     }
 
     @Override
@@ -647,6 +341,31 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     @Override
     public void onFuncNormal(int type, String moduleId) {
         stopRefresh();
-        notifyEpn();
     }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.study_end) {
+            mMeetTime += System.currentTimeMillis() - mStartModuleTime;
+            YSLog.d(TAG, "onNotify:end" + mMeetTime);
+        } else if (type == NotifyType.study_start) {
+            mStartModuleTime = System.currentTimeMillis();
+            YSLog.d(TAG, "onNotify:start" + mStartModuleTime);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // 开启服务提交会议学习时间
+        if (mMeetTime > 0) {
+            Intent intent = new Intent(this, CommonServ.class)
+                    .putExtra(Extra.KType, ReqType.meet)
+                    .putExtra(Extra.KMeetId, mMeetId)
+                    .putExtra(Extra.KData, mMeetTime / TimeUnit.SECONDS.toMillis(1));
+            startService(intent);
+        }
+    }
+
 }

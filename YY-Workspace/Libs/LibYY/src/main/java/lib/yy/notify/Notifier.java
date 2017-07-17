@@ -27,7 +27,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.read_all_notice,
             NotifyType.token_out_of_date,
             NotifyType.cancel_attention,
-            NotifyType.study,
+            NotifyType.study_start,
+            NotifyType.study_end,
             NotifyType.cancel_collection_meeting,
             NotifyType.exit,
             NotifyType.province_finish,
@@ -84,9 +85,13 @@ public class Notifier extends NotifierEx<OnNotify> {
         int cancel_attention = 9;
 
         /**
-         * 学习
+         * 开始学习
          */
-        int study = 10;
+        int study_start = 100;
+        /**
+         * 学习结束
+         */
+        int study_end = 101;
 
         /**
          * 取消 收藏会议

@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_fff"
+    android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
@@ -24,19 +24,21 @@
             android:src="@mipmap/ic_launcher_login"/>
 
         <LinearLayout
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="60dp"
             android:background="@color/white"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-                <yy.doctor.view.AutoCompleteEditText
-                    style="@style/et.login"
-                    android:id="@+id/login_et_name"
-                    android:layout_height="wrap_content"
-                    android:hint="电子邮箱"
-                    android:singleLine="true"/>
+            <yy.doctor.view.AutoCompleteEditText
+                android:id="@+id/login_et_name"
+                style="@style/et.login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="电子邮箱"
+                android:singleLine="true"/>
 
             <ImageView
                 android:id="@+id/login_iv_cancel"
@@ -53,7 +55,7 @@
             style="@style/divider"/>
 
         <RelativeLayout
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp">
 
             <EditText
@@ -77,11 +79,11 @@
                 android:id="@+id/login_iv_cancel_pwd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="24dp"
                 android:layout_toLeftOf="@+id/login_cb_visible_pwd"
-                android:src="@mipmap/login_ic_cancel"/>
+                android:src="@mipmap/login_ic_cancel"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
@@ -89,9 +91,9 @@
             style="@style/divider"/>
 
         <TextView
-            android:id="@+id/login_tv"
+            android:id="@+id/login_tv_login"
             style="@style/tv.common"
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginTop="28dp"
             android:text="@string/login"
@@ -99,22 +101,17 @@
             android:textSize="15dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="38dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/login_tv_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/tv.login.bottom"
                 android:layout_marginRight="@dimen/margin"
-                android:gravity="center"
-                android:paddingLeft="5dp"
-                android:text="@string/toregister"
-                android:textColor="@color/text_848a8d"
-                android:textSize="13dp"/>
+                android:text="@string/toregister"/>
 
             <View
                 android:layout_width="1dp"
@@ -123,34 +120,34 @@
 
             <TextView
                 android:id="@+id/login_tv_forget_pwd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/tv.login.bottom"
                 android:layout_marginLeft="@dimen/margin"
-                android:gravity="center"
-                android:paddingRight="5dp"
-                android:text="@string/forget_pwd"
-                android:textColor="@color/text_848a8d"
-                android:textSize="13dp"/>
+                android:text="@string/forget_pwd"/>
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom|center_horizontal"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        // fixme
+        <LinearLayout
+            android:id="@+id/login_layout_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="17dp"
-                android:src="@mipmap/login_wechat"/>
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:src="@mipmap/login_ic_we_chat"/>
 
             <TextView
-                android:id="@+id/login_tv_wechat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/wechat_register"
                 android:textColor="@color/text_2ab81f"
                 android:textSize="10dp"/>

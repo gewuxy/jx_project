@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.meeting;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -12,9 +13,9 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
@@ -24,8 +25,6 @@ import yy.doctor.adapter.meeting.TopicCaseAdapter;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.Answer.TAnswer;
-import yy.doctor.model.meet.exam.Choice;
-import yy.doctor.model.meet.exam.Choice.TChoice;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
@@ -43,35 +42,36 @@ import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
  */
 public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopicListener {
 
-    private static final int KDuration = 300; //动画时长
     private static final int KVpSize = 3;
 
-    private TopicCaseAdapter mTopicCaseAdapter;  //考题情况的Adapter
+    private final int KDuration = 300; // 动画时长
 
-    private GridView mGv;           //考题情况列表
-    private TextView mTvFinish;      //已完成数
+    private TopicCaseAdapter mTopicCaseAdapter; // 考题情况的Adapter
+
+    private GridView mGv; // 考题情况列表
+    private TextView mTvFinish; // 已完成数
     private TextView mTvAllFinish; // 已完成数(查看考题)
-    private LinearLayout mLayout;   //考题情况
-    private LinearLayout mLayoutBg;  //考题背景
+    private LinearLayout mLayout; // 考题情况
+    private LinearLayout mLayoutBg; // 考题背景
 
-    private Animation mEnter;       //进入动画
-    private Animation mLeave;       //离开动画
-    private Animation mBgVisible;   //背景显示
-    private Animation mBgGone;      //背景消失
-    private boolean mIsAnimating;  //是否有动画在执行
+    private Animation mEnter; // 进入动画
+    private Animation mLeave; // 离开动画
+    private Animation mBgShow; // 背景显示
+    private Animation mBgHide; // 背景消失
+    private boolean mIsAnimating; // 是否有动画在执行
+
+    private HintDialogMain mSubDialog; // 提交提示
+    private HintDialogMain mExitDialog; // 退出提示
 
     protected int mCount; // 完成数量
-    protected String mPaperId;
     protected String mMeetId;
     protected String mModuleId;
     protected Intro mIntro;
     protected Paper mPaper; // 整套考题
-    protected List<Topic> mAllTopics;
+    protected List<Topic> mAllTopics; // 所有的考题
+    protected MapList<Integer, Answer> mAnswers; // 答案
     protected TextView mTvCase; // 总数(底部)
     protected TextView mTvAllCase; // 总数(查看考题)
-
-    private HintDialogMain mSubDialog; // 提交提示
-    private HintDialogMain mExitDialog; // 退出提示
 
     @NonNull
     @Override
@@ -81,8 +81,9 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
     @Override
     public void initData() {
+        mCount = 0;
         mIsAnimating = false;
-
+        mAnswers = new MapList<>();
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
     }
@@ -92,6 +93,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> exit());
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         super.findViews();
@@ -105,6 +107,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         mTvAllFinish = findView(R.id.topic_case_all_tv_finish);
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         super.setViews();
@@ -112,7 +115,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         setOnClickListener(R.id.topic_case_layout_progress);
         setOnClickListener(R.id.topic_case_all_layout_all);
         setOnClickListener(R.id.topic_case_all_layout_progress);
-
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
@@ -158,16 +160,15 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
                     0.0f,
                     Animation.RELATIVE_TO_SELF,
                     1.0f);
-
             setAnimation(mLeave);
         }
-        if (mBgVisible == null) {
-            mBgVisible = new AlphaAnimation(0.0f, 1.0f);
-            setAnimation(mBgVisible);
+        if (mBgShow == null) {
+            mBgShow = new AlphaAnimation(0.0f, 1.0f);
+            setAnimation(mBgShow);
         }
-        if (mBgGone == null) {
-            mBgGone = new AlphaAnimation(1.0f, 0.0f);
-            setAnimation(mBgGone);
+        if (mBgHide == null) {
+            mBgHide = new AlphaAnimation(1.0f, 0.0f);
+            setAnimation(mBgHide);
         }
         switch (v.getId()) {
             case R.id.topic_case_layout_progress:
@@ -183,43 +184,27 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     }
 
     /**
-     * 获取试题答案
+     * Animation设置,设置播放时长,设置监听
      *
-     * @param topics
+     * @param animation
      */
-    protected ArrayList<Answer> getAnswer(List<Topic> topics) {
-        ArrayList<Answer> answers = new ArrayList<>();//题号,答案
-        mCount = 0;
-        List<Choice> choices;
-        Answer answer;
-        StringBuffer answerStr;
-        for (Topic topic : topics) {
-            choices = topic.getList(TTopic.options);
-
-            answer = new Answer();
-            answer.put(TAnswer.id, topic.getString(TTopic.id));
-            //记录选中的选项
-            answerStr = new StringBuffer();
-            for (Choice choice : choices) {
-                if (choice.getBoolean(TChoice.check)) {
-                    answerStr.append(choice.getString(TChoice.key));
-                }
+    private void setAnimation(Animation animation) {
+        animation.setDuration(KDuration);
+        animation.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mIsAnimating = true;
             }
-            answer.put(TAnswer.answer, answerStr.toString());
-            answers.add(answer);
 
-            //标记是否已作答
-            if (answerStr.toString().length() > 0) {
-                topic.put(TTopic.finish, true);
-                mCount++;
-            } else {
-                topic.put(TTopic.finish, false);
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mIsAnimating = false;
             }
-        }
 
-        mTvFinish.setText(String.valueOf(mCount));
-        mTvAllFinish.setText(String.valueOf(mCount));
-        return answers;
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
     }
 
     /**
@@ -227,7 +212,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      */
     protected void initFrag() {
         mPaper = mIntro.getEv(TIntro.paper);
-        mPaperId = mPaper.getString(TPaper.id);
         mAllTopics = mPaper.getList(TPaper.questions);
 
         TopicFrag topicFrag = null;
@@ -236,13 +220,15 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         for (int i = 0; i < size; i++) {
             topicFrag = new TopicFrag();
 
-            Topic topic = mAllTopics.get(i);
             Bundle b = new Bundle();
+            Topic topic = mAllTopics.get(i);
             b.putSerializable(Extra.KData, topic);
             //最后一题
             if (i == size - 1) {
-                topicFrag.setLast();
+                b.putBoolean(Extra.KType, true);
             }
+            b.putInt(Extra.KId, i);
+
             topicFrag.setArguments(b);
             topicFrag.setOnTopicListener(this);
             add(topicFrag);
@@ -250,7 +236,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     }
 
     /**
-     * 设置GridView 和初始化
+     * 设置GridView(所有考题情况) 和初始化
      * Adapter{@link TopicCaseAdapter}
      */
     protected void initFirstGv() {
@@ -271,6 +257,24 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     }
 
     /**
+     * 考题情况是否显示
+     *
+     * @param showState true显示,false不显示
+     */
+    private void topicCaseVisibility(boolean showState) {
+        //没有动画执行的时候
+        if (!mIsAnimating) {
+            if (showState) {
+                mTopicCaseAdapter.notifyDataSetChanged();
+            }
+            mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
+            mLayout.startAnimation(showState ? mEnter : mLeave);
+            mLayoutBg.setVisibility(showState ? View.VISIBLE : View.GONE);
+            mLayoutBg.startAnimation(showState ? mBgShow : mBgHide);
+        }
+    }
+
+    /**
      * 获取当前题目占总题目的百分比
      *
      * @param position
@@ -279,29 +283,86 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     protected String getProgress(int position) {
         StringBuffer sb = new StringBuffer();
         if (mAllTopics != null && mAllTopics.size() > 0) {
-            sb.append(mAllTopics.get(position).getString(TTopic.sort))
+            sb.append(position + 1)
                     .append("/")
                     .append(mAllTopics.size());
         }
         return sb.toString();
     }
 
+    @Override
+    public void topicFinish(int id, Answer answer) {
+        Topic checkTopic = mAllTopics.get(id);
+        if (answer.getString(TAnswer.answer).length() > 0) {
+            // 选择了答案
+            if (!checkTopic.getBoolean(TTopic.finish)) {
+                // 之前未完成
+                checkTopic.put(TTopic.finish, true);
+                mCount++;
+            }
+        } else {
+            // 没有选择答案
+            if (checkTopic.getBoolean(TTopic.finish)) {
+                checkTopic.put(TTopic.finish, false);
+                mCount--;
+            }
+        }
+        Answer a = mAnswers.getByKey(id);
+        if (a == null) {
+            mAnswers.add(Integer.valueOf(id), answer);
+        } else {
+            // 改答案
+            a.put(answer);
+        }
+        mTvFinish.setText(String.valueOf(mCount));
+        mTvAllFinish.setText(String.valueOf(mCount));
+    }
+
+    @Override
+    public void toNext() {
+        if (getCurrentItem() == mAllTopics.size() - 1) {
+            toSubmit(mAllTopics.size() - mCount);
+        } else {
+            setCurrentItem(getCurrentItem() + 1);
+        }
+    }
+
     /**
-     * 按提交
+     * 点击提交
      *
      * @param noFinish
      */
-    protected void trySubmit(int noFinish) {
+    protected void toSubmit(int noFinish) {
         // 未答完
         mSubDialog = new HintDialogMain(BaseTopicActivity.this);
-        mSubDialog.setHint(setDialogHint(noFinish));
-
+        mSubDialog.setHint(submitHint(noFinish));
         mSubDialog.addButton(R.string.confirm, v -> {
-            submit();
             mSubDialog.dismiss();
+            submit();
         });
-        mSubDialog.addButton(R.string.cancel, "#666666", v -> mSubDialog.dismiss());
+        mSubDialog.addButton(R.string.cancel, R.color.text_666, v -> mSubDialog.dismiss());
         mSubDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+
+    /**
+     * 退出提示
+     */
+    private void exit() {
+        mExitDialog = new HintDialogMain(BaseTopicActivity.this);
+        mExitDialog.setHint("确定退出?");
+        mExitDialog.addButton(R.string.confirm, v -> {
+            // 退出考试/问卷
+            notify(NotifyType.study_end);
+            finish();
+            mExitDialog.dismiss();
+        });
+        mExitDialog.addButton(R.string.cancel, R.color.text_666, v -> mExitDialog.dismiss());
+        mExitDialog.show();
     }
 
     @Override
@@ -316,86 +377,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        exit();
-    }
-
-    /**
-     * 退出提示
-     */
-    private void exit() {
-        mExitDialog = new HintDialogMain(BaseTopicActivity.this);
-        mExitDialog.setHint("确定退出?");
-        mExitDialog.addButton(R.string.confirm, v1 -> {
-            // 退出考试/问卷
-            notify(NotifyType.study);
-            finish();
-            mExitDialog.dismiss();
-        });
-        mExitDialog.addButton(R.string.cancel, "#666666", v1 -> mExitDialog.dismiss());
-        mExitDialog.show();
-    }
-
-    /**
-     * 考题情况是否显示
-     *
-     * @param showState true显示,false不显示
-     */
-    private void topicCaseVisibility(boolean showState) {
-        //没有动画执行的时候
-        if (!mIsAnimating) {
-            if (showState) {
-                mTopicCaseAdapter.notifyDataSetChanged();
-            }
-            mLayout.setVisibility(showState ? View.VISIBLE : View.GONE);
-            mLayout.startAnimation(showState ? mEnter : mLeave);
-            mLayoutBg.setVisibility(showState ? View.VISIBLE : View.GONE);
-            mLayoutBg.startAnimation(showState ? mBgVisible : mBgGone);
-        }
-    }
-
-    /**
-     * Animation设置,设置播放时长,设置监听
-     *
-     * @param animation
-     */
-    private void setAnimation(Animation animation) {
-        animation.setDuration(KDuration);
-        animation.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                mIsAnimating = true;
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mIsAnimating = false;
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
-
-    @Override
-    public void onFinish() {
-        // FIXME: 2017/6/30 代优化
-        getAnswer(mAllTopics);
-    }
-
-    @Override
-    public void onNext() {
-        setCurrentItem(getCurrentItem() + 1);
-    }
-
-    @Override
-    public void onSubmit() {
-        trySubmit(mAllTopics.size() - mCount);
-    }
-
     /**
      * 提交答案
      */
@@ -407,6 +388,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * @param noFinish
      * @return
      */
-    protected abstract String setDialogHint(int noFinish);
+    protected abstract String submitHint(int noFinish);
 
 }

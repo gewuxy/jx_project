@@ -18,7 +18,6 @@ import yy.doctor.ui.activity.meeting.ExamIntroActivity;
  * @auther yuansui
  * @since 2017/7/12
  */
-
 public class ExamFunc extends BaseFunc {
 
     public ExamFunc(Context context, MeetDetail detail, OnFuncListener l) {
@@ -27,7 +26,7 @@ public class ExamFunc extends BaseFunc {
 
     @Override
     protected CharSequence getText() {
-        return "考试";
+        return getContext().getString(R.string.exam);
     }
 
     @Override
@@ -42,28 +41,24 @@ public class ExamFunc extends BaseFunc {
 
     @Override
     protected NetworkReq getNetworkReq() {
-        return NetFactory.toExam(getDetail().getString(TMeetDetail.id), getModuleId());
+        return NetFactory.toExam(getMeetId(), getModuleId());
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(NetworkResp r) throws Exception {
         return JsonParser.error(r.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(Object result) {
         Result r = (Result) result;
         if (r.isSucceed()) {
             ExamIntroActivity.nav(getContext(),
-                    getDetail().getString(TMeetDetail.id),
+                    getMeetId(),
                     getModuleId(),
                     getDetail().getString(TMeetDetail.organizer));
         } else {
             AppEx.showToast(r.getError());
-        }
-
-        if (getListener() != null) {
-            getListener().onFuncNormal(getType(), getModuleId());
         }
     }
 

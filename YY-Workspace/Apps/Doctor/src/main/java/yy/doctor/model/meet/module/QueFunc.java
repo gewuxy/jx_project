@@ -4,17 +4,20 @@ import android.content.Context;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.ys.AppEx;
+import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.meeting.QueTopicActivity;
 
 /**
  * @auther yuansui
  * @since 2017/7/12
  */
-
 public class QueFunc extends BaseFunc {
-
 
     public QueFunc(Context context, MeetDetail detail, OnFuncListener l) {
         super(context, detail, l);
@@ -22,7 +25,7 @@ public class QueFunc extends BaseFunc {
 
     @Override
     protected CharSequence getText() {
-        return "问卷";
+        return getContext().getString(R.string.que);
     }
 
     @Override
@@ -36,22 +39,22 @@ public class QueFunc extends BaseFunc {
     }
 
     @Override
-    public void onClick() {
-
-    }
-
-    @Override
     protected NetworkReq getNetworkReq() {
-        return null;
+        return NetFactory.toSurvey(getMeetId(), getModuleId());
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return null;
+    public Object onNetworkResponse( NetworkResp r) throws Exception {
+        return JsonParser.error(r.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-
+    public void onNetworkSuccess(Object result) {
+        Result r = (Result) result;
+        if (r.isSucceed()) {
+            QueTopicActivity.nav(getContext(), getMeetId(), getModuleId());
+        } else {
+            AppEx.showToast(r.getError());
+        }
     }
 }

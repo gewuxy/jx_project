@@ -1,5 +1,7 @@
 package yy.doctor.adapter.meeting;
 
+import android.widget.TextView;
+
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicCaseVH;
@@ -14,6 +16,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  */
 
 public class TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
+
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_exam_topic_case_item;
@@ -22,8 +25,9 @@ public class TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
     @Override
     protected void refreshView(int position, TopicCaseVH holder) {
         Topic item = getItem(position);
-        holder.getText().setText(item.getString(TTopic.sort));
-        holder.getText().setSelected(item.getBoolean(TTopic.finish));
+        TextView tv = holder.getText();
+        tv.setText(String.valueOf(position + 1));
+        tv.setSelected(item.getBoolean(TTopic.finish));
     }
 
 }

@@ -4,19 +4,28 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import java.util.List;
+
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.yy.network.Result;
+import yy.doctor.App;
 import yy.doctor.R;
+import yy.doctor.model.meet.CourseInfo;
+import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.MeetDetail;
+import yy.doctor.model.meet.PPT;
+import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.module.Module.ModuleType;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.meeting.MeetingCourseActivity;
 
 /**
  * @auther yuansui
  * @since 2017/7/12
  */
-
 public class CourseFunc extends BaseFunc {
-
 
     public CourseFunc(Context context, MeetDetail detail, OnFuncListener l) {
         super(context, detail, l);
@@ -43,22 +52,37 @@ public class CourseFunc extends BaseFunc {
     }
 
     @Override
-    public void onClick() {
-
-    }
-
-    @Override
     protected NetworkReq getNetworkReq() {
-        return null;
+        return NetFactory.toPPT(getMeetId(), getModuleId());
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return null;
+    public Object onNetworkResponse(NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), PPT.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-
+    protected void onNetworkSuccess(Object result) {
+        Result<PPT> r = (Result<PPT>) result;
+        if (r.isSucceed()) {
+            PPT ppt = r.getData();
+            if (ppt == null) {
+                App.showToast(R.string.course_no);
+            } else {
+                CourseInfo course = ppt.getEv(TPPT.course);
+                if (course == null) {
+                    App.showToast(R.string.course_no);
+                } else {
+                    List details = course.getList(TCourseInfo.details);
+                    if (details == null || details.size() == 0) {
+                        App.showToast(R.string.course_no);
+                    } else {
+                        MeetingCourseActivity.nav(getContext(), getMeetId(), getModuleId());
+                    }
+                }
+            }
+        } else {
+            App.showToast(r.getError());
+        }
     }
 }

@@ -8,6 +8,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.res.ResLoader;
+import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.network.NetFactory;
@@ -44,6 +45,8 @@ public class SignActivity extends BaseResultActivity {
     public void initData() {
         super.initData();
 
+        notify(NotifyType.study_start);
+
         mLatitude = getIntent().getStringExtra(Extra.KLatitude);
         mLongitude = getIntent().getStringExtra(Extra.KLongitude);
         mSignId = getIntent().getStringExtra(Extra.KData);
@@ -51,7 +54,7 @@ public class SignActivity extends BaseResultActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "签到", this);
+        Util.addBackIcon(bar, R.string.sign, this);
     }
 
     @Override

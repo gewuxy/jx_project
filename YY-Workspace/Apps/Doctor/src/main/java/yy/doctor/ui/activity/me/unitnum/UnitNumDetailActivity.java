@@ -61,7 +61,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private static final int KReqIdUnitNumDetail = 0;
     private static final int KReqIdAttention = 1;
     private static final int KReqIdCancelAttention = 2;
-    private static final int KFileLimit = 3;
+
 
     private SwipeZoomListView mZoomView;
     private NetworkImageView mIvZoom;
@@ -319,7 +319,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
 
             int fileNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
-            if (fileNum > KFileLimit) {
+            if (fileNum > UnitNumDetail.KFileLimit) {
                 String dataNum = String.format(ResLoader.getString(R.string.check_all), fileNum);
                 mTvFileNum.setText(dataNum);
                 showView(mIvArrows);
