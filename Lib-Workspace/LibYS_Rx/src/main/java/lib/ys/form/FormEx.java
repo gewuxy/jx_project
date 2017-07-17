@@ -59,6 +59,7 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
         id, // 标识位
         visible,// 显示与否
         observer, // 观察者, 某些数据的相应回调
+        text_color, // 字体颜色
 
         /**
          * 和服务器通信的主要字段

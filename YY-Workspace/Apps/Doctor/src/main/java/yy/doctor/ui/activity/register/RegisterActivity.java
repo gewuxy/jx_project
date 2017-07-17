@@ -15,6 +15,7 @@ import java.lang.annotation.RetentionPolicy;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TFormElem;
 import lib.ys.ui.other.NavBar;
@@ -63,6 +64,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             RelatedId.hospital,
             RelatedId.capcha,
             RelatedId.phone_number,
+            RelatedId.email,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
@@ -73,6 +75,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         int hospital = 5;
         int capcha = 6;
         int phone_number = 7;
+        int email = 8;
     }
 
     @Override
@@ -83,6 +86,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     @Override
     public void initData() {
         super.initData();
+
+        addItem(new Builder(FormType.et_email)
+                .related(RelatedId.email)
+                .hint("电子邮箱")
+                .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_register)
@@ -123,10 +131,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());*/
     }
 
-    @Override
+  /*  @Override
     protected View createHeaderView() {
-        return inflate(R.layout.layout_edit_email);
-    }
+       return inflate(R.layout.layout_edit_email);
+    }*/
 
     @Override
     protected View createFooterView() {
@@ -175,14 +183,20 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         // FIXME: FromItem
         // 检查邮箱判断是否为null (不是FromItem)
-        mUserName = mEtEmail.getText().toString().trim();
+      /*  mUserName = mEtEmail.getText().toString().trim();
         if (TextUtil.isEmpty(mUserName)) {
             showToast("请输入" + getString(R.string.email));
             return;
-        }
+        }*/
 
+        mUserName = getItemStr(RelatedId.email);
         // 判断空
         if (!check()) {
+            return;
+        }
+
+        if (TextUtil.isEmpty(mUserName)) {
+            showToast("请输入" + getString(R.string.email));
             return;
         }
 
@@ -194,7 +208,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
 
 
-        // 检查邮箱是否合法 (不是FromItem)
+         //检查邮箱是否合法 (不是FromItem)
+       /* if (!RegexUtil.isEmail(mUserName)) {
+            showToast(R.string.input_right_email);
+            return;
+        }*/
         if (!RegexUtil.isEmail(mUserName)) {
             showToast(R.string.input_right_email);
             return;
@@ -333,7 +351,8 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(mUserName);
-                exeNetworkReq(KLogin, NetFactory.login(mUserName, mPwd));
+                exeNetworkReq(KLogin, NetFactory.login(getItemStr(RelatedId.email), mPwd));
+                YSLog.d("yaya","_________________________");
             } else {
                 stopRefresh();
                 showToast(r.getError());

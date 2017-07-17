@@ -23,17 +23,20 @@
             android:layout_marginTop="83dp"
             android:src="@mipmap/ic_launcher_login"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="280dp"
             android:layout_height="52dp"
             android:layout_marginTop="60dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <yy.doctor.view.AutoCompleteEditText
-                android:id="@+id/login_et_name"
-                style="@style/et.login"
-                android:hint="@string/email_phone"
-                android:singleLine="true"/>
+                <yy.doctor.view.AutoCompleteEditText
+                    style="@style/et.login"
+                    android:id="@+id/login_et_name"
+                    android:layout_height="wrap_content"
+                    android:hint="电子邮箱"
+                    android:singleLine="true"/>
 
             <ImageView
                 android:id="@+id/login_iv_cancel"
@@ -44,7 +47,7 @@
                 android:layout_marginRight="21dp"
                 android:src="@mipmap/login_ic_cancel"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             style="@style/divider"/>

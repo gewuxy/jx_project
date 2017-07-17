@@ -2,6 +2,7 @@ package yy.doctor.model.form;
 
 import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.BaseForm;
+import yy.doctor.model.form.edit.EditEmailForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditNumberForm;
@@ -87,6 +88,10 @@ public class Builder extends FormBuilderEx<BaseForm> {
             break;
             case FormType.et_phone_number: {
                 form = new EditPhoneNumberForm();
+            }
+            break;
+            case FormType.et_email:{
+                form = new EditEmailForm();
             }
             break;
             case FormType.profile_checkbox: {

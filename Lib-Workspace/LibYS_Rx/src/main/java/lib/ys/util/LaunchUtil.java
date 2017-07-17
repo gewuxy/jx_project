@@ -61,6 +61,17 @@ public class LaunchUtil {
         startActivityForResult(host, intent, code, extras);
     }
 
+    public static void startService(Context context, Class<?> clz, Bundle... extras) {
+        Intent intent = new Intent(context, clz);
+        putExtras(intent, extras);
+        context.startService(intent);
+    }
+
+    public static void startService(Context context, Intent intent, Bundle... extras) {
+        putExtras(intent, extras);
+        context.startService(intent);
+    }
+
     private static void putExtras(Intent intent, Bundle... extras) {
         if (extras != null) {
             for (int i = 0; i < extras.length; ++i) {
