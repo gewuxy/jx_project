@@ -3,7 +3,7 @@
 
     <style name="divider">
         <item name="android:id">@id/form_divider</item>
-        <item name="android:layout_width">280dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/divider_height_1px</item>
         <item name="android:background">@color/divider</item>
         <item name="android:layout_weight">0</item>

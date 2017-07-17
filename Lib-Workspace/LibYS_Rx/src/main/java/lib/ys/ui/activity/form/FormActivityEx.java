@@ -52,6 +52,8 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
 
     private Class<VH> mVHClass;
 
+    private long mItemClickTime = 0;
+
     @Override
     public int getContentViewId() {
         return R.layout.layout_form_items;
@@ -359,9 +361,16 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
      * @param position
      */
     protected final void onItemClick(View v, int position) {
-        if (!getItem(position).onItemClick(this, v)) {
-            onFormItemClick(v, position);
+        // 500毫秒内点击连续点击，不做响应
+        if ((System.currentTimeMillis() - mItemClickTime) > 500) {
+            mItemClickTime = System.currentTimeMillis();
+            if (!getItem(position).onItemClick(this, v)) {
+                onFormItemClick(v, position);
+            }
+        } else {
+            return;
         }
+
     }
 
     @Override

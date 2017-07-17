@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.DownloadNotifier;
@@ -48,7 +47,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private String mType;
     private long mFileSize;
     private String mFileSizeKB;
-    private String mFileHashCodeName;
+    private String mFileNameHashCode;
+    private String mFileNameEncryption;
     private String mFilePath;
     private Intent mDownloadServ;
 
@@ -73,23 +73,22 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
-        mFileHashCodeName = String.valueOf((mUrl.hashCode() + KDot + mType));
+        mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mType));
 
         //打乱文件名
-        int shift = mFileHashCodeName.length() / 2;
+        int shift = 5;
         StringBuffer sb = new StringBuffer();
-        char[] chars = mFileHashCodeName.toCharArray();
+        char[] chars = mFileNameHashCode.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             char c = (char) (chars[i] + shift);
             sb.append(c);
         }
-        YSLog.d(TAG, " StringBuffer = " + sb.toString());
-        mFileHashCodeName = sb.toString();
+        mFileNameEncryption = sb.toString();
 
         //先判断文件是否已经存在  通过url的hashcode
-        File f = new File(mFilePath, mFileHashCodeName);
+        File f = new File(mFilePath, mFileNameEncryption);
         if (f.exists()) {
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mFileSizeKB, mFileName);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mFileSizeKB, mFileName);
             finish();
         }
 
@@ -103,13 +102,11 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, R.string.download_data, this);
     }
 
     @Override
     public void findViews() {
-
         mProgressBar = findView(R.id.download_progress_bar);
         mTvNum = findView(R.id.download_tv_num);
         mTvTotal = findView(R.id.dowmload_tv_total);
@@ -119,7 +116,6 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
 
     @Override
     public void setViews() {
-
         mIvDownload.setOnClickListener(this);
         mProgressBar.setProgress(0);
         mTvTotal.setText(mFileSizeKB);
@@ -177,9 +173,26 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             long downloadSize = (long) (mFileSize * ((float) progress / 100f));
             mTvNum.setText(downloadSize + KByteSymbol);
         } else if (type == DownloadNotifyType.complete) {
-            //下载完成跳转
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileHashCodeName, mType, mTvTotal.getText().toString(), mFileName);
+
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName);
             finish();
+
+//            if (mType.equals(FileTypeConstants.KPdf)) {
+//                // 下载完成先加密  加密完成跳转
+//                Observable.fromCallable(() -> FileCipherUtil.encrypt(mFilePath + mFileNameEncryption, FileCipherUtil.KEncrypt))
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(aBoolean -> {
+//                            if (aBoolean) {
+//                                LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName);
+//                                finish();
+//                            }
+//                        });
+//            } else {
+//                //加载完成跳转
+//                LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName);
+//                finish();
+//            }
         }
     }
 

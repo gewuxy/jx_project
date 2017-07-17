@@ -132,13 +132,26 @@
         <activity
             android:name=".ui.activity.search.ResultActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.frag.meeting.course.TestMeetingCourseActivity"
-            android:screenOrientation="portrait"/>
+
 
         <!-- data -->
         <activity
             android:name=".ui.activity.data.ThomsonActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.DrugDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.DrugSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.ClinicalGuideSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.DrugListCategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.ClinicalGuideCategoryActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -216,6 +229,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.CommonWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.PDFActivity"
             android:screenOrientation="portrait"/>
 
 

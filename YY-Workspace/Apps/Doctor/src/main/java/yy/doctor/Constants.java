@@ -41,32 +41,6 @@ public interface Constants extends BaseConstants {
         int second = 2;
     }
 
-    @IntDef({
-            OrderState.pending,
-            OrderState.accepted_order,
-            OrderState.shipped,
-            OrderState.received,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface OrderState {
-        int pending = 0;  // 待处理
-        int accepted_order = 1; // 已接受订单
-        int shipped = 2; // 已发货
-        int received = 3; // 已签收
-    }
-
-    @IntDef({
-            EpnDetailType.pay,
-            EpnDetailType.recharge,
-            EpnDetailType.award
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface EpnDetailType {
-        int pay = 0;  // 表示支付
-        int recharge = 1; // 1表示充值
-        int award = 2;  // 2表示获得
-    }
-
     /**
      * 性别
      */

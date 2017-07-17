@@ -21,7 +21,7 @@ import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.ui.frag.data.ClinicalGuideFrag;
-import yy.doctor.ui.frag.data.DrugListbFrag;
+import yy.doctor.ui.frag.data.DrugListFrag;
 import yy.doctor.ui.frag.data.ThomsonFrag;
 
 /**
@@ -57,7 +57,7 @@ public class DataFrag extends BaseVPFrag {
     public void initData() {
 
         add(new ThomsonFrag());
-        add(new DrugListbFrag());
+        add(new DrugListFrag());
         add(new ClinicalGuideFrag());
     }
 

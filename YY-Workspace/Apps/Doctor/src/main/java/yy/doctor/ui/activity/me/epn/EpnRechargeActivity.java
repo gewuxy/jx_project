@@ -137,16 +137,9 @@ public class EpnRechargeActivity extends BaseActivity {
                     editEnd--;
                 }
                 mEtRechargeNum.setSelection(editStart);
-                long payNum;
-                String epnNum = null;
                 String editStr = mEtRechargeNum.getText().toString().trim();
-                String str = getString(R.string.epn_unit);
-                if (TextUtil.isEmpty(editStr)) {
-                    epnNum = String.format(str, 0);
-                } else {
-                    payNum = Long.valueOf(editStr);
-                    epnNum = String.format(str, payNum * 10);
-                }
+                String epnNum = String.format(getString(R.string.epn_unit), TextUtil.isEmpty(editStr) ? 0 : Integer.valueOf(editStr) *10);
+
                 mTvEpnRechargeNum.setText(epnNum);
                 // 恢复监听
                 mEtRechargeNum.addTextChangedListener(this);

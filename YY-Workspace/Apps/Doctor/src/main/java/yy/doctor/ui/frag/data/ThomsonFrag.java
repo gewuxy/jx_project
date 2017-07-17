@@ -3,8 +3,8 @@ package yy.doctor.ui.frag.data;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.view.ViewUtil;
 import lib.yy.ui.frag.base.BaseSRListFrag;
+import yy.doctor.R;
 import yy.doctor.adapter.ThomsonAdapter;
 import yy.doctor.model.data.ThomsonDetail;
 import yy.doctor.network.NetFactory;
@@ -27,7 +27,7 @@ public class ThomsonFrag extends BaseSRListFrag<ThomsonDetail, ThomsonAdapter> {
 
     @Override
     public View createHeaderView() {
-        return ViewUtil.inflateSpaceViewDp(8);
+        return inflate(R.layout.layout_divider);
     }
 
     @Override

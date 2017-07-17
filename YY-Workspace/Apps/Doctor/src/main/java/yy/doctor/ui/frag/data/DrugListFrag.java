@@ -7,15 +7,14 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.ClinicalGuideAdapter;
-import yy.doctor.ui.activity.data.ClinicalGuideSearchActivity;
-import yy.doctor.ui.activity.data.ClinicalGuideCategoryActivity;
+import yy.doctor.adapter.DrugListAdapter;
+import yy.doctor.ui.activity.data.DrugSearchActivity;
 
 /**
  * @author CaiXiang
  * @since 2017/4/24
  */
-public class ClinicalGuideFrag extends BaseSRListFrag<String, ClinicalGuideAdapter> {
+public class DrugListFrag extends BaseSRListFrag<String, DrugListAdapter> {
 
     private TextView mTvSearch;
 
@@ -48,7 +47,7 @@ public class ClinicalGuideFrag extends BaseSRListFrag<String, ClinicalGuideAdapt
         super.setViews();
 
         setOnClickListener(R.id.data_header_search_layout);
-        mTvSearch.setText(R.string.clinical_guide_search_hint);
+        mTvSearch.setText(R.string.drug_list_search_hint);
     }
 
     @Override
@@ -58,14 +57,8 @@ public class ClinicalGuideFrag extends BaseSRListFrag<String, ClinicalGuideAdapt
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.data_header_search_layout) {
-            startActivity(ClinicalGuideSearchActivity.class);
+            startActivity(DrugSearchActivity.class);
         }
-    }
-
-    @Override
-    public void onItemClick(View v, int position) {
-
-        startActivity(ClinicalGuideCategoryActivity.class);
     }
 
     @Override

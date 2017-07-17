@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/data_path_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:singleLine="true"
+            android:text="就开始大 > 幅数据库的 > 发的时间咖啡 > 但是大家看 > 法和刷 > 卡的肌肤 > 深刻"
+            android:textSize="14dp"
+            android:textColor="@color/text_0882e7"/>
+
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"/>
+
+</LinearLayout>

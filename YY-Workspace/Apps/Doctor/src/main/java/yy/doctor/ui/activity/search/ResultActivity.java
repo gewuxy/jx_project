@@ -93,10 +93,16 @@ public class ResultActivity extends BaseListActivity<IRec, RecAdapter> {
     }
 
     @Override
+    public void findViews() {
+        super.findViews();
+
+        mTvEmpty = findView(R.id.empty_footer_tv);
+    }
+
+    @Override
     public void setViews() {
         super.setViews();
 
-        mTvEmpty = findView(R.id.empty_footer_tv);
         if (mTvEmpty != null) {
             mTvEmpty.setText(getEmptyText());
         }

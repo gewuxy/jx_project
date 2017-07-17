@@ -46,14 +46,10 @@ public class ShareDialog extends BaseDialog {
     private String mShareTitle;
     private String mPlatName;
 
-    public ShareDialog(Context context) {
+    public ShareDialog(Context context, String shareUrl, String shareTitle) {
         super(context);
-    }
-
-    public ShareDialog(Context context, String mShareUrl, String mShareTitle) {
-        super(context);
-        this.mShareUrl = mShareUrl;
-        this.mShareTitle = mShareTitle;
+        mShareUrl = shareUrl;
+        mShareTitle = shareTitle;
     }
 
     private Handler handler = new Handler() {
