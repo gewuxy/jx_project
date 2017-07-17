@@ -1,7 +1,6 @@
 package yy.doctor.adapter.meeting;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.fitter.DpFitter;
@@ -56,12 +55,13 @@ public class MeetingAdapter extends AdapterEx<Meeting, MeetingVH> {
                 .load();
         holder.getTvUnitNum().setText(item.getString(TMeeting.organizer));
 
-        holder.getMeetingItemLayout().setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
-            }
-        });
+        setOnViewClickListener(position, holder.getMeetingItemLayout());
     }
+
+    @Override
+    protected void onViewClick(int position, View v) {
+        Meeting item = getItem(position);
+        MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
+    }
+
 }

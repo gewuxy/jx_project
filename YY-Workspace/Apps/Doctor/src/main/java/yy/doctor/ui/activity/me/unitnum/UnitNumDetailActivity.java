@@ -74,11 +74,11 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private TextView mTvIntroduction;
     private TextView mTvFileNum;
 
-    private View mIntroLayout;
-    private View mVFileLayout;
+    private View mLayoutIntro;
+    private View mLayoutFile;
     private ImageView mIvArrows;
-    private LinearLayout mLayoutFile;
-    private View mVLargeDivider;
+    private LinearLayout mLayoutFileItem;
+    private View mLargeDivider;
     private View mDivider;
 
     private UnitNumDetail mUnitNumDetail;
@@ -130,12 +130,12 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         mTvAddress = findView(R.id.unit_num_detail_tv_address);
         mTvIntroduction = findView(R.id.unit_num_detail_tv_introduction);
 
-        mIntroLayout = findView(R.id.unit_num_detail_intro_layout);
+        mLayoutIntro = findView(R.id.unit_num_detail_intro_layout);
         mTvFileNum = findView(R.id.unit_num_detail_tv_file_num);
-        mVFileLayout = findView(R.id.unit_num_detail_layout_file);
+        mLayoutFile = findView(R.id.unit_num_detail_layout_file);
         mIvArrows = findView(R.id.unit_num_detail_iv_arrow);
-        mLayoutFile = findView(R.id.unit_num_detail_file_layout_content);
-        mVLargeDivider = findView(R.id.unit_num_detail_large_divider);
+        mLayoutFileItem = findView(R.id.unit_num_detail_file_layout_content);
+        mLargeDivider = findView(R.id.unit_num_detail_large_divider);
         mDivider = findView(R.id.unit_num_detail_divider);
     }
 
@@ -298,7 +298,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             //判断是否有简介， 没有的话要gone掉layout
             String intro = mUnitNumDetail.getString(TUnitNumDetail.sign);
             if (TextUtil.isEmpty(intro)) {
-                goneView(mIntroLayout);
+                goneView(mLayoutIntro);
             } else {
                 mTvIntroduction.setText(intro);
             }
@@ -314,8 +314,8 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             int size = listFile.size();
             if (size == 0 || listFile == null) {
                 goneView(mDivider);
-                goneView(mVFileLayout);
-                goneView(mVLargeDivider);
+                goneView(mLayoutFile);
+                goneView(mLargeDivider);
             }
 
             int fileNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
@@ -323,11 +323,11 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 String dataNum = String.format(ResLoader.getString(R.string.check_all), fileNum);
                 mTvFileNum.setText(dataNum);
                 showView(mIvArrows);
-                mVFileLayout.setOnClickListener(v ->
+                mLayoutFile.setOnClickListener(v ->
                         FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getString(TUnitNumDetail.id), Extra.KUnitNumType));
             }
 
-            UISetter.setFileData(mLayoutFile, listFile, mUnitNumId);
+            UISetter.setFileData(mLayoutFileItem, listFile, mUnitNumId);
 
             ListResult<Meeting> meetingResult = new ListResult<>();
             meetingResult.setCode(ErrorCode.KOk);

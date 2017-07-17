@@ -1,5 +1,7 @@
 package yy.doctor.adapter;
 
+import android.view.View;
+
 import lib.ys.adapter.GroupAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
@@ -44,6 +46,13 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNum, UnitNu
                 .load();
         holder.getTvChild().setText(item.getString(TUnitNum.nickname));
 
-        holder.getUnitNumItemLayout().setOnClickListener(v -> UnitNumDetailActivity.nav(getContext(), item.getInt(TUnitNum.id)));
+        setOnChildViewClickListener(groupPosition, childPosition, holder.getUnitNumItemLayout());
+    }
+
+    @Override
+    public void onChildViewClick(int groupPosition, int childPosition, View v) {
+
+        UnitNum item = getChild(groupPosition, childPosition);
+        UnitNumDetailActivity.nav(getContext(), item.getInt(TUnitNum.id));
     }
 }

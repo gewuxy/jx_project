@@ -3,7 +3,7 @@ package yy.doctor.adapter;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
-import yy.doctor.Constants.OrderState;
+import yy.doctor.model.me.Order.OrderState;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.OrderVH;
 import yy.doctor.model.me.Order;

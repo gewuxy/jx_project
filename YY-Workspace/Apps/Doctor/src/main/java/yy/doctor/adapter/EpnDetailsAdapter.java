@@ -3,7 +3,7 @@ package yy.doctor.adapter;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
-import yy.doctor.Constants.EpnDetailType;
+import yy.doctor.model.me.EpnDetails.EpnDetailType;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.EpnDetailsVH;
 import yy.doctor.model.me.EpnDetails;
@@ -33,7 +33,7 @@ public class EpnDetailsAdapter extends AdapterEx<EpnDetails, EpnDetailsVH> {
         holder.geTvNum().setText(String.format(getString(R.string.epn_unit), item.getInt(TEpnDetails.cost)));
         holder.geTvContent().setText(item.getString(TEpnDetails.description));
 
-        // 判断是奖励还是支付，充值
+        // 判断 奖励,支付,充值
         int resId = 0;
         switch (item.getInt(TEpnDetails.type)) {
             case EpnDetailType.pay: {
@@ -50,7 +50,6 @@ public class EpnDetailsAdapter extends AdapterEx<EpnDetails, EpnDetailsVH> {
             break;
         }
         holder.geTvType().setText(resId);
-
     }
 
 }

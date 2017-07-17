@@ -21,7 +21,8 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
     private String mUrl;
     private String mFilePath;
     private String mType;
-    private String mFileHashCode;
+    private String mFileNameHashCode;
+    private String mFileNameEncryption;
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -29,22 +30,23 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
         mUrl = intent.getStringExtra(Extra.KData);
         mFilePath = intent.getStringExtra(Extra.KFilePath);
-
         mType = intent.getStringExtra(Extra.KType);
-        mFileHashCode = String.valueOf(mUrl.hashCode()) + KDot + mType;
+
+        mFileNameHashCode = String.valueOf(mUrl.hashCode()) + KDot + mType;
+        YSLog.d(TAG, " download FileNameHashCode = " + mFileNameHashCode);
 
         //打乱文件名
-        int shift = mFileHashCode.length() / 2;
+        int shift = 5;
         StringBuffer sb = new StringBuffer();
-        char[] chars = mFileHashCode.toCharArray();
+        char[] chars = mFileNameHashCode.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             char c = (char) (chars[i] + shift);
             sb.append(c);
         }
-        YSLog.d(TAG, " StringBuffer = " + sb.toString());
-        mFileHashCode = sb.toString();
+        mFileNameEncryption = sb.toString();
+        YSLog.d(TAG, " download FileNameEncryption = " + mFileNameEncryption);
 
-        exeNetworkReq(NetFactory.downloadData(mUrl, mFilePath, mFileHashCode));
+        exeNetworkReq(NetFactory.downloadData(mUrl, mFilePath, mFileNameEncryption));
     }
 
     @Override
@@ -83,4 +85,5 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
             return mProgress;
         }
     }
+
 }
