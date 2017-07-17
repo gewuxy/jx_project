@@ -32,6 +32,9 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.cancel_collection_meeting,
             NotifyType.exit,
             NotifyType.province_finish,
+            NotifyType.fetch_message_captcha,
+            NotifyType.disable_fetch_message_captcha,
+
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -107,6 +110,19 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 结束省份页面
          */
         int province_finish = 14;
+
+        /**
+         * 提示获取验证码
+         */
+        int fetch_message_captcha = 15;
+
+        /**
+         * 提示不能获取验证码
+         */
+        int disable_fetch_message_captcha = 16;
+        /**
+         * 验证码按钮变倒计时
+         */
     }
 
     public interface OnNotify {
