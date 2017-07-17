@@ -1,21 +1,10 @@
 package lib.bd.location;
 
-import com.baidu.location.Address;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-
-import lib.bd.location.Gps.TGps;
-import lib.bd.location.Place.TPlace;
-import lib.ys.AppEx;
-import lib.ys.YSLog;
-
 public class Location {
 
     private static final String TAG = Location.class.getSimpleName();
 
-    private LocationClient mLocationClient;
+//    private LocationClient mLocationClient;
     private MyLocationListener mListener;
 
     private static Location mInst = null;
@@ -23,11 +12,11 @@ public class Location {
     private boolean mIsStarted = false;
 
     private Location() {
-        mLocationClient = new LocationClient(AppEx.ct());
-        setLocationOption(1000);
-
-        mListener = new MyLocationListener();
-        mLocationClient.registerLocationListener(mListener);
+//        mLocationClient = new LocationClient(AppEx.ct());
+//        setLocationOption(1000);
+//
+//        mListener = new MyLocationListener();
+//        mLocationClient.registerLocationListener(mListener);
     }
 
     public static Location inst() {
@@ -37,9 +26,9 @@ public class Location {
         return mInst;
     }
 
-    public class MyLocationListener implements BDLocationListener {
+    public class MyLocationListener /*implements BDLocationListener*/ {
 
-        @Override
+       /* @Override
         public void onReceiveLocation(final BDLocation location) {
             if (!mIsStarted) {
                 // 如果结束了, 不进行通知
@@ -71,28 +60,28 @@ public class Location {
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
 
-        }
+        }*/
     }
 
     public void start() {
-        if (!mIsStarted) {
+        /*if (!mIsStarted) {
             mIsStarted = true;
             mLocationClient.start();
-        }
+        }*/
     }
 
     public void stop() {
-        if (mIsStarted) {
+        /*if (mIsStarted) {
             mIsStarted = false;
             mLocationClient.stop();
-        }
+        }*/
     }
 
     private static final String KBaiduCoorType = "bd09ll";
     private static final String KProdName = "应用App";
 
     private void setLocationOption(int scanSpan) {
-        LocationClientOption option = new LocationClientOption();
+        /*LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);// 设置定位模式, 暂时使用网络模式,
         // GPS的话无法关闭通知栏图标
         option.setCoorType(KBaiduCoorType);// 返回的定位结果是百度经纬度,默认值gcj02
@@ -101,15 +90,15 @@ public class Location {
         option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
         option.setNeedDeviceDirect(false);// 返回的定位结果包含手机机头的方向
 
-        mLocationClient.setLocOption(option);
+        mLocationClient.setLocOption(option);*/
     }
 
     public void onDestroy() {
         stop();
-        if (mListener != null) {
+       /* if (mListener != null) {
             mLocationClient.unRegisterLocationListener(mListener);
             mListener = null;
-        }
+        }*/
 
         mInst = null;
     }
