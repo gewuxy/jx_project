@@ -51,7 +51,7 @@ public class SideBar extends View {
     private int mGravity;
 
     // 准备好的A~Z的字母数组
-    public String[] mLetters;
+    public String[] mLetters = KDefaultSelections;
 
     public SideBar(Context context, AttributeSet attrs) {
         super(context, attrs);
