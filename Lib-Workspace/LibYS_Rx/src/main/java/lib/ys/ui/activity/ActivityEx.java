@@ -560,6 +560,13 @@ abstract public class ActivityEx extends SwipeBackActivity implements
         }
     }
 
+    protected void setOnClickListener(@IdRes int resId, OnClickListener l) {
+        View v = findView(resId);
+        if (v != null) {
+            v.setOnClickListener(l);
+        }
+    }
+
     protected void clearOnClickListener(@NonNull View v) {
         if (v != null) {
             v.setOnClickListener(null);
