@@ -35,6 +35,10 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.fetch_message_captcha,
             NotifyType.disable_fetch_message_captcha,
 
+            NotifyType.cme_num,
+            NotifyType.section,
+            NotifyType.certification,
+            NotifyType.academic,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -123,6 +127,27 @@ public class Notifier extends NotifierEx<OnNotify> {
         /**
          * 验证码按钮变倒计时
          */
+
+        /**
+         * CME卡号
+         */
+        int cme_num = 17;
+
+        /**
+         * 科室
+         */
+        int section = 18;
+
+        /**
+         * 职业资格证号
+         */
+        int certification = 19;
+
+        /**
+         * 学术专长
+         */
+        int academic = 20;
+
     }
 
     public interface OnNotify {

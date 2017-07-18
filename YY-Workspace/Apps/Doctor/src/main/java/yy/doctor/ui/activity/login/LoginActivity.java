@@ -46,7 +46,7 @@ public class LoginActivity extends BaseActivity {
     private EditText mEtPwd;
     private CheckBox mCbPwdVisible; // 密码是否可见
     private ImageView mIvClearPwd; // 清除密码
-    private TextView mTvRegister;
+    private TextView mTvLogin;
 
     private String mRequest;
     private HintDialogSec mDialogWX;
@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
         mCbPwdVisible = findView(R.id.login_cb_visible_pwd);
         mIvClearName = findView(R.id.login_iv_cancel);
         mIvClearPwd = findView(R.id.login_iv_cancel_pwd);
-        mTvRegister = findView(R.id.login_tv_login);
+        mTvLogin = findView(R.id.login_tv_login);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity {
 
     public void textChanged() {
 
-        mTvRegister.setEnabled(false);
+        mTvLogin.setEnabled(false);
         mEtName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,9 +121,9 @@ public class LoginActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if ((RegexUtil.isMobileCN(mEtName.getText().toString()) || RegexUtil.isEmail(mEtName.getText().toString()))
                         && !TextUtil.isEmpty(mEtPwd.getText().toString())) {
-                    mTvRegister.setClickable(true);
+                    mTvLogin.setEnabled(true);
                 } else {
-                    mTvRegister.setClickable(false);
+                    mTvLogin.setEnabled(false);
                 }
 
                 if (TextUtil.isEmpty(mEtName.getText())) {
@@ -146,10 +146,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtil.isEmpty(mEtName.getText()) || TextUtil.isEmpty(mEtPwd.getText())) {
-                    mTvRegister.setEnabled(false);
+                if (TextUtil.isEmpty(mEtName.getText().toString()) || TextUtil.isEmpty(mEtPwd.getText().toString())) {
+                    mTvLogin.setEnabled(false);
                 } else {
-                    mTvRegister.setEnabled(true);
+                    mTvLogin.setEnabled(true);
                 }
 
                 if (TextUtil.isEmpty(mEtPwd.getText())) {

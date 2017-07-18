@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/btn_bg_blue_focus">
-    <item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 通用 -->
+    <item android:state_enabled="false">
         <shape>
-            <solid android:color="@color/btn_bg_blue"/>
+            <solid android:color="@color/text_97cbf2"/>
             <corners android:radius="@dimen/radius"/>
         </shape>
     </item>
 
-</ripple>
+    <item android:state_enabled="true">
+        <ripple android:color="@color/btn_bg_blue_focus">
+            <item>
+                <shape>
+                    <solid android:color="@color/btn_bg_blue"/>
+                    <corners android:radius="@dimen/radius"/>
+                </shape>
+            </item>
+        </ripple>
+    </item>
 
+
+</selector>
