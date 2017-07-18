@@ -4,6 +4,7 @@ import lib.ys.ui.activity.SimpleSplashActivityEx;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
+import yy.doctor.ui.activity.login.LoginActivity;
 
 /**
  * 推广页面

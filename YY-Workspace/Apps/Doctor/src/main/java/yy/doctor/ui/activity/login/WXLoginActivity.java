@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.login;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -29,7 +29,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/12
  */
 
-public class WeChatLoginActivity extends BaseActivity {
+public class WXLoginActivity extends BaseActivity {
 
     private EditText mEtName;
     private EditText mEtPwd;
@@ -45,17 +45,16 @@ public class WeChatLoginActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_login_wechat;
+        return R.layout.activity_login_wx;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.wechat_binding, this);
+        Util.addBackIcon(bar, R.string.wx_binding, this);
     }
 
     @Override
     public void findViews() {
-
         mEtName = findView(R.id.wechat_login_et_name);
         mEtPwd = findView(R.id.wechat_login_et_pwd);
         mCbVisible = findView(R.id.wechat_login_cb_visible_pwd);
@@ -64,8 +63,6 @@ public class WeChatLoginActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-        //清空用户信息
-        Profile.inst().clear();
         // 设置密码输入范围
         UISetter.setPwdRange(mEtPwd);
 
@@ -76,7 +73,6 @@ public class WeChatLoginActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-
         String strName = mEtName.getText().toString().trim();
         String strPwd = mEtPwd.getText().toString().trim();
 

@@ -26,6 +26,7 @@
 
             <yy.doctor.view.AutoCompleteEditText
                 android:id="@+id/wechat_login_et_name"
+                android:layout_height="wrap_content"
                 style="@style/et.login"
                 android:hint="@string/email_phone"
                 android:singleLine="true"/>
@@ -53,7 +54,9 @@
                 style="@style/et.login"
                 android:hint="@string/pwd"
                 android:maxLength="18"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"/>
 
             <CheckBox
                 android:id="@+id/wechat_login_cb_visible_pwd"

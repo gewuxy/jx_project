@@ -141,4 +141,8 @@ public class UrlUtil {
         String KSearchMeeting = "meet/search";
     }
 
+    public interface UrlWX {
+        String KToken = "https://api.weixin.qq.com/sns/oauth2/access_token";
+    }
+
 }

@@ -63,7 +63,7 @@ public class PDFActivity extends BaseActivity {
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
             mStoredState = !mStoredState;
             mIvCollection.setSelected(mStoredState);
-            showToast(mStoredState ? R.string.collect : R.string.cancel_collect);
+            showToast(mStoredState ? R.string.collect_finish : R.string.cancel_collect);
             //exeNetworkReq(NetFactory.collectMeeting(mMeetId, mStoredState ? CollectType.collect : CollectType.cancel));
         });
         mIvCollection = Util.getBarView(group, ImageView.class);

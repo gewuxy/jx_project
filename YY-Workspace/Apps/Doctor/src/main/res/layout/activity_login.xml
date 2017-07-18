@@ -98,6 +98,7 @@
             android:layout_marginTop="28dp"
             android:text="@string/login"
             android:textColor="@color/text_fff"
+            android:background="@drawable/btn_selector"
             android:textSize="15dp"/>
 
         <LinearLayout
@@ -148,7 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/wechat_register"
+                android:text="@string/we_chat_login"
                 android:textColor="@color/text_2ab81f"
                 android:textSize="10dp"/>
         </LinearLayout>

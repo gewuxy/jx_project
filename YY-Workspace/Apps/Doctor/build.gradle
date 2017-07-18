@@ -23,6 +23,7 @@ android {
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',
+                '../../Libs/LibWX/proguard-wx.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -136,6 +137,7 @@ dependencies {
     compile project(':YY-Workspace:Libs:LibPay')
     compile project(':YY-Workspace:Libs:LibPlayer')
     compile project(':YY-Workspace:Libs:LibJG')
+    compile project(':YY-Workspace:Libs:LibWX')
     compile 'org.greenrobot:greendao:3.2.2'
     /**
      * leakcanary

@@ -13,6 +13,8 @@ import lib.yy.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
+    String KAppId = "wx83d3ea20a714b660";
+
     interface SectionConstants {
         int KRowCount = 3; // 列数
         int KDividerHeight = 14; // 分割线高度

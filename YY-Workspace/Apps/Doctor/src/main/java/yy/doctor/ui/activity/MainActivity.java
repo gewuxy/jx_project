@@ -36,6 +36,7 @@ import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
+import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.ui.frag.DataFrag;
 import yy.doctor.ui.frag.HomeFrag;
 import yy.doctor.ui.frag.MeFrag;

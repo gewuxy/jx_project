@@ -7,6 +7,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
+import yy.doctor.Constants;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlData;
@@ -18,12 +19,12 @@ import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlSearch;
 import yy.doctor.network.UrlUtil.UrlUnitNum;
 import yy.doctor.network.UrlUtil.UrlUser;
+import yy.doctor.network.UrlUtil.UrlWX;
 import yy.doctor.network.builder.ExchangeBuilder;
 import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
-
 
 /**
  * @author CaiXiang
@@ -186,6 +187,14 @@ public class NetFactory {
         String KCategoryId = "categoryId";
         String KPageNum = "pageNum";
         String KPageSize = "pageSize";
+    }
+
+    public interface  WXParam {
+        String KAppId = "appid";
+        String KAppSecret = "secret";
+        String KCode = "code";
+        String KType = "grant_type";
+        String KWXNeedType = "authorization_code"; // 微信OAuth2.0授权登录目前支持authorization_code模式
     }
 
     /**
@@ -803,6 +812,15 @@ public class NetFactory {
         return NetworkReq.newBuilder(UrlMeet.KWs + UrlUtil.getBaseHost() + UrlMeet.KIm)
                 .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
                 .param(MeetParam.KMeetId, meetId)
+                .build();
+    }
+
+    public static NetworkReq getWXToken(String secret, String code) {
+        return NetworkReq.newBuilder(UrlWX.KToken)
+                .param(WXParam.KAppId, Constants.KAppId)
+                .param(WXParam.KAppSecret, secret)
+                .param(WXParam.KCode, code)
+                .param(WXParam.KType, WXParam.KWXNeedType)
                 .build();
     }
 

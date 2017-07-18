@@ -42,7 +42,7 @@ import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.LoginActivity;
+import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 

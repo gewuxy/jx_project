@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.login;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -10,11 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
 import lib.network.model.NetworkResp;
+import lib.wx.WXLoginApi;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
@@ -22,17 +19,19 @@ import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
+import yy.doctor.Constants;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
+import yy.doctor.ui.activity.ForgetPwdActivity;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.register.RegisterActivity;
 import yy.doctor.util.UISetter;
 import yy.doctor.view.AutoCompleteEditText;
-
-import static lib.ys.AppEx.showToast;
 
 /**
  * 登录
@@ -42,21 +41,19 @@ import static lib.ys.AppEx.showToast;
  */
 public class LoginActivity extends BaseActivity {
 
-    private TextView mTvRegister;
     private AutoCompleteEditText mEtName;
+    private ImageView mIvClearName; // 清除用户名
     private EditText mEtPwd;
-    private CheckBox mCbVisible;
-    private ImageView mIvCancel;
-    private ImageView mIvCancelPwd;
-    private String mRequest;
+    private CheckBox mCbPwdVisible; // 密码是否可见
+    private ImageView mIvClearPwd; // 清除密码
+    private TextView mTvRegister;
 
-    private static final String KAppId = "wx83d3ea20a714b660";
-    private IWXAPI mApi;
+    private String mRequest;
+    private HintDialogSec mDialogWX;
 
     @Override
     public void initData() {
         mRequest = getIntent().getStringExtra(Extra.KData);
-        mApi = WXAPIFactory.createWXAPI(this, KAppId, true);
     }
 
     @NonNull
@@ -71,13 +68,12 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
-        mTvRegister = findView(R.id.login_tv_login);
         mEtName = findView(R.id.login_et_name);
         mEtPwd = findView(R.id.login_et_pwd);
-        mCbVisible = findView(R.id.login_cb_visible_pwd);
-        mIvCancel = findView(R.id.login_iv_cancel);
-        mIvCancelPwd = findView(R.id.login_iv_cancel_pwd);
+        mCbPwdVisible = findView(R.id.login_cb_visible_pwd);
+        mIvClearName = findView(R.id.login_iv_cancel);
+        mIvClearPwd = findView(R.id.login_iv_cancel_pwd);
+        mTvRegister = findView(R.id.login_tv_login);
     }
 
     @Override
@@ -98,7 +94,7 @@ public class LoginActivity extends BaseActivity {
 
         mEtName.setText(SpApp.inst().getUserName());
 
-        mCbVisible.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        mCbPwdVisible.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 mEtPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 //把光标设置到当前文本末尾
@@ -108,79 +104,69 @@ public class LoginActivity extends BaseActivity {
                 mEtPwd.setSelection(mEtPwd.getText().length());
             }
         });
+
+        WXLoginApi.create(this, Constants.KAppId);
     }
 
     public void textChanged() {
 
         mTvRegister.setEnabled(false);
-        mTvRegister.setBackgroundResource(R.color.text_97cbf2);
         mEtName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (RegexUtil.isMobileCN(mEtName.getText().toString()) || RegexUtil.isEmail(mEtName.getText().toString())) {
                     mTvRegister.setEnabled(true);
-                    mTvRegister.setBackgroundResource(R.drawable.btn_selector_blue);
                 } else {
                     mTvRegister.setEnabled(false);
-                    mTvRegister.setBackgroundResource(R.color.text_97cbf2);
                 }
 
                 if (TextUtil.isEmpty(mEtName.getText())) {
-                    mIvCancel.setVisibility(View.GONE);
+                    hideView(mIvClearName);
                 } else {
-                    mIvCancel.setVisibility(View.VISIBLE);
+                    showView(mIvClearName);
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         mEtPwd.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtil.isEmpty(mEtName.getText()) || TextUtil.isEmpty(mEtPwd.getText())) {
                     mTvRegister.setEnabled(false);
-                    mTvRegister.setBackgroundResource(R.color.text_97cbf2);
                 } else {
                     mTvRegister.setEnabled(true);
-                    mTvRegister.setBackgroundResource(R.drawable.btn_selector_blue);
                 }
 
                 if (TextUtil.isEmpty(mEtPwd.getText())) {
-                    mIvCancelPwd.setVisibility(View.GONE);
+                    hideView(mIvClearPwd);
                 } else {
-                    mIvCancelPwd.setVisibility(View.VISIBLE);
+                    showView(mIvClearPwd);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
 
     @Override
     public void onClick(View v) {
-
-        int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
             case R.id.login_tv_login: {
-
                 String strName = mEtName.getText().toString().trim();
                 String strPwd = mEtPwd.getText().toString().trim();
                 if (TextUtil.isEmpty(strName)) {
@@ -204,12 +190,16 @@ public class LoginActivity extends BaseActivity {
             }
             break;
             case R.id.login_layout_wechat: {
-
-                final SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "none";
-                mApi.sendReq(req);
-//                startActivity(LoginActivity.class);
+                if (WXLoginApi.isWXAppInstalled()) {
+                    WXLoginApi.sendReq();
+                } else {
+                    // 未安装微信
+                    mDialogWX = new HintDialogSec(LoginActivity.this);
+                    mDialogWX.setMainHint(R.string.wx_accredit_error);
+                    mDialogWX.setSecHint(R.string.wx_check_normal);
+                    mDialogWX.addButton(R.string.affirm, v1 -> mDialogWX.dismiss());
+                    mDialogWX.show();
+                }
             }
             break;
             case R.id.login_iv_cancel: {
@@ -251,10 +241,19 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mDialogWX != null) {
+            mDialogWX.dismiss();
+        }
+    }
+
+    @Override
     public void onNotify(@NotifyType int type, Object data) {
 
         if (type == NotifyType.login) {
-            LoginActivity.this.finish();
+            finish();
         }
     }
 
