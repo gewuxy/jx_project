@@ -22,12 +22,12 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Constants;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.dialog.ForgetPwdTooltipDialog;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
-import yy.doctor.ui.activity.ForgetPwdActivity;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.register.RegisterActivity;
 import yy.doctor.util.UISetter;
@@ -50,6 +50,7 @@ public class LoginActivity extends BaseActivity {
 
     private String mRequest;
     private HintDialogSec mDialogWX;
+    private ForgetPwdTooltipDialog mDialogForgetPwd;
 
     @Override
     public void initData() {
@@ -57,7 +58,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     @NonNull
-    @Override
     public int getContentViewId() {
         return R.layout.activity_login;
     }
@@ -114,14 +114,16 @@ public class LoginActivity extends BaseActivity {
         mEtName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (RegexUtil.isMobileCN(mEtName.getText().toString()) || RegexUtil.isEmail(mEtName.getText().toString())) {
-                    mTvRegister.setEnabled(true);
+                if ((RegexUtil.isMobileCN(mEtName.getText().toString()) || RegexUtil.isEmail(mEtName.getText().toString()))
+                        && !TextUtil.isEmpty(mEtPwd.getText().toString())) {
+                    mTvRegister.setClickable(true);
                 } else {
-                    mTvRegister.setEnabled(false);
+                    mTvRegister.setClickable(false);
                 }
 
                 if (TextUtil.isEmpty(mEtName.getText())) {
@@ -186,7 +188,8 @@ public class LoginActivity extends BaseActivity {
             }
             break;
             case R.id.login_tv_forget_pwd: {
-                startActivity(ForgetPwdActivity.class);
+                mDialogForgetPwd = new ForgetPwdTooltipDialog(LoginActivity.this);
+                mDialogForgetPwd.show();
             }
             break;
             case R.id.login_layout_wechat: {

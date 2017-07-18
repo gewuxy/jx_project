@@ -3,7 +3,7 @@
     <!-- 通用 -->
     <item android:state_enabled="false" >
         <shape>
-            <solid android:color="@color/black"/>
+            <solid android:color="@color/text_97cbf2"/>
             <corners android:radius="@dimen/radius"/>
         </shape>
     </item>

@@ -47,6 +47,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="21dp"
+                android:visibility="gone"
                 android:src="@mipmap/login_ic_cancel"/>
 
         </LinearLayout>
@@ -143,7 +144,7 @@
             <ImageView
                 android:layout_width="41dp"
                 android:layout_height="41dp"
-                android:src="@mipmap/login_ic_we_chat"/>
+                android:background="@drawable/login_iv_selector_we_chat"/>
 
             <TextView
                 android:layout_width="wrap_content"
