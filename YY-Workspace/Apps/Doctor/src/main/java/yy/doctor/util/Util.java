@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.ReflectionUtil;
@@ -35,6 +37,19 @@ public class Util extends BaseUtil {
     public static void addBackIcon(NavBar n, @StringRes int id, final Activity act) {
         n.addTextViewMid(id);
         n.addBackIcon(R.mipmap.nav_bar_ic_back, act);
+    }
+
+    public static boolean checkNameLegal(CharSequence input) {
+        // String regx =
+        // "!|！|@|◎|#|＃|(\\$)|￥|%|％|(\\^)|……|(\\&)|※|(\\*)|×|(\\()|（|(\\))|）|_|——|(\\+)|＋|(\\|)|§ ";
+        String regex = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        if (input != null) {
+            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(input);
+            return m.find();
+        }
+        return false;
+//        return hasCrossScriptRisk(input, regex);
     }
 
     /**
