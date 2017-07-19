@@ -19,6 +19,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -56,15 +57,15 @@ public class NavBar extends RelativeLayout {
 
     public NavBar(Context context) {
         super(context);
-        innerInit(true);
+        nativeInit(true);
     }
 
     public NavBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        innerInit(false);
+        nativeInit(false);
     }
 
-    private void innerInit(boolean useCustomId) {
+    private void nativeInit(boolean useCustomId) {
         if (useCustomId) {
             setId(R.id.nav_bar);
         }
@@ -148,12 +149,13 @@ public class NavBar extends RelativeLayout {
      * @param id
      * @param lsn
      */
-    public void addViewLeft(@DrawableRes int id, OnClickListener lsn) {
-        View v = createImageView(id, lsn);
+    public <T extends ViewGroup> T addViewLeft(@DrawableRes int id, OnClickListener lsn) {
+        ViewGroup v = createImageView(id, lsn);
         if (v != null) {
             mLayoutLeft.addView(v, getLinearParams());
             show();
         }
+        return (T) v;
     }
 
     /**
@@ -163,8 +165,22 @@ public class NavBar extends RelativeLayout {
      * @param text
      * @param lsn
      */
-    public <T extends View> T addViewLeft(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
-        View v = createImageView(id, text, lsn);
+    public <T extends ViewGroup> T addViewLeft(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
+        return addViewLeft(id, text, lsn, false);
+    }
+
+    /**
+     * 添加左边的图标-带文字
+     *
+     * @param id
+     * @param text
+     * @param lsn
+     * @param textClickable 文字是否也可以点击
+     * @param <T>
+     * @return
+     */
+    public <T extends ViewGroup> T addViewLeft(@DrawableRes int id, CharSequence text, OnClickListener lsn, boolean textClickable) {
+        ViewGroup v = createImageView(id, text, lsn, textClickable);
         if (v != null) {
             mLayoutLeft.addView(v, getLinearParams());
             show();
@@ -195,14 +211,12 @@ public class NavBar extends RelativeLayout {
      *
      * @param id
      */
-    public <T extends View> T addViewRight(@DrawableRes int id, OnClickListener lsn) {
-        if (id == 0) {
-            return null;
+    public <T extends ViewGroup> T addViewRight(@DrawableRes int id, OnClickListener lsn) {
+        ViewGroup v = createImageView(id, lsn);
+        if (v != null) {
+            mLayoutRight.addView(v, getLinearParams());
+            show();
         }
-
-        View v = createImageView(id, lsn);
-        mLayoutRight.addView(v, getLinearParams());
-        show();
         return (T) v;
     }
 
@@ -270,8 +284,8 @@ public class NavBar extends RelativeLayout {
      * @param lsn
      * @return
      */
-    private View createImageView(@DrawableRes int id, OnClickListener lsn) {
-        return createImageView(id, null, lsn);
+    private <T extends ViewGroup> T createImageView(@DrawableRes int id, OnClickListener lsn) {
+        return createImageView(id, null, lsn, false);
     }
 
     /**
@@ -282,10 +296,9 @@ public class NavBar extends RelativeLayout {
      * @param lsn
      * @return
      */
-    private View createImageView(@DrawableRes int id, CharSequence text, OnClickListener lsn) {
-        View v = null;
-        if (id == 0) {
-            return v;
+    private <T extends ViewGroup> T createImageView(@DrawableRes int id, CharSequence text, OnClickListener lsn, boolean textClickable) {
+        if (id <= 0) {
+            return null;
         }
 
         // 创建背景layout
@@ -331,10 +344,7 @@ public class NavBar extends RelativeLayout {
         params.addRule(CENTER_IN_PARENT);
         layout.addView(iv, params);
 
-        if (lsn != null) {
-            layout.setOnClickListener(lsn);
-        }
-
+        ViewGroup v = null;
         if (text != null) {
             LinearLayout l = new LinearLayout(getContext());
             l.setOrientation(LinearLayout.HORIZONTAL);
@@ -350,7 +360,15 @@ public class NavBar extends RelativeLayout {
             v = layout;
         }
 
-        return v;
+        if (lsn != null) {
+            if (text != null && textClickable) {
+                v.setOnClickListener(lsn);
+            } else {
+                layout.setOnClickListener(lsn);
+            }
+        }
+
+        return (T) v;
     }
 
     /**
@@ -450,7 +468,7 @@ public class NavBar extends RelativeLayout {
     }
 
     /**
-     * 设置右边文字
+     * 设置左边文字
      *
      * @param text     内容
      * @param colorRes R.color.xxx
@@ -634,7 +652,7 @@ public class NavBar extends RelativeLayout {
      *
      * @param config
      */
-    public static void initialize(NavBarConfig config) {
+    public static void init(NavBarConfig config) {
         mConfig = config;
     }
 

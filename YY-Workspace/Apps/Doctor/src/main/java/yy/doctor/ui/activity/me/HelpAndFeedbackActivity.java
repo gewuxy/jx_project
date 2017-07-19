@@ -7,7 +7,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.IntentAction;
@@ -127,7 +127,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
 
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
         switch (relatedId) {
             case RelatedId.update_log: {
                 CommonWebViewActivity.nav(this, getString(R.string.update_log), mUrlUpdateLog);

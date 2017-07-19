@@ -22,10 +22,9 @@ public class OkClient {
 
     private OkClient() {
         mClient = new OkHttpClient.Builder()
-                .connectTimeout(Network.getConfig().getConnectTimeout(), TimeUnit.MILLISECONDS)
-                .readTimeout(Network.getConfig().getReadTimeout(), TimeUnit.MILLISECONDS)
-                .writeTimeout(300000, TimeUnit.MILLISECONDS)
-                //其他配置
+                .connectTimeout(Network.getConfig().getConnectTimeout(), TimeUnit.SECONDS)
+                .readTimeout(Network.getConfig().getReadTimeout(), TimeUnit.SECONDS)
+                .writeTimeout(Network.getConfig().getWriteTimeout(), TimeUnit.SECONDS)
                 .build();
     }
 

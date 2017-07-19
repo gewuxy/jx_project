@@ -18,10 +18,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import lib.ys.ConstantsEx;
 import lib.ys.R;
-import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.FormEx;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.form.FormHost;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.TransparencyType;
@@ -33,7 +32,7 @@ import lib.ys.view.StayScrollView;
 
 
 @SuppressWarnings("rawtypes")
-abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolderEx> extends ActivityEx
+abstract public class FormActivityEx<T extends FormEx<VH>, VH extends IViewHolder> extends ActivityEx
         implements OnFormViewClickListener, FormHost {
 
     private List<T> mItems;
@@ -51,8 +50,6 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
     private List<T> mRemandItems;
 
     private Class<VH> mVHClass;
-
-    private long mItemClickTime = 0;
 
     @Override
     public int getContentViewId() {
@@ -103,7 +100,7 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
     public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
-            Object related = item.getObject(TFormElem.related);
+            Object related = item.getObject(TForm.related);
             if (related != null) {
                 mMapRelated.put(related, item);
             }
@@ -228,9 +225,9 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
             return t;
         }
 
-        t.put(TFormElem.host, this);
+        t.put(TForm.host, this);
 
-        Object related = t.getObject(TFormElem.related);
+        Object related = t.getObject(TForm.related);
 
         if (mLayoutItems == null) {
             mRemandItems.add(t);
@@ -326,11 +323,11 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
         mLayoutItems.removeAllViews();
     }
 
-    protected ViewHolderEx getViewHolder(int position) {
+    protected VH getViewHolder(int position) {
         return getItem(position).getHolder();
     }
 
-    protected ViewHolderEx getViewHolder(Object related) {
+    protected VH getViewHolder(Object related) {
         return getRelatedItem(related).getHolder();
     }
 
@@ -361,16 +358,9 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends ViewHolder
      * @param position
      */
     protected final void onItemClick(View v, int position) {
-        // 500毫秒内点击连续点击，不做响应
-        if ((System.currentTimeMillis() - mItemClickTime) > 500) {
-            mItemClickTime = System.currentTimeMillis();
-            if (!getItem(position).onItemClick(this, v)) {
-                onFormItemClick(v, position);
-            }
-        } else {
-            return;
+        if (!getItem(position).onItemClick(this, v)) {
+            onFormItemClick(v, position);
         }
-
     }
 
     @Override

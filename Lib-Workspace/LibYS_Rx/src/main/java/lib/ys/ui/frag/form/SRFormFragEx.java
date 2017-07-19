@@ -63,7 +63,7 @@ abstract public class SRFormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx
             }
         });
 
-        if (canAutoRefresh()) {
+        if (enableInitRefresh()) {
             refresh(RefreshWay.embed);
             getDataFromNet();
         }
@@ -71,8 +71,15 @@ abstract public class SRFormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx
 
     abstract public void getDataFromNet();
 
-    public boolean canAutoRefresh() {
+    public boolean enableInitRefresh() {
         return true;
+    }
+
+    protected void refresh() {
+        if (!isEmpty()) {
+            refresh(RefreshWay.swipe);
+            getDataFromNet();
+        }
     }
 
     @Override
@@ -117,6 +124,11 @@ abstract public class SRFormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return parseNetworkResponse(id, r.getText());
+    }
+
+    @Override
+    public void swipeRefresh() {
+        mSRLayout.startRefresh();
     }
 
     @Override

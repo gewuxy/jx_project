@@ -4,13 +4,11 @@ import android.util.SparseArray;
 
 import lib.network.Network;
 import lib.network.model.NetworkReq;
-import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.ConnectionError;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
-import lib.ys.R;
 import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.util.DeviceUtil;
-import lib.ys.util.res.ResLoader;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
@@ -57,7 +55,7 @@ public class NetworkOpt implements INetworkOpt {
         }
 
         if (!DeviceUtil.isNetworkEnabled()) {
-            mNetworkLsn.onNetworkError(id, new ConnectionNetError(ResLoader.getString(R.string.toast_network_disconnect)));
+            mNetworkLsn.onNetworkError(id, new ConnectionError());
             return;
         }
 

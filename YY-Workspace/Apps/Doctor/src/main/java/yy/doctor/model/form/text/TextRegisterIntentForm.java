@@ -36,12 +36,12 @@ public class TextRegisterIntentForm extends BaseForm {
     @Override
     protected void refresh(FormVH holder) {
         super.refresh(holder);
-        setTextIfExist(holder.getTvText(), getString(TFormElem.name));
+        setTextIfExist(holder.getTvText(), getString(TForm.name));
     }
 
     @Override
     public boolean onItemClick(Object host, View v) {
-        Intent i = (Intent) getObject(TFormElem.intent);
+        Intent i = (Intent) getObject(TForm.intent);
         startActivityForResult(i, getPosition());
         return true;
     }
@@ -55,11 +55,11 @@ public class TextRegisterIntentForm extends BaseForm {
         String text;
         if (strArea == null) {
             text = strProvince + " " + strCity;
-            put(TFormElem.name, text);
+            put(TForm.name, text);
             save(text, text);
         } else {
             text = strProvince + " " + strCity + " " + strArea;
-            put(TFormElem.name, text);
+            put(TForm.name, text);
             save(text, text);
         }
 

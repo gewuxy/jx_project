@@ -20,12 +20,12 @@ abstract public class BaseForm extends FormEx<FormVH> {
     @Override
     protected void refresh(FormVH holder) {
         if (holder.getTvText() != null) {
-            if (!getString(TFormElem.hint).isEmpty()) {
-                holder.getTvText().setHint(getString(TFormElem.hint));
+            if (!getString(TForm.hint).isEmpty()) {
+                holder.getTvText().setHint(getString(TForm.hint));
             }
         }
 
-        setTextIfExist(holder.getTvName(), getString(TFormElem.name));
+        setTextIfExist(holder.getTvName(), getString(TForm.name));
     }
 
     protected void setTextIfExist(TextView tv, CharSequence text) {
@@ -56,24 +56,24 @@ abstract public class BaseForm extends FormEx<FormVH> {
      * @return
      */
     protected boolean checkInput() {
-        if (isEmpty(getString(TFormElem.val))) {
-            if (getString(TFormElem.toast).isEmpty()) {
-                String name = getString(TFormElem.name);
+        if (isEmpty(getString(TForm.val))) {
+            if (getString(TForm.toast).isEmpty()) {
+                String name = getString(TForm.name);
                 String toast = null;
                 if (name.isEmpty()) {
-                    toast = getString(TFormElem.hint);
+                    toast = getString(TForm.hint);
                 } else {
                     toast = name;
                 }
 
                 showToast(ResLoader.getString(R.string.toast_hint_input) + toast);
             } else {
-                showToast(getString(TFormElem.toast));
+                showToast(getString(TForm.toast));
             }
             return false;
         }/* else {
             // TODO: 完善form regex
-            String regex = getString(TFormElem.regex);
+            String regex = getString(TForm.regex);
             boolean match = RegexUtil.match(regex, getString(val));
             if (match) {
                 return true;
@@ -92,12 +92,12 @@ abstract public class BaseForm extends FormEx<FormVH> {
      * @return
      */
 //    protected boolean checkUpload() {
-//        List list = getList(TFormElem.data);
+//        List list = getList(TForm.data);
 //        if (list == null || list.isEmpty()) {
-//            if (getString(TFormElem.toast).isEmpty()) {
-//                showToast(ResLoader.getString(R.string.toast_hint_upload) + getString(TFormElem.name));
+//            if (getString(TForm.toast).isEmpty()) {
+//                showToast(ResLoader.getString(R.string.toast_hint_upload) + getString(TForm.name));
 //            } else {
-//                showToast(getString(TFormElem.toast));
+//                showToast(getString(TForm.toast));
 //            }
 //            return false;
 //        }
@@ -106,11 +106,11 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     //
     protected boolean checkSelector() {
-        if (isEmpty(getString(TFormElem.val))) {
-            if (getString(TFormElem.toast).isEmpty()) {
-                showToast(ResLoader.getString(R.string.toast_hint_select) + getString(TFormElem.name));
+        if (isEmpty(getString(TForm.val))) {
+            if (getString(TForm.toast).isEmpty()) {
+                showToast(ResLoader.getString(R.string.toast_hint_select) + getString(TForm.name));
             } else {
-                showToast(getString(TFormElem.toast));
+                showToast(getString(TForm.toast));
             }
             return false;
         }

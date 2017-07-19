@@ -59,8 +59,6 @@ public interface OnSROptListener<T> {
 
     void showToast(@StringRes int... resId);
 
-    void showToast(String content);
-
     /**
      * 是否允许界面初始完之后自动加载网络数据
      *

@@ -67,15 +67,15 @@ public class EditForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        int d = getInt(TFormElem.drawable);
+        int d = getInt(TForm.drawable);
         if (d != Constants.KInvalidValue) {
             holder.getIv().setOnClickListener(this);
         }
         setIvIfValid(holder.getIv(), d);
 
-        holder.getEt().setEnabled(getBoolean(TFormElem.enable));
-        holder.getEt().setText(getString(TFormElem.text));
-        holder.getEt().setHint(getString(TFormElem.hint));
+        holder.getEt().setEnabled(getBoolean(TForm.enable));
+        holder.getEt().setText(getString(TForm.text));
+        holder.getEt().setHint(getString(TForm.hint));
     }
 
     @Override

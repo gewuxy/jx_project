@@ -31,14 +31,14 @@ public class DividerLargeForm extends BaseForm {
     @Override
     protected void refresh(FormVH holder) {
         super.refresh(holder);
-        /*int h = getInt(TFormElem.height);
+        /*int h = getInt(TForm.height);
         if (h > 0) {
             MarginLayoutParams params = (MarginLayoutParams) holder.getDivider().getLayoutParams();
             params.height = h;
             holder.getDivider().setLayoutParams(params);
         }
 
-        int background = getInt(TFormElem.background);
+        int background = getInt(TForm.background);
         if (background != ConstantsEx.KInvalidValue) {
             holder.getDivider().setBackgroundColor(background);
         }*/

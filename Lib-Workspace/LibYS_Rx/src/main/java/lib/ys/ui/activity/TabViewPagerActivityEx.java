@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ abstract public class TabViewPagerActivityEx<TITLE extends IPagerTitle> extends 
 
     private TabStripIndicator mIndicator;
     private ScrollableLayout mLayoutScrollable;
+    private RelativeLayout mLayoutHeader;
 
     private OnPageChangeListener mListener;
 
@@ -41,6 +43,7 @@ abstract public class TabViewPagerActivityEx<TITLE extends IPagerTitle> extends 
     public void findViews() {
         super.findViews();
 
+        mLayoutHeader = findView(R.id.vp_tab_layout_header);
         mIndicator = findView(R.id.vp_tab_indicator);
         mLayoutScrollable = findView(R.id.vp_tab_layout_scrollable);
     }
@@ -64,7 +67,7 @@ abstract public class TabViewPagerActivityEx<TITLE extends IPagerTitle> extends 
 
             @Override
             public void onPageSelected(int position) {
-                mLayoutScrollable.getHelper().setCurrentScrollableContainer(getContainer(position));
+                setCurrentScrollableContainer(position);
 
                 if (mListener != null) {
                     mListener.onPageSelected(position);
@@ -80,7 +83,7 @@ abstract public class TabViewPagerActivityEx<TITLE extends IPagerTitle> extends 
         });
 
         if (!getPagerAdapter().isEmpty()) {
-            mLayoutScrollable.getHelper().setCurrentScrollableContainer(getContainer(0));
+            setCurrentScrollableContainer(0);
         }
     }
 
@@ -93,7 +96,7 @@ abstract public class TabViewPagerActivityEx<TITLE extends IPagerTitle> extends 
 
     @NonNull
     @Override
-    protected FragPagerAdapterEx createPagerAdapter() {
+    protected final FragPagerAdapterEx createPagerAdapter() {
         return new FragPagerAdapter(getSupportFragmentManager());
     }
 
@@ -106,33 +109,31 @@ abstract public class TabViewPagerActivityEx<TITLE extends IPagerTitle> extends 
         getPagerAdapter().setTitles(titles);
     }
 
+    @CallSuper
     @Override
     protected void setCurrentItem(int item) {
         super.setCurrentItem(item);
 
-        if (mLayoutScrollable != null) {
-            mLayoutScrollable.getHelper().setCurrentScrollableContainer(getContainer(item));
-        }
+        setCurrentScrollableContainer(item);
     }
 
+    @CallSuper
     @Override
     protected void setCurrentItem(int item, boolean smoothScroll) {
         super.setCurrentItem(item, smoothScroll);
-        if (mLayoutScrollable != null) {
-            mLayoutScrollable.getHelper().setCurrentScrollableContainer(getContainer(item));
-        }
+
+        setCurrentScrollableContainer(item);
     }
 
-    private ScrollableContainer getContainer(int position) {
-        Fragment item = getItem(position);
-        if (!(item instanceof ScrollableContainer)) {
-            throw new IllegalStateException("item must impl ScrollableContainer");
+    private void setCurrentScrollableContainer(int item) {
+        Fragment frag = getItem(item);
+        if (frag instanceof ScrollableContainer && mLayoutScrollable != null) {
+            mLayoutScrollable.getHelper().setCurrentScrollableContainer((ScrollableContainer) frag);
         }
-        return (ScrollableContainer) item;
     }
 
     @Override
-    protected void invalidate() {
+    protected final void invalidate() {
         super.invalidate();
         if (mIndicator != null) {
             mIndicator.notifyDataSetChanged();

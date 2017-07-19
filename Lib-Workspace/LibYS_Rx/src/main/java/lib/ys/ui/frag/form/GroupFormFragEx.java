@@ -18,6 +18,7 @@ import java.util.List;
 import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.group.ChildFormEx;
 import lib.ys.form.group.GroupFormEx;
@@ -354,11 +355,11 @@ abstract public class GroupFormFragEx<T extends GroupFormEx> extends FragEx impl
         }
     }
 
-    protected ViewHolderEx getViewHolder(int position) {
+    protected IViewHolder getViewHolder(int position) {
         return getGroupItem(position).getHolder();
     }
 
-    protected ViewHolderEx getViewHolder(Serializable config) {
+    protected IViewHolder getViewHolder(Serializable config) {
         return getItem(config).getHolder();
     }
 

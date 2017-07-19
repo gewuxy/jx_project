@@ -7,7 +7,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.R;
-import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -17,7 +17,7 @@ import lib.ys.view.swipeRefresh.interfaces.OnSRListener;
 /**
  * @author yuansui
  */
-abstract public class SRFormActivityEx<T extends FormEx<VH>, VH extends ViewHolderEx> extends FormActivityEx<T, VH> {
+abstract public class SRFormActivityEx<T extends FormEx<VH>, VH extends IViewHolder> extends FormActivityEx<T, VH> {
 
     private BaseSRLayout mSRLayout;
 
@@ -63,7 +63,7 @@ abstract public class SRFormActivityEx<T extends FormEx<VH>, VH extends ViewHold
             }
         });
 
-        if (canAutoRefresh()) {
+        if (getInitRefreshWay() == RefreshWay.embed && enableInitRefresh()) {
             refresh(RefreshWay.embed);
             getDataFromNet();
         }
@@ -71,8 +71,12 @@ abstract public class SRFormActivityEx<T extends FormEx<VH>, VH extends ViewHold
 
     abstract public void getDataFromNet();
 
-    public boolean canAutoRefresh() {
+    public boolean enableInitRefresh() {
         return true;
+    }
+
+    protected void setRefreshEnabled(boolean enabled) {
+        mSRLayout.setRefreshEnabled(enabled);
     }
 
     @Override

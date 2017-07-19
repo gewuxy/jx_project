@@ -45,7 +45,6 @@ public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
 
     private OnRecyclerItemClickListener mClickLsn;
 
-    private long mItemClickTime = 0;
 
     public RecyclerViewOpt(@NonNull OnRecyclerViewOptListener<T> l) {
         if (l == null) {
@@ -58,14 +57,6 @@ public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
             @Override
             public void onItemClick(View v, int position) {
                 int index = getItemRealPosition(position);
-                // 500毫秒内点击连续点击，不做响应
-                if ((System.currentTimeMillis() - mItemClickTime) > 500) {
-                    mItemClickTime = System.currentTimeMillis();
-                    mListener.onItemClick(v, index);
-                } else {
-                    return;
-                }
-
                 if (index < 0) {
                     // 点击的是header区域
                     mListener.onHeaderClick(v);
@@ -76,6 +67,7 @@ public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
                     mListener.onFooterClick(v);
                     return;
                 }
+                mListener.onItemClick(v, index);
             }
 
             @Override

@@ -71,8 +71,8 @@ public class ListConfig {
         @PageDownType
         private int mType = PageDownType.offset; // 默认根据个数偏移
 
-        private int mInitOffset = ListConstants.KDefaultInitOffset;
-        private int mLimit = ListConstants.KDefaultLimit;
+        private int mInitOffset = 0;
+        private int mLimit = 0;
 
         private Class<? extends BaseHeader> mHeaderClz = null;
         private Class<? extends BaseFooter> mFooterClz = null;
@@ -93,10 +93,12 @@ public class ListConfig {
         }
 
         public Builder footerClz(Class<? extends BaseFooter> clz) {
+            mFooterClz = clz;
             return this;
         }
 
         public Builder headerClz(Class<? extends BaseHeader> clz) {
+            mHeaderClz = clz;
             return this;
         }
 
@@ -105,11 +107,21 @@ public class ListConfig {
 
             config.mType = mType;
 
-            config.mHeaderClz = mHeaderClz;
-            config.mFooterClz = mFooterClz;
+            if (mHeaderClz != null) {
+                config.mHeaderClz = mHeaderClz;
+            }
 
-            config.mInitOffset = mInitOffset;
-            config.mLimit = mLimit;
+            if (mFooterClz != null) {
+                config.mFooterClz = mFooterClz;
+            }
+
+            if (mInitOffset != 0) {
+                config.mInitOffset = mInitOffset;
+            }
+
+            if (mLimit != 0) {
+                config.mLimit = mLimit;
+            }
 
             return config;
         }

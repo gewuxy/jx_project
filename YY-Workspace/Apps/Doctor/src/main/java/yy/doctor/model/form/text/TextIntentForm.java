@@ -16,7 +16,7 @@ public class TextIntentForm extends TextForm {
 
     @Override
     public boolean onItemClick(Object host, View v) {
-        Intent i = (Intent) getObject(TFormElem.intent);
+        Intent i = (Intent) getObject(TForm.intent);
         startActivityForResult(i, getPosition());
         return true;
     }

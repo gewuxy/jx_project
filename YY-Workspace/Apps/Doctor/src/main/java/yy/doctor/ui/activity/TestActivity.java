@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity;
 
 import lib.yy.test.BaseTestActivity;
+import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.ui.activity.me.ChangePwdActivity;
 import yy.doctor.ui.activity.me.DownloadDataActivity;
 import yy.doctor.ui.activity.me.epc.EpcActivity;

@@ -22,7 +22,7 @@ import lib.ys.activity.ActivityEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.FormItemEx;
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormItemEx.TForm;
 import lib.ys.form.IFormHost;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.TransparencyType;
@@ -101,7 +101,7 @@ abstract public class FormActivityEx<T extends FormItemEx<VH>, VH extends ViewHo
     public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
-            Object related = item.getObject(TFormElem.related);
+            Object related = item.getObject(TForm.related);
             if (related != null) {
                 mMapRelated.put(related, item);
             }
@@ -226,9 +226,9 @@ abstract public class FormActivityEx<T extends FormItemEx<VH>, VH extends ViewHo
             return t;
         }
 
-        t.put(TFormElem.host, this);
+        t.put(TForm.host, this);
 
-        Object related = t.getObject(TFormElem.related);
+        Object related = t.getObject(TForm.related);
 
         if (mLayoutItems == null) {
             mRemandItems.add(t);

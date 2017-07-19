@@ -4,9 +4,9 @@ package lib.network.model.interfaces;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.CallbackEmptyError;
 import lib.network.model.err.CancelError;
-import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.ConnectionError;
 import lib.network.model.err.NetError;
-import lib.network.model.err.ParseNetError;
+import lib.network.model.err.ParseError;
 
 /**
  * 网络任务监听
@@ -34,8 +34,8 @@ public interface OnNetworkListener {
     /**
      * 任务错误, 类型如下:
      * <pre>
-     * {@link ConnectionNetError} 网络错误
-     * {@link ParseNetError} 网络错误
+     * {@link ConnectionError} 网络错误
+     * {@link ParseError} 解析错误
      * {@link CancelError} 取消任务
      * {@link CallbackEmptyError} 没有设置回调
      * <pre/>

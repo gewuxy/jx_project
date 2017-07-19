@@ -23,9 +23,9 @@ public class ContentForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        setIvIfValid(holder.getIv(), getInt(TFormElem.drawable));
+        setIvIfValid(holder.getIv(), getInt(TForm.drawable));
 
-        holder.getTvText().setText(getString(TFormElem.text));
+        holder.getTvText().setText(getString(TForm.text));
     }
 
     @Override

@@ -12,9 +12,9 @@ import lib.network.model.NetworkReq;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
-import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.model.EVal;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.frag.FragEx;
@@ -22,12 +22,12 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> implements OnClickListener {
+abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> implements OnClickListener {
 
     /**
      * 元素
      */
-    public enum TFormElem {
+    public enum TForm {
         /**
          * 显示和操作相关的字段
          */
@@ -59,7 +59,7 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
         id, // 标识位
         visible,// 显示与否
         observer, // 观察者, 某些数据的相应回调
-        text_color, // 字体颜色
+        url, // 点击跳转的连接
 
         /**
          * 和服务器通信的主要字段
@@ -105,7 +105,7 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
 
     public final void refresh() {
         if (mHolder != null) {
-            if (getBoolean(TFormElem.visible)) {
+            if (getBoolean(TForm.visible)) {
                 ViewUtil.showView(mHolder.getConvertView());
                 refresh(mHolder);
             } else {
@@ -115,12 +115,12 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
     }
 
     public final void show() {
-        put(TFormElem.visible, true);
+        put(TForm.visible, true);
         refresh();
     }
 
     public final void hide() {
-        put(TFormElem.visible, false);
+        put(TForm.visible, false);
         refresh();
     }
 
@@ -150,12 +150,12 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
     }
 
     protected void startActivity(Intent intent) {
-        Object host = getObject(TFormElem.host);
+        Object host = getObject(TForm.host);
         LaunchUtil.startActivity(host, intent);
     }
 
     protected void startActivityForResult(Intent intent, int position) {
-        Object host = getObject(TFormElem.host);
+        Object host = getObject(TForm.host);
         LaunchUtil.startActivityForResult(host, intent, position);
     }
 
@@ -167,7 +167,7 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
     public final void onClick(View v) {
         if (!onViewClick(v)) {
             if (mListener != null) {
-                mListener.onViewClick(v, mPosition, getObject(TFormElem.related));
+                mListener.onViewClick(v, mPosition, getObject(TForm.related));
             }
         }
     }
@@ -215,14 +215,14 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
     }
 
     public void save(Object key, Object value, Object text) {
-        put(TFormElem.key, key);
-        put(TFormElem.val, value);
-        put(TFormElem.text, text);
+        put(TForm.key, key);
+        put(TForm.val, value);
+        put(TForm.text, text);
     }
 
     public void save(Object value, Object text) {
-        put(TFormElem.val, value);
-        put(TFormElem.text, text);
+        put(TForm.val, value);
+        put(TForm.text, text);
     }
 
     /**
@@ -239,7 +239,7 @@ abstract public class FormEx<VH extends ViewHolderEx> extends EVal<TFormElem> im
      * @param request
      */
     protected void exeNetworkRequest(int networkId, NetworkReq request) {
-        Object host = getObject(TFormElem.host);
+        Object host = getObject(TForm.host);
         if (host instanceof ActivityEx) {
             ActivityEx act = (ActivityEx) host;
             act.refresh(RefreshWay.dialog);

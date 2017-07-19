@@ -53,8 +53,6 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     protected OnListOptListener<T, A> mListener;
 
-    private long mItemClickTime = 0;
-
     public ListOpt(@NonNull OnListOptListener<T, A> l) {
         if (l == null) {
             throw new IllegalStateException("OnListOptListener can not be null");
@@ -158,15 +156,6 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
     @Override
     public final void onItemClick(AdapterView<?> parent, View v, int position, long duration) {
         int index = getItemRealPosition(position);
-
-        // 500毫秒内点击连续点击，不做响应
-        if ((System.currentTimeMillis() - mItemClickTime) > 500) {
-            mItemClickTime = System.currentTimeMillis();
-            mListener.onItemClick(v, index);
-        } else {
-            return;
-        }
-
         if (index < 0) {
             // 点击的是header区域
             mListener.onHeaderClick(v);
@@ -177,6 +166,7 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
             mListener.onFooterClick(v);
             return;
         }
+        mListener.onItemClick(v, index);
     }
 
     @Override

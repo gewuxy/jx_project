@@ -15,19 +15,19 @@ import lib.ys.LogMgr;
 import lib.ys.activity.ActivityEx;
 import lib.ys.adapter.ViewHolderEx;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormItemEx.TForm;
 import lib.ys.frag.FragEx;
 import lib.ys.model.EVal;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem> implements OnClickListener {
+abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TForm> implements OnClickListener {
 
     /**
      * 元素
      */
-    public enum TFormElem {
+    public enum TForm {
         /**
          * 显示和操作相关的字段
          */
@@ -104,7 +104,7 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
 
     public final void refresh() {
         if (mHolder != null) {
-            if (getBoolean(TFormElem.visible)) {
+            if (getBoolean(TForm.visible)) {
                 ViewUtil.showView(mHolder.getConvertView());
                 refresh(mHolder);
             } else {
@@ -114,12 +114,12 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
     }
 
     public final void show() {
-        put(TFormElem.visible, true);
+        put(TForm.visible, true);
         refresh();
     }
 
     public final void hide() {
-        put(TFormElem.visible, false);
+        put(TForm.visible, false);
         refresh();
     }
 
@@ -149,12 +149,12 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
     }
 
     protected void startActivity(Intent intent) {
-        Object host = getObject(TFormElem.host);
+        Object host = getObject(TForm.host);
         LaunchUtil.startActivity(host, intent);
     }
 
     protected void startActivityForResult(Intent intent, int position) {
-        Object host = getObject(TFormElem.host);
+        Object host = getObject(TForm.host);
         LaunchUtil.startActivityForResult(host, intent, position);
     }
 
@@ -166,7 +166,7 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
     public final void onClick(View v) {
         if (!onViewClick(v)) {
             if (mListener != null) {
-                mListener.onViewClick(v, mPosition, getObject(TFormElem.related));
+                mListener.onViewClick(v, mPosition, getObject(TForm.related));
             }
         }
     }
@@ -214,14 +214,14 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
     }
 
     public void save(Object key, Object value, Object text) {
-        put(TFormElem.key, key);
-        put(TFormElem.val, value);
-        put(TFormElem.text, text);
+        put(TForm.key, key);
+        put(TForm.val, value);
+        put(TForm.text, text);
     }
 
     public void save(Object value, Object text) {
-        put(TFormElem.val, value);
-        put(TFormElem.text, text);
+        put(TForm.val, value);
+        put(TForm.text, text);
     }
 
     /**
@@ -238,7 +238,7 @@ abstract public class FormItemEx<VH extends ViewHolderEx> extends EVal<TFormElem
      * @param request
      */
     protected void exeNetworkRequest(int networkId, NetworkRequest request) {
-        Object host = getObject(TFormElem.host);
+        Object host = getObject(TForm.host);
         if (host instanceof ActivityEx) {
             ActivityEx act = (ActivityEx) host;
             act.refresh(RefreshWay.dialog);

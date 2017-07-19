@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import java.util.List;
 
+import lib.network.Network;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
@@ -173,7 +174,7 @@ public class SROpt<T> implements OnSRListener {
             mSRLayout.startLoadMore();
             return true;
         } else {
-            mSROptListener.showToast(R.string.toast_network_disconnect);
+            AppEx.showToast(Network.getConfig().getDisconnectToast());
             return false;
         }
     }
@@ -197,7 +198,7 @@ public class SROpt<T> implements OnSRListener {
             stopRefresh();
 
             if (response != null) {
-                mSROptListener.showToast(response.getError());
+                AppEx.showToast(response.getError());
             }
             return;
         }
@@ -339,7 +340,7 @@ public class SROpt<T> implements OnSRListener {
             if (DeviceUtil.isNetworkEnabled()) {
                 mSROptListener.getDataFromNet();
             } else {
-                AppEx.showToast(R.string.toast_network_disconnect);
+                AppEx.showToast(Network.getConfig().getDisconnectToast());
                 stopRefresh();
             }
         }

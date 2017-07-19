@@ -1,26 +1,25 @@
 package lib.ys.ui.frag;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.CallSuper;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import lib.ys.R;
 import lib.ys.ui.interfaces.IWebViewHost;
-import lib.ys.ui.interfaces.impl.WebViewOpt;
+import lib.ys.ui.interfaces.impl.WebOption;
+import lib.ys.ui.interfaces.impl.WebViewSetter;
 
 /**
  * @author yuansui
  */
 abstract public class WebViewFragEx extends FragEx implements IWebViewHost {
 
+
     private WebView mWebView;
     private ProgressBar mProgressBar;
 
-    private WebViewOpt mImpl;
+    private WebViewSetter mSetter;
 
     @Override
     public int getContentViewId() {
@@ -37,8 +36,8 @@ abstract public class WebViewFragEx extends FragEx implements IWebViewHost {
     @CallSuper
     @Override
     public void setViews() {
-        mImpl = new WebViewOpt(this);
-        mImpl.setViews(mProgressBar, mWebView);
+        mSetter = new WebViewSetter(this);
+        mSetter.set(mWebView, mProgressBar);
 
         onLoadStart();
     }
@@ -51,7 +50,7 @@ abstract public class WebViewFragEx extends FragEx implements IWebViewHost {
     @CallSuper
     @Override
     protected void onResultData(int requestCode, int resultCode, Intent data) {
-        mImpl.onResultData(requestCode, resultCode, data);
+        mSetter.onResultData(requestCode, resultCode, data);
     }
 
     /**
@@ -60,48 +59,6 @@ abstract public class WebViewFragEx extends FragEx implements IWebViewHost {
      * @param mH5Title
      */
     public void setH5Title(String mH5Title) {
-    }
-
-    @Override
-    public WebViewClient getWebViewClient() {
-        return new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        };
-    }
-
-    @Override
-    public boolean enableJs() {
-        return true;
-    }
-
-    @Override
-    public boolean enableScale() {
-        return true;
-    }
-
-    @Override
-    public boolean enableBuiltInZoomControls() {
-        return true;
-    }
-
-    @Override
-    public boolean enableDomStorage() {
-        return true;
-    }
-
-    @Override
-    public int getScrollBarStyle() {
-        return WebView.SCROLLBARS_INSIDE_OVERLAY;
-    }
-
-    @Override
-    public int getCacheMode() {
-        return WebSettings.LOAD_DEFAULT;
     }
 
     @Override
@@ -129,13 +86,13 @@ abstract public class WebViewFragEx extends FragEx implements IWebViewHost {
         mWebView.goForward();
     }
 
-    @Override
-    public Drawable getProgressBarDrawable() {
-        return null;
-    }
-
     protected WebView getWebView() {
         return mWebView;
+    }
+
+    @Override
+    public WebOption getOption() {
+        return WebOption.newBuilder().build();
     }
 
     @Override

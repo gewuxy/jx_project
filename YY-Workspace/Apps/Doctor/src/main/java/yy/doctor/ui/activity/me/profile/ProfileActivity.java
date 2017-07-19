@@ -17,7 +17,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
@@ -406,7 +406,7 @@ public class ProfileActivity extends BaseFormActivity {
      */
     private void modify() {
 
-        String str = getRelatedItem(RelatedId.address).getString(TFormElem.text);
+        String str = getRelatedItem(RelatedId.address).getString(TForm.text);
         YSLog.d(TAG, "省市 = " + str);
 
 
@@ -440,7 +440,7 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     private String getRelateVal(@RelatedId int relateId) {
-        return getRelatedItem(relateId).getString(TFormElem.val);
+        return getRelatedItem(relateId).getString(TForm.val);
     }
 
     @Override
@@ -535,7 +535,7 @@ public class ProfileActivity extends BaseFormActivity {
             mPcd[Pcd.KCity] = place.getString(TPlace.city);
             mPcd[Pcd.KDistrict] = place.getString(TPlace.district);
 
-            getRelatedItem(RelatedId.address).put(TFormElem.text, Util.generatePcd(mPcd));
+            getRelatedItem(RelatedId.address).put(TForm.text, Util.generatePcd(mPcd));
             refreshRelatedItem(RelatedId.address);
         }
     }

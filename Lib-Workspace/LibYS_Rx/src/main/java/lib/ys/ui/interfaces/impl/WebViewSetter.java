@@ -29,14 +29,14 @@ import lib.ys.util.view.ViewUtil;
  * @since 2017/5/15
  */
 
-public class WebViewOpt {
+public class WebViewSetter {
 
     private IWebViewHost mHost;
 
     public ValueCallback<Uri> mUploadMessage;
     public ValueCallback<Uri[]> mUploadMsgs;
 
-    public WebViewOpt(IWebViewHost host) {
+    public WebViewSetter(IWebViewHost host) {
         if (host == null) {
             throw new NullPointerException("host can not be null");
         }
@@ -44,8 +44,10 @@ public class WebViewOpt {
         mHost = host;
     }
 
-    public void setViews(ProgressBar bar, WebView webView) {
-        Drawable pd = mHost.getProgressBarDrawable();
+    public void set(WebView webView, ProgressBar bar) {
+        WebOption option = mHost.getOption();
+
+        Drawable pd = option.getProgressBarDrawable();
         if (pd != null) {
             /*
              * 这里必须使用ClipDrawable, 不然的话效果会变成整个drawable平铺, 看不出来进度了
@@ -59,16 +61,17 @@ public class WebViewOpt {
 		 */
         WebSettings settings = webView.getSettings();
 
-        settings.setCacheMode(mHost.getCacheMode());
-        settings.setJavaScriptEnabled(mHost.enableJs());
-        settings.setUseWideViewPort(mHost.enableScale());
-        settings.setBuiltInZoomControls(mHost.enableBuiltInZoomControls());
-        settings.setDomStorageEnabled(mHost.enableDomStorage());
+        settings.setCacheMode(option.getCacheMode());
+        settings.setJavaScriptEnabled(option.isJsEnabled());
+//        settings.setUseWideViewPort(mHost.enableScale());
+        settings.setLoadWithOverviewMode(option.isScaleEnabled());
+        settings.setBuiltInZoomControls(option.isBuiltInZoomControlsEnabled());
+        settings.setDomStorageEnabled(option.isDomStorageEnabled());
         settings.setAllowFileAccess(true);
 
-        webView.setScrollBarStyle(mHost.getScrollBarStyle());
+        webView.setScrollBarStyle(option.getScrollBarStyle());
 
-        webView.setWebViewClient(mHost.getWebViewClient());
+        webView.setWebViewClient(option.getClient());
 
         // 自己管理进度条的展现形式, 暂时不对外开放
         webView.setWebChromeClient(new WebChromeClient() {
@@ -193,4 +196,7 @@ public class WebViewOpt {
         return picPath;
     }
 
+    public void setOption(WebOption op) {
+
+    }
 }

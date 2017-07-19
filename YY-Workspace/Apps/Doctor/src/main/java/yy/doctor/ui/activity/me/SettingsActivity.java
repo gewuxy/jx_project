@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.view.ToggleButton;
@@ -179,7 +179,7 @@ public class SettingsActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
 
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
         switch (relatedId) {
             case RelatedId.check_version: {
                 exeNetworkReq(NetFactory.checkAppVersion());
@@ -264,7 +264,7 @@ public class SettingsActivity extends BaseFormActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
-                                getRelatedItem(RelatedId.clear_img_cache).put(TFormElem.text, "0M");
+                                getRelatedItem(RelatedId.clear_img_cache).put(TForm.text, "0M");
                                 refreshRelatedItem(RelatedId.clear_img_cache);
                                 showToast(R.string.clear_img_cache_success);
                             }
@@ -292,7 +292,7 @@ public class SettingsActivity extends BaseFormActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
-                                getRelatedItem(RelatedId.clear_sound_cache).put(TFormElem.text, "0M");
+                                getRelatedItem(RelatedId.clear_sound_cache).put(TForm.text, "0M");
                                 refreshRelatedItem(RelatedId.clear_sound_cache);
                                 showToast(getString(R.string.clear_sound_cache_success));
                             }

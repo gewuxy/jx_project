@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
@@ -162,7 +162,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
                 // FIXME: 2017/6/30 caixiang
                 //检查手机号格式是否正确
-                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getString(TFormElem.text))) {
+                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getString(TForm.text))) {
                     showToast(R.string.phone_error);
                 }
 
@@ -176,10 +176,10 @@ public class ExchangeActivity extends BaseFormActivity {
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId(mGoodId)
                         .price(mEpn)
-                        .receiver(getRelatedItem(RelatedId.receiver).getString(TFormElem.text))
-                        .phone(getRelatedItem(RelatedId.mobile).getString(TFormElem.text))
-                        .province(getRelatedItem(RelatedId.province_city).getString(TFormElem.text))
-                        .address(getRelatedItem(RelatedId.address).getString(TFormElem.text))
+                        .receiver(getRelatedItem(RelatedId.receiver).getString(TForm.text))
+                        .phone(getRelatedItem(RelatedId.mobile).getString(TForm.text))
+                        .province(getRelatedItem(RelatedId.province_city).getString(TForm.text))
+                        .address(getRelatedItem(RelatedId.address).getString(TForm.text))
                         .builder();
                 exeNetworkReq(r);
             }

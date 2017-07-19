@@ -17,7 +17,7 @@ import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
@@ -33,8 +33,8 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
-import yy.doctor.ui.activity.LoginActivity;
 import yy.doctor.ui.activity.MainActivity;
+import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 
@@ -208,7 +208,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
 
 
-         //检查邮箱是否合法 (不是FromItem)
+        //检查邮箱是否合法 (不是FromItem)
        /* if (!RegexUtil.isEmail(mUserName)) {
             showToast(R.string.input_right_email);
             return;
@@ -263,12 +263,12 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
      * 获取Item的文本信息
      */
     private String getItemStr(@RelatedId int relatedId) {
-        return getRelatedItem(relatedId).getString(TFormElem.val);
+        return getRelatedItem(relatedId).getString(TForm.val);
     }
 
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
         switch (relatedId) {
             case RelatedId.hospital: {
                 // 暂时不判断, 是否保留??
@@ -304,7 +304,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             String d = place.getString(TPlace.district);
             String pcdStr = Util.generatePcd(p, c, d);
 
-            getRelatedItem(RelatedId.location).put(TFormElem.name, pcdStr);
+            getRelatedItem(RelatedId.location).put(TForm.name, pcdStr);
             getRelatedItem(RelatedId.location).save(pcdStr, pcdStr);
             refreshRelatedItem(RelatedId.location);
         }
@@ -316,7 +316,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         if (resultCode == RESULT_OK) {
             String hospital = data.getStringExtra(Extra.KData);
-            getRelatedItem(RelatedId.hospital).put(TFormElem.text, hospital);
+            getRelatedItem(RelatedId.hospital).put(TForm.text, hospital);
             refreshRelatedItem(RelatedId.hospital);
         }
     }
@@ -352,7 +352,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 //保存用户名
                 SpApp.inst().saveUserName(mUserName);
                 exeNetworkReq(KLogin, NetFactory.login(getItemStr(RelatedId.email), mPwd));
-                YSLog.d("yaya","_________________________");
+                YSLog.d("yaya", "_________________________");
             } else {
                 stopRefresh();
                 showToast(r.getError());

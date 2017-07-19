@@ -101,6 +101,18 @@ public class UIUtil {
         activity.getWindow().setAttributes(p);
     }
 
+    /**
+     * 设置空白处黑暗度
+     *
+     * @param amount 0-1.0, 0为全透明. 1为全黑
+     */
+    public static void setWindowDimAmount(Window win, float amount) {
+        WindowManager.LayoutParams params = win.getAttributes();
+        params.dimAmount = amount;
+        win.setAttributes(params);
+        win.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
     /**
      * 设置使用沉浸式通知栏, 4.4特性

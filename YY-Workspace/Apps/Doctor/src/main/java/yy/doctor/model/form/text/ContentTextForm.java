@@ -23,7 +23,7 @@ public class ContentTextForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        holder.getTvText().setText(getString(TFormElem.text));
+        holder.getTvText().setText(getString(TForm.text));
 
     }
 

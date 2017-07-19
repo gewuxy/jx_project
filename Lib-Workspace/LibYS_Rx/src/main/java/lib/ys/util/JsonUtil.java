@@ -19,7 +19,6 @@ import lib.ys.model.EVal;
 public class JsonUtil {
 
     private static final String TAG = JsonUtil.class.getSimpleName();
-    private static final String KJsonValueNull = "";
 
     public static Object getObject(JSONObject json, String tag) {
         Object ret = json.opt(tag);

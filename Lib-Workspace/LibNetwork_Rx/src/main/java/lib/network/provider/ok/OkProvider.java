@@ -3,7 +3,6 @@ package lib.network.provider.ok;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.reactivex.Observable;
 import lib.network.NetworkLog;
 import lib.network.NetworkUtil;
 import lib.network.model.NetworkMethod;
@@ -99,10 +98,9 @@ public class OkProvider extends BaseProvider {
 
     @Override
     public void cancelAll() {
-        Observable.just(mCallMap)
-                .flatMap(map -> Observable.fromIterable(map.values()))
-                .doAfterTerminate(() -> mCallMap.clear())
-                .subscribe(Call::cancel);
+        for (Call call : mCallMap.values()) {
+            call.cancel();
+        }
     }
 
     private Call getCall(int id) {

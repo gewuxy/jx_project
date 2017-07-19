@@ -21,7 +21,7 @@ import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.FormEx;
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.form.FormHost;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.TransparencyType;
@@ -51,8 +51,6 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
     private List<T> mRemandItems;
 
     private Class<VH> mVHClass;
-
-    private long mItemClickTime = 0;
 
     public FormFragEx() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
@@ -105,7 +103,7 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
     public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
-            Object related = item.getObject(TFormElem.related);
+            Object related = item.getObject(TForm.related);
             if (related != null) {
                 mMapRelated.put(related, item);
             }
@@ -230,9 +228,9 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
             return t;
         }
 
-        t.put(TFormElem.host, this);
+        t.put(TForm.host, this);
 
-        Object related = t.getObject(TFormElem.related);
+        Object related = t.getObject(TForm.related);
 
         if (mLayoutItems == null) {
             mRemandItems.add(t);
@@ -363,14 +361,8 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
      * @param position
      */
     protected final void onItemClick(View v, int position) {
-        // 500毫秒内点击连续点击，不做响应
-        if ((System.currentTimeMillis() - mItemClickTime) > 500) {
-            mItemClickTime = System.currentTimeMillis();
-            if (!getItem(position).onItemClick(this, v)) {
-                onFormItemClick(v, position);
-            }
-        } else {
-            return;
+        if (!getItem(position).onItemClick(this, v)) {
+            onFormItemClick(v, position);
         }
     }
 

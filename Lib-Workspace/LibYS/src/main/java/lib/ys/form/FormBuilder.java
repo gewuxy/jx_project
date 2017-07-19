@@ -9,7 +9,7 @@ import android.support.annotation.StringRes;
 
 import java.util.List;
 
-import lib.ys.form.FormItemEx.TFormElem;
+import lib.ys.form.FormItemEx.TForm;
 import lib.ys.util.res.ResLoader;
 
 
@@ -273,41 +273,41 @@ abstract public class FormBuilder<Item extends FormItemEx> {
     abstract protected Item build(int type);
 
     private void saveItemValues(Item item) {
-        putIfNotNull(item, TFormElem.name, mName);
-        putIfNotNull(item, TFormElem.text, mText);
-        putIfNotNull(item, TFormElem.text_multi, mTextMulti);
-        putIfNotNull(item, TFormElem.hint, mHint);
-        putIfNotNull(item, TFormElem.tips, mTips);
-        putIfNotNull(item, TFormElem.enable, mEnable);
-        putIfNotNull(item, TFormElem.related, mRelated);
-        putIfNotNull(item, TFormElem.data, mData);
-        putIfNotNull(item, TFormElem.option, mOption);
-        putIfNotNull(item, TFormElem.host, mHost);
-        putIfNotNull(item, TFormElem.width, mWidth);
-        putIfNotNull(item, TFormElem.height, mHeight);
-        putIfNotNull(item, TFormElem.column, mColumn);
-        putIfNotNull(item, TFormElem.background, mBgColor);
-        putIfNotNull(item, TFormElem.mode, mMode);
-        putIfNotNull(item, TFormElem.limit, mLimit);
-        putIfNotNull(item, TFormElem.drawable, mDrawableId);
-        putIfNotNull(item, TFormElem.drawable, mDrawableUrl);
-        putIfNotNull(item, TFormElem.layout, mLayoutId);
-        putIfNotNull(item, TFormElem.toast, mToast);
-        putIfNotNull(item, TFormElem.intent, mIntent);
-        putIfNotNull(item, TFormElem.children, mChildren);
-        putIfNotNull(item, TFormElem.depend, mDepend);
-        putIfNotNull(item, TFormElem.regex, mRegex);
-        putIfNotNull(item, TFormElem.check, mCheck);
-        putIfNotNull(item, TFormElem.index, mIndex);
-        putIfNotNull(item, TFormElem.id, mId);
-        putIfNotNull(item, TFormElem.visible, mVisible);
-        putIfNotNull(item, TFormElem.observer, mObserver);
+        putIfNotNull(item, TForm.name, mName);
+        putIfNotNull(item, TForm.text, mText);
+        putIfNotNull(item, TForm.text_multi, mTextMulti);
+        putIfNotNull(item, TForm.hint, mHint);
+        putIfNotNull(item, TForm.tips, mTips);
+        putIfNotNull(item, TForm.enable, mEnable);
+        putIfNotNull(item, TForm.related, mRelated);
+        putIfNotNull(item, TForm.data, mData);
+        putIfNotNull(item, TForm.option, mOption);
+        putIfNotNull(item, TForm.host, mHost);
+        putIfNotNull(item, TForm.width, mWidth);
+        putIfNotNull(item, TForm.height, mHeight);
+        putIfNotNull(item, TForm.column, mColumn);
+        putIfNotNull(item, TForm.background, mBgColor);
+        putIfNotNull(item, TForm.mode, mMode);
+        putIfNotNull(item, TForm.limit, mLimit);
+        putIfNotNull(item, TForm.drawable, mDrawableId);
+        putIfNotNull(item, TForm.drawable, mDrawableUrl);
+        putIfNotNull(item, TForm.layout, mLayoutId);
+        putIfNotNull(item, TForm.toast, mToast);
+        putIfNotNull(item, TForm.intent, mIntent);
+        putIfNotNull(item, TForm.children, mChildren);
+        putIfNotNull(item, TForm.depend, mDepend);
+        putIfNotNull(item, TForm.regex, mRegex);
+        putIfNotNull(item, TForm.check, mCheck);
+        putIfNotNull(item, TForm.index, mIndex);
+        putIfNotNull(item, TForm.id, mId);
+        putIfNotNull(item, TForm.visible, mVisible);
+        putIfNotNull(item, TForm.observer, mObserver);
 
-        putIfNotNull(item, TFormElem.key, mKey);
-        putIfNotNull(item, TFormElem.val, mVal);
+        putIfNotNull(item, TForm.key, mKey);
+        putIfNotNull(item, TForm.val, mVal);
     }
 
-    private void putIfNotNull(Item item, TFormElem key, Object value) {
+    private void putIfNotNull(Item item, TForm key, Object value) {
         if (value != null) {
             item.put(key, value);
         }

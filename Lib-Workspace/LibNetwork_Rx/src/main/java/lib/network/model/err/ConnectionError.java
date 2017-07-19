@@ -16,12 +16,14 @@
 
 package lib.network.model.err;
 
-/**
- * Indicates that there was a network error when performing a Volley request.
- */
-public class ConnectionNetError extends NetError {
+import lib.network.Network;
 
-    public ConnectionNetError(String msg) {
-        super(msg);
+/**
+ * 网络错误
+ */
+public class ConnectionError extends NetError {
+
+    public ConnectionError() {
+        super(Network.getConfig().getDisconnectToast());
     }
 }

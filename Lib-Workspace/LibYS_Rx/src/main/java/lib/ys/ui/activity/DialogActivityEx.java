@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 
 import lib.ys.R;
 import lib.ys.ui.other.NavBar;
@@ -108,10 +107,7 @@ abstract public class DialogActivityEx extends ActivityEx {
      * @param amount 0-1.0, 0为全透明. 1为全黑
      */
     protected void setDimAmount(float amount) {
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.dimAmount = amount;
-        getWindow().setAttributes(params);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        UIUtil.setWindowDimAmount(getWindow(), amount);
     }
 
     @Override

@@ -55,26 +55,62 @@ abstract public class BaseProvider {
 
     public void url(String url) {
         mHttpUrl = url;
+
+        mIdUrl = null;
+        mResId = 0;
+        mUri = null;
+        mContentProviderPath = null;
+        mStorageUrl = null;
     }
 
     public void storage(String s) {
         mStorageUrl = s;
+
+        mHttpUrl = null;
+        mIdUrl = null;
+        mResId = 0;
+        mUri = null;
+        mContentProviderPath = null;
     }
 
     public void res(@DrawableRes int id) {
         mResId = id;
+
+        mHttpUrl = null;
+        mIdUrl = null;
+        mUri = null;
+        mContentProviderPath = null;
+        mStorageUrl = null;
     }
 
     public void id(String id) {
         mIdUrl = id;
+
+        mHttpUrl = null;
+        mResId = 0;
+        mUri = null;
+        mContentProviderPath = null;
+        mStorageUrl = null;
     }
 
     public void contentProvider(String path) {
         mContentProviderPath = path;
+
+        mHttpUrl = null;
+        mIdUrl = null;
+        mResId = 0;
+        mUri = null;
+        mStorageUrl = null;
     }
 
     public void uri(Uri uri) {
         mUri = uri;
+
+        mHttpUrl = null;
+        mIdUrl = null;
+        mResId = 0;
+        mContentProviderPath = null;
+        mStorageUrl = null;
     }
 
     public void renderer(Renderer renderer) {

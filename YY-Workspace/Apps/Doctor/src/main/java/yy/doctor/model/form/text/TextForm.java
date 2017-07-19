@@ -33,7 +33,7 @@ public class TextForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        setTextIfExist(holder.getTvText(), getString(TFormElem.text));
-        save(getString(TFormElem.text), getString(TFormElem.text));
+        setTextIfExist(holder.getTvText(), getString(TForm.text));
+        save(getString(TForm.text), getString(TForm.text));
     }
 }

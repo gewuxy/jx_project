@@ -7,7 +7,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.form.FormEx.TFormElem;
+import lib.ys.form.FormEx.TForm;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
@@ -165,7 +165,7 @@ public class MeFrag extends BaseFormFrag {
     @Override
     protected void onFormItemClick(View v, int position) {
 
-        @RelatedId int relatedId = getItem(position).getInt(TFormElem.related);
+        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
         switch (relatedId) {
             case RelatedId.my_attention: {
                 startActivity(UnitNumActivity.class);
@@ -211,7 +211,7 @@ public class MeFrag extends BaseFormFrag {
                     .load();
             mTvName.setText(Profile.inst().getString(linkman) + "  " + Profile.inst().getString(department));
             mTvHospital.setText(Profile.inst().getString(hospital));
-            getRelatedItem(RelatedId.my_epn).put(TFormElem.text, Profile.inst().getString(TProfile.credits) + getString(R.string.epn));
+            getRelatedItem(RelatedId.my_epn).put(TForm.text, Profile.inst().getString(TProfile.credits) + getString(R.string.epn));
             refreshRelatedItem(RelatedId.my_epn);
         }
     }

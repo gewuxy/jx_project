@@ -33,8 +33,6 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
 
     private OnGroupListOptListener mListener;
 
-    private long mChildClickTime;
-
     public GroupListOpt(@NonNull OnGroupListOptListener<GROUP, CHILD, A> l) {
         super(l);
         mListener = l;
@@ -84,13 +82,7 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        // 500毫秒内点击连续点击，不做响应
-        if ((System.currentTimeMillis() - mChildClickTime) > 500) {
-            mChildClickTime = System.currentTimeMillis();
-            return mListener.onChildClick(parent, v, groupPosition, childPosition, id);
-        } else {
-            return false;
-        }
+        return mListener.onChildClick(parent, v, groupPosition, childPosition, id);
     }
 
     @Override

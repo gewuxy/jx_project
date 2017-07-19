@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -14,7 +13,7 @@ import lib.ys.util.view.ViewUtil.FixedSpeedScroller;
 /**
  * AutoScrollViewPager 自动滚动的ViewPager 搭配着 {@link lib.ys.view.pager.indicator.PageIndicator} 使用
  */
-public class AutoScrollViewPager extends ViewPager {
+public class AutoScrollViewPager extends ViewPagerEx {
 
     public static final int DEFAULT_INTERVAL = 1500;
 

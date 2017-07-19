@@ -19,11 +19,11 @@ public class TextDialogForm extends TextForm {
     @Override
     public boolean onItemClick(Object host, View v) {
 
-        final List<Config> data = getList(TFormElem.data);
+        final List<Config> data = getList(TForm.data);
         BottomDialog dialog = new BottomDialog(v.getContext(), position -> {
 
-            put(TFormElem.text, data.get(position).getName());
-            put(TFormElem.val, data.get(position).getVal());
+            put(TForm.text, data.get(position).getName());
+            put(TForm.val, data.get(position).getVal());
             refresh();
         });
         for (int i = 0; i < data.size(); ++i) {

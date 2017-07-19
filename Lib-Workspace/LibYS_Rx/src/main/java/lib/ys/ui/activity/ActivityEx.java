@@ -31,6 +31,7 @@ import android.widget.EditText;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import lib.network.Network;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
@@ -576,7 +577,7 @@ abstract public class ActivityEx extends SwipeBackActivity implements
     @Override
     public boolean onRetryClick() {
         if (!DeviceUtil.isNetworkEnabled()) {
-            showToast(R.string.toast_network_disconnect);
+            showToast(Network.getConfig().getDisconnectToast());
             return true;
         }
         return false;

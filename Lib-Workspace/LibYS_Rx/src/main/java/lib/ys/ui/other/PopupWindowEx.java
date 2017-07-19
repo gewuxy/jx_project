@@ -22,12 +22,11 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.ConnectionNetError;
+import lib.network.model.err.ConnectionError;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
-import lib.ys.R;
 import lib.ys.YSLog;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
@@ -217,7 +216,7 @@ abstract public class PopupWindowEx implements
 
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
         if (!DeviceUtil.isNetworkEnabled()) {
-            onNetworkError(id, new ConnectionNetError(mContext.getString(R.string.toast_network_disconnect)));
+            onNetworkError(id, new ConnectionError());
             return;
         }
 

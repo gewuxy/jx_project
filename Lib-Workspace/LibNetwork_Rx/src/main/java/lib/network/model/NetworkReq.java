@@ -83,7 +83,7 @@ public class NetworkReq {
      * 内部builder
      */
     public static class Builder {
-        private List<CommonPair> mParams;
+        protected List<CommonPair> mParams;
         private List<BytePair> mByteParams;
         private List<FilePair> mFileParams;
 
@@ -100,7 +100,7 @@ public class NetworkReq {
         private NetworkRetry mRetry;
 
 
-        private Builder(String baseUrl) {
+        protected Builder(String baseUrl) {
             mUrl = baseUrl;
 
             mParams = new ArrayList<>();

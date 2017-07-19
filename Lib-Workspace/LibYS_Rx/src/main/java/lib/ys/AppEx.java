@@ -52,7 +52,7 @@ abstract public class AppEx extends Application {
         mAppConfig = configureApp();
         mListConfig = configureList();
 
-        NavBar.initialize(configureNavBar());
+        NavBar.init(configureNavBar());
 
         if (enableCatchCrash()) {
             CrashMgr.inst().init(e -> {
