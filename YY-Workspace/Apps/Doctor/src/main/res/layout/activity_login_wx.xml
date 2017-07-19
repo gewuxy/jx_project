@@ -3,96 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_fff"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="40dp"
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
 
-
-        <RelativeLayout
-            android:layout_width="280dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="60dp"
-            android:background="@color/white">
-
-            <yy.doctor.view.AutoCompleteEditText
-                android:id="@+id/wechat_login_et_name"
-                android:layout_height="wrap_content"
-                style="@style/et.login"
-                android:hint="@string/email_phone"
-                android:singleLine="true"/>
-
-            <ImageView
-                android:id="@+id/wechat_login_iv_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="21dp"
-                android:src="@mipmap/login_ic_cancel"/>
-
-        </RelativeLayout>
-
-        <View
-            style="@style/divider"/>
-
-        <RelativeLayout
-            android:layout_width="280dp"
-            android:layout_height="52dp">
-
-            <EditText
-                android:id="@+id/wechat_login_et_pwd"
-                style="@style/et.login"
-                android:hint="@string/pwd"
-                android:maxLength="18"
-                android:singleLine="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"/>
-
-            <CheckBox
-                android:id="@+id/wechat_login_cb_visible_pwd"
-                android:layout_width="17dp"
-                android:layout_height="11dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:button="@drawable/login_checkbox_visible_selector"
-                android:gravity="center"/>
-
-            <ImageView
-                android:id="@+id/wechat_login_iv_cancel_pwd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="24dp"
-                android:layout_toLeftOf="@+id/login_cb_visible_pwd"
-                android:src="@mipmap/login_ic_cancel"/>
-
-        </RelativeLayout>
-
-        <View
-            style="@style/divider"/>
-
-        <TextView
-            android:id="@+id/wechat_login_tv"
-            style="@style/tv.common"
-            android:layout_width="280dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="28dp"
-            android:text="@string/binding_login"
-            android:textColor="@color/text_fff"
-            android:textSize="15dp"/>
-
-
+        <include layout="@layout/layout_login_name_pwd"/>
     </LinearLayout>
 </LinearLayout>

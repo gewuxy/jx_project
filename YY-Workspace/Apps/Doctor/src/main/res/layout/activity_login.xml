@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -18,89 +16,13 @@
         android:paddingRight="40dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="83dp"
+            android:layout_width="64dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="44dp"
             android:src="@mipmap/ic_launcher_login"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="60dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <yy.doctor.view.AutoCompleteEditText
-                android:id="@+id/login_et_name"
-                style="@style/et.login"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="电子邮箱"
-                android:singleLine="true"/>
-
-            <ImageView
-                android:id="@+id/login_iv_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="21dp"
-                android:visibility="gone"
-                android:src="@mipmap/login_ic_cancel"/>
-
-        </LinearLayout>
-
-        <View
-            style="@style/divider"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="52dp">
-
-            <EditText
-                android:id="@+id/login_et_pwd"
-                style="@style/et.login"
-                android:hint="@string/pwd"
-                android:maxLength="18"
-                android:singleLine="true"/>
-
-            <CheckBox
-                android:id="@+id/login_cb_visible_pwd"
-                android:layout_width="17dp"
-                android:layout_height="11dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:button="@drawable/login_checkbox_visible_selector"
-                android:gravity="center"/>
-
-            <ImageView
-                android:id="@+id/login_iv_cancel_pwd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="24dp"
-                android:layout_toLeftOf="@+id/login_cb_visible_pwd"
-                android:src="@mipmap/login_ic_cancel"
-                android:visibility="gone"/>
-
-        </RelativeLayout>
-
-        <View
-            style="@style/divider"/>
-
-        <TextView
-            android:id="@+id/login_tv_login"
-            style="@style/tv.common"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="28dp"
-            android:text="@string/login"
-            android:textColor="@color/text_fff"
-            android:background="@drawable/btn_selector"
-            android:textSize="15dp"/>
+        <include layout="@layout/layout_login_name_pwd"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -132,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-        // fixme
+
         <LinearLayout
             android:id="@+id/login_layout_wechat"
             android:layout_width="wrap_content"
@@ -144,14 +66,14 @@
             <ImageView
                 android:layout_width="41dp"
                 android:layout_height="41dp"
-                android:background="@drawable/login_iv_selector_we_chat"/>
+                android:background="@drawable/login_wx_selector_iv"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="@string/we_chat_login"
-                android:textColor="@color/text_2ab81f"
+                android:textColor="@color/login_wx_selector_text"
                 android:textSize="10dp"/>
         </LinearLayout>
     </LinearLayout>

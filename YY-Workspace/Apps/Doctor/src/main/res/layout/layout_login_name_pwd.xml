@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <yy.doctor.view.AutoCompleteEditText
+            android:id="@+id/login_et_name"
+            style="@style/et.login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="请输入电子邮箱或手机号"
+            android:singleLine="true"/>
+
+        <ImageView
+            android:id="@+id/login_iv_cancel"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="21dp"
+            android:visibility="gone"
+            android:src="@mipmap/login_ic_cancel"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <EditText
+            android:id="@+id/login_et_pwd"
+            style="@style/et.login"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="请输入密码"
+            android:maxLength="18"
+            android:singleLine="true"/>
+
+        <CheckBox
+            android:id="@+id/login_cb_visible_pwd"
+            android:layout_width="17dp"
+            android:layout_height="11dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:button="@drawable/login_checkbox_visible_selector"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/login_iv_cancel_pwd"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="24dp"
+            android:layout_toLeftOf="@+id/login_cb_visible_pwd"
+            android:src="@mipmap/login_ic_cancel"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"/>
+
+    <TextView
+        android:id="@+id/login_tv_login"
+        style="@style/tv.common"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/btn_selector"
+        android:text="@string/login"
+        android:textColor="@color/text_fff"
+        android:textSize="15dp"/>
+</LinearLayout>
