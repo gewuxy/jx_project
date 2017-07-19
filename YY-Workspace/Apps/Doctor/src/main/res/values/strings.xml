@@ -28,17 +28,23 @@
     <!--注册-->
     <string name="register">注册</string>
     <string name="real_name">真实姓名</string>
-    <string name="pwd">密码</string>
+    <string name="pwd">输入6-24位密码</string>
     <string name="confirm_pwd">确认密码</string>
     <string name="hospital_name">医院名称</string>
     <string name="phone_number">输入手机号码</string>
     <string name="input_real_name">请输入真实姓名</string>
-    <string name="input_right_pwd_num">请输入6~18位密码</string>
+    <string name="input_right_pwd_num">请输入6~24位密码</string>
     <string name="check_pwd_is_same">请核对密码是否一致</string>
     <string name="hospital">医院</string>
     <string name="guang_dong">广东省</string>
     <string name="guang_zhou">广州市</string>
     <string name="change">更改</string>
+    <string name="province_city_district">省市区</string>
+    <string name="medicine">内科 普内科</string>
+    <string name="choose_hospital">选择医院</string>
+    <string name="department">输入科室名称</string>
+    <string name="doctor">初级职称医师</string>
+    <string name="captcha">输入6位验证码</string>
 
     <!--hint-->
     <string name="hint_not_fill">未填写</string>
