@@ -17,12 +17,12 @@ import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 
 /**
- * 忘记密码
+ * 邮件找回密码
  *
  * @author CaiXiang
  * @since 2017/4/20
  */
-public class ForgetPwdActivity extends BaseActivity {
+public class ForgetPwdEmailActivity extends BaseActivity {
 
     private AutoCompleteEditText mEt;
     private HintDialogMain mDialog;
@@ -34,7 +34,7 @@ public class ForgetPwdActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_forget_pwd;
+        return R.layout.activity_forget_pwd_email;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ForgetPwdActivity extends BaseActivity {
         Result r = (Result) result;
         if (r.isSucceed()) {
             if (mDialog == null) {
-                mDialog = new HintDialogMain(ForgetPwdActivity.this);
+                mDialog = new HintDialogMain(ForgetPwdEmailActivity.this);
                 mDialog.setHint(getString(R.string.forget_pwd_success));
                 mDialog.addButton(getString(R.string.know), "#0682e6", v -> {
                     mDialog.dismiss();

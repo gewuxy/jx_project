@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="通过短信"
+                    android:text="@string/pass_sms"
                     android:textColor="@color/text_28b6b8"
                     android:textSize="14dp"/>
             </LinearLayout>
@@ -72,7 +72,7 @@
                     android:id="@+id/forget_pwd_tv_tooltip_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="通过邮件"
+                    android:text="@string/pass_email"
                     android:textColor="@color/text_2ab81f"
                     android:textSize="14dp"/>
             </LinearLayout>

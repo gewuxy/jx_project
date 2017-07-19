@@ -3,8 +3,9 @@ package yy.doctor.ui.activity.login;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -98,9 +99,9 @@ public abstract class BaseLoginActivity extends BaseActivity {
         UISetter.setPwdRange(et);
         cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                et.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                et.setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
-                et.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
             // 把光标设置到当前文本末尾
             et.setSelection(et.getText().length());

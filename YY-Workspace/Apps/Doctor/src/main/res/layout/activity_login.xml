@@ -35,7 +35,7 @@
                 android:id="@+id/login_tv_register"
                 style="@style/tv.login.bottom"
                 android:layout_marginRight="@dimen/margin"
-                android:text="@string/toregister"/>
+                android:text="@string/to_register"/>
 
             <View
                 android:layout_width="1dp"

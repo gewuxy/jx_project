@@ -26,8 +26,6 @@
             android:id="@+id/login_iv_cancel"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="21dp"
             android:visibility="gone"
             android:src="@mipmap/login_ic_cancel"/>
@@ -83,7 +81,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:background="@drawable/btn_selector"
+        android:background="@drawable/btn_selector_blue"
         android:text="@string/login"
         android:textColor="@color/text_fff"
         android:textSize="15dp"/>

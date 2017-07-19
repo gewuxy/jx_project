@@ -54,7 +54,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.ForgetPwdActivity"
+            android:name=".ui.activity.ForgetPwdEmailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.ForgetPwdPhoneActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.home.NoticeActivity"
@@ -214,7 +217,13 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.profile.SectionActivity"
+            android:name=".ui.activity.me.profile.SpecizlizedActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.profile.CertificationActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.profile.AcademicActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.profile.ClipImageActivity"
@@ -233,6 +242,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.profile.CmeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.profile.SectionActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.LaunchTmpActivity"

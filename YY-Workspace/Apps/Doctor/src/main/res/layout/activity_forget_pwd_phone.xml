@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/forget_pwd_et_phone"
+            style="@style/et.login"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:hint="@string/input_phone"
+            android:singleLine="true"
+            android:inputType="number"
+            android:maxLength="11"/>
+
+        <ImageView
+            android:id="@+id/forget_iv_cancel_phone"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginRight="21dp"
+            android:src="@mipmap/login_ic_cancel"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <View
+        style="@style/divider"
+        android:layout_width="280dp"/>
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="52dp">
+
+        <EditText
+            android:id="@+id/forget_pwd_et_captcha"
+            style="@style/et.login"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:inputType="number"
+            android:singleLine="true"
+            android:hint="@string/captcha"
+            android:maxLength="6"/>
+
+        <ImageView
+            android:id="@+id/forget_iv_cancel_captcha"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@+id/btn_captcha"
+            android:src="@mipmap/login_ic_cancel"
+            android:visibility="gone"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btn_captcha"
+            android:background="@color/divider"/>
+
+        <Button
+            android:id="@+id/btn_captcha"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
+            android:text="@string/get_captcha"
+            android:textColor="@color/register_captcha_text_selector"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"
+        android:layout_width="280dp"/>
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="52dp">
+
+        <EditText
+            android:id="@+id/forget_et_new_pwd"
+            style="@style/et.login"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:hint="@string/please_input_new_pwd"
+            android:singleLine="true"
+            android:maxLength="18"/>
+
+        <ImageView
+            android:id="@+id/forget_iv_cancel_pwd"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="24dp"
+            android:layout_toLeftOf="@+id/forget_cb_visible_pwd"
+            android:src="@mipmap/login_ic_cancel"
+            android:visibility="gone"/>
+
+        <CheckBox
+            android:id="@+id/forget_cb_visible_pwd"
+            android:layout_width="17dp"
+            android:layout_height="11dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:button="@drawable/login_checkbox_visible_selector"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/divider"
+        android:layout_width="280dp"/>
+
+    <TextView
+        android:id="@+id/forget_tv_login"
+        style="@style/tv.common"
+        android:layout_width="280dp"
+        android:layout_height="42dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/btn_selector_blue"
+        android:text="@string/confirm_login"
+        android:textColor="@color/text_fff"
+        android:textSize="15dp"/>
+</LinearLayout>

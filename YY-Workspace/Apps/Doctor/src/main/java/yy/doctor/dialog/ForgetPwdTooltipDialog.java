@@ -4,12 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
-import yy.doctor.ui.activity.ForgetPwdActivity;
+import yy.doctor.ui.activity.ForgetPwdEmailActivity;
+import yy.doctor.ui.activity.ForgetPwdPhoneActivity;
 
 /**
  * @auther HuoXuYu
@@ -18,9 +17,6 @@ import yy.doctor.ui.activity.ForgetPwdActivity;
 
 public class ForgetPwdTooltipDialog extends BaseDialog{
 
-    private LinearLayout mForgetSms;
-    private LinearLayout mForgetEmail;
-    private ImageView mForgetClose;
 
     public ForgetPwdTooltipDialog(Context context) {
         super(context);
@@ -40,9 +36,6 @@ public class ForgetPwdTooltipDialog extends BaseDialog{
     @Override
     public void findViews() {
 
-        mForgetSms = findView(R.id.forget_pwd_ll_tooltip_sms);
-        mForgetEmail = findView(R.id.forget_pwd_ll_tooltip_email);
-        mForgetClose = findView(R.id.forget_pwd_iv_close);
     }
 
     @Override
@@ -60,11 +53,11 @@ public class ForgetPwdTooltipDialog extends BaseDialog{
         int id = v.getId();
         switch (id) {
             case R.id.forget_pwd_ll_tooltip_sms: {
-
+                startActivity(ForgetPwdPhoneActivity.class);
             }
             break;
             case R.id.forget_pwd_ll_tooltip_email: {
-                startActivity(ForgetPwdActivity.class);
+                startActivity(ForgetPwdEmailActivity.class);
             }
             break;
             case R.id.forget_pwd_iv_close: {
