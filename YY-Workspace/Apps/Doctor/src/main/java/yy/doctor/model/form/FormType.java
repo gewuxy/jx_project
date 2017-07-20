@@ -17,6 +17,7 @@ import java.lang.annotation.RetentionPolicy;
 
         FormType.divider,
         FormType.divider_large,
+        FormType.register_divider,
 
         FormType.et,
         FormType.et_intent,
@@ -24,6 +25,7 @@ import java.lang.annotation.RetentionPolicy;
         FormType.et_number,
         FormType.et_phone_number,
         FormType.et_email,
+        FormType.et_captcha,
 
         FormType.profile_checkbox,
 
@@ -39,6 +41,7 @@ public @interface FormType {
 
     int divider = 10;
     int divider_large = 11;
+    int register_divider = 12;
 
     int et = 20;
     int et_intent = 21;
@@ -47,6 +50,7 @@ public @interface FormType {
     int et_number = 24;
     int et_phone_number = 25;
     int et_email = 26;
+    int et_captcha = 28;
 
     int profile_checkbox = 30;
 

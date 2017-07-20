@@ -2,6 +2,7 @@ package yy.doctor.model.form;
 
 import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.BaseForm;
+import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.edit.EditEmailForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
@@ -65,6 +66,10 @@ public class Builder extends FormBuilderEx<BaseForm> {
                 form = new DividerLargeForm();
             }
             break;
+            case FormType.register_divider:{
+                form = new RegisterDividerForm();
+            }
+            break;
 
             case FormType.et: {
                 form = new EditForm();
@@ -92,6 +97,10 @@ public class Builder extends FormBuilderEx<BaseForm> {
             break;
             case FormType.et_email:{
                 form = new EditEmailForm();
+            }
+            break;
+            case FormType.et_captcha:{
+                form = new EditCaptchaForm();
             }
             break;
             case FormType.profile_checkbox: {
