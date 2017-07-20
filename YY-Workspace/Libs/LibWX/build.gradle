@@ -14,6 +14,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    compile files('libs/libammsdk.jar')
     provided project(':YY-Workspace:Libs:LibYY')
 }
