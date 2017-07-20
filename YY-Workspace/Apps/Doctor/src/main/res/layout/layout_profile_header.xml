@@ -5,15 +5,45 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center"
-        android:background="#c5e1f6"
-        android:text="请完善个人资料信息，以便成绩考核及学分发放"
-        android:textSize="12dp"
-        android:textColor="#2392e2"/>
-    
+        android:gravity="center_horizontal"
+        >
+
+        <ProgressBar
+            android:id="@+id/profile_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:indeterminateOnly="false"
+            android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+            android:progressDrawable="@drawable/pb_perfection"
+            android:gravity="center"
+            android:background="#c5e1f6"
+            android:visibility="visible"
+            android:max="100"
+            android:progress="0"/>
+
+        <TextView
+            android:id="@+id/profile_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="您的个人资料完整度 : "
+            android:textSize="11dp"
+            android:textColor="@color/text_2392a2"/>
+
+        <TextView
+            android:id="@+id/profile_tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/profile_tv"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textSize="11dp"
+            android:textColor="@color/text_2392a2"/>
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/layout_profile_header"
         android:layout_width="match_parent"
@@ -25,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
-            android:text="头像"
+            android:text="@string/profile_header"
             android:textColor="@color/text_666"
             android:textSize="14dp"/>
 
@@ -35,7 +65,11 @@
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin"/>
+            android:layout_marginRight="38dp"/>
+
+        <ImageView
+            style="@style/iv.arrow.align_right"
+            android:layout_marginRight="@dimen/margin_large"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -17,10 +17,10 @@
     <string name="search">搜索</string>
     <string name="please_input_search_content">请输入搜索内容</string>
 
-    <string name="login">登陆</string>
-    <string name="binding_login">绑定并登陆</string>
+    <string name="login">登录</string>
+    <string name="binding_login">绑定并登录</string>
     <string name="to_register">我要注册</string>
-    <string name="we_chat_login">微信登陆</string>
+    <string name="we_chat_login">微信登录</string>
     <string name="wx_binding">账号绑定</string>
     <string name="wx_accredit_error">授权失败</string>
     <string name="wx_check_normal">请检查“微信”是否正常启动</string>
@@ -75,7 +75,7 @@
     <string name="input_right_email">请输入正确邮箱</string>
     <string name="forget_pwd_success">重置密码的邮件已经发送至您的邮箱</string>
     <string name="know">知道了</string>
-    <string name="confirm_login">确认并登陆</string>
+    <string name="confirm_login">确认并登录</string>
     <string name="pass_sms">通过短信</string>
     <string name="pass_email">通过邮件</string>
     <string name="input_phone">请输入手机号（登陆账号）</string>
@@ -229,6 +229,7 @@
 
     <!--个人中心-->
     <string name="profile_center">个人中心</string>
+    <string name="profile_header">头像</string>
 
     <!--会议收藏-->
     <string name="collection_meeting">会议收藏</string>

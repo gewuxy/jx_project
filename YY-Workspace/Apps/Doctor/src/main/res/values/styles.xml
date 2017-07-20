@@ -157,14 +157,4 @@
         <item name="android:textSize">13dp</item>
     </style>
 
-    <style name="pb"/>
-    <style name="pb.perfection">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:indeterminateDrawable">
-            @android:drawable/progress_indeterminate_horizontal
-        </item>
-        <item name="android:progressDrawable">@drawable/pb_perfection</item>
-    </style>
 </resources>
