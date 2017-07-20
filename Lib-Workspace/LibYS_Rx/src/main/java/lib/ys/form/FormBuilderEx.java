@@ -62,6 +62,9 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
     @LayoutRes
     private Integer mLayoutId;
 
+    @DrawableRes
+    private Integer mTextColorId;
+
     private String mToast;
 
 
@@ -215,6 +218,11 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
         return (T) this;
     }
 
+    public <T extends FormBuilderEx<FORM>> T textColor(@DrawableRes int id) {
+        mTextColorId = id;
+        return (T) this;
+    }
+
     public <T extends FormBuilderEx<FORM>> T toast(String toast) {
         mToast = toast;
         return (T) this;
@@ -309,6 +317,7 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
         putIfNotNull(FORM, TForm.visible, mVisible);
         putIfNotNull(FORM, TForm.observer, mObserver);
         putIfNotNull(FORM, TForm.url, mUrl);
+        putIfNotNull(FORM, TForm.text_color, mTextColorId);
 
         putIfNotNull(FORM, TForm.key, mKey);
         putIfNotNull(FORM, TForm.val, mVal);

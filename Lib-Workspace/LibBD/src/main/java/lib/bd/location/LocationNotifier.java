@@ -1,18 +1,13 @@
 package lib.bd.location;
 
-import java.util.ArrayList;
-import java.util.List;
+import lib.ys.model.NotifierEx;
 
-public final class LocationNotifier {
+public final class LocationNotifier extends NotifierEx<OnLocationNotify> {
 
     private static LocationNotifier mInst;
 
-    private static List<OnLocationNotify> mObservers;
-
     private LocationNotifier() {
-        mObservers = new ArrayList<>();
     }
-
     public static LocationNotifier inst() {
         if (mInst == null) {
             synchronized (LocationNotifier.class) {
@@ -24,22 +19,17 @@ public final class LocationNotifier {
         return mInst;
     }
 
-    public synchronized void add(OnLocationNotify observer) {
-        mObservers.add(observer);
-    }
-
-    public synchronized void remove(OnLocationNotify observer) {
-        mObservers.remove(observer);
-    }
-
-    /**
-     * 发布
-     */
-    public synchronized void notify(boolean success, Gps gps) {
-        for (OnLocationNotify o : mObservers) {
-            if (o != null) {
-                o.onLocationResult(success, gps);
-            }
+    @Override
+    protected void callback(OnLocationNotify o, int type, Object data) {
+        LocateUnit unit = null;
+        if (data instanceof LocateUnit) {
+            unit = (LocateUnit) data;
+            o.onLocationResult(unit.mSuccess, unit.mGps);
         }
+    }
+
+    public static class LocateUnit {
+        public boolean mSuccess;
+        public Gps mGps;
     }
 }

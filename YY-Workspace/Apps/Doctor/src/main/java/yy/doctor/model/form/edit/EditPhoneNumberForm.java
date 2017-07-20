@@ -5,8 +5,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import lib.ys.util.KeyboardUtil;
 import lib.yy.adapter.VH.FormVH;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.model.form.FormType;
 
@@ -59,17 +60,19 @@ public class EditPhoneNumberForm extends EditNumberForm {
 
             @Override
             public void afterTextChanged(Editable s) {
+                int length = s.length();
                 if (mIsAdd) {
                     String str = s.toString();
-                    int length = s.length();
                     if (length == 3 || length == 8) {
                         String str1 = str + " "; //手动添加空格
                         editText.setText(str1);
                         editText.setSelection(str1.length());
+                    }else if (length ==13) {
+                        //KeyboardUtil.hideFromView(editText);
+                        Notifier.inst().notify(NotifyType.fetch_message_captcha);
                     }
-                    if (length >= 13) {
-                        KeyboardUtil.hideFromView(editText);
-                    }
+                }else {
+                    Notifier.inst().notify(NotifyType.disable_fetch_message_captcha);
                 }
             }
         });

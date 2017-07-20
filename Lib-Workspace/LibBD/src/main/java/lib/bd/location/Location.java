@@ -7,6 +7,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 import lib.bd.location.Gps.TGps;
+import lib.bd.location.LocationNotifier.LocateUnit;
 import lib.bd.location.Place.TPlace;
 import lib.ys.AppEx;
 import lib.ys.YSLog;
@@ -46,11 +47,14 @@ public class Location {
                 return;
             }
 
+            LocateUnit unit = new LocateUnit();
+
             YSLog.d(TAG, "onReceiveLocation1 = " + location.getCity());
             YSLog.d(TAG, "onReceiveLocation2 = " + location.getLocType());
             if (location == null || location.getLocType() != 161) {
                 YSLog.d(TAG, "onReceiveLocation: location failed");
-                LocationNotifier.inst().notify(false, null);
+                unit.mSuccess = false;
+                LocationNotifier.inst().notify(unit);
                 return;
             }
             stop();
@@ -65,7 +69,10 @@ public class Location {
             g.put(TGps.longitude, location.getLongitude());
             g.put(TGps.latitude, location.getLatitude());
             g.put(TGps.place, p);
-            LocationNotifier.inst().notify(true, g);
+
+            unit.mSuccess = true;
+            unit.mGps = g;
+            LocationNotifier.inst().notify(unit);
         }
 
         @Override

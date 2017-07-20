@@ -16,6 +16,8 @@ import lib.ys.util.GenericUtil;
  */
 abstract public class NotifierEx<I> {
 
+    private static final int KDefaultType = -1;
+
     private List<I> mObservers = new ArrayList<>();
 
     public synchronized void add(I subscriber) {
@@ -40,6 +42,10 @@ abstract public class NotifierEx<I> {
                 .flatMap(is -> Flowable.fromArray(is))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> callback(i, type, data));
+    }
+
+    public synchronized void notify(final Object data) {
+        notify(KDefaultType, data);
     }
 
     abstract protected void callback(I o, int type, Object data);
