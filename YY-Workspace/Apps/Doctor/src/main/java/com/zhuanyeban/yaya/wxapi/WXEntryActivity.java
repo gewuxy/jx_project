@@ -3,13 +3,14 @@ package com.zhuanyeban.yaya.wxapi;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.modelbase.BaseResp.ErrCode;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import com.tencent.mm.sdk.openapi.BaseReq;
+import com.tencent.mm.sdk.openapi.BaseResp;
+import com.tencent.mm.sdk.openapi.BaseResp.ErrCode;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.SendAuth;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.json.JSONObject;
 
@@ -84,7 +85,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 // 用户同意
                 YSLog.d(TAG, "用户同意");
                 SendAuth.Resp r = (SendAuth.Resp) resp;
-                String code = r.code;
+                String code = r.token;
                 String state = r.state;
                 YSLog.d(TAG, "onResp:code" + code);
                 YSLog.d(TAG, "onResp:state" + state);
