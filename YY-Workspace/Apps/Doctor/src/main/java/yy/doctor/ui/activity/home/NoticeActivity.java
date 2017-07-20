@@ -10,7 +10,7 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.NoticeAdapter;
+import yy.doctor.adapter.home.NoticeAdapter;
 import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 import yy.doctor.model.notice.NoticeManager;

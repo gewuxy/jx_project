@@ -7,7 +7,7 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.ClinicalGuideAdapter;
+import yy.doctor.adapter.data.ClinicalGuideAdapter;
 import yy.doctor.ui.activity.data.ClinicalGuideSearchActivity;
 import yy.doctor.ui.activity.data.ClinicalGuideCategoryActivity;
 

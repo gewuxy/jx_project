@@ -7,7 +7,8 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.DrugListAdapter;
+import yy.doctor.adapter.data.DrugListAdapter;
+import yy.doctor.ui.activity.data.DrugListCategoryActivity;
 import yy.doctor.ui.activity.data.DrugSearchActivity;
 
 /**
@@ -59,6 +60,11 @@ public class DrugListFrag extends BaseSRListFrag<String, DrugListAdapter> {
         if (v.getId() == R.id.data_header_search_layout) {
             startActivity(DrugSearchActivity.class);
         }
+    }
+
+    @Override
+    public void onItemClick(View v, int position) {
+        startActivity(DrugListCategoryActivity.class);
     }
 
     @Override

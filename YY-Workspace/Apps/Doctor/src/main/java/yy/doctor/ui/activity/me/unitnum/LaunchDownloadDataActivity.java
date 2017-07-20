@@ -16,7 +16,7 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.me.PDFActivity;
+import yy.doctor.ui.activity.PDFActivity;
 import yy.doctor.util.Util;
 
 import static yy.doctor.Constants.FileTypeConstants.KPdf;

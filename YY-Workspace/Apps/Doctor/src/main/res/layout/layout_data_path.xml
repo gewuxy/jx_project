@@ -20,7 +20,6 @@
             android:background="@android:color/transparent"
             android:focusable="false"
             android:singleLine="true"
-            android:text="就开始大 > 幅数据库的 > 发的时间咖啡 > 但是大家看 > 法和刷 > 卡的肌肤 > 深刻"
             android:textSize="14dp"
             android:textColor="@color/text_0882e7"/>
 

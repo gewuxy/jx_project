@@ -6,7 +6,7 @@ import android.widget.TextView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.OrderAdapter;
+import yy.doctor.adapter.me.OrderAdapter;
 import yy.doctor.model.me.Order;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;

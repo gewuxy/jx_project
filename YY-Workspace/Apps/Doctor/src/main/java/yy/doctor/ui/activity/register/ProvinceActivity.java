@@ -8,6 +8,7 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.yy.notify.Notifier.NotifyType;
@@ -55,6 +56,7 @@ public class ProvinceActivity extends BasePcdActivity {
         if (checkPermission(KPermissionCodeLocation, Permission.location)) {
             location();
         } else {
+            YSLog.d("www", "location fail");
             //停止动画 隐藏定位中布局  显示无法定位布局  显示dialog
             mAnimation.stop();
             goneView(getLayoutLocation());
@@ -78,6 +80,7 @@ public class ProvinceActivity extends BasePcdActivity {
 
     //定位
     private void location() {
+        YSLog.d("www", "location");
         mObserver = (isSuccess, gps) -> {
             //返回主线程更新ui
             runOnUIThread(() -> {
@@ -92,7 +95,6 @@ public class ProvinceActivity extends BasePcdActivity {
                     //定位失败  显示dialog
                     //YSLog.d("Gps", "失败");
                     setLocation(null);
-
                     showLocDialog();
                 }
                 LocationNotifier.inst().remove(mObserver);

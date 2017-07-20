@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.me;
+package yy.doctor.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;

@@ -3,7 +3,7 @@ package yy.doctor.adapter.meeting;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.UnitNumVH;
+import yy.doctor.adapter.VH.me.UnitNumVH;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.adapter.VH.meeting.RecVH;
 import yy.doctor.model.meet.Meeting;

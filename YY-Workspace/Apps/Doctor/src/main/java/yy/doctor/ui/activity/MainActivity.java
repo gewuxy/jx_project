@@ -103,7 +103,6 @@ public class MainActivity extends BaseVPActivity {
         super.setViews();
 
         YSLog.d(TAG, "wucaixiang@medcn.cn md5 =  " + UtilEx.md5("wucaixiang@medcn.cn"));
-        YSLog.d(TAG, "888888@medcn.cn md5 =  " + UtilEx.md5("888888@medcn.cn"));
 
         //检查有没有定位权限   没有的话直接弹dialog
         checkPermission(KPermissionCodeLocation, Permission.location);
@@ -139,8 +138,6 @@ public class MainActivity extends BaseVPActivity {
             }
         }
 
-        //检查有没有定位权限   没有的话直接弹dialog
-        checkPermission(KPermissionCodeLocation, Permission.location);
     }
 
     @Override
@@ -252,9 +249,7 @@ public class MainActivity extends BaseVPActivity {
         if (type == NotifyType.logout || type == NotifyType.exit) {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
-
             startActivity(LoginActivity.class);
-
             finish();
         }
     }

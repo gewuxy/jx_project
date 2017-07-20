@@ -1,11 +1,8 @@
-package yy.doctor.adapter;
-
-import android.view.View;
+package yy.doctor.adapter.data;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.DataVH;
-import yy.doctor.ui.activity.data.DrugDetailActivity;
+import yy.doctor.adapter.VH.data.DataVH;
 
 /**
  * @author CaiXiang
@@ -23,13 +20,6 @@ public class DrugListAdapter extends AdapterEx<String, DataVH> {
     protected void refreshView(int position, DataVH holder) {
 
         goneView(holder.getTvDetail());
-
-        setOnViewClickListener(position, holder.getDataItemLayout());
     }
 
-    @Override
-    protected void onViewClick(int position, View v) {
-
-        startActivity(DrugDetailActivity.class);
-    }
 }

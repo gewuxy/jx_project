@@ -10,7 +10,7 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.adapter.UnitNumAdapter;
+import yy.doctor.adapter.me.UnitNumAdapter;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;

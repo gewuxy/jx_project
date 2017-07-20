@@ -11,7 +11,7 @@ import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.ClinicalGuideAdapter;
+import yy.doctor.adapter.data.ClinicalGuideAdapter;
 import yy.doctor.util.Util;
 
 /**

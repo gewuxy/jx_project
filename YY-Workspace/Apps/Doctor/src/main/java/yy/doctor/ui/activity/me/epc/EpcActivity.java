@@ -5,7 +5,7 @@ import android.view.View;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.EpcAdapter;
+import yy.doctor.adapter.me.EpcAdapter;
 import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
 import yy.doctor.network.NetFactory;

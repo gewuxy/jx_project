@@ -1,4 +1,4 @@
-package yy.doctor.adapter.VH;
+package yy.doctor.adapter.VH.data;
 
 import android.support.annotation.NonNull;
 import android.view.View;

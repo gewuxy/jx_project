@@ -76,6 +76,38 @@ public class UISetter {
         tv.setCompoundDrawables(d, null, null, null);
     }
 
+    /**
+     * 根据会议状态
+     *
+     * @param state
+     * @param tv
+     */
+    public static void setHomeMeetingState(@MeetState int state, TextView tv) {
+        String text = null;
+        int color = 0;
+
+        switch (state) {
+            case MeetState.not_started: {
+                text = "未开始";
+                color = ResLoader.getColor(R.color.text_01b557);
+            }
+            break;
+            case MeetState.under_way: {
+                text = "进行中";
+                color = ResLoader.getColor(R.color.text_e6600e);
+            }
+            break;
+            case MeetState.retrospect: {
+                text = "精彩回顾";
+                color = ResLoader.getColor(R.color.text_5cb0de);
+            }
+            break;
+        }
+
+        tv.setText(text);
+        tv.setTextColor(color);
+    }
+
     public static void setDateDuration(TextView tvDate, TextView tvDuration, long startTime, long endTime) {
         tvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
         tvDuration.setText("时长:" + Time.milliFormat(endTime - startTime));

@@ -1,8 +1,8 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.home;
 
 import lib.ys.adapter.PagerAdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.BannerVH;
+import yy.doctor.adapter.VH.home.BannerVH;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.Banner.TBanner;
 import yy.doctor.ui.activity.home.BannerActivity;

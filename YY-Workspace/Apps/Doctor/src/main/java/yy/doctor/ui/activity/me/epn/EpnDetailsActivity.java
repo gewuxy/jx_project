@@ -3,7 +3,7 @@ package yy.doctor.ui.activity.me.epn;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.EpnDetailsAdapter;
+import yy.doctor.adapter.me.EpnDetailsAdapter;
 import yy.doctor.model.me.EpnDetails;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;

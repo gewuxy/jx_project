@@ -1,8 +1,8 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.data;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.DataVH;
+import yy.doctor.adapter.VH.data.DataVH;
 
 /**
  * @author CaiXiang

@@ -157,4 +157,40 @@
         <item name="android:textSize">13dp</item>
     </style>
 
+    <!-- 首页会议文件夹 -->
+    <style name="home_meeting_folder">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/sign_radius_bg</item>
+    </style>
+
+    <style name="home_meeting_folder_child">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="tv.home_meeting_folder_speaker_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="tv.home_meeting_folder_speaker_name.title">
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textSize">9dp</item>
+    </style>
+
+    <style name="tv.home_meeting_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/text_888</item>
+    </style>
+
 </resources>

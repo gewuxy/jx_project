@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 import lib.ys.fitter.DpFitter;
 import lib.ys.view.BannerViewEx;
-import yy.doctor.adapter.BannerAdapter;
+import yy.doctor.adapter.home.BannerAdapter;
 
 /**
  * @author CaiXiang

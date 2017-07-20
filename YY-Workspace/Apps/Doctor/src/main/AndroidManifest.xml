@@ -168,6 +168,9 @@
         <activity
             android:name=".ui.activity.data.ClinicalGuideCategoryActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.MeetingFolderActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- me -->
@@ -255,7 +258,7 @@
             android:name=".ui.activity.me.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.PDFActivity"
+            android:name=".ui.activity.PDFActivity"
             android:screenOrientation="portrait"/>
 
 

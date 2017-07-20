@@ -1,4 +1,4 @@
-package yy.doctor.adapter.VH;
+package yy.doctor.adapter.VH.home;
 
 import android.view.View;
 import android.widget.TextView;

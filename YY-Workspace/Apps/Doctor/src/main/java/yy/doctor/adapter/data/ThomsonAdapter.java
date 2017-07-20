@@ -1,10 +1,10 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.data;
 
 import android.view.View;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.DataVH;
+import yy.doctor.adapter.VH.data.DataVH;
 import yy.doctor.model.data.ThomsonDetail;
 import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
 import yy.doctor.ui.activity.me.DownloadDataActivity;

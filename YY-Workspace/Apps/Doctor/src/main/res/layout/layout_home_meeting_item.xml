@@ -1,180 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_meeting_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_selector">
+    android:orientation="horizontal"
+    android:background="@drawable/item_selector"
+    android:gravity="center_vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="12dp">
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/home_meeting_item_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:text="科研成才之路演讲"
+            android:textColor="@color/text_333"
+            android:textSize="15dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginRight="@dimen/margin"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/home_meeting_item_tv_title"
+                android:id="@+id/home_meeting_item_tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="科研成才之路"
-                android:textColor="@color/text_333"
-                android:textSize="14dp"/>
+                android:text="未开始"
+                android:textColor="@color/text_01b557"
+                android:textSize="12dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/home_meeting_item_tv_date"
+                style="@style/tv.home_meeting_tv"
+                android:layout_marginLeft="8dp"
+                android:text="12/9 16:30"/>
 
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/meeting_ic_state_not_started"
-                    android:drawablePadding="4dp"
-                    android:text="未开始"
-                    android:textColor="@color/text_01b557"
-                    android:textSize="9dp"/>
+            <TextView
+                android:id="@+id/home_meeting_item_tv_section"
+                style="@style/tv.home_meeting_tv"
+                android:layout_marginLeft="8dp"
+                android:text="骨科"/>
 
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_section"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="骨科"
-                    android:textColor="@color/text_888"
-                    android:textSize="9dp"/>
+            <ImageView
+                android:id="@+id/home_meeting_item_iv_cme"
+                android:layout_width="22dp"
+                android:layout_height="13dp"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/meeting_detail_ic_cme"/>
 
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="12月9日16：30"
-                    android:textColor="@color/text_888"
-                    android:textSize="9dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="时长:"
-                    android:textColor="@color/text_888"
-                    android:textSize="9dp"/>
-
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:text="1.5小时"
-                    android:textColor="@color/text_888"
-                    android:textSize="9dp"/>
-
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_collection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:drawableLeft="@mipmap/home_ic_meeting_collection"
-                    android:drawablePadding="4dp"
-                    android:text="已收藏"
-                    android:textColor="@color/text_83c0f3"
-                    android:textSize="9dp"
-                    android:visibility="gone"/>
-
-                <!--<lib.ys.view.NestCheckBox
-                    android:id="@+id/home_meeting_item_check_box_collection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/home_meeting_checkbox_bg_selector"
-                    android:gravity="center">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="3dp"
-                        android:background="@drawable/transparent"
-                        android:button="@drawable/home_meeting_checkbox_btn_selector"
-                        android:text="收藏"
-                        android:textColor="@color/text_83c0f3"
-                        android:textSize="9dp"/>
-
-                </lib.ys.view.NestCheckBox>-->
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/home_meeting_item_iv_epn"
+                android:layout_width="30dp"
+                android:layout_height="13dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/meeting_detail_selector_epn_type"/>
 
         </LinearLayout>
 
-        <View
-            style="@style/divider"
-            android:background="@color/app_bg"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp">
+            <TextView
+                android:id="@+id/home_meeting_item_tv_speaker_name"
+                style="@style/tv.home_meeting_tv"
+                android:text="二狗"/>
 
-            <lib.ys.network.image.NetworkImageView
-                android:id="@+id/home_meeting_item_iv_speaker"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"/>
+            <TextView
+                android:id="@+id/home_meeting_item_tv_speaker_rank"
+                style="@style/tv.home_meeting_tv"
+                android:layout_marginLeft="8dp"
+                android:text="主任医师"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/home_meeting_item_iv_speaker">
+            <TextView
+                android:id="@+id/home_meeting_item_tv_unit_num"
+                style="@style/tv.home_meeting_tv"
+                android:layout_marginLeft="8dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="单位号"/>
 
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_speaker_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="6dp"
-                    android:textColor="@color/text_666"
-                    android:textSize="12dp"/>
-
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_speaker_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/home_meeting_item_tv_speaker_name"
-                    android:layout_toRightOf="@id/home_meeting_item_tv_speaker_name"
-                    android:textColor="@color/text_666"
-                    android:textSize="12dp"/>
-
-                <TextView
-                    android:id="@+id/home_meeting_item_tv_hospital"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/home_meeting_item_tv_speaker_name"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/text_888"
-                    android:textSize="9dp"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
     <lib.ys.network.image.NetworkImageView
-        android:id="@+id/home_meeting_item_iv_unit"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="34dp"/>
+        android:id="@+id/home_meeting_item_iv_speaker"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginRight="12dp"/>
 
-</RelativeLayout>
+</LinearLayout>

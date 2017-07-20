@@ -1,10 +1,10 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.home;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.NoticeVH;
+import yy.doctor.adapter.VH.home.NoticeVH;
 import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 

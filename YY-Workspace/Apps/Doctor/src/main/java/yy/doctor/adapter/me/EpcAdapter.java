@@ -1,9 +1,9 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.me;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.renderer.CornerRenderer;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.EpcVH;
+import yy.doctor.adapter.VH.me.EpcVH;
 import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
 

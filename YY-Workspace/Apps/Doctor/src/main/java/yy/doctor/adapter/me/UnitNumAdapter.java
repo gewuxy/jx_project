@@ -1,11 +1,11 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.me;
 
 import android.view.View;
 
 import lib.ys.adapter.GroupAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.UnitNumVH;
+import yy.doctor.adapter.VH.me.UnitNumVH;
 import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;

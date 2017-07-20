@@ -10,7 +10,7 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseGroupListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.DrugDetailAdapter;
+import yy.doctor.adapter.data.DrugDetailAdapter;
 import yy.doctor.model.data.GroupDrugDetail;
 import yy.doctor.util.Util;
 

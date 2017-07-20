@@ -14,8 +14,9 @@ import lib.yy.network.ListResult;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.HomeAdapter;
-import yy.doctor.adapter.HomeUnitNumAdapter.onAttentionListener;
+import yy.doctor.adapter.home.HomeAdapter;
+import yy.doctor.adapter.home.HomeUnitNumAdapter.onAttentionListener;
+import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
@@ -24,6 +25,7 @@ import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.NetFactory;
+import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.home.NoticeActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.ui.activity.search.SearchActivity;
@@ -230,6 +232,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 homes.addAll(secondSectionMeetings);
 
                 mIsLoadFirstPage = false;
+
+                //判断是否需要弹绑定的dialog
+                if (SpUser.inst().isShowBindingDialog()) {
+                    showBindingDialog();
+                }
             } else {
                 homes.addAll(mRecMeetings);
             }
@@ -245,6 +252,18 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
         stopSwipeRefresh();
         setViewState(ViewState.error);
+    }
+
+    private void showBindingDialog() {
+        BaseHintDialog mBindingDialog = new BaseHintDialog(getContext());
+        mBindingDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
+        mBindingDialog.addButton(R.string.cancel, v -> mBindingDialog.dismiss());
+        mBindingDialog.addButton(R.string.go_binding, v -> {
+            mBindingDialog.dismiss();
+            showToast(R.string.go_binding);
+        });
+        mBindingDialog.show();
+        SpUser.inst().neverShowBindingDialog();
     }
 
     @Override

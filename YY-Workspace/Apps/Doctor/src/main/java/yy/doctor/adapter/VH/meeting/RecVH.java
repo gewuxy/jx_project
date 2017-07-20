@@ -5,9 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
-import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.UnitNumVH;
+import yy.doctor.adapter.VH.me.UnitNumVH;
 
 /**
  * 搜索

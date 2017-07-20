@@ -55,6 +55,10 @@
     <string name="open_location_service">请在系统设置中，打开“隐私-定位服务”</string>
     <string name="allow_locate_permission">并允许定位服务</string>
 
+    <string name="binding_phone_or_wx">绑定微信或者手机号可直接</string>
+    <string name="is_binding">登录，是否绑定</string>
+    <string name="go_binding">去绑定</string>
+
     <string name="email_phone">电子邮箱或手机号</string>
 
 

@@ -1,10 +1,10 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.data;
 
 import android.view.View;
 
 import lib.ys.adapter.GroupAdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.DrugDetailVH;
+import yy.doctor.adapter.VH.data.DrugDetailVH;
 import yy.doctor.model.data.GroupDrugDetail;
 
 /**

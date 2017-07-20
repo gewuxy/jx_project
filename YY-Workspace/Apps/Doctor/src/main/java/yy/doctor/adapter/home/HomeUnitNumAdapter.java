@@ -1,4 +1,4 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.home;
 
 import android.view.View;
 import android.widget.TextView;
@@ -6,7 +6,7 @@ import android.widget.TextView;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.HomeUnitNumVH;
+import yy.doctor.adapter.VH.home.HomeUnitNumVH;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;

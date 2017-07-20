@@ -1,22 +1,27 @@
-package yy.doctor.adapter.VH;
+package yy.doctor.adapter.VH.home;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.view.recycler.WrapRecyclerView;
 import yy.doctor.R;
 
-public class HomeVH extends ViewHolderEx {
+/**
+ * @author CaiXiang
+ * @since 2017/7/20
+ */
 
-    public HomeVH(@NonNull View convertView) {
+public class HomeMeetingVH extends ViewHolderEx {
+
+    public HomeMeetingVH(@NonNull View convertView) {
         super(convertView);
     }
 
-    public RelativeLayout getMeetingItemLayout() {
+    public LinearLayout getMeetingItemLayout() {
         return getView(R.id.home_meeting_item_layout);
     }
 
@@ -36,14 +41,6 @@ public class HomeVH extends ViewHolderEx {
         return getView(R.id.home_meeting_item_tv_date);
     }
 
-    public TextView getTvDuration() {
-        return getView(R.id.home_meeting_item_tv_duration);
-    }
-
-    public TextView getTvCollection() {
-        return getView(R.id.home_meeting_item_tv_collection);
-    }
-
     public NetworkImageView getIvSpeaker() {
         return getView(R.id.home_meeting_item_iv_speaker);
     }
@@ -56,16 +53,16 @@ public class HomeVH extends ViewHolderEx {
         return getView(R.id.home_meeting_item_tv_speaker_rank);
     }
 
-    public TextView getTvHospital() {
-        return getView(R.id.home_meeting_item_tv_hospital);
+    public ImageView getIvCme() {
+        return getView(R.id.home_meeting_item_iv_cme);
     }
 
-    public NetworkImageView getIvUnit() {
-        return getView(R.id.home_meeting_item_iv_unit);
+    public ImageView getIvEpn() {
+        return getView(R.id.home_meeting_item_iv_epn);
     }
 
-    public WrapRecyclerView getRecyclerView() {
-        return getView(R.id.home_recycler_view);
+    public TextView getTvUnitNum() {
+        return getView(R.id.home_meeting_item_tv_unit_num);
     }
 
 }

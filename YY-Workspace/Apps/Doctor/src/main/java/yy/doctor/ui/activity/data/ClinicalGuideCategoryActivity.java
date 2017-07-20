@@ -12,7 +12,7 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.ClinicalGuideAdapter;
+import yy.doctor.adapter.data.ClinicalGuideAdapter;
 import yy.doctor.util.Util;
 
 /**
