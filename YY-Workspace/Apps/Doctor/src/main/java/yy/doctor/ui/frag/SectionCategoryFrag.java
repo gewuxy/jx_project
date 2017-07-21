@@ -40,7 +40,7 @@ public class SectionCategoryFrag extends BaseSRListFrag<Section, SectionCategory
     public void setViews() {
         super.setViews();
 
-        getLv().setVerticalScrollBarEnabled(false);
+        getScrollableView().setVerticalScrollBarEnabled(false);
         setDividerHeight(fitDp(0));
         setRefreshEnabled(false);
         setAutoLoadMoreEnabled(false);

@@ -32,7 +32,8 @@ import lib.ys.view.StayScrollView;
 
 
 @SuppressWarnings("rawtypes")
-abstract public class FormActivityEx<T extends FormEx<VH>, VH extends IViewHolder> extends ActivityEx
+abstract public class FormActivityEx<T extends FormEx<VH>, VH extends IViewHolder>
+        extends ActivityEx
         implements OnFormViewClickListener, FormHost {
 
     private List<T> mItems;

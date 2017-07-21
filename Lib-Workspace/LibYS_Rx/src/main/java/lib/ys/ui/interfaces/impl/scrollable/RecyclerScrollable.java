@@ -1,28 +1,24 @@
-package lib.ys.ui.interfaces.impl.list;
+package lib.ys.ui.interfaces.impl.scrollable;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.support.v7.widget.RecyclerView.ItemAnimator;
 import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import java.util.List;
 
-import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
 import lib.ys.adapter.recycler.OnRecyclerItemClickListener;
-import lib.ys.fitter.LayoutFitter;
-import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
-import lib.ys.ui.interfaces.listener.list.OnRecyclerViewOptListener;
-import lib.ys.util.view.LayoutUtil;
-import lib.ys.util.view.ViewUtil;
+import lib.ys.ui.interfaces.listener.scrollable.OnRecyclerScrollableListener;
+import lib.ys.util.GenericUtil;
+import lib.ys.util.ReflectionUtil;
 import lib.ys.view.recycler.WrapRecyclerView;
 
 /**
@@ -30,99 +26,86 @@ import lib.ys.view.recycler.WrapRecyclerView;
  *
  * @author yuansui
  */
-public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
+public class RecyclerScrollable<T, A extends IAdapter<T>> extends BaseScrollable<T> {
 
     private WrapRecyclerView mRv;
-    private IAdapter<T> mAdapter;
 
-    private View mHeaderView;
-    private View mFooterView;
-    private RelativeLayout mEmptyView;
+    private Class<A> mAdapterClass;
+    private A mAdapter;
 
     private AdapterDataObserver mDataObserver;
 
-    private OnRecyclerViewOptListener<T> mListener;
+    private OnRecyclerScrollableListener<T, A> mListener;
 
     private OnRecyclerItemClickListener mClickLsn;
 
 
-    public RecyclerViewOpt(@NonNull OnRecyclerViewOptListener<T> l) {
-        if (l == null) {
-            throw new IllegalStateException("OnRecyclerWidgetListener must be NonNull");
-        }
+    public RecyclerScrollable(@NonNull OnRecyclerScrollableListener<T, A> l) {
+        super(l);
+
         mListener = l;
+
+        // 这里注意要用listener的class才能获取到正确的adapter class
+        mAdapterClass = GenericUtil.getClassType(l.getClass(), IAdapter.class);
 
         mClickLsn = new OnRecyclerItemClickListener() {
 
             @Override
             public void onItemClick(View v, int position) {
-                int index = getItemRealPosition(position);
-                if (index < 0) {
-                    // 点击的是header区域
-                    mListener.onHeaderClick(v);
-                    return;
-                }
-                if (index >= getCount()) {
-                    // 点击的是footer区域
-                    mListener.onFooterClick(v);
-                    return;
-                }
-                mListener.onItemClick(v, index);
+//                int index = getItemRealPosition(position);
+//                if (index < 0) {
+//                    // 点击的是header区域
+//                    mListener.onHeaderClick(v);
+//                    return;
+//                }
+//                if (index >= getCount()) {
+//                    // 点击的是footer区域
+//                    mListener.onFooterClick(v);
+//                    return;
+//                }
+//                mListener.onItemClick(v, index);
+                mListener.onItemClick(v, position);
             }
 
             @Override
             public void onItemLongClick(View v, int position) {
-                int index = getItemRealPosition(position);
-                if (index < 0) {
-                    // 点击的是header区域
-                    return;
-                }
-                if (index >= getCount()) {
-                    // 点击的是footer区域
-                    return;
-                }
-                mListener.onItemLongClick(v, index);
+//                int index = getItemRealPosition(position);
+//                if (index < 0) {
+//                    // 点击的是header区域
+//                    return;
+//                }
+//                if (index >= getCount()) {
+//                    // 点击的是footer区域
+//                    return;
+//                }
+//                mListener.onItemLongClick(v, index);
             }
         };
     }
 
-    public void findViews(View contentView, @IdRes int viewId, View headerView, View footerView, View emptyView) {
-        mRv = (WrapRecyclerView) contentView.findViewById(viewId);
+    @Override
+    public void findViews(@NonNull View contentView, @IdRes int scrollableId, @Nullable View header, @Nullable View footer, @Nullable View empty) {
+        super.findViews(contentView, scrollableId, header, footer, empty);
+        mRv = (WrapRecyclerView) contentView.findViewById(scrollableId);
+    }
 
-        LayoutInflater inflater = LayoutInflater.from(contentView.getContext());
+    /**
+     * do nothing
+     *
+     * @deprecated use {@link #setViews(LayoutManager, ItemDecoration, ItemAnimator)} instead
+     */
+    @Override
+    public void setViews() {
+    }
 
-        // 在这里添加header和footer, 以便于接着在子类里从header和footer里findview
-        if (headerView != null) {
-            mHeaderView = headerView;
-
-            RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.layout_list_extend, null);
-            rootView.addView(headerView, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
-            LayoutFitter.fit(rootView);
-            mRv.addHeaderView(rootView);
-        }
-
-        if (footerView != null) {
-            mFooterView = footerView;
-
-            RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.layout_list_extend, null);
-            rootView.addView(footerView, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
-            LayoutFitter.fit(rootView);
-            mRv.addFooterView(rootView);
-        }
-
-        // 添加empty view
-        if (emptyView != null) {
-            mEmptyView = (RelativeLayout) contentView.findViewById(R.id.list_empty_view);
-            if (mEmptyView != null) {
-                // 有可能布局没有保持要求的格式
-                mEmptyView.addView(emptyView, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT));
-                // 这个时候先不set到list view里
-//                mRv.setEmptyView(mEmptyView);
-            }
-        }
+    @Override
+    public <VIEW extends View> VIEW getScrollableView() {
+        return (VIEW) mRv;
     }
 
     public void setViews(LayoutManager manager, ItemDecoration decoration, ItemAnimator animator) {
+        createAdapter();
+
         mRv.setLayoutManager(manager);
 
         MultiRecyclerAdapterEx adapter = (MultiRecyclerAdapterEx) mAdapter;
@@ -146,18 +129,12 @@ public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
         }
     }
 
-    public void addEmptyViewIfNonNull() {
-        if (mEmptyView != null) {
-//            mRv.setEmptyView(mEmptyView);
-        }
-    }
-
-    public void createAdapter(IAdapter adapter) {
+    public void createAdapter() {
         if (mAdapter != null) {
             return;
         }
 
-        mAdapter = adapter;
+        mAdapter = ReflectionUtil.newInst(mAdapterClass);
         mDataObserver = new AdapterDataObserver() {
 
             @Override
@@ -250,43 +227,8 @@ public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
         return mRv.getFirstVisiblePosition();
     }
 
-    public View getChildAt(int index) {
-        return mRv.getChildAt(index);
-    }
-
     public int getHeaderViewPosition() {
         return mRv.getHeadersCount();
-    }
-
-    public void hideFooterView() {
-        if (mFooterView != null) {
-            ViewUtil.goneView(mFooterView);
-        }
-    }
-
-    @Override
-    public void addFooterView(View v) {
-        if (mRv != null) {
-            mRv.addFooterView(v);
-        }
-    }
-
-    public void showFooterView() {
-        if (mFooterView != null) {
-            ViewUtil.showView(mFooterView);
-        }
-    }
-
-    public void showHeaderView() {
-        if (mHeaderView != null) {
-            ViewUtil.showView(mHeaderView);
-        }
-    }
-
-    public void hideHeaderView() {
-        if (mHeaderView != null) {
-            ViewUtil.goneView(mHeaderView);
-        }
     }
 
     public void setSelection(int position) {
@@ -297,13 +239,9 @@ public class RecyclerViewOpt<T> implements IScrollMixOpt<T> {
         mRv.smoothScrollToPosition(position);
     }
 
-    public WrapRecyclerView getRv() {
-        return mRv;
-    }
-
-    public IAdapter<T> getAdapter() {
+    public A getAdapter() {
         if (mAdapter == null) {
-            createAdapter(mListener.createAdapter());
+            createAdapter();
         }
         return mAdapter;
     }

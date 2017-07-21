@@ -97,21 +97,31 @@ abstract public class FragEx extends Fragment implements
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mDecorView != null) {
-            setOnRetryClickListener(this);
             return mDecorView;
         }
 
-        if (useLazyLoad()) {
-            if (mDecorView == null) {
-                initDecorView();
-            }
-        } else {
-            initDecorView();
-            init();
-        }
+        initDecorView();
+
+        return mDecorView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         setOnRetryClickListener(this);
-        return mDecorView;
+
+        if (useLazyLoad()) {
+            initNavBar(getNavBar());
+            fit(getNavBar());
+
+            // 如果这个时候只有一个fragment而且是显示的状态, 走到这里的时候已经过了onVisible的阶段了, 需要再这里走一遍init()
+            if (getVisible()) {
+                init();
+            }
+        } else {
+            init();
+        }
     }
 
     /**
@@ -167,6 +177,7 @@ abstract public class FragEx extends Fragment implements
         } else {
             onInvisible();
             Stats.onFragmentInvisible(getContext(), TAG);
+
             if (mInitComplete) {
                 // 在切换fragment的时候清除掉fitter的set, 保证内存能顺利回收
                 LayoutFitter.clearFitSet();
@@ -204,17 +215,6 @@ abstract public class FragEx extends Fragment implements
 
         mDecorView = new DecorViewEx(getActivity(), getNavBarState(), getInitRefreshWay(), initLoadingDialog());
         mDecorView.setContentView(getContentViewId(), getContentHeaderViewId(), getContentFooterViewId());
-
-        if (useLazyLoad()) {
-            initNavBar(getNavBar());
-
-            // 如果这个时候只有一个fragment而且是显示的状态, 走到这里的时候已经过了onVisible的阶段了, 需要再这里走一遍init()
-            if (getVisible()) {
-                init();
-            }
-        }
-
-        fit(mDecorView);
     }
 
     /**

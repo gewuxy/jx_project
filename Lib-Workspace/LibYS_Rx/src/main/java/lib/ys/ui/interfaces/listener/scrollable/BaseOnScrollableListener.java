@@ -1,30 +1,32 @@
-package lib.ys.ui.interfaces.listener.list;
+package lib.ys.ui.interfaces.listener.scrollable;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import java.util.List;
 
-import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
-import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.ui.interfaces.listener.OnScrollMixListener;
+import lib.ys.ui.interfaces.IScrollable;
 
 /**
- * list view的所有方法
- *
- * @author yuansui
+ * @auther yuansui
+ * @since 2017/7/20
  */
-public interface OnRecyclerViewOptListener<T> {
-    int getRvResId();
+public interface BaseOnScrollableListener<T> {
 
+    int getScrollableViewId();
+
+    View getScrollableView();
+
+    IScrollable<T> getScrollable();
+
+    @Nullable
     View createHeaderView();
 
+    @Nullable
     View createFooterView();
 
+    @Nullable
     View createEmptyView();
-
-    IAdapter<T> createAdapter();
-
-    IAdapter<T> getAdapter();
 
     void hideFooterView();
 
@@ -34,16 +36,7 @@ public interface OnRecyclerViewOptListener<T> {
 
     void hideHeaderView();
 
-    void addEmptyViewIfNoNull();
-
-    /**
-     * PS: ListP里不实现
-     * 是否延迟添加emptyView
-     * 有时候会因为加载网络的原因, 先显示了emptyView然后再显示loading, 结束后再切换回来, 影响体验
-     *
-     * @return
-     */
-    boolean needDelayAddEmptyView();
+    void addEmptyViewIfNonNull();
 
     void setData(List<T> ts);
 
@@ -73,15 +66,16 @@ public interface OnRecyclerViewOptListener<T> {
 
     boolean isEmpty();
 
-    void setOnAdapterClickListener(OnAdapterClickListener listener);
+    /**
+     * PS: ListP里不实现
+     * 是否延迟添加emptyView
+     * 有时候会因为加载网络的原因, 先显示了emptyView然后再显示loading, 结束后再切换回来, 影响体验
+     *
+     * @return
+     */
+    boolean needDelayAddEmptyView();
 
-    void setOnScrollListener(OnScrollMixListener listener);
-
-    int getItemRealPosition(int position);
-
-    int getFirstVisiblePosition();
-
-    View getChildAt(int index);
+    boolean enableLongClick();
 
     /**
      * 排除header和footer的点击区域, 只返回有效的position
@@ -113,8 +107,6 @@ public interface OnRecyclerViewOptListener<T> {
      */
     void onFooterClick(View v);
 
-    boolean enableLongClick();
-
     /**
      * 设置当前显示的item(直接跳到)
      *
@@ -134,6 +126,5 @@ public interface OnRecyclerViewOptListener<T> {
      */
     void onDataSetChanged();
 
-    int getHeaderViewPosition();
-
+    View getChildAt(int index);
 }

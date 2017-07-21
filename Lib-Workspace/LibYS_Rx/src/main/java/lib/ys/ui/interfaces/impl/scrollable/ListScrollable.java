@@ -1,11 +1,9 @@
-package lib.ys.ui.interfaces.impl.list;
+package lib.ys.ui.interfaces.impl.scrollable;
 
 import android.database.DataSetObserver;
-import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AbsListView;
@@ -15,95 +13,57 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.List;
 
 import lib.ys.ConstantsEx;
-import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
-import lib.ys.ui.interfaces.listener.list.OnListOptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnListScrollableListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.UIUtil;
-import lib.ys.util.view.LayoutUtil;
-import lib.ys.util.view.ViewUtil;
 
 /**
  * list组件
  *
  * @author yuansui
  */
-public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, OnItemLongClickListener, IScrollMixOpt<T> {
+public class ListScrollable<T, A extends IAdapter<T>> extends BaseScrollable<T>
+        implements OnItemClickListener, OnItemLongClickListener {
 
     private ListView mLv;
+
     private Class<A> mAdapterClass;
     private A mAdapter;
 
-    private View mHeaderView;
-    private View mFooterView;
-    private RelativeLayout mEmptyView;
-
     private DataSetObserver mDataSetObserver;
 
-    protected OnListOptListener<T, A> mListener;
+    protected OnListScrollableListener<T, A> mListener;
 
-    public ListOpt(@NonNull OnListOptListener<T, A> l) {
-        if (l == null) {
-            throw new IllegalStateException("OnListOptListener can not be null");
-        }
+    public ListScrollable(@NonNull OnListScrollableListener<T, A> l) {
+        super(l);
+
         mListener = l;
 
         // 这里注意要用listener的class才能获取到正确的adapter class
         mAdapterClass = GenericUtil.getClassType(l.getClass(), IAdapter.class);
     }
 
-    @CallSuper
-    public void findViews(@NonNull View contentView,
-                          @IdRes int listId,
-                          @Nullable View header,
-                          @Nullable View footer,
-                          @Nullable View empty) {
-        mLv = (ListView) contentView.findViewById(listId);
-
-        LayoutInflater inflater = LayoutInflater.from(contentView.getContext());
-
-        // 在这里添加header和footer, 以便于接着在子类里从header和footer里findview
-        if (header != null) {
-            mHeaderView = header;
-
-            RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.layout_list_extend, null);
-            layout.addView(header, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
-            LayoutFitter.fit(layout);
-            mLv.addHeaderView(layout);
-        }
-
-        if (footer != null) {
-            mFooterView = footer;
-
-            RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.layout_list_extend, null);
-            layout.addView(footer, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
-            LayoutFitter.fit(layout);
-            mLv.addFooterView(layout);
-        }
-
-        // 添加empty view
-        if (empty != null) {
-            mEmptyView = (RelativeLayout) contentView.findViewById(R.id.list_empty_view);
-            if (mEmptyView != null) {
-                // 有可能布局没有保持要求的格式
-                mEmptyView.addView(empty, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT));
-                // 这个时候先不set到list view里
-//                mLv.setEmptyView(mEmptyView);
-            }
-        }
+    @Override
+    public <VIEW extends View> VIEW getScrollableView() {
+        return (VIEW) mLv;
     }
 
+    @Override
+    public void findViews(@NonNull View contentView, @IdRes int scrollableId, @Nullable View header, @Nullable View footer, @Nullable View empty) {
+        super.findViews(contentView, scrollableId, header, footer, empty);
+        mLv = (ListView) contentView.findViewById(scrollableId);
+    }
+
+    @Override
     public void setViews() {
         createAdapter();
 
@@ -118,12 +78,6 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
         if (!mListener.needDelayAddEmptyView()) {
             addEmptyViewIfNonNull();
-        }
-    }
-
-    public void addEmptyViewIfNonNull() {
-        if (mEmptyView != null) {
-            mLv.setEmptyView(mEmptyView);
         }
     }
 
@@ -256,41 +210,8 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
         return mLv.getFirstVisiblePosition();
     }
 
-    public View getChildAt(int index) {
-        return mLv.getChildAt(index);
-    }
-
     public int getHeaderViewPosition() {
         return mLv.getHeaderViewsCount();
-    }
-
-    public void hideFooterView() {
-        if (mFooterView != null) {
-            ViewUtil.goneView(mFooterView);
-        }
-    }
-
-    @Override
-    public void addFooterView(View v) {
-        mLv.addFooterView(v);
-    }
-
-    public void showFooterView() {
-        if (mFooterView != null) {
-            ViewUtil.showView(mFooterView);
-        }
-    }
-
-    public void showHeaderView() {
-        if (mHeaderView != null) {
-            ViewUtil.showView(mHeaderView);
-        }
-    }
-
-    public void hideHeaderView() {
-        if (mHeaderView != null) {
-            ViewUtil.goneView(mHeaderView);
-        }
     }
 
     public void setSelection(int position) {
@@ -299,10 +220,6 @@ public class ListOpt<T, A extends IAdapter<T>> implements OnItemClickListener, O
 
     public void smoothScrollToPosition(int position) {
         mLv.smoothScrollToPosition(position);
-    }
-
-    public ListView getLv() {
-        return mLv;
     }
 
     public A getAdapter() {

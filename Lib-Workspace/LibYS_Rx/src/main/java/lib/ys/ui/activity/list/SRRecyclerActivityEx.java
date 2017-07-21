@@ -12,18 +12,19 @@ import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.R;
+import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnSROptListener;
-import lib.ys.ui.interfaces.impl.list.SROpt;
+import lib.ys.ui.interfaces.listener.scrollable.OnSROptListener;
+import lib.ys.ui.interfaces.impl.scrollable.SROpt;
 
 /**
  * @author yuansui
  */
-abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> implements OnSROptListener {
+abstract public class SRRecyclerActivityEx<T, A extends IAdapter<T>> extends RecyclerActivityEx<T, A> implements OnSROptListener {
 
-    private SROpt<T> mSROpt = new SROpt<>(this, getRecyclerOpt());
+    private SROpt<T> mSROpt = new SROpt<>(this);
 
     @Override
     public int getContentViewId() {
@@ -31,7 +32,7 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
     }
 
     @Override
-    public int getRvResId() {
+    public int getScrollableViewId() {
         return R.id.sr_recycler_view;
     }
 
@@ -236,7 +237,9 @@ abstract public class SRRecyclerActivityEx<T> extends RecyclerActivityEx<T> impl
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROpt.onNetworkSuccess((IListResult) result);
+        if (!isFinishing()) {
+            mSROpt.onNetworkSuccess((IListResult) result);
+        }
     }
 
     @Override

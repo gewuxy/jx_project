@@ -22,8 +22,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class
-FormEx<VH extends IViewHolder> extends EVal<TForm> implements OnClickListener {
+abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> implements OnClickListener {
 
     /**
      * 元素

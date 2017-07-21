@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.impl.list;
+package lib.ys.ui.interfaces.impl.scrollable;
 
 import android.os.Handler;
 import android.os.Message;
@@ -21,9 +21,9 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.interfaces.IScrollable;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.IScrollMixOpt;
-import lib.ys.ui.interfaces.listener.list.OnSROptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnSROptListener;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.res.ResLoader;
@@ -42,7 +42,7 @@ public class SROpt<T> implements OnSRListener {
     private static final String TAG = SROpt.class.getSimpleName();
 
     private OnSROptListener mSROptListener;
-    private IScrollMixOpt<T> mScrollOpt;
+    private IScrollable<T> mScrollable;
 
     // 翻页标识
     private String mLastId = ListConstants.KDefaultInitLastId;
@@ -64,9 +64,9 @@ public class SROpt<T> implements OnSRListener {
     private Handler mHandler;
 
 
-    public SROpt(@NonNull OnSROptListener<T> l, IScrollMixOpt<T> scrollOpt) {
+    public SROpt(@NonNull OnSROptListener<T> l) {
         mSROptListener = l;
-        mScrollOpt = scrollOpt;
+        mScrollable = l.getScrollable();
 
         mHandler = new Handler() {
 
@@ -95,12 +95,12 @@ public class SROpt<T> implements OnSRListener {
             mFooterEmptyView = (RelativeLayout) layoutFooterEmpty.findViewById(R.id.list_footer_empty_container);
             mFooterEmptyView.addView(footerEmpty, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
             LayoutFitter.fit(layoutFooterEmpty);
-            mScrollOpt.addFooterView(layoutFooterEmpty);
+            mScrollable.addFooterView(layoutFooterEmpty);
         }
     }
 
     public void setViews() {
-        mScrollOpt.hideFooterView();
+        mScrollable.hideFooterView();
         hideFooterEmptyView();
 
         setLoadMoreState(false);
@@ -109,7 +109,7 @@ public class SROpt<T> implements OnSRListener {
 
         if (mSROptListener.enableInitRefresh()) {
             if (hideHeaderWhenInit()) {
-                mScrollOpt.hideHeaderView();
+                mScrollable.hideHeaderView();
             }
             mHandler.sendEmptyMessageDelayed(0, ResLoader.getInteger(R.integer.anim_default_duration));
         }
@@ -224,14 +224,14 @@ public class SROpt<T> implements OnSRListener {
 
         if (mLoadMore) {
             // 分页加载
-            mScrollOpt.addAll(mTsNet);
-            mScrollOpt.invalidate();
+            mScrollable.addAll(mTsNet);
+            mScrollable.invalidate();
             stopLoadMore(true);
 
             if (mTsNet.size() < getLimit()) {
                 // 数据不够
                 setLoadMoreState(false);
-                mScrollOpt.showFooterView();
+                mScrollable.showFooterView();
             }
             mLoadMore = false;
         } else {
@@ -263,7 +263,7 @@ public class SROpt<T> implements OnSRListener {
             mSROptListener.refresh(mSROptListener.getInitRefreshWay());
             mFirstRefresh = false;
             // 第一次刷新以后再添加empty view
-            mScrollOpt.addEmptyViewIfNonNull();
+            mScrollable.addEmptyViewIfNonNull();
         } else {
             mSROptListener.refresh(RefreshWay.swipe);
         }
@@ -313,7 +313,7 @@ public class SROpt<T> implements OnSRListener {
     }
 
     public void dialogRefresh() {
-        mScrollOpt.hideFooterView();
+        mScrollable.hideFooterView();
         processRefresh();
     }
 
@@ -388,10 +388,10 @@ public class SROpt<T> implements OnSRListener {
 
         mSROptListener.setViewState(ViewState.normal);
 
-        mScrollOpt.setData(mTsNet);
-        mScrollOpt.invalidate();
+        mScrollable.setData(mTsNet);
+        mScrollable.invalidate();
 
-        mScrollOpt.showHeaderView();
+        mScrollable.showHeaderView();
 
         // size < limit 表示没有更多数据了
         if (mTsNet.size() >= getLimit()) {
@@ -409,7 +409,7 @@ public class SROpt<T> implements OnSRListener {
     protected void onNetRefreshError() {
         YSLog.d(TAG, "onNetRefreshError()");
 
-        if (useErrorView() && mScrollOpt.isEmpty()) {
+        if (useErrorView() && mScrollable.isEmpty()) {
             mSROptListener.setViewState(ViewState.error);
         } else {
             mSROptListener.setViewState(ViewState.normal);
@@ -420,7 +420,7 @@ public class SROpt<T> implements OnSRListener {
                 setLoadMoreState(false);
 
                 if (mFooterEmptyView == null) {
-                    mScrollOpt.showFooterView();
+                    mScrollable.showFooterView();
                 }
             }
         }
@@ -433,11 +433,11 @@ public class SROpt<T> implements OnSRListener {
 
         mSROptListener.setViewState(ViewState.normal);
 
-        mScrollOpt.setData(mTsLocal);
-        mScrollOpt.invalidate();
+        mScrollable.setData(mTsLocal);
+        mScrollable.invalidate();
 
-        mScrollOpt.showHeaderView();
-        mScrollOpt.hideFooterView();
+        mScrollable.showHeaderView();
+        mScrollable.hideFooterView();
 
         mSROptListener.onLocalRefreshSuccess();
     }
@@ -445,7 +445,7 @@ public class SROpt<T> implements OnSRListener {
     private void onLocalRefreshError() {
         YSLog.d(TAG, "onLocalRefreshError()");
 
-        if (useErrorView() && mScrollOpt.isEmpty()) {
+        if (useErrorView() && mScrollable.isEmpty()) {
             mSROptListener.setViewState(ViewState.error);
         } else {
             mSROptListener.setViewState(ViewState.normal);
@@ -472,14 +472,14 @@ public class SROpt<T> implements OnSRListener {
 
     private void determineFooterStatus() {
         if ((mTsNet == null || mTsNet.isEmpty())
-                && mScrollOpt.isEmpty()) {
-            mScrollOpt.hideFooterView();
+                && mScrollable.isEmpty()) {
+            mScrollable.hideFooterView();
             showFooterEmptyView();
         } else {
             if (mTsNet == null || mTsNet.size() >= getLimit()) {
-                mScrollOpt.hideFooterView();
+                mScrollable.hideFooterView();
             } else {
-                mScrollOpt.showFooterView();
+                mScrollable.showFooterView();
             }
             hideFooterEmptyView();
         }
