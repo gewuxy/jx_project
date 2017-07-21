@@ -60,6 +60,8 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
         visible,// 显示与否
         observer, // 观察者, 某些数据的相应回调
         text_color, // 字体颜色
+        hint_color, // 字体颜色
+        padding_dp_left, // 左边距DP
         url, // 点击跳转的连接
 
         /**
