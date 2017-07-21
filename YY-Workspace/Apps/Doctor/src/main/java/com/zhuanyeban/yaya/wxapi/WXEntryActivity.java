@@ -12,19 +12,19 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.SendAuth;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import org.json.JSONObject;
 
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.JsonUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Constants;
 import yy.doctor.R;
-import yy.doctor.model.WXLogin;
-import yy.doctor.model.WXLogin.TWXLogin;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.login.WXLoginActivity;
 
@@ -64,6 +64,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void setViews() {
+        refresh(RefreshWay.embed);
     }
 
     @Override
@@ -89,46 +90,40 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 String state = r.state;
                 YSLog.d(TAG, "onResp:code" + code);
                 YSLog.d(TAG, "onResp:state" + state);
-                // fixme:告诉后台code
-                exeNetworkReq(NetFactory.getWXToken("b02f7292152660b7b551a70dced8feec", code));
+                exeNetworkReq(NetFactory.check_wx_bind(code));
             }
             break;
             // 其他不处理
+            default: {
+                finish();
+            }
+            break;
         }
-        finish();
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (r == null && TextUtil.isEmpty(r.getText())) {
-            return null;
-        }
-        JSONObject obj = new JSONObject(r.getText());
-        Result<WXLogin> result = new Result<>();
-        JsonUtil.setEV(WXLogin.class, result, obj);
-        return result;
+        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Result<WXLogin> r = (Result<WXLogin>) result;
-        if (r != null) {
-            WXLogin login = r.getData();
-            String accessToken = login.getString(TWXLogin.access_token);
-            String openId = login.getString(TWXLogin.openid);
-            String unionId = login.getString(TWXLogin.unionid);
-            String refreshToken = login.getString(TWXLogin.refresh_token);
-            YSLog.d(TAG, "onNetworkSuccess:accessToken" + accessToken);
-            YSLog.d(TAG, "onNetworkSuccess:openId" + openId);
-            YSLog.d(TAG, "onNetworkSuccess:unionId" + unionId);
-            YSLog.d(TAG, "onNetworkSuccess:refreshToken" + refreshToken);
-            if (login.getBoolean(TWXLogin.refresh_token)) {
+        Result<Profile> r = (Result<Profile>) result;
+        if (r.isSucceed()) {
+            Profile login = r.getData();
+
+            String openid = login.getString(TProfile.openid, "");
+            YSLog.d(TAG, "onNetworkSuccess:openid" + openid);
+            if (TextUtil.isNotEmpty(openid)) {
                 // 没有绑定过微信, 绑定
-                startActivity(new Intent(WXEntryActivity.this, WXLoginActivity.class));
+                WXLoginActivity.nav(WXEntryActivity.this,openid);
             } else {
                 // 绑定过微信, 登录
 
             }
+        } else {
+            showToast(r.getError());
         }
+        finish();
     }
 }
