@@ -73,7 +73,7 @@ public class ForgetPwdPhoneActivity extends BaseActivity{
         mIvCancelCaptcha = findView(R.id.forget_iv_cancel_captcha);
         mCbVisiblePwd = findView(R.id.forget_cb_visible_pwd);
         mBtnCaptcha = findView(R.id.btn_captcha);
-        mTvLogin = findView(R.id.forget_tv_login);
+        mTvLogin = findView(R.id.forget_tv_phone_login);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ForgetPwdPhoneActivity extends BaseActivity{
         buttonChanged(mEtNewPwd, mIvCancelPwd);
         buttonChanged(mEtCaptcha, mIvCancelCaptcha);
 
-        setOnClickListener(R.id.forget_tv_login);
+        setOnClickListener(R.id.forget_tv_phone_login);
         setOnClickListener(R.id.forget_iv_cancel_phone);
         setOnClickListener(R.id.forget_iv_cancel_pwd);
         setOnClickListener(R.id.forget_iv_cancel_captcha);
@@ -158,7 +158,7 @@ public class ForgetPwdPhoneActivity extends BaseActivity{
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.forget_tv_login: {
+            case R.id.forget_tv_phone_login: {
                 startActivity(MainActivity.class);
             }
             break;

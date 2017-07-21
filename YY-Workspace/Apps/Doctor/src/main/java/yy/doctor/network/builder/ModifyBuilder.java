@@ -129,13 +129,24 @@ public class ModifyBuilder {
     }
 
     /**
+     * 专科
+     * FIXME 测试
+     * @param specialized
+     * @return
+     */
+    public ModifyBuilder specialized(String specialized) {
+        mBuilder.param(ProfileParam.KSpecialized, specialized);
+        return this;
+    }
+
+    /**
      * CME卡号
      *
      * @param cmeId
      * @return
      */
     public ModifyBuilder cmeId(String cmeId) {
-        mBuilder.param(ProfileParam.KCMEId, cmeId);
+        mBuilder.param(ProfileParam.KCmeId, cmeId);
         return this;
     }
 
@@ -181,6 +192,17 @@ public class ModifyBuilder {
      */
     public ModifyBuilder place(String place) {
         mBuilder.param(ProfileParam.KPlace, place);
+        return this;
+    }
+
+    /**
+     * 学术专长
+     * FIXME 测试
+     * @param academic
+     * @return
+     */
+    public ModifyBuilder academic(String academic) {
+        mBuilder.param(ProfileParam.KAcademic, academic);
         return this;
     }
 

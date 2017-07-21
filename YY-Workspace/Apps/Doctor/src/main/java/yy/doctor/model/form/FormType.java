@@ -14,6 +14,9 @@ import java.lang.annotation.RetentionPolicy;
         FormType.content_text,
         FormType.text,
         FormType.text_intent,
+        FormType.text_profile_intent,
+        FormType.text_academic_intent,
+        FormType.text_specialized_intent,
 
         FormType.divider,
         FormType.divider_large,
@@ -38,6 +41,9 @@ public @interface FormType {
     int text_intent = 3;
     int text_dialog = 4;
     int text_register_intent = 5;
+    int text_profile_intent = 6;
+    int text_academic_intent = 7;
+    int text_specialized_intent = 8;
 
     int divider = 10;
     int divider_large = 11;

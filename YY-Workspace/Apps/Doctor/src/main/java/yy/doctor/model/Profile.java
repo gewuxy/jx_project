@@ -35,6 +35,10 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         address,
         hosLevel, //医院等级
         cmeId,  // CME卡号
+
+        // FIXME 测试
+        specialized, //专科
+        academic, //学术专长
     }
 
     private static Profile mInst = null;

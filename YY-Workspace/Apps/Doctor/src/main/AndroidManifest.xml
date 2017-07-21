@@ -220,7 +220,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.profile.SpecizlizedActivity"
+            android:name=".ui.activity.me.profile.SpecializedActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.profile.CertificationActivity"

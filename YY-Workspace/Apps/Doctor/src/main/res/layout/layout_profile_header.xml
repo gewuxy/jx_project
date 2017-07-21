@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
-            android:text="@string/profile_header"
+            android:text="@string/avatar"
             android:textColor="@color/text_666"
             android:textSize="14dp"/>
 

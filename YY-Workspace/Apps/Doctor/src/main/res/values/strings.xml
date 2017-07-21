@@ -82,6 +82,7 @@
     <string name="confirm_login">确认并登录</string>
     <string name="pass_sms">通过短信</string>
     <string name="pass_email">通过邮件</string>
+    <string name="send_email">发送验证邮件</string>
     <string name="input_phone">请输入手机号（登陆账号）</string>
 
     <!--KTitle-->
@@ -233,7 +234,6 @@
 
     <!--个人中心-->
     <string name="profile_center">个人中心</string>
-    <string name="profile_header">头像</string>
 
     <!--会议收藏-->
     <string name="collection_meeting">会议收藏</string>

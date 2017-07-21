@@ -17,15 +17,14 @@ import yy.doctor.R;
 import yy.doctor.util.Util;
 
 /**
- * CME卡号
+ * 医院科室页面
  *
- * @auther HuoXuYu
- * @since 2017/7/13
+ * @author HuoXuYu
+ * @since 2017/7/14
  */
+public class SpecializedActivity extends BaseActivity{
 
-public class CmeActivity extends BaseActivity{
-
-    private EditText mEtCme;
+    private EditText mEtDepartments;
     private ImageView mIvCancel;
     private TextView mTv;
 
@@ -36,27 +35,26 @@ public class CmeActivity extends BaseActivity{
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_cme;
+        return R.layout.activity_departments;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.user_CME_number, this);
-        mTv = bar.addTextViewRight(R.string.save,v -> {
-            notify(NotifyType.cme_num, mEtCme.getText().toString());
+        Util.addBackIcon(bar, R.string.section, this);
+        mTv = bar.addTextViewRight(R.string.save, v -> {
+            notify(NotifyType.section, mEtDepartments.getText().toString());
             finish();
         });
     }
 
     @Override
     public void findViews() {
-        mEtCme = findView(R.id.et_cme);
-        mIvCancel = findView(R.id.iv_cancel);
+        mEtDepartments = findView(R.id.et_departments);
+        mIvCancel = findView(R.id.iv_departments_cancel);
     }
 
     @Override
     public void setViews() {
-
         setOnClickListener(R.id.iv_cancel);
 
         textChanged();
@@ -66,15 +64,15 @@ public class CmeActivity extends BaseActivity{
 
         mTv.setEnabled(false);
         mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-        mEtCme.addTextChangedListener(new TextWatcher() {
+        mEtDepartments.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtil.isEmpty(mEtCme.getText().toString())) {
+                if (TextUtil.isEmpty(mEtDepartments.getText().toString())) {
                     mTv.setEnabled(false);
                     mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
                 }else {
@@ -82,7 +80,7 @@ public class CmeActivity extends BaseActivity{
                     mTv.setTextColor(ResLoader.getColor(R.color.white));
                 }
 
-                if (TextUtil.isEmpty(mEtCme.getText().toString())) {
+                if (TextUtil.isEmpty(mEtDepartments.getText())) {
                     hideView(mIvCancel);
                 }else {
                     showView(mIvCancel);
@@ -102,10 +100,9 @@ public class CmeActivity extends BaseActivity{
         int id = v.getId();
         switch (id) {
             case R.id.iv_cancel: {
-                mEtCme.setText("");
+                mEtDepartments.setText("");
             }
             break;
         }
     }
-
 }

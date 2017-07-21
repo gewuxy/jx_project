@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
@@ -16,18 +15,21 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
+import static yy.doctor.R.string.save;
+
 /**
- * CME卡号
+ * 学术专长
  *
  * @auther HuoXuYu
- * @since 2017/7/13
+ * @since 2017/7/14
  */
 
-public class CmeActivity extends BaseActivity{
+public class AcademicActivity extends BaseActivity{
 
-    private EditText mEtCme;
-    private ImageView mIvCancel;
+    private EditText mEtAcademic;
+    private TextView mTvAcademic;
     private TextView mTv;
+    private String mTextNum = null;
 
     @Override
     public void initData() {
@@ -36,45 +38,39 @@ public class CmeActivity extends BaseActivity{
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_cme;
+        return R.layout.activity_academic;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.user_CME_number, this);
-        mTv = bar.addTextViewRight(R.string.save,v -> {
-            notify(NotifyType.cme_num, mEtCme.getText().toString());
+        Util.addBackIcon(bar, R.string.academic, this);
+        mTv = bar.addTextViewRight(save, v -> {
+            notify(NotifyType.academic, mEtAcademic.getText().toString());
             finish();
         });
     }
 
     @Override
     public void findViews() {
-        mEtCme = findView(R.id.et_cme);
-        mIvCancel = findView(R.id.iv_cancel);
+        mEtAcademic = findView(R.id.et_academic);
+        mTvAcademic = findView(R.id.tv_academic);
     }
 
     @Override
     public void setViews() {
-
-        setOnClickListener(R.id.iv_cancel);
-
-        textChanged();
-    }
-
-    public void textChanged() {
-
         mTv.setEnabled(false);
         mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-        mEtCme.addTextChangedListener(new TextWatcher() {
+        mTextNum = String.format(getString(R.string.academic_unit), 0);
+        mTvAcademic.setText(mTextNum);
+        mEtAcademic.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtil.isEmpty(mEtCme.getText().toString())) {
+                if (TextUtil.isEmpty(mEtAcademic.getText().toString())) {
                     mTv.setEnabled(false);
                     mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
                 }else {
@@ -82,11 +78,13 @@ public class CmeActivity extends BaseActivity{
                     mTv.setTextColor(ResLoader.getColor(R.color.white));
                 }
 
-                if (TextUtil.isEmpty(mEtCme.getText().toString())) {
-                    hideView(mIvCancel);
+                s.length();
+                if (TextUtil.isEmpty(s)) {
+                    mTextNum = String.format(getString(R.string.academic_unit), 0);
                 }else {
-                    showView(mIvCancel);
+                    mTextNum = String.format(getString(R.string.academic_unit), s.length());
                 }
+                mTvAcademic.setText(mTextNum);
             }
 
             @Override
@@ -97,15 +95,13 @@ public class CmeActivity extends BaseActivity{
     }
 
     @Override
-    public void onClick(View v) {
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.academic) {
 
-        int id = v.getId();
-        switch (id) {
-            case R.id.iv_cancel: {
-                mEtCme.setText("");
-            }
-            break;
         }
     }
 
+    @Override
+    public void onClick(View v) {
+    }
 }

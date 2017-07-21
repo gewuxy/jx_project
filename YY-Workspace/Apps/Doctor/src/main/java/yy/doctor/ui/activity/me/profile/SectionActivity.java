@@ -16,11 +16,12 @@ import yy.doctor.ui.frag.SectionNameFrag.OnSectionListener;
 import yy.doctor.util.Util;
 
 /**
- * 医院科室页面
+ * 专科页面
  *
- * @author CaiXiang
- * @since 2017/5/2
+ * @auther Huoxuyu
+ * @since 2017/7/17
  */
+
 public class SectionActivity extends BaseActivity implements OnCategoryListener, OnSectionListener {
 
     private SectionCategoryFrag mSectionCategoryFrag;
@@ -38,7 +39,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.section, this);
+        Util.addBackIcon(bar, R.string.specialized, this);
     }
 
     @Override

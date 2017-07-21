@@ -17,7 +17,6 @@
         android:paddingRight="40dp"
         android:paddingLeft="40dp">
 
-
         <RelativeLayout
             android:layout_width="280dp"
             android:layout_height="52dp"
@@ -26,8 +25,8 @@
 
             <EditText
                 style="@style/et.login"
-                android:id="@+id/et_cme"
-                android:hint="@string/user_input_CME_number"/>
+                android:id="@+id/et_certification"
+                android:hint="@string/user_input_certification_number"/>
 
             <ImageView
                 android:id="@+id/iv_cancel"
@@ -36,8 +35,8 @@
                 android:padding="8dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="21dp"
                 android:visibility="gone"
+                android:layout_marginRight="21dp"
                 android:src="@mipmap/login_ic_cancel"/>
 
         </RelativeLayout>

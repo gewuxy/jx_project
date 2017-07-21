@@ -110,9 +110,12 @@ public class NetFactory {
         String KHospital = "hospital";   //医院
         String KDepartment = "department";   //科室
         String KHospitalLevel = "hosLevel";  //医院等级
-        String KCMEId = "cmeId";  //CME卡号
+        String KCmeId = "cmeId";  //CME卡号
         String KLicence = "licence";   //执业许可证
         String KTitle = "title";   //职称
+        // FIXME 测试
+        String KSpecialized = "specialized"; //专科
+        String KAcademic = "academic";  //学术专长
         String KProvince = "province";   //省份
         String KCity = "city";    //城市
         String KArea = "zone";  //区

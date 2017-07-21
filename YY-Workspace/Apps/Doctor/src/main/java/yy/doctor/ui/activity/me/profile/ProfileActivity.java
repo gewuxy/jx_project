@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -37,7 +39,6 @@ import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
-import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.UpHeadImage;
@@ -50,12 +51,14 @@ import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
 import static yy.doctor.model.Profile.TProfile.city;
+import static yy.doctor.model.Profile.TProfile.cmeId;
 import static yy.doctor.model.Profile.TProfile.department;
-import static yy.doctor.model.Profile.TProfile.hosLevel;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
 import static yy.doctor.model.Profile.TProfile.province;
+import static yy.doctor.model.Profile.TProfile.specialized;
+import static yy.doctor.model.Profile.TProfile.title;
 import static yy.doctor.model.Profile.TProfile.zone;
 
 /**
@@ -89,6 +92,10 @@ public class ProfileActivity extends BaseFormActivity {
     private String mStrPhotoPath;
     private String mAvatarUrl;
 
+    private ProgressBar mProgressBar;
+    private TextView mTvPercent;
+    private int mProgressProFile = 0;
+
     private String[] mPcd;
 
     @IntDef({
@@ -101,13 +108,16 @@ public class ProfileActivity extends BaseFormActivity {
             RelatedId.phone_number,
             RelatedId.email,
 
-            RelatedId.CME_number,
+            RelatedId.cme_number,
             RelatedId.certification_number,
             RelatedId.title,
             RelatedId.position,
             RelatedId.sex,
             RelatedId.education_background,
             RelatedId.address,
+
+            RelatedId.specialized,
+            RelatedId.academic,
 
             RelatedId.is_open,
     })
@@ -122,7 +132,7 @@ public class ProfileActivity extends BaseFormActivity {
         int phone_number = 11;
         int email = 12;
 
-        int CME_number = 20;
+        int cme_number = 20;
         int certification_number = 21;
         int title = 22;
         int position = 23;
@@ -130,7 +140,10 @@ public class ProfileActivity extends BaseFormActivity {
         int education_background = 25;
         int address = 26;
 
+        int specialized = 27;
+
         int is_open = 30;
+        int academic = 32;
     }
 
     @Override
@@ -140,8 +153,16 @@ public class ProfileActivity extends BaseFormActivity {
         mPcd = new String[Pcd.KMaxCount];
 
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);
+        if (!TextUtil.isEmpty(mAvatarUrl)) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "1完整度" + mProgressProFile);
+        }
 
         addItem(new Builder(FormType.divider_large).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(linkman))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "2完整度" + mProgressProFile);
+        }
         addItem(new Builder(FormType.et)
                 .related(RelatedId.name)
                 .name(R.string.user_name)
@@ -156,6 +177,10 @@ public class ProfileActivity extends BaseFormActivity {
         place.put(TPlace.city, getString(R.string.guang_zhou));
 
         addItem(new Builder(FormType.divider).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(hospital))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "3完整度" + mProgressProFile);
+        }
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.form_ic_more)
@@ -166,100 +191,23 @@ public class ProfileActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_intent)
-                .related(RelatedId.departments)
-                .drawable(R.mipmap.form_ic_more)
+        if (!TextUtil.isEmpty(Profile.inst().getString(specialized))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "4完整度" + mProgressProFile);
+        }
+        addItem(new Builder(FormType.text_profile_intent)
+                .related(RelatedId.specialized)
                 .name(R.string.user_section)
-                .intent(new Intent(this, SectionActivity.class))
-                .text(Profile.inst().getString(department))
+                .intent(new Intent(this, SpecializedActivity.class))
+                .text(Profile.inst().getString(specialized))
                 .hint(R.string.user_input_section)
                 .build());
 
-        YSLog.d(TAG, "hospital level = " + Profile.inst().getString(hosLevel));
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text_dialog)
-                .related(RelatedId.hospital_grade)
-                .name(R.string.user_hospital_grade)
-                .text(Profile.inst().getString(hosLevel))
-                .data(GlConfig.inst().getHospitalGrade())
-                .hint(R.string.optional)
-                .build());
-
-        /*addItem(new Builder(FormType.et)
-                .related(RelatedId.nickname)
-                .name("昵称")
-                .text(Profile.inst().getString(nickname))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.phone_number)
-                .name("手机号")
-                .text(Profile.inst().getString(mobile))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.email)
-                .name("电子邮箱")
-                .text(Profile.inst().getString(username))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider_large).build());*/
-
-        /*addItem(new Builder(FormType.profile_checkbox)
-                .related(RelatedId.is_open)
-                .build());*/
-
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.text_intent)
-                .related(RelatedId.title)
-                .name(R.string.user_title)
-                .intent(new Intent(this, TitleActivity.class))
-                .text(Profile.inst().getString(TProfile.title))
-                .hint(R.string.optional)
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.certification_number)
-                .name(R.string.user_certification_number)
-                .text(Profile.inst().getString(licence))
-                .hint(R.string.user_input_certification_number)
-                .build());
-
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text_intent)
-                .related(RelatedId.CME_number)
-                .name(R.string.user_CME_number)
-                .intent(new Intent(this, CmeActivity.class))
-                .text(Profile.inst().getString(TProfile.cmeId))
-                .hint(R.string.user_input_CME_number)
-                .build());
-
-        /*addItem(new Builder(FormType.et)
-                .related(RelatedId.position)
-                .name("职务")
-                .text(Profile.inst().getString(place))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text_dialog)
-                .related(RelatedId.sex)
-                .name("性别")
-                .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getSexConfigs())
-                .build());
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text_dialog)
-                .related(RelatedId.education_background)
-                .name("学历")
-                .text(R.string.hint_not_fill)
-                .data(GlConfig.inst().getEducationBgConfigs())
-                .build());
-        addItem(new Builder(FormType.divider).build());*/
-
-        addItem(new Builder(FormType.divider).build());
+        if (!TextUtil.isEmpty(Util.generatePcd(mPcd))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "5完整度" + mProgressProFile);
+        }
 
         mPcd[Pcd.KProvince] = Profile.inst().getString(province);
         mPcd[Pcd.KCity] = Profile.inst().getString(TProfile.city);
@@ -273,7 +221,83 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.required)
                 .build());
 
+        /*YSLog.d(TAG, "hospital level = " + Profile.inst().getString(hosLevel));
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.text_dialog)
+                .related(RelatedId.hospital_grade)
+                .name(R.string.user_hospital_grade)
+                .text(Profile.inst().getString(hosLevel))
+                .data(GlConfig.inst().getHospitalGrade())
+                .hint(R.string.optional)
+                .build());*/
+
+
         addItem(new Builder(FormType.divider_large).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(department))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "6完整度" + mProgressProFile);
+        }
+        addItem(new Builder(FormType.text_specialized_intent)
+                .related(RelatedId.departments)
+                .intent(new Intent(this, SectionActivity.class))
+                .name(R.string.specialized)
+                .text(Profile.inst().getString(department))
+                .hint(R.string.user_input_Specialist)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(cmeId))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "7完整度" + mProgressProFile);
+        }
+        addItem(new Builder(FormType.text_profile_intent)
+                .related(RelatedId.cme_number)
+                .name(R.string.user_CME_number)
+                .intent(new Intent(this, CmeActivity.class))
+                .text(Profile.inst().getString(TProfile.cmeId))
+                .hint(R.string.user_input_CME_number)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(licence))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "8完整度" + mProgressProFile);
+        }
+        addItem(new Builder(FormType.text_profile_intent)
+                .related(RelatedId.certification_number)
+                .name(R.string.user_certification_number)
+                .intent(new Intent(this, CertificationActivity.class)
+                        .putExtra(Extra.KData, Profile.inst().getString(TProfile.licence)))
+                .text(Profile.inst().getString(TProfile.licence))
+                .hint(R.string.user_input_certification_number)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(title))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "9完整度" + mProgressProFile);
+        }
+        addItem(new Builder(FormType.text_intent)
+                .related(RelatedId.title)
+                .name(R.string.user_title)
+                .intent(new Intent(this, TitleActivity.class))
+                .text(Profile.inst().getString(TProfile.title))
+                .hint(R.string.optional)
+                .build());
+
+        addItem(new Builder(FormType.divider_large).build());
+        if (!TextUtil.isEmpty(Profile.inst().getString(TProfile.academic))) {
+            YSLog.d("www", Profile.inst().getString(TProfile.academic) + "rrr");
+            mProgressProFile += 10;
+            YSLog.d("qqq", "10完整度" + mProgressProFile);
+        }
+        addItem(new Builder(FormType.text_academic_intent)
+                .related(RelatedId.academic)
+                .name(R.string.academic)
+                .intent(new Intent(this, AcademicActivity.class))
+                .text(Profile.inst().getString(TProfile.academic))
+                .build());
+
     }
 
     @Override
@@ -302,6 +326,8 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader = findView(R.id.layout_profile_header);
         mIvAvatar = findView(R.id.profile_header_iv_avatar);
+        mProgressBar = findView(R.id.profile_progressbar);
+        mTvPercent = findView(R.id.profile_tv_percent);
     }
 
     @Override
@@ -313,6 +339,9 @@ public class ProfileActivity extends BaseFormActivity {
                  .url(mAvatarUrl)
                  .renderer(new CircleRenderer())
                  .load();
+
+        mProgressBar.incrementProgressBy(mProgressProFile);
+        mTvPercent.setText(mProgressProFile + "%");
     }
 
     @Override
@@ -390,6 +419,7 @@ public class ProfileActivity extends BaseFormActivity {
                 //YSLog.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
+
     }
 
     //页面跳转
@@ -421,16 +451,19 @@ public class ProfileActivity extends BaseFormActivity {
         YSLog.d(TAG, "city = " + mPcd[Pcd.KCity]);
         YSLog.d(TAG, "area = " + mPcd[Pcd.KDistrict]);
 
-        YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
+//        YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
         NetworkReq r = NetFactory.newModifyBuilder()
                 .headImgUrl(mAvatarUrl)
                 .linkman(getRelateVal(RelatedId.name))
                 .hospital(getRelateVal(RelatedId.hospital))
                 .department(getRelateVal(RelatedId.departments))
-                .hospitalLevel(getRelateVal(RelatedId.hospital_grade))
-                .cmeId(getRelateVal(RelatedId.CME_number))
+//                .hospitalLevel(getRelateVal(RelatedId.hospital_grade))
+                .cmeId(getRelateVal(RelatedId.cme_number))
                 .licence(getRelateVal(RelatedId.certification_number))
                 .title(getRelateVal(RelatedId.title))
+
+                .specialized(getRelateVal(RelatedId.specialized))
+                .academic(getRelateVal(RelatedId.academic))
                 .province(mPcd[Pcd.KProvince])
                 .city(mPcd[Pcd.KCity])
                 .area(mPcd[Pcd.KDistrict])
@@ -475,11 +508,14 @@ public class ProfileActivity extends BaseFormActivity {
                 showToast(ResLoader.getString(R.string.user_save_success));
                 //更新本地的数据
                 Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
-                Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments));
-                Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade));
+                Profile.inst().put(department, getRelateVal(RelatedId.departments));
                 Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
                 Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
-                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
+                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.cme_number));
+
+                // FIXME 测试
+                Profile.inst().put(TProfile.specialized, getRelateVal(RelatedId.specialized));
+                Profile.inst().put(TProfile.academic, getRelateVal(RelatedId.academic));
 
                 Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
                 Profile.inst().put(city, mPcd[Pcd.KCity]);
@@ -537,6 +573,26 @@ public class ProfileActivity extends BaseFormActivity {
 
             getRelatedItem(RelatedId.address).put(TForm.text, Util.generatePcd(mPcd));
             refreshRelatedItem(RelatedId.address);
+        }
+        else if (type == NotifyType.cme_num) {
+            String str = (String) data;
+            getRelatedItem(RelatedId.cme_number).save(str, str);
+            refreshRelatedItem(RelatedId.cme_number);
+        }
+        else if (type == NotifyType.section) {
+            String str = (String) data;
+            getRelatedItem(RelatedId.specialized).save(str, str);
+            refreshRelatedItem(RelatedId.specialized);
+        }
+        else if (type == NotifyType.certification) {
+            String str = (String) data;
+            getRelatedItem(RelatedId.certification_number).save(str, str);
+            refreshRelatedItem(RelatedId.certification_number);
+        }
+        else if (type == NotifyType.academic) {
+            String str = (String) data;
+            getRelatedItem(RelatedId.academic).save(str, str);
+            refreshRelatedItem(RelatedId.academic);
         }
     }
 

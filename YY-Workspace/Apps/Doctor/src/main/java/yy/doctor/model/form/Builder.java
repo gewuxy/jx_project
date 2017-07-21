@@ -12,10 +12,13 @@ import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
 import yy.doctor.model.form.text.ContentForm;
 import yy.doctor.model.form.text.ContentTextForm;
+import yy.doctor.model.form.text.TextAcademicIntentForm;
 import yy.doctor.model.form.text.TextDialogForm;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.TextIntentForm;
+import yy.doctor.model.form.text.TextProfileIntentForm;
 import yy.doctor.model.form.text.TextRegisterIntentForm;
+import yy.doctor.model.form.text.TextSpecializedIntent;
 
 /**
  * @author CaiXiang
@@ -47,6 +50,18 @@ public class Builder extends FormBuilderEx<BaseForm> {
             break;
             case FormType.text_intent: {
                 form = new TextIntentForm();
+            }
+            break;
+            case FormType.text_specialized_intent: {
+                form = new TextSpecializedIntent();
+            }
+            break;
+            case FormType.text_profile_intent: {
+                form = new TextProfileIntentForm();
+            }
+            break;
+            case FormType.text_academic_intent: {
+                form = new TextAcademicIntentForm();
             }
             break;
             case FormType.text_dialog: {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/v.form"
+        android:layout_height="@dimen/edit_height">
+
+        <TextView
+            style="@style/tv.form.name"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_weight="1"/>
+
+        <ImageView
+            style="@style/iv.arrow.align_right"
+            android:layout_marginRight="@dimen/margin_large"/>
+    </LinearLayout>
+
+            <TextView
+                android:id="@id/form_tv_text"
+                style="@style/et.login"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="18dp"
+                android:maxLength="500"
+                android:textColor="@color/text_333"
+                android:textSize="14dp"
+                android:gravity="top"
+                android:scrollbars="vertical"
+                android:layout_marginBottom="20dp"
+                android:hint="@string/user_input_academic"/>
+
+        <View
+            style="@style/divider"
+            android:layout_width="match_parent"/>
+
+</LinearLayout>

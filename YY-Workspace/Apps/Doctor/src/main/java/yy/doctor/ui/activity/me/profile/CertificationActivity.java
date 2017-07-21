@@ -13,50 +13,55 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
+import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
 /**
- * CME卡号
+ * 职业资格证号
  *
  * @auther HuoXuYu
- * @since 2017/7/13
+ * @since 2017/7/14
  */
 
-public class CmeActivity extends BaseActivity{
+public class CertificationActivity extends BaseActivity{
 
-    private EditText mEtCme;
+    private EditText mEtCertification;
     private ImageView mIvCancel;
     private TextView mTv;
+    private String mData;
 
     @Override
     public void initData() {
+        mData = getIntent().getStringExtra(Extra.KData);
+
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_cme;
+        return R.layout.activity_certification;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.user_CME_number, this);
-        mTv = bar.addTextViewRight(R.string.save,v -> {
-            notify(NotifyType.cme_num, mEtCme.getText().toString());
+        Util.addBackIcon(bar, R.string.user_certification_number, this);
+        mTv = bar.addTextViewRight(R.string.save, v -> {
+            notify(NotifyType.certification, mEtCertification.getText().toString());
             finish();
         });
     }
 
+
     @Override
     public void findViews() {
-        mEtCme = findView(R.id.et_cme);
+        mEtCertification = findView(R.id.et_certification);
         mIvCancel = findView(R.id.iv_cancel);
     }
 
     @Override
     public void setViews() {
-
+        mEtCertification.setText(mData);
         setOnClickListener(R.id.iv_cancel);
 
         textChanged();
@@ -66,15 +71,15 @@ public class CmeActivity extends BaseActivity{
 
         mTv.setEnabled(false);
         mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-        mEtCme.addTextChangedListener(new TextWatcher() {
+        mEtCertification.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtil.isEmpty(mEtCme.getText().toString())) {
+                if (TextUtil.isEmpty(mEtCertification.getText().toString())) {
                     mTv.setEnabled(false);
                     mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
                 }else {
@@ -82,7 +87,7 @@ public class CmeActivity extends BaseActivity{
                     mTv.setTextColor(ResLoader.getColor(R.color.white));
                 }
 
-                if (TextUtil.isEmpty(mEtCme.getText().toString())) {
+                if (TextUtil.isEmpty(mEtCertification.getText())) {
                     hideView(mIvCancel);
                 }else {
                     showView(mIvCancel);
@@ -102,7 +107,7 @@ public class CmeActivity extends BaseActivity{
         int id = v.getId();
         switch (id) {
             case R.id.iv_cancel: {
-                mEtCme.setText("");
+                mEtCertification.setText("");
             }
             break;
         }

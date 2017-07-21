@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import yy.doctor.Extra;
+import yy.doctor.R;
 import yy.doctor.util.Util;
 
 /**
@@ -31,4 +32,8 @@ public class TextIntentForm extends TextForm {
         save(text, text);
     }
 
+    @Override
+    public int getContentViewResId() {
+        return R.layout.form_text_intent;
+    }
 }
