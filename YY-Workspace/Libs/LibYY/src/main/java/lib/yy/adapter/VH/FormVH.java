@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -37,7 +37,7 @@ public class FormVH extends ViewHolderEx {
         return getView(R.id.form_divider);
     }
 
-    public LinearLayout getDividerLayout() {
+    public RelativeLayout getDividerLayout() {
         return getView(R.id.form_divider_layout);
     }
 

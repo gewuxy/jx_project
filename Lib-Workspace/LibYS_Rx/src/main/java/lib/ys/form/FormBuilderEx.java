@@ -30,7 +30,7 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
     private CharSequence[] mTextMulti;
     private String mHint;
     private String mTips;
-    private boolean mEnable;
+    private Boolean mEnable;
     private Integer mLimit;
     private Object mRelated;
     private Object mData;
@@ -44,15 +44,15 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
     private List mChildren;
     private Object mDepend;
     private String mRegex;
-    private boolean mCheck;
+    private Boolean mCheck;
     private Integer mIndex;
     private Integer mId;
-    private boolean mVisible;
+    private Boolean mVisible;
     private Object mObserver;
     private String mUrl;
 
     @ColorInt
-    private int mBgColor;
+    private Integer mBgColor;
 
     @DrawableRes
     private Integer mDrawableId;
@@ -66,8 +66,8 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
     private Integer mTextColorId;
 
     private String mToast;
-    private int mPaddingLeft;
-    private int mPaddingRight;
+    private Integer mPaddingLeft;
+    private Integer mPaddingRight;
 
 
     public FormBuilderEx(int type) {
@@ -331,6 +331,7 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
         putIfNotNull(FORM, TForm.url, mUrl);
         putIfNotNull(FORM, TForm.text_color, mTextColorId);
         putIfNotNull(FORM, TForm.padding_dp_left, mPaddingLeft);
+        putIfNotNull(FORM, TForm.padding_dp_right, mPaddingRight);
 
         putIfNotNull(FORM, TForm.key, mKey);
         putIfNotNull(FORM, TForm.val, mVal);
