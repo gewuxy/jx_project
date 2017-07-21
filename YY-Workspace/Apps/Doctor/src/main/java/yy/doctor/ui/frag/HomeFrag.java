@@ -20,6 +20,7 @@ import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
+import yy.doctor.model.home.RecMeetingFolder;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
@@ -27,6 +28,7 @@ import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.home.NoticeActivity;
+import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.view.BadgeView;
@@ -208,6 +210,11 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
             // 第一次和下拉刷新加载需要拼接数据， 分页加载时不需要
             if (mIsLoadFirstPage) {
+
+                // FIXME: 2017/7/20 测试数据 会议文件夹
+                RecMeetingFolder meetingFolder = new RecMeetingFolder();
+                homes.add(meetingFolder);
+
                 //数据分组  推荐会议
                 List<IHome> firstSectionMeetings = new ArrayList<>();
                 List<IHome> secondSectionMeetings = new ArrayList<>();
@@ -259,8 +266,9 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mBindingDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
         mBindingDialog.addButton(R.string.cancel, v -> mBindingDialog.dismiss());
         mBindingDialog.addButton(R.string.go_binding, v -> {
+            //跳转到设置页面
+            startActivity(SettingsActivity.class);
             mBindingDialog.dismiss();
-            showToast(R.string.go_binding);
         });
         mBindingDialog.show();
         SpUser.inst().neverShowBindingDialog();

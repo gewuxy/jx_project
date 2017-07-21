@@ -16,6 +16,7 @@
     <string name="province_city">省市</string>
     <string name="search">搜索</string>
     <string name="please_input_search_content">请输入搜索内容</string>
+    <string name="connect_timeout">超时，请检查当前网络</string>
 
     <string name="login">登录</string>
     <string name="binding_login">绑定并登录</string>
@@ -248,7 +249,13 @@
 
     <!--设置-->
     <string name="settings">设置</string>
-    <string name="check_version">检查版本更新</string>
+    <string name="wifi_auto_download_new_apk">WiFi下后台自动下载最新版本</string>
+    <string name="audio_auto_play_only_wifi">音频仅在WiFi下自动播放</string>
+    <string name="wx_account">微信账号</string>
+    <string name="phone_num_account">手机号账号</string>
+    <string name="email_account">电子邮箱账号</string>
+    <string name="check_version">检查新版本</string>
+    <string name="no_binding">未绑定</string>
     <string name="already_latest_version">已是最新版本</string>
     <string name="clear_img_cache">清理图片缓存</string>
     <string name="clear_sound_cache">清理声音缓存</string>
@@ -281,6 +288,7 @@
     <string name="pwd_change_success">密码修改成功</string>
 
     <!--单位号-->
+    <string name="my_attention">我的关注</string>
     <string name="attention_unit_num_empty">你还没有关注单位号</string>
     <string name="unit_num">单位号</string>
     <string name="file_data">资料</string>
@@ -324,6 +332,7 @@
     <string name="save">保存</string>
 
     <!--象数-->
+    <string name="num_epn">%1$d象数</string>
     <string name="epn">象数</string>
     <string name="epn_detail">明细</string>
     <string name="epn_use_rule">象数使用规则</string>
@@ -374,14 +383,7 @@
     <string name="purchase_limitation_one">限购一份</string>
     <string name="immediately_exchange">立即兑换</string>
 
-    <!-- swipe list -->
-    <string name="sr_list_header_hint_normal">下拉刷新</string>
-    <string name="sr_list_header_hint_ready">松开刷新</string>
-    <string name="sr_list_header_hint_loading">加载中…</string>
+    <!-- 统计 -->
+    <string name="attend_meeting_statistics">参会统计</string>
 
-    <string name="network_click_retry">网络加载出错, 点击屏幕重试</string>
-
-    <!-- toast -->
-    <string name="toast_network_disconnect">当前网络不可用，请检查网络设置</string>
-    <string name="toast_network_abort">加载失败</string>
 </resources>

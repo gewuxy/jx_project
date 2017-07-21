@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -44,13 +44,7 @@ public class DrugListCategoryActivity extends BaseListActivity<String, DrugListA
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.drug_list, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_data, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> DrugListCategoryActivity.this.notify(NotifyType.data_finish));
     }
 
     @Nullable
@@ -74,6 +68,13 @@ public class DrugListCategoryActivity extends BaseListActivity<String, DrugListA
     @Override
     public void onItemClick(View v, int position) {
         startActivity(DrugDetailActivity.class);
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.data_finish) {
+            finish();
+        }
     }
 
 }

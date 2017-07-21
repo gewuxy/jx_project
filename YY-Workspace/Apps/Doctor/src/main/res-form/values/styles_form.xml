@@ -34,12 +34,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="tv.form.name">
         <item name="android:id">@id/form_tv_name</item>
-        <item name="android:textColor">@color/text_666</item>
+        <item name="android:textColor">@color/text_333</item>
     </style>
 
     <style name="tv.form.text">

@@ -21,7 +21,6 @@ import lib.ys.YSLog;
 import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
-import lib.ys.view.ToggleButton;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -59,29 +58,40 @@ public class SettingsActivity extends BaseFormActivity {
 
     private static final String KM = "M";
 
-    private ToggleButton mTog;
-    private TextView mTvExit;
-
-    private String mImgSize;
-    private String mSoundSize;
-
     @IntDef({
-            RelatedId.check_version,
+            RelatedId.wx_binding,
+            RelatedId.phone_num_binding,
+            RelatedId.email_binding,
 
             RelatedId.change_password,
-            RelatedId.clear_img_cache,
+            RelatedId.auto_download_apk,
+            RelatedId.check_version,
 
+            RelatedId.clear_img_cache,
             RelatedId.clear_sound_cache,
+
+            RelatedId.audio_play,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
-        int check_version = 1;
+        int wx_binding = 1;
+        int phone_num_binding = 2;
+        int email_binding = 3;
 
-        int change_password = 2;
+        int change_password = 4;
+        int auto_download_apk = 5;
+        int check_version = 6;
 
-        int clear_img_cache = 3;
-        int clear_sound_cache = 4;
+        int clear_img_cache = 7;
+        int clear_sound_cache = 8;
+
+        int audio_play = 9;
     }
+
+    private TextView mTvExit;
+    private String mImgSize;
+
+    private String mSoundSize;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -97,7 +107,6 @@ public class SettingsActivity extends BaseFormActivity {
         } catch (Exception e) {
             YSLog.e(TAG, "getFolderSize", e);
         }
-
         return size / 1024 / 1024 + KM;
     }
 
@@ -108,16 +117,42 @@ public class SettingsActivity extends BaseFormActivity {
         mImgSize = getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
         mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
 
+        addItem(new Builder(FormType.content_text)
+                .related(RelatedId.wx_binding)
+                .name(R.string.wx_account)
+                .text(R.string.no_binding)
+                .build());
+
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.content_text)
-                .related(RelatedId.check_version)
-                .name(R.string.check_version)
+                .related(RelatedId.phone_num_binding)
+                .name(R.string.phone_num_account)
+                .text(R.string.no_binding)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.content_text)
+                .related(RelatedId.email_binding)
+                .name(R.string.email_account)
+                .text(SpApp.inst().getUserName())
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
         addItem(new Builder(FormType.content_text)
                 .related(RelatedId.change_password)
                 .name(R.string.change_pwd)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.toggle_button)
+                .related(RelatedId.auto_download_apk)
+                .name(R.string.wifi_auto_download_new_apk)
+                .build());
+
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.content_text)
+                .related(RelatedId.check_version)
+                .name(R.string.check_version)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -135,11 +170,10 @@ public class SettingsActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-    }
-
-    @Override
-    protected View createHeaderView() {
-        return inflate(R.layout.layout_settings_header);
+        addItem(new Builder(FormType.toggle_button)
+                .related(RelatedId.audio_play)
+                .name(R.string.audio_auto_play_only_wifi)
+                .build());
     }
 
     @Override
@@ -151,7 +185,6 @@ public class SettingsActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mTog = findView(R.id.settings_header_switcher);
         mTvExit = findView(R.id.settings_footer_tv_exit_account);
     }
 
@@ -159,7 +192,6 @@ public class SettingsActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
-        mTog.setToggleState(true);
         mTvExit.setOnClickListener(this);
     }
 
@@ -247,7 +279,7 @@ public class SettingsActivity extends BaseFormActivity {
 
         dialog.addItem(getString(R.string.close_app), v -> {
             dialog.dismiss();
-            SettingsActivity.this.notify(NotifyType.exit);
+            notify(NotifyType.exit);
             finish();
         });
         dialog.show();
