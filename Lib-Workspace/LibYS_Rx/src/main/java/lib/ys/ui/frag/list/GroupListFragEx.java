@@ -13,11 +13,11 @@ import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.ui.frag.FragEx;
-import lib.ys.ui.interfaces.impl.list.GroupListOpt;
+import lib.ys.ui.interfaces.IScrollable;
+import lib.ys.ui.interfaces.impl.scrollable.GroupListScrollable;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnGroupListOptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnGroupListScrollableListener;
 import lib.ys.ui.other.NavBar;
-import lib.ys.view.FloatingGroupListView;
 
 
 /**
@@ -25,9 +25,9 @@ import lib.ys.view.FloatingGroupListView;
  */
 abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
         extends FragEx
-        implements OnGroupListOptListener<GROUP, CHILD, A> {
+        implements OnGroupListScrollableListener<GROUP, CHILD, A> {
 
-    private GroupListOpt<GROUP, CHILD, A> mGroupListOpt = new GroupListOpt<>(this);
+    private GroupListScrollable<GROUP, CHILD, A> mScrollable = new GroupListScrollable<>(this);
 
 
     @Override
@@ -36,25 +36,25 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     }
 
     @Override
-    public int getListViewResId() {
+    public int getScrollableViewId() {
         return R.id.group_list;
     }
 
     @CallSuper
     @Override
     public void findViews() {
-        mGroupListOpt.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
+        mScrollable.findViews(getDecorView(), getScrollableViewId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
     @CallSuper
     @Override
     public void setViews() {
-        mGroupListOpt.setViews();
+        mScrollable.setViews();
     }
 
     @Override
     public A getAdapter() {
-        return mGroupListOpt.getAdapter();
+        return mScrollable.getAdapter();
     }
 
     @Nullable
@@ -77,22 +77,22 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     @Override
     public int getGroupCount() {
-        return mGroupListOpt.getGroupCount();
+        return mScrollable.getGroupCount();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return mGroupListOpt.getChildrenCount(groupPosition);
+        return mScrollable.getChildrenCount(groupPosition);
     }
 
     @Override
     public int getHeaderViewPosition() {
-        return mGroupListOpt.getHeaderViewPosition();
+        return mScrollable.getHeaderViewPosition();
     }
 
     @Override
     public void invalidate() {
-        mGroupListOpt.invalidate();
+        mScrollable.invalidate();
     }
 
     /**
@@ -106,27 +106,27 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     @Override
     public int getItemRealPosition(int position) {
-        return mGroupListOpt.getItemRealPosition(position);
+        return mScrollable.getItemRealPosition(position);
     }
 
     @Override
     public boolean isEmpty() {
-        return mGroupListOpt.isEmpty();
+        return mScrollable.isEmpty();
     }
 
     @Override
     public void setSelectedGroup(int groupPosition) {
-        mGroupListOpt.setSelectedGroup(groupPosition);
+        mScrollable.setSelectedGroup(groupPosition);
     }
 
     @Override
     public void hideFooterView() {
-        mGroupListOpt.hideFooterView();
+        mScrollable.hideFooterView();
     }
 
     @Override
     public void showFooterView() {
-        mGroupListOpt.showFooterView();
+        mScrollable.showFooterView();
     }
 
     @Override
@@ -141,77 +141,77 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     @Override
     public void setData(List<GROUP> data) {
-        mGroupListOpt.setData(data);
+        mScrollable.setData(data);
     }
 
     @Override
     public void addItem(GROUP item) {
-        mGroupListOpt.addItem(item);
+        mScrollable.addItem(item);
     }
 
     @Override
     public GROUP getGroup(int groupPosition) {
-        return mGroupListOpt.getGroup(groupPosition);
+        return mScrollable.getGroup(groupPosition);
     }
 
     @Override
     public CHILD getChild(int groupPosition, int childPosition) {
-        return mGroupListOpt.getChild(groupPosition, childPosition);
+        return mScrollable.getChild(groupPosition, childPosition);
     }
 
     @Override
     public boolean isGroupExpanded(int groupPosition) {
-        return mGroupListOpt.isGroupExpanded(groupPosition);
+        return mScrollable.isGroupExpanded(groupPosition);
     }
 
     @Override
     public void expandAllGroup() {
-        mGroupListOpt.expandAllGroup();
+        mScrollable.expandAllGroup();
     }
 
     @Override
     public void expandGroup(int groupPos) {
-        mGroupListOpt.expandGroup(groupPos);
+        mScrollable.expandGroup(groupPos);
     }
 
     @Override
     public void collapseAllGroup() {
-        mGroupListOpt.collapseAllGroup();
+        mScrollable.collapseAllGroup();
     }
 
     @Override
     public void collapseGroup(int groupPos) {
-        mGroupListOpt.collapseGroup(groupPos);
+        mScrollable.collapseGroup(groupPos);
     }
 
     @Override
     public void showHeaderView() {
-        mGroupListOpt.showHeaderView();
+        mScrollable.showHeaderView();
     }
 
     @Override
     public void hideHeaderView() {
-        mGroupListOpt.hideHeaderView();
+        mScrollable.hideHeaderView();
     }
 
     @Override
     public void setExpandSingle() {
-        mGroupListOpt.setExpandSingle();
+        mScrollable.setExpandSingle();
     }
 
     @Override
     public void setOnGroupAdapterClickListener(OnGroupAdapterClickListener listener) {
-        mGroupListOpt.setOnGroupAdapterClickListener(listener);
+        mScrollable.setOnGroupAdapterClickListener(listener);
     }
 
     @Override
     public void setOnChildAdapterClickListener(OnChildAdapterClickListener listener) {
-        mGroupListOpt.setOnChildAdapterClickListener(listener);
+        mScrollable.setOnChildAdapterClickListener(listener);
     }
 
     @Override
     public void setFloatingGroupEnabled(boolean enable) {
-        mGroupListOpt.setFloatingGroupEnabled(enable);
+        mScrollable.setFloatingGroupEnabled(enable);
     }
 
     public void getDataFromNet() {
@@ -219,7 +219,7 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     @Override
     public void addEmptyViewIfNonNull() {
-        mGroupListOpt.addEmptyViewIfNonNull();
+        mScrollable.addEmptyViewIfNonNull();
     }
 
     @Override
@@ -229,47 +229,47 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     @Override
     public void addItem(int position, GROUP item) {
-        mGroupListOpt.addItem(position, item);
+        mScrollable.addItem(position, item);
     }
 
     @Override
     public void addAll(int position, List<GROUP> item) {
-        mGroupListOpt.addAll(position, item);
+        mScrollable.addAll(position, item);
     }
 
     @Override
     public void addAll(List<GROUP> data) {
-        mGroupListOpt.addAll(data);
+        mScrollable.addAll(data);
     }
 
     @Override
     public void remove(int position) {
-        mGroupListOpt.remove(position);
+        mScrollable.remove(position);
     }
 
     @Override
     public void remove(GROUP item) {
-        mGroupListOpt.remove(item);
+        mScrollable.remove(item);
     }
 
     @Override
     public void removeAll() {
-        mGroupListOpt.removeAll();
+        mScrollable.removeAll();
     }
 
     @Override
     public List<GROUP> getData() {
-        return mGroupListOpt.getData();
+        return mScrollable.getData();
     }
 
     @Override
     public int getLastItemPosition() {
-        return mGroupListOpt.getLastItemPosition();
+        return mScrollable.getLastItemPosition();
     }
 
     @Override
     public GROUP getItem(int position) {
-        return mGroupListOpt.getItem(position);
+        return mScrollable.getItem(position);
     }
 
     /**
@@ -282,17 +282,17 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
 
     @Override
     public void setOnScrollListener(OnScrollMixListener listener) {
-        mGroupListOpt.setOnScrollListener(listener);
+        mScrollable.setOnScrollListener(listener);
     }
 
     @Override
     public int getFirstVisiblePosition() {
-        return mGroupListOpt.getFirstVisiblePosition();
+        return mScrollable.getFirstVisiblePosition();
     }
 
     @Override
     public View getChildAt(int index) {
-        return mGroupListOpt.getChildAt(index);
+        return mScrollable.getChildAt(index);
     }
 
     /**
@@ -335,12 +335,12 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     @Override
     @Deprecated
     public void setSelection(int position) {
-        mGroupListOpt.setSelection(position);
+        mScrollable.setSelection(position);
     }
 
     @Override
     public void smoothScrollToPosition(int groupPosition) {
-        mGroupListOpt.smoothScrollToPosition(groupPosition);
+        mScrollable.smoothScrollToPosition(groupPosition);
     }
 
     @Override
@@ -350,24 +350,26 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mGroupListOpt.onDestroy();
+        mScrollable.onDestroy();
     }
 
     @Override
     public void changeAlphaByScroll(int height, NavBar navBar) {
-        mGroupListOpt.changeAlphaByScroll(height, navBar);
+        mScrollable.changeAlphaByScroll(height, navBar);
     }
 
     @Override
     public void setDividerHeight(int height) {
-        mGroupListOpt.setDividerHeight(height);
+        mScrollable.setDividerHeight(height);
     }
 
-    protected FloatingGroupListView getLv() {
-        return mGroupListOpt.getLv();
+    @Override
+    public View getScrollableView() {
+        return mScrollable.getScrollableView();
     }
 
-    protected GroupListOpt<GROUP, CHILD, A> getGroupListOpt() {
-        return mGroupListOpt;
+    @Override
+    public IScrollable<GROUP> getScrollable() {
+        return mScrollable;
     }
 }

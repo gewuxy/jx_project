@@ -22,10 +22,10 @@
             android:id="@+id/unit_num_detail_file_item_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
+            android:layout_marginLeft="8dp"
             android:text="东莞市大声道胜多负少"
             android:textColor="@color/text_333"
-            android:textSize="10dp"/>
+            android:textSize="14dp"/>
 
     </LinearLayout>
 

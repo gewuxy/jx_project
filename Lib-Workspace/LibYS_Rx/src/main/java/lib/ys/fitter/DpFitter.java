@@ -59,8 +59,7 @@ public class DpFitter {
      * @return
      */
     public static int densityPx(int px) {
-        float fPx = px;
-        return (int) densityPx(fPx);
+        return (int) densityPx((float) px);
     }
 
     public static float getDensity() {

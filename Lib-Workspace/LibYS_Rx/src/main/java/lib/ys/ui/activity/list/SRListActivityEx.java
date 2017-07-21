@@ -14,9 +14,9 @@ import lib.ys.R;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
-import lib.ys.ui.interfaces.impl.list.SROpt;
+import lib.ys.ui.interfaces.impl.scrollable.SROpt;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnSROptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnSROptListener;
 
 
 /**
@@ -26,7 +26,7 @@ import lib.ys.ui.interfaces.listener.list.OnSROptListener;
  */
 abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListActivityEx<T, A> implements OnSROptListener {
 
-    private SROpt<T> mSROpt = new SROpt<>(this, getListOpt());
+    private SROpt<T> mSROpt = new SROpt<>(this);
 
     @Override
     public int getContentViewId() {
@@ -34,7 +34,7 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
     }
 
     @Override
-    public int getListViewResId() {
+    public int getScrollableViewId() {
         return R.id.sr_list_view;
     }
 
@@ -237,7 +237,9 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROpt.onNetworkSuccess((IListResult) result);
+        if (!isFinishing()) {
+            mSROpt.onNetworkSuccess((IListResult) result);
+        }
     }
 
     @Override

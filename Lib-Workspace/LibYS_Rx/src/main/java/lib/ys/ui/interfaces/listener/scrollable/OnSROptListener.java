@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.listener.list;
+package lib.ys.ui.interfaces.listener.scrollable;
 
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -12,6 +12,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.interfaces.IScrollable;
 
 /**
  * 下拉刷新操作
@@ -21,6 +22,8 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 public interface OnSROptListener<T> {
 
     int getSRLayoutResId();
+
+    IScrollable<T> getScrollable();
 
     void refresh();
 

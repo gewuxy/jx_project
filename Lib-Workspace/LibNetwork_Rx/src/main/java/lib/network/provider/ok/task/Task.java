@@ -19,6 +19,7 @@ abstract public class Task {
     private NetworkReq mReq;
     private OkCallback mCallback;
     private int mId;
+    private Call mCall;
 
     public Task(int id, NetworkReq req, OkCallback callback) {
         mReq = req;
@@ -28,8 +29,8 @@ abstract public class Task {
 
     public void run() {
         Request request = buildRealReq();
-        Call c = OkClient.inst().newCall(request);
-        c.enqueue(mCallback);
+        mCall = OkClient.inst().newCall(request);
+        mCall.enqueue(mCallback);
     }
 
     protected NetworkReq getReq() {
@@ -54,4 +55,14 @@ abstract public class Task {
     }
 
     abstract public Request buildRealReq();
+
+    public void cancel() {
+        if (!mCall.isCanceled() && mCall.isExecuted()) {
+            mCall.cancel();
+        }
+    }
+
+    public boolean isExecuted() {
+        return mCall == null ? false : mCall.isExecuted();
+    }
 }

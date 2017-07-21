@@ -63,8 +63,10 @@ public class WebViewSetter {
 
         settings.setCacheMode(option.getCacheMode());
         settings.setJavaScriptEnabled(option.isJsEnabled());
-//        settings.setUseWideViewPort(mHost.enableScale());
+
+//        settings.setUseWideViewPort(option.isScaleEnabled());
         settings.setLoadWithOverviewMode(option.isScaleEnabled());
+
         settings.setBuiltInZoomControls(option.isBuiltInZoomControlsEnabled());
         settings.setDomStorageEnabled(option.isDomStorageEnabled());
         settings.setAllowFileAccess(true);

@@ -190,58 +190,38 @@ public class LayoutFitter {
     /**
      * 处理宽高专用
      *
-     * @param value
+     * @param val
      * @return
      */
-    private static int convertWH(int value) {
-        if (value == 0 || value == MATCH_PARENT || value == WRAP_CONTENT || value == 1) {
-            return value;
+    private static int convertWH(int val) {
+        if (val == 0 || val == MATCH_PARENT || val == WRAP_CONTENT || val == 1) {
+            return val;
         }
 
-        return DpFitter.densityPx(value);
+        return DpFitter.densityPx(val);
     }
 
     /**
      * 用于处理其他数值
      *
-     * @param value
+     * @param val
      * @return
      */
-    private static int convert(int value) {
-        if (value == 0 || value == 1 || value == -1) {
-            return value;
+    private static int convert(int val) {
+        if (val == 0 || val == 1 || val == -1) {
+            return val;
         }
 
-        return DpFitter.densityPx(value);
+        return DpFitter.densityPx(val);
     }
 
     private static int convert(float value) {
         return convert((int) value);
     }
 
-    private static void fit(final ViewGroup viewGroup, boolean addListener) {
-        if (addListener) {
-            // 添加最外层的preDraw监听, 避免内部view层级过多, 添加的监听过多而导致的崩溃
-            if (viewGroup.getViewTreeObserver().isAlive()) {
-                viewGroup.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-
-                    @Override
-                    public boolean onPreDraw() {
-                        processChildren(viewGroup);
-
-                        viewGroup.getViewTreeObserver().removeOnPreDrawListener(this);
-                        return false;
-                    }
-                });
-            }
-        } else {
-            processChildren(viewGroup);
-        }
-    }
-
-    private static void processChildren(final ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); ++i) {
-            View v = viewGroup.getChildAt(i);
+    private static void fit(ViewGroup vg) {
+        for (int i = 0; i < vg.getChildCount(); ++i) {
+            View v = vg.getChildAt(i);
 
             if (mSetFit.contains(v)) {
                 continue;
@@ -249,7 +229,8 @@ public class LayoutFitter {
                 mSetFit.add(v);
             }
 
-            if (v.getId() == R.id.flat_bar || v.getId() == R.id.nav_bar_divider) {
+            int id = v.getId();
+            if (id == R.id.flat_bar || id == R.id.nav_bar_divider) {
                 /**
                  * 跳过flatBar, 实际上flatBar的高度就是statusBar的高度, 获取的时候已经是fit后的px, 不可以再多处理一次
                  * 同样跳过titleBar的divider
@@ -266,6 +247,7 @@ public class LayoutFitter {
             fitParams(v);
         }
     }
+
 
     /**
      * 适配父布局为view group的view
@@ -292,7 +274,7 @@ public class LayoutFitter {
      */
     public static void fit(View v) {
         if (v instanceof ViewGroup) {
-            fit((ViewGroup) v, false);
+            fit((ViewGroup) v);
         } else if (v instanceof TextView) {
             fitTvParams((TextView) v);
             fitParams(v);

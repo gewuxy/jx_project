@@ -1,6 +1,5 @@
-package lib.ys.ui.interfaces.impl.list;
+package lib.ys.ui.interfaces.impl.scrollable;
 
-import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +14,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
-import lib.ys.ui.interfaces.listener.list.OnGroupListOptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnGroupListScrollableListener;
 import lib.ys.util.UIUtil;
 import lib.ys.view.FloatingGroupListView;
 
@@ -24,29 +23,29 @@ import lib.ys.view.FloatingGroupListView;
  *
  * @author yuansui
  */
-public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
-        extends ListOpt<GROUP, A>
+public class GroupListScrollable<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends ListScrollable<GROUP, A>
         implements OnGroupClickListener, OnChildClickListener {
 
-    private FloatingGroupListView mLv;
+    private FloatingGroupListView mGroupLv;
     private A mAdapter;
 
-    private OnGroupListOptListener mListener;
+    private OnGroupListScrollableListener mListener;
 
-    public GroupListOpt(@NonNull OnGroupListOptListener<GROUP, CHILD, A> l) {
+    public GroupListScrollable(@NonNull OnGroupListScrollableListener<GROUP, CHILD, A> l) {
         super(l);
         mListener = l;
     }
 
-    @CallSuper
     @Override
-    public void findViews(@NonNull View contentView,
-                          @IdRes int listId,
-                          @Nullable View header,
-                          @Nullable View footer,
-                          @Nullable View empty) {
-        super.findViews(contentView, listId, header, footer, empty);
-        mLv = (FloatingGroupListView) contentView.findViewById(listId);
+    public <VIEW extends View> VIEW getScrollableView() {
+        return (VIEW) mGroupLv;
+    }
+
+    @Override
+    public void findViews(@NonNull View contentView, @IdRes int scrollableId, @Nullable View header, @Nullable View footer, @Nullable View empty) {
+        super.findViews(contentView, scrollableId, header, footer, empty);
+        mGroupLv = (FloatingGroupListView) contentView.findViewById(scrollableId);
     }
 
     @Override
@@ -54,30 +53,30 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
         createAdapter();
 
         // 不能调用super, 因为adapter类型不同无法进行相同的设置
-        UIUtil.setOverScrollNever(mLv);
+        UIUtil.setOverScrollNever(mGroupLv);
 
-        mLv.setAdapter((ExpandableListAdapter) mAdapter);
-        mLv.setOnItemClickListener(this);
+        mGroupLv.setAdapter((ExpandableListAdapter) mAdapter);
+        mGroupLv.setOnItemClickListener(this);
 
         if (mListener.enableLongClick()) {
-            mLv.setOnItemLongClickListener(this);
+            mGroupLv.setOnItemLongClickListener(this);
         }
 
         if (!mListener.needDelayAddEmptyView()) {
             addEmptyViewIfNonNull();
         }
 
-        mLv.setOnGroupClickListener(this);
-        mLv.setOnChildClickListener(this);
+        mGroupLv.setOnGroupClickListener(this);
+        mGroupLv.setOnChildClickListener(this);
     }
 
     @Override
     public void setOnScrollListener(OnScrollListener listener) {
-        mLv.setOnScrollListener(listener);
+        mGroupLv.setOnScrollListener(listener);
     }
 
     public void setSelectedGroup(int groupPosition) {
-        mLv.setSelectedGroup(groupPosition);
+        mGroupLv.setSelectedGroup(groupPosition);
     }
 
     @Override
@@ -93,6 +92,7 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
     @Override
     public void createAdapter() {
         super.createAdapter();
+        // 接一下, 减少getAdapter()的开销
         mAdapter = getAdapter();
     }
 
@@ -105,27 +105,27 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
     }
 
     public boolean isGroupExpanded(int groupPosition) {
-        return mLv.isGroupExpanded(groupPosition);
+        return mGroupLv.isGroupExpanded(groupPosition);
     }
 
     public void expandAllGroup() {
         for (int i = 0; i < mAdapter.getGroupCount(); ++i) {
-            mLv.expandGroup(i);
+            mGroupLv.expandGroup(i);
         }
     }
 
     public void collapseAllGroup() {
         for (int i = 0; i < mAdapter.getGroupCount(); ++i) {
-            mLv.collapseGroup(i);
+            mGroupLv.collapseGroup(i);
         }
     }
 
     public void collapseGroup(int groupPos) {
-        mLv.collapseGroup(groupPos);
+        mGroupLv.collapseGroup(groupPos);
     }
 
     public void setExpandSingle() {
-        mLv.setOnGroupExpandListener(position -> {
+        mGroupLv.setOnGroupExpandListener(position -> {
             for (int i = 0; i < mAdapter.getGroupCount(); ++i) {
                 if (i != position) {
                     if (isGroupExpanded(i)) {
@@ -145,7 +145,7 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
     }
 
     public void expandGroup(int groupPos) {
-        mLv.expandGroup(groupPos);
+        mGroupLv.expandGroup(groupPos);
     }
 
     public void setOnGroupAdapterClickListener(OnGroupAdapterClickListener listener) {
@@ -157,17 +157,12 @@ public class GroupListOpt<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
     }
 
     public void setFloatingGroupEnabled(boolean enable) {
-        mLv.setFloatingGroupEnabled(enable);
-    }
-
-    @Override
-    public FloatingGroupListView getLv() {
-        return mLv;
+        mGroupLv.setFloatingGroupEnabled(enable);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        long pos = mLv.getExpandableListPosition(position);
+        long pos = mGroupLv.getExpandableListPosition(position);
         int type = ExpandableListView.getPackedPositionType(pos);
 
         int groupPos = ExpandableListView.getPackedPositionGroup(pos);

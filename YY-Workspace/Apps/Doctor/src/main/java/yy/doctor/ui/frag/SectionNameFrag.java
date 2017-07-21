@@ -31,7 +31,7 @@ public class SectionNameFrag extends BaseSRListFrag<String, SectionNameAdapter> 
     public void setViews() {
         super.setViews();
 
-        getLv().setVerticalScrollBarEnabled(false);
+        getScrollableView().setVerticalScrollBarEnabled(false);
         setDividerHeight(fitDp(0));
         setRefreshEnabled(false);
         setAutoLoadMoreEnabled(false);

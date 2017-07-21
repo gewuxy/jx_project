@@ -9,7 +9,7 @@ import lib.ys.adapter.interfaces.IAdapter;
 abstract public class SRScrollableActivityEx<T, A extends IAdapter<T>> extends SRListActivityEx<T, A> {
 
     @Override
-    public int getListViewResId() {
+    public int getScrollableViewId() {
         return R.id.list;
     }
 

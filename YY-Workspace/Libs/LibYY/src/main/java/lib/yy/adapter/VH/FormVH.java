@@ -4,9 +4,11 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.view.ToggleButton;
 import lib.yy.R;
 
 /**
@@ -35,8 +37,16 @@ public class FormVH extends ViewHolderEx {
         return getView(R.id.form_divider);
     }
 
+    public LinearLayout getDividerLayout() {
+        return getView(R.id.form_divider_layout);
+    }
+
     public EditText getEt() {
         return getView(R.id.form_et);
+    }
+
+    public ToggleButton getTbSwitcher() {
+        return getView(R.id.form_tb_switcher);
     }
 
 }

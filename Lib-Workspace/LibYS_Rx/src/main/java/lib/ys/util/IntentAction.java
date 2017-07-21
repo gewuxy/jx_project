@@ -51,6 +51,15 @@ public class IntentAction {
         return new MapAction();
     }
 
+    public static AppAction app() {
+        return new AppAction();
+    }
+
+    public static AnyAction any() {
+        return new AnyAction();
+    }
+
+
     abstract static public class BaseAction {
         protected boolean mCreateChooser;
         protected String mChooserTitle;
@@ -261,6 +270,46 @@ public class IntentAction {
 
             Uri mUri = Uri.parse(buffer.toString());
             Intent mIntent = new Intent(Intent.ACTION_VIEW, mUri);
+            normalLaunch(mIntent);
+        }
+    }
+
+    /**
+     * 指定打开App的场景, 如支付宝, 微信
+     */
+    public static class AppAction extends BaseAction {
+
+        private String mUrl;
+
+        private AppAction() {
+        }
+
+        public AppAction url(String url) {
+            mUrl = url;
+            return this;
+        }
+
+        @Override
+        public void launch() {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
+            normalLaunch(intent);
+        }
+    }
+
+    public static class AnyAction extends BaseAction {
+
+        private Intent mIntent;
+
+        private AnyAction() {
+        }
+
+        public AnyAction intent(Intent i) {
+            mIntent = i;
+            return this;
+        }
+
+        @Override
+        public void launch() {
             normalLaunch(mIntent);
         }
     }

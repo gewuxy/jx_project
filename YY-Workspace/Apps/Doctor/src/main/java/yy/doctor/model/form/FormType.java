@@ -32,6 +32,8 @@ import java.lang.annotation.RetentionPolicy;
 
         FormType.profile_checkbox,
 
+        FormType.toggle_button,
+
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -60,4 +62,5 @@ public @interface FormType {
 
     int profile_checkbox = 30;
 
+    int toggle_button = 40;
 }

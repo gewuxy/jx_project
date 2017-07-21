@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,9 @@ import lib.ys.util.view.ViewUtil;
 /**
  * @author yuansui
  */
-abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx> extends Adapter<VH> implements IFitOpt, ICommonOpt, IAdapter<T> {
+abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
+        extends Adapter<VH>
+        implements IAdapter<T>, IFitOpt, ICommonOpt {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -44,12 +47,14 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
     private OnRecyclerItemClickListener mItemClickListener;
     private boolean mEnableLongClick;
 
+    private HashSet<View> mSetInit;
     private HashMap<View, ViewClickListener> mMapClickLsn = null;
     private OnAdapterClickListener mOnAdapterClickListener;
 
     private Map<VH, KeeperVH> mMapVH;
 
     private Class<VH> mVHClass;
+
 
     public MultiRecyclerAdapterEx() {
         mVHClass = GenericUtil.getClassType(getClass(), IViewHolder.class);
@@ -58,6 +63,7 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
         }
 
         mMapVH = new HashMap<>();
+        mSetInit = new HashSet<>();
     }
 
     @Override
@@ -67,29 +73,36 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
 
         final VH holder = ReflectionUtil.newInst(mVHClass, v);
 
-        initView(holder.getLayoutPosition(), holder, viewType);
-
-        v.setOnClickListener(v1 -> {
-            if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v, holder.getLayoutPosition());
-            }
-        });
-
-        v.setOnLongClickListener(v1 -> {
-            if (mEnableLongClick) {
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemLongClick(v1, holder.getLayoutPosition());
-                }
-                return true;
-            }
-            return false;
-        });
 
         return holder;
     }
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+        View v = holder.getConvertView();
+
+        if (!mSetInit.contains(v)) {
+            mSetInit.add(v);
+
+            initView(position, holder, getItemViewType(position));
+
+            v.setOnClickListener(v1 -> {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(v, holder.getLayoutPosition());
+                }
+            });
+
+            v.setOnLongClickListener(v1 -> {
+                if (mEnableLongClick) {
+                    if (mItemClickListener != null) {
+                        mItemClickListener.onItemLongClick(v1, holder.getLayoutPosition());
+                    }
+                    return true;
+                }
+                return false;
+            });
+        }
+
         setViewHolderKeeper(position, holder, getItemViewType(position));
         refreshView(position, holder, getItemViewType(position));
     }
@@ -431,5 +444,13 @@ abstract public class MultiRecyclerAdapterEx<T, VH extends RecyclerViewHolderEx>
     @Nullable
     public final VH getCacheVH(int position) {
         return getCacheVH(position, getItemViewType(position));
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(VH holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        mSetInit.clear();
+        mMapClickLsn.clear();
     }
 }

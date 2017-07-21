@@ -84,6 +84,10 @@ abstract public class SRFormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        if (isActivityFinishing()) {
+            return;
+        }
+
         IListResult<T> r = (IListResult<T>) result;
         if (r == null || !r.isSucceed() || r.getData() == null) {
             // 表示数据列表返回为null, 解析失败

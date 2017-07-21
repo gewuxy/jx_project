@@ -45,8 +45,10 @@ public class App extends BaseApp {
     @Override
     protected NetworkConfig configureNetwork() {
         return NetworkConfig.newBuilder()
-                .connectTimeout(30000)
-                .readTimeout(30000)
+                .connectTimeout(15)
+                .readTimeout(15)
+                .writeTimeout(15)
+                .timeoutToast(getString(R.string.connect_timeout))
                 .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();
     }

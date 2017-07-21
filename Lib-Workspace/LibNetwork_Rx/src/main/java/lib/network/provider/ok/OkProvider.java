@@ -17,7 +17,6 @@ import lib.network.provider.ok.task.GetTask;
 import lib.network.provider.ok.task.PostTask;
 import lib.network.provider.ok.task.Task;
 import lib.network.provider.ok.task.UploadTask;
-import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -27,20 +26,20 @@ import okhttp3.WebSocketListener;
  */
 public class OkProvider extends BaseProvider {
 
-    private Map<Integer, Call> mCallMap;
+    private Map<Integer, Task> mTaskMap;
 
     public OkProvider(Object tag) {
         super(tag);
 
-        mCallMap = new HashMap<>();
+        mTaskMap = new HashMap<>();
     }
 
     @Override
     public void load(NetworkReq req, final int id, final OnNetworkListener lsn) {
         // FIXME: id的检测应该是在网络callback的时候进行, 暂时先放到这里, 如果出问题的话再更改
-        if (getCall(id) != null) {
-            if (getCall(id).isExecuted()) {
-                mCallMap.remove(id);
+        if (getTask(id) != null) {
+            if (getTask(id).isExecuted()) {
+                mTaskMap.remove(id);
             } else {
                 return;
             }
@@ -72,6 +71,7 @@ public class OkProvider extends BaseProvider {
 
         if (task != null) {
             task.run();
+            mTaskMap.put(id, task);
         }
     }
 
@@ -89,21 +89,22 @@ public class OkProvider extends BaseProvider {
 
     @Override
     public void cancel(int id) {
-        Call c = getCall(id);
-        if (c != null) {
-            c.cancel();
-            mCallMap.remove(id);
+        Task task = getTask(id);
+        if (task != null) {
+            task.cancel();
+            mTaskMap.remove(id);
         }
     }
 
     @Override
     public void cancelAll() {
-        for (Call call : mCallMap.values()) {
-            call.cancel();
+        for (Task task : mTaskMap.values()) {
+            task.cancel();
         }
+        mTaskMap.clear();
     }
 
-    private Call getCall(int id) {
-        return mCallMap.get(id);
+    private Task getTask(int id) {
+        return mTaskMap.get(id);
     }
 }

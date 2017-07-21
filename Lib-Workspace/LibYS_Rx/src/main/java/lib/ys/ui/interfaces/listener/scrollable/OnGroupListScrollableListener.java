@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces.listener.list;
+package lib.ys.ui.interfaces.listener.scrollable;
 
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -12,7 +12,9 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
  *
  * @author yuansui
  */
-public interface OnGroupListOptListener<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>> extends OnListOptListener<GROUP, A> {
+public interface OnGroupListScrollableListener<GROUP, CHILD, A extends IGroupAdapter<GROUP, CHILD>>
+        extends OnListScrollableListener<GROUP, A> {
+
     void setSelectedGroup(int groupPosition);
 
     int getGroupCount();

@@ -122,6 +122,10 @@ public class Builder extends FormBuilderEx<BaseForm> {
                 form = new CheckBoxForm();
             }
             break;
+            case FormType.toggle_button: {
+                form = new ToggleButtonForm();
+            }
+            break;
         }
 
         return form;

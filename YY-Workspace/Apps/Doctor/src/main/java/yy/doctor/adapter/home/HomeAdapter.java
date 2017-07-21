@@ -7,8 +7,8 @@ import lib.ys.util.TimeUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.home.HomeMeetingFolderVH;
 import yy.doctor.adapter.VH.home.HomeMeetingVH;
-import yy.doctor.adapter.home.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.adapter.VH.home.HomeVH;
+import yy.doctor.adapter.home.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.IHome.HomeType;
 import yy.doctor.model.home.RecMeeting;
@@ -73,6 +73,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
             HomeMeetingFolderVH homeMeetingFolderVH = holder.getHomeMeetingFolderVH();
             RecMeetingFolder item = (RecMeetingFolder) getItem(position);
+            homeMeetingFolderVH.getFolderItemLayout().setOnClickListener(v -> showToast("会议文件夹"));
 
         }
     }

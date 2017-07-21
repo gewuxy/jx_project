@@ -1,7 +1,6 @@
 package lib.ys.ui.frag.list;
 
 import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView.ItemAnimator;
 import android.support.v7.widget.RecyclerView.ItemDecoration;
@@ -12,12 +11,12 @@ import java.util.List;
 
 import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
-import lib.ys.adapter.VH.RecyclerViewHolderEx;
-import lib.ys.adapter.recycler.MultiRecyclerAdapterEx;
+import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.frag.FragEx;
-import lib.ys.ui.interfaces.impl.list.RecyclerViewOpt;
+import lib.ys.ui.interfaces.IScrollable;
+import lib.ys.ui.interfaces.impl.scrollable.RecyclerScrollable;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnRecyclerViewOptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnRecyclerScrollableListener;
 import lib.ys.view.recycler.WrapRecyclerView;
 
 /**
@@ -25,28 +24,31 @@ import lib.ys.view.recycler.WrapRecyclerView;
  *
  * @param <T>
  */
-abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerViewOptListener<T> {
+abstract public class RecyclerFragEx<T, A extends IAdapter<T>> extends FragEx
+        implements OnRecyclerScrollableListener<T, A> {
 
-    private RecyclerViewOpt<T> mRecyclerOpt = new RecyclerViewOpt<>(this);
+    private RecyclerScrollable<T, A> mScrollable = new RecyclerScrollable<>(this);
 
     @Override
     public int getContentViewId() {
         return R.layout.recycler_layout;
     }
 
+    @Override
+    public int getScrollableViewId() {
+        return R.id.recycler_view;
+    }
+
     @CallSuper
     @Override
     public void findViews() {
-        mRecyclerOpt.findViews(getDecorView(), getRvResId(), createHeaderView(), createFooterView(), createEmptyView());
+        mScrollable.findViews(getDecorView(), getScrollableViewId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
     @CallSuper
     @Override
     public void setViews() {
-        if (mRecyclerOpt.isAdapterNull()) {
-            mRecyclerOpt.createAdapter(createAdapter());
-        }
-        mRecyclerOpt.setViews(initLayoutManager(), initItemDecoration(), initItemAnimator());
+        mScrollable.setViews(initLayoutManager(), initItemDecoration(), initItemAnimator());
     }
 
     /**
@@ -77,11 +79,6 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
     }
 
     @Override
-    public int getRvResId() {
-        return R.id.recycler_view;
-    }
-
-    @Override
     public View createHeaderView() {
         return null;
     }
@@ -97,11 +94,8 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
     }
 
     @Override
-    abstract public MultiRecyclerAdapterEx<T, ? extends RecyclerViewHolderEx> createAdapter();
-
-    @Override
-    public MultiRecyclerAdapterEx<T, ? extends RecyclerViewHolderEx> getAdapter() {
-        return (MultiRecyclerAdapterEx<T, ? extends RecyclerViewHolderEx>) mRecyclerOpt.getAdapter();
+    public A getAdapter() {
+        return mScrollable.getAdapter();
     }
 
     @Override
@@ -114,22 +108,22 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
 
     @Override
     public void hideFooterView() {
-        mRecyclerOpt.hideFooterView();
+        mScrollable.hideFooterView();
     }
 
     @Override
     public void showFooterView() {
-        mRecyclerOpt.showFooterView();
+        mScrollable.showFooterView();
     }
 
     @Override
     public void showHeaderView() {
-        mRecyclerOpt.showHeaderView();
+        mScrollable.showHeaderView();
     }
 
     @Override
     public void hideHeaderView() {
-        mRecyclerOpt.hideHeaderView();
+        mScrollable.hideHeaderView();
     }
 
     public void getDataFromNet() {
@@ -146,99 +140,99 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
     }
 
     @Override
-    public void setData(List list) {
-        mRecyclerOpt.setData(list);
+    public void setData(List<T> ts) {
+        mScrollable.setData(ts);
     }
 
     @Override
     public void addItem(T item) {
-        mRecyclerOpt.addItem(item);
+        mScrollable.addItem(item);
     }
 
     @Override
     public void addItem(int position, T item) {
-        mRecyclerOpt.addItem(position, item);
+        mScrollable.addItem(position, item);
     }
 
     @Override
     public void addAll(List<T> data) {
-        mRecyclerOpt.addAll(data);
+        mScrollable.addAll(data);
     }
 
     @Override
     public void addAll(int position, List<T> item) {
-        mRecyclerOpt.addAll(position, item);
+        mScrollable.addAll(position, item);
     }
 
     @Override
     public void invalidate() {
-        mRecyclerOpt.invalidate();
+        mScrollable.invalidate();
     }
 
     @Override
     public void remove(int position) {
-        mRecyclerOpt.remove(position);
+        mScrollable.remove(position);
     }
 
     @Override
     public void remove(T item) {
-        mRecyclerOpt.remove(item);
+        mScrollable.remove(item);
     }
 
     @Override
     public void removeAll() {
-        mRecyclerOpt.removeAll();
+        mScrollable.removeAll();
     }
 
     @Override
     public List<T> getData() {
-        return mRecyclerOpt.getData();
+        return mScrollable.getData();
     }
 
     @Override
     public int getCount() {
-        return mRecyclerOpt.getCount();
+        return mScrollable.getCount();
     }
 
     @Override
     public int getLastItemPosition() {
-        return mRecyclerOpt.getLastItemPosition();
+        return mScrollable.getLastItemPosition();
     }
 
     @Override
     public T getItem(int position) {
-        return mRecyclerOpt.getItem(position);
+        return mScrollable.getItem(position);
     }
 
     @Override
     public boolean isEmpty() {
-        return mRecyclerOpt.isEmpty();
+        return mScrollable.isEmpty();
     }
 
 
     @Override
     public void setOnAdapterClickListener(OnAdapterClickListener listener) {
-        mRecyclerOpt.setOnAdapterClickListener(listener);
+        mScrollable.setOnAdapterClickListener(listener);
     }
 
     @Override
     public void setOnScrollListener(OnScrollMixListener listener) {
-        mRecyclerOpt.addOnScrollListener(listener);
+        mScrollable.addOnScrollListener(listener);
     }
 
     @Override
     public int getItemRealPosition(int position) {
-        return mRecyclerOpt.getItemRealPosition(position);
+        return mScrollable.getItemRealPosition(position);
     }
 
     @Override
     public int getFirstVisiblePosition() {
-        return mRecyclerOpt.getFirstVisiblePosition();
+        return mScrollable.getFirstVisiblePosition();
     }
 
     @Override
     public View getChildAt(int index) {
-        return mRecyclerOpt.getChildAt(index);
+        return mScrollable.getChildAt(index);
     }
 
     @Override
@@ -250,18 +244,18 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
     }
 
     @Override
-    public void addEmptyViewIfNoNull() {
-        mRecyclerOpt.addEmptyViewIfNonNull();
+    public void addEmptyViewIfNonNull() {
+        mScrollable.addEmptyViewIfNonNull();
     }
 
     @Override
     public void setSelection(int position) {
-        mRecyclerOpt.setSelection(position);
+        mScrollable.setSelection(position);
     }
 
     @Override
     public void smoothScrollToPosition(int position) {
-        mRecyclerOpt.smoothScrollToPosition(position);
+        mScrollable.smoothScrollToPosition(position);
     }
 
     @Override
@@ -271,20 +265,22 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mRecyclerOpt.onDestroy();
+        mScrollable.onDestroy();
     }
 
     @Override
     public int getHeaderViewPosition() {
-        return mRecyclerOpt.getHeaderViewPosition();
+        return mScrollable.getHeaderViewPosition();
     }
 
-    protected WrapRecyclerView getRv() {
-        return mRecyclerOpt.getRv();
+    @Override
+    public IScrollable<T> getScrollable() {
+        return mScrollable;
     }
 
-    protected RecyclerViewOpt<T> getRecyclerOpt() {
-        return mRecyclerOpt;
+    @Override
+    public View getScrollableView() {
+        return mScrollable.getScrollableView();
     }
 
     /**
@@ -295,16 +291,19 @@ abstract public class RecyclerFragEx<T> extends FragEx implements OnRecyclerView
      * @return
      */
     @Override
-    public <T extends View> T findView(@IdRes int id) {
+    public <T extends View> T findView(int id) {
         View v = super.findView(id);
         if (v == null) {
-            v = getRv().findViewInHeaderById(id);
+            if (getScrollableView() instanceof WrapRecyclerView) {
+                v = ((WrapRecyclerView) getScrollableView()).findViewInHeaderById(id);
+            }
         }
+
         if (v == null) {
-            v = getRv().findViewInFooterById(id);
+            if (getScrollableView() instanceof WrapRecyclerView) {
+                v = ((WrapRecyclerView) getScrollableView()).findViewInFooterById(id);
+            }
         }
         return (T) v;
     }
-
-
 }

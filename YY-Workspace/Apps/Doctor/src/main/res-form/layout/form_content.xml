@@ -15,20 +15,13 @@
 
             <ImageView
                 android:id="@id/form_iv"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginLeft="@dimen/margin_large"
-                android:layout_marginRight="@dimen/margin"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:background="@color/divider"/>
+                android:layout_marginRight="@dimen/margin_large"/>
 
             <TextView
-                style="@style/tv.form.name"
-                android:layout_marginLeft="@dimen/margin"
-                android:text=""/>
+                style="@style/tv.form.name"/>
 
         </LinearLayout>
 
@@ -41,14 +34,13 @@
 
             <TextView
                 style="@style/tv.form.text"
-                android:layout_marginRight="@dimen/margin"
-                android:text=""/>
+                android:layout_marginRight="@dimen/margin"/>
 
             <ImageView
                 style="@style/iv.arrow.align_right"
                 android:layout_marginRight="@dimen/margin_large"/>
-        </LinearLayout>
 
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -16,8 +16,8 @@ import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnSROptListener;
-import lib.ys.ui.interfaces.impl.list.SROpt;
+import lib.ys.ui.interfaces.listener.scrollable.OnSROptListener;
+import lib.ys.ui.interfaces.impl.scrollable.SROpt;
 
 /**
  * 下拉刷新 group list
@@ -28,7 +28,7 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
         extends GroupListActivityEx<GROUP, CHILD, A>
         implements OnSROptListener {
 
-    private SROpt<GROUP> mSROpt = new SROpt<>(this, getGroupListOpt());
+    private SROpt<GROUP> mSROpt = new SROpt<>(this);
 
     @Override
     public int getContentViewId() {
@@ -36,7 +36,7 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
     }
 
     @Override
-    public int getListViewResId() {
+    public int getScrollableViewId() {
         return R.id.sr_group_list_view;
     }
 
@@ -239,7 +239,9 @@ abstract public class SRGroupListActivityEx<GROUP, CHILD, A extends IGroupAdapte
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        mSROpt.onNetworkSuccess((IListResult) result);
+        if (!isFinishing()) {
+            mSROpt.onNetworkSuccess((IListResult) result);
+        }
     }
 
     @Override

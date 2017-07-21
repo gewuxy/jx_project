@@ -10,6 +10,9 @@
     <item name="form_iv" type="id"/>
     <item name="form_iv_arrow" type="id"/>
 
+    <item name="form_divider_layout" type="id"/>
     <item name="form_divider" type="id"/>
+
+    <item name="form_tb_switcher" type="id"/>
 
 </resources>

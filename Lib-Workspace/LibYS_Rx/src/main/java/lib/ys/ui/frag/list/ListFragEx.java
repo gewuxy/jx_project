@@ -3,7 +3,6 @@ package lib.ys.ui.frag.list;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ListView;
 
 import java.util.List;
 
@@ -11,15 +10,16 @@ import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.frag.FragEx;
-import lib.ys.ui.interfaces.impl.list.ListOpt;
+import lib.ys.ui.interfaces.IScrollable;
+import lib.ys.ui.interfaces.impl.scrollable.ListScrollable;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
-import lib.ys.ui.interfaces.listener.list.OnListOptListener;
+import lib.ys.ui.interfaces.listener.scrollable.OnListScrollableListener;
 import lib.ys.ui.other.NavBar;
 
 
-abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implements OnListOptListener<T, A> {
+abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implements OnListScrollableListener<T, A> {
 
-    private ListOpt<T, A> mListOpt = new ListOpt<>(this);
+    private ListScrollable<T, A> mScrollable = new ListScrollable<>(this);
 
 
     @Override
@@ -27,21 +27,21 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
         return R.layout.list_layout;
     }
 
+    @Override
+    public int getScrollableViewId() {
+        return R.id.list;
+    }
+
     @CallSuper
     @Override
     public void findViews() {
-        mListOpt.findViews(getDecorView(), getListViewResId(), createHeaderView(), createFooterView(), createEmptyView());
+        mScrollable.findViews(getDecorView(), getScrollableViewId(), createHeaderView(), createFooterView(), createEmptyView());
     }
 
     @CallSuper
     @Override
     public void setViews() {
-        mListOpt.setViews();
-    }
-
-    @Override
-    public int getListViewResId() {
-        return R.id.list;
+        mScrollable.setViews();
     }
 
     @Nullable
@@ -64,7 +64,7 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
 
     @Override
     public A getAdapter() {
-        return mListOpt.getAdapter();
+        return mScrollable.getAdapter();
     }
 
     @Override
@@ -77,22 +77,22 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
 
     @Override
     public void hideFooterView() {
-        mListOpt.hideFooterView();
+        mScrollable.hideFooterView();
     }
 
     @Override
     public void showFooterView() {
-        mListOpt.showFooterView();
+        mScrollable.showFooterView();
     }
 
     @Override
     public void showHeaderView() {
-        mListOpt.showHeaderView();
+        mScrollable.showHeaderView();
     }
 
     @Override
     public void hideHeaderView() {
-        mListOpt.hideHeaderView();
+        mScrollable.hideHeaderView();
     }
 
     public void getDataFromNet() {
@@ -110,97 +110,97 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
 
     @Override
     public void setData(List<T> list) {
-        mListOpt.setData(list);
+        mScrollable.setData(list);
     }
 
     @Override
     public void addItem(T item) {
-        mListOpt.addItem(item);
+        mScrollable.addItem(item);
     }
 
     @Override
     public void addItem(int position, T item) {
-        mListOpt.addItem(position, item);
+        mScrollable.addItem(position, item);
     }
 
     @Override
     public void addAll(List<T> data) {
-        mListOpt.addAll(data);
+        mScrollable.addAll(data);
     }
 
     @Override
     public void addAll(int position, List<T> item) {
-        mListOpt.addAll(position, item);
+        mScrollable.addAll(position, item);
     }
 
     @Override
     public void invalidate() {
-        mListOpt.invalidate();
+        mScrollable.invalidate();
     }
 
     @Override
     public void remove(int position) {
-        mListOpt.remove(position);
+        mScrollable.remove(position);
     }
 
     @Override
     public void remove(T item) {
-        mListOpt.remove(item);
+        mScrollable.remove(item);
     }
 
     @Override
     public void removeAll() {
-        mListOpt.removeAll();
+        mScrollable.removeAll();
     }
 
     @Override
     public List<T> getData() {
-        return mListOpt.getData();
+        return mScrollable.getData();
     }
 
     @Override
     public int getCount() {
-        return mListOpt.getCount();
+        return mScrollable.getCount();
     }
 
     @Override
     public int getLastItemPosition() {
-        return mListOpt.getLastItemPosition();
+        return mScrollable.getLastItemPosition();
     }
 
     @Override
     public T getItem(int position) {
-        return mListOpt.getItem(position);
+        return mScrollable.getItem(position);
     }
 
     @Override
     public boolean isEmpty() {
-        return mListOpt.isEmpty();
+        return mScrollable.isEmpty();
     }
 
     @Override
     public void setOnAdapterClickListener(OnAdapterClickListener listener) {
-        mListOpt.setOnAdapterClickListener(listener);
+        mScrollable.setOnAdapterClickListener(listener);
     }
 
     @Override
     public void setOnScrollListener(OnScrollMixListener listener) {
-        mListOpt.setOnScrollListener(listener);
+        mScrollable.setOnScrollListener(listener);
     }
 
     @Override
     public int getItemRealPosition(int position) {
-        return mListOpt.getItemRealPosition(position);
+        return mScrollable.getItemRealPosition(position);
     }
 
     @Override
     public int getFirstVisiblePosition() {
-        return mListOpt.getFirstVisiblePosition();
+        return mScrollable.getFirstVisiblePosition();
     }
 
     @Override
     public View getChildAt(int index) {
-        return mListOpt.getChildAt(index);
+        return mScrollable.getChildAt(index);
     }
 
     @Override
@@ -213,17 +213,17 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
 
     @Override
     public void addEmptyViewIfNonNull() {
-        mListOpt.addEmptyViewIfNonNull();
+        mScrollable.addEmptyViewIfNonNull();
     }
 
     @Override
     public void setSelection(int position) {
-        mListOpt.setSelection(position);
+        mScrollable.setSelection(position);
     }
 
     @Override
     public void smoothScrollToPosition(int position) {
-        mListOpt.smoothScrollToPosition(position);
+        mScrollable.smoothScrollToPosition(position);
     }
 
     @Override
@@ -233,29 +233,31 @@ abstract public class ListFragEx<T, A extends IAdapter<T>> extends FragEx implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mListOpt.onDestroy();
+        mScrollable.onDestroy();
     }
 
     @Override
     public int getHeaderViewPosition() {
-        return mListOpt.getHeaderViewPosition();
+        return mScrollable.getHeaderViewPosition();
     }
 
     @Override
     public void changeAlphaByScroll(int height, NavBar navBar) {
-        mListOpt.changeAlphaByScroll(height, navBar);
+        mScrollable.changeAlphaByScroll(height, navBar);
     }
 
     @Override
     public void setDividerHeight(int height) {
-        mListOpt.setDividerHeight(height);
+        mScrollable.setDividerHeight(height);
     }
 
-    protected ListView getLv() {
-        return mListOpt.getLv();
+    @Override
+    public View getScrollableView() {
+        return mScrollable.getScrollableView();
     }
 
-    protected ListOpt<T, A> getListOpt() {
-        return mListOpt;
+    @Override
+    public IScrollable<T> getScrollable() {
+        return mScrollable;
     }
 }
