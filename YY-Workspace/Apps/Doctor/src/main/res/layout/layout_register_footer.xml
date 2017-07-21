@@ -7,37 +7,77 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:layout_marginTop="@dimen/margin">
+        android:layout_height="52dip">
 
         <EditText
             android:id="@+id/register_et_capcha"
             style="@style/et.common"
             android:layout_height="50dip"
-            android:singleLine="true"
-            android:inputType="number"
+            android:hint="请输入YaYa医师注册激活码"
             android:imeActionLabel="@string/register"
             android:imeOptions="actionGo"
-            android:hint="激活码"/>
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_888"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/register_tv_ActivatedCode"
+            android:background="@color/divider"/>
 
         <TextView
-            android:id="@+id/register_tv_capcha"
+            android:id="@+id/register_tv_ActivatedCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin"
-            android:background="@drawable/captcha_view_selector"
-            android:clickable="true"
             android:layout_centerVertical="true"
-            android:padding="10dip"
+            android:layout_marginRight="@dimen/margin"
+            android:clickable="true"
             android:text="获取激活码"
-            android:textColor="@color/text_0882e7"/>
+            android:textColor="@color/text_0882e7"
+            android:textSize="15dp"/>
+
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/register"
-        style="@style/tv.common"
-        android:layout_marginTop="30dp"
-        android:text="注册"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/register"
+            style="@style/tv.common"
+            android:layout_width="match_parent"
+            android:layout_marginTop="52dp"
+            android:background="@drawable/btn_selector"
+            android:text="注册"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/register_tv_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="38dp"
+            android:text="点击“注册”即表示您同意"
+            android:textColor="#b3b3b3"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="26dp"
+            android:layout_marginTop="8dp"
+            android:text="《敬信科技YaYa医师服务协议》"
+            android:textColor="#0882e7"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
 
 </LinearLayout>

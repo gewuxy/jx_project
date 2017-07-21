@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/hospital_baidu_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/text_fff"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hospital_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="14dp"
+            android:text="广州市第一人民医院"
+            android:textColor="@color/text_333"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/hospital_distance"
+            style="@style/tv"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@mipmap/hospital_ic_bai_du_location"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="12m"
+            android:textColor="@color/text_888"
+            android:textSize="11dp"/>
+
+        <TextView
+            android:id="@+id/hospital_address"
+            style="@style/tv"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="14dp"
+            android:text="广东省广州市天河区猎德珠江新城人民路125号"
+            android:textColor="@color/text_888"/>
+    </LinearLayout>
+
+    <View
+        style="@style/divider"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"/>
+</LinearLayout>

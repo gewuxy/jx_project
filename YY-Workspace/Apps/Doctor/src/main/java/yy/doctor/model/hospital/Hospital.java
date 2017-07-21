@@ -8,10 +8,16 @@ import yy.doctor.model.hospital.Hospital.THospital;
  * 创建人 : guoxuan
  */
 
-public class Hospital extends EVal<THospital> {
+public class Hospital extends EVal<THospital> implements IHospital {
+
+    public int getType() {
+        return HospitalType.hospital_data;
+    }
 
     public enum THospital {
         alpha,//首字母
         name,//名字
+        distance,
+        address,
     }
 }

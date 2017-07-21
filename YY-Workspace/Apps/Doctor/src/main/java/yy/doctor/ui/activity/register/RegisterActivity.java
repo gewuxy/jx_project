@@ -39,7 +39,7 @@ import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 
 /**
- * 注册界面
+ * 注册界面  7.0
  * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
@@ -51,7 +51,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
     private AutoCompleteEditText mEtEmail;
     private EditText mEtCapcha;      //填写激活码
-    private TextView mTvCapcha;   //获取激活码
+    private TextView mTvActivatedCode;   //获取激活码
     private TextView mTvRegister;     //注册
     private String mUserName;       //用户名
     private String mPwd;            //密码
@@ -147,10 +147,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         mEtEmail = findView(R.id.register_auto_et_emai);
         mEtCapcha = findView(R.id.register_et_capcha);
-        mTvCapcha = findView(R.id.register_tv_capcha);
+        mTvActivatedCode = findView(R.id.register_tv_ActivatedCode);
         mTvRegister = findView(R.id.register);
 
-        setOnClickListener(mTvCapcha);
+        setOnClickListener(mTvActivatedCode);
         setOnClickListener(mTvRegister);
         mEtCapcha.setOnEditorActionListener(this);
     }
@@ -158,7 +158,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_tv_capcha:
+            case R.id.register_tv_ActivatedCode:
                 startActivity(CaptchaActivity.class);
                 break;
             case R.id.register:
@@ -219,7 +219,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
 
         // 检查姓名 是否有特殊符号
-        if (RegexUtil.checkSpecialSymbol(getItemStr(RelatedId.name))) {
+        if (Util.checkNameLegal(getItemStr(RelatedId.name))) {
             showToast(R.string.input_real_name);
             return;
         }
@@ -287,7 +287,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
                 place.put(TPlace.province, getString(R.string.guang_dong));
                 place.put(TPlace.city, getString(R.string.guang_zhou));
-                HospitalActivity.nav(RegisterActivity.this, place);
+                HospitalActivity.nav(RegisterActivity.this);
             }
             break;
         }

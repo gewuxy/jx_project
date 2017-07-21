@@ -39,9 +39,8 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     private String mProvince;
     private String mCity;
 
-    public static void nav(Context context, Place place) {
-        Intent i = new Intent(context, HospitalActivity.class)
-                .putExtra(Extra.KData, place);
+    public static void nav(Context context) {
+        Intent i = new Intent(context, HospitalActivity.class);
         LaunchUtil.startActivityForResult(context, i, 0);
     }
 
@@ -54,9 +53,8 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
     public void initData() {
         super.initData();
         //默认
-        Place place = (Place) getIntent().getSerializableExtra(Extra.KData);
-        mProvince = place.getString(TPlace.province);
-        mCity = place.getString(TPlace.city);
+        mProvince = getString(R.string.guang_dong);
+        mCity = getString(R.string.guang_zhou);
     }
 
     @Override

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/hospital_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/bg_f5f5f5">
+
+        <ImageView
+            android:id="@+id/hospital_search_iv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/nav_bar_ic_search_gray"/>
+
+        <TextView
+            android:id="@+id/hospital_search_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:hint="搜索医院"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_888"
+            android:background="@drawable/transparent"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>
