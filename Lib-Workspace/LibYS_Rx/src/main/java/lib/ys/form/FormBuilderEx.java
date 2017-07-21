@@ -69,6 +69,7 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
 
     private String mToast;
     private int mPaddingLeft;
+    private int mPaddingRight;
 
 
     public FormBuilderEx(int type) {
@@ -233,6 +234,11 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
 
     public <T extends FormBuilderEx<FORM>> T paddingLeft(int leftDp) {
         mPaddingLeft = leftDp;
+        return (T) this;
+    }
+
+    public <T extends FormBuilderEx<FORM>> T paddingRight(int rightDp) {
+        mPaddingRight = rightDp;
         return (T) this;
     }
 
