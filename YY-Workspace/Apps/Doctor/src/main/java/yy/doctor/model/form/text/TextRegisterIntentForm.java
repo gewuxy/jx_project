@@ -56,6 +56,7 @@ public class TextRegisterIntentForm extends BaseForm {
     @Override
     protected void refresh(FormVH holder) {
         super.refresh(holder);
+        setIvIfValid(holder.getIv(), getInt(TForm.drawable));
         setTextIfExist(holder.getTvText(), getString(TForm.name));
     }
 
@@ -87,6 +88,9 @@ public class TextRegisterIntentForm extends BaseForm {
             String hospital = data.getStringExtra(Extra.KData);
             put(TForm.name, hospital);
             save(hospital, hospital);
+            Integer t = data.getIntExtra(Extra.KId,1);
+            put(TForm.data,hospital);
+            save(hospital,hospital);
         } else if (mClick == IntentType.medicine) {
             String medicine = data.getStringExtra(Extra.KData);
             put(TForm.name, medicine);

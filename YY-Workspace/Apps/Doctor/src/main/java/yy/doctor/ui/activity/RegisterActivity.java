@@ -17,6 +17,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
+import lib.bd.location.Gps;
+import lib.bd.location.Gps.TGps;
+import lib.bd.location.Location;
+import lib.bd.location.LocationNotifier;
+import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
@@ -26,7 +31,10 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionResult;
 import lib.yy.model.form.BaseForm;
+import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -52,6 +60,8 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.ui.activity.register.ScanActivity;
 import yy.doctor.util.Util;
 
+import static yy.doctor.R.string.province_city_district;
+
 
 /**
  * 注册界面  7.1
@@ -59,7 +69,7 @@ import yy.doctor.util.Util;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener {
+public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener,OnLocationNotify{
 
     private static final int KRegister = 0;
     private static final int KLogin = 1;
@@ -78,6 +88,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     private CountDown mCountDown;
     private int mRelatedId;
     private View mTvReg;
+    private BaseHintDialog mDialog;
+
+
+
 
 
     @IntDef({
@@ -149,7 +163,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         addItem(new Builder(FormType.register_divider).build());
         addItem(new Builder(FormType.text_register_intent)
                 .related(RelatedId.location)
-                .hint(R.string.province_city_district)
+                .hint(province_city_district)
                 .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
                 .build());
 
@@ -159,7 +173,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
-                        //.putExtra(Extra.KData, IntentType.hospital))
+                .drawable(R.mipmap.hospital_level_other)
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
@@ -215,6 +229,16 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         setOnClickListener(R.id.register);
         setOnClickListener(mTvActivatedCode);
+
+
+        //检查有没有定位权限   没有的话直接弹dialog
+        if (checkPermission(0, Permission.location)) {
+            Location.inst().start();
+        } else {
+            onLocationError();
+        }
+
+        LocationNotifier.inst().add(this);
 
         String str = "点击<font color='#888888'>“注册”</font>即表示您同意";
         mTvAgree.setText(Html.fromHtml(str));
@@ -392,7 +416,47 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             refreshItem(form);
         }
     }
+    @Override
+    public void onPermissionResult(int code, @PermissionResult int result) {
+        switch (result) {
+            case PermissionResult.granted: {
+                Location.inst().start();
+            }
+            break;
+            case PermissionResult.denied:
+            case PermissionResult.never_ask: {
+                onLocationError();
+            }
+            break;
+        }
+    }
 
+    @Override
+    public void onLocationResult(boolean isSuccess, Gps gps) {
+        if (isSuccess) {
+            //定位成功
+            Place place = gps.getEv(TGps.place);
+            String mLocation = Util.generatePcd(place.getString(TPlace.province), place.getString(TPlace.city), place.getString(TPlace.district));
+            TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
+            text.setText(mLocation);
+        }else {
+            //定位失败  显示dialog
+            // FIXME: 失败
+            YSLog.d("Gps", "失败");
+            onLocationError();
+        }
+    }
+    /**
+     * 初始化Dialog
+     */
+    private void onLocationError() {
+        onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
+
+        mDialog = new BaseHintDialog(this);
+        mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
+        mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
+        mDialog.show();
+    }
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KLogin) {

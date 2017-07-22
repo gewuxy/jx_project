@@ -33,11 +33,13 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.HospitalBaiDuAdapter;
 import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.dialog.LevelDialog;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.HospitalTitle;
@@ -66,9 +68,13 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
 
     private boolean mIsFirst = true;
 
+    private LevelDialog mLevelDialog;
+
+
     @Override
     public void initData() {
         mSearch = PoiSearch.newInstance();
+
     }
 
     @Override
@@ -144,11 +150,11 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     public void onItemClick(View v, int position) {
         IHospital item = getItem(position);
         if (item.getType() != HospitalType.hospital_title) {
-            Hospital hospital = (Hospital) item;
+            showLevelDialog();
+           /* Hospital hospital = (Hospital) item;
             Intent intent = new Intent().putExtra(Extra.KData, hospital.getString(THospital.name));
             setResult(RESULT_OK, intent);
-            //showToast(hospital.getString(THospital.name));
-            finish();
+            finish();*/
         }
     }
 
@@ -188,6 +194,15 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
         double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
 
         return d * 1000;
+    }
+
+    /**
+     * 初始化Dialog
+     */
+    private void showLevelDialog() {
+        mLevelDialog = new LevelDialog(this);
+        //mLevelDialog.setLocationListener(v -> attend());
+        mLevelDialog.show();
     }
 
     @Override
@@ -276,6 +291,22 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
         mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
         mDialog.show();
     }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        super.onNotify(type, data);
+        if (type == NotifyType.hospital_finish) {
+            String name = (String) data;
+            Intent intent = new Intent().putExtra(Extra.KData,name);
+            setResult(RESULT_OK,intent);
+            this.finish();
+        }else if (type == NotifyType.dialog_miss) {
+            Integer three = (Integer) data;
+            Intent intent = new Intent().putExtra(Extra.KId,three);
+            setResult(RESULT_OK,intent);
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
