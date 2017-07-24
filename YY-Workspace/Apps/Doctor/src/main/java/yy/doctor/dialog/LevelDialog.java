@@ -2,13 +2,12 @@ package yy.doctor.dialog;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
 import lib.yy.dialog.BaseDialog;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 
 /**
@@ -17,6 +16,11 @@ import yy.doctor.R;
  */
 
 public class LevelDialog extends BaseDialog {
+
+    public interface OnLevelListener {
+        void checkLevel(@DrawableRes int resId);
+    }
+
     private TextView mLevel_Three;
     private TextView mLevel_Two;
     private TextView mLevel_One;
@@ -25,13 +29,18 @@ public class LevelDialog extends BaseDialog {
     private TextView mLevel_Clinic;
     private TextView mLevel_Other;
 
+    private OnLevelListener mListener;
+
+    public void setListener(OnLevelListener l) {
+        mListener = l;
+    }
+
     public LevelDialog(Context context) {
         super(context);
     }
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -64,45 +73,50 @@ public class LevelDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
+        @DrawableRes int resId = R.mipmap.hospital_level_three;
         switch (v.getId()){
             case R.id.level_three:
-                Drawable three = getContext().getResources().getDrawable(R.mipmap.hospital_level_three);
-                showToast("你好1");
-                Notifier.inst().notify(NotifyType.dialog_miss,three);
-                dismiss();
+
+                resId = R.mipmap.hospital_level_three;
+//                dismiss();
                 break;
             case R.id.level_two:
-                Drawable two = getContext().getResources().getDrawable(R.mipmap.hospital_level_two);
-                showToast("你好2");
+//                Drawable two = getContext().getResources().getDrawable(R.mipmap.hospital_level_two);
+//                resId = R.mipmap.hospital_level_two;
                 dismiss();
                 break;
             case R.id.level_one:
+                resId = R.mipmap.hospital_level_one;
                 Drawable one = getContext().getResources().getDrawable(R.mipmap.hospital_level_one);
                 showToast("你好3");
                 dismiss();
                 break;
             case R.id.level_community:
-                Drawable society = getContext().getResources().getDrawable(R.mipmap.hospital_level_community);
-                showToast("你好4");
+                resId = R.mipmap.hospital_level_community;
+//                Drawable society = getContext().getResources().getDrawable(R.mipmap.hospital_level_community);
+//                showToast("你好4");
                 dismiss();
                 break;
             case R.id.level_village:
-                Drawable village = getContext().getResources().getDrawable(R.mipmap.hospital_level_village);
-                showToast("你好5");
+                resId = R.mipmap.hospital_level_village;
                 dismiss();
                 break;
             case R.id.level_clinic:
-                Drawable clinic = getContext().getResources().getDrawable(R.mipmap.hospital_level_clinic);
-                showToast("你好6");
+                resId = R.mipmap.hospital_level_clinic;
+
                 dismiss();
                 break;
             case R.id.level_other:
-                Drawable other = getContext().getResources().getDrawable(R.mipmap.hospital_level_other);
-                showToast("你好7");
+                resId = R.mipmap.hospital_level_other;
+
+//                Drawable other = getContext().getResources().getDrawable(R.mipmap.hospital_level_other);
+//                showToast("你好7");
                 dismiss();
                 break;
 
+        }
+        if (mListener!= null) {
+            mListener.checkLevel(resId);
         }
     }
 }

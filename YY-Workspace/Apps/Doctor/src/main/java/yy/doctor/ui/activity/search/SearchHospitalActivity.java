@@ -60,6 +60,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     private LatLng mLatLng;
     private String mStrSearch;
     private final int KLimit = 12;
+    private IHospital mCheckItem;
 
     @Override
     public void initData() {

@@ -8,6 +8,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -60,14 +61,13 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.ui.activity.register.ScanActivity;
 import yy.doctor.util.Util;
 
-
 /**
  * 注册界面  7.1
  * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener,OnLocationNotify{
+public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener, OnLocationNotify, OnCountDownListener {
 
     private static final int KRegister = 0;
     private static final int KLogin = 1;
@@ -87,10 +87,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     private int mRelatedId;
     private View mTvReg;
     private BaseHintDialog mDialog;
-
-
-
-
 
     @IntDef({
             RelatedId.name,
@@ -171,7 +167,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
-                .drawable(R.mipmap.hospital_level_other)
+//                .drawable(R.mipmap.hospital_level_other)
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
@@ -195,8 +191,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
-
-
     }
 
     @Override
@@ -229,15 +223,14 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         setOnClickListener(mTvActivatedCode);
 
 
+        LocationNotifier.inst().add(this);
+
         //检查有没有定位权限   没有的话直接弹dialog
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
         } else {
             onLocationError();
         }
-
-        LocationNotifier.inst().add(this);
-
         String str = "点击<font color='#888888'>“注册”</font>即表示您同意";
         mTvAgree.setText(Html.fromHtml(str));
         mEtActivatedCode.setOnEditorActionListener(this);
@@ -334,7 +327,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         mRelatedId = i;
         switch (mRelatedId) {
             case RelatedId.captcha: {
-
                 count++;
                 String str = getRelatedItem(RelatedId.phone_number).getHolder().getEt().getText().toString();
                 BaseHintDialog baseHintDialog = new BaseHintDialog(this);
@@ -350,20 +342,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                     ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).change();
                     if (mCountDown == null) {
                         mCountDown = new CountDown();
-                        mCountDown.setListener(new OnCountDownListener() {
-                            @Override
-                            public void onCountDown(long remainCount) {
-                                if (remainCount != 0) {
-                                    if (count > 3) {
-                                        showToast("获取验证码太频繁");
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCountDownErr() {
-                            }
-                        });
+                        mCountDown.setListener(this);
                     }
                     mCountDown.start(TimeUnit.SECONDS.toSeconds(60));
                 });
@@ -371,8 +350,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                     baseHintDialog.dismiss();
                 });
                 baseHintDialog.show();
-
-
             }
             break;
             case RelatedId.pwd: {
@@ -414,6 +391,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             refreshItem(form);
         }
     }
+
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
@@ -435,15 +413,37 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             //定位成功
             Place place = gps.getEv(TGps.place);
             String mLocation = Util.generatePcd(place.getString(TPlace.province), place.getString(TPlace.city), place.getString(TPlace.district));
-            TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
-            text.setText(mLocation);
-        }else {
+            getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
+                    text.setText(mLocation);
+                    removeOnPreDrawListener(this);
+                    return true;
+                }
+            });
+        } else {
             //定位失败  显示dialog
             // FIXME: 失败
             YSLog.d("Gps", "失败");
             onLocationError();
         }
+        Location.inst().stop();
     }
+
+    @Override
+    public void onCountDown(long remainCount) {
+        if (remainCount != 0) {
+            if (count > 3) {
+                showToast("获取验证码太频繁");
+            }
+        }
+    }
+
+    @Override
+    public void onCountDownErr() {
+    }
+
     /**
      * 初始化Dialog
      */
@@ -455,6 +455,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
         mDialog.show();
     }
+
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KLogin) {
@@ -495,12 +496,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
-        super.onNetworkError(id, error);
-
-    }
-
-    @Override
     protected void onDestroy() {
         EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
         item.recycle();
@@ -508,6 +503,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             mCountDown.recycle();
         }
 
+        if (mDialog != null) {
+            mDialog.dismiss();
+
+        }
+        Location.inst().onDestroy();
         super.onDestroy();
     }
 }

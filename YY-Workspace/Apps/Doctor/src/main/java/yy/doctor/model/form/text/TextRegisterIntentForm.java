@@ -1,6 +1,7 @@
 package yy.doctor.model.form.text;
 
 import android.content.Intent;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -88,9 +89,10 @@ public class TextRegisterIntentForm extends BaseForm {
             String hospital = data.getStringExtra(Extra.KData);
             put(TForm.name, hospital);
             save(hospital, hospital);
-            Integer t = data.getIntExtra(Extra.KId,1);
-            put(TForm.data,hospital);
-            save(hospital,hospital);
+            @DrawableRes int id = data.getIntExtra(Extra.KId, R.mipmap.hospital_level_three);
+            put(TForm.drawable , id);
+//            put(TForm.data, t);
+//            save(t, t);
         } else if (mClick == IntentType.medicine) {
             String medicine = data.getStringExtra(Extra.KData);
             put(TForm.name, medicine);
