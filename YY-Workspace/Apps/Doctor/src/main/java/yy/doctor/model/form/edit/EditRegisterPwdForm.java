@@ -31,4 +31,10 @@ public class EditRegisterPwdForm extends EditRegisterForm {
         holder.getIv().setSelected(true);
     }
 
+    @Override
+    protected void refresh(FormVH holder) {
+        super.refresh(holder);
+
+        // TODO: dsfdf
+    }
 }

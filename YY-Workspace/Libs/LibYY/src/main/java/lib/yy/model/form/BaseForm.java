@@ -5,11 +5,13 @@ import android.widget.TextView;
 
 import lib.ys.ConstantsEx;
 import lib.ys.form.FormEx;
+import lib.ys.util.RegexUtil;
 import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.R;
 import lib.yy.adapter.VH.FormVH;
+
 
 /**
  * @author CaiXiang
@@ -49,6 +51,20 @@ abstract public class BaseForm extends FormEx<FormVH> {
     }
 
     abstract public boolean check();
+
+    protected boolean checkRegex() {
+        if (isEmpty(getString(TForm.val))) {
+
+        }
+        String regex = getString(TForm.regex);
+        boolean match = RegexUtil.match(regex, getString(TForm.val));
+        if (match) {
+            return true;
+        } else {
+            showToast("格式不匹配, 不能含有......");
+            return false;
+        }
+    }
 
     /**
      * 检测"请输入"选项

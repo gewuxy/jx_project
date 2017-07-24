@@ -27,11 +27,11 @@
             android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/register_tv_ActivatedCode"
+            android:layout_toLeftOf="@+id/register_tv_activated_code"
             android:background="@color/divider"/>
 
         <TextView
-            android:id="@+id/register_tv_ActivatedCode"
+            android:id="@+id/register_tv_activated_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

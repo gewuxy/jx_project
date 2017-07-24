@@ -121,10 +121,8 @@ public class HospitalActivity extends BaseGroupIndexActivity<GroupHospital, Hosp
 
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
-            String city = place.getString(TPlace.city);
-            String str = Util.generatePcd(place.getString(TPlace.province), city, null);
-            mTvLocation.setText(getString(R.string.hospital_location) + str);
-            exeNetworkReq(NetFactory.hospital(city));
+            mTvLocation.setText(getString(R.string.hospital_location) + place.toString());
+            exeNetworkReq(NetFactory.hospital(place.getString(TPlace.city)));
         }
     }
 

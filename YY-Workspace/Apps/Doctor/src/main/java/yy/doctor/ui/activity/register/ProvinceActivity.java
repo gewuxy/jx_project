@@ -9,7 +9,6 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
-import lib.bd.location.Place.TPlace;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
@@ -91,7 +90,6 @@ public class ProvinceActivity extends BasePcdActivity {
 
     //定位
     private void location() {
-        YSLog.d("www", "location");
         mObserver = (isSuccess, gps) -> {
             //返回主线程更新ui
             runOnUIThread(() -> {
@@ -101,7 +99,7 @@ public class ProvinceActivity extends BasePcdActivity {
                 if (isSuccess) {
                     //定位成功
                     Place place = gps.getEv(TGps.place);
-                    setLocation(Util.generatePcd(place.getString(TPlace.province), place.getString(TPlace.city), place.getString(TPlace.district)));
+                    setLocation(place.toString());
                 } else {
                     //定位失败  显示dialog
                     //YSLog.d("Gps", "失败");
