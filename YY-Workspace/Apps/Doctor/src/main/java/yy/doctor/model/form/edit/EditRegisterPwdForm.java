@@ -1,7 +1,6 @@
 package yy.doctor.model.form.edit;
 
 import android.support.annotation.NonNull;
-import android.text.method.PasswordTransformationMethod;
 
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.model.form.FormType;
@@ -26,7 +25,10 @@ public class EditRegisterPwdForm extends EditRegisterForm {
         // 设置输入digits
         UISetter.setPwdRange(holder.getEt());
 
+
         // FIXME: 由于上面指定了key listener, 导致input type的text隐藏失效, 所以手动设置为密码隐藏模式
-        holder.getEt().setTransformationMethod(PasswordTransformationMethod.getInstance());
+        //holder.getEt().setTransformationMethod(PasswordTransformationMethod.getInstance());
+        holder.getIv().setSelected(true);
     }
+
 }

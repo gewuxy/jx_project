@@ -88,14 +88,22 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.meeting_statistics)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.divider)
+                .paddingLeft(fitDp(58))
+                .paddingRight(fitDp(12))
+                .build());
+
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_attention_unit_num)
                 .name(R.string.my_attention)
                 .related(RelatedId.my_attention)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.divider)
+                .paddingLeft(fitDp(58))
+                .paddingRight(fitDp(12))
+                .build());
+
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_collection)
                 .name(R.string.collection_meeting)
@@ -103,7 +111,10 @@ public class MeFrag extends BaseFormFrag {
                 .build());
 
         //String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits));
-        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.divider)
+                .paddingLeft(fitDp(58))
+                .paddingRight(fitDp(12))
+                .build());
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_my_epn)
                 .name(R.string.epn)
@@ -111,7 +122,11 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.my_epn)
                 .build());
 
-        addItem(new Builder(FormType.divider_large).build());
+        addItem(new Builder(FormType.divider_large)
+                .paddingLeft(fitDp(58))
+                .paddingRight(fitDp(12))
+                .build());
+
         addItem(new Builder(FormType.content)
                 .drawable(R.mipmap.form_ic_settings)
                 .name(R.string.settings)

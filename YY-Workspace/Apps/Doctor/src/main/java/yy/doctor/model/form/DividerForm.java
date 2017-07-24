@@ -1,7 +1,6 @@
 package yy.doctor.model.form;
 
 import android.support.annotation.NonNull;
-import android.view.ViewGroup.MarginLayoutParams;
 
 import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
@@ -32,17 +31,19 @@ public class DividerForm extends BaseForm {
 
     @Override
     protected void refresh(FormVH holder) {
-        int h = getInt(TForm.height);
-        if (h > 0) {
-            MarginLayoutParams params = (MarginLayoutParams) holder.getDivider().getLayoutParams();
-            params.height = h;
-            holder.getDivider().setLayoutParams(params);
-        }
 
         int background = getInt(TForm.background);
         if (background != ConstantsEx.KInvalidValue) {
             holder.getDivider().setBackgroundColor(background);
         }
 
+        int paddingLeft = getInt(TForm.padding_dp_left);
+        int paddingRight = getInt(TForm.padding_dp_right);
+
+        if (paddingLeft != ConstantsEx.KInvalidValue && paddingRight != ConstantsEx.KInvalidValue) {
+            holder.getDividerLayout().setPadding(paddingLeft, 0, paddingRight, 0);
+        }
+
     }
+
 }

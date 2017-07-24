@@ -1,6 +1,8 @@
 package yy.doctor.ui.activity.register;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.view.View;
+import android.widget.TextView;
 
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
@@ -28,10 +30,12 @@ public class ProvinceActivity extends BasePcdActivity {
 
     private final int KPermissionCodeLocation = 10;
 
-    private OnLocationNotify mObserver;
+
     private AnimationDrawable mAnimation;
 
     private BaseHintDialog mDialog;
+    private TextView mProvinceTvChange;
+    private OnLocationNotify mObserver;
 
     @Override
     public void initData() {
@@ -40,6 +44,12 @@ public class ProvinceActivity extends BasePcdActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.province, this);
+    }
+
+    @Override
+    public void findViews() {
+        super.findViews();
+        mProvinceTvChange = findView(R.id.province_tv_change);
     }
 
     @Override
@@ -69,6 +79,7 @@ public class ProvinceActivity extends BasePcdActivity {
             Pcd province = getItem(position);
             CityActivity.nav(this, province.getString(TPcd.id), province.getString(TPcd.name), getLocation());
         });
+        setOnClickListener(mProvinceTvChange);
     }
 
     private void showLocDialog() {
@@ -115,6 +126,16 @@ public class ProvinceActivity extends BasePcdActivity {
 
         if (type == NotifyType.province_finish) {
             finish();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.province_tv_change:
+                startActivity(DistrictActivity.class); //点击更改跳转的页面
+                break;
         }
     }
 

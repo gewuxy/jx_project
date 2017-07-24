@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/v.form"
-    android:layout_height="50dip"
+    android:layout_height="52dip"
     android:background="@drawable/white">
 
     <EditText
@@ -11,8 +11,9 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:singleLine="true"
-        android:textColor="#666666"
-        android:textColorHint="#b3b3b3"
+        android:textColor="@color/text_333"
+        android:textColorHint="@color/text_888"
+        android:textSize="15dp"
         android:hint=""/>
 
     <ImageView

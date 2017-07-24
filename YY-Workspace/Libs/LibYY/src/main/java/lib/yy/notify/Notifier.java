@@ -40,6 +40,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.section,
             NotifyType.certification,
             NotifyType.academic,
+            NotifyType.hospital_finish,
+            NotifyType.dialog_miss,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -153,6 +155,10 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 学术专长
          */
         int academic = 20;
+
+        int hospital_finish = 21;
+
+        int dialog_miss = 22;
 
     }
 

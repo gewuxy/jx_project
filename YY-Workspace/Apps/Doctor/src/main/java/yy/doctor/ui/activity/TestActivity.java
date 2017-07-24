@@ -2,6 +2,8 @@ package yy.doctor.ui.activity;
 
 import lib.yy.test.BaseTestActivity;
 import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.register.ScanActivity;
+import yy.doctor.ui.activity.search.SearchHospitalActivity;
 
 /**
  * @auther yuansui
@@ -12,12 +14,19 @@ public class TestActivity extends BaseTestActivity {
 
     @Override
     public void initData() {
+
         add("主页", MainActivity.newIntent(this, MainActivity.KTabHome));
         add("会议", MainActivity.newIntent(this, MainActivity.KTabMeeting));
         add("数据", MainActivity.newIntent(this, MainActivity.KTabData));
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("登录", LoginActivity.class);
+        add("注册", RegisterActivity.class);
+        add("百度",BaiDuTestActivity.class);
+        add("扫一扫", ScanActivity.class);
+        add("手电筒",FlashActivity.class);
+        add("搜索医院", SearchHospitalActivity.class);
+        add("医院",HospitalActivity.class);
     }
 
 }

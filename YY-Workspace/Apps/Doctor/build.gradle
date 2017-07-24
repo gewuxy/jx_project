@@ -138,6 +138,7 @@ dependencies {
     compile project(':YY-Workspace:Libs:LibPlayer')
     compile project(':YY-Workspace:Libs:LibJG')
     compile project(':YY-Workspace:Libs:LibWX')
+    compile project(':YY-Workspace:Libs:LibZxing')
     compile 'org.greenrobot:greendao:3.2.2'
     /**
      * leakcanary
