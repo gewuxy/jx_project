@@ -3,6 +3,7 @@ package yy.doctor.model.form.edit;
 import android.support.annotation.NonNull;
 
 import lib.yy.adapter.VH.FormVH;
+import yy.doctor.R;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.UISetter;
 
@@ -10,12 +11,16 @@ import yy.doctor.util.UISetter;
  * @author GuoXuan
  * @since 2017/6/8
  */
-public class EditRegisterPwdForm extends EditRegisterForm {
+public class EditRegisterPwdForm extends EditForm {
 
     @NonNull
     @Override
     public int getType() {
         return FormType.et_register_pwd;
+    }
+    @Override
+    public int getContentViewResId() {
+        return R.layout.form_edit_register_pwd;
     }
 
     @Override

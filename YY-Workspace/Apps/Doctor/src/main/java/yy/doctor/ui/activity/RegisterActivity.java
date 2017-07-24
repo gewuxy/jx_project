@@ -55,7 +55,6 @@ import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.register.CaptchaActivity;
 import yy.doctor.ui.activity.register.ProvinceActivity;
-import yy.doctor.ui.activity.register.ScanActivity;
 import yy.doctor.util.Util;
 
 import static lib.ys.form.FormEx.TForm.val;
@@ -325,6 +324,32 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         switch ((int) related) {
             case RelatedId.captcha: {
+//                if (v.getId() == R.id.form_tv_text) {
+//                    mCount++;
+//                    String str = getRelatedItem(RelatedId.phone_number).getHolder().getEt().getText().toString();
+//                    BaseHintDialog baseHintDialog = new BaseHintDialog(this);
+//                    View view = inflate(R.layout.dialog_captcha);
+//                    mCaptchaPhoneNumber = (TextView) view.findViewById(R.id.captcha_phone_number);
+//                    mCaptchaPhoneNumber.setText(str);
+//                    baseHintDialog.addHintView(view);
+//                    baseHintDialog.addButton("好", v1 -> {
+//                        if (mCount <= 3) {
+//                            showToast("验证码是1234");//获取验证码输入验证码的逻辑，请求服务器，现假设一个验证码
+//                        }
+//                        baseHintDialog.dismiss();
+//                        ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).change();
+//                        if (mCountDown == null) {
+//                            mCountDown = new CountDown();
+//                            mCountDown.setListener(this);
+//                        }
+//                        mCountDown.start(TimeUnit.SECONDS.toSeconds(60));
+//                    });
+//                    baseHintDialog.addButton("取消", v1 -> {
+//                        baseHintDialog.dismiss();
+//                    });
+//                    baseHintDialog.show();
+//                }
+
                 if (mCount == 0) {
                     mStartTime = System.currentTimeMillis();
                 }
