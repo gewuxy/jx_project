@@ -201,7 +201,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
      */
     private void showLevelDialog() {
         mLevelDialog = new LevelDialog(this);
-        //mLevelDialog.setLocationListener(v -> attend());
         mLevelDialog.show();
     }
 
