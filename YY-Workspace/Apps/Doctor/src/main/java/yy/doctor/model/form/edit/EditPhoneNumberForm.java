@@ -31,6 +31,10 @@ public class EditPhoneNumberForm extends EditNumberForm {
         return R.layout.form_edit_phone_number;
     }
 
+    @Override
+    public boolean check() {
+        return super.check();
+    }
 
     @Override
     protected void init(FormVH holder) {
@@ -54,6 +58,7 @@ public class EditPhoneNumberForm extends EditNumberForm {
                 if ((str.length() == 3 || str.length() == 8) && str.charAt(str.length() - 1) != ' ' && before > count) {
                     str = str.substring(0, str.length() - 1);
                     editText.setText(str);
+                    // TODO: tttttttttttttttttttt
                     editText.setSelection(str.length());
                 }
             }
@@ -67,11 +72,11 @@ public class EditPhoneNumberForm extends EditNumberForm {
                         String str1 = str + " "; //手动添加空格
                         editText.setText(str1);
                         editText.setSelection(str1.length());
-                    }else if (length ==13) {
+                    } else if (length == 13) {
                         //KeyboardUtil.hideFromView(editText);
                         Notifier.inst().notify(NotifyType.fetch_message_captcha);
                     }
-                }else {
+                } else {
                     Notifier.inst().notify(NotifyType.disable_fetch_message_captcha);
                 }
             }

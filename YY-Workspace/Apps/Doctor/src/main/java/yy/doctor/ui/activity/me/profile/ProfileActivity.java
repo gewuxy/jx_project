@@ -11,8 +11,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.bd.location.Place;
-import lib.bd.location.Place.TPlace;
-import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.YSLog;
@@ -22,7 +20,6 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
-import lib.ys.util.TextUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -30,11 +27,9 @@ import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import yy.doctor.Constants;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.config.GlConfig;
@@ -49,14 +44,11 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
-import static yy.doctor.model.Profile.TProfile.city;
 import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hosLevel;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
-import static yy.doctor.model.Profile.TProfile.province;
-import static yy.doctor.model.Profile.TProfile.zone;
 
 /**
  * 我的资料
@@ -89,7 +81,6 @@ public class ProfileActivity extends BaseFormActivity {
     private String mStrPhotoPath;
     private String mAvatarUrl;
 
-    private String[] mPcd;
 
     @IntDef({
             RelatedId.name,
@@ -137,8 +128,6 @@ public class ProfileActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        mPcd = new String[Pcd.KMaxCount];
-
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);
 
         addItem(new Builder(FormType.divider_large).build());
@@ -150,17 +139,12 @@ public class ProfileActivity extends BaseFormActivity {
                 .enable(false)
                 .build());
 
-        // FIXME: EVal加入init支持R.String
-        Place place = new Place();
-        place.put(TPlace.province, getString(R.string.guang_dong));
-        place.put(TPlace.city, getString(R.string.guang_zhou));
-
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.et_intent)
                 .related(RelatedId.hospital)
                 .drawable(R.mipmap.form_ic_more)
                 .name(R.string.user_hospital)
-                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, place))
+                .intent(new Intent(this, HospitalActivity.class))
                 .text(Profile.inst().getString(hospital))
                 .hint(R.string.required)
                 .build());
@@ -261,15 +245,11 @@ public class ProfileActivity extends BaseFormActivity {
 
         addItem(new Builder(FormType.divider).build());
 
-        mPcd[Pcd.KProvince] = Profile.inst().getString(province);
-        mPcd[Pcd.KCity] = Profile.inst().getString(TProfile.city);
-        mPcd[Pcd.KDistrict] = Profile.inst().getString(zone);
-
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name(R.string.user_city)
                 .intent(new Intent(this, ProvinceActivity.class))
-                .text(Util.generatePcd(mPcd))
+                .text(Profile.inst().getPlace().toString())
                 .hint(R.string.required)
                 .build());
 
@@ -310,9 +290,9 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
-                 .url(mAvatarUrl)
-                 .renderer(new CircleRenderer())
-                 .load();
+                .url(mAvatarUrl)
+                .renderer(new CircleRenderer())
+                .load();
     }
 
     @Override
@@ -409,34 +389,33 @@ public class ProfileActivity extends BaseFormActivity {
         String str = getRelatedItem(RelatedId.address).getString(TForm.text);
         YSLog.d(TAG, "省市 = " + str);
 
-
-        mPcd = null;
-        mPcd = new String[Pcd.KMaxCount];
-        String[] addresses = str.split(Pcd.KSplit);
-        for (int i = 0; i < addresses.length; ++i) {
-            mPcd[i] = addresses[i];
-        }
-
-        YSLog.d(TAG, "province = " + mPcd[Pcd.KProvince]);
-        YSLog.d(TAG, "city = " + mPcd[Pcd.KCity]);
-        YSLog.d(TAG, "area = " + mPcd[Pcd.KDistrict]);
-
-        YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
-        NetworkReq r = NetFactory.newModifyBuilder()
-                .headImgUrl(mAvatarUrl)
-                .linkman(getRelateVal(RelatedId.name))
-                .hospital(getRelateVal(RelatedId.hospital))
-                .department(getRelateVal(RelatedId.departments))
-                .hospitalLevel(getRelateVal(RelatedId.hospital_grade))
-                .cmeId(getRelateVal(RelatedId.CME_number))
-                .licence(getRelateVal(RelatedId.certification_number))
-                .title(getRelateVal(RelatedId.title))
-                .province(mPcd[Pcd.KProvince])
-                .city(mPcd[Pcd.KCity])
-                .area(mPcd[Pcd.KDistrict])
-                .builder();
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(KReqModifyId, r);
+//        mPcd = null;
+//        mPcd = new String[Pcd.KMaxCount];
+//        String[] addresses = str.split(Pcd.KSplit);
+//        for (int i = 0; i < addresses.length; ++i) {
+//            mPcd[i] = addresses[i];
+//        }
+//
+//        YSLog.d(TAG, "province = " + mPcd[Pcd.KProvince]);
+//        YSLog.d(TAG, "city = " + mPcd[Pcd.KCity]);
+//        YSLog.d(TAG, "area = " + mPcd[Pcd.KDistrict]);
+//
+//        YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
+//        NetworkReq r = NetFactory.newModifyBuilder()
+//                .headImgUrl(mAvatarUrl)
+//                .linkman(getRelateVal(RelatedId.name))
+//                .hospital(getRelateVal(RelatedId.hospital))
+//                .department(getRelateVal(RelatedId.departments))
+//                .hospitalLevel(getRelateVal(RelatedId.hospital_grade))
+//                .cmeId(getRelateVal(RelatedId.CME_number))
+//                .licence(getRelateVal(RelatedId.certification_number))
+//                .title(getRelateVal(RelatedId.title))
+//                .province(mPcd[Pcd.KProvince])
+//                .city(mPcd[Pcd.KCity])
+//                .area(mPcd[Pcd.KDistrict])
+//                .builder();
+//        refresh(RefreshWay.dialog);
+//        exeNetworkReq(KReqModifyId, r);
     }
 
     private String getRelateVal(@RelatedId int relateId) {
@@ -471,29 +450,29 @@ public class ProfileActivity extends BaseFormActivity {
         } else {
             stopRefresh();
             Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast(ResLoader.getString(R.string.user_save_success));
-                //更新本地的数据
-                Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
-                Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments));
-                Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade));
-                Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
-                Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
-                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
-
-                Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
-                Profile.inst().put(city, mPcd[Pcd.KCity]);
-                if (TextUtil.isEmpty(mPcd[Pcd.KDistrict])) {
-                    Profile.inst().put(TProfile.zone, Constants.KEmptyValue);
-                } else {
-                    Profile.inst().put(TProfile.zone, mPcd[Pcd.KDistrict]);
-                }
-                Profile.inst().saveToSp();
-
-                notify(NotifyType.profile_change);
-            } else {
-                showToast(r.getError());
-            }
+//            if (r.isSucceed()) {
+//                showToast(ResLoader.getString(R.string.user_save_success));
+//                //更新本地的数据
+//                Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
+//                Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments));
+//                Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade));
+//                Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
+//                Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
+//                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
+//
+//                Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
+//                Profile.inst().put(city, mPcd[Pcd.KCity]);
+//                if (TextUtil.isEmpty(mPcd[Pcd.KDistrict])) {
+//                    Profile.inst().put(TProfile.zone, Constants.KEmptyValue);
+//                } else {
+//                    Profile.inst().put(TProfile.zone, mPcd[Pcd.KDistrict]);
+//                }
+//                Profile.inst().saveToSp();
+//
+//                notify(NotifyType.profile_change);
+//            } else {
+//                showToast(r.getError());
+//            }
         }
     }
 
@@ -531,11 +510,7 @@ public class ProfileActivity extends BaseFormActivity {
 
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
-            mPcd[Pcd.KProvince] = place.getString(TPlace.province);
-            mPcd[Pcd.KCity] = place.getString(TPlace.city);
-            mPcd[Pcd.KDistrict] = place.getString(TPlace.district);
-
-            getRelatedItem(RelatedId.address).put(TForm.text, Util.generatePcd(mPcd));
+            getRelatedItem(RelatedId.address).put(TForm.text, place.toString());
             refreshRelatedItem(RelatedId.address);
         }
     }

@@ -3,10 +3,11 @@ package yy.doctor.model.form.text;
 import android.content.Intent;
 import android.view.View;
 
+import lib.bd.location.Place;
 import yy.doctor.Extra;
-import yy.doctor.util.Util;
 
 /**
+ * FIXME: 实际上不是专用? 什么意思?
  * pcd专用
  *
  * @author CaiXiang
@@ -27,7 +28,8 @@ public class TextIntentForm extends TextForm {
         String c = data.getStringExtra(Extra.KCity);
         String d = data.getStringExtra(Extra.KDistrict);
 
-        String text = Util.generatePcd(p, c, d);
+        Place place = new Place(p, c, d);
+        String text = place.toString();
         save(text, text);
     }
 

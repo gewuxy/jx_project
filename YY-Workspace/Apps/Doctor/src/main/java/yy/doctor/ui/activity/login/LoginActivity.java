@@ -19,7 +19,7 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.register.RegisterActivity;
+import yy.doctor.ui.activity.RegisterActivity;
 
 /**
  * 登录
@@ -90,7 +90,7 @@ public class LoginActivity extends BaseLoginActivity {
                 }
             }
             break;
-            default:{
+            default: {
                 super.onClick(v);
             }
             break;
