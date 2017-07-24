@@ -4,12 +4,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
 import lib.ys.util.res.ResLoader;
+import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
 import yy.doctor.model.form.FormType;
 
@@ -18,9 +15,8 @@ import yy.doctor.model.form.FormType;
  * @since 2017/7/12
  */
 
-public class EditCaptchaForm extends EditForm implements OnCountDownListener {
+public class EditCaptchaForm extends EditForm {
     FormVH h;
-    private CountDown mCountDown;
 
     @NonNull
     @Override
@@ -60,38 +56,13 @@ public class EditCaptchaForm extends EditForm implements OnCountDownListener {
 
     @Override
     protected boolean onViewClick(View v) {
-
         return false;
     }
-    public void change(){
-        if (mCountDown == null) {
-            mCountDown = new CountDown();
-            mCountDown.setListener(this);
-        }
-        mCountDown.start(TimeUnit.SECONDS.toSeconds(6));
+
+    public void start() {
+        CaptchaView v = (CaptchaView) getHolder().getTvText();
+        v.setMaxCount(5);
+        v.start();
     }
 
-    @Override
-    public void onCountDown(long remainCount) {
-        if (remainCount == 0) {
-            // 倒计时结束
-            h.getTvText().setText("重新获取");
-            h.getTvText().setClickable(true);
-
-        } else {
-            h.getTvText().setText(remainCount + "秒");
-            h.getTvText().setClickable(false);
-        }
-    }
-
-    @Override
-    public void onCountDownErr() {
-    }
-
-    public void recycle() {
-        if (mCountDown != null) {
-            mCountDown.recycle();
-        }
-
-    }
 }

@@ -39,6 +39,7 @@ import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.UpHeadImage;
@@ -181,14 +182,7 @@ public class ProfileActivity extends BaseFormActivity {
             mProgressProFile += 10;
             YSLog.d("qqq", "3完整度" + mProgressProFile);
         }
-        addItem(new Builder(FormType.et_intent)
-                .related(RelatedId.hospital)
-                .drawable(R.mipmap.form_ic_more)
-                .name(R.string.user_hospital)
-                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, place))
-                .text(Profile.inst().getString(hospital))
-                .hint(R.string.required)
-                .build());
+
 
         addItem(new Builder(FormType.divider).build());
         if (!TextUtil.isEmpty(Profile.inst().getString(specialized))) {
@@ -229,8 +223,33 @@ public class ProfileActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(hosLevel))
                 .data(GlConfig.inst().getHospitalGrade())
                 .hint(R.string.optional)
-                .build());*/
+                .build());
 
+        /*addItem(new Builder(FormType.et)
+                .related(RelatedId.nickname)
+                .name("昵称")
+                .text(Profile.inst().getString(nickname))
+                .hint(R.string.hint_not_fill)
+                .build());
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.et)
+                .related(RelatedId.phone_number)
+                .name("手机号")
+                .text(Profile.inst().getString(mobile))
+                .hint(R.string.hint_not_fill)
+                .build());
+        addItem(new Builder(FormType.divider).build());
+        addItem(new Builder(FormType.et)
+                .related(RelatedId.email)
+                .name("电子邮箱")
+                .text(Profile.inst().getString(username))
+                .hint(R.string.hint_not_fill)
+                .build());
+        addItem(new Builder(FormType.divider_large).build());*/
+
+        /*addItem(new Builder(FormType.profile_checkbox)
+                .related(RelatedId.is_open)
+                .build());*/
 
         addItem(new Builder(FormType.divider_large).build());
         if (!TextUtil.isEmpty(Profile.inst().getString(department))) {
@@ -336,9 +355,9 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
-                 .url(mAvatarUrl)
-                 .renderer(new CircleRenderer())
-                 .load();
+                .url(mAvatarUrl)
+                .renderer(new CircleRenderer())
+                .load();
 
         mProgressBar.incrementProgressBy(mProgressProFile);
         mTvPercent.setText(mProgressProFile + "%");
@@ -419,7 +438,6 @@ public class ProfileActivity extends BaseFormActivity {
                 //YSLog.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
-
     }
 
     //页面跳转
@@ -439,37 +457,33 @@ public class ProfileActivity extends BaseFormActivity {
         String str = getRelatedItem(RelatedId.address).getString(TForm.text);
         YSLog.d(TAG, "省市 = " + str);
 
-
-        mPcd = null;
-        mPcd = new String[Pcd.KMaxCount];
-        String[] addresses = str.split(Pcd.KSplit);
-        for (int i = 0; i < addresses.length; ++i) {
-            mPcd[i] = addresses[i];
-        }
-
-        YSLog.d(TAG, "province = " + mPcd[Pcd.KProvince]);
-        YSLog.d(TAG, "city = " + mPcd[Pcd.KCity]);
-        YSLog.d(TAG, "area = " + mPcd[Pcd.KDistrict]);
-
+//        mPcd = null;
+//        mPcd = new String[Pcd.KMaxCount];
+//        String[] addresses = str.split(Pcd.KSplit);
+//        for (int i = 0; i < addresses.length; ++i) {
+//            mPcd[i] = addresses[i];
+//        }
+//
+//        YSLog.d(TAG, "province = " + mPcd[Pcd.KProvince]);
+//        YSLog.d(TAG, "city = " + mPcd[Pcd.KCity]);
+//        YSLog.d(TAG, "area = " + mPcd[Pcd.KDistrict]);
+//
 //        YSLog.d(TAG, "success hospital level = " + getRelateVal(RelatedId.hospital_grade));
-        NetworkReq r = NetFactory.newModifyBuilder()
-                .headImgUrl(mAvatarUrl)
-                .linkman(getRelateVal(RelatedId.name))
-                .hospital(getRelateVal(RelatedId.hospital))
-                .department(getRelateVal(RelatedId.departments))
+//        NetworkReq r = NetFactory.newModifyBuilder()
+//                .headImgUrl(mAvatarUrl)
+//                .linkman(getRelateVal(RelatedId.name))
+//                .hospital(getRelateVal(RelatedId.hospital))
+//                .department(getRelateVal(RelatedId.departments))
 //                .hospitalLevel(getRelateVal(RelatedId.hospital_grade))
-                .cmeId(getRelateVal(RelatedId.cme_number))
-                .licence(getRelateVal(RelatedId.certification_number))
-                .title(getRelateVal(RelatedId.title))
-
-                .specialized(getRelateVal(RelatedId.specialized))
-                .academic(getRelateVal(RelatedId.academic))
-                .province(mPcd[Pcd.KProvince])
-                .city(mPcd[Pcd.KCity])
-                .area(mPcd[Pcd.KDistrict])
-                .builder();
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(KReqModifyId, r);
+//                .cmeId(getRelateVal(RelatedId.CME_number))
+//                .licence(getRelateVal(RelatedId.certification_number))
+//                .title(getRelateVal(RelatedId.title))
+//                .province(mPcd[Pcd.KProvince])
+//                .city(mPcd[Pcd.KCity])
+//                .area(mPcd[Pcd.KDistrict])
+//                .builder();
+//        refresh(RefreshWay.dialog);
+//        exeNetworkReq(KReqModifyId, r);
     }
 
     private String getRelateVal(@RelatedId int relateId) {
@@ -504,32 +518,29 @@ public class ProfileActivity extends BaseFormActivity {
         } else {
             stopRefresh();
             Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast(ResLoader.getString(R.string.user_save_success));
-                //更新本地的数据
-                Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
-                Profile.inst().put(department, getRelateVal(RelatedId.departments));
-                Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
-                Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
-                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.cme_number));
-
-                // FIXME 测试
-                Profile.inst().put(TProfile.specialized, getRelateVal(RelatedId.specialized));
-                Profile.inst().put(TProfile.academic, getRelateVal(RelatedId.academic));
-
-                Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
-                Profile.inst().put(city, mPcd[Pcd.KCity]);
-                if (TextUtil.isEmpty(mPcd[Pcd.KDistrict])) {
-                    Profile.inst().put(TProfile.zone, Constants.KEmptyValue);
-                } else {
-                    Profile.inst().put(TProfile.zone, mPcd[Pcd.KDistrict]);
-                }
-                Profile.inst().saveToSp();
-
-                notify(NotifyType.profile_change);
-            } else {
-                showToast(r.getError());
-            }
+//            if (r.isSucceed()) {
+//                showToast(ResLoader.getString(R.string.user_save_success));
+//                //更新本地的数据
+//                Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
+//                Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments));
+//                Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade));
+//                Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
+//                Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
+//                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
+//
+//                Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
+//                Profile.inst().put(city, mPcd[Pcd.KCity]);
+//                if (TextUtil.isEmpty(mPcd[Pcd.KDistrict])) {
+//                    Profile.inst().put(TProfile.zone, Constants.KEmptyValue);
+//                } else {
+//                    Profile.inst().put(TProfile.zone, mPcd[Pcd.KDistrict]);
+//                }
+//                Profile.inst().saveToSp();
+//
+//                notify(NotifyType.profile_change);
+//            } else {
+//                showToast(r.getError());
+//            }
         }
     }
 
@@ -567,32 +578,8 @@ public class ProfileActivity extends BaseFormActivity {
 
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
-            mPcd[Pcd.KProvince] = place.getString(TPlace.province);
-            mPcd[Pcd.KCity] = place.getString(TPlace.city);
-            mPcd[Pcd.KDistrict] = place.getString(TPlace.district);
-
-            getRelatedItem(RelatedId.address).put(TForm.text, Util.generatePcd(mPcd));
+            getRelatedItem(RelatedId.address).put(TForm.text, place.toString());
             refreshRelatedItem(RelatedId.address);
-        }
-        else if (type == NotifyType.cme_num) {
-            String str = (String) data;
-            getRelatedItem(RelatedId.cme_number).save(str, str);
-            refreshRelatedItem(RelatedId.cme_number);
-        }
-        else if (type == NotifyType.section) {
-            String str = (String) data;
-            getRelatedItem(RelatedId.specialized).save(str, str);
-            refreshRelatedItem(RelatedId.specialized);
-        }
-        else if (type == NotifyType.certification) {
-            String str = (String) data;
-            getRelatedItem(RelatedId.certification_number).save(str, str);
-            refreshRelatedItem(RelatedId.certification_number);
-        }
-        else if (type == NotifyType.academic) {
-            String str = (String) data;
-            getRelatedItem(RelatedId.academic).save(str, str);
-            refreshRelatedItem(RelatedId.academic);
         }
     }
 

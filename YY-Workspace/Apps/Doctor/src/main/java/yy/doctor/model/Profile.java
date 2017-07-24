@@ -2,6 +2,7 @@ package yy.doctor.model;
 
 import java.util.Observable;
 
+import lib.bd.location.Place;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.model.EVal;
 import lib.ys.ui.interfaces.ISingleton;
@@ -52,6 +53,10 @@ public class Profile extends EVal<TProfile> implements ISingleton {
             }
         }
         return mInst;
+    }
+
+    public Place getPlace() {
+        return new Place(getString(TProfile.province), getString(TProfile.city), getString(TProfile.zone));
     }
 
     /**

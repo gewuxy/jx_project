@@ -2,12 +2,12 @@ package yy.doctor.ui.activity;
 
 import android.content.Intent;
 import android.support.annotation.IntDef;
-import android.text.Editable;
 import android.text.Html;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,6 +30,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -38,12 +39,9 @@ import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BaseHintDialog;
-import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
@@ -60,6 +58,7 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.ui.activity.register.ScanActivity;
 import yy.doctor.util.Util;
 
+import static lib.ys.form.FormEx.TForm.val;
 
 /**
  * 注册界面  7.1
@@ -67,30 +66,28 @@ import yy.doctor.util.Util;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener,OnLocationNotify{
+public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener, OnLocationNotify {
 
-    private static final int KRegister = 0;
-    private static final int KLogin = 1;
+    private final int KRegister = 0;
+    private final int KLogin = 1;
+    private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
+    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
     private EditText mEtActivatedCode;      //填写激活码
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
-    private TextView mCaptchaPhoneNumber; //验证码提示的对话框中注册的手机
-    private boolean flag;//密码是否可见
-    private int count;//计算点击多少次
+    private boolean mFlag;//密码是否可见
+
+    private long mStartTime; // 开始计算10分钟间隔的时间
+    private int mCount;//计算点击多少次
 
 
     private TextView mTvCaptcha;//获取验证码的textview
     private String mUserName;       //用户名
     private String mPwd;            //密码
-    private CountDown mCountDown;
-    private int mRelatedId;
     private View mTvReg;
+
     private BaseHintDialog mDialog;
-
-
-
-
 
     @IntDef({
             RelatedId.name,
@@ -130,8 +127,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     public void initData() {
         super.initData();
 
-        flag = true;
-        count = 0;
+        mFlag = true;
+        mCount = 0;
+
         addItem(new Builder(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .hint(R.string.phone_number)
@@ -171,7 +169,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
-                .drawable(R.mipmap.hospital_level_other)
+//                .drawable(R.mipmap.hospital_level_other)
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
@@ -195,8 +193,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
-
-
     }
 
     @Override
@@ -214,11 +210,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         super.findViews();
 
         mTvReg = findView(R.id.register);
-        mTvReg.setEnabled(false);
+
         mEtActivatedCode = findView(R.id.register_et_capcha);
-        mTvActivatedCode = findView(R.id.register_tv_ActivatedCode);
+        mTvActivatedCode = findView(R.id.register_tv_activated_code);
+
         mTvAgree = findView(R.id.register_tv_agree);
-        mCaptchaPhoneNumber = findView(R.id.captcha_phone_number);
     }
 
     @Override
@@ -227,26 +223,26 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         setOnClickListener(R.id.register);
         setOnClickListener(mTvActivatedCode);
-
-
-        //检查有没有定位权限   没有的话直接弹dialog
-        if (checkPermission(0, Permission.location)) {
-            Location.inst().start();
-        } else {
-            onLocationError();
-        }
-
-        LocationNotifier.inst().add(this);
+        mTvReg.setEnabled(false);
 
         String str = "点击<font color='#888888'>“注册”</font>即表示您同意";
         mTvAgree.setText(Html.fromHtml(str));
         mEtActivatedCode.setOnEditorActionListener(this);
+
+        runOnUIThread(() -> {
+            //检查有没有定位权限   没有的话直接弹dialog
+            if (checkPermission(0, Permission.location)) {
+                startLocation();
+            } else {
+                onLocationError();
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_tv_ActivatedCode:
+            case R.id.register_tv_activated_code:
                 //mTvReg.setEnabled(true);
                 startActivity(CaptchaActivity.class);
                 break;
@@ -301,11 +297,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         // 省市区
         String addresses = getItemStr(RelatedId.location);
-        String[] pcd = new String[Pcd.KMaxCount];
-        String[] address = addresses.split(Pcd.KSplit);
-        for (int i = 0; i < address.length; ++i) {
-            pcd[i] = address[i];
-        }
+        Place place = new Place(addresses);
 
         //注册
         refresh(RefreshWay.dialog);
@@ -313,9 +305,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .username(mUserName)
                 .linkman(getItemStr(RelatedId.name))
                 .pwd(getItemStr(RelatedId.pwd))
-                .province(pcd[Pcd.KProvince])
-                .city(pcd[Pcd.KCity])
-                .area(pcd[Pcd.KDistrict])
+                .province(place.getString(TPlace.province))
+                .city(place.getString(TPlace.city))
+                .area(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
                 .invite(code)
                 .build());
@@ -325,68 +317,68 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
      * 获取Item的文本信息
      */
     private String getItemStr(@RelatedId int relatedId) {
-        return getRelatedItem(relatedId).getString(TForm.val);
+        return getRelatedItem(relatedId).getString(val);
     }
 
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
-        @RelatedId int i = getItem(position).getInt(TForm.related);
-        mRelatedId = i;
-        switch (mRelatedId) {
+
+        switch ((int) related) {
             case RelatedId.captcha: {
+                if (mCount == 0) {
+                    mStartTime = System.currentTimeMillis();
+                }
 
-                count++;
-                String str = getRelatedItem(RelatedId.phone_number).getHolder().getEt().getText().toString();
-                BaseHintDialog baseHintDialog = new BaseHintDialog(this);
+                mCount++;
+                if (mCount > KMaxCount) {
+                    long duration = System.currentTimeMillis() - mStartTime;
+                    if (duration <= KCaptchaDuration) {
+                        showToast("获取验证码太频繁");
+                        return;
+                    } else {
+                        mCount = 1;
+                    }
+                }
+
+                String phone = getRelatedItem(RelatedId.phone_number).getString(TForm.val);
+                if (!RegexUtil.isMobileCN(phone.replace(" ", ""))) {
+                    showToast("....不是电话号");
+                    return;
+                }
+
+                BaseHintDialog dialog = new BaseHintDialog(this);
+
                 View view = inflate(R.layout.dialog_captcha);
-                mCaptchaPhoneNumber = (TextView) view.findViewById(R.id.captcha_phone_number);
-                mCaptchaPhoneNumber.setText(str);
-                baseHintDialog.addHintView(view);
-                baseHintDialog.addButton("好", v1 -> {
-                    if (count <= 3) {
-                        showToast("验证码是1234");//获取验证码输入验证码的逻辑，请求服务器，现假设一个验证码
-                    }
-                    baseHintDialog.dismiss();
-                    ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).change();
-                    if (mCountDown == null) {
-                        mCountDown = new CountDown();
-                        mCountDown.setListener(new OnCountDownListener() {
-                            @Override
-                            public void onCountDown(long remainCount) {
-                                if (remainCount != 0) {
-                                    if (count > 3) {
-                                        showToast("获取验证码太频繁");
-                                    }
-                                }
-                            }
+                TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
+                tv.setText(phone);
 
-                            @Override
-                            public void onCountDownErr() {
-                            }
-                        });
-                    }
-                    mCountDown.start(TimeUnit.SECONDS.toSeconds(60));
+                dialog.addHintView(view);
+                dialog.addButton("好", v1 -> {
+
+                    dialog.dismiss();
+
+                    ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                 });
-                baseHintDialog.addButton("取消", v1 -> {
-                    baseHintDialog.dismiss();
+                dialog.addButton("取消", v1 -> {
+                    dialog.dismiss();
                 });
-                baseHintDialog.show();
 
-
+                dialog.show();
             }
             break;
             case RelatedId.pwd: {
-                flag = !flag;
+                mFlag = !mFlag;
+
+                // FIXME: 逻辑放在form内部
                 EditText et = getRelatedItem(RelatedId.pwd).getHolder().getEt();
-                Editable content = getRelatedItem(RelatedId.pwd).getHolder().getEt().getText();
-                getRelatedItem(RelatedId.pwd).getHolder().getIv().setSelected(flag);
-                if (!flag) {
-                    getRelatedItem(RelatedId.pwd).getHolder().getEt().setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    et.setSelection(content.length());//光标移到最后
+                String content = getRelatedItem(RelatedId.pwd).getString(TForm.val);
+                getRelatedItem(RelatedId.pwd).getHolder().getIv().setSelected(mFlag);
+                if (!mFlag) {
+                    et.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 } else {
-                    getRelatedItem(RelatedId.pwd).getHolder().getEt().setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    et.setSelection(content.length());
+                    et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
+                et.setSelection(content.length());//光标移到最后
             }
             break;
         }
@@ -397,14 +389,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         BaseForm form = getRelatedItem(RelatedId.captcha);
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
+            String text = place.toString();
 
-            String p = place.getString(TPlace.province);
-            String c = place.getString(TPlace.city);
-            String d = place.getString(TPlace.district);
-            String pcdStr = Util.generatePcd(p, c, d);
-
-            getRelatedItem(RelatedId.location).put(TForm.name, pcdStr);
-            getRelatedItem(RelatedId.location).save(pcdStr, pcdStr);
+            getRelatedItem(RelatedId.location).save(text, text);
             refreshRelatedItem(RelatedId.location);
         } else if (type == NotifyType.fetch_message_captcha) {
             form.put(TForm.enable, true);
@@ -414,6 +401,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             refreshItem(form);
         }
     }
+
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
@@ -434,27 +422,44 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         if (isSuccess) {
             //定位成功
             Place place = gps.getEv(TGps.place);
-            String mLocation = Util.generatePcd(place.getString(TPlace.province), place.getString(TPlace.city), place.getString(TPlace.district));
-            TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
-            text.setText(mLocation);
-        }else {
-            //定位失败  显示dialog
-            // FIXME: 失败
-            YSLog.d("Gps", "失败");
+            if (place != null) {
+                addOnPreDrawListener(new OnPreDrawListener() {
+
+                    @Override
+                    public boolean onPreDraw() {
+                        TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
+                        text.setText(place.toString());
+
+                        removeOnPreDrawListener(this);
+                        return true;
+                    }
+                });
+            } else {
+                onLocationError();
+            }
+        } else {
             onLocationError();
         }
+
+        stopLocation();
     }
+
     /**
      * 初始化Dialog
      */
     private void onLocationError() {
+        YSLog.d("Gps", "失败");
+
+        // FIXME: 失败的多种处理
         onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
 
+        //定位失败  显示dialog
         mDialog = new BaseHintDialog(this);
         mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
         mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
         mDialog.show();
     }
+
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KLogin) {
@@ -494,20 +499,26 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
     }
 
-    @Override
-    public void onNetworkError(int id, NetError error) {
-        super.onNetworkError(id, error);
+    private void startLocation() {
+        LocationNotifier.inst().add(this);
+        Location.inst().start();
+    }
 
+    private void stopLocation() {
+        LocationNotifier.inst().remove(this);
+        Location.inst().stop();
     }
 
     @Override
     protected void onDestroy() {
-        EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
-        item.recycle();
-        if (mCountDown != null) {
-            mCountDown.recycle();
+        super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+
         }
 
-        super.onDestroy();
+        stopLocation();
+        Location.inst().onDestroy();
     }
 }

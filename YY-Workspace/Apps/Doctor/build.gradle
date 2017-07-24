@@ -139,11 +139,11 @@ dependencies {
     compile project(':YY-Workspace:Libs:LibJG')
     compile project(':YY-Workspace:Libs:LibWX')
     compile project(':YY-Workspace:Libs:LibZxing')
+    compile project(':YY-Workspace:Libs:LibPDF')
     compile 'org.greenrobot:greendao:3.2.2'
     /**
      * leakcanary
      */
-    compile project(':YY-Workspace:Libs:LibPDF')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }

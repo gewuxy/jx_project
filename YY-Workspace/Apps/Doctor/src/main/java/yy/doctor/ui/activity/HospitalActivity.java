@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity;
 
 import android.content.Intent;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -40,6 +41,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.HospitalBaiDuAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
+import yy.doctor.dialog.LevelDialog.OnLevelListener;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.HospitalTitle;
@@ -54,7 +56,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/19
  */
 
-public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify {
+public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelListener {
 
     private final int KLimit = 12;
 
@@ -69,12 +71,12 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     private boolean mIsFirst = true;
 
     private LevelDialog mLevelDialog;
+    private IHospital mCheckItem;
 
 
     @Override
     public void initData() {
         mSearch = PoiSearch.newInstance();
-
     }
 
     @Override
@@ -148,13 +150,11 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
 
     @Override
     public void onItemClick(View v, int position) {
-        IHospital item = getItem(position);
-        if (item.getType() != HospitalType.hospital_title) {
-            showLevelDialog();
-           /* Hospital hospital = (Hospital) item;
-            Intent intent = new Intent().putExtra(Extra.KData, hospital.getString(THospital.name));
-            setResult(RESULT_OK, intent);
-            finish();*/
+        mCheckItem = getItem(position);
+        if (mCheckItem.getType() != HospitalType.hospital_title) {
+            mLevelDialog = new LevelDialog(this);
+            mLevelDialog.setListener(HospitalActivity.this);
+            mLevelDialog.show();
         }
     }
 
@@ -194,14 +194,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
         double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
 
         return d * 1000;
-    }
-
-    /**
-     * 初始化Dialog
-     */
-    private void showLevelDialog() {
-        mLevelDialog = new LevelDialog(this);
-        mLevelDialog.show();
     }
 
     @Override
@@ -285,10 +277,11 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     private void onLocationError() {
         onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
 
-        mDialog = new BaseHintDialog(this);
+        // FIXME: 2017/7/24 
+        /*mDialog = new BaseHintDialog(this);
         mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
         mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
-        mDialog.show();
+        mDialog.show();*/
     }
 
     @Override
@@ -296,13 +289,9 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
         super.onNotify(type, data);
         if (type == NotifyType.hospital_finish) {
             String name = (String) data;
-            Intent intent = new Intent().putExtra(Extra.KData,name);
-            setResult(RESULT_OK,intent);
+            Intent intent = new Intent().putExtra(Extra.KData, name);
+            setResult(RESULT_OK, intent);
             this.finish();
-        }else if (type == NotifyType.dialog_miss) {
-            Integer three = (Integer) data;
-            Intent intent = new Intent().putExtra(Extra.KId,three);
-            setResult(RESULT_OK,intent);
         }
     }
 
@@ -344,4 +333,13 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
         return 0;
     }
 
+    @Override
+    public void checkLevel(@DrawableRes int resId) {
+        Hospital hospital = (Hospital) mCheckItem;
+        Intent intent = new Intent()
+                .putExtra(Extra.KData, hospital.getString(THospital.name))
+                .putExtra(Extra.KId, resId);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }
