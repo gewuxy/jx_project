@@ -2,7 +2,6 @@ package yy.doctor.model.meet.module;
 
 import android.content.Context;
 
-import io.reactivex.Observable;
 import lib.bd.location.Gps;
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;

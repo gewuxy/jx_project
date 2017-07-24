@@ -26,6 +26,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     private SectionCategoryFrag mSectionCategoryFrag;
     private SectionNameFrag mSectionNameFrag;
 
+
     @Override
     public void initData() {
     }
@@ -56,12 +57,14 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     @Override
     public void onCategorySelected(int position, List<String> names) {
         mSectionNameFrag.setSection(names);
+       /* String s = names.get(position);
+        YSLog.d("yaya---------",s);*/
     }
 
     @Override
     public void onSectionSelected(int position, String name) {
-        Intent intent = new Intent();
-        intent.putExtra(Extra.KData, name);
+
+        Intent intent = new Intent().putExtra(Extra.KData, name);
         setResult(RESULT_OK, intent);
         finish();
     }

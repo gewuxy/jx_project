@@ -3,6 +3,7 @@ package yy.doctor;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.squareup.leakcanary.LeakCanary;
 
 import lib.jg.JAnalyticsStats;
@@ -85,6 +86,9 @@ public class App extends BaseApp {
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
+
+        //百度地图
+        SDKInitializer.initialize(this);
 
         // 临时的
         if (Build.VERSION.SDK_INT >= 24/*Build.VERSION_CODES.N*/) {

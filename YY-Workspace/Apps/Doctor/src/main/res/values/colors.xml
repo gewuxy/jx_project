@@ -15,6 +15,7 @@
     <!-- 普通按按下钮效果 -->
     <color name="btn_bg_blue">#0882e7</color>
     <color name="btn_bg_blue_focus">#0674cf</color>
+    <color name="btn_bg_blue_disabled">#97cbf2</color>
 
     <!-- 红色按钮按下效果 -->
     <color name="btn_bg_red">#d14b4b</color>
@@ -45,7 +46,6 @@
     <color name="text_333">#333</color>
     <color name="text_ccc">#ccc</color>
     <color name="text_848a8d">#848a8d</color>
-    <color name="text_28b6b8">#28b6b8</color>
     <color name="text_6d">#6d6d6d</color>
     <color name="text_81">#818181</color>
     <color name="text_3994a7">#3994a7</color>
@@ -54,6 +54,7 @@
     <color name="text_0d5878">#0d5878</color>
     <color name="text_08a150">#08a150</color>
     <color name="text_2ab81f">#2ab81f</color>
+    <color name="text_28b6b8">#28b6b8</color>
     <color name="text_808080">#808080</color>
     <color name="text_888">#888</color>
     <color name="text_006ebd">#006ebd</color>
