@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true">
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="@color/text_97cbf2"/>
+            <corners android:radius="@dimen/radius"/>
+        </shape>
+    </item>
+    <item android:state_enabled="true" android:state_pressed="true">
         <shape>
             <solid android:color="@color/btn_bg_blue_focus"/>
             <corners android:radius="@dimen/radius"/>
         </shape>
     </item>
-    <item android:state_pressed="false">
+    <item android:state_enabled="true" android:state_pressed="false">
         <shape>
             <solid android:color="@color/btn_bg_blue"/>
             <corners android:radius="@dimen/radius"/>

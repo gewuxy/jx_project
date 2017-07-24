@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
@@ -28,6 +29,10 @@ public class EditPhoneNumberForm extends EditNumberForm {
 
     @Override
     public int getContentViewResId() {
+        int layout = getInt(TForm.layout);
+        if (layout != ConstantsEx.KInvalidValue) {
+            return layout;
+        }
         return R.layout.form_edit_phone_number;
     }
 

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.ys.ConstantsEx;
 import lib.ys.util.res.ResLoader;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
@@ -16,7 +17,6 @@ import yy.doctor.model.form.FormType;
  */
 
 public class EditCaptchaForm extends EditForm {
-    FormVH h;
 
     @NonNull
     @Override
@@ -25,13 +25,11 @@ public class EditCaptchaForm extends EditForm {
     }
 
     @Override
-    protected void init(FormVH holder) {
-        super.init(holder);
-        h = holder;
-    }
-
-    @Override
     public int getContentViewResId() {
+        int layout = getInt(TForm.layout);
+        if (layout != ConstantsEx.KInvalidValue) {
+            return layout;
+        }
         return R.layout.form_edit_captcha;
     }
 
@@ -48,7 +46,7 @@ public class EditCaptchaForm extends EditForm {
         }
 
         int textColor = getInt(TForm.text_color);
-        if (textColor != 0) {
+        if (textColor != ConstantsEx.KInvalidValue) {
             tv.setSelected(enable);
             tv.setTextColor(ResLoader.getColorStateList(textColor));
         }

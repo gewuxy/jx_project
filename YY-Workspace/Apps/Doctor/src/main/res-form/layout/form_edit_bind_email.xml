@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/v.form"
+    android:layout_height="52dp"
+    android:background="@drawable/white">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <yy.doctor.view.AutoCompleteEditText
+            android:id="@id/form_et"
+            android:layout_height="wrap_content"
+            style="@style/et.bind"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@id/form_iv"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_marginRight="@dimen/margin"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"/>
+
+</LinearLayout>

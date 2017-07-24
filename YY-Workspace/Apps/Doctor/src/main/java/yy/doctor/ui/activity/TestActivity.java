@@ -2,8 +2,8 @@ package yy.doctor.ui.activity;
 
 import lib.yy.test.BaseTestActivity;
 import yy.doctor.ui.activity.login.LoginActivity;
-import yy.doctor.ui.activity.register.ScanActivity;
-import yy.doctor.ui.activity.search.SearchHospitalActivity;
+import yy.doctor.ui.activity.me.set.BindEmailActivity;
+import yy.doctor.ui.activity.me.set.BindPhoneActivity;
 
 /**
  * @auther yuansui
@@ -21,12 +21,8 @@ public class TestActivity extends BaseTestActivity {
         add("我", MainActivity.newIntent(this, MainActivity.KTabMe));
 
         add("登录", LoginActivity.class);
-        add("注册", RegisterActivity.class);
-        add("百度",BaiDuTestActivity.class);
-        add("扫一扫", ScanActivity.class);
-        add("手电筒",FlashActivity.class);
-        add("搜索医院", SearchHospitalActivity.class);
-        add("医院",HospitalActivity.class);
+        add("注册", BindEmailActivity.class);
+        add("百度", BindPhoneActivity.class);
     }
 
 }

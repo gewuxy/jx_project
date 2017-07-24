@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.ReflectionUtil;
+import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
@@ -83,5 +85,21 @@ public class Util extends BaseUtil {
             }
         }
         return ReflectionUtil.newInst(clz);
+    }
+
+    /**
+     * 获取输入框的文本
+     * @param et
+     * @return
+     */
+    public static String getEtString(EditText et) {
+        return et.getText().toString().trim();
+    }
+
+    /**
+     * 检验是否是电话号码
+     */
+    public static boolean isMobileCN(CharSequence phone) {
+        return RegexUtil.isMobileCN(phone.toString().replace(" ", ""));
     }
 }

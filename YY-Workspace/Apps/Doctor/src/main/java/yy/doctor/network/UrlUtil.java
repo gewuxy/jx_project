@@ -17,9 +17,9 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线
-            mBaseHost = "app.medyaya.cn/v7/";
-//            mHostName = KHttpDef + "10.0.0.234:80/"; // 礼平电脑
-//            mHostName = KHttpDef + "10.0.0.250:8082/"; // 轩哥电脑
+//            mBaseHost = "app.medyaya.cn/v7/";
+            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
+//            mBaseHost = "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
             mBaseHost = "app.medyaya.cn/v7/";
@@ -50,6 +50,7 @@ public class UrlUtil {
     public interface UrlUser {
         String KAd = "advert";
         String KLogin = "login";
+        String KBindWX = "check_wx_bind";
         String KLogout = "logout";
         String KForgetPwd = "regist/pwd/reset";
         String KProfile = "user/info";

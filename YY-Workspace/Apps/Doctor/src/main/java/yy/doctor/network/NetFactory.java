@@ -189,12 +189,9 @@ public class NetFactory {
         String KPageSize = "pageSize";
     }
 
-    public interface  WXParam {
-        String KAppId = "appid";
-        String KAppSecret = "secret";
+    public interface WXParam {
         String KCode = "code";
-        String KType = "grant_type";
-        String KWXNeedType = "authorization_code"; // 微信OAuth2.0授权登录目前支持authorization_code模式
+        String KOpenId = "openid";
     }
 
     /**
@@ -244,9 +241,33 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq login(String name, String pwd) {
+        return login(name, pwd, null);
+    }
+
+    /**
+     * 绑定微信号并登录
+     *
+     * @param name
+     * @param pwd
+     * @return
+     */
+    public static NetworkReq login(String name, String pwd, String openId) {
         return newPost(UrlUser.KLogin)
                 .param(UserParam.KUserName, name)
                 .param(UserParam.KPassword, pwd)
+                .param(WXParam.KOpenId, openId)
+                .build();
+    }
+
+    /**
+     * 检查是否已被绑定
+     *
+     * @param code
+     * @return
+     */
+    public static NetworkReq check_wx_bind(String code) {
+        return newPost(UrlUser.KBindWX)
+                .param(WXParam.KCode, code)
                 .build();
     }
 
@@ -812,15 +833,6 @@ public class NetFactory {
         return NetworkReq.newBuilder(UrlMeet.KWs + UrlUtil.getBaseHost() + UrlMeet.KIm)
                 .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
                 .param(MeetParam.KMeetId, meetId)
-                .build();
-    }
-
-    public static NetworkReq getWXToken(String secret, String code) {
-        return NetworkReq.newBuilder(UrlWX.KToken)
-                .param(WXParam.KAppId, Constants.KAppId)
-                .param(WXParam.KAppSecret, secret)
-                .param(WXParam.KCode, code)
-                .param(WXParam.KType, WXParam.KWXNeedType)
                 .build();
     }
 

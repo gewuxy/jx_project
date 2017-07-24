@@ -3,15 +3,13 @@ package com.zhuanyeban.yaya.wxapi;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-
-import com.tencent.mm.sdk.openapi.BaseReq;
-import com.tencent.mm.sdk.openapi.BaseResp;
-import com.tencent.mm.sdk.openapi.BaseResp.ErrCode;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.SendAuth;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbase.BaseResp.ErrCode;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -19,6 +17,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Constants;
 import yy.doctor.R;
@@ -26,6 +25,7 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.login.WXLoginActivity;
 
 /**
@@ -86,7 +86,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 // 用户同意
                 YSLog.d(TAG, "用户同意");
                 SendAuth.Resp r = (SendAuth.Resp) resp;
-                String code = r.token;
+                String code = r.code;
                 String state = r.state;
                 YSLog.d(TAG, "onResp:code" + code);
                 YSLog.d(TAG, "onResp:state" + state);
@@ -111,15 +111,17 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             Profile login = r.getData();
-
             String openid = login.getString(TProfile.openid, "");
             YSLog.d(TAG, "onNetworkSuccess:openid" + openid);
             if (TextUtil.isNotEmpty(openid)) {
-                // 没有绑定过微信, 绑定
+//                 没有绑定过微信, 绑定
                 WXLoginActivity.nav(WXEntryActivity.this,openid);
             } else {
-                // 绑定过微信, 登录
-
+//                 绑定过微信, 登录
+                Profile.inst().update(r.getData());
+                notify(NotifyType.login);
+                startActivity(MainActivity.class);
+                finish();
             }
         } else {
             showToast(r.getError());

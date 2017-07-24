@@ -3,9 +3,7 @@ package yy.doctor.ui.activity.login;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.network.model.NetworkResp;
 import lib.wx.WXLoginApi;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -15,8 +13,6 @@ import yy.doctor.R;
 import yy.doctor.dialog.ForgetPwdTooltipDialog;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.RegisterActivity;
@@ -95,17 +91,6 @@ public class LoginActivity extends BaseLoginActivity {
             }
             break;
         }
-    }
-
-    @Override
-    public void btnClick(String pwd) {
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.login(getUserName(), pwd));
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
