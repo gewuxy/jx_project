@@ -60,8 +60,6 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.ui.activity.register.ScanActivity;
 import yy.doctor.util.Util;
 
-import static yy.doctor.R.string.province_city_district;
-
 
 /**
  * 注册界面  7.1
@@ -163,7 +161,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         addItem(new Builder(FormType.register_divider).build());
         addItem(new Builder(FormType.text_register_intent)
                 .related(RelatedId.location)
-                .hint(province_city_district)
+                .hint(R.string.province_city_district)
                 .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
                 .build());
 
