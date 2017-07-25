@@ -86,7 +86,7 @@
 
             <!-- 主讲者信息 -->
             <TextView
-                style="@style/tv.meeting.detail"
+                style="@style/tv.meeting"
                 android:paddingBottom="14dp"
                 android:paddingLeft="@dimen/margin"
                 android:paddingTop="14dp"

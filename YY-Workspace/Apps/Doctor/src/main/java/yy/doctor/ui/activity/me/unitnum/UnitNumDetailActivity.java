@@ -143,6 +143,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     public void setViews() {
         super.setViews();
 
+        getAdapter().hideUnitNum();
         setDividerHeight(fitDp(1));
         setRefreshEnabled(false);
         mZoomView.setZoomEnabled(true);

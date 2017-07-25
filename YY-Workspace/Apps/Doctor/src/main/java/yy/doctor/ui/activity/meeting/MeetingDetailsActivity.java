@@ -56,6 +56,7 @@ import yy.doctor.ui.activity.me.unitnum.FileDataActivity;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
+import yy.doctor.view.CircleProgressView;
 import yy.doctor.view.meet.ModuleLayout;
 
 /**
@@ -72,7 +73,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private ImageView mIvCollection; // navBar的收藏
 
     private NetworkImageView mIvPlay; // 缩略图
-    private View mIvPlayCourse; // 右下角的图标
+    private View mLayout; // 右下角的图标
+    private CircleProgressView mLayoutProgress; // 右下角的图标
+    private TextView mTvProgress; // 右下角的图标
     private TextView mTvDate; // 会议开始时间
     private TextView mTvDuration; // 会议时长
 
@@ -114,6 +117,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private long mMeetTime; // 统一用通知不用result
 
     private ShareDialog mShareDialog; // 分享
+    private TextView mTvCmd;
+    private ImageView mIvEpn;
+    private ImageView mIvCmd;
 
     public static void nav(Context context, String meetId, String name) {
         Intent i = new Intent(context, MeetingDetailsActivity.class)
@@ -169,15 +175,19 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     @Override
     public void findViews() {
         mIvPlay = findView(R.id.meeting_detail_iv_play);
-        mIvPlayCourse = findView(R.id.meeting_detail_iv_play_course);
+        mLayout = findView(R.id.meeting_detail_layout_progress);
+        mLayoutProgress = findView(R.id.meeting_detail_v_progress);
+        mTvProgress = findView(R.id.meeting_detail_tv_progress);
         mTvDate = findView(R.id.meeting_detail_tv_date);
         mTvDuration = findView(R.id.meeting_detail_tv_time);
 
         // 会议相关
         mTvTitle = findView(R.id.meeting_detail_tv_title);
         mTvSection = findView(R.id.meeting_detail_tv_section);
-        mTvEpn = findView(R.id.meeting_detail_tv_award);
-//        mTvEpn = findView(R.id.meeting_detail_tv_cmd);
+        mTvEpn = findView(R.id.meeting_detail_tv_epn);
+        mIvEpn = findView(R.id.meeting_detail_iv_epn);
+        mTvCmd = findView(R.id.meeting_detail_tv_cmd);
+        mIvCmd = findView(R.id.meeting_detail_iv_cmd);
 
         // 单位号相关
         mIvNumber = findView(R.id.meeting_detail_iv_number);
@@ -261,10 +271,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         @EpnType int epnType = detail.getInt(TMeetDetail.eduCredits); // 支付 / 奖励
         mNeedPay = epnType == EpnType.need; // 是否需要支付象数
         mCostEpn = detail.getInt(TMeetDetail.xsCredits); // 需要(支付 / 奖励)的象数
-        if (mCostEpn == 0) {
-            // 不奖励也不支付算免费, 隐藏
-            goneView(mTvEpn);
-        } else {
+        if (mCostEpn != 0) {
+            showView(mTvEpn);
+            showView(mIvEpn);
             if (mNeedPay) {
                 mTvEpn.setText(String.format(getString(R.string.meeting_epn_pay_before), mCostEpn));
             } else {

@@ -114,6 +114,9 @@
 
         <!-- meeting -->
         <activity
+            android:name=".ui.activity.meeting.MeetingFolderActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.activity.meeting.MeetingDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity

@@ -25,35 +25,39 @@
 
         <TextView
             android:id="@+id/meeting_detail_tv_section"
-            style="@style/tv.meeting.detail"
+            style="@style/tv.meeting"
             android:text="内科"/>
 
         <ImageView
-            android:id="@+id/meeting_detail_tv_cme"
+            android:id="@+id/meeting_detail_iv_cmd"
             android:layout_width="22dp"
             android:layout_height="13dp"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/meeting_detail_ic_cme"/>
+            android:src="@mipmap/meeting_detail_ic_cme"
+            android:visibility="gone"/>
 
         <ImageView
-            android:id="@+id/meeting_detail_tv_epn"
+            android:id="@+id/meeting_detail_iv_epn"
             android:layout_width="29dp"
             android:layout_height="13dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/meeting_detail_selector_epn_type"/>
+            android:src="@drawable/meeting_detail_selector_epn_type"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/meeting_detail_tv_award"
-        style="@style/tv.meeting.detail"
+        android:id="@+id/meeting_detail_tv_epn"
+        style="@style/tv.meeting"
         android:layout_marginTop="6dp"
-        android:text="@string/meeting_epn_award_before"/>
+        android:text="@string/meeting_epn_award_before"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/meeting_detail_tv_cmd"
-        style="@style/tv.meeting.detail"
+        style="@style/tv.meeting"
         android:layout_marginTop="6dp"
-        android:text="@string/meeting_cme_award_before"/>
+        android:text="@string/meeting_cme_award_before"
+        android:visibility="gone"/>
 
     <View
         android:layout_width="match_parent"

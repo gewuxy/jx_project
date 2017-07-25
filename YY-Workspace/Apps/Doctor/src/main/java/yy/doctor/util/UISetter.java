@@ -20,7 +20,10 @@ import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
+import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.home.RecUnitNum.Attention;
+import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
@@ -250,5 +253,15 @@ public class UISetter {
         return res;
     }*/
 
+    public static void meetingHolderSet(MeetingVH holder, Meeting m, boolean visibility) {
+        holder.getTvTitle().setText(m.getString(TMeeting.meetName));
+//        holder.getTvSection().setText(m.getString(TMeeting.meetType));
+        TextView tvUnitNum = holder.getTvUnitNum();
+        if (visibility) {
+            ViewUtil.goneView(tvUnitNum);
+        } else {
+            tvUnitNum.setText(m.getString(TMeeting.organizer));
+        }
+    }
 
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin_large"
+        android:src="@mipmap/meeting_ic_folder_head"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/meeting_folder_header_tv_title"
+            style="@style/tv.meeting.title"
+            android:lineSpacingExtra="8dp"
+            android:text="会议"/>
+
+        <TextView
+            android:id="@+id/meeting_folder_header_tv_meeting_num"
+            style="@style/tv"
+            android:layout_marginTop="8dp"
+            android:drawableRight="@mipmap/meeting_ic_unit_num_folder_arrow"
+            android:textColor="@color/text_888"
+            android:textSize="13dp"/>
+    </LinearLayout>
+
+</LinearLayout>

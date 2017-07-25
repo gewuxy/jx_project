@@ -28,7 +28,8 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
         switch (itemType) {
             // 搜索会议
             case RecType.meeting: {
-                Meeting item = (Meeting) getItem(position);
+                // FIXME:
+                /*Meeting item = (Meeting) getItem(position);
                 MeetingVH meetVH = holder.getMeetingVH();
 
                 meetVH.getIvUnitNum()
@@ -42,10 +43,10 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
 
                 long startTime = item.getLong(TMeeting.startTime);
                 long endTime = item.getLong(TMeeting.endTime);
-                UISetter.setDateDuration(meetVH.getTvDate(), meetVH.getTvDuration(), startTime, endTime);
+                UISetter.setDateDuration(meetVH.getTvTime(), meetVH.getTvDuration(), startTime, endTime);
 
                 @MeetState int state = item.getInt(TMeeting.state);
-                UISetter.setMeetState(state, meetVH.getTvState());
+                UISetter.setMeetState(state, meetVH.getTvState());*/
             }
             break;
             // 搜索单位号

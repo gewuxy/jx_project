@@ -62,6 +62,11 @@ public class LoginActivity extends BaseLoginActivity {
     }
 
     @Override
+    protected String getOpenId() {
+        return null;
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_tv_register: {

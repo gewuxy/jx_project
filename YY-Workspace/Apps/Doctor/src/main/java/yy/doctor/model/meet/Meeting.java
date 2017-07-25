@@ -18,6 +18,15 @@ import yy.doctor.model.search.IRec;
 
 public class Meeting extends EVal<TMeeting> implements IRec {
 
+    @IntDef({
+            FileType.folder,
+            FileType.file,
+    })
+    public  @interface FileType {
+        int folder = 0;
+        int file = 1;
+    }
+
     /**
      * 会议状态
      */

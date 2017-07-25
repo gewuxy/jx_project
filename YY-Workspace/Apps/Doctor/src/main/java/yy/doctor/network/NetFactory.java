@@ -237,18 +237,7 @@ public class NetFactory {
     }
 
     /**
-     * 登录
-     *
-     * @param name
-     * @param pwd
-     * @return
-     */
-    public static NetworkReq login(String name, String pwd) {
-        return login(name, pwd, null);
-    }
-
-    /**
-     * 绑定微信号并登录
+     * 登录(绑定微信号)
      *
      * @param name
      * @param pwd

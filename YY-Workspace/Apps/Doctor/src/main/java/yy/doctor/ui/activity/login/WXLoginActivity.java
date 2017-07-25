@@ -50,6 +50,12 @@ public class WXLoginActivity extends BaseLoginActivity {
         return "绑定并登录";
     }
 
+    @NonNull
+    @Override
+    protected String getOpenId() {
+        return mOpenId;
+    }
+
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<Profile> r = (Result<Profile>) result;

@@ -149,7 +149,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.login_tv_login: {
                 refresh(AppConfig.RefreshWay.dialog);
-                exeNetworkReq(NetFactory.login(getUserName(), Util.getEtString(mEtPwd)));
+                exeNetworkReq(NetFactory.login(getUserName(), Util.getEtString(mEtPwd), getOpenId()));
             }
             break;
             case R.id.login_iv_cancel: {
@@ -170,5 +170,8 @@ public abstract class BaseLoginActivity extends BaseActivity {
     }
 
     protected abstract CharSequence getBtnText();
+
+    @NonNull
+    protected abstract String getOpenId();
 
 }
