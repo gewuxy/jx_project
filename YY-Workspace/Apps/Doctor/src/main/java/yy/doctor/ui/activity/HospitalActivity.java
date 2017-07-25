@@ -49,6 +49,7 @@ import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.ui.activity.search.SearchHospitalActivity;
+import yy.doctor.ui.activity.search.SearchHospitalActivity.Hos;
 import yy.doctor.util.Util;
 
 /**
@@ -286,10 +287,10 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        super.onNotify(type, data);
         if (type == NotifyType.hospital_finish) {
-            String name = (String) data;
-            Intent intent = new Intent().putExtra(Extra.KData, name);
+            Hos name = (Hos) data;
+            Intent intent = new Intent().putExtra(Extra.KData, name.name)
+                    .putExtra(Extra.KId,name.resId);
             setResult(RESULT_OK, intent);
             this.finish();
         }

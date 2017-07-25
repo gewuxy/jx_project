@@ -64,8 +64,6 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
 
     @DrawableRes
     private Integer mTextColorId;
-    @DrawableRes
-    private Integer mHintColorId;
 
     private String mToast;
     private Integer mPaddingLeft;
@@ -227,11 +225,6 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
         return (T) this;
     }
 
-    public <T extends FormBuilderEx<FORM>> T hintColor(@DrawableRes int id) {
-        mHintColorId = id;
-        return (T) this;
-    }
-
     public <T extends FormBuilderEx<FORM>> T paddingLeft(int leftDp) {
         mPaddingLeft = leftDp;
         return (T) this;
@@ -337,7 +330,6 @@ abstract public class FormBuilderEx<FORM extends FormEx> {
         putIfNotNull(FORM, TForm.observer, mObserver);
         putIfNotNull(FORM, TForm.url, mUrl);
         putIfNotNull(FORM, TForm.text_color, mTextColorId);
-        putIfNotNull(FORM, TForm.hint_color, mHintColorId);
         putIfNotNull(FORM, TForm.padding_dp_left, mPaddingLeft);
         putIfNotNull(FORM, TForm.padding_dp_right, mPaddingRight);
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
-import android.widget.TextView;
 
 import java.io.File;
 import java.lang.annotation.Retention;
@@ -27,7 +26,7 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.dialog.CommonDialog;
+import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -88,7 +87,6 @@ public class SettingsActivity extends BaseFormActivity {
         int audio_play = 9;
     }
 
-    private TextView mTvExit;
     private String mImgSize;
 
     private String mSoundSize;
@@ -182,26 +180,37 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void findViews() {
-        super.findViews();
-
-        mTvExit = findView(R.id.settings_footer_tv_exit_account);
-    }
-
-    @Override
     public void setViews() {
         super.setViews();
 
-        mTvExit.setOnClickListener(this);
+        setOnClickListener(R.id.settings_footer_tv_exit_account);
     }
 
     @Override
     public void onClick(View v) {
-
-        int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
             case R.id.settings_footer_tv_exit_account: {
-                showDialogExit();
+                HintDialogMain dialog = new HintDialogMain(this);
+                dialog.setHint("确定要退出当前登录账号吗?");
+                dialog.addButton("退出", v1-> {
+                    dialog.dismiss();
+                    Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
+                    intent.putExtra(Extra.KType, ReqType.logout);
+                    intent.putExtra(Extra.KData, Profile.inst().getString(TProfile.token));
+                    startService(intent);
+
+                    SettingsActivity.this.notify(NotifyType.logout);
+
+                    //清空个人信息，把极光绑定改为false 登录后需要重新绑定
+                    SpUser.inst().clear();
+                    SpJPush.inst().jPushIsRegister(false);
+                    Profile.inst().clear();
+
+                    startActivity(LoginActivity.class);
+                    finish();
+                });
+                dialog.addButton("取消", v1-> dialog.dismiss());
+                dialog.show();
             }
             break;
         }
@@ -209,7 +218,6 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     protected void onFormItemClick(View v, int position) {
-        super.onFormItemClick(v, position);
 
         @RelatedId int relatedId = getItem(position).getInt(TForm.related);
         switch (relatedId) {
@@ -252,37 +260,6 @@ public class SettingsActivity extends BaseFormActivity {
                 showToast(R.string.already_latest_version);
             }
         }
-    }
-
-    private void showDialogExit() {
-
-        final CommonDialog dialog = new CommonDialog(this);
-        dialog.addItem(getString(R.string.exit_account), v -> {
-
-            dialog.dismiss();
-
-            Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
-            intent.putExtra(Extra.KType, ReqType.logout);
-            intent.putExtra(Extra.KData, Profile.inst().getString(TProfile.token));
-            startService(intent);
-
-            SettingsActivity.this.notify(NotifyType.logout);
-
-            //清空个人信息，把极光绑定改为false 登录后需要重新绑定
-            SpUser.inst().clear();
-            SpJPush.inst().jPushIsRegister(false);
-            Profile.inst().clear();
-
-            startActivity(LoginActivity.class);
-            finish();
-        });
-
-        dialog.addItem(getString(R.string.close_app), v -> {
-            dialog.dismiss();
-            notify(NotifyType.exit);
-            finish();
-        });
-        dialog.show();
     }
 
     private void showDialogClearImgCache() {

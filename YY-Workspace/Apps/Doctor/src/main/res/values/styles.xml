@@ -192,6 +192,7 @@
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/text_888</item>
     </style>
+
     <style name="tv.hospital_level_tv">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">46dp</item>
@@ -200,6 +201,19 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawablePadding">18dp</item>
         <item name="android:layout_marginLeft">24dp</item>
+    </style>
+
+    <style name="et.bind">
+        <item name="android:layout_marginLeft">@dimen/bind_margin_left</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textColorHint">@color/text_b3</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:background">@drawable/white</item>
     </style>
 
 </resources>

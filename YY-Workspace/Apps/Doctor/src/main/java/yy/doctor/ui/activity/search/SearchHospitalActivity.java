@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.search;
 
+import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.EditText;
 
@@ -33,15 +34,17 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
-import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.HospitalBaiDuAdapter;
 import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.dialog.LevelDialog;
+import yy.doctor.dialog.LevelDialog.OnLevelListener;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.IHospital;
+import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.util.Util;
 
 
@@ -50,7 +53,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/20
  */
 
-public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify {
+public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelListener {
 
     private EditText mEtSearch;
     private PoiSearch mSearch;
@@ -61,6 +64,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     private String mStrSearch;
     private final int KLimit = 12;
     private IHospital mCheckItem;
+    private LevelDialog mLevelDialog;
 
     @Override
     public void initData() {
@@ -114,7 +118,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption()
                 .location(mLatLng)
                 .pageCapacity(KLimit)    //每页条数
-                .keyword(mStrSearch+"医院")
+                .keyword(mStrSearch + "医院")
                 .radius(10000)
                 .pageNum(getOffset())
                 .sortType(PoiSortType.distance_from_near_to_far);//由近到远排序
@@ -124,10 +128,18 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     @Override
     public void onItemClick(View v, int position) {
         super.onItemClick(v, position);
-        IHospital item = getItem(position);
+
+        mCheckItem = getItem(position);
+        if (mCheckItem.getType() != HospitalType.hospital_title) {
+            mLevelDialog = new LevelDialog(this);
+            mLevelDialog.setListener(SearchHospitalActivity.this);
+            mLevelDialog.show();
+        }
+
+      /*  IHospital item = getItem(position);
         Hospital hospital = (Hospital) item;
         Notifier.inst().notify(NotifyType.hospital_finish,hospital.getString(THospital.name));
-        finish();
+        finish();*/
     }
 
     @Override
@@ -268,4 +280,18 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     }
 
 
+    public void checkLevel(@DrawableRes int resId) {
+        Hospital hospital = (Hospital) mCheckItem;
+        Hos hos = new Hos();
+        hos.name = hospital.getString(THospital.name);
+        hos.resId = resId;
+        notify(NotifyType.hospital_finish, hos);
+
+        finish();
+    }
+
+    public class Hos{
+        public String name;
+        public int resId;
+    }
 }

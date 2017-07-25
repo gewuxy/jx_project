@@ -12,13 +12,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.UISetter;
+import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 
 /**
@@ -44,7 +50,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
         if (mEtName == null) {
             return "";
         }
-        return mEtName.getText().toString().trim();
+        return Util.getEtString(mEtName);
     }
 
     @Override
@@ -81,8 +87,8 @@ public abstract class BaseLoginActivity extends BaseActivity {
         // 密码明文暗文(光标最后), 设置密码输入范围
         setPwdVisible(mEtPwd, mCbPwdVisible);
         // 监听mEtName,mEtPwd的内容改变
-        buttonChanged(mEtName,mIvNameClear);
-        buttonChanged(mEtPwd,mIvPwdClear);
+        buttonChanged(mEtName, mIvNameClear);
+        buttonChanged(mEtPwd, mIvPwdClear);
 
         setOnClickListener(R.id.login_tv_login);
         setOnClickListener(R.id.login_cb_visible_pwd);
@@ -92,6 +98,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
 
     /**
      * 密码的明文或者暗文, 设置密码范围
+     *
      * @param et
      * @param cb
      */
@@ -117,13 +124,13 @@ public abstract class BaseLoginActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if ((RegexUtil.isMobileCN(getUserName()) || RegexUtil.isEmail(getUserName()))
-                        && !TextUtil.isEmpty(mEtPwd.getText().toString())) {
+                        && !TextUtil.isEmpty(Util.getEtString(mEtPwd))) {
                     mTvButton.setEnabled(true);
                 } else {
                     mTvButton.setEnabled(false);
                 }
                 // iv是否显示
-                if (TextUtil.isEmpty(et.getText().toString())) {
+                if (TextUtil.isEmpty(Util.getEtString(et))) {
                     hideView(iv);
                 } else {
                     showView(iv);
@@ -141,7 +148,8 @@ public abstract class BaseLoginActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_tv_login: {
-                btnClick(mEtPwd.getText().toString().trim());
+                refresh(AppConfig.RefreshWay.dialog);
+                exeNetworkReq(NetFactory.login(getUserName(), Util.getEtString(mEtPwd)));
             }
             break;
             case R.id.login_iv_cancel: {
@@ -156,7 +164,11 @@ public abstract class BaseLoginActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), Profile.class);
+    }
+
     protected abstract CharSequence getBtnText();
 
-    public abstract void btnClick(String pwd);
 }

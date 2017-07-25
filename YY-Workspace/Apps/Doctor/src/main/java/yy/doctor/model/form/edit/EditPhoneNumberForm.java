@@ -3,13 +3,18 @@ package yy.doctor.model.form.edit;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
+import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.model.form.FormType;
+
+import static lib.ys.util.view.ViewUtil.hideView;
+import static lib.ys.util.view.ViewUtil.showView;
 
 /**
  * @auther WangLan
@@ -19,6 +24,7 @@ import yy.doctor.model.form.FormType;
 public class EditPhoneNumberForm extends EditNumberForm {
 
     private boolean mIsAdd;
+    private FormVH mHolder;
 
     @NonNull
     @Override
@@ -28,6 +34,10 @@ public class EditPhoneNumberForm extends EditNumberForm {
 
     @Override
     public int getContentViewResId() {
+        int layout = getInt(TForm.layout);
+        if (layout != ConstantsEx.KInvalidValue) {
+            return layout;
+        }
         return R.layout.form_edit_phone_number;
     }
 
@@ -39,7 +49,7 @@ public class EditPhoneNumberForm extends EditNumberForm {
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
-
+        mHolder = holder;
         EditText editText = holder.getEt();
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -61,6 +71,11 @@ public class EditPhoneNumberForm extends EditNumberForm {
                     // TODO: tttttttttttttttttttt
                     editText.setSelection(str.length());
                 }
+                    if (str.length() != 0) {
+                        showView(holder.getIv());
+                    }else {
+                        hideView(holder.getIv());
+                    }
             }
 
             @Override
@@ -81,6 +96,13 @@ public class EditPhoneNumberForm extends EditNumberForm {
                 }
             }
         });
+        setOnClickListener(holder.getIv());
     }
 
+    @Override
+    protected boolean onViewClick(View v) {
+        mHolder.getEt().setText("");
+        return super.onViewClick(v);
+
+    }
 }

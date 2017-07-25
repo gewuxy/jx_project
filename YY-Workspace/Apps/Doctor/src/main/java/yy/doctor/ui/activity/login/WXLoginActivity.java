@@ -1,9 +1,17 @@
 package yy.doctor.ui.activity.login;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
+import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
 
 /**
@@ -12,6 +20,19 @@ import yy.doctor.util.Util;
  */
 
 public class WXLoginActivity extends BaseLoginActivity {
+
+    public String mOpenId;
+
+    public static void nav(Context context, String openId) {
+        Intent i = new Intent(context, WXLoginActivity.class)
+                .putExtra(Extra.KData, openId);
+        LaunchUtil.startActivity(context, i);
+    }
+
+    @Override
+    public void initData() {
+        mOpenId = getIntent().getStringExtra(Extra.KData);
+    }
 
     @NonNull
     @Override
@@ -30,7 +51,15 @@ public class WXLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void btnClick(String pwd) {
-
+    public void onNetworkSuccess(int id, Object result) {
+        Result<Profile> r = (Result<Profile>) result;
+        if (r.isSucceed()) {
+            Profile.inst().update(r.getData());
+            notify(NotifyType.login);
+            startActivity(MainActivity.class);
+            finish();
+        } else {
+            showToast(r.getError());
+        }
     }
 }

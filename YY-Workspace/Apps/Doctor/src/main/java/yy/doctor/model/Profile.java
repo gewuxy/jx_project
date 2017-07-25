@@ -17,6 +17,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
 
     public enum TProfile {
         token, // 会话令牌
+        openid,
         id,
         username,  //登录用户名
         nickname,  //昵称
