@@ -10,6 +10,8 @@ public interface Extra {
     String KType = "type";
     String KUrl = "url";
 
+    String KTitle = "title";
+
     String KId = "id";
     String KUnitNumId = "unitNumId";
     String KCategoryId = "categoryId";

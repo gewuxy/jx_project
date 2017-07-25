@@ -1,5 +1,6 @@
 package lib.yy.model.form;
 
+import android.support.annotation.StringRes;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,35 +73,8 @@ abstract public class BaseForm extends FormEx<FormVH> {
      * @return
      */
     protected boolean checkInput() {
-        if (isEmpty(getString(TForm.val))) {
-            if (getString(TForm.toast).isEmpty()) {
-                String name = getString(TForm.name);
-                String toast = null;
-                if (name.isEmpty()) {
-                    toast = getString(TForm.hint);
-                } else {
-                    toast = name;
-                }
-
-                showToast(ResLoader.getString(R.string.toast_hint_input) + toast);
-            } else {
-                showToast(getString(TForm.toast));
-            }
-            return false;
-        }/* else {
-            // TODO: 完善form regex
-            String regex = getString(TForm.regex);
-            boolean match = RegexUtil.match(regex, getString(val));
-            if (match) {
-                return true;
-            } else {
-                showToast("格式不匹配, 不能含有......");
-                return false;
-            }
-        }*/
-        return true;
+        return nativeCheck(R.string.toast_hint_input);
     }
-
 
     /**
      * 检测"请上传"选项
@@ -122,9 +96,21 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     //
     protected boolean checkSelector() {
+        return nativeCheck(R.string.toast_hint_select);
+    }
+
+    private boolean nativeCheck(@StringRes int stringId) {
         if (isEmpty(getString(TForm.val))) {
             if (getString(TForm.toast).isEmpty()) {
-                showToast(ResLoader.getString(R.string.toast_hint_select) + getString(TForm.name));
+                String name = getString(TForm.name);
+                String toast = null;
+                if (name.isEmpty()) {
+                    toast = getString(TForm.hint);
+                } else {
+                    toast = name;
+                }
+
+                showToast(ResLoader.getString(stringId) + toast);
             } else {
                 showToast(getString(TForm.toast));
             }

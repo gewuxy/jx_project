@@ -9,7 +9,7 @@ import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang
- * @since 2017/4/28
+ * @since 2017/4/6
  */
 public class TextForm extends BaseForm {
 
@@ -17,11 +17,6 @@ public class TextForm extends BaseForm {
     @Override
     public int getType() {
         return FormType.text;
-    }
-
-    @Override
-    public boolean check() {
-        return true;
     }
 
     @Override
@@ -33,7 +28,14 @@ public class TextForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        setTextIfExist(holder.getTvText(), getString(TForm.text));
-        save(getString(TForm.text), getString(TForm.text));
+        setIvIfValid(holder.getIv(), getInt(TForm.drawable));
+
+        holder.getTvText().setText(getString(TForm.text));
     }
+
+    @Override
+    public boolean check() {
+        return checkSelector();
+    }
+
 }

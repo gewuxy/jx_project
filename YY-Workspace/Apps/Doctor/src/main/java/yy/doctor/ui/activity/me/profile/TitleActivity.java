@@ -40,7 +40,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.title, this);
+        Util.addBackIcon(bar, R.string.user_title, this);
     }
 
     @Override

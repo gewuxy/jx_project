@@ -27,7 +27,7 @@
             <EditText
                 style="@style/et.login"
                 android:id="@+id/et_departments"
-                android:hint="@string/user_input_section"/>
+                android:hint=""/>
 
             <ImageView
                 android:id="@+id/iv_departments_cancel"

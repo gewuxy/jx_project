@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.me.profile;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,15 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.yy.network.BaseJsonParser.ErrorCode;
+import lib.yy.network.Result;
+import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.util.Util;
-
-import static yy.doctor.R.string.save;
+import yy.doctor.model.Profile.TProfile;
 
 /**
  * 学术专长
@@ -24,30 +23,22 @@ import static yy.doctor.R.string.save;
  * @since 2017/7/14
  */
 
-public class AcademicActivity extends BaseActivity{
+public class AcademicActivity extends BaseModifyActivity{
 
     private EditText mEtAcademic;
     private TextView mTvAcademic;
-    private TextView mTv;
     private String mTextNum = null;
 
-    @Override
-    public void initData() {
+    public static Intent newIntent(Context context, String title, TProfile t) {
+        return new Intent(context, AcademicActivity.class)
+                .putExtra(Extra.KData, t)
+                .putExtra(Extra.KTitle, title);
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_academic;
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.academic, this);
-        mTv = bar.addTextViewRight(save, v -> {
-            notify(NotifyType.academic, mEtAcademic.getText().toString());
-            finish();
-        });
     }
 
     @Override
@@ -58,27 +49,25 @@ public class AcademicActivity extends BaseActivity{
 
     @Override
     public void setViews() {
-        mTv.setEnabled(false);
-        mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
+        super.setViews();
+
         mTextNum = String.format(getString(R.string.academic_unit), 0);
         mTvAcademic.setText(mTextNum);
+
+        addTextChangedListener(mEtAcademic, null);
+
         mEtAcademic.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtil.isEmpty(mEtAcademic.getText().toString())) {
-                    mTv.setEnabled(false);
-                    mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-                }else {
-                    mTv.setEnabled(true);
-                    mTv.setTextColor(ResLoader.getColor(R.color.white));
-                }
+            }
 
-                s.length();
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (TextUtil.isEmpty(s)) {
                     mTextNum = String.format(getString(R.string.academic_unit), 0);
                 }else {
@@ -86,19 +75,19 @@ public class AcademicActivity extends BaseActivity{
                 }
                 mTvAcademic.setText(mTextNum);
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
     }
 
     @Override
-    public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.academic) {
+    protected void doModify() {
+        Result<String> result = new Result<>();
+        result.setCode(ErrorCode.KOk);
+        onNetworkSuccess(0, result);
+    }
 
-        }
+    @Override
+    protected EditText getEt() {
+        return mEtAcademic;
     }
 
     @Override

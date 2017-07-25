@@ -4,12 +4,23 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
+import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.me.UpHeadImage;
+import yy.doctor.model.me.UpHeadImage.TUpHeadImage;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -53,10 +64,10 @@ public class ClipImageActivity extends BaseActivity {
             Bitmap bmp = mPv.getDrawingCache();
             if (bmp != null) {
                 mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
-                setResult(RESULT_OK, getIntent());
-                finish();
-                //ImageView img = findView(R.id.img);
-                //img.setImageBitmap(mBmp);
+
+                // 网络上传图片
+                refresh(RefreshWay.dialog);
+                exeNetworkReq(NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
             }
             mPv.destroyDrawingCache();
         });
@@ -77,4 +88,26 @@ public class ClipImageActivity extends BaseActivity {
         BmpUtil.recycle(mBmp);
     }
 
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), UpHeadImage.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        Result<UpHeadImage> r = (Result<UpHeadImage>) result;
+        if (r.isSucceed()) {
+            UpHeadImage upHeadImage = r.getData();
+            //头像路径保存到本地
+            Profile.inst().update(Profile.inst().put(TProfile.headimg, upHeadImage.getString(TUpHeadImage.url)));
+            Profile.inst().saveToSp();
+
+            notify(NotifyType.profile_change);
+
+            setResult(RESULT_OK, getIntent());
+            finish();
+        } else {
+            onNetworkError(id, new NetError(id, r.getError()));
+        }
+    }
 }

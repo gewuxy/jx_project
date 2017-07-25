@@ -46,7 +46,7 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
-import yy.doctor.model.form.text.TextRegisterIntentForm.IntentType;
+import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
@@ -156,7 +156,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_register_intent)
+        addItem(new Builder(FormType.text_intent_no_name)
                 .related(RelatedId.location)
                 .hint(R.string.province_city_district)
                 .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
@@ -164,7 +164,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
 
         addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_register_intent)
+        addItem(new Builder(FormType.text_intent_no_name)
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
@@ -172,7 +172,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_register_intent)
+        addItem(new Builder(FormType.text_intent_no_name)
                 .related(RelatedId.medicine)
                 .hint(R.string.medicine)
                 .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
@@ -185,7 +185,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_register_intent)
+        addItem(new Builder(FormType.text_intent_no_name)
                 .related(RelatedId.doctor)
                 .hint(R.string.doctor)
                 .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))

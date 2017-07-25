@@ -135,6 +135,11 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
 
     @Override
     public void getDataFromNet() {
+        if (mLatLng == null) {
+            showToast("定位失败");
+            return;
+        }
+
         //获得Key
         String key = "医院";
         //周边检索
@@ -292,7 +297,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
             Intent intent = new Intent().putExtra(Extra.KData, name.name)
                     .putExtra(Extra.KId,name.resId);
             setResult(RESULT_OK, intent);
-            this.finish();
+            finish();
         }
     }
 

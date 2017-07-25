@@ -10,15 +10,12 @@ import yy.doctor.model.form.edit.EditNumberForm;
 import yy.doctor.model.form.edit.EditPhoneNumberForm;
 import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
-import yy.doctor.model.form.text.ContentForm;
-import yy.doctor.model.form.text.ContentTextForm;
-import yy.doctor.model.form.text.TextAcademicIntentForm;
-import yy.doctor.model.form.text.TextDialogForm;
+import yy.doctor.model.form.text.MeForm;
 import yy.doctor.model.form.text.TextForm;
-import yy.doctor.model.form.text.TextIntentForm;
-import yy.doctor.model.form.text.TextProfileIntentForm;
-import yy.doctor.model.form.text.TextRegisterIntentForm;
-import yy.doctor.model.form.text.TextSpecializedIntent;
+import yy.doctor.model.form.text.TextDialogForm;
+import yy.doctor.model.form.text.intent.IntentForm;
+import yy.doctor.model.form.text.intent.IntentNoNameForm;
+import yy.doctor.model.form.text.intent.IntentSkillForm;
 
 /**
  * @author CaiXiang
@@ -35,41 +32,28 @@ public class Builder extends FormBuilderEx<BaseForm> {
         BaseForm form = null;
 
         switch (type) {
-            case FormType.content: {
-                form = new ContentForm();
-            }
-            break;
-            case FormType.content_text: {
-                form = new ContentTextForm();
-            }
-
-            break;
             case FormType.text: {
                 form = new TextForm();
             }
             break;
             case FormType.text_intent: {
-                form = new TextIntentForm();
+                form = new IntentForm();
             }
             break;
-            case FormType.text_specialized_intent: {
-                form = new TextSpecializedIntent();
+            case FormType.text_intent_me: {
+                form = new MeForm();
             }
             break;
-            case FormType.text_profile_intent: {
-                form = new TextProfileIntentForm();
-            }
-            break;
-            case FormType.text_academic_intent: {
-                form = new TextAcademicIntentForm();
+            case FormType.modify_intent_skill: {
+                form = new IntentSkillForm();
             }
             break;
             case FormType.text_dialog: {
                 form = new TextDialogForm();
             }
             break;
-            case FormType.text_register_intent: {
-                form = new TextRegisterIntentForm();
+            case FormType.text_intent_no_name: {
+                form = new IntentNoNameForm();
             }
             break;
 

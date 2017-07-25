@@ -115,28 +115,28 @@ public class SettingsActivity extends BaseFormActivity {
         mImgSize = getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
         mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
 
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.wx_binding)
                 .name(R.string.wx_account)
                 .text(R.string.no_binding)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.phone_num_binding)
                 .name(R.string.phone_num_account)
                 .text(R.string.no_binding)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.email_binding)
                 .name(R.string.email_account)
                 .text(SpApp.inst().getUserName())
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.change_password)
                 .name(R.string.change_pwd)
                 .build());
@@ -148,20 +148,20 @@ public class SettingsActivity extends BaseFormActivity {
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.check_version)
                 .name(R.string.check_version)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .name(R.string.clear_img_cache)
                 .related(RelatedId.clear_img_cache)
                 .text(mImgSize)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .name(R.string.clear_sound_cache)
                 .related(RelatedId.clear_sound_cache)
                 .text(mSoundSize)

@@ -76,31 +76,31 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.update_log)
                 .name(R.string.update_log)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.disclaimer)
                 .name(R.string.disclaimer)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.contribution_invited)
                 .name(R.string.contribution_invited)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.jing_xin)
                 .name(R.string.jing_xin)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.content_text)
+        addItem(new Builder(FormType.text)
                 .related(RelatedId.feedback)
                 .name(R.string.opinion_feedback)
                 .build());

@@ -66,45 +66,38 @@ public class MeFrag extends BaseFormFrag {
         int help_and_feedback = 5;
     }
 
-    @Override
-    public void initNavBar(NavBar bar) {
-
-        bar.addTextViewMid(R.string.profile_center);
-    }
-
-    @Override
-    protected View createHeaderView() {
-        return inflate(R.layout.layout_me_header);
-    }
 
     @Override
     public void initData() {
         super.initData();
 
+        int paddingLeft = fitDp(58);
+        int paddingRight = fitDp(12);
+
         addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_meeting_statistics)
                 .name(R.string.attend_meeting_statistics)
                 .related(RelatedId.meeting_statistics)
                 .build());
 
         addItem(new Builder(FormType.divider)
-                .paddingLeft(fitDp(58))
-                .paddingRight(fitDp(12))
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight)
                 .build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_attention_unit_num)
                 .name(R.string.my_attention)
                 .related(RelatedId.my_attention)
                 .build());
 
         addItem(new Builder(FormType.divider)
-                .paddingLeft(fitDp(58))
-                .paddingRight(fitDp(12))
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight)
                 .build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_collection)
                 .name(R.string.collection_meeting)
                 .related(RelatedId.my_collection)
@@ -112,10 +105,10 @@ public class MeFrag extends BaseFormFrag {
 
         //String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits));
         addItem(new Builder(FormType.divider)
-                .paddingLeft(fitDp(58))
-                .paddingRight(fitDp(12))
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight)
                 .build());
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_epn)
                 .name(R.string.epn)
                 .text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)))
@@ -123,22 +116,36 @@ public class MeFrag extends BaseFormFrag {
                 .build());
 
         addItem(new Builder(FormType.divider_large)
-                .paddingLeft(fitDp(58))
-                .paddingRight(fitDp(12))
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight)
                 .build());
 
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_settings)
                 .name(R.string.settings)
                 .related(RelatedId.settings)
                 .build());
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.content)
+        addItem(new Builder(FormType.divider_large)
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight)
+                .build());
+
+        addItem(new Builder(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_help_and_feedback)
                 .name(R.string.held_and_feedback)
                 .related(RelatedId.help_and_feedback)
                 .build());
+    }
+
+    @Override
+    public void initNavBar(NavBar bar) {
+        bar.addTextViewMid(R.string.profile_center);
+    }
+
+    @Override
+    protected View createHeaderView() {
+        return inflate(R.layout.layout_me_header);
     }
 
     @Override

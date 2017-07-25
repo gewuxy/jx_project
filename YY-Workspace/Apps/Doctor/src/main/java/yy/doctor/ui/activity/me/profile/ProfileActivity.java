@@ -14,11 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
-import lib.network.model.NetworkReq;
-import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TForm;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -29,38 +25,28 @@ import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import yy.doctor.Constants;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.model.Pcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
-import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.form.Builder;
 import yy.doctor.model.form.FormType;
-import yy.doctor.model.me.UpHeadImage;
-import yy.doctor.model.me.UpHeadImage.TUpHeadImage;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.register.HospitalActivity;
+import yy.doctor.model.form.text.intent.IntentForm.IntentType;
+import yy.doctor.ui.activity.HospitalActivity;
 import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
-import static yy.doctor.model.Profile.TProfile.city;
 import static yy.doctor.model.Profile.TProfile.cmeId;
 import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
-import static yy.doctor.model.Profile.TProfile.province;
 import static yy.doctor.model.Profile.TProfile.specialized;
 import static yy.doctor.model.Profile.TProfile.title;
-import static yy.doctor.model.Profile.TProfile.zone;
 
 /**
  * 我的资料
@@ -73,15 +59,13 @@ public class ProfileActivity extends BaseFormActivity {
     private final int KColorNormal = Color.parseColor("#666666");
     private final int KColorCancel = Color.parseColor("#01b557");
 
-    private final int KCodeAlbum = 100;
-    private final int KCodePhotograph = 200;
-    private final int KCodeClipImage = 300;
+    private final int KBaseCode = 1000;
+    private final int KCodeAlbum = KBaseCode + 1;
+    private final int KCodePhotograph = KBaseCode + 2;
+    private final int KCodeClipImage = KBaseCode + 3;
 
     private final int KPermissionCodePhoto = 0;
     private final int KPermissionCodeAlbum = 1;
-
-    private final int KReqUpHeaderImgId = 10;
-    private final int KReqModifyId = 20;
 
     private final String KPhotoCameraPrefix = "avatar";
 
@@ -97,7 +81,6 @@ public class ProfileActivity extends BaseFormActivity {
     private TextView mTvPercent;
     private int mProgressProFile = 0;
 
-    private String[] mPcd;
 
     @IntDef({
             RelatedId.name,
@@ -118,7 +101,7 @@ public class ProfileActivity extends BaseFormActivity {
             RelatedId.address,
 
             RelatedId.specialized,
-            RelatedId.academic,
+            RelatedId.skill,
 
             RelatedId.is_open,
     })
@@ -144,14 +127,12 @@ public class ProfileActivity extends BaseFormActivity {
         int specialized = 27;
 
         int is_open = 30;
-        int academic = 32;
+        int skill = 32;
     }
 
     @Override
     public void initData() {
         super.initData();
-
-        mPcd = new String[Pcd.KMaxCount];
 
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);
         if (!TextUtil.isEmpty(mAvatarUrl)) {
@@ -172,7 +153,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .enable(false)
                 .build());
 
-        // FIXME: EVal加入init支持R.String
+        // FIXME: 是否默认显示定位城市
         Place place = new Place();
         place.put(TPlace.province, getString(R.string.guang_dong));
         place.put(TPlace.city, getString(R.string.guang_zhou));
@@ -182,37 +163,41 @@ public class ProfileActivity extends BaseFormActivity {
             mProgressProFile += 10;
             YSLog.d("qqq", "3完整度" + mProgressProFile);
         }
-
+        addItem(new Builder(FormType.text_intent)
+                .related(RelatedId.hospital)
+//                .drawable(R.mipmap.form_ic_more)
+                .name(R.string.user_hospital)
+                .intent(new Intent(this, HospitalActivity.class))
+                .mode(IntentType.hospital)
+                .text(Profile.inst().getString(hospital))
+                .hint(R.string.choose_hospital)
+                .build());
 
         addItem(new Builder(FormType.divider).build());
         if (!TextUtil.isEmpty(Profile.inst().getString(specialized))) {
             mProgressProFile += 10;
             YSLog.d("qqq", "4完整度" + mProgressProFile);
         }
-        addItem(new Builder(FormType.text_profile_intent)
+        addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.specialized)
                 .name(R.string.user_section)
-                .intent(new Intent(this, SpecializedActivity.class))
+                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_section), TProfile.specialized))
                 .text(Profile.inst().getString(specialized))
                 .hint(R.string.user_input_section)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
-        if (!TextUtil.isEmpty(Util.generatePcd(mPcd))) {
+        if (!TextUtil.isEmpty(place.toString())) {
             mProgressProFile += 10;
             YSLog.d("qqq", "5完整度" + mProgressProFile);
         }
 
-        mPcd[Pcd.KProvince] = Profile.inst().getString(province);
-        mPcd[Pcd.KCity] = Profile.inst().getString(TProfile.city);
-        mPcd[Pcd.KDistrict] = Profile.inst().getString(zone);
-
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.address)
                 .name(R.string.user_city)
-                .intent(new Intent(this, ProvinceActivity.class))
-                .text(Util.generatePcd(mPcd))
-                .hint(R.string.required)
+                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
+                .text(place.toString())
+                .hint(R.string.province_city_district)
                 .build());
 
         /*YSLog.d(TAG, "hospital level = " + Profile.inst().getString(hosLevel));
@@ -223,42 +208,17 @@ public class ProfileActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(hosLevel))
                 .data(GlConfig.inst().getHospitalGrade())
                 .hint(R.string.optional)
-                .build());
-
-        /*addItem(new Builder(FormType.et)
-                .related(RelatedId.nickname)
-                .name("昵称")
-                .text(Profile.inst().getString(nickname))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.phone_number)
-                .name("手机号")
-                .text(Profile.inst().getString(mobile))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et)
-                .related(RelatedId.email)
-                .name("电子邮箱")
-                .text(Profile.inst().getString(username))
-                .hint(R.string.hint_not_fill)
-                .build());
-        addItem(new Builder(FormType.divider_large).build());*/
-
-        /*addItem(new Builder(FormType.profile_checkbox)
-                .related(RelatedId.is_open)
                 .build());*/
+
 
         addItem(new Builder(FormType.divider_large).build());
         if (!TextUtil.isEmpty(Profile.inst().getString(department))) {
             mProgressProFile += 10;
             YSLog.d("qqq", "6完整度" + mProgressProFile);
         }
-        addItem(new Builder(FormType.text_specialized_intent)
+        addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.departments)
-                .intent(new Intent(this, SectionActivity.class))
+                .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
                 .name(R.string.specialized)
                 .text(Profile.inst().getString(department))
                 .hint(R.string.user_input_Specialist)
@@ -269,10 +229,10 @@ public class ProfileActivity extends BaseFormActivity {
             mProgressProFile += 10;
             YSLog.d("qqq", "7完整度" + mProgressProFile);
         }
-        addItem(new Builder(FormType.text_profile_intent)
+        addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.cme_number)
                 .name(R.string.user_CME_number)
-                .intent(new Intent(this, CmeActivity.class))
+                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_CME_number), TProfile.cmeId))
                 .text(Profile.inst().getString(TProfile.cmeId))
                 .hint(R.string.user_input_CME_number)
                 .build());
@@ -282,11 +242,10 @@ public class ProfileActivity extends BaseFormActivity {
             mProgressProFile += 10;
             YSLog.d("qqq", "8完整度" + mProgressProFile);
         }
-        addItem(new Builder(FormType.text_profile_intent)
+        addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.certification_number)
                 .name(R.string.user_certification_number)
-                .intent(new Intent(this, CertificationActivity.class)
-                        .putExtra(Extra.KData, Profile.inst().getString(TProfile.licence)))
+                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_certification_number), TProfile.licence))
                 .text(Profile.inst().getString(TProfile.licence))
                 .hint(R.string.user_input_certification_number)
                 .build());
@@ -299,9 +258,9 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(new Builder(FormType.text_intent)
                 .related(RelatedId.title)
                 .name(R.string.user_title)
-                .intent(new Intent(this, TitleActivity.class))
+                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))
                 .text(Profile.inst().getString(TProfile.title))
-                .hint(R.string.optional)
+                .hint(R.string.user_title)
                 .build());
 
         addItem(new Builder(FormType.divider_large).build());
@@ -310,10 +269,10 @@ public class ProfileActivity extends BaseFormActivity {
             mProgressProFile += 10;
             YSLog.d("qqq", "10完整度" + mProgressProFile);
         }
-        addItem(new Builder(FormType.text_academic_intent)
-                .related(RelatedId.academic)
-                .name(R.string.academic)
-                .intent(new Intent(this, AcademicActivity.class))
+        addItem(new Builder(FormType.modify_intent_skill)
+                .related(RelatedId.skill)
+                .name(R.string.medical_skill)
+                .intent(AcademicActivity.newIntent(this, getString(R.string.medical_skill), TProfile.academic))
                 .text(Profile.inst().getString(TProfile.academic))
                 .build());
 
@@ -323,15 +282,6 @@ public class ProfileActivity extends BaseFormActivity {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, R.string.user_profile, this);
-        bar.addTextViewRight(R.string.user_save, v -> {
-            refresh(RefreshWay.dialog);
-            //如果头像修改了就先上传头像，成功后再修改其他资料
-            if (mBmp != null) {
-                exeNetworkReq(KReqUpHeaderImgId, NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
-            } else {
-                modify();
-            }
-        });
     }
 
     @Override
@@ -417,18 +367,19 @@ public class ProfileActivity extends BaseFormActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
+
         String path = null;
         switch (requestCode) {
             case KCodeAlbum: {
                 // 查看相册获得图片返回
                 path = PhotoUtil.getPath(this, data.getData());
-                startAcForResult(path);
+                startActForResult(path);
             }
             break;
             case KCodePhotograph: {
                 // 通过照相机拍的图片
                 path = mStrPhotoPath;
-                startAcForResult(path);
+                startActForResult(path);
             }
             break;
             case KCodeClipImage:
@@ -438,10 +389,11 @@ public class ProfileActivity extends BaseFormActivity {
                 //YSLog.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
                 break;
         }
+
     }
 
     //页面跳转
-    private void startAcForResult(String path) {
+    private void startActForResult(String path) {
         if (path != null) {
             Intent intent = new Intent(this, ClipImageActivity.class);
             intent.putExtra(Extra.KData, path);
@@ -488,60 +440,6 @@ public class ProfileActivity extends BaseFormActivity {
 
     private String getRelateVal(@RelatedId int relateId) {
         return getRelatedItem(relateId).getString(TForm.val);
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KReqUpHeaderImgId) {
-            return JsonParser.ev(r.getText(), UpHeadImage.class);
-        } else {
-            return JsonParser.error(r.getText());
-        }
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-
-        if (id == KReqUpHeaderImgId) {
-            Result<UpHeadImage> r = (Result<UpHeadImage>) result;
-            if (r.isSucceed()) {
-                UpHeadImage upHeadImage = r.getData();
-                mAvatarUrl = upHeadImage.getString(TUpHeadImage.url);
-
-                YSLog.d(TAG, "onNetworkSuccess: 头像设置成功 = " + mAvatarUrl);
-                //头像路径保存到本地
-                Profile.inst().update(Profile.inst().put(TProfile.headimg, mAvatarUrl));
-                modify();
-            } else {
-                onNetworkError(id, new NetError(id, r.getError()));
-            }
-        } else {
-            stopRefresh();
-            Result r = (Result) result;
-//            if (r.isSucceed()) {
-//                showToast(ResLoader.getString(R.string.user_save_success));
-//                //更新本地的数据
-//                Profile.inst().put(TProfile.hospital, getRelateVal(RelatedId.hospital));
-//                Profile.inst().put(TProfile.department, getRelateVal(RelatedId.departments));
-//                Profile.inst().put(TProfile.hosLevel, getRelateVal(RelatedId.hospital_grade));
-//                Profile.inst().put(TProfile.title, getRelateVal(RelatedId.title));
-//                Profile.inst().put(TProfile.licence, getRelateVal(RelatedId.certification_number));
-//                Profile.inst().put(TProfile.cmeId, getRelateVal(RelatedId.CME_number));
-//
-//                Profile.inst().put(TProfile.province, mPcd[Pcd.KProvince]);
-//                Profile.inst().put(city, mPcd[Pcd.KCity]);
-//                if (TextUtil.isEmpty(mPcd[Pcd.KDistrict])) {
-//                    Profile.inst().put(TProfile.zone, Constants.KEmptyValue);
-//                } else {
-//                    Profile.inst().put(TProfile.zone, mPcd[Pcd.KDistrict]);
-//                }
-//                Profile.inst().saveToSp();
-//
-//                notify(NotifyType.profile_change);
-//            } else {
-//                showToast(r.getError());
-//            }
-        }
     }
 
     @Override

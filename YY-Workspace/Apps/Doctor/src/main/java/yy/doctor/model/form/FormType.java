@@ -10,13 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  * @since 2017/4/6
  */
 @IntDef({
-        FormType.content,
-        FormType.content_text,
         FormType.text,
         FormType.text_intent,
-        FormType.text_profile_intent,
-        FormType.text_academic_intent,
-        FormType.text_specialized_intent,
 
         FormType.divider,
         FormType.divider_large,
@@ -34,18 +29,16 @@ import java.lang.annotation.RetentionPolicy;
 
         FormType.toggle_button,
 
+        FormType.modify_intent_skill,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
-    int content = 0;
-    int content_text = 1;
-    int text = 2;
-    int text_intent = 3;
-    int text_dialog = 4;
-    int text_register_intent = 5;
-    int text_profile_intent = 6;
-    int text_academic_intent = 7;
-    int text_specialized_intent = 8;
+    int text = 0;
+    int text_intent = 1;
+    int text_dialog = 2;
+    int text_intent_no_name = 3;
+    int modify_intent_skill = 4; // 学术专长(技能)修改
+    int text_intent_me = 5;
 
     int divider = 10;
     int divider_large = 11;
