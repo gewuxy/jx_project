@@ -2,7 +2,7 @@ package yy.doctor.ui.activity.register;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
@@ -33,7 +33,7 @@ public class ProvinceActivity extends BasePcdActivity {
     private AnimationDrawable mAnimation;
 
     private BaseHintDialog mDialog;
-    private TextView mProvinceTvChange;
+    private LinearLayout mLinearLayout;
     private OnLocationNotify mObserver;
 
     @Override
@@ -48,7 +48,7 @@ public class ProvinceActivity extends BasePcdActivity {
     @Override
     public void findViews() {
         super.findViews();
-        mProvinceTvChange = findView(R.id.province_tv_change);
+        mLinearLayout = findView(R.id.province_change);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ProvinceActivity extends BasePcdActivity {
             Pcd province = getItem(position);
             CityActivity.nav(this, province.getString(TPcd.id), province.getString(TPcd.name), getLocation());
         });
-        setOnClickListener(mProvinceTvChange);
+        setOnClickListener(mLinearLayout);
     }
 
     private void showLocDialog() {
@@ -131,8 +131,8 @@ public class ProvinceActivity extends BasePcdActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.province_tv_change:
-                startActivity(DistrictActivity.class); //点击更改跳转的页面
+            case R.id.province_change:
+                startActivity(RegisterActivity.class); //点击更改跳转的页面
                 break;
         }
     }

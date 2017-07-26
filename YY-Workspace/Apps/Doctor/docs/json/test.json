@@ -1,76 +1,16 @@
 {
   "code": "0",
   "data": {
-    "endTime": 1498794600000,
-    "finishTimes": 0,
-    "finished": false,
-    "id": 196,
-    "meetId": "17063011462972316861",
-    "moduleId": 1290,
-    "paper": {
-      "id": 10000,
-      "name": "考试结束",
-      "questions": [
-        {
-          "id": 100000,
-          "options": [
-            {
-              "key": "A",
-              "value": "啊啊啊"
-            },
-            {
-              "key": "B",
-              "value": "啊啊啊"
-            },
-            {
-              "key": "C",
-              "value": "啊啊啊"
-            },
-            {
-              "key": "D",
-              "value": "啊啊"
-            }
-          ],
-          "point": 20,
-          "qtype": 0,
-          "rightKey": "A",
-          "sort": 1,
-          "title": "啊啊啊"
-        },
-        {
-          "id": 100001,
-          "options": [
-            {
-              "key": "A",
-              "value": "啊啊啊"
-            },
-            {
-              "key": "B",
-              "value": "啊啊啊"
-            },
-            {
-              "key": "C",
-              "value": "啊啊啊"
-            },
-            {
-              "key": "D",
-              "value": "啊啊啊"
-            }
-          ],
-          "point": 20,
-          "qtype": 1,
-          "rightKey": "ABC",
-          "sort": 2,
-          "title": "啊啊啊"
-        }
-      ],
-      "totalPoint": 40
-    },
-    "passScore": 30,
-    "resitTimes": 3,
-    "score": 0,
-    "serverTime": 1498794924750,
-    "startTime": 1498794180000,
-    "usetime": 10
+    "grade": [
+      "医师",
+      "药师",
+      "护师",
+      "技师"
+    ],
+    "title": [
+      "高级职称",
+      "中级职称",
+      "初级职称"
+    ]
   }
 }

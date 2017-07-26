@@ -43,6 +43,16 @@ public interface Constants extends BaseConstants {
         int second = 2;
     }
 
+    @IntDef({
+            CaptchaType.fetch,
+            CaptchaType.re_fetch,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface CaptchaType {
+        int fetch = 0;
+        int re_fetch = 1;
+    }
+
     /**
      * 性别
      */

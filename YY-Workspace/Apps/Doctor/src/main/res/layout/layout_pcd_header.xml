@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/province_change"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:background="@color/white"
@@ -65,14 +66,14 @@
             android:textColor="@color/text_888"
             android:textSize="12dp"
             android:visibility="gone"/>
-        <TextView
+       <!-- <TextView
             android:id="@+id/province_tv_change"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginLeft="120dp"
             android:textColor="@color/text_0882e7"
-            android:text="更换"/>
+            android:text="更换"/>-->
 
     </LinearLayout>
 

@@ -22,6 +22,7 @@ public class CaptchaView extends TextView {
     private static final String KDefaultResendText = "重新获取";
     private static final String KPrefix = "(";
     private static final String KSuffix = "s)";
+    private static final String KSecond = "秒";
 
     private static final int KMaxCount = 60;
 
@@ -58,7 +59,8 @@ public class CaptchaView extends TextView {
 
             @Override
             public void onNext(@NonNull Long aLong) {
-                setText(mResendText + KPrefix + aLong + KSuffix);
+                //setText(mResendText + KPrefix + aLong + KSuffix);
+                setText( aLong + KSecond);
             }
 
             @Override

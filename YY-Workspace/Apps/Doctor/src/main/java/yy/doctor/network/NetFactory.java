@@ -7,7 +7,6 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
-import yy.doctor.Constants;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlData;
@@ -19,7 +18,6 @@ import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlSearch;
 import yy.doctor.network.UrlUtil.UrlUnitNum;
 import yy.doctor.network.UrlUtil.UrlUser;
-import yy.doctor.network.UrlUtil.UrlWX;
 import yy.doctor.network.builder.ExchangeBuilder;
 import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
@@ -45,18 +43,24 @@ public class NetFactory {
     }
 
     public interface RegisterParam {
-        String KInvite = "invite";//邀请码
         String KUsername = "username";//用户名
         String KNickname = "nickname";//昵称
         String KLinkman = "linkman";//真实名字
         String KMobile = "mobile";//手机号
+        String KType = "type";
         String KPwd = "password";//密码
         String KProvince = "province";//省份
         String KCity = "city";//城市
-        String KArea = "zone"; // 区县
+        String KZone = "zone"; // 区县
         String KHospital = "hospital";//医院
+        String KCategory = "category";//专科一级名称
+        String KName = "name";//专科一级名称
+        String KHosLevel = "hosLevel";//医院级别
         String KDepartment = "department";//科室
+        String KInvite = "invite";//科室
+        String KTitle = "title";//邀请码
         String KLicence = "licence";//执业许可证号
+        String KCaptcha = "captcha";//注册验证码
     }
 
     public interface UserParam {
@@ -208,6 +212,18 @@ public class NetFactory {
     }
 
     /**
+     * 验证码
+     * @param mobile 手机号
+     * @param type type=0或者空时表示注册时获取验证码,1表示重置密码时获取验证码
+     * @return
+     */
+    public static NetworkReq captcha(String mobile, int type){
+        return newGet(UrlRegister.KCaptcha)
+                .param(RegisterParam.KMobile, mobile)
+                .param(RegisterParam.KType, type)
+                .build();
+    }
+    /**
      * 注册
      */
     public static RegisterBuilder register() {
@@ -227,14 +243,26 @@ public class NetFactory {
     }
 
     /**
-     * 科室信息
+     * 专科信息
      *
      * @return
      */
-    public static NetworkReq section() {
-        return newGet(UrlRegister.KDepart)
+    public static NetworkReq specialty() {
+        return newGet(UrlRegister.KSpecialty)
                 .build();
     }
+
+    /**
+     * 职称信息
+     * @return
+     */
+    public static NetworkReq title() {
+        return newGet(UrlRegister.KTitle)
+                .build();
+    }
+
+
+
 
     /**
      * 登录(绑定微信号)

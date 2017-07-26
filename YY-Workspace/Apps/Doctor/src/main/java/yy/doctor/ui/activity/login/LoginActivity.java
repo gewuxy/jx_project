@@ -15,7 +15,7 @@ import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.sp.SpApp;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.RegisterActivity;
+import yy.doctor.ui.activity.register.RegisterActivity;
 
 /**
  * 登录

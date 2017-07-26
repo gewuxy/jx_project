@@ -48,7 +48,7 @@ public class SectionCategoryFrag extends BaseSRListFrag<Section, SectionCategory
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(0, NetFactory.section());
+        exeNetworkReq(0, NetFactory.specialty());
     }
 
     @Override

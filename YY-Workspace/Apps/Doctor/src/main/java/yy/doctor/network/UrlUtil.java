@@ -63,12 +63,17 @@ public class UrlUtil {
     }
 
     public interface UrlRegister {
-        String KRegisterBase = "regist/";
+        String KRegisterBase = "register/";
         String KProvince = KRegisterBase + "provinces";
         String KCity = KRegisterBase + "cities";
-        String KRegister = KRegisterBase + "regist";
+        String KRegister = KRegisterBase + "reg";
         String KHospital = KRegisterBase + "hos";
         String KDepart = KRegisterBase + "depart";
+
+        String KCaptcha = KRegisterBase +"get_captcha";
+        String KSpecialty = KRegisterBase +"specialty";
+        String KTitle = KRegisterBase +"title";
+
     }
 
     public interface UrlHome {

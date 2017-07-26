@@ -1,10 +1,15 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.register;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.support.annotation.IntDef;
-import android.text.Html;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -30,7 +35,6 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -39,6 +43,7 @@ import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
+import yy.doctor.Constants.CaptchaType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BaseHintDialog;
@@ -50,14 +55,15 @@ import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
+import yy.doctor.ui.activity.MainActivity;
+import yy.doctor.ui.activity.ScanActivity;
 import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
-import yy.doctor.ui.activity.register.CaptchaActivity;
-import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.Util;
 
 import static lib.ys.form.FormEx.TForm.val;
+import static lib.ys.util.permission.Permission.phone;
 
 /**
  * 注册界面  7.1
@@ -69,7 +75,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
     private final int KRegister = 0;
     private final int KLogin = 1;
+    private final int KCaptcha = 2;
     private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
+
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
     private EditText mEtActivatedCode;      //填写激活码
@@ -87,6 +95,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     private View mTvReg;
 
     private BaseHintDialog mDialog;
+    private String mPhone;
 
     @IntDef({
             RelatedId.name,
@@ -168,7 +177,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
-//                .drawable(R.mipmap.hospital_level_other)
                 .build());
 
         addItem(new Builder(FormType.register_divider).build());
@@ -224,9 +232,9 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         setOnClickListener(mTvActivatedCode);
         mTvReg.setEnabled(false);
 
-        String str = "点击<font color='#888888'>“注册”</font>即表示您同意";
-        mTvAgree.setText(Html.fromHtml(str));
-        mEtActivatedCode.setOnEditorActionListener(this);
+        SpannableString s = new SpannableString("点击“注册”即表示您同意");
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 2, 6, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        mTvAgree.setText(s);
 
         runOnUIThread(() -> {
             //检查有没有定位权限   没有的话直接弹dialog
@@ -251,6 +259,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         }
     }
 
+    //对键盘的处理
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_GO) {
@@ -301,12 +310,26 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         //注册
         refresh(RefreshWay.dialog);
         exeNetworkReq(KRegister, NetFactory.register()
+                .mobile(mPhone)
+                .captcha(getItemStr(RelatedId.captcha))
+                .pwd(getItemStr(RelatedId.pwd))
+                .linkman(getItemStr(RelatedId.name))
+                .province(place.getString(TPlace.province))
+                .city(place.getString(TPlace.city))
+                .zone(place.getString(TPlace.district))
+                .hospital(getItemStr(RelatedId.hospital))
+                .hosLevel(getItemStr(RelatedId.hospital))//医院级别没返回来
+                .category(getItemStr(RelatedId.medicine))//专科一级名称，要分开
+                .name(getItemStr(RelatedId.name))//专科二级名称
+                .department(getItemStr(RelatedId.department))//科室名称
+                .invite(code)
+
                 .username(mUserName)
                 .linkman(getItemStr(RelatedId.name))
                 .pwd(getItemStr(RelatedId.pwd))
                 .province(place.getString(TPlace.province))
                 .city(place.getString(TPlace.city))
-                .area(place.getString(TPlace.district))
+                //.area(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
                 .invite(code)
                 .build());
@@ -324,86 +347,46 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         switch ((int) related) {
             case RelatedId.captcha: {
-//                if (v.getId() == R.id.form_tv_text) {
-//                    mCount++;
-//                    String str = getRelatedItem(RelatedId.phone_number).getHolder().getEt().getText().toString();
-//                    BaseHintDialog baseHintDialog = new BaseHintDialog(this);
-//                    View view = inflate(R.layout.dialog_captcha);
-//                    mCaptchaPhoneNumber = (TextView) view.findViewById(R.id.captcha_phone_number);
-//                    mCaptchaPhoneNumber.setText(str);
-//                    baseHintDialog.addHintView(view);
-//                    baseHintDialog.addButton("好", v1 -> {
-//                        if (mCount <= 3) {
-//                            showToast("验证码是1234");//获取验证码输入验证码的逻辑，请求服务器，现假设一个验证码
-//                        }
-//                        baseHintDialog.dismiss();
-//                        ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).change();
-//                        if (mCountDown == null) {
-//                            mCountDown = new CountDown();
-//                            mCountDown.setListener(this);
-//                        }
-//                        mCountDown.start(TimeUnit.SECONDS.toSeconds(60));
-//                    });
-//                    baseHintDialog.addButton("取消", v1 -> {
-//                        baseHintDialog.dismiss();
-//                    });
-//                    baseHintDialog.show();
-//                }
+                if (v.getId() == R.id.form_tv_text) {
 
-                if (mCount == 0) {
-                    mStartTime = System.currentTimeMillis();
-                }
-
-                mCount++;
-                if (mCount > KMaxCount) {
-                    long duration = System.currentTimeMillis() - mStartTime;
-                    if (duration <= KCaptchaDuration) {
-                        showToast("获取验证码太频繁");
+                    mPhone = getRelatedItem(RelatedId.phone_number).getString(TForm.val);
+                    if (!Util.isMobileCN(phone)) {
+                        showToast("该号码不是电话号，请输入正确的电话号码");
                         return;
-                    } else {
-                        mCount = 1;
                     }
+
+                    BaseHintDialog dialog = new BaseHintDialog(this);
+
+                    View view = inflate(R.layout.dialog_captcha);
+                    TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
+                    tv.setText(phone);
+
+                    dialog.addHintView(view);
+                    dialog.addButton("好", v1 -> {
+                        if (mCount == 0) {
+                            mStartTime = System.currentTimeMillis();
+                        }
+                        mCount++;
+                        if (mCount > KMaxCount) {
+                            long duration = System.currentTimeMillis() - mStartTime;
+                            if (duration <= KCaptchaDuration) {
+                                showToast("获取验证码太频繁");
+                                dialog.dismiss();
+                                return;
+                            } else {
+                                mCount = 1;
+                            }
+                        }
+                        exeNetworkReq(KCaptcha, NetFactory.captcha(phone.replace(" ", ""), CaptchaType.fetch));
+                        dialog.dismiss();
+                        ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                    });
+                    dialog.addButton("取消", v1 -> {
+                        dialog.dismiss();
+                    });
+
+                    dialog.show();
                 }
-
-                String phone = getRelatedItem(RelatedId.phone_number).getString(TForm.val);
-                if (!RegexUtil.isMobileCN(phone.replace(" ", ""))) {
-                    showToast("....不是电话号");
-                    return;
-                }
-
-                BaseHintDialog dialog = new BaseHintDialog(this);
-
-                View view = inflate(R.layout.dialog_captcha);
-                TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
-                tv.setText(phone);
-
-                dialog.addHintView(view);
-                dialog.addButton("好", v1 -> {
-
-                    dialog.dismiss();
-
-                    ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
-                });
-                dialog.addButton("取消", v1 -> {
-                    dialog.dismiss();
-                });
-
-                dialog.show();
-            }
-            break;
-            case RelatedId.pwd: {
-                mFlag = !mFlag;
-
-                // FIXME: 逻辑放在form内部
-                EditText et = getRelatedItem(RelatedId.pwd).getHolder().getEt();
-                String content = getRelatedItem(RelatedId.pwd).getString(TForm.val);
-                getRelatedItem(RelatedId.pwd).getHolder().getIv().setSelected(mFlag);
-                if (!mFlag) {
-                    et.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                } else {
-                    et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
-                et.setSelection(content.length());//光标移到最后
             }
             break;
         }
@@ -475,14 +458,18 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     private void onLocationError() {
         YSLog.d("Gps", "失败");
 
-        // FIXME: 失败的多种处理
         onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
+        // FIXME: 失败的多种处理
+        if (!isNetworkAvailable(this)) {
+            showToast("当前网络不可用,不可定位");
+        } else {
+            //有网但是定位失败  显示dialog
+            mDialog = new BaseHintDialog(this);
+            mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
+            mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
+            mDialog.show();
+        }
 
-        //定位失败  显示dialog
-        mDialog = new BaseHintDialog(this);
-        mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-        mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
-        mDialog.show();
     }
 
     @Override
@@ -509,6 +496,13 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 finish();
                 showToast(r.getError());
             }
+        }else if (id == KCaptcha) {
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                showToast("成功");
+            } else {
+                showToast(r.getError());
+            }
         } else {//注册
             Result r = (Result) result;
             if (r.isSucceed()) {
@@ -533,6 +527,27 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         LocationNotifier.inst().remove(this);
         Location.inst().stop();
     }
+
+    /**
+     * 检测当前的网络（WIFI，3G/2G）状态
+     *
+     * @Return true 表示网络可用
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+            if (info != null && info.isConnected()) {
+                //当前网络连接
+                if (info.getState() == State.CONNECTED) {
+                    //当前所连接的网络可用
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     @Override
     protected void onDestroy() {

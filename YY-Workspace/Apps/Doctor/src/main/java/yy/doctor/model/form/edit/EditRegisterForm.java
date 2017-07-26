@@ -19,7 +19,6 @@ import static lib.ys.util.view.ViewUtil.showView;
  * @since 2017/4/17
  */
 public class EditRegisterForm extends EditForm {
-    private FormVH mHolder;
     @NonNull
     @Override
     public int getType() {
@@ -34,7 +33,6 @@ public class EditRegisterForm extends EditForm {
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
-        mHolder = holder;
        /* InputFilter filter = (source, start, end, dest, dstart, dend) -> {
             for (int i = start; i < end; i++) {
                 if (!UISetter.isChinese(source.charAt(i))) {
@@ -69,7 +67,7 @@ public class EditRegisterForm extends EditForm {
     }
     @Override
     protected boolean onViewClick(View v) {
-        mHolder.getEt().setText("");
+        getHolder().getEt().setText("");
         return super.onViewClick(v);
 
     }

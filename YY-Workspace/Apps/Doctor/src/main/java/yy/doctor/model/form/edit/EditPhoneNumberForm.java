@@ -24,7 +24,6 @@ import static lib.ys.util.view.ViewUtil.showView;
 public class EditPhoneNumberForm extends EditNumberForm {
 
     private boolean mIsAdd;
-    private FormVH mHolder;
 
     @NonNull
     @Override
@@ -49,7 +48,6 @@ public class EditPhoneNumberForm extends EditNumberForm {
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
-        mHolder = holder;
         EditText editText = holder.getEt();
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -101,7 +99,7 @@ public class EditPhoneNumberForm extends EditNumberForm {
 
     @Override
     protected boolean onViewClick(View v) {
-        mHolder.getEt().setText("");
+        getHolder().getEt().setText("");
         return super.onViewClick(v);
 
     }

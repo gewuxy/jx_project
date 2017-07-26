@@ -16,13 +16,7 @@ public class RegisterBuilder {
         mBuilder = NetFactory.newPost(UrlRegister.KRegister);
     }
 
-    /**
-     * @param invite 邀请码
-     */
-    public RegisterBuilder invite(String invite) {
-        mBuilder.param(RegisterParam.KInvite, invite);
-        return this;
-    }
+
 
     /**
      * @param username 用户登录名
@@ -56,6 +50,12 @@ public class RegisterBuilder {
         return this;
     }
 
+    public RegisterBuilder captcha(String captcha) {
+        mBuilder.param(RegisterParam.KCaptcha, captcha);
+        return this;
+    }
+
+
     /**
      * @param pwd 密码
      */
@@ -81,11 +81,11 @@ public class RegisterBuilder {
     }
 
     /**
-     * @param area 区县
+     * @param zone 区县
      * @return
      */
-    public RegisterBuilder area(String area) {
-        mBuilder.param(RegisterParam.KArea, area);
+    public RegisterBuilder zone(String zone) {
+        mBuilder.param(RegisterParam.KZone, zone);
         return this;
     }
 
@@ -98,12 +98,66 @@ public class RegisterBuilder {
     }
 
     /**
+     * 医院级别
+     * @param hosLevel
+     * @return
+     */
+    public RegisterBuilder hosLevel(String hosLevel) {
+        mBuilder.param(RegisterParam.KHosLevel, hosLevel);
+        return this;
+    }
+
+    /**
+     * 专科一级名称
+     * @param category
+     * @return
+     */
+    public RegisterBuilder category(String category) {
+        mBuilder.param(RegisterParam.KCategory, category);
+        return this;
+    }
+
+    /**
+     * 专科二级名称
+     * @param name
+     * @return
+     */
+    public RegisterBuilder name(String name) {
+        mBuilder.param(RegisterParam.KName, name);
+        return this;
+    }
+
+
+
+    /**
      * @param department 科室名称
      */
     public RegisterBuilder department(String department) {
         mBuilder.param(RegisterParam.KDepartment, department);
         return this;
     }
+
+    /**
+     *
+     * @param title 职称
+     * @return
+     */
+    public RegisterBuilder title(String title) {
+        mBuilder.param(RegisterParam.KDepartment, title);
+        return this;
+    }
+
+    /**
+     * 邀请码
+     * @param invite
+     * @return
+     */
+    public RegisterBuilder invite(String invite) {
+        mBuilder.param(RegisterParam.KInvite, invite);
+        return this;
+    }
+
+
 
     /**
      * @param licence 执业许可证号

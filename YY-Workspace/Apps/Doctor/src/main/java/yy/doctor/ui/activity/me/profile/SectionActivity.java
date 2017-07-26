@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
@@ -26,6 +27,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     private SectionCategoryFrag mSectionCategoryFrag;
     private SectionNameFrag mSectionNameFrag;
+    private String mCategory;
 
 
     @Override
@@ -58,15 +60,18 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     @Override
     public void onCategorySelected(int position, List<String> names) {
         mSectionNameFrag.setSection(names);
-       /* String s = names.get(position);
-        YSLog.d("yaya---------",s);*/
+        mCategory = names.get(position);
+        YSLog.d("yaya",mCategory);
     }
 
     @Override
     public void onSectionSelected(int position, String name) {
 
-        Intent intent = new Intent().putExtra(Extra.KData, name);
+        Intent intent = new Intent();
+        intent.putExtra(Extra.KName,mCategory);
+        intent .putExtra(Extra.KData,name);
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }

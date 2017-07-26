@@ -9,7 +9,7 @@
 
     <lib.ys.view.CornerView
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="146dp"
         app:corner_radius="@dimen/radius"
         app:corner_useStroke="false">
 
@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请确认手机号"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/text_333"
                 android:textSize="19dp"/>
 
@@ -41,7 +42,7 @@
                 android:id="@+id/captcha_tv_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginBottom="3dp"
                 android:text="135 6001 4782"
                 android:textColor="@color/text_0682e6"
                 android:textSize="15dp"/>
