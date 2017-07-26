@@ -41,6 +41,8 @@ import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.me.set.BindEmailActivity;
+import yy.doctor.ui.activity.me.set.BindPhoneActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -58,9 +60,9 @@ public class SettingsActivity extends BaseFormActivity {
     private static final String KM = "M";
 
     @IntDef({
-            RelatedId.wx_binding,
-            RelatedId.phone_num_binding,
-            RelatedId.email_binding,
+            RelatedId.bind_wx,
+            RelatedId.bind_phone,
+            RelatedId.bind_email,
 
             RelatedId.change_password,
             RelatedId.auto_download_apk,
@@ -73,9 +75,9 @@ public class SettingsActivity extends BaseFormActivity {
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
-        int wx_binding = 1;
-        int phone_num_binding = 2;
-        int email_binding = 3;
+        int bind_wx = 1;
+        int bind_phone = 2;
+        int bind_email = 3;
 
         int change_password = 4;
         int auto_download_apk = 5;
@@ -116,21 +118,21 @@ public class SettingsActivity extends BaseFormActivity {
         mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
 
         addItem(new Builder(FormType.text)
-                .related(RelatedId.wx_binding)
+                .related(RelatedId.bind_wx)
                 .name(R.string.wx_account)
                 .text(R.string.no_binding)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text)
-                .related(RelatedId.phone_num_binding)
+                .related(RelatedId.bind_phone)
                 .name(R.string.phone_num_account)
                 .text(R.string.no_binding)
                 .build());
 
         addItem(new Builder(FormType.divider).build());
         addItem(new Builder(FormType.text)
-                .related(RelatedId.email_binding)
+                .related(RelatedId.bind_email)
                 .name(R.string.email_account)
                 .text(SpApp.inst().getUserName())
                 .build());
@@ -221,6 +223,18 @@ public class SettingsActivity extends BaseFormActivity {
 
         @RelatedId int relatedId = getItem(position).getInt(TForm.related);
         switch (relatedId) {
+            case RelatedId.bind_email: {
+                startActivity(BindEmailActivity.class);
+            }
+            break;
+            case RelatedId.bind_phone: {
+                startActivity(BindPhoneActivity.class);
+            }
+            break;
+            case RelatedId.bind_wx: {
+                showDialogClearSoundCache();
+            }
+            break;
             case RelatedId.check_version: {
                 exeNetworkReq(NetFactory.checkAppVersion());
             }
