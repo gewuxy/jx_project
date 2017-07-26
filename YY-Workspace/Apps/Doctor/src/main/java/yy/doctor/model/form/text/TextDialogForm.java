@@ -18,14 +18,13 @@ public class TextDialogForm extends TextForm {
 
     @Override
     public boolean onItemClick(Object host, View v) {
-
-        final List<Config> data = getList(TForm.data);
+        List<Config> data = getData();
         BottomDialog dialog = new BottomDialog(v.getContext(), position -> {
-
-            put(TForm.text, data.get(position).getName());
-            put(TForm.val, data.get(position).getVal());
+            Config item = data.get(position);
+            save(item.getName(), item.getVal());
             refresh();
         });
+
         for (int i = 0; i < data.size(); ++i) {
             dialog.addItem(data.get(i).getName(), KColorNormal);
         }

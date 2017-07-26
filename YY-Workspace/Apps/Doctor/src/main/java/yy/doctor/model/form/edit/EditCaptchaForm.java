@@ -1,6 +1,5 @@
 package yy.doctor.model.form.edit;
 
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -8,11 +7,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import lib.ys.ConstantsEx;
-import lib.ys.util.res.ResLoader;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-import yy.doctor.model.form.FormType;
 
 import static lib.ys.util.view.ViewUtil.hideView;
 import static lib.ys.util.view.ViewUtil.showView;
@@ -23,12 +20,6 @@ import static lib.ys.util.view.ViewUtil.showView;
  */
 
 public class EditCaptchaForm extends EditForm {
-
-    @NonNull
-    @Override
-    public int getType() {
-        return FormType.et_captcha;
-    }
 
     @Override
     protected void init(FormVH holder) {
@@ -45,7 +36,7 @@ public class EditCaptchaForm extends EditForm {
                 String str = s.toString();
                 if (str.length() != 0) {
                     showView(holder.getIv());
-                }else {
+                } else {
                     hideView(holder.getIv());
                 }
             }
@@ -59,7 +50,7 @@ public class EditCaptchaForm extends EditForm {
 
     @Override
     public int getContentViewResId() {
-        int layout = getInt(TForm.layout);
+        int layout = getLayoutId();
         if (layout != ConstantsEx.KInvalidValue) {
             return layout;
         }
@@ -70,7 +61,7 @@ public class EditCaptchaForm extends EditForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        boolean enable = getBoolean(TForm.enable);
+        boolean enable = isEnabled();
         TextView tv = holder.getTvText();
         if (enable) {
             setOnClickListener(tv);
@@ -78,10 +69,9 @@ public class EditCaptchaForm extends EditForm {
             removeOnClickListener(tv);
         }
 
-        int textColor = getInt(TForm.text_color);
-        if (textColor != ConstantsEx.KInvalidValue) {
+        if (getTextColor() != null) {
             tv.setSelected(enable);
-            tv.setTextColor(ResLoader.getColorStateList(textColor));
+            tv.setTextColor(getTextColor());
         }
     }
 

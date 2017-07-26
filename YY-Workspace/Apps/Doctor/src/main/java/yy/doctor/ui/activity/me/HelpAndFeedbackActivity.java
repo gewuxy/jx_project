@@ -7,13 +7,12 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.form.FormEx.TForm;
+import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
-import lib.ys.util.IntentAction;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.Util;
@@ -76,34 +75,29 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.update_log)
-                .name(R.string.update_log)
-                .build());
+                .name(R.string.update_log));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.disclaimer)
-                .name(R.string.disclaimer)
-                .build());
+                .name(R.string.disclaimer));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.contribution_invited)
-                .name(R.string.contribution_invited)
-                .build());
+                .name(R.string.contribution_invited));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.jing_xin)
-                .name(R.string.jing_xin)
-                .build());
+                .name(R.string.jing_xin));
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.feedback)
-                .name(R.string.opinion_feedback)
-                .build());
+                .name(R.string.opinion_feedback));
 
         mVersion = DeviceUtil.getAppVersionName();
     }
@@ -127,7 +121,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
 
-        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
+        @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {
                 CommonWebViewActivity.nav(this, getString(R.string.update_log), mUrlUpdateLog);

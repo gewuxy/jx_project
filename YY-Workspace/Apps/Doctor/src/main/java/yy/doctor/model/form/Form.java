@@ -1,7 +1,9 @@
 package yy.doctor.model.form;
 
-import lib.ys.form.FormBuilderEx;
 import lib.yy.model.form.BaseForm;
+import yy.doctor.model.form.divider.DividerForm;
+import yy.doctor.model.form.divider.DividerLargeForm;
+import yy.doctor.model.form.divider.DividerMarginForm;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.edit.EditEmailForm;
 import yy.doctor.model.form.edit.EditForm;
@@ -11,24 +13,22 @@ import yy.doctor.model.form.edit.EditPhoneNumberForm;
 import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
 import yy.doctor.model.form.text.MeForm;
-import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.TextDialogForm;
+import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.intent.IntentForm;
 import yy.doctor.model.form.text.intent.IntentNoNameForm;
 import yy.doctor.model.form.text.intent.IntentSkillForm;
 
 /**
- * @author CaiXiang
+ * @author yuansui
  * @since 2017/4/6
  */
-public class Builder extends FormBuilderEx<BaseForm> {
+public class Form {
 
-    public Builder(int type) {
-        super(type);
+    private Form() {
     }
 
-    @Override
-    protected BaseForm build(int type) {
+    public static BaseForm create(int type) {
         BaseForm form = null;
 
         switch (type) {
@@ -65,8 +65,8 @@ public class Builder extends FormBuilderEx<BaseForm> {
                 form = new DividerLargeForm();
             }
             break;
-            case FormType.register_divider:{
-                form = new RegisterDividerForm();
+            case FormType.divider_margin: {
+                form = new DividerMarginForm();
             }
             break;
 
@@ -94,11 +94,11 @@ public class Builder extends FormBuilderEx<BaseForm> {
                 form = new EditPhoneNumberForm();
             }
             break;
-            case FormType.et_email:{
+            case FormType.et_email: {
                 form = new EditEmailForm();
             }
             break;
-            case FormType.et_captcha:{
+            case FormType.et_captcha: {
                 form = new EditCaptchaForm();
             }
             break;
@@ -112,12 +112,8 @@ public class Builder extends FormBuilderEx<BaseForm> {
             break;
         }
 
+        form.enable(true);
+
         return form;
     }
-
-    @Override
-    protected boolean initEnable() {
-        return true;
-    }
-
 }

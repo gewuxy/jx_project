@@ -7,9 +7,9 @@ import android.webkit.WebViewClient;
 import org.json.JSONException;
 
 import lib.ys.YSLog;
+import lib.ys.action.IntentAction;
 import lib.ys.ui.activity.WebViewActivityEx;
 import lib.ys.ui.interfaces.impl.WebOption;
-import lib.ys.util.IntentAction;
 import lib.yy.model.WebAction;
 import lib.yy.model.WebAction.TWebAction;
 

@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.util.TextUtil;
 import yy.doctor.R;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
 
@@ -37,23 +37,19 @@ public class BindPhoneActivity extends BaseSetActivity implements TextWatcher {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.et_phone_number)
+        addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_bind_phone_number)
-                .hint("请输入手机号")
-                .build());
+                .hint("请输入手机号"));
 
-        addItem(new Builder(FormType.divider)
-                .build());
+        addItem(Form.create(FormType.divider));
 
-        addItem(new Builder(FormType.et_captcha)
+        addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
                 .layout(R.layout.form_edit_bind_captcha)
-                .hint("请输入验证码")
-                .build());
+                .hint("请输入验证码"));
 
-        addItem(new Builder(FormType.divider)
-                .build());
+        addItem(Form.create(FormType.divider));
     }
 
     @Override

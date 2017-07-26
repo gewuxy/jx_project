@@ -21,7 +21,6 @@ import lib.ys.YSLog;
 import lib.ys.model.inject.BindInit;
 import lib.ys.model.inject.BindList;
 import lib.ys.model.inject.BindObj;
-import lib.ys.model.inject.BindArray;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.JsonUtil;
 import lib.ys.util.ReflectionUtil;
@@ -693,19 +692,23 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 if (isEValType(val)) {
                     put(e, JsonUtil.getEVs(val, obj.optJSONArray(e.name())));
                 } else {
-                    // 先不考虑
+                    // 基础数据类型
+                    List list = new ArrayList<>();
+                    JSONArray jsonArray = obj.optJSONArray(e.name());
+                    for (int j = 0; j < jsonArray.length(); j++) {
+                        if (String.class.isAssignableFrom(val)) {
+                            list.add(jsonArray.optString(j));
+                        } else if (Integer.class.isAssignableFrom(val)) {
+                            list.add(jsonArray.optInt(j));
+                        } else {
+                            list.add(jsonArray.opt(j));
+                        }
+                    }
+                    put(e, list);
                 }
-                continue;
             } else if (f.isAnnotationPresent(BindObj.class)) {
                 BindObj annotation = f.getAnnotation(BindObj.class);
                 put(e, JsonUtil.getEV(annotation.value(), obj.optJSONObject(e.name())));
-            } else if (f.isAnnotationPresent(BindArray.class)) {
-                JSONArray jsonArray = obj.optJSONArray(e.name());
-                List list = new ArrayList<>();
-                for (int j = 0; j < jsonArray.length(); j++) {
-                    list.add(jsonArray.opt(j));
-                }
-                put(e, list);
             } else {
                 // 没有注释使用默认解析方式
                 put(e, o);

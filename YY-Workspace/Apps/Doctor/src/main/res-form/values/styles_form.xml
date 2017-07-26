@@ -3,7 +3,7 @@
 
     <style name="v.form">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/form_item_height</item>
+        <item name="android:layout_height">@dimen/form_height</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/item_selector</item>
@@ -17,6 +17,11 @@
         <item name="android:background">@color/divider</item>
     </style>
 
+    <style name="divider.form">
+        <item name="android:id">@id/form_divider</item>
+        <item name="android:background">@color/app_bg</item>
+    </style>
+
     <style name="iv.arrow">
         <item name="android:id">@id/form_iv_arrow</item>
         <item name="android:layout_width">10dp</item>
@@ -27,6 +32,7 @@
 
     <style name="iv.arrow.align_right">
         <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">@dimen/margin_large</item>
     </style>
 
     <style name="tv.form">

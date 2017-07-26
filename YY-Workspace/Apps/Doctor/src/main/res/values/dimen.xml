@@ -5,7 +5,8 @@
     <dimen name="margin_large">18dp</dimen>
     <dimen name="radius">3dp</dimen>
 
-    <dimen name="form_item_height">52dp</dimen>
+    <dimen name="form_height">52dp</dimen>
+    <dimen name="form_divider_large_height">10dp</dimen>
 
     <dimen name="edit_height">52dp</dimen>
 

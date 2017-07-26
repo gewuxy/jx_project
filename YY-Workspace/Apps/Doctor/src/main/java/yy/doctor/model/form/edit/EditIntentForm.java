@@ -21,7 +21,7 @@ public class EditIntentForm extends EditForm {
 
     @Override
     protected boolean onViewClick(View v) {
-        Intent i = (Intent) getObject(TForm.intent);
+        Intent i = getIntent();
         startActivityForResult(i, getPosition());
         return true;
     }
@@ -31,6 +31,6 @@ public class EditIntentForm extends EditForm {
         super.onActivityResult(position, data);
 
         String str = data.getStringExtra(Extra.KData);
-        put(TForm.text, str);
+        text(str);
     }
 }

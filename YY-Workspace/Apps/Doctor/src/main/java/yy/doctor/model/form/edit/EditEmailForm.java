@@ -1,10 +1,7 @@
 package yy.doctor.model.form.edit;
 
-import android.support.annotation.NonNull;
-
 import lib.ys.ConstantsEx;
 import yy.doctor.R;
-import yy.doctor.model.form.FormType;
 
 /**
  * @auther WangLan
@@ -13,15 +10,9 @@ import yy.doctor.model.form.FormType;
 
 public class EditEmailForm extends EditForm {
 
-    @NonNull
-    @Override
-    public int getType() {
-        return FormType.et_email;
-    }
-
     @Override
     public int getContentViewResId() {
-        int layout = getInt(TForm.layout);
+        int layout = getLayoutId();
         if (layout != ConstantsEx.KInvalidValue) {
             return layout;
         }

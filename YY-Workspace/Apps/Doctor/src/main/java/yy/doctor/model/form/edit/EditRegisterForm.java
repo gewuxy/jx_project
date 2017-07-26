@@ -19,11 +19,6 @@ import static lib.ys.util.view.ViewUtil.showView;
  * @since 2017/4/17
  */
 public class EditRegisterForm extends EditForm {
-    @NonNull
-    @Override
-    public int getType() {
-        return FormType.et_register;
-    }
 
     @Override
     public int getContentViewResId() {

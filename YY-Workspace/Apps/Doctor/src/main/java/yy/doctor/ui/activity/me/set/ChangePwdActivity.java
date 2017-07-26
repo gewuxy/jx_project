@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.util.TextUtil;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.util.Util;
 
@@ -36,21 +36,17 @@ public class ChangePwdActivity extends BaseSetActivity implements TextWatcher {
     public void initData() {
         super.initData();
 
-        addItem(new Builder(FormType.et_register_pwd)
+        addItem(Form.create(FormType.et_register_pwd)
                 .related(RelatedId.pwd_old)
-                .hint("请输入旧密码")
-                .build());
+                .hint("请输入旧密码"));
 
-        addItem(new Builder(FormType.divider)
-                .build());
+        addItem(Form.create(FormType.divider));
 
-        addItem(new Builder(FormType.et_register_pwd)
+        addItem(Form.create(FormType.et_register_pwd)
                 .related(RelatedId.pwd_new)
-                .hint("请输入新密码")
-                .build());
+                .hint("请输入新密码"));
 
-        addItem(new Builder(FormType.divider)
-                .build());
+        addItem(Form.create(FormType.divider));
     }
 
     @Override

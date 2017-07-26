@@ -1,9 +1,7 @@
 package yy.doctor.model.form.text.intent;
 
 import android.content.Intent;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -13,7 +11,6 @@ import lib.bd.location.Place;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.text.TextForm;
 
 /**
@@ -38,21 +35,13 @@ public class IntentForm extends TextForm {
         int doctor = 4;
     }
 
-    @IntentType
     private int mCurrType = IntentType.un_know;
-
-    @NonNull
-    @Override
-    public int getType() {
-        return FormType.text_intent;
-    }
 
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
 
-        @IntentType int type = getInt(TForm.mode, IntentType.un_know);
-        mCurrType = type;
+        mCurrType = getMode();
     }
 
     @Override
@@ -62,7 +51,7 @@ public class IntentForm extends TextForm {
             return false;
         }
 
-        Intent i = (Intent) getObject(TForm.intent);
+        Intent i = getIntent();
         if (i != null) {
             startActivityForResult(i, getPosition());
             return true;
@@ -87,8 +76,8 @@ public class IntentForm extends TextForm {
             case IntentType.hospital: {
                 String hospital = data.getStringExtra(Extra.KData);
                 save(hospital, hospital);
-                @DrawableRes int id = data.getIntExtra(Extra.KId, R.mipmap.hospital_level_three);
-                put(TForm.drawable , id);
+                int id = data.getIntExtra(Extra.KId, R.mipmap.hospital_level_three);
+                drawable(id);
             }
             break;
             case IntentType.medicine: {

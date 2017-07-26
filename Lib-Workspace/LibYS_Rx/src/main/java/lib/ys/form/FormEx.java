@@ -2,11 +2,17 @@ package lib.ys.form;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.ys.AppEx;
@@ -14,69 +20,267 @@ import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TForm;
-import lib.ys.model.EVal;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.frag.FragEx;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 
-abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> implements OnClickListener {
+abstract public class FormEx<VH extends IViewHolder> implements OnClickListener {
+
+    protected final String TAG = getClass().getSimpleName();
+
+    private String mName;
+    private String mText;
+    private String[] mTexts;
+
+    private String mHint;
+    private String mTips;
+
+    private boolean mEnabled = true;
+    private int mLimit;
+    private Object mRelated;
+    private Object mData;
+    private Object mOption;
+    private Object mHost;
+    private int mColumn;
+    private int mWidth;
+    private int mHeight;
+    private int mMode;
+    private Intent mIntent;
+    private List mChildren;
+    private Object mDepend;
+    private String mRegex;
+    private boolean mCheck;
+    private int mIndex;
+    private int mId;
+    private boolean mVisible = true;
+    private Object mObserver;
+
+    @ColorInt
+    private int mBgColor = ConstantsEx.KInvalidValue;
+
+    @DrawableRes
+    private int mDrawableId;
+
+    @LayoutRes
+    private int mLayoutId = ConstantsEx.KInvalidValue;
+
+    private ColorStateList mTextColor;
+
+    private String mToast;
 
     /**
-     * 元素
+     * 和服务器通信的主要字段
      */
-    public enum TForm {
-        /**
-         * 显示和操作相关的字段
-         */
-        name, // 名称
-        text, // 文本
-        text_multi, // 多个文本
-        hint, // 暗示
-        tips, // 明示
-        enable, // 是否可编辑
-        data, // 计算显示等需要的数据
-        option, // 点击操作等需要的数据
-        host,// 宿主activity/fragment
-        related, // 关联的hash map类型
-        limit, // 数量限制, 如输入字数, 图片最大数量等
-        drawable, // 图片id或url
-        background, // 背景色
-        width, // 宽
-        height, // 高
-        column, // 列数
-        mode, // 模式
-        layout, // 布局resId
-        toast, // toast提示
-        intent, // 意图
-        children, // FormItem类型的子列表
-        depend, // 依赖(做操作的时候需要的前提条件)
-        regex, // 正则的验证规则
-        check, // 适合checkbox等的规则
-        index, // 下标
-        id, // 标识位
-        visible,// 显示与否
-        observer, // 观察者, 某些数据的相应回调
-        text_color, // 字体颜色
-        padding_dp_left, // 左边距dp
-        padding_dp_right, // 右边距dp
-        url, // 点击跳转的连接
+    private String mKey;
+    private String mVal;
 
-        /**
-         * 和服务器通信的主要字段
-         */
-        key, // key
-        val, // value
-    }
-
-    @NonNull
-    abstract public int getType();
 
     private int mPosition;
     private OnFormViewClickListener mListener;
     private VH mHolder;
+
+
+    public <T extends FormEx<VH>> T name(String name) {
+        mName = name;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T key(String key) {
+        mKey = key;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T val(String val) {
+        mVal = val;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T name(@StringRes int id) {
+        mName = ResLoader.getString(id);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T text(String text) {
+        mText = text;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T texts(String... texts) {
+        mTexts = texts;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T texts(@StringRes int... ids) {
+        int len = ids.length;
+        if (len == 0) {
+            return (T) this;
+        }
+
+        mTexts = new String[len];
+        for (int i = 0; i < len; ++i) {
+            mTexts[i] = ResLoader.getString(ids[i]);
+        }
+
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T text(@StringRes int id) {
+        mText = ResLoader.getString(id);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T hint(String hint) {
+        mHint = hint;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T hint(@StringRes int id) {
+        mHint = ResLoader.getString(id);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T tips(String tips) {
+        mTips = tips;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T tips(@StringRes int id) {
+        mTips = ResLoader.getString(id);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T enable(boolean able) {
+        mEnabled = able;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T related(Object related) {
+        mRelated = related;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T data(Object data) {
+        mData = data;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T option(Object option) {
+        mOption = option;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T host(Object host) {
+        mHost = host;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T width(int w) {
+        mWidth = w;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T height(int h) {
+        mHeight = h;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T column(int c) {
+        mColumn = c;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T limit(int limit) {
+        mLimit = limit;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T background(@ColorInt int color) {
+        mBgColor = color;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T backgroundRes(@ColorRes int id) {
+        mBgColor = ResLoader.getColor(id);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T mode(int mode) {
+        mMode = mode;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T drawable(@DrawableRes int id) {
+        mDrawableId = id;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T layout(@LayoutRes int id) {
+        mLayoutId = id;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T textColorRes(@ColorRes int id) {
+        mTextColor = ResLoader.getColorStateList(id);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T textColor(@ColorInt int color) {
+        mTextColor = ColorStateList.valueOf(color);
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T toast(String toast) {
+        mToast = toast;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T intent(Intent i) {
+        mIntent = i;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T children(List children) {
+        mChildren = children;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T depend(Object depend) {
+        mDepend = depend;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T regex(String regex) {
+        mRegex = regex;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T check(boolean check) {
+        mCheck = check;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T index(int index) {
+        mIndex = index;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T id(int id) {
+        mId = id;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T visible(boolean visible) {
+        mVisible = visible;
+        return (T) this;
+    }
+
+    public <T extends FormEx<VH>> T observer(OnFormObserver observer) {
+        mObserver = observer;
+        return (T) this;
+    }
 
     public void setAttrs(VH holder, int position, OnFormViewClickListener listener) {
         mPosition = position;
@@ -85,6 +289,138 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
 
         init(holder);
         refresh();
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public String getText() {
+        return mText;
+    }
+
+    public String[] getTexts() {
+        return mTexts;
+    }
+
+    public String getHint() {
+        return mHint;
+    }
+
+    public String getTips() {
+        return mTips;
+    }
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public int getLimit() {
+        return mLimit;
+    }
+
+    public <T> T getRelated() {
+        return (T) mRelated;
+    }
+
+    public <T> T getData() {
+        return (T) mData;
+    }
+
+    public Object getOption() {
+        return mOption;
+    }
+
+    public Object getHost() {
+        return mHost;
+    }
+
+    public int getColumn() {
+        return mColumn;
+    }
+
+    public int getWidth() {
+        return mWidth;
+    }
+
+    public int getHeight() {
+        return mHeight;
+    }
+
+    public int getMode() {
+        return mMode;
+    }
+
+    public Intent getIntent() {
+        return mIntent;
+    }
+
+    public List getChildren() {
+        return mChildren;
+    }
+
+    public Object getDepend() {
+        return mDepend;
+    }
+
+    public String getRegex() {
+        return mRegex;
+    }
+
+    public boolean isCheck() {
+        return mCheck;
+    }
+
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public boolean isVisible() {
+        return mVisible;
+    }
+
+    public Object getObserver() {
+        return mObserver;
+    }
+
+    /**
+     * 背景色
+     *
+     * @return otherwise return {@link ConstantsEx#KInvalidValue}
+     */
+    public int getBgColor() {
+        return mBgColor;
+    }
+
+    public int getDrawable() {
+        return mDrawableId;
+    }
+
+    /**
+     * @return otherwise return {@link ConstantsEx#KInvalidValue}
+     */
+    public int getLayoutId() {
+        return mLayoutId;
+    }
+
+    public ColorStateList getTextColor() {
+        return mTextColor;
+    }
+
+    public String getToast() {
+        return mToast;
+    }
+
+    public String getKey() {
+        return mKey;
+    }
+
+    public String getVal() {
+        return mVal;
     }
 
     public int getPosition() {
@@ -108,7 +444,7 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
 
     public final void refresh() {
         if (mHolder != null) {
-            if (getBoolean(TForm.visible)) {
+            if (mVisible) {
                 ViewUtil.showView(mHolder.getConvertView());
                 refresh(mHolder);
             } else {
@@ -118,12 +454,12 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
     }
 
     public final void show() {
-        put(TForm.visible, true);
+        mVisible = true;
         refresh();
     }
 
     public final void hide() {
-        put(TForm.visible, false);
+        mVisible = false;
         refresh();
     }
 
@@ -153,13 +489,11 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
     }
 
     protected void startActivity(Intent intent) {
-        Object host = getObject(TForm.host);
-        LaunchUtil.startActivity(host, intent);
+        LaunchUtil.startActivity(mHost, intent);
     }
 
     protected void startActivityForResult(Intent intent, int position) {
-        Object host = getObject(TForm.host);
-        LaunchUtil.startActivityForResult(host, intent, position);
+        LaunchUtil.startActivityForResult(mHost, intent, position);
     }
 
     protected void startActivityForResult(Class<?> clz, int position) {
@@ -170,7 +504,7 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
     public final void onClick(View v) {
         if (!onViewClick(v)) {
             if (mListener != null) {
-                mListener.onViewClick(v, mPosition, getObject(TForm.related));
+                mListener.onViewClick(v, mPosition, mRelated);
             }
         }
     }
@@ -217,15 +551,15 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
         AppEx.showToast(resId);
     }
 
-    public void save(Object key, Object value, Object text) {
-        put(TForm.key, key);
-        put(TForm.val, value);
-        put(TForm.text, text);
+    public void save(String key, String val, String text) {
+        mKey = key;
+        mText = text;
+        mVal = val;
     }
 
-    public void save(Object value, Object text) {
-        put(TForm.val, value);
-        put(TForm.text, text);
+    public void save(String val, String text) {
+        mText = text;
+        mVal = val;
     }
 
     /**
@@ -242,19 +576,22 @@ abstract public class FormEx<VH extends IViewHolder> extends EVal<TForm> impleme
      * @param request
      */
     protected void exeNetworkRequest(int networkId, NetworkReq request) {
-        Object host = getObject(TForm.host);
-        if (host instanceof ActivityEx) {
-            ActivityEx act = (ActivityEx) host;
+        if (mHost == null) {
+            return;
+        }
+
+        if (mHost instanceof ActivityEx) {
+            ActivityEx act = (ActivityEx) mHost;
             act.refresh(RefreshWay.dialog);
             act.exeNetworkReq(networkId, request);
-        } else if (host instanceof FragEx) {
-            FragEx frag = (FragEx) host;
+        } else if (mHost instanceof FragEx) {
+            FragEx frag = (FragEx) mHost;
             frag.refresh(RefreshWay.dialog);
             frag.exeNetworkReq(networkId, request);
         }
     }
 
-    protected boolean isEmpty(CharSequence text) {
+    protected boolean isEmpty(String text) {
         return TextUtil.isEmpty(text);
     }
 }

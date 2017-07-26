@@ -21,7 +21,6 @@ import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.FormEx;
-import lib.ys.form.FormEx.TForm;
 import lib.ys.form.FormHost;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.TransparencyType;
@@ -44,7 +43,6 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
     private StayScrollView mSv;
 
     private Map<Object/* key */, T> mMapRelated;
-    private Map<View, Integer> mMapClick;
 
     private OnClickListener mItemClickListener;
 
@@ -66,7 +64,6 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
     public void initData() {
         mItems = new ArrayList<>();
 
-        mMapClick = new HashMap<>();
         mMapRelated = new HashMap<>();
 
         mRemandItems = new ArrayList<>();
@@ -74,7 +71,7 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
         /**
          * 把item的点击监听单独出来, 和header和footer进行区分
          */
-        mItemClickListener = v -> onItemClick(v, mMapClick.get(v));
+        mItemClickListener = v -> onItemClick(v, (int) v.getTag());
     }
 
     @CallSuper
@@ -103,7 +100,7 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
     public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
-            Object related = item.getObject(TForm.related);
+            Object related = item.getRelated();
             if (related != null) {
                 mMapRelated.put(related, item);
             }
@@ -150,10 +147,10 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
             return;
         }
 
-        item.setAttrs(holder, position, this);
-
         v.setOnClickListener(mItemClickListener);
-        mMapClick.put(v, position);
+        v.setTag(position);
+
+        item.setAttrs(holder, position, this);
     }
 
     protected int getCount() {
@@ -228,15 +225,14 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
             return t;
         }
 
-        t.put(TForm.host, this);
-
-        Object related = t.getObject(TForm.related);
+        t.host(this);
 
         if (mLayoutItems == null) {
             mRemandItems.add(t);
             return t;
         } else {
             mItems.add(t);
+            Object related = t.getRelated();
             if (related != null) {
                 mMapRelated.put(related, t);
             }
@@ -465,11 +461,6 @@ abstract public class FormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx> 
         if (mMapRelated != null) {
             mMapRelated.clear();
             mMapRelated = null;
-        }
-
-        if (mMapClick != null) {
-            mMapClick.clear();
-            mMapClick = null;
         }
 
         if (mItems != null) {

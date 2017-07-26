@@ -1,7 +1,6 @@
 package yy.doctor.model.form.edit;
 
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,19 +10,12 @@ import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.Constants;
 import yy.doctor.R;
-import yy.doctor.model.form.FormType;
 
 /**
  * @author CaiXiang
  * @since 2017/4/17
  */
 public class EditForm extends BaseForm {
-
-    @NonNull
-    @Override
-    public int getType() {
-        return FormType.et;
-    }
 
     @Override
     public boolean check() {
@@ -67,15 +59,15 @@ public class EditForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        int d = getInt(TForm.drawable);
+        int d = getDrawable();
         if (d != Constants.KInvalidValue) {
             holder.getIv().setOnClickListener(this);
         }
         setIvIfValid(holder.getIv(), d);
 
-        holder.getEt().setEnabled(getBoolean(TForm.enable));
-        holder.getEt().setText(getString(TForm.text));
-        holder.getEt().setHint(getString(TForm.hint));
+        holder.getEt().setEnabled(isEnabled());
+        holder.getEt().setText(getText());
+        holder.getEt().setHint(getHint());
     }
 
     @Override

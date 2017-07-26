@@ -17,7 +17,6 @@ import io.reactivex.schedulers.Schedulers;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
-import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.yy.network.Result;
@@ -30,7 +29,7 @@ import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
@@ -117,63 +116,54 @@ public class SettingsActivity extends BaseFormActivity {
         mImgSize = getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
         mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
 
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
                 .name(R.string.wx_account)
-                .text(R.string.no_binding)
-                .build());
+                .text(R.string.no_binding));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_phone)
                 .name(R.string.phone_num_account)
-                .text(R.string.no_binding)
-                .build());
+                .text(R.string.no_binding));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_email)
                 .name(R.string.email_account)
-                .text(SpApp.inst().getUserName())
-                .build());
+                .text(SpApp.inst().getUserName()));
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.change_password)
-                .name(R.string.change_pwd)
-                .build());
+                .name(R.string.change_pwd));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.toggle_button)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.toggle_button)
                 .related(RelatedId.auto_download_apk)
-                .name(R.string.wifi_auto_download_new_apk)
-                .build());
+                .name(R.string.wifi_auto_download_new_apk));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.check_version)
-                .name(R.string.check_version)
-                .build());
+                .name(R.string.check_version));
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text)
                 .name(R.string.clear_img_cache)
                 .related(RelatedId.clear_img_cache)
-                .text(mImgSize)
-                .build());
+                .text(mImgSize));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.text)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text)
                 .name(R.string.clear_sound_cache)
                 .related(RelatedId.clear_sound_cache)
-                .text(mSoundSize)
-                .build());
+                .text(mSoundSize));
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.toggle_button)
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.toggle_button)
                 .related(RelatedId.audio_play)
-                .name(R.string.audio_auto_play_only_wifi)
-                .build());
+                .name(R.string.audio_auto_play_only_wifi));
     }
 
     @Override
@@ -194,7 +184,7 @@ public class SettingsActivity extends BaseFormActivity {
             case R.id.settings_footer_tv_exit_account: {
                 HintDialogMain dialog = new HintDialogMain(this);
                 dialog.setHint("确定要退出当前登录账号吗?");
-                dialog.addButton("退出", v1-> {
+                dialog.addButton("退出", v1 -> {
                     dialog.dismiss();
                     Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
                     intent.putExtra(Extra.KType, ReqType.logout);
@@ -211,7 +201,7 @@ public class SettingsActivity extends BaseFormActivity {
                     startActivity(LoginActivity.class);
                     finish();
                 });
-                dialog.addButton("取消", v1-> dialog.dismiss());
+                dialog.addButton("取消", v1 -> dialog.dismiss());
                 dialog.show();
             }
             break;
@@ -221,7 +211,7 @@ public class SettingsActivity extends BaseFormActivity {
     @Override
     protected void onFormItemClick(View v, int position) {
 
-        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
+        @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_email: {
                 startActivity(BindEmailActivity.class);
@@ -287,7 +277,7 @@ public class SettingsActivity extends BaseFormActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
-                                getRelatedItem(RelatedId.clear_img_cache).put(TForm.text, "0M");
+                                getRelatedItem(RelatedId.clear_img_cache).text("0M");
                                 refreshRelatedItem(RelatedId.clear_img_cache);
                                 showToast(R.string.clear_img_cache_success);
                             }
@@ -315,7 +305,7 @@ public class SettingsActivity extends BaseFormActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
-                                getRelatedItem(RelatedId.clear_sound_cache).put(TForm.text, "0M");
+                                getRelatedItem(RelatedId.clear_sound_cache).text("0M");
                                 refreshRelatedItem(RelatedId.clear_sound_cache);
                                 showToast(getString(R.string.clear_sound_cache_success));
                             }

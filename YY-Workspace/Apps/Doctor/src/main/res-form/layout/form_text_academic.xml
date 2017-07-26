@@ -6,28 +6,23 @@
     android:background="@drawable/item_selector"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         style="@style/v.form"
-        android:layout_height="@dimen/edit_height"
         android:background="@null">
 
         <TextView
             style="@style/tv.form.name"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_weight="1"/>
+            android:layout_marginLeft="@dimen/margin"/>
 
         <ImageView
-            style="@style/iv.arrow.align_right"
-            android:layout_marginRight="@dimen/margin_large"/>
-    </LinearLayout>
+            style="@style/iv.arrow.align_right"/>
+    </RelativeLayout>
 
-    <View
-        style="@style/divider"
-        android:layout_width="match_parent"/>
+    <View style="@style/divider.form"/>
 
     <TextView
         android:id="@id/form_tv_text"
-        style="@style/et.login"
+        style="@style/tv.form.text"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="12dp"
@@ -35,12 +30,9 @@
         android:gravity="top"
         android:hint="@string/user_input_academic"
         android:maxLength="500"
-        android:scrollbars="vertical"
-        android:textColor="@color/text_333"
-        android:textSize="14dp"/>
+        android:paddingTop="@dimen/margin"
+        android:textColor="@color/text_333"/>
 
-    <View
-        style="@style/divider"
-        android:layout_width="match_parent"/>
+    <View style="@style/divider.form"/>
 
 </LinearLayout>

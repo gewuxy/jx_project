@@ -37,10 +37,8 @@
                 android:textSize="12dp"/>
         </LinearLayout>
 
-
         <ImageView
-            style="@style/iv.arrow.align_right"
-            android:layout_marginRight="@dimen/margin_large"/>
+            style="@style/iv.arrow.align_right"/>
 
     </RelativeLayout>
 

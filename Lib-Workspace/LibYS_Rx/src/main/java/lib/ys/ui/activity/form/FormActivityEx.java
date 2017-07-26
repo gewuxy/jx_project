@@ -20,7 +20,6 @@ import lib.ys.ConstantsEx;
 import lib.ys.R;
 import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.form.FormEx;
-import lib.ys.form.FormEx.TForm;
 import lib.ys.form.FormHost;
 import lib.ys.form.OnFormViewClickListener;
 import lib.ys.form.TransparencyType;
@@ -101,7 +100,8 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends IViewHolde
     public void setViews() {
         for (T item : mRemandItems) {
             mItems.add(item);
-            Object related = item.getObject(TForm.related);
+
+            Object related = item.getRelated();
             if (related != null) {
                 mMapRelated.put(related, item);
             }
@@ -148,10 +148,10 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends IViewHolde
             return;
         }
 
-        item.setAttrs(holder, position, this);
-
         v.setOnClickListener(mItemClickListener);
         mMapClick.put(v, position);
+
+        item.setAttrs(holder, position, this);
     }
 
     protected int getCount() {
@@ -226,15 +226,14 @@ abstract public class FormActivityEx<T extends FormEx<VH>, VH extends IViewHolde
             return t;
         }
 
-        t.put(TForm.host, this);
-
-        Object related = t.getObject(TForm.related);
+        t.host(this);
 
         if (mLayoutItems == null) {
             mRemandItems.add(t);
             return t;
         } else {
             mItems.add(t);
+            Object related = t.getRelated();
             if (related != null) {
                 mMapRelated.put(related, t);
             }

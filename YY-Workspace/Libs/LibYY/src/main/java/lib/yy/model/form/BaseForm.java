@@ -20,15 +20,36 @@ import lib.yy.adapter.VH.FormVH;
  */
 abstract public class BaseForm extends FormEx<FormVH> {
 
+    private int mPaddingLeft;
+    private int mPaddingRight;
+
+    public <T extends BaseForm> T paddingLeft(int padding) {
+        mPaddingLeft = padding;
+        return (T) this;
+    }
+
+    public <T extends BaseForm> T paddingRight(int padding) {
+        mPaddingRight = padding;
+        return (T) this;
+    }
+
+    public int getPaddingLeft() {
+        return mPaddingLeft;
+    }
+
+    public int getPaddingRight() {
+        return mPaddingRight;
+    }
+
     @Override
     protected void refresh(FormVH holder) {
         if (holder.getTvText() != null) {
-            if (!getString(TForm.hint).isEmpty()) {
-                holder.getTvText().setHint(getString(TForm.hint));
+            if (!isEmpty(getHint())) {
+                holder.getTvText().setHint(getHint());
             }
         }
 
-        setTextIfExist(holder.getTvName(), getString(TForm.name));
+        setTextIfExist(holder.getTvName(), getName());
     }
 
     protected void setTextIfExist(TextView tv, CharSequence text) {
@@ -54,11 +75,8 @@ abstract public class BaseForm extends FormEx<FormVH> {
     abstract public boolean check();
 
     protected boolean checkRegex() {
-        if (isEmpty(getString(TForm.val))) {
-
-        }
-        String regex = getString(TForm.regex);
-        boolean match = RegexUtil.match(regex, getString(TForm.val));
+        String regex = getRegex();
+        boolean match = RegexUtil.match(regex, getVal());
         if (match) {
             return true;
         } else {
@@ -100,19 +118,19 @@ abstract public class BaseForm extends FormEx<FormVH> {
     }
 
     private boolean nativeCheck(@StringRes int stringId) {
-        if (isEmpty(getString(TForm.val))) {
-            if (getString(TForm.toast).isEmpty()) {
-                String name = getString(TForm.name);
+        if (isEmpty(getVal())) {
+            if (isEmpty(getToast())) {
+                String name = getName();
                 String toast = null;
-                if (name.isEmpty()) {
-                    toast = getString(TForm.hint);
+                if (isEmpty(name)) {
+                    toast = getHint();
                 } else {
                     toast = name;
                 }
 
                 showToast(ResLoader.getString(stringId) + toast);
             } else {
-                showToast(getString(TForm.toast));
+                showToast(getToast());
             }
             return false;
         }

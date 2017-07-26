@@ -68,8 +68,7 @@
             android:layout_marginRight="38dp"/>
 
         <ImageView
-            style="@style/iv.arrow.align_right"
-            android:layout_marginRight="@dimen/margin_large"/>
+            style="@style/iv.arrow.align_right"/>
     </RelativeLayout>
 
 </LinearLayout>

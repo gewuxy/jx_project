@@ -1,6 +1,5 @@
 package yy.doctor.model.form.edit;
 
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,7 +10,6 @@ import lib.yy.adapter.VH.FormVH;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.model.form.FormType;
 
 import static lib.ys.util.view.ViewUtil.hideView;
 import static lib.ys.util.view.ViewUtil.showView;
@@ -25,24 +23,13 @@ public class EditPhoneNumberForm extends EditNumberForm {
 
     private boolean mIsAdd;
 
-    @NonNull
-    @Override
-    public int getType() {
-        return FormType.et_phone_number;
-    }
-
     @Override
     public int getContentViewResId() {
-        int layout = getInt(TForm.layout);
+        int layout = getLayoutId();
         if (layout != ConstantsEx.KInvalidValue) {
             return layout;
         }
         return R.layout.form_edit_phone_number;
-    }
-
-    @Override
-    public boolean check() {
-        return super.check();
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.form.FormEx.TForm;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
@@ -16,7 +15,7 @@ import lib.yy.ui.frag.base.BaseFormFrag;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.ui.activity.me.CollectionMeetingActivity;
 import yy.doctor.ui.activity.me.HelpAndFeedbackActivity;
@@ -74,68 +73,56 @@ public class MeFrag extends BaseFormFrag {
         int paddingLeft = fitDp(58);
         int paddingRight = fitDp(12);
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.text_intent_me)
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_meeting_statistics)
                 .name(R.string.attend_meeting_statistics)
-                .related(RelatedId.meeting_statistics)
-                .build());
+                .related(RelatedId.meeting_statistics));
 
-        addItem(new Builder(FormType.divider)
+        addItem(Form.create(FormType.divider)
                 .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight)
-                .build());
+                .paddingRight(paddingRight));
 
-        addItem(new Builder(FormType.text_intent_me)
+        addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_attention_unit_num)
                 .name(R.string.my_attention)
-                .related(RelatedId.my_attention)
-                .build());
+                .related(RelatedId.my_attention));
 
-        addItem(new Builder(FormType.divider)
+        addItem(Form.create(FormType.divider)
                 .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight)
-                .build());
+                .paddingRight(paddingRight));
 
-        addItem(new Builder(FormType.text_intent_me)
+        addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_collection)
                 .name(R.string.collection_meeting)
-                .related(RelatedId.my_collection)
-                .build());
+                .related(RelatedId.my_collection));
 
         //String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits));
-        addItem(new Builder(FormType.divider)
+        addItem(Form.create(FormType.divider)
                 .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight)
-                .build());
-        addItem(new Builder(FormType.text_intent_me)
+                .paddingRight(paddingRight));
+
+        addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_epn)
                 .name(R.string.epn)
                 .text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)))
-                .related(RelatedId.my_epn)
-                .build());
+                .related(RelatedId.my_epn));
 
-        addItem(new Builder(FormType.divider_large)
-                .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight)
-                .build());
+        addItem(Form.create(FormType.divider_large));
 
-        addItem(new Builder(FormType.text_intent_me)
+        addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_settings)
                 .name(R.string.settings)
-                .related(RelatedId.settings)
-                .build());
+                .related(RelatedId.settings));
 
-        addItem(new Builder(FormType.divider_large)
+        addItem(Form.create(FormType.divider)
                 .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight)
-                .build());
+                .paddingRight(paddingRight));
 
-        addItem(new Builder(FormType.text_intent_me)
+        addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_help_and_feedback)
                 .name(R.string.held_and_feedback)
-                .related(RelatedId.help_and_feedback)
-                .build());
+                .related(RelatedId.help_and_feedback));
     }
 
     @Override
@@ -194,7 +181,7 @@ public class MeFrag extends BaseFormFrag {
     @Override
     protected void onFormItemClick(View v, int position) {
 
-        @RelatedId int relatedId = getItem(position).getInt(TForm.related);
+        @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.meeting_statistics: {
                 showToast(R.string.attend_meeting_statistics);
@@ -238,9 +225,10 @@ public class MeFrag extends BaseFormFrag {
                     .url(Profile.inst().getString(TProfile.headimg))
                     //.renderer(new CornerRenderer(fitDp(15)))  圆角
                     .load();
+
             mTvName.setText(Profile.inst().getString(linkman));
             mTvHospital.setText(Profile.inst().getString(hospital));
-            getRelatedItem(RelatedId.my_epn).put(TForm.text, String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)));
+            getRelatedItem(RelatedId.my_epn).text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)));
             refreshRelatedItem(RelatedId.my_epn);
         }
     }

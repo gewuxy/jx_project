@@ -1,7 +1,5 @@
 package yy.doctor.model.form;
 
-import android.support.annotation.NonNull;
-
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
@@ -12,10 +10,9 @@ import yy.doctor.R;
  */
 public class ToggleButtonForm extends BaseForm {
 
-    @NonNull
     @Override
-    public int getType() {
-        return FormType.toggle_button;
+    public int getContentViewResId() {
+        return R.layout.form_toggle_button;
     }
 
     @Override
@@ -28,11 +25,6 @@ public class ToggleButtonForm extends BaseForm {
     @Override
     public boolean check() {
         return false;
-    }
-
-    @Override
-    public int getContentViewResId() {
-        return R.layout.form_toggle_button;
     }
 
 }

@@ -12,7 +12,6 @@ import java.lang.annotation.RetentionPolicy;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TForm;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
@@ -25,7 +24,7 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -87,30 +86,28 @@ public class ExchangeActivity extends BaseFormActivity {
         mEpn = i.getIntExtra(Extra.KNum, 0);
         mUrl = i.getStringExtra(Extra.KUrl);
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(Form.create(FormType.divider_large));
+
+        addItem(Form.create(FormType.et_register)
                 .related(RelatedId.receiver)
-                .hint(R.string.receiver)
-                .build());
+                .hint(R.string.receiver));
 
         // FIXME: 2017/6/30 caixiang  要添加到。。。
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_number)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.et_number)
                 .related(RelatedId.mobile)
-                .hint(R.string.phone_num)
-                .build());
+                .hint(R.string.phone_num));
 
-        addItem(new Builder(FormType.divider_large).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(Form.create(FormType.divider_large));
+
+        addItem(Form.create(FormType.et_register)
                 .related(RelatedId.province_city)
-                .hint(R.string.province_city)
-                .build());
+                .hint(R.string.province_city));
 
-        addItem(new Builder(FormType.divider).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.et_register)
                 .related(RelatedId.address)
-                .hint(R.string.address)
-                .build());
+                .hint(R.string.address));
     }
 
     @Override
@@ -162,7 +159,7 @@ public class ExchangeActivity extends BaseFormActivity {
 
                 // FIXME: 2017/6/30 caixiang
                 //检查手机号格式是否正确
-                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getString(TForm.text))) {
+                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText())) {
                     showToast(R.string.phone_error);
                 }
 
@@ -176,10 +173,10 @@ public class ExchangeActivity extends BaseFormActivity {
                 NetworkReq r = NetFactory.newExchangeBuilder()
                         .goodsId(mGoodId)
                         .price(mEpn)
-                        .receiver(getRelatedItem(RelatedId.receiver).getString(TForm.text))
-                        .phone(getRelatedItem(RelatedId.mobile).getString(TForm.text))
-                        .province(getRelatedItem(RelatedId.province_city).getString(TForm.text))
-                        .address(getRelatedItem(RelatedId.address).getString(TForm.text))
+                        .receiver(getRelatedItem(RelatedId.receiver).getText())
+                        .phone(getRelatedItem(RelatedId.mobile).getText())
+                        .province(getRelatedItem(RelatedId.province_city).getText())
+                        .address(getRelatedItem(RelatedId.address).getText())
                         .builder();
                 exeNetworkReq(r);
             }

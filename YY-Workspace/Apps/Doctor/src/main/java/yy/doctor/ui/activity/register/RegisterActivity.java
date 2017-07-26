@@ -33,7 +33,6 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.form.FormEx.TForm;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
@@ -48,7 +47,7 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.Profile;
-import yy.doctor.model.form.Builder;
+import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
@@ -62,8 +61,8 @@ import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.util.Util;
 
-import static lib.ys.form.FormEx.TForm.val;
 import static lib.ys.util.permission.Permission.phone;
+
 
 /**
  * 注册界面  7.1
@@ -138,68 +137,59 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         mFlag = true;
         mCount = 0;
 
-        addItem(new Builder(FormType.et_phone_number)
+        addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
-                .hint(R.string.phone_number)
-                .build());
+                .hint(R.string.phone_number));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.et_captcha)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
-                .textColor(R.color.register_captcha_text_selector)
+                .textColorRes(R.color.register_captcha_text_selector)
                 .hint(R.string.captcha)
-                .enable(false)
-                .build());
+                .enable(false));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.et_register_pwd)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_register_pwd)
                 .related(RelatedId.pwd)
                 .hint(R.string.pwd)
-                .drawable(R.drawable.register_pwd_selector)
-                .build());
+                .drawable(R.drawable.register_pwd_selector));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_register)
                 .related(RelatedId.name)
-                .hint(R.string.real_name)
-                .build());
+                .hint(R.string.real_name));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_intent_no_name)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.location)
                 .hint(R.string.province_city_district)
-                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
-                .build());
+                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location)));
 
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_intent_no_name)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
-                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
-                .build());
+                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital)));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_intent_no_name)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.medicine)
                 .hint(R.string.medicine)
-                .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
-                .build());
+                .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine)));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.et_register)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_register)
                 .related(RelatedId.department)
-                .hint(yy.doctor.R.string.department)
-                .build());
+                .hint(yy.doctor.R.string.department));
 
-        addItem(new Builder(FormType.register_divider).build());
-        addItem(new Builder(FormType.text_intent_no_name)
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.doctor)
                 .hint(R.string.doctor)
-                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))
-                .build());
+                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor)));
 
-        addItem(new Builder(FormType.register_divider).build());
+        addItem(Form.create(FormType.divider_margin));
     }
 
     @Override
@@ -312,6 +302,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         exeNetworkReq(KRegister, NetFactory.register()
                 .mobile(mPhone)
                 .captcha(getItemStr(RelatedId.captcha))
+                .username(mUserName)
                 .pwd(getItemStr(RelatedId.pwd))
                 .linkman(getItemStr(RelatedId.name))
                 .province(place.getString(TPlace.province))
@@ -323,15 +314,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .name(getItemStr(RelatedId.name))//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称
                 .invite(code)
-
-                .username(mUserName)
-                .linkman(getItemStr(RelatedId.name))
-                .pwd(getItemStr(RelatedId.pwd))
-                .province(place.getString(TPlace.province))
-                .city(place.getString(TPlace.city))
-                //.area(place.getString(TPlace.district))
-                .hospital(getItemStr(RelatedId.hospital))
-                .invite(code)
                 .build());
     }
 
@@ -339,7 +321,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
      * 获取Item的文本信息
      */
     private String getItemStr(@RelatedId int relatedId) {
-        return getRelatedItem(relatedId).getString(val);
+        return getRelatedItem(relatedId).getVal();
     }
 
     @Override
@@ -349,7 +331,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
 
-                    mPhone = getRelatedItem(RelatedId.phone_number).getString(TForm.val);
+                    mPhone = getRelatedItem(RelatedId.phone_number).getVal();
                     if (!Util.isMobileCN(phone)) {
                         showToast("该号码不是电话号，请输入正确的电话号码");
                         return;
@@ -402,10 +384,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             getRelatedItem(RelatedId.location).save(text, text);
             refreshRelatedItem(RelatedId.location);
         } else if (type == NotifyType.fetch_message_captcha) {
-            form.put(TForm.enable, true);
+            form.enable(true);
             refreshItem(form);
         } else if (type == NotifyType.disable_fetch_message_captcha) {
-            form.put(TForm.enable, false);
+            form.enable(false);
             refreshItem(form);
         }
     }
@@ -496,7 +478,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 finish();
                 showToast(r.getError());
             }
-        }else if (id == KCaptcha) {
+        } else if (id == KCaptcha) {
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("成功");
