@@ -111,7 +111,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
                 et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
             // 把光标设置到当前文本末尾
-            et.setSelection(et.getText().length());
+            et.setSelection(et.length());
         });
     }
 
@@ -123,6 +123,10 @@ public abstract class BaseLoginActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if ((RegexUtil.isMobileCN(getUserName()) || RegexUtil.isEmail(getUserName()))
                         && !TextUtil.isEmpty(Util.getEtString(mEtPwd))) {
                     mTvButton.setEnabled(true);
@@ -135,10 +139,6 @@ public abstract class BaseLoginActivity extends BaseActivity {
                 } else {
                     showView(iv);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
     }

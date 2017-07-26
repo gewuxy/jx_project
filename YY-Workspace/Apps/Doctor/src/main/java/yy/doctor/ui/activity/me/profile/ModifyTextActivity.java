@@ -21,7 +21,7 @@ import yy.doctor.model.Profile.TProfile;
  */
 public class ModifyTextActivity extends BaseModifyActivity {
 
-    private EditText mEtDepartments;
+    private EditText mEtGeneral;
     private ImageView mIvCancel;
 
     public static Intent newIntent(Context context, String title, TProfile t) {
@@ -38,8 +38,8 @@ public class ModifyTextActivity extends BaseModifyActivity {
 
     @Override
     public void findViews() {
-        mEtDepartments = findView(R.id.et_departments);
-        mIvCancel = findView(R.id.iv_departments_cancel);
+        mEtGeneral = findView(R.id.et_general);
+        mIvCancel = findView(R.id.iv_general_cancel);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ModifyTextActivity extends BaseModifyActivity {
 
         setOnClickListener(R.id.iv_cancel);
 
-        addTextChangedListener(mEtDepartments, mIvCancel);
+        addTextChangedListener(mEtGeneral, mIvCancel);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ModifyTextActivity extends BaseModifyActivity {
         int id = v.getId();
         switch (id) {
             case R.id.iv_cancel: {
-                mEtDepartments.setText("");
+                mEtGeneral.setText("");
             }
             break;
         }
@@ -67,7 +67,7 @@ public class ModifyTextActivity extends BaseModifyActivity {
     @Override
     protected void doModify() {
         // TODO：伪代码网络请求
-        mEtDepartments.getText();
+        mEtGeneral.getText();
 
         Result<String> result = new Result<>();
         result.setCode(ErrorCode.KOk);
@@ -77,6 +77,6 @@ public class ModifyTextActivity extends BaseModifyActivity {
 
     @Override
     protected EditText getEt() {
-        return mEtDepartments;
+        return mEtGeneral;
     }
 }

@@ -26,11 +26,11 @@
 
             <EditText
                 style="@style/et.login"
-                android:id="@+id/et_departments"
-                android:hint=""/>
+                android:id="@+id/et_general"
+                android:hint="请输入"/>
 
             <ImageView
-                android:id="@+id/iv_departments_cancel"
+                android:id="@+id/iv_general_cancel"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:padding="8dp"

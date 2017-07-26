@@ -39,6 +39,7 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
+import static yy.doctor.model.Profile.TProfile.academic;
 import static yy.doctor.model.Profile.TProfile.cmeId;
 import static yy.doctor.model.Profile.TProfile.department;
 import static yy.doctor.model.Profile.TProfile.hospital;
@@ -134,16 +135,8 @@ public class ProfileActivity extends BaseFormActivity {
         super.initData();
 
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);
-        if (!TextUtil.isEmpty(mAvatarUrl)) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "1完整度" + mProgressProFile);
-        }
 
         addItem(Form.create(FormType.divider_large));
-        if (!TextUtil.isEmpty(Profile.inst().getString(linkman))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "2完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.et)
                 .related(RelatedId.name)
                 .name(R.string.user_name)
@@ -157,41 +150,30 @@ public class ProfileActivity extends BaseFormActivity {
         place.put(TPlace.city, getString(R.string.guang_zhou));
 
         addItem(Form.create(FormType.divider));
-        if (!TextUtil.isEmpty(Profile.inst().getString(hospital))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "3完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.hospital)
 //                .drawable(R.mipmap.form_ic_more)
                 .name(R.string.user_hospital)
                 .intent(new Intent(this, HospitalActivity.class))
-                .mode(IntentType.hospital)
+                .type(IntentType.hospital)
                 .text(Profile.inst().getString(hospital))
                 .hint(R.string.choose_hospital));
 
         addItem(Form.create(FormType.divider));
-        if (!TextUtil.isEmpty(Profile.inst().getString(specialized))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "4完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.specialized)
                 .name(R.string.user_section)
                 .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_section), TProfile.specialized))
+                .type(IntentType.section)
                 .text(Profile.inst().getString(specialized))
                 .hint(R.string.user_input_section));
 
         addItem(Form.create(FormType.divider));
-        if (!TextUtil.isEmpty(place.toString())) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "5完整度" + mProgressProFile);
-        }
-
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.address)
                 .name(R.string.user_city)
-                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
+                .intent(new Intent(this, ProvinceActivity.class))
+                .type(IntentType.location)
                 .text(place.toString())
                 .hint(R.string.province_city_district));
 
@@ -207,23 +189,15 @@ public class ProfileActivity extends BaseFormActivity {
 
 
         addItem(Form.create(FormType.divider_large));
-        if (!TextUtil.isEmpty(Profile.inst().getString(department))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "6完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.departments)
-                .intent(new Intent(this, SectionActivity.class)
-                        .putExtra(Extra.KData, IntentType.medicine))
+                .intent(new Intent(this, SectionActivity.class))
+                .type(IntentType.medicine)
                 .name(R.string.specialized)
                 .text(Profile.inst().getString(department))
                 .hint(R.string.user_input_Specialist));
 
         addItem(Form.create(FormType.divider));
-        if (!TextUtil.isEmpty(Profile.inst().getString(cmeId))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "7完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.cme_number)
                 .name(R.string.user_CME_number)
@@ -232,10 +206,6 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.user_input_CME_number));
 
         addItem(Form.create(FormType.divider));
-        if (!TextUtil.isEmpty(Profile.inst().getString(licence))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "8完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.certification_number)
                 .name(R.string.user_certification_number)
@@ -244,28 +214,62 @@ public class ProfileActivity extends BaseFormActivity {
                 .hint(R.string.user_input_certification_number));
 
         addItem(Form.create(FormType.divider));
-        if (!TextUtil.isEmpty(Profile.inst().getString(title))) {
-            mProgressProFile += 10;
-            YSLog.d("qqq", "9完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.title)
                 .name(R.string.user_title)
-                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))
+                .intent(new Intent(this, TitleActivity.class))
+                .type(IntentType.doctor)
                 .text(Profile.inst().getString(TProfile.title))
                 .hint(R.string.user_title));
 
         addItem(Form.create(FormType.divider_large));
-        if (!TextUtil.isEmpty(Profile.inst().getString(TProfile.academic))) {
-            YSLog.d("www", Profile.inst().getString(TProfile.academic) + "rrr");
-            mProgressProFile += 10;
-            YSLog.d("qqq", "10完整度" + mProgressProFile);
-        }
         addItem(Form.create(FormType.modify_intent_skill)
                 .related(RelatedId.skill)
                 .name(R.string.medical_skill)
-                .intent(AcademicActivity.newIntent(this, getString(R.string.medical_skill), TProfile.academic))
-                .text(Profile.inst().getString(TProfile.academic)));
+                .intent(AcademicActivity.newIntent(this, getString(R.string.medical_skill), academic))
+                .text(Profile.inst().getString(academic)));
+
+        if (!TextUtil.isEmpty(mAvatarUrl)) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "1完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(linkman))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "2完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(hospital))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "3完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(specialized))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "4完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(place.toString())) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "5完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(department))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "6完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(cmeId))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "7完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(licence))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "8完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(title))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "9完整度" + mProgressProFile);
+        }
+        if (!TextUtil.isEmpty(Profile.inst().getString(academic))) {
+            mProgressProFile += 10;
+            YSLog.d("qqq", "10完整度" + mProgressProFile);
+        }
+
 
     }
 
@@ -286,7 +290,7 @@ public class ProfileActivity extends BaseFormActivity {
 
         mLayoutProfileHeader = findView(R.id.layout_profile_header);
         mIvAvatar = findView(R.id.profile_header_iv_avatar);
-        mProgressBar = findView(R.id.profile_progressbar);
+        mProgressBar = findView(R.id.profile_pb_progressbar);
         mTvPercent = findView(R.id.profile_tv_percent);
     }
 
@@ -395,10 +399,10 @@ public class ProfileActivity extends BaseFormActivity {
     /**
      * 修改个人资料
      */
-    private void modify() {
+//    private void modify() {
 
-        String str = getRelatedItem(RelatedId.address).getText();
-        YSLog.d(TAG, "省市 = " + str);
+//        String str = getRelatedItem(RelatedId.address).getString(TForm.text);
+//        YSLog.d(TAG, "省市 = " + str);
 
 //        mPcd = null;
 //        mPcd = new String[Pcd.KMaxCount];
@@ -427,11 +431,11 @@ public class ProfileActivity extends BaseFormActivity {
 //                .builder();
 //        refresh(RefreshWay.dialog);
 //        exeNetworkReq(KReqModifyId, r);
-    }
+//    }
 
-    private String getRelateVal(@RelatedId int relateId) {
-        return getRelatedItem(relateId).getVal();
-    }
+//    private String getRelateVal(@RelatedId int relateId) {
+//        return getRelatedItem(relateId).getString(TForm.val);
+//    }
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
@@ -467,7 +471,8 @@ public class ProfileActivity extends BaseFormActivity {
 
         if (type == NotifyType.province_finish) {
             Place place = (Place) data;
-            getRelatedItem(RelatedId.address).text(place.toString());
+            String text = place.toString();
+            getRelatedItem(RelatedId.address).save(text, text);
             refreshRelatedItem(RelatedId.address);
         }
     }

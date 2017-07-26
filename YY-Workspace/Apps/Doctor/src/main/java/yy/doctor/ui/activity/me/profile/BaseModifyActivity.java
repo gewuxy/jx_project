@@ -118,7 +118,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
     abstract protected void doModify();
 
     protected void onModifySuccess() {
-        String text = getEt().getText().toString();
+        String text = getEt().getText().toString().trim();
         Profile.inst().put(mEnum, text);
         Profile.inst().saveToSp();
 

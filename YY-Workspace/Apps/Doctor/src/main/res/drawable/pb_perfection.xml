@@ -3,17 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@android:id/background">
-        <clip>
             <shape android:shape="rectangle">
                 <solid android:color="#c5e1f6"/>
             </shape>
-        </clip>
     </item>
 
-    <item android:id="@android:id/secondaryProgress">
+    <!--进度条-->
+    <item android:id="@android:id/progress">
         <clip>
-            <shape android:shape="rectangle">
-                <solid android:color="#97cbf2"/>
+            <shape>
+
+                <gradient
+                    android:endColor="@color/text_97cbf2"
+                    android:startColor="#97F2F2"/>
             </shape>
         </clip>
     </item>

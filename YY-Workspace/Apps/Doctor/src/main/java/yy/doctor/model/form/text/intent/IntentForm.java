@@ -25,6 +25,7 @@ public class IntentForm extends TextForm {
             IntentType.hospital,
             IntentType.medicine,
             IntentType.doctor,
+            IntentType.section,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface IntentType {
@@ -33,6 +34,7 @@ public class IntentForm extends TextForm {
         int hospital = 2;
         int medicine = 3;
         int doctor = 4;
+        int section = 5;
     }
 
     private int mCurrType = IntentType.un_know;
@@ -41,7 +43,7 @@ public class IntentForm extends TextForm {
     protected void init(FormVH holder) {
         super.init(holder);
 
-        mCurrType = getMode();
+        mCurrType = getType();
     }
 
     @Override
@@ -86,8 +88,12 @@ public class IntentForm extends TextForm {
             }
             break;
             case IntentType.doctor: {
-                String pro = data.getStringExtra(Extra.KProvince) + data.getStringExtra(Extra.KCity);
+                String pro = data.getStringExtra(Extra.KProvince) + " " + data.getStringExtra(Extra.KCity);
                 save(pro, pro);
+            }
+            break;
+            case IntentType.section: {
+
             }
             break;
         }

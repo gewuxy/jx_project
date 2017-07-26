@@ -52,6 +52,7 @@ public class LoginActivity extends BaseLoginActivity {
         setOnClickListener(R.id.login_layout_wechat);
 
         getEtName().setText(SpApp.inst().getUserName());
+        getEtName().setSelection(getUserName().length());
 
         WXLoginApi.create(this, Constants.KAppId);
     }
