@@ -53,7 +53,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/20
  */
 
-public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelListener {
+public abstract class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelListener {
 
     private EditText mEtSearch;
     private PoiSearch mSearch;
@@ -135,11 +135,6 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
             mLevelDialog.setListener(SearchHospitalActivity.this);
             mLevelDialog.show();
         }
-
-      /*  IHospital item = getItem(position);
-        Hospital hospital = (Hospital) item;
-        Notifier.inst().notify(NotifyType.hospital_finish,hospital.getString(THospital.name));
-        finish();*/
     }
 
     @Override

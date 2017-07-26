@@ -48,7 +48,7 @@ public class NetFactory {
         String KLinkman = "linkman";//真实名字
         String KMobile = "mobile";//手机号
         String KType = "type";
-        String KPwd = "password";//密码
+        String KPassword = "password";//密码
         String KProvince = "province";//省份
         String KCity = "city";//城市
         String KZone = "zone"; // 区县
@@ -138,7 +138,7 @@ public class NetFactory {
     }
 
     public interface CityParam {
-        String KCity = "preid";  //省份ID
+        String KCity = "preId";  //省份ID
     }
 
     public interface EpnRechargeParam {

@@ -84,7 +84,6 @@ public class LevelDialog extends BaseDialog {
                 break;
             case R.id.level_one:
                 resId = R.mipmap.hospital_level_one;
-
                 dismiss();
                 break;
             case R.id.level_community:

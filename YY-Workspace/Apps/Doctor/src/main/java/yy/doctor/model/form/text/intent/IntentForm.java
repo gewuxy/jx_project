@@ -83,7 +83,7 @@ public class IntentForm extends TextForm {
             }
             break;
             case IntentType.medicine: {
-                String medicine = data.getStringExtra(Extra.KData);
+                String medicine = data.getStringExtra(Extra.KName)+" "+data.getStringExtra(Extra.KData);
                 save(medicine, medicine);
             }
             break;

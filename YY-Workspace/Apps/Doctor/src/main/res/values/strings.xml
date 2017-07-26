@@ -41,10 +41,10 @@
     <string name="guang_zhou">广州市</string>
     <string name="change">更改</string>
     <string name="province_city_district">省市区</string>
-    <string name="medicine">内科 普内科</string>
+    <string name="special">内科 普内科</string>
     <string name="choose_hospital">选择医院</string>
     <string name="department">输入科室名称</string>
-    <string name="doctor">初级职称医师</string>
+    <string name="title">初级职称医师</string>
     <string name="captcha">输入6位验证码</string>
     <string name="get_captcha">获取验证码</string>
 

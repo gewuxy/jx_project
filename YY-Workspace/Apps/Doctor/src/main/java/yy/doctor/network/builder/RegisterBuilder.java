@@ -57,10 +57,10 @@ public class RegisterBuilder {
 
 
     /**
-     * @param pwd 密码
+     * @param password 密码
      */
-    public RegisterBuilder pwd(String pwd) {
-        mBuilder.param(RegisterParam.KPwd, pwd);
+    public RegisterBuilder password(String password) {
+        mBuilder.param(RegisterParam.KPassword, password);
         return this;
     }
 
@@ -143,7 +143,7 @@ public class RegisterBuilder {
      * @return
      */
     public RegisterBuilder title(String title) {
-        mBuilder.param(RegisterParam.KDepartment, title);
+        mBuilder.param(RegisterParam.KTitle, title);
         return this;
     }
 

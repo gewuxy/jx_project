@@ -6,7 +6,10 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -61,7 +64,9 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     public void setViews() {
         mTitleGradeFrag.setGradeListener(this);
         mTitleCategoryFrag.setCategoryListener(this);
-        exeNetworkReq(0, NetFactory.title());
+
+        refresh(RefreshWay.embed);
+        exeNetworkReq(NetFactory.title());
     }
 
     @Override
@@ -71,15 +76,26 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-
         Result<Title> r = (Result<Title>) result;
         if (r.isSucceed()) {
             Title data = r.getData();
-            List<String> list = data.getList(TTitle.grade);
-            for (String s : list) {
-                showToast(s);
-            }
+            List<String> title = data.getList(TTitle.title);
+            mTitleGradeFrag.setData(title);
+
+            List<String> grade = data.getList(TTitle.grade);
+            mTitleCategoryFrag.setData(grade);
+
+            setViewState(ViewState.normal);
+        } else {
+            showToast(r.getError());
         }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+
+        setViewState(ViewState.error);
     }
 
     @Override
@@ -97,5 +113,4 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         setResult(RESULT_OK, i);
         finish();
     }
-
 }

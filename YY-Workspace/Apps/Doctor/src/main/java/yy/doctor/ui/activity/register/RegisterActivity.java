@@ -61,9 +61,6 @@ import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.util.Util;
 
-import static lib.ys.util.permission.Permission.phone;
-
-
 /**
  * 注册界面  7.1
  * <p>
@@ -99,27 +96,27 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     @IntDef({
             RelatedId.name,
             RelatedId.pwd,
-            RelatedId.medicine,
+            RelatedId.special,
             RelatedId.location,
             RelatedId.hospital,
             RelatedId.ActivatedCode,
             RelatedId.phone_number,
             RelatedId.department,
             RelatedId.captcha,
-            RelatedId.doctor,
+            RelatedId.title,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int name = 1;
         int pwd = 2;
-        int medicine = 3;
+        int special = 3;
         int location = 4;
         int hospital = 5;
         int ActivatedCode = 6;
         int phone_number = 7;
         int department = 8;
         int captcha = 9;
-        int doctor = 10;
+        int title = 10;
     }
 
     @Override
@@ -163,20 +160,23 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.location)
                 .hint(R.string.province_city_district)
-                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location)));
+                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
+                .type(IntentType.location));
 
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
-                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital)));
+                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
+                .type(IntentType.hospital));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
-                .related(RelatedId.medicine)
-                .hint(R.string.medicine)
-                .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine)));
+                .related(RelatedId.special)
+                .hint(R.string.special)
+                .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
+                .type(IntentType.medicine));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_register)
@@ -185,9 +185,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
-                .related(RelatedId.doctor)
-                .hint(R.string.doctor)
-                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor)));
+                .related(RelatedId.title)
+                .hint(R.string.title)
+                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))
+                .type(IntentType.doctor));
 
         addItem(Form.create(FormType.divider_margin));
     }
@@ -240,7 +241,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_tv_activated_code:
-                //mTvReg.setEnabled(true);
+                mTvReg.setEnabled(true);
                 startActivity(CaptchaActivity.class);
                 break;
             case R.id.register:
@@ -296,23 +297,54 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         // 省市区
         String addresses = getItemStr(RelatedId.location);
         Place place = new Place(addresses);
+        //专科,按照空格来分
+        String special =   getItemStr(RelatedId.special);
+        String[]s = special.split(" ");
+        String category = s[0];
+        String name = s[1];
+
+        int id = getRelatedItem(RelatedId.hospital).getHolder().getIv().getId();
+        String hosLevel = "三级";
+        switch (id){
+            case R.id.level_three:
+                hosLevel = "三级";
+                break;
+            case R.id.level_two:
+                hosLevel = "二级";
+                break;
+            case R.id.level_one:
+                hosLevel = "一级";
+                break;
+            case R.id.level_community:
+                hosLevel = "社区卫生服务中心";
+                break;
+            case R.id.level_village:
+                hosLevel = "乡镇卫生院";
+                break;
+            case R.id.level_clinic:
+                hosLevel = "诊所";
+                break;
+            case R.id.level_other:
+                hosLevel = "其他";
+                break;
+        }
 
         //注册
         refresh(RefreshWay.dialog);
         exeNetworkReq(KRegister, NetFactory.register()
-                .mobile(mPhone)
+                .mobile(mPhone.toString().replace(" ", ""))
                 .captcha(getItemStr(RelatedId.captcha))
-                .username(mUserName)
-                .pwd(getItemStr(RelatedId.pwd))
+                .password(getItemStr(RelatedId.pwd))
                 .linkman(getItemStr(RelatedId.name))
                 .province(place.getString(TPlace.province))
                 .city(place.getString(TPlace.city))
                 .zone(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
-                .hosLevel(getItemStr(RelatedId.hospital))//医院级别没返回来
-                .category(getItemStr(RelatedId.medicine))//专科一级名称，要分开
-                .name(getItemStr(RelatedId.name))//专科二级名称
+                .hosLevel(hosLevel)//医院级别没返回来
+                .category(category)//专科一级名称，要分开
+                .name(name)//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称
+                .title(getItemStr(RelatedId.title))//职称
                 .invite(code)
                 .build());
     }
@@ -332,7 +364,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 if (v.getId() == R.id.form_tv_text) {
 
                     mPhone = getRelatedItem(RelatedId.phone_number).getVal();
-                    if (!Util.isMobileCN(phone)) {
+                    if (!Util.isMobileCN(mPhone)) {
                         showToast("该号码不是电话号，请输入正确的电话号码");
                         return;
                     }
@@ -341,7 +373,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
-                    tv.setText(phone);
+                    tv.setText(mPhone);
 
                     dialog.addHintView(view);
                     dialog.addButton("好", v1 -> {
@@ -359,7 +391,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KCaptcha, NetFactory.captcha(phone.replace(" ", ""), CaptchaType.fetch));
+                        exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         dialog.dismiss();
                         ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                     });
@@ -412,6 +444,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         if (isSuccess) {
             //定位成功
             Place place = gps.getEv(TGps.place);
+            YSLog.d(TAG,place.toString());
             if (place != null) {
                 addOnPreDrawListener(new OnPreDrawListener() {
 
@@ -419,6 +452,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                     public boolean onPreDraw() {
                         TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
                         text.setText(place.toString());
+                        String local = place.toString();
+                        String[]s = local.split(" ");
+                        place.put(TPlace.province,s[0]);
+                        place.put(TPlace.city,s[1]);
+                        place.put(TPlace.district,s[2]);
 
                         removeOnPreDrawListener(this);
                         return true;
@@ -488,6 +526,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         } else {//注册
             Result r = (Result) result;
             if (r.isSucceed()) {
+                showToast("成功");
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(mUserName);

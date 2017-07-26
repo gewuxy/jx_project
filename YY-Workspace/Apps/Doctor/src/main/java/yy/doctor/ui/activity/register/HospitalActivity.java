@@ -278,7 +278,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     private void onLocationError() {
         onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
 
-        // FIXME: 2017/7/24 
+        // FIXME: 2017/7/24
         /*mDialog = new BaseHintDialog(this);
         mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
         mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());

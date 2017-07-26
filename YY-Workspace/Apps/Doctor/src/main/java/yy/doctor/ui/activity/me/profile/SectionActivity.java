@@ -69,7 +69,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
         Intent intent = new Intent();
         intent.putExtra(Extra.KName,mCategory);
-        intent .putExtra(Extra.KData,name);
+        intent.putExtra(Extra.KData,name);
         setResult(RESULT_OK, intent);
         finish();
     }

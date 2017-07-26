@@ -34,7 +34,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
-import yy.doctor.ui.activity.HospitalActivity;
+import yy.doctor.ui.activity.register.HospitalActivity;
 import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;

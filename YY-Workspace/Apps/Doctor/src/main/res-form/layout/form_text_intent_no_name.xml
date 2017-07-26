@@ -14,6 +14,16 @@
             android:textColor="@color/text_333"/>
 
         <ImageView
+            android:id="@id/form_iv"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_toLeftOf="@id/form_iv_arrow"
+            android:visibility="gone"/>
+
+        <ImageView
             style="@style/iv.arrow.align_right"/>
     </RelativeLayout>
 

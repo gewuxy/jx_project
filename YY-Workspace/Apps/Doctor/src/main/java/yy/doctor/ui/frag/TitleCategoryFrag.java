@@ -2,12 +2,8 @@ package yy.doctor.ui.frag;
 
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
-import yy.doctor.Constants.TDoctorCategory;
 import yy.doctor.adapter.TitleCategoryAdapter;
 
 /**
@@ -20,15 +16,9 @@ import yy.doctor.adapter.TitleCategoryAdapter;
 public class TitleCategoryFrag extends BaseListFrag<String, TitleCategoryAdapter> {
 
     private OnCategoryListener mListener;
-    private List<String> mCategories;
 
     @Override
     public void initData() {
-        mCategories = new ArrayList<>();
-        TDoctorCategory[] tDoctorCategories = TDoctorCategory.values();
-        for (TDoctorCategory tDoctorCategory : tDoctorCategories) {
-            mCategories.add(tDoctorCategory.getDoctorCategory());
-        }
     }
 
     @Override
@@ -39,7 +29,6 @@ public class TitleCategoryFrag extends BaseListFrag<String, TitleCategoryAdapter
     public void setViews() {
         super.setViews();
         setDividerHeight(fitDp(0));
-        setData(mCategories);
     }
 
     @Override

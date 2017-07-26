@@ -35,6 +35,7 @@ public class EditPhoneNumberForm extends EditNumberForm {
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
+
         EditText editText = holder.getEt();
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -56,11 +57,11 @@ public class EditPhoneNumberForm extends EditNumberForm {
                     // TODO: tttttttttttttttttttt
                     editText.setSelection(str.length());
                 }
-                    if (str.length() != 0) {
-                        showView(holder.getIv());
-                    }else {
-                        hideView(holder.getIv());
-                    }
+                if (str.length() != 0) {
+                    showView(holder.getIv());
+                } else {
+                    hideView(holder.getIv());
+                }
             }
 
             @Override
@@ -88,6 +89,5 @@ public class EditPhoneNumberForm extends EditNumberForm {
     protected boolean onViewClick(View v) {
         getHolder().getEt().setText("");
         return super.onViewClick(v);
-
     }
 }
