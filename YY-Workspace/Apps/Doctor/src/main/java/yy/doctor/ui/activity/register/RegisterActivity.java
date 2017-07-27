@@ -85,13 +85,16 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     private int mCount;//计算点击多少次
 
 
-    private TextView mTvCaptcha;//获取验证码的textview
-    private String mUserName;       //用户名
-    private String mPwd;            //密码
+    private TextView mTvCaptcha;// 获取验证码的textview
+    private String mUserName; // 用户名
+    private String mPwd; // 密码
     private View mTvReg;
 
     private BaseHintDialog mDialog;
     private String mPhone;
+
+    private TextView mTvHeader;
+    private View mLayoutCaptcha;
 
     @IntDef({
             RelatedId.name,
@@ -122,9 +125,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.register, this);
-        bar.addViewRight(R.mipmap.register_scan, v -> {
-            startActivity(ScanActivity.class);
-        });
+        bar.addViewRight(R.mipmap.register_scan, v -> startActivityForResult(ScanActivity.class, 0));
     }
 
     @Override
@@ -208,11 +209,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         super.findViews();
 
         mTvReg = findView(R.id.register);
-
-        mEtActivatedCode = findView(R.id.register_et_capcha);
+        mEtActivatedCode = findView(R.id.register_et_captcha);
         mTvActivatedCode = findView(R.id.register_tv_activated_code);
-
         mTvAgree = findView(R.id.register_tv_agree);
+        mTvHeader = findView(R.id.register_header);
+        mLayoutCaptcha = findView(R.id.register_layout_captcha);
     }
 
     @Override
@@ -298,14 +299,14 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         String addresses = getItemStr(RelatedId.location);
         Place place = new Place(addresses);
         //专科,按照空格来分
-        String special =   getItemStr(RelatedId.special);
-        String[]s = special.split(" ");
+        String special = getItemStr(RelatedId.special);
+        String[] s = special.split(" ");
         String category = s[0];
         String name = s[1];
 
         int id = getRelatedItem(RelatedId.hospital).getHolder().getIv().getId();
         String hosLevel = "三级";
-        switch (id){
+        switch (id) {
             case R.id.level_three:
                 hosLevel = "三级";
                 break;
@@ -381,7 +382,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                             mStartTime = System.currentTimeMillis();
                         }
                         mCount++;
-                        if (mCount > KMaxCount) {
+                      /*  if (mCount > KMaxCount) {
                             long duration = System.currentTimeMillis() - mStartTime;
                             if (duration <= KCaptchaDuration) {
                                 showToast("获取验证码太频繁");
@@ -390,7 +391,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                             } else {
                                 mCount = 1;
                             }
-                        }
+                        }*/
                         exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         dialog.dismiss();
                         ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
@@ -444,7 +445,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         if (isSuccess) {
             //定位成功
             Place place = gps.getEv(TGps.place);
-            YSLog.d(TAG,place.toString());
+            YSLog.d(TAG, place.toString());
             if (place != null) {
                 addOnPreDrawListener(new OnPreDrawListener() {
 
@@ -453,10 +454,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                         TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
                         text.setText(place.toString());
                         String local = place.toString();
-                        String[]s = local.split(" ");
-                        place.put(TPlace.province,s[0]);
-                        place.put(TPlace.city,s[1]);
-                        place.put(TPlace.district,s[2]);
+                        String[] s = local.split(" ");
+                        place.put(TPlace.province, s[0]);
+                        place.put(TPlace.city, s[1]);
+                        place.put(TPlace.district, s[2]);
 
                         removeOnPreDrawListener(this);
                         return true;
@@ -569,6 +570,16 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK && data != null) {
+            String name = data.getStringExtra(Extra.KData);
+            mTvHeader.setText("该账号（价值69.9元），由" + name + "为您免费提供");
+            goneView(mLayoutCaptcha);
+        }
+    }
 
     @Override
     protected void onDestroy() {

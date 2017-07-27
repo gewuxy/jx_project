@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/register_header"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="#c5e1f6"

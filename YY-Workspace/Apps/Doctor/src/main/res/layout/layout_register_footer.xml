@@ -3,14 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <RelativeLayout
+        android:id="@+id/register_layout_captcha"
         android:layout_width="match_parent"
         android:layout_height="52dip">
 
         <EditText
-            android:id="@+id/register_et_capcha"
+            android:id="@+id/register_et_captcha"
             style="@style/et.common"
             android:layout_height="50dip"
             android:hint="请输入YaYa医师注册激活码"

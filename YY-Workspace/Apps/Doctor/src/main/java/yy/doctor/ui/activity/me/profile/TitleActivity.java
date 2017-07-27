@@ -69,9 +69,10 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         exeNetworkReq(NetFactory.title());
     }
 
+
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Title.class);
+        return JsonParser.ev(r.getText(),Title.class);
     }
 
     @Override

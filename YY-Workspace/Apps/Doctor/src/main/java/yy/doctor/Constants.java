@@ -14,6 +14,7 @@ import lib.yy.BaseConstants;
 public interface Constants extends BaseConstants {
 
     String KAppId = "wx83d3ea20a714b660";
+    boolean flag = false;//没有二维码
 
     interface SectionConstants {
         int KRowCount = 3; // 列数

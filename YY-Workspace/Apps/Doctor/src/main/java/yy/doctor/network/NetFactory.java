@@ -61,6 +61,7 @@ public class NetFactory {
         String KTitle = "title";//邀请码
         String KLicence = "licence";//执业许可证号
         String KCaptcha = "captcha";//注册验证码
+        String KMasterId = "masterId";//二维码参数，激活码提供方id
     }
 
     public interface UserParam {
@@ -213,16 +214,39 @@ public class NetFactory {
 
     /**
      * 验证码
+     *
      * @param mobile 手机号
-     * @param type type=0或者空时表示注册时获取验证码,1表示重置密码时获取验证码
+     * @param type   type=0或者空时表示注册时获取验证码,1表示重置密码时获取验证码
      * @return
      */
-    public static NetworkReq captcha(String mobile, int type){
+    public static NetworkReq captcha(String mobile, int type) {
         return newGet(UrlRegister.KCaptcha)
                 .param(RegisterParam.KMobile, mobile)
                 .param(RegisterParam.KType, type)
                 .build();
     }
+
+    /**
+     * 二维码，有masterId
+     * @param masterId
+     * @return
+     */
+    public static NetworkReq scan(String masterId) {
+        return newGet(UrlRegister.KScan)
+                .param(RegisterParam.KMasterId, masterId)
+                .build();
+    }
+
+    /**
+     * 二维码，没有masterId
+     * @return
+     */
+    public static NetworkReq scan() {
+        return newGet(UrlRegister.KScan)
+                .build();
+    }
+
+
     /**
      * 注册
      */
@@ -254,14 +278,13 @@ public class NetFactory {
 
     /**
      * 职称信息
+     *
      * @return
      */
     public static NetworkReq title() {
         return newGet(UrlRegister.KTitle)
                 .build();
     }
-
-
 
 
     /**
