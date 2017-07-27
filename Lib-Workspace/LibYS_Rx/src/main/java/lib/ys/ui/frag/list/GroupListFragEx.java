@@ -1,6 +1,7 @@
 package lib.ys.ui.frag.list;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -9,9 +10,11 @@ import java.util.List;
 
 import lib.ys.R;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
+import lib.ys.adapter.MultiGroupAdapterEx;
 import lib.ys.adapter.MultiGroupAdapterEx.OnChildAdapterClickListener;
 import lib.ys.adapter.MultiGroupAdapterEx.OnGroupAdapterClickListener;
 import lib.ys.adapter.interfaces.IGroupAdapter;
+import lib.ys.adapter.interfaces.IViewHolder;
 import lib.ys.ui.frag.FragEx;
 import lib.ys.ui.interfaces.IScrollable;
 import lib.ys.ui.interfaces.impl.scrollable.GroupListScrollable;
@@ -371,5 +374,16 @@ abstract public class GroupListFragEx<GROUP, CHILD, A extends IGroupAdapter<GROU
     @Override
     public IScrollable<GROUP> getScrollable() {
         return mScrollable;
+    }
+
+    @Nullable
+    @Override
+    public <VH extends IViewHolder> VH getGroupCacheVH(@IntRange(from = 0) int groupPosition) {
+        if (getAdapter() instanceof MultiGroupAdapterEx) {
+            MultiGroupAdapterEx adapter = (MultiGroupAdapterEx) getAdapter();
+            return (VH) adapter.getGroupCacheVH(groupPosition);
+        } else {
+            return null;
+        }
     }
 }

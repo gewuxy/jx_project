@@ -156,7 +156,7 @@ abstract public class MultiGroupAdapterEx<GROUP extends IGroup<CHILD>, CHILD, VH
     }
 
     @Override
-    public final int getChildrenCount(int groupPosition) {
+    public int getChildrenCount(int groupPosition) {
         return getGroup(groupPosition).getChildrenCount();
     }
 

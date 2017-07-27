@@ -75,12 +75,11 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
         mSideBar.setTextSize(mLetterSize);
         mSideBar.setColor(KLetterColorNormal);
         mSideBar.setColorFocus(KLetterColorFocus);
-        mSideBar.setOnTouchLetterChangeListener((index, isFocus) -> {
+        mSideBar.setOnTouchLetterChangeListener((index, s, isFocus) -> {
             mTvLetter.setText(mSideBarLetters[index]);
             mTvLetter.setVisibility(isFocus ? View.VISIBLE : View.GONE);
             setSelectedGroup(index);
         });
-
     }
 
     @Override

@@ -700,6 +700,9 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                             list.add(jsonArray.optString(j));
                         } else if (Integer.class.isAssignableFrom(val)) {
                             list.add(jsonArray.optInt(j));
+                        } else if (Float.class.isAssignableFrom(val)
+                                || Double.class.isAssignableFrom(val)) {
+                            list.add(jsonArray.optDouble(j));
                         } else {
                             list.add(jsonArray.opt(j));
                         }
