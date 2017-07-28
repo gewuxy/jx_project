@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.mylhyl.zxing.scanner.ScannerView
         android:id="@+id/scan_layout_scanner_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-</LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/scan_btn_flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="350dp"
+        android:background="@null"
+        android:drawableTop="@drawable/scan_flash_selector"
+        android:textColor="@color/white"
+        android:textOff="轻点照亮"
+        android:textOn="轻触关闭"
+        android:textSize="12dp"/>
+
+</RelativeLayout>

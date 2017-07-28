@@ -157,6 +157,13 @@ public class RegisterBuilder {
         return this;
     }
 
+    public RegisterBuilder masterId(String masterId) {
+        mBuilder.param(RegisterParam.KMasterId, masterId);
+        return this;
+    }
+
+
+
 
 
     /**

@@ -3,6 +3,7 @@ package lib.ys.form;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -56,7 +57,7 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
     private int mIndex;
     private int mId;
     private boolean mVisible = true;
-    private Object mObserver;
+    private OnFormObserver mObserver;
 
     @ColorInt
     private int mBgColor = ConstantsEx.KInvalidValue;
@@ -383,7 +384,7 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
         return mVisible;
     }
 
-    public Object getObserver() {
+    public OnFormObserver getObserver() {
         return mObserver;
     }
 
@@ -551,16 +552,20 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
         AppEx.showToast(resId);
     }
 
+    @CallSuper
     public void save(String key, String val, String text) {
         mKey = key;
         mText = text;
         mVal = val;
     }
 
+    @CallSuper
     public void save(String val, String text) {
         mText = text;
         mVal = val;
     }
+
+
 
     /**
      * 重设之前的值

@@ -303,6 +303,19 @@ public class NetFactory {
     }
 
     /**
+     * 登陆，不绑定微信号
+     * @param name
+     * @param pwd
+     * @return
+     */
+    public static NetworkReq login(String name, String pwd) {
+        return newPost(UrlUser.KLogin)
+                .param(UserParam.KUserName, name)
+                .param(UserParam.KPassword, pwd)
+                .build();
+    }
+
+    /**
      * 检查是否已被绑定
      *
      * @param code

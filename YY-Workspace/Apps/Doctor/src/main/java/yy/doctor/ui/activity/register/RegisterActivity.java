@@ -7,8 +7,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.support.annotation.IntDef;
+import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,6 +22,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import lib.bd.location.Gps;
@@ -33,6 +37,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
@@ -67,19 +72,22 @@ import yy.doctor.util.Util;
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class RegisterActivity extends BaseFormActivity implements OnEditorActionListener, OnLocationNotify {
+public class RegisterActivity extends BaseFormActivity
+        implements OnEditorActionListener, OnLocationNotify, OnFormObserver {
 
     private final int KRegister = 0;
     private final int KLogin = 1;
     private final int KCaptcha = 2;
     private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
+    private final int KActivateCodeCheckStatus = 100;
+
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
     private EditText mEtActivatedCode;      //填写激活码
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
-    private boolean mFlag;//密码是否可见
+   // private boolean mFlag;//密码是否可见
 
     private long mStartTime; // 开始计算10分钟间隔的时间
     private int mCount;//计算点击多少次
@@ -95,6 +103,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
     private TextView mTvHeader;
     private View mLayoutCaptcha;
+    private String mMasId;
 
     @IntDef({
             RelatedId.name,
@@ -102,7 +111,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             RelatedId.special,
             RelatedId.location,
             RelatedId.hospital,
-            RelatedId.ActivatedCode,
             RelatedId.phone_number,
             RelatedId.department,
             RelatedId.captcha,
@@ -110,17 +118,20 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
+
         int name = 1;
         int pwd = 2;
         int special = 3;
         int location = 4;
         int hospital = 5;
-        int ActivatedCode = 6;
         int phone_number = 7;
         int department = 8;
         int captcha = 9;
         int title = 10;
     }
+
+    private int mEnableSize;
+    private Set<Integer> mStatus;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -132,15 +143,21 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     public void initData() {
         super.initData();
 
-        mFlag = true;
+       // mFlag = true;
         mCount = 0;
+
+        mStatus = new HashSet<>();
+        // 激活码不在form体系内，需要单独 +1
+        mEnableSize = RelatedId.class.getDeclaredFields().length + 1;
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
+                .observer(this)
                 .hint(R.string.phone_number));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_captcha)
+                .observer(this)
                 .related(RelatedId.captcha)
                 .textColorRes(R.color.register_captcha_text_selector)
                 .hint(R.string.captcha)
@@ -148,17 +165,20 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_register_pwd)
+                .observer(this)
                 .related(RelatedId.pwd)
                 .hint(R.string.pwd)
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_register)
+                .observer(this)
                 .related(RelatedId.name)
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
+                .observer(this)
                 .related(RelatedId.location)
                 .hint(R.string.province_city_district)
                 .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
@@ -167,6 +187,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
+                .observer(this)
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
@@ -174,6 +195,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
+                .observer(this)
                 .related(RelatedId.special)
                 .hint(R.string.special)
                 .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
@@ -181,11 +203,13 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_register)
+                .observer(this)
                 .related(RelatedId.department)
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
+                .observer(this)
                 .related(RelatedId.title)
                 .hint(R.string.title)
                 .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))
@@ -236,6 +260,56 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 onLocationError();
             }
         });
+
+        mEtActivatedCode.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtil.isEmpty(s)) {
+                    mStatus.remove(KActivateCodeCheckStatus);
+                } else {
+                    mStatus.add(KActivateCodeCheckStatus);
+                }
+
+                setBtnStatus();
+            }
+        });
+
+      /*  if (BuildConfig.TEST) {
+            getRelatedItem(RelatedId.phone_number).save("13811001100", "13811001100");
+            refreshRelatedItem(RelatedId.phone_number);
+
+            getRelatedItem(RelatedId.name).save("name", "name");
+            refreshRelatedItem(RelatedId.name);
+
+            getRelatedItem(RelatedId.pwd).save("123456", "123456");
+            refreshRelatedItem(RelatedId.pwd);
+
+            getRelatedItem(RelatedId.special).save("内科 普内科", "内科 普内科");
+            refreshRelatedItem(RelatedId.special);
+
+            getRelatedItem(RelatedId.hospital).save("中山医", "中山医");
+            refreshRelatedItem(RelatedId.hospital);
+
+            getRelatedItem(RelatedId.department).save("我是科室", "我是科室");
+            refreshRelatedItem(RelatedId.department);
+
+            getRelatedItem(RelatedId.title).save("高级 医师", "高级 医师");
+            refreshRelatedItem(RelatedId.title);
+
+            getRelatedItem(RelatedId.captcha).save("1234", "1234");
+            refreshRelatedItem(RelatedId.captcha);
+
+            mEtActivatedCode.setText("2603");
+        }*/
     }
 
     @Override
@@ -261,12 +335,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         return false;
     }
 
-
     /**
      * 注册操作
      */
     private void enroll() {
-
+        mPhone = getRelatedItem(RelatedId.phone_number).getVal();
         // 判断空
         if (!check()) {
             mTvReg.setEnabled(true);
@@ -275,10 +348,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         // 检查激活码是否为空
         String code = mEtActivatedCode.getText().toString().trim();
-        if (TextUtil.isEmpty(code)) {
+      /*  if (TextUtil.isEmpty(code)) {
             showToast("请输入" + getString(R.string.title_fetch_captcha));
             return;
-        }
+        }*/
 
         // 检查姓名 是否有特殊符号
         if (Util.checkNameLegal(getItemStr(RelatedId.name))) {
@@ -347,8 +420,10 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 .department(getItemStr(RelatedId.department))//科室名称
                 .title(getItemStr(RelatedId.title))//职称
                 .invite(code)
+                .masterId(mMasId)
                 .build());
     }
+
 
     /**
      * 获取Item的文本信息
@@ -363,7 +438,6 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-
                     mPhone = getRelatedItem(RelatedId.phone_number).getVal();
                     if (!Util.isMobileCN(mPhone)) {
                         showToast("该号码不是电话号，请输入正确的电话号码");
@@ -382,7 +456,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                             mStartTime = System.currentTimeMillis();
                         }
                         mCount++;
-                      /*  if (mCount > KMaxCount) {
+                        if (mCount > KMaxCount) {
                             long duration = System.currentTimeMillis() - mStartTime;
                             if (duration <= KCaptchaDuration) {
                                 showToast("获取验证码太频繁");
@@ -391,7 +465,7 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                             } else {
                                 mCount = 1;
                             }
-                        }*/
+                        }
                         exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         dialog.dismiss();
                         ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
@@ -448,17 +522,11 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
             YSLog.d(TAG, place.toString());
             if (place != null) {
                 addOnPreDrawListener(new OnPreDrawListener() {
-
                     @Override
                     public boolean onPreDraw() {
                         TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
                         text.setText(place.toString());
-                        String local = place.toString();
-                        String[] s = local.split(" ");
-                        place.put(TPlace.province, s[0]);
-                        place.put(TPlace.city, s[1]);
-                        place.put(TPlace.district, s[2]);
-
+                        getRelatedItem(RelatedId.location).save(text.toString(), text.toString());
                         removeOnPreDrawListener(this);
                         return true;
                     }
@@ -531,7 +599,8 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(mUserName);
-                //exeNetworkReq(KLogin, NetFactory.login(getItemStr(RelatedId.email), mPwd));
+              //  startActivity(MainActivity.class);
+                exeNetworkReq(KLogin, NetFactory.login(mPhone.toString().replace(" ", ""), getItemStr(RelatedId.pwd)));
                 YSLog.d("yaya", "_________________________");
             } else {
                 stopRefresh();
@@ -573,11 +642,14 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode != RESULT_OK && data != null) {
+        //resultCode == RESULT_FIRST_USER只是一个区别于之前的ESULT_OK
+        if (resultCode == RESULT_FIRST_USER && data != null) {
             String name = data.getStringExtra(Extra.KData);
+            mMasId = data.getStringExtra(Extra.KId);
             mTvHeader.setText("该账号（价值69.9元），由" + name + "为您免费提供");
+
             goneView(mLayoutCaptcha);
+            mStatus.add(KActivateCodeCheckStatus);
         }
     }
 
@@ -592,5 +664,34 @@ public class RegisterActivity extends BaseFormActivity implements OnEditorAction
 
         stopLocation();
         Location.inst().onDestroy();
+    }
+
+    @Override
+    public void callback(Object... params) {
+        int position = (int) params[0];
+        boolean valid = (boolean) params[1];
+
+        if (valid) {
+            if (!mStatus.contains(position)) {
+                mStatus.add(position);
+            }
+        } else {
+            mStatus.remove(position);
+        }
+
+        setBtnStatus();
+    }
+
+    /**
+     * 根据填写的资料完成度设置注册按钮是否可以点击
+     */
+    private void setBtnStatus() {
+        if (mStatus.size() == mEnableSize) {
+            // 按钮可以点击
+            mTvReg.setEnabled(true);
+        } else {
+            // 按钮不能点击
+            mTvReg.setEnabled(false);
+        }
     }
 }

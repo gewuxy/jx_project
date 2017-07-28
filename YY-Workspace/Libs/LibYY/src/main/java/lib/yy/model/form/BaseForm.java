@@ -15,6 +15,7 @@ import lib.ys.ConstantsEx;
 import lib.ys.form.FormEx;
 import lib.ys.form.OnFormObserver;
 import lib.ys.util.RegexUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
@@ -344,5 +345,23 @@ abstract public class BaseForm extends FormEx<FormVH> {
     @Override
     public BaseForm observer(OnFormObserver observer) {
         return super.observer(observer);
+    }
+
+    private void observed(String val) {
+        if (getObserver() != null) {
+            getObserver().callback(getPosition(), TextUtil.isNotEmpty(val));
+        }
+    }
+
+    @Override
+    public void save(String key, String val, String text) {
+        super.save(key, val, text);
+        observed(val);
+    }
+
+    @Override
+    public void save(String val, String text) {
+        super.save(val, text);
+        observed(val);
     }
 }
