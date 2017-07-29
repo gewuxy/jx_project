@@ -17,7 +17,7 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
-import yy.doctor.ui.activity.me.CollectionMeetingActivity;
+import yy.doctor.ui.activity.me.MyCollectionActivity;
 import yy.doctor.ui.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.activity.me.epn.EpnActivity;
@@ -94,7 +94,7 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.mipmap.form_ic_my_collection)
-                .name(R.string.collection_meeting)
+                .name(R.string.my_collection)
                 .related(RelatedId.my_collection));
 
         //String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits));
@@ -192,7 +192,7 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.my_collection: {
-                startActivity(CollectionMeetingActivity.class);
+                startActivity(MyCollectionActivity.class);
             }
             break;
             case RelatedId.my_epn: {

@@ -316,7 +316,6 @@ public class RegisterActivity extends BaseFormActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_tv_activated_code:
-                mTvReg.setEnabled(true);
                 startActivity(CaptchaActivity.class);
                 break;
             case R.id.register:
@@ -342,7 +341,6 @@ public class RegisterActivity extends BaseFormActivity
         mPhone = getRelatedItem(RelatedId.phone_number).getVal();
         // 判断空
         if (!check()) {
-            mTvReg.setEnabled(true);
             return;
         }
 
@@ -598,7 +596,7 @@ public class RegisterActivity extends BaseFormActivity
                 showToast("成功");
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
-                SpApp.inst().saveUserName(mUserName);
+                SpApp.inst().saveUserName(mPhone.toString().replace(" ", ""));
               //  startActivity(MainActivity.class);
                 exeNetworkReq(KLogin, NetFactory.login(mPhone.toString().replace(" ", ""), getItemStr(RelatedId.pwd)));
                 YSLog.d("yaya", "_________________________");

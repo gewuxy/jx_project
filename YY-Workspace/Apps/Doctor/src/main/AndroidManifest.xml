@@ -196,7 +196,7 @@
             android:name=".ui.activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.CollectionMeetingActivity"
+            android:name=".ui.activity.me.MyCollectionActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.SettingsActivity"

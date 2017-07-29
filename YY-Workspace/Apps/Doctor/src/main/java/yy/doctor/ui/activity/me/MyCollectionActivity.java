@@ -18,7 +18,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/12
  */
-public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
+public class MyCollectionActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
     @Override
     public void initData() {
@@ -26,7 +26,7 @@ public class CollectionMeetingActivity extends BaseSRListActivity<Meeting, Meeti
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.collection_meeting, this);
+        Util.addBackIcon(bar, R.string.my_collection, this);
     }
 
     @Override

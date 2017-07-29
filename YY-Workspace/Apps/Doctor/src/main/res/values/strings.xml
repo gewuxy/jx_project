@@ -237,7 +237,7 @@
     <string name="profile_center">个人中心</string>
 
     <!--会议收藏-->
-    <string name="collection_meeting">会议收藏</string>
+    <string name="my_collection">我的收藏</string>
     <string name="collection_meeting_empty">你还没有收藏会议</string>
 
     <!--资料下载-->
