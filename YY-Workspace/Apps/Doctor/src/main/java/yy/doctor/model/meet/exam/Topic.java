@@ -6,8 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
-import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 
 /**
@@ -41,7 +39,7 @@ public class Topic extends EVal<TTopic> {
         rightKey, // 正确答案
         sort, // 试题序号
 
-        @BindList(Choice.class)
+        @Bind(asList = Choice.class)
         options, // 考试 / 问卷选项
 
         /**

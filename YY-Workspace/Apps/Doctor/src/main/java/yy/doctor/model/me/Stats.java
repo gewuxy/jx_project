@@ -1,7 +1,6 @@
 package yy.doctor.model.me;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.me.Stats.TStatistics;
 
 /**
@@ -17,7 +16,7 @@ public class Stats extends EVal<TStatistics> {
         time, // time
         index, // index
 
-        @BindList(StatsPerDay.class)
+        @Bind(asList = StatsPerDay.class)
         list, // 一周的数据
     }
 }

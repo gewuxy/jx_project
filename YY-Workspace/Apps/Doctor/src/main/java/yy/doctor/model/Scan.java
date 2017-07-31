@@ -1,7 +1,6 @@
 package yy.doctor.model;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.Scan.TScan;
 
 /**
@@ -10,11 +9,12 @@ import yy.doctor.model.Scan.TScan;
  */
 
 public class Scan extends EVal<TScan> {
-    public enum TScan{
-        @BindList(Integer.class)
+
+    public enum TScan {
+        @Bind(asList = Integer.class)
         masterId,
 
-        @BindList(String.class)
+        @Bind(asList = String.class)
         name,
     }
 }

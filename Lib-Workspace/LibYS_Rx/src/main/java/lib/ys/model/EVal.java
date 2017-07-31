@@ -1,12 +1,12 @@
 package lib.ys.model;
 
-import android.text.TextUtils;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -18,13 +18,13 @@ import java.util.Map;
 import io.reactivex.Observable;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
-import lib.ys.model.inject.BindInit;
-import lib.ys.model.inject.BindList;
-import lib.ys.model.inject.BindObj;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.JsonUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.TextUtil;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * 使用枚举的hash map, Key是任意枚举
@@ -37,8 +37,41 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
 
     protected String TAG = getClass().getSimpleName();
 
-    private static final String KKeyData = "data";
-    private static final String KKeyClass = "class";
+    /**
+     * 初始化赋值
+     */
+    @Target(FIELD)
+    @Retention(RUNTIME)
+    protected @interface Init {
+        int asInt() default Integer.MIN_VALUE;
+
+        long asLong() default Long.MIN_VALUE;
+
+        float asFloat() default Float.MIN_VALUE;
+
+        String asString() default ConstantsEx.KEmptyValue;
+    }
+
+    /**
+     * 指定绑定的非基础数据类型(目前默认只支持{@link EVal}的类型)
+     */
+    @Target(FIELD)
+    @Retention(RUNTIME)
+    protected @interface Bind {
+        /**
+         * 对象类
+         *
+         * @return
+         */
+        Class<? extends EVal> value() default EVal.class;
+
+        /**
+         * 绑定为list类型
+         *
+         * @return
+         */
+        Class<?> asList() default void.class;
+    }
 
     private interface BooleanKey {
         String KTrue = "true";
@@ -55,19 +88,31 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
         Class clz = GenericUtil.getClassType(getClass());
         Field[] fields = clz.getFields();
         for (Field f : fields) {
-            if (f.isAnnotationPresent(BindInit.class)) {
+            if (f.isAnnotationPresent(Init.class)) {
                 // 有初始化字段
                 E e = (E) E.valueOf(clz, f.getName());
-                BindInit annotation = f.getAnnotation(BindInit.class);
+                Init annotation = f.getAnnotation(Init.class);
                 int asInt = annotation.asInt();
-                if (asInt != ConstantsEx.KInvalidValue) {
+                if (asInt != Integer.MIN_VALUE) {
                     put(e, asInt);
                     continue;
                 }
 
                 long asLong = annotation.asLong();
-                if (asLong != ConstantsEx.KInvalidValue) {
+                if (asLong != Long.MIN_VALUE) {
                     put(e, asLong);
+                    continue;
+                }
+
+                float asFloat = annotation.asFloat();
+                if (asFloat != Float.MIN_VALUE) {
+                    put(e, asFloat);
+                    continue;
+                }
+
+                String asString = annotation.asString();
+                if (TextUtil.isNotEmpty(asString)) {
+                    put(e, asString);
                     continue;
                 }
             }
@@ -83,9 +128,14 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
         return (T) this;
     }
 
-    public final <T extends EVal<E>> T put(EVal<E> o) {
+    public final <T extends EVal<E>> T put(T o) {
+        if (o == null) {
+            return (T) this;
+        }
+
+        // 过滤掉null
         Observable.fromIterable(getEnumFields())
-                .filter(e -> TextUtil.isNotEmpty(o.getString(e)))
+                .filter(e -> o.getObject(e) != null)
                 .subscribe(e -> put(e, o.getObject(e)));
         return (T) this;
     }
@@ -337,7 +387,7 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
 
     @Override
     public EVal clone() {
-        EVal val = newInst(getClass());
+        EVal val = create(getClass());
 
         Observable.fromIterable(getEnumFields())
                 .subscribe(e -> {
@@ -386,26 +436,46 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
     }
 
     /**
-     * 根据外部数据更新
+     * 创建实例
      *
-     * @param source
+     * @param clz
+     * @param text {@link JSONObject}类型的text
+     * @return
      */
-    public <T extends EVal<E>> void update(T source) {
-        if (source == null) {
-            return;
+    public static <T extends EVal> T create(Class<T> clz, String text) {
+        T t = create(clz);
+        if (t == null) {
+            return null;
         }
 
-        put(source);
+        if (TextUtil.isNotEmpty(text)) {
+            t.parse(text);
+        }
+
+        return t;
     }
+
+    /**
+     * 创建实例
+     *
+     * @param clz
+     * @return
+     */
+    public static <T extends EVal> T create(Class<T> clz) {
+        return ReflectionUtil.newDeclaredInst(clz);
+    }
+
+    /***********************************
+     * 解析相关
+     ****************************/
 
     /**
      * 转成通用的json格式
      *
      * @return
      */
-    public String toCommonJson() {
-        JSONObject obj = toJsonObject();
-        return obj.toString();
+    public String toJson() {
+        return toJsonObject().toString();
     }
 
     private JSONObject toJsonObject() {
@@ -422,252 +492,47 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                     continue;
                 }
 
-                if (f.isAnnotationPresent(BindList.class)) {
-                    JSONArray array = new JSONArray();
-                    List<EVal> list = getList(e);
-                    for (int j = 0; j < list.size(); ++j) {
-                        EVal eVal = list.get(j);
-                        array.put(eVal.toJsonObject());
+                if (f.isAnnotationPresent(Bind.class)) {
+                    Bind annotation = f.getAnnotation(Bind.class);
+
+                    Class val = annotation.value();
+                    if (!val.equals(EVal.class)) {
+                        obj.put(e.name(), getEv(e).toJsonObject());
+                        continue;
                     }
-                    obj.put(e.name(), array);
-                } else if (f.isAnnotationPresent(BindObj.class)) {
-                    obj.put(e.name(), getEv(e).toJsonObject());
+
+                    Class asList = annotation.asList();
+                    if (!asList.equals(void.class)) {
+                        JSONArray array = new JSONArray();
+                        if (isEValType(asList)) {
+                            List<EVal> list = getList(e);
+                            for (EVal item : list) {
+                                array.put(item.toJsonObject());
+                            }
+                        } else {
+                            // 基础数据类型
+                            List<Object> list = getList(e);
+                            for (Object o : list) {
+                                array.put(o);
+                            }
+                        }
+
+                        obj.put(e.name(), array);
+                        continue;
+                    }
+
+
                 } else {
                     obj.put(e.name(), getString(e));
                 }
             }
         } catch (Exception e) {
-            YSLog.e(TAG, "toCommonJson", e);
+            YSLog.e(TAG, "toJson", e);
         }
 
         return obj;
     }
 
-    /**
-     * 转换成本地存储专用的json格式
-     *
-     * @return
-     */
-    public String toStoreJson() {
-        return toStoreJsonObj(this).toString();
-    }
-
-    /**
-     * 拼接JsonObject
-     *
-     * @param t
-     * @return
-     */
-    private <T extends EVal<E>> JSONObject toStoreJsonObj(T t) {
-        JSONObject jsonObject = new JSONObject();
-
-        Observable.fromIterable(getEnumFields())
-                .subscribe(e -> {
-                    Object obj = t.getObject(e);
-                    if (obj == null) {
-                        return;
-                    }
-
-                    JSONObject subJson = new JSONObject();
-                    subJson.put(KKeyClass, obj.getClass().getName());
-
-                    if (obj instanceof EVal) {
-                        subJson.put(KKeyData, toStoreJsonObj((EVal) obj));
-                    } else if (obj instanceof ArrayList) {
-                        subJson.put(KKeyData, toJsonArray((ArrayList) obj));
-                    } else {
-                        subJson.put(KKeyData, t.getString(e));
-                    }
-
-                    jsonObject.put(e.name(), subJson);
-
-                });
-
-        return jsonObject;
-    }
-
-    private JSONArray toJsonArray(List list) throws JSONException {
-        JSONArray array = new JSONArray();
-
-        for (int j = 0; j < list.size(); ++j) {
-            Object listObject = list.get(j);
-            if (listObject instanceof EVal) {
-                EVal value = (EVal) listObject;
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put(KKeyClass, value.getClass().getName());
-                jsonObject.put(KKeyData, toStoreJsonObj(value));
-
-                array.put(jsonObject);
-            } else if (listObject instanceof List) {
-                toJsonArray((List) listObject);
-            } else {
-                array.put(listObject);
-            }
-        }
-
-        return array;
-    }
-
-    /**
-     * 根据json设置属性
-     *
-     * @param text
-     */
-    public void set(String text) {
-        try {
-            setStoreText(this, text);
-        } catch (JSONException e) {
-            YSLog.e(TAG, "put", e);
-        }
-    }
-
-    private <T extends EVal<E>> void setStoreText(T t, String text) throws JSONException {
-        if (t == null) {
-            return;
-        }
-
-        JSONObject jsonObj = new JSONObject(text);
-
-        for (E e : t.getEnumFields()) {
-            String content = JsonUtil.getString(jsonObj, e.name());
-            if (TextUtils.isEmpty(content)) {
-                // 无数据
-                continue;
-            }
-
-            JSONObject obj = new JSONObject(content);
-
-            String className = JsonUtil.getString(obj, KKeyClass);
-
-            Class clz;
-            try {
-                clz = Class.forName(className);
-            } catch (ClassNotFoundException ex) {
-                YSLog.e(TAG, className, ex);
-                continue;
-            }
-
-            String data = JsonUtil.getString(obj, KKeyData);
-
-            if (Integer.class.isAssignableFrom(clz)
-                    || Boolean.class.isAssignableFrom(clz)
-                    || String.class.isAssignableFrom(clz)
-                    || Long.class.isAssignableFrom(clz)
-                    || Double.class.isAssignableFrom(clz)) {
-                // 基础类型, 直接赋值
-                t.put(e, data);
-            } else if (List.class.isAssignableFrom(clz)) {
-                // 数组特殊处理
-                JSONArray array = new JSONArray(data);
-                t.put(e, getList(array));
-            } else if (isEValType(clz)) {
-                t.put(e, newStoreInst(clz, data));
-            }
-
-        }
-    }
-
-    /**
-     * 获取数组, 里面可以是任意类型的数据
-     *
-     * @param array
-     * @return
-     * @throws JSONException
-     */
-    private List<Object> getList(JSONArray array) throws JSONException {
-        List<Object> list = new ArrayList<>();
-
-        for (int i = 0; i < array.length(); ++i) {
-            JSONObject object = array.getJSONObject(i);
-
-            String className = JsonUtil.getString(object, KKeyClass);
-            Class clz;
-            try {
-                clz = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                YSLog.e(TAG, className, e);
-                continue;
-            }
-
-            String data = JsonUtil.getString(object, KKeyData);
-
-            if (Integer.class.isAssignableFrom(clz)
-                    || Boolean.class.isAssignableFrom(clz)
-                    || String.class.isAssignableFrom(clz)
-                    || Long.class.isAssignableFrom(clz)
-                    || Double.class.isAssignableFrom(clz)) {
-                // 基础类型, 直接赋值
-                list.add(data);
-            } else if (List.class.isAssignableFrom(clz)) {
-                JSONArray arrayNew = new JSONArray(data);
-                list.add(getList(arrayNew));
-            } else if (isEValType(clz)) {
-                list.add(newStoreInst(clz, data));
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * 获取EVal的实例
-     *
-     * @param clz
-     * @return
-     */
-    public static <T extends EVal> T newInst(Class<T> clz) {
-        return ReflectionUtil.newDeclaredInst(clz);
-    }
-
-    /**
-     * 获取EVal的实例
-     *
-     * @param clz
-     * @param text {@link JSONObject}类型的text
-     * @return
-     */
-    public static <T extends EVal> T newJSONInst(Class<T> clz, String text) {
-        T t = newInst(clz);
-        if (t == null) {
-            return null;
-        }
-
-        if (TextUtil.isNotEmpty(text)) {
-            try {
-                t.parse(text);
-            } catch (JSONException e) {
-                YSLog.e("EVal", "newJSONInst", e);
-            }
-        }
-
-        return t;
-    }
-
-    /**
-     * 获取EVal的实例
-     *
-     * @param clz
-     * @param text 经过{{@link #toStoreJson()}}转换的text
-     * @param <T>
-     * @return
-     */
-    public static <T extends EVal> T newStoreInst(Class<T> clz, String text) {
-        T t = newInst(clz);
-        if (t == null) {
-            return t;
-        }
-
-        if (TextUtil.isNotEmpty(text)) {
-            t.set(text);
-        }
-
-        return t;
-    }
-
-    /***********************************
-     * 解析相关
-     */
     public void parse(JSONObject obj) {
         if (obj == null) {
             return;
@@ -686,22 +551,28 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                 continue;
             }
 
-            if (f.isAnnotationPresent(BindList.class)) {
-                BindList annotation = f.getAnnotation(BindList.class);
+            if (f.isAnnotationPresent(Bind.class)) {
+                Bind annotation = f.getAnnotation(Bind.class);
                 Class val = annotation.value();
-                if (isEValType(val)) {
-                    put(e, JsonUtil.getEVs(val, obj.optJSONArray(e.name())));
+                if (!val.equals(EVal.class)) {
+                    put(e, JsonUtil.getEV(annotation.value(), obj.optJSONObject(e.name())));
+                    continue;
+                }
+
+                Class asList = annotation.asList();
+                if (isEValType(asList)) {
+                    put(e, JsonUtil.getEVs(asList, obj.optJSONArray(e.name())));
                 } else {
                     // 基础数据类型
                     List list = new ArrayList<>();
                     JSONArray jsonArray = obj.optJSONArray(e.name());
                     for (int j = 0; j < jsonArray.length(); j++) {
-                        if (String.class.isAssignableFrom(val)) {
+                        if (String.class.isAssignableFrom(asList)) {
                             list.add(jsonArray.optString(j));
-                        } else if (Integer.class.isAssignableFrom(val)) {
+                        } else if (Integer.class.isAssignableFrom(asList)) {
                             list.add(jsonArray.optInt(j));
-                        } else if (Float.class.isAssignableFrom(val)
-                                || Double.class.isAssignableFrom(val)) {
+                        } else if (Float.class.isAssignableFrom(asList)
+                                || Double.class.isAssignableFrom(asList)) {
                             list.add(jsonArray.optDouble(j));
                         } else {
                             list.add(jsonArray.opt(j));
@@ -709,9 +580,6 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
                     }
                     put(e, list);
                 }
-            } else if (f.isAnnotationPresent(BindObj.class)) {
-                BindObj annotation = f.getAnnotation(BindObj.class);
-                put(e, JsonUtil.getEV(annotation.value(), obj.optJSONObject(e.name())));
             } else {
                 // 没有注释使用默认解析方式
                 put(e, o);
@@ -719,12 +587,16 @@ abstract public class EVal<E extends Enum<E>> implements Serializable, Cloneable
         }
     }
 
-    private boolean isEValType(Class clz) {
-        return EVal.class.isAssignableFrom(clz);
+    public void parse(String text) {
+        try {
+            JSONObject obj = new JSONObject(text);
+            parse(obj);
+        } catch (JSONException e) {
+            YSLog.e(TAG, "parse", e);
+        }
     }
 
-    public void parse(String text) throws JSONException {
-        JSONObject obj = new JSONObject(text);
-        parse(obj);
+    private boolean isEValType(Class clz) {
+        return EVal.class.isAssignableFrom(clz);
     }
 }

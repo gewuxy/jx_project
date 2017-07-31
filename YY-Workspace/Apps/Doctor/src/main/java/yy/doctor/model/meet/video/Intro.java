@@ -1,7 +1,6 @@
 package yy.doctor.model.meet.video;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindObj;
 import yy.doctor.model.meet.video.Intro.TIntro;
 
 /**
@@ -15,7 +14,7 @@ public class Intro extends EVal<TIntro> {
 
     public enum TIntro {
 
-        @BindObj(Course.class)
+        @Bind(Course.class)
         course,//视频课程信息
 
         id,//课程id

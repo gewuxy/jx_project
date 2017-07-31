@@ -172,7 +172,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         Comment comment = new Comment();
         comment.put(TComment.meetId, mMeetId);
         comment.put(TComment.message, s);
-        return comment.toCommonJson();
+        return comment.toJson();
     }
 
     /**

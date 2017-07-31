@@ -4,9 +4,6 @@ package lib.yy.ui.activity.base;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import org.json.JSONException;
-
-import lib.ys.YSLog;
 import lib.ys.action.IntentAction;
 import lib.ys.ui.activity.WebViewActivityEx;
 import lib.ys.ui.interfaces.impl.WebOption;
@@ -31,11 +28,7 @@ abstract public class BaseWebViewActivity extends WebViewActivityEx {
                         if (url.startsWith(KJXPrefix)) {
                             String json = url.substring(KJXPrefix.length());
                             WebAction action = new WebAction();
-                            try {
-                                action.parse(json);
-                            } catch (JSONException e) {
-                                YSLog.e(TAG, "shouldOverrideUrlLoading", e);
-                            }
+                            action.parse(json);
 
                             // 暂时只有邮箱
                             if (action.getString(TWebAction.action).equals("mail")) {

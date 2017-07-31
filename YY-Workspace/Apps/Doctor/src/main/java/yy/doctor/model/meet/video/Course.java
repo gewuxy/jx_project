@@ -1,7 +1,6 @@
 package yy.doctor.model.meet.video;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.video.Course.TCourse;
 
 /**
@@ -12,9 +11,10 @@ import yy.doctor.model.meet.video.Course.TCourse;
  */
 
 public class Course extends EVal<TCourse> {
+
     public enum TCourse {
 
-        @BindList(Detail.class)
+        @Bind(asList = Detail.class)
         details, // 课程明细
 
         id, // 明细id

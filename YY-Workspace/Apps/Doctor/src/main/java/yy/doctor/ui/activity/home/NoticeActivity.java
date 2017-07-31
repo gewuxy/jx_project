@@ -82,7 +82,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
         //判断消息是否读过
         if (!item.getBoolean(TNotice.is_read)) {
             item.put(TNotice.is_read, true);
-            item.setContent(item.toStoreJson());
+            item.setContent(item.toJson());
             NoticeManager.inst().update(item);
 
             //未读消息数 -1

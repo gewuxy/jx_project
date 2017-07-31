@@ -14,6 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.ys.ConstantsEx.FileSuffix;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -351,7 +352,7 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     private void getPhotoFromCamera() {
-        mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + CacheUtil.KJpgExtend;
+        mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.KJpg;
         PhotoUtil.fromCamera(this, mStrPhotoPath, KCodePhotograph);
     }
 

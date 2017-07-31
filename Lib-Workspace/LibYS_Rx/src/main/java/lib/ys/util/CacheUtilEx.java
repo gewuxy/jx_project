@@ -6,13 +6,6 @@ import lib.ys.AppEx;
 
 abstract public class CacheUtilEx {
 
-    public static final String KTxtExtend = ".txt";
-    public static final String KXmlExtend = ".xml";
-    public static final String KHtmlExtend = ".html";
-    public static final String KJpgExtend = ".jpg";
-    public static final String KPngExtend = ".png";
-    public static final String KJsExtend = ".js";
-
     private static final String KNoMediaFileName = ".nomedia";
 
     private static String mBasePath;

@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.support.annotation.DrawableRes;
 
-import lib.ys.ConstantsEx;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.res.ResUtil.ResDefType;
 
@@ -141,12 +140,13 @@ public class BmpLoader {
         return ResLoader.getBitmap(path, opt);
     }
 
-    public static Bitmap loadPathJpg(String path) {
-        return ResLoader.getBitmap(path + ConstantsEx.KJpgExtend);
-    }
-
-    public static Bitmap loadPathPng(String path) {
-        return ResLoader.getBitmap(path + ConstantsEx.KPngExtend);
+    /**
+     * @param path
+     * @param suffix {@link lib.ys.ConstantsEx.FileSuffix}
+     * @return
+     */
+    public static Bitmap loadPath(String path, String suffix) {
+        return ResLoader.getBitmap(path + suffix);
     }
 
     /**

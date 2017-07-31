@@ -6,10 +6,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
-import yy.doctor.model.meet.module.Module;
 import yy.doctor.model.meet.Meeting.MeetState;
+import yy.doctor.model.meet.module.Module;
 import yy.doctor.model.unitnum.FileData;
 
 /**
@@ -86,10 +85,10 @@ public class MeetDetail extends EVal<TMeetDetail> {
 
         materialCount,  //  资料数
 
-        @BindList(FileData.class)
+        @Bind(asList = FileData.class)
         materials, // 资料
 
-        @BindList(Module.class)
+        @Bind(asList = Module.class)
         modules, // 会议包含的模块
 
         introduction, // 简介

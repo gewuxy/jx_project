@@ -1,4 +1,0 @@
--dontwarn com.zhy.m.**
--keep class com.zhy.m.** {*;}
--keep interface com.zhy.m.** { *; }
--keep class **$$PermissionProxy { *; }

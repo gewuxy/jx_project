@@ -1,7 +1,6 @@
 package yy.doctor.model;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.Title.TTitle;
 
 /**
@@ -12,10 +11,10 @@ import yy.doctor.model.Title.TTitle;
 public class Title extends EVal<TTitle> {
 
     public enum TTitle {
-        @BindList(String.class)
+        @Bind(asList = String.class)
         grade,
 
-        @BindList(String.class)
+        @Bind(asList = String.class)
         title,
     }
 }

@@ -71,9 +71,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         return !getString(TProfile.token).isEmpty();
     }
 
-    @Override
-    public <T extends EVal<TProfile>> void update(T source) {
-        super.update(source);
+    public void update(Profile source) {
+        put(source);
         saveToSp();
     }
 

@@ -9,15 +9,14 @@ android {
         applicationId "com.zhuanyeban.yaya"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7020
-        versionName "7.0.2"
+        versionCode 7030
+        versionName "7.0.3"
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
                 // LibYS里的混淆, 相对路径为3级
                 '../../../Lib-Workspace/LibNetwork_Rx/proguard-network.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-ys.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-fresco.pro',
-                '../../../Lib-Workspace/LibYS_Rx/proguard-permission.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-lambda.pro',
                 '../../../Lib-Workspace/LibBD/proguard-baidu.pro',
                 // YaYa-Libs 里的混淆, 相对路径为2级

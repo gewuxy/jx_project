@@ -46,7 +46,7 @@ public class NoticeManager {
     }
 
     private void setVal(Notice item) {
-        item.setContent(item.toStoreJson());
+        item.setContent(item.toJson());
         item.setUid(Profile.inst().getString(TProfile.username));
         item.setTimestamp(item.getLong(TNotice.time));
     }
@@ -58,7 +58,7 @@ public class NoticeManager {
                 .list();
 
         for (Notice notice : notices) {
-            notice.set(notice.getContent());
+            notice.parse(notice.getContent());
         }
 
         return notices;

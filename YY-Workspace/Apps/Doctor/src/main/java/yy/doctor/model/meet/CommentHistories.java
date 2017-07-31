@@ -1,7 +1,6 @@
 package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.CommentHistories.TCommentHistories;
 
 /**
@@ -10,8 +9,9 @@ import yy.doctor.model.meet.CommentHistories.TCommentHistories;
  */
 
 public class CommentHistories extends EVal<TCommentHistories> {
+
     public enum TCommentHistories {
-        @BindList(Comment.class)
+        @Bind(asList = Comment.class)
         datas,
     }
 }

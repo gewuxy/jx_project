@@ -10,9 +10,14 @@ public interface ConstantsEx {
 
     String KFakeIMEI = "35278404110901162";
 
-    // 图片
-    String KPngExtend = ".png";
-    String KJpgExtend = ".jpg";
+    interface FileSuffix {
+        String KTxt = ".txt";
+        String KXml = ".xml";
+        String KHtml = ".html";
+        String KJpg = ".jpg";
+        String KPng = ".png";
+        String KJs = ".js";
+    }
 
     int KAlphaMax = 255;
     int KAlphaMin = 0;
@@ -33,17 +38,4 @@ public interface ConstantsEx {
     }
 
     float KInterpolatorMax = 1.0f;
-
-    /**
-     * 定义毫秒的转换
-     */
-    interface Milli {
-        long KSecond = 1000;
-        long KMinute = KSecond * 60;
-        long KHour = KMinute * 60;
-        long KDay = KHour * 24;
-        long KWeek = KDay * 7;
-    }
-
-
 }

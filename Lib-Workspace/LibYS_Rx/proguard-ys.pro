@@ -82,4 +82,4 @@
 #上面是通用的
 
 #EVal
--keep public class * extends lib.ys.model.EVal
+-keep class * extends lib.ys.model.EVal {*;}

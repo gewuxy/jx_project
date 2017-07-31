@@ -1,7 +1,6 @@
 package yy.doctor.model.meet;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindObj;
 import yy.doctor.model.meet.PPT.TPPT;
 
 /**
@@ -14,7 +13,7 @@ import yy.doctor.model.meet.PPT.TPPT;
 public class PPT extends EVal<TPPT> {
 
     public enum TPPT {
-        @BindObj(CourseInfo.class)
+        @Bind(CourseInfo.class)
         course,//微课
 
         courseId,//微课ID

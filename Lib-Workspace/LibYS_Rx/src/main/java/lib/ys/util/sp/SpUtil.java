@@ -101,15 +101,15 @@ public class SpUtil {
      *
      * @param sp
      * @param key
-     * @param value
+     * @param val
      * @return
      */
-    private static boolean saveEVal(SharedPreferences sp, String key, EVal value) {
-        String content = value.toStoreJson();
+    private static boolean saveEVal(SharedPreferences sp, String key, EVal val) {
+        String content = val.toJson();
         if (!TextUtils.isEmpty(key)) {
             return save(sp, key, content);
         } else {
-            return save(sp, value.getClass().getSimpleName(), content);
+            return save(sp, val.getClass().getSimpleName(), content);
         }
     }
 
@@ -237,7 +237,7 @@ public class SpUtil {
             return false;
         }
 
-        return EVal.newInst(clz) != null;
+        return EVal.create(clz) != null;
     }
 
     /**
@@ -260,7 +260,7 @@ public class SpUtil {
             return null;
         }
 
-        T t = EVal.newStoreInst(clz, text);
+        T t = EVal.create(clz, text);
         if (t == null) {
             return null;
         }

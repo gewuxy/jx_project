@@ -1,7 +1,6 @@
 package yy.doctor.model.meet.exam;
 
 import lib.ys.model.EVal;
-import lib.ys.model.inject.BindList;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 
 /**
@@ -18,7 +17,7 @@ public class Paper extends EVal<TPaper> {
         name, // 试卷名称
         paperName, // 问卷名称
 
-        @BindList(Topic.class)
+        @Bind(asList = Topic.class)
         questions, // 试卷包含的试题列表
     }
 }
