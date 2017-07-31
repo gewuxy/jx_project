@@ -41,7 +41,7 @@ public class WXLoginApi {
     /**
      * 向微信端发起请求
      */
-    public static void sendReq() {
+    public static void sendReq(String state) {
         if (mApi == null) {
             return;
         }
@@ -52,7 +52,7 @@ public class WXLoginApi {
          * 该参数可用于防止csrf攻击 (跨站请求伪造攻击)
          * 建议第三方带上该参数, 可设置为简单的随机数加session进行校验
          */
-        req.state = "none"; // 作用?
+        req.state = state; // 作用(分辨来自于哪里?)
         mApi.sendReq(req);
     }
 }

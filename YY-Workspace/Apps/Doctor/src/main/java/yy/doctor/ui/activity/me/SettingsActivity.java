@@ -16,12 +16,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
+import yy.doctor.Constants;
+import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
@@ -30,6 +34,7 @@ import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
+import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
@@ -42,6 +47,7 @@ import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.ui.activity.me.set.BindEmailActivity;
 import yy.doctor.ui.activity.me.set.BindPhoneActivity;
+import yy.doctor.ui.activity.me.set.ChangePwdActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -57,6 +63,9 @@ public class SettingsActivity extends BaseFormActivity {
     private static final int KColorCancel = Color.parseColor("#01b557");
 
     private static final String KM = "M";
+    private int KUnBindEmail = 0;
+    private int KUnBindWX = 1;
+    private int KVersion = 2;
 
     @IntDef({
             RelatedId.bind_wx,
@@ -119,23 +128,27 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
                 .name(R.string.wx_account)
-                .text(R.string.no_binding));
+                .text(Profile.inst().getString(TProfile.wxNickname, getString(R.string.no_binding))));
 
         addItem(Form.create(FormType.divider));
-        addItem(Form.create(FormType.text)
+        addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
+                .type(IntentType.set_phone)
+                .intent(new Intent(this, BindPhoneActivity.class))
                 .name(R.string.phone_num_account)
-                .text(R.string.no_binding));
+                .text(Profile.inst().getString(TProfile.mobile, getString(R.string.no_binding))));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_email)
                 .name(R.string.email_account)
-                .text(SpApp.inst().getUserName()));
+                .text(Profile.inst().getString(TProfile.username, getString(R.string.no_binding))));
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text)
+        addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.change_password)
+                .type(IntentType.set_pwd)
+                .intent(new Intent(this, ChangePwdActivity.class))
                 .name(R.string.change_pwd));
 
         addItem(Form.create(FormType.divider));
@@ -213,20 +226,44 @@ public class SettingsActivity extends BaseFormActivity {
 
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
-            case RelatedId.bind_email: {
-                startActivity(BindEmailActivity.class);
-            }
-            break;
-            case RelatedId.bind_phone: {
-                startActivity(BindPhoneActivity.class);
-            }
-            break;
             case RelatedId.bind_wx: {
-                showDialogClearSoundCache();
+                String nickName = Profile.inst().getString(TProfile.wxNickname);
+                if (getString(R.string.no_binding).equals(nickName) || TextUtil.isEmpty(nickName)) {
+                    // 未绑定
+                    WXLoginApi.create(this, Constants.KAppId);
+                    WXLoginApi.sendReq(WXType.bind);
+                } else {
+                    // 已绑定
+                    HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
+                    relieveDialog.setHint("是否解除绑定微信号");
+                    relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+                        exeNetworkReq(KUnBindWX, NetFactory.bindWX(null));
+                        relieveDialog.dismiss();
+                    });
+                    relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
+                    relieveDialog.show();
+                }
+            }
+            break;
+            case RelatedId.bind_email: {
+                String email = Profile.inst().getString(TProfile.username);
+                if (TextUtil.isNotEmpty(email)) {
+                    // 已绑定
+                    HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
+                    relieveDialog.setHint("是否解除绑定邮箱");
+                    relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+                        exeNetworkReq(KUnBindEmail, NetFactory.unBindEmail());
+                        relieveDialog.dismiss();
+                    });
+                    relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
+                    relieveDialog.show();
+                } else {
+                    startActivity(BindEmailActivity.class);
+                }
             }
             break;
             case RelatedId.check_version: {
-                exeNetworkReq(NetFactory.checkAppVersion());
+                exeNetworkReq(KVersion, NetFactory.checkAppVersion());
             }
             break;
             case RelatedId.change_password: {
@@ -252,16 +289,39 @@ public class SettingsActivity extends BaseFormActivity {
     @Override
     public void onNetworkSuccess(int id, Object result) {
 
-        Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
-        if (r.isSucceed()) {
-            //保存更新时间
-            SpApp.inst().updateAppRefreshTime();
-            CheckAppVersion data = r.getData();
-            //  判断版本是否需要更新
-            if (data != null) {
-                new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
+        if (id == KVersion) {
+
+            Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
+            if (r.isSucceed()) {
+                //保存更新时间
+                SpApp.inst().updateAppRefreshTime();
+                CheckAppVersion data = r.getData();
+                //  判断版本是否需要更新
+                if (data != null) {
+                    new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
+                } else {
+                    showToast(R.string.already_latest_version);
+                }
+            }
+        } else if (id == KUnBindWX) {
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                showToast("解绑成功");
+                Profile.inst().put(TProfile.wxNickname, getString(R.string.no_binding));
+                getRelatedItem(RelatedId.bind_wx).save(getString(R.string.no_binding), getString(R.string.no_binding));
+                refreshRelatedItem(RelatedId.bind_wx);
             } else {
-                showToast(R.string.already_latest_version);
+                showToast(r.getError());
+            }
+        } else {
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                showToast("解绑成功");
+                Profile.inst().put(TProfile.username, getString(R.string.no_binding));
+                getRelatedItem(RelatedId.bind_email).save(getString(R.string.no_binding), getString(R.string.no_binding));
+                refreshRelatedItem(RelatedId.bind_email);
+            } else {
+                showToast(r.getError());
             }
         }
     }
@@ -318,4 +378,13 @@ public class SettingsActivity extends BaseFormActivity {
         dialog.show();
     }
 
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.bind_wx) {
+            String wxNickname = (String) data;
+            Profile.inst().put(TProfile.wxNickname, wxNickname);
+            getRelatedItem(RelatedId.bind_wx).save(wxNickname, wxNickname);
+            refreshRelatedItem(RelatedId.bind_wx);
+        }
+    }
 }

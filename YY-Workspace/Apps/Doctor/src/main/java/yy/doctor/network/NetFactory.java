@@ -67,8 +67,8 @@ public class NetFactory {
     public interface UserParam {
         String KUserName = "username";
         String KPassword = "password";
-        String KOldPwd = "oldpwd";
-        String KNewPwd = "newpwd";
+        String KOldPwd = "oldPwd";
+        String KNewPwd = "newPwd";
         String KJPushRegisterId = "registionId";
     }
 
@@ -876,6 +876,54 @@ public class NetFactory {
         return NetworkReq.newBuilder(UrlMeet.KWs + UrlUtil.getBaseHost() + UrlMeet.KIm)
                 .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
                 .param(MeetParam.KMeetId, meetId)
+                .build();
+    }
+
+
+    /**
+     * 绑定手机号
+     *
+     * @param mobile
+     * @param captcha
+     * @return
+     */
+    public static NetworkReq bindMobile(String mobile, String captcha) {
+        return newGet(UrlUser.KBindMobile)
+                .param(RegisterParam.KMobile, mobile)
+                .param(RegisterParam.KCaptcha, captcha)
+                .build();
+    }
+
+    /**
+     * 绑定邮箱
+     *
+     * @param email
+     * @return
+     */
+    public static NetworkReq bindEmail(String email) {
+        return newGet(UrlUser.KBindEmail)
+                .param(RegisterParam.KUsername, email)
+                .build();
+    }
+
+    /**
+     * 解绑邮箱
+     * @return
+     */
+    public static NetworkReq unBindEmail() {
+        return newGet(UrlUser.KUnBindEmail)
+                .build();
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @param code
+     * @return
+     */
+    public static NetworkReq bindWX(String code) {
+        return newGet(UrlUser.KBindWXSet)
+                .param(WXParam.KCode, code)
                 .build();
     }
 

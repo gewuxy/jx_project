@@ -1,6 +1,7 @@
 package yy.doctor;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -52,6 +53,16 @@ public interface Constants extends BaseConstants {
     @interface CaptchaType {
         int fetch = 0;
         int re_fetch = 1;
+    }
+
+    @StringDef({
+            WXType.login,
+            WXType.bind,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface WXType {
+        String login = "login";
+        String bind = "bind";
     }
 
     /**

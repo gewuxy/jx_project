@@ -16,9 +16,4 @@
         <attr name="module_src" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="StatisticsView">
-        <!-- 柱状图的颜色 -->
-        <attr name="rec_color" format="reference|color"/>
-    </declare-styleable>
-
 </resources>

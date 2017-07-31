@@ -14,7 +14,7 @@ public interface Extra {
 
     String KId = "id";
     String KUnitNumId = "unitNumId";
-    String KCategoryId = "categoryId";
+    String KColor = "color";
     String KFilePath = "filePath";
     String KPage = "page";
     String KNum = "num";

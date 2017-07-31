@@ -18,7 +18,7 @@ public class UrlUtil {
         if (mIsDebug) {
             // 测试线
            mBaseHost = "59.111.90.245:8083/v7/";
-          //  mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
+//            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
@@ -56,10 +56,15 @@ public class UrlUtil {
         String KProfile = "user/info";
         String KModify = "user/modify";
         String KUpHeaderImg = "user/upheadimg";
-        String KChangePwd = "user/resetpwd";
+        String KChangePwd = "user/resetPwd";
         String KCollectionMeetings = "myFavorite";
         String KBindJPush = "bindJpush";
         String KCheckAppVersion = "version/newly";
+        String KBindMobile = "user/set_bind_mobile";
+        String KBindEmail = "email/send_bind_email";
+        String KUnBindEmail = "user/unbind_email";
+        String KBindWXSet = "user/set_wx_bind_status";
+
     }
 
     public interface UrlRegister {
@@ -146,10 +151,6 @@ public class UrlUtil {
         String KSearchRecUnitNum = "publicAccount/recommend";
         String KSearchUnitNum = "publicAccount/search";
         String KSearchMeeting = "meet/search";
-    }
-
-    public interface UrlWX {
-        String KToken = "https://api.weixin.qq.com/sns/oauth2/access_token";
     }
 
 }

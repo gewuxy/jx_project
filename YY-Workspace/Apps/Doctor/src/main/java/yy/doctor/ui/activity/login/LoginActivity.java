@@ -8,6 +8,7 @@ import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Constants;
+import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.ForgetPwdTooltipDialog;
@@ -81,7 +82,7 @@ public class LoginActivity extends BaseLoginActivity {
             break;
             case R.id.login_layout_wechat: {
                 if (WXLoginApi.isWXAppInstalled()) {
-                    WXLoginApi.sendReq();
+                    WXLoginApi.sendReq(WXType.login);
                 } else {
                     // 未安装微信
                     mDialogWX = new HintDialogSec(LoginActivity.this);

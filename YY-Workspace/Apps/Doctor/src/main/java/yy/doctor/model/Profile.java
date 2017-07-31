@@ -19,7 +19,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         token, // 会话令牌
         openid,
         id,
-        username,  //登录用户名
+        username,  //登录用户名(默认是邮箱)
         nickname,  //昵称
         linkman,   //真实姓名
         headimg,
@@ -41,6 +41,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         // FIXME 测试
         specialized, //专科
         academic, //学术专长
+
+        wxNickname,  // 昵称WX
     }
 
     private static Profile mInst = null;

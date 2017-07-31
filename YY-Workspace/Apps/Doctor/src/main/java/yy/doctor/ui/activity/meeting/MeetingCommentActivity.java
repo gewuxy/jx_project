@@ -117,8 +117,15 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         Result<CommentHistories> r = (Result<CommentHistories>) result;
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            List<Comment> comments = r.getData().getList(TCommentHistories.datas);
+            CommentHistories history = r.getData();
+            if (history == null) {
+                return;
+            }
+            List<Comment> comments = history.getList(TCommentHistories.datas);
             // 排序(升序)
+            if (comments == null) {
+                return;
+            }
             Collections.sort(comments, (lhs, rhs) -> lhs.getLong(TComment.sendTime) > rhs.getLong(TComment.sendTime) ? 1 : -1);
             addAll(comments);
             setSelection(getCount());

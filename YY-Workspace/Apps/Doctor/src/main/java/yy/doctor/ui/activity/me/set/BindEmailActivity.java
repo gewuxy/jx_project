@@ -8,10 +8,14 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.network.model.NetworkResp;
 import lib.ys.util.RegexUtil;
+import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -31,16 +35,6 @@ public class BindEmailActivity extends BaseSetActivity implements TextWatcher {
     private EditText mEtEmail;
 
     @Override
-    public CharSequence getNavBarText() {
-        return "账号绑定";
-    }
-
-    @Override
-    public CharSequence getSetText() {
-        return "发送邮箱验证";
-    }
-
-    @Override
     public void initData() {
         super.initData();
 
@@ -58,6 +52,37 @@ public class BindEmailActivity extends BaseSetActivity implements TextWatcher {
 
         mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
         mEtEmail.addTextChangedListener(this);
+    }
+
+    @Override
+    public CharSequence getNavBarText() {
+        return "账号绑定";
+    }
+
+    @Override
+    public CharSequence getSetText() {
+        return "发送邮箱验证";
+    }
+
+    @Override
+    protected void bind() {
+        exeNetworkReq(NetFactory.bindEmail(Util.getEtString(mEtEmail)));
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.error(r.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        Result r = (Result) result;
+        if (r.isSucceed()) {
+            showToast("已发送验证码");
+
+        } else {
+            showToast(r.getError());
+        }
     }
 
     @Override

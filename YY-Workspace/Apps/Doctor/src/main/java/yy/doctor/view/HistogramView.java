@@ -1,7 +1,6 @@
 package yy.doctor.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
@@ -13,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import lib.ys.YSLog;
@@ -20,14 +21,20 @@ import lib.ys.fitter.DpFitter;
 import lib.ys.util.DrawUtil;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.R;
+import yy.doctor.model.me.Stats;
+import yy.doctor.model.me.Stats.TStatistics;
+import yy.doctor.model.me.StatsPerDay;
+import yy.doctor.model.me.StatsPerDay.TStatsPerDay;
 
 /**
+ * 柱状图
+ *
  * @auther : GuoXuan
  * @since : 2017/7/25
  */
-public class StatisticsView extends View {
+public class HistogramView extends View {
 
-    private static final String TAG = StatisticsView.class.getSimpleName().toString();
+    private static final String TAG = HistogramView.class.getSimpleName().toString();
 
     private final float KPercentLayoutHeight = 195f;
     private final float KPercentLineWidth = 4 / KPercentLayoutHeight;
@@ -56,17 +63,20 @@ public class StatisticsView extends View {
     private int mCheckPosition; // 点击的position
     private int mRecColor; // 柱状图的颜色
 
-    public StatisticsView(Context context, @Nullable AttributeSet attrs) {
+    private boolean mCheck; // 是否为点击事件
+
+    public void setRecColor(int recColor) {
+        mRecColor = recColor;
+    }
+
+    public HistogramView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public StatisticsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HistogramView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.StatisticsView);
-        mRecColor = ta.getColor(R.styleable.StatisticsView_rec_color, ResLoader.getColor(KRecColor));
-        ta.recycle();
-
+        mRecColor = KRecColor;
         mPaint = new Paint();
         mCheckPosition = Integer.MIN_VALUE;
     }
@@ -99,39 +109,23 @@ public class StatisticsView extends View {
             int num; // 数量(一天的会议数)
             float posX;
             float posY;
-            /******
-             * 循环中只赋值一次
-             */
             float top; // 柱状的顶点
-            float bottom; // 柱状的底(部)点
-            float left; // 单条的左
-            float right; // 单条的右
+            float bottom = mLayoutHeight - mLineMarginBottom; // 柱状的底(部)点
             for (String date : mMeets.keySet()) {
                 num = mMeets.get(date);
 
                 posX = width * position + width / 2; // 单条的中心
-                // 柱状
 
+                // 柱状
                 mPaint.setStyle(Style.FILL);
                 mPaint.setStrokeWidth(mLineWidth);
                 mPaint.setStrokeCap(Cap.ROUND);
                 mPaint.setColor(mRecColor);
 
-                bottom = mLayoutHeight - mLineMarginBottom;
                 top = bottom - num * maxHeight / mMaxMeetNum;
                 if (num > 0) {
                     canvas.drawLine(posX, bottom, posX, top, mPaint);
                 }
-                mPaint.reset();
-
-                // 分割线
-                mPaint.setStyle(Style.FILL);
-                mPaint.setColor(ResLoader.getColor(KDividerColor));
-
-                left = position * width;
-                right = left + width;
-                posY = bottom + mDividerMargin;
-                canvas.drawLine(left, posY, right, posY, mPaint);
                 mPaint.reset();
 
                 // 字体
@@ -139,7 +133,6 @@ public class StatisticsView extends View {
                 mPaint.setAntiAlias(true);
                 mPaint.setTextSize(mTextSize);
                 mPaint.setColor(ResLoader.getColor(KTextColor));
-
                 // 日期
                 posY = mLayoutHeight - mTextSize - DpFitter.dp(2); // 高度不是字体大少
                 DrawUtil.drawTextByAlignX(canvas, date, posX, posY, mPaint, Align.CENTER);
@@ -153,32 +146,77 @@ public class StatisticsView extends View {
                 YSLog.d(TAG, "onDraw:" + position + "---------------------------------------");
                 position++;
             }
+            // 分割线
+            mPaint.setStyle(Style.FILL);
+            mPaint.setColor(ResLoader.getColor(KDividerColor));
+
+            posY = bottom + mDividerMargin;
+            canvas.drawLine(0, posY, mLayoutWidth, posY, mPaint);
+            mPaint.reset();
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN: {
+                mCheck = true;
+            }
+            return true;
             case MotionEvent.ACTION_MOVE: {
-                if (mMeets != null) {
-                    mCheckPosition = (int) (event.getX() / (mLayoutWidth / mMeets.size()));
+                if (mCheck) {
+                    mCheck = false;
                 }
-                invalidate();
             }
             break;
+            case MotionEvent.ACTION_UP: {
+                if (mCheck) {
+                    if (mMeets != null) {
+                        int position = (int) (event.getX() / (mLayoutWidth / mMeets.size()));
+                        if (position != mCheckPosition) {
+                            // 不是点击同一个
+                            mCheckPosition = position;
+                            invalidate();
+                        }
+                    }
+                }
+            }
+            return true;
         }
         return super.onTouchEvent(event);
     }
 
-    public void setMeets(Map<String, Integer> meets) {
-        mMeets = meets;
+    public void setMeets(Stats meets) {
+
+        if (meets == null) {
+            return;
+        }
+
+        // 重置数据
+        mMeets = new LinkedHashMap<>();
+        mCheckPosition = Integer.MIN_VALUE;
+
+        List<StatsPerDay> l = meets.getList(TStatistics.list);
+        if (l == null) {
+            return;
+        }
 
         mMaxMeetNum = Integer.MIN_VALUE;
-        for (Integer value : meets.values()) {
-            mMaxMeetNum = Math.max(value, mMaxMeetNum);
+        for (StatsPerDay stats : l) {
+            int i = stats.getInt(TStatsPerDay.num, 0);
+            mMaxMeetNum = Math.max(i, mMaxMeetNum);
+            mMeets.put(stats.getString(TStatsPerDay.date), i);
         }
 
         invalidate();
     }
+
+    /*@Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (mMeets != null) {
+            mMeets.clear();
+        }
+    }*/
 }

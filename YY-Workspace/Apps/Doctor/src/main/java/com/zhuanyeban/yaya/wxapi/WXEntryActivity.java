@@ -12,7 +12,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
@@ -20,6 +19,7 @@ import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Constants;
+import yy.doctor.Constants.WXType;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -28,12 +28,15 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.login.WXLoginActivity;
 
+
 /**
  * 微信的回调, (根据applicationId回调)
  */
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
     private static final String TAG = WXEntryActivity.class.getSimpleName().toString();
+    private final int KLogin = 0;
+    private final int KBind = 1;
 
     private IWXAPI mApi;
 
@@ -84,13 +87,14 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         switch (resp.errCode) {
             case ErrCode.ERR_OK: {
                 // 用户同意
-                YSLog.d(TAG, "用户同意");
                 SendAuth.Resp r = (SendAuth.Resp) resp;
                 String code = r.code;
                 String state = r.state;
-                YSLog.d(TAG, "onResp:code" + code);
-                YSLog.d(TAG, "onResp:state" + state);
-                exeNetworkReq(NetFactory.check_wx_bind(code));
+                if (state.equals(WXType.login)) {
+                    exeNetworkReq(KLogin, NetFactory.check_wx_bind(code));
+                } else {
+                    exeNetworkReq(KBind, NetFactory.bindWX(code));
+                }
             }
             break;
             // 其他不处理
@@ -109,22 +113,34 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<Profile> r = (Result<Profile>) result;
-        if (r.isSucceed()) {
-            Profile login = r.getData();
-            String openid = login.getString(TProfile.openid, "");
-            YSLog.d(TAG, "onNetworkSuccess:openid" + openid);
-            if (TextUtil.isNotEmpty(openid)) {
-//                 没有绑定过微信, 绑定
-                WXLoginActivity.nav(WXEntryActivity.this,openid);
+        Profile profile = r.getData();
+        if (profile == null) {
+            showToast("绑定失败");
+            finish();
+        }
+        if (id == KLogin) {
+            if (r.isSucceed()) {
+                Profile login = r.getData();
+                String openid = login.getString(TProfile.openid, "");
+                if (TextUtil.isNotEmpty(openid)) {
+                    // 没有绑定过微信, 绑定
+                    WXLoginActivity.nav(WXEntryActivity.this, openid);
+                } else {
+                    // 绑定过微信, 登录
+                    Profile.inst().update(r.getData());
+                    notify(NotifyType.login);
+                    startActivity(MainActivity.class);
+                }
             } else {
-//                 绑定过微信, 登录
-                Profile.inst().update(r.getData());
-                notify(NotifyType.login);
-                startActivity(MainActivity.class);
-                finish();
+                showToast(r.getError());
             }
         } else {
-            showToast(r.getError());
+            if (r.isSucceed()) {
+                showToast("绑定成功");
+                notify(NotifyType.bind_wx, profile.getString(TProfile.wxNickname));
+            } else {
+                showToast(r.getError());
+            }
         }
         finish();
     }

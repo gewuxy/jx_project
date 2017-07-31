@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.me.set;
 
 import android.support.annotation.CallSuper;
+import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
@@ -30,8 +31,8 @@ public abstract class BaseSetActivity extends BaseFormActivity {
     }
 
     @Override
-    public final void initNavBar(NavBar paramNavBar) {
-        Util.addBackIcon(paramNavBar, getNavBarText(), this);
+    public final void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, getNavBarText(), this);
     }
 
     @CallSuper
@@ -44,11 +45,23 @@ public abstract class BaseSetActivity extends BaseFormActivity {
         setOnClickListener(R.id.activity_tv_set_set);
     }
 
-    protected final void setChanged(boolean paramBoolean) {
-        mTvSet.setEnabled(paramBoolean);
+    @Override
+    public final void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_tv_set_set: {
+                bind();
+            }
+            break;
+        }
     }
 
-    public abstract CharSequence getNavBarText();
+    protected final void setChanged(boolean enabled) {
+        mTvSet.setEnabled(enabled);
+    }
 
-    public abstract CharSequence getSetText();
+    protected abstract CharSequence getNavBarText();
+
+    protected abstract CharSequence getSetText();
+
+    protected abstract void bind();
 }

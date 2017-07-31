@@ -41,7 +41,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.certification,
             NotifyType.academic,
             NotifyType.hospital_finish,
-            NotifyType.dialog_miss,
+            NotifyType.bind_wx,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -158,7 +158,7 @@ public class Notifier extends NotifierEx<OnNotify> {
 
         int hospital_finish = 21;
 
-        int dialog_miss = 22;
+        int bind_wx = 22;
 
     }
 
