@@ -102,7 +102,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.download_data, this);
+        Util.addBackIcon(bar, mFileName, this);
+        bar.addViewRight(R.drawable.collection_selector,v -> showToast("收藏"));
     }
 
     @Override

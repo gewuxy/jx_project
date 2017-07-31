@@ -189,6 +189,12 @@
         <activity
             android:name=".ui.activity.data.ClinicalGuideCategoryActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.DrugListCategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.data.ClinicalGuideDetailActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- me -->
@@ -196,7 +202,7 @@
             android:name=".ui.activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.MyCollectionActivity"
+            android:name=".ui.activity.me.CollectionMeetingActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.SettingsActivity"
@@ -284,6 +290,11 @@
         <activity
             android:name=".ui.activity.PDFActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.MyCollectionActivity"
+            android:screenOrientation="portrait"/>
+
+
 
 
         <!-- service -->

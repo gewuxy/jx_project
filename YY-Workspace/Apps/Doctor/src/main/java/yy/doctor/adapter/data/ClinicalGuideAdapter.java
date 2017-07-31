@@ -19,6 +19,7 @@ public class ClinicalGuideAdapter extends AdapterEx<String, DataVH> {
     @Override
     protected void refreshView(int position, DataVH holder) {
 
+
         goneView(holder.getTvDetail());
     }
 

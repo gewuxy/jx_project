@@ -17,8 +17,8 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
-import yy.doctor.ui.activity.me.MyCollectionActivity;
 import yy.doctor.ui.activity.me.HelpAndFeedbackActivity;
+import yy.doctor.ui.activity.me.MyCollectionActivity;
 import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.activity.me.epn.EpnActivity;
 import yy.doctor.ui.activity.me.profile.ProfileActivity;
@@ -192,7 +192,9 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.my_collection: {
+                //startActivity(CollectionMeetingActivity.class);
                 startActivity(MyCollectionActivity.class);
+
             }
             break;
             case RelatedId.my_epn: {

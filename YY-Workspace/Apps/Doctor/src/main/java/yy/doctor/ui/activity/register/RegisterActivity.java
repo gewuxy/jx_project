@@ -1,11 +1,7 @@
 package yy.doctor.ui.activity.register;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.NetworkInfo.State;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -17,6 +13,7 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -39,6 +36,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -87,15 +85,11 @@ public class RegisterActivity extends BaseFormActivity
     private EditText mEtActivatedCode;      //填写激活码
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
-   // private boolean mFlag;//密码是否可见
+    private ImageView mIvCancel; // 激活码的“×”
 
     private long mStartTime; // 开始计算10分钟间隔的时间
     private int mCount;//计算点击多少次
 
-
-    private TextView mTvCaptcha;// 获取验证码的textview
-    private String mUserName; // 用户名
-    private String mPwd; // 密码
     private View mTvReg;
 
     private BaseHintDialog mDialog;
@@ -143,7 +137,6 @@ public class RegisterActivity extends BaseFormActivity
     public void initData() {
         super.initData();
 
-       // mFlag = true;
         mCount = 0;
 
         mStatus = new HashSet<>();
@@ -235,6 +228,7 @@ public class RegisterActivity extends BaseFormActivity
         mTvReg = findView(R.id.register);
         mEtActivatedCode = findView(R.id.register_et_captcha);
         mTvActivatedCode = findView(R.id.register_tv_activated_code);
+        mIvCancel = findView(R.id.iv_cancel);
         mTvAgree = findView(R.id.register_tv_agree);
         mTvHeader = findView(R.id.register_header);
         mLayoutCaptcha = findView(R.id.register_layout_captcha);
@@ -246,6 +240,7 @@ public class RegisterActivity extends BaseFormActivity
 
         setOnClickListener(R.id.register);
         setOnClickListener(mTvActivatedCode);
+        setOnClickListener(mIvCancel);
         mTvReg.setEnabled(false);
 
         SpannableString s = new SpannableString("点击“注册”即表示您同意");
@@ -269,6 +264,11 @@ public class RegisterActivity extends BaseFormActivity
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length()!=0) {
+                    showView(mIvCancel);
+                }else {
+                    goneView(mIvCancel);
+                }
             }
 
             @Override
@@ -283,33 +283,6 @@ public class RegisterActivity extends BaseFormActivity
             }
         });
 
-      /*  if (BuildConfig.TEST) {
-            getRelatedItem(RelatedId.phone_number).save("13811001100", "13811001100");
-            refreshRelatedItem(RelatedId.phone_number);
-
-            getRelatedItem(RelatedId.name).save("name", "name");
-            refreshRelatedItem(RelatedId.name);
-
-            getRelatedItem(RelatedId.pwd).save("123456", "123456");
-            refreshRelatedItem(RelatedId.pwd);
-
-            getRelatedItem(RelatedId.special).save("内科 普内科", "内科 普内科");
-            refreshRelatedItem(RelatedId.special);
-
-            getRelatedItem(RelatedId.hospital).save("中山医", "中山医");
-            refreshRelatedItem(RelatedId.hospital);
-
-            getRelatedItem(RelatedId.department).save("我是科室", "我是科室");
-            refreshRelatedItem(RelatedId.department);
-
-            getRelatedItem(RelatedId.title).save("高级 医师", "高级 医师");
-            refreshRelatedItem(RelatedId.title);
-
-            getRelatedItem(RelatedId.captcha).save("1234", "1234");
-            refreshRelatedItem(RelatedId.captcha);
-
-            mEtActivatedCode.setText("2603");
-        }*/
     }
 
     @Override
@@ -321,6 +294,8 @@ public class RegisterActivity extends BaseFormActivity
             case R.id.register:
                 enroll();
                 break;
+            case R.id.iv_cancel:
+                mEtActivatedCode.setText("");
         }
     }
 
@@ -364,7 +339,6 @@ public class RegisterActivity extends BaseFormActivity
             showToast(R.string.input_right_pwd_num);
             return;
         }
-        // mPwd = strPwd;
 
         // 省市区
         String addresses = getItemStr(RelatedId.location);
@@ -404,7 +378,7 @@ public class RegisterActivity extends BaseFormActivity
         //注册
         refresh(RefreshWay.dialog);
         exeNetworkReq(KRegister, NetFactory.register()
-                .mobile(mPhone.toString().replace(" ", ""))
+                .mobile(getPhone())
                 .captcha(getItemStr(RelatedId.captcha))
                 .password(getItemStr(RelatedId.pwd))
                 .linkman(getItemStr(RelatedId.name))
@@ -420,6 +394,10 @@ public class RegisterActivity extends BaseFormActivity
                 .invite(code)
                 .masterId(mMasId)
                 .build());
+    }
+
+    private String getPhone() {
+        return mPhone.toString().replace(" ", "");
     }
 
 
@@ -546,8 +524,8 @@ public class RegisterActivity extends BaseFormActivity
         YSLog.d("Gps", "失败");
 
         onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
-        // FIXME: 失败的多种处理
-        if (!isNetworkAvailable(this)) {
+
+        if (!DeviceUtil.isNetworkEnabled()) {
             showToast("当前网络不可用,不可定位");
         } else {
             //有网但是定位失败  显示dialog
@@ -596,9 +574,8 @@ public class RegisterActivity extends BaseFormActivity
                 showToast("成功");
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
-                SpApp.inst().saveUserName(mPhone.toString().replace(" ", ""));
-              //  startActivity(MainActivity.class);
-                exeNetworkReq(KLogin, NetFactory.login(mPhone.toString().replace(" ", ""), getItemStr(RelatedId.pwd)));
+                SpApp.inst().saveUserName(getPhone());
+                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd),null));
                 YSLog.d("yaya", "_________________________");
             } else {
                 stopRefresh();
@@ -617,26 +594,6 @@ public class RegisterActivity extends BaseFormActivity
         Location.inst().stop();
     }
 
-    /**
-     * 检测当前的网络（WIFI，3G/2G）状态
-     *
-     * @Return true 表示网络可用
-     */
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-            if (info != null && info.isConnected()) {
-                //当前网络连接
-                if (info.getState() == State.CONNECTED) {
-                    //当前所连接的网络可用
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -645,7 +602,6 @@ public class RegisterActivity extends BaseFormActivity
             String name = data.getStringExtra(Extra.KData);
             mMasId = data.getStringExtra(Extra.KId);
             mTvHeader.setText("该账号（价值69.9元），由" + name + "为您免费提供");
-
             goneView(mLayoutCaptcha);
             mStatus.add(KActivateCodeCheckStatus);
         }

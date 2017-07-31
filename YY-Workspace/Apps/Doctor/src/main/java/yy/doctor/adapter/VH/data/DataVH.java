@@ -18,6 +18,10 @@ public class DataVH extends ViewHolderEx {
         super(convertView);
     }
 
+    public View getDivider() {
+        return getView(R.id.form_divider);
+    }
+
     public LinearLayout getDataItemLayout() {
         return getView(R.id.data_item_layout);
     }

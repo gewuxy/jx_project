@@ -8,6 +8,7 @@
     <item name="form_et" type="id"/>
 
     <item name="form_iv" type="id"/>
+    <item name="form_iv_cancel" type="id"/>
     <item name="form_iv_arrow" type="id"/>
 
     <item name="form_divider_layout" type="id"/>

@@ -65,6 +65,7 @@
 
     <!--数据中心-->
     <string name="data_center">数据中心</string>
+    <string name="meeting">会议</string>
     <string name="thomson">汤森路透</string>
     <string name="drug_list">药品目录</string>
     <string name="clinical_guide">临床指南</string>

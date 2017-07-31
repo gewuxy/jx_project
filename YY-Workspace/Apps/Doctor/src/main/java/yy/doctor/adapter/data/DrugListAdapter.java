@@ -18,7 +18,9 @@ public class DrugListAdapter extends AdapterEx<String, DataVH> {
 
     @Override
     protected void refreshView(int position, DataVH holder) {
-
+        if (position != 0) {
+            goneView(holder.getDivider());
+        }
         goneView(holder.getTvDetail());
     }
 
