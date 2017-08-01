@@ -26,6 +26,9 @@ public class IntentForm extends TextForm {
             IntentType.medicine,
             IntentType.doctor,
             IntentType.section,
+            IntentType.cme_number,
+            IntentType.certification,
+            IntentType.skill,
             IntentType.set_phone,
             IntentType.set_email,
             IntentType.set_pwd,
@@ -38,6 +41,9 @@ public class IntentForm extends TextForm {
         int medicine = 3;
         int doctor = 4;
         int section = 5;
+        int cme_number = 6;
+        int certification = 7;
+        int skill = 8;
         int set_phone = 10;
         int set_email = 11;
         int set_pwd = 12;
@@ -99,6 +105,23 @@ public class IntentForm extends TextForm {
             }
             break;
             case IntentType.section: {
+                String section = data.getStringExtra(Extra.KData);
+                save(section, section);
+            }
+            break;
+            case IntentType.cme_number: {
+                String cme_number = data.getStringExtra(Extra.KData);
+                save(cme_number, cme_number);
+            }
+            break;
+            case IntentType.certification: {
+                String certification = data.getStringExtra(Extra.KData);
+                save(certification, certification);
+            }
+            break;
+            case IntentType.skill: {
+                String skill = data.getStringExtra(Extra.KData);
+                save(skill, skill);
             }
             break;
             case IntentType.set_phone: {

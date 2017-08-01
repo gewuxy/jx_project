@@ -16,19 +16,20 @@ import yy.doctor.adapter.data.DrugListAdapter;
 import yy.doctor.util.Util;
 
 /**
- * 药品目录分类
  *
- * @author CaiXiang
- * @since 2017/7/17
+ * 药品二级目录分类
+ *
+ * @auther HuoXuYu
+ * @since 2017/7/25
  */
 
-public class DrugListCategoryActivity extends BaseListActivity<String, DrugListAdapter> {
+public class DrugListCategoryTwoLevelActivity extends BaseListActivity<String, DrugListAdapter> {
 
     private EditText mEtPath;
     private String mPath;
 
     public static void nav(Context context, String path) {
-        Intent i = new Intent(context, DrugListCategoryActivity.class);
+        Intent i = new Intent(context, DrugListCategoryTwoLevelActivity.class);
         i.putExtra(Extra.KData, path);
         LaunchUtil.startActivity(context, i);
     }
@@ -44,7 +45,7 @@ public class DrugListCategoryActivity extends BaseListActivity<String, DrugListA
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.drug_list, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> DrugListCategoryActivity.this.notify(NotifyType.data_finish));
+        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> DrugListCategoryTwoLevelActivity.this.notify(NotifyType.data_finish));
     }
 
     @Nullable
@@ -67,7 +68,7 @@ public class DrugListCategoryActivity extends BaseListActivity<String, DrugListA
 
     @Override
     public void onItemClick(View v, int position) {
-        startActivity(DrugDetailActivity.class);
+        startActivity(DrugListCategoryThreeLevelActivity.class);
     }
 
     @Override

@@ -10,6 +10,8 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.ui.frag.SectionCategoryFrag;
 import yy.doctor.ui.frag.SectionCategoryFrag.OnCategoryListener;
 import yy.doctor.ui.frag.SectionNameFrag;
@@ -58,14 +60,17 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     }
 
     @Override
-    public void onCategorySelected(int position, List<String> names) {
+    public void onCategorySelected(int position, String name,  List<String> names) {
         mSectionNameFrag.setSection(names);
-        mCategory = names.get(position);
+        mCategory = name;
         YSLog.d("yaya",mCategory);
     }
 
     @Override
     public void onSectionSelected(int position, String name) {
+        String text = mCategory + " " + name;
+        Profile.inst().put(TProfile.specialty_name, text);
+        Profile.inst().saveToSp();
 
         Intent intent = new Intent();
         intent.putExtra(Extra.KName,mCategory);

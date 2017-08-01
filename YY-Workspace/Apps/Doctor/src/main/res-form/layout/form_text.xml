@@ -15,11 +15,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
                 style="@style/tv.form.text"
+                android:gravity="center|right"
                 android:layout_marginRight="@dimen/margin"/>
 
             <ImageView

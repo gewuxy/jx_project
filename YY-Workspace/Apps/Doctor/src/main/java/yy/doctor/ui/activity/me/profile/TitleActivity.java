@@ -15,6 +15,8 @@ import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.Title;
 import yy.doctor.model.Title.TTitle;
 import yy.doctor.network.JsonParser;
@@ -36,7 +38,14 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     private TitleGradeFrag mTitleGradeFrag;
     private TitleCategoryFrag mTitleCategoryFrag;
+
+    private final int KRegister = 0;
+    private final int KModify = 1;
+
+    private TProfile mEnum;
+    String mTitle;
     private String mGrade;
+    private String mCategory;
 
     @Override
     public void initData() {
@@ -66,29 +75,53 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         mTitleCategoryFrag.setCategoryListener(this);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.title());
+        if (Profile.inst().isLogin()) {
+            exeNetworkReq(KModify, NetFactory.newModifyBuilder().title(mGrade + mCategory).build());
+        }else {
+            exeNetworkReq(KRegister, NetFactory.title());
+        }
     }
 
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(),Title.class);
+        return JsonParser.ev(r.getText(), Title.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Result<Title> r = (Result<Title>) result;
-        if (r.isSucceed()) {
-            Title data = r.getData();
-            List<String> title = data.getList(TTitle.title);
-            mTitleGradeFrag.setData(title);
+        if (id == KRegister) {//注册界面的职称
+            Result<Title> r = (Result<Title>) result;
+            if (r.isSucceed()) {
+                Title data = r.getData();
+                List<String> title = data.getList(TTitle.title);
+                mTitleGradeFrag.setData(title);
 
-            List<String> grade = data.getList(TTitle.grade);
-            mTitleCategoryFrag.setData(grade);
+                List<String> grade = data.getList(TTitle.grade);
+                mTitleCategoryFrag.setData(grade);
 
-            setViewState(ViewState.normal);
-        } else {
-            showToast(r.getError());
+                setViewState(ViewState.normal);
+
+            } else {
+                stopRefresh();
+                showToast(r.getError());
+            }
+        }else if (id == KModify) {//我的资料的职称
+            Result<Title> r = (Result<Title>) result;
+            if (r.isSucceed()) {
+                Title data = r.getData();
+                List<String> title = data.getList(TTitle.title);
+                mTitleGradeFrag.setData(title);
+
+                List<String> grade = data.getList(TTitle.grade);
+                mTitleCategoryFrag.setData(grade);
+
+                setViewState(ViewState.normal);
+
+            } else {
+                stopRefresh();
+                showToast(r.getError());
+            }
         }
     }
 
@@ -107,9 +140,14 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     @Override
     public void onCategorySelected(int position, String category) {
-        Intent i = new Intent();
-        i.putExtra(Extra.KProvince, mGrade);
-        i.putExtra(Extra.KCity, category);
+        mCategory = category;
+        mTitle = mGrade + " " + category;
+        Profile.inst().put(mEnum, mTitle);
+        Profile.inst().saveToSp();
+
+        Intent i = new Intent()
+                .putExtra(Extra.KProvince, mGrade)
+                .putExtra(Extra.KCity, category);
         YSLog.d(TAG, "category = " + category);
         setResult(RESULT_OK, i);
         finish();

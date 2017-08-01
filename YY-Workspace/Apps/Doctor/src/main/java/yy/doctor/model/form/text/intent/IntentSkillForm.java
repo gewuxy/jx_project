@@ -15,4 +15,9 @@ public class IntentSkillForm extends IntentForm {
     public int getContentViewResId() {
         return R.layout.form_text_academic;
     }
+
+    @Override
+    public boolean check() {
+        return true;
+    }
 }

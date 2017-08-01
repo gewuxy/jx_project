@@ -253,7 +253,7 @@
             android:name=".ui.activity.me.profile.ModifyTextActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.profile.AcademicActivity"
+            android:name=".ui.activity.me.profile.SkillActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.profile.ClipImageActivity"

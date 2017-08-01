@@ -23,7 +23,7 @@
                 android:id="@id/form_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/transparent"
                 android:gravity="right"
                 android:singleLine="true"

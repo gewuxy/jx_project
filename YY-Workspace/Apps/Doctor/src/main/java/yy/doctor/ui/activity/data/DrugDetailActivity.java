@@ -46,7 +46,7 @@ public class DrugDetailActivity extends BaseGroupListActivity<GroupDrugDetail, S
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar, "test", this);
+        Util.addBackIcon(bar, "药品详情", this);
         // 收藏
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
             mStoredState = !mStoredState;

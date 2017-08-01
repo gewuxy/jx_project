@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
@@ -12,6 +13,8 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -65,6 +68,12 @@ public class CityActivity extends BasePcdActivity {
                 Place place = new Place();
                 place.put(TPlace.province, mProvince);
                 place.put(TPlace.city, item.getString(TPcd.name));
+
+                Profile.inst().put(TProfile.province, place.getString(TPlace.province));
+                Profile.inst().put(TProfile.city, place.getString(TPlace.city));
+                Profile.inst().put(TProfile.zone, ConstantsEx.KEmptyValue);
+                Profile.inst().saveToSp();
+
                 notify(NotifyType.province_finish, place);
                 finish();
             } else {

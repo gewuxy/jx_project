@@ -16,8 +16,8 @@ import yy.doctor.R;
 
 public class LevelDialog extends BaseDialog {
 
-    public interface OnLevelListener {
-        void checkLevel(@DrawableRes int resId);
+    public interface OnLevelCheckListener {
+        void onLevelChecked(@DrawableRes int resId);
     }
 
     private TextView mLevel_Three;
@@ -28,9 +28,9 @@ public class LevelDialog extends BaseDialog {
     private TextView mLevel_Clinic;
     private TextView mLevel_Other;
 
-    private OnLevelListener mListener;
+    private OnLevelCheckListener mListener;
 
-    public void setListener(OnLevelListener l) {
+    public void setListener(OnLevelCheckListener l) {
         mListener = l;
     }
 
@@ -105,7 +105,7 @@ public class LevelDialog extends BaseDialog {
 
         }
         if (mListener!= null) {
-            mListener.checkLevel(resId);
+            mListener.onLevelChecked(resId);
         }
     }
 }

@@ -36,18 +36,17 @@
                 android:scrollbars="vertical"
                 android:hint="@string/user_input_academic"/>
 
-            <TextView
-                android:id="@+id/tv_academic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/et_academic"
-                android:layout_alignRight="@+id/et_academic"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="14dp"
-                android:text="@string/academic_unit"
-                android:textSize="14dp"
-                android:textColor="@color/text_b3"/>
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_academic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            android:text="@string/academic_unit"
+            android:textColor="@color/text_b3"/>
 
         <View
             style="@style/divider"/>

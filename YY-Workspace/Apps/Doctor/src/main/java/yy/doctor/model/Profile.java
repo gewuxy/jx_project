@@ -16,31 +16,32 @@ import yy.doctor.sp.SpUser;
 public class Profile extends EVal<TProfile> implements ISingleton {
 
     public enum TProfile {
-        token, // 会话令牌
+        token,      // 会话令牌
         openid,
         id,
-        username,  //登录用户名(默认是邮箱)
-        nickname,  //昵称
-        linkman,   //真实姓名
-        headimg,
-        mobile,
-        province,
-        city,
-        zone,
-        credits, //象数
-        licence, //执业许可证号
-        major,
-        place,  //职务
-        title,  //职称
-        hospital,
-        department,  //科室
-        address,
-        hosLevel, //医院等级
-        cmeId,  // CME卡号
+        username,   //登录用户名(默认是邮箱)
+        nickname,   //昵称
+        linkman,    //真实姓名
 
-        // FIXME 测试
-        specialized, //专科
-        academic, //学术专长
+        headimg,    //头像
+        hospital,   //医院
+        hosLevel,   //医院等级
+        department, //科室
+        province,   //省
+        city,       //市
+        zone,       //区
+
+        specialty_name, //专科
+        cmeId,      // CME卡号
+        licence,    //执业许可证号
+        title,      //职称
+        major,      //专长
+
+        address,    //地址
+        credits,    //象数
+
+        mobile,
+        place,      //职务
 
         wxNickname,  // 昵称WX
     }

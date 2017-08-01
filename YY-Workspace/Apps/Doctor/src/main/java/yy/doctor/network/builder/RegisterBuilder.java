@@ -50,6 +50,11 @@ public class RegisterBuilder {
         return this;
     }
 
+    /**
+     *
+     * @param captcha 验证码
+     * @return
+     */
     public RegisterBuilder captcha(String captcha) {
         mBuilder.param(RegisterParam.KCaptcha, captcha);
         return this;

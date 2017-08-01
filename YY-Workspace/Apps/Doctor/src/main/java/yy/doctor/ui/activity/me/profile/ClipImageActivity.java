@@ -11,7 +11,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.network.Result;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -67,7 +66,7 @@ public class ClipImageActivity extends BaseActivity {
 
                 // 网络上传图片
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(NetFactory.upheadimg(BmpUtil.toBytes(mBmp)));
+                exeNetworkReq(NetFactory.upHeadImg(BmpUtil.toBytes(mBmp)));
             }
             mPv.destroyDrawingCache();
         });
@@ -101,8 +100,6 @@ public class ClipImageActivity extends BaseActivity {
             //头像路径保存到本地
             Profile.inst().update(Profile.inst().put(TProfile.headimg, upHeadImage.getString(TUpHeadImage.url)));
             Profile.inst().saveToSp();
-
-            notify(NotifyType.profile_change);
 
             setResult(RESULT_OK, getIntent());
             finish();

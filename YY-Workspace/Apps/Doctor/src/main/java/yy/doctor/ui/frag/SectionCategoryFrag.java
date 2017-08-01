@@ -93,14 +93,14 @@ public class SectionCategoryFrag extends BaseSRListFrag<Section, SectionCategory
     public void onItemClick(View v, int position) {
         if (mListener != null) {
             String category = getItem(position).getString(TSection.category);
-            mListener.onCategorySelected(position, mSections.getByKey(category));
+            mListener.onCategorySelected(position, category, mSections.getByKey(category));
         }
 
         getAdapter().setSelectItem(position);
     }
 
     public interface OnCategoryListener {
-        void onCategorySelected(int position, List<String> names);
+        void onCategorySelected(int position, String name , List<String> names);
     }
 
     public void setCategoryListener(OnCategoryListener l) {

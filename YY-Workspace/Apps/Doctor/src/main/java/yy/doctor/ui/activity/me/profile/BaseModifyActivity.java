@@ -22,10 +22,11 @@ import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/7/24
  */
 
@@ -57,10 +58,15 @@ abstract public class BaseModifyActivity extends BaseActivity {
     @CallSuper
     @Override
     public void setViews() {
-        mTv.setEnabled(false);
-        mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
+        if (TextUtil.isEmpty(getEt().getText())) {
+            mTv.setEnabled(false);
+            mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
+        }else {
+            mTv.setEnabled(true);
+            mTv.setTextColor(ResLoader.getColor(R.color.white));
+        }
 
-        getEt().setText(Profile.inst().getString(mEnum));
+        getEt().setText(getVal());
     }
 
     protected void addTextChangedListener(@NonNull EditText et, @NonNull View ivClear) {
@@ -111,14 +117,17 @@ abstract public class BaseModifyActivity extends BaseActivity {
             stopRefresh();
             onModifySuccess();
         } else {
-            onNetworkError(id, new ParseError());
+            onNetworkError(id, new ParseError(r.getError()));
         }
     }
 
-    abstract protected void doModify();
+    protected void doModify() {
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(NetFactory.modifyProfile(mEnum.name(), getEt().getText().toString()));
+    }
 
     protected void onModifySuccess() {
-        String text = getEt().getText().toString().trim();
+        String text = Util.getEtString(getEt());
         Profile.inst().put(mEnum, text);
         Profile.inst().saveToSp();
 
@@ -128,4 +137,13 @@ abstract public class BaseModifyActivity extends BaseActivity {
     }
 
     abstract protected EditText getEt();
+
+    /**
+     * 获取Profile里面对应enum的值
+     * @return
+     */
+    @NonNull
+    protected String getVal() {
+        return Profile.inst().getString(mEnum);
+    }
 }

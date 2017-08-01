@@ -25,9 +25,6 @@ import yy.doctor.ui.activity.me.profile.ProfileActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumActivity;
 import yy.doctor.view.CircleProgressView;
 
-import static yy.doctor.model.Profile.TProfile.hospital;
-import static yy.doctor.model.Profile.TProfile.linkman;
-
 /**
  * 我
  *
@@ -151,9 +148,9 @@ public class MeFrag extends BaseFormFrag {
     public void setViews() {
         super.setViews();
 
-        mTvName.setText(Profile.inst().getString(linkman));
+        mTvName.setText(Profile.inst().getString(TProfile.linkman));
         mTvTitle.setText(Profile.inst().getString(TProfile.title));
-        mTvHospital.setText(Profile.inst().getString(hospital));
+        mTvHospital.setText(Profile.inst().getString(TProfile.hospital));
 
         mTvProgress.setText("50%");
         mProgressbar.setProgress(50);
@@ -228,8 +225,9 @@ public class MeFrag extends BaseFormFrag {
                     //.renderer(new CornerRenderer(fitDp(15)))  圆角
                     .load();
 
-            mTvName.setText(Profile.inst().getString(linkman));
-            mTvHospital.setText(Profile.inst().getString(hospital));
+            mTvName.setText(Profile.inst().getString(TProfile.linkman));
+            mTvHospital.setText(Profile.inst().getString(TProfile.hospital));
+            mTvTitle.setText(Profile.inst().getString(TProfile.title));
             getRelatedItem(RelatedId.my_epn).text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)));
             refreshRelatedItem(RelatedId.my_epn);
         }

@@ -12,6 +12,8 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -66,6 +68,12 @@ public class DistrictActivity extends BasePcdActivity {
             place.put(TPlace.province, mProvince);
             place.put(TPlace.city, mCity);
             place.put(TPlace.district, item.getString(TPcd.name));
+
+            Profile.inst().put(TProfile.province, place.getString(TPlace.province));
+            Profile.inst().put(TProfile.city, place.getString(TPlace.city));
+            Profile.inst().put(TProfile.zone, place.getString(TPlace.district));
+            Profile.inst().saveToSp();
+
             notify(NotifyType.province_finish, place);
             finish();
         });
