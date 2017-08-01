@@ -24,7 +24,6 @@ public class IntentForm extends TextForm {
             IntentType.location,
             IntentType.hospital,
             IntentType.medicine,
-            IntentType.doctor,
             IntentType.section,
             IntentType.cme_number,
             IntentType.certification,
@@ -32,6 +31,7 @@ public class IntentForm extends TextForm {
             IntentType.set_phone,
             IntentType.set_email,
             IntentType.set_pwd,
+            IntentType.doctor_title,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface IntentType {
@@ -39,7 +39,6 @@ public class IntentForm extends TextForm {
         int location = 1;
         int hospital = 2;
         int medicine = 3;
-        int doctor = 4;
         int section = 5;
         int cme_number = 6;
         int certification = 7;
@@ -47,6 +46,7 @@ public class IntentForm extends TextForm {
         int set_phone = 10;
         int set_email = 11;
         int set_pwd = 12;
+        int doctor_title = 13;
     }
 
     private int mCurrType = IntentType.un_know;
@@ -99,11 +99,6 @@ public class IntentForm extends TextForm {
                 save(medicine, medicine);
             }
             break;
-            case IntentType.doctor: {
-                String pro = data.getStringExtra(Extra.KProvince) + " " + data.getStringExtra(Extra.KCity);
-                save(pro, pro);
-            }
-            break;
             case IntentType.section: {
                 String section = data.getStringExtra(Extra.KData);
                 save(section, section);
@@ -132,6 +127,11 @@ public class IntentForm extends TextForm {
             case IntentType.set_email: {
                 String email = data.getStringExtra(Extra.KData);
                 save(email, email);
+            }
+            break;
+            case IntentType.doctor_title: {
+                String title = data.getStringExtra(Extra.KData);
+                save(title, title);
             }
             break;
         }

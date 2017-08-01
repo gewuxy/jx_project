@@ -31,7 +31,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         city,       //市
         zone,       //区
 
-        specialty_name, //专科
+        category,   //专科一级
+        name,       //专科二级
         cmeId,      // CME卡号
         licence,    //执业许可证号
         title,      //职称
@@ -43,7 +44,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         mobile,
         place,      //职务
 
-        wxNickname,  // 昵称WX
+        wxNickname, // 昵称WX
+
     }
 
     private static Profile mInst = null;

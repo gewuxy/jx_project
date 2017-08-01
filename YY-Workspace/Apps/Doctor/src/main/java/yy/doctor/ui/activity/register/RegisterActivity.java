@@ -205,8 +205,8 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .related(RelatedId.title)
                 .hint(R.string.title)
-                .intent(new Intent(this, TitleActivity.class).putExtra(Extra.KData, IntentType.doctor))
-                .type(IntentType.doctor));
+                .intent(new Intent(this, TitleActivity.class))
+                .type(IntentType.doctor_title));
 
         addItem(Form.create(FormType.divider_margin));
     }

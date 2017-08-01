@@ -5,13 +5,20 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.network.model.err.ParseError;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.ui.frag.SectionCategoryFrag;
 import yy.doctor.ui.frag.SectionCategoryFrag.OnCategoryListener;
 import yy.doctor.ui.frag.SectionNameFrag;
@@ -27,9 +34,15 @@ import yy.doctor.util.Util;
 
 public class SectionActivity extends BaseActivity implements OnCategoryListener, OnSectionListener {
 
+    private final int KIdGet = 0;
+    private final int KIdCommit = 1;
+
     private SectionCategoryFrag mSectionCategoryFrag;
     private SectionNameFrag mSectionNameFrag;
+
     private String mCategory;
+    private String mCategoryName;
+    private String mSpecialty;
 
 
     @Override
@@ -60,23 +73,55 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     }
 
     @Override
-    public void onCategorySelected(int position, String name,  List<String> names) {
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.error(r.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        switch (id) {
+            case KIdCommit: {
+                Result r = (Result) result;
+                if (r.isSucceed()) {
+                    Profile.inst().put(TProfile.category, mCategory);
+                    Profile.inst().put(TProfile.name, mCategoryName);
+                    Profile.inst().saveToSp();
+
+                    Intent intent = new Intent()
+                            .putExtra(Extra.KName, mCategory)
+                            .putExtra(Extra.KData, mCategoryName);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    stopRefresh();
+                    onNetworkError(id, new ParseError(r.getError()));
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+    }
+
+    @Override
+    public void onCategorySelected(int position, String category, List<String> names) {
         mSectionNameFrag.setSection(names);
-        mCategory = name;
-        YSLog.d("yaya",mCategory);
+        mCategory = category;
+        YSLog.d("yaya", mCategory);
     }
 
     @Override
     public void onSectionSelected(int position, String name) {
-        String text = mCategory + " " + name;
-        Profile.inst().put(TProfile.specialty_name, text);
-        Profile.inst().saveToSp();
+        mCategoryName = name;
 
-        Intent intent = new Intent();
-        intent.putExtra(Extra.KName,mCategory);
-        intent.putExtra(Extra.KData,name);
-        setResult(RESULT_OK, intent);
-        finish();
+        refresh(RefreshWay.embed);
+        exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
+                .category(mCategory)
+                .name(mCategoryName)
+                .build());
     }
 
 }

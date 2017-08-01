@@ -7,6 +7,7 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
+import lib.network.model.err.ParseError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -36,16 +37,14 @@ import yy.doctor.util.Util;
 
 public class TitleActivity extends BaseActivity implements OnGradeListener, OnCategoryListener {
 
+    private final int KIdGet = 0;
+    private final int KIdCommit = 1;
+
     private TitleGradeFrag mTitleGradeFrag;
     private TitleCategoryFrag mTitleCategoryFrag;
 
-    private final int KRegister = 0;
-    private final int KModify = 1;
-
-    private TProfile mEnum;
-    String mTitle;
     private String mGrade;
-    private String mCategory;
+    private String mTitle;
 
     @Override
     public void initData() {
@@ -75,61 +74,69 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         mTitleCategoryFrag.setCategoryListener(this);
 
         refresh(RefreshWay.embed);
-        if (Profile.inst().isLogin()) {
-            exeNetworkReq(KModify, NetFactory.newModifyBuilder().title(mGrade + mCategory).build());
-        }else {
-            exeNetworkReq(KRegister, NetFactory.title());
-        }
+        exeNetworkReq(KIdGet, NetFactory.title());
     }
-
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Title.class);
+        switch (id) {
+            case KIdGet: {
+                return JsonParser.ev(r.getText(), Title.class);
+            }
+            case KIdCommit: {
+                return JsonParser.error(r.getText());
+            }
+        }
+        return null;
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KRegister) {//注册界面的职称
-            Result<Title> r = (Result<Title>) result;
-            if (r.isSucceed()) {
-                Title data = r.getData();
-                List<String> title = data.getList(TTitle.title);
-                mTitleGradeFrag.setData(title);
+        switch (id) {
+            case KIdGet: {
+                Result<Title> r = (Result<Title>) result;
+                if (r.isSucceed()) {
+                    Title data = r.getData();
+                    List<String> title = data.getList(TTitle.title);
+                    mTitleGradeFrag.setData(title);
 
-                List<String> grade = data.getList(TTitle.grade);
-                mTitleCategoryFrag.setData(grade);
+                    List<String> grade = data.getList(TTitle.grade);
+                    mTitleCategoryFrag.setData(grade);
 
-                setViewState(ViewState.normal);
+                    setViewState(ViewState.normal);
 
-            } else {
-                stopRefresh();
-                showToast(r.getError());
+                } else {
+                    stopRefresh();
+                    onNetworkError(id, new ParseError(r.getError()));
+                }
             }
-        }else if (id == KModify) {//我的资料的职称
-            Result<Title> r = (Result<Title>) result;
-            if (r.isSucceed()) {
-                Title data = r.getData();
-                List<String> title = data.getList(TTitle.title);
-                mTitleGradeFrag.setData(title);
+            break;
+            case KIdCommit: {
+                Result r = (Result) result;
+                if (r.isSucceed()) {
+                    Profile.inst().put(TProfile.title, mTitle);
+                    Profile.inst().saveToSp();
 
-                List<String> grade = data.getList(TTitle.grade);
-                mTitleCategoryFrag.setData(grade);
-
-                setViewState(ViewState.normal);
-
-            } else {
-                stopRefresh();
-                showToast(r.getError());
+                    Intent i = new Intent().putExtra(Extra.KData, mTitle);
+                    setResult(RESULT_OK, i);
+                    finish();
+                } else {
+                    stopRefresh();
+                    onNetworkError(id, new ParseError(r.getError()));
+                }
             }
+            break;
         }
+        
+
     }
 
     @Override
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
-
-        setViewState(ViewState.error);
+        if (id == KIdGet) {
+            setViewState(ViewState.error);
+        }
     }
 
     @Override
@@ -140,16 +147,9 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     @Override
     public void onCategorySelected(int position, String category) {
-        mCategory = category;
         mTitle = mGrade + " " + category;
-        Profile.inst().put(mEnum, mTitle);
-        Profile.inst().saveToSp();
-
-        Intent i = new Intent()
-                .putExtra(Extra.KProvince, mGrade)
-                .putExtra(Extra.KCity, category);
-        YSLog.d(TAG, "category = " + category);
-        setResult(RESULT_OK, i);
-        finish();
+        
+        refresh(RefreshWay.embed);
+        exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
     }
 }

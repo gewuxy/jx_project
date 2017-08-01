@@ -3,9 +3,7 @@ package yy.doctor.ui.activity.register;
 import android.content.Context;
 import android.content.Intent;
 
-import lib.bd.location.Place;
-import lib.bd.location.Place.TPlace;
-import lib.ys.ConstantsEx;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
@@ -13,8 +11,6 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -65,17 +61,13 @@ public class CityActivity extends BasePcdActivity {
             Pcd item = getItem(position);
             //如果level等于3就没有下一级了，直接返回
             if (item.getInt(TPcd.level) == Pcd.KLevelEnd) {
-                Place place = new Place();
-                place.put(TPlace.province, mProvince);
-                place.put(TPlace.city, item.getString(TPcd.name));
+//                Place place = new Place(mProvince, item.getString(TPcd.name), null);
 
-                Profile.inst().put(TProfile.province, place.getString(TPlace.province));
-                Profile.inst().put(TProfile.city, place.getString(TPlace.city));
-                Profile.inst().put(TProfile.zone, ConstantsEx.KEmptyValue);
-                Profile.inst().saveToSp();
-
-                notify(NotifyType.province_finish, place);
-                finish();
+                refresh(RefreshWay.embed);
+                exeNetworkReq(NetFactory.newModifyBuilder()
+                        .province(mProvince)
+                        .city(item.getString(TPcd.name))
+                        .build());
             } else {
                 DistrictActivity.nav(CityActivity.this, item.getString(TPcd.id), mProvince, item.getString(TPcd.name), getLocation());
             }

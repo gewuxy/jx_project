@@ -16,9 +16,8 @@ import java.util.Set;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
-import lib.ys.form.OnFormObserver;
 import lib.ys.ConstantsEx.FileSuffix;
-import lib.ys.YSLog;
+import lib.ys.form.OnFormObserver;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
@@ -44,13 +43,15 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
+import static yy.doctor.model.Profile.TProfile.category;
 import static yy.doctor.model.Profile.TProfile.cmeId;
 import static yy.doctor.model.Profile.TProfile.department;
+import static yy.doctor.model.Profile.TProfile.hosLevel;
 import static yy.doctor.model.Profile.TProfile.hospital;
 import static yy.doctor.model.Profile.TProfile.licence;
 import static yy.doctor.model.Profile.TProfile.linkman;
 import static yy.doctor.model.Profile.TProfile.major;
-import static yy.doctor.model.Profile.TProfile.specialty_name;
+import static yy.doctor.model.Profile.TProfile.name;
 
 /**
  * 我的资料
@@ -142,7 +143,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital)
                 .text(Profile.inst().getString(hospital))
-                .drawable(Profile.inst().getInt(TProfile.hosLevel))
+                .drawable(Profile.inst().getInt(hosLevel))
                 .hint(R.string.choose_hospital));
 
         addItem(Form.create(FormType.divider));
@@ -159,7 +160,11 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         Place place = new Place();
         place.put(TPlace.province, Profile.inst().getString(TProfile.province));
         place.put(TPlace.city, Profile.inst().getString(TProfile.city));
-        place.put(TPlace.district, Profile.inst().getString(TProfile.zone));
+        if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.zone))) {
+            place.put(TPlace.district, Profile.inst().getString(TProfile.zone));
+        }else {
+            place.put(TPlace.district, "");
+        }
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)
@@ -178,7 +183,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, SectionActivity.class))
                 .type(IntentType.medicine)
                 .name(R.string.specialized)
-                .text(Profile.inst().getString(specialty_name))
+                .text(Profile.inst().getString(category) + " " + Profile.inst().getString(name))
                 .hint(R.string.user_input_Specialist));
 
         addItem(Form.create(FormType.divider));
@@ -207,7 +212,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_title)
                 .intent(new Intent(this, TitleActivity.class))
-                .type(IntentType.doctor)
+                .type(IntentType.doctor_title)
                 .text(Profile.inst().getString(TProfile.title))
                 .hint(R.string.user_title));
 

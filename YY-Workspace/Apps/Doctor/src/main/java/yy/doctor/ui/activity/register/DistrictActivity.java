@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.network.model.NetworkResp;
+import lib.network.model.err.NetError;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
@@ -14,6 +17,7 @@ import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -23,6 +27,8 @@ import yy.doctor.util.Util;
  */
 
 public class DistrictActivity extends BasePcdActivity {
+
+    private final int KCommit = 1;
 
     private String mCityId;
     private String mProvince;
@@ -60,7 +66,6 @@ public class DistrictActivity extends BasePcdActivity {
         super.setViews();
 
         setLocation(getIntent().getStringExtra(Extra.KPcdDesc));
-
         setOnAdapterClickListener((position, v) -> {
 
             Pcd item = getItem(position);
@@ -74,6 +79,12 @@ public class DistrictActivity extends BasePcdActivity {
             Profile.inst().put(TProfile.zone, place.getString(TPlace.district));
             Profile.inst().saveToSp();
 
+            refresh(RefreshWay.embed);
+            exeNetworkReq(NetFactory.newModifyBuilder()
+                    .province(mProvince)
+                    .city(mCity)
+                    .area(item.getString(TPcd.name))
+                    .build());
             notify(NotifyType.province_finish, place);
             finish();
         });
@@ -84,4 +95,18 @@ public class DistrictActivity extends BasePcdActivity {
         exeNetworkReq(NetFactory.city(mCityId));
     }
 
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.error(r.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+
+    }
+
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
+    }
 }

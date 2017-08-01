@@ -67,6 +67,9 @@ public class ClipImageActivity extends BaseActivity {
                 // 网络上传图片
                 refresh(RefreshWay.dialog);
                 exeNetworkReq(NetFactory.upHeadImg(BmpUtil.toBytes(mBmp)));
+            } else {
+                // FIXME: 产品，这里如何处理？
+                showToast("未知错误");
             }
             mPv.destroyDrawingCache();
         });
@@ -96,6 +99,8 @@ public class ClipImageActivity extends BaseActivity {
     public void onNetworkSuccess(int id, Object result) {
         Result<UpHeadImage> r = (Result<UpHeadImage>) result;
         if (r.isSucceed()) {
+            stopRefresh();
+
             UpHeadImage upHeadImage = r.getData();
             //头像路径保存到本地
             Profile.inst().update(Profile.inst().put(TProfile.headimg, upHeadImage.getString(TUpHeadImage.url)));
