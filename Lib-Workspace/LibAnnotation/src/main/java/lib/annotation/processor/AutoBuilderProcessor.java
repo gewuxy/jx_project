@@ -7,6 +7,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
@@ -71,17 +72,25 @@ public class AutoBuilderProcessor extends BaseProcessor {
         MethodSpec.Builder buildMethod = MethodSpec.methodBuilder("build")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ClassName.get(annotatedElement.asType()))
-                .addStatement("$T user = new $T()", annotatedTypeName, annotatedElement);
+                .addStatement("$T inst = new $T()", annotatedTypeName, annotatedElement);
 
         if (allMembers.size() > 0) {
+            buildMethod.beginControlFlow("try");
             List<VariableElement> fields = ElementFilter.fieldsIn(allMembers);
             for (VariableElement field : fields) {
                 String filedName = field.getSimpleName().toString();
                 String paramName = getParamName(field, filedName);
-                buildMethod.addStatement("user.$N = $N", filedName, paramName);
+
+                buildMethod.addStatement("$T $N = $T.class.getDeclaredField(\"$N\")", Field.class, paramName, annotatedTypeName, filedName)
+                        .addStatement("$N.setAccessible(true)", paramName)
+                        .addStatement("$N.set(inst, this.$N)", paramName, paramName);
             }
+
+            buildMethod.nextControlFlow("catch (Exception e)")
+                    .addStatement("e.printStackTrace()")
+                    .endControlFlow();
         }
-        buildMethod.addStatement("return user");
+        buildMethod.addStatement("return inst");
         builder.addMethod(buildMethod.build());
 
         return builder.build();
