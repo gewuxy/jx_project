@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile.TProfile;
@@ -62,18 +60,6 @@ public class ModifyTextActivity extends BaseModifyActivity {
             break;
         }
     }
-
-
-    @Override
-    protected void doModify() {
-        // TODO：伪代码网络请求
-        mEtGeneral.getText();
-
-        Result<String> result = new Result<>();
-        result.setCode(ErrorCode.KOk);
-        onNetworkSuccess(0, result);
-    }
-
 
     @Override
     protected EditText getEt() {

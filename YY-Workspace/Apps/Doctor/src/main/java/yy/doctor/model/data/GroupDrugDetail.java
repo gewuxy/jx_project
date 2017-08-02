@@ -7,5 +7,5 @@ import yy.doctor.model.BaseGroup;
  * @since 2017/7/14
  */
 
-public class GroupDrugDetail extends BaseGroup<String> {
+public class GroupDrugDetail extends BaseGroup<DrugDetail> {
 }

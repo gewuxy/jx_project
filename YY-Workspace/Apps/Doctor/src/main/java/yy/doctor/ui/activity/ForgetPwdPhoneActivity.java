@@ -1,24 +1,31 @@
 package yy.doctor.ui.activity;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.graphics.Color;
+import android.support.annotation.IntDef;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.RegexUtil;
-import lib.ys.util.TextUtil;
+import lib.yy.model.form.BaseForm;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
+import lib.yy.ui.activity.base.BaseFormActivity;
+import yy.doctor.Constants.CaptchaType;
 import yy.doctor.R;
-import yy.doctor.util.UISetter;
+import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.model.Profile;
+import yy.doctor.model.form.Form;
+import yy.doctor.model.form.FormType;
+import yy.doctor.model.form.edit.EditForgetCaptchaForm;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
 /**
@@ -28,34 +35,70 @@ import yy.doctor.util.Util;
  * @since 2017/7/19
  */
 
-public class ForgetPwdPhoneActivity extends BaseActivity{
+public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormObserver{
 
-    private EditText mEtPhone;
-    private EditText mEtCaptcha;
-    private EditText mEtNewPwd;
-    private CheckBox mCbVisiblePwd;
-    private Button mBtnCaptcha;
-    private ImageView mIvCancelPhone;
-    private ImageView mIvCancelPwd;
-    private ImageView mIvCancelCaptcha;
-    private TextView mTvLogin;
-    private String mRequest;
+    private final int KLogin = 1;
+    private final int KCaptcha = 2;
+    private final int KModify = 3;
+    private final int KMaxCount = 4; // 10分钟内最多获取3次验证码
 
-    public String getUserName(){
-        if (mEtPhone == null) {
-            return "";
-        }
-        return mEtPhone.getText().toString().trim();
+    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
+
+    private BaseHintDialog mDialog;
+    private long mStartTime; // 开始计算10分钟间隔的时间
+    private int mCount;//计算点击多少次
+
+    private TextView mTv;
+    private String mPhone;
+
+    @IntDef({
+            RelatedId.phone_number,
+            RelatedId.pwd,
+            RelatedId.captcha,
+    })
+
+    private @interface RelatedId {
+        int phone_number = 1;
+        int pwd = 2;
+        int captcha = 3;
     }
+
+    private int mEnableSize;
+    private Set<Integer> mStatus;
 
     @Override
     public void initData() {
-        mRequest = getIntent().getStringExtra(Extra.KData);
+        super.initData();
+
+        mCount = 0;
+
+        mStatus = new HashSet<>();
+        mEnableSize = RelatedId.class.getDeclaredFields().length;
+
+        addItem(Form.create(FormType.et_forget_phone)
+                .related(RelatedId.phone_number)
+                .observer(this)
+                .hint(R.string.phone_number));
+
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_forget_captcha)
+                .related(RelatedId.captcha)
+                .textColorRes(R.color.register_captcha_text_selector)
+                .hint(R.string.captcha)
+                .observer(this)
+                .enable(false));
+
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_forget_pwd)
+                .related(RelatedId.pwd)
+                .hint(R.string.pwd)
+                .observer(this)
+                .drawable(R.drawable.register_pwd_selector));
     }
 
     @Override
-    public int getContentViewId() {
-        return R.layout.activity_forget_pwd_phone;
+    protected View createFooterView() {
+        return inflate(R.layout.activity_forget_pwd_phone);
     }
 
     @Override
@@ -65,93 +108,75 @@ public class ForgetPwdPhoneActivity extends BaseActivity{
 
     @Override
     public void findViews() {
-        mEtPhone = findView(R.id.forget_pwd_et_phone);
-        mEtCaptcha = findView(R.id.forget_pwd_et_captcha);
-        mEtNewPwd = findView(R.id.forget_et_new_pwd);
-        mIvCancelPhone = findView(R.id.forget_iv_cancel_phone);
-        mIvCancelPwd = findView(R.id.forget_iv_cancel_pwd);
-        mIvCancelCaptcha = findView(R.id.forget_iv_cancel_captcha);
-        mCbVisiblePwd = findView(R.id.forget_cb_visible_pwd);
-        mBtnCaptcha = findView(R.id.btn_captcha);
-        mTvLogin = findView(R.id.forget_tv_phone_login);
+        super.findViews();
+        mTv = findView(R.id.forget_tv_phone_login);
     }
 
     @Override
     public void setViews() {
-        mTvLogin.setEnabled(false);
-        mBtnCaptcha.setEnabled(false);
-
-        setPwdVisible(mEtNewPwd, mCbVisiblePwd);
-        buttonChanged(mEtPhone, mIvCancelPhone);
-        buttonChanged(mEtNewPwd, mIvCancelPwd);
-        buttonChanged(mEtCaptcha, mIvCancelCaptcha);
+        super.setViews();
+        setBackgroundColor(Color.WHITE);
 
         setOnClickListener(R.id.forget_tv_phone_login);
-        setOnClickListener(R.id.forget_iv_cancel_phone);
-        setOnClickListener(R.id.forget_iv_cancel_pwd);
-        setOnClickListener(R.id.forget_iv_cancel_captcha);
+        mTv.setEnabled(false);
 
     }
 
     /**
-     * 密码明文暗文, 设置密码输入范围
-     *
-     * @param et
-     * @param cb
+     * 获取Item的文本信息
      */
-
-    private void setPwdVisible(EditText et, CheckBox cb) {
-        UISetter.setPwdRange(et);
-        cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                et.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            }else {
-                et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            }
-            et.setSelection(et.getText().length());
-        });
+    private String getItemStr(@RelatedId int relatedId) {
+        return getRelatedItem(relatedId).getVal();
     }
 
-    /**
-     * 监听mEtPhone, mEtNewPwd, mEtValidationCode的内容改变
-     *
-     * @param et
-     * @param iv
-     */
+    @Override
+    protected void onFormViewClick(View v, int position, Object related) {
 
-    private void buttonChanged(EditText et, ImageView iv) {
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        switch ((int) related) {
+            case RelatedId.captcha: {
+                if (v.getId() == R.id.form_tv_text) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (RegexUtil.isMobileCN(getUserName())) {
-                    mBtnCaptcha.setEnabled(true);
-                }else {
-                    mBtnCaptcha.setEnabled(false);
+                    mPhone = getRelatedItem(RelatedId.phone_number).getVal();
+                    if (!Util.isMobileCN(mPhone)) {
+                        showToast("该号码不是电话号，请输入正确的电话号码");
+                        return;
+                    }
+
+                    mDialog = new BaseHintDialog(this);
+
+                    View view = inflate(R.layout.dialog_captcha);
+                    TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
+                    tv.setText(mPhone);
+
+                    mDialog.addHintView(view);
+                    mDialog.addButton("好", v1 -> {
+                        if (mCount == 0) {
+                            mStartTime = System.currentTimeMillis();
+                        }
+                        mCount++;
+                        if (mCount > KMaxCount) {
+                            long duration = System.currentTimeMillis() - mStartTime;
+                            if (duration <= KCaptchaDuration) {
+                                showToast("获取验证码太频繁");
+                                mDialog.dismiss();
+                                return;
+                            } else {
+                                mCount = 1;
+                            }
+                        }
+                        exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
+                        mDialog.dismiss();
+                        ((EditForgetCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                    });
+                    mDialog.addButton("取消", v1 -> {
+                        mDialog.dismiss();
+                    });
+
+                    mDialog.show();
                 }
-
-                if (RegexUtil.isMobileCN(getUserName())
-                        && !TextUtil.isEmpty(mEtCaptcha.getText().toString())
-                        && !TextUtil.isEmpty(mEtNewPwd.getText().toString())) {
-                    mTvLogin.setEnabled(true);
-                }else {
-                    mTvLogin.setEnabled(false);
-                }
-
-                if (TextUtil.isEmpty(et.getText().toString())) {
-                    hideView(iv);
-                }else {
-                    showView(iv);
-                }
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+            break;
+        }
     }
 
     @Override
@@ -159,51 +184,125 @@ public class ForgetPwdPhoneActivity extends BaseActivity{
         int id = v.getId();
         switch (id) {
             case R.id.forget_tv_phone_login: {
-                startActivity(MainActivity.class);
+                doModify();
             }
             break;
-            case R.id.forget_iv_cancel_phone: {
-                mEtPhone.setText("");
-            }
-            break;
-            case R.id.forget_iv_cancel_captcha: {
-                mEtCaptcha.setText("");
-            }
-            break;
-            case R.id.forget_iv_cancel_pwd: {
-                mEtNewPwd.setText("");
-            }
-            break;
+
         }
     }
 
-//    @Override
-//    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-//        return JsonParser.ev(r.getText(), Profile.class);
-//    }
-//
-//    @Override
-//    public void onNetworkSuccess(int id, Object result) {
-//        Result<Profile> r = (Result<Profile>) result;
-//        if (r.isSucceed()) {
-//            SpApp.inst().saveUserName(getUserName());
-//            Profile.inst().update(r.getData());
-//            //判断跳转到哪里
-//            if (TextUtil.isEmpty(mRequest)) {
-//                startActivity(MainActivity.class);
-//            } else {
-//                setResult(RESULT_OK);
-//            }
-//            finish();
-//        } else {
-//            showToast(r.getError());
-//        }
-//    }
+    private void doModify() {
+        mPhone = getRelatedItem(RelatedId.phone_number).getVal();
+        if (!check()) {
+            return;
+        }
+
+        // 检查密码
+        String strPwd = getItemStr(RelatedId.pwd);
+        if (strPwd.length() < 6 || strPwd.length() > 24) {
+            showToast(R.string.input_right_pwd_num);
+            return;
+        }
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(KModify, NetFactory.forgetPwd(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)));
+    }
+
+    private String getPhone() {
+        return mPhone.toString().replace(" ", "");
+    }
+
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        if (id == KLogin) {
+            return JsonParser.ev(r.getText(), Profile.class);
+        } else {
+            return JsonParser.error(r.getText());
+        }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (id == KLogin) { //登陆
+            stopRefresh();
+            Result<Profile> r = (Result<Profile>) result;
+            if (r.isSucceed()) {
+                Profile.inst().update(r.getData());
+                notify(NotifyType.login);
+                startActivity(MainActivity.class);
+                finish();
+            } else {
+                stopRefresh();
+                showToast(r.getError());
+            }
+        } else if (id == KCaptcha) {//验证码
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                showToast("已发送验证码");
+            } else {
+                showToast(r.getError());
+            }
+        }else if (id == KModify) {//修改并设置新密码
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                showToast("修改成功");
+                //注册成功后登录,登录有结果才stopRefresh
+                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
+            } else {
+                stopRefresh();
+                showToast(r.getError());
+            }
+        }
+    }
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
+        BaseForm form = getRelatedItem(RelatedId.captcha);
         if (type == NotifyType.login) {
             finish();
+        } else if (type == NotifyType.fetch_message_captcha) {
+            form.enable(true);
+            refreshItem(form);
+        } else if (type == NotifyType.disable_fetch_message_captcha) {
+            form.enable(false);
+            refreshItem(form);
+        }
+    }
+
+    @Override
+    public void callback(Object... params) {
+        int position = (int) params[0];
+        boolean valid = (boolean) params[1];
+
+        if (valid) {
+            if (!mStatus.contains(position)) {
+                mStatus.add(position);
+            }
+        } else {
+            mStatus.remove(position);
+        }
+        setBtnStatus();
+    }
+
+    /**
+     * 根据填写的资料完成度设置注册按钮是否可以点击
+     */
+    private void setBtnStatus() {
+        if (mStatus.size() == mEnableSize) {
+            // 按钮可以点击
+            mTv.setEnabled(true);
+        } else {
+            // 按钮不能点击
+            mTv.setEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
         }
     }
 }

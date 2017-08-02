@@ -1,5 +1,8 @@
 package lib.bd.location;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import lib.bd.location.Place.TPlace;
 import lib.ys.model.EVal;
 import lib.ys.util.TextUtil;
@@ -52,7 +55,7 @@ public class Place extends EVal<TPlace> {
         }
     }
 
-    public Place(String p, String c, String d) {
+    public Place(@NonNull String p, @NonNull String c, @Nullable String d) {
         put(TPlace.province, p);
         put(TPlace.city, c);
         put(TPlace.district, d);

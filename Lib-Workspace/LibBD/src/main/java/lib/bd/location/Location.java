@@ -5,6 +5,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.LocationNotifier.LocateUnit;
@@ -100,7 +101,7 @@ public class Location {
 
     private void setLocationOption(int scanSpan) {
         LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);// 设置定位模式, 暂时使用网络模式,
+        option.setLocationMode(LocationMode.Hight_Accuracy);// 设置定位模式
         // GPS的话无法关闭通知栏图标
         option.setCoorType(KBaiduCoorType);// 返回的定位结果是百度经纬度,默认值gcj02
         option.setProdName(KProdName);

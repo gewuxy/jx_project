@@ -1,18 +1,15 @@
 package yy.doctor.model.form.edit;
 
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-import yy.doctor.model.form.FormType;
-
-import static lib.ys.util.view.ViewUtil.hideView;
-import static lib.ys.util.view.ViewUtil.showView;
 
 /**
  * @author CaiXiang
@@ -46,16 +43,15 @@ public class EditRegisterForm extends EditForm {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String str = s.toString();
-                if (str.length() != 0) {
-                    showView(holder.getIv());
-                }else {
-                    hideView(holder.getIv());
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtil.isNotEmpty(s)) {
+                    ViewUtil.showView(holder.getIv());
+                } else {
+                    ViewUtil.goneView(holder.getIv());
+                }
             }
         });
         setOnClickListener(holder.getIv());

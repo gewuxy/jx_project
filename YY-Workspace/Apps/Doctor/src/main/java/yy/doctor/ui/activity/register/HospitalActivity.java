@@ -41,7 +41,9 @@ import yy.doctor.R;
 import yy.doctor.adapter.HospitalBaiDuAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
-import yy.doctor.dialog.LevelDialog.OnLevelListener;
+import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.HospitalTitle;
@@ -57,7 +59,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/19
  */
 
-public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelListener {
+public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
     private final int KLimit = 12;
 
@@ -335,12 +337,20 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     }
 
     @Override
-    public void checkLevel(@DrawableRes int resId) {
-        Hospital hospital = (Hospital) mCheckItem;
-        Intent intent = new Intent()
-                .putExtra(Extra.KData, hospital.getString(THospital.name))
-                .putExtra(Extra.KId, resId);
-        setResult(RESULT_OK, intent);
-        finish();
+    public void onLevelChecked(@DrawableRes int resId) {
+        if (mCheckItem instanceof Hospital) {
+            Hospital hospital = (Hospital) mCheckItem;
+
+            String name = hospital.getString(THospital.name);
+            Profile.inst().put(TProfile.hospital, name);
+            Profile.inst().put(TProfile.hosLevel, resId);
+            Profile.inst().saveToSp();
+
+            Intent intent = new Intent()
+                    .putExtra(Extra.KData, name)
+                    .putExtra(Extra.KId, resId);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 }

@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import lib.ys.util.TextUtil;
-import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.Result;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile.TProfile;
@@ -23,14 +21,13 @@ import yy.doctor.model.Profile.TProfile;
  * @since 2017/7/14
  */
 
-public class AcademicActivity extends BaseModifyActivity{
+public class SkillActivity extends BaseModifyActivity{
 
-    private EditText mEtAcademic;
-    private TextView mTvAcademic;
-    private String mTextNum = null;
+    private EditText mEt;
+    private TextView mTv;
 
     public static Intent newIntent(Context context, String title, TProfile t) {
-        return new Intent(context, AcademicActivity.class)
+        return new Intent(context, SkillActivity.class)
                 .putExtra(Extra.KData, t)
                 .putExtra(Extra.KTitle, title);
     }
@@ -43,20 +40,19 @@ public class AcademicActivity extends BaseModifyActivity{
 
     @Override
     public void findViews() {
-        mEtAcademic = findView(R.id.et_academic);
-        mTvAcademic = findView(R.id.tv_academic);
+        mEt = findView(R.id.et_academic);
+        mTv = findView(R.id.tv_academic);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mTextNum = String.format(getString(R.string.academic_unit), 0);
-        mTvAcademic.setText(mTextNum);
+        setLength(getVal().length());
 
-        addTextChangedListener(mEtAcademic, null);
+        addTextChangedListener(mEt, null);
 
-        mEtAcademic.addTextChangedListener(new TextWatcher() {
+        mEt.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -69,28 +65,28 @@ public class AcademicActivity extends BaseModifyActivity{
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtil.isEmpty(s)) {
-                    mTextNum = String.format(getString(R.string.academic_unit), 0);
+                    setLength(0);
                 }else {
-                    mTextNum = String.format(getString(R.string.academic_unit), s.length());
+                    setLength(s.length());
                 }
-                mTvAcademic.setText(mTextNum);
             }
         });
     }
 
     @Override
-    protected void doModify() {
-        Result<String> result = new Result<>();
-        result.setCode(ErrorCode.KOk);
-        onNetworkSuccess(0, result);
-    }
-
-    @Override
     protected EditText getEt() {
-        return mEtAcademic;
+        return mEt;
     }
 
     @Override
     public void onClick(View v) {
+    }
+
+    private void setLength(int len) {
+        if (len > 500) {
+            len = 500;
+        }
+
+        mTv.setText(String.format(getString(R.string.academic_unit), len));
     }
 }

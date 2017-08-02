@@ -24,11 +24,14 @@ public class IntentForm extends TextForm {
             IntentType.location,
             IntentType.hospital,
             IntentType.medicine,
-            IntentType.doctor,
             IntentType.section,
+            IntentType.cme_number,
+            IntentType.certification,
+            IntentType.skill,
             IntentType.set_phone,
             IntentType.set_email,
             IntentType.set_pwd,
+            IntentType.doctor_title,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface IntentType {
@@ -36,11 +39,14 @@ public class IntentForm extends TextForm {
         int location = 1;
         int hospital = 2;
         int medicine = 3;
-        int doctor = 4;
         int section = 5;
+        int cme_number = 6;
+        int certification = 7;
+        int skill = 8;
         int set_phone = 10;
         int set_email = 11;
         int set_pwd = 12;
+        int doctor_title = 13;
     }
 
     private int mCurrType = IntentType.un_know;
@@ -93,12 +99,24 @@ public class IntentForm extends TextForm {
                 save(medicine, medicine);
             }
             break;
-            case IntentType.doctor: {
-                String pro = data.getStringExtra(Extra.KProvince) + " " + data.getStringExtra(Extra.KCity);
-                save(pro, pro);
+            case IntentType.section: {
+                String section = data.getStringExtra(Extra.KData);
+                save(section, section);
             }
             break;
-            case IntentType.section: {
+            case IntentType.cme_number: {
+                String cme_number = data.getStringExtra(Extra.KData);
+                save(cme_number, cme_number);
+            }
+            break;
+            case IntentType.certification: {
+                String certification = data.getStringExtra(Extra.KData);
+                save(certification, certification);
+            }
+            break;
+            case IntentType.skill: {
+                String skill = data.getStringExtra(Extra.KData);
+                save(skill, skill);
             }
             break;
             case IntentType.set_phone: {
@@ -109,6 +127,11 @@ public class IntentForm extends TextForm {
             case IntentType.set_email: {
                 String email = data.getStringExtra(Extra.KData);
                 save(email, email);
+            }
+            break;
+            case IntentType.doctor_title: {
+                String title = data.getStringExtra(Extra.KData);
+                save(title, title);
             }
             break;
         }

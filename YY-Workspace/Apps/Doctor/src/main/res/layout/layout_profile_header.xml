@@ -8,11 +8,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center_horizontal"
-        >
+        android:gravity="center_horizontal">
 
         <ProgressBar
-            android:id="@+id/profile_pb_progressbar"
+            android:id="@+id/profile_pb_progress_bar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -36,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/profile_tv"
             android:layout_centerInParent="true"
-            android:text=""
             android:textSize="11dp"
             android:textColor="@color/text_2392a2"/>
     </RelativeLayout>

@@ -28,6 +28,7 @@
         <item name="android:layout_height">16dp</item>
         <item name="android:src">@mipmap/form_ic_arrow_right</item>
         <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="iv.arrow.align_right">

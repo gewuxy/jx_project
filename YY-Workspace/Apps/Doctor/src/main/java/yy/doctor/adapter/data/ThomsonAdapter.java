@@ -7,7 +7,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.data.DataVH;
 import yy.doctor.model.data.ThomsonDetail;
 import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
-import yy.doctor.ui.activity.me.DownloadDataActivityIntent;
+import yy.doctor.ui.activity.me.DownloadDataActivity;
 import yy.doctor.util.CacheUtil;
 
 /**
@@ -46,14 +46,8 @@ public class ThomsonAdapter extends AdapterEx<ThomsonDetail, DataVH> {
         long fileSize = item.getInt(TThomsonDetail.fileSize) * 1024;
         String fileName = item.getString(TThomsonDetail.title);
         String url = item.getString(TThomsonDetail.filePath);
-
-        DownloadDataActivityIntent.create(
-                "pdf",
-                fileSize,
-                url,
-                fileName,
-                filePath
-        ).start(getContext());
+        String dataFileId = item.getString(TThomsonDetail.id);
+        DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize,dataFileId);
     }
 
 }

@@ -28,7 +28,7 @@
             android:layout_height="24dp"
             android:padding="8dp"
             android:layout_marginRight="21dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@mipmap/login_ic_cancel"/>
 
     </LinearLayout>
@@ -51,11 +51,11 @@
 
         <CheckBox
             android:id="@+id/login_cb_visible_pwd"
-            android:layout_width="17dp"
-            android:layout_height="11dp"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="22dp"
             android:button="@drawable/login_checkbox_visible_selector"
             android:gravity="center"/>
 

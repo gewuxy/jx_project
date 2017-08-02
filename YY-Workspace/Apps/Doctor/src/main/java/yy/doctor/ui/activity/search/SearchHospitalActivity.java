@@ -40,7 +40,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.HospitalBaiDuAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
-import yy.doctor.dialog.LevelDialog.OnLevelListener;
+import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.IHospital;
@@ -53,7 +53,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/20
  */
 
-public abstract class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelListener {
+public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
     private EditText mEtSearch;
     private PoiSearch mSearch;
@@ -275,7 +275,7 @@ public abstract class SearchHospitalActivity extends BaseSRListActivity<IHospita
     }
 
 
-    public void checkLevel(@DrawableRes int resId) {
+    public void onLevelChecked(@DrawableRes int resId) {
         Hospital hospital = (Hospital) mCheckItem;
         Hos hos = new Hos();
         hos.name = hospital.getString(THospital.name);

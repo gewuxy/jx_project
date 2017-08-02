@@ -23,11 +23,11 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
-import yy.doctor.ui.activity.me.DownloadDataActivityIntent;
+import yy.doctor.ui.activity.me.DownloadDataActivity;
 
 /**
  * @auther yuansui
@@ -125,6 +125,7 @@ public class UISetter {
 
             long fileSize = fileItem.getLong(TFileData.fileSize);
             fileName = fileItem.getString(TFileData.materialName);
+            String fileId = fileItem.getString(TFileData.id);
             if (TextUtil.isEmpty(fileName)) {
                 fileName = fileItem.getString(TFileData.name);
                 fileUrl = fileItem.getString(TFileData.fileUrl);
@@ -137,14 +138,10 @@ public class UISetter {
             String finalFileName = fileName;
             String finalFileUrl = fileUrl;
             String finalFileType = fileType;
-            addFileItem(layout, fileName, v ->
-                    DownloadDataActivityIntent.create(
-                            finalFileType,
-                            fileSize,
-                            finalFileUrl,
-                            finalFileName,
-                            CacheUtil.getUnitNumCacheDir(String.valueOf(id))
-                    ).start(v.getContext()));
+
+            addFileItem(layout, fileName, v -> DownloadDataActivity.nav(v.getContext(),
+                    CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
+                    finalFileName, finalFileUrl, finalFileType, fileSize,fileId));
         }
 
     }
@@ -257,6 +254,7 @@ public class UISetter {
         }
         return res;
     }*/
+
     public static void meetingHolderSet(MeetingVH holder, Meeting m, boolean visibility) {
         holder.getTvTitle().setText(m.getString(TMeeting.meetName));
 //        holder.getTvSection().setText(m.getString(TMeeting.meetType));

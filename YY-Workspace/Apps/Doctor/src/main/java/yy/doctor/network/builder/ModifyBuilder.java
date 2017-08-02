@@ -18,17 +18,6 @@ public class ModifyBuilder {
     }
 
     /**
-     * 用户昵称
-     *
-     * @param nickname
-     * @return
-     */
-    public ModifyBuilder nickname(String nickname) {
-        mBuilder.param(ProfileParam.KNickname, nickname);
-        return this;
-    }
-
-    /**
      * 真实姓名
      *
      * @param linkman
@@ -129,13 +118,24 @@ public class ModifyBuilder {
     }
 
     /**
-     * 专科
-     * FIXME 测试
-     * @param specialized
+     * 专科一级
+     *
+     * @param category
      * @return
      */
-    public ModifyBuilder specialized(String specialized) {
-        mBuilder.param(ProfileParam.KSpecialized, specialized);
+    public ModifyBuilder category(String category) {
+        mBuilder.param(ProfileParam.KCategory, category);
+        return this;
+    }
+
+    /**
+     * 专科二级
+     *
+     * @param name
+     * @return
+     */
+    public ModifyBuilder name(String name) {
+        mBuilder.param(ProfileParam.KName, name);
         return this;
     }
 
@@ -185,28 +185,6 @@ public class ModifyBuilder {
     }
 
     /**
-     * 职务
-     *
-     * @param place
-     * @return
-     */
-    public ModifyBuilder place(String place) {
-        mBuilder.param(ProfileParam.KPlace, place);
-        return this;
-    }
-
-    /**
-     * 学术专长
-     * FIXME 测试
-     * @param academic
-     * @return
-     */
-    public ModifyBuilder academic(String academic) {
-        mBuilder.param(ProfileParam.KAcademic, academic);
-        return this;
-    }
-
-    /**
      * 地址
      *
      * @param address
@@ -217,30 +195,9 @@ public class ModifyBuilder {
         return this;
     }
 
-    /**
-     * 性别
-     *
-     * @param gender 1表示男 2表示女 0表示未设置
-     * @return
-     */
-    public ModifyBuilder gender(int gender) {
-        mBuilder.param(ProfileParam.KGender, gender);
-        return this;
-    }
-
-    /**
-     * 学历
-     *
-     * @param degree
-     * @return
-     */
-    public ModifyBuilder degree(String degree) {
-        mBuilder.param(ProfileParam.KDegree, degree);
-        return this;
-    }
-
-    public NetworkReq builder() {
+    public NetworkReq build() {
         return mBuilder.build();
     }
+
 
 }

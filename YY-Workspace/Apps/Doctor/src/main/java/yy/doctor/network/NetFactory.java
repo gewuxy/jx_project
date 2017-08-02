@@ -32,6 +32,78 @@ public class NetFactory {
 
     private static final String TAG = NetFactory.class.getSimpleName();
 
+
+    /*********************************
+     * 以下是工具
+     */
+
+    /**
+     * 获取post请求
+     *
+     * @param url
+     * @return
+     */
+    public static Builder newPost(String url) {
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
+                .post()
+                .header(getBaseHeader());
+    }
+
+    /**
+     * 获取get请求
+     *
+     * @param url
+     * @return
+     */
+    public static Builder newGet(String url) {
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
+                .get()
+                .header(getBaseHeader());
+    }
+
+    /**
+     * 获取upload请求
+     *
+     * @param url
+     * @return
+     */
+    public static Builder newUpload(String url) {
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
+                .upload()
+                .header(getBaseHeader());
+    }
+
+    /**
+     * 获取download请求
+     *
+     * @param url
+     * @param filePath
+     * @param fileName
+     * @return
+     */
+    public static Builder newDownload(String url, String filePath, String fileName) {
+        return NetworkReq.newBuilder(url)
+                .downloadFile(filePath, fileName)
+                .header(getBaseHeader());
+    }
+
+    private static List<CommonPair> getBaseHeader() {
+        List<CommonPair> ps = new ArrayList<>();
+
+        ps.add(newPair(BaseParam.KDevice, "android"));
+        ps.add(newPair(BaseParam.KOSVersion, DeviceUtil.getSystemVersion()));
+        ps.add(newPair(BaseParam.KAppVersion, DeviceUtil.getAppVersion()));
+
+        if (Profile.inst().isLogin()) {
+            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
+        }
+        return ps;
+    }
+
+    private static CommonPair newPair(String key, Object value) {
+        return new CommonPair(key, value);
+    }
+
     private interface BaseParam {
         String KOSVersion = "os_version";
         String KDevice = "os_type";
@@ -118,20 +190,17 @@ public class NetFactory {
         String KCmeId = "cmeId";  //CME卡号
         String KLicence = "licence";   //执业许可证
         String KTitle = "title";   //职称
+        String KMajor = "major";    //专长
+        String KCategory = "category";    //专科一级
+        String KName = "name";    //专科二级
         // FIXME 测试
-        String KSpecialized = "specialized"; //专科
-        String KAcademic = "academic";  //学术专长
+        String KSpecialty_name = "specialty_name"; //专科
         String KProvince = "province";   //省份
         String KCity = "city";    //城市
         String KArea = "zone";  //区
 
-        String KNickname = "nickname";   //用户昵称
         String KMobile = "mobile";    //手机号
-        String KMajor = "major";    //专长
-        String KPlace = "place";   //职务
         String KAddress = "address";   //地址
-        String KGender = "gender";    //性别
-        String KDegree = "degree";  //学历
     }
 
     private interface UpHeadImgParam {
@@ -184,10 +253,12 @@ public class NetFactory {
         String KTurnTo = "turnTo";
     }
 
-    public interface CollectionMeetingsParam {
+    public interface CollectionParam {
         String KPageNum = "pageNum";
         String KPageSize = "pageSize";
         String KType = "type";
+        String KDataFileId = "dataFileId";
+        String KCollectionStatus = "resourceId";
     }
 
     public interface ThomsonParam {
@@ -228,6 +299,7 @@ public class NetFactory {
 
     /**
      * 二维码，有masterId
+     *
      * @param masterId
      * @return
      */
@@ -239,6 +311,7 @@ public class NetFactory {
 
     /**
      * 二维码，没有masterId
+     *
      * @return
      */
     public static NetworkReq scan() {
@@ -328,14 +401,30 @@ public class NetFactory {
     }
 
     /**
-     * 忘记密码
+     * 通过邮箱找回密码
      *
      * @param username
      * @return
      */
     public static NetworkReq forgetPwd(String username) {
-        return newGet(UrlUser.KForgetPwd)
+        return newGet(UrlUser.KForgetPwdEmail)
                 .param(UserParam.KUserName, username)
+                .build();
+    }
+
+    /**
+     * 通过手机找回密码
+     *
+     * @param mobile
+     * @param captcha
+     * @param passWord
+     * @return
+     */
+    public static NetworkReq forgetPwd(String mobile, String captcha, String passWord) {
+        return newGet(UrlUser.KForgetPwdPhone)
+                .param(RegisterParam.KMobile, mobile)
+                .param(RegisterParam.KCaptcha, captcha)
+                .param(RegisterParam.KPassword, passWord)
                 .build();
     }
 
@@ -406,14 +495,14 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq upheadimg(byte[] bytes) {
+    public static NetworkReq upHeadImg(byte[] bytes) {
         return newUpload(UrlUser.KUpHeaderImg)
                 .param(UpHeadImgParam.KFile, bytes)
                 .build();
     }
 
     /**
-     * 忘记密码
+     * 修改密码
      *
      * @param oldPwd
      * @param newPwd
@@ -465,13 +554,33 @@ public class NetFactory {
      * @param pageSize
      * @return 该值为空或0时，表示会议类型
      */
-    public static NetworkReq collectionMeetings(int pageNum, int pageSize) {
-        return newGet(UrlUser.KCollectionMeetings)
-                .param(CollectionMeetingsParam.KPageNum, pageNum)
-                .param(CollectionMeetingsParam.KPageSize, pageSize)
-                .param(CollectionMeetingsParam.KType, "0")
+    public static NetworkReq collection(int pageNum, int pageSize, int type) {
+        return newGet(UrlUser.KCollection)
+                .param(CollectionParam.KPageNum, pageNum)
+                .param(CollectionParam.KPageSize, pageSize)
+                .param(CollectionParam.KType, type)
                 .build();
     }
+
+    /**
+     * 收藏的药品目录详情
+     * @param dataFileId
+     * @return
+     */
+    public static NetworkReq drugDetail(String dataFileId){
+        return newGet(UrlUser.KDrugDetail)
+                .param(CollectionParam.KDataFileId,dataFileId)
+                .build();
+    }
+
+    public static NetworkReq collectionStatus(String resourceId,String type){
+        return newGet(UrlUser.KCollectionStatus)
+                .param(CollectionParam.KCollectionStatus,resourceId)
+                .param(CollectionParam.KType,type)
+                .build();
+    }
+
+
 
     /**
      * 象数明细
@@ -927,75 +1036,17 @@ public class NetFactory {
                 .build();
     }
 
-    /*********************************
-     * 以下是工具
-     */
-
     /**
-     * 获取post请求
+     * 逐项更改用户信息
      *
-     * @param url
+     * @param key
+     * @param val
      * @return
      */
-    public static Builder newPost(String url) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .post()
-                .header(getBaseHeader());
-    }
-
-    /**
-     * 获取get请求
-     *
-     * @param url
-     * @return
-     */
-    public static Builder newGet(String url) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .get()
-                .header(getBaseHeader());
-    }
-
-    /**
-     * 获取upload请求
-     *
-     * @param url
-     * @return
-     */
-    public static Builder newUpload(String url) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .upload()
-                .header(getBaseHeader());
-    }
-
-    /**
-     * 获取download请求
-     *
-     * @param url
-     * @param filePath
-     * @param fileName
-     * @return
-     */
-    public static Builder newDownload(String url, String filePath, String fileName) {
-        return NetworkReq.newBuilder(url)
-                .downloadFile(filePath, fileName)
-                .header(getBaseHeader());
-    }
-
-    private static List<CommonPair> getBaseHeader() {
-        List<CommonPair> ps = new ArrayList<>();
-
-        ps.add(newPair(BaseParam.KDevice, "android"));
-        ps.add(newPair(BaseParam.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(BaseParam.KAppVersion, DeviceUtil.getAppVersion()));
-
-        if (Profile.inst().isLogin()) {
-            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
-        }
-        return ps;
-    }
-
-    private static CommonPair newPair(String key, Object value) {
-        return new CommonPair(key, value);
+    public static NetworkReq modifyProfile(String key, String val) {
+        return newPost(UrlUser.KModify)
+                .param(key, val)
+                .build();
     }
 
 }

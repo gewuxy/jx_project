@@ -6,6 +6,9 @@ import yy.doctor.model.form.divider.DividerLargeForm;
 import yy.doctor.model.form.divider.DividerMarginForm;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.edit.EditEmailForm;
+import yy.doctor.model.form.edit.EditForgetCaptchaForm;
+import yy.doctor.model.form.edit.EditForgetPhoneForm;
+import yy.doctor.model.form.edit.EditForgetPwdForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditNumberForm;
@@ -16,6 +19,7 @@ import yy.doctor.model.form.text.MeForm;
 import yy.doctor.model.form.text.TextDialogForm;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.intent.IntentForm;
+import yy.doctor.model.form.text.intent.IntentHospitalForm;
 import yy.doctor.model.form.text.intent.IntentNoNameForm;
 import yy.doctor.model.form.text.intent.IntentSkillForm;
 
@@ -46,6 +50,10 @@ public class Form {
             break;
             case FormType.modify_intent_skill: {
                 form = new IntentSkillForm();
+            }
+            break;
+            case FormType.text_intent_hospital: {
+                form = new IntentHospitalForm();
             }
             break;
             case FormType.text_dialog: {
@@ -86,6 +94,10 @@ public class Form {
                 form = new EditRegisterPwdForm();
             }
             break;
+            case FormType.et_forget_pwd: {
+                form = new EditForgetPwdForm();
+            }
+            break;
             case FormType.et_number: {
                 form = new EditNumberForm();
             }
@@ -94,12 +106,20 @@ public class Form {
                 form = new EditPhoneNumberForm();
             }
             break;
+            case FormType.et_forget_phone: {
+                form = new EditForgetPhoneForm();
+            }
+            break;
             case FormType.et_email: {
                 form = new EditEmailForm();
             }
             break;
             case FormType.et_captcha: {
                 form = new EditCaptchaForm();
+            }
+            break;
+            case FormType.et_forget_captcha: {
+                form = new EditForgetCaptchaForm();
             }
             break;
             case FormType.profile_checkbox: {

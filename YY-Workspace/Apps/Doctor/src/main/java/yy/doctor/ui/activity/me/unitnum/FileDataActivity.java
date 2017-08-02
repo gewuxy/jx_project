@@ -14,7 +14,7 @@ import yy.doctor.adapter.FileDataAdapter;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.me.DownloadDataActivityIntent;
+import yy.doctor.ui.activity.me.DownloadDataActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -29,6 +29,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
     private String mId;
     private String mType;
     private String mFilePath;
+    private String mDataFileId;
 
     private static String mFileName;
     private static String mFileUrl;
@@ -82,6 +83,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
 
         mFileSize = item.getLong(TFileData.fileSize);
         mFileName = item.getString(TFileData.materialName);
+        mDataFileId = item.getString(TFileData.id);
         if (TextUtil.isEmpty(mFileName)) {
             mFileName = item.getString(TFileData.name);
             mFileUrl = item.getString(TFileData.fileUrl);
@@ -92,13 +94,8 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
             mFileType = item.getString(TFileData.materialType);
         }
 
-        DownloadDataActivityIntent.create(
-                mFileType,
-                mFileSize,
-                mFileUrl,
-                mFileName,
-                mFilePath
-        ).start(this);
+        DownloadDataActivity.nav(this, mFilePath, mFileName,
+                mFileUrl, mFileType, mFileSize,mDataFileId);
     }
 
 }
