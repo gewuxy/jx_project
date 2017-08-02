@@ -16,16 +16,7 @@ import yy.doctor.model.search.IRec;
  * @since : 2017/5/5
  */
 
-public class Meeting extends EVal<TMeeting> implements IRec {
-
-    @IntDef({
-            FileType.folder,
-            FileType.file,
-    })
-    public  @interface FileType {
-        int folder = 0;
-        int file = 1;
-    }
+public class Meeting extends EVal<TMeeting> implements IRec, IMeet {
 
     /**
      * 会议状态
@@ -47,6 +38,11 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         return RecType.meeting;
     }
 
+    @Override
+    public int getMeetType() {
+        return MeetType.meet;
+    }
+
     public enum TMeeting {
         id,             // 会议ID
         meetName,       // 会议名称
@@ -61,6 +57,10 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         headimg, // 头像Url
         startTime, // 开始时间
         endTime, // 结束时间
+
+        requiredXs, // flase 不奖励(支付)象数
+        xsCredits, // 0  象数
+        rewardCredit, //  flase 不奖励学分
     }
 
 }

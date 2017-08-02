@@ -58,7 +58,7 @@ public class ModuleLayout extends LinearLayout {
         LayoutParams params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         params.weight = 1;
         LayoutParams dividerParams = LayoutUtil.getLinearParams(1, 16);
-        dividerParams.gravity= Gravity.CENTER_VERTICAL;
+        dividerParams.gravity = Gravity.CENTER_VERTICAL;
         View divider;
 
         for (BaseFunc func : mFuncs) {
@@ -99,8 +99,10 @@ public class ModuleLayout extends LinearLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        for (BaseFunc func : mFuncs) {
-            func.onDestroy();
+        if (mFuncs != null) {
+            for (BaseFunc func : mFuncs) {
+                func.onDestroy();
+            }
         }
     }
 }

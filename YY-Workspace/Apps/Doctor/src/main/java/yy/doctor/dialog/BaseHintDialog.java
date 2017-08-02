@@ -65,6 +65,7 @@ public class BaseHintDialog extends BaseDialog {
     public void addHintView(View hintView) {
         LayoutParams params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
+        LayoutFitter.fit(hintView);
         mLayoutHint.addView(hintView, params);
     }
 

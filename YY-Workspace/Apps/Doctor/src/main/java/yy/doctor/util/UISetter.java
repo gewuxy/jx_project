@@ -1,6 +1,7 @@
 package yy.doctor.util;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.text.InputType;
 import android.text.method.NumberKeyListener;
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.home.RecUnitNum.Attention;
+import yy.doctor.model.meet.IMeet;
+import yy.doctor.model.meet.MeetFolder;
+import yy.doctor.model.meet.MeetFolder.TMeetingFolder;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.meet.Meeting.MeetState;
@@ -255,14 +259,58 @@ public class UISetter {
         return res;
     }*/
 
-    public static void meetingHolderSet(MeetingVH holder, Meeting m, boolean visibility) {
-        holder.getTvTitle().setText(m.getString(TMeeting.meetName));
-//        holder.getTvSection().setText(m.getString(TMeeting.meetType));
+    /**
+     * @param holder
+     * @param m          数据
+     * @param visibility 单位号是否显示
+     */
+    public static void meetingHolderSet(MeetingVH holder, IMeet m, boolean visibility) {
         TextView tvUnitNum = holder.getTvUnitNum();
-        if (visibility) {
-            ViewUtil.goneView(tvUnitNum);
+        if (m.getMeetType() == IMeet.MeetType.meet) {
+            Meeting meet = (Meeting) m;
+            @DrawableRes int res = R.mipmap.meeting_ic_state_retrospect;
+            switch (meet.getInt(TMeeting.state)) {
+                case MeetState.not_started: {
+                    res = R.mipmap.meeting_ic_state_not_started;
+                }
+                break;
+                case MeetState.under_way: {
+                    res = R.mipmap.meeting_ic_state_under_way;
+                }
+                break;
+                case MeetState.retrospect: {
+                    res = R.mipmap.meeting_ic_state_retrospect;
+                    ViewUtil.showView(holder.getLayoutProgress());
+                }
+                break;
+            }
+            holder.getIvState().setImageResource(res);
+            holder.getTvTitle().setText(meet.getString(TMeeting.meetName));
+            holder.getTvSection().setText(meet.getString(TMeeting.meetType));
+            holder.getTvTime().setText(TimeUtil.formatMilli(meet.getLong(TMeeting.startTime), "MM/dd HH:mm"));
+
+            if (meet.getBoolean(TMeeting.rewardCredit)) {
+                ViewUtil.showView(holder.getIvCme());
+            }
+            if (meet.getInt(TMeeting.requiredXs, 0) > 0) {
+                holder.getIvEpn().setSelected(meet.getBoolean(TMeeting.requiredXs));
+            }
+
+            if (visibility) {
+                ViewUtil.goneView(tvUnitNum);
+            } else {
+                tvUnitNum.setText((meet.getString(TMeeting.organizer)));
+            }
         } else {
-            tvUnitNum.setText(m.getString(TMeeting.organizer));
+            MeetFolder folder = (MeetFolder) m;
+            holder.getTvTitle().setText(folder.getString(TMeetingFolder.infinityName));
+            holder.getTvUnitNum().setText(folder.getString(TMeetingFolder.infinityName));
+            holder.getTvMeetingNum().setText(String.format("%d个会议", folder.getInt(TMeetingFolder.meetCount, 0)));
+            if (visibility) {
+                ViewUtil.goneView(tvUnitNum);
+            } else {
+//                tvUnitNum.setText((meet.getString(TMeeting.organizer)));
+            }
         }
     }
 

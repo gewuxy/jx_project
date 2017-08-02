@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/home_meeting_folder_item_layout"
+    android:id="@+id/home_meet_folder_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_selector"
@@ -25,7 +25,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/home_meeting_folder_item_tv_folder_name"
+                android:id="@+id/home_meet_folder_item_tv_folder_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
@@ -42,24 +42,24 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_unit_num_name"
+                    android:id="@+id/home_meet_folder_item_tv_unit_num_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
                     android:layout_weight="1"
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:text="测试单位号"
-                    android:layout_marginRight="6dp"
                     android:textColor="@color/text_888"
                     android:textSize="13dp"/>
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_meeting_num"
+                    android:id="@+id/home_meet_folder_item_tv_meet_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:drawableRight="@mipmap/home_ic_meeting_folder_arrow"
                     android:drawablePadding="4dp"
+                    android:drawableRight="@mipmap/home_ic_meeting_folder_arrow"
                     android:singleLine="true"
                     android:text="48个会议"
                     android:textColor="@color/text_0882e7"
@@ -77,26 +77,30 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/home_meet_folder_item_layout_speakers"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginBottom="17dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <LinearLayout
             style="@style/home_meeting_folder">
 
             <LinearLayout
+                android:id="@+id/home_meet_folder_item_layout_speaker_1"
                 style="@style/home_meeting_folder_child"
-                android:background="@mipmap/home_ic_meeting_folder_blue_bg">
+                android:background="@mipmap/home_ic_meeting_folder_blue_bg"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_left_meeting_speaker_name"
+                    android:id="@+id/home_meet_folder_item_tv_speaker_name_1"
                     style="@style/tv.home_meeting_folder_speaker_name"/>
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_left_meeting_speaker_title"
+                    android:id="@+id/home_meet_folder_item_tv_speaker_title_1"
                     style="@style/tv.home_meeting_folder_speaker_name.title"/>
 
             </LinearLayout>
@@ -108,16 +112,19 @@
             android:layout_marginLeft="18dp">
 
             <LinearLayout
+                android:id="@+id/home_meet_folder_item_layout_speaker_2"
                 style="@style/home_meeting_folder_child"
-                android:background="@mipmap/home_ic_meeting_folder_green_bg">
+                android:background="@mipmap/home_ic_meeting_folder_green_bg"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_middle_meeting_speaker_name"
+                    android:id="@+id/home_meet_folder_item_tv_speaker_name_2"
                     style="@style/tv.home_meeting_folder_speaker_name"/>
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_middle_meeting_speaker_title"
-                    style="@style/tv.home_meeting_folder_speaker_name.title"/>
+                    android:id="@+id/home_meet_folder_item_tv_speaker_title_2"
+                    style="@style/tv.home_meeting_folder_speaker_name.title"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -128,16 +135,19 @@
             android:layout_marginLeft="18dp">
 
             <LinearLayout
+                android:id="@+id/home_meet_folder_item_layout_speaker_3"
                 style="@style/home_meeting_folder_child"
-                android:background="@mipmap/home_ic_meeting_folder_pink_bg">
+                android:background="@mipmap/home_ic_meeting_folder_pink_bg"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_right_meeting_speaker_name"
+                    android:id="@+id/home_meet_folder_item_tv_speaker_name_3"
                     style="@style/tv.home_meeting_folder_speaker_name"/>
 
                 <TextView
-                    android:id="@+id/home_meeting_folder_item_tv_right_meeting_speaker_title"
-                    style="@style/tv.home_meeting_folder_speaker_name.title"/>
+                    android:id="@+id/home_meet_folder_item_tv_speaker_title_3"
+                    style="@style/tv.home_meeting_folder_speaker_name.title"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

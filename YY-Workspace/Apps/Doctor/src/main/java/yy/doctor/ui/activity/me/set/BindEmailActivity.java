@@ -65,7 +65,7 @@ public class BindEmailActivity extends BaseSetActivity implements TextWatcher {
     }
 
     @Override
-    protected void bind() {
+    protected void toSet() {
         exeNetworkReq(NetFactory.bindEmail(Util.getEtString(mEtEmail)));
     }
 

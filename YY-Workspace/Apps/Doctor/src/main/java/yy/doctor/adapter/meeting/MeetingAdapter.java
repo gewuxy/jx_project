@@ -5,9 +5,12 @@ import android.view.View;
 import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
+import yy.doctor.model.meet.MeetFolder;
+import yy.doctor.model.meet.MeetFolder.TMeetingFolder;
 import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.IMeet;
+import yy.doctor.model.meet.IMeet.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.model.meet.Meeting.FileType;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity;
 import yy.doctor.util.UISetter;
@@ -16,7 +19,7 @@ import yy.doctor.util.UISetter;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
+public class MeetingAdapter extends MultiAdapterEx<IMeet, MeetingVH> {
 
     private boolean mHideUnitNum;
 
@@ -32,7 +35,7 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     @Override
     public int getConvertViewResId(int itemType) {
-        if (itemType == FileType.folder) {
+        if (itemType == MeetType.folder) {
             return R.layout.layout_meeting_folder_item;
         } else {
             return R.layout.layout_meeting_item;
@@ -41,26 +44,22 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 5) {
-            return FileType.folder;
-        } else {
-            return FileType.file;
-        }
+        return getItem(position).getMeetType();
     }
 
     @Override
     public int getViewTypeCount() {
-        return FileType.class.getDeclaredFields().length;
+        return MeetType.class.getDeclaredFields().length;
     }
 
     @Override
     protected void onViewClick(int position, View v) {
-        Meeting item = getItem(position);
-        String title = item.getString(TMeeting.meetName);
-        if (getItemViewType(position) == FileType.folder) {
-            MeetingFolderActivity.nav(getContext(), title);
+        if (getItemViewType(position) == MeetType.folder) {
+            MeetFolder item = (MeetFolder) getItem(position);
+            MeetingFolderActivity.nav(getContext(), null, item.getString(TMeetingFolder.id), item.getString(TMeetingFolder.infinityName));
         } else {
-            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), title);
+            Meeting item = (Meeting) getItem(position);
+            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
         }
     }
 }

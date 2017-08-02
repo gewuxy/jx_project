@@ -1,0 +1,75 @@
+{
+  "code": "0",
+  "data": {
+    "infinityTreeList": [
+      {
+        "hide": false,
+        "id": "20170726170812301",
+        "infinityName": "技术部-java后台开发组",
+        "leaf": true,
+        "meetCount": 2,
+        "mountType": 1,
+        "preid": "2017072617081230",
+        "type": 0,
+        "typeName": "文件夹",
+        "userId": 287564
+      },
+      {
+        "hide": false,
+        "id": "20170726170812302",
+        "infinityName": "技术部-ios开发组",
+        "leaf": true,
+        "meetCount": 1,
+        "mountType": 1,
+        "preid": "2017072617081230",
+        "type": 0,
+        "typeName": "文件夹",
+        "userId": 287564
+      },
+      {
+        "hide": false,
+        "id": "20170726170812303",
+        "infinityName": "技术部-android开发组",
+        "leaf": true,
+        "meetCount": 0,
+        "mountType": 1,
+        "preid": "2017072617081230",
+        "type": 0,
+        "typeName": "文件夹",
+        "userId": 287564
+      }
+    ],
+    "meetInfoDTOList": [
+      {
+        "attendAble": false,
+        "completeProgress": 60,
+        "eduCredits": 0, // 学分
+        "endTime": 1435222210000,
+        "id": "17062316401809763520",
+        "meetName": "糖尿病诊断标准和治疗原则",
+        "meetType": "其他科室",
+        "organizer": "莆田市基层卫生培训平台",
+        "requiredXs": false, // flase 不奖励象数
+        "rewardCredit": false, // flase 不奖励学分
+        "startTime": 1435218610000,
+        "state": 3,
+        "xsCredits": 0 // 象数
+      },
+      {
+        "attendAble": false,
+        "completeProgress": 60,
+        "eduCredits": 0,
+        "endTime": 1435221027000,
+        "id": "17062316393825118660",
+        "meetName": "厦门市卫生和计划生育委员会",
+        "meetType": "其他科室",
+        "organizer": "莆田市基层卫生培训平台",
+        "requiredXs": false,
+        "rewardCredit": false,
+        "startTime": 1435216827000,
+        "state": 3,
+        "xsCredits": 0
+      }
+    ]
+  }
+}

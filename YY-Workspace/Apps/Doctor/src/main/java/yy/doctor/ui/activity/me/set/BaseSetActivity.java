@@ -49,7 +49,7 @@ public abstract class BaseSetActivity extends BaseFormActivity {
     public final void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_tv_set_set: {
-                bind();
+                toSet();
             }
             break;
         }
@@ -63,5 +63,5 @@ public abstract class BaseSetActivity extends BaseFormActivity {
 
     protected abstract CharSequence getSetText();
 
-    protected abstract void bind();
+    protected abstract void toSet();
 }

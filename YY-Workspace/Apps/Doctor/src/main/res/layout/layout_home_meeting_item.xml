@@ -4,18 +4,18 @@
     android:id="@+id/home_meeting_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="@drawable/item_selector"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -59,14 +59,16 @@
                 android:layout_width="22dp"
                 android:layout_height="13dp"
                 android:layout_marginLeft="8dp"
-                android:src="@mipmap/meeting_detail_ic_cme"/>
+                android:src="@mipmap/meeting_detail_ic_cme"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/home_meeting_item_iv_epn"
                 android:layout_width="30dp"
                 android:layout_height="13dp"
                 android:layout_marginLeft="8dp"
-                android:src="@drawable/meeting_detail_selector_epn_type"/>
+                android:src="@drawable/meeting_detail_selector_epn_type"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -79,18 +81,18 @@
             <TextView
                 android:id="@+id/home_meeting_item_tv_speaker_name"
                 style="@style/tv.home_meeting_tv"
+                android:layout_marginRight="8dp"
                 android:text="二狗"/>
 
             <TextView
                 android:id="@+id/home_meeting_item_tv_speaker_rank"
                 style="@style/tv.home_meeting_tv"
-                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:text="主任医师"/>
 
             <TextView
                 android:id="@+id/home_meeting_item_tv_unit_num"
                 style="@style/tv.home_meeting_tv"
-                android:layout_marginLeft="8dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:text="单位号"/>

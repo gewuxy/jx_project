@@ -90,7 +90,7 @@ public class BindPhoneActivity extends BaseSetActivity implements TextWatcher {
     }
 
     @Override
-    protected void bind() {
+    protected void toSet() {
         exeNetworkReq(NetFactory.bindMobile(getPhone(), mEtCaptcha.getText().toString().trim()));
     }
 

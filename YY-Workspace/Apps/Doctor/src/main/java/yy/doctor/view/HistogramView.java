@@ -7,16 +7,15 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import lib.ys.YSLog;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.DrawUtil;
 import lib.ys.util.res.ResLoader;
@@ -36,49 +35,67 @@ public class HistogramView extends View {
 
     private static final String TAG = HistogramView.class.getSimpleName().toString();
 
-    private final float KPercentLayoutHeight = 195f;
-    private final float KPercentLineWidth = 4 / KPercentLayoutHeight;
-    private final float KPercentLineMarginTop = 40 / KPercentLayoutHeight; // 柱状的上边距(相对应父控件)
-    private final float KPercentLineMarginBottom = 33 / KPercentLayoutHeight; // 柱状的底边距(相对应父控件)
-    private final float KPercentDividerMargin = 12 / KPercentLayoutHeight; // 分割线上下的外边距
-    private final float KPercentTextMarginBottom = 16 / KPercentLayoutHeight; // 文本的底边距(显示数量的)
-    private final float KPercentTextSize = 9 / KPercentLayoutHeight;
+    private final int KLineWidth = DpFitter.dp(4);
+    private final int KLineMarginTop = DpFitter.dp(40); // 柱状的上边距(相对应父控件)
+    private final int KLineMarginBottom = DpFitter.dp(33); // 柱状的底边距(相对应父控件)
+    private final int KDividerMargin = DpFitter.dp(12); // 分割线上下的外边距
+    private final int KTextMarginBottom = DpFitter.dp(16); // 文本的底边距(显示数量的)
+    private final int KTextSize = DpFitter.dp(9);
 
     private final int KRecColor = R.color.text_0882e7;
     private final int KDividerColor = R.color.divider;
     private final int KTextColor = R.color.text_888;
 
-    private float mLineWidth;
-    private float mLineMarginTop;
-    private float mLineMarginBottom;
-    private float mDividerMargin;
-    private float mTextMarginBottom;
-    private float mTextSize;
-
+    private int mRecColor; // 柱状图的颜色
     private int mLayoutWidth; // 控件宽度
     private int mLayoutHeight; // 控件高度
-    private int mMaxMeetNum; // 最大会议数
-    private Map<String, Integer> mMeets; // 日期和会议数量
-    private Paint mPaint;
-    private int mCheckPosition; // 点击的position
-    private int mRecColor; // 柱状图的颜色
 
+    private List<StatsPerDay> mPerDays; // 日期和会议数量
+    private List<Float> mHeights; // 柱状高度
+    private List<Float> mMiddles; // 柱状中心
+
+    private int mMaxMeetNum; // 最大会议数
+    private int mCheckPosition; // 点击的position
     private boolean mCheck; // 是否为点击事件
 
-    public void setRecColor(int recColor) {
-        mRecColor = recColor;
+    private Paint mPaintRec;
+    private Paint mPaintText;
+    private Paint mPaintDivider;
+
+    public void setRecColor(@ColorRes int recColor) {
+        mPaintRec.setColor(ResLoader.getColor(recColor));
     }
 
     public HistogramView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+
+        init();
     }
 
-    public HistogramView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
+    /**
+     * 初始化(画笔准备)
+     */
+    private void init() {
         mRecColor = KRecColor;
-        mPaint = new Paint();
-        mCheckPosition = Integer.MIN_VALUE;
+        mCheckPosition = Integer.MIN_VALUE; // 非法值
+        mHeights = new ArrayList<>();
+        mMiddles = new ArrayList<>();
+
+        mPaintDivider = new Paint();
+        mPaintDivider.setStyle(Style.FILL);
+        mPaintDivider.setColor(ResLoader.getColor(KDividerColor));
+
+        mPaintText = new Paint();
+        mPaintText.setTypeface(Typeface.DEFAULT_BOLD);
+        mPaintText.setAntiAlias(true);
+        mPaintText.setTextSize(KTextSize);
+        mPaintText.setColor(ResLoader.getColor(KTextColor));
+
+        mPaintRec = new Paint();
+        mPaintRec.setStyle(Style.FILL);
+        mPaintRec.setStrokeWidth(KLineWidth);
+        mPaintRec.setStrokeCap(Cap.ROUND);
+        mPaintRec.setColor(ResLoader.getColor(mRecColor));
     }
 
     @Override
@@ -87,73 +104,81 @@ public class HistogramView extends View {
 
         mLayoutWidth = getMeasuredWidth();
         mLayoutHeight = getMeasuredHeight();
-
-        mLineWidth = KPercentLineWidth * mLayoutHeight;
-        mLineMarginTop = KPercentLineMarginTop * mLayoutHeight;
-        mLineMarginBottom = KPercentLineMarginBottom * mLayoutHeight;
-        mDividerMargin = KPercentDividerMargin * mLayoutHeight;
-        mTextMarginBottom = KPercentTextMarginBottom * mLayoutHeight;
-        mTextSize = KPercentTextSize * mLayoutHeight;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        if (mPerDays != null) {
+            compute();
 
-        if (mMeets != null && !mMeets.isEmpty()) {
-            int day = mMeets.size(); // 数量
-            int width = mLayoutWidth / day; // 单条的宽度
-            float maxHeight = mLayoutHeight - mLineMarginBottom - mLineMarginTop; // 单条最高的高度
-
-            int position = 0; // 第几条
-            int num; // 数量(一天的会议数)
-            float posX;
-            float posY;
-            float top; // 柱状的顶点
-            float bottom = mLayoutHeight - mLineMarginBottom; // 柱状的底(部)点
-            for (String date : mMeets.keySet()) {
-                num = mMeets.get(date);
-
-                posX = width * position + width / 2; // 单条的中心
-
-                // 柱状
-                mPaint.setStyle(Style.FILL);
-                mPaint.setStrokeWidth(mLineWidth);
-                mPaint.setStrokeCap(Cap.ROUND);
-                mPaint.setColor(mRecColor);
-
-                top = bottom - num * maxHeight / mMaxMeetNum;
-                if (num > 0) {
-                    canvas.drawLine(posX, bottom, posX, top, mPaint);
-                }
-                mPaint.reset();
-
-                // 字体
-                mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-                mPaint.setAntiAlias(true);
-                mPaint.setTextSize(mTextSize);
-                mPaint.setColor(ResLoader.getColor(KTextColor));
-                // 日期
-                posY = mLayoutHeight - mTextSize - DpFitter.dp(2); // 高度不是字体大少
-                DrawUtil.drawTextByAlignX(canvas, date, posX, posY, mPaint, Align.CENTER);
-                // 数量
-                if (mCheckPosition == position) {
-                    posY = top - mTextSize - mTextMarginBottom;
-                    DrawUtil.drawTextByAlignX(canvas, String.valueOf(num), posX, posY, mPaint, Align.CENTER);
-                }
-                mPaint.reset();
-
-                YSLog.d(TAG, "onDraw:" + position + "---------------------------------------");
-                position++;
-            }
-            // 分割线
-            mPaint.setStyle(Style.FILL);
-            mPaint.setColor(ResLoader.getColor(KDividerColor));
-
-            posY = bottom + mDividerMargin;
-            canvas.drawLine(0, posY, mLayoutWidth, posY, mPaint);
-            mPaint.reset();
+            drawRec(canvas);
+            drawText(canvas);
+            drawDivider(canvas);
         }
+    }
+
+    private void compute() {
+        int day = mPerDays.size(); // 数量
+        int width = mLayoutWidth / day; // 单个的宽度
+        float maxHeight = mLayoutHeight - KLineMarginBottom - KLineMarginTop; // 单个最高的高度
+
+        int num = 0; // 数量(一天的会议数)
+        float posX;
+        float posY;
+        int bottom = mLayoutHeight - KLineMarginBottom; // 柱状的底(部)点
+        for (int i = 0; i < day; i++) {
+            num = mPerDays.get(i).getInt(TStatsPerDay.count, 0);
+            posX = width * i + width / 2; // 单个的中心
+            mMiddles.add(posX);
+            posY = bottom - num * maxHeight / mMaxMeetNum;
+            mHeights.add(posY);
+        }
+    }
+
+    /**
+     * 柱状
+     *
+     * @param canvas
+     */
+    private void drawRec(Canvas canvas) {
+        int num = 0; // 数量(一天的会议数)
+        int bottom = mLayoutHeight - KLineMarginBottom; // 柱状的底(部)点
+        for (int i = 0; i < mPerDays.size(); i++) {
+            num = mPerDays.get(i).getInt(TStatsPerDay.count, 0);
+            if (num > 0) {
+                canvas.drawLine(mMiddles.get(i), bottom, mMiddles.get(i), mHeights.get(i), mPaintRec);
+            }
+        }
+    }
+
+    /**
+     * 文字
+     *
+     * @param canvas
+     */
+    private void drawText(Canvas canvas) {
+        StatsPerDay statsPerDay;
+        int posY = mLayoutHeight - KTextSize - DpFitter.dp(2); // 高度不是字体大少
+        for (int i = 0; i < mPerDays.size(); i++) {
+            statsPerDay = mPerDays.get(i);
+            // 日期
+            DrawUtil.drawTextByAlignX(canvas, statsPerDay.getString(TStatsPerDay.attendDate), mMiddles.get(i), posY, mPaintText, Align.CENTER);
+            // 数量
+            if (mCheckPosition == i) {
+                float pos = mHeights.get(i) - KTextSize - KTextMarginBottom;
+                DrawUtil.drawTextByAlignX(canvas, String.valueOf(statsPerDay.getInt(TStatsPerDay.count, 0)), mMiddles.get(i), pos, mPaintText, Align.CENTER);
+            }
+        }
+    }
+
+    /**
+     * 分割线
+     *
+     * @param canvas
+     */
+    private void drawDivider(Canvas canvas) {
+        int pos = mLayoutHeight - KLineMarginBottom + KDividerMargin;
+        canvas.drawLine(0, pos, mLayoutWidth, pos, mPaintDivider);
     }
 
     @Override
@@ -171,8 +196,8 @@ public class HistogramView extends View {
             break;
             case MotionEvent.ACTION_UP: {
                 if (mCheck) {
-                    if (mMeets != null) {
-                        int position = (int) (event.getX() / (mLayoutWidth / mMeets.size()));
+                    if (mPerDays != null) {
+                        int position = (int) (event.getX() / (mLayoutWidth / mPerDays.size()));
                         if (position != mCheckPosition) {
                             // 不是点击同一个
                             mCheckPosition = position;
@@ -186,37 +211,24 @@ public class HistogramView extends View {
         return super.onTouchEvent(event);
     }
 
-    public void setMeets(Stats meets) {
-
-        if (meets == null) {
+    public void setStats(Stats stats) {
+        if (stats == null) {
             return;
         }
 
         // 重置数据
-        mMeets = new LinkedHashMap<>();
         mCheckPosition = Integer.MIN_VALUE;
 
-        List<StatsPerDay> l = meets.getList(TStatistics.list);
-        if (l == null) {
+        mPerDays = stats.getList(TStatistics.detailList);
+        if (mPerDays == null) {
             return;
         }
 
         mMaxMeetNum = Integer.MIN_VALUE;
-        for (StatsPerDay stats : l) {
-            int i = stats.getInt(TStatsPerDay.num, 0);
-            mMaxMeetNum = Math.max(i, mMaxMeetNum);
-            mMeets.put(stats.getString(TStatsPerDay.date), i);
+        for (StatsPerDay perDay : mPerDays) {
+            mMaxMeetNum = Math.max(perDay.getInt(TStatsPerDay.count, 0), mMaxMeetNum);
         }
 
         invalidate();
     }
-
-    /*@Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
-        if (mMeets != null) {
-            mMeets.clear();
-        }
-    }*/
 }

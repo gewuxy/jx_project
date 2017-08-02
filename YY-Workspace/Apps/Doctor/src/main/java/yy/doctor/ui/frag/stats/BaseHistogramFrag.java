@@ -2,12 +2,14 @@ package yy.doctor.ui.frag.stats;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -27,14 +29,19 @@ import yy.doctor.view.HistogramView;
 
 /**
  * @auther : GuoXuan
- * @since : 2017/7/27
+ * @since : 2017/8/2
  */
-public class HistogramFrag extends BaseFrag {
+
+public abstract class BaseHistogramFrag extends BaseFrag {
 
     private HistogramView mLayoutHistogram;
 
-    private ArrayList<Stats>  mStats;
+    private ArrayList<Stats> mStats;
     private int mIndex;
+
+    public Stats getStats() {
+        return mStats.get(mIndex);
+    }
 
     @Override
     public void initData() {
@@ -64,15 +71,15 @@ public class HistogramFrag extends BaseFrag {
     public void setViews() {
         setBackgroundColor(Color.TRANSPARENT);
 
-        Stats stats = mStats.get(mIndex);
-        mLayoutHistogram.setRecColor(stats.getInt(TStatistics.color));
+        mLayoutHistogram.setRecColor(getColor());
 
-        List<StatsPerDay> statsPerDays = stats.getList(TStatistics.list);
+        Stats stats = mStats.get(mIndex);
+        List<StatsPerDay> statsPerDays = stats.getList(TStatistics.detailList);
         if (statsPerDays == null) {
             setViewState(ViewState.loading);
-            exeNetworkReq(NetFactory.banner());
+            exeNetworkReq(getNetReq());
         } else {
-            mLayoutHistogram.setMeets(stats);
+            mLayoutHistogram.setStats(stats);
         }
     }
 
@@ -87,7 +94,7 @@ public class HistogramFrag extends BaseFrag {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
 
-            Stats stats = mStats.get(mIndex);
+            /*Stats stats = mStats.get(mIndex);
             long time = stats.getLong(TStatistics.time);
             List<StatsPerDay> week = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
@@ -97,7 +104,9 @@ public class HistogramFrag extends BaseFrag {
                 week.add(statsPerDay);
             }
             stats.put(TStatistics.list, week);
-            mLayoutHistogram.setMeets(stats);
+            mLayoutHistogram.setStats(stats);*/
+        } else {
+            showToast(r.getError());
         }
 
     }
@@ -108,5 +117,24 @@ public class HistogramFrag extends BaseFrag {
 
         setViewState(ViewState.error);
     }
+
+    public int getOffset() {
+        if (mStats == null) {
+            return 0;
+        }
+        return mStats.size() - mIndex;
+    }
+
+    public String getCount() {
+        if (getStats() == null) {
+            return "0";
+        }
+        return getStats().getString(TStatistics.unitCount);
+    }
+
+    @ColorRes
+    protected abstract int getColor();
+
+    protected abstract NetworkReq getNetReq();
 
 }

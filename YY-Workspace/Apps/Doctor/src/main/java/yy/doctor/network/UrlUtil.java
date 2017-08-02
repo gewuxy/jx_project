@@ -18,9 +18,9 @@ public class UrlUtil {
         if (mIsDebug) {
             // 测试线
            mBaseHost = "59.111.90.245:8083/v7/";
-//            mBaseHost = "app.medyaya.cn/v7/";
 //            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8082/"; // 轩哥电脑
+//            mBaseHost = "10.0.0.252:8082/"; // 长玲电脑
         } else {
             // 正式线
             mBaseHost = "app.medyaya.cn/v7/";
@@ -89,6 +89,7 @@ public class UrlUtil {
     public interface UrlHome {
         String KBanner = "banner";
         String KRecommendMeeting = "meet/tuijian";
+        String KRecommendMeetingFolder = "meet/recommend/meet/folder";
         String KRecommendUnitNum = "publicAccount/recommend";
     }
 
@@ -120,6 +121,12 @@ public class UrlUtil {
 
         String KMeetShare = KMeetBase + "share?meetId=";
         String KMeetingRecord = KMeetBase + "exit";
+
+        String KMeetingFolder = KMeetBase + "folder/leaf";
+        String KMeetingFolderResource = KMeetBase + "folder/leaf/resource";
+
+        String KStatsAttend = KMeetBase + "attend_stats";
+        String KStatsPublish = KMeetBase + "publish_stats";
 
         String KWs = "ws://";
         String KIm = "/im";

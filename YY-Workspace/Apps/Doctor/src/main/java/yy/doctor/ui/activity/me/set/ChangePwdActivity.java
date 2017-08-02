@@ -67,7 +67,7 @@ public class ChangePwdActivity extends BaseSetActivity implements TextWatcher {
     }
 
     @Override
-    protected void bind() {
+    protected void toSet() {
         String oldPwd = mEtPwdOld.getText().toString();
         String newPwd = mEtPwdNew.getText().toString();
         exeNetworkReq(NetFactory.changePwd(oldPwd, newPwd));
@@ -96,7 +96,7 @@ public class ChangePwdActivity extends BaseSetActivity implements TextWatcher {
 
     @Override
     public CharSequence getSetText() {
-        return "确认并登录";
+        return "确认修改";
     }
 
 
@@ -106,11 +106,14 @@ public class ChangePwdActivity extends BaseSetActivity implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        setChanged(TextUtil.isNotEmpty(Util.getEtString(mEtPwdOld))
-                && TextUtil.isNotEmpty(Util.getEtString(mEtPwdNew)));
+        setChanged(checkPwd(Util.getEtString(mEtPwdOld)) && checkPwd(Util.getEtString(mEtPwdNew)));
     }
 
     @Override
     public void afterTextChanged(Editable s) {
+    }
+
+    private boolean checkPwd(String pwd) {
+        return TextUtil.isNotEmpty(pwd) && pwd.length() >= 6 && pwd.length() <= 24;
     }
 }

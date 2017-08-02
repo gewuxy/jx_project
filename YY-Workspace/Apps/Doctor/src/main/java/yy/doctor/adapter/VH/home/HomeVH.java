@@ -10,21 +10,21 @@ import yy.doctor.R;
 public class HomeVH extends ViewHolderEx {
 
     private HomeMeetingVH mHomeMeetingVH;
-    private HomeMeetingFolderVH mHomeMeetingFolderVH;
+    private HomeMeetFolderVH mHomeMeetFolderVH;
 
     public HomeVH(@NonNull View convertView) {
         super(convertView);
 
         mHomeMeetingVH = new HomeMeetingVH(convertView);
-        mHomeMeetingFolderVH = new HomeMeetingFolderVH(convertView);
+        mHomeMeetFolderVH = new HomeMeetFolderVH(convertView);
     }
 
     public HomeMeetingVH getHomeMeetingVH() {
         return mHomeMeetingVH;
     }
 
-    public HomeMeetingFolderVH getHomeMeetingFolderVH() {
-        return mHomeMeetingFolderVH;
+    public HomeMeetFolderVH getHomeMeetFolderVH() {
+        return mHomeMeetFolderVH;
     }
 
     public WrapRecyclerView getRecyclerView() {

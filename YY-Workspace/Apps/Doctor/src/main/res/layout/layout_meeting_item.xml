@@ -24,11 +24,11 @@
             android:src="@mipmap/meeting_ic_file_state_no_start"/>
 
         <LinearLayout
-            android:layout_toRightOf="@id/meeting_item_iv_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="47dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="47dp"
+            android:layout_toRightOf="@id/meeting_item_iv_state"
             android:orientation="vertical">
 
             <TextView
@@ -50,23 +50,25 @@
 
                 <TextView
                     android:id="@+id/meeting_item_tv_time"
+                    style="@style/tv.meeting"
                     android:layout_marginLeft="10dp"
-                    android:text="12/07 16:00"
-                    style="@style/tv.meeting"/>
+                    android:text="12/07 16:00"/>
 
                 <ImageView
                     android:id="@+id/meeting_item_iv_cme"
                     android:layout_width="22dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_height="13dp"
-                    android:src="@mipmap/meeting_detail_ic_cme"/>
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/meeting_detail_ic_cme"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/meeting_item_iv_epn"
                     android:layout_width="29dp"
                     android:layout_height="13dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/meeting_detail_selector_epn_type"/>
+                    android:src="@drawable/meeting_detail_selector_epn_type"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -80,12 +82,13 @@
 
         <RelativeLayout
             android:id="@+id/meeting_item_layout_progress"
-            android:layout_gravity="center_vertical"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@color/white">
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:visibility="gone">
 
             <yy.doctor.view.CircleProgressView
                 android:id="@+id/meeting_item_v_progress"

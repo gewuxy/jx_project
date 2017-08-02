@@ -59,13 +59,17 @@ import yy.doctor.util.Util;
  */
 public class SettingsActivity extends BaseFormActivity {
 
-    private static final int KColorNormal = Color.parseColor("#666666");
-    private static final int KColorCancel = Color.parseColor("#01b557");
+    private final String KM = "M";
 
-    private static final String KM = "M";
-    private int KUnBindEmail = 0;
-    private int KUnBindWX = 1;
-    private int KVersion = 2;
+    private final int KColorNormal = Color.parseColor("#666666");
+    private final int KColorCancel = Color.parseColor("#01b557");
+
+    private final int KUnBindEmail = 0;
+    private final int KUnBindWX = 1;
+    private final int KVersion = 2;
+
+    private String mImgSize;
+    private String mSoundSize;
 
     @IntDef({
             RelatedId.bind_wx,
@@ -85,21 +89,18 @@ public class SettingsActivity extends BaseFormActivity {
     private @interface RelatedId {
         int bind_wx = 1;
         int bind_phone = 2;
-        int bind_email = 3;
 
+        int bind_email = 3;
         int change_password = 4;
         int auto_download_apk = 5;
+
         int check_version = 6;
-
         int clear_img_cache = 7;
+
         int clear_sound_cache = 8;
-
         int audio_play = 9;
+
     }
-
-    private String mImgSize;
-
-    private String mSoundSize;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -118,6 +119,15 @@ public class SettingsActivity extends BaseFormActivity {
         return size / 1024 / 1024 + KM;
     }
 
+    private String getProfileString(TProfile key) {
+        String string = Profile.inst().getString(key);
+        if (TextUtil.isEmpty(string)){
+            return getString(R.string.no_binding);
+        } else {
+            return string;
+        }
+    }
+
     @Override
     public void initData() {
         super.initData();
@@ -128,28 +138,28 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
                 .name(R.string.wx_account)
-                .text(Profile.inst().getString(TProfile.wxNickname, getString(R.string.no_binding))));
+                .text(getProfileString(TProfile.wxNickname)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
                 .type(IntentType.set_phone)
-                .intent(new Intent(this, BindPhoneActivity.class))
                 .name(R.string.phone_num_account)
-                .text(Profile.inst().getString(TProfile.mobile, getString(R.string.no_binding))));
+                .text(getProfileString(TProfile.mobile)))
+                .intent(new Intent(this, BindPhoneActivity.class));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_email)
                 .name(R.string.email_account)
-                .text(Profile.inst().getString(TProfile.username, getString(R.string.no_binding))));
+                .text(getProfileString(TProfile.username)));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.change_password)
                 .type(IntentType.set_pwd)
-                .intent(new Intent(this, ChangePwdActivity.class))
-                .name(R.string.change_pwd));
+                .name(R.string.change_pwd))
+                .intent(new Intent(this, ChangePwdActivity.class));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.toggle_button)
@@ -163,14 +173,14 @@ public class SettingsActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
-                .name(R.string.clear_img_cache)
                 .related(RelatedId.clear_img_cache)
+                .name(R.string.clear_img_cache)
                 .text(mImgSize));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
-                .name(R.string.clear_sound_cache)
                 .related(RelatedId.clear_sound_cache)
+                .name(R.string.clear_sound_cache)
                 .text(mSoundSize));
 
         addItem(Form.create(FormType.divider_large));
@@ -288,7 +298,6 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-
         if (id == KVersion) {
 
             Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
@@ -304,6 +313,7 @@ public class SettingsActivity extends BaseFormActivity {
                 }
             }
         } else if (id == KUnBindWX) {
+
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("解绑成功");
@@ -314,6 +324,7 @@ public class SettingsActivity extends BaseFormActivity {
                 showToast(r.getError());
             }
         } else {
+
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("解绑成功");

@@ -1,0 +1,35 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "attendAble": false,
+      "completeProgress": 0,
+      "eduCredits": 0,
+      "endTime": 1435219200000,
+      "id": "17062316384972089957",
+      "meetName": "高血压诊治：基层医师须知",
+      "meetType": "其他科室",
+      "organizer": "莆田市基层卫生培训平台",
+      "requiredXs": false,
+      "rewardCredit": false,
+      "startTime": 1435215600000,
+      "state": 3,
+      "xsCredits": 0
+    },
+    {
+      "attendAble": false,
+      "completeProgress": 0,
+      "eduCredits": 0,
+      "endTime": 1432346400000,
+      "id": "17062316384092078112",
+      "meetName": "高血压诊疗相关知识测试",
+      "meetType": "其他科室",
+      "organizer": "莆田市基层卫生培训平台",
+      "requiredXs": false,
+      "rewardCredit": false,
+      "startTime": 1432212600000,
+      "state": 3,
+      "xsCredits": 0
+    }
+  ]
+}

@@ -28,6 +28,7 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
         switch (itemType) {
             // 搜索会议
             case RecType.meeting: {
+                UISetter.meetingHolderSet(holder.getMeetingVH(), (Meeting)getItem(position), false);
                 // FIXME:
                 /*Meeting item = (Meeting) getItem(position);
                 MeetingVH meetVH = holder.getMeetingVH();

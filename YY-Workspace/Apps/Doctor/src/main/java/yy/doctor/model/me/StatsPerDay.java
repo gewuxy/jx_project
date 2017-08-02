@@ -11,7 +11,7 @@ import yy.doctor.model.me.StatsPerDay.TStatsPerDay;
 public class StatsPerDay extends EVal<TStatsPerDay> {
 
     public enum TStatsPerDay {
-        date,
-        num,
+        attendDate, // 日期
+        count, // 数量(当天)
     }
 }

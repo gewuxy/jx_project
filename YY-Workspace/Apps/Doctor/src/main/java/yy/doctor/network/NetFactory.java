@@ -112,6 +112,8 @@ public class NetFactory {
 
     private interface CommonParam {
         String KToken = "token";
+        String KPreId = "preId";
+        String KOffset = "offset";
     }
 
     public interface RegisterParam {
@@ -173,6 +175,7 @@ public class NetFactory {
         String KSignLat = "signLat";//维度
 
         String KFinish = "finished"; //  是否完成
+        String KInfinityId = "infinityId";
     }
 
     private interface HomeParam {
@@ -459,6 +462,38 @@ public class NetFactory {
         return newGet(UrlHome.KRecommendMeeting)
                 .param(HomeParam.KPageNum, page)
                 .param(HomeParam.KPageSize, pageSize)
+                .build();
+    }
+
+    /**
+     * 首页推荐会议文件夹
+     *
+     * @return
+     */
+    public static NetworkReq recommendFolder() {
+        return newGet(UrlHome.KRecommendMeetingFolder)
+                .build();
+    }
+
+    /**
+     * 文件夹
+     *
+     * @return
+     */
+    public static NetworkReq meetFolder(String preId) {
+        return newGet(UrlMeet.KMeetingFolder)
+                .param(CommonParam.KPreId, preId)
+                .build();
+    }
+
+    /**
+     * 文件夹里的文件夹
+     *
+     * @return
+     */
+    public static NetworkReq folderResource(String infinityId) {
+        return newGet(UrlMeet.KMeetingFolderResource)
+                .param(MeetParam.KInfinityId, infinityId)
                 .build();
     }
 
@@ -1017,6 +1052,7 @@ public class NetFactory {
 
     /**
      * 解绑邮箱
+     *
      * @return
      */
     public static NetworkReq unBindEmail() {
@@ -1033,6 +1069,27 @@ public class NetFactory {
     public static NetworkReq bindWX(String code) {
         return newGet(UrlUser.KBindWXSet)
                 .param(WXParam.KCode, code)
+                .build();
+    }
+
+
+    /**
+     * 参会统计(个人参会统计)
+     *
+     * @return
+     */
+    public static NetworkReq statsMeet(int offset) {
+        return newPost(UrlMeet.KStatsAttend)
+                .build();
+    }
+
+    /**
+     * 参会统计(关注单位号发布会议统计)
+     *
+     * @return
+     */
+    public static NetworkReq statsUnitNum(int offset) {
+        return newPost(UrlMeet.KStatsPublish)
                 .build();
     }
 
