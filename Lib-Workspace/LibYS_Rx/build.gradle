@@ -37,7 +37,9 @@ dependencies {
     /**
      * annotation
      */
-    compile (project(':Lib-Workspace:LibAnnotation')) {
-        exclude group: 'com.google.android', module: 'android'
-    }
+//    compile (project(':Lib-Workspace:LibAnnotation')) {
+//        exclude group: 'com.google.android', module: 'android'
+//    }
+    compile project(':Lib-Workspace:LibAnnotation')
+    annotationProcessor project(':Lib-Workspace:LibAnnotation')
 }
