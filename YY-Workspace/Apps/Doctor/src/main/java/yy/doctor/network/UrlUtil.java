@@ -18,6 +18,7 @@ public class UrlUtil {
         if (mIsDebug) {
             // 测试线
            mBaseHost = "59.111.90.245:8083/v7/";
+//            mBaseHost = "app.medyaya.cn/v7/";
 //            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8082/"; // 轩哥电脑
         } else {
@@ -78,10 +79,10 @@ public class UrlUtil {
         String KHospital = KRegisterBase + "hos";
         String KDepart = KRegisterBase + "depart";
 
-        String KCaptcha = KRegisterBase +"get_captcha";
-        String KScan = KRegisterBase+"scan_register";
-        String KSpecialty = KRegisterBase +"specialty";
-        String KTitle = KRegisterBase +"title";
+        String KCaptcha = KRegisterBase + "get_captcha";
+        String KScan = KRegisterBase + "scan_register";
+        String KSpecialty = KRegisterBase + "specialty";
+        String KTitle = KRegisterBase + "title";
 
     }
 

@@ -18,6 +18,7 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 
 import lib.annotation.AutoBuilder;
+import lib.annotation.Ignore;
 
 
 /**
@@ -50,6 +51,10 @@ public class AutoBuilderProcessor extends BaseProcessor {
         if (allMembers.size() > 0) {
             List<VariableElement> fields = ElementFilter.fieldsIn(allMembers);
             for (VariableElement field : fields) {
+                if (field.getAnnotation(Ignore.class) != null) {
+                    continue;
+                }
+
                 String paramName = getParamName(field, field.getSimpleName().toString());
                 builder.addField(TypeName.get(field.asType()), paramName, Modifier.PRIVATE);
 
@@ -78,6 +83,10 @@ public class AutoBuilderProcessor extends BaseProcessor {
             buildMethod.beginControlFlow("try");
             List<VariableElement> fields = ElementFilter.fieldsIn(allMembers);
             for (VariableElement field : fields) {
+                if (field.getAnnotation(Ignore.class) != null) {
+                    continue;
+                }
+
                 String filedName = field.getSimpleName().toString();
                 String paramName = getParamName(field, filedName);
 
