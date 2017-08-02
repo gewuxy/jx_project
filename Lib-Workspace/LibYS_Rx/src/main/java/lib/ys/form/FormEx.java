@@ -15,14 +15,10 @@ import android.view.View.OnClickListener;
 
 import java.util.List;
 
-import lib.network.model.NetworkReq;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.adapter.interfaces.IViewHolder;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.activity.ActivityEx;
-import lib.ys.ui.frag.FragEx;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
@@ -565,35 +561,11 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
         mVal = val;
     }
 
-
-
     /**
      * 重设之前的值
      */
     public void reset() {
         save(ConstantsEx.KEmptyValue, ConstantsEx.KEmptyValue, ConstantsEx.KEmptyValue);
-    }
-
-    /**
-     * 在host层执行网络任务
-     *
-     * @param networkId
-     * @param request
-     */
-    protected void exeNetworkRequest(int networkId, NetworkReq request) {
-        if (mHost == null) {
-            return;
-        }
-
-        if (mHost instanceof ActivityEx) {
-            ActivityEx act = (ActivityEx) mHost;
-            act.refresh(RefreshWay.dialog);
-            act.exeNetworkReq(networkId, request);
-        } else if (mHost instanceof FragEx) {
-            FragEx frag = (FragEx) mHost;
-            frag.refresh(RefreshWay.dialog);
-            frag.exeNetworkReq(networkId, request);
-        }
     }
 
     protected boolean isEmpty(String text) {

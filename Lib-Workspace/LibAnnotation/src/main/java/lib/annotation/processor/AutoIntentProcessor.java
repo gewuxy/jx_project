@@ -5,36 +5,27 @@ package lib.annotation.processor;
  * @since 2017/8/1
  */
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 
 import com.google.auto.service.AutoService;
-import com.google.common.collect.ImmutableSet;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
-import javax.tools.Diagnostic;
 
 import lib.annotation.AutoIntent;
 import lib.annotation.Extra;
@@ -42,43 +33,14 @@ import lib.annotation.Extra;
 @AutoService(Processor.class)
 public class AutoIntentProcessor extends BaseProcessor {
 
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        return ImmutableSet.of(AutoIntent.class.getCanonicalName());
-    }
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(AutoIntent.class)) {
-            // Make sure element is a field or a method declaration
-            if (!annotatedElement.getKind().isClass()) {
-                error(annotatedElement, "Only classes can be annotated with @%s", AutoIntent.class.getSimpleName());
-                return true;
-            }
-
-            try {
-                TypeSpec builderSpec = getBuilderSpec(annotatedElement);
-                JavaFile builderFile = JavaFile.builder(getPackageName(annotatedElement), builderSpec).build();
-                builderFile.writeTo(getFiler());
-            } catch (Exception e) {
-                error(annotatedElement, "Could not create intent builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
-            }
-        }
-        return true;
+    protected Class<? extends Annotation> getAnnotationClass() {
+        return AutoIntent.class;
     }
 
-    private void error(Element e, String msg, Object... args) {
-        getMessager().printMessage(Diagnostic.Kind.ERROR, String.format(msg, args), e);
-    }
-
-    private String getPackageName(Element e) {
-        while (!(e instanceof PackageElement)) {
-            e = e.getEnclosingElement();
-        }
-        return ((PackageElement) e).getQualifiedName().toString();
-    }
-
-    private TypeSpec getBuilderSpec(Element annotatedElement) {
+    @Override
+    protected TypeSpec getBuilderSpec(Element annotatedElement) {
         List<Element> required = new ArrayList<>();
         List<Element> optional = new ArrayList<>();
         List<Element> all = new ArrayList<>();
@@ -142,7 +104,7 @@ public class AutoIntentProcessor extends BaseProcessor {
                 .addParameter(Context.class, "context")
                 .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName)
                 .returns(Intent.class);
-        for (Element e : required) {
+        for (Element e : all) {
             String paramName = getParamName(e);
             newIntentMethod.addParameter(TypeName.get(e.asType()), paramName);
         }
@@ -253,22 +215,6 @@ public class AutoIntentProcessor extends BaseProcessor {
         return builder.build();
     }
 
-    @TargetApi(VERSION_CODES.GINGERBREAD)
-    private String getParamName(Element e) {
-        String extraValue = e.getAnnotation(Extra.class).value();
-        String ret = extraValue != null && !extraValue.trim().isEmpty() ? extraValue : e.getSimpleName().toString();
-        if (ret.length() >= 2 && ret.startsWith("m")) {
-            if (Pattern.compile("[A-Z]").matcher(ret.substring(1, 2)).matches()) {
-                // 去掉m开头和首字母的大写
-                String sub = ret.substring(1, 2);
-                ret = ret.substring(1);
-                ret = ret.replaceFirst(sub, sub.toLowerCase());
-            }
-        }
-
-        return ret;
-    }
-
     private void getAnnotatedFields(Element annotatedElement, List<Element> required, List<Element> optional) {
         for (Element e : annotatedElement.getEnclosedElements()) {
             Extra a = e.getAnnotation(Extra.class);
@@ -289,6 +235,10 @@ public class AutoIntentProcessor extends BaseProcessor {
         }
     }
 
+    private String getParamName(Element e) {
+        String extraVal = e.getAnnotation(Extra.class).value();
+        return getParamName(e, extraVal);
+    }
 
     private void addIntentStatement(MethodSpec.Builder builder, List<Element> all) {
         for (Element e : all) {
