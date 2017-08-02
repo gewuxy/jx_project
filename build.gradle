@@ -19,9 +19,11 @@ buildscript {
         classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.5.2'
 
         /**
-         * 注解框架相关
+         * 为了能使用apt相关
+         * 在要使用的module里加上
+         * apply plugin: 'com.neenbedankt.android-apt'
          */
-//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1' // 为了能在lib里面使用注解
 
         /**
@@ -52,7 +54,7 @@ allprojects {
 project.ext {
     compileSdkVersion = 23
     buildToolsVersion = "25.0.2"
-    minSdkVersion = 14
+    minSdkVersion = 15
     targetSdkVersion = 23
     versionCode = 10000
     versionName = "1.00.00"

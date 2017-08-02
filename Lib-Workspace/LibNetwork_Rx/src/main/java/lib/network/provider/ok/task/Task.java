@@ -57,7 +57,7 @@ abstract public class Task {
     abstract public Request buildRealReq();
 
     public void cancel() {
-        if (!mCall.isCanceled() && mCall.isExecuted()) {
+        if (mCall != null && !mCall.isCanceled() && mCall.isExecuted()) {
             mCall.cancel();
         }
     }

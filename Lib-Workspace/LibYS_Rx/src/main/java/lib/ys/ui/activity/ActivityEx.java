@@ -31,6 +31,7 @@ import android.widget.EditText;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import lib.annotation.util.InjectUtil;
 import lib.network.Network;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
@@ -145,6 +146,8 @@ abstract public class ActivityEx extends SwipeBackActivity implements
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
+        InjectUtil.bind(this);
+
         // 数据的初始化提前, 可以根据数据来装载不同的view id
         initData();
 

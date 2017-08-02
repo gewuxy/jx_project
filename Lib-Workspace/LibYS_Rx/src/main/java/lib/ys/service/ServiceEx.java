@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 import org.json.JSONException;
 
+import lib.annotation.util.InjectUtil;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
@@ -32,6 +33,7 @@ abstract public class ServiceEx extends Service implements INetworkOpt, OnNetwor
     public final void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         if (intent != null) {
+            InjectUtil.bind(this, intent);
             onHandleIntent(intent);
         }
     }
