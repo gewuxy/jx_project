@@ -184,10 +184,12 @@ public class NetFactory {
         String KTurnTo = "turnTo";
     }
 
-    public interface CollectionMeetingsParam {
+    public interface CollectionParam {
         String KPageNum = "pageNum";
         String KPageSize = "pageSize";
         String KType = "type";
+        String KDataFileId = "dataFileId";
+        String KCollectionStatus = "resourceId";
     }
 
     public interface ThomsonParam {
@@ -465,13 +467,33 @@ public class NetFactory {
      * @param pageSize
      * @return 该值为空或0时，表示会议类型
      */
-    public static NetworkReq collectionMeetings(int pageNum, int pageSize) {
-        return newGet(UrlUser.KCollectionMeetings)
-                .param(CollectionMeetingsParam.KPageNum, pageNum)
-                .param(CollectionMeetingsParam.KPageSize, pageSize)
-                .param(CollectionMeetingsParam.KType, "0")
+    public static NetworkReq collection(int pageNum, int pageSize, int type) {
+        return newGet(UrlUser.KCollection)
+                .param(CollectionParam.KPageNum, pageNum)
+                .param(CollectionParam.KPageSize, pageSize)
+                .param(CollectionParam.KType, type)
                 .build();
     }
+
+    /**
+     * 收藏的药品目录详情
+     * @param dataFileId
+     * @return
+     */
+    public static NetworkReq drugDetail(String dataFileId){
+        return newGet(UrlUser.KDrugDetail)
+                .param(CollectionParam.KDataFileId,dataFileId)
+                .build();
+    }
+
+    public static NetworkReq collectionStatus(String resourceId,String type){
+        return newGet(UrlUser.KCollectionStatus)
+                .param(CollectionParam.KCollectionStatus,resourceId)
+                .param(CollectionParam.KType,type)
+                .build();
+    }
+
+
 
     /**
      * 象数明细

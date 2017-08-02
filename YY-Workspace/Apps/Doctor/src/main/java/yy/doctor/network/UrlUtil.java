@@ -56,8 +56,10 @@ public class UrlUtil {
         String KProfile = "user/info";
         String KModify = "user/modify";
         String KUpHeaderImg = "user/upheadimg";
+        String KCollection = "my_favorite";
+        String KDrugDetail = "data/data_detail";
+        String KCollectionStatus = "set_favorite_status";
         String KChangePwd = "user/resetPwd";
-        String KCollectionMeetings = "myFavorite";
         String KBindJPush = "bindJpush";
         String KCheckAppVersion = "version/newly";
         String KBindMobile = "user/set_bind_mobile";

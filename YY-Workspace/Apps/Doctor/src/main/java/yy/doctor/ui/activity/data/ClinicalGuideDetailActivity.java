@@ -8,6 +8,7 @@ import lib.yy.ui.activity.base.BaseGroupListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DrugDetailAdapter;
 import yy.doctor.model.data.GroupDrugDetail;
+import yy.doctor.model.data.DrugDetail;
 import yy.doctor.util.Util;
 
 /**
@@ -15,7 +16,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/29
  */
 
-public class ClinicalGuideDetailActivity  extends BaseGroupListActivity<GroupDrugDetail, String, DrugDetailAdapter> {
+public class ClinicalGuideDetailActivity  extends BaseGroupListActivity<GroupDrugDetail, DrugDetail, DrugDetailAdapter> {
     private ImageView mIvCollection;
     private boolean mStoredState = false;  // 默认没有收藏
     @Override

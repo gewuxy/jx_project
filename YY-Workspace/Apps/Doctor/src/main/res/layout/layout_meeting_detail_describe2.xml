@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/meeting_detail_tv_unit_num"
             style="@style/tv"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_666"
             android:text="河北省医学会神经病分会"/>
 

@@ -7,12 +7,11 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
 import yy.doctor.util.UISetter;
-
-import static lib.ys.util.view.ViewUtil.goneView;
-import static lib.ys.util.view.ViewUtil.showView;
 
 /**
  * @author GuoXuan
@@ -44,17 +43,15 @@ public class EditRegisterPwdForm extends EditForm {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String str = s.toString();
-                if (str.length() != 0) {
-                    showView(holder.getIvCancel());
-                } else {
-                    goneView(holder.getIvCancel());
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (TextUtil.isNotEmpty(s)) {
+                    ViewUtil.showView(holder.getIvCancel());
+                } else {
+                    ViewUtil.goneView(holder.getIvCancel());
+                }
             }
         });
     }

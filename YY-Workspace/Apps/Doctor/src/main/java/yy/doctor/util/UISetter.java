@@ -125,6 +125,7 @@ public class UISetter {
 
             long fileSize = fileItem.getLong(TFileData.fileSize);
             fileName = fileItem.getString(TFileData.materialName);
+            String fileId = fileItem.getString(TFileData.id);
             if (TextUtil.isEmpty(fileName)) {
                 fileName = fileItem.getString(TFileData.name);
                 fileUrl = fileItem.getString(TFileData.fileUrl);
@@ -137,9 +138,10 @@ public class UISetter {
             String finalFileName = fileName;
             String finalFileUrl = fileUrl;
             String finalFileType = fileType;
+
             addFileItem(layout, fileName, v -> DownloadDataActivity.nav(v.getContext(),
                     CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
-                    finalFileName, finalFileUrl, finalFileType, fileSize));
+                    finalFileName, finalFileUrl, finalFileType, fileSize,fileId));
         }
 
     }

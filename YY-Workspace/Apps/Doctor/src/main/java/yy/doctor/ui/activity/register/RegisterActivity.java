@@ -40,6 +40,7 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.model.form.BaseForm;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
@@ -242,7 +243,6 @@ public class RegisterActivity extends BaseFormActivity
         setOnClickListener(mTvActivatedCode);
         setOnClickListener(mIvCancel);
         mTvReg.setEnabled(false);
-
         SpannableString s = new SpannableString("点击“注册”即表示您同意");
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 2, 6, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mTvAgree.setText(s);
@@ -264,11 +264,6 @@ public class RegisterActivity extends BaseFormActivity
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()!=0) {
-                    showView(mIvCancel);
-                }else {
-                    goneView(mIvCancel);
-                }
             }
 
             @Override
@@ -280,6 +275,12 @@ public class RegisterActivity extends BaseFormActivity
                 }
 
                 setBtnStatus();
+
+                if (TextUtil.isNotEmpty(s)) {
+                    ViewUtil.showView(mIvCancel);
+                } else {
+                    ViewUtil.goneView(mIvCancel);
+                }
             }
         });
 

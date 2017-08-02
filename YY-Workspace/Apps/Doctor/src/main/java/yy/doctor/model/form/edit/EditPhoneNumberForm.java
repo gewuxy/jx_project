@@ -6,13 +6,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.ys.ConstantsEx;
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-
-import static lib.ys.util.view.ViewUtil.hideView;
-import static lib.ys.util.view.ViewUtil.showView;
 
 /**
  * @auther WangLan
@@ -59,11 +58,6 @@ public class EditPhoneNumberForm extends EditNumberForm {
                     // TODO: tttttttttttttttttttt
                     editText.setSelection(str.length());
                 }
-                if (str.length() != 0) {
-                    showView(holder.getIv());
-                } else {
-                    hideView(holder.getIv());
-                }
             }
 
             @Override
@@ -81,6 +75,12 @@ public class EditPhoneNumberForm extends EditNumberForm {
                     }
                 } else {
                     Notifier.inst().notify(NotifyType.disable_fetch_message_captcha);
+                }
+
+                if (TextUtil.isNotEmpty(s)) {
+                    ViewUtil.showView(holder.getIv());
+                } else {
+                    ViewUtil.goneView(holder.getIv());
                 }
             }
         });

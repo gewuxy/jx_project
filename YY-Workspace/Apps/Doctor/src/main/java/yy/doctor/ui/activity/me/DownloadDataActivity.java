@@ -46,19 +46,21 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private String mUrl;
     private String mType;
     private long mFileSize;
+    private String mDataFileId;
     private String mFileSizeKB;
     private String mFileNameHashCode;
     private String mFileNameEncryption;
     private String mFilePath;
     private Intent mDownloadServ;
 
-    public static void nav(Context context, String filePath, String name, String url, String type, long size) {
+    public static void nav(Context context, String filePath, String name, String url, String type, long size,String id) {
         Intent i = new Intent(context, DownloadDataActivity.class)
                 .putExtra(Extra.KFilePath, filePath)
                 .putExtra(Extra.KName, name)
                 .putExtra(Extra.KData, url)
                 .putExtra(Extra.KType, type)
-                .putExtra(Extra.KNum, size);
+                .putExtra(Extra.KNum, size)
+                .putExtra(Extra.KId,id);
         LaunchUtil.startActivity(context, i);
     }
 
@@ -71,7 +73,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         mUrl = getIntent().getStringExtra(Extra.KData);
         mType = getIntent().getStringExtra(Extra.KType);
         mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
-
+        mDataFileId = getIntent().getStringExtra(Extra.KId);
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
         mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mType));
 
@@ -88,7 +90,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         //先判断文件是否已经存在  通过url的hashcode
         File f = new File(mFilePath, mFileNameEncryption);
         if (f.exists()) {
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mFileSizeKB, mFileName);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mFileSizeKB, mFileName,mDataFileId);
             finish();
         }
 
@@ -103,7 +105,6 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, mFileName, this);
-        bar.addViewRight(R.drawable.collection_selector,v -> showToast("收藏"));
     }
 
     @Override
@@ -175,7 +176,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             mTvNum.setText(downloadSize + KByteSymbol);
         } else if (type == DownloadNotifyType.complete) {
 
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName,mDataFileId);
             finish();
 
 //            if (mType.equals(FileTypeConstants.KPdf)) {
