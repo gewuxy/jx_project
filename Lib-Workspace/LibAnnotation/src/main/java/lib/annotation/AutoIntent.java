@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  * @since 2017/8/1
  */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.SOURCE)
-public @interface IntentBuilder {
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AutoIntent {
 }

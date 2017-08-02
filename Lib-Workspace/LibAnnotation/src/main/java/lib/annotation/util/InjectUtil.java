@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import java.lang.reflect.Method;
 
-import lib.annotation.IntentBuilder;
+import lib.annotation.AutoIntent;
 
 /**
  * @auther yuansui
@@ -15,36 +15,24 @@ import lib.annotation.IntentBuilder;
 
 public class InjectUtil {
 
-    public static void bind(Activity a) {
-        intentBuilder(a);
+    public static void bind(Activity activity) {
+        intentBuilder(activity, activity.getIntent());
     }
 
-    public static void bind(Service s, Intent i) {
-        intentBuilder(s, i);
+    public static void bind(Service service, Intent i) {
+        intentBuilder(service, i);
     }
 
-    private static void intentBuilder(Activity a) {
-        Class clz = a.getClass();
-        if (clz.isAnnotationPresent(IntentBuilder.class)) {
+    private static void intentBuilder(Object o, Intent i) {
+        Class clz = o.getClass();
+        if (clz.isAnnotationPresent(AutoIntent.class)) {
             String clsName = clz.getName();
             try {
-                Class<?> builderClz = Class.forName(clsName + "IntentBuilder");
-                Method method = builderClz.getMethod("inject", Activity.class);
-                method.invoke(null, a);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+                Class<?> builderClz = Class.forName(clsName + "Intent");
 
-    private static void intentBuilder(Service serv, Intent intent) {
-        Class clz = serv.getClass();
-        if (clz.isAnnotationPresent(IntentBuilder.class)) {
-            String clsName = clz.getName();
-            try {
-                Class<?> builderClz = Class.forName(clsName + "IntentBuilder");
-                Method method = builderClz.getMethod("inject", Service.class);
-                method.invoke(null, serv);
+                Class[] params = new Class[]{clz, Intent.class};
+                Method method = builderClz.getMethod("inject", clz, Intent.class);
+                method.invoke(null, o, i);
             } catch (Exception e) {
                 e.printStackTrace();
             }

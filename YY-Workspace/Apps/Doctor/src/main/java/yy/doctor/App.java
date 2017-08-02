@@ -1,7 +1,9 @@
 package yy.doctor;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.squareup.leakcanary.LeakCanary;
@@ -109,4 +111,9 @@ public class App extends BaseApp {
         return CacheUtil.getBmpCacheDir();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

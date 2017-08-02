@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.me;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -9,16 +8,17 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import lib.annotation.AutoIntent;
+import lib.annotation.Extra;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
 import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ;
 import yy.doctor.serv.DownloadServ.Download;
+import yy.doctor.serv.DownloadServIntent;
 import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
@@ -30,6 +30,7 @@ import yy.doctor.view.CircleProgressView;
  * @since 2017/5/17
  */
 
+@AutoIntent
 public class DownloadDataActivity extends BaseActivity implements OnDownloadNotify {
 
     private static final String KByteSymbol = "K";
@@ -42,35 +43,41 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private ImageView mIvDownload;
     private boolean mIsDownload = false;
 
-    private String mFileName;
-    private String mUrl;
-    private String mType;
-    private long mFileSize;
     private String mFileSizeKB;
     private String mFileNameHashCode;
     private String mFileNameEncryption;
-    private String mFilePath;
-    private Intent mDownloadServ;
 
-    public static void nav(Context context, String filePath, String name, String url, String type, long size) {
-        Intent i = new Intent(context, DownloadDataActivity.class)
-                .putExtra(Extra.KFilePath, filePath)
-                .putExtra(Extra.KName, name)
-                .putExtra(Extra.KData, url)
-                .putExtra(Extra.KType, type)
-                .putExtra(Extra.KNum, size);
-        LaunchUtil.startActivity(context, i);
-    }
+    @Extra
+    String mType;
+
+    @Extra
+    long mFileSize;
+
+    @Extra
+    String mUrl;
+
+    @Extra
+    String mFileName;
+
+    @Extra
+    String mFilePath;
+
+
+//    public static void nav(Context context, String filePath, String name, String url, String type, long size) {
+//        Intent i = new Intent(context, DownloadDataActivity.class)
+//                .putExtra(Extra.KFilePath, filePath)
+//                .putExtra(Extra.KName, name)
+//                .putExtra(Extra.KData, url)
+//                .putExtra(Extra.KType, type)
+//                .putExtra(Extra.KNum, size);
+//        LaunchUtil.startActivity(context, i);
+//    }
 
     @Override
     public void initData() {
         DownloadNotifier.inst().add(this);
 
-        mFilePath = getIntent().getStringExtra(Extra.KFilePath);
-        mFileName = getIntent().getStringExtra(Extra.KName);
-        mUrl = getIntent().getStringExtra(Extra.KData);
-        mType = getIntent().getStringExtra(Extra.KType);
-        mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
+//        mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
         mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mType));
@@ -103,7 +110,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, mFileName, this);
-        bar.addViewRight(R.drawable.collection_selector,v -> showToast("收藏"));
+        bar.addViewRight(R.drawable.collection_selector, v -> showToast("收藏"));
     }
 
     @Override
@@ -135,11 +142,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
                     mTvStatus.setText(R.string.download_ing);
-                    mDownloadServ = new Intent(this, DownloadServ.class);
-                    mDownloadServ.putExtra(Extra.KData, mUrl)
-                            .putExtra(Extra.KFilePath, mFilePath)
-                            .putExtra(Extra.KType, mType);
-                    startService(mDownloadServ);
+                    DownloadServIntent.create(mUrl, mFilePath, mType).start(this);
                     //现在不提供断点下载 点击下载按钮后就不能点击暂停
                     mIvDownload.setClickable(false);
                 }
@@ -153,8 +156,9 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mDownloadServ != null) {
-            stopService(mDownloadServ);
+        // FIXME: 需要测试
+        if (mIsDownload) {
+            stopService(new Intent(this, DownloadServ.class));
         }
         DownloadNotifier.inst().remove(this);
     }

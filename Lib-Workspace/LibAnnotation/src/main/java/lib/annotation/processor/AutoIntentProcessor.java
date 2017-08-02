@@ -36,23 +36,23 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 
+import lib.annotation.AutoIntent;
 import lib.annotation.Extra;
-import lib.annotation.IntentBuilder;
 
 @AutoService(Processor.class)
-public class IntentBuilderProcessor extends BaseProcessor {
+public class AutoIntentProcessor extends BaseProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return ImmutableSet.of(IntentBuilder.class.getCanonicalName());
+        return ImmutableSet.of(AutoIntent.class.getCanonicalName());
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(IntentBuilder.class)) {
+        for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(AutoIntent.class)) {
             // Make sure element is a field or a method declaration
             if (!annotatedElement.getKind().isClass()) {
-                error(annotatedElement, "Only classes can be annotated with @%s", IntentBuilder.class.getSimpleName());
+                error(annotatedElement, "Only classes can be annotated with @%s", AutoIntent.class.getSimpleName());
                 return true;
             }
 
@@ -86,6 +86,8 @@ public class IntentBuilderProcessor extends BaseProcessor {
         getAnnotatedFields(annotatedElement, required, optional);
         all.addAll(required);
         all.addAll(optional);
+
+        TypeName annotatedTypeName = TypeName.get(annotatedElement.asType());
 
         final String name = String.format("%sIntent", annotatedElement.getSimpleName());
         TypeSpec.Builder builder = TypeSpec.classBuilder(name)
@@ -132,66 +134,81 @@ public class IntentBuilderProcessor extends BaseProcessor {
                     .build());
         }
 
-        /**
-         * 生成 start 方法
-         */
-        MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
-                .addModifiers(Modifier.PUBLIC)
-                .addParameter(Context.class, "context")
-                .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, TypeName.get(annotatedElement.asType()));
-        addIntentStatement(startMethod, all);
-        startMethod.beginControlFlow("if (!(context instanceof $T))", Activity.class)
-                .addStatement("intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)")
-                .endControlFlow()
-                .addStatement("context.startActivity(intent)");
-        builder.addMethod(startMethod.build());
+        if (annotatedTypeName.toString().toLowerCase().contains("serv")) {
+            // 服务
+            /**
+             * 生成 start 方法
+             */
+            MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
+                    .addModifiers(Modifier.PUBLIC)
+                    .addParameter(Context.class, "context")
+                    .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName);
+            addIntentStatement(startMethod, all);
+            startMethod.addStatement("context.startService(intent)");
+            builder.addMethod(startMethod.build());
+        } else {
+            // activity
+            /**
+             * 生成 start 方法
+             */
+            MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
+                    .addModifiers(Modifier.PUBLIC)
+                    .addParameter(Context.class, "context")
+                    .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName);
+            addIntentStatement(startMethod, all);
+            startMethod.beginControlFlow("if (!(context instanceof $T))", Activity.class)
+                    .addStatement("intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)")
+                    .endControlFlow()
+                    .addStatement("context.startActivity(intent)");
+            builder.addMethod(startMethod.build());
+
+            /**
+             * 生成 start for result 方法
+             */
+            MethodSpec.Builder startForResultMethod = MethodSpec.methodBuilder("startForResult")
+                    .addModifiers(Modifier.PUBLIC)
+                    .addParameter(Object.class, "host")
+                    .addParameter(TypeName.INT, "code")
+                    .beginControlFlow("if (!(host instanceof $T) || !(host instanceof $T))", Activity.class, Fragment.class)
+                    .addStatement("throw new $T()", IllegalStateException.class)
+                    .endControlFlow()
+                    .addStatement("$T intent = new Intent((Context) host, $T.class)", Intent.class, annotatedTypeName);
+            addIntentStatement(startForResultMethod, all);
+            startForResultMethod.beginControlFlow("if (host instanceof $T)", Activity.class)
+                    .addStatement("(($T) host).startActivityForResult(intent, code)", Activity.class)
+                    .nextControlFlow("else if (host instanceof $T)", Fragment.class)
+                    .addStatement("(($T) host).startActivityForResult(intent, code)", Fragment.class)
+                    .endControlFlow();
+            builder.addMethod(startForResultMethod.build());
+        }
 
         /**
-         * 生成 start for result 方法
-         */
-        MethodSpec.Builder startForResultMethod = MethodSpec.methodBuilder("startForResult")
-                .addModifiers(Modifier.PUBLIC)
-                .addParameter(Object.class, "host")
-                .addParameter(TypeName.INT, "code")
-                .beginControlFlow("if (!(host instanceof $T) || !(host instanceof $T))", Activity.class, Fragment.class)
-                .addStatement("throw new $T()", IllegalStateException.class)
-                .endControlFlow()
-                .addStatement("$T intent = new Intent((Context) host, $T.class)", Intent.class, TypeName.get(annotatedElement.asType()));
-        addIntentStatement(startForResultMethod, all);
-        startForResultMethod.beginControlFlow("if (host instanceof $T)", Activity.class)
-                .addStatement("(($T) host).startActivityForResult(intent, code)", Activity.class)
-                .nextControlFlow("else if (host instanceof $T)", Fragment.class)
-                .addStatement("(($T) host).startActivityForResult(intent, code)", Fragment.class)
-                .endControlFlow();
-        builder.addMethod(startForResultMethod.build());
-
-        /**
-         * 生成activity调用的注入方法
+         * 生成host调用的注入方法
          */
         MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-//                .addParameter(Intent.class, "intent")
-                .addParameter(TypeName.get(annotatedElement.asType()), "activity")
-                .addStatement("$T extras = activity.getIntent().getExtras()", Bundle.class);
+                .addParameter(annotatedTypeName, "host")
+                .addParameter(Intent.class, "intent")
+                .addStatement("$T extras = intent.getExtras()", Bundle.class);
         for (Element e : all) {
             String paramName = getParamName(e);
             injectMethod.beginControlFlow("if (extras.containsKey($S))", paramName)
-                    .addStatement("activity.$N = ($T) extras.get($S)", e.getSimpleName().toString(), e.asType(), paramName)
+                    .addStatement("host.$N = ($T) extras.get($S)", e.getSimpleName().toString(), e.asType(), paramName)
                     .nextControlFlow("else");
 
             Extra extra = e.getAnnotation(Extra.class);
             TypeName typeName = TypeName.get(e.asType());
             if (typeName == TypeName.LONG) {
-                injectMethod.addStatement("activity.$N = " + extra.defaultLong(), e.getSimpleName().toString());
+                injectMethod.addStatement("host.$N = " + extra.defaultLong(), e.getSimpleName().toString());
             } else if (typeName == TypeName.INT) {
-                injectMethod.addStatement("activity.$N = " + extra.defaultInt(), e.getSimpleName().toString());
+                injectMethod.addStatement("host.$N = " + extra.defaultInt(), e.getSimpleName().toString());
             } else if (typeName == TypeName.FLOAT) {
-                injectMethod.addStatement("activity.$N = " + extra.defaultFloat(), e.getSimpleName().toString());
+                injectMethod.addStatement("host.$N = " + extra.defaultFloat(), e.getSimpleName().toString());
             } else if (typeName == TypeName.BOOLEAN) {
-                injectMethod.addStatement("activity.$N = " + extra.defaultBoolean(), e.getSimpleName().toString());
+                injectMethod.addStatement("host.$N = " + extra.defaultBoolean(), e.getSimpleName().toString());
             } else {
                 // Object
-                injectMethod.addStatement("activity.$N = null", e.getSimpleName().toString());
+                injectMethod.addStatement("host.$N = null", e.getSimpleName().toString());
             }
             injectMethod.endControlFlow();
         }

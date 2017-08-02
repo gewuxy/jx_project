@@ -16,7 +16,7 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.PDFActivity;
+import yy.doctor.ui.activity.PDFActivityIntent;
 import yy.doctor.util.Util;
 
 import static yy.doctor.Constants.FileTypeConstants.KPdf;
@@ -133,7 +133,9 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             Intent intent = null;
             try {
                 if (mType.equals(KPdf)) {
-                    PDFActivity.nav(this, mFilePath, mFileNameEncryption, mFileName);
+                    PDFActivityIntent.create(mFilePath,
+                            mFileNameEncryption,
+                            mFileName).start(this);
                 } else if (mType.equals(KPpt) || mType.equals(KPptX)) {
                     intent = getPptFileIntent(mFilePath + mFileNameEncryption);
                     startActivity(intent);

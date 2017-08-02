@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,11 +8,11 @@ import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;
 
+import lib.annotation.Extra;
+import lib.annotation.AutoIntent;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.util.Util;
 
@@ -25,29 +23,26 @@ import yy.doctor.util.Util;
  * @since 2017/7/12
  */
 
+@AutoIntent
 public class PDFActivity extends BaseActivity {
 
     private PDFView mPDFView;
-    private String mFilePath;
-    private String mFileEncryptionName;
-    private String mFileName;
+
+    @Extra
+    String mFilePath;
+
+    @Extra
+    String mFileEncryptionName;
+
+    @Extra
+    String mFileName;
 
     private ImageView mIvCollection;
     private boolean mStoredState = false;  // 默认没有收藏
 
-    public static void nav(Context context, String filePath, String fileEncryptionName, String name) {
-        Intent i = new Intent(context, PDFActivity.class)
-                .putExtra(Extra.KFilePath, filePath)
-                .putExtra(Extra.KData, fileEncryptionName)
-                .putExtra(Extra.KName, name);
-        LaunchUtil.startActivity(context, i);
-    }
 
     @Override
     public void initData() {
-        mFilePath = getIntent().getStringExtra(Extra.KFilePath);
-        mFileEncryptionName = getIntent().getStringExtra(Extra.KData);
-        mFileName = getIntent().getStringExtra(Extra.KName);
     }
 
     @NonNull

@@ -2,12 +2,13 @@ package yy.doctor.serv;
 
 import android.content.Intent;
 
+import lib.annotation.Extra;
+import lib.annotation.AutoIntent;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
 import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
-import yy.doctor.Extra;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -15,22 +16,26 @@ import yy.doctor.network.NetFactory;
  * @since 2017/6/2
  */
 
+@AutoIntent
 public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
     private static final String KDot = ".";
-    private String mUrl;
-    private String mFilePath;
-    private String mType;
+
+    @Extra
+    String mUrl;
+
+    @Extra
+    String mFilePath;
+
+    @Extra
+    String mType;
+
     private String mFileNameHashCode;
     private String mFileNameEncryption;
 
     @Override
     protected void onHandleIntent(Intent intent) {
         DownloadNotifier.inst().add(this);
-
-        mUrl = intent.getStringExtra(Extra.KData);
-        mFilePath = intent.getStringExtra(Extra.KFilePath);
-        mType = intent.getStringExtra(Extra.KType);
 
         mFileNameHashCode = String.valueOf(mUrl.hashCode()) + KDot + mType;
         YSLog.d(TAG, " download FileNameHashCode = " + mFileNameHashCode);
