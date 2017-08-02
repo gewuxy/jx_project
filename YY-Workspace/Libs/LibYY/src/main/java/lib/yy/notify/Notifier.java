@@ -31,6 +31,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.study_start,
             NotifyType.study_end,
             NotifyType.cancel_collection_meeting,
+            NotifyType.getCancel_collection_drug,
+            NotifyType.getCancel_collection_thomson,
             NotifyType.exit,
             NotifyType.province_finish,
             NotifyType.fetch_message_captcha,
@@ -107,6 +109,16 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 取消 收藏会议
          */
         int cancel_collection_meeting = 11;
+
+        /**
+         * 取消药品收藏
+         */
+        int getCancel_collection_drug = 23;
+
+        /**
+         * 取消汤森路透收藏
+         */
+        int getCancel_collection_thomson = 24;
 
         /**
          * 数据中心页面结束

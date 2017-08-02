@@ -42,14 +42,16 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     private String mFileNameEncryption;
     private String mType;
     private String mSize;
+    private String mDataFileId;
 
-    public static void nav(Context context, String filePath, String fileNameEncryption, String type, String size, String fileName) {
+    public static void nav(Context context, String filePath, String fileNameEncryption, String type, String size, String fileName,String id) {
         Intent i = new Intent(context, LaunchDownloadDataActivity.class)
                 .putExtra(Extra.KFilePath, filePath)
                 .putExtra(Extra.KName, fileNameEncryption)
                 .putExtra(Extra.KType, type)
                 .putExtra(Extra.KNum, size)
-                .putExtra(Extra.KData, fileName);
+                .putExtra(Extra.KData, fileName)
+                .putExtra(Extra.KId,id);
         LaunchUtil.startActivity(context, i);
     }
 
@@ -60,6 +62,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
         mType = getIntent().getStringExtra(Extra.KType);
         mSize = getIntent().getStringExtra(Extra.KNum);
         mFileName = getIntent().getStringExtra(Extra.KData);
+        mDataFileId = getIntent().getStringExtra(Extra.KId);
 
         YSLog.d(TAG, "FileNameEncryption = " + mFileNameEncryption);
 
@@ -133,7 +136,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             Intent intent = null;
             try {
                 if (mType.equals(KPdf)) {
-                    PDFActivity.nav(this, mFilePath, mFileNameEncryption, mFileName);
+                    PDFActivity.nav(this, mFilePath, mFileNameEncryption, mFileName,mDataFileId);
                 } else if (mType.equals(KPpt) || mType.equals(KPptX)) {
                     intent = getPptFileIntent(mFilePath + mFileNameEncryption);
                     startActivity(intent);

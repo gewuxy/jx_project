@@ -6,13 +6,15 @@ import lib.ys.adapter.GroupAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.data.DrugDetailVH;
 import yy.doctor.model.data.GroupDrugDetail;
+import yy.doctor.model.data.DrugDetail;
+import yy.doctor.model.data.DrugDetail.TDrugDetail;
 
 /**
  * @author CaiXiang
  * @since 2017/7/14
  */
 
-public class DrugDetailAdapter extends GroupAdapterEx<GroupDrugDetail, String, DrugDetailVH> {
+public class DrugDetailAdapter extends GroupAdapterEx<GroupDrugDetail, DrugDetail, DrugDetailVH> {
 
     @Override
     public int getGroupConvertViewResId() {
@@ -26,11 +28,12 @@ public class DrugDetailAdapter extends GroupAdapterEx<GroupDrugDetail, String, D
         } else {
             holder.getIv().setSelected(false);
         }
+        GroupDrugDetail group = getGroup(groupPosition);
+        holder.getTvName().setText(group.getTag());
     }
 
     @Override
     public void onGroupViewClick(int groupPosition, View v) {
-
     }
 
     @Override
@@ -40,7 +43,8 @@ public class DrugDetailAdapter extends GroupAdapterEx<GroupDrugDetail, String, D
 
     @Override
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, DrugDetailVH holder) {
-
+        DrugDetail item = getChild(groupPosition,childPosition);
+        holder.getTvDetail().setText(item.getString(TDrugDetail.detailValue));
     }
 
 }

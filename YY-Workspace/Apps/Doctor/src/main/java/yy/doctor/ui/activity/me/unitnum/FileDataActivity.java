@@ -29,6 +29,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
     private String mId;
     private String mType;
     private String mFilePath;
+    private String mDataFileId;
 
     private static String mFileName;
     private static String mFileUrl;
@@ -82,6 +83,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
 
         mFileSize = item.getLong(TFileData.fileSize);
         mFileName = item.getString(TFileData.materialName);
+        mDataFileId = item.getString(TFileData.id);
         if (TextUtil.isEmpty(mFileName)) {
             mFileName = item.getString(TFileData.name);
             mFileUrl = item.getString(TFileData.fileUrl);
@@ -93,7 +95,7 @@ public class FileDataActivity extends BaseSRListActivity<FileData, FileDataAdapt
         }
 
         DownloadDataActivity.nav(this, mFilePath, mFileName,
-                mFileUrl, mFileType, mFileSize);
+                mFileUrl, mFileType, mFileSize,mDataFileId);
     }
 
 }

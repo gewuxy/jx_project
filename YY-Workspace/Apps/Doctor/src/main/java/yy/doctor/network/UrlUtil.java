@@ -18,7 +18,7 @@ public class UrlUtil {
         if (mIsDebug) {
             // 测试线
            mBaseHost = "59.111.90.245:8083/v7/";
-          //  mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
+//            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8082/"; // 轩哥电脑
         } else {
             // 正式线
@@ -56,9 +56,11 @@ public class UrlUtil {
         String KForgetPwdPhone = "register/pwd/reset/by_mobile";
         String KProfile = "user/info";
         String KModify = "user/modify";
+        String KCollection = "my_favorite";
+        String KDrugDetail = "data/data_detail";
+        String KCollectionStatus = "set_favorite_status";
         String KUpHeaderImg = "user/update_avatar";
         String KChangePwd = "user/resetPwd";
-        String KCollectionMeetings = "myFavorite";
         String KBindJPush = "bindJpush";
         String KCheckAppVersion = "version/newly";
         String KBindMobile = "user/set_bind_mobile";

@@ -112,6 +112,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private int mCostEpn; // 象数
     private String mMeetId; // 会议Id
     private String mMeetName; //  会议名字
+    private String mNetType = 0+"";
 
     private long mStartModuleTime; // 模块开始时间
     private long mMeetTime; // 统一用通知不用result

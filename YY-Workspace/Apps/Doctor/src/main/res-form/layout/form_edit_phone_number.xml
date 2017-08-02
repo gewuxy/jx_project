@@ -25,6 +25,6 @@
         android:layout_marginRight="@dimen/margin"
         android:padding="8dp"
         android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        />
 
 </LinearLayout>

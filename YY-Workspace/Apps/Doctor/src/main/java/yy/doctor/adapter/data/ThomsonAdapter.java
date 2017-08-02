@@ -46,7 +46,8 @@ public class ThomsonAdapter extends AdapterEx<ThomsonDetail, DataVH> {
         long fileSize = item.getInt(TThomsonDetail.fileSize) * 1024;
         String fileName = item.getString(TThomsonDetail.title);
         String url = item.getString(TThomsonDetail.filePath);
-        DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize);
+        String dataFileId = item.getString(TThomsonDetail.id);
+        DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize,dataFileId);
     }
 
 }
