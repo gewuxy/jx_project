@@ -134,6 +134,22 @@ public class AutoIntentProcessor extends BaseProcessor {
                     .build());
         }
 
+        /**
+         * 生成new intent方法
+         */
+        MethodSpec.Builder newIntentMethod = MethodSpec.methodBuilder("newIntent")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(Context.class, "context")
+                .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName)
+                .returns(Intent.class);
+        for (Element e : required) {
+            String paramName = getParamName(e);
+            newIntentMethod.addParameter(TypeName.get(e.asType()), paramName);
+        }
+        addIntentStatement(newIntentMethod, all);
+        newIntentMethod.addStatement("return intent");
+        builder.addMethod(newIntentMethod.build());
+
         if (annotatedTypeName.toString().toLowerCase().contains("serv")) {
             // 服务
             /**
