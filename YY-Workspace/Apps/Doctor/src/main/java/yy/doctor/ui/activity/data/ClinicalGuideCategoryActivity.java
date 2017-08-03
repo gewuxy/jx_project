@@ -67,6 +67,11 @@ public class ClinicalGuideCategoryActivity extends BaseListActivity<String, Clin
     }
 
     @Override
+    public void onItemClick(View v, int position) {
+        startActivity(ClinicalGuideDetailActivity.class);
+    }
+
+    @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.data_finish) {
             finish();

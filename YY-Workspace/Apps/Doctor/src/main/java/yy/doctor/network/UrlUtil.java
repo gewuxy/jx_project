@@ -137,6 +137,10 @@ public class UrlUtil {
         String KThomson = "data/thomson/category";
         String KThomSonData = "data/thomson/datas";
         String KPreview = "data/view";
+        String KDrugCategory = "data/data_category";
+        String KDrugAllFile = "data/all_file";
+        String KDrugDataDetail = "data/data_detail";
+        String KDrugSearch = "data/data_search";
     }
 
     public interface UrlEpn {

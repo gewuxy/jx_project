@@ -42,7 +42,6 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     private String mCategory;
     private String mCategoryName;
-    private String mSpecialty;
 
 
     @Override
@@ -74,30 +73,34 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+        if (id == KIdCommit) {
+            return JsonParser.error(r.getText());
+        }else {
+            return super.onNetworkResponse(id, r);
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        switch (id) {
-            case KIdCommit: {
-                Result r = (Result) result;
-                if (r.isSucceed()) {
-                    Profile.inst().put(TProfile.category, mCategory);
-                    Profile.inst().put(TProfile.name, mCategoryName);
-                    Profile.inst().saveToSp();
+        if (id == KIdCommit) {
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                Profile.inst().put(TProfile.category, mCategory);
+                Profile.inst().put(TProfile.name, mCategoryName);
+                Profile.inst().saveToSp();
 
-                    Intent intent = new Intent()
-                            .putExtra(Extra.KName, mCategory)
-                            .putExtra(Extra.KData, mCategoryName);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                } else {
-                    stopRefresh();
-                    onNetworkError(id, new ParseError(r.getError()));
-                }
+                Intent intent = new Intent()
+                        .putExtra(Extra.KName, mCategory)
+                        .putExtra(Extra.KData, mCategoryName);
+                setResult(RESULT_OK, intent);
+                stopRefresh();
+                finish();
+            } else {
+                stopRefresh();
+                onNetworkError(id, new ParseError(r.getError()));
             }
-            break;
+        }else {
+            super.onNetworkSuccess(id, result);
         }
     }
 
@@ -117,7 +120,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     public void onSectionSelected(int position, String name) {
         mCategoryName = name;
 
-        refresh(RefreshWay.embed);
+        refresh(RefreshWay.dialog);
         exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
                 .category(mCategory)
                 .name(mCategoryName)

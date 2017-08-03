@@ -11,7 +11,7 @@ import yy.doctor.model.data.DrugCategoryData.TCategoryData;
  * @since 2017/7/14
  */
 
-public class DrugListAdapter extends AdapterEx<DrugCategoryData, DataVH> {
+public class DrugCategoryListAdapter extends AdapterEx<DrugCategoryData, DataVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -26,7 +26,9 @@ public class DrugListAdapter extends AdapterEx<DrugCategoryData, DataVH> {
         goneView(holder.getTvDetail());
 
         DrugCategoryData item = getItem(position);
-        item.getString(TCategoryData.isFolder);
-        holder.getTvName().setText(getItem(position).getString(TCategoryData.isFolder));
+        item.getEv(TCategoryData.isFile);
+        holder.getTvName().setText(getItem(position).getString(TCategoryData.isFile));
+        String size = item.getLong(TCategoryData.isFile) + "K";
+        holder.getTvDetail().setText(size);
     }
 }

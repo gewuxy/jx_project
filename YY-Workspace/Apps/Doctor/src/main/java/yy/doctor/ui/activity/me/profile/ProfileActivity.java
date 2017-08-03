@@ -160,11 +160,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         Place place = new Place();
         place.put(TPlace.province, Profile.inst().getString(TProfile.province));
         place.put(TPlace.city, Profile.inst().getString(TProfile.city));
-        if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.zone))) {
-            place.put(TPlace.district, Profile.inst().getString(TProfile.zone));
-        }else {
-            place.put(TPlace.district, "");
-        }
+        place.put(TPlace.district, Profile.inst().getString(TProfile.zone));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)

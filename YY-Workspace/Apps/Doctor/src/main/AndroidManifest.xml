@@ -93,6 +93,9 @@
             android:name=".ui.activity.register.DistrictActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.activity.register.PcdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.activity.BaiDuTestActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -175,19 +178,19 @@
             android:name=".ui.activity.data.ClinicalGuideSearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.DrugListCategoryThreeLevelActivity"
+            android:name=".ui.activity.data.DrugListCategoryLevel3Activity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.DrugListCategoryTwoLevelActivity"
+            android:name=".ui.activity.data.DrugListCategoryLevel2Activity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.data.ClinicalGuideCategoryActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.DrugListCategoryActivity"
+            android:name=".ui.activity.data.ClinicalGuideDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.ClinicalGuideDetailActivity"
+            android:name=".ui.activity.data.DataUnitsActivity"
             android:screenOrientation="portrait"/>
 
 

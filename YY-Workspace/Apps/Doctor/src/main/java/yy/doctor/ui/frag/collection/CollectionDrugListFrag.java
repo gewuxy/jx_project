@@ -20,7 +20,7 @@ import yy.doctor.ui.activity.data.DrugDetailActivity;
 
 public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, CollectionDrugAdapter> {
 
-    private int mType = 2; // type为2，表示药品目
+    private int mType = 2; // type为2，表示药品目录
 
     @Override
     public void initData() {
@@ -35,7 +35,7 @@ public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, Collec
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(),mType));
+        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(), mType));
     }
 
     @Override

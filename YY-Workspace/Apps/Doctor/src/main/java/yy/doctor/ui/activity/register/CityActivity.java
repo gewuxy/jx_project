@@ -3,14 +3,10 @@ package yy.doctor.ui.activity.register;
 import android.content.Context;
 import android.content.Intent;
 
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.Pcd;
-import yy.doctor.model.Pcd.TPcd;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -19,11 +15,7 @@ import yy.doctor.util.Util;
  * @since 2017/5/23
  */
 
-public class CityActivity extends BasePcdActivity {
-
-    private String mPcdDesc;
-    private String mProvinceId;
-    private String mProvince;
+public class CityActivity extends BasePcdLevel2Activity {
 
     /**
      * @param context
@@ -40,49 +32,12 @@ public class CityActivity extends BasePcdActivity {
     }
 
     @Override
-    public void initData() {
-        mProvinceId = getIntent().getStringExtra(Extra.KProvinceId);
-        mProvince = getIntent().getStringExtra(Extra.KProvince);
-        mPcdDesc = getIntent().getStringExtra(Extra.KPcdDesc);
-    }
-
-    @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.city, this);
     }
 
     @Override
-    public void setViews() {
-        super.setViews();
-
-        setLocation(mPcdDesc);
-
-        setOnAdapterClickListener((position, v) -> {
-            Pcd item = getItem(position);
-            //如果level等于3就没有下一级了，直接返回
-            if (item.getInt(TPcd.level) == Pcd.KLevelEnd) {
-//                Place place = new Place(mProvince, item.getString(TPcd.name), null);
-
-                refresh(RefreshWay.embed);
-                exeNetworkReq(NetFactory.newModifyBuilder()
-                        .province(mProvince)
-                        .city(item.getString(TPcd.name))
-                        .build());
-            } else {
-                DistrictActivity.nav(CityActivity.this, item.getString(TPcd.id), mProvince, item.getString(TPcd.name), getLocation());
-            }
-        });
-    }
-
-    @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.city(mProvinceId));
-    }
-
-    @Override
-    public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.province_finish) {
-            finish();
-        }
     }
 }

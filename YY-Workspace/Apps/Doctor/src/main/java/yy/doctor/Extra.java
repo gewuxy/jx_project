@@ -11,6 +11,7 @@ public interface Extra {
     String KUrl = "url";
 
     String KTitle = "title";
+    String KLeaf = "leaf";
 
     String KId = "id";
     String KUnitNumId = "unitNumId";

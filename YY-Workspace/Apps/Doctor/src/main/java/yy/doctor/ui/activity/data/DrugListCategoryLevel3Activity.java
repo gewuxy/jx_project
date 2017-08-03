@@ -9,43 +9,43 @@ import android.widget.EditText;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseListActivity;
+import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.data.DrugListAdapter;
+import yy.doctor.adapter.data.DrugCategoryListAdapter;
+import yy.doctor.model.data.ThomsonDetail;
 import yy.doctor.util.Util;
 
 /**
+ * 药品三级目录分类
  *
- * 药品二级目录分类
- *
- * @auther HuoXuYu
- * @since 2017/7/25
+ * @author CaiXiang
+ * @since 2017/7/17
  */
 
-public class DrugListCategoryTwoLevelActivity extends BaseListActivity<String, DrugListAdapter> {
+public class DrugListCategoryLevel3Activity extends BaseSRListActivity<ThomsonDetail, DrugCategoryListAdapter> {
 
     private EditText mEtPath;
-    private String mPath;
+    private String mId;
+    private String mFileName;
 
-    public static void nav(Context context, String path) {
-        Intent i = new Intent(context, DrugListCategoryTwoLevelActivity.class);
-        i.putExtra(Extra.KData, path);
+    public static void nav(Context context, String id, String fileName) {
+        Intent i = new Intent(context, DrugListCategoryLevel3Activity.class)
+                .putExtra(Extra.KId, id)
+                .putExtra(Extra.KName, fileName);
         LaunchUtil.startActivity(context, i);
     }
 
     @Override
     public void initData() {
-        mPath = getIntent().getStringExtra(Extra.KData);
-        for (int i = 0; i < 10; ++i) {
-            addItem(i + "");
-        }
+        mId = getIntent().getStringExtra(Extra.KId);
+        mFileName = getIntent().getStringExtra(Extra.KName);
     }
 
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.drug_list, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> DrugListCategoryTwoLevelActivity.this.notify(NotifyType.data_finish));
+        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> DrugListCategoryLevel3Activity.this.notify(NotifyType.data_finish));
     }
 
     @Nullable
@@ -67,8 +67,13 @@ public class DrugListCategoryTwoLevelActivity extends BaseListActivity<String, D
     }
 
     @Override
+    public void getDataFromNet() {
+
+    }
+
+    @Override
     public void onItemClick(View v, int position) {
-        startActivity(DrugListCategoryThreeLevelActivity.class);
+        startActivity(DrugDetailActivity.class);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     private boolean mStoredState = true;  // 默认有收藏
     private String mDataFileId;
     private String mFileName;
-    private String mType = 2+""; // type为2，表示药品目
+    private String mType = 2+""; // type为2，表示药品目录
     private final int KCollectionState = 0;
     private final int KCollectionDetail = 1;
 

@@ -11,7 +11,8 @@ import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.data.DrugListAdapter;
+import yy.doctor.adapter.data.DrugCategoryListAdapter;
+import yy.doctor.model.data.DrugCategoryData;
 import yy.doctor.util.Util;
 
 /**
@@ -21,7 +22,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/14
  */
 
-public class DrugSearchActivity extends BaseListActivity<String, DrugListAdapter>{
+public class DrugSearchActivity extends BaseListActivity<DrugCategoryData, DrugCategoryListAdapter>{
 
     private LinearLayout mLayoutEmpty;   // 一进来是显示的布局 什么都没有
     private View mLayoutSearchEmpty;  // 搜索结果为空的布局
@@ -94,9 +95,6 @@ public class DrugSearchActivity extends BaseListActivity<String, DrugListAdapter
             showView(mLayoutEmpty);
         } else {
             goneView(mLayoutEmpty);
-            for (int i = 0; i < 5; ++i) {
-                addItem(i + "");
-            }
         }
         invalidate();
     }

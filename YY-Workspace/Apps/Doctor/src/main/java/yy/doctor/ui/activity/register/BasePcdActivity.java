@@ -23,6 +23,12 @@ abstract public class BasePcdActivity extends BaseSRListActivity<Pcd, PcdAdapter
 
     private String mLocation;
 
+    protected String mPcdDesc;
+    protected String mProvinceId;
+    protected String mCityId;
+    protected String mProvince;
+    protected String mCity;
+
     @Override
     public void findViews() {
         super.findViews();

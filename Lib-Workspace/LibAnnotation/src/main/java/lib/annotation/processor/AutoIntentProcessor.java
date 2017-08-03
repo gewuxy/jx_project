@@ -34,6 +34,7 @@ import lib.annotation.Extra;
 public class AutoIntentProcessor extends BaseProcessor {
 
 
+
     @Override
     protected Class<? extends Annotation> getAnnotationClass() {
         return AutoIntent.class;

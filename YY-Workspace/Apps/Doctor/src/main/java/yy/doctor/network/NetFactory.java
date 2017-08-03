@@ -271,6 +271,17 @@ public class NetFactory {
         String KPageSize = "pageSize";
     }
 
+    public interface DrugParam {
+        String KPreId = "preId";    //父级文件夹的id,第一级不用传preId
+        String KType = "type";      //type=0代表汤森,type=1代表药品目录，type=2代表临床
+        String KLeaf = "true";      //下一级是否是文件夹, 下一级为文件返回true,下一级是文件夹返回false.第一级传null或空字符串
+        String KCategoryId = "categoryId";//上级文件夹id
+        String KPageNum = "pageNum";    //当前页数
+        String KPageSize = "pageSize";  //显示条数
+        String KDataFileId = "dataFileId";//文件id
+        String KKeyWord = "keyWord";    //关键字
+    }
+
     public interface WXParam {
         String KCode = "code";
         String KOpenId = "openid";
@@ -551,6 +562,22 @@ public class NetFactory {
     }
 
     /**
+     * 获取省市区的资料
+     *
+     * @param id
+     * @return
+     */
+    public static NetworkReq pcd(String... id) {
+        if (id != null && id.length > 0) {
+            return newGet(UrlRegister.KCity)
+                    .param(CityParam.KCity, id[0])
+                    .build();
+        } else {
+            return newGet(UrlRegister.KProvince).build();
+        }
+    }
+
+    /**
      * 省份
      *
      * @return
@@ -793,6 +820,69 @@ public class NetFactory {
                 .param(ThomsonParam.KCategoryId, categoryId)
                 .param(ThomsonParam.KPageNum, pageNum)
                 .param(ThomsonParam.KPageSize, pageSize)
+                .build();
+    }
+
+    /**
+     * 药品目录(文件或文件夹列表)
+     *
+     * @param preId 父级文件夹的id,第一级不用传preId
+     * @param type  type=0,null代表汤森，type=1代表药品目录，type=2代表临床
+     * @return
+     */
+    public static NetworkReq drugCategory(String preId, int type, boolean leaf, int pageNum, int pageSize) {
+        return newGet(UrlData.KDrugCategory)
+                .param(DrugParam.KPreId, preId)
+                .param(DrugParam.KType, type)
+                .param(DrugParam.KLeaf, String.valueOf(leaf))
+                .param(DrugParam.KPageNum, pageNum)
+                .param(DrugParam.KPageSize, pageSize)
+                .build();
+    }
+
+    /**
+     * 药品目录文件列表
+     *
+     * @param categoryId    上级文件夹id
+     * @param pageNum       当前页数
+     * @param pageSize      显示条数
+     * @return
+     */
+    public static NetworkReq drugAllFile(String categoryId, int pageNum, int pageSize){
+        return newGet(UrlData.KDrugAllFile)
+                .param(DrugParam.KCategoryId, categoryId)
+                .param(DrugParam.KPageNum, pageNum)
+                .param(DrugParam.KPageSize, pageSize)
+                .build();
+    }
+
+    /**
+     * 药品目录文章内容
+     *
+     * @param dataFileId    文件id
+     * @return
+     */
+    public static NetworkReq drugDataDetail(String dataFileId){
+        return newGet(UrlData.KDrugDataDetail)
+                .param(DrugParam.KDataFileId, dataFileId)
+                .build();
+    }
+
+    /**
+     * 搜索药品或临床指南
+     *
+     * @param keyWord   关键字
+     * @param type      type=1代表药品目录，type=2代表临床
+     * @param pageNum   当前页数
+     * @param pageSize  显示条数
+     * @return
+     */
+    public static NetworkReq drugSearch(String keyWord, int type, int pageNum, int pageSize){
+        return newGet(UrlData.KDrugSearch)
+                .param(DrugParam.KKeyWord, keyWord)
+                .param(DrugParam.KType, type)
+                .param(DrugParam.KPageNum, pageNum)
+                .param(DrugParam.KPageSize, pageSize)
                 .build();
     }
 

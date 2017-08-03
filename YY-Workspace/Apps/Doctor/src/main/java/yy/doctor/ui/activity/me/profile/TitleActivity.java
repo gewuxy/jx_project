@@ -77,6 +77,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         exeNetworkReq(KIdGet, NetFactory.title());
     }
 
+
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         switch (id) {
@@ -87,6 +88,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
                 return JsonParser.error(r.getText());
             }
         }
+
         return null;
     }
 
@@ -119,6 +121,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
                     Intent i = new Intent().putExtra(Extra.KData, mTitle);
                     setResult(RESULT_OK, i);
+                    stopRefresh();
                     finish();
                 } else {
                     stopRefresh();
@@ -149,7 +152,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     public void onCategorySelected(int position, String category) {
         mTitle = mGrade + " " + category;
         
-        refresh(RefreshWay.embed);
+        refresh(RefreshWay.dialog);
         exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
     }
 }
