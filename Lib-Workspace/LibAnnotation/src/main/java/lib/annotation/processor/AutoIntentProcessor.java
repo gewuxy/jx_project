@@ -34,7 +34,6 @@ import lib.annotation.Extra;
 public class AutoIntentProcessor extends BaseProcessor {
 
 
-
     @Override
     protected Class<? extends Annotation> getAnnotationClass() {
         return AutoIntent.class;
@@ -125,6 +124,16 @@ public class AutoIntentProcessor extends BaseProcessor {
             addIntentStatement(startMethod, all);
             startMethod.addStatement("context.startService(intent)");
             builder.addMethod(startMethod.build());
+
+            /**
+             * 生成 stop 方法
+             */
+            MethodSpec.Builder stopMethod = MethodSpec.methodBuilder("stop")
+                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .addParameter(Context.class, "context")
+                    .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName)
+                    .addStatement("context.stopService(intent)");
+            builder.addMethod(stopMethod.build());
         } else {
             // activity
             /**
