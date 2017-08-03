@@ -4,6 +4,7 @@ import android.os.Build.VERSION_CODES;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ImageView;
 
 import lib.ys.util.DeviceUtil;
 import lib.yy.adapter.VH.FormVH;
@@ -60,10 +61,14 @@ public class EditForm extends BaseForm {
         super.refresh(holder);
 
         int d = getDrawable();
-        if (d != Constants.KInvalidValue) {
-            holder.getIv().setOnClickListener(this);
+        ImageView iv = holder.getIv();
+        if (iv != null) {
+            if (d != Constants.KInvalidValue) {
+                iv.setOnClickListener(this);
+            }
+            setIvIfValid(iv, d);
         }
-        setIvIfValid(holder.getIv(), d);
+
 
         holder.getEt().setEnabled(isEnabled());
         holder.getEt().setText(getText());

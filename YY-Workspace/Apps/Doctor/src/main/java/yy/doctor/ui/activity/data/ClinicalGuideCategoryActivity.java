@@ -68,7 +68,7 @@ public class ClinicalGuideCategoryActivity extends BaseListActivity<String, Clin
 
     @Override
     public void onItemClick(View v, int position) {
-        startActivity(ClinicalGuideDetailActivity.class);
+//        startActivity(ClinicalGuideDetailActivity.class);
     }
 
     @Override

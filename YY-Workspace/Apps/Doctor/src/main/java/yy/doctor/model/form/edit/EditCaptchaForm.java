@@ -7,12 +7,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import lib.ys.ConstantsEx;
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-
-import static lib.ys.util.view.ViewUtil.hideView;
-import static lib.ys.util.view.ViewUtil.showView;
 
 /**
  * @auther WangLan
@@ -26,6 +25,7 @@ public class EditCaptchaForm extends EditForm {
         super.init(holder);
 
         EditText editText = holder.getEt();
+        setOnClickListener(holder.getIvCancel());
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -33,19 +33,18 @@ public class EditCaptchaForm extends EditForm {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String str = s.toString();
-                if (str.length() != 0) {
-                    showView(holder.getIv());
-                } else {
-                    hideView(holder.getIv());
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtil.isNotEmpty(s)) {
+                    ViewUtil.showView(holder.getIvCancel());
+                } else {
+                    ViewUtil.goneView(holder.getIvCancel());
+                }
             }
         });
-        setOnClickListener(holder.getIv());
+
     }
 
     @Override
@@ -77,7 +76,10 @@ public class EditCaptchaForm extends EditForm {
 
     @Override
     protected boolean onViewClick(View v) {
-        getHolder().getEt().setText("");
+        switch (v.getId()){
+            case R.id.form_iv_cancel:
+                getHolder().getEt().setText("");
+        }
         return false;
     }
 

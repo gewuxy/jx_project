@@ -41,6 +41,8 @@ import yy.doctor.adapter.HospitalBaiDuAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.IHospital;
@@ -65,6 +67,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     private final int KLimit = 12;
     private IHospital mCheckItem;
     private LevelDialog mLevelDialog;
+    private int KSave = 1;
 
     @Override
     public void initData() {
@@ -280,6 +283,9 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         Hos hos = new Hos();
         hos.name = hospital.getString(THospital.name);
         hos.resId = resId;
+        Profile.inst().put(TProfile.hospital, hos.name);
+        Profile.inst().put(TProfile.hosLevel, hos.resId);
+        Profile.inst().saveToSp();
         notify(NotifyType.hospital_finish, hos);
 
         finish();
@@ -289,4 +295,5 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         public String name;
         public int resId;
     }
+
 }

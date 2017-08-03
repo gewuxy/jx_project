@@ -2,9 +2,13 @@ package yy.doctor.ui.frag;
 
 import android.view.View;
 
+import org.json.JSONException;
+
 import java.util.List;
 
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.ListResult;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
@@ -12,6 +16,7 @@ import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.IMeet;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 
 /**
@@ -45,6 +50,12 @@ public class MyMeetingFrag extends BaseSRListFrag<IMeet, MeetingAdapter> {
     @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.collection(getOffset(), getLimit(),mType));
+    }
+
+    @Override
+    public IListResult<IMeet> parseNetworkResponse(int id, String text) throws JSONException {
+        ListResult r = JsonParser.evs(text, Meeting.class);
+        return r;
     }
 
     @Override

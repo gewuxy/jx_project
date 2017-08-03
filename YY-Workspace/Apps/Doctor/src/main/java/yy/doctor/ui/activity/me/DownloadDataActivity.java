@@ -17,8 +17,8 @@ import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.serv.DownloadServ;
 import yy.doctor.serv.DownloadServ.Download;
+import yy.doctor.serv.DownloadServIntent;
 import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
@@ -51,8 +51,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private String mFileNameHashCode;
     private String mFileNameEncryption;
     private String mFilePath;
-    private Intent mDownloadServ;
-
+//    private Intent mDownloadServ;
     public static void nav(Context context, String filePath, String name, String url, String type, long size,String id) {
         Intent i = new Intent(context, DownloadDataActivity.class)
                 .putExtra(Extra.KFilePath, filePath)
@@ -136,11 +135,13 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
                     mTvStatus.setText(R.string.download_ing);
-                    mDownloadServ = new Intent(this, DownloadServ.class);
-                    mDownloadServ.putExtra(Extra.KData, mUrl)
-                            .putExtra(Extra.KFilePath, mFilePath)
-                            .putExtra(Extra.KType, mType);
-                    startService(mDownloadServ);
+                    DownloadServIntent.create(mUrl,mFilePath,mType)
+                            .start(DownloadDataActivity.this);
+//                    mDownloadServ = new Intent(this, DownloadServ.class);
+//                    mDownloadServ.putExtra(Extra.KData, mUrl)
+//                            .putExtra(Extra.KFilePath, mFilePath)
+//                            .putExtra(Extra.KType, mType);
+//                    startService(mDownloadServ);
                     //现在不提供断点下载 点击下载按钮后就不能点击暂停
                     mIvDownload.setClickable(false);
                 }
@@ -154,9 +155,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mDownloadServ != null) {
-            stopService(mDownloadServ);
-        }
+        DownloadServIntent.stop(DownloadDataActivity.this);
         DownloadNotifier.inst().remove(this);
     }
 

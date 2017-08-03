@@ -78,13 +78,13 @@ public class EditPhoneNumberForm extends EditNumberForm {
                 }
 
                 if (TextUtil.isNotEmpty(s)) {
-                    ViewUtil.showView(holder.getIv());
+                    ViewUtil.showView(holder.getIvCancel());
                 } else {
-                    ViewUtil.goneView(holder.getIv());
+                    ViewUtil.goneView(holder.getIvCancel());
                 }
             }
         });
-        setOnClickListener(holder.getIv());
+        setOnClickListener(holder.getIvCancel());
     }
 
     @Override

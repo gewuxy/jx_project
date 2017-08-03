@@ -24,6 +24,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import lib.yy.network.Result;
@@ -33,7 +34,6 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.model.meet.MeetDetail;
-import yy.doctor.model.meet.MeetDetail.CollectType;
 import yy.doctor.model.meet.MeetDetail.EpnType;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.Meeting.MeetState;
@@ -73,9 +73,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private ImageView mIvCollection; // navBar的收藏
 
     private NetworkImageView mIvPlay; // 缩略图
-    private View mLayout; // 右下角的图标
+    private View mLayout; // 右下角的图标   整个学习进度的layout，默认隐藏
     private CircleProgressView mLayoutProgress; // 右下角的图标
-    private TextView mTvProgress; // 右下角的图标
+    private TextView mTvProgress; // 右下角的图标   数字默认10%
     private TextView mTvDate; // 会议开始时间
     private TextView mTvDuration; // 会议时长
 
@@ -112,10 +112,10 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private int mCostEpn; // 象数
     private String mMeetId; // 会议Id
     private String mMeetName; //  会议名字
-    private String mNetType = 0+"";
 
     private long mStartModuleTime; // 模块开始时间
     private long mMeetTime; // 统一用通知不用result
+    private String mType = 0+""; // type为0，表示会议收藏类型
 
     private ShareDialog mShareDialog; // 分享
     private TextView mTvCmd;
@@ -159,7 +159,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
             mIvCollection.setSelected(storedState);
             showToast(storedState ? collectHint : R.string.cancel_collect);
-            exeNetworkReq(KIdCollection, NetFactory.collectMeeting(mMeetId, storedState ? CollectType.collect : CollectType.cancel));
+            exeNetworkReq(KIdCollection,NetFactory.collectionStatus(mMeetId,mType));
             if (!storedState) {
                 // 取消收藏(通知会议收藏列表去除会议)
                 notify(NotifyType.cancel_collection_meeting, mMeetId);
@@ -234,6 +234,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             Result<MeetDetail> r = (Result<MeetDetail>) result;
             if (r.isSucceed()) {
                 mMeetDetail = r.getData();
+               // mMeetDetail.put(TMeetDetail.completeProgress,20);测试百分比
                 refreshViews(mMeetDetail);
                 setViewState(ViewState.normal);
             } else {
@@ -283,6 +284,11 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
         }
         mTvSection.setText(detail.getString(TMeetDetail.meetType));
+        
+        if (TextUtil.isNotEmpty(detail.getString(TMeetDetail.completeProgress))) {
+            mLayout.setVisibility(View.VISIBLE);
+            mTvProgress.setText(detail.getString(TMeetDetail.completeProgress)+"%");
+        }
 
         // 单位号
         mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large)

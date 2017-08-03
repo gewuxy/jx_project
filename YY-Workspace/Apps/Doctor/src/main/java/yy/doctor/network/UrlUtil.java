@@ -122,6 +122,8 @@ public class UrlUtil {
         String KMeetShare = KMeetBase + "share?meetId=";
         String KMeetingRecord = KMeetBase + "exit";
 
+        String KMeetingDepartment = KMeetBase + "department";
+
         String KMeetingFolder = KMeetBase + "folder/leaf";
         String KMeetingFolderResource = KMeetBase + "folder/leaf/resource";
 

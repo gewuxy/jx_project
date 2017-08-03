@@ -964,6 +964,15 @@ public class NetFactory {
                 .build();
     }
 
+    /**
+     * 会议科室列表
+     * @return
+     */
+    public static NetworkReq meetingDepartment(){
+        return newPost(UrlMeet.KMeetingDepartment)
+                .build();
+    }
+
     public static NetworkReq toBase(String url, String meetId, String moduleId) {
         return newGet(url)
                 .param(MeetParam.KMeetId, meetId)

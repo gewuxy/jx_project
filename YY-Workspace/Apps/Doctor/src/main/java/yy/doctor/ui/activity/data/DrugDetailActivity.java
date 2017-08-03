@@ -84,7 +84,6 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KCollectionDetail) {
             Result<DrugDetailData> dataResult = JsonParser.ev(r.getText(), DrugDetailData.class);
-
             ListResult<GroupDrugDetail> result = new ListResult<>();
             result.setCode(dataResult.getCode());
 

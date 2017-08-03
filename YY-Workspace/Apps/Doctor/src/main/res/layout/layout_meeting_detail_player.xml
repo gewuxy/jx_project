@@ -19,6 +19,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="42dp"
         android:layout_marginRight="@dimen/margin"
+        android:visibility="gone"
         android:background="@drawable/meeting_detail_progress_bg">
 
         <yy.doctor.view.CircleProgressView

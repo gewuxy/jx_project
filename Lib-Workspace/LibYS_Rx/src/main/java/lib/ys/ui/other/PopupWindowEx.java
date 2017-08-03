@@ -20,6 +20,8 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout.LayoutParams;
 
+import org.json.JSONException;
+
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.ConnectionError;
@@ -179,7 +181,7 @@ abstract public class PopupWindowEx implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) {
+    public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
         return null;
     }
 

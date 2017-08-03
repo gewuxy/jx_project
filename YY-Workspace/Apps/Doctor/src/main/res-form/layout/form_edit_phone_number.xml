@@ -19,12 +19,11 @@
 
 
     <ImageView
-        android:id="@id/form_iv"
+        android:id="@id/form_iv_cancel"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginRight="@dimen/margin"
         android:padding="8dp"
-        android:src="@mipmap/login_ic_cancel"
-        />
+        android:src="@mipmap/login_ic_cancel"/>
 
 </LinearLayout>

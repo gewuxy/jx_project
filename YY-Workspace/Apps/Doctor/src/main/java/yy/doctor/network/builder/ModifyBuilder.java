@@ -65,13 +65,18 @@ public class ModifyBuilder {
     /**
      * 医院等级
      *
-     * @param hospitalLevel
+     * @param resId
      * @return
      */
-    public ModifyBuilder hospitalLevel(String hospitalLevel) {
-        mBuilder.param(ProfileParam.KHospitalLevel, hospitalLevel);
+    public ModifyBuilder hospitalLevel(int resId) {
+        mBuilder.param(ProfileParam.KHospitalLevel, resId);
         return this;
     }
+
+   /* public ModifyBuilder hospitalLevel(int resId) {
+        mBuilder.param(ProfileParam.KHospitalLevel, resId);
+        return this;
+    }*/
 
     /**
      * 科室

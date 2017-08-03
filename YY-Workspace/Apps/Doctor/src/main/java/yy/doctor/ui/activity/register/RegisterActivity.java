@@ -84,46 +84,46 @@ public class RegisterActivity extends BaseFormActivity
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
     private EditText mEtActivatedCode;      //填写激活码
-    private TextView mTvAgree;       //注册按钮的下一行字
-    private TextView mTvActivatedCode;   //获取激活码
-    private ImageView mIvCancel; // 激活码的“×”
-
-    private long mStartTime; // 开始计算10分钟间隔的时间
-    private int mCount;//计算点击多少次
-
-    private View mTvReg;
-
-    private BaseHintDialog mDialog;
-    private String mPhone;
-
-    private TextView mTvHeader;
-    private View mLayoutCaptcha;
-    private String mMasId;
-
     @IntDef({
-            RelatedId.name,
+            RelatedId.phone_number,
+            RelatedId.captcha,
             RelatedId.pwd,
-            RelatedId.special,
+            RelatedId.name,
             RelatedId.location,
             RelatedId.hospital,
-            RelatedId.phone_number,
+            RelatedId.special,
             RelatedId.department,
-            RelatedId.captcha,
             RelatedId.title,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
 
-        int name = 1;
-        int pwd = 2;
-        int special = 3;
-        int location = 4;
-        int hospital = 5;
-        int phone_number = 7;
+        int phone_number = 1;
+        int captcha = 2;
+        int pwd = 3;
+        int name = 4;
+        int location = 5;
+        int hospital = 6;
+        int special = 7;
         int department = 8;
-        int captcha = 9;
-        int title = 10;
+        int title = 9;
     }
+    private TextView mTvAgree;       //注册按钮的下一行字
+    private TextView mTvActivatedCode;   //获取激活码
+
+    private ImageView mIvCancel; // 激活码的“×”图标
+    private long mStartTime; // 开始计算10分钟间隔的时间
+
+    private int mCount;//计算点击多少次
+
+    private View mTvReg;
+    private BaseHintDialog mDialog;
+
+    private String mPhone;
+    private TextView mTvHeader;
+    private View mLayoutCaptcha;
+
+    private String mMasId;
 
     private int mEnableSize;
     private Set<Integer> mStatus;
@@ -229,7 +229,7 @@ public class RegisterActivity extends BaseFormActivity
         mTvReg = findView(R.id.register);
         mEtActivatedCode = findView(R.id.register_et_captcha);
         mTvActivatedCode = findView(R.id.register_tv_activated_code);
-        mIvCancel = findView(R.id.iv_cancel);
+        mIvCancel = findView(R.id.iv_activated_cancel);
         mTvAgree = findView(R.id.register_tv_agree);
         mTvHeader = findView(R.id.register_header);
         mLayoutCaptcha = findView(R.id.register_layout_captcha);
@@ -501,9 +501,13 @@ public class RegisterActivity extends BaseFormActivity
                 addOnPreDrawListener(new OnPreDrawListener() {
                     @Override
                     public boolean onPreDraw() {
-                        TextView text = getRelatedItem(RelatedId.location).getHolder().getTvText();
-                        text.setText(place.toString());
-                        getRelatedItem(RelatedId.location).save(text.toString(), text.toString());
+                        TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
+                        locationText.setText(place.toString());
+                        getRelatedItem(RelatedId.location).save(locationText.toString(), locationText.toString());
+
+                        TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
+                        specialText.setText("内科 普内科");
+                        getRelatedItem(RelatedId.special).save(specialText.toString(), specialText.toString());
                         removeOnPreDrawListener(this);
                         return true;
                     }

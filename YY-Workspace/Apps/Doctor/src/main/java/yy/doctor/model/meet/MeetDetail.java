@@ -73,12 +73,19 @@ public class MeetDetail extends EVal<TMeetDetail> {
         /**
          * {@link EpnType}
          */
-        eduCredits, // 是否需要象数
+        eduCredits, // 奖励学分  当会议有奖励学分的时候才会有值
 
         remainAward, // 剩余奖励人数
-        requiredXs, // 是否支付过象数
+        requiredXs, // 是否奖励象数  true表示奖励；当为false且xsCredits大于0时表示支付象数
         attended, // 参加过(奖励过和支付过)
-        xsCredits, // 象数
+        xsCredits, // 奖励/支付象数
+
+        awardLimit,     // 奖励象数限制人数
+        rewardCredit, // 是否奖励学分  true表示奖励 false表示不奖励
+        awardCreditLimit, // 奖励学分限制人数
+        completeProgress, // 学习进度
+        receiveAwardXs, // 获得奖励象数
+        receiveAwardCredit, // 获得奖励学分
 
         attendAble, // 能否参加会议
         reason, // 不能参加会议的理由

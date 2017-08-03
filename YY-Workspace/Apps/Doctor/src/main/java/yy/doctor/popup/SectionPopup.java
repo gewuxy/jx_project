@@ -8,14 +8,19 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+
 import java.util.List;
 
+import lib.network.model.NetworkResp;
 import lib.ys.ui.other.PopupWindowEx;
+import lib.yy.network.ListResult;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.SectionFilterAdapter;
-import yy.doctor.model.meet.SectionFilter;
-import yy.doctor.model.meet.SectionFilter.TSectionFilter;
+import yy.doctor.adapter.meeting.MeetingDepartmentAdapter;
+import yy.doctor.model.meet.MeetingDepartment;
+import yy.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetFactory;
 
 /**
  * @auther yuansui
@@ -28,7 +33,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
     private OnSectionListener mLsn;
 
     private ListView mListView;
-    private List<SectionFilter> mList;
+    private MeetingDepartmentAdapter adapter;
 
     public SectionPopup(@NonNull Context context, @Nullable OnSectionListener l) {
         super(context);
@@ -39,7 +44,6 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
     public void initData() {
         setTouchOutsideDismissEnabled(true);
         setDimEnabled(true);
-        mList = new ArrayList<>();
     }
 
     @NonNull
@@ -56,17 +60,17 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
 
     @Override
     public void setViews() {
-        SectionFilterAdapter adapter = new SectionFilterAdapter();
-        SectionFilter sectionFilter = new SectionFilter();
-        for (int i = 0; i < 25; i++) {
-            sectionFilter.put(TSectionFilter.bitmap, R.mipmap.data_ic_arrow_down);
-            sectionFilter.put(TSectionFilter.name, "内科");
-            sectionFilter.put(TSectionFilter.number, 100);
-            mList.add(sectionFilter);
+        adapter = new MeetingDepartmentAdapter();
+        exeNetworkReq(NetFactory.meetingDepartment());
+      /*  for (int i = 0; i < 25; i++) {
+            mSectionFilter.put(TSectionFilter.bitmap, R.mipmap.data_ic_arrow_down);
+            mSectionFilter.put(TSectionFilter.name, "内科");
+            mSectionFilter.put(TSectionFilter.number, 100);
+            mList.add(mSectionFilter);
         }
         adapter.setData(mList);
         mListView.setAdapter(adapter);
-        mListView.setOnItemClickListener(this);
+        mListView.setOnItemClickListener(this);*/
       //  mListView.getDivider();
 //        mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
 //
@@ -104,6 +108,24 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         showToast("你好 "+position);
+        if (mLsn != null) {
+                    mLsn.onSectionSelected(adapter.getItem(position).getString(TMeetingDepartment.name));
+                }
+                dismiss();
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
+        return JsonParser.evs(r.getText(), MeetingDepartment.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        ListResult r = (ListResult) result;
+        List<MeetingDepartment> data = r.getData();
+        adapter.setData(data);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(this);
     }
 
     public interface OnSectionListener {
