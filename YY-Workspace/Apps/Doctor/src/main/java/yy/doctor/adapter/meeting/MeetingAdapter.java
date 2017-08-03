@@ -13,6 +13,7 @@ import yy.doctor.model.meet.IMeet.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
 /**
@@ -56,7 +57,10 @@ public class MeetingAdapter extends MultiAdapterEx<IMeet, MeetingVH> {
     protected void onViewClick(int position, View v) {
         if (getItemViewType(position) == MeetType.folder) {
             MeetFolder item = (MeetFolder) getItem(position);
-            MeetingFolderActivity.nav(getContext(), null, item.getString(TMeetingFolder.id), item.getString(TMeetingFolder.infinityName));
+            MeetingFolderActivityIntent
+                    .create(item.getString(TMeetingFolder.infinityName), item.getInt(TMeetingFolder.meetCount))
+                    .infinityId(item.getString(TMeetingFolder.id))
+                    .start(getContext());
         } else {
             Meeting item = (Meeting) getItem(position);
             MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));

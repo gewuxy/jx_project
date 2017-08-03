@@ -14,14 +14,14 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.DrawUtil;
+import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.R;
-import yy.doctor.model.me.Stats;
-import yy.doctor.model.me.Stats.TStatistics;
 import yy.doctor.model.me.StatsPerDay;
 import yy.doctor.model.me.StatsPerDay.TStatsPerDay;
 
@@ -34,6 +34,8 @@ import yy.doctor.model.me.StatsPerDay.TStatsPerDay;
 public class HistogramView extends View {
 
     private static final String TAG = HistogramView.class.getSimpleName().toString();
+    private final String KMonth = "MM月dd日";
+    private final String KDay = "dd日";
 
     private final int KLineWidth = DpFitter.dp(4);
     private final int KLineMarginTop = DpFitter.dp(40); // 柱状的上边距(相对应父控件)
@@ -130,7 +132,10 @@ public class HistogramView extends View {
             num = mPerDays.get(i).getInt(TStatsPerDay.count, 0);
             posX = width * i + width / 2; // 单个的中心
             mMiddles.add(posX);
-            posY = bottom - num * maxHeight / mMaxMeetNum;
+            posY = bottom;
+            if (mMaxMeetNum != 0) {
+                posY = bottom - num * maxHeight / mMaxMeetNum;
+            }
             mHeights.add(posY);
         }
     }
@@ -162,13 +167,39 @@ public class HistogramView extends View {
         for (int i = 0; i < mPerDays.size(); i++) {
             statsPerDay = mPerDays.get(i);
             // 日期
-            DrawUtil.drawTextByAlignX(canvas, statsPerDay.getString(TStatsPerDay.attendDate), mMiddles.get(i), posY, mPaintText, Align.CENTER);
+            DrawUtil.drawTextByAlignX(canvas, getData(statsPerDay, i), mMiddles.get(i), posY, mPaintText, Align.CENTER);
             // 数量
             if (mCheckPosition == i) {
+                // 点击 在柱状图上画
                 float pos = mHeights.get(i) - KTextSize - KTextMarginBottom;
                 DrawUtil.drawTextByAlignX(canvas, String.valueOf(statsPerDay.getInt(TStatsPerDay.count, 0)), mMiddles.get(i), pos, mPaintText, Align.CENTER);
             }
         }
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param statsPerDay
+     * @param i
+     * @return
+     */
+    private String getData(StatsPerDay statsPerDay, int i) {
+        String format = KMonth;
+        if (i != 0) {
+            // 非第一天(显示的一周中)
+            format = KDay;
+        }
+        long time = statsPerDay.getLong(TStatsPerDay.attendTime);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        if (day == 1){
+            // 每个月的1号
+            return TimeUtil.formatMilli(time, KMonth);
+        }
+        return TimeUtil.formatMilli(time, format);
     }
 
     /**
@@ -211,19 +242,20 @@ public class HistogramView extends View {
         return super.onTouchEvent(event);
     }
 
-    public void setStats(Stats stats) {
-        if (stats == null) {
+    public void setStats(List<StatsPerDay> week) {
+        if (week == null) {
             return;
         }
-
         // 重置数据
+        mPerDays = week;
         mCheckPosition = Integer.MIN_VALUE;
-
-        mPerDays = stats.getList(TStatistics.detailList);
-        if (mPerDays == null) {
-            return;
+        if (mHeights != null) {
+            mHeights.clear();
         }
-
+        if (mMiddles != null) {
+            mMiddles.clear();
+        }
+        // 求最大值
         mMaxMeetNum = Integer.MIN_VALUE;
         for (StatsPerDay perDay : mPerDays) {
             mMaxMeetNum = Math.max(perDay.getInt(TStatsPerDay.count, 0), mMaxMeetNum);

@@ -1,0 +1,37 @@
+{
+  "code": "0",
+  "data": {
+    "detailList": [
+      {
+        "attendTime": 1501475628073,
+        "count": 0
+      },
+      {
+        "attendTime": 1501562028073,
+        "count": 0
+      },
+      {
+        "attendTime": 1501648428073,
+        "count": 0
+      },
+      {
+        "attendTime": 1501734828073,
+        "count": 0
+      },
+      {
+        "attendTime": 1501821228073,
+        "count": 0
+      },
+      {
+        "attendTime": 1501907628073,
+        "count": 0
+      },
+      {
+        "attendTime": 1501994028073,
+        "count": 0
+      }
+    ],
+    "totalCount": 17,
+    "unitCount": 0
+  }
+}

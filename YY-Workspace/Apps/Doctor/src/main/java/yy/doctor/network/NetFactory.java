@@ -1170,6 +1170,7 @@ public class NetFactory {
      */
     public static NetworkReq statsMeet(int offset) {
         return newPost(UrlMeet.KStatsAttend)
+                .param(CommonParam.KOffset,offset)
                 .build();
     }
 
@@ -1180,6 +1181,7 @@ public class NetFactory {
      */
     public static NetworkReq statsUnitNum(int offset) {
         return newPost(UrlMeet.KStatsPublish)
+                .param(CommonParam.KOffset,offset)
                 .build();
     }
 

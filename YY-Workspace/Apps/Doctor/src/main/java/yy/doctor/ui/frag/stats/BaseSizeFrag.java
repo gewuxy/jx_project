@@ -1,27 +1,24 @@
 package yy.doctor.ui.frag.stats;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseVPFrag;
+import yy.doctor.ui.frag.stats.BaseHistogramFrag.OnStatsChangeListener;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.Stats;
-import yy.doctor.model.me.Stats.TStatistics;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/7/28
  */
 
-abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeListener {
+abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeListener, OnStatsChangeListener {
 
     protected final int KSize = 1000;
 
@@ -44,6 +41,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
 
             BaseHistogramFrag frag = getFragment();
             frag.setArguments(b);
+            frag.setStatsChangeListener(this);
             add(frag);
         }
     }
@@ -77,6 +75,11 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
     }
 
     @Override
+    protected BaseHistogramFrag getItem(int position) {
+        return (BaseHistogramFrag) super.getItem(position);
+    }
+
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
 
@@ -90,16 +93,19 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
     }
 
     @Override
-    protected BaseHistogramFrag getItem(int position) {
-        return (BaseHistogramFrag) super.getItem(position);
+    public void onChange(int index, String weekCount, String allCount) {
+        if (getCurrentItem() == index) {
+            // 当前页
+            mTvWeek.setText(weekCount);
+        }
+        if (getCurrentItem() == KSize) {
+            // 不会再变, 不多次设置
+            mTvAll.setText(allCount);
+        }
     }
 
     abstract protected String getTitle();
 
     protected abstract BaseHistogramFrag getFragment();
 
-    @Override
-    public void onNotify(@NotifyType int type, Object data) {
-        super.onNotify(type, data);
-    }
 }

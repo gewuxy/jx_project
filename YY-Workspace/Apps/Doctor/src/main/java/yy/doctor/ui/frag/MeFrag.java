@@ -20,6 +20,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.ui.activity.me.HelpAndFeedbackActivity;
 import yy.doctor.ui.activity.me.MyCollectionActivity;
 import yy.doctor.ui.activity.me.SettingsActivity;
+import yy.doctor.ui.activity.me.StatsMeetActivity;
 import yy.doctor.ui.activity.me.epn.EpnActivity;
 import yy.doctor.ui.activity.me.profile.ProfileActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumActivity;
@@ -159,16 +160,15 @@ public class MeFrag extends BaseFormFrag {
         mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
                 .renderer(new CircleRenderer())
                 .url(Profile.inst().getString(TProfile.headimg))
-                //.renderer(new CornerRenderer(fitDp(15)))  圆角
                 .load();
     }
 
-    //head的点击事件
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.layout_me_header: {
+                //head的点击事件
                 startActivity(ProfileActivity.class);
             }
             break;
@@ -181,7 +181,7 @@ public class MeFrag extends BaseFormFrag {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.meeting_statistics: {
-                showToast(R.string.attend_meeting_statistics);
+                startActivity(StatsMeetActivity.class);
             }
             break;
             case RelatedId.my_attention: {
@@ -189,9 +189,7 @@ public class MeFrag extends BaseFormFrag {
             }
             break;
             case RelatedId.my_collection: {
-                //startActivity(CollectionMeetingActivity.class);
                 startActivity(MyCollectionActivity.class);
-
             }
             break;
             case RelatedId.my_epn: {
@@ -214,10 +212,9 @@ public class MeFrag extends BaseFormFrag {
         return true;
     }
 
-    //修改个人资料
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-
+        //修改个人资料
         if (type == NotifyType.profile_change) {
             mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
                     .renderer(new CircleRenderer())

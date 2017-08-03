@@ -11,6 +11,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.annotation.AutoIntent;
+import lib.annotation.Extra;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
@@ -18,7 +20,6 @@ import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseSRListActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.home.RecMeetingFolder;
@@ -31,24 +32,25 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
+@AutoIntent
 public class MeetingFolderActivity extends BaseSRListActivity<IMeet, MeetingAdapter> {
 
-    private RecMeetingFolder folder;
-    private String mInfinityId;
-    private String mTitle;
+    @Extra
+    public String mTitle;
+
+    @Extra(optional = true)
+    public String mPreId;
+
+    @Extra(optional = true)
+    public String mInfinityId;
+
+    @Extra(defaultInt = 0)
+    public int mNum;
 
     private TextView mTvNum;
     private TextView mTvTitle;
     private final int KFolder = 0;
     private final int KFolderResource = 1;
-
-    public static void nav(Context context, RecMeetingFolder folder, String infinityId, String title) {
-        Intent i = new Intent(context, MeetingFolderActivity.class)
-                .putExtra(Extra.KData, folder)
-                .putExtra(Extra.KId, infinityId)
-                .putExtra(Extra.KTitle, title);
-        LaunchUtil.startActivity(context, i);
-    }
 
     @Nullable
     public View createHeaderView() {
@@ -57,9 +59,6 @@ public class MeetingFolderActivity extends BaseSRListActivity<IMeet, MeetingAdap
 
     @Override
     public void initData() {
-        folder = (RecMeetingFolder) getIntent().getSerializableExtra(Extra.KData);
-        mInfinityId = getIntent().getStringExtra(Extra.KId);
-        mTitle = getIntent().getStringExtra(Extra.KTitle);
     }
 
     @Override
@@ -78,7 +77,7 @@ public class MeetingFolderActivity extends BaseSRListActivity<IMeet, MeetingAdap
     @Override
     public void getDataFromNet() {
         if (TextUtil.isEmpty(mInfinityId)) {
-            exeNetworkReq(KFolder, NetFactory.meetFolder(folder.getString(TRecMeetingFolder.id)));
+            exeNetworkReq(KFolder, NetFactory.meetFolder(mPreId));
         } else {
             exeNetworkReq(KFolderResource, NetFactory.folderResource(mInfinityId));
         }
@@ -107,11 +106,8 @@ public class MeetingFolderActivity extends BaseSRListActivity<IMeet, MeetingAdap
     public void setViews() {
         super.setViews();
 
-        if (TextUtil.isEmpty(mTitle)) {
-            mTitle = folder.getString(TRecMeetingFolder.infinityName);
-        }
         mTvTitle.setText(mTitle);
-        mTvNum.setText(String.format("%d个会议", folder.getString(TRecMeetingFolder.meetCount)));
+        mTvNum.setText(String.format("%d个会议", mNum));
         getAdapter().hideUnitNum();
     }
 
