@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity.meeting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -12,17 +10,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import lib.annotation.AutoIntent;
+import lib.annotation.Extra;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TimeUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.meet.exam.Intro;
@@ -40,12 +38,25 @@ import yy.doctor.util.ExamCount;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
+@AutoIntent
 public class ExamIntroActivity extends BaseActivity {
 
     private Intro mIntro; // 考试信息
-    private String mHost; // 会议主办方
+
+    @Extra(optional = true)
+    String mHost;
+
+    @Extra(optional = true)
+    String mMeetId;
+
+    @Extra(optional = true)
+    String mModuleId;
+
+
+  /*  private String mHost; // 会议主办方
     private String mMeetId; // 会议ID
     private String mModuleId; // 模块ID
+    private String mEduCredits; // 奖励学分*/
 
     private long mStartTime; // 考试开始时间
     private long mEndTime; // 考试结束时间
@@ -72,21 +83,26 @@ public class ExamIntroActivity extends BaseActivity {
         String from_h_to_m_24 = "HH:mm";
     }
 
-    public static void nav(Context context, String meetId, String moduleId, String host) {
+   /* public static void nav(Context context, String meetId, String moduleId, String host,String eduCredits) {
         Intent i = new Intent(context, ExamIntroActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
                 .putExtra(Extra.KModuleId, moduleId)
-                .putExtra(Extra.KData, host);
+                .putExtra(Extra.KData, host)
+                .putExtra(Extra.KNum,eduCredits);
         LaunchUtil.startActivity(context, i);
-    }
+    }*/
 
     @Override
     public void initData() {
         notify(NotifyType.study_start);
 
-        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
+       /* mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
         mHost = getIntent().getStringExtra(Extra.KData);
+        mEduCredits = getIntent().getStringExtra(Extra.KNum);*/
+       /* if (TextUtil.isNotEmpty(mEduCredits) && TextUtil.isEmpty(Profile.inst().getString(TProfile.cmeId).toString())) {
+
+        }*/
     }
 
     @NonNull

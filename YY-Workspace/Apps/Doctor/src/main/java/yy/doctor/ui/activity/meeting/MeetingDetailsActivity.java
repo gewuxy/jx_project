@@ -234,7 +234,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             Result<MeetDetail> r = (Result<MeetDetail>) result;
             if (r.isSucceed()) {
                 mMeetDetail = r.getData();
-               // mMeetDetail.put(TMeetDetail.completeProgress,20);测试百分比
+                mMeetDetail.put(TMeetDetail.completeProgress,20);//测试百分比
                 refreshViews(mMeetDetail);
                 setViewState(ViewState.normal);
             } else {
@@ -284,10 +284,12 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
         }
         mTvSection.setText(detail.getString(TMeetDetail.meetType));
-        
-        if (TextUtil.isNotEmpty(detail.getString(TMeetDetail.completeProgress))) {
+
+        String progress = detail.getString(TMeetDetail.completeProgress);
+        if (TextUtil.isNotEmpty(progress)) {
             mLayout.setVisibility(View.VISIBLE);
-            mTvProgress.setText(detail.getString(TMeetDetail.completeProgress)+"%");
+            String percent = progress+"%";
+            mTvProgress.setText(percent);
         }
 
         // 单位号

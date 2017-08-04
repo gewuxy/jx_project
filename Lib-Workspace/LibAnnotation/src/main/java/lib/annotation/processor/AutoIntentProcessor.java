@@ -152,48 +152,48 @@ public class AutoIntentProcessor extends BaseProcessor {
              */
             MethodSpec.Builder startForResultMethod = MethodSpec.methodBuilder("startForResult")
                     .addModifiers(Modifier.PUBLIC)
-                    .addParameter(Object.class, "host")
+                    .addParameter(Object.class, "objectHost")
                     .addParameter(TypeName.INT, "code")
-                    .beginControlFlow("if (!(host instanceof $T) || !(host instanceof $T))", AndroidClassName.KActivity, AndroidClassName.KFragment)
-                    .addStatement("throw new $T(\"host must be one of activity or fragment\")", IllegalStateException.class)
+                    .beginControlFlow("if (!(objectHost instanceof $T) || !(objectHost instanceof $T))", AndroidClassName.KActivity, AndroidClassName.KFragment)
+                    .addStatement("throw new $T(\"objectHost must be one of activity or fragment\")", IllegalStateException.class)
                     .endControlFlow()
-                    .addStatement("$T intent = new Intent((Context) host, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
+                    .addStatement("$T intent = new Intent((Context) objectHost, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startForResultMethod, all);
-            startForResultMethod.beginControlFlow("if (host instanceof $T)", AndroidClassName.KActivity)
-                    .addStatement("(($T) host).startActivityForResult(intent, code)", AndroidClassName.KActivity)
-                    .nextControlFlow("else if (host instanceof $T)", AndroidClassName.KFragment)
-                    .addStatement("(($T) host).startActivityForResult(intent, code)", AndroidClassName.KFragment)
+            startForResultMethod.beginControlFlow("if (objectHost instanceof $T)", AndroidClassName.KActivity)
+                    .addStatement("(($T) objectHost).startActivityForResult(intent, code)", AndroidClassName.KActivity)
+                    .nextControlFlow("else if (objectHost instanceof $T)", AndroidClassName.KFragment)
+                    .addStatement("(($T) objectHost).startActivityForResult(intent, code)", AndroidClassName.KFragment)
                     .endControlFlow();
             builder.addMethod(startForResultMethod.build());
         }
 
         /**
-         * 生成host调用的inject方法
+         * 生成objectHost调用的inject方法
          */
         MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(annotatedTypeName, "host")
+                .addParameter(annotatedTypeName, "objectHost")
                 .addParameter(AndroidClassName.KIntent, "intent")
                 .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle);
         for (Element e : all) {
             String paramName = getParamName(e);
             injectMethod.beginControlFlow("if (extras.containsKey($S))", paramName)
-                    .addStatement("host.$N = ($T) extras.get($S)", e.getSimpleName().toString(), e.asType(), paramName)
+                    .addStatement("objectHost.$N = ($T) extras.get($S)", e.getSimpleName().toString(), e.asType(), paramName)
                     .nextControlFlow("else");
 
             Extra extra = e.getAnnotation(Extra.class);
             TypeName typeName = getTypeName(e);
             if (typeName == TypeName.LONG) {
-                injectMethod.addStatement("host.$N = " + extra.defaultLong(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + extra.defaultLong(), e.getSimpleName().toString());
             } else if (typeName == TypeName.INT) {
-                injectMethod.addStatement("host.$N = " + extra.defaultInt(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + extra.defaultInt(), e.getSimpleName().toString());
             } else if (typeName == TypeName.FLOAT) {
-                injectMethod.addStatement("host.$N = " + extra.defaultFloat(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + extra.defaultFloat(), e.getSimpleName().toString());
             } else if (typeName == TypeName.BOOLEAN) {
-                injectMethod.addStatement("host.$N = " + extra.defaultBoolean(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + extra.defaultBoolean(), e.getSimpleName().toString());
             } else {
                 // Object
-                injectMethod.addStatement("host.$N = null", e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = null", e.getSimpleName().toString());
             }
             injectMethod.endControlFlow();
         }

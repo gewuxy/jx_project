@@ -19,6 +19,7 @@ public class ThomsonDetail extends EVal<TThomsonDetail> {
         fileSize,   // 文件大小, 单位: KB
         filePath,   // 文件地址
         updateDate, // 修订日期
+        openType,   // 文件打开方式,Integer类型,1代表用pdf打开，2代表请求文件详情接口打开，3代表用html打开
 
         rootCategory, //
         summary, //

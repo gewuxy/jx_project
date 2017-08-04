@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.network.ListResult;
@@ -81,9 +83,9 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public IListResult<GroupDrugDetail> parseNetworkResponse(int id, String text) throws JSONException {
         if (id == KCollectionDetail) {
-            Result<DrugDetailData> dataResult = JsonParser.ev(r.getText(), DrugDetailData.class);
+            Result<DrugDetailData> dataResult = JsonParser.ev(text, DrugDetailData.class);
             ListResult<GroupDrugDetail> result = new ListResult<>();
             result.setCode(dataResult.getCode());
 
@@ -100,9 +102,9 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
                 }
             }
             return result;
-        } else {
-            return JsonParser.error(r.getText());
+        }else {
+            return null;
         }
-    }
 
+    }
 }

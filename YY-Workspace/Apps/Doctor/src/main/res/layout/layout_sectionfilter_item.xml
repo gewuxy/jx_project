@@ -19,7 +19,7 @@
         android:background="@color/text_fff"
         android:orientation="horizontal">
 
-        <ImageView
+        <lib.ys.network.image.NetworkImageView
             android:id="@+id/iv_section_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

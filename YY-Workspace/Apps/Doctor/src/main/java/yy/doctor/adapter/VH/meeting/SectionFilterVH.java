@@ -2,10 +2,10 @@ package yy.doctor.adapter.VH.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 
 /**
@@ -19,7 +19,7 @@ public class SectionFilterVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public ImageView getImageView(){
+    public NetworkImageView getImageView(){
         return getView(R.id.iv_section_filter);
     }
 

@@ -23,9 +23,10 @@ public class MeetingDepartmentAdapter extends AdapterEx<MeetingDepartment, Secti
         if (position == 0) {
             goneView(holder.getDivider());
         }
-//        holder.getImageView().setImageResource(getItem(position).getInt(TSectionFilter.bitmap));
-       holder.getName().setText(getItem(position).getString(TMeetingDepartment.name));
-       holder.getNumber().setText(getItem(position).getString(TMeetingDepartment.count));
+        holder.getImageView().url(getItem(position).getString(TMeetingDepartment.icon));
+        //holder.getImageView().setImageResource(getItem(position).getInt(TMeetingDepartment.icon));
+        holder.getName().setText(getItem(position).getString(TMeetingDepartment.name));
+        holder.getNumber().setText(getItem(position).getString(TMeetingDepartment.count));
     }
 
 

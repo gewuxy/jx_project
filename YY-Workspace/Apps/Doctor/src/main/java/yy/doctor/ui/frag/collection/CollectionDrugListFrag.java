@@ -1,9 +1,11 @@
 package yy.doctor.ui.frag.collection;
 
+import android.support.annotation.IntDef;
 import android.view.View;
 
 import java.util.List;
 
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
@@ -12,6 +14,8 @@ import yy.doctor.model.data.ThomsonDetail;
 import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.data.DrugDetailActivity;
+import yy.doctor.ui.activity.me.DownloadDataActivity;
+import yy.doctor.util.CacheUtil;
 
 /**
  * @auther WangLan
@@ -21,6 +25,18 @@ import yy.doctor.ui.activity.data.DrugDetailActivity;
 public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, CollectionDrugAdapter> {
 
     private int mType = 2; // type为2，表示药品目录
+
+    @IntDef({
+            openType.pdf,
+            openType.detail_interface,
+            openType.html,
+    })
+
+    private @interface openType{
+        int pdf = 1;
+        int detail_interface = 2;
+        int html = 3;
+    }
 
     @Override
     public void initData() {
@@ -48,7 +64,17 @@ public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, Collec
         ThomsonDetail item = getItem(position);
         String dataFileId = item.getString(TThomsonDetail.id);
         String fileName= item.getString(TThomsonDetail.title);
-        DrugDetailActivity.nav(getContext(),dataFileId,fileName);
+        long fileSize = item.getInt(TThomsonDetail.fileSize) * 1024;
+        String filePath = CacheUtil.getThomsonCacheDir(item.getString(TThomsonDetail.categoryId));
+        String url = item.getString(TThomsonDetail.filePath);
+
+        int type = item.getInt(TThomsonDetail.openType);
+        YSLog.d(TAG,type+"");
+        if (type == openType.pdf) {
+            DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize,dataFileId);
+        }else if (type == openType.detail_interface) {
+            DrugDetailActivity.nav(getContext(),dataFileId,fileName);
+        }
     }
 
     @Override
