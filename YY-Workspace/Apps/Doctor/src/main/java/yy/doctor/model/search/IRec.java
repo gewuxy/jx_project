@@ -17,6 +17,7 @@ public interface IRec {
             RecType.hot,
             RecType.margin,
             RecType.more,
+            RecType.meet_folder,
     })
     @Retention(RetentionPolicy.SOURCE)
     @interface RecType {
@@ -25,6 +26,7 @@ public interface IRec {
         int hot = 2;
         int margin = 3;
         int more = 4;
+        int meet_folder = 5;
     }
 
     @RecType

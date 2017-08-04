@@ -35,7 +35,6 @@ import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.home.RecUnitNum.Attention;
-import yy.doctor.model.meet.IMeet;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
@@ -54,7 +53,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/4/25
  */
-public class UnitNumDetailActivity extends BaseSRListActivity<IMeet, MeetingAdapter> {
+public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
     private static final int KColorNoAttention = Color.parseColor("#d14b4b");
     private static final int KColorNormal = Color.parseColor("#666666");

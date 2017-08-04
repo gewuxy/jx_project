@@ -1,19 +1,15 @@
 package yy.doctor.ui.activity.search;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
+import lib.annotation.AutoIntent;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.KeyboardUtil;
-import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.network.JsonParser;
@@ -25,81 +21,77 @@ import yy.doctor.network.NetFactory;
  * @author : GuoXuan
  * @since : 2017/5/3
  */
-public class MeetingResultActivity extends ResultActivity {
+@AutoIntent
+public class MeetingResultActivity extends BaseSearchResultActivity {
 
-    private LinearLayout mEmpty; // 第一次进来要显示的视图
-    private View mLayoutEmpty;
+    private View mLayoutEmpty; // 空视图
+    private TextView mTvEmpty;
 
-    public static void nav(Context context, String searchContent) {
-        Intent i = new Intent(context, MeetingResultActivity.class)
-                .putExtra(Extra.KData, searchContent);
-        LaunchUtil.startActivity(context, i);
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_meeting_result;
     }
 
     @Override
     public void findViews() {
         super.findViews();
 
-        mEmpty = findView(R.id.meeting_result_layout_empty);
+        mLayoutEmpty = findView(R.id.meeting_result_layout_empty);
+        mTvEmpty = findView(R.id.empty_footer_tv);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mEtSearch.setHint("搜索会议");
-    }
-
-    @Override
-    protected void searchEmpty() {
-        showView(mEmpty);
-        runOnUIThread(() -> {
-            mEtSearch.requestFocus();
-            KeyboardUtil.showFromView(mEtSearch);
-        });
-    }
-
-    @Override
-    protected void search() {
-        refresh(RefreshWay.embed);
-        removeAll();
-        exeNetworkReq(KMeeting, NetFactory.searchMeeting(mSearchContent));
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.evs(r.getText(), Meeting.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        ListResult r = (ListResult) result;
-        if (r.isSucceed()) {
-            mMeets = r.getData();
-            if (mMeets != null && mMeets.size() > 0) {
-                addAll(mMeets);
-                goneView(mEmpty);
-            } else {
-                // 单独管理空界面
-                if (mLayoutEmpty == null) {
-                    mLayoutEmpty = inflate(R.layout.layout_empty_footer);
-                    TextView tv = (TextView) mLayoutEmpty.findViewById(R.id.empty_footer_tv);
-                    tv.setText("暂无相关会议");
-                    mEmpty.addView(mLayoutEmpty);
-                }
-                showView(mEmpty);
-            }
-            setViewState(ViewState.normal);
-            invalidate();
+        mTvEmpty.setText("暂无相关会议");
+        if (TextUtil.isEmpty(mSearchContent)) {
+            getSearchView().requestFocus();
+            KeyboardUtil.showFromView(getSearchView());
         } else {
-            onNetworkError(id, new NetError(id, r.getError()));
-            showToast(r.getError());
+            showView(mLayoutEmpty);
         }
     }
 
     @Override
-    public View createEmptyView() {
+    public void getDataFromNet() {
+        exeNetworkReq(NetFactory.searchMeeting(mSearchContent, getOffset(), getLimit()));
+    }
+
+    @Override
+    public boolean enableInitRefresh() {
+        return TextUtil.isNotEmpty(mSearchContent);
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        ListResult result = JsonParser.evs(r.getText(), Meeting.class);
+        return result;
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+
+        ListResult<Meeting> r = (ListResult) result;
+        if (r.isSucceed()) {
+            List meets = r.getData();
+            // 单独管理空界面
+            if (meets != null && meets.size() > 0) {
+                goneView(mLayoutEmpty);
+            } else {
+                showView(mLayoutEmpty);
+            }
+        }
+    }
+
+    @Override
+    public View createEmptyFooterView() {
         return null;
     }
 
+    @Override
+    protected CharSequence getSearchHint() {
+        return "搜索会议";
+    }
 }

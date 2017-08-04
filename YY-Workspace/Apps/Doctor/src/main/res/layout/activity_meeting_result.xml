@@ -4,13 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/list_layout"/>
+    <include layout="@layout/sr_list_layout"/>
 
     <LinearLayout
         android:id="@+id/meeting_result_layout_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include layout="@layout/layout_empty_footer"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -5,14 +5,10 @@ import android.view.View;
 import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
-import yy.doctor.model.meet.MeetFolder;
-import yy.doctor.model.meet.MeetFolder.TMeetingFolder;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.IMeet;
-import yy.doctor.model.meet.IMeet.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.ui.activity.meeting.MeetingFolderActivity;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
@@ -20,17 +16,17 @@ import yy.doctor.util.UISetter;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public class MeetingAdapter extends MultiAdapterEx<IMeet, MeetingVH> {
+public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
-    private boolean mHideUnitNum;
+    private boolean mShowUnitNum = true;
 
     public void hideUnitNum() {
-        mHideUnitNum = true;
+        mShowUnitNum = false;
     }
 
     @Override
     protected void refreshView(int position, MeetingVH holder, int itemType) {
-        UISetter.meetingHolderSet(holder, getItem(position), mHideUnitNum);
+        UISetter.meetingHolderSet(holder, getItem(position), mShowUnitNum);
         setOnViewClickListener(position, holder.getItemLayout());
     }
 
@@ -45,7 +41,10 @@ public class MeetingAdapter extends MultiAdapterEx<IMeet, MeetingVH> {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getMeetType();
+        if(getItem(position).getInt(TMeeting.type) == MeetType.meet) {
+            return MeetType.meet;
+        }
+        return MeetType.folder;
     }
 
     @Override
@@ -55,15 +54,15 @@ public class MeetingAdapter extends MultiAdapterEx<IMeet, MeetingVH> {
 
     @Override
     protected void onViewClick(int position, View v) {
+        Meeting item = getItem(position);
         if (getItemViewType(position) == MeetType.folder) {
-            MeetFolder item = (MeetFolder) getItem(position);
             MeetingFolderActivityIntent
-                    .create(item.getString(TMeetingFolder.infinityName), item.getInt(TMeetingFolder.meetCount))
-                    .infinityId(item.getString(TMeetingFolder.id))
+                    .create(item.getString(TMeeting.meetName), item.getInt(TMeeting.meetCount))
+                    .infinityId(item.getString(TMeeting.id))
                     .start(getContext());
         } else {
-            Meeting item = (Meeting) getItem(position);
             MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
         }
     }
+
 }

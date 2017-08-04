@@ -1,16 +1,16 @@
 package yy.doctor.ui.activity.search;
 
-import android.content.Context;
-import android.content.Intent;
+import java.util.List;
 
+import lib.annotation.AutoIntent;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.ys.config.AppConfig.RefreshWay;
+import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;
-import yy.doctor.Extra;
 import yy.doctor.model.search.Hot;
+import yy.doctor.model.search.IRec;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -21,60 +21,38 @@ import yy.doctor.network.NetFactory;
  * @auther yuansui
  * @since 2017/6/12
  */
-public class UnitNumResultActivity extends ResultActivity {
+@AutoIntent
+public class UnitNumResultActivity extends BaseSearchResultActivity {
 
     private final int KRecUnitNum = 2; // 热门单位号
-
-    public static void nav(Context context, String searchContent) {
-        Intent i = new Intent(context, UnitNumResultActivity.class)
-                .putExtra(Extra.KData, searchContent);
-        LaunchUtil.startActivity(context, i);
-    }
+    private final int KUnitNum = 1; // 单位号
 
     @Override
-    public void setViews() {
-        super.setViews();
-
-        mEtSearch.setHint("搜索单位号");
-    }
-
-    @Override
-    protected void searchEmpty() {
-        refresh(RefreshWay.embed);
-        exeNetworkReq(KRecUnitNum, NetFactory.searchRecUnitNum());
-    }
-
-    @Override
-    protected void search() {
-        refresh(RefreshWay.embed);
-        // 把原来的remove
-        removeAll();
-        exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent));
+    public void getDataFromNet() {
+        if (TextUtil.isEmpty(mSearchContent)) {
+            exeNetworkReq(KRecUnitNum, NetFactory.searchRecUnitNum());
+        } else {
+            exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent, getOffset(), getLimit()));
+        }
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.evs(r.getText(), UnitNum.class);
-    }
+        ListResult result = JsonParser.evs(r.getText(), UnitNum.class);
 
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        ListResult r = (ListResult) result;
-        if (r.isSucceed()) {
-            mUnitNums = r.getData();
-            if (mUnitNums != null && mUnitNums.size() > 0) {
-                if (id == KRecUnitNum) {
-                    // 推荐的单位号要显示热门单位号
-                    addItem(new Hot());
-                }
-                addAll(mUnitNums);
+        if (result.isSucceed()) {
+            List<IRec> unitNums = result.getData();
+            if (id == KRecUnitNum && unitNums != null && unitNums.size() > 0) {
+                // 推荐的单位号要显示热门单位号, 有才显示
+                unitNums.add(0, new Hot());
+                IListResult<IRec> ret = new ListResult<>();
+                ret.setCode(result.getCode());
+                ret.setData(unitNums);
+                return ret;
             }
-            setViewState(ViewState.normal);
-            invalidate();
-        } else {
-            onNetworkError(id, new NetError(id, r.getError()));
-            showToast(r.getError());
         }
+
+        return result;
     }
 
     @Override
@@ -82,8 +60,14 @@ public class UnitNumResultActivity extends ResultActivity {
         super.onNetworkError(id, error);
 
         if (id == KRecUnitNum) {
+            // 热门错误显示正常
             setViewState(ViewState.normal);
         }
+    }
+
+    @Override
+    protected CharSequence getSearchHint() {
+        return "搜索单位号";
     }
 
     @Override

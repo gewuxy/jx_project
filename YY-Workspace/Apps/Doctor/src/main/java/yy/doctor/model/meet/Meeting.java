@@ -12,11 +12,10 @@ import yy.doctor.model.search.IRec;
 /**
  * 关注的会议
  *
- * @author : GuoXuan
- * @since : 2017/5/5
+ * @author GuoXuan
+ * @since 2017/5/5
  */
-
-public class Meeting extends EVal<TMeeting> implements IRec, IMeet {
+public class Meeting extends EVal<TMeeting> implements IRec {
 
     /**
      * 会议状态
@@ -33,34 +32,52 @@ public class Meeting extends EVal<TMeeting> implements IRec, IMeet {
         int retrospect = 3; // 精彩回顾
     }
 
-    @Override
-    public int getType() {
-        return RecType.meeting;
+    /**
+     * 会议类型
+     */
+    @IntDef({
+            MeetType.folder,
+            MeetType.meet,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MeetType {
+        int folder = 0; // 文件夹
+        int meet = 1; // 文件
     }
 
     @Override
-    public int getMeetType() {
-        return MeetType.meet;
+    public int getType() {
+        return getInt(TMeeting.type) == MeetType.meet ? RecType.meeting : RecType.meet_folder;
     }
 
     public enum TMeeting {
-        id,             // 会议ID
-        meetName,       // 会议名称
-        meetType,       // 会议科室类型
-        organizer,      // 会议主办方
 
         /**
          * {@link MeetState}
          */
-        state,          // 会议状态
+        state, //  3, 会议状态
 
-        headimg, // 头像Url
-        startTime, // 开始时间
-        endTime, // 结束时间
+        /**
+         * {@link MeetType}
+         */
+        type, //  1, 文件
 
-        requiredXs, // flase 不奖励(支付)象数
-        xsCredits, // 0  象数
-        rewardCredit, //  flase 不奖励学分
+        id, //  17062316384929986180,会议ID
+        startTime, //  1501752518401,开始时间
+        endTime, //  1501752518401,结束时间
+
+        meetName, //  2015年莆田市基层医疗卫生机构考试（下）,会议名称
+        meetCount, //  0, 会议数量
+        meetType, //  其他科室, 会议科室类型
+        organizer, //  莆田卫生培训, 会议主办方
+
+        requiredXs, // flase, 不奖励(支付)象数
+        xsCredits, //  0, 学分
+
+        rewardCredit, //  flase, 不奖励学分
+        eduCredits, //  2, 象数
+
+        userId, //  287564, 无用
     }
 
 }

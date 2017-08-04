@@ -23,12 +23,10 @@ import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.home.RecUnitNum.Attention;
-import yy.doctor.model.meet.IMeet;
-import yy.doctor.model.meet.MeetFolder;
-import yy.doctor.model.meet.MeetFolder.TMeetingFolder;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.MeetState;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 import yy.doctor.ui.activity.me.DownloadDataActivity;
@@ -145,7 +143,7 @@ public class UISetter {
 
             addFileItem(layout, fileName, v -> DownloadDataActivity.nav(v.getContext(),
                     CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
-                    finalFileName, finalFileUrl, finalFileType, fileSize,fileId));
+                    finalFileName, finalFileUrl, finalFileType, fileSize, fileId));
         }
 
     }
@@ -261,56 +259,61 @@ public class UISetter {
 
     /**
      * @param holder
-     * @param m          数据
+     * @param meeting    数据
      * @param visibility 单位号是否显示
      */
-    public static void meetingHolderSet(MeetingVH holder, IMeet m, boolean visibility) {
-        TextView tvUnitNum = holder.getTvUnitNum();
-        if (m.getMeetType() == IMeet.MeetType.meet) {
-            Meeting meet = (Meeting) m;
-            @DrawableRes int res = R.mipmap.meeting_ic_state_retrospect;
-            switch (meet.getInt(TMeeting.state)) {
-                case MeetState.not_started: {
-                    res = R.mipmap.meeting_ic_state_not_started;
-                }
-                break;
-                case MeetState.under_way: {
-                    res = R.mipmap.meeting_ic_state_under_way;
-                }
-                break;
-                case MeetState.retrospect: {
-                    res = R.mipmap.meeting_ic_state_retrospect;
-                    ViewUtil.showView(holder.getLayoutProgress());
-                }
-                break;
-            }
-            holder.getIvState().setImageResource(res);
-            holder.getTvTitle().setText(meet.getString(TMeeting.meetName));
-            holder.getTvSection().setText(meet.getString(TMeeting.meetType));
-            holder.getTvTime().setText(TimeUtil.formatMilli(meet.getLong(TMeeting.startTime), "MM/dd HH:mm"));
+    public static void meetingHolderSet(MeetingVH holder, Meeting meeting, boolean visibility) {
+        if (meeting== null) {
+            return;
+        }
 
-            if (meet.getBoolean(TMeeting.rewardCredit)) {
+        @DrawableRes int resMeet = R.mipmap.meeting_ic_state_under_way;
+        @DrawableRes int resFolder = R.mipmap.meeting_ic_folder_state_under_way;
+        @MeetState int state = meeting.getInt(TMeeting.state);
+
+        switch (state) {
+            case MeetState.not_started: {
+                resMeet = R.mipmap.meeting_ic_state_not_started;
+                resFolder = R.mipmap.meeting_ic_folder_state_not_start;
+            }
+            break;
+            case MeetState.under_way: {
+                resMeet = R.mipmap.meeting_ic_state_under_way;
+                resFolder = R.mipmap.meeting_ic_folder_state_under_way;
+            }
+            break;
+            case MeetState.retrospect: {
+                resMeet = R.mipmap.meeting_ic_state_retrospect;
+                resFolder = R.mipmap.meeting_ic_folder_state_retrospect;
+            }
+            break;
+        }
+
+        viewVisibility(visibility ? meeting.getString(TMeeting.organizer) : null , holder.getTvUnitNum());
+
+        holder.getTvTitle().setText(meeting.getString(TMeeting.meetName));
+
+        if (meeting.getInt(TMeeting.type) == MeetType.meet) {
+            holder.getIvState().setImageResource(resMeet);
+
+            holder.getTvSection().setText(meeting.getString(TMeeting.meetType));
+            holder.getTvTime().setText(TimeUtil.formatMilli(meeting.getLong(TMeeting.startTime), "MM/dd HH:mm"));
+
+            if (meeting.getBoolean(TMeeting.rewardCredit)) {
                 ViewUtil.showView(holder.getIvCme());
             }
-            if (meet.getInt(TMeeting.requiredXs, 0) > 0) {
-                holder.getIvEpn().setSelected(meet.getBoolean(TMeeting.requiredXs));
+            if (meeting.getInt(TMeeting.requiredXs, 0) > 0) {
+                holder.getIvEpn().setSelected(meeting.getBoolean(TMeeting.requiredXs));
+            }
+            if (state == MeetState.retrospect) {
+                ViewUtil.showView(holder.getLayoutProgress());
             }
 
-            if (visibility) {
-                ViewUtil.goneView(tvUnitNum);
-            } else {
-                tvUnitNum.setText((meet.getString(TMeeting.organizer)));
-            }
         } else {
-            MeetFolder folder = (MeetFolder) m;
-            holder.getTvTitle().setText(folder.getString(TMeetingFolder.infinityName));
-            holder.getTvUnitNum().setText(folder.getString(TMeetingFolder.infinityName));
-            holder.getTvMeetingNum().setText(String.format("%d个会议", folder.getInt(TMeetingFolder.meetCount, 0)));
-            if (visibility) {
-                ViewUtil.goneView(tvUnitNum);
-            } else {
-//                tvUnitNum.setText((meet.getString(TMeeting.organizer)));
-            }
+            holder.getIvState().setImageResource(resFolder);
+
+            holder.getTvMeetingNum().setText(String.format("%d个会议", meeting.getInt(TMeeting.meetCount, 0)));
+
         }
     }
 

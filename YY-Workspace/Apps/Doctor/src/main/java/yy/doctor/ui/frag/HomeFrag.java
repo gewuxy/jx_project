@@ -24,7 +24,6 @@ import yy.doctor.model.home.RecMeetingFolder;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
-import yy.doctor.model.meet.IMeet;
 import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;

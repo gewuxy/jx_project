@@ -902,9 +902,11 @@ public class NetFactory {
      * @param keyword
      * @return
      */
-    public static NetworkReq searchUnitNum(String keyword) {
+    public static NetworkReq searchUnitNum(String keyword, int page, int pageSize) {
         return newPost(UrlSearch.KSearchUnitNum)
                 .param(SearchParam.KKeyword, keyword)
+                .param(MeetParam.KPageNum, page)
+                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -914,9 +916,11 @@ public class NetFactory {
      * @param keyword
      * @return
      */
-    public static NetworkReq searchMeeting(String keyword) {
+    public static NetworkReq searchMeeting(String keyword, int page, int pageSize) {
         return newPost(UrlSearch.KSearchMeeting)
                 .param(SearchParam.KKeyword, keyword)
+                .param(MeetParam.KPageNum, page)
+                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 

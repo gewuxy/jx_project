@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.view.FlowLayout;
@@ -38,16 +39,18 @@ public class SearchActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
+
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         bar.addViewLeft(view, null);
+
         bar.addTextViewRight("搜索", v -> {
             String search = mEtSearch.getText().toString().trim();
             if (TextUtil.isEmpty(search)) {
                 showToast("请输入搜索内容");
                 return;
             }
-            ResultActivity.nav(SearchActivity.this, search);
+            SearchResultActivityIntent.create().searchContent(search).start(SearchActivity.this);
         });
     }
 
@@ -68,15 +71,20 @@ public class SearchActivity extends BaseActivity {
      * FlowLayout的设置
      */
     private void setLayout() {
-        List<String> mNames = Util.getSections();//全部科室
+        List<String> mNames = Util.getSections(); // 全部科室
         TextView tvSection;
         View view;
         for (int i = 0; i < mNames.size(); i++) {
-            final String name = mNames.get(i);
+            String name = mNames.get(i);
             view = inflate(R.layout.layout_meeting_search_section);
             tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
             tvSection.setText(name);
-            view.setOnClickListener(v -> MeetingResultActivity.nav(SearchActivity.this, name));
+            view.setOnClickListener(v ->
+                    MeetingResultActivityIntent
+                            .create()
+                            .searchContent(name)
+                            .start(SearchActivity.this));
+            fit(view);
             mFlowLayout.addView(view);
         }
     }
@@ -84,12 +92,20 @@ public class SearchActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meeting_search_tv_unit_num:
-                UnitNumResultActivity.nav(SearchActivity.this, null);
-                break;
-            case R.id.meeting_search_tv_meeting:
-                MeetingResultActivity.nav(SearchActivity.this, null);
-                break;
+            case R.id.meeting_search_tv_unit_num: {
+                UnitNumResultActivityIntent
+                        .create()
+                        .searchContent(ConstantsEx.KEmptyValue)
+                        .start(SearchActivity.this);
+            }
+            break;
+            case R.id.meeting_search_tv_meeting: {
+                MeetingResultActivityIntent
+                        .create()
+                        .searchContent(ConstantsEx.KEmptyValue)
+                        .start(SearchActivity.this);
+            }
+            break;
         }
     }
 

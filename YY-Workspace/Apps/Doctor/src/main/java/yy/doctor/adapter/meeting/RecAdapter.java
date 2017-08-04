@@ -1,5 +1,7 @@
 package yy.doctor.adapter.meeting;
 
+import android.widget.TextView;
+
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 import yy.doctor.R;
@@ -7,8 +9,6 @@ import yy.doctor.adapter.VH.me.UnitNumVH;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.adapter.VH.meeting.RecVH;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.MeetState;
-import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
@@ -27,27 +27,11 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
     protected void refreshView(int position, RecVH holder, int itemType) {
         switch (itemType) {
             // 搜索会议
+            case RecType.meet_folder:
             case RecType.meeting: {
-                UISetter.meetingHolderSet(holder.getMeetingVH(), (Meeting)getItem(position), false);
-                // FIXME:
-                /*Meeting item = (Meeting) getItem(position);
-                MeetingVH meetVH = holder.getMeetingVH();
+                MeetingVH meetingVH = holder.getMeetingVH();
 
-                meetVH.getIvUnitNum()
-                        .placeHolder(R.mipmap.ic_default_unit_num)
-                        .url(item.getString(TMeeting.headimg))
-                        .renderer(new CircleRenderer())
-                        .load();
-                meetVH.getTvTitle().setText(item.getString(TMeeting.meetName));
-                meetVH.getTvSection().setText(item.getString(TMeeting.meetType));
-                meetVH.getTvUnitNum().setText(item.getString(TMeeting.organizer));
-
-                long startTime = item.getLong(TMeeting.startTime);
-                long endTime = item.getLong(TMeeting.endTime);
-                UISetter.setDateDuration(meetVH.getTvTime(), meetVH.getTvDuration(), startTime, endTime);
-
-                @MeetState int state = item.getInt(TMeeting.state);
-                UISetter.setMeetState(state, meetVH.getTvState());*/
+                UISetter.meetingHolderSet(meetingVH, (Meeting)getItem(position), false);
             }
             break;
             // 搜索单位号
@@ -64,10 +48,11 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
             break;
 
             case RecType.more: {
+                TextView tvMore = holder.getTvMore();
                 if (getItemViewType(getLastItemPosition()) == RecType.unit_num) {
-                    holder.getTvMore().setText("查看更多单位号");
+                    tvMore.setText("查看更多单位号");
                 } else {
-                    holder.getTvMore().setText("查看更多会议");
+                    tvMore.setText("查看更多会议");
                 }
             }
             break;
@@ -79,6 +64,8 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
         switch (itemType) {
             case RecType.meeting:
                 return R.layout.layout_meeting_item;
+            case RecType.meet_folder:
+                return R.layout.layout_meeting_folder_item;
             case RecType.unit_num:
                 return R.layout.layout_unit_num_item;
             case RecType.hot:

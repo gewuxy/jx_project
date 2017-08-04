@@ -93,9 +93,6 @@
             android:name=".ui.activity.register.DistrictActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.PcdActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.activity.BaiDuTestActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -163,7 +160,7 @@
             android:name=".ui.activity.search.UnitNumResultActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.search.ResultActivity"
+            android:name=".ui.activity.search.SearchResultActivity"
             android:screenOrientation="portrait"/>
 
 
@@ -178,16 +175,7 @@
             android:name=".ui.activity.data.ClinicalGuideSearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.DrugListCategoryLevel3Activity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.data.DrugListCategoryLevel2Activity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.activity.data.ClinicalGuideCategoryActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.data.ClinicalGuideDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.data.DataUnitsActivity"
@@ -197,9 +185,6 @@
         <!-- me -->
         <activity
             android:name=".ui.activity.me.HelpAndFeedbackActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.me.collection.CollectionMeetingActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.SettingsActivity"
