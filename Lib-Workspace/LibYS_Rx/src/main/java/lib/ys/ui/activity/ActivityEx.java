@@ -31,7 +31,7 @@ import android.widget.EditText;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import lib.annotation.util.InjectUtil;
+import lib.ys.util.InjectUtil;
 import lib.network.Network;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;

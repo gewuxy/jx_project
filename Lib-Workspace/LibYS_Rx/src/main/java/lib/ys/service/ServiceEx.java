@@ -6,7 +6,7 @@ import android.os.IBinder;
 
 import org.json.JSONException;
 
-import lib.annotation.util.InjectUtil;
+import lib.ys.util.InjectUtil;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
