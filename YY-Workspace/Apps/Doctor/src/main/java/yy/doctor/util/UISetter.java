@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -294,7 +295,6 @@ public class UISetter {
         holder.getTvTitle().setText(meeting.getString(TMeeting.meetName));
 
         if (meeting.getInt(TMeeting.type) == MeetType.meet) {
-            holder.getIvState().setImageResource(resMeet);
 
             holder.getTvSection().setText(meeting.getString(TMeeting.meetType));
             holder.getTvTime().setText(TimeUtil.formatMilli(meeting.getLong(TMeeting.startTime), "MM/dd HH:mm"));
@@ -305,8 +305,16 @@ public class UISetter {
             if (meeting.getInt(TMeeting.requiredXs, 0) > 0) {
                 holder.getIvEpn().setSelected(meeting.getBoolean(TMeeting.requiredXs));
             }
+            // 首页没有的
+            ImageView ivState = holder.getIvState();
+            if (ivState != null) {
+                ivState.setImageResource(resMeet);
+            }
             if (state == MeetState.retrospect) {
-                ViewUtil.showView(holder.getLayoutProgress());
+                View layoutProgress = holder.getLayoutProgress();
+                if (layoutProgress != null) {
+                    ViewUtil.showView(layoutProgress);
+                }
             }
 
         } else {

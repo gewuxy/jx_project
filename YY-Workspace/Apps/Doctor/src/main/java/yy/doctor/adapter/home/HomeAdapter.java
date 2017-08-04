@@ -2,6 +2,7 @@ package yy.doctor.adapter.home;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,19 +16,17 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.home.HomeMeetFolderVH;
 import yy.doctor.adapter.VH.home.HomeMeetingVH;
 import yy.doctor.adapter.VH.home.HomeVH;
+import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.adapter.home.HomeUnitNumAdapter.onAttentionListener;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.IHome.HomeType;
 import yy.doctor.model.home.Lecturer;
 import yy.doctor.model.home.Lecturer.TLecturer;
 import yy.doctor.model.home.RecMeeting;
-import yy.doctor.model.home.RecMeeting.TRecMeeting;
-import yy.doctor.model.home.RecMeetingFolder;
-import yy.doctor.model.home.RecMeetingFolder.TRecMeetingFolder;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
-import yy.doctor.ui.activity.meeting.MeetingFolderActivity;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
@@ -39,9 +38,9 @@ import yy.doctor.util.UISetter;
  */
 public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
-    private final String KLayout = "home_meet_folder_item_layout_speaker_";
-    private final String KName = "home_meet_folder_item_tv_speaker_name_";
-    private final String KTitle = "home_meet_folder_item_tv_speaker_title_";
+    private static final String KLayout = "home_meet_folder_item_layout_speaker_";
+    private static final String KName = "home_meet_folder_item_tv_speaker_name_";
+    private static final String KTitle = "home_meet_folder_item_tv_speaker_title_";
 
     private onAttentionListener mListener;
     private HomeUnitNumAdapter mHomeUnitNumAdapter;
@@ -60,81 +59,87 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
     @Override
     protected void refreshView(int position, HomeVH holder, int itemType) {
-        if (itemType == HomeType.meeting) {
+        switch (itemType) {
+            case HomeType.meeting: {
+                RecMeeting item = (RecMeeting) getItem(position);
 
-            HomeMeetingVH homeMeetingVH = holder.getHomeMeetingVH();
-            RecMeeting item = (RecMeeting) getItem(position);
+                HomeMeetingVH homeVH = holder.getHomeMeetingVH();
+                // 会议item点击事件
+                setOnViewClickListener(position, homeVH.getMeetingItemLayout());
 
-            homeMeetingVH.getTvTitle().setText(item.getString(TRecMeeting.meetName));
-            //判断会议状态
-            @MeetState int state = item.getInt(TRecMeeting.state);
-            UISetter.setHomeMeetingState(state, homeMeetingVH.getTvStatus());
+                //判断会议状态
+                @MeetState int state = item.getInt(TMeeting.state);
+                UISetter.setHomeMeetingState(state, homeVH.getTvStatus());
 
-            homeMeetingVH.getTvSection().setText(item.getString(TRecMeeting.meetType));
-            homeMeetingVH.getTvData().setText(TimeUtil.formatMilli(item.getLong(TRecMeeting.startTime), "MM/dd HH:mm"));
-            homeMeetingVH.getIvSpeaker()
-                    .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
-                    .url(item.getString(TRecMeeting.lecturerImg))
-                    .load();
-
-            if (item.getBoolean(TRecMeeting.rewardCredit)) {
-                showView(homeMeetingVH.getIvCme());
-            }
-            if (item.getInt(TRecMeeting.requiredXs, 0) > 0) {
-                homeMeetingVH.getIvEpn().setSelected(item.getBoolean(TRecMeeting.requiredXs));
-            }
-
-            homeMeetingVH.getTvSpeakerName().setText(item.getString(TRecMeeting.lecturer));
-            homeMeetingVH.getTvSpeakerRank().setText(item.getString(TRecMeeting.lecturerTile));
-            //会议item点击事件
-            homeMeetingVH.getMeetingItemLayout().setOnClickListener(v ->
-                    MeetingDetailsActivity.nav(getContext(), item.getString(TRecMeeting.id), item.getString(TRecMeeting.meetName)));
-        } else if (itemType == HomeType.unit_num) {
-            RecUnitNums items = (RecUnitNums) getItem(position);
-            mHomeUnitNumAdapter.setData(items.getData());
-        } else if (itemType == HomeType.meeting_folder) {
-            HomeMeetFolderVH folderVH = holder.getHomeMeetFolderVH();
-            RecMeetingFolder item = (RecMeetingFolder) getItem(position);
-
-            folderVH.getTvFolderName().setText(item.getString(TRecMeetingFolder.infinityName));
-            folderVH.getTvFolderUnitNum().setText(item.getString(TRecMeetingFolder.unitUserName));
-            folderVH.getTvFolderMeetNum().setText(String.format("%d个会议", item.getInt(TRecMeetingFolder.meetCount), 0));
-            List<Lecturer> lecturers = item.getList(TRecMeetingFolder.lecturerList);
-
-            List<View> layouts = new ArrayList<>();
-            List<TextView> names = new ArrayList<>();
-            List<TextView> titles = new ArrayList<>();
-
-            int index = 1;
-            while (true) {
-                View v = holder.getConvertView().findViewById(ResLoader.getIdentifier(KLayout + index, ResUtil.ResDefType.id));
-                if (v == null) {
-                    break;
-                } else {
-                    TextView name = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KName + index, ResUtil.ResDefType.id));
-                    names.add(name);
-                    TextView title = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KTitle + index, ResUtil.ResDefType.id));
-                    titles.add(title);
-                    layouts.add(v);
-                    index++;
+                List<Lecturer> lecturers = item.getList(TMeeting.lecturerList);
+                if (lecturers != null && lecturers.size() > 0) {
+                    Lecturer lecturer = lecturers.get(0);
+                    homeVH.getIvSpeaker()
+                            .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
+                            .url(lecturer.getString(TLecturer.headimg))
+                            .load();
+                    homeVH.getTvSpeakerName().setText(lecturer.getString(TLecturer.name));
+                    homeVH.getTvSpeakerRank().setText(lecturer.getString(TLecturer.title));
                 }
-            }
 
-            if (lecturers != null && lecturers.size() > 0) {
-                showView(folderVH.getSpeakers());
-                for (int i = 0; i < lecturers.size(); i++) {
-                    Lecturer lecturer = lecturers.get(i);
-                    if (lecturer == null) {
-                        return;
+                MeetingVH meetVH = homeVH.getMeetingVH();
+                UISetter.meetingHolderSet(meetVH, item, false);
+
+            }
+            break;
+            case HomeType.meeting_folder: {
+                RecMeeting item = (RecMeeting) getItem(position);
+
+                HomeMeetFolderVH folderVH = holder.getHomeMeetFolderVH();
+                // 文件夹的点击事件
+                setOnViewClickListener(position, folderVH.getFolderItemLayout());
+
+                folderVH.getTvFolderName().setText(item.getString(TMeeting.meetName));
+                folderVH.getTvFolderUnitNum().setText(item.getString(TMeeting.organizer));
+                folderVH.getTvFolderMeetNum().setText(String.format("%d个会议", item.getInt(TMeeting.meetCount), 0));
+
+                // 讲者相关
+                List<Lecturer> lecturers = item.getList(TMeeting.lecturerList);
+                if (lecturers != null && lecturers.size() > 0) {
+                    showView(folderVH.getSpeakers());
+                    // 用fori的特点找id和设置数据
+                    List<View> layouts = new ArrayList<>();
+                    List<TextView> names = new ArrayList<>();
+                    List<TextView> titles = new ArrayList<>();
+
+                    int index = 1;
+                    while (true) {
+                        View v = holder.getConvertView().findViewById(ResLoader.getIdentifier(KLayout + index, ResUtil.ResDefType.id));
+                        if (v == null) {
+                            break;
+                        } else {
+                            // 确保size一致
+                            TextView name = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KName + index, ResUtil.ResDefType.id));
+                            names.add(name);
+                            TextView title = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KTitle + index, ResUtil.ResDefType.id));
+                            titles.add(title);
+                            layouts.add(v);
+                            index++;
+                        }
                     }
-                    showView(layouts.get(i));
-                    names.get(i).setText(lecturer.getString(TLecturer.name));
-                    titles.get(i).setText(lecturer.getString(TLecturer.title));
+                    // 设置数据
+                    for (int i = 0; i < lecturers.size(); i++) {
+                        Lecturer lecturer = lecturers.get(i);
+                        if (lecturer == null) {
+                            return;
+                        }
+                        showView(layouts.get(i));
+                        names.get(i).setText(lecturer.getString(TLecturer.name));
+                        titles.get(i).setText(lecturer.getString(TLecturer.title));
+                    }
                 }
             }
-
-
-            setOnViewClickListener(position, folderVH.getFolderItemLayout());
+            break;
+            case HomeType.unit_num: {
+                RecUnitNums items = (RecUnitNums) getItem(position);
+                mHomeUnitNumAdapter.setData(items.getData());
+            }
+            break;
         }
     }
 
@@ -160,7 +165,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getType();
+        return getItem(position).getHomeType();
     }
 
     @Override
@@ -178,12 +183,15 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
     @Override
     protected void onViewClick(int position, View v) {
-        if (getItem(position).getType() == HomeType.meeting_folder) {
-            RecMeetingFolder item = (RecMeetingFolder) getItem(position);
+        RecMeeting item = (RecMeeting) getItem(position);
+        if (getItem(position).getHomeType() == HomeType.meeting_folder) {
             MeetingFolderActivityIntent
-                    .create(item.getString(TRecMeetingFolder.infinityName),item.getInt(TRecMeetingFolder.meetCount))
-                    .preId(item.getString(TRecMeetingFolder.id))
+                    .create(item.getString(TMeeting.meetName), item.getInt(TMeeting.meetCount))
+                    .preId(item.getString(TMeeting.id))
                     .start(getContext());
+        } else {
+
+            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
         }
     }
 }

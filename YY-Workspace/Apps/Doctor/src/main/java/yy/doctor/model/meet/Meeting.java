@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.EVal;
+import yy.doctor.model.home.Lecturer;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.search.IRec;
 
@@ -46,7 +47,7 @@ public class Meeting extends EVal<TMeeting> implements IRec {
     }
 
     @Override
-    public int getType() {
+    public int getRecType() {
         return getInt(TMeeting.type) == MeetType.meet ? RecType.meeting : RecType.meet_folder;
     }
 
@@ -72,10 +73,13 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         organizer, //  莆田卫生培训, 会议主办方
 
         requiredXs, // flase, 不奖励(支付)象数
-        xsCredits, //  0, 学分
+        xsCredits, // 2, 象数
 
         rewardCredit, //  flase, 不奖励学分
-        eduCredits, //  2, 象数
+        eduCredits, //   0, 学分
+
+        @Bind(asList = Lecturer.class)
+        lecturerList,
 
         userId, //  287564, 无用
     }

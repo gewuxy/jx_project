@@ -5,12 +5,15 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import yy.doctor.model.home.IHome.HomeType;
+
 /**
  * @auther : GuoXuan
  * @since : 2017/6/8
  */
 
 public interface IRec {
+
     @IntDef({
             RecType.meeting,
             RecType.unit_num,
@@ -30,5 +33,5 @@ public interface IRec {
     }
 
     @RecType
-    int getType();
+    int getRecType();
 }

@@ -15,7 +15,7 @@ import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 public class RecUnitNum extends EVal<TRecUnitNum> implements IHome {
 
     @Override
-    public int getType() {
+    public int getHomeType() {
         return HomeType.unit_num;
     }
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
+import yy.doctor.adapter.VH.meeting.MeetingVH;
 
 /**
  * @author CaiXiang
@@ -17,28 +18,23 @@ import yy.doctor.R;
 
 public class HomeMeetingVH extends ViewHolderEx {
 
+    private MeetingVH mMeetingVH;
+
     public HomeMeetingVH(@NonNull View convertView) {
         super(convertView);
+        mMeetingVH = new MeetingVH(convertView);
     }
 
-    public LinearLayout getMeetingItemLayout() {
+    public MeetingVH getMeetingVH() {
+        return mMeetingVH;
+    }
+
+    public View getMeetingItemLayout() {
         return getView(R.id.home_meeting_item_layout);
-    }
-
-    public TextView getTvTitle() {
-        return getView(R.id.home_meeting_item_tv_title);
     }
 
     public TextView getTvStatus() {
         return getView(R.id.home_meeting_item_tv_status);
-    }
-
-    public TextView getTvSection() {
-        return getView(R.id.home_meeting_item_tv_section);
-    }
-
-    public TextView getTvData() {
-        return getView(R.id.home_meeting_item_tv_date);
     }
 
     public NetworkImageView getIvSpeaker() {
@@ -53,16 +49,5 @@ public class HomeMeetingVH extends ViewHolderEx {
         return getView(R.id.home_meeting_item_tv_speaker_rank);
     }
 
-    public ImageView getIvCme() {
-        return getView(R.id.home_meeting_item_iv_cme);
-    }
-
-    public ImageView getIvEpn() {
-        return getView(R.id.home_meeting_item_iv_epn);
-    }
-
-    public TextView getTvUnitNum() {
-        return getView(R.id.home_meeting_item_tv_unit_num);
-    }
 
 }

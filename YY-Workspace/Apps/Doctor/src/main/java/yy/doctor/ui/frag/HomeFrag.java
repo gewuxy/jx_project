@@ -20,7 +20,6 @@ import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
-import yy.doctor.model.home.RecMeetingFolder;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
@@ -47,7 +46,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private final int KReqIdMeeting = 2;
     private final int KReqIdUnitNum = 3;
     private final int KReqIdAttention = 4;
-    private final int KReqIdMeetingFolder = 5;
     private final int KAttention = 1;  //关注单位号
 
     private final int KFirstSection = 3;
@@ -61,7 +59,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private boolean mBannerReqIsOK = false;
     private boolean mUnitNumReqIsOK = false;
     private boolean mMeetingReqIsOK = false;
-    private boolean mMeetingFolderReqIsOK = false;
     private boolean mIsLoadFirstPage = true;  //  是否是在加载第一页数据
     private boolean mIsSwipeRefresh = false;  // 是否正在下拉刷新
 
@@ -69,7 +66,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     private List<RecUnitNum> mRecUnitNums;
     private List<IHome> mRecMeetings;
-    private List<IHome> mRecMeetingFolders;
     private List<String> mBanners;
 
     private View mViewNotice;
@@ -121,9 +117,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     public void getDataFromNet() {
         if (initComplete()) {
             mMeetingReqIsOK = false;
-            mMeetingFolderReqIsOK = false;
         }
-        exeNetworkReq(KReqIdMeetingFolder, NetFactory.recommendFolder());
         exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting(getOffset(), getLimit()));
     }
 
@@ -133,7 +127,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mBannerReqIsOK = false;
         mUnitNumReqIsOK = false;
         mMeetingReqIsOK = false;
-        mMeetingFolderReqIsOK = false;
         mIsLoadFirstPage = true;
         mIsSwipeRefresh = true;
 
@@ -163,11 +156,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             result = JsonParser.evs(r.getText(), RecMeeting.class);
             if (result.isSucceed()) {
                 mRecMeetings = result.getData();
-            }
-        } else if (id == KReqIdMeetingFolder) {
-            result = JsonParser.evs(r.getText(), RecMeetingFolder.class);
-            if (result.isSucceed()) {
-                mRecMeetingFolders = result.getData();
             }
         }
         return result;
@@ -204,12 +192,10 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             mUnitNumReqIsOK = r.isSucceed();
         } else if (id == KReqIdMeeting) {
             mMeetingReqIsOK = r.isSucceed();
-        } else if (id == KReqIdMeetingFolder) {
-            mMeetingFolderReqIsOK = r.isSucceed();
         }
 
         // 确保所有数据都已经获取才拼接数据
-        if (mBannerReqIsOK && mUnitNumReqIsOK && mMeetingReqIsOK && mMeetingFolderReqIsOK) {
+        if (mBannerReqIsOK && mUnitNumReqIsOK && mMeetingReqIsOK) {
 
             if (mBanners != null && mBanners.size() > 0) {
                 mBannerView.setData(mBanners);
@@ -222,34 +208,28 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
             // 第一次和下拉刷新加载需要拼接数据， 分页加载时不需要
             if (mIsLoadFirstPage) {
-                // 合并所有的推荐数据
-                List<IHome> meets = new ArrayList<>();
-                // 保证文件夹在前面
-                meets.addAll(mRecMeetingFolders);
-                meets.addAll(mRecMeetings);
 
-                // 数据分组  推荐会议(包含文件夹)
-                int index = 0;
-                int size = meets.size();
+                //数据分组  推荐会议
                 List<IHome> firstSectionMeetings = new ArrayList<>();
+                List<IHome> secondSectionMeetings = new ArrayList<>();
+
+                int index = 0;
+                int size = mRecMeetings.size();
                 for (int i = 0; i < KFirstSection && i < size; i++) {
-                    firstSectionMeetings.add(meets.get(i));
+                    firstSectionMeetings.add(mRecMeetings.get(i));
                     index++;
                 }
-                List<IHome> secondSectionMeetings = new ArrayList<>();
                 for (int i = index; i < (KSecondSection + index) && i < size; ++i) {
-                    secondSectionMeetings.add(meets.get(i));
+                    secondSectionMeetings.add(mRecMeetings.get(i));
                 }
-
-                // 单位号前面的推荐
                 homes.addAll(firstSectionMeetings);
-                // 单位号
+
                 if (mRecUnitNums != null && mRecUnitNums.size() > 0) {
                     RecUnitNums nums = new RecUnitNums();
                     nums.setData(mRecUnitNums);
                     homes.add(nums);
                 }
-                // 单位号后面的推荐
+
                 homes.addAll(secondSectionMeetings);
 
                 mIsLoadFirstPage = false;
@@ -271,6 +251,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
 
+        stopSwipeRefresh();
         setViewState(ViewState.error);
     }
 
@@ -326,9 +307,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public boolean onRetryClick() {
-        //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加请求网络请求
+        //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
         exeNetworkReq(KReqIdBanner, NetFactory.banner());
-        exeNetworkReq(KReqIdMeetingFolder, NetFactory.recommendFolder());
         exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
         mIsNetworkError = false;
         return super.onRetryClick();

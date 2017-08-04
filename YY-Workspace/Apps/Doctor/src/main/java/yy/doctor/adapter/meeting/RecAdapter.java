@@ -81,7 +81,7 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getType();
+        return getItem(position).getRecType();
     }
 
     @Override

@@ -11,7 +11,7 @@ import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 public class UnitNum extends EVal<TUnitNum> implements IRec {
 
     @Override
-    public int getType() {
+    public int getRecType() {
         return RecType.unit_num;
     }
 

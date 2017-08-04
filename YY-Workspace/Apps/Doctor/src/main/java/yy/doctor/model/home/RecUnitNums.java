@@ -10,7 +10,7 @@ import java.util.List;
 public class RecUnitNums implements IHome {
 
     @Override
-    public int getType() {
+    public int getHomeType() {
         return HomeType.unit_num;
     }
 

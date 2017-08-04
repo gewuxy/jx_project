@@ -465,7 +465,7 @@ public class NetFactory {
     }
 
     /**
-     * 首页推荐会议
+     * 首页推荐会议(含文件夹)
      *
      * @return
      */
@@ -473,16 +473,6 @@ public class NetFactory {
         return newGet(UrlHome.KRecommendMeeting)
                 .param(HomeParam.KPageNum, page)
                 .param(HomeParam.KPageSize, pageSize)
-                .build();
-    }
-
-    /**
-     * 首页推荐会议文件夹
-     *
-     * @return
-     */
-    public static NetworkReq recommendFolder() {
-        return newGet(UrlHome.KRecommendMeetingFolder)
                 .build();
     }
 
