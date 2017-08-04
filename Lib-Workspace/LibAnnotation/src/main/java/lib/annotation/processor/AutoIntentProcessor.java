@@ -5,12 +5,6 @@ package lib.annotation.processor;
  * @since 2017/8/1
  */
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
@@ -27,6 +21,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 
+import lib.annotation.AndroidClassName;
 import lib.annotation.AutoIntent;
 import lib.annotation.Extra;
 
@@ -49,7 +44,7 @@ public class AutoIntentProcessor extends BaseProcessor {
         all.addAll(required);
         all.addAll(optional);
 
-        TypeName annotatedTypeName = TypeName.get(annotatedElement.asType());
+        TypeName annotatedTypeName = getTypeName(annotatedElement);
 
         final String name = String.format("%sIntent", annotatedElement.getSimpleName());
         TypeSpec.Builder builder = TypeSpec.classBuilder(name)
@@ -72,10 +67,12 @@ public class AutoIntentProcessor extends BaseProcessor {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addStatement(simpleName + " builder = new " + simpleName + "()")
                 .returns(clzName);
+        // 添加必须的参数
         for (Element e : required) {
             String paramName = getParamName(e);
-            builder.addField(TypeName.get(e.asType()), paramName, Modifier.PRIVATE);
-            createMethod.addParameter(TypeName.get(e.asType()), paramName);
+            builder.addField(getTypeNameBox(e), paramName, Modifier.PRIVATE);
+
+            createMethod.addParameter(createNonNullParam(e, paramName));
             createMethod.addStatement("builder.$N = $N", paramName, paramName);
         }
         createMethod.addStatement("return builder");
@@ -86,10 +83,10 @@ public class AutoIntentProcessor extends BaseProcessor {
          */
         for (Element e : optional) {
             String paramName = getParamName(e);
-            builder.addField(TypeName.get(e.asType()), paramName, Modifier.PRIVATE);
+            builder.addField(getTypeNameBox(e), paramName, Modifier.PRIVATE);
             builder.addMethod(MethodSpec.methodBuilder(paramName)
                     .addModifiers(Modifier.PUBLIC)
-                    .addParameter(TypeName.get(e.asType()), paramName)
+                    .addParameter(getTypeNameBox(e), paramName)
                     .addStatement("this.$N = $N", paramName, paramName)
                     .addStatement("return this")
                     .returns(ClassName.get(getPackageName(annotatedElement), name))
@@ -101,12 +98,12 @@ public class AutoIntentProcessor extends BaseProcessor {
          */
         MethodSpec.Builder newIntentMethod = MethodSpec.methodBuilder("newIntent")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(Context.class, "context")
-                .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName)
-                .returns(Intent.class);
+                .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
+                .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName)
+                .returns(AndroidClassName.KIntent);
         for (Element e : all) {
             String paramName = getParamName(e);
-            newIntentMethod.addParameter(TypeName.get(e.asType()), paramName);
+            newIntentMethod.addParameter(createNonNullParam(e, paramName));
         }
         addIntentStatement(newIntentMethod, all);
         newIntentMethod.addStatement("return intent");
@@ -119,8 +116,8 @@ public class AutoIntentProcessor extends BaseProcessor {
              */
             MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
                     .addModifiers(Modifier.PUBLIC)
-                    .addParameter(Context.class, "context")
-                    .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName);
+                    .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
+                    .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startMethod, all);
             startMethod.addStatement("context.startService(intent)");
             builder.addMethod(startMethod.build());
@@ -130,8 +127,8 @@ public class AutoIntentProcessor extends BaseProcessor {
              */
             MethodSpec.Builder stopMethod = MethodSpec.methodBuilder("stop")
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                    .addParameter(Context.class, "context")
-                    .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName)
+                    .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
+                    .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName)
                     .addStatement("context.stopService(intent)");
             builder.addMethod(stopMethod.build());
         } else {
@@ -141,10 +138,10 @@ public class AutoIntentProcessor extends BaseProcessor {
              */
             MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
                     .addModifiers(Modifier.PUBLIC)
-                    .addParameter(Context.class, "context")
-                    .addStatement("$T intent = new Intent(context, $T.class)", Intent.class, annotatedTypeName);
+                    .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
+                    .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startMethod, all);
-            startMethod.beginControlFlow("if (!(context instanceof $T))", Activity.class)
+            startMethod.beginControlFlow("if (!(context instanceof $T))", AndroidClassName.KActivity)
                     .addStatement("intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)")
                     .endControlFlow()
                     .addStatement("context.startActivity(intent)");
@@ -157,27 +154,27 @@ public class AutoIntentProcessor extends BaseProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .addParameter(Object.class, "host")
                     .addParameter(TypeName.INT, "code")
-                    .beginControlFlow("if (!(host instanceof $T) || !(host instanceof $T))", Activity.class, Fragment.class)
-                    .addStatement("throw new $T()", IllegalStateException.class)
+                    .beginControlFlow("if (!(host instanceof $T) || !(host instanceof $T))", AndroidClassName.KActivity, AndroidClassName.KFragment)
+                    .addStatement("throw new $T(\"host must be one of activity or fragment\")", IllegalStateException.class)
                     .endControlFlow()
-                    .addStatement("$T intent = new Intent((Context) host, $T.class)", Intent.class, annotatedTypeName);
+                    .addStatement("$T intent = new Intent((Context) host, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startForResultMethod, all);
-            startForResultMethod.beginControlFlow("if (host instanceof $T)", Activity.class)
-                    .addStatement("(($T) host).startActivityForResult(intent, code)", Activity.class)
-                    .nextControlFlow("else if (host instanceof $T)", Fragment.class)
-                    .addStatement("(($T) host).startActivityForResult(intent, code)", Fragment.class)
+            startForResultMethod.beginControlFlow("if (host instanceof $T)", AndroidClassName.KActivity)
+                    .addStatement("(($T) host).startActivityForResult(intent, code)", AndroidClassName.KActivity)
+                    .nextControlFlow("else if (host instanceof $T)", AndroidClassName.KFragment)
+                    .addStatement("(($T) host).startActivityForResult(intent, code)", AndroidClassName.KFragment)
                     .endControlFlow();
             builder.addMethod(startForResultMethod.build());
         }
 
         /**
-         * 生成host调用的注入方法
+         * 生成host调用的inject方法
          */
         MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(annotatedTypeName, "host")
-                .addParameter(Intent.class, "intent")
-                .addStatement("$T extras = intent.getExtras()", Bundle.class);
+                .addParameter(AndroidClassName.KIntent, "intent")
+                .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle);
         for (Element e : all) {
             String paramName = getParamName(e);
             injectMethod.beginControlFlow("if (extras.containsKey($S))", paramName)
@@ -185,7 +182,7 @@ public class AutoIntentProcessor extends BaseProcessor {
                     .nextControlFlow("else");
 
             Extra extra = e.getAnnotation(Extra.class);
-            TypeName typeName = TypeName.get(e.asType());
+            TypeName typeName = getTypeName(e);
             if (typeName == TypeName.LONG) {
                 injectMethod.addStatement("host.$N = " + extra.defaultLong(), e.getSimpleName().toString());
             } else if (typeName == TypeName.INT) {
@@ -212,8 +209,8 @@ public class AutoIntentProcessor extends BaseProcessor {
 //                    .methodBuilder("get" + paramName.substring(0, 1).toUpperCase() + paramName.substring(1))
 //                    .returns(ClassName.get(e.asType()))
 //                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-//                    .addParameter(Intent.class, "intent")
-//                    .addStatement("$T extras = intent.getExtras()", Bundle.class)
+//                    .addParameter(AndroidClassName.KIntent, "intent")
+//                    .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle)
 //                    .beginControlFlow("if (extras.containsKey($S))", paramName)
 //                    .addStatement("return ($T) extras.get($S)", e.asType(), paramName)
 //                    .nextControlFlow("else")
@@ -253,7 +250,9 @@ public class AutoIntentProcessor extends BaseProcessor {
     private void addIntentStatement(MethodSpec.Builder builder, List<Element> all) {
         for (Element e : all) {
             String paramName = getParamName(e);
-            builder.addStatement("intent.putExtra($S, $N)", paramName, paramName);
+            builder.beginControlFlow("if ($N != null)", paramName)
+                    .addStatement("intent.putExtra($S, $N)", paramName, paramName)
+                    .endControlFlow();
         }
     }
 }

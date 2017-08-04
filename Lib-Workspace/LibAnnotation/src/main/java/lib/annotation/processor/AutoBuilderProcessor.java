@@ -1,7 +1,6 @@
 package lib.annotation.processor;
 
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
@@ -13,19 +12,14 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
-import javax.tools.Diagnostic.Kind;
 
 import lib.annotation.AutoBuilder;
-import lib.annotation.Extra;
 import lib.annotation.Ignore;
-
-import static java.nio.file.Paths.get;
 
 
 /**

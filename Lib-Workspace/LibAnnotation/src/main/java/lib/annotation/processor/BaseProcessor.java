@@ -1,10 +1,10 @@
 package lib.annotation.processor;
 
-import android.annotation.TargetApi;
-import android.os.Build.VERSION_CODES;
-
 import com.google.common.collect.ImmutableSet;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.lang.annotation.Annotation;
@@ -24,6 +24,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
+
+import lib.annotation.AndroidAnnotationName;
 
 /**
  * @auther yuansui
@@ -124,7 +126,6 @@ abstract public class BaseProcessor extends AbstractProcessor {
         return ((PackageElement) e).getQualifiedName().toString();
     }
 
-    @TargetApi(VERSION_CODES.GINGERBREAD)
     protected <A extends Annotation> String getParamName(Element e, String val) {
         String ret = val != null && !val.trim().isEmpty() ? val : e.getSimpleName().toString();
         if (ret.length() >= 2 && ret.startsWith("m")) {
@@ -137,5 +138,25 @@ abstract public class BaseProcessor extends AbstractProcessor {
         }
 
         return ret;
+    }
+
+    protected ParameterSpec createNonNullParam(Element e, String name) {
+        TypeName typeName = getTypeNameBox(e);
+        ParameterSpec.Builder builder = ParameterSpec.builder(typeName, name);
+        builder.addAnnotation(AndroidAnnotationName.KNonNull);
+        return builder.build();
+    }
+
+    protected ParameterSpec createNonNullParam(ClassName className, String name) {
+        ParameterSpec.Builder builder = ParameterSpec.builder(className, name);
+        builder.addAnnotation(AndroidAnnotationName.KNonNull);
+        return builder.build();
+    }
+
+    protected TypeName getTypeNameBox(Element e) {
+        return TypeName.get(e.asType()).box();
+    }
+    protected TypeName getTypeName(Element e) {
+        return TypeName.get(e.asType());
     }
 }
