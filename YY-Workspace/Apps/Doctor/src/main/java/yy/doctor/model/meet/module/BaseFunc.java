@@ -96,7 +96,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
                 if (d.getBoolean(TMeetDetail.attendAble)) {
                     // 可以参加
                     int costEpn = d.getInt(TMeetDetail.xsCredits); // 象数
-                    @EpnType int epnType = d.getInt(TMeetDetail.eduCredits); // 需要还是奖励
+                    @EpnType int epnType = d.getInt(TMeetDetail.requiredXs); // 需要还是奖励
                     if (!d.getBoolean(TMeetDetail.attended) && costEpn > 0 && needPay(epnType)) {
                         // 没有参加过且需要象数(需要的象数大于0)
                         if (Profile.inst().getInt(TProfile.credits) < costEpn) {
@@ -151,10 +151,15 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
      * 参与会议
      */
     protected void attend() {
-        getNetwork().exeNetworkReq(KIdModule, getNetworkReq());
-        if (mListener != null) {
-            mListener.onFuncLoading(getType(), getModuleId());
+        if (getDetail().getInt(TMeetDetail.requiredXs) > 0 && getDetail().getBoolean(TMeetDetail.introduction)) {
+            getNetwork().exeNetworkReq(KIdModule, getNetworkReq());
+            if (mListener != null) {
+                mListener.onFuncLoading(getType(), getModuleId());
+            }
+        } else {
+
         }
+
     }
 
     private boolean needPay(@EpnType int type) {

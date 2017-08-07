@@ -81,6 +81,8 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         @Bind(asList = Lecturer.class)
         lecturerList,
 
+        completeProgress, // 学习进度
+
         userId, //  287564, 无用
     }
 
