@@ -22,7 +22,7 @@ import yy.doctor.model.Profile.TProfile;
  * @since 2017/7/14
  */
 
-public class SkillActivity extends BaseModifyActivity{
+public class SkillActivity extends BaseModifyActivity {
 
     private EditText mEt;
     private TextView mTv;
@@ -42,9 +42,9 @@ public class SkillActivity extends BaseModifyActivity{
 
     @Override
     public void findViews() {
-        mEt = findView(R.id.et_academic);
-        mTv = findView(R.id.tv_academic);
-        mIvCancel = findView(R.id.iv_cancel);
+        mEt = findView(R.id.academic_et);
+        mTv = findView(R.id.academic_tv);
+        mIvCancel = findView(R.id.academic_iv_clean);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SkillActivity extends BaseModifyActivity{
 
         setLength(getVal().length());
 
-        setOnClickListener(R.id.iv_cancel);
+        setOnClickListener(R.id.academic_iv_clean);
         addTextChangedListener(mEt, mIvCancel);
 
         mEt.addTextChangedListener(new TextWatcher() {
@@ -70,7 +70,7 @@ public class SkillActivity extends BaseModifyActivity{
             public void afterTextChanged(Editable s) {
                 if (TextUtil.isEmpty(s)) {
                     setLength(0);
-                }else {
+                } else {
                     setLength(s.length());
                 }
             }
@@ -86,7 +86,7 @@ public class SkillActivity extends BaseModifyActivity{
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.iv_cancel: {
+            case R.id.academic_iv_clean: {
                 mEt.setText("");
             }
             break;

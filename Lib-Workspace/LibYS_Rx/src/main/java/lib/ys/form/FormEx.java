@@ -36,7 +36,7 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
     private String mTips;
 
     private boolean mEnabled = true;
-    private int mLimit;
+    private int mLimit = ConstantsEx.KInvalidValue;
     private Object mRelated;
     private Object mData;
     private Object mOption;

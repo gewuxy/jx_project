@@ -5,13 +5,10 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        style="@style/v.form"
-        android:layout_height="@dimen/edit_height"
-        android:background="@drawable/white">
+        style="@style/v.form">
 
         <TextView
-            style="@style/tv.form.name"
-            android:layout_marginLeft="@dimen/margin"/>
+            style="@style/tv.form.name"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,16 +17,9 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@id/form_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/transparent"
-                android:gravity="right"
-                android:singleLine="true"
-                android:textColor="@color/text_333"
-                android:textColorHint="@color/text_666"
-                android:textSize="14dp"/>
+                style="@style/et.form"
+                android:layout_marginRight="@dimen/margin"
+                android:gravity="right"/>
 
             <ImageView
                 android:id="@id/form_iv"

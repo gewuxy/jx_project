@@ -33,12 +33,7 @@
 
         <ImageView
             android:id="@+id/forget_email_iv_cancel"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:padding="8dp"
-            android:layout_marginRight="21dp"
-            android:visibility="gone"
-            android:src="@mipmap/login_ic_cancel"/>
+            style="@style/iv.form.clean.right"/>
 
     </LinearLayout>
 

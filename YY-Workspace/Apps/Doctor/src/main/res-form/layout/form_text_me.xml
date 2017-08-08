@@ -21,7 +21,8 @@
                 android:layout_marginRight="@dimen/margin_large"/>
 
             <TextView
-                style="@style/tv.form.name"/>
+                style="@style/tv.form.name"
+                android:layout_marginLeft="0dp"/>
         </LinearLayout>
 
         <LinearLayout

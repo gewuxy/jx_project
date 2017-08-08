@@ -20,7 +20,7 @@ import yy.doctor.model.Profile.TProfile;
 public class ModifyTextActivity extends BaseModifyActivity {
 
     private EditText mEtGeneral;
-    private ImageView mIvCancel;
+    private ImageView mIvClean;
 
     public static Intent newIntent(Context context, String title, TProfile t) {
         return new Intent(context, ModifyTextActivity.class)
@@ -37,28 +37,21 @@ public class ModifyTextActivity extends BaseModifyActivity {
     @Override
     public void findViews() {
         mEtGeneral = findView(R.id.et_general);
-        mIvCancel = findView(R.id.iv_cancel);
+        mIvClean = findView(R.id.academic_iv_clean);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.iv_cancel);
+        setOnClickListener(R.id.academic_iv_clean);
 
-        addTextChangedListener(mEtGeneral, mIvCancel);
+        addTextChangedListener(mEtGeneral, mIvClean);
     }
 
     @Override
     public void onClick(View v) {
-
-        int id = v.getId();
-        switch (id) {
-            case R.id.iv_cancel: {
-                mEtGeneral.setText("");
-            }
-            break;
-        }
+        mEtGeneral.setText("");
     }
 
     @Override

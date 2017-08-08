@@ -34,8 +34,8 @@ public class FormVH extends ViewHolderEx {
         return getView(R.id.form_iv);
     }
 
-    public ImageView getIvCancel(){
-        return getView(R.id.form_iv_cancel);
+    public ImageView getIvClean(){
+        return getView(R.id.form_iv_clean);
     }
 
     public View getDivider() {

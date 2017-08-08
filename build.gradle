@@ -54,11 +54,11 @@ task clean(type: Delete) {
 
 ext.versions = [
         'minSdk'        : 14,
-        'compileSdk'    : 26,
+        'compileSdk'    : 24,
         'buildTools'    : '26.0.0',
         'versionCode'   : 100,
         'versionName'   : '1.0',
-        'supportLibrary': '26+',
+        'supportLibrary': '24+',
         'java'          : JavaVersion.VERSION_1_8
 ]
 

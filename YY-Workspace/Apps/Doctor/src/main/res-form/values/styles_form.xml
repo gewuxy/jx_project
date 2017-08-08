@@ -37,6 +37,21 @@
         <item name="android:layout_marginRight">@dimen/margin_large</item>
     </style>
 
+    <style name="iv.form"></style>
+
+    <style name="iv.form.clean">
+        <item name="android:id">@id/form_iv_clean</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@mipmap/login_ic_clean</item>
+    </style>
+
+    <style name="iv.form.clean.right">
+        <item name="android:layout_marginRight">@dimen/margin</item>
+    </style>
+
     <style name="tv.form">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -48,11 +63,38 @@
 
     <style name="tv.form.name">
         <item name="android:id">@id/form_tv_name</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_weight">0</item>
     </style>
 
     <style name="tv.form.text">
         <item name="android:id">@id/form_tv_text</item>
         <item name="android:textColorHint">@color/text_999</item>
+    </style>
+
+    <style name="et.form">
+        <item name="android:id">@id/form_et</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/transparent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/text_333</item>
+        <!--TODO: 666还是888-->
+        <item name="android:textColorHint">@color/text_666</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="et.form.bind">
+        <item name="android:layout_marginLeft">@dimen/bind_margin_left</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textColorHint">@color/text_b3</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:background">@drawable/white</item>
     </style>
 
 </resources>

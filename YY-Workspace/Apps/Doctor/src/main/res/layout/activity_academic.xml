@@ -4,47 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="40dp"
-        android:paddingLeft="40dp">
-
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
         <RelativeLayout
-            android:id="@+id/rl_academic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp">
 
             <EditText
-                android:id="@+id/et_academic"
+                android:id="@+id/academic_et"
                 style="@style/et.login"
                 android:layout_height="264dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
-                android:maxLength="500"
                 android:gravity="top"
+                android:hint="@string/user_input_academic"
+                android:maxLength="500"
                 android:minLines="10"
-                android:scrollbars="vertical"
-                android:hint="@string/user_input_academic"/>
+                android:scrollbars="vertical"/>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
+            android:gravity="right"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_academic"
+                android:id="@+id/academic_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
@@ -53,12 +51,8 @@
                 android:textColor="@color/text_b3"/>
 
             <ImageView
-                android:id="@+id/iv_cancel"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginRight="21dp"
-                android:padding="8dp"
-                android:src="@mipmap/login_ic_cancel"/>
+                android:id="@+id/academic_iv_clean"
+                style="@style/iv.form.clean.right"/>
         </LinearLayout>
 
         <View style="@style/divider"/>

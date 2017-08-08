@@ -1,14 +1,14 @@
 package yy.doctor.ui.frag.meeting.exam;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
 
+import lib.processor.annotation.Arg;
+import lib.processor.annotation.AutoArg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicAdapter;
 import yy.doctor.model.meet.exam.Answer;
@@ -16,8 +16,8 @@ import yy.doctor.model.meet.exam.Answer.TAnswer;
 import yy.doctor.model.meet.exam.Choice;
 import yy.doctor.model.meet.exam.Choice.TChoice;
 import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.model.meet.exam.Topic.TopicType;
 import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.model.meet.exam.Topic.TopicType;
 
 /**
  * 单个 考题 / 问卷
@@ -25,6 +25,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
+@AutoArg
 public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     private TextView mTvQ; // 题目
@@ -33,12 +34,16 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
     private Answer mAnswer;
     private String mOptions; // 记录答案
 
-    private boolean mLast; // 最后一题
-    private Topic mTopic; // 该题目的信息
-    private int mTitleId; // 题号
+    @Arg
+    boolean mLast; // 最后一题
+    @Arg
+    Topic mTopic; // 该题目的信息
+    @Arg
+    int mTitleId; // 题号
 
     public interface OnTopicListener {
         void topicFinish(int id, Answer answer);
+
         void toNext();
     }
 
@@ -48,12 +53,6 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     @Override
     public void initData() {
-        Bundle b = getArguments();
-        if (b != null) {
-            mTopic = (Topic) b.getSerializable(Extra.KData);
-            mLast = b.getBoolean(Extra.KType, false);
-            mTitleId = b.getInt(Extra.KId);
-        }
         mOptions = new String();
         mAnswer = new Answer();
         // 答案题号

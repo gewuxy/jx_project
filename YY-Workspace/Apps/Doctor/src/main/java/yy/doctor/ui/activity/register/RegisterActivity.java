@@ -295,7 +295,7 @@ public class RegisterActivity extends BaseFormActivity
             case R.id.register:
                 enroll();
                 break;
-            case R.id.iv_cancel:
+            case R.id.academic_iv_clean:
                 mEtActivatedCode.setText("");
         }
     }

@@ -5,13 +5,10 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        style="@style/v.form"
-        android:orientation="horizontal">
+        style="@style/v.form">
 
         <TextView
-            style="@style/tv.form.name"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_weight="0"/>
+            style="@style/tv.form.name"/>
 
         <LinearLayout
             android:layout_width="match_parent"

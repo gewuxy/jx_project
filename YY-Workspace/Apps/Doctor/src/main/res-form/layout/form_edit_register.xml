@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/v.form"
-    android:layout_height="52dip"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/white">
 
-    <EditText
-        style="@style/et.common"
-        android:id="@id/form_et"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:textColor="@color/text_333"
-        android:textColorHint="@color/text_888"
-        android:textSize="15dp"
-        android:hint=""/>
+    <LinearLayout
+        style="@style/v.form"
+        android:background="@drawable/white">
 
-    <ImageView
-        android:id="@id/form_iv_cancel"
-        android:paddingTop="7dip"
-        android:paddingBottom="7dip"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
-        android:layout_marginRight="@dimen/margin"
-        android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        <EditText
+            android:id="@id/form_et"
+            style="@style/et.common"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_888"
+            android:textSize="15dp"/>
+
+        <ImageView
+            style="@style/iv.form.clean.right"/>
+    </LinearLayout>
 
 </LinearLayout>

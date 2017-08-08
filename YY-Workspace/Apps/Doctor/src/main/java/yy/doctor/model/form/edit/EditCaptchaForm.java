@@ -1,9 +1,6 @@
 package yy.doctor.model.form.edit;
 
 import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import lib.ys.ConstantsEx;
@@ -12,7 +9,6 @@ import lib.ys.util.view.ViewUtil;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-import yy.doctor.util.Util;
 
 /**
  * @auther WangLan
@@ -24,37 +20,6 @@ public class EditCaptchaForm extends EditForm {
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
-
-        EditText editText = holder.getEt();
-        setOnClickListener(holder.getIvCancel());
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (TextUtil.isNotEmpty(s)) {
-                    ViewUtil.showView(holder.getIvCancel());
-                } else {
-                    ViewUtil.goneView(holder.getIvCancel());
-                }
-            }
-        });
-
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            // iv是否显示
-            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(editText))) {
-                ViewUtil.showView(holder.getIvCancel());
-            } else {
-                ViewUtil.goneView(holder.getIvCancel());
-            }
-        });
-
     }
 
     @Override
@@ -84,19 +49,18 @@ public class EditCaptchaForm extends EditForm {
         }
     }
 
-    @Override
-    protected boolean onViewClick(View v) {
-        switch (v.getId()){
-            case R.id.form_iv_cancel:
-                getHolder().getEt().setText("");
-        }
-        return false;
-    }
-
     public void start() {
         CaptchaView v = (CaptchaView) getHolder().getTvText();
         v.setMaxCount(5);
         v.start();
     }
 
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (TextUtil.isNotEmpty(editable)) {
+            ViewUtil.showView(getHolder().getIvClean());
+        } else {
+            ViewUtil.goneView(getHolder().getIvClean());
+        }
+    }
 }

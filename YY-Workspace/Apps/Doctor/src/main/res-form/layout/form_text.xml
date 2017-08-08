@@ -8,8 +8,7 @@
         style="@style/v.form">
 
         <TextView
-            style="@style/tv.form.name"
-            android:layout_marginLeft="@dimen/margin"/>
+            style="@style/tv.form.name"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

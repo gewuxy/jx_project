@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/v.form"
-    android:layout_height="52dip"
+    android:layout_height="52dp"
     android:background="@drawable/white"
     android:paddingRight="40dp"
     android:paddingLeft="40dp">
@@ -21,12 +21,6 @@
 
 
     <ImageView
-        android:id="@id/form_iv_cancel"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginRight="@dimen/margin"
-        android:padding="8dp"
-        android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        style="@style/iv.form.clean.right"/>
 
 </LinearLayout>

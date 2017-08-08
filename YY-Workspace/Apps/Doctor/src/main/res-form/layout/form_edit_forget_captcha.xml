@@ -4,29 +4,19 @@
     style="@style/v.form"
     android:layout_height="52dip"
     android:background="@drawable/white"
-    android:paddingRight="40dp"
-    android:paddingLeft="40dp">
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp">
 
     <EditText
         android:id="@+id/form_et"
         style="@style/et.common"
-        android:layout_width="0dp"
-        android:layout_height="52dip"
         android:layout_weight="1"
         android:inputType="number"
-        android:singleLine="true"
-        android:textColor="@color/text_333"
         android:textColorHint="@color/text_888"
         android:textSize="15dp"/>
 
     <ImageView
-        android:id="@id/form_iv_cancel"
-        android:padding="8dp"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginRight="@dimen/margin"
-        android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        style="@style/iv.form.clean.right"/>
 
     <View
         android:layout_width="1dp"
@@ -37,10 +27,10 @@
     <lib.ys.view.CaptchaView
         android:id="@+id/form_tv_text"
         android:layout_width="80dp"
-        android:gravity="center"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/margin"
         android:clickable="false"
+        android:gravity="center"
         android:text="@string/get_captcha"
         android:textColor="@color/text_888"
         android:textSize="15dp"/>

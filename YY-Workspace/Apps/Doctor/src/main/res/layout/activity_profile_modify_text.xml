@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="40dp"
-        android:paddingLeft="40dp">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
 
         <RelativeLayout
@@ -25,19 +25,15 @@
             android:background="@color/white">
 
             <EditText
-                style="@style/et.login"
-                android:id="@+id/et_general"/>
+                android:id="@+id/et_general"
+                style="@style/et.login"/>
 
             <ImageView
-            android:id="@+id/iv_cancel"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:padding="8dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="21dp"
-            android:visibility="gone"
-            android:src="@mipmap/login_ic_cancel"/>
+                android:id="@+id/academic_iv_clean"
+                style="@style/iv.form.clean.right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="21dp"/>
 
         </RelativeLayout>
 

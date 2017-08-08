@@ -18,13 +18,7 @@
         android:textSize="15dp"/>
 
     <ImageView
-        android:id="@id/form_iv_cancel"
-        android:padding="8dp"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginRight="@dimen/margin"
-        android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        style="@style/iv.form.clean.right"/>
 
     <View
         android:layout_width="1dp"

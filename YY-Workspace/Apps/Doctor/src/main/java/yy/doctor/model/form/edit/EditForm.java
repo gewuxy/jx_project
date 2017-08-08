@@ -1,22 +1,27 @@
 package yy.doctor.model.form.edit;
 
 import android.os.Build.VERSION_CODES;
+import android.support.annotation.CallSuper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.Constants;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * @author CaiXiang
  * @since 2017/4/17
  */
-public class EditForm extends BaseForm {
+public class EditForm extends BaseForm implements TextWatcher {
 
     @Override
     public boolean check() {
@@ -32,27 +37,32 @@ public class EditForm extends BaseForm {
     protected void init(FormVH holder) {
         super.init(holder);
 
-        holder.getEt().addTextChangedListener(new TextWatcher() {
+        EditText et = holder.getEt();
+        et.addTextChangedListener(this);
+        // 设置
+        View clean = getHolder().getIvClean();
+        if (clean != null) {
+            setOnClickListener(clean);
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                save(s.toString(), s.toString());
-            }
-        });
+            et.setOnFocusChangeListener((v, hasFocus) -> {
+                // iv是否显示
+                if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
+                    ViewUtil.showView(v);
+                } else {
+                    ViewUtil.goneView(v);
+                }
+            });
+        }
 
         // 5.0以上的版本设置水波纹点击背景
         if (DeviceUtil.getSDKVersion() >= VERSION_CODES.LOLLIPOP) {
             if (holder.getIv() != null) {
                 holder.getIv().setBackgroundResource(R.drawable.item_selector_unbound);
             }
+        }
+
+        if (getLimit() != Constants.KInvalidValue) {
+            ViewUtil.limitInputCount(holder.getEt(), getLimit());
         }
     }
 
@@ -69,14 +79,40 @@ public class EditForm extends BaseForm {
             setIvIfValid(iv, d);
         }
 
+        EditText et = holder.getEt();
+        et.setEnabled(isEnabled());
+        et.setText(getText());
+        et.setHint(getHint());
+    }
 
-        holder.getEt().setEnabled(isEnabled());
-        holder.getEt().setText(getText());
-        holder.getEt().setHint(getHint());
+    @CallSuper
+    @Override
+    protected boolean onViewClick(View v) {
+        int id = v.getId();
+        if (id == R.id.form_iv_clean) {
+            getHolder().getEt().setText("");
+            return true;
+        }
+        return super.onViewClick(v);
     }
 
     @Override
-    protected boolean onViewClick(View v) {
-        return super.onViewClick(v);
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        save(s.toString(), s.toString());
+
+        View clean = getHolder().getIvClean();
+        if (clean != null && TextUtil.isNotEmpty(s)) {
+            ViewUtil.showView(clean);
+        } else {
+            ViewUtil.goneView(clean);
+        }
     }
 }
