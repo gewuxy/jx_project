@@ -9,7 +9,8 @@ import yy.doctor.model.WXLogin.TWXLogin;
  */
 
 public class WXLogin extends EVal<TWXLogin> {
-    public enum  TWXLogin {
+
+    public enum TWXLogin {
         access_token, // 接口调用凭证
         expires_in, // 凭证超时时间
         refresh_token, // 刷新access_token

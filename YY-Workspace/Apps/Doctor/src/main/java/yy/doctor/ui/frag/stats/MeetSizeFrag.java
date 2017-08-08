@@ -21,7 +21,7 @@ public class MeetSizeFrag extends BaseSizeFrag {
 
     @Override
     protected int getTextColor() {
-        return  R.color.text_0882e7;
+        return R.color.text_0882e7;
     }
 
 }

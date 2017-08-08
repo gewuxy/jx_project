@@ -51,8 +51,8 @@ import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
-import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServIntent;
 import yy.doctor.ui.frag.meeting.course.AudioCourseFragArg;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag.OnCourseListener;
@@ -634,10 +634,10 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         submit.put(TSubmit.times, ja.toString());
 
         // 把需要的对象传给服务提交(失败再次提交)
-        Intent intent = new Intent(this, CommonServ.class)
-                .putExtra(Extra.KType, ReqType.course)
-                .putExtra(Extra.KData, submit);
-        startService(intent);
+        CommonServIntent.create()
+                .type(ReqType.course)
+                .submit(submit)
+                .start(this);
     }
 
     @Override

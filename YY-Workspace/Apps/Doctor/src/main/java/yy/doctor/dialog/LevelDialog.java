@@ -73,10 +73,10 @@ public class LevelDialog extends BaseDialog {
     @Override
     public void onClick(View v) {
         @DrawableRes int resId = R.mipmap.hospital_level_three;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.level_three:
                 resId = R.mipmap.hospital_level_three;
-               dismiss();
+                dismiss();
                 break;
             case R.id.level_two:
                 resId = R.mipmap.hospital_level_two;
@@ -104,7 +104,7 @@ public class LevelDialog extends BaseDialog {
                 break;
 
         }
-        if (mListener!= null) {
+        if (mListener != null) {
             mListener.onLevelChecked(resId);
         }
     }

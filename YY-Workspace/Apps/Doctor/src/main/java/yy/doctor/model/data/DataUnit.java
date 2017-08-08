@@ -15,7 +15,8 @@ import yy.doctor.model.data.DataUnit.TDataUnit;
  * @since 2017/8/2
  */
 
-public class DataUnit extends EVal<TDataUnit>{
+public class DataUnit extends EVal<TDataUnit> {
+
     /**
      * 文件打开方式
      * Integer类型，1代表用pdf打开，2代表请求文件详情接口打开，3代表用html打开

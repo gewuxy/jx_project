@@ -3,8 +3,8 @@ package yy.doctor.ui.activity.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.annotation.AutoIntent;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
 import lib.yy.network.ListResult;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.search.IRec;
@@ -115,6 +115,7 @@ public class SearchResultActivity extends BaseSearchResultActivity {
 
     /**
      * 拼接结果
+     *
      * @param result
      * @param data
      * @param num

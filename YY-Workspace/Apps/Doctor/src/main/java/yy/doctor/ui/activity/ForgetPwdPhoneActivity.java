@@ -35,7 +35,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/19
  */
 
-public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormObserver{
+public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormObserver {
 
     private final int KLogin = 1;
     private final int KCaptcha = 2;
@@ -245,7 +245,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             } else {
                 showToast(r.getError());
             }
-        }else if (id == KModify) {//修改并设置新密码
+        } else if (id == KModify) {//修改并设置新密码
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("修改成功");

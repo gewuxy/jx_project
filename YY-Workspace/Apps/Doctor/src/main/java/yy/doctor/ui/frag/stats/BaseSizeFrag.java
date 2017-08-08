@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.ui.frag.base.BaseVPFrag;
-import yy.doctor.ui.frag.stats.BaseHistogramFrag.OnStatsChangeListener;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.Stats;
+import yy.doctor.ui.frag.stats.BaseHistogramFrag.OnStatsChangeListener;
 
 /**
  * @auther : GuoXuan

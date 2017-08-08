@@ -1,9 +1,7 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.CallSuper;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;

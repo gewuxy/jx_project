@@ -78,13 +78,13 @@ public class ForgetPwdEmailActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (RegexUtil.isEmail(et.getText().toString().trim())) {
                     mTvSendEmail.setEnabled(true);
-                }else {
+                } else {
                     mTvSendEmail.setEnabled(false);
                 }
-                
+
                 if (TextUtil.isEmpty(et.getText().toString())) {
                     hideView(iv);
-                }else {
+                } else {
                     showView(iv);
                 }
             }

@@ -9,7 +9,8 @@ import yy.doctor.model.data.DrugDetailData.TDrugDetailData;
  */
 
 public class DrugDetailData extends EVal<TDrugDetailData> {
-    public enum TDrugDetailData{
+
+    public enum TDrugDetailData {
         @Bind(asList = DrugDetail.class)
         detailList,
 

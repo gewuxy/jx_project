@@ -15,7 +15,7 @@ import yy.doctor.ui.activity.ForgetPwdPhoneActivity;
  * @since 2017/7/18
  */
 
-public class ForgetPwdTooltipDialog extends BaseDialog{
+public class ForgetPwdTooltipDialog extends BaseDialog {
 
 
     public ForgetPwdTooltipDialog(Context context) {

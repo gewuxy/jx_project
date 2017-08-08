@@ -56,6 +56,7 @@ public class MyCollectionActivity extends BaseVPActivity {
         add(new CollectionDrugListFrag());
         add(new CollectionClinicalGuideFrag());
     }
+
     @Override
     public int getContentViewId() {
         return R.layout.frag_my_collection;
@@ -94,7 +95,7 @@ public class MyCollectionActivity extends BaseVPActivity {
     }
 
     private void addTabs() {
-        addTab(PageType.meeting,R.string.meeting);
+        addTab(PageType.meeting, R.string.meeting);
         addTab(PageType.thomson, R.string.thomson);
         addTab(PageType.drug_list, R.string.drug_list);
         addTab(PageType.clinical_guide, R.string.clinical_guide);
@@ -140,7 +141,6 @@ public class MyCollectionActivity extends BaseVPActivity {
         mPreTab = v;
         mPreTab.setSelected(true);
     }
-
 
 
 }

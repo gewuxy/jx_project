@@ -195,7 +195,7 @@ public class HistogramView extends View {
         c.setTimeInMillis(time);
 
         int day = c.get(Calendar.DAY_OF_MONTH);
-        if (day == 1){
+        if (day == 1) {
             // 每个月的1号
             return TimeUtil.formatMilli(time, KMonth);
         }

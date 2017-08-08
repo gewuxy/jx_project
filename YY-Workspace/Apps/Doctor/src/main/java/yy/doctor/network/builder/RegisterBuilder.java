@@ -17,7 +17,6 @@ public class RegisterBuilder {
     }
 
 
-
     /**
      * @param username 用户登录名
      */
@@ -51,7 +50,6 @@ public class RegisterBuilder {
     }
 
     /**
-     *
      * @param captcha 验证码
      * @return
      */
@@ -104,6 +102,7 @@ public class RegisterBuilder {
 
     /**
      * 医院级别
+     *
      * @param hosLevel
      * @return
      */
@@ -114,6 +113,7 @@ public class RegisterBuilder {
 
     /**
      * 专科一级名称
+     *
      * @param category
      * @return
      */
@@ -124,6 +124,7 @@ public class RegisterBuilder {
 
     /**
      * 专科二级名称
+     *
      * @param name
      * @return
      */
@@ -131,7 +132,6 @@ public class RegisterBuilder {
         mBuilder.param(RegisterParam.KName, name);
         return this;
     }
-
 
 
     /**
@@ -143,7 +143,6 @@ public class RegisterBuilder {
     }
 
     /**
-     *
      * @param title 职称
      * @return
      */
@@ -154,6 +153,7 @@ public class RegisterBuilder {
 
     /**
      * 邀请码
+     *
      * @param invite
      * @return
      */
@@ -166,9 +166,6 @@ public class RegisterBuilder {
         mBuilder.param(RegisterParam.KMasterId, masterId);
         return this;
     }
-
-
-
 
 
     /**

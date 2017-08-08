@@ -138,7 +138,7 @@ public class EpnRechargeActivity extends BaseActivity {
                 }
                 mEtRechargeNum.setSelection(editStart);
                 String editStr = mEtRechargeNum.getText().toString().trim();
-                String epnNum = String.format(getString(R.string.epn_unit), TextUtil.isEmpty(editStr) ? 0 : Integer.valueOf(editStr) *10);
+                String epnNum = String.format(getString(R.string.epn_unit), TextUtil.isEmpty(editStr) ? 0 : Integer.valueOf(editStr) * 10);
 
                 mTvEpnRechargeNum.setText(epnNum);
                 // 恢复监听

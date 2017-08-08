@@ -291,7 +291,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         finish();
     }
 
-    public class Hos{
+    public class Hos {
         public String name;
         public int resId;
     }

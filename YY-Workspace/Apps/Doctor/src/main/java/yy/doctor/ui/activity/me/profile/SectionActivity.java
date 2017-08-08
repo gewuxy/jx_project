@@ -75,7 +75,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KIdCommit) {
             return JsonParser.error(r.getText());
-        }else {
+        } else {
             return super.onNetworkResponse(id, r);
         }
     }
@@ -99,7 +99,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
                 stopRefresh();
                 onNetworkError(id, new ParseError(r.getError()));
             }
-        }else {
+        } else {
             super.onNetworkSuccess(id, result);
         }
     }

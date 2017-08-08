@@ -1,6 +1,5 @@
 package yy.doctor.adapter.meeting;
 
-import android.view.View;
 import android.widget.ImageView;
 
 import lib.ys.adapter.AdapterEx;

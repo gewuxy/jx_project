@@ -1,6 +1,5 @@
 package yy.doctor.util;
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.text.InputType;
 import android.text.method.NumberKeyListener;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.ys.YSLog;
-import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;

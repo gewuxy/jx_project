@@ -84,6 +84,7 @@ public class RegisterActivity extends BaseFormActivity
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
     private EditText mEtActivatedCode;      //填写激活码
+
     @IntDef({
             RelatedId.phone_number,
             RelatedId.captcha,
@@ -108,6 +109,7 @@ public class RegisterActivity extends BaseFormActivity
         int department = 8;
         int title = 9;
     }
+
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
 
@@ -580,7 +582,7 @@ public class RegisterActivity extends BaseFormActivity
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
-                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd),null));
+                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
                 YSLog.d("yaya", "_________________________");
             } else {
                 stopRefresh();

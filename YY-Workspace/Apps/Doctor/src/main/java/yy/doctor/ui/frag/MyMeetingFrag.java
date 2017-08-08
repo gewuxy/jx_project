@@ -23,6 +23,7 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     private boolean mFlag;
 
     private int mType = 0; // type为0，表示会议
+
     @Override
     public void initData() {
         mFlag = true;
@@ -43,7 +44,7 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(),mType));
+        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(), mType));
     }
 
     @Override

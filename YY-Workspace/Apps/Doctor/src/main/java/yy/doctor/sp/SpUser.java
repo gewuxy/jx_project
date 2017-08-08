@@ -84,6 +84,7 @@ public class SpUser extends SpBase {
 
     /**
      * 是否需要显示 绑定的dialog
+     *
      * @return
      */
     public boolean isShowBindingDialog() {

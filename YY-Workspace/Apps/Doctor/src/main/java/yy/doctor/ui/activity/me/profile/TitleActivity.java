@@ -130,7 +130,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
             }
             break;
         }
-        
+
 
     }
 
@@ -151,7 +151,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     @Override
     public void onCategorySelected(int position, String category) {
         mTitle = mGrade + " " + category;
-        
+
         refresh(RefreshWay.dialog);
         exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
     }

@@ -8,9 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import lib.ys.fitter.LayoutFitter;
-import lib.ys.util.LaunchUtil;
-import lib.ys.util.view.LayoutUtil;
 import yy.doctor.R;
 
 /**

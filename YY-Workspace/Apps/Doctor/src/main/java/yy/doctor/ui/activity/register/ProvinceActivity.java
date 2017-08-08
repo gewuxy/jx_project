@@ -130,7 +130,7 @@ public class ProvinceActivity extends BasePcdActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.province_change:
                 startActivity(RegisterActivity.class); //点击更改跳转的页面
                 break;

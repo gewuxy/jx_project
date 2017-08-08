@@ -54,7 +54,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar,"扫一扫", this);
+        Util.addBackIcon(bar, "扫一扫", this);
     }
 
     @Override
@@ -132,8 +132,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 for (Integer mas : masterId) {
                     sbId.append(mas + ",");
                 }
-                    sbId.deleteCharAt(sbId.length()-1);
-                YSLog.d(TAG,sbId+"");
+                sbId.deleteCharAt(sbId.length() - 1);
+                YSLog.d(TAG, sbId + "");
                 List<String> name = data.getList(TScan.name);
                 StringBuilder sb = new StringBuilder();
                 for (String s : name) {

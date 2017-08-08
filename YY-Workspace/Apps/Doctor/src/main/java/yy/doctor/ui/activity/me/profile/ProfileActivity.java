@@ -290,7 +290,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         mTvPercent.setText(mProgressProFile + "%");
         if (mProgressProFile == 100) {
             mRlHeader.setVisibility(View.GONE);
-        }else {
+        } else {
             mRlHeader.setVisibility(View.VISIBLE);
         }
         Profile.inst().put(TProfile.integrity, mProgressProFile);

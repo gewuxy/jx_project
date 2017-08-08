@@ -3,9 +3,12 @@ package yy.doctor.ui.activity.login;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import lib.network.model.err.NetError;
+import lib.network.model.err.ParseError;
 import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
+import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Constants;
@@ -106,7 +109,6 @@ public class LoginActivity extends BaseLoginActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             //保存用户名
@@ -118,36 +120,41 @@ public class LoginActivity extends BaseLoginActivity {
             } else {
                 setResult(RESULT_OK);
             }
+
+            stopRefresh();
             finish();
         } else {
-            String error = r.getError();
-            int code = r.getCode();
+            onNetworkError(id, new ParseError(r.getCode(), r.getError()));
+        }
+    }
 
-            if (code == -2) {
-                mCount++;
-                YSLog.d("lol", mCount + "次.....");
-                if (mCount > 5 && mCount < 8) {
-                    BaseHintDialog dialog = new BaseHintDialog(this);
-                    View view = inflate(R.layout.dialog_pwd_error_toast);
+    @Override
+    public void onNetworkError(int id, NetError error) {
+        super.onNetworkError(id, error);
 
-                    dialog.addHintView(view);
-                    dialog.addButton("取消", v1 -> {
-                        dialog.dismiss();
-                    });
-                    dialog.addButton("找回密码", v1 -> {
-                        dialog.dismiss();
-                        mDialogForgetPwd = new ForgetPwdTooltipDialog(LoginActivity.this);
-                        mDialogForgetPwd.show();
-                    });
-                    dialog.show();
-                }
+        if (error.getCode() == ErrorCode.KPwdErr) {
+            mCount++;
+            YSLog.d("lol", mCount + "次.....");
+            if (mCount > 5 && mCount < 8) {
+                BaseHintDialog dialog = new BaseHintDialog(this);
+                View view = inflate(R.layout.dialog_pwd_error_toast);
 
-                if (mCount == 8) {
-                    mCount = 1;
-                    YSLog.d("lol", mCount + "次.....");
-                }
+                dialog.addHintView(view);
+                dialog.addButton("取消", v1 -> {
+                    dialog.dismiss();
+                });
+                dialog.addButton("找回密码", v1 -> {
+                    dialog.dismiss();
+                    mDialogForgetPwd = new ForgetPwdTooltipDialog(LoginActivity.this);
+                    mDialogForgetPwd.show();
+                });
+                dialog.show();
             }
-            showToast(error);
+
+            if (mCount == 8) {
+                mCount = 1;
+                YSLog.d("lol", mCount + "次.....");
+            }
         }
     }
 

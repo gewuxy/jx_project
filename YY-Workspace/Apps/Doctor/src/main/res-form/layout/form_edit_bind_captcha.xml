@@ -7,19 +7,12 @@
 
     <EditText
         android:id="@+id/form_et"
-        style="@style/et.bind"
+        style="@style/et.form.bind"
         android:inputType="number"
         android:maxLength="6"/>
 
     <ImageView
-        android:id="@id/form_iv_cancel"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
-        android:layout_marginRight="@dimen/margin"
-        android:paddingBottom="7dip"
-        android:paddingTop="7dip"
-        android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        style="@style/iv.form.clean.right"/>
 
     <View
         android:layout_width="1dp"

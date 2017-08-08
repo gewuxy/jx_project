@@ -4,8 +4,8 @@ import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.annotation.Extra;
 import lib.network.model.err.NetError;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
@@ -20,7 +20,7 @@ import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.Util;
 
@@ -90,7 +90,9 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
 
             case RecType.meeting: {
                 Meeting item = (Meeting) getItem(position);
-                MeetingDetailsActivity.nav(BaseSearchResultActivity.this, item.getString(TMeeting.id), item.getString(TMeeting.meetName));
+                MeetingDetailsActivityIntent.create(
+                        item.getString(TMeeting.id), item.getString(TMeeting.meetName)
+                ).start(BaseSearchResultActivity.this);
             }
             break;
 
@@ -105,13 +107,11 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
 
             case RecType.more: {
                 if (getAdapter().getItemViewType(position - 1) == IRec.RecType.unit_num) {
-                    UnitNumResultActivityIntent
-                            .create()
+                    UnitNumResultActivityIntent.create()
                             .searchContent(mSearchContent)
                             .start(BaseSearchResultActivity.this);
                 } else {
-                    MeetingResultActivityIntent
-                            .create()
+                    MeetingResultActivityIntent.create()
                             .searchContent(mSearchContent)
                             .start(BaseSearchResultActivity.this);
                 }

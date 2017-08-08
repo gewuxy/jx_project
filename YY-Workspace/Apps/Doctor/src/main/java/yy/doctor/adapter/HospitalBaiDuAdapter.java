@@ -5,10 +5,10 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.HospitalBaiDuVH;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
-import yy.doctor.model.hospital.IHospital;
-import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.model.hospital.HospitalTitle;
 import yy.doctor.model.hospital.HospitalTitle.TText;
+import yy.doctor.model.hospital.IHospital;
+import yy.doctor.model.hospital.IHospital.HospitalType;
 
 /**
  * @auther WangLan

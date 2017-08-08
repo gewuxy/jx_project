@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -12,10 +10,11 @@ import android.widget.TextView;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.permission.Permission;
@@ -24,7 +23,6 @@ import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.BuildConfig;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
@@ -32,8 +30,8 @@ import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServIntent;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.login.LoginActivity;
@@ -42,20 +40,9 @@ import yy.doctor.ui.frag.HomeFrag;
 import yy.doctor.ui.frag.MeFrag;
 import yy.doctor.ui.frag.MeetingFrag;
 
+
+@AutoIntent
 public class MainActivity extends BaseVPActivity {
-
-    public static void nav(Context context) {
-        nav(context, KTabHome);
-    }
-
-    public static void nav(Context context, int page) {
-        LaunchUtil.startActivity(context, newIntent(context, page));
-    }
-
-    public static Intent newIntent(Context context, int page) {
-        return new Intent(context, MainActivity.class)
-                .putExtra(Extra.KPage, page);
-    }
 
     public static final int KTabHome = 0;
     public static final int KTabMeeting = 1;
@@ -65,17 +52,16 @@ public class MainActivity extends BaseVPActivity {
     private final int KReqIdProfile = 1;
     private final int KReqIdApp = 2;
 
-    private static final int KPermissionCodeLocation = 10;
+    private final int KPermissionCodeLocation = 10;
 
     private LinearLayout mLayoutTab;
     private View mTabPrev;
 
-    private int mCurrPage;
+    @Extra(optional = true, defaultInt = KTabHome)
+    int mCurrPage;
 
     @Override
     public void initData() {
-        mCurrPage = getIntent().getIntExtra(Extra.KPage, KTabHome);
-
         add(new HomeFrag());
         add(new MeetingFrag());
         add(new DataCenterFrag());
@@ -119,10 +105,10 @@ public class MainActivity extends BaseVPActivity {
             YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
             if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-                Intent intent = new Intent(this, CommonServ.class);
-                intent.putExtra(Extra.KType, ReqType.j_push)
-                        .putExtra(Extra.KData, SpJPush.inst().registerId());
-                startService(intent);
+                CommonServIntent.create()
+                        .type(ReqType.j_push)
+                        .jPushRegisterId(SpJPush.inst().registerId())
+                        .start(this);
                 YSLog.d(TAG, "启动绑定极光服务");
             }
         } else {
@@ -130,10 +116,10 @@ public class MainActivity extends BaseVPActivity {
             YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
             if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-                Intent intent = new Intent(this, CommonServ.class);
-                intent.putExtra(Extra.KType, ReqType.j_push)
-                        .putExtra(Extra.KData, SpJPush.inst().registerId());
-                startService(intent);
+                CommonServIntent.create()
+                        .type(ReqType.j_push)
+                        .jPushRegisterId(SpJPush.inst().registerId())
+                        .start(this);
                 YSLog.d(TAG, "启动绑定极光服务");
             }
         }

@@ -6,9 +6,9 @@ import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.meet.Meeting.MeetType;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
@@ -62,14 +62,15 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
     protected void onViewClick(int position, View v) {
         Meeting item = getItem(position);
         if (getItemViewType(position) == MeetType.folder) {
-            MeetingFolderActivityIntent
-                    .create(item.getString(TMeeting.id))
+            MeetingFolderActivityIntent.create(item.getString(TMeeting.id))
                     .title(item.getString(TMeeting.meetName))
                     .num(item.getInt(TMeeting.meetCount, 0))
                     .showZero(mShowZeroFolder ? ZeroShowType.show : ZeroShowType.hide)
                     .start(getContext());
         } else {
-            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
+            MeetingDetailsActivityIntent.create(
+                    item.getString(TMeeting.id), item.getString(TMeeting.meetName)
+            ).start(getContext());
         }
     }
 

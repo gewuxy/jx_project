@@ -9,7 +9,8 @@ import yy.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
  */
 
 public class MeetingDepartment extends EVal<TMeetingDepartment> {
-    public enum  TMeetingDepartment{
+
+    public enum TMeetingDepartment {
         count,
         icon,
         name,

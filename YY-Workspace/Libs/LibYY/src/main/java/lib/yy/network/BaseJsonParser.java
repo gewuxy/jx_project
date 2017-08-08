@@ -17,7 +17,7 @@ import lib.yy.notify.Notifier.NotifyType;
  */
 public class BaseJsonParser extends JsonParserEx {
 
-    public interface GlobalTag {
+    public interface CommonTag {
         String KErrCode = "code";
         String KMsg = "err"; // 只有code != 0的时候才有
         String KData = "data";
@@ -28,6 +28,7 @@ public class BaseJsonParser extends JsonParserEx {
         int KTokenExpired = 100;  //用户未认证
         int KUnKnow = -1000;
         int KServerErr = -999;
+        int KPwdErr = -2;
     }
 
     /**
@@ -43,12 +44,12 @@ public class BaseJsonParser extends JsonParserEx {
         String errorStr;
         try {
             JSONObject object = new JSONObject(text);
-            if (object.has(GlobalTag.KErrCode)) {
-                code = getInt(object, GlobalTag.KErrCode);
+            if (object.has(CommonTag.KErrCode)) {
+                code = getInt(object, CommonTag.KErrCode);
             } else {
                 code = ErrorCode.KUnKnow;
             }
-            errorStr = getString(object, GlobalTag.KMsg);
+            errorStr = getString(object, CommonTag.KMsg);
 
         } catch (JSONException e) {
             code = ErrorCode.KServerErr;
@@ -90,7 +91,7 @@ public class BaseJsonParser extends JsonParserEx {
             return null;
         }
         JSONObject obj = new JSONObject(text);
-        return obj.optJSONObject(GlobalTag.KData);
+        return obj.optJSONObject(CommonTag.KData);
     }
 
     /**
@@ -106,7 +107,7 @@ public class BaseJsonParser extends JsonParserEx {
             return null;
         }
         JSONObject obj = new JSONObject(text);
-        return obj.optJSONArray(GlobalTag.KData);
+        return obj.optJSONArray(CommonTag.KData);
     }
 
     /**

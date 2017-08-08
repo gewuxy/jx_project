@@ -26,7 +26,6 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Constants;
 import yy.doctor.Constants.WXType;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.HintDialogMain;
@@ -34,14 +33,14 @@ import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
-import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.form.FormType;
+import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServIntent;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.login.LoginActivity;
@@ -121,7 +120,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     private String getProfileString(TProfile key) {
         String string = Profile.inst().getString(key);
-        if (TextUtil.isEmpty(string)){
+        if (TextUtil.isEmpty(string)) {
             return getString(R.string.no_binding);
         } else {
             return string;
@@ -209,12 +208,13 @@ public class SettingsActivity extends BaseFormActivity {
                 dialog.setHint("确定要退出当前登录账号吗?");
                 dialog.addButton("退出", v1 -> {
                     dialog.dismiss();
-                    Intent intent = new Intent(SettingsActivity.this, CommonServ.class);
-                    intent.putExtra(Extra.KType, ReqType.logout);
-                    intent.putExtra(Extra.KData, Profile.inst().getString(TProfile.token));
-                    startService(intent);
 
-                    SettingsActivity.this.notify(NotifyType.logout);
+                    CommonServIntent.create()
+                            .type(ReqType.logout)
+                            .token(Profile.inst().getString(TProfile.token))
+                            .start(this);
+
+                    notify(NotifyType.logout);
 
                     //清空个人信息，把极光绑定改为false 登录后需要重新绑定
                     SpUser.inst().clear();

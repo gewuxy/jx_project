@@ -68,12 +68,13 @@ public class Util extends BaseUtil {
 
     /**
      * 获取NavBar里需要的控件
+     *
      * @param parent NavBar的控件
      * @param clz
      * @param <T>
      * @return
      */
-    public static  <T extends View> T getBarView(ViewGroup parent, Class<T> clz) {
+    public static <T extends View> T getBarView(ViewGroup parent, Class<T> clz) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             View childView = parent.getChildAt(i);
             if (childView instanceof ViewGroup) {
@@ -89,6 +90,7 @@ public class Util extends BaseUtil {
 
     /**
      * 获取输入框的文本
+     *
      * @param et
      * @return
      */

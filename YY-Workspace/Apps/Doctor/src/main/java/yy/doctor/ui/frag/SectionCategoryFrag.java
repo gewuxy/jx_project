@@ -100,7 +100,7 @@ public class SectionCategoryFrag extends BaseSRListFrag<Section, SectionCategory
     }
 
     public interface OnCategoryListener {
-        void onCategorySelected(int position, String name , List<String> names);
+        void onCategorySelected(int position, String name, List<String> names);
     }
 
     public void setCategoryListener(OnCategoryListener l) {

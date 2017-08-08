@@ -18,6 +18,7 @@ import yy.doctor.network.NetFactory;
 public class CollectionClinicalGuideFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
     private int mType = 3; // type为3，表示临床指南
+
     @Override
     public void initData() {
 
@@ -31,7 +32,7 @@ public class CollectionClinicalGuideFrag extends BaseSRListFrag<DataUnit, DataUn
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(),mType));
+        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(), mType));
     }
 
     @Override

@@ -5,9 +5,9 @@ import android.view.View;
 import lib.ys.adapter.GroupAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.data.DrugDetailVH;
-import yy.doctor.model.data.GroupDrugDetail;
 import yy.doctor.model.data.DrugDetail;
 import yy.doctor.model.data.DrugDetail.TDrugDetail;
+import yy.doctor.model.data.GroupDrugDetail;
 
 /**
  * @author CaiXiang
@@ -43,7 +43,7 @@ public class DrugDetailAdapter extends GroupAdapterEx<GroupDrugDetail, DrugDetai
 
     @Override
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, DrugDetailVH holder) {
-        DrugDetail item = getChild(groupPosition,childPosition);
+        DrugDetail item = getChild(groupPosition, childPosition);
         holder.getTvDetail().setText(item.getString(TDrugDetail.detailValue));
     }
 

@@ -1,7 +1,6 @@
 package yy.doctor.ui.activity.search;
 
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
 

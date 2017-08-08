@@ -8,8 +8,8 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;

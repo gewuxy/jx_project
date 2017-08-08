@@ -44,7 +44,7 @@ public class QueFunc extends BaseFunc {
     }
 
     @Override
-    public Object onNetworkResponse( NetworkResp r) throws Exception {
+    public Object onNetworkResponse(NetworkResp r) throws Exception {
         return JsonParser.error(r.getText());
     }
 

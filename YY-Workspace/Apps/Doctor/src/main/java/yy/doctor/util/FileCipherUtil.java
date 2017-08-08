@@ -44,7 +44,7 @@ public class FileCipherUtil {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            YSLog.d("www", "加密出错: "+ e.getMessage());
+            YSLog.d("www", "加密出错: " + e.getMessage());
             return false;
         }
     }
@@ -73,7 +73,7 @@ public class FileCipherUtil {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            YSLog.d("www", "解密出错: "+ e.getMessage());
+            YSLog.d("www", "解密出错: " + e.getMessage());
             return false;
         }
     }

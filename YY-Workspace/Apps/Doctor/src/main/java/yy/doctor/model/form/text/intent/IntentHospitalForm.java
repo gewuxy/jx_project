@@ -7,7 +7,7 @@ import yy.doctor.R;
  * @since 2017/7/26
  */
 
-public class IntentHospitalForm extends IntentForm{
+public class IntentHospitalForm extends IntentForm {
 
     @Override
     public int getContentViewResId() {

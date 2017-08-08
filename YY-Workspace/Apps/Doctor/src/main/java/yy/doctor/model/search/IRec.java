@@ -5,8 +5,6 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import yy.doctor.model.home.IHome.HomeType;
-
 /**
  * @auther : GuoXuan
  * @since : 2017/6/8
