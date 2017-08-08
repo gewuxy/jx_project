@@ -13,10 +13,6 @@ import yy.doctor.network.NetFactory;
 public class UnderWayMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
-    public void initData() {
-    }
-
-    @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.meets(MeetState.under_way, mDepart, getOffset(), getLimit()));
     }

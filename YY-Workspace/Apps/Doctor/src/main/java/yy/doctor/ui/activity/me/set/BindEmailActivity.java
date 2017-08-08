@@ -2,19 +2,17 @@ package yy.doctor.ui.activity.me.set;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
-import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -22,7 +20,7 @@ import yy.doctor.util.Util;
  * @auther : GuoXuan
  * @since : 2017/7/24
  */
-public class BindEmailActivity extends BaseSetActivity implements TextWatcher {
+public class BindEmailActivity extends BaseSetActivity {
 
     @IntDef({
             RelatedId.email,
@@ -66,35 +64,23 @@ public class BindEmailActivity extends BaseSetActivity implements TextWatcher {
 
     @Override
     protected void toSet() {
+        refresh(RefreshWay.dialog);
         exeNetworkReq(NetFactory.bindEmail(Util.getEtString(mEtEmail)));
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
-    }
-
-    @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
-            showToast("已发送验证码");
-
+            showToast("成功发送验证邮件, 请查收");
         } else {
             showToast(r.getError());
         }
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)));
-    }
-
-    @Override
     public void afterTextChanged(Editable s) {
+        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)));
     }
 }

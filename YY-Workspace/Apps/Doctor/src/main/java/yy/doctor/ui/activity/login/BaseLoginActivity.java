@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
@@ -179,7 +179,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_tv_login: {
-                refresh(AppConfig.RefreshWay.dialog);
+                refresh(RefreshWay.dialog);
                 exeNetworkReq(NetFactory.login(getUserName(), Util.getEtString(mEtPwd), getOpenId()));
             }
             break;

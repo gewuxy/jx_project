@@ -23,6 +23,7 @@ import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 
 /**
  * @author CaiXiang
@@ -192,7 +193,7 @@ public class NetFactory {
         String KSignLat = "signLat";//维度
 
         String KFinish = "finished"; //  是否完成
-        String KInfinityId = "infinityId";
+        String KShowFlag = "showFlag"; // 是否显示0
     }
 
     private interface HomeParam {
@@ -235,7 +236,7 @@ public class NetFactory {
 
     private interface AttentionParam {
         String KMasterId = "masterId";    // 关注/取消关注的单位号id
-        String KTurnTo = "turnTo";     // 0:取消关注 1：关注
+        String KStatus = "status";     // 0:取消关注 1：关注
     }
 
     private interface UnitNumDetailParam {
@@ -480,11 +481,13 @@ public class NetFactory {
     /**
      * 文件夹
      *
+     * @param showFlag {@link ZeroShowType}
      * @return
      */
-    public static NetworkReq meetFolder(String preId) {
+    public static NetworkReq meetFolder(String preId, int showFlag) {
         return newGet(UrlMeet.KMeetingFolder)
                 .param(CommonParam.KPreId, preId)
+                .param(MeetParam.KShowFlag, showFlag)
                 .build();
     }
 
@@ -493,9 +496,9 @@ public class NetFactory {
      *
      * @return
      */
-    public static NetworkReq folderResource(String infinityId) {
+    public static NetworkReq folderResource(String paperId) {
         return newGet(UrlMeet.KMeetingFolderResource)
-                .param(MeetParam.KInfinityId, infinityId)
+                .param(MeetParam.KPaperId, paperId)
                 .build();
     }
 
@@ -714,13 +717,13 @@ public class NetFactory {
      * 关注单位号 取消关注
      *
      * @param masterId
-     * @param turnTo   0:取消关注 1：关注
+     * @param status   0:取消关注 1：关注
      * @return
      */
-    public static NetworkReq attention(int masterId, int turnTo) {
+    public static NetworkReq attention(int masterId, int status) {
         return newGet(UrlUnitNum.KAttention)
                 .param(AttentionParam.KMasterId, masterId)
-                .param(AttentionParam.KTurnTo, turnTo)
+                .param(AttentionParam.KStatus, status)
                 .build();
     }
 
@@ -898,9 +901,10 @@ public class NetFactory {
 
     /**
      * 会议科室列表
+     *
      * @return
      */
-    public static NetworkReq meetingDepartment(){
+    public static NetworkReq meetingDepartment() {
         return newPost(UrlMeet.KMeetingDepartment)
                 .build();
     }
@@ -1109,7 +1113,7 @@ public class NetFactory {
      */
     public static NetworkReq statsMeet(int offset) {
         return newPost(UrlMeet.KStatsAttend)
-                .param(CommonParam.KOffset,offset)
+                .param(CommonParam.KOffset, offset)
                 .build();
     }
 
@@ -1120,7 +1124,7 @@ public class NetFactory {
      */
     public static NetworkReq statsUnitNum(int offset) {
         return newPost(UrlMeet.KStatsPublish)
-                .param(CommonParam.KOffset,offset)
+                .param(CommonParam.KOffset, offset)
                 .build();
     }
 

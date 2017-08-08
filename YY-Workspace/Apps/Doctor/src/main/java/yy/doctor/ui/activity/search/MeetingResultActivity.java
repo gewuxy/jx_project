@@ -25,7 +25,6 @@ import yy.doctor.network.NetFactory;
 public class MeetingResultActivity extends BaseSearchResultActivity {
 
     private View mLayoutEmpty; // 空视图
-    private TextView mTvEmpty;
 
     @Override
     public int getContentViewId() {
@@ -37,14 +36,12 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
         super.findViews();
 
         mLayoutEmpty = findView(R.id.meeting_result_layout_empty);
-        mTvEmpty = findView(R.id.empty_footer_tv);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mTvEmpty.setText("暂无相关会议");
         if (TextUtil.isEmpty(mSearchContent)) {
             getSearchView().requestFocus();
             KeyboardUtil.showFromView(getSearchView());
@@ -88,6 +85,11 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
     @Override
     public View createEmptyFooterView() {
         return null;
+    }
+
+    @Override
+    protected String getEmptyText() {
+        return "暂无相关会议";
     }
 
     @Override

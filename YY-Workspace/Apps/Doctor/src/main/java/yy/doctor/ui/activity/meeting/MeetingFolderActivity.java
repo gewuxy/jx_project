@@ -1,13 +1,16 @@
 package yy.doctor.ui.activity.meeting;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import lib.annotation.AutoIntent;
+import lib.annotation.Extra;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
@@ -18,22 +21,31 @@ import yy.doctor.util.Util;
 @AutoIntent
 public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
-    @Extra
-    public String mTitle;
+    @IntDef({
+            ZeroShowType.show,
+            ZeroShowType.hide,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ZeroShowType {
+        int show = 0; // 显示
+        int hide = 1; // 隐藏
+    }
 
-    @Extra(optional = true)
+    @Extra
     public String mPreId;
 
     @Extra(optional = true)
-    public String mInfinityId;
+    public String mTitle;
 
-    @Extra(defaultInt = 0)
+    @Extra(optional = true, defaultInt = 0)
     public int mNum;
+
+    @ZeroShowType
+    @Extra(optional = true, defaultInt = ZeroShowType.show)
+    public int mShowZero;
 
     private TextView mTvNum;
     private TextView mTvTitle;
-    private final int KFolder = 0;
-    private final int KFolderResource = 1;
 
     @Nullable
     public View createHeaderView() {
@@ -59,11 +71,7 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     @Override
     public void getDataFromNet() {
-        if (TextUtil.isEmpty(mInfinityId)) {
-            exeNetworkReq(KFolder, NetFactory.meetFolder(mPreId));
-        } else {
-            exeNetworkReq(KFolderResource, NetFactory.folderResource(mInfinityId));
-        }
+        exeNetworkReq(NetFactory.meetFolder(mPreId, mShowZero));
     }
 
     @Override

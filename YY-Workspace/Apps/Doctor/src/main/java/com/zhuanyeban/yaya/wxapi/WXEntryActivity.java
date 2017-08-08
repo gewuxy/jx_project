@@ -9,9 +9,9 @@ import com.tencent.mm.opensdk.modelbase.BaseResp.ErrCode;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import lib.network.model.NetworkResp;
+import lib.wx.WXLoginApi;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
@@ -42,7 +42,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void initData() {
-        mApi = WXAPIFactory.createWXAPI(this, Constants.KAppId, false);
+        mApi = WXLoginApi.create(this, Constants.KAppId);
 
         try {
             mApi.handleIntent(getIntent(), this);
@@ -143,5 +143,14 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         }
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mApi != null) {
+            mApi.detach();
+        }
     }
 }

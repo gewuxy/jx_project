@@ -2,15 +2,21 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/v.form"
-    android:layout_height="52dp">
+    android:layout_height="52dip"
+    android:background="@drawable/white">
 
     <EditText
+        style="@style/et.bind"
         android:id="@id/form_et"
-        style="@style/et.form.bind"
         android:inputType="number"
         android:maxLength="13"/>
 
     <ImageView
-        style="@style/iv.form.clean.right"/>
+        android:id="@id/form_iv_cancel"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="@dimen/margin"
+        android:padding="8dp"
+        android:src="@mipmap/login_ic_cancel"/>
 
 </LinearLayout>

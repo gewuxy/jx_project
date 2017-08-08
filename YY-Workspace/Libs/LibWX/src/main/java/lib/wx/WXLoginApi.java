@@ -55,4 +55,12 @@ public class WXLoginApi {
         req.state = state; // 作用(分辨来自于哪里?)
         mApi.sendReq(req);
     }
+
+    public static void detach() {
+        if (mApi == null) {
+            return;
+        }
+        mApi.detach();
+        mApi = null;
+    }
 }

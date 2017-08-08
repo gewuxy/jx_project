@@ -6,9 +6,10 @@ import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
+import yy.doctor.model.meet.Meeting.MeetType;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
@@ -19,9 +20,14 @@ import yy.doctor.util.UISetter;
 public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     private boolean mShowUnitNum = true;
+    private boolean mShowZeroFolder = true;
 
     public void hideUnitNum() {
         mShowUnitNum = false;
+    }
+
+    public void hideZeroFolder() {
+        mShowZeroFolder = false;
     }
 
     @Override
@@ -57,15 +63,13 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
         Meeting item = getItem(position);
         if (getItemViewType(position) == MeetType.folder) {
             MeetingFolderActivityIntent
-                    .create(item.getString(TMeeting.meetName), item.getInt(TMeeting.meetCount))
-                    .infinityId(item.getString(TMeeting.id))
+                    .create(item.getString(TMeeting.id))
+                    .title(item.getString(TMeeting.meetName))
+                    .num(item.getInt(TMeeting.meetCount, 0))
+                    .showZero(mShowZeroFolder ? ZeroShowType.show : ZeroShowType.hide)
                     .start(getContext());
         } else {
-            MeetingDetailsActivityIntent.create(
-                    item.getString(TMeeting.id),
-                    item.getString(TMeeting.meetName)
-            )
-                    .start(getContext());
+            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
         }
     }
 

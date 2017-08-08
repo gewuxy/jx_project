@@ -13,10 +13,6 @@ import yy.doctor.network.NetFactory;
 public class NotStartedMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
-    public void initData() {
-    }
-
-    @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.meets(MeetState.not_started, mDepart, getOffset(), getLimit()));
     }

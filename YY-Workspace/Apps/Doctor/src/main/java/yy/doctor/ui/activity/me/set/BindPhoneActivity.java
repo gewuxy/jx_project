@@ -2,15 +2,15 @@ package yy.doctor.ui.activity.me.set;
 
 import android.content.Intent;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
 import lib.yy.network.Result;
@@ -23,7 +23,6 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
-import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -31,11 +30,11 @@ import yy.doctor.util.Util;
  * @auther : GuoXuan
  * @since : 2017/7/24
  */
-public class BindPhoneActivity extends BaseSetActivity implements TextWatcher {
+public class BindPhoneActivity extends BaseSetActivity {
 
+    private final int KCaptcha = 0;
     private EditText mEtCaptcha;
     private EditText mEtPhone;
-    private final int KCaptcha = 0;
 
     @IntDef({
             RelatedId.phone_number,
@@ -89,27 +88,25 @@ public class BindPhoneActivity extends BaseSetActivity implements TextWatcher {
         return "确认绑定";
     }
 
-    @Override
-    protected void toSet() {
-        exeNetworkReq(NetFactory.bindMobile(getPhone(), mEtCaptcha.getText().toString().trim()));
-    }
-
+    @NonNull
     private String getPhone() {
         return Util.getEtString(mEtPhone).replace(" ", "");
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    @NonNull
+    private String getCaptcha() {
+        return Util.getEtString(mEtCaptcha);
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        setChanged(Util.isMobileCN(getPhone())
-                && TextUtil.isNotEmpty(Util.getEtString(mEtCaptcha)));
+    protected void toSet() {
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(NetFactory.bindMobile(getPhone(), getCaptcha()));
     }
 
     @Override
     public void afterTextChanged(Editable s) {
+        setChanged(Util.isMobileCN(getPhone()) && TextUtil.isNotEmpty(getCaptcha()) && getCaptcha().length() == 6);
     }
 
     @Override
@@ -117,9 +114,14 @@ public class BindPhoneActivity extends BaseSetActivity implements TextWatcher {
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-                    exeNetworkReq(KCaptcha,
-                            NetFactory.captcha(getPhone(), CaptchaType.fetch));
-                    ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                    if (getPhone().equals(Profile.inst().getString(TProfile.mobile))) {
+                        showToast("该手机号已绑定");
+                        return;
+                    }
+                    // 获取验证码
+                    exeNetworkReq(KCaptcha, NetFactory.captcha(getPhone(), CaptchaType.fetch));
+                    EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
+                    item.start();
                 }
             }
             break;
@@ -127,23 +129,20 @@ public class BindPhoneActivity extends BaseSetActivity implements TextWatcher {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
-    }
-
-    @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         Result r = (Result) result;
-        if (id == KCaptcha) {
-            // 获取验证码
-        } else {
-            if (r.isSucceed()) {
+        if (r.isSucceed()) {
+            if (id == KCaptcha) {
+                // 获取验证码
+            } else {
                 setResult(RESULT_OK, new Intent().putExtra(Extra.KData, getPhone()));
                 Profile.inst().put(TProfile.mobile, getPhone());
+                showToast("绑定成功");
                 finish();
-            } else {
-                showToast(r.getError());
             }
+        } else {
+            showToast(r.getError());
         }
     }
 

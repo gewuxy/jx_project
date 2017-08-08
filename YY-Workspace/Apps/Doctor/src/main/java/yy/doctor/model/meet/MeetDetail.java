@@ -30,16 +30,6 @@ public class MeetDetail extends EVal<TMeetDetail> {
         int collect = 1; // 没有收藏
     }
 
-    @IntDef({
-            EpnType.need,
-            EpnType.award,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface EpnType {
-        int need = 0; // 需要象数
-        int award = 1; // 奖励象数
-    }
-
     public enum TMeetDetail {
         id,
 
@@ -70,24 +60,21 @@ public class MeetDetail extends EVal<TMeetDetail> {
         lecturerHos, // 医院
         lecturerTitle, // 职责
 
-        /**
-         * {@link EpnType}
-         */
-        eduCredits, // 奖励学分  当会议有奖励学分的时候才会有值
-
-        remainAward, // 剩余奖励人数
-        requiredXs, // 是否奖励象数  true表示奖励；当为false且xsCredits大于0时表示支付象数
-        attended, // 参加过(奖励过和支付过)
-        xsCredits, // 奖励/支付象数
-
-        awardLimit,     // 奖励象数限制人数
-        rewardCredit, // 是否奖励学分  true表示奖励 false表示不奖励
-        awardCreditLimit, // 奖励学分限制人数
-        completeProgress, // 学习进度
-        receiveAwardXs, // 获得奖励象数
-        receiveAwardCredit, // 获得奖励学分
-
+        attended, // 参加过(支付过)
         attendAble, // 能否参加会议
+
+        requiredXs, // 是否奖励象数  true表示奖励；当为false表示支付(且xsCredits大于0时)
+        xsCredits, // 奖励/支付象数
+        remainAwardXsCount, // 剩余奖励象数人数
+        receiveAwardXs, // 获得奖励象数(已经)
+
+        rewardCredit, // 是否奖励学分  true表示奖励 false表示不奖励
+        eduCredits, // 奖励学分  当会议有奖励学分的时候才会有值
+        remainAwardCreditCount, // 剩余奖励学分人数
+        receiveAwardCredit, // 获得奖励学分(已经)
+
+        completeProgress, // 学习进度
+
         reason, // 不能参加会议的理由
 
         materialCount,  //  资料数
@@ -99,5 +86,11 @@ public class MeetDetail extends EVal<TMeetDetail> {
         modules, // 会议包含的模块
 
         introduction, // 简介
+
+        /**
+         * 无用
+         */
+        awardLimit,     // 奖励象数限制人数
+        awardCreditLimit, // 奖励学分限制人数
     }
 }
