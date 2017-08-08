@@ -13,10 +13,6 @@ import yy.doctor.network.NetFactory;
 public class RetrospectMeetingsFrag extends BaseMeetingsFrag {
 
     @Override
-    public void initData() {
-    }
-
-    @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.meets(MeetState.retrospect, mDepart, getOffset(), getLimit()));
     }

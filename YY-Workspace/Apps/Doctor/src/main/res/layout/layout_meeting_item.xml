@@ -95,9 +95,9 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_centerInParent="true"
-                view:circle_backProgress="@color/transparent"
+                view:circle_backProgress="@color/divider"
                 view:circle_progress="@color/text_0882e7"
-                view:circle_widthDp="1dp"/>
+                view:circle_widthDp="2dp"/>
 
             <TextView
                 android:id="@+id/meeting_item_tv_progress"

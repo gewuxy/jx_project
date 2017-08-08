@@ -158,6 +158,7 @@ public class LoginActivity extends BaseLoginActivity {
         if (mDialogWX != null) {
             mDialogWX.dismiss();
         }
+        WXLoginApi.detach();
     }
 
     @Override

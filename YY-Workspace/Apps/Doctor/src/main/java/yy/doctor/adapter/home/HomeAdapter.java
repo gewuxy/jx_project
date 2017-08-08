@@ -71,19 +71,15 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                 @MeetState int state = item.getInt(TMeeting.state);
                 UISetter.setHomeMeetingState(state, homeVH.getTvStatus());
 
-                List<Lecturer> lecturers = item.getList(TMeeting.lecturerList);
-                if (lecturers != null && lecturers.size() > 0) {
-                    Lecturer lecturer = lecturers.get(0);
-                    homeVH.getIvSpeaker()
-                            .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
-                            .url(lecturer.getString(TLecturer.headimg))
-                            .load();
-                    homeVH.getTvSpeakerName().setText(lecturer.getString(TLecturer.name));
-                    homeVH.getTvSpeakerRank().setText(lecturer.getString(TLecturer.title));
-                }
+                homeVH.getIvSpeaker()
+                        .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
+                        .url(item.getString(TMeeting.lecturerHead))
+                        .load();
+                homeVH.getTvSpeakerName().setText(item.getString(TMeeting.lecturer));
+                homeVH.getTvSpeakerRank().setText(item.getString(TMeeting.lecturerTitle));
 
                 MeetingVH meetVH = homeVH.getMeetingVH();
-                UISetter.meetingHolderSet(meetVH, item, false);
+                UISetter.meetingHolderSet(meetVH, item, true);
 
             }
             break;
@@ -126,11 +122,12 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                     for (int i = 0; i < lecturers.size(); i++) {
                         Lecturer lecturer = lecturers.get(i);
                         if (lecturer == null) {
-                            return;
+                            continue;
                         }
+                        // 服务器返回空数组也显示背景
                         showView(layouts.get(i));
-                        names.get(i).setText(lecturer.getString(TLecturer.name));
-                        titles.get(i).setText(lecturer.getString(TLecturer.title));
+                        UISetter.viewVisibility(lecturer.getString(TLecturer.name), names.get(i));
+                        UISetter.viewVisibility(lecturer.getString(TLecturer.title), titles.get(i));
                     }
                 }
             }
@@ -178,7 +175,10 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
     }
 
     public void refreshAttentionState(int position, int attention) {
-        mHomeUnitNumAdapter.setTvAttention(position, attention);
+        if (mHomeUnitNumAdapter != null) {
+            // 首页加载错误时关注单位号
+            mHomeUnitNumAdapter.setTvAttention(position, attention);
+        }
     }
 
     @Override
@@ -186,8 +186,9 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
         RecMeeting item = (RecMeeting) getItem(position);
         if (getItem(position).getHomeType() == HomeType.meeting_folder) {
             MeetingFolderActivityIntent
-                    .create(item.getString(TMeeting.meetName), item.getInt(TMeeting.meetCount))
-                    .preId(item.getString(TMeeting.id))
+                    .create(item.getString(TMeeting.id))
+                    .title(item.getString(TMeeting.meetName))
+                    .num(item.getInt(TMeeting.meetCount))
                     .start(getContext());
         } else {
 

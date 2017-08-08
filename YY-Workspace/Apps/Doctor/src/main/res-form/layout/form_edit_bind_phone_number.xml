@@ -12,13 +12,11 @@
         android:maxLength="13"/>
 
     <ImageView
-        android:id="@id/form_iv"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:id="@id/form_iv_cancel"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginRight="@dimen/margin"
-        android:src="@mipmap/login_ic_cancel"
-        android:visibility="gone"/>
+        android:padding="8dp"
+        android:src="@mipmap/login_ic_cancel"/>
 
 </LinearLayout>

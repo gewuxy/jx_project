@@ -6,7 +6,6 @@ import android.widget.EditText;
 
 import lib.annotation.Extra;
 import lib.network.model.err.NetError;
-import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
@@ -15,17 +14,21 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.RecAdapter;
 import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.search.IRec;
+import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
+import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/8/4
  */
-public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> implements OnAdapterClickListener {
+public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
 
     @Extra(optional = true)
     String mSearchContent; // 搜索内容
@@ -67,14 +70,6 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
 
     @CallSuper
     @Override
-    public void findViews() {
-        super.findViews();
-
-        setOnAdapterClickListener(this);
-    }
-
-    @CallSuper
-    @Override
     public void onNetworkError(int id, NetError error) {
         super.onNetworkError(id, error);
 
@@ -84,26 +79,31 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
     protected abstract CharSequence getSearchHint();
 
     @Override
-    public final void onAdapterClick(int position, View v) {
+    public void onItemClick(View v, int position) {
         int type = getAdapter().getItemViewType(position);
         switch (type) {
-            case IRec.RecType.unit_num: {
-                UnitNumDetailActivity.nav(BaseSearchResultActivity.this, ((UnitNum) getItem(position)).getInt(UnitNum.TUnitNum.id));
+            case RecType.unit_num: {
+                UnitNum item = (UnitNum) getItem(position);
+                UnitNumDetailActivity.nav(BaseSearchResultActivity.this, item.getInt(TUnitNum.id));
             }
             break;
 
-            case IRec.RecType.meeting: {
-                MeetingDetailsActivity.nav(BaseSearchResultActivity.this, ((Meeting) getItem(position)).getString(Meeting.TMeeting.id), ((Meeting) getItem(position)).getString(Meeting.TMeeting.meetName));
+            case RecType.meeting: {
+                Meeting item = (Meeting) getItem(position);
+                MeetingDetailsActivity.nav(BaseSearchResultActivity.this, item.getString(TMeeting.id), item.getString(TMeeting.meetName));
             }
             break;
 
-            case IRec.RecType.meet_folder: {
-                showToast("文件夹");
-                //MeetingDetailsActivity.nav(BaseSearchResultActivity.this, ((Meeting) getItem(position)).getString(Meeting.TMeeting.id), ((Meeting) getItem(position)).getString(Meeting.TMeeting.meetName));
+            case RecType.meet_folder: {
+                Meeting item = (Meeting) getItem(position);
+                MeetingFolderActivityIntent.create(item.getString(TMeeting.id))
+                        .title(item.getString(TMeeting.meetName))
+                        .num(item.getInt(TMeeting.meetCount))
+                        .start(BaseSearchResultActivity.this);
             }
             break;
 
-            case IRec.RecType.more: {
+            case RecType.more: {
                 if (getAdapter().getItemViewType(position - 1) == IRec.RecType.unit_num) {
                     UnitNumResultActivityIntent
                             .create()

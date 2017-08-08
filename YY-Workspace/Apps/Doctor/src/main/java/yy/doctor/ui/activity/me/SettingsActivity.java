@@ -240,7 +240,7 @@ public class SettingsActivity extends BaseFormActivity {
                 String nickName = Profile.inst().getString(TProfile.wxNickname);
                 if (getString(R.string.no_binding).equals(nickName) || TextUtil.isEmpty(nickName)) {
                     // 未绑定
-                    WXLoginApi.create(this, Constants.KAppId);
+                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
                     WXLoginApi.sendReq(WXType.bind);
                 } else {
                     // 已绑定
@@ -387,6 +387,13 @@ public class SettingsActivity extends BaseFormActivity {
         dialog.addItem(getString(R.string.cancel), KColorCancel);
 
         dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        WXLoginApi.detach();
     }
 
     @Override

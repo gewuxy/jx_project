@@ -61,6 +61,7 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         /**
          * {@link MeetType}
          */
+        @Init(asInt = MeetType.meet)
         type, //  1, 文件
 
         id, //  17062316384929986180,会议ID
@@ -80,6 +81,12 @@ public class Meeting extends EVal<TMeeting> implements IRec {
 
         @Bind(asList = Lecturer.class)
         lecturerList,
+
+        lecturer, //  , 名字
+        lecturerDepart, //  ,  科室
+        lecturerHead, //  http://10.0.0.252/others/metting-img-man.jpg,  头像
+        lecturerHos, //  ,  医院
+        lecturerTitle, //  ,  职称
 
         completeProgress, // 学习进度
 

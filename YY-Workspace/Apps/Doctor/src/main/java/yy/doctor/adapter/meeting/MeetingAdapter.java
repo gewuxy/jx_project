@@ -9,6 +9,7 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
@@ -19,9 +20,14 @@ import yy.doctor.util.UISetter;
 public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     private boolean mShowUnitNum = true;
+    private boolean mShowZeroFolder = true;
 
     public void hideUnitNum() {
         mShowUnitNum = false;
+    }
+
+    public void hideZeroFolder() {
+        mShowZeroFolder = false;
     }
 
     @Override
@@ -41,7 +47,7 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     @Override
     public int getItemViewType(int position) {
-        if(getItem(position).getInt(TMeeting.type) == MeetType.meet) {
+        if (getItem(position).getInt(TMeeting.type) == MeetType.meet) {
             return MeetType.meet;
         }
         return MeetType.folder;
@@ -57,8 +63,10 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
         Meeting item = getItem(position);
         if (getItemViewType(position) == MeetType.folder) {
             MeetingFolderActivityIntent
-                    .create(item.getString(TMeeting.meetName), item.getInt(TMeeting.meetCount))
-                    .infinityId(item.getString(TMeeting.id))
+                    .create(item.getString(TMeeting.id))
+                    .title(item.getString(TMeeting.meetName))
+                    .num(item.getInt(TMeeting.meetCount, 0))
+                    .showZero(mShowZeroFolder ? ZeroShowType.show : ZeroShowType.hide)
                     .start(getContext());
         } else {
             MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));

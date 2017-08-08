@@ -31,7 +31,7 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
             case RecType.meeting: {
                 MeetingVH meetingVH = holder.getMeetingVH();
 
-                UISetter.meetingHolderSet(meetingVH, (Meeting)getItem(position), false);
+                UISetter.meetingHolderSet(meetingVH, (Meeting)getItem(position), true);
             }
             break;
             // 搜索单位号

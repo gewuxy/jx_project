@@ -123,8 +123,7 @@
 
                 <TextView
                     android:id="@+id/home_meet_folder_item_tv_speaker_title_2"
-                    style="@style/tv.home_meeting_folder_speaker_name.title"
-                    android:visibility="gone"/>
+                    style="@style/tv.home_meeting_folder_speaker_name.title"/>
 
             </LinearLayout>
 
@@ -146,8 +145,7 @@
 
                 <TextView
                     android:id="@+id/home_meet_folder_item_tv_speaker_title_3"
-                    style="@style/tv.home_meeting_folder_speaker_name.title"
-                    android:visibility="gone"/>
+                    style="@style/tv.home_meeting_folder_speaker_name.title"/>
 
             </LinearLayout>
 

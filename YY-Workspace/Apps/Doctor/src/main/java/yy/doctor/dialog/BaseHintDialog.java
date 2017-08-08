@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.util.TypedValue;
@@ -106,38 +107,30 @@ public class BaseHintDialog extends BaseDialog {
     /**
      * 创建16dp的TextView
      *
-     * @param text
-     * @param colorString
+     * @param strRes
+     * @param resId
      * @param l
      * @return
      */
-    public void addButton(String text, String colorString, OnClickListener l) {
-        nativeAddButton(text, Color.parseColor(colorString), l);
+    public void addButton(@StringRes int strRes, @ColorRes int resId, OnClickListener l) {
+        addButton(getContext().getString(strRes), resId, l);
     }
 
-    public void addButton(@StringRes int strRes, int resId, OnClickListener l) {
-        nativeAddButton(getContext().getString(strRes), ResLoader.getColor(resId), l);
-    }
-
-    private void nativeAddButton(String text, @ColorInt int id, OnClickListener l) {
+    public void addButton(String text, @ColorRes int resId, OnClickListener l) {
         TextView tv = new TextView(getContext());
 
         tv.setBackgroundResource(R.drawable.item_selector);
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
-        tv.setTextColor(id);
+        tv.setTextColor(ResLoader.getColor(resId));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
         tv.setOnClickListener(l);
 
         addButtons(tv);
     }
 
-    public void addButton(@StringRes int strRes, String colorString, OnClickListener l) {
-        addButton(getContext().getString(strRes), colorString, l);
-    }
-
     public void addButton(String text, OnClickListener l) {
-        addButton(text, "#0682e6", l);
+        addButton(text, R.color.text_0682e6, l);
     }
 
     public void addButton(@StringRes int strRes, OnClickListener l) {

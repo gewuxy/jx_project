@@ -58,6 +58,7 @@ public class WXLoginActivity extends BaseLoginActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import lib.ys.YSLog;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.TextUtil;
@@ -39,86 +40,45 @@ import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
 
 public class UISetter {
 
-    private static final int KMeetIconSizeDp = 11;
-
     /**
-     * 根据会议状态
-     *
-     * @param state
-     * @param tv
-     */
-    public static void setMeetState(@MeetState int state, TextView tv) {
-        String text = null;
-        int color = 0;
-        Drawable d = null;
-
-        switch (state) {
-            case MeetState.not_started: {
-                text = "未开始";
-                color = ResLoader.getColor(R.color.text_01b557);
-                d = ResLoader.getDrawable(R.mipmap.meeting_ic_state_not_started);
-            }
-            break;
-            case MeetState.under_way: {
-                text = "进行中";
-                color = ResLoader.getColor(R.color.text_e6600e);
-                d = ResLoader.getDrawable(R.mipmap.meeting_ic_state_under_way);
-            }
-            break;
-            case MeetState.retrospect: {
-                text = "精彩回顾";
-                color = ResLoader.getColor(R.color.text_5cb0de);
-                d = ResLoader.getDrawable(R.mipmap.meeting_ic_state_retrospect);
-            }
-            break;
-        }
-
-        if (d != null) {
-            d.setBounds(0, 0, DpFitter.dp(KMeetIconSizeDp), DpFitter.dp(KMeetIconSizeDp));
-        }
-
-        tv.setText(text);
-        tv.setTextColor(color);
-        tv.setCompoundDrawables(d, null, null, null);
-    }
-
-    /**
-     * 根据会议状态
+     * 根据会议状态设置text
      *
      * @param state
      * @param tv
      */
     public static void setHomeMeetingState(@MeetState int state, TextView tv) {
-        String text = null;
-        int color = 0;
+        String text = "未开始";
+        int color = R.color.text_01b557;
 
         switch (state) {
             case MeetState.not_started: {
                 text = "未开始";
-                color = ResLoader.getColor(R.color.text_01b557);
+                color = R.color.text_01b557;
             }
             break;
             case MeetState.under_way: {
                 text = "进行中";
-                color = ResLoader.getColor(R.color.text_e6600e);
+                color = R.color.text_e6600e;
             }
             break;
             case MeetState.retrospect: {
                 text = "精彩回顾";
-                color = ResLoader.getColor(R.color.text_5cb0de);
+                color = R.color.text_5cb0de;
             }
             break;
         }
 
         tv.setText(text);
-        tv.setTextColor(color);
+        tv.setTextColor(ResLoader.getColor(color));
     }
 
-    public static void setDateDuration(TextView tvDate, TextView tvDuration, long startTime, long endTime) {
-        tvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
-        tvDuration.setText("时长:" + Time.milliFormat(endTime - startTime));
-    }
-
+    /**
+     * 设置资料
+     *
+     * @param layout
+     * @param listFile
+     * @param id
+     */
     public static void setFileData(LinearLayout layout, List<FileData> listFile, int id) {
         String fileName;
         String fileUrl;
@@ -270,12 +230,12 @@ public class UISetter {
      * @param visibility 单位号是否显示
      */
     public static void meetingHolderSet(MeetingVH holder, Meeting meeting, boolean visibility) {
-        if (meeting== null) {
+        if (meeting == null) {
             return;
         }
 
         @DrawableRes int resMeet = R.mipmap.meeting_ic_state_under_way;
-        @DrawableRes int resFolder = R.mipmap.meeting_ic_folder_state_under_way;
+        @DrawableRes int resFolder = R.mipmap.meeting_ic_folder_unit_num;
         @MeetState int state = meeting.getInt(TMeeting.state);
 
         switch (state) {
@@ -296,7 +256,7 @@ public class UISetter {
             break;
         }
 
-        viewVisibility(visibility ? meeting.getString(TMeeting.organizer) : null , holder.getTvUnitNum());
+        viewVisibility(visibility ? meeting.getString(TMeeting.organizer) : null, holder.getTvUnitNum());
 
         holder.getTvTitle().setText(meeting.getString(TMeeting.meetName));
 
@@ -305,21 +265,37 @@ public class UISetter {
             holder.getTvSection().setText(meeting.getString(TMeeting.meetType));
             holder.getTvTime().setText(TimeUtil.formatMilli(meeting.getLong(TMeeting.startTime), "MM/dd HH:mm"));
 
-            if (meeting.getBoolean(TMeeting.rewardCredit)) {
+            if (meeting.getBoolean(TMeeting.rewardCredit) && meeting.getInt(TMeeting.eduCredits) > 0) {
                 ViewUtil.showView(holder.getIvCme());
+            } else {
+                // 会复用故要隐藏
+                ViewUtil.goneView(holder.getIvCme());
             }
-            if (meeting.getInt(TMeeting.requiredXs, 0) > 0) {
-                holder.getIvEpn().setSelected(meeting.getBoolean(TMeeting.requiredXs));
+            ImageView ivEpn = holder.getIvEpn();
+            if (meeting.getInt(TMeeting.xsCredits, 0) > 0) {
+                ViewUtil.showView(ivEpn);
+                ivEpn.setSelected(meeting.getBoolean(TMeeting.requiredXs));
+            } else {
+                ViewUtil.goneView(ivEpn);
             }
             // 首页没有的
             ImageView ivState = holder.getIvState();
             if (ivState != null) {
                 ivState.setImageResource(resMeet);
             }
-            if (state == MeetState.retrospect) {
-                View layoutProgress = holder.getLayoutProgress();
-                if (layoutProgress != null) {
+            View layoutProgress = holder.getLayoutProgress();
+            if (layoutProgress != null) {
+                int progress = meeting.getInt(TMeeting.completeProgress);
+                if (progress > 0 && state == MeetState.retrospect) {
                     ViewUtil.showView(layoutProgress);
+                    holder.getCpvProgress().setProgress(progress);
+                    String percent = progress + "%";
+                    if (progress == 100) {
+                        percent = "完成";
+                    }
+                    holder.getTvProgress().setText(percent);
+                } else {
+                    ViewUtil.goneView(layoutProgress);
                 }
             }
 

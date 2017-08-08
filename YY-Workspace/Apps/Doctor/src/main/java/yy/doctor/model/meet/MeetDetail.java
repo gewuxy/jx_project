@@ -30,16 +30,6 @@ public class MeetDetail extends EVal<TMeetDetail> {
         int collect = 1; // 没有收藏
     }
 
-    @IntDef({
-            EpnType.need,
-            EpnType.award,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface EpnType {
-        int need = 0; // 需要象数
-        int award = 1; // 奖励象数
-    }
-
     public enum TMeetDetail {
         id,
 
@@ -72,10 +62,8 @@ public class MeetDetail extends EVal<TMeetDetail> {
 
         attended, // 参加过(支付过)
         attendAble, // 能否参加会议
-        /**
-         * {@link EpnType}
-         */
-        requiredXs, // 是否奖励象数  true表示奖励；当为false且xsCredits大于0时表示支付象数
+
+        requiredXs, // 是否奖励象数  true表示奖励；当为false表示支付(且xsCredits大于0时)
         xsCredits, // 奖励/支付象数
         remainAwardXsCount, // 剩余奖励象数人数
         receiveAwardXs, // 获得奖励象数(已经)

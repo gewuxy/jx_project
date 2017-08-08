@@ -1,12 +1,14 @@
 package yy.doctor.ui.frag.stats;
 
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.res.ResLoader;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.ui.frag.stats.BaseHistogramFrag.OnStatsChangeListener;
 import yy.doctor.Extra;
@@ -27,6 +29,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
     private TextView mTvAll;
 
     private ArrayList<Stats> mStatses;
+    private int mTextColor;
 
     @Override
     public void initData() {
@@ -70,6 +73,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
         super.setViews();
 
         mTvTitle.setText(getTitle());
+        mTvTitle.setTextColor(ResLoader.getColor(getTextColor()));
         setCurrentItem(KSize);
         setOffscreenPageLimit(3);
     }
@@ -98,14 +102,16 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
             // 当前页
             mTvWeek.setText(weekCount);
         }
-        if (getCurrentItem() == KSize) {
+        if (getCurrentItem() == KSize - 1) {
             // 不会再变, 不多次设置
             mTvAll.setText(allCount);
         }
     }
 
-    abstract protected String getTitle();
+    protected abstract String getTitle();
 
     protected abstract BaseHistogramFrag getFragment();
 
+    @ColorRes
+    protected abstract int getTextColor();
 }

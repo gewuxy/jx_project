@@ -312,12 +312,14 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 mTvAttention.setClickable(false);
             }
 
+            // FIXME: 2017/8/7
             List<FileData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
-            int size = listFile.size();
-            if (size == 0 || listFile == null) {
+            if (listFile == null || listFile.size() == 0) {
                 goneView(mDivider);
                 goneView(mLayoutFile);
                 goneView(mLargeDivider);
+            } else {
+                UISetter.setFileData(mLayoutFileItem, listFile, mUnitNumId);
             }
 
             int fileNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
@@ -332,11 +334,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 );
             }
 
-            UISetter.setFileData(mLayoutFileItem, listFile, mUnitNumId);
-
             ListResult<Meeting> meetingResult = new ListResult<>();
             meetingResult.setCode(ErrorCode.KOk);
-            meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetingDTOList));
+            meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetFolderDTOList));
             super.onNetworkSuccess(id, meetingResult);
 
         } else if (id == KReqIdAttention) {  //关注

@@ -18,7 +18,18 @@ abstract public class BaseMeetingsFrag extends BaseSRListFrag<Meeting, MeetingAd
     protected String mDepart;
 
     @Override
+    public void initData() {
+    }
+
+    @Override
     public void initNavBar(NavBar bar) {
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        getAdapter().hideZeroFolder();
     }
 
     @Override
