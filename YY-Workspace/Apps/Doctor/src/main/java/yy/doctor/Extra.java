@@ -1,5 +1,7 @@
 package yy.doctor;
 
+import android.support.annotation.IntDef;
+
 /**
  * Created by Administrator on 2017/3/30.
  */
@@ -36,6 +38,12 @@ public interface Extra {
     String KCityId = "city_id";
     String KDistrict = "district";
 
-    String KMeetingType = "meeting";
-    String KUnitNumType = "unitNum";
+    @IntDef({
+            FileFrom.meeting,
+            FileFrom.unit_num,
+    })
+    @interface FileFrom {
+        int meeting = 0;
+        int unit_num = 1;
+    }
 }

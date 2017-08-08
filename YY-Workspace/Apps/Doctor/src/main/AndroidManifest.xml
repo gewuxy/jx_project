@@ -169,18 +169,14 @@
             android:name=".ui.activity.data.DrugDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.DrugSearchActivity"
+            android:name=".ui.activity.data.DataUnitsSearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.ClinicalGuideSearchActivity"
+            android:name=".ui.activity.data.DrugsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.data.ClinicalGuideCategoryActivity"
+            android:name=".ui.activity.data.ClinicsActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.data.DataUnitsActivity"
-            android:screenOrientation="portrait"/>
-
 
         <!-- me -->
         <activity
@@ -247,10 +243,10 @@
             android:name=".ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.unitnum.FileDataActivity"
+            android:name=".ui.activity.me.unitnum.FilesActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.DownloadDataActivity"
+            android:name=".ui.activity.data.DownloadFileActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.unitnum.LaunchDownloadDataActivity"

@@ -37,7 +37,7 @@ public class ModifyTextActivity extends BaseModifyActivity {
     @Override
     public void findViews() {
         mEtGeneral = findView(R.id.et_general);
-        mIvCancel = findView(R.id.iv_general_cancel);
+        mIvCancel = findView(R.id.iv_cancel);
     }
 
     @Override

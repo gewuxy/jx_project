@@ -6,9 +6,6 @@ import yy.doctor.model.form.divider.DividerLargeForm;
 import yy.doctor.model.form.divider.DividerMarginForm;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.edit.EditEmailForm;
-import yy.doctor.model.form.edit.EditForgetCaptchaForm;
-import yy.doctor.model.form.edit.EditForgetPhoneForm;
-import yy.doctor.model.form.edit.EditForgetPwdForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditNumberForm;
@@ -94,10 +91,6 @@ public class Form {
                 form = new EditRegisterPwdForm();
             }
             break;
-            case FormType.et_forget_pwd: {
-                form = new EditForgetPwdForm();
-            }
-            break;
             case FormType.et_number: {
                 form = new EditNumberForm();
             }
@@ -106,20 +99,12 @@ public class Form {
                 form = new EditPhoneNumberForm();
             }
             break;
-            case FormType.et_forget_phone: {
-                form = new EditForgetPhoneForm();
-            }
-            break;
             case FormType.et_email: {
                 form = new EditEmailForm();
             }
             break;
             case FormType.et_captcha: {
                 form = new EditCaptchaForm();
-            }
-            break;
-            case FormType.et_forget_captcha: {
-                form = new EditForgetCaptchaForm();
             }
             break;
             case FormType.profile_checkbox: {

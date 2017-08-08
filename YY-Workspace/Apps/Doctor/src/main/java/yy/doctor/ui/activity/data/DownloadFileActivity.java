@@ -1,7 +1,5 @@
-package yy.doctor.ui.activity.me;
+package yy.doctor.ui.activity.data;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,13 +7,13 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import lib.annotation.AutoIntent;
+import lib.annotation.Extra;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
 import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ.Download;
 import yy.doctor.serv.DownloadServIntent;
@@ -29,8 +27,8 @@ import yy.doctor.view.CircleProgressView;
  * @author CaiXiang
  * @since 2017/5/17
  */
-
-public class DownloadDataActivity extends BaseActivity implements OnDownloadNotify {
+@AutoIntent
+public class DownloadFileActivity extends BaseActivity implements OnDownloadNotify {
 
     private static final String KByteSymbol = "K";
     private static final String KDot = ".";
@@ -42,37 +40,35 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     private ImageView mIvDownload;
     private boolean mIsDownload = false;
 
-    private String mFileName;
-    private String mUrl;
-    private String mType;
-    private long mFileSize;
-    private String mDataFileId;
+    @Extra(optional = true)
+    String mFileName;
+
+    @Extra(optional = true)
+    String mUrl;
+
+    @Extra(optional = true)
+    String mType;
+
+    @Extra(optional = true)
+    long mFileSize;
+
+    @Extra(optional = true)
+    String mDataFileId;
+
+    @Extra(optional = true)
+    String mFileNameEncryption;
+
+    @Extra(optional = true)
+    String mFilePath;
+
     private String mFileSizeKB;
+
     private String mFileNameHashCode;
-    private String mFileNameEncryption;
-    private String mFilePath;
-//    private Intent mDownloadServ;
-    public static void nav(Context context, String filePath, String name, String url, String type, long size,String id) {
-        Intent i = new Intent(context, DownloadDataActivity.class)
-                .putExtra(Extra.KFilePath, filePath)
-                .putExtra(Extra.KName, name)
-                .putExtra(Extra.KData, url)
-                .putExtra(Extra.KType, type)
-                .putExtra(Extra.KNum, size)
-                .putExtra(Extra.KId,id);
-        LaunchUtil.startActivity(context, i);
-    }
 
     @Override
     public void initData() {
         DownloadNotifier.inst().add(this);
 
-        mFilePath = getIntent().getStringExtra(Extra.KFilePath);
-        mFileName = getIntent().getStringExtra(Extra.KName);
-        mUrl = getIntent().getStringExtra(Extra.KData);
-        mType = getIntent().getStringExtra(Extra.KType);
-        mFileSize = getIntent().getLongExtra(Extra.KNum, 0);
-        mDataFileId = getIntent().getStringExtra(Extra.KId);
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
         mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mType));
 
@@ -89,7 +85,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
         //先判断文件是否已经存在  通过url的hashcode
         File f = new File(mFilePath, mFileNameEncryption);
         if (f.exists()) {
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mFileSizeKB, mFileName,mDataFileId);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mFileSizeKB, mFileName, mDataFileId);
             finish();
         }
 
@@ -135,13 +131,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
                     mTvStatus.setText(R.string.download_ing);
-                    DownloadServIntent.create(mUrl,mFilePath,mType)
-                            .start(DownloadDataActivity.this);
-//                    mDownloadServ = new Intent(this, DownloadServ.class);
-//                    mDownloadServ.putExtra(Extra.KData, mUrl)
-//                            .putExtra(Extra.KFilePath, mFilePath)
-//                            .putExtra(Extra.KType, mType);
-//                    startService(mDownloadServ);
+                    DownloadServIntent.create(mUrl, mFilePath, mType).start(this);
                     //现在不提供断点下载 点击下载按钮后就不能点击暂停
                     mIvDownload.setClickable(false);
                 }
@@ -155,7 +145,8 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
     protected void onDestroy() {
         super.onDestroy();
 
-        DownloadServIntent.stop(DownloadDataActivity.this);
+        DownloadServIntent.stop(this);
+
         DownloadNotifier.inst().remove(this);
     }
 
@@ -175,7 +166,7 @@ public class DownloadDataActivity extends BaseActivity implements OnDownloadNoti
             mTvNum.setText(downloadSize + KByteSymbol);
         } else if (type == DownloadNotifyType.complete) {
 
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName,mDataFileId);
+            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName, mDataFileId);
             finish();
 
 //            if (mType.equals(FileTypeConstants.KPdf)) {

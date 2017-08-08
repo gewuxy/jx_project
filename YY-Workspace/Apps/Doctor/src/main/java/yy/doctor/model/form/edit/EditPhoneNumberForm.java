@@ -55,7 +55,7 @@ public class EditPhoneNumberForm extends EditNumberForm {
                 if ((str.length() == 3 || str.length() == 8) && str.charAt(str.length() - 1) != ' ' && before > count) {
                     str = str.substring(0, str.length() - 1);
                     editText.setText(str);
-                    // TODO: tttttttttttttttttttt
+                    // TODO: tttttttttttttttttttts
                     editText.setSelection(str.length());
                 }
             }

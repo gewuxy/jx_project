@@ -31,6 +31,7 @@ import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
+import yy.doctor.Extra.FileFrom;
 import yy.doctor.R;
 import yy.doctor.dialog.ShareDialog;
 import yy.doctor.model.meet.MeetDetail;
@@ -52,7 +53,7 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.ui.activity.me.unitnum.FileDataActivity;
+import yy.doctor.ui.activity.me.unitnum.FilesActivityIntent;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
@@ -304,7 +305,10 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         if (fileNum > UnitNumDetail.KFileLimit) {
             showView(mIvFileArrow);
             mTvFileNum.setText(String.format(getString(R.string.meeting_file_more), fileNum));
-            mLayoutData.setOnClickListener(v -> FileDataActivity.nav(MeetingDetailsActivity.this, mMeetId, Extra.KMeetingType));
+            mLayoutData.setOnClickListener(v ->
+                            FilesActivityIntent.create(mMeetId, FileFrom.meeting).start(this)
+            );
+
         }
         List<FileData> materials = detail.getList(TMeetDetail.materials);
         if (materials == null || materials.size() == 0) {

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.ys.util.TextUtil;
@@ -25,6 +26,7 @@ public class SkillActivity extends BaseModifyActivity{
 
     private EditText mEt;
     private TextView mTv;
+    private ImageView mIvCancel;
 
     public static Intent newIntent(Context context, String title, TProfile t) {
         return new Intent(context, SkillActivity.class)
@@ -42,6 +44,7 @@ public class SkillActivity extends BaseModifyActivity{
     public void findViews() {
         mEt = findView(R.id.et_academic);
         mTv = findView(R.id.tv_academic);
+        mIvCancel = findView(R.id.iv_cancel);
     }
 
     @Override
@@ -50,7 +53,8 @@ public class SkillActivity extends BaseModifyActivity{
 
         setLength(getVal().length());
 
-        addTextChangedListener(mEt, null);
+        setOnClickListener(R.id.iv_cancel);
+        addTextChangedListener(mEt, mIvCancel);
 
         mEt.addTextChangedListener(new TextWatcher() {
 
@@ -80,6 +84,13 @@ public class SkillActivity extends BaseModifyActivity{
 
     @Override
     public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.iv_cancel: {
+                mEt.setText("");
+            }
+            break;
+        }
     }
 
     private void setLength(int len) {

@@ -136,7 +136,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             Intent intent = null;
             try {
                 if (mType.equals(KPdf)) {
-                    PDFActivity.nav(this, mFilePath, mFileNameEncryption, mFileName,mDataFileId);
+                    PDFActivity.nav(this, mFilePath, mFileNameEncryption, mFileName, mDataFileId);
                 } else if (mType.equals(KPpt) || mType.equals(KPptX)) {
                     intent = getPptFileIntent(mFilePath + mFileNameEncryption);
                     startActivity(intent);

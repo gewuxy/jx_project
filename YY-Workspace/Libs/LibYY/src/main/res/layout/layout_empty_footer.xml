@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="暂时没有相关"
+        android:text="暂时没有相关内容"
         android:textColor="#b3b3b3"
         android:textSize="12dp"/>
 

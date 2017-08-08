@@ -26,19 +26,18 @@
 
             <EditText
                 style="@style/et.login"
-                android:id="@+id/et_general"
-                android:hint="请输入"/>
+                android:id="@+id/et_general"/>
 
             <ImageView
-                android:id="@+id/iv_general_cancel"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:padding="8dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="21dp"
-                android:visibility="gone"
-                android:src="@mipmap/login_ic_cancel"/>
+            android:id="@+id/iv_cancel"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="21dp"
+            android:visibility="gone"
+            android:src="@mipmap/login_ic_cancel"/>
 
         </RelativeLayout>
 

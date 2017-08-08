@@ -67,6 +67,6 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
     }
 
     protected String getEmptyText() {
-        return "没有相关内容";
+        return "暂时没有相关内容";
     }
 }

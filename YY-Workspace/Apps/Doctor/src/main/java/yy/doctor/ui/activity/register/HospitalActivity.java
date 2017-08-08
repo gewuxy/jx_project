@@ -307,9 +307,14 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.hospital_finish) {
             Hos name = (Hos) data;
-            Intent intent = new Intent().putExtra(Extra.KData,name.name)
-                    .putExtra(Extra.KId,name.resId);
-            exeNetworkReq(KSave, NetFactory.newModifyBuilder().hospital(name.name).hospitalLevel(name.resId).build());
+            Intent intent = new Intent()
+                    .putExtra(Extra.KData, name.name)
+                    .putExtra(Extra.KId, name.resId);
+
+            exeNetworkReq(KSave, NetFactory.newModifyBuilder()
+                    .hospital(name.name)
+                    .hospitalLevel(name.resId)
+                    .build());
             setResult(RESULT_OK, intent);
             this.finish();
         }
@@ -369,7 +374,10 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
             Profile.inst().put(TProfile.hosLevel, mResId);
             Profile.inst().saveToSp();
 
-            exeNetworkReq(KSave, NetFactory.newModifyBuilder().hospital(mName).hospitalLevel(mResId).build());
+            exeNetworkReq(KSave, NetFactory.newModifyBuilder()
+                    .hospital(mName)
+                    .hospitalLevel(mResId)
+                    .build());
 
             Intent intent = new Intent()
                     .putExtra(Extra.KData, mName)
@@ -381,7 +389,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-            return JsonParser.error(r.getText());
+        return JsonParser.error(r.getText());
     }
 
     @Override
@@ -394,8 +402,9 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
                 Profile.inst().put(TProfile.hosLevel, mResId);
                 Profile.inst().saveToSp();
 
-                Intent i = new Intent().putExtra(Extra.KData, mName)
-                        .putExtra(Extra.KId,mResId);
+                Intent i = new Intent()
+                        .putExtra(Extra.KData, mName)
+                        .putExtra(Extra.KId, mResId);
                 setResult(RESULT_OK, i);
                 finish();
             } else {

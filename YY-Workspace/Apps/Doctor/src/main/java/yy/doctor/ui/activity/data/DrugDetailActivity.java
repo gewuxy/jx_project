@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity.data;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -10,14 +8,14 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.annotation.AutoIntent;
+import lib.annotation.Extra;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRGroupListActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DrugDetailAdapter;
 import yy.doctor.model.data.DrugDetail;
@@ -35,28 +33,25 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/7/14
  */
-
+@AutoIntent
 public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail, DrugDetail, DrugDetailAdapter> {
 
     private ImageView mIvCollection;
     private boolean mStoredState = true;  // 默认有收藏
-    private String mDataFileId;
-    private String mFileName;
     private String mType = 2+""; // type为2，表示药品目录
+
+    @Extra(optional = true)
+    String mDataFileId;
+
+    @Extra(optional = true)
+    String mFileName;
+
     private final int KCollectionState = 0;
     private final int KCollectionDetail = 1;
 
-    public static void nav(Context context, String id, String fileName) {
-        Intent i = new Intent(context, DrugDetailActivity.class)
-                .putExtra(Extra.KId, id)
-                .putExtra(Extra.KName, fileName);
-        LaunchUtil.startActivity(context, i);
-    }
 
     @Override
     public void initData() {
-        mDataFileId = getIntent().getStringExtra(Extra.KId);
-        mFileName = getIntent().getStringExtra(Extra.KName);
     }
 
     @Override
@@ -68,7 +63,8 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
             mStoredState = !mStoredState;
             mIvCollection.setSelected(mStoredState);
             showToast(mStoredState ? R.string.collect_finish : R.string.cancel_collect);
-            exeNetworkReq(KCollectionState,NetFactory.collectionStatus(mDataFileId,mType));
+
+            exeNetworkReq(KCollectionState, NetFactory.collectionStatus(mDataFileId, mType));
             if (!mStoredState) {
                 notify(NotifyType.getCancel_collection_drug,mDataFileId);
             }

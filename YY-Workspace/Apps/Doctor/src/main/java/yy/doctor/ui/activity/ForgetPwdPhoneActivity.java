@@ -23,7 +23,7 @@ import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
-import yy.doctor.model.form.edit.EditForgetCaptchaForm;
+import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -75,22 +75,25 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         mStatus = new HashSet<>();
         mEnableSize = RelatedId.class.getDeclaredFields().length;
 
-        addItem(Form.create(FormType.et_forget_phone)
+        addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
+                .layout(R.layout.form_edit_forget_phone_number)
                 .observer(this)
                 .hint(R.string.phone_number));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_forget_captcha)
+        addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
+                .layout(R.layout.form_edit_forget_captcha)
                 .textColorRes(R.color.register_captcha_text_selector)
                 .hint(R.string.captcha)
                 .observer(this)
                 .enable(false));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_forget_pwd)
+        addItem(Form.create(FormType.et_register_pwd)
                 .related(RelatedId.pwd)
+                .layout(R.layout.form_edit_forget_pwd)
                 .hint(R.string.pwd)
                 .observer(this)
                 .drawable(R.drawable.register_pwd_selector));
@@ -166,7 +169,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                         }
                         exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         mDialog.dismiss();
-                        ((EditForgetCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                        ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                     });
                     mDialog.addButton("取消", v1 -> {
                         mDialog.dismiss();

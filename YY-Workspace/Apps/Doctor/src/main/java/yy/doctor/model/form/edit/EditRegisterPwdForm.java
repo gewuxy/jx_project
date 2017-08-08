@@ -7,6 +7,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 
+import lib.ys.ConstantsEx;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
@@ -22,6 +23,10 @@ public class EditRegisterPwdForm extends EditForm {
 
     @Override
     public int getContentViewResId() {
+        int layout = getLayoutId();
+        if (layout != ConstantsEx.KInvalidValue) {
+            return layout;
+        }
         return R.layout.form_edit_register_pwd;
     }
 

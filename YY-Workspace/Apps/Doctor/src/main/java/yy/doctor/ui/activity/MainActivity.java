@@ -37,7 +37,7 @@ import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.login.LoginActivity;
-import yy.doctor.ui.frag.DataFrag;
+import yy.doctor.ui.frag.DataCenterFrag;
 import yy.doctor.ui.frag.HomeFrag;
 import yy.doctor.ui.frag.MeFrag;
 import yy.doctor.ui.frag.MeetingFrag;
@@ -78,7 +78,7 @@ public class MainActivity extends BaseVPActivity {
 
         add(new HomeFrag());
         add(new MeetingFrag());
-        add(new DataFrag());
+        add(new DataCenterFrag());
         add(new MeFrag());
     }
 
