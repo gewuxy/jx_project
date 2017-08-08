@@ -58,15 +58,15 @@ abstract public class BaseModifyActivity extends BaseActivity {
     @CallSuper
     @Override
     public void setViews() {
+        getEt().setHint("请输入" + getIntent().getStringExtra(Extra.KTitle));
+        getEt().setText(getVal());
         if (TextUtil.isEmpty(getEt().getText())) {
             mTv.setEnabled(false);
             mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-        }else {
+        } else {
             mTv.setEnabled(true);
             mTv.setTextColor(ResLoader.getColor(R.color.white));
         }
-
-        getEt().setText(getVal());
     }
 
     protected void addTextChangedListener(@NonNull EditText et, @NonNull View ivClear) {
@@ -90,17 +90,26 @@ abstract public class BaseModifyActivity extends BaseActivity {
                     mTv.setEnabled(false);
                     mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
 
-                    if (ivClear != null) {
-                        hideView(ivClear);
-                    }
-                }else {
+                } else {
                     mTv.setEnabled(true);
                     mTv.setTextColor(ResLoader.getColor(R.color.white));
 
-                    if (ivClear != null) {
-                        showView(ivClear);
-                    }
                 }
+
+                if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
+                    showView(ivClear);
+                } else {
+                    hideView(ivClear);
+                }
+            }
+        });
+
+        et.setOnFocusChangeListener((v, hasFocus) -> {
+            // iv是否显示
+            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
+                showView(ivClear);
+            } else {
+                hideView(ivClear);
             }
         });
     }
@@ -140,6 +149,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
 
     /**
      * 获取Profile里面对应enum的值
+     *
      * @return
      */
     @NonNull

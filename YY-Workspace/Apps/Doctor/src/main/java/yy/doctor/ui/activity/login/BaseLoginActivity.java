@@ -53,6 +53,13 @@ public abstract class BaseLoginActivity extends BaseActivity {
         return Util.getEtString(mEtName);
     }
 
+    public String getPwd() {
+        if (mEtPwd == null) {
+            return "";
+        }
+        return Util.getEtString(mEtPwd);
+    }
+
     @Override
     public void initData() {
     }
@@ -127,18 +134,32 @@ public abstract class BaseLoginActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if ((RegexUtil.isMobileCN(getUserName()) || RegexUtil.isEmail(getUserName()))
-                        && !TextUtil.isEmpty(Util.getEtString(mEtPwd))) {
+                String name = getUserName();
+                boolean nameValid = TextUtil.isNotEmpty(name)
+                        && (RegexUtil.isMobileCN(name) || RegexUtil.isEmail(name));
+
+                boolean pwdValid = TextUtil.isNotEmpty(getPwd());
+
+                if (nameValid && pwdValid) {
                     mTvButton.setEnabled(true);
                 } else {
                     mTvButton.setEnabled(false);
                 }
-                // iv是否显示
-                if (TextUtil.isEmpty(Util.getEtString(et))) {
-                    hideView(iv);
-                } else {
+
+                if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
                     showView(iv);
+                } else {
+                    hideView(iv);
                 }
+            }
+        });
+
+        et.setOnFocusChangeListener((v, hasFocus) -> {
+            // iv是否显示
+            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
+                showView(iv);
+            } else {
+                hideView(iv);
             }
         });
     }

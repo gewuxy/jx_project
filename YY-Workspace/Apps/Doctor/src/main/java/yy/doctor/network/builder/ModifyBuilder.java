@@ -73,11 +73,6 @@ public class ModifyBuilder {
         return this;
     }
 
-   /* public ModifyBuilder hospitalLevel(int resId) {
-        mBuilder.param(ProfileParam.KHospitalLevel, resId);
-        return this;
-    }*/
-
     /**
      * 科室
      *

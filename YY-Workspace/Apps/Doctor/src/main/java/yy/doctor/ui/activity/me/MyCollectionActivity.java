@@ -20,7 +20,7 @@ import yy.doctor.R;
 import yy.doctor.ui.frag.MyMeetingFrag;
 import yy.doctor.ui.frag.collection.CollectionClinicalGuideFrag;
 import yy.doctor.ui.frag.collection.CollectionDrugListFrag;
-import yy.doctor.ui.frag.data.ThomsonFrag;
+import yy.doctor.ui.frag.data.ThomsonsFrag;
 
 /**
  * @auther WangLan
@@ -52,7 +52,7 @@ public class MyCollectionActivity extends BaseVPActivity {
     @Override
     public void initData() {
         add(new MyMeetingFrag());
-        add(new ThomsonFrag());
+        add(new ThomsonsFrag());
         add(new CollectionDrugListFrag());
         add(new CollectionClinicalGuideFrag());
     }

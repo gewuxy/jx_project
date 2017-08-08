@@ -183,6 +183,6 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
 
     @Override
     protected String getEmptyText() {
-        return getString(R.string.video);
+        return "暂时没有相关" + getString(R.string.video);
     }
 }

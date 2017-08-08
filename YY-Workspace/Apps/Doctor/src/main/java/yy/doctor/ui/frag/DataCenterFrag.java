@@ -20,9 +20,9 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.ui.activity.search.SearchActivity;
-import yy.doctor.ui.frag.data.ClinicalGuideFrag;
-import yy.doctor.ui.frag.data.DrugListFrag;
-import yy.doctor.ui.frag.data.ThomsonFrag;
+import yy.doctor.ui.frag.data.ClinicsFrag;
+import yy.doctor.ui.frag.data.DrugsFrag;
+import yy.doctor.ui.frag.data.ThomsonsFrag;
 
 /**
  * 数据
@@ -30,7 +30,7 @@ import yy.doctor.ui.frag.data.ThomsonFrag;
  * @author CaiXiang
  * @since 2017//6
  */
-public class DataFrag extends BaseVPFrag {
+public class DataCenterFrag extends BaseVPFrag {
 
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
     private static final int KIndicatorWidth = 50;
@@ -56,9 +56,9 @@ public class DataFrag extends BaseVPFrag {
     @Override
     public void initData() {
 
-        add(new ThomsonFrag());
-        add(new DrugListFrag());
-        add(new ClinicalGuideFrag());
+        add(new ThomsonsFrag());
+        add(new DrugsFrag());
+        add(new ClinicsFrag());
     }
 
     @Override
@@ -85,6 +85,7 @@ public class DataFrag extends BaseVPFrag {
     public void setViews() {
         super.setViews();
 
+        setOffscreenPageLimit(getCount());
         addTabs();
 
         setOnPageChangeListener(new OnPageChangeListener() {

@@ -29,11 +29,6 @@
                 android:gravity="center|right"
                 android:singleLine="true"/>
 
-            <View
-                style="@style/divider.vertical"
-                android:layout_height="20dp"
-                android:layout_weight="0"/>
-
             <ImageView
                 android:id="@id/form_iv"
                 android:layout_width="22dp"

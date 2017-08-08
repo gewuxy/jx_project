@@ -31,6 +31,7 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import lib.yy.view.SwipeZoomView.SwipeZoomListView;
 import yy.doctor.Extra;
+import yy.doctor.Extra.FileFrom;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
@@ -325,7 +326,10 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 mTvFileNum.setText(dataNum);
                 showView(mIvArrows);
                 mLayoutFile.setOnClickListener(v ->
-                        FileDataActivity.nav(UnitNumDetailActivity.this, mUnitNumDetail.getString(TUnitNumDetail.id), Extra.KUnitNumType));
+                        FilesActivityIntent.create(mUnitNumDetail.getString(TUnitNumDetail.id),
+                                FileFrom.unit_num)
+                                .start(this)
+                );
             }
 
             UISetter.setFileData(mLayoutFileItem, listFile, mUnitNumId);

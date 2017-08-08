@@ -84,6 +84,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     private String mStrPhotoPath;
     private String mAvatarUrl;
 
+    private RelativeLayout mRlHeader;
     private ProgressBar mProgressBar;
     private TextView mTvPercent;
     private int mProgressProFile = 0;
@@ -240,6 +241,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         mIvAvatar = findView(R.id.profile_header_iv_avatar);
         mProgressBar = findView(R.id.profile_pb_progress_bar);
         mTvPercent = findView(R.id.profile_tv_percent);
+        mRlHeader = findView(R.id.profile_rl_header);
     }
 
     @Override
@@ -286,6 +288,12 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         mProgressProFile = mStatus.size() * 10;
         mProgressBar.setProgress(mProgressProFile);
         mTvPercent.setText(mProgressProFile + "%");
+        if (mProgressProFile == 100) {
+            mRlHeader.setVisibility(View.GONE);
+        }else {
+
+            mRlHeader.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

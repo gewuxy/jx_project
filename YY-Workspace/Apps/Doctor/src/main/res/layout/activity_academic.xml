@@ -35,21 +35,32 @@
                 android:minLines="10"
                 android:scrollbars="vertical"
                 android:hint="@string/user_input_academic"/>
-
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_academic"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginRight="20dp"
-            android:gravity="right"
-            android:text="@string/academic_unit"
-            android:textColor="@color/text_b3"/>
+            android:orientation="horizontal"
+            android:gravity="right">
 
-        <View
-            style="@style/divider"/>
+            <TextView
+                android:id="@+id/tv_academic"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:text="@string/academic_unit"
+                android:textColor="@color/text_b3"/>
 
+            <ImageView
+                android:id="@+id/iv_cancel"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="21dp"
+                android:padding="8dp"
+                android:src="@mipmap/login_ic_cancel"/>
+        </LinearLayout>
+
+        <View style="@style/divider"/>
     </LinearLayout>
 </LinearLayout>

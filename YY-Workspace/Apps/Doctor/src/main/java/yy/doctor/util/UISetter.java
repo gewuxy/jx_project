@@ -25,12 +25,12 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.MeetState;
+import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
-import yy.doctor.ui.activity.me.DownloadDataActivity;
+import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
 
 /**
  * @auther yuansui
@@ -142,9 +142,15 @@ public class UISetter {
             String finalFileUrl = fileUrl;
             String finalFileType = fileType;
 
-            addFileItem(layout, fileName, v -> DownloadDataActivity.nav(v.getContext(),
-                    CacheUtil.getUnitNumCacheDir(String.valueOf(id)),
-                    finalFileName, finalFileUrl, finalFileType, fileSize, fileId));
+            addFileItem(layout, fileName, v ->
+                    DownloadFileActivityIntent.create()
+                            .filePath(CacheUtil.getUnitNumCacheDir(String.valueOf(id)))
+                            .fileName(finalFileName)
+                            .url(finalFileUrl)
+                            .type(finalFileType)
+                            .fileSize(fileSize)
+                            .dataFileId(fileId)
+                            .start(v.getContext()));
         }
 
     }

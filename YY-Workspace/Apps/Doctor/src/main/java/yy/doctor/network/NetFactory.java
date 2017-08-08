@@ -49,6 +49,14 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
+    public static Builder newPost(String url, int pageNum, int pageSize) {
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
+                .post()
+                .param(CommonParam.KPageNum, pageNum)
+                .param(CommonParam.KPageSize, pageSize)
+                .header(getBaseHeader());
+    }
+
     /**
      * 获取get请求
      *
@@ -58,6 +66,14 @@ public class NetFactory {
     public static Builder newGet(String url) {
         return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
                 .get()
+                .header(getBaseHeader());
+    }
+
+    public static Builder newGet(String url, int pageNum, int pageSize) {
+        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
+                .get()
+                .param(CommonParam.KPageNum, pageNum)
+                .param(CommonParam.KPageSize, pageSize)
                 .header(getBaseHeader());
     }
 
@@ -114,6 +130,9 @@ public class NetFactory {
         String KToken = "token";
         String KPreId = "preId";
         String KOffset = "offset";
+
+        String KPageNum = "pageNum";
+        String KPageSize = "pageSize";
     }
 
     public interface RegisterParam {
@@ -168,8 +187,6 @@ public class NetFactory {
 
         String KMessage = "message";//留言内容
         String KMsgType = "msgType";//留言类型
-        String KPageNum = "pageNum";//第N次分页
-        String KPageSize = "pageSize";//返回多少条数据
 
         String KSignLng = "signLng";//经度
         String KSignLat = "signLat";//维度
@@ -180,8 +197,6 @@ public class NetFactory {
 
     private interface HomeParam {
         String KType = "type";
-        String KPageNum = "pageNum";
-        String KPageSize = "pageSize";
     }
 
     public interface ProfileParam {
@@ -227,8 +242,6 @@ public class NetFactory {
 
     private interface UnitNumDetailParam {
         String KId = "id";  //单位号id
-        String KPageNum = "pageNum";  //页数
-        String KPageSize = "pageSize";  //条数
     }
 
     private interface SearchParam {
@@ -247,8 +260,6 @@ public class NetFactory {
 
     public interface EpcParam {
         String KGoodsId = "id";  //商品id
-        String KPageNum = "pageNum";
-        String KPageSize = "pageSize";
     }
 
     public interface CollectMeetingParam {
@@ -257,8 +268,6 @@ public class NetFactory {
     }
 
     public interface CollectionParam {
-        String KPageNum = "pageNum";
-        String KPageSize = "pageSize";
         String KType = "type";
         String KDataFileId = "dataFileId";
         String KCollectionStatus = "resourceId";
@@ -267,19 +276,15 @@ public class NetFactory {
     public interface ThomsonParam {
         String KPreId = "preId";
         String KCategoryId = "categoryId";
-        String KPageNum = "pageNum";
-        String KPageSize = "pageSize";
     }
 
-    public interface DrugParam {
+    public interface DataUnitParam {
         String KPreId = "preId";    //父级文件夹的id,第一级不用传preId
         String KType = "type";      //type=0代表汤森,type=1代表药品目录，type=2代表临床
-        String KLeaf = "true";      //下一级是否是文件夹, 下一级为文件返回true,下一级是文件夹返回false.第一级传null或空字符串
+        String KLeaf = "leaf";      //下一级是否是文件夹, 下一级为文件返回true,下一级是文件夹返回false.第一级传null或空字符串
         String KCategoryId = "categoryId";//上级文件夹id
-        String KPageNum = "pageNum";    //当前页数
-        String KPageSize = "pageSize";  //显示条数
         String KDataFileId = "dataFileId";//文件id
-        String KKeyWord = "keyWord";    //关键字
+        String KKeyword = "keyword";    //关键字
     }
 
     public interface WXParam {
@@ -470,9 +475,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq recommendMeeting(int page, int pageSize) {
-        return newGet(UrlHome.KRecommendMeeting)
-                .param(HomeParam.KPageNum, page)
-                .param(HomeParam.KPageSize, pageSize)
+        return newGet(UrlHome.KRecommendMeeting, page, pageSize)
                 .build();
     }
 
@@ -607,31 +610,29 @@ public class NetFactory {
      * @return 该值为空或0时，表示会议类型
      */
     public static NetworkReq collection(int pageNum, int pageSize, int type) {
-        return newGet(UrlUser.KCollection)
-                .param(CollectionParam.KPageNum, pageNum)
-                .param(CollectionParam.KPageSize, pageSize)
+        return newGet(UrlUser.KCollection, pageNum, pageSize)
                 .param(CollectionParam.KType, type)
                 .build();
     }
 
     /**
      * 收藏的药品目录详情
+     *
      * @param dataFileId
      * @return
      */
-    public static NetworkReq drugDetail(String dataFileId){
+    public static NetworkReq drugDetail(String dataFileId) {
         return newGet(UrlUser.KDrugDetail)
-                .param(CollectionParam.KDataFileId,dataFileId)
+                .param(CollectionParam.KDataFileId, dataFileId)
                 .build();
     }
 
-    public static NetworkReq collectionStatus(String resourceId,String type){
+    public static NetworkReq collectionStatus(String resourceId, String type) {
         return newGet(UrlUser.KCollectionStatus)
-                .param(CollectionParam.KCollectionStatus,resourceId)
-                .param(CollectionParam.KType,type)
+                .param(CollectionParam.KCollectionStatus, resourceId)
+                .param(CollectionParam.KType, type)
                 .build();
     }
-
 
 
     /**
@@ -673,9 +674,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq order(int page, int pageSize) {
-        return newGet(UrlEpc.KOrder)
-                .param(EpcParam.KPageNum, page)
-                .param(EpcParam.KPageSize, pageSize)
+        return newGet(UrlEpc.KOrder, page, pageSize)
                 .build();
     }
 
@@ -687,9 +686,7 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq epc(int page, int pageSize) {
-        return newGet(UrlEpc.KEpc)
-                .param(EpcParam.KPageNum, page)
-                .param(EpcParam.KPageSize, pageSize)
+        return newGet(UrlEpc.KEpc, page, pageSize)
                 .build();
     }
 
@@ -738,10 +735,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq unitNumDetail(int id, int page, int size) {
-        return newGet(UrlUnitNum.KUnitNumDetail)
+        return newGet(UrlUnitNum.KUnitNumDetail, page, size)
                 .param(UnitNumDetailParam.KId, id)
-                .param(UnitNumDetailParam.KPageNum, page)
-                .param(UnitNumDetailParam.KPageSize, size)
                 .build();
     }
 
@@ -753,10 +748,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq unitNumData(String id, int pageNum, int pageSize) {
-        return newGet(UrlUnitNum.KUnitNumData)
+        return newGet(UrlUnitNum.KUnitNumData, pageNum, pageSize)
                 .param(UnitNumDetailParam.KId, id)
-                .param(UnitNumDetailParam.KPageNum, pageNum)
-                .param(UnitNumDetailParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -774,18 +767,6 @@ public class NetFactory {
     }
 
     /**
-     * 汤森路透的所有信息
-     *
-     * @return
-     */
-    public static NetworkReq thomsonAll(int page, int pageSize) {
-        return newGet(UrlData.KThomsonAll)
-                .param(ThomsonParam.KPageNum, page)
-                .param(ThomsonParam.KPageSize, pageSize)
-                .build();
-    }
-
-    /**
      * 汤森路透
      *
      * @param preId 不传值的时候，返回汤森路透下一层的子栏目，传值的时候返回该preId下面的子栏目
@@ -798,81 +779,48 @@ public class NetFactory {
     }
 
     /**
-     * 汤森路透资料
+     * 药品目录文件或文件夹列表
      *
-     * @param categoryId 上一功能中的category的id
-     * @param pageNum
-     * @param pageSize
+     * @param preId    父级id,第一级不用传preId
+     * @param type     {@link yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType}
+     * @param leaf     下一级是否是文件夹, 下一级为文件返回true,下一级是文件夹返回false.第一级传null或空字符串
+     * @param pageNum  当前页数
+     * @param pageSize 显示条数
      * @return
      */
-    public static NetworkReq thomsonData(String categoryId, int pageNum, int pageSize) {
-        return newGet(UrlData.KThomSonData)
-                .param(ThomsonParam.KCategoryId, categoryId)
-                .param(ThomsonParam.KPageNum, pageNum)
-                .param(ThomsonParam.KPageSize, pageSize)
-                .build();
-    }
-
-    /**
-     * 药品目录(文件或文件夹列表)
-     *
-     * @param preId 父级文件夹的id,第一级不用传preId
-     * @param type  type=0,null代表汤森，type=1代表药品目录，type=2代表临床
-     * @return
-     */
-    public static NetworkReq drugCategory(String preId, int type, boolean leaf, int pageNum, int pageSize) {
-        return newGet(UrlData.KDrugCategory)
-                .param(DrugParam.KPreId, preId)
-                .param(DrugParam.KType, type)
-                .param(DrugParam.KLeaf, String.valueOf(leaf))
-                .param(DrugParam.KPageNum, pageNum)
-                .param(DrugParam.KPageSize, pageSize)
-                .build();
-    }
-
-    /**
-     * 药品目录文件列表
-     *
-     * @param categoryId    上级文件夹id
-     * @param pageNum       当前页数
-     * @param pageSize      显示条数
-     * @return
-     */
-    public static NetworkReq drugAllFile(String categoryId, int pageNum, int pageSize){
-        return newGet(UrlData.KDrugAllFile)
-                .param(DrugParam.KCategoryId, categoryId)
-                .param(DrugParam.KPageNum, pageNum)
-                .param(DrugParam.KPageSize, pageSize)
+    public static NetworkReq dataUnits(String preId, int type, boolean leaf, int pageNum, int pageSize) {
+        return newGet(UrlData.KDrugCategory, pageNum, pageSize)
+                .param(DataUnitParam.KPreId, preId)
+                .param(DataUnitParam.KType, type)
+                .param(DataUnitParam.KLeaf, String.valueOf(leaf))
                 .build();
     }
 
     /**
      * 药品目录文章内容
      *
-     * @param dataFileId    文件id
+     * @param dataFileId 文件id
      * @return
      */
-    public static NetworkReq drugDataDetail(String dataFileId){
+    public static NetworkReq drugDataDetail(String dataFileId) {
         return newGet(UrlData.KDrugDataDetail)
-                .param(DrugParam.KDataFileId, dataFileId)
+                .param(DataUnitParam.KDataFileId, dataFileId)
                 .build();
     }
 
     /**
      * 搜索药品或临床指南
      *
-     * @param keyWord   关键字
-     * @param type      type=1代表药品目录，type=2代表临床
-     * @param pageNum   当前页数
-     * @param pageSize  显示条数
+     * @param keyWord  关键字
+     * @param type     type=1代表药品目录，type=2代表临床
+     * @param pageNum  当前页数
+     * @param pageSize 显示条数
      * @return
      */
-    public static NetworkReq drugSearch(String keyWord, int type, int pageNum, int pageSize){
-        return newGet(UrlData.KDrugSearch)
-                .param(DrugParam.KKeyWord, keyWord)
-                .param(DrugParam.KType, type)
-                .param(DrugParam.KPageNum, pageNum)
-                .param(DrugParam.KPageSize, pageSize)
+    public static NetworkReq drugSearch(String keyWord, int type, int pageNum, int pageSize) {
+        return newPost(UrlData.KDrugSearch, pageNum, pageSize)
+                .param(DataUnitParam.KKeyword, keyWord)
+                .param(DataUnitParam.KType, type)
                 .build();
     }
 
@@ -893,10 +841,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq searchUnitNum(String keyword, int page, int pageSize) {
-        return newPost(UrlSearch.KSearchUnitNum)
+        return newPost(UrlSearch.KSearchUnitNum, page, pageSize)
                 .param(SearchParam.KKeyword, keyword)
-                .param(MeetParam.KPageNum, page)
-                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -907,10 +853,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq searchMeeting(String keyword, int page, int pageSize) {
-        return newPost(UrlSearch.KSearchMeeting)
+        return newPost(UrlSearch.KSearchMeeting, page, pageSize)
                 .param(SearchParam.KKeyword, keyword)
-                .param(MeetParam.KPageNum, page)
-                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -918,11 +862,9 @@ public class NetFactory {
      * 关注过的公众的所有会议
      */
     public static NetworkReq meets(int state, String depart, int page, int pageSize) {
-        return newPost(UrlMeet.KMeets)
+        return newPost(UrlMeet.KMeets, page, pageSize)
                 .param(MeetParam.KState, state)
                 .param(MeetParam.KDepart, depart)
-                .param(MeetParam.KPageNum, page)
-                .param(MeetParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -951,10 +893,8 @@ public class NetFactory {
      * @return
      */
     public static NetworkReq meetingData(String meetingId, int pageNum, int pageSize) {
-        return newGet(UrlMeet.KMeetingData)
+        return newGet(UrlMeet.KMeetingData, pageNum, pageSize)
                 .param(MeetParam.KMeetId, meetingId)
-                .param(UnitNumDetailParam.KPageNum, pageNum)
-                .param(UnitNumDetailParam.KPageSize, pageSize)
                 .build();
     }
 
@@ -1072,10 +1012,8 @@ public class NetFactory {
      * 会议留言记录
      */
     public static NetworkReq histories(String meetId, int pageSize, int pageNum) {
-        return newGet(UrlMeet.KHistories)
+        return newGet(UrlMeet.KHistories, pageNum, pageSize)
                 .param(MeetParam.KMeetId, meetId)
-                .param(MeetParam.KPageSize, pageSize)
-                .param(MeetParam.KPageNum, pageNum)
                 .build();
     }
 

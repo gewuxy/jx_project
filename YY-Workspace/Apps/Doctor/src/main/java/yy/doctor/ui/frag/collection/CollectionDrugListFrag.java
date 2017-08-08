@@ -9,12 +9,12 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import yy.doctor.adapter.CollectionDrugAdapter;
-import yy.doctor.model.data.ThomsonDetail;
-import yy.doctor.model.data.ThomsonDetail.TThomsonDetail;
+import yy.doctor.adapter.data.DataUnitAdapter;
+import yy.doctor.model.data.DataUnit;
+import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.data.DrugDetailActivity;
-import yy.doctor.ui.activity.me.DownloadDataActivity;
+import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
+import yy.doctor.ui.activity.data.DrugDetailActivityIntent;
 import yy.doctor.util.CacheUtil;
 
 /**
@@ -22,7 +22,7 @@ import yy.doctor.util.CacheUtil;
  * @since 2017/7/29
  */
 
-public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, CollectionDrugAdapter> {
+public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
     private int mType = 2; // type为2，表示药品目录
 
@@ -32,7 +32,7 @@ public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, Collec
             openType.html,
     })
 
-    private @interface openType{
+    private @interface openType {
         int pdf = 1;
         int detail_interface = 2;
         int html = 3;
@@ -61,19 +61,30 @@ public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, Collec
 
     @Override
     public void onItemClick(View v, int position) {
-        ThomsonDetail item = getItem(position);
-        String dataFileId = item.getString(TThomsonDetail.id);
-        String fileName= item.getString(TThomsonDetail.title);
-        long fileSize = item.getInt(TThomsonDetail.fileSize) * 1024;
-        String filePath = CacheUtil.getThomsonCacheDir(item.getString(TThomsonDetail.categoryId));
-        String url = item.getString(TThomsonDetail.filePath);
+        DataUnit item = getItem(position);
+        String dataFileId = item.getString(TDataUnit.id);
+        String fileName = item.getString(TDataUnit.title);
 
-        int type = item.getInt(TThomsonDetail.openType);
-        YSLog.d(TAG,type+"");
+        long fileSize = item.getInt(TDataUnit.fileSize) * 1024;
+        String filePath = CacheUtil.getThomsonCacheDir(item.getString(TDataUnit.id));
+        String url = item.getString(TDataUnit.filePath);
+
+        int type = item.getInt(TDataUnit.openType);
+        YSLog.d(TAG, type + "");
         if (type == openType.pdf) {
-            DownloadDataActivity.nav(getContext(), filePath, fileName, url, "pdf", fileSize,dataFileId);
-        }else if (type == openType.detail_interface) {
-            DrugDetailActivity.nav(getContext(),dataFileId,fileName);
+            DownloadFileActivityIntent.create()
+                    .filePath(filePath)
+                    .fileName(fileName)
+                    .url(url)
+                    .type("pdf")
+                    .fileSize(fileSize)
+                    .dataFileId(dataFileId)
+                    .start(getContext());
+        } else if (type == openType.detail_interface) {
+            DrugDetailActivityIntent.create()
+                    .dataFileId(dataFileId)
+                    .fileName(fileName)
+                    .start(getContext());
         }
     }
 
@@ -83,9 +94,9 @@ public class CollectionDrugListFrag extends BaseSRListFrag<ThomsonDetail, Collec
         //取消收藏后，收藏列表要删除对应的药品
         if (type == NotifyType.getCancel_collection_drug) {
             String drugId = (String) data;
-            List<ThomsonDetail> list = getData();
-            for (ThomsonDetail td : list) {
-                if (drugId.equals(td.getString(TThomsonDetail.id))) {
+            List<DataUnit> list = getData();
+            for (DataUnit td : list) {
+                if (drugId.equals(td.getString(TDataUnit.id))) {
                     getData().remove(td);
                     invalidate();
                     return;
