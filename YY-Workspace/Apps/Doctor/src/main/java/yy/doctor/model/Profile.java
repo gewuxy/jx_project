@@ -23,6 +23,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         nickname,   //昵称
         linkman,    //真实姓名
 
+        integrity,  //完整度
         headimg,    //头像
         hospital,   //医院
         hosLevel,   //医院等级

@@ -211,8 +211,6 @@ public class NetFactory {
         String KMajor = "major";    //专长
         String KCategory = "category";    //专科一级
         String KName = "name";    //专科二级
-        // FIXME 测试
-        String KSpecialty_name = "specialty_name"; //专科
         String KProvince = "province";   //省份
         String KCity = "city";    //城市
         String KArea = "zone";  //区

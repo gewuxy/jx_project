@@ -12,6 +12,7 @@ import lib.yy.adapter.VH.FormVH;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * @auther WangLan
@@ -82,6 +83,15 @@ public class EditPhoneNumberForm extends EditNumberForm {
                 } else {
                     ViewUtil.goneView(holder.getIvCancel());
                 }
+            }
+        });
+
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            // iv是否显示
+            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(editText))) {
+                ViewUtil.showView(holder.getIvCancel());
+            } else {
+                ViewUtil.goneView(holder.getIvCancel());
             }
         });
         setOnClickListener(holder.getIvCancel());

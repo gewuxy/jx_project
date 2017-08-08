@@ -291,9 +291,10 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         if (mProgressProFile == 100) {
             mRlHeader.setVisibility(View.GONE);
         }else {
-
             mRlHeader.setVisibility(View.VISIBLE);
         }
+        Profile.inst().put(TProfile.integrity, mProgressProFile);
+        Profile.inst().saveToSp();
     }
 
     @Override

@@ -12,6 +12,7 @@ import lib.ys.util.view.ViewUtil;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * @auther WangLan
@@ -42,6 +43,15 @@ public class EditCaptchaForm extends EditForm {
                 } else {
                     ViewUtil.goneView(holder.getIvCancel());
                 }
+            }
+        });
+
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            // iv是否显示
+            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(editText))) {
+                ViewUtil.showView(holder.getIvCancel());
+            } else {
+                ViewUtil.goneView(holder.getIvCancel());
             }
         });
 

@@ -13,13 +13,14 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
 import yy.doctor.util.UISetter;
+import yy.doctor.util.Util;
 
 /**
  * @author GuoXuan
  * @since 2017/6/8
  */
 public class EditRegisterPwdForm extends EditForm {
-    private boolean mFlag;//密码是否可见
+    private boolean mFlag = true;//密码是否可见
 
     @Override
     public int getContentViewResId() {
@@ -40,6 +41,8 @@ public class EditRegisterPwdForm extends EditForm {
         setOnClickListener(holder.getIv());
         setOnClickListener(holder.getIvCancel());
 
+        getHolder().getIv().setSelected(mFlag);
+
         holder.getEt().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -57,6 +60,15 @@ public class EditRegisterPwdForm extends EditForm {
                 } else {
                     ViewUtil.goneView(holder.getIvCancel());
                 }
+            }
+        });
+
+        holder.getEt().setOnFocusChangeListener((v, hasFocus) -> {
+            // iv是否显示
+            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(holder.getEt()))) {
+                ViewUtil.showView(holder.getIvCancel());
+            } else {
+                ViewUtil.goneView(holder.getIvCancel());
             }
         });
     }
@@ -82,7 +94,7 @@ public class EditRegisterPwdForm extends EditForm {
                 et.setSelection(content.length());//光标移到最后
             }
             break;
-            case R.id.form_iv_cancel:{
+            case R.id.form_iv_cancel: {
                 getHolder().getEt().setText("");
             }
         }
