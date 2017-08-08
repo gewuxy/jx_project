@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import lib.wx.WXLoginApi;
+import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -11,6 +12,7 @@ import yy.doctor.Constants;
 import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.ForgetPwdTooltipDialog;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
@@ -29,6 +31,8 @@ public class LoginActivity extends BaseLoginActivity {
     private ForgetPwdTooltipDialog mDialogForgetPwd;
     private String mRequest; // 判断桌面快捷方式进来
     private HintDialogSec mDialogWX; // 提示未安装微信
+
+    private int mCount = 0;
 
     @Override
     public void initData() {
@@ -116,7 +120,34 @@ public class LoginActivity extends BaseLoginActivity {
             }
             finish();
         } else {
-            showToast(r.getError());
+            String error = r.getError();
+            int code = r.getCode();
+
+            if (code == -2) {
+                mCount++;
+                YSLog.d("lol", mCount + "次.....");
+                if (mCount > 5 && mCount < 8) {
+                    BaseHintDialog dialog = new BaseHintDialog(this);
+                    View view = inflate(R.layout.dialog_pwd_error_toast);
+
+                    dialog.addHintView(view);
+                    dialog.addButton("取消", v1 -> {
+                        dialog.dismiss();
+                    });
+                    dialog.addButton("找回密码", v1 -> {
+                        dialog.dismiss();
+                        mDialogForgetPwd = new ForgetPwdTooltipDialog(LoginActivity.this);
+                        mDialogForgetPwd.show();
+                    });
+                    dialog.show();
+                }
+
+                if (mCount == 8) {
+                    mCount = 1;
+                    YSLog.d("lol", mCount + "次.....");
+                }
+            }
+            showToast(error);
         }
     }
 
