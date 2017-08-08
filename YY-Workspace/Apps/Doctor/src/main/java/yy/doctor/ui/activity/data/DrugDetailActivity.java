@@ -8,9 +8,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
 import lib.network.model.interfaces.IListResult;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
@@ -38,7 +38,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
 
     private ImageView mIvCollection;
     private boolean mStoredState = true;  // 默认有收藏
-    private String mType = 2+""; // type为2，表示药品目录
+    private String mType = 2 + ""; // type为2，表示药品目录
 
     @Extra(optional = true)
     String mDataFileId;
@@ -57,7 +57,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     @Override
     public void initNavBar(NavBar bar) {
 
-        Util.addBackIcon(bar,mFileName, this);
+        Util.addBackIcon(bar, mFileName, this);
         // 收藏
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
             mStoredState = !mStoredState;
@@ -66,7 +66,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
 
             exeNetworkReq(KCollectionState, NetFactory.collectionStatus(mDataFileId, mType));
             if (!mStoredState) {
-                notify(NotifyType.getCancel_collection_drug,mDataFileId);
+                notify(NotifyType.getCancel_collection_drug, mDataFileId);
             }
         });
         mIvCollection = Util.getBarView(group, ImageView.class);
@@ -75,7 +75,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(KCollectionDetail,NetFactory.drugDetail(mDataFileId));
+        exeNetworkReq(KCollectionDetail, NetFactory.drugDetail(mDataFileId));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
                 }
             }
             return result;
-        }else {
+        } else {
             return null;
         }
 

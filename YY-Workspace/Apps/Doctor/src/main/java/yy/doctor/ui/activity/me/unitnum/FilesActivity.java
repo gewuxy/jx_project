@@ -2,8 +2,8 @@ package yy.doctor.ui.activity.me.unitnum;
 
 import android.view.View;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;

@@ -5,8 +5,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.annotation.AutoIntent;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
 import lib.yy.network.ListResult;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
@@ -19,7 +19,7 @@ import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 
 /**
  * 单位号和会议的结果
@@ -122,6 +122,7 @@ public class SearchResultActivity extends BaseSearchResultActivity {
 
     /**
      * 拼接结果
+     *
      * @param result
      * @param data
      * @param num
@@ -148,12 +149,13 @@ public class SearchResultActivity extends BaseSearchResultActivity {
                 UnitNumDetailActivity.nav(SearchResultActivity.this, ((UnitNum) getItem(position)).getInt(TUnitNum.id));
             }
             break;
-
             case RecType.meeting: {
-                MeetingDetailsActivity.nav(SearchResultActivity.this, ((Meeting) getItem(position)).getString(TMeeting.id), ((Meeting) getItem(position)).getString(TMeeting.meetName));
+                Meeting item = ((Meeting) getItem(position));
+                MeetingDetailsActivityIntent.create(
+                        item.getString(TMeeting.id), item.getString(TMeeting.meetName)
+                ).start(SearchResultActivity.this);
             }
             break;
-
             case RecType.more: {
                 if (getAdapter().getItemViewType(position - 1) == RecType.unit_num) {
                     UnitNumResultActivityIntent.create().searchContent(mSearchContent).start(SearchResultActivity.this);

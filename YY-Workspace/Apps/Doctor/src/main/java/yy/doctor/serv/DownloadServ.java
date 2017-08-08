@@ -2,8 +2,8 @@ package yy.doctor.serv;
 
 import android.content.Intent;
 
-import lib.annotation.Extra;
-import lib.annotation.AutoIntent;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;
@@ -15,7 +15,6 @@ import yy.doctor.network.NetFactory;
  * @author CaiXiang
  * @since 2017/6/2
  */
-
 @AutoIntent
 public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 

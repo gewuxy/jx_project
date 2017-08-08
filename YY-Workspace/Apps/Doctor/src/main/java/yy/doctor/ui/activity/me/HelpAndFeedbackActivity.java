@@ -124,19 +124,35 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {
-                CommonWebViewActivity.nav(this, getString(R.string.update_log), mUrlUpdateLog);
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.update_log),
+                        mUrlUpdateLog
+                )
+                        .start(this);
             }
             break;
             case RelatedId.disclaimer: {
-                CommonWebViewActivity.nav(this, getString(R.string.disclaimer), mUrlDisclaimer);
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.disclaimer),
+                        mUrlDisclaimer
+                )
+                        .start(this);
             }
             break;
             case RelatedId.contribution_invited: {
-                CommonWebViewActivity.nav(this, getString(R.string.contribution_invited), mUrlContributionInvited);
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.contribution_invited),
+                        mUrlContributionInvited
+                )
+                        .start(this);
             }
             break;
             case RelatedId.jing_xin: {
-                CommonWebViewActivity.nav(this, getString(R.string.jing_xin), mUrlJX);
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.jing_xin),
+                        mUrlJX
+                )
+                        .start(this);
             }
             break;
             case RelatedId.feedback: {
@@ -156,7 +172,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.help_and_feedback_footer_tv_agreement: {
-                CommonWebViewActivity.nav(this, getString(R.string.service_agreement), mUrlDisclaimer);
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.service_agreement),
+                        mUrlDisclaimer
+                )
+                        .start(this);
             }
             break;
         }

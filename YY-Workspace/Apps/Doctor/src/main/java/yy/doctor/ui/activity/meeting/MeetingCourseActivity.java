@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,12 +53,12 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.ui.frag.meeting.course.AudioCourseFrag;
+import yy.doctor.ui.frag.meeting.course.AudioCourseFragArg;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag.OnCourseListener;
-import yy.doctor.ui.frag.meeting.course.PicAudioCourseFrag;
-import yy.doctor.ui.frag.meeting.course.PicCourseFrag;
-import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
+import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragArg;
+import yy.doctor.ui.frag.meeting.course.PicCourseFragArg;
+import yy.doctor.ui.frag.meeting.course.VideoCourseFragArg;
 import yy.doctor.util.Time;
 import yy.doctor.view.CircleProgressView;
 
@@ -448,31 +447,24 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         switch (course.getType()) {
             case CourseType.audio: {
-                frag = new AudioCourseFrag();
+                frag = AudioCourseFragArg.create(course, mMeetId).build();
             }
             break;
             case CourseType.video: {
-                frag = new VideoCourseFrag();
+                frag = VideoCourseFragArg.create(course, mMeetId).build();
             }
             break;
-
             case CourseType.pic: {
-                frag = new PicCourseFrag();
+                frag = PicCourseFragArg.create(course, mMeetId).build();
             }
             break;
-
             case CourseType.pic_audio: {
-                frag = new PicAudioCourseFrag();
+                frag = PicAudioCourseFragArg.create(course, mMeetId).build();
             }
             break;
         }
 
-        Bundle b = new Bundle();
-        b.putString(Extra.KMeetId, mMeetId);
-        b.putSerializable(Extra.KData, course);
-
         if (frag != null) {
-            frag.setArguments(b);
             frag.setOnPPTListener(mListener);
             add(frag);
         }

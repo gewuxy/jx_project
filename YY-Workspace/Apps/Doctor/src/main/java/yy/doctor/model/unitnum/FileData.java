@@ -4,7 +4,7 @@ import lib.ys.model.EVal;
 import yy.doctor.model.unitnum.FileData.TFileData;
 
 /**
- * Created by XPS on 2017/5/11.
+ * Created by CaiXiang on 2017/5/11.
  */
 
 public class FileData extends EVal<TFileData> {

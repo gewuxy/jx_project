@@ -32,7 +32,12 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
     @Override
     public void onItemClick(View v, int position) {
         Epc item = getItem(position);
-        EpcDetailActivity.nav(EpcActivity.this, item.getInt(TEpc.id), item.getString(TEpc.name), item.getString(TEpc.picture));
+        EpcDetailActivityIntent.create(
+                item.getInt(TEpc.id),
+                item.getString(TEpc.name),
+                item.getString(TEpc.picture)
+        )
+                .start(this);
     }
 
     @Override

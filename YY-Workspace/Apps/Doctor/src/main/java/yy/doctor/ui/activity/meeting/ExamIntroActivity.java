@@ -10,10 +10,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;

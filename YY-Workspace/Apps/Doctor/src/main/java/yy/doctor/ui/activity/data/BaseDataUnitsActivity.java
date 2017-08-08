@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.annotation.Extra;
+import lib.processor.annotation.Extra;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.R;

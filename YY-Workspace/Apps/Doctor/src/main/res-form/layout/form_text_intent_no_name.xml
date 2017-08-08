@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         style="@style/v.form">
 
         <TextView
             style="@style/tv.form.text"
+            android:layout_width="match_parent"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1"
             android:textColor="@color/text_333"/>
 
         <ImageView
@@ -20,11 +22,13 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_large"
             android:layout_marginRight="@dimen/margin_large"
-            android:layout_toLeftOf="@id/form_iv_arrow"
+            android:layout_weight="0"
             android:visibility="gone"/>
 
         <ImageView
-            style="@style/iv.arrow.align_right"/>
-    </RelativeLayout>
+            style="@style/iv.arrow.align_right"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

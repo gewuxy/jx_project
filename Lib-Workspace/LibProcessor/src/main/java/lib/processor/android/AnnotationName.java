@@ -1,8 +1,8 @@
 
-package lib.annotation;
+package lib.processor.android;
 
 import com.squareup.javapoet.ClassName;
 
-public interface AndroidAnnotationName {
+public interface AnnotationName {
     ClassName KNonNull = ClassName.get("android.support.annotation", "NonNull");
 }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import java.io.File;
 
+import lib.processor.annotation.AutoArg;
 import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
@@ -30,6 +31,7 @@ import yy.doctor.view.RootLayout.OnRootTouchListener;
  * @auther yuansui
  * @since 2017/6/7
  */
+@AutoArg
 public class PicAudioCourseFrag extends BaseCourseFrag implements
         OnCompletionListener,
         OnCountDownListener,

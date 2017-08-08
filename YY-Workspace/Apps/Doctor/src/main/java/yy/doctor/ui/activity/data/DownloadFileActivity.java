@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
@@ -17,7 +17,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ.Download;
 import yy.doctor.serv.DownloadServIntent;
-import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivity;
+import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivityIntent;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
@@ -85,7 +85,14 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
         //先判断文件是否已经存在  通过url的hashcode
         File f = new File(mFilePath, mFileNameEncryption);
         if (f.exists()) {
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mFileSizeKB, mFileName, mDataFileId);
+            LaunchDownloadDataActivityIntent.create()
+                    .filePath(mFilePath)
+                    .fileName(mFileName)
+                    .fileNameEncryption(mFileNameEncryption)
+                    .type(mType)
+                    .size(mFileSizeKB)
+                    .dataFileId(mDataFileId)
+                    .start(this);
             finish();
         }
 
@@ -165,8 +172,14 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
             long downloadSize = (long) (mFileSize * ((float) progress / 100f));
             mTvNum.setText(downloadSize + KByteSymbol);
         } else if (type == DownloadNotifyType.complete) {
-
-            LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName, mDataFileId);
+            LaunchDownloadDataActivityIntent.create()
+                    .filePath(mFilePath)
+                    .fileName(mFileName)
+                    .fileNameEncryption(mFileNameEncryption)
+                    .type(mType)
+                    .size(mTvTotal.getText().toString())
+                    .dataFileId(mDataFileId)
+                    .start(this);
             finish();
 
 //            if (mType.equals(FileTypeConstants.KPdf)) {

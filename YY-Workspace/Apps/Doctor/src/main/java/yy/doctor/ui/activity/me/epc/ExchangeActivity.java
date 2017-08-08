@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity.me.epc;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -11,16 +9,16 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.RegexUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -36,6 +34,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/26
  */
+@AutoIntent
 public class ExchangeActivity extends BaseFormActivity {
 
     private NetworkImageView mIvGoods;
@@ -43,10 +42,14 @@ public class ExchangeActivity extends BaseFormActivity {
     private TextView mTvEpn;
     private TextView mTvPayEpn;
 
-    private int mGoodId;
-    private String mGoodName;
-    private int mEpn;
-    private String mUrl;
+    @Extra
+    int mGoodId;
+    @Extra
+    String mGoodName;
+    @Extra
+    int mEpn;
+    @Extra
+    String mUrl;
 
     @IntDef({
             RelatedId.receiver,
@@ -62,15 +65,6 @@ public class ExchangeActivity extends BaseFormActivity {
         int address = 3;
     }
 
-    public static void nav(Context context, int goodId, String goodName, int epn, String url) {
-        Intent i = new Intent(context, ExchangeActivity.class);
-        i.putExtra(Extra.KData, goodId);
-        i.putExtra(Extra.KName, goodName);
-        i.putExtra(Extra.KNum, epn);
-        i.putExtra(Extra.KUrl, url);
-        LaunchUtil.startActivity(context, i);
-    }
-
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.exchange, this);
@@ -79,12 +73,6 @@ public class ExchangeActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
-
-        Intent i = getIntent();
-        mGoodName = i.getStringExtra(Extra.KName);
-        mGoodId = i.getIntExtra(Extra.KData, 0);
-        mEpn = i.getIntExtra(Extra.KNum, 0);
-        mUrl = i.getStringExtra(Extra.KUrl);
 
         addItem(Form.create(FormType.divider_large));
 

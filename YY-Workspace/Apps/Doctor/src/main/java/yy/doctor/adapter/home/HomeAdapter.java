@@ -2,14 +2,12 @@ package yy.doctor.adapter.home;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.res.ResUtil;
 import yy.doctor.R;
@@ -23,10 +21,10 @@ import yy.doctor.model.home.IHome.HomeType;
 import yy.doctor.model.home.Lecturer;
 import yy.doctor.model.home.Lecturer.TLecturer;
 import yy.doctor.model.home.RecMeeting;
-import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.meet.Meeting.MeetState;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
@@ -185,13 +183,18 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
     protected void onViewClick(int position, View v) {
         RecMeeting item = (RecMeeting) getItem(position);
         if (getItem(position).getHomeType() == HomeType.meeting_folder) {
-            MeetingFolderActivityIntent
-                    .create(item.getString(TMeeting.meetName), item.getInt(TMeeting.meetCount))
+            MeetingFolderActivityIntent.create(
+                    item.getString(TMeeting.meetName),
+                    item.getInt(TMeeting.meetCount)
+            )
                     .preId(item.getString(TMeeting.id))
                     .start(getContext());
         } else {
-
-            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
+            MeetingDetailsActivityIntent.create(
+                    item.getString(TMeeting.id),
+                    item.getString(TMeeting.meetName)
+            )
+                    .start(getContext());
         }
     }
 }

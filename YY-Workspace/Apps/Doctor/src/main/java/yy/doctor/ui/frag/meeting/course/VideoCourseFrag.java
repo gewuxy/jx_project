@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
+import lib.processor.annotation.AutoArg;
 import lib.ys.YSLog;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.util.CountDown;
@@ -32,6 +33,7 @@ import yy.doctor.util.Util;
  * @auther : GuoXuan
  * @since : 2017/6/28
  */
+@AutoArg
 public class VideoCourseFrag extends BaseCourseFrag implements
         OnBufferingUpdateListener,
         OnPreparedListener,

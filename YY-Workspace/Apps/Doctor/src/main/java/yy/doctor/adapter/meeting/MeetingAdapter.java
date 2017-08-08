@@ -6,9 +6,9 @@ import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.meet.Meeting.MeetType;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.model.meet.Meeting.TMeeting;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
 import yy.doctor.util.UISetter;
 
@@ -41,7 +41,7 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     @Override
     public int getItemViewType(int position) {
-        if(getItem(position).getInt(TMeeting.type) == MeetType.meet) {
+        if (getItem(position).getInt(TMeeting.type) == MeetType.meet) {
             return MeetType.meet;
         }
         return MeetType.folder;
@@ -61,7 +61,11 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
                     .infinityId(item.getString(TMeeting.id))
                     .start(getContext());
         } else {
-            MeetingDetailsActivity.nav(getContext(), item.getString(TMeeting.id), item.getString(TMeeting.meetName));
+            MeetingDetailsActivityIntent.create(
+                    item.getString(TMeeting.id),
+                    item.getString(TMeeting.meetName)
+            )
+                    .start(getContext());
         }
     }
 

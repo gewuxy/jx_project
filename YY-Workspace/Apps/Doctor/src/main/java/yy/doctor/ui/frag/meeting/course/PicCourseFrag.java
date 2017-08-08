@@ -2,13 +2,15 @@ package yy.doctor.ui.frag.meeting.course;
 
 import android.graphics.Color;
 
+import lib.processor.annotation.AutoArg;
+
 /**
  * PPT图片
  *
  * @auther : GuoXuan
  * @since : 2017/6/3
  */
-
+@AutoArg
 public class PicCourseFrag extends PicAudioCourseFrag {
 
     @Override

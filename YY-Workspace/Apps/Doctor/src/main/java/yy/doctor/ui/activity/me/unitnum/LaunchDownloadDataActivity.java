@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.me.unitnum;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -10,13 +9,13 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.ui.activity.PDFActivity;
+import yy.doctor.ui.activity.PDFActivityIntent;
 import yy.doctor.util.Util;
 
 import static yy.doctor.Constants.FileTypeConstants.KPdf;
@@ -29,41 +28,29 @@ import static yy.doctor.Constants.FileTypeConstants.KPptX;
  * @author CaiXiang
  * @since 2017/5/17
  */
-
+@AutoIntent
 public class LaunchDownloadDataActivity extends BaseActivity {
 
     private ImageView mIv;
     private TextView mTvName;
     private TextView mTvSize;
 
-    private String mFilePath;
-    private String mFileName;
-    private String mFileNameHashCode;
-    private String mFileNameEncryption;
-    private String mType;
-    private String mSize;
-    private String mDataFileId;
-
-    public static void nav(Context context, String filePath, String fileNameEncryption, String type, String size, String fileName,String id) {
-        Intent i = new Intent(context, LaunchDownloadDataActivity.class)
-                .putExtra(Extra.KFilePath, filePath)
-                .putExtra(Extra.KName, fileNameEncryption)
-                .putExtra(Extra.KType, type)
-                .putExtra(Extra.KNum, size)
-                .putExtra(Extra.KData, fileName)
-                .putExtra(Extra.KId,id);
-        LaunchUtil.startActivity(context, i);
-    }
+    @Extra(optional = true)
+    String mFilePath;
+    @Extra(optional = true)
+    String mFileName;
+    //    private String mFileNameHashCode;
+    @Extra(optional = true)
+    String mFileNameEncryption;
+    @Extra(optional = true)
+    String mType;
+    @Extra(optional = true)
+    String mSize;
+    @Extra(optional = true)
+    String mDataFileId;
 
     @Override
     public void initData() {
-        mFilePath = getIntent().getStringExtra(Extra.KFilePath);
-        mFileNameEncryption = getIntent().getStringExtra(Extra.KName);
-        mType = getIntent().getStringExtra(Extra.KType);
-        mSize = getIntent().getStringExtra(Extra.KNum);
-        mFileName = getIntent().getStringExtra(Extra.KData);
-        mDataFileId = getIntent().getStringExtra(Extra.KId);
-
         YSLog.d(TAG, "FileNameEncryption = " + mFileNameEncryption);
 
         // 恢复文件名
@@ -136,7 +123,9 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             Intent intent = null;
             try {
                 if (mType.equals(KPdf)) {
-                    PDFActivity.nav(this, mFilePath, mFileNameEncryption, mFileName, mDataFileId);
+                    PDFActivityIntent.create(
+                            mFilePath, mFileNameEncryption, mFileName, mDataFileId
+                    ).start(this);
                 } else if (mType.equals(KPpt) || mType.equals(KPptX)) {
                     intent = getPptFileIntent(mFilePath + mFileNameEncryption);
                     startActivity(intent);

@@ -1,4 +1,4 @@
-package lib.annotation;
+package lib.processor.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,10 +8,12 @@ import java.lang.annotation.Target;
 /**
  * @auther yuansui
  * @since 2017/8/1
+ *
+ * @see {@link AutoArg}
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Extra {
+public @interface Arg {
     /**
      * 替换的key
      *

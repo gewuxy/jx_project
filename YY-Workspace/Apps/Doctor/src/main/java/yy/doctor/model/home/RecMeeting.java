@@ -3,7 +3,7 @@ package yy.doctor.model.home;
 import yy.doctor.model.meet.Meeting;
 
 /**
- * Created by XPS on 2017/5/12.
+ * Created by CaiXiang on 2017/5/12.
  */
 
 public class RecMeeting extends Meeting implements IHome {

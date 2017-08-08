@@ -11,28 +11,23 @@ buildscript {
          * apply plugin: 'com.getkeepsafe.dexcount'
          * 输出位置: {buildDir}/outputs/dexcount/${variant}* 可配置项请查阅 https://github.com/KeepSafe/dexcount-gradle-plugin
          */
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
+//        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
 
         /**
          * dex分包工具
          */
-        classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.5.2'
+//        classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.5.2'
 
         /**
          * 为了能使用apt相关
          * 在要使用的module里加上
          * apply plugin: 'com.neenbedankt.android-apt'
          */
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1' // 为了能在lib里面使用注解
 
         /**
          * 使用lambda表达式
-         * 每个module的build都要加入
-         * <apply plugin: 'me.tatarka.retrolambda'>
-         * 以及
-         * <compileOptions {sourceCompatibility JavaVersion.VERSION_1_8>
-         * <targetCompatibility JavaVersion.VERSION_1_8}>
          */
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
     }
@@ -49,18 +44,54 @@ allprojects {
 //            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 //        }
 //    }
-}
 
-project.ext {
-    compileSdkVersion = 23
-    buildToolsVersion = "25.0.2"
-    minSdkVersion = 15
-    targetSdkVersion = 23
-    versionCode = 10000
-    versionName = "1.00.00"
-    abortOnError = false //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
+    apply plugin: 'me.tatarka.retrolambda'
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext.versions = [
+        'minSdk'        : 14,
+        'compileSdk'    : 26,
+        'buildTools'    : '26.0.0',
+        'versionCode'   : 100,
+        'versionName'   : '1.0',
+        'supportLibrary': '26+',
+        'java'          : JavaVersion.VERSION_1_8
+]
+
+ext.configs = [
+        'dimension'   : 'default',
+        'abortOnError': false,
+]
+
+ext.deps = [
+        android  : [
+                'runtime': 'com.google.android:android:4.1.1.4',
+        ],
+        'support': [
+                'compat'      : "com.android.support:support-compat:${versions.supportLibrary}",
+                'annotations' : "com.android.support:support-annotations:${versions.supportLibrary}",
+                'v4'          : "com.android.support:support-v4:${versions.supportLibrary}",
+                'recyclerview': "com.android.support:recyclerview-v7:${versions.supportLibrary}",
+                'gridlayout'  : "com.android.support:gridlayout-v7:${versions.supportLibrary}",
+                'test'        : [
+                        'runner': 'com.android.support.test:runner:1.0.0',
+                ],
+                'dex'         : "com.android.support:multidex:1.0.1",
+        ],
+        'auto'   : [
+                'service': 'com.google.auto.service:auto-service:1.0-rc3',
+                'common' : 'com.google.auto:auto-common:0.8',
+        ],
+        'java'   : [
+                'poet'  : 'com.squareup:javapoet:1.9.0',
+                'parser': 'com.github.javaparser:javaparser-core:3.3.0',
+        ],
+        'rx': [
+                'java': "io.reactivex.rxjava2:rxjava:2.1+",
+                'android': "io.reactivex.rxjava2:rxandroid:2+"
+        ]
+]

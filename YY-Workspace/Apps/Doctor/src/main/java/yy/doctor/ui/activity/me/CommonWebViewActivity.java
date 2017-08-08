@@ -1,12 +1,9 @@
 package yy.doctor.ui.activity.me;
 
-import android.content.Context;
-import android.content.Intent;
-
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
-import yy.doctor.Extra;
 import yy.doctor.util.Util;
 
 /**
@@ -15,23 +12,17 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/6/16
  */
-
+@AutoIntent
 public class CommonWebViewActivity extends BaseWebViewActivity {
 
-    private String mName;
-    private String mUrl;
+    @Extra
+    String mName;
 
-    public static void nav(Context context, String goodName, String url) {
-        Intent i = new Intent(context, CommonWebViewActivity.class);
-        i.putExtra(Extra.KName, goodName);
-        i.putExtra(Extra.KUrl, url);
-        LaunchUtil.startActivity(context, i);
-    }
+    @Extra
+    String mUrl;
 
     @Override
     public void initData() {
-        mName = getIntent().getStringExtra(Extra.KName);
-        mUrl = getIntent().getStringExtra(Extra.KUrl);
     }
 
     @Override

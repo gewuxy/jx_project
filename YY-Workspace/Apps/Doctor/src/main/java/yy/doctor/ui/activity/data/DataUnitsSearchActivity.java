@@ -3,8 +3,8 @@ package yy.doctor.ui.activity.data;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;

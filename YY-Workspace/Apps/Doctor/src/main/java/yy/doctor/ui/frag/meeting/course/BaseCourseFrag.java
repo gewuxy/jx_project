@@ -1,10 +1,8 @@
 package yy.doctor.ui.frag.meeting.course;
 
-import android.os.Bundle;
-
+import lib.processor.annotation.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
-import yy.doctor.Extra;
 import yy.doctor.model.meet.Course;
 
 /**
@@ -13,18 +11,16 @@ import yy.doctor.model.meet.Course;
  */
 public abstract class BaseCourseFrag extends BaseFrag {
 
-    private Course mCourse;
-    private String mMeetId;
+    @Arg
+    Course mCourse;
+
+    @Arg
+    String mMeetId;
 
     private OnCourseListener mListener;
 
     @Override
     public void initData() {
-        Bundle b = getArguments();
-        if (b != null) {
-            mCourse = (Course) b.getSerializable(Extra.KData);
-            mMeetId = b.getString(Extra.KMeetId);
-        }
     }
 
     @Override

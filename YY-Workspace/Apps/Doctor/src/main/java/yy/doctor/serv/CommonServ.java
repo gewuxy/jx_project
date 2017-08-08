@@ -11,10 +11,11 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
-import yy.doctor.Extra;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
@@ -26,6 +27,7 @@ import yy.doctor.network.NetFactory;
  * @author CaiXiang
  * @since 2017/5/4
  */
+@AutoIntent
 public class CommonServ extends ServiceEx {
 
     private static final int KIdLogout = 1;
@@ -34,8 +36,19 @@ public class CommonServ extends ServiceEx {
     private static final int KIdPPT = 4;
     private static final int KIdMeet = 5;
 
-    private String mJPushRegisterId;
-    private String mToken;
+    @Extra(optional = true)
+    @ReqType
+    int mType;
+    @Extra(optional = true)
+    String mJPushRegisterId;
+    @Extra(optional = true)
+    String mToken;
+    @Extra(optional = true)
+    Submit mSubmit;
+    @Extra(optional = true)
+    String mMeetId;
+    @Extra(optional = true)
+    long mMeetTime;
 
     @IntDef({
             ReqType.logout,
@@ -54,49 +67,40 @@ public class CommonServ extends ServiceEx {
 
     }
 
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        int type = intent.getIntExtra(Extra.KType, 0);
-        switch (type) {
+        switch (mType) {
             case ReqType.logout: {
-                mToken = intent.getStringExtra(Extra.KData);
                 exeNetworkReq(KIdLogout, NetFactory.logout(mToken));
             }
             break;
-
             case ReqType.j_push: {
-                mJPushRegisterId = intent.getStringExtra(Extra.KData);
                 exeNetworkReq(KIdJPush, NetFactory.bindJPush(mJPushRegisterId));
             }
             break;
-
             case ReqType.video: {
-                Submit submit = (Submit) intent.getSerializableExtra(Extra.KData);
                 exeNetworkReq(KIdVideo, NetFactory.submitVideo()
-                        .meetId(submit.getString(TSubmit.meetId))
-                        .moduleId(submit.getString(TSubmit.moduleId))
-                        .courseId(submit.getString(TSubmit.courseId))
-                        .detailId(submit.getString(TSubmit.detailId))
-                        .useTime(submit.getString(TSubmit.usedtime))
-                        .isFinish(submit.getBoolean(TSubmit.finished))
+                        .meetId(mSubmit.getString(TSubmit.meetId))
+                        .moduleId(mSubmit.getString(TSubmit.moduleId))
+                        .courseId(mSubmit.getString(TSubmit.courseId))
+                        .detailId(mSubmit.getString(TSubmit.detailId))
+                        .useTime(mSubmit.getString(TSubmit.usedtime))
+                        .isFinish(mSubmit.getBoolean(TSubmit.finished))
                         .builder());
             }
             break;
-
             case ReqType.course: {
-                Submit submit = (Submit) intent.getSerializableExtra(Extra.KData);
                 exeNetworkReq(KIdPPT, NetFactory.submitPpt()
-                        .meetId(submit.getString(TSubmit.meetId))
-                        .moduleId(submit.getString(TSubmit.moduleId))
-                        .courseId(submit.getString(TSubmit.courseId))
-                        .details(submit.getString(TSubmit.times))
+                        .meetId(mSubmit.getString(TSubmit.meetId))
+                        .moduleId(mSubmit.getString(TSubmit.moduleId))
+                        .courseId(mSubmit.getString(TSubmit.courseId))
+                        .details(mSubmit.getString(TSubmit.times))
                         .builder());
             }
             break;
-
             case ReqType.meet: {
-                exeNetworkReq(KIdMeet, NetFactory.submitMeet(intent.getStringExtra(Extra.KMeetId),
-                        intent.getLongExtra(Extra.KData, 0)));
+                exeNetworkReq(KIdMeet, NetFactory.submitMeet(mMeetId, mMeetTime));
             }
             break;
         }

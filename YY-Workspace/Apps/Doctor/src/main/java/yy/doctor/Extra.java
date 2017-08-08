@@ -2,10 +2,6 @@ package yy.doctor;
 
 import android.support.annotation.IntDef;
 
-/**
- * Created by Administrator on 2017/3/30.
- */
-
 public interface Extra {
     String KData = "data";
     String KName = "name";

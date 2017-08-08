@@ -52,6 +52,7 @@ import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.ui.interfaces.opt.IRefreshOpt;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.InjectUtil;
 import lib.ys.util.UtilEx;
 import lib.ys.util.permission.OnPermissionListener;
 import lib.ys.util.permission.Permission;
@@ -107,15 +108,17 @@ abstract public class FragEx extends Fragment implements
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         setOnRetryClickListener(this);
+
+        if (mInitComplete) {
+            return;
+        }
 
         if (useLazyLoad()) {
             initNavBar(getNavBar());
             fit(getNavBar());
 
-            // 如果这个时候只有一个fragment而且是显示的状态, 走到这里的时候已经过了onVisible的阶段了, 需要再这里走一遍init()
+            // 如果这个时候只有一个fragment而且是显示的状态, 走到这里的时候已经过了onVisible的阶段了, 需要在这里调用init()
             if (getVisible()) {
                 init();
             }
@@ -210,6 +213,8 @@ abstract public class FragEx extends Fragment implements
     }
 
     private void initDecorView() {
+        InjectUtil.bind(this);
+
         // 数据的初始化提前, 可以根据数据来装载不同的view id
         initData();
 

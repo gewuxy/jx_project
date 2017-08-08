@@ -1,19 +1,17 @@
 package yy.doctor.ui.activity.me.epc;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.me.EpcDetail;
 import yy.doctor.model.me.EpcDetail.TEpcDetail;
@@ -27,6 +25,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/26
  */
+@AutoIntent
 public class EpcDetailActivity extends BaseActivity {
 
     private NetworkImageView mIv;
@@ -34,25 +33,17 @@ public class EpcDetailActivity extends BaseActivity {
     private TextView mTvEpn;
     private TextView mTvDescription;
 
-    private int mGoodId;
-    private String mGoodName;
-    private int mEpn;
-    private String mSmallImgUrl;
+    @Extra
+    int mGoodId;
+    @Extra
+    String mGoodName;
+    @Extra
+    String mSmallImgUrl;
 
-    public static void nav(Context context, int goodId, String goodName, String url) {
-        Intent i = new Intent(context, EpcDetailActivity.class);
-        i.putExtra(Extra.KData, goodId);
-        i.putExtra(Extra.KName, goodName);
-        i.putExtra(Extra.KUrl, url);
-        LaunchUtil.startActivity(context, i);
-    }
+    private int mEpn;
 
     @Override
     public void initData() {
-        Intent i = getIntent();
-        mGoodId = i.getIntExtra(Extra.KData, 000);
-        mGoodName = i.getStringExtra(Extra.KName);
-        mSmallImgUrl = i.getStringExtra(Extra.KUrl);
     }
 
     @NonNull
@@ -116,7 +107,10 @@ public class EpcDetailActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.epc_detail_tv_btn: {
-                ExchangeActivity.nav(EpcDetailActivity.this, mGoodId, mGoodName, mEpn, mSmallImgUrl);
+                ExchangeActivityIntent.create(
+                        mGoodId, mGoodName, mEpn, mSmallImgUrl
+                )
+                        .start(this);
             }
             break;
         }

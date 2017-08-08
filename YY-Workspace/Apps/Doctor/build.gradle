@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
         applicationId "com.zhuanyeban.yaya"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+
         versionCode 7030
         versionName "7.0.3"
+
         multiDexEnabled true
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
@@ -121,24 +123,26 @@ android {
     }
 
     lintOptions {
-        abortOnError rootProject.ext.abortOnError
+        abortOnError configs.abortOnError
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility versions.java
+        targetCompatibility versions.java
     }
 
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':YY-Workspace:Libs:LibYY')
     compile project(':YY-Workspace:Libs:LibPay')
     compile project(':YY-Workspace:Libs:LibPlayer')
     compile project(':YY-Workspace:Libs:LibJG')
     compile project(':YY-Workspace:Libs:LibWX')
     compile project(':YY-Workspace:Libs:LibPDF')
+    /**
+     * other
+     */
     compile 'com.mylhyl:zxingscanner:1.2.1'
     compile 'org.greenrobot:greendao:3.2.2'
     /**
@@ -147,9 +151,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
-    annotationProcessor project(':Lib-Workspace:LibAnnotation')
-
-    compile 'com.android.support:multidex:1.0.1'
+    compile deps.support.dex
 }
 
 /**

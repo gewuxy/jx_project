@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.annotation.AutoIntent;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;

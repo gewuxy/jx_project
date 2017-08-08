@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity.meeting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.Html;
@@ -16,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;
@@ -23,14 +23,12 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.TimeUtil.TimeFormat;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.Extra.FileFrom;
 import yy.doctor.R;
 import yy.doctor.dialog.ShareDialog;
@@ -51,8 +49,8 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
-import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServIntent;
 import yy.doctor.ui.activity.me.unitnum.FilesActivityIntent;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
@@ -66,6 +64,7 @@ import yy.doctor.view.meet.ModuleLayout;
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
+@AutoIntent
 public class MeetingDetailsActivity extends BaseActivity implements OnFuncListener {
 
     private static final int KIdMeetDetail = 0; // 会议详情
@@ -111,24 +110,21 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private MeetDetail mMeetDetail; // 会议详情信息
     private boolean mNeedPay; // 是否需要支付
     private int mCostEpn; // 象数
-    private String mMeetId; // 会议Id
-    private String mMeetName; //  会议名字
+
+    @Extra
+    String mMeetId; // 会议Id
+    @Extra
+    String mMeetName; //  会议名字
 
     private long mStartModuleTime; // 模块开始时间
     private long mMeetTime; // 统一用通知不用result
-    private String mType = 0+""; // type为0，表示会议收藏类型
+    private String mType = 0 + ""; // type为0，表示会议收藏类型
 
     private ShareDialog mShareDialog; // 分享
     private TextView mTvCmd;
     private ImageView mIvEpn;
     private ImageView mIvCmd;
 
-    public static void nav(Context context, String meetId, String name) {
-        Intent i = new Intent(context, MeetingDetailsActivity.class)
-                .putExtra(Extra.KMeetId, meetId)
-                .putExtra(Extra.KName, name);
-        LaunchUtil.startActivity(context, i);
-    }
 
     @NonNull
     @Override
@@ -139,8 +135,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     @Override
     public void initData() {
         mMeetTime = 0;
-        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
-        mMeetName = getIntent().getStringExtra(Extra.KName); // 没有请求到数据时也可以分享会议
     }
 
     @Override
@@ -160,7 +154,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
             mIvCollection.setSelected(storedState);
             showToast(storedState ? collectHint : R.string.cancel_collect);
-            exeNetworkReq(KIdCollection,NetFactory.collectionStatus(mMeetId,mType));
+            exeNetworkReq(KIdCollection, NetFactory.collectionStatus(mMeetId, mType));
             if (!storedState) {
                 // 取消收藏(通知会议收藏列表去除会议)
                 notify(NotifyType.cancel_collection_meeting, mMeetId);
@@ -235,7 +229,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             Result<MeetDetail> r = (Result<MeetDetail>) result;
             if (r.isSucceed()) {
                 mMeetDetail = r.getData();
-                mMeetDetail.put(TMeetDetail.completeProgress,20);//测试百分比
+                mMeetDetail.put(TMeetDetail.completeProgress, 20);//测试百分比
                 refreshViews(mMeetDetail);
                 setViewState(ViewState.normal);
             } else {
@@ -289,7 +283,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         String progress = detail.getString(TMeetDetail.completeProgress);
         if (TextUtil.isNotEmpty(progress)) {
             mLayout.setVisibility(View.VISIBLE);
-            String percent = progress+"%";
+            String percent = progress + "%";
             mTvProgress.setText(percent);
         }
 
@@ -306,7 +300,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             showView(mIvFileArrow);
             mTvFileNum.setText(String.format(getString(R.string.meeting_file_more), fileNum));
             mLayoutData.setOnClickListener(v ->
-                            FilesActivityIntent.create(mMeetId, FileFrom.meeting).start(this)
+                    FilesActivityIntent.create(mMeetId, FileFrom.meeting).start(this)
             );
 
         }
@@ -382,11 +376,11 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
         // 开启服务提交会议学习时间
         if (mMeetTime > 0) {
-            Intent intent = new Intent(this, CommonServ.class)
-                    .putExtra(Extra.KType, ReqType.meet)
-                    .putExtra(Extra.KMeetId, mMeetId)
-                    .putExtra(Extra.KData, mMeetTime / TimeUnit.SECONDS.toMillis(1));
-            startService(intent);
+            CommonServIntent.create()
+                    .type(ReqType.meet)
+                    .meetId(mMeetId)
+                    .meetTime(mMeetTime / TimeUnit.SECONDS.toMillis(1))
+                    .start(this);
         }
     }
 

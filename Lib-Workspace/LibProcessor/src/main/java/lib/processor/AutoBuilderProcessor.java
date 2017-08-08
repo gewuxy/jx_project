@@ -1,4 +1,4 @@
-package lib.annotation.processor;
+package lib.processor;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -18,8 +18,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 
-import lib.annotation.AutoBuilder;
-import lib.annotation.Ignore;
+import lib.processor.annotation.AutoBuilder;
+import lib.processor.annotation.Ignore;
 
 
 /**
@@ -58,7 +58,7 @@ public class AutoBuilderProcessor extends BaseProcessor {
 
                 String paramName = getParamName(field, field.getSimpleName().toString());
 
-                FieldSpec.Builder fieldBuilder = FieldSpec.builder(TypeName.get(field.asType()), paramName, Modifier.PRIVATE);
+                FieldSpec.Builder fieldBuilder = FieldSpec.builder(getTypeName(field), paramName, Modifier.PRIVATE);
 //                for (AnnotationMirror annotation : field.getAnnotationMirrors()) {
 //                    getMessager().printMessage(Kind.NOTE, annotation.getAnnotationType().asElement().getSimpleName().toString());
 //                    fieldBuilder.addAnnotation(ClassName.bestGuess(annotation.getAnnotationType().asElement().getSimpleName().toString()));
@@ -67,7 +67,7 @@ public class AutoBuilderProcessor extends BaseProcessor {
 
                 MethodSpec spec = MethodSpec.methodBuilder(paramName)
                         .addModifiers(Modifier.PUBLIC)
-                        .addParameter(TypeName.get(field.asType()), paramName)
+                        .addParameter(getTypeName(field), paramName)
                         .addStatement("this.$N = $N", paramName, paramName)
                         .addStatement("return this")
                         .returns(ClassName.get(getPackageName(annotatedElement), name))
@@ -77,7 +77,7 @@ public class AutoBuilderProcessor extends BaseProcessor {
             }
         }
 
-        TypeName annotatedTypeName = TypeName.get(annotatedElement.asType());
+        TypeName annotatedTypeName = getTypeName(annotatedElement);
         /**
          * 生成build方法
          */
@@ -97,7 +97,7 @@ public class AutoBuilderProcessor extends BaseProcessor {
                 String filedName = field.getSimpleName().toString();
                 String paramName = getParamName(field, filedName);
 
-                TypeName typeName = TypeName.get(field.asType());
+                TypeName typeName = getTypeName(field);
                 if (typeName.isBoxedPrimitive()) {
                     // 基础类型Integer Long等
                     buildMethod.beginControlFlow("if (this.$N != null)", paramName);

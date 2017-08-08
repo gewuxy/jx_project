@@ -33,6 +33,7 @@
 
     <style name="iv.arrow.align_right">
         <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
         <item name="android:layout_marginRight">@dimen/margin_large</item>
     </style>
 

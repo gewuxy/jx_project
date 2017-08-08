@@ -9,7 +9,7 @@ import lib.ys.model.EVal;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 
 /**
- * Created by XPS on 2017/5/15.
+ * Created by CaiXiang on 2017/5/15.
  */
 
 public class RecUnitNum extends EVal<TRecUnitNum> implements IHome {

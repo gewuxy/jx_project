@@ -4,8 +4,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;

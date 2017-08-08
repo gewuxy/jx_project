@@ -1,4 +1,4 @@
-package lib.annotation.processor;
+package lib.processor;
 
 /**
  * @auther yuansui
@@ -21,13 +21,12 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 
-import lib.annotation.AndroidClassName;
-import lib.annotation.AutoIntent;
-import lib.annotation.Extra;
+import lib.processor.android.AndroidClassName;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 
 @AutoService(Processor.class)
 public class AutoIntentProcessor extends BaseProcessor {
-
 
     @Override
     protected Class<? extends Annotation> getAnnotationClass() {
@@ -84,6 +83,7 @@ public class AutoIntentProcessor extends BaseProcessor {
         for (Element e : optional) {
             String paramName = getParamName(e);
             builder.addField(getTypeNameBox(e), paramName, Modifier.PRIVATE);
+
             builder.addMethod(MethodSpec.methodBuilder(paramName)
                     .addModifiers(Modifier.PUBLIC)
                     .addParameter(getTypeNameBox(e), paramName)
@@ -139,7 +139,7 @@ public class AutoIntentProcessor extends BaseProcessor {
             MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
                     .addModifiers(Modifier.PUBLIC)
                     .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
-                    .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
+                    .addStatement("$T intent = new $T(context, $T.class)", AndroidClassName.KIntent, AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startMethod, all);
             startMethod.beginControlFlow("if (!(context instanceof $T))", AndroidClassName.KActivity)
                     .addStatement("intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)")

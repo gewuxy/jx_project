@@ -4,8 +4,8 @@ import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.annotation.Extra;
 import lib.network.model.err.NetError;
+import lib.processor.annotation.Extra;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -18,7 +18,7 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 import yy.doctor.util.Util;
 
 /**
@@ -93,7 +93,10 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
             break;
 
             case IRec.RecType.meeting: {
-                MeetingDetailsActivity.nav(BaseSearchResultActivity.this, ((Meeting) getItem(position)).getString(Meeting.TMeeting.id), ((Meeting) getItem(position)).getString(Meeting.TMeeting.meetName));
+                Meeting item = ((Meeting) getItem(position));
+                MeetingDetailsActivityIntent.create(
+                        item.getString(Meeting.TMeeting.id), item.getString(Meeting.TMeeting.meetName)
+                ).start(BaseSearchResultActivity.this);
             }
             break;
 

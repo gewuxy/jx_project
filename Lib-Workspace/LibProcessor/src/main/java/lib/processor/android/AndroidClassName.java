@@ -1,4 +1,4 @@
-package lib.annotation;
+package lib.processor.android;
 
 import com.squareup.javapoet.ClassName;
 

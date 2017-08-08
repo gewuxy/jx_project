@@ -1,4 +1,4 @@
-package lib.annotation.processor;
+package lib.processor;
 
 import com.google.common.collect.ImmutableSet;
 import com.squareup.javapoet.ClassName;
@@ -21,11 +21,12 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import lib.annotation.AndroidAnnotationName;
+import lib.processor.android.AnnotationName;
 
 /**
  * @auther yuansui
@@ -63,7 +64,7 @@ abstract public class BaseProcessor extends AbstractProcessor {
                 JavaFile builderFile = JavaFile.builder(getPackageName(annotatedElement), builderSpec).build();
                 builderFile.writeTo(filer);
             } catch (Exception e) {
-                error(annotatedElement, "Could not create intent builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
+                error(annotatedElement, "Could not create builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
             }
         }
         return true;
@@ -143,19 +144,20 @@ abstract public class BaseProcessor extends AbstractProcessor {
     protected ParameterSpec createNonNullParam(Element e, String name) {
         TypeName typeName = getTypeNameBox(e);
         ParameterSpec.Builder builder = ParameterSpec.builder(typeName, name);
-        builder.addAnnotation(AndroidAnnotationName.KNonNull);
+        builder.addAnnotation(AnnotationName.KNonNull);
         return builder.build();
     }
 
     protected ParameterSpec createNonNullParam(ClassName className, String name) {
         ParameterSpec.Builder builder = ParameterSpec.builder(className, name);
-        builder.addAnnotation(AndroidAnnotationName.KNonNull);
+        builder.addAnnotation(AnnotationName.KNonNull);
         return builder.build();
     }
 
     protected TypeName getTypeNameBox(Element e) {
         return TypeName.get(e.asType()).box();
     }
+
     protected TypeName getTypeName(Element e) {
         return TypeName.get(e.asType());
     }

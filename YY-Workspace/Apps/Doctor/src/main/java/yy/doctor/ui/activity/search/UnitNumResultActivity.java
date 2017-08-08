@@ -2,10 +2,10 @@ package yy.doctor.ui.activity.search;
 
 import java.util.List;
 
-import lib.annotation.AutoIntent;
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.IListResult;
+import lib.processor.annotation.AutoIntent;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;

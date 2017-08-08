@@ -11,7 +11,7 @@ import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil;
-import yy.doctor.ui.activity.me.CommonWebViewActivity;
+import yy.doctor.ui.activity.me.CommonWebViewActivityIntent;
 import yy.doctor.ui.activity.me.epc.EpcActivity;
 import yy.doctor.util.Util;
 
@@ -70,7 +70,11 @@ public class EpnActivity extends BaseActivity {
             }
             break;
             case R.id.epn_instruction: {
-                CommonWebViewActivity.nav(this, getString(R.string.epn_use_rule), mUrlEpnUseRule);
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.epn_use_rule),
+                        mUrlEpnUseRule
+                )
+                        .start(this);
             }
             break;
             case R.id.epc_tv_btn: {
