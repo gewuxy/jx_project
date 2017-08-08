@@ -152,9 +152,8 @@ public class MeFrag extends BaseFormFrag {
         mTvName.setText(Profile.inst().getString(TProfile.linkman));
         mTvTitle.setText(Profile.inst().getString(TProfile.title));
         mTvHospital.setText(Profile.inst().getString(TProfile.hospital));
-
-        mTvProgress.setText("50%");
-        mProgressbar.setProgress(50);
+        mProgressbar.setProgress(Profile.inst().getInt(TProfile.integrity));
+        mTvProgress.setText(Profile.inst().getInt(TProfile.integrity) + "%");
 
         setOnClickListener(R.id.layout_me_header);
         mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
@@ -225,6 +224,8 @@ public class MeFrag extends BaseFormFrag {
             mTvName.setText(Profile.inst().getString(TProfile.linkman));
             mTvHospital.setText(Profile.inst().getString(TProfile.hospital));
             mTvTitle.setText(Profile.inst().getString(TProfile.title));
+            mProgressbar.setProgress(Profile.inst().getInt(TProfile.integrity));
+            mTvProgress.setText(Profile.inst().getInt(TProfile.integrity) + "%");
             getRelatedItem(RelatedId.my_epn).text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)));
             refreshRelatedItem(RelatedId.my_epn);
         }
