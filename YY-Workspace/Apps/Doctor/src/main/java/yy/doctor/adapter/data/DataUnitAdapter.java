@@ -1,5 +1,7 @@
 package yy.doctor.adapter.data;
 
+import android.view.View;
+
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.data.DataVH;
@@ -31,15 +33,16 @@ public class DataUnitAdapter extends AdapterEx<DataUnit, DataVH> {
         DataUnit item = getItem(position);
         holder.getTvName().setText(getItem(position).getString(TDataUnit.title));
 
+        View detail = holder.getTvDetail();
         if (item.getBoolean(TDataUnit.isFile)) {
-            goneView(holder.getTvDetail());
+            goneView(detail);
         } else {
             long size = item.getLong(TDataUnit.fileSize, -1);
             if (size != -1) {
-                showView(holder.getTvDetail());
+                showView(detail);
                 holder.getTvDetail().setText(size + KSymbol);
             } else {
-                goneView(holder.getTvDetail());
+                goneView(detail);
             }
         }
 

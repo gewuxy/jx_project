@@ -67,6 +67,7 @@ public class IntentForm extends TextForm {
 
         Intent i = getIntent();
         if (i != null) {
+            i.putExtra(Extra.KLimit, getLimit());
             startActivityForResult(i, getPosition());
             return true;
         } else {

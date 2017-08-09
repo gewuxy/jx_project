@@ -16,5 +16,7 @@ public class DrugDetail extends EVal<TDrugDetail> {
         detailValue, // 文章的内容
         id,
         dataFileId, // 文件id
+
+        favorite,   //是否收藏,ture表示已收藏,false表示未收藏
     }
 }

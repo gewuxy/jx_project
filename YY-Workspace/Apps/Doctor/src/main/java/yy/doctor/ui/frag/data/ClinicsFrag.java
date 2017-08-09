@@ -16,6 +16,6 @@ public class ClinicsFrag extends BaseDataUnitsFrag {
 
     @Override
     protected int getSearchId() {
-        return R.string.drug_list_search_hint;
+        return R.string.clinical_guide_search_hint;
     }
 }
