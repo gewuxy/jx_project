@@ -47,9 +47,9 @@ public class EditForm extends BaseForm implements TextWatcher {
             et.setOnFocusChangeListener((v, hasFocus) -> {
                 // iv是否显示
                 if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
-                    ViewUtil.showView(v);
+                    ViewUtil.showView(clean);
                 } else {
-                    ViewUtil.goneView(v);
+                    ViewUtil.goneView(clean);
                 }
             });
         }
