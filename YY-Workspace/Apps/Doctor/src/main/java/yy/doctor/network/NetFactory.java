@@ -208,7 +208,7 @@ public class NetFactory {
         String KLinkman = "linkman";   //真实姓名
         String KHospital = "hospital";   //医院
         String KDepartment = "department";   //科室
-        String KHospitalLevel = "hosLevel";  //医院等级
+        String KHospitalLevel = "hospitalLevel";  //医院等级
         String KCmeId = "cmeId";  //CME卡号
         String KLicence = "licence";   //执业许可证
         String KTitle = "title";   //职称

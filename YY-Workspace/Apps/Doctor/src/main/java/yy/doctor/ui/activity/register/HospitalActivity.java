@@ -26,6 +26,7 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.ys.YSLog;
+import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -317,7 +318,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             mHospitalLevel = hos.mHospitalLevel;
             int HosLvId = mHospitalLevel.getInt(THospitalLevel.id);
             Profile.inst().put(TProfile.hospital, hosName);
-            Profile.inst().put(TProfile.hosUrl, mHospitalLevel.getString(THospitalLevel.picture));
+            Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
             Profile.inst().saveToSp();
             if (Profile.inst().isLogin()) {
                 exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(hosName).hospitalLevel(HosLvId).build());
@@ -379,7 +380,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             mHospitalLevel = h;
 
             Profile.inst().put(TProfile.hospital, name);
-            Profile.inst().put(TProfile.hosUrl, h.getInt(THospitalLevel.picture));
+            Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
             Profile.inst().saveToSp();
 
             if (Profile.inst().isLogin()) {

@@ -7,6 +7,7 @@ import lib.ys.impl.SingletonImpl;
 import lib.ys.model.EVal;
 import lib.ys.ui.interfaces.ISingleton;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.sp.SpUser;
 
 /**
@@ -26,6 +27,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         integrity,  //完整度
         headimg,    //头像
         hospital,   //医院
+        hosLevel,   // 医院等级
         department, //科室
         province,   //省
         city,       //市
@@ -46,10 +48,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
 
         wxNickname, // 昵称WX
 
-        /**
-         * 本地字段
-         */
-        hosUrl,   // 医院等级
+        @Bind(value = HospitalLevel.class)
+        systemProperties,
     }
 
     private static Profile mInst = null;
