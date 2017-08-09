@@ -7,6 +7,7 @@ public interface Extra {
     String KName = "name";
     String KType = "type";
     String KUrl = "url";
+    String KLimit = "limit";
 
     String KTitle = "title";
     String KLeaf = "leaf";
