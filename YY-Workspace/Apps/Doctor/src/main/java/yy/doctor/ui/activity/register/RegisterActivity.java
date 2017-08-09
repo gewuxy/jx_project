@@ -312,7 +312,7 @@ public class RegisterActivity extends BaseFormActivity
         for (char c : chars) {
             pwd = pwd.replace(String.valueOf(c), "");
         }
-        if (!RegexUtil.match(symbol, strPwd)) {
+        if (pwd.length() > 0) {
             showToast(R.string.input_special_symbol);
             return;
         }
