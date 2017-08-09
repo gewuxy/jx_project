@@ -37,6 +37,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -110,6 +111,7 @@ public class RegisterActivity extends BaseFormActivity
         int department = 8;
         int title = 9;
     }
+
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
 
@@ -301,13 +303,22 @@ public class RegisterActivity extends BaseFormActivity
 
         // 检查密码
         String strPwd = getItemStr(RelatedId.pwd);
+
         String specialSymbol = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-×÷＝%√°′″{}()[].|*/#~,:;?\\\"‖&*@\\\\^,$–…'=+!><.-—_";
-        if (strPwd.length() < 6 || strPwd.length() > 24) {
-            showToast(R.string.input_right_pwd_num);
+        // FIXME: 2017/8/9 
+        String symbol = "^([0-9]|[a-z]|[A-Z]|-|×|÷|＝|%|√|°|′|″|{|}|(|)|[|]|.|||*|/|#|~|,|:|;|?|\"|‖|&|*|@|\\|^|,|$|–|…|'|=|+|!|>|<|.|-|—|_)+$";
+        char[] chars = specialSymbol.toCharArray();
+        String pwd = strPwd;
+        for (char c : chars) {
+            pwd = pwd.replace(String.valueOf(c), "");
+        }
+        if (!RegexUtil.match(symbol, strPwd)) {
+            showToast(R.string.input_special_symbol);
             return;
         }
-        if (!strPwd.contains(specialSymbol)) {
-            showToast(R.string.input_special_symbol);
+
+        if (strPwd.length() < 6 || strPwd.length() > 24) {
+            showToast(R.string.input_right_pwd_num);
             return;
         }
 
@@ -320,8 +331,7 @@ public class RegisterActivity extends BaseFormActivity
         String category = s[0];
         String name = s[1];
 
-        int id = getRelatedItem(RelatedId.hospital).getHolder().getIv().getId();
-        int hospitalLevel = 3;
+        int hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
 
         //注册
         refresh(RefreshWay.dialog);
@@ -535,7 +545,7 @@ public class RegisterActivity extends BaseFormActivity
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
-                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd),null));
+                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
                 YSLog.d("yaya", "_________________________");
             } else {
                 onNetworkError(id, r.getError());

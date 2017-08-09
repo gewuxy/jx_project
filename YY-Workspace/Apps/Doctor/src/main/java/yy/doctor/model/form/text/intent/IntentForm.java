@@ -8,6 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.bd.location.Place;
+import lib.ys.YSLog;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.Extra;
 import yy.doctor.model.Profile;
@@ -96,6 +97,7 @@ public class IntentForm extends TextForm {
                 if (level != null) {
                     String hospital = Profile.inst().getString(TProfile.hospital);
                     String url = level.getString(THospitalLevel.picture);
+                    YSLog.d("asdad","onActivityResult:"+ url);
                     save(hospital, hospital);
                     data(level.getString(THospitalLevel.id)).
                             url(url).

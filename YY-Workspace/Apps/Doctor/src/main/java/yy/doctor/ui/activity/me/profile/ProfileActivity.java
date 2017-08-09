@@ -17,6 +17,7 @@ import java.util.Set;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.ys.ConstantsEx.FileSuffix;
+import lib.ys.YSLog;
 import lib.ys.form.OnFormObserver;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -38,6 +39,8 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
+import yy.doctor.model.hospital.HospitalLevel;
+import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 import yy.doctor.ui.activity.register.HospitalActivity;
 import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
@@ -127,6 +130,12 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .enable(false));
 
         addItem(Form.create(FormType.divider));
+        HospitalLevel p = Profile.inst().getEv(TProfile.systemProperties);
+        String string = "";
+        if (p != null) {
+            string = p.getString(THospitalLevel.picture);
+            YSLog.d(TAG,"initData:"+ string);
+        }
         addItem(Form.create(FormType.text_intent_hospital)
                 .related(RelatedId.hospital)
                 .observer(this)
@@ -134,7 +143,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital)
                 .text(Profile.inst().getString(TProfile.hospital))
-                .url(Profile.inst().getString(TProfile.hosUrl))
+                .url(string)
                 .hint(R.string.choose_hospital));
 
         addItem(Form.create(FormType.divider));

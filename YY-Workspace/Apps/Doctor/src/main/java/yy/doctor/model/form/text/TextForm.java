@@ -1,5 +1,6 @@
 package yy.doctor.model.form.text;
 
+import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
@@ -28,6 +29,7 @@ public class TextForm extends BaseForm {
             setIvIfValid(iv, getDrawable());
         } else {
             iv.url(getUrl()).load();
+            YSLog.d(TAG,"refresh:"+ getUrl());
             ViewUtil.showView(iv);
         }
 
