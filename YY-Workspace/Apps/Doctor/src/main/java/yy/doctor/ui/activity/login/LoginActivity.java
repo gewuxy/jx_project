@@ -19,6 +19,7 @@ import yy.doctor.dialog.ForgetPwdTooltipDialog;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.sp.SpApp;
+import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.register.RegisterActivity;
 
@@ -113,6 +114,7 @@ public class LoginActivity extends BaseLoginActivity {
             //保存用户名
             SpApp.inst().saveUserName(getUserName());
             Profile.inst().update(r.getData());
+            SpUser.inst().updateProfileRefreshTime();
             //判断跳转到哪里
             if (TextUtil.isEmpty(mRequest)) {
                 startActivity(MainActivity.class);

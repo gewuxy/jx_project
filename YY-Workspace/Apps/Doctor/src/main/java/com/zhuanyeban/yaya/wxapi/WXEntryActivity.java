@@ -25,6 +25,7 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.login.WXLoginActivity;
 
@@ -128,6 +129,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 } else {
                     // 绑定过微信, 登录
                     Profile.inst().update(r.getData());
+                    SpUser.inst().updateProfileRefreshTime();
                     notify(NotifyType.login);
                     startActivity(MainActivity.class);
                 }

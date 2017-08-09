@@ -11,6 +11,7 @@ import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
+import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
 
@@ -62,6 +63,7 @@ public class WXLoginActivity extends BaseLoginActivity {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             Profile.inst().update(r.getData());
+            SpUser.inst().updateProfileRefreshTime();
             notify(NotifyType.login);
             startActivity(MainActivity.class);
             finish();

@@ -58,6 +58,7 @@ import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
+import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.ScanActivity;
 import yy.doctor.ui.activity.login.LoginActivity;
@@ -509,6 +510,7 @@ public class RegisterActivity extends BaseFormActivity
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
                 notify(NotifyType.login);
                 startActivity(MainActivity.class);
                 finish();

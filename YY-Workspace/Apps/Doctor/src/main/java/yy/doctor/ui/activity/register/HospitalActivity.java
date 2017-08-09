@@ -408,4 +408,5 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             super.onNetworkSuccess(id, result);
         }
     }
+
 }
