@@ -142,7 +142,7 @@ public class ForgetPwdEmailActivity extends BaseActivity {
             }
             mDialog.show();
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

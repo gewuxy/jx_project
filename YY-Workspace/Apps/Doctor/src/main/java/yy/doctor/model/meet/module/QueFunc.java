@@ -54,7 +54,7 @@ public class QueFunc extends BaseFunc {
         if (r.isSucceed()) {
             QueTopicActivity.nav(getContext(), getMeetId(), getModuleId());
         } else {
-            AppEx.showToast(r.getError());
+            AppEx.showToast(r.getMessage());
         }
     }
 }

@@ -182,7 +182,7 @@ public class ExamIntroActivity extends BaseActivity {
             mTvTime.setText(format(mStartTime, mEndTime));
         } else {
             setViewState(ViewState.error);
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

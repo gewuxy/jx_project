@@ -144,7 +144,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                         .putExtra(Extra.KId, sbId.toString());
                 setResult(RESULT_FIRST_USER, i);
             } else {
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         } else if (id == KScan) {
             Result r = (Result) result;
@@ -152,7 +152,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 showToast("成功");
                 setResult(RESULT_FIRST_USER);
             } else {
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         }
         finish();

@@ -132,14 +132,14 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     startActivity(MainActivity.class);
                 }
             } else {
-                showToast(r.getError());
+                onNetworkError(id, r.getError());
             }
         } else {
             if (r.isSucceed()) {
                 showToast("绑定成功");
                 notify(NotifyType.bind_wx, profile.getString(TProfile.wxNickname));
             } else {
-                showToast(r.getError());
+                onNetworkError(id, r.getError());
             }
         }
         finish();

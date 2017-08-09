@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import lib.network.model.err.NetError;
-import lib.network.model.err.ParseError;
 import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
@@ -124,7 +123,7 @@ public class LoginActivity extends BaseLoginActivity {
             stopRefresh();
             finish();
         } else {
-            onNetworkError(id, new ParseError(r.getCode(), r.getError()));
+            onNetworkError(id, r.getError());
         }
     }
 

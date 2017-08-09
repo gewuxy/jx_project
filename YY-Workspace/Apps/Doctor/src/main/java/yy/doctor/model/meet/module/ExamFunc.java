@@ -59,7 +59,7 @@ public class ExamFunc extends BaseFunc {
                     .host(getDetail().getString(TMeetDetail.organizer))
                     .start(getContext());
         } else {
-            AppEx.showToast(r.getError());
+            AppEx.showToast(r.getMessage());
         }
     }
 

@@ -142,7 +142,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                 finish();
             }
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

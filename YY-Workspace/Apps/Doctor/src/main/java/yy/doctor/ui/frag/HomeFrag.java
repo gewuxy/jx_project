@@ -182,7 +182,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             if (!mIsNetworkError) {
                 YSLog.d(TAG, "network error id = " + id);
                 mIsNetworkError = true;
-                onNetworkError(id, new NetError(id, r.getError()));
+                onNetworkError(id, r.getError());
             }
         }
 

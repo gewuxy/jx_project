@@ -66,7 +66,7 @@ public class WXLoginActivity extends BaseLoginActivity {
             startActivity(MainActivity.class);
             finish();
         } else {
-            showToast(r.getError());
+            onNetworkError(id, r.getError());
         }
     }
 }

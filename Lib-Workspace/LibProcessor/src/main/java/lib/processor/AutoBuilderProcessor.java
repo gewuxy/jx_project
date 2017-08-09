@@ -8,7 +8,6 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
@@ -42,6 +41,25 @@ public class AutoBuilderProcessor extends BaseProcessor {
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
         /**
+         * 生成构造方法
+         */
+        MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
+                .addModifiers(Modifier.PRIVATE);
+        builder.addMethod(constructor.build());
+
+        /**
+         * 生成create方法
+         */
+        ClassName clzName = ClassName.get(getPackageName(annotatedElement), name);
+        String simpleName = clzName.simpleName();
+        MethodSpec.Builder createMethod = MethodSpec.methodBuilder("create")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addStatement(simpleName + " builder = new " + simpleName + "()")
+                .returns(clzName);
+        createMethod.addStatement("return builder");
+        builder.addMethod(createMethod.build());
+
+        /**
          * 生成filed的设置方法
          */
         TypeElement classElement = (TypeElement) annotatedElement;
@@ -70,7 +88,7 @@ public class AutoBuilderProcessor extends BaseProcessor {
                         .addParameter(getTypeName(field), paramName)
                         .addStatement("this.$N = $N", paramName, paramName)
                         .addStatement("return this")
-                        .returns(ClassName.get(getPackageName(annotatedElement), name))
+                        .returns(clzName)
                         .build();
 
                 builder.addMethod(spec);
@@ -87,7 +105,6 @@ public class AutoBuilderProcessor extends BaseProcessor {
                 .addStatement("$T inst = new $T()", annotatedTypeName, annotatedElement);
 
         if (allMembers.size() > 0) {
-            buildMethod.beginControlFlow("try");
             List<VariableElement> fields = ElementFilter.fieldsIn(allMembers);
             for (VariableElement field : fields) {
                 if (field.getAnnotation(Ignore.class) != null) {
@@ -118,15 +135,9 @@ public class AutoBuilderProcessor extends BaseProcessor {
                     }
                 }
 
-                buildMethod.addStatement("$T $N = $T.class.getDeclaredField(\"$N\")", Field.class, paramName, annotatedTypeName, filedName)
-                        .addStatement("$N.setAccessible(true)", paramName)
-                        .addStatement("$N.set(inst, this.$N)", paramName, paramName)
+                buildMethod.addStatement("inst.$N = $N", filedName, paramName)
                         .endControlFlow();
             }
-
-            buildMethod.nextControlFlow("catch (Exception e)")
-                    .addStatement("e.printStackTrace()")
-                    .endControlFlow();
         }
         buildMethod.addStatement("return inst");
         builder.addMethod(buildMethod.build());

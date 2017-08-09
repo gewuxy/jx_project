@@ -76,7 +76,7 @@ public class ChangePwdActivity extends BaseSetActivity {
             showToast(R.string.pwd_change_success);
             finish();
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

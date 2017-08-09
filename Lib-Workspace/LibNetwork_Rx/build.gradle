@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -25,6 +24,11 @@ dependencies {
     /**
      * Rx
      */
-    compile deps.rx.java
-    compile deps.rx.android
+    provided deps.rx.java
+    provided deps.rx.android
+    /**
+     * Processor
+     */
+    provided project(':Lib-Workspace:LibProcessor')
+    annotationProcessor project(':Lib-Workspace:LibProcessor')
 }

@@ -227,7 +227,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                 refreshViews(mMeetDetail);
                 setViewState(ViewState.normal);
             } else {
-                onNetworkError(id, new NetError(id, r.getError()));
+                onNetworkError(id, r.getError());
             }
         }
     }

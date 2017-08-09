@@ -75,7 +75,7 @@ public class BindEmailActivity extends BaseSetActivity {
         if (r.isSucceed()) {
             showToast("成功发送验证邮件, 请查收");
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

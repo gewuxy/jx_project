@@ -198,7 +198,7 @@ public class SROpt<T> implements OnSRListener {
             stopRefresh();
 
             if (response != null) {
-                AppEx.showToast(response.getError());
+                AppEx.showToast(response.getMessage());
             }
             return;
         }

@@ -130,7 +130,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             addAll(comments);
             setSelection(getCount());
         } else {
-            onNetworkError(id, new NetError(id, r.getError()));
+            onNetworkError(id, r.getError());
         }
     }
 

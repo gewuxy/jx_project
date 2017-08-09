@@ -38,7 +38,7 @@ public class JsonParser extends BaseJsonParser {
 
         ListResult<CHILD> r = evs(text, childClz);
         retResult.setCode(r.getCode());
-        retResult.setError(r.getError());
+        retResult.setMessage(r.getMessage());
 
         if (!r.isSucceed()) {
             return retResult;

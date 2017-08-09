@@ -6,9 +6,8 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.net.UnknownServiceException;
 
-import lib.network.model.err.CancelError;
-import lib.network.model.err.NetError;
-import lib.network.model.err.TimeoutError;
+import lib.network.Network;
+import lib.network.model.err.NetErrorBuilder;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.NativeListener;
 import okhttp3.Call;
@@ -30,19 +29,26 @@ abstract public class OkCallback implements Callback {
     public void onFailure(Call call, IOException e) {
         // FIXME: err code暂时获取不到, 需要再new call的时候加入interceptor, 通过response获取
         Integer id = (Integer) call.request().tag();
+
+        NetErrorBuilder builder = NetErrorBuilder.create()
+                .code(id)
+                .exception(e);
+
         if (e instanceof SocketTimeoutException || e instanceof UnknownHostException || e instanceof UnknownServiceException) {
             // 目前超时/未知host/未知服务错误, 都是用超时的处理
-            NativeListener.inst().onError(id, new TimeoutError(id), mListener);
+            builder.message(Network.getConfig().getTimeoutToast());
         } else if (e instanceof SocketException) {
             // socket链接中断, 暂时认为是取消
-            NativeListener.inst().onError(id, new CancelError(id), mListener);
+            builder.message("socket链接中断");
         } else {
             if (e.getMessage().equals("Canceled")) {
-                NativeListener.inst().onError(id, new CancelError(id), mListener);
+                builder.message("任务取消");
             } else {
-                NativeListener.inst().onError(id, new NetError(id, e.getMessage()), mListener);
+                builder.message(e.getMessage());
             }
         }
+
+        NativeListener.inst().onError(id, builder.build(), mListener);
     }
 
     public OnNetworkListener getListener() {

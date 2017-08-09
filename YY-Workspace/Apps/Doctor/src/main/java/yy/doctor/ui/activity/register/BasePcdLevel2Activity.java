@@ -3,7 +3,6 @@ package yy.doctor.ui.activity.register;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.ParseError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
@@ -90,7 +89,7 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
                 notify(NotifyType.province_finish, place);
                 finish();
             } else {
-                onNetworkError(id, new ParseError(r.getError()));
+                onNetworkError(id, r.getError());
             }
         } else {
             super.onNetworkSuccess(id, result);

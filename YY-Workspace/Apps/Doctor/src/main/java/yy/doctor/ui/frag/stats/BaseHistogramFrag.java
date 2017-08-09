@@ -111,7 +111,7 @@ public abstract class BaseHistogramFrag extends BaseFrag {
             }
             setViewState(ViewState.normal);
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

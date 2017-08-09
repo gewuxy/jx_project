@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
@@ -109,7 +108,7 @@ public class ClipImageActivity extends BaseActivity {
             setResult(RESULT_OK, getIntent());
             finish();
         } else {
-            onNetworkError(id, new NetError(id, r.getError()));
+            onNetworkError(id, r.getError());
         }
     }
 }

@@ -24,7 +24,6 @@ import org.json.JSONException;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.ConnectionError;
 import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
@@ -35,7 +34,6 @@ import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.interfaces.opt.IInitOpt;
 import lib.ys.ui.interfaces.opt.INetworkOpt;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.ViewUtil;
 import okhttp3.WebSocket;
@@ -217,11 +215,6 @@ abstract public class PopupWindowEx implements
     }
 
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
-        if (!DeviceUtil.isNetworkEnabled()) {
-            onNetworkError(id, new ConnectionError());
-            return;
-        }
-
         if (mNetworkImpl == null) {
             mNetworkImpl = new NetworkOpt(this, this);
         }

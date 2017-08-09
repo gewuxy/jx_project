@@ -236,14 +236,14 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 finish();
             } else {
                 stopRefresh();
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         } else if (id == KCaptcha) {//验证码
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("已发送验证码");
             } else {
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         } else if (id == KModify) {//修改并设置新密码
             Result r = (Result) result;
@@ -253,7 +253,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
             } else {
                 stopRefresh();
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         }
     }

@@ -321,7 +321,7 @@ public class SettingsActivity extends BaseFormActivity {
                 getRelatedItem(RelatedId.bind_wx).save(getString(R.string.no_binding), getString(R.string.no_binding));
                 refreshRelatedItem(RelatedId.bind_wx);
             } else {
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         } else {
 
@@ -332,7 +332,7 @@ public class SettingsActivity extends BaseFormActivity {
                 getRelatedItem(RelatedId.bind_email).save(getString(R.string.no_binding), getString(R.string.no_binding));
                 refreshRelatedItem(RelatedId.bind_email);
             } else {
-                showToast(r.getError());
+                showToast(r.getMessage());
             }
         }
     }

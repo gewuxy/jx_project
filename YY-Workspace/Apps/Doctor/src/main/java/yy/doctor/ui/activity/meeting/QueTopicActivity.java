@@ -96,7 +96,7 @@ public class QueTopicActivity extends BaseTopicActivity {
             initFirstGv();
         } else {
             setViewState(ViewState.error);
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

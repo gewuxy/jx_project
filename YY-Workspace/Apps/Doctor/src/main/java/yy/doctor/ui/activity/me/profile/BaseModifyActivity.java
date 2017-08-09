@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.ParseError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -126,7 +125,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
             stopRefresh();
             onModifySuccess();
         } else {
-            onNetworkError(id, new ParseError(r.getError()));
+            onNetworkError(id, r.getError());
         }
     }
 

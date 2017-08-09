@@ -109,7 +109,7 @@ public class ChangePwdActivity extends BaseActivity {
             showToast(R.string.pwd_change_success);
             finish();
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 }

@@ -94,7 +94,7 @@ abstract public class SRFormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx
             stopRefresh();
 
             if (r != null) {
-                onNetworkError(id, new NetError(r.getError()));
+                onNetworkError(id, r.getError());
             }
             return;
         }

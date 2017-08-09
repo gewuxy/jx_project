@@ -53,7 +53,7 @@ public class AutoIntentProcessor extends BaseProcessor {
          * 生成构造方法
          */
         MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
-                .addModifiers(Modifier.PUBLIC);
+                .addModifiers(Modifier.PRIVATE);
         builder.addMethod(constructor.build());
 
         ClassName clzName = ClassName.get(getPackageName(annotatedElement), name);

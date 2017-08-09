@@ -24,7 +24,7 @@ import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
-import lib.network.model.err.NetError;
+import lib.network.model.err.NetErrorBuilder;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -177,14 +177,14 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
             }
             if (hospitals.isEmpty()) {
                 r.setCode(ErrorCode.KUnKnow);
-                r.setError("没有数据，搜索不到你需要的信息");
+                r.setMessage("没有数据，搜索不到你需要的信息");
             } else {
                 r.setCode(ErrorCode.KOk);
                 r.setData(hospitals);
             }
         } else {
             r.setCode(ErrorCode.KUnKnow);
-            r.setError("搜索不到你需要的信息");
+            r.setMessage("搜索不到你需要的信息");
         }
         onNetworkSuccess(0, r);
     }
@@ -233,7 +233,10 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
      * 初始化Dialog
      */
     private void onLocationError() {
-        onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
+        onNetworkError(0, NetErrorBuilder.create()
+                .code(ErrorCode.KUnKnow)
+                .message("定位失败")
+                .build());
 
         mDialog = new BaseHintDialog(this);
         mDialog.addHintView(inflate(R.layout.dialog_locate_fail));

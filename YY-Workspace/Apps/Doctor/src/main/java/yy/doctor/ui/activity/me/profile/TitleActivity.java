@@ -7,7 +7,6 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.network.model.err.ParseError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -106,10 +105,8 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
                     mTitleCategoryFrag.setData(grade);
 
                     setViewState(ViewState.normal);
-
                 } else {
-                    stopRefresh();
-                    onNetworkError(id, new ParseError(r.getError()));
+                    onNetworkError(id, r.getError());
                 }
             }
             break;
@@ -119,13 +116,13 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
                     Profile.inst().put(TProfile.title, mTitle);
                     Profile.inst().saveToSp();
 
+                    stopRefresh();
+
                     Intent i = new Intent().putExtra(Extra.KData, mTitle);
                     setResult(RESULT_OK, i);
-                    stopRefresh();
                     finish();
                 } else {
-                    stopRefresh();
-                    onNetworkError(id, new ParseError(r.getError()));
+                    onNetworkError(id, r.getError());
                 }
             }
             break;

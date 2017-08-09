@@ -7,7 +7,6 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.err.NetError;
-import lib.network.model.err.ParseError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -89,15 +88,15 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
                 Profile.inst().put(TProfile.name, mCategoryName);
                 Profile.inst().saveToSp();
 
+                stopRefresh();
+
                 Intent intent = new Intent()
                         .putExtra(Extra.KName, mCategory)
                         .putExtra(Extra.KData, mCategoryName);
                 setResult(RESULT_OK, intent);
-                stopRefresh();
                 finish();
             } else {
-                stopRefresh();
-                onNetworkError(id, new ParseError(r.getError()));
+                onNetworkError(id, r.getError());
             }
         } else {
             super.onNetworkSuccess(id, result);

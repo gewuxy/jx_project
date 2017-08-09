@@ -87,7 +87,7 @@ abstract public class SRFormActivityEx<T extends FormEx<VH>, VH extends IViewHol
             stopRefresh();
 
             if (r != null) {
-                onNetworkError(id, new NetError(r.getError()));
+                onNetworkError(id, r.getError());
             }
             return;
         }

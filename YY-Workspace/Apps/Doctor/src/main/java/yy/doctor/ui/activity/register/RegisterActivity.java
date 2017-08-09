@@ -31,7 +31,7 @@ import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.err.NetErrorBuilder;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
@@ -530,7 +530,10 @@ public class RegisterActivity extends BaseFormActivity
     private void onLocationError() {
         YSLog.d("Gps", "失败");
 
-        onNetworkError(0, new NetError(ErrorCode.KUnKnow, "定位失败"));
+        onNetworkError(KRegister, NetErrorBuilder.create()
+                .code(ErrorCode.KUnKnow)
+                .message("定位失败")
+                .build());
 
         if (!DeviceUtil.isNetworkEnabled()) {
             showToast("当前网络不可用,不可定位");
@@ -555,8 +558,10 @@ public class RegisterActivity extends BaseFormActivity
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KLogin) {//登录
+        if (id == KLogin) {
+            //登录
             stopRefresh();
+
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
@@ -564,18 +569,20 @@ public class RegisterActivity extends BaseFormActivity
                 startActivity(MainActivity.class);
                 finish();
             } else {
+                onNetworkError(id, r.getError());
+
                 startActivity(LoginActivity.class);
                 finish();
-                showToast(r.getError());
             }
         } else if (id == KCaptcha) {
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("成功");
             } else {
-                showToast(r.getError());
+                onNetworkError(id, r.getError());
             }
-        } else {//注册
+        } else {
+            //注册
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("成功");
@@ -585,8 +592,7 @@ public class RegisterActivity extends BaseFormActivity
                 exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
                 YSLog.d("yaya", "_________________________");
             } else {
-                stopRefresh();
-                showToast(r.getError());
+                onNetworkError(id, r.getError());
             }
         }
     }

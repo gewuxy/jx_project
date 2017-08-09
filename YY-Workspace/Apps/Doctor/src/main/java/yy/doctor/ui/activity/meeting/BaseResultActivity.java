@@ -85,7 +85,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
             mTvResultMsg.setText("时间 " + TimeUtil.formatMilli(signTime, TimeUtil.TimeFormat.from_h_to_m_24));
         } else {
             // 失败
-            errorResult(r.getError());
+            errorResult(r.getMessage());
         }
         mCountDown.start(KReturnTime);
     }

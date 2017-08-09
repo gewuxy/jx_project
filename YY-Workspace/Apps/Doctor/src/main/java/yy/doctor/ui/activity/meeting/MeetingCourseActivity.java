@@ -417,7 +417,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             }
         } else {
-            showToast(r.getError());
+            showToast(r.getMessage());
         }
     }
 

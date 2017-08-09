@@ -56,7 +56,7 @@ public class BaseJsonParser extends JsonParserEx {
             errorStr = ResLoader.getString(R.string.server_error);
         }
         r.setCode(code);
-        r.setError(errorStr);
+        r.setMessage(errorStr);
 
         if (code == ErrorCode.KTokenExpired) {
             Notifier.inst().notify(NotifyType.token_out_of_date);

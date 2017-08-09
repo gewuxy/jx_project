@@ -1,5 +1,7 @@
 package lib.network.model.interfaces;
 
+import lib.network.model.err.NetError;
+
 /**
  * @author yuansui
  */
@@ -11,13 +13,17 @@ public interface IResult<T> {
 
     boolean isSucceed();
 
-    void setError(String error);
+    void setMessage(String message);
 
-    String getError();
+    String getMessage();
 
     void setCode(int code);
 
     int getCode();
 
     int getCodeOk();
+
+    NetError getError();
+
+    void setError(NetError err);
 }

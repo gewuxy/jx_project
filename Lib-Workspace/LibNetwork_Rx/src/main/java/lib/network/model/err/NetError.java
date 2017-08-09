@@ -1,37 +1,19 @@
 package lib.network.model.err;
 
+import lib.processor.annotation.AutoBuilder;
+
 /**
  * @author yuansui
  */
+@AutoBuilder
 public class NetError {
+
     // 错误提示文字
-    private String mMessage;
+    String mMessage;
     // 错误码
-    private int mCode;
+    int mCode;
     // 实际错误
-    private Exception mException;
-
-    public NetError() {
-        this(0, "");
-    }
-
-    public NetError(int code) {
-        this(code, "");
-    }
-
-    public NetError(String msg) {
-        this(-1, msg);
-    }
-
-    public NetError(int code, String msg) {
-        this(code, msg, null);
-    }
-
-    public NetError(int code, String msg, Exception e) {
-        mCode = code;
-        mMessage = msg;
-        mException = e;
-    }
+    Exception mException;
 
     public int getCode() {
         return mCode;

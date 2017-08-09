@@ -179,11 +179,10 @@ public class ExchangeActivity extends BaseFormActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
-        stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
+            stopRefresh();
+
             showToast(R.string.exchange_success);
             int epn = Profile.inst().getInt(TProfile.credits) - mEpn;
             Profile.inst().put(TProfile.credits, epn);
@@ -192,7 +191,7 @@ public class ExchangeActivity extends BaseFormActivity {
             startActivity(OrderActivity.class);
             finish();
         } else {
-            showToast(r.getError());
+            onNetworkError(id, r.getError());
         }
     }
 

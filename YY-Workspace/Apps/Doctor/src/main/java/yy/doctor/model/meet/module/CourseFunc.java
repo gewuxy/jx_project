@@ -82,7 +82,7 @@ public class CourseFunc extends BaseFunc {
                 }
             }
         } else {
-            App.showToast(r.getError());
+            App.showToast(r.getMessage());
         }
     }
 }

@@ -89,7 +89,7 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
                         mGps.getString(TGps.longitude));
             }
         } else {
-            App.showToast(r.getError());
+            App.showToast(r.getMessage());
         }
     }
 
