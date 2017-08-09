@@ -109,10 +109,12 @@ public class EditForm extends BaseForm implements TextWatcher {
         save(s.toString(), s.toString());
 
         View clean = getHolder().getIvClean();
-        if (clean != null && TextUtil.isNotEmpty(s)) {
-            ViewUtil.showView(clean);
-        } else {
-            ViewUtil.goneView(clean);
+        if (clean != null ) {
+            if (TextUtil.isNotEmpty(s)) {
+                ViewUtil.showView(clean);
+            } else {
+                ViewUtil.goneView(clean);
+            }
         }
     }
 }

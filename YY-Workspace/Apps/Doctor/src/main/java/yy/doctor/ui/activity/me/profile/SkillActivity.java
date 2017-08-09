@@ -84,13 +84,7 @@ public class SkillActivity extends BaseModifyActivity {
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.academic_iv_clean: {
-                mEt.setText("");
-            }
-            break;
-        }
+        mEt.setText("");
     }
 
     private void setLength(int len) {
