@@ -10,7 +10,7 @@ import android.widget.EditText;
 import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-import yy.doctor.util.InputFilterUtils;
+import yy.doctor.util.input.InputFilterUtils;
 
 /**
  * @author GuoXuan

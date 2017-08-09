@@ -1,15 +1,17 @@
-package yy.doctor.util;
+package yy.doctor.util.input;
 
 import android.text.InputFilter;
 import android.text.Spanned;
 
 /**
  * 姓名只能输入中文
+ *
  * @auther WangLan
  * @since 2017/8/8
  */
 
-public class InputChineseFilterUtils implements InputFilter {
+public class InputFilterChineseImpl implements InputFilter {
+
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         for (int i = start; i < end; i++) {
@@ -22,6 +24,7 @@ public class InputChineseFilterUtils implements InputFilter {
 
     /**
      * 判定输入汉字
+     *
      * @param c
      * @return
      */

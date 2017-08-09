@@ -97,9 +97,9 @@ public class IntentForm extends TextForm {
                     String hospital = Profile.inst().getString(TProfile.hospital);
                     String url = level.getString(THospitalLevel.picture);
                     save(hospital, hospital);
-                    data(level.getString(THospitalLevel.id)).
-                            url(url).
-                            refresh();
+                    data(level.getString(THospitalLevel.id))
+                            .url(url)
+                            .refresh();
                 }
             }
             break;

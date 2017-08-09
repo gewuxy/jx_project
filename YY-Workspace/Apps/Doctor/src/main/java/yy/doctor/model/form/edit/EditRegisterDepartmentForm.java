@@ -4,7 +4,7 @@ import android.text.InputFilter;
 import android.widget.EditText;
 
 import lib.yy.adapter.VH.FormVH;
-import yy.doctor.util.InputSpaceFilter;
+import yy.doctor.util.input.InputSpaceFilter;
 
 /**
  * @auther WangLan

@@ -79,8 +79,7 @@
         <item name="android:background">@drawable/transparent</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/text_333</item>
-        <!--TODO: 666还是888-->
-        <item name="android:textColorHint">@color/text_666</item>
+        <item name="android:textColorHint">@color/text_b3</item>
         <item name="android:textSize">15dp</item>
     </style>
 

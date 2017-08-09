@@ -1,4 +1,4 @@
-package yy.doctor.util;
+package yy.doctor.util.input;
 
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -9,6 +9,7 @@ import android.text.Spanned;
  */
 
 public class InputSpaceFilter implements InputFilter {
+
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         if (source.equals(" ")) {

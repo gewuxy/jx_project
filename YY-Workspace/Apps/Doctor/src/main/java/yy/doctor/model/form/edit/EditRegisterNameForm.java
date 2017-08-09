@@ -4,7 +4,7 @@ import android.text.InputFilter;
 import android.widget.EditText;
 
 import lib.yy.adapter.VH.FormVH;
-import yy.doctor.util.InputChineseFilterUtils;
+import yy.doctor.util.input.InputFilterChineseImpl;
 
 /**
  * @auther WangLan
@@ -16,6 +16,6 @@ public class EditRegisterNameForm extends EditRegisterForm {
     protected void init(FormVH holder) {
         super.init(holder);
         EditText editText = holder.getEt();
-        editText.setFilters(new InputFilter[]{new InputChineseFilterUtils(),new InputFilter.LengthFilter(18)});//姓名限制18位
+        editText.setFilters(new InputFilter[]{new InputFilterChineseImpl(), new InputFilter.LengthFilter(18)});//姓名限制18位
     }
 }
