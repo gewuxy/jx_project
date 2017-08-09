@@ -11,6 +11,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;
+import yy.doctor.Constants.FileSuffix;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
@@ -87,9 +88,9 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
                 case FileOpenType.details: {
                     String dataFileId = item.getString(TDataUnit.id);
                     String fileName = item.getString(TDataUnit.title);
-                    DrugDetailActivityIntent.create()
-                            .dataFileId(dataFileId)
-                            .fileName(fileName)
+                    DataUnitDetailActivityIntent.create(
+                            dataFileId, fileName, mType
+                    )
                             .start(this);
                 }
                 break;
@@ -104,7 +105,8 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
                             .filePath(filePath)
                             .fileName(fileName)
                             .url(url)
-                            .type("pdf")
+                            .fileSuffix(FileSuffix.KPdf)
+                            .dataType(mType)
                             .fileSize(fileSize)
                             .dataFileId(dataFileId)
                             .start(this);

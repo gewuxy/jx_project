@@ -28,9 +28,9 @@ public class DataUnit extends EVal<TDataUnit> {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface FileOpenType {
-        int pdf = 1;
-        int details = 2;
-        int html = 3;
+        int pdf = 1; // 调用pdf
+        int details = 2; // 调用接口
+        int html = 3; // 调用webview
     }
 
     public enum TDataUnit {

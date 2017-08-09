@@ -1,8 +1,6 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.data;
 
 import android.support.annotation.NonNull;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.github.barteksc.pdfviewer.PDFView;
 
@@ -16,14 +14,15 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.model.data.DataDetail;
-import yy.doctor.model.data.DataDetail.TDrugDetailData;
+import yy.doctor.model.data.DataUnitDetails;
+import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
+
 
 /**
  * PDF
@@ -34,9 +33,7 @@ import yy.doctor.util.Util;
 @AutoIntent
 public class PDFActivity extends BaseActivity {
 
-    private final String KType = "1";
-    private final int KCollectionState = 0;
-    private final int KCollectionDetail = 1;
+    private PDFView mPDFView;
 
     @Extra
     String mFilePath;
@@ -47,11 +44,14 @@ public class PDFActivity extends BaseActivity {
     @Extra
     String mDataFileId;
 
-    private PDFView mPDFView;
-    private ImageView mIvCollection;
-    private boolean mStoredState;
+    @Extra(defaultInt = DataType.un_know)
+    @DataType
+    int mType;
 
-    private DataDetail mData;
+    private DataUnitDetails mData;
+
+    private ICollectionView mCollectionView;
+
 
     @Override
     public void initData() {
@@ -66,18 +66,6 @@ public class PDFActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, mFileName, this);
-        // 收藏
-        ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
-            mStoredState = !mStoredState;
-            mData.put(TDrugDetailData.favorite,mStoredState);
-            exeNetworkReq(KCollectionState,NetFactory.collectionStatus(mDataFileId, KType));
-            mIvCollection.setSelected(mStoredState);
-            showToast(mStoredState ? R.string.collect_finish : R.string.cancel_collect);
-            if (!mStoredState) {
-                notify(NotifyType.getCancel_collection_thomson, mDataFileId);
-            }
-        });
-        mIvCollection = Util.getBarView(group, ImageView.class);
     }
 
     @Override
@@ -87,8 +75,10 @@ public class PDFActivity extends BaseActivity {
 
     @Override
     public void setViews() {
+        mCollectionView = new CollectionViewImpl(getNavBar(), mDataFileId, mType, this);
+
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KCollectionDetail, NetFactory.collectionDetail(mDataFileId));
+        exeNetworkReq(ICollectionView.KIdDetail, NetFactory.collectionDetail(mDataFileId));
 
         mPDFView.setBackgroundColor(ResLoader.getColor(R.color.app_bg));
         File file = new File(mFilePath, mFileEncryptionName);
@@ -99,25 +89,28 @@ public class PDFActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KCollectionDetail) {
-            return JsonParser.ev(r.getText(), DataDetail.class);
+        if (id == ICollectionView.KIdDetail) {
+            return JsonParser.ev(r.getText(), DataUnitDetails.class);
         } else {
-            return super.onNetworkResponse(id, r);
+            return mCollectionView.onNetworkResponse(id, r);
         }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KCollectionDetail) {
-            Result<DataDetail> r = (Result) result;
+        if (id == ICollectionView.KIdDetail) {
+            Result<DataUnitDetails> r = (Result) result;
             mData = r.getData();
+            mCollectionView.setData(mData);
+
+            stopRefresh();
             if (r.isSucceed()) {
-                stopRefresh();
-                mStoredState = mData.getBoolean(TDrugDetailData.favorite);
-                YSLog.d(TAG, "StoredState = " + mStoredState);
-                mIvCollection.setSelected(mStoredState);
+                boolean state = mData.getBoolean(TDataUnitDetails.favorite);
+                YSLog.d(TAG, "StoredState = " + state);
+                mCollectionView.setState(state);
             }
+        } else {
+            mCollectionView.onNetworkSuccess(id, result);
         }
     }
-
 }

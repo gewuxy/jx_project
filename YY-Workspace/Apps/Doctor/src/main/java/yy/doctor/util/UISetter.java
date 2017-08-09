@@ -21,6 +21,8 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
+import yy.doctor.model.data.DataUnitDetails;
+import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.MeetState;
@@ -29,6 +31,7 @@ import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @auther yuansui
@@ -97,14 +100,15 @@ public class UISetter {
 
             String finalFileName = fileName;
             String finalFileUrl = fileUrl;
-            String finalFileType = fileType;
+            String finalFileSuffix = fileType;
 
             addFileItem(layout, fileName, v ->
                     DownloadFileActivityIntent.create()
                             .filePath(CacheUtil.getUnitNumCacheDir(String.valueOf(id)))
                             .fileName(finalFileName)
                             .url(finalFileUrl)
-                            .type(finalFileType)
+                            .fileSuffix(finalFileSuffix)
+                            .dataType(DataType.un_know)
                             .fileSize(fileSize)
                             .dataFileId(fileId)
                             .start(v.getContext()));
@@ -183,7 +187,6 @@ public class UISetter {
             }
         });
     }
-
 
 
     /**
@@ -269,4 +272,22 @@ public class UISetter {
         }
     }
 
+    /**
+     * 设置收藏按钮状态
+     *
+     * @param ds
+     * @param v
+     */
+    public static void setCollectionState(View v, DataUnitDetails ds) {
+        if (v == null || ds == null) {
+            return;
+
+        }
+        boolean favorite = ds.getBoolean(TDataUnitDetails.favorite, false);
+        favorite = !favorite;
+
+        ds.put(TDataUnitDetails.favorite, favorite);
+
+        v.setSelected(favorite);
+    }
 }

@@ -14,6 +14,7 @@ import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -96,9 +97,10 @@ public class FilesActivity extends BaseSRListActivity<FileData, FileDataAdapter>
                 .filePath(mFilePath)
                 .fileName(mFileName)
                 .url(mFileUrl)
-                .type(mFileType)
+                .fileSuffix(mFileType)
                 .fileSize(mFileSize)
                 .dataFileId(mFileId)
+                .dataType(DataType.un_know)
                 .start(this);
     }
 

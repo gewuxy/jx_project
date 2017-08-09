@@ -5,7 +5,7 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag;
-import yy.doctor.ui.frag.data.DrugsFrag;
+import yy.doctor.ui.frag.data.DrugsFragArg;
 import yy.doctor.util.Util;
 
 /**
@@ -24,7 +24,7 @@ public class DrugsActivity extends BaseDataUnitsActivity {
 
     @Override
     protected BaseDataUnitsFrag createFrag() {
-        return new DrugsFrag();
+        return DrugsFragArg.create(mId, mLeaf).build();
     }
 
 }

@@ -1,6 +1,5 @@
 package yy.doctor.ui.frag.data;
 
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -8,9 +7,10 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.processor.annotation.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import yy.doctor.Extra;
+import yy.doctor.Constants.FileSuffix;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
@@ -19,9 +19,9 @@ import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.data.BaseDataUnitsActivity;
 import yy.doctor.ui.activity.data.ClinicsActivityIntent;
+import yy.doctor.ui.activity.data.DataUnitDetailActivityIntent;
 import yy.doctor.ui.activity.data.DataUnitsSearchActivityIntent;
 import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
-import yy.doctor.ui.activity.data.DrugDetailActivityIntent;
 import yy.doctor.ui.activity.data.DrugsActivityIntent;
 import yy.doctor.util.CacheUtil;
 
@@ -33,29 +33,31 @@ import yy.doctor.util.CacheUtil;
 abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
     @IntDef({
+            DataType.un_know,
             DataType.thomson,
             DataType.drug,
             DataType.clinic,
+            DataType.meeting,
     })
     public @interface DataType {
-        int thomson = 0; // 汤森
-        int drug = 1; // 药品目录
-        int clinic = 2; // 代表临床
+        int un_know = -1; // 未知
+        int meeting = 0; // 代表会议
+        int thomson = 1; // 汤森
+        int drug = 2; // 药品目录
+        int clinic = 3; // 代表临床
     }
 
     private TextView mTvSearch;
 
-    private String mPreId;
-    private boolean mLeaf;
+    @Arg
+    String mPreId;
+
+    @Arg
+    boolean mLeaf;
 
     @CallSuper
     @Override
     public void initData() {
-        Bundle b = getArguments();
-        if (b != null) {
-            mPreId = b.getString(Extra.KId);
-            mLeaf = b.getBoolean(Extra.KLeaf);
-        }
     }
 
     @Override
@@ -126,9 +128,9 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                     case FileOpenType.details: {
                         String dataFileId = item.getString(TDataUnit.id);
                         String fileName = item.getString(TDataUnit.title);
-                        DrugDetailActivityIntent.create()
-                                .dataFileId(dataFileId)
-                                .fileName(fileName)
+                        DataUnitDetailActivityIntent.create(
+                                dataFileId, fileName, getDataType()
+                        )
                                 .start(getContext());
                     }
                     break;
@@ -143,7 +145,8 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                                 .filePath(filePath)
                                 .fileName(fileName)
                                 .url(url)
-                                .type("pdf")
+                                .fileSuffix(FileSuffix.KPdf)
+                                .dataType(getDataType())
                                 .fileSize(fileSize)
                                 .dataFileId(dataFileId)
                                 .start(getContext());

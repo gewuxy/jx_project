@@ -12,8 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import lib.network.model.NetworkResp;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
@@ -50,6 +50,7 @@ import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServIntent;
 import yy.doctor.ui.activity.me.unitnum.FilesActivityIntent;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
@@ -116,7 +117,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     private long mStartModuleTime; // 模块开始时间
     private long mMeetTime; // 统一用通知不用result
-    private String mType = 0 + ""; // type为0，表示会议收藏类型
+
+    @DataType
+    private int mType = DataType.meeting;
 
     private ShareDialog mShareDialog; // 分享
 
@@ -152,7 +155,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             exeNetworkReq(KIdCollection, NetFactory.collectionStatus(mMeetId, mType));
             if (!storedState) {
                 // 取消收藏(通知会议收藏列表去除会议)
-                notify(NotifyType.cancel_collection_meeting, mMeetId);
+                notify(NotifyType.collection_cancel_meeting, mMeetId);
             }
         });
         mIvCollection = Util.getBarView(group, ImageView.class);

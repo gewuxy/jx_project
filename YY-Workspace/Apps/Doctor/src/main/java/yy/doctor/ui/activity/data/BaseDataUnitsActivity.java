@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.data;
 
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -37,14 +36,7 @@ abstract public class BaseDataUnitsActivity extends BaseVPActivity {
     @CallSuper
     @Override
     public void initData() {
-        BaseDataUnitsFrag frag = createFrag();
-        Bundle bundle = new Bundle();
-        bundle.putString(yy.doctor.Extra.KId, mId);
-        bundle.putBoolean(yy.doctor.Extra.KLeaf, mLeaf);
-        frag.setArguments(bundle);
-
-        add(frag);
-
+        add(createFrag());
     }
 
     @Override

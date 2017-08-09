@@ -27,7 +27,7 @@ public interface Constants extends BaseConstants {
         int KPageSize = 20;  //分页加载时 每页加载的条目数
     }
 
-    interface FileTypeConstants {
+    interface FileSuffix {
         String KPdf = "pdf";
         String KPpt = "ppt";
         String KPptX = "pptx";

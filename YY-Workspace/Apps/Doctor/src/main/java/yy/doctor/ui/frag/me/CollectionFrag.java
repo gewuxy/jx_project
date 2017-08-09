@@ -1,44 +1,37 @@
-package yy.doctor.ui.frag.collection;
+package yy.doctor.ui.frag.me;
 
-import android.support.annotation.IntDef;
-
-import java.util.List;
-
+import lib.processor.annotation.Arg;
+import lib.processor.annotation.AutoArg;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
+import yy.doctor.Constants.FileSuffix;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
+import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.data.DataUnitDetailActivityIntent;
 import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
-import yy.doctor.ui.activity.data.DrugDetailActivityIntent;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.CacheUtil;
 
 /**
- * @auther WangLan
- * @since 2017/7/29
+ * @auther yuansui
+ * @since 2017/8/9
  */
+@AutoArg
+public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
-public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
-
-    private int mType = 2; // type为2，表示药品目录
-
-    @IntDef({
-            openType.pdf,
-            openType.detail_interface,
-            openType.html,
-    })
-
-    private  @interface openType {
-        int pdf = 1;
-        int detail_interface = 2;
-        int html = 3;
-    }
+    @Arg(defaultInt = DataType.un_know)
+    int mType;
 
     @Override
     public void initData() {
+        if (mType == DataType.un_know) {
+            throw new IllegalStateException("收藏类型未知");
+        }
     }
 
     @Override
@@ -58,21 +51,22 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
             String filePath = CacheUtil.getThomsonCacheDir(item.getString(TDataUnit.id));
             String url = item.getString(TDataUnit.filePath);
 
-            int type = item.getInt(TDataUnit.openType);
+            @FileOpenType int type = item.getInt(TDataUnit.openType);
             YSLog.d(TAG, type + "");
-            if (type == openType.pdf) {
+            if (type == FileOpenType.pdf) {
                 DownloadFileActivityIntent.create()
                         .filePath(filePath)
                         .fileName(fileName)
                         .url(url)
-                        .type("pdf")
+                        .fileSuffix(FileSuffix.KPdf)
                         .fileSize(fileSize)
+                        .dataType(mType)
                         .dataFileId(dataFileId)
                         .start(getContext());
-            } else if (type == openType.detail_interface) {
-                DrugDetailActivityIntent.create()
-                        .dataFileId(dataFileId)
-                        .fileName(fileName)
+            } else if (type == FileOpenType.details) {
+                DataUnitDetailActivityIntent.create(
+                        dataFileId, fileName, mType
+                )
                         .start(getContext());
             }
 
@@ -85,29 +79,22 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
     }
 
     @Override
-    public int getLimit() {
-        return 500;
-    }
-
-    @Override
     public void onNotify(@NotifyType int type, Object data) {
 
+        boolean removeState = (type == NotifyType.collection_cancel_thomson && mType == DataType.thomson)
+                || (type == NotifyType.collection_cancel_drug && mType == DataType.drug)
+                || (type == NotifyType.collection_cancel_clinic && mType == DataType.clinic);
+
         //取消收藏后，收藏列表要删除对应的药品
-        if (type == NotifyType.getCancel_collection_drug) {
-            String drugId = (String) data;
-            List<DataUnit> list = getData();
-            for (DataUnit td : list) {
-                if (drugId.equals(td.getString(TDataUnit.id))) {
-                    getData().remove(td);
+        if (removeState) {
+            String id = (String) data;
+            for (DataUnit unit : getData()) {
+                if (id.equals(unit.getString(TDataUnit.id))) {
+                    getData().remove(unit);
                     invalidate();
-                    return;
+                    break;
                 }
             }
         }
-    }
-
-    @Override
-    public boolean enableInitRefresh() {
-        return true;
     }
 }

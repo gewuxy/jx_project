@@ -166,7 +166,7 @@
 
         <!-- data -->
         <activity
-            android:name=".ui.activity.data.DrugDetailActivity"
+            android:name=".ui.activity.data.DataUnitDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.data.DataUnitsSearchActivity"
@@ -266,7 +266,7 @@
             android:name=".ui.activity.me.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.PDFActivity"
+            android:name=".ui.activity.data.PDFActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.MyCollectionActivity"

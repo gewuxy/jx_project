@@ -18,6 +18,7 @@ import yy.doctor.R;
 import yy.doctor.serv.DownloadServ.Download;
 import yy.doctor.serv.DownloadServIntent;
 import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivityIntent;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
@@ -47,7 +48,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     String mUrl;
 
     @Extra(optional = true)
-    String mType;
+    String mFileSuffix;
 
     @Extra(optional = true)
     long mFileSize;
@@ -61,6 +62,10 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     @Extra(optional = true)
     String mFilePath;
 
+    @Extra(optional = true)
+    @DataType
+    int mDataType;
+
     private String mFileSizeKB;
 
     private String mFileNameHashCode;
@@ -70,7 +75,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
         DownloadNotifier.inst().add(this);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
-        mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mType));
+        mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mFileSuffix));
 
         //打乱文件名
         int shift = 5;
@@ -89,7 +94,8 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                     .filePath(mFilePath)
                     .fileName(mFileName)
                     .fileNameEncryption(mFileNameEncryption)
-                    .type(mType)
+                    .fileSuffix(mFileSuffix)
+                    .dataType(mDataType)
                     .size(mFileSizeKB)
                     .dataFileId(mDataFileId)
                     .start(this);
@@ -138,7 +144,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
                     mTvStatus.setText(R.string.download_ing);
-                    DownloadServIntent.create(mUrl, mFilePath, mType).start(this);
+                    DownloadServIntent.create(mUrl, mFilePath, mFileSuffix).start(this);
                     //现在不提供断点下载 点击下载按钮后就不能点击暂停
                     mIvDownload.setClickable(false);
                 }
@@ -176,7 +182,8 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                     .filePath(mFilePath)
                     .fileName(mFileName)
                     .fileNameEncryption(mFileNameEncryption)
-                    .type(mType)
+                    .fileSuffix(mFileSuffix)
+                    .dataType(mDataType)
                     .size(mTvTotal.getText().toString())
                     .dataFileId(mDataFileId)
                     .start(this);

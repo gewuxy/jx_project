@@ -57,7 +57,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
     public void setViews() {
         super.setViews();
 
-        mTvEmpty.setText(R.string.notice_empty);
+        mTvEmpty.setText(R.string.empty_notice);
         setData(mNotices);
         invalidate();
     }

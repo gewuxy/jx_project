@@ -17,7 +17,6 @@ public class RegisterBuilder {
     }
 
 
-
     /**
      * @param username 用户登录名
      */
@@ -51,7 +50,6 @@ public class RegisterBuilder {
     }
 
     /**
-     *
      * @param captcha 验证码
      * @return
      */
@@ -59,7 +57,6 @@ public class RegisterBuilder {
         mBuilder.param(RegisterParam.KCaptcha, captcha);
         return this;
     }
-
 
     /**
      * @param password 密码
@@ -126,6 +123,7 @@ public class RegisterBuilder {
 
     /**
      * 专科二级名称
+     *
      * @param name
      * @return
      */
@@ -133,7 +131,6 @@ public class RegisterBuilder {
         mBuilder.param(RegisterParam.KName, name);
         return this;
     }
-
 
 
     /**
@@ -145,7 +142,6 @@ public class RegisterBuilder {
     }
 
     /**
-     *
      * @param title 职称
      * @return
      */
@@ -156,6 +152,7 @@ public class RegisterBuilder {
 
     /**
      * 邀请码
+     *
      * @param invite
      * @return
      */

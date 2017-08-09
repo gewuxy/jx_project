@@ -15,12 +15,13 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.ui.activity.PDFActivityIntent;
+import yy.doctor.ui.activity.data.PDFActivityIntent;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 
-import static yy.doctor.Constants.FileTypeConstants.KPdf;
-import static yy.doctor.Constants.FileTypeConstants.KPpt;
-import static yy.doctor.Constants.FileTypeConstants.KPptX;
+import static yy.doctor.Constants.FileSuffix.KPdf;
+import static yy.doctor.Constants.FileSuffix.KPpt;
+import static yy.doctor.Constants.FileSuffix.KPptX;
 
 /**
  * 打开下载资料
@@ -40,13 +41,16 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     @Extra(optional = true)
     String mFileName;
     @Extra(optional = true)
-    String mType;
+    String mFileSuffix;
     @Extra(optional = true)
     String mSize;
     @Extra(optional = true)
     String mDataFileId;
     @Extra(optional = true)
     String mFileNameEncryption;
+    @Extra(optional = true)
+    @DataType
+    int mDataType;
 
     //private String mFileNameHashCode;
 
@@ -88,9 +92,9 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     @Override
     public void setViews() {
 
-        if (mType.equals(KPdf)) {
+        if (mFileSuffix.equals(KPdf)) {
             mIv.setImageResource(R.mipmap.open_data_ic_pdf);
-        } else if (mType.equals(KPpt) || mType.equals(KPptX)) {
+        } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
             mIv.setImageResource(R.mipmap.open_data_ic_ppt);
         } else {
             mIv.setImageResource(R.mipmap.open_data_ic_word);
@@ -110,11 +114,16 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
             Intent intent = null;
             try {
-                if (mType.equals(KPdf)) {
+                if (mFileSuffix.equals(KPdf)) {
                     PDFActivityIntent.create(
-                            mFilePath, mFileNameEncryption, mFileName, mDataFileId
-                    ).start(this);
-                } else if (mType.equals(KPpt) || mType.equals(KPptX)) {
+                            mFilePath,
+                            mFileNameEncryption,
+                            mFileName,
+                            mDataFileId,
+                            mDataType
+                    )
+                            .start(this);
+                } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
                     intent = getPptFileIntent(mFilePath + mFileNameEncryption);
                     startActivity(intent);
                 } else {

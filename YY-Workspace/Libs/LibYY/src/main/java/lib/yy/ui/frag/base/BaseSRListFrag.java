@@ -29,7 +29,9 @@ abstract public class BaseSRListFrag<T, A extends IAdapter<T>> extends SRListFra
 
         // 不想影响子类的findView重写
         mTvEmpty = findView(R.id.empty_footer_tv);
-        mTvEmpty.setText("暂时没有相关" + getEmptyText());
+        if (mTvEmpty != null) {
+            mTvEmpty.setText(getEmptyText());
+        }
     }
 
     @Override
@@ -61,6 +63,6 @@ abstract public class BaseSRListFrag<T, A extends IAdapter<T>> extends SRListFra
     }
 
     protected String getEmptyText() {
-        return "内容";
+        return "暂时没有相关内容";
     }
 }

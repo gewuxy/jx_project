@@ -17,10 +17,9 @@ import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.R;
-import yy.doctor.ui.frag.MyMeetingFrag;
-import yy.doctor.ui.frag.collection.CollectionClinicalGuideFrag;
-import yy.doctor.ui.frag.collection.CollectionDrugListFrag;
-import yy.doctor.ui.frag.collection.CollectionThomsonsFrag;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
+import yy.doctor.ui.frag.me.CollectionFragArg;
+import yy.doctor.ui.frag.me.MyMeetingFrag;
 import yy.doctor.util.Util;
 
 /**
@@ -53,9 +52,9 @@ public class MyCollectionActivity extends BaseVPActivity {
     @Override
     public void initData() {
         add(new MyMeetingFrag());
-        add(new CollectionThomsonsFrag());
-        add(new CollectionDrugListFrag());
-        add(new CollectionClinicalGuideFrag());
+        add(CollectionFragArg.create(DataType.thomson).build());
+        add(CollectionFragArg.create(DataType.drug).build());
+        add(CollectionFragArg.create(DataType.clinic).build());
     }
 
     @Override

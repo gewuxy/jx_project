@@ -72,7 +72,6 @@
     <string name="clinical_guide">临床指南</string>
     <string name="drug_list_search_hint">药品通用名/商品名或者批文名称</string>
     <string name="clinical_guide_search_hint">搜索症状/疾病关键字</string>
-    <string name="search_result_is_empty">暂时搜索不到相应的结果</string>
 
     <!--忘记密码-->
     <string name="forget_pwd">找回密码</string>
@@ -234,14 +233,12 @@
 
     <!--通知-->
     <string name="notice">通知</string>
-    <string name="notice_empty">暂时没有相关通知</string>
 
     <!--个人中心-->
     <string name="profile_center">个人中心</string>
 
     <!--会议收藏-->
     <string name="my_collection">我的收藏</string>
-    <string name="collection_meeting_empty">你还没有收藏会议</string>
 
     <!--资料下载-->
     <string name="download_data">资料下载</string>
@@ -292,7 +289,6 @@
 
     <!--单位号-->
     <string name="my_attention">我的关注</string>
-    <string name="attention_unit_num_empty">你还没有关注单位号</string>
     <string name="unit_num">单位号</string>
     <string name="file_data">汤森路透</string>
     <string name="cancel_attention">不再关注</string>
@@ -388,4 +384,9 @@
     <!-- 统计 -->
     <string name="attend_meeting_statistics">参会统计</string>
 
+    <!--空字符串-->
+    <string name="empty_collection_meeting">暂时没有收藏会议</string>
+    <string name="empty_search_result">暂时搜索不到相应的结果</string>
+    <string name="empty_notice">暂时没有通知</string>
+    <string name="empty_attention_unit_num">暂时没有关注单位号</string>
 </resources>

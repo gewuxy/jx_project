@@ -24,6 +24,7 @@ import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @author CaiXiang
@@ -617,7 +618,7 @@ public class NetFactory {
     }
 
     /**
-     * 是否收藏
+     * 收藏的药品目录详情
      *
      * @param dataFileId
      * @return
@@ -634,7 +635,7 @@ public class NetFactory {
      * @param type
      * @return
      */
-    public static NetworkReq collectionStatus(String resourceId, String type) {
+    public static NetworkReq collectionStatus(String resourceId, @DataType int type) {
         return newGet(UrlData.KCollectionStatus)
                 .param(CollectionParam.KCollectionStatus, resourceId)
                 .param(CollectionParam.KType, type)

@@ -1,4 +1,4 @@
-package yy.doctor.ui.frag;
+package yy.doctor.ui.frag.me;
 
 import android.view.View;
 
@@ -12,6 +12,7 @@ import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @auther WangLan
@@ -20,13 +21,11 @@ import yy.doctor.network.NetFactory;
 
 public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
 
-    private boolean mFlag;
-
-    private int mType = 0; // type为0，表示会议
+    @DataType
+    private int mType = DataType.meeting;
 
     @Override
     public void initData() {
-        mFlag = true;
     }
 
     @Override
@@ -35,11 +34,7 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
 
     @Override
     public View createHeaderView() {
-        if (mFlag) {
-            mFlag = false;
-            return inflate(R.layout.layout_divider);
-        }
-        return null;
+        return inflate(R.layout.layout_divider);
     }
 
     @Override
@@ -49,35 +44,23 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
 
     @Override
     protected String getEmptyText() {
-        return getString(R.string.collection_meeting_empty);
+        return getString(R.string.empty_collection_meeting);
     }
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
 
         //会议取消收藏后，收藏会议列表要删除对应的会议
-        if (type == NotifyType.cancel_collection_meeting) {
+        if (type == NotifyType.collection_cancel_meeting) {
             String meetingId = (String) data;
             List<Meeting> list = getData();
             for (Meeting meeting : list) {
                 if (meetingId.equals(meeting.getString(TMeeting.id))) {
                     getData().remove(meeting);
                     invalidate();
-                    return;
+                    break;
                 }
             }
         }
-
     }
-
-    @Override
-    public int getLimit() {
-        return 500;
-    }
-
-    @Override
-    public boolean enableInitRefresh() {
-        return true;
-    }
-
 }

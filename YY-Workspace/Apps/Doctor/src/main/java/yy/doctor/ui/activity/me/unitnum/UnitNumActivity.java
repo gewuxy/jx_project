@@ -56,7 +56,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
 
     @Override
     protected String getEmptyText() {
-        return getString(R.string.attention_unit_num_empty);
+        return getString(R.string.empty_attention_unit_num);
     }
 
     @Override

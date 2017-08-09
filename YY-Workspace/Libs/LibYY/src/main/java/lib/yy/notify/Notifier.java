@@ -17,6 +17,8 @@ import lib.yy.notify.Notifier.OnNotify;
 public class Notifier extends NotifierEx<OnNotify> {
 
     @IntDef({
+            NotifyType.un_know,
+
             NotifyType.login,
             NotifyType.logout,
             NotifyType.meeting_finish,
@@ -28,11 +30,15 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.token_out_of_date,
             NotifyType.cancel_attention,
             NotifyType.data_finish,
+
             NotifyType.study_start,
             NotifyType.study_end,
-            NotifyType.cancel_collection_meeting,
-            NotifyType.getCancel_collection_drug,
-            NotifyType.getCancel_collection_thomson,
+
+            NotifyType.collection_cancel_meeting,
+            NotifyType.collection_cancel_drug,
+            NotifyType.collection_cancel_clinic,
+            NotifyType.collection_cancel_thomson,
+
             NotifyType.exit,
             NotifyType.province_finish,
             NotifyType.fetch_message_captcha,
@@ -47,6 +53,8 @@ public class Notifier extends NotifierEx<OnNotify> {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
+
+        int un_know = -1;
 
         /**
          * 登录成功
@@ -106,21 +114,6 @@ public class Notifier extends NotifierEx<OnNotify> {
         int study_end = 101;
 
         /**
-         * 取消 收藏会议
-         */
-        int cancel_collection_meeting = 11;
-
-        /**
-         * 取消药品收藏
-         */
-        int getCancel_collection_drug = 23;
-
-        /**
-         * 取消汤森路透收藏
-         */
-        int getCancel_collection_thomson = 24;
-
-        /**
          * 数据中心页面结束
          */
         int data_finish = 12;
@@ -172,6 +165,23 @@ public class Notifier extends NotifierEx<OnNotify> {
 
         int bind_wx = 22;
 
+
+        /**
+         * 取消 收藏会议
+         */
+        int collection_cancel_meeting = 30;
+        /**
+         * 取消药品收藏
+         */
+        int collection_cancel_drug = 31;
+        /**
+         * 取消 临床收藏
+         */
+        int collection_cancel_clinic = 32;
+        /**
+         * 取消汤森路透收藏
+         */
+        int collection_cancel_thomson = 33;
     }
 
     public interface OnNotify {
