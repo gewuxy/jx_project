@@ -3,7 +3,7 @@ package lib.network.provider;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import lib.network.NetworkLog;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.network.model.interfaces.OnNetworkListener;
 
 /**
@@ -43,7 +43,7 @@ public class NativeListener {
                 .subscribe(lsn -> lsn.onNetworkProgress(id, progress, totalSize));
     }
 
-    public void onError(int id, NetError error, OnNetworkListener l) {
+    public void onError(int id, NetworkError error, OnNetworkListener l) {
         Observable.just(l)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(lsn -> lsn.onNetworkError(id, error));

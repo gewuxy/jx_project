@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import lib.network.NetworkLog;
-import lib.network.model.err.NetErrorBuilder;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.NativeListener;
 import okhttp3.Call;
@@ -47,7 +47,7 @@ public class DownloadFileCallback extends OkCallback {
         } catch (Exception e) {
             NetworkLog.e(e);
             NativeListener.inst().onError(id,
-                    NetErrorBuilder.create().code(id).exception(e).message(e.getMessage()).build(),
+                    NetworkErrorBuilder.create().code(id).exception(e).message(e.getMessage()).build(),
                     getListener());
         } finally {
             if (os != null) {

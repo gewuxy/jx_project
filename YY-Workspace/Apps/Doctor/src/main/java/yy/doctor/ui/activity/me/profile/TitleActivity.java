@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -132,7 +132,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
         if (id == KIdGet) {
             setViewState(ViewState.error);

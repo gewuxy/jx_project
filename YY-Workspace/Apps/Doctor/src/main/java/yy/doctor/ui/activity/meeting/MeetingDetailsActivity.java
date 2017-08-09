@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
@@ -233,7 +233,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         if (id == KIdMeetDetail) {

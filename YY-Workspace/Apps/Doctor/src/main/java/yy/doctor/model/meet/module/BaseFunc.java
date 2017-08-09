@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
@@ -283,7 +283,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         if (mListener != null) {
             mListener.onFuncNormal(getType(), getModuleId());
         }

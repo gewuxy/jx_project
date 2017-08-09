@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.net.UnknownServiceException;
 
 import lib.network.Network;
-import lib.network.model.err.NetErrorBuilder;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.network.provider.NativeListener;
 import okhttp3.Call;
@@ -30,7 +30,7 @@ abstract public class OkCallback implements Callback {
         // FIXME: err code暂时获取不到, 需要再new call的时候加入interceptor, 通过response获取
         Integer id = (Integer) call.request().tag();
 
-        NetErrorBuilder builder = NetErrorBuilder.create()
+        NetworkErrorBuilder builder = NetworkErrorBuilder.create()
                 .code(id)
                 .exception(e);
 

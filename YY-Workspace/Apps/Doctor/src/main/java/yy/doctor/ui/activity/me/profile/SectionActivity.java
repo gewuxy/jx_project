@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -104,7 +104,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
     }
 

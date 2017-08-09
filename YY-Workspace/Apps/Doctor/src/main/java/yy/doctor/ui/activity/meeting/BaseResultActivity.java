@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TimeUtil;
 import lib.yy.network.Result;
@@ -91,7 +91,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
         setViewState(ViewState.error);
     }

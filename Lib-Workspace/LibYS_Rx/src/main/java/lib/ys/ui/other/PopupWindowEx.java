@@ -24,7 +24,7 @@ import org.json.JSONException;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;
@@ -188,7 +188,7 @@ abstract public class PopupWindowEx implements
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         Exception e = error.getException();
         if (e != null) {
             YSLog.d(TAG, "onNetworkError: id = " + id);

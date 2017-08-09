@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -135,7 +135,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         setViewState(ViewState.error);

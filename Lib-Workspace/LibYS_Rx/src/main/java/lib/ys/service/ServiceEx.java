@@ -9,7 +9,7 @@ import org.json.JSONException;
 import lib.ys.util.InjectUtil;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.YSLog;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
@@ -94,7 +94,7 @@ abstract public class ServiceEx extends Service implements INetworkOpt, OnNetwor
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         Exception e = error.getException();
         if (e != null) {
             YSLog.d(TAG, "onNetworkError: id = " + id);

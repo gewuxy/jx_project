@@ -4,7 +4,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.R;
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -105,7 +105,7 @@ abstract public class SRFormFragEx<T extends FormEx<VH>, VH extends ViewHolderEx
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         if (isEmpty()) {

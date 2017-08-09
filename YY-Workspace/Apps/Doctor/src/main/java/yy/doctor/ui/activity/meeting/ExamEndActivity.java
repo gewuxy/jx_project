@@ -7,7 +7,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -114,7 +114,7 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
         setViewState(ViewState.error);
     }

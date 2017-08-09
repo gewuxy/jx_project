@@ -3,7 +3,7 @@ package yy.doctor.ui.activity.login;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
@@ -128,7 +128,7 @@ public class LoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         if (error.getCode() == ErrorCode.KPwdErr) {

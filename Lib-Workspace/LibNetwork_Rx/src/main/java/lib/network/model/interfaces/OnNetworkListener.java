@@ -1,8 +1,8 @@
 package lib.network.model.interfaces;
 
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 
 /**
  * 网络任务监听
@@ -33,7 +33,7 @@ public interface OnNetworkListener {
      * @param id    编号
      * @param error 错误
      */
-    void onNetworkError(int id, NetError error);
+    void onNetworkError(int id, NetworkError error);
 
     /**
      * 任务下载或上传进度

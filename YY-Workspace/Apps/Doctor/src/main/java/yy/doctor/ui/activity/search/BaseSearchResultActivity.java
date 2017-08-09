@@ -4,7 +4,7 @@ import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.processor.annotation.Extra;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -70,7 +70,7 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
 
     @CallSuper
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         setViewState(ViewState.error);

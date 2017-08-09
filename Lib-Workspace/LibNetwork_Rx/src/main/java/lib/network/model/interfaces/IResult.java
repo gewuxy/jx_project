@@ -1,6 +1,6 @@
 package lib.network.model.interfaces;
 
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 
 /**
  * @author yuansui
@@ -23,7 +23,7 @@ public interface IResult<T> {
 
     int getCodeOk();
 
-    NetError getError();
+    NetworkError getError();
 
-    void setError(NetError err);
+    void setError(NetworkError err);
 }

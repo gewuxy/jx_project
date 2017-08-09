@@ -2,8 +2,8 @@ package yy.doctor.ui.activity.search;
 
 import java.util.List;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.network.model.interfaces.IListResult;
 import lib.processor.annotation.AutoIntent;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -56,7 +56,7 @@ public class UnitNumResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         if (id == KRecUnitNum) {

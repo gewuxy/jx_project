@@ -5,8 +5,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -248,7 +248,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         stopSwipeRefresh();

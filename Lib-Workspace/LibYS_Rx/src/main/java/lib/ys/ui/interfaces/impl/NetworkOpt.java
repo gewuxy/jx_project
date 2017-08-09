@@ -3,9 +3,9 @@ package lib.ys.ui.interfaces.impl;
 import android.util.SparseArray;
 
 import lib.network.Network;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.NetworkReq;
-import lib.network.model.err.NetError;
-import lib.network.model.err.NetErrorBuilder;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.util.DeviceUtil;
@@ -46,7 +46,7 @@ public class NetworkOpt implements INetworkOpt {
     @Override
     public void exeNetworkReq(int id, NetworkReq req, OnNetworkListener l) {
         if (req == null) {
-            mNetworkLsn.onNetworkError(id, new NetError());
+            mNetworkLsn.onNetworkError(id, new NetworkError());
             return;
         }
 
@@ -55,7 +55,7 @@ public class NetworkOpt implements INetworkOpt {
         }
 
         if (!DeviceUtil.isNetworkEnabled()) {
-            mNetworkLsn.onNetworkError(id, NetErrorBuilder.create().message(Network.getConfig().getDisconnectToast()).build());
+            mNetworkLsn.onNetworkError(id, NetworkErrorBuilder.create().message(Network.getConfig().getDisconnectToast()).build());
             return;
         }
 

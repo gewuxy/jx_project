@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 
 import java.io.File;
 
-import lib.network.model.err.NetError;
+import lib.network.model.NetworkError;
 import lib.ys.service.ServiceEx;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -80,7 +80,7 @@ public class DownloadApkServ extends ServiceEx {
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
         builder.setAutoCancel(true);

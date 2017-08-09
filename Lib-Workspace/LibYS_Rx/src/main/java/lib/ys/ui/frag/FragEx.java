@@ -26,9 +26,9 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import java.lang.reflect.Field;
 
 import lib.network.Network;
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.R;
@@ -299,7 +299,7 @@ abstract public class FragEx extends Fragment implements
     }
 
     @Override
-    public void onNetworkError(int id, NetError error) {
+    public void onNetworkError(int id, NetworkError error) {
         Exception e = error.getException();
         if (e != null) {
             YSLog.d(TAG, "onNetworkError: id = " + id);

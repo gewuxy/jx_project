@@ -1,4 +1,4 @@
-package lib.network.model.err;
+package lib.network.model;
 
 import lib.processor.annotation.AutoBuilder;
 
@@ -6,7 +6,7 @@ import lib.processor.annotation.AutoBuilder;
  * @author yuansui
  */
 @AutoBuilder
-public class NetError {
+public class NetworkError {
 
     // 错误提示文字
     String mMessage;

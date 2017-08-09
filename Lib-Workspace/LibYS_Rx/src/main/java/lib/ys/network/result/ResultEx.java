@@ -1,7 +1,7 @@
 package lib.ys.network.result;
 
-import lib.network.model.err.NetError;
-import lib.network.model.err.NetErrorBuilder;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.interfaces.IResult;
 
 abstract public class ResultEx<T> implements IResult<T> {
@@ -9,7 +9,7 @@ abstract public class ResultEx<T> implements IResult<T> {
     private int mCode;
     private String mMessage;
     private T mT;
-    private NetError mError;
+    private NetworkError mError;
 
     public ResultEx() {
     }
@@ -54,9 +54,9 @@ abstract public class ResultEx<T> implements IResult<T> {
     }
 
     @Override
-    public NetError getError() {
+    public NetworkError getError() {
         if (mError == null) {
-            mError = NetErrorBuilder.create()
+            mError = NetworkErrorBuilder.create()
                     .code(mCode)
                     .message(mMessage)
                     .build();
@@ -65,7 +65,7 @@ abstract public class ResultEx<T> implements IResult<T> {
     }
 
     @Override
-    public void setError(NetError err) {
+    public void setError(NetworkError err) {
         mError = err;
     }
 

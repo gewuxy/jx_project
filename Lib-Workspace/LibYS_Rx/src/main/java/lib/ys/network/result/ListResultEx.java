@@ -3,8 +3,8 @@ package lib.ys.network.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.err.NetError;
-import lib.network.model.err.NetErrorBuilder;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.interfaces.IListResult;
 
 /**
@@ -16,7 +16,7 @@ abstract public class ListResultEx<T> implements IListResult<T> {
     private int mCode;
     private String mLastItemId;
     private String mMessage;
-    private NetError mError;
+    private NetworkError mError;
 
     /**
      * @param data
@@ -88,9 +88,9 @@ abstract public class ListResultEx<T> implements IListResult<T> {
     abstract public int getCodeOk();
 
     @Override
-    public NetError getError() {
+    public NetworkError getError() {
         if (mError == null) {
-            mError = NetErrorBuilder.create()
+            mError = NetworkErrorBuilder.create()
                     .code(mCode)
                     .message(mMessage)
                     .build();
@@ -99,7 +99,7 @@ abstract public class ListResultEx<T> implements IListResult<T> {
     }
 
     @Override
-    public void setError(NetError err) {
+    public void setError(NetworkError err) {
         mError = err;
     }
 }
