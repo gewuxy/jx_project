@@ -27,7 +27,6 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkErrorBuilder;
-import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -36,12 +35,11 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.HospitalBaiDuAdapter;
+import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
@@ -53,7 +51,6 @@ import yy.doctor.model.hospital.HospitalTitle;
 import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
-import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.search.SearchHospitalActivity;
 import yy.doctor.ui.activity.search.SearchHospitalActivity.Hos;
@@ -64,7 +61,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/19
  */
 
-public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
+public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
     private final int KLimit = 12;
 
@@ -165,6 +162,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
         if (mCheckItem.getType() != HospitalType.hospital_title) {
             mLevelDialog = new LevelDialog(this);
             mLevelDialog.setListener(HospitalActivity.this);
+           // mLevelDialog.setData();
             mLevelDialog.show();
 
         }
@@ -309,14 +307,9 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.hospital_finish) {
             Hos name = (Hos) data;
-            Intent intent = new Intent()
-                    .putExtra(Extra.KData, name.name)
-                    .putExtra(Extra.KId, name.resId);
-
-            exeNetworkReq(KSave, NetFactory.newModifyBuilder()
-                    .hospital(name.name)
-                    .hospitalLevel(name.resId)
-                    .build());
+            Intent intent = new Intent().putExtra(Extra.KData,name.name)
+                    .putExtra(Extra.KId,name.resId);
+            exeNetworkReq(KSave, NetFactory.newModifyBuilder().hospital(name.name).hospitalLevel(name.resId).build());
             setResult(RESULT_OK, intent);
             this.finish();
         }
@@ -376,41 +369,42 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
             Profile.inst().put(TProfile.hosLevel, mResId);
             Profile.inst().saveToSp();
 
-            exeNetworkReq(KSave, NetFactory.newModifyBuilder()
-                    .hospital(mName)
-                    .hospitalLevel(mResId)
-                    .build());
-
-            Intent intent = new Intent()
-                    .putExtra(Extra.KData, mName)
-                    .putExtra(Extra.KId, mResId);
-            setResult(RESULT_OK, intent);
-            finish();
+            if (Profile.inst().isLogin()) {
+                exeNetworkReq(KSave, NetFactory.newModifyBuilder().hospital(mName).hospitalLevel(mResId).build());
+            }else {
+                Intent intent = new Intent()
+                        .putExtra(Extra.KData, mName)
+                        .putExtra(Extra.KId, mResId);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
         }
     }
 
-    @Override
+  /*  @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
-    }
+            return JsonParser.error(r.getText());
+    }*/
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
         if (id == KSave) {
-            Result r = (Result) result;
-            if (r.isSucceed()) {
+            ListResult res = (ListResult) result;
+            YSLog.d(TAG,res.toString());
+            if (res.isSucceed()) {
                 Profile.inst().put(TProfile.hospital, mName);
                 Profile.inst().put(TProfile.hosLevel, mResId);
                 Profile.inst().saveToSp();
 
-                Intent i = new Intent()
-                        .putExtra(Extra.KData, mName)
-                        .putExtra(Extra.KId, mResId);
+                Intent i = new Intent().putExtra(Extra.KData, mName)
+                        .putExtra(Extra.KId,mResId);
                 setResult(RESULT_OK, i);
                 finish();
             } else {
-                onNetworkError(id, r.getError());
+                onNetworkError(id, res.getError());
+                stopRefresh();
+                onNetworkError(id, res.getError());
             }
         }
 

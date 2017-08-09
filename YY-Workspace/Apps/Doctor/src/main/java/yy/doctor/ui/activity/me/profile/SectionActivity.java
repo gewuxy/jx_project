@@ -119,11 +119,22 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     public void onSectionSelected(int position, String name) {
         mCategoryName = name;
 
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
-                .category(mCategory)
-                .name(mCategoryName)
-                .build());
+        if (Profile.inst().isLogin()) {
+            refresh(RefreshWay.dialog);
+            exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
+                    .category(mCategory)
+                    .name(mCategoryName)
+                    .build());
+        }else {
+            Intent intent = new Intent()
+                    .putExtra(Extra.KName, mCategory)
+                    .putExtra(Extra.KData, mCategoryName);
+            setResult(RESULT_OK, intent);
+            stopRefresh();
+            finish();
+        }
+
+
     }
 
 }

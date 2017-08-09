@@ -1,5 +1,6 @@
 package yy.doctor.model.form.edit;
 
+import android.text.InputFilter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.widget.EditText;
 import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-import yy.doctor.util.UISetter;
+import yy.doctor.util.InputFilterUtils;
 
 /**
  * @author GuoXuan
@@ -30,10 +31,12 @@ public class EditRegisterPwdForm extends EditForm {
     protected void init(FormVH holder) {
         super.init(holder);
         // 设置输入digits
-        UISetter.setPwdRange(holder.getEt());
+       // UISetter.setPwdRange(holder.getEt());
 
         holder.getIv().setSelected(true);
         setOnClickListener(holder.getIv());
+
+        holder.getEt().setFilters(new InputFilter[]{new InputFilterUtils()});
 
         getHolder().getIv().setSelected(mFlag);
     }

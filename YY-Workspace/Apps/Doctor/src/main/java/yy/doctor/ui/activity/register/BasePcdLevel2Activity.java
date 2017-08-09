@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.register;
 
+import android.content.Intent;
+
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
@@ -52,13 +54,22 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
                 DistrictActivity.nav(this, item.getString(TPcd.id), mProvince, item.getString(TPcd.name), getLocation());
             } else {
                 Place place = makePlace(item.getString(TPcd.name));
-
-                refresh(RefreshWay.dialog);
-                exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
-                        .province(place.getString(TPlace.province))
-                        .city(place.getString(TPlace.city))
-                        .area(place.getString(TPlace.district))
-                        .build());
+                if (Profile.inst().isLogin()) {
+                    refresh(RefreshWay.dialog);
+                    exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
+                            .province(place.getString(TPlace.province))
+                            .city(place.getString(TPlace.city))
+                            .area(place.getString(TPlace.district))
+                            .build());
+                }else {
+                    Intent intent = new Intent()
+                            .putExtra(Extra.KProvince, place.getString(TPlace.province))
+                            .putExtra(Extra.KCity, place.getString(TPlace.city))
+                            .putExtra(Extra.KDistrict,place.getString(TPlace.district));
+                    setResult(RESULT_OK, intent);
+                    notify(NotifyType.province_finish, place);
+                    finish();
+                }
             }
         });
     }

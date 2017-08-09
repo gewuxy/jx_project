@@ -35,6 +35,7 @@
     <string name="phone_number">输入手机号码</string>
     <string name="input_real_name">请输入真实姓名</string>
     <string name="input_right_pwd_num">请输入6~24位密码</string>
+    <string name="input_special_symbol">请不要输入特殊字符</string>
     <string name="check_pwd_is_same">请核对密码是否一致</string>
     <string name="hospital">医院</string>
     <string name="guang_dong">广东省</string>

@@ -1,7 +1,5 @@
 package yy.doctor.ui.frag.collection;
 
-import android.support.annotation.IntDef;
-
 import java.util.List;
 
 import lib.ys.YSLog;
@@ -16,33 +14,20 @@ import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
 import yy.doctor.ui.activity.data.DrugDetailActivityIntent;
 import yy.doctor.util.CacheUtil;
 
+import static yy.doctor.model.data.DataUnit.TDataUnit.openType;
+
 /**
  * @auther WangLan
- * @since 2017/7/29
+ * @since 2017/8/9
  */
 
-public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
+public class CollectionThomsonsFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
-    private int mType = 2; // type为2，表示药品目录
-
-    @IntDef({
-            openType.pdf,
-            openType.detail_interface,
-            openType.html,
-    })
-
-    private  @interface openType {
-        int pdf = 1;
-        int detail_interface = 2;
-        int html = 3;
-    }
+    private int mType = 1; // type为1，表示汤森路透
 
     @Override
     public void initData() {
-    }
 
-    @Override
-    public void initNavBar(NavBar bar) {
     }
 
     @Override
@@ -58,9 +43,9 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
             String filePath = CacheUtil.getThomsonCacheDir(item.getString(TDataUnit.id));
             String url = item.getString(TDataUnit.filePath);
 
-            int type = item.getInt(TDataUnit.openType);
+            int type = item.getInt(openType);
             YSLog.d(TAG, type + "");
-            if (type == openType.pdf) {
+            if (type == 1) {
                 DownloadFileActivityIntent.create()
                         .filePath(filePath)
                         .fileName(fileName)
@@ -69,7 +54,7 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
                         .fileSize(fileSize)
                         .dataFileId(dataFileId)
                         .start(getContext());
-            } else if (type == openType.detail_interface) {
+            } else if (type == 2) {
                 DrugDetailActivityIntent.create()
                         .dataFileId(dataFileId)
                         .fileName(fileName)
@@ -79,10 +64,12 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
         });
     }
 
+
     @Override
     public void getDataFromNet() {
         exeNetworkReq(NetFactory.collection(getOffset(), getLimit(), mType));
     }
+
 
     @Override
     public int getLimit() {
@@ -93,11 +80,11 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
     public void onNotify(@NotifyType int type, Object data) {
 
         //取消收藏后，收藏列表要删除对应的药品
-        if (type == NotifyType.getCancel_collection_drug) {
-            String drugId = (String) data;
+        if (type == NotifyType.getCancel_collection_thomson) {
+            String thomsonId = (String) data;
             List<DataUnit> list = getData();
             for (DataUnit td : list) {
-                if (drugId.equals(td.getString(TDataUnit.id))) {
+                if (thomsonId.equals(td.getString(TDataUnit.id))) {
                     getData().remove(td);
                     invalidate();
                     return;
@@ -109,5 +96,11 @@ public class CollectionDrugListFrag extends BaseSRListFrag<DataUnit, DataUnitAda
     @Override
     public boolean enableInitRefresh() {
         return true;
+    }
+
+
+    @Override
+    public void initNavBar(NavBar bar) {
+
     }
 }

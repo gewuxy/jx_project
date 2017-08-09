@@ -149,7 +149,7 @@ public class NetFactory {
         String KHospital = "hospital";//医院
         String KCategory = "category";//专科一级名称
         String KName = "name";//专科一级名称
-        String KHosLevel = "hosLevel";//医院级别
+        String KHospitalLevel = "hospitalLevel";//医院级别
         String KDepartment = "department";//科室
         String KInvite = "invite";//科室
         String KTitle = "title";//邀请码
@@ -622,8 +622,8 @@ public class NetFactory {
      * @param dataFileId
      * @return
      */
-    public static NetworkReq drugDetail(String dataFileId) {
-        return newGet(UrlUser.KDrugDetail)
+    public static NetworkReq collectionDetail(String dataFileId) {
+        return newGet(UrlUser.KCollectionDetail)
                 .param(CollectionParam.KDataFileId, dataFileId)
                 .build();
     }

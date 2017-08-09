@@ -72,7 +72,7 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 public class RegisterActivity extends BaseFormActivity
-        implements OnEditorActionListener, OnLocationNotify, OnFormObserver {
+        implements OnEditorActionListener, OnLocationNotify, OnFormObserver, TextWatcher {
 
     private final int KRegister = 0;
     private final int KLogin = 1;
@@ -109,7 +109,6 @@ public class RegisterActivity extends BaseFormActivity
         int department = 8;
         int title = 9;
     }
-
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
 
@@ -167,7 +166,7 @@ public class RegisterActivity extends BaseFormActivity
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register)
+        addItem(Form.create(FormType.et_register_name)
                 .observer(this)
                 .related(RelatedId.name)
                 .hint(R.string.real_name));
@@ -241,7 +240,7 @@ public class RegisterActivity extends BaseFormActivity
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.register);
+        setOnClickListener(mTvReg);
         setOnClickListener(mTvActivatedCode);
         setOnClickListener(mIvCancel);
         mTvReg.setEnabled(false);
@@ -258,33 +257,7 @@ public class RegisterActivity extends BaseFormActivity
             }
         });
 
-        mEtActivatedCode.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (TextUtil.isEmpty(s)) {
-                    mStatus.remove(KActivateCodeCheckStatus);
-                } else {
-                    mStatus.add(KActivateCodeCheckStatus);
-                }
-
-                setBtnStatus();
-
-                if (TextUtil.isNotEmpty(s)) {
-                    ViewUtil.showView(mIvCancel);
-                } else {
-                    ViewUtil.goneView(mIvCancel);
-                }
-            }
-        });
+        mEtActivatedCode.addTextChangedListener(this);
 
     }
 
@@ -297,7 +270,7 @@ public class RegisterActivity extends BaseFormActivity
             case R.id.register:
                 enroll();
                 break;
-            case R.id.academic_iv_clean:
+            case R.id.iv_activated_cancel:
                 mEtActivatedCode.setText("");
         }
     }
@@ -324,22 +297,16 @@ public class RegisterActivity extends BaseFormActivity
 
         // 检查激活码是否为空
         String code = mEtActivatedCode.getText().toString().trim();
-      /*  if (TextUtil.isEmpty(code)) {
-            showToast("请输入" + getString(R.string.title_fetch_captcha));
-            return;
-        }*/
-
-        // 检查姓名 是否有特殊符号
-        if (Util.checkNameLegal(getItemStr(RelatedId.name))) {
-            showToast(R.string.input_real_name);
-            return;
-        }
 
         // 检查密码
         String strPwd = getItemStr(RelatedId.pwd);
-        // String strPwdNg = getItemStr(RelatedId.pwd_sure);
+        String specialSymbol = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-×÷＝%√°′″{}()[].|*/#~,:;?\\\"‖&*@\\\\^,$–…'=+!><.-—_";
         if (strPwd.length() < 6 || strPwd.length() > 24) {
             showToast(R.string.input_right_pwd_num);
+            return;
+        }
+        if (!strPwd.contains(specialSymbol)) {
+            showToast(R.string.input_special_symbol);
             return;
         }
 
@@ -353,28 +320,28 @@ public class RegisterActivity extends BaseFormActivity
         String name = s[1];
 
         int id = getRelatedItem(RelatedId.hospital).getHolder().getIv().getId();
-        String hosLevel = "三级";
+        int hospitalLevel = 3;
         switch (id) {
             case R.id.level_three:
-                hosLevel = "三级";
+                hospitalLevel = 3;
                 break;
             case R.id.level_two:
-                hosLevel = "二级";
+                hospitalLevel = 2;
                 break;
             case R.id.level_one:
-                hosLevel = "一级";
+                hospitalLevel = 1;
                 break;
             case R.id.level_community:
-                hosLevel = "社区卫生服务中心";
+                hospitalLevel = 4;
                 break;
             case R.id.level_village:
-                hosLevel = "乡镇卫生院";
+                hospitalLevel= 5;
                 break;
             case R.id.level_clinic:
-                hosLevel = "诊所";
+                hospitalLevel = 6;
                 break;
             case R.id.level_other:
-                hosLevel = "其他";
+                hospitalLevel = 7;
                 break;
         }
 
@@ -389,7 +356,7 @@ public class RegisterActivity extends BaseFormActivity
                 .city(place.getString(TPlace.city))
                 .zone(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
-                .hosLevel(hosLevel)//医院级别没返回来
+                .hospitalLevel(hospitalLevel)//医院级别
                 .category(category)//专科一级名称，要分开
                 .name(name)//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称
@@ -430,6 +397,9 @@ public class RegisterActivity extends BaseFormActivity
                     tv.setText(mPhone);
 
                     dialog.addHintView(view);
+                    dialog.addButton("取消", v1 -> {
+                        dialog.dismiss();
+                    });
                     dialog.addButton("好", v1 -> {
                         if (mCount == 0) {
                             mStartTime = System.currentTimeMillis();
@@ -448,9 +418,6 @@ public class RegisterActivity extends BaseFormActivity
                         exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         dialog.dismiss();
                         ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
-                    });
-                    dialog.addButton("取消", v1 -> {
-                        dialog.dismiss();
                     });
 
                     dialog.show();
@@ -505,11 +472,11 @@ public class RegisterActivity extends BaseFormActivity
                     public boolean onPreDraw() {
                         TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
                         locationText.setText(place.toString());
-                        getRelatedItem(RelatedId.location).save(locationText.toString(), locationText.toString());
+                        getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
 
                         TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
                         specialText.setText("内科 普内科");
-                        getRelatedItem(RelatedId.special).save(specialText.toString(), specialText.toString());
+                        getRelatedItem(RelatedId.special).save(specialText.getText().toString(), specialText.getText().toString());
                         removeOnPreDrawListener(this);
                         return true;
                     }
@@ -535,14 +502,14 @@ public class RegisterActivity extends BaseFormActivity
                 .message("定位失败")
                 .build());
 
-        if (!DeviceUtil.isNetworkEnabled()) {
-            showToast("当前网络不可用,不可定位");
-        } else {
+        if (DeviceUtil.isNetworkEnabled()) {
             //有网但是定位失败  显示dialog
             mDialog = new BaseHintDialog(this);
             mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
             mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
             mDialog.show();
+        } else {
+            showToast("当前网络不可用,不可定位");
         }
 
     }
@@ -589,7 +556,7 @@ public class RegisterActivity extends BaseFormActivity
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
-                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
+                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd),null));
                 YSLog.d("yaya", "_________________________");
             } else {
                 onNetworkError(id, r.getError());
@@ -610,6 +577,7 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         //resultCode == RESULT_FIRST_USER只是一个区别于之前的ESULT_OK
         if (resultCode == RESULT_FIRST_USER && data != null) {
             String name = data.getStringExtra(Extra.KData);
@@ -659,6 +627,31 @@ public class RegisterActivity extends BaseFormActivity
         } else {
             // 按钮不能点击
             mTvReg.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (TextUtil.isEmpty(s)) {
+            mStatus.remove(KActivateCodeCheckStatus);
+        } else {
+            mStatus.add(KActivateCodeCheckStatus);
+        }
+
+        setBtnStatus();
+
+        if (TextUtil.isNotEmpty(s)) {
+            ViewUtil.showView(mIvCancel);
+        } else {
+            ViewUtil.goneView(mIvCancel);
         }
     }
 }

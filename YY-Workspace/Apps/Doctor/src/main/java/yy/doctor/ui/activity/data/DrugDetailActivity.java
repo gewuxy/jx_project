@@ -36,9 +36,9 @@ import yy.doctor.util.Util;
 @AutoIntent
 public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail, DrugDetail, DrugDetailAdapter> {
 
-    private ImageView mIvCollection;
-    private boolean mStoredState = true;  // 默认有收藏
-    private String mType = 2 + ""; // type为2，表示药品目录
+    private final String KType = "2"; // type为2，表示药品目录
+    private final int KCollectionState = 0;
+    private final int KCollectionDetail = 1;
 
     @Extra(optional = true)
     String mDataFileId;
@@ -46,9 +46,10 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     @Extra(optional = true)
     String mFileName;
 
-    private final int KCollectionState = 0;
-    private final int KCollectionDetail = 1;
+    private ImageView mIvCollection;
 
+    private boolean mStoredState ;  // 默认没有收藏
+    private DrugDetailData mData;
 
     @Override
     public void initData() {
@@ -56,26 +57,24 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, mFileName, this);
         // 收藏
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
             mStoredState = !mStoredState;
+            mData.put(TDrugDetailData.favorite,mStoredState);
             mIvCollection.setSelected(mStoredState);
             showToast(mStoredState ? R.string.collect_finish : R.string.cancel_collect);
-
-            exeNetworkReq(KCollectionState, NetFactory.collectionStatus(mDataFileId, mType));
+            exeNetworkReq(KCollectionState, NetFactory.collectionStatus(mDataFileId, KType));
             if (!mStoredState) {
                 notify(NotifyType.getCancel_collection_drug, mDataFileId);
             }
         });
         mIvCollection = Util.getBarView(group, ImageView.class);
-        mIvCollection.setSelected(true);
     }
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(KCollectionDetail, NetFactory.drugDetail(mDataFileId));
+        exeNetworkReq(KCollectionDetail, NetFactory.collectionDetail(mDataFileId));
     }
 
     @Override
@@ -86,8 +85,9 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
             result.setCode(dataResult.getCode());
 
             if (dataResult.isSucceed()) {
-                DrugDetailData data = dataResult.getData();
-                List<DrugDetail> details = data.getList(TDrugDetailData.detailList);
+                mData = dataResult.getData();
+                List<DrugDetail> details = mData.getList(TDrugDetailData.detailList);
+                mStoredState = mData.getBoolean(TDrugDetailData.favorite);
                 for (DrugDetail detail : details) {
                     GroupDrugDetail group = new GroupDrugDetail();
                     group.setTag(detail.getString(TDrugDetail.detailKey));
@@ -101,6 +101,12 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
         } else {
             return null;
         }
+    }
 
+    @Override
+    public void onNetRefreshSuccess() {
+        super.onNetRefreshSuccess();
+
+        mIvCollection.setSelected(mStoredState);
     }
 }

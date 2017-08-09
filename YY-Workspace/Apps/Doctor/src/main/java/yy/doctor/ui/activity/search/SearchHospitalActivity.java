@@ -37,7 +37,7 @@ import lib.yy.network.ListResult;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.HospitalBaiDuAdapter;
+import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
@@ -55,7 +55,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/20
  */
 
-public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiDuAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
+public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
     private EditText mEtSearch;
     private PoiSearch mSearch;

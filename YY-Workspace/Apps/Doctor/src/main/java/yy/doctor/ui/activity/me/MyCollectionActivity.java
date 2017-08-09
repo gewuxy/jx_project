@@ -20,7 +20,8 @@ import yy.doctor.R;
 import yy.doctor.ui.frag.MyMeetingFrag;
 import yy.doctor.ui.frag.collection.CollectionClinicalGuideFrag;
 import yy.doctor.ui.frag.collection.CollectionDrugListFrag;
-import yy.doctor.ui.frag.data.ThomsonsFrag;
+import yy.doctor.ui.frag.collection.CollectionThomsonsFrag;
+import yy.doctor.util.Util;
 
 /**
  * @auther WangLan
@@ -52,7 +53,7 @@ public class MyCollectionActivity extends BaseVPActivity {
     @Override
     public void initData() {
         add(new MyMeetingFrag());
-        add(new ThomsonsFrag());
+        add(new CollectionThomsonsFrag());
         add(new CollectionDrugListFrag());
         add(new CollectionClinicalGuideFrag());
     }
@@ -64,7 +65,7 @@ public class MyCollectionActivity extends BaseVPActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addTextViewMid("我的收藏");
+        Util.addBackIcon(bar, R.string.my_collection, this);
     }
 
     @Override

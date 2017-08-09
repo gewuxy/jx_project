@@ -11,6 +11,7 @@ import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditNumberForm;
 import yy.doctor.model.form.edit.EditPhoneNumberForm;
 import yy.doctor.model.form.edit.EditRegisterForm;
+import yy.doctor.model.form.edit.EditRegisterNameForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
 import yy.doctor.model.form.text.MeForm;
 import yy.doctor.model.form.text.TextDialogForm;
@@ -85,6 +86,10 @@ public class Form {
             break;
             case FormType.et_register: {
                 form = new EditRegisterForm();
+            }
+            break;
+            case FormType.et_register_name: {
+                form = new EditRegisterNameForm();
             }
             break;
             case FormType.et_register_pwd: {

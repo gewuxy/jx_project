@@ -18,4 +18,5 @@ public class ThomsonsFrag extends BaseDataUnitsFrag {
     public int getContentHeaderViewId() {
         return 0;
     }
+
 }

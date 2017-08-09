@@ -127,8 +127,6 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
             }
             break;
         }
-
-
     }
 
     @Override
@@ -149,7 +147,17 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     public void onCategorySelected(int position, String category) {
         mTitle = mGrade + " " + category;
 
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
+        if (Profile.inst().isLogin()) {
+            // 登录了就是在个人中心界面p
+            refresh(RefreshWay.dialog);
+            exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
+        } else {
+            // 没有登录就是在注册界面
+            Intent i = new Intent()
+                    .putExtra(Extra.KData, mTitle);
+
+            setResult(RESULT_OK, i);
+            finish();
+        }
     }
 }

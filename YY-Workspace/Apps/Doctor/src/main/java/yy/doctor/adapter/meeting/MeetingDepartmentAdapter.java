@@ -20,13 +20,12 @@ public class MeetingDepartmentAdapter extends AdapterEx<MeetingDepartment, Secti
 
     @Override
     protected void refreshView(int position, SectionFilterVH holder) {
-        if (position == 0) {
-            goneView(holder.getDivider());
-        }
-        holder.getImageView().url(getItem(position).getString(TMeetingDepartment.icon));
-        //holder.getImageView().setImageResource(getItem(position).getInt(TMeetingDepartment.icon));
-        holder.getName().setText(getItem(position).getString(TMeetingDepartment.name));
-        holder.getNumber().setText(getItem(position).getString(TMeetingDepartment.count));
+        MeetingDepartment item = getItem(position);
+        holder.getImageView().placeHolder(R.mipmap.ic_section_default)
+               .url(item.getString(TMeetingDepartment.icon))
+               .load();
+        holder.getName().setText(item.getString(TMeetingDepartment.name));
+        holder.getNumber().setText(item.getString(TMeetingDepartment.count));
     }
 
 

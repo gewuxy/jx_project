@@ -71,7 +71,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
         adapter.setData(mList);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);*/
-        //  mListView.getDivider();
+      //  mListView.getDivider();
 //        mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
 //
 //        // 分割线
@@ -107,11 +107,10 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("你好 " + position);
         if (mLsn != null) {
-            mLsn.onSectionSelected(adapter.getItem(position).getString(TMeetingDepartment.name));
-        }
-        dismiss();
+                    mLsn.onSectionSelected(adapter.getItem(position).getString(TMeetingDepartment.name));
+                }
+                dismiss();
     }
 
     @Override
