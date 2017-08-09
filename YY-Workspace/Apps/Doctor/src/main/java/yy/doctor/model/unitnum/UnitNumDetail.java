@@ -25,11 +25,11 @@ public class UnitNumDetail extends EVal<TUnitNumDetail> {
 
         //单位号资料
         @Bind(asList = FileData.class)
-        materialDTOList,
+        materialList,
 
         //会议
         @Bind(asList = Meeting.class)
-        meetFolderDTOList,
+        meetFolderList,
     }
 
 }
