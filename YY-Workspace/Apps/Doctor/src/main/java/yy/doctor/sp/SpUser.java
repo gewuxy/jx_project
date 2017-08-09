@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
-import lib.ys.util.TextUtil;
 import lib.ys.util.sp.SpBase;
 import yy.doctor.App;
 
@@ -23,7 +22,6 @@ public class SpUser extends SpBase {
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
         String KBadgeNum = "badge_num";
-        String KIsRemindBinding = "is_remind_binding";
     }
 
     private SpUser(Context context, String fileName) {
@@ -80,26 +78,6 @@ public class SpUser extends SpBase {
      */
     public int badgeNum() {
         return getInt(SpUserKey.KBadgeNum, 0);
-    }
-
-    /**
-     * 是否需要显示 绑定的dialog
-     *
-     * @return
-     */
-    public boolean isShowBindingDialog() {
-        if (TextUtil.isEmpty(getString(SpUserKey.KIsRemindBinding))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 不再显示绑定的dialog
-     */
-    public void neverShowBindingDialog() {
-        save(SpUserKey.KIsRemindBinding, "do_not_show_again");
     }
 
 }

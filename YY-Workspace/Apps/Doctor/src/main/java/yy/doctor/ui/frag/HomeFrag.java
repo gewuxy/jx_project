@@ -26,7 +26,7 @@ import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.sp.SpUser;
+import yy.doctor.sp.SpApp;
 import yy.doctor.ui.activity.home.NoticeActivity;
 import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
@@ -234,9 +234,10 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
                 mIsLoadFirstPage = false;
 
-                //判断是否需要弹绑定的dialog
-                if (SpUser.inst().isShowBindingDialog()) {
-                    showBindingDialog();
+               //判断是否需要弹绑定的dialog
+                if (!SpApp.inst().userNameIsExist(SpApp.inst().getUserName())) {
+                    showBind();
+                    SpApp.inst().addUserName(SpApp.inst().getUserName());
                 }
             } else {
                 homes.addAll(mRecMeetings);
@@ -255,17 +256,16 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         setViewState(ViewState.error);
     }
 
-    private void showBindingDialog() {
-        BaseHintDialog bindingDialog = new BaseHintDialog(getContext());
-        bindingDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
-        bindingDialog.addButton(R.string.cancel, v -> bindingDialog.dismiss());
-        bindingDialog.addButton(R.string.go_binding, v -> {
+    private void showBind() {
+        BaseHintDialog bindDialog = new BaseHintDialog(getContext());
+        bindDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
+        bindDialog.addButton(R.string.cancel, v -> bindDialog.dismiss());
+        bindDialog.addButton(R.string.go_binding, v -> {
             //跳转到设置页面
             startActivity(SettingsActivity.class);
-            bindingDialog.dismiss();
+            bindDialog.dismiss();
         });
-        bindingDialog.show();
-        SpUser.inst().neverShowBindingDialog();
+        bindDialog.show();
     }
 
     @Override

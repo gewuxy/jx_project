@@ -617,19 +617,25 @@ public class NetFactory {
     }
 
     /**
-     * 收藏的药品目录详情
+     * 是否收藏
      *
      * @param dataFileId
      * @return
      */
     public static NetworkReq collectionDetail(String dataFileId) {
-        return newGet(UrlUser.KCollectionDetail)
+        return newGet(UrlData.KCollectionDetail)
                 .param(CollectionParam.KDataFileId, dataFileId)
                 .build();
     }
 
+    /**
+     * 收藏或者取消收藏
+     * @param resourceId
+     * @param type
+     * @return
+     */
     public static NetworkReq collectionStatus(String resourceId, String type) {
-        return newGet(UrlUser.KCollectionStatus)
+        return newGet(UrlData.KCollectionStatus)
                 .param(CollectionParam.KCollectionStatus, resourceId)
                 .param(CollectionParam.KType, type)
                 .build();
@@ -794,18 +800,6 @@ public class NetFactory {
                 .param(DataUnitParam.KPreId, preId)
                 .param(DataUnitParam.KType, type)
                 .param(DataUnitParam.KLeaf, String.valueOf(leaf))
-                .build();
-    }
-
-    /**
-     * 药品目录文章内容
-     *
-     * @param dataFileId 文件id
-     * @return
-     */
-    public static NetworkReq drugDataDetail(String dataFileId) {
-        return newGet(UrlData.KDrugDataDetail)
-                .param(DataUnitParam.KDataFileId, dataFileId)
                 .build();
     }
 

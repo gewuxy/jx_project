@@ -20,8 +20,8 @@ import yy.doctor.R;
 import yy.doctor.adapter.data.DrugDetailAdapter;
 import yy.doctor.model.data.DrugDetail;
 import yy.doctor.model.data.DrugDetail.TDrugDetail;
-import yy.doctor.model.data.DrugDetailData;
-import yy.doctor.model.data.DrugDetailData.TDrugDetailData;
+import yy.doctor.model.data.DataDetail;
+import yy.doctor.model.data.DataDetail.TDrugDetailData;
 import yy.doctor.model.data.GroupDrugDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
@@ -49,7 +49,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     private ImageView mIvCollection;
 
     private boolean mStoredState ;  // 默认没有收藏
-    private DrugDetailData mData;
+    private DataDetail mData;
 
     @Override
     public void initData() {
@@ -80,7 +80,7 @@ public class DrugDetailActivity extends BaseSRGroupListActivity<GroupDrugDetail,
     @Override
     public IListResult<GroupDrugDetail> parseNetworkResponse(int id, String text) throws JSONException {
         if (id == KCollectionDetail) {
-            Result<DrugDetailData> dataResult = JsonParser.ev(text, DrugDetailData.class);
+            Result<DataDetail> dataResult = JsonParser.ev(text, DataDetail.class);
             ListResult<GroupDrugDetail> result = new ListResult<>();
             result.setCode(dataResult.getCode());
 

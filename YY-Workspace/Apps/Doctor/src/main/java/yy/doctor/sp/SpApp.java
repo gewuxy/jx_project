@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
+import lib.ys.model.MapList;
 import lib.ys.util.sp.SpBase;
 import yy.doctor.App;
 
@@ -35,6 +36,7 @@ public class SpApp extends SpBase {
         String KAppUpdateTime = "app_update_time";
         String KFirstEnterExam = "first_enter_exam";
         String KFirstEnterQue = "first_enter_que";
+        MapList<String, String> KUserNameMap = new MapList<>();
     }
 
     @Override
@@ -102,6 +104,23 @@ public class SpApp extends SpBase {
 
     public void saveEnterQue() {
         save(SpAppKey.KFirstEnterQue, false);
+    }
+
+    /**
+     * 添加用户名
+     * @param userName
+     */
+    public void addUserName(String userName) {
+        SpAppKey.KUserNameMap.add(userName, userName);
+    }
+
+    /**
+     * 判断用户名是否存在
+     * @param userName
+     * @return
+     */
+    public boolean userNameIsExist(String userName) {
+        return SpAppKey.KUserNameMap.has(userName);
     }
 
 }

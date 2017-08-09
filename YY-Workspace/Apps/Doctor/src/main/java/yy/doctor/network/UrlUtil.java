@@ -58,8 +58,6 @@ public class UrlUtil {
         String KProfile = "user/info";
         String KModify = "user/modify";
         String KCollection = "my_favorite";
-        String KCollectionDetail = "data/data_detail";
-        String KCollectionStatus = "set_favorite_status";
         String KUpHeaderImg = "user/update_avatar";
         String KChangePwd = "user/resetPwd";
         String KBindJPush = "bindJpush";
@@ -139,8 +137,10 @@ public class UrlUtil {
         String KPreview = "data/view";
         String KDrugCategory = "data/data_category";
         String KDrugAllFile = "data/all_file";
-        String KDrugDataDetail = "data/data_detail";
         String KDrugSearch = "data/data_search";
+
+        String KCollectionDetail = "data/data_detail";
+        String KCollectionStatus = "set_favorite_status";
     }
 
     public interface UrlEpn {

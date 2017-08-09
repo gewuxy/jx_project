@@ -39,15 +39,16 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     String mFilePath;
     @Extra(optional = true)
     String mFileName;
-    //    private String mFileNameHashCode;
-    @Extra(optional = true)
-    String mFileNameEncryption;
     @Extra(optional = true)
     String mType;
     @Extra(optional = true)
     String mSize;
     @Extra(optional = true)
     String mDataFileId;
+    @Extra(optional = true)
+    String mFileNameEncryption;
+
+    //private String mFileNameHashCode;
 
     @Override
     public void initData() {
@@ -99,19 +100,6 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
         setOnClickListener(R.id.open_download_data_tv_btn);
 
-//        if (mType.equals(FileTypeConstants.KPdf)) {
-//            //先解密文件
-//            Observable.fromCallable(() -> FileCipherUtil.decrypt(new File(mFilePath, mFileNameEncryption).getPath(), null))
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(aBoolean -> {
-//                        if (aBoolean) {
-//                            setOnClickListener(R.id.open_download_data_tv_btn);
-//                        }
-//                    });
-//        } else {
-//            setOnClickListener(R.id.open_download_data_tv_btn);
-//        }
     }
 
     @Override
@@ -137,20 +125,6 @@ public class LaunchDownloadDataActivity extends BaseActivity {
                 YSLog.d(TAG, " error msg " + e.getMessage());
                 showToast(R.string.can_not_find_relevant_software);
             }
-
-            // FIXME: X5   caixiang
-            //YSLog.d(TAG, " openFile path = " + mFilePath + mFileNameHashCode);
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put("local", "false");
-//            map.put("style", "1");
-//            map.put("menuData", null);
-//            QbSdk.openFileReader(this, mFilePath + mFileNameEncryption, map, new ValueCallback<String>() {
-//
-//                @Override
-//                public void onReceiveValue(String s) {
-//                    YSLog.d(TAG, " onReceiveValue = " + s);
-//                }
-//            });
 
         }
     }

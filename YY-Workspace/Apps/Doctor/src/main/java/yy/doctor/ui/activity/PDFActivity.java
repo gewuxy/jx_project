@@ -12,14 +12,15 @@ import lib.network.model.NetworkResp;
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.model.data.DrugDetailData;
-import yy.doctor.model.data.DrugDetailData.TDrugDetailData;
+import yy.doctor.model.data.DataDetail;
+import yy.doctor.model.data.DataDetail.TDrugDetailData;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -33,7 +34,9 @@ import yy.doctor.util.Util;
 @AutoIntent
 public class PDFActivity extends BaseActivity {
 
-    private PDFView mPDFView;
+    private final String KType = "1";
+    private final int KCollectionState = 0;
+    private final int KCollectionDetail = 1;
 
     @Extra
     String mFilePath;
@@ -44,14 +47,11 @@ public class PDFActivity extends BaseActivity {
     @Extra
     String mDataFileId;
 
-    private final String KNetType = "1";
-
+    private PDFView mPDFView;
     private ImageView mIvCollection;
-    private boolean mStoredState;  // 默认没有收藏
-    private final int KCollectionState = 0;
-    private final int KCollectionDetail = 1;
-    private DrugDetailData mData;
+    private boolean mStoredState;
 
+    private DataDetail mData;
 
     @Override
     public void initData() {
@@ -70,9 +70,9 @@ public class PDFActivity extends BaseActivity {
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
             mStoredState = !mStoredState;
             mData.put(TDrugDetailData.favorite,mStoredState);
+            exeNetworkReq(KCollectionState,NetFactory.collectionStatus(mDataFileId, KType));
             mIvCollection.setSelected(mStoredState);
             showToast(mStoredState ? R.string.collect_finish : R.string.cancel_collect);
-            exeNetworkReq(KCollectionState,NetFactory.collectionStatus(mDataFileId, KNetType));
             if (!mStoredState) {
                 notify(NotifyType.getCancel_collection_thomson, mDataFileId);
             }
@@ -87,29 +87,37 @@ public class PDFActivity extends BaseActivity {
 
     @Override
     public void setViews() {
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(KCollectionDetail, NetFactory.collectionDetail(mDataFileId));
+
         mPDFView.setBackgroundColor(ResLoader.getColor(R.color.app_bg));
         File file = new File(mFilePath, mFileEncryptionName);
         mPDFView.fromFile(file)
                 .spacing(8)
                 .load();
-        exeNetworkReq(KCollectionDetail, NetFactory.collectionDetail(mDataFileId));
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), DrugDetailData.class);
+        if (id == KCollectionDetail) {
+            return JsonParser.ev(r.getText(), DataDetail.class);
+        } else {
+            return super.onNetworkResponse(id, r);
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KCollectionDetail) {
-            Result<DrugDetailData> r = (Result) result;
+            Result<DataDetail> r = (Result) result;
             mData = r.getData();
             if (r.isSucceed()) {
+                stopRefresh();
                 mStoredState = mData.getBoolean(TDrugDetailData.favorite);
-                YSLog.d("_________________",mStoredState+"");
+                YSLog.d(TAG, "StoredState = " + mStoredState);
                 mIvCollection.setSelected(mStoredState);
             }
         }
     }
+
 }
