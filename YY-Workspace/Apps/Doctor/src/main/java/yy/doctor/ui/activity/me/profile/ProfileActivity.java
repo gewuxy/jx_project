@@ -46,6 +46,9 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
+import static yy.doctor.model.Profile.TProfile.category;
+import static yy.doctor.model.Profile.TProfile.name;
+
 /**
  * 我的资料
  *
@@ -88,7 +91,6 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             RelatedId.name,
             RelatedId.hospital,
             RelatedId.departments,
-            RelatedId.phone_number,
             RelatedId.cme_number,
             RelatedId.certification_number,
             RelatedId.title,
@@ -101,13 +103,12 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         int name = 0;
         int hospital = 1;
         int departments = 2;
-        int phone_number = 3;
-        int cme_number = 4;
-        int certification_number = 5;
-        int title = 6;
-        int address = 7;
-        int specialized = 8;
-        int skill = 9;
+        int cme_number = 3;
+        int certification_number = 4;
+        int title = 5;
+        int address = 6;
+        int specialized = 7;
+        int skill = 8;
     }
 
     @Override
@@ -180,7 +181,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, SectionActivity.class))
                 .type(IntentType.medicine)
                 .name(R.string.specialized)
-                .text(Profile.inst().getString(TProfile.category) + " " + Profile.inst().getString(TProfile.name))
+                .text(Profile.inst().getString(category) + Profile.inst().getString(name))
                 .hint(R.string.user_input_Specialist));
 
         addItem(Form.create(FormType.divider));
@@ -374,8 +375,10 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 mIvAvatar.setImageBitmap(mCircleBmp);
                 //YSLog.d(TAG, "mBmp.getByteCount() = " + mBmp.getByteCount());
 
-                mStatus.add(KAvatarCheckStatus);
                 notify(NotifyType.profile_change);
+
+                mStatus.add(KAvatarCheckStatus);
+                setProgress();
             }
             break;
             default: {
