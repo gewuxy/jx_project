@@ -25,7 +25,6 @@ import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
-import lib.network.model.NetworkErrorBuilder;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -64,6 +63,9 @@ import yy.doctor.util.Util;
 
 public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
+    private int KIdHospital = 0;
+    private int KIdSave = 1;
+
     private final int KLimit = 12;
     private double mLocLon;
     private double mLocLat;
@@ -78,8 +80,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     private LevelDialog mLevelDialog;
     private IHospital mCheckItem;
     private HospitalLevel mHospitalLevel;
-    private int KSave = 1;
-
 
     @Override
     public void initData() {
@@ -117,6 +117,11 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
 
         setRefreshEnabled(false);
 //        setAutoLoadMoreEnabled(true);
+    }
+
+    @Override
+    public boolean useErrorView() {
+        return false;
     }
 
     @Override
@@ -164,7 +169,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             mLevelDialog = new LevelDialog(this);
             mLevelDialog.setListener(HospitalActivity.this);
             mLevelDialog.show();
-
         }
     }
 
@@ -286,14 +290,8 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
      */
     private void onLocationError() {
         YSLog.d("Gps", "失败");
-
-        onNetworkError(0, NetworkErrorBuilder.create()
-                .code(ErrorCode.KUnKnow)
-                .message("定位失败")
-                .build());
-
         if (!DeviceUtil.isNetworkEnabled()) {
-            showToast("当前网络不可用,不可定位");
+            showToast("当前网络不可用, 不可定位");
         } else {
             //有网但是定位失败  显示dialog
             mDialog = new BaseHintDialog(this);
@@ -301,6 +299,13 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
             mDialog.show();
         }
+
+        // 模拟成功无数据， 显示empty footer view
+        ListResult<IHospital> r = new ListResult<>();
+        r.setCode(ErrorCode.KOk);
+        List<IHospital> hospitals = new ArrayList<>();
+        r.setData(hospitals);
+        onNetworkSuccess(KIdHospital, r);
     }
 
     @Override
@@ -314,7 +319,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             Profile.inst().put(TProfile.hosUrl, mHospitalLevel.getString(THospitalLevel.picture));
             Profile.inst().saveToSp();
             if (Profile.inst().isLogin()) {
-                exeNetworkReq(KSave,NetFactory.newModifyBuilder().hospital(hosName).hospitalLevel(HosLvId).build());
+                exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(hosName).hospitalLevel(HosLvId).build());
             }
             Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
             setResult(RESULT_OK, intent);
@@ -338,8 +343,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             mLocLon = Double.parseDouble(gps.getString(TGps.longitude));
             mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
             mLatLng = new LatLng(mLocLat, mLocLon);
-
-            Location.inst().stop();
 
             getDataFromNet();
         } else {
@@ -379,7 +382,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             Profile.inst().saveToSp();
 
             if (Profile.inst().isLogin()) {
-                exeNetworkReq(KSave,NetFactory.newModifyBuilder().hospital(name).hospitalLevel(levelId).build());
+                exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(name).hospitalLevel(levelId).build());
             } else {
                 Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
                 setResult(RESULT_OK, intent);
@@ -390,10 +393,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
-        if (id == KSave) {
-
+        if (id == KIdSave) {
             ListResult res = (ListResult) result;
             if (res.isSucceed()) {
                 Intent i = new Intent().putExtra(Extra.KData, mHospitalLevel);
@@ -403,7 +403,8 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
                 onNetworkError(id, res.getError());
                 stopRefresh();
             }
+        } else {
+            super.onNetworkSuccess(id, result);
         }
-
     }
 }

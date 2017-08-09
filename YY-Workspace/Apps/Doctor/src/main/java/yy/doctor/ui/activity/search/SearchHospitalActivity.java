@@ -230,6 +230,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
      * 初始化Dialog
      */
     private void onLocationError() {
+
         onNetworkError(0, NetworkErrorBuilder.create()
                 .code(ErrorCode.KUnKnow)
                 .message("定位失败")
@@ -257,14 +258,14 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
             mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
             mLatLng = new LatLng(mLocLat, mLocLon);
 
-            Location.inst().stop();
-
         } else {
             //定位失败  显示dialog
             // FIXME: 失败
             YSLog.d("Gps", "失败");
             onLocationError();
         }
+
+        Location.inst().stop();
     }
 
     @Override
