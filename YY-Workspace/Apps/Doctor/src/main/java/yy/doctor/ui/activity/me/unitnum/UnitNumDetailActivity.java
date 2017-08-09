@@ -313,7 +313,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
 
             // FIXME: 2017/8/7
-            List<FileData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialDTOList);
+            List<FileData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialList);
             if (listFile == null || listFile.size() == 0) {
                 goneView(mDivider);
                 goneView(mLayoutFile);
@@ -336,7 +336,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
             ListResult<Meeting> meetingResult = new ListResult<>();
             meetingResult.setCode(ErrorCode.KOk);
-            meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetFolderDTOList));
+            meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetFolderList));
             super.onNetworkSuccess(id, meetingResult);
 
         } else if (id == KReqIdAttention) {  //关注
