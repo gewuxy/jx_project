@@ -16,7 +16,6 @@ import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.home.HomeAdapter;
 import yy.doctor.adapter.home.HomeUnitNumAdapter.onAttentionListener;
-import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
@@ -26,9 +25,7 @@ import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.sp.SpApp;
 import yy.doctor.ui.activity.home.NoticeActivity;
-import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.view.BadgeView;
@@ -233,12 +230,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 homes.addAll(secondSectionMeetings);
 
                 mIsLoadFirstPage = false;
-
-               //判断是否需要弹绑定的dialog
-                if (!SpApp.inst().userNameIsExist(SpApp.inst().getUserName())) {
-                    showBind();
-                    SpApp.inst().addUserName(SpApp.inst().getUserName());
-                }
             } else {
                 homes.addAll(mRecMeetings);
             }
@@ -254,18 +245,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
         stopSwipeRefresh();
         setViewState(ViewState.error);
-    }
-
-    private void showBind() {
-        BaseHintDialog bindDialog = new BaseHintDialog(getContext());
-        bindDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
-        bindDialog.addButton(R.string.cancel, v -> bindDialog.dismiss());
-        bindDialog.addButton(R.string.go_binding, v -> {
-            //跳转到设置页面
-            startActivity(SettingsActivity.class);
-            bindDialog.dismiss();
-        });
-        bindDialog.show();
     }
 
     @Override

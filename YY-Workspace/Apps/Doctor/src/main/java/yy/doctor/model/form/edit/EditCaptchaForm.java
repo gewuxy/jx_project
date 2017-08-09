@@ -1,11 +1,8 @@
 package yy.doctor.model.form.edit;
 
-import android.text.Editable;
 import android.widget.TextView;
 
 import lib.ys.ConstantsEx;
-import lib.ys.util.TextUtil;
-import lib.ys.util.view.ViewUtil;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
@@ -53,14 +50,5 @@ public class EditCaptchaForm extends EditForm {
         CaptchaView v = (CaptchaView) getHolder().getTvText();
         v.setMaxCount(5);
         v.start();
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        if (TextUtil.isNotEmpty(editable)) {
-            ViewUtil.showView(getHolder().getIvClean());
-        } else {
-            ViewUtil.goneView(getHolder().getIvClean());
-        }
     }
 }

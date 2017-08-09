@@ -57,7 +57,6 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     @Override
     public void initData() {
         YSLog.d(TAG, "FileNameEncryption = " + mFileNameEncryption);
-
         // 恢复文件名
 //        StringBuffer sb = new StringBuffer();
 //        char[] chars = mFileNameEncryption.toCharArray();
@@ -67,7 +66,6 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 //        }
 //        mFileNameHashCode = sb.toString();
 //        YSLog.d(TAG, "FileNameHashCode = " + mFileNameHashCode);
-
     }
 
     @NonNull

@@ -24,8 +24,10 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
@@ -35,10 +37,11 @@ import yy.doctor.serv.CommonServIntent;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.frag.DataCenterFrag;
 import yy.doctor.ui.frag.HomeFrag;
-import yy.doctor.ui.frag.me.MeFrag;
 import yy.doctor.ui.frag.MeetingFrag;
+import yy.doctor.ui.frag.me.MeFrag;
 
 
 @AutoIntent
@@ -121,6 +124,14 @@ public class MainActivity extends BaseVPActivity {
                         .jPushRegisterId(SpJPush.inst().registerId())
                         .start(this);
                 YSLog.d(TAG, "启动绑定极光服务");
+            }
+        }
+
+        //判断是否需要弹绑定的dialog
+        if (TextUtil.isEmpty(Profile.inst().getString(TProfile.mobile)) && TextUtil.isEmpty(Profile.inst().getString(TProfile.wxNickname))) {
+            if (SpUser.inst().isShowBind()) {
+                showBind();
+                SpUser.inst().saveShowBind();
             }
         }
 
@@ -227,6 +238,18 @@ public class MainActivity extends BaseVPActivity {
                 }
             }
         }
+    }
+
+    private void showBind() {
+        BaseHintDialog bindDialog = new BaseHintDialog(this);
+        bindDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
+        bindDialog.addButton(R.string.cancel, v -> bindDialog.dismiss());
+        bindDialog.addButton(R.string.go_binding, v -> {
+            //跳转到设置页面
+            startActivity(SettingsActivity.class);
+            bindDialog.dismiss();
+        });
+        bindDialog.show();
     }
 
     @Override

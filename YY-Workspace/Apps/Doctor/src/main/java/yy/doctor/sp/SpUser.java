@@ -22,6 +22,7 @@ public class SpUser extends SpBase {
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
         String KBadgeNum = "badge_num";
+        String KIsShowBind = "is_show_bind";
     }
 
     private SpUser(Context context, String fileName) {
@@ -78,6 +79,21 @@ public class SpUser extends SpBase {
      */
     public int badgeNum() {
         return getInt(SpUserKey.KBadgeNum, 0);
+    }
+
+    /**
+     * 判断是否需要显示绑定的dialog
+     * @return
+     */
+    public boolean isShowBind() {
+        return getBoolean(SpUserKey.KIsShowBind, true);
+    }
+
+    /**
+     * 保存绑定状态
+     */
+    public void saveShowBind() {
+        save(SpUserKey.KIsShowBind, false);
     }
 
 }
