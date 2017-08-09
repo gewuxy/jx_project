@@ -68,7 +68,6 @@ public class UrlUtil {
         String KBindEmail = "email/send_bind_email";
         String KUnBindEmail = "user/unbind_email";
         String KBindWXSet = "user/set_wx_bind_status";
-
     }
 
     public interface UrlRegister {
