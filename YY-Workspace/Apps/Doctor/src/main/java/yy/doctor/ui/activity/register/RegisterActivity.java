@@ -197,7 +197,7 @@ public class RegisterActivity extends BaseFormActivity
                 .type(IntentType.medicine));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register)
+        addItem(Form.create(FormType.et_register_department)
                 .observer(this)
                 .related(RelatedId.department)
                 .hint(yy.doctor.R.string.department));
@@ -521,7 +521,7 @@ public class RegisterActivity extends BaseFormActivity
         } else if (id == KCaptcha) {
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("成功");
+                showToast("注册成功");
             } else {
                 onNetworkError(id, r.getError());
             }

@@ -26,7 +26,9 @@
 
         <ImageView
             android:id="@+id/iv_activated_cancel"
-            style="@style/iv.form.clean.right"/>
+            style="@style/iv.form.clean.right"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/split"/>
 
         <View
             android:id="@+id/split"
@@ -50,6 +52,11 @@
             android:textSize="15dp"/>
 
     </RelativeLayout>
+
+    <View
+        style="@style/divider.form"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

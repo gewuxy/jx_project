@@ -266,6 +266,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         }
 
         onNetworkSuccess(0, r);
+
     }
 
     @Override

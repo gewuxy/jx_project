@@ -10,6 +10,7 @@ import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditNumberForm;
 import yy.doctor.model.form.edit.EditPhoneNumberForm;
+import yy.doctor.model.form.edit.EditRegisterDepartmentForm;
 import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterNameForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
@@ -90,6 +91,10 @@ public class Form {
             break;
             case FormType.et_register_name: {
                 form = new EditRegisterNameForm();
+            }
+            break;
+            case FormType.et_register_department: {
+                form = new EditRegisterDepartmentForm();
             }
             break;
             case FormType.et_register_pwd: {

@@ -1,6 +1,7 @@
 package yy.doctor.model.form.edit;
 
 import android.text.InputFilter;
+import android.text.InputFilter.LengthFilter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -36,7 +37,7 @@ public class EditRegisterPwdForm extends EditForm {
         holder.getIv().setSelected(true);
         setOnClickListener(holder.getIv());
 
-        holder.getEt().setFilters(new InputFilter[]{new InputFilterUtils()});
+        holder.getEt().setFilters(new InputFilter[]{new InputFilterUtils(),new LengthFilter(24)});
 
         getHolder().getIv().setSelected(mFlag);
     }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
@@ -58,6 +59,7 @@ public class MeetingFrag extends BaseVPFrag {
 
     private View mPreTab;
     private OnClickListener mTabListener;
+    private String KSectionAll = "全部科室";
 
     @IntDef({
             PageType.under_way,
@@ -112,7 +114,11 @@ public class MeetingFrag extends BaseVPFrag {
         if (mPopup == null) {
             mPopup = new SectionPopup(getContext(), text -> {
                 mTvSection.setText(text);
-                notify(NotifyType.section_change, text);
+                if (KSectionAll.equals(text)) {
+                    notify(NotifyType.section_change, ConstantsEx.KEmptyValue);
+                }else {
+                    notify(NotifyType.section_change, text);
+               }
             });
             mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
         }

@@ -19,8 +19,11 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.R;
+
 import lib.yy.adapter.VH.FormVH;
+
+import lib.yy.R;
+
 
 
 /**

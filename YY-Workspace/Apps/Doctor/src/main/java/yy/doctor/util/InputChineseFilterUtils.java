@@ -4,7 +4,7 @@ import android.text.InputFilter;
 import android.text.Spanned;
 
 /**
- * 只能输入中文
+ * 姓名只能输入中文
  * @auther WangLan
  * @since 2017/8/8
  */
