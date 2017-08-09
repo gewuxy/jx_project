@@ -24,6 +24,7 @@
 
         <ImageView
             android:id="@+id/login_iv_cancel"
+            android:visibility="visible"
             style="@style/iv.form.clean.right"/>
 
     </LinearLayout>
@@ -50,13 +51,15 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="22dp"
+            android:layout_marginRight="13dp"
             android:button="@drawable/login_checkbox_visible_selector"
             android:gravity="center"/>
 
         <ImageView
             android:id="@+id/login_iv_cancel_pwd"
-            style="@style/iv.form.clean.right"/>
+            style="@style/iv.form.clean.right"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/login_cb_visible_pwd"/>
 
     </RelativeLayout>
 

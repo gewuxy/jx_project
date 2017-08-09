@@ -38,21 +38,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="right">
 
             <TextView
                 android:id="@+id/academic_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="@string/academic_unit"
                 android:textColor="@color/text_b3"/>
 
             <ImageView
                 android:id="@+id/academic_iv_clean"
-                style="@style/iv.form.clean.right"/>
+                style="@style/iv.form.clean.right"
+                android:visibility="invisible"/>
         </LinearLayout>
 
         <View style="@style/divider"/>
