@@ -533,7 +533,7 @@ public class RegisterActivity extends BaseFormActivity
         } else if (id == KCaptcha) {
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("注册成功");
+                showToast("发送成功");
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -541,7 +541,7 @@ public class RegisterActivity extends BaseFormActivity
             //注册
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("成功");
+                showToast("注册成功");
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
