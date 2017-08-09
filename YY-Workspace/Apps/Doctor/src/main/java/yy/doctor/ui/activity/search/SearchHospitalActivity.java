@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.search;
 
-import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.EditText;
 
@@ -41,14 +40,12 @@ import yy.doctor.adapter.HospitalAdapter;
 import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
+import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.util.Util;
-
 
 /**
  * @auther WangLan
@@ -280,23 +277,20 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         return 0;
     }
 
-
-    public void onLevelChecked(@DrawableRes int resId) {
+    @Override
+    public void onLevelChecked(HospitalLevel h) {
         Hospital hospital = (Hospital) mCheckItem;
         Hos hos = new Hos();
-        hos.name = hospital.getString(THospital.name);
-        hos.resId = resId;
-        Profile.inst().put(TProfile.hospital, hos.name);
-        Profile.inst().put(TProfile.hosLevel, hos.resId);
-        Profile.inst().saveToSp();
+        hos.mName = hospital.getString(THospital.name);
+        hos.mHospitalLevel = h;
         notify(NotifyType.hospital_finish, hos);
 
         finish();
     }
 
     public class Hos {
-        public String name;
-        public int resId;
+        public String mName;
+        public HospitalLevel mHospitalLevel;
     }
 
 }

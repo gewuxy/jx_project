@@ -138,6 +138,7 @@ public class BindPhoneActivity extends BaseSetActivity {
             } else {
                 setResult(RESULT_OK, new Intent().putExtra(Extra.KData, getPhone()));
                 Profile.inst().put(TProfile.mobile, getPhone());
+                Profile.inst().saveToSp();
                 showToast("绑定成功");
                 finish();
             }

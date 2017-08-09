@@ -13,13 +13,18 @@ import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
+import yy.doctor.model.hospital.HospitalLevelInfo;
+import yy.doctor.model.hospital.HospitalLevelInfo.THospitalLevelInfo;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.sp.SpApp;
+import yy.doctor.sp.SpApp.SpAppKey;
 
 /**
  * 常驻服务
@@ -30,11 +35,14 @@ import yy.doctor.network.NetFactory;
 @AutoIntent
 public class CommonServ extends ServiceEx {
 
+    private final String KHospital = "0";
+
     private static final int KIdLogout = 1;
     private static final int KIdJPush = 2;
     private static final int KIdVideo = 3;
     private static final int KIdPPT = 4;
     private static final int KIdMeet = 5;
+    private static final int KIdHospital = 6;
 
     @Extra(optional = true)
     @ReqType
@@ -56,6 +64,7 @@ public class CommonServ extends ServiceEx {
             ReqType.video,
             ReqType.course,
             ReqType.meet,
+            ReqType.hospital,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -64,7 +73,7 @@ public class CommonServ extends ServiceEx {
         int video = 3;
         int course = 4;
         int meet = 5;
-
+        int hospital = 6;
     }
 
 
@@ -103,12 +112,20 @@ public class CommonServ extends ServiceEx {
                 exeNetworkReq(KIdMeet, NetFactory.submitMeet(mMeetId, mMeetTime));
             }
             break;
+            case ReqType.hospital: {
+                exeNetworkReq(KIdHospital, NetFactory.hospitalLevel(KHospital,
+                        SpApp.inst().getString(SpAppKey.KVersionHosLV, ConstantsEx.KEmptyValue)));
+            }
+            break;
         }
 
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
+        if (id == KIdHospital) {
+            return JsonParser.ev(r.getText(), HospitalLevelInfo.class);
+        }
         return JsonParser.error(r.getText());
     }
 
@@ -152,6 +169,23 @@ public class CommonServ extends ServiceEx {
                 } else {
                     retryNetworkRequest(id);
                     YSLog.d(TAG, "onNetworkSuccess:记录失败");
+                }
+            }
+            break;
+
+            case KIdHospital: {
+                if (r.isSucceed()) {
+                    Result<HospitalLevelInfo> ret = (Result) r;
+                    HospitalLevelInfo info = ret.getData();
+                    String newVersion = info.getString(THospitalLevelInfo.version);
+                    String oldVersion = SpApp.inst().getString(SpAppKey.KVersionHosLV, ConstantsEx.KEmptyValue);
+                    if (oldVersion.equals(newVersion)) {
+                        return;
+                    }
+                    SpApp.inst().save(SpAppKey.KVersionHosLV, newVersion);
+                    SpApp.inst().save(SpAppKey.KHosLVs, info);
+                } else {
+                    retryNetworkRequest(id);
                 }
             }
             break;

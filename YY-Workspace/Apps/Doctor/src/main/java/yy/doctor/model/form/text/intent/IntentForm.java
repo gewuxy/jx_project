@@ -10,8 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 import lib.bd.location.Place;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.Extra;
-import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.text.TextForm;
+import yy.doctor.model.hospital.HospitalLevel;
+import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 
 /**
  * @author CaiXiang
@@ -30,8 +33,8 @@ public class IntentForm extends TextForm {
             IntentType.skill,
             IntentType.set_phone,
             IntentType.set_email,
-            IntentType.set_pwd,
             IntentType.doctor_title,
+            IntentType.common,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface IntentType {
@@ -45,8 +48,8 @@ public class IntentForm extends TextForm {
         int skill = 8;
         int set_phone = 10;
         int set_email = 11;
-        int set_pwd = 12;
         int doctor_title = 13;
+        int common = 100; // 通用
     }
 
     private int mCurrType = IntentType.un_know;
@@ -89,10 +92,15 @@ public class IntentForm extends TextForm {
             }
             break;
             case IntentType.hospital: {
-                String hospital = data.getStringExtra(Extra.KData);
-                save(hospital, hospital);
-                int id = data.getIntExtra(Extra.KId, R.mipmap.hospital_level_three);
-                drawable(id);
+                HospitalLevel level = (HospitalLevel) data.getSerializableExtra(Extra.KData);
+                if (level != null) {
+                    String hospital = Profile.inst().getString(TProfile.hospital);
+                    String url = level.getString(THospitalLevel.picture);
+                    save(hospital, hospital);
+                    data(level.getString(THospitalLevel.id)).
+                            url(url).
+                            refresh();
+                }
             }
             break;
             case IntentType.medicine: {

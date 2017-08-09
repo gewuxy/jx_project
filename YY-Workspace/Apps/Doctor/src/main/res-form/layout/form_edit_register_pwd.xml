@@ -19,7 +19,7 @@
     <ImageView
         style="@style/iv.form.clean.right"/>
 
-    <ImageView
+    <lib.ys.network.image.NetworkImageView
         android:id="@id/form_iv"
         android:padding="9dp"
         android:layout_width="wrap_content"

@@ -255,7 +255,7 @@
     <string name="phone_num_account">手机号账号</string>
     <string name="email_account">电子邮箱账号</string>
     <string name="check_version">检查新版本</string>
-    <string name="no_binding">未绑定</string>
+    <string name="no_bind">未绑定</string>
     <string name="already_latest_version">已是最新版本</string>
     <string name="clear_img_cache">清理图片缓存</string>
     <string name="clear_sound_cache">清理声音缓存</string>

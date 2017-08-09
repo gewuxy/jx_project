@@ -52,6 +52,7 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
     private boolean mCheck;
     private int mIndex;
     private int mId;
+    private String mUrl;
     private boolean mVisible = true;
     private OnFormObserver mObserver;
 
@@ -269,6 +270,11 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
         return (T) this;
     }
 
+    public <T extends FormEx<VH>> T url(String url) {
+        mUrl = url;
+        return (T) this;
+    }
+
     public <T extends FormEx<VH>> T visible(boolean visible) {
         mVisible = visible;
         return (T) this;
@@ -374,6 +380,10 @@ abstract public class FormEx<VH extends IViewHolder> implements OnClickListener 
 
     public int getId() {
         return mId;
+    }
+
+    public String getUrl() {
+        return mUrl;
     }
 
     public boolean isVisible() {

@@ -158,7 +158,8 @@
     </style>
 
     <!-- 首页会议文件夹 -->
-    <style name="home_meeting_folder">
+    <style name="v.home"/>
+    <style name="v.home.folder">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
@@ -166,7 +167,7 @@
         <item name="android:background">@drawable/sign_radius_bg</item>
     </style>
 
-    <style name="home_meeting_folder_child">
+    <style name="v.home.speaker">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
@@ -174,33 +175,24 @@
         <item name="android:paddingLeft">10dp</item>
     </style>
 
-    <style name="tv.home_meeting_folder_speaker_name">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">13dp</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="tv.home_meeting_folder_speaker_name.title">
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:textSize">9dp</item>
-    </style>
-
-    <style name="tv.home_meeting_tv">
+    <style name="tv.home"/>
+    <style name="tv.home.meet">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/text_888</item>
     </style>
 
-    <style name="tv.hospital_level_tv">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">46dp</item>
-        <item name="android:textSize">15dp</item>
-        <item name="android:textColor">@color/text_333</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:drawablePadding">18dp</item>
-        <item name="android:layout_marginLeft">24dp</item>
+    <style name="tv.home.speaker">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="tv.home.speaker.title">
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textSize">9dp</item>
     </style>
 
 </resources>

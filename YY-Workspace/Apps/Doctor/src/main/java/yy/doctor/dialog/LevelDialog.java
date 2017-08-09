@@ -1,13 +1,24 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
+import lib.ys.YSLog;
+import lib.ys.fitter.LayoutFitter;
+import lib.ys.network.image.NetworkImageView;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
+import yy.doctor.model.hospital.HospitalLevel;
+import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
+import yy.doctor.model.hospital.HospitalLevelInfo;
+import yy.doctor.model.hospital.HospitalLevelInfo.THospitalLevelInfo;
+import yy.doctor.sp.SpApp;
+import yy.doctor.sp.SpApp.SpAppKey;
 
 /**
  * @auther WangLan
@@ -16,19 +27,13 @@ import yy.doctor.R;
 
 public class LevelDialog extends BaseDialog {
 
-    public interface OnLevelCheckListener {
-        void onLevelChecked(@DrawableRes int resId);
-    }
-
-    private TextView mLevel_Three;
-    private TextView mLevel_Two;
-    private TextView mLevel_One;
-    private TextView mLevel_Community;
-    private TextView mLevel_Village;
-    private TextView mLevel_Clinic;
-    private TextView mLevel_Other;
-
+    private LinearLayout mLayout;
+    private List<HospitalLevel> mLevels;
     private OnLevelCheckListener mListener;
+
+    public interface OnLevelCheckListener {
+        void onLevelChecked(HospitalLevel h);
+    }
 
     public void setListener(OnLevelCheckListener l) {
         mListener = l;
@@ -40,6 +45,8 @@ public class LevelDialog extends BaseDialog {
 
     @Override
     public void initData() {
+        HospitalLevelInfo info = SpApp.inst().getEV(SpAppKey.KHosLVs, HospitalLevelInfo.class);
+        mLevels = info.getList(THospitalLevelInfo.propList);
     }
 
     @NonNull
@@ -50,62 +57,33 @@ public class LevelDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-        mLevel_Three = findView(R.id.level_three);
-        mLevel_Two = findView(R.id.level_two);
-        mLevel_One = findView(R.id.level_one);
-        mLevel_Community = findView(R.id.level_community);
-        mLevel_Village = findView(R.id.level_village);
-        mLevel_Clinic = findView(R.id.level_clinic);
-        mLevel_Other = findView(R.id.level_other);
+        mLayout = findView(R.id.dialog_hospital_layout_levels);
     }
 
     @Override
     public void setViews() {
-        setOnClickListener(mLevel_Three);
-        setOnClickListener(mLevel_Two);
-        setOnClickListener(mLevel_One);
-        setOnClickListener(mLevel_Community);
-        setOnClickListener(mLevel_Village);
-        setOnClickListener(mLevel_Clinic);
-        setOnClickListener(mLevel_Other);
+        View v;
+        TextView tvLevel;
+        NetworkImageView ivLevel;
+        for (HospitalLevel level : mLevels) {
+            v = View.inflate(getContext(), R.layout.layout_hospital_level, null);
+            tvLevel = (TextView) v.findViewById(R.id.layout_hospital_tv_level);
+            tvLevel.setText(level.getString(THospitalLevel.propValue));
+            ivLevel = (NetworkImageView) v.findViewById(R.id.layout_hospital_iv_level);
+            ivLevel.url(level.getString(THospitalLevel.picture)).load();
+            v.setTag(level);
+            LayoutFitter.fit(v);
+            setOnClickListener(v);
+            mLayout.addView(v);
+        }
+
     }
 
     @Override
     public void onClick(View v) {
-        @DrawableRes int resId = R.mipmap.hospital_level_three;
-        switch (v.getId()) {
-            case R.id.level_three:
-                resId = R.mipmap.hospital_level_three;
-                dismiss();
-                break;
-            case R.id.level_two:
-                resId = R.mipmap.hospital_level_two;
-                dismiss();
-                break;
-            case R.id.level_one:
-                resId = R.mipmap.hospital_level_one;
-                dismiss();
-                break;
-            case R.id.level_community:
-                resId = R.mipmap.hospital_level_community;
-                dismiss();
-                break;
-            case R.id.level_village:
-                resId = R.mipmap.hospital_level_village;
-                dismiss();
-                break;
-            case R.id.level_clinic:
-                resId = R.mipmap.hospital_level_clinic;
-                dismiss();
-                break;
-            case R.id.level_other:
-                resId = R.mipmap.hospital_level_other;
-                dismiss();
-                break;
-
-        }
+        HospitalLevel h = (HospitalLevel) v.getTag();
         if (mListener != null) {
-            mListener.onLevelChecked(resId);
+            mListener.onLevelChecked(h);
         }
     }
 }

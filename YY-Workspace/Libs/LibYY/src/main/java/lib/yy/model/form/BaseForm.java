@@ -338,6 +338,11 @@ abstract public class BaseForm extends FormEx<FormVH> {
     }
 
     @Override
+    public BaseForm url(String url) {
+        return super.url(url);
+    }
+
+    @Override
     public BaseForm visible(boolean visible) {
         return super.visible(visible);
     }

@@ -321,29 +321,6 @@ public class RegisterActivity extends BaseFormActivity
 
         int id = getRelatedItem(RelatedId.hospital).getHolder().getIv().getId();
         int hospitalLevel = 3;
-        switch (id) {
-            case R.id.level_three:
-                hospitalLevel = 3;
-                break;
-            case R.id.level_two:
-                hospitalLevel = 2;
-                break;
-            case R.id.level_one:
-                hospitalLevel = 1;
-                break;
-            case R.id.level_community:
-                hospitalLevel = 4;
-                break;
-            case R.id.level_village:
-                hospitalLevel= 5;
-                break;
-            case R.id.level_clinic:
-                hospitalLevel = 6;
-                break;
-            case R.id.level_other:
-                hospitalLevel = 7;
-                break;
-        }
 
         //注册
         refresh(RefreshWay.dialog);

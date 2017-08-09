@@ -44,13 +44,13 @@
 
             <TextView
                 android:id="@+id/meeting_item_tv_time"
-                style="@style/tv.home_meeting_tv"
+                style="@style/tv.home.meet"
                 android:layout_marginLeft="8dp"
                 android:text="12/9 16:30"/>
 
             <TextView
                 android:id="@+id/meeting_item_tv_section"
-                style="@style/tv.home_meeting_tv"
+                style="@style/tv.home.meet"
                 android:layout_marginLeft="8dp"
                 android:text="骨科"/>
 
@@ -80,19 +80,19 @@
 
             <TextView
                 android:id="@+id/home_meeting_item_tv_speaker_name"
-                style="@style/tv.home_meeting_tv"
+                style="@style/tv.home.meet"
                 android:layout_marginRight="8dp"
                 android:text="二狗"/>
 
             <TextView
                 android:id="@+id/home_meeting_item_tv_speaker_rank"
-                style="@style/tv.home_meeting_tv"
+                style="@style/tv.home.meet"
                 android:layout_marginRight="8dp"
                 android:text="主任医师"/>
 
             <TextView
                 android:id="@+id/meeting_item_tv_unit_num"
-                style="@style/tv.home_meeting_tv"
+                style="@style/tv.home.meet"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:text="单位号"/>

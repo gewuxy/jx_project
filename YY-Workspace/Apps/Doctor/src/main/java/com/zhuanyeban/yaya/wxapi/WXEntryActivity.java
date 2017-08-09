@@ -145,12 +145,4 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         finish();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mApi != null) {
-            mApi.detach();
-        }
-    }
 }

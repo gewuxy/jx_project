@@ -26,7 +26,7 @@
                 android:gravity="center|right"
                 android:singleLine="true"/>
 
-            <ImageView
+            <lib.ys.network.image.NetworkImageView
                 android:id="@id/form_iv"
                 android:layout_width="22dp"
                 android:layout_height="22dp"

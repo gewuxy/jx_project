@@ -21,7 +21,7 @@
                 android:layout_marginRight="@dimen/margin"
                 android:gravity="right"/>
 
-            <ImageView
+            <lib.ys.network.image.NetworkImageView
                 android:id="@id/form_iv"
                 android:layout_width="21dp"
                 android:layout_height="21dp"

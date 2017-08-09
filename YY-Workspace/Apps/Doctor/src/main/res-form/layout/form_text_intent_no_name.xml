@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:textColor="@color/text_333"/>
 
-        <ImageView
+        <lib.ys.network.image.NetworkImageView
             android:id="@id/form_iv"
             android:layout_width="22dp"
             android:layout_height="22dp"

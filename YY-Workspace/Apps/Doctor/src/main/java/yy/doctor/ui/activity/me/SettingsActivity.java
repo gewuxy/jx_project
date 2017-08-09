@@ -63,8 +63,8 @@ public class SettingsActivity extends BaseFormActivity {
     private final int KColorNormal = Color.parseColor("#666666");
     private final int KColorCancel = Color.parseColor("#01b557");
 
-    private final int KUnBindEmail = 0;
-    private final int KUnBindWX = 1;
+    private final int KUnBindEmail = 0; // 解绑邮箱
+    private final int KUnBindWX = 1; // 解绑微信
     private final int KVersion = 2;
 
     private String mImgSize;
@@ -88,43 +88,21 @@ public class SettingsActivity extends BaseFormActivity {
     private @interface RelatedId {
         int bind_wx = 1;
         int bind_phone = 2;
-
         int bind_email = 3;
+
         int change_password = 4;
         int auto_download_apk = 5;
-
         int check_version = 6;
+
         int clear_img_cache = 7;
-
         int clear_sound_cache = 8;
-        int audio_play = 9;
 
+        int audio_play = 9;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.settings, this);
-    }
-
-    private String getFolderSize(String... path) {
-        long size = 0;
-        try {
-            for (String s : path) {
-                size += FileUtil.getFolderSize(new File(s));
-            }
-        } catch (Exception e) {
-            YSLog.e(TAG, "getFolderSize", e);
-        }
-        return size / 1024 / 1024 + KM;
-    }
-
-    private String getProfileString(TProfile key) {
-        String string = Profile.inst().getString(key);
-        if (TextUtil.isEmpty(string)) {
-            return getString(R.string.no_binding);
-        } else {
-            return string;
-        }
     }
 
     @Override
@@ -142,9 +120,9 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
-                .type(IntentType.set_phone)
                 .name(R.string.phone_num_account)
                 .text(getProfileString(TProfile.mobile)))
+                .type(IntentType.set_phone)
                 .intent(new Intent(this, BindPhoneActivity.class));
 
         addItem(Form.create(FormType.divider));
@@ -156,8 +134,8 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.change_password)
-                .type(IntentType.set_pwd)
                 .name(R.string.change_pwd))
+                .type(IntentType.common)
                 .intent(new Intent(this, ChangePwdActivity.class));
 
         addItem(Form.create(FormType.divider));
@@ -204,28 +182,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settings_footer_tv_exit_account: {
-                HintDialogMain dialog = new HintDialogMain(this);
-                dialog.setHint("确定要退出当前登录账号吗?");
-                dialog.addButton("退出", v1 -> {
-                    dialog.dismiss();
-
-                    CommonServIntent.create()
-                            .type(ReqType.logout)
-                            .token(Profile.inst().getString(TProfile.token))
-                            .start(this);
-
-                    notify(NotifyType.logout);
-
-                    //清空个人信息，把极光绑定改为false 登录后需要重新绑定
-                    SpUser.inst().clear();
-                    SpJPush.inst().jPushIsRegister(false);
-                    Profile.inst().clear();
-
-                    startActivity(LoginActivity.class);
-                    finish();
-                });
-                dialog.addButton("取消", v1 -> dialog.dismiss());
-                dialog.show();
+                userExit();
             }
             break;
         }
@@ -233,25 +190,17 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     protected void onFormItemClick(View v, int position) {
-
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_wx: {
                 String nickName = Profile.inst().getString(TProfile.wxNickname);
-                if (getString(R.string.no_binding).equals(nickName) || TextUtil.isEmpty(nickName)) {
+                if (getString(R.string.no_bind).equals(nickName) || TextUtil.isEmpty(nickName)) {
                     // 未绑定
                     WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
                     WXLoginApi.sendReq(WXType.bind);
                 } else {
                     // 已绑定
-                    HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
-                    relieveDialog.setHint("是否解除绑定微信号");
-                    relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-                        exeNetworkReq(KUnBindWX, NetFactory.bindWX(null));
-                        relieveDialog.dismiss();
-                    });
-                    relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
-                    relieveDialog.show();
+                    relieveWx();
                 }
             }
             break;
@@ -259,14 +208,7 @@ public class SettingsActivity extends BaseFormActivity {
                 String email = Profile.inst().getString(TProfile.username);
                 if (TextUtil.isNotEmpty(email)) {
                     // 已绑定
-                    HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
-                    relieveDialog.setHint("是否解除绑定邮箱");
-                    relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-                        exeNetworkReq(KUnBindEmail, NetFactory.unBindEmail());
-                        relieveDialog.dismiss();
-                    });
-                    relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
-                    relieveDialog.show();
+                    relieveEmail();
                 } else {
                     startActivity(BindEmailActivity.class);
                 }
@@ -276,12 +218,8 @@ public class SettingsActivity extends BaseFormActivity {
                 exeNetworkReq(KVersion, NetFactory.checkAppVersion());
             }
             break;
-            case RelatedId.change_password: {
-                startActivity(ChangePwdActivity.class);
-            }
-            break;
             case RelatedId.clear_img_cache: {
-                showDialogClearImgCache();
+                clearImgCache();
             }
             break;
             case RelatedId.clear_sound_cache: {
@@ -312,34 +250,102 @@ public class SettingsActivity extends BaseFormActivity {
                     showToast(R.string.already_latest_version);
                 }
             }
-        } else if (id == KUnBindWX) {
-
-            Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast("解绑成功");
-                Profile.inst().put(TProfile.wxNickname, getString(R.string.no_binding));
-                getRelatedItem(RelatedId.bind_wx).save(getString(R.string.no_binding), getString(R.string.no_binding));
-                refreshRelatedItem(RelatedId.bind_wx);
-            } else {
-                showToast(r.getMessage());
-            }
         } else {
-
+            // 绑定的
             Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast("解绑成功");
-                Profile.inst().put(TProfile.username, getString(R.string.no_binding));
-                getRelatedItem(RelatedId.bind_email).save(getString(R.string.no_binding), getString(R.string.no_binding));
-                refreshRelatedItem(RelatedId.bind_email);
+            if (id == KUnBindWX) {
+                unBindUpdate(r, RelatedId.bind_wx, TProfile.wxNickname);
             } else {
-                showToast(r.getMessage());
+                unBindUpdate(r, RelatedId.bind_email, TProfile.username);
             }
         }
     }
 
-    private void showDialogClearImgCache() {
+    /**
+     * 获取路径下的文件大小
+     *
+     * @param path
+     * @return
+     */
+    private String getFolderSize(String... path) {
+        long size = 0;
+        try {
+            for (String s : path) {
+                size += FileUtil.getFolderSize(new File(s));
+            }
+        } catch (Exception e) {
+            YSLog.e(TAG, "getFolderSize", e);
+        }
+        return size / 1024 / 1024 + KM;
+    }
 
-        final BottomDialog dialog = new BottomDialog(this, position -> {
+    /**
+     * 要绑定的地方获取不到信息是显示未绑定
+     *
+     * @param key
+     * @return
+     */
+    private String getProfileString(TProfile key) {
+        String string = Profile.inst().getString(key);
+        if (TextUtil.isEmpty(string)) {
+            return getString(R.string.no_bind);
+        } else {
+            return string;
+        }
+    }
+
+    /**
+     * 解绑成功
+     *
+     * @param id
+     * @param key
+     */
+    private void unBindUpdate(Result r, @RelatedId int id, TProfile key) {
+        if (r.isSucceed()) {
+            showToast("解绑成功");
+            String bind = getString(R.string.no_bind);
+            getRelatedItem(id).save(bind, bind);
+            refreshRelatedItem(id);
+            Profile.inst().put(key, bind);
+            Profile.inst().saveToSp();
+        } else {
+            showToast(r.getMessage());
+        }
+    }
+
+    /**
+     * 解绑微信
+     */
+    private void relieveWx() {
+        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
+        relieveDialog.setHint("是否解除绑定微信号");
+        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+            exeNetworkReq(KUnBindWX, NetFactory.bindWX(null));
+            relieveDialog.dismiss();
+        });
+        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
+        relieveDialog.show();
+    }
+
+    /**
+     * 解绑邮箱
+     */
+    private void relieveEmail() {
+        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
+        relieveDialog.setHint("是否解除绑定邮箱");
+        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+            exeNetworkReq(KUnBindEmail, NetFactory.unBindEmail());
+            relieveDialog.dismiss();
+        });
+        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
+        relieveDialog.show();
+    }
+
+    /**
+     * 清除图片缓存
+     */
+    private void clearImgCache() {
+        BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
 
@@ -361,13 +367,15 @@ public class SettingsActivity extends BaseFormActivity {
         dialog.show();
     }
 
+    /**
+     * 清除声音缓存
+     */
     private void showDialogClearSoundCache() {
-
         final List<String> data = new ArrayList<>();
         data.add(getString(R.string.clear_sound_cache));
         data.add(getString(R.string.cancel));
 
-        final BottomDialog dialog = new BottomDialog(this, position -> {
+        BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
 
@@ -389,6 +397,34 @@ public class SettingsActivity extends BaseFormActivity {
         dialog.show();
     }
 
+    /**
+     * 退出账号
+     */
+    private void userExit() {
+        HintDialogMain dialog = new HintDialogMain(this);
+        dialog.setHint("确定要退出当前登录账号吗?");
+        dialog.addButton("退出", v1 -> {
+            dialog.dismiss();
+
+            CommonServIntent.create()
+                    .type(ReqType.logout)
+                    .token(Profile.inst().getString(TProfile.token))
+                    .start(this);
+
+            notify(NotifyType.logout);
+
+            //清空个人信息，把极光绑定改为false 登录后需要重新绑定
+            SpUser.inst().clear();
+            SpJPush.inst().jPushIsRegister(false);
+            Profile.inst().clear();
+
+            startActivity(LoginActivity.class);
+            finish();
+        });
+        dialog.addButton("取消", v1 -> dialog.dismiss());
+        dialog.show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -401,6 +437,7 @@ public class SettingsActivity extends BaseFormActivity {
         if (type == NotifyType.bind_wx) {
             String wxNickname = (String) data;
             Profile.inst().put(TProfile.wxNickname, wxNickname);
+            Profile.inst().saveToSp();
             getRelatedItem(RelatedId.bind_wx).save(wxNickname, wxNickname);
             refreshRelatedItem(RelatedId.bind_wx);
         }

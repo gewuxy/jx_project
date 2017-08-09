@@ -1,9 +1,13 @@
 package yy.doctor.ui.activity;
 
+import android.os.Bundle;
+
 import lib.ys.ui.activity.SimpleSplashActivityEx;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
+import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServIntent;
 import yy.doctor.ui.activity.login.LoginActivity;
 
 /**
@@ -13,6 +17,15 @@ import yy.doctor.ui.activity.login.LoginActivity;
  * @since 2017/4/5
  */
 public class SplashActivity extends SimpleSplashActivityEx {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        CommonServIntent.create()
+                .type(ReqType.hospital)
+                .start(SplashActivity.this);
+    }
 
     @Override
     protected int getSplashImageResId() {

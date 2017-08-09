@@ -228,7 +228,6 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
         mDialogPayEpn.setHint(String.format(getContext().getString(R.string.need_pay), getDetail().getInt(TMeetDetail.xsCredits)));
         mDialogPayEpn.addButton("确认支付", v1 -> {
             mDialogPayEpn.dismiss();
-//            Notifier.inst().notify(NotifyType.profile_change,);
             getDetail().put(TMeetDetail.attended, true);
             attend();
         });

@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <ImageView
+        <lib.ys.network.image.NetworkImageView
             android:id="@id/form_iv"
             android:layout_width="21dp"
             android:layout_height="21dp"

@@ -80,7 +80,7 @@ public class UrlUtil {
         String KScan = KRegisterBase + "scan_register";
         String KSpecialty = KRegisterBase + "specialty";
         String KTitle = KRegisterBase + "title";
-
+        String KProperties = KRegisterBase + "properties";
     }
 
     public interface UrlHome {

@@ -1,5 +1,8 @@
 package yy.doctor.model.form.text;
 
+import lib.ys.network.image.NetworkImageView;
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yy.doctor.R;
@@ -19,7 +22,14 @@ public class TextForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-        setIvIfValid(holder.getIv(), getDrawable());
+
+        NetworkImageView iv = holder.getIv();
+        if (TextUtil.isEmpty(getUrl())) {
+            setIvIfValid(iv, getDrawable());
+        } else {
+            iv.url(getUrl()).load();
+            ViewUtil.showView(iv);
+        }
 
         holder.getTvText().setText(getText());
     }

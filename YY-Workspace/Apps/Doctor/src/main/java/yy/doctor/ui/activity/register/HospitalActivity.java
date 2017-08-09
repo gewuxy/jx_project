@@ -1,7 +1,6 @@
 package yy.doctor.ui.activity.register;
 
 import android.content.Intent;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -47,6 +46,8 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
+import yy.doctor.model.hospital.HospitalLevel;
+import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 import yy.doctor.model.hospital.HospitalTitle;
 import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
@@ -64,22 +65,20 @@ import yy.doctor.util.Util;
 public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
     private final int KLimit = 12;
-
     private double mLocLon;
     private double mLocLat;
-    private LatLng mLatLng;
 
+    private LatLng mLatLng;
     private PoiSearch mSearch;
     private BaseHintDialog mDialog;
+
     private LinearLayout mHospitalSearch;
 
     private boolean mIsFirst = true;
-
     private LevelDialog mLevelDialog;
     private IHospital mCheckItem;
+    private HospitalLevel mHospitalLevel;
     private int KSave = 1;
-    private String mName;
-    private int mResId;
 
 
     @Override
@@ -135,8 +134,10 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.hospital_search:
+            case R.id.hospital_search: {
                 startActivity(SearchHospitalActivity.class);
+            }
+            break;
         }
     }
 
@@ -162,7 +163,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         if (mCheckItem.getType() != HospitalType.hospital_title) {
             mLevelDialog = new LevelDialog(this);
             mLevelDialog.setListener(HospitalActivity.this);
-           // mLevelDialog.setData();
             mLevelDialog.show();
 
         }
@@ -306,12 +306,19 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.hospital_finish) {
-            Hos name = (Hos) data;
-            Intent intent = new Intent().putExtra(Extra.KData,name.name)
-                    .putExtra(Extra.KId,name.resId);
-            exeNetworkReq(KSave, NetFactory.newModifyBuilder().hospital(name.name).hospitalLevel(name.resId).build());
+            Hos hos = (Hos) data;
+            String hosName = hos.mName;
+            mHospitalLevel = hos.mHospitalLevel;
+            int HosLvId = mHospitalLevel.getInt(THospitalLevel.id);
+            Profile.inst().put(TProfile.hospital, hosName);
+            Profile.inst().put(TProfile.hosUrl, mHospitalLevel.getString(THospitalLevel.picture));
+            Profile.inst().saveToSp();
+            if (Profile.inst().isLogin()) {
+                exeNetworkReq(KSave,NetFactory.newModifyBuilder().hospital(hosName).hospitalLevel(HosLvId).build());
+            }
+            Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
             setResult(RESULT_OK, intent);
-            this.finish();
+            finish();
         }
     }
 
@@ -360,51 +367,41 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     }
 
     @Override
-    public void onLevelChecked(@DrawableRes int resId) {
+    public void onLevelChecked(HospitalLevel h) {
         if (mCheckItem instanceof Hospital) {
             Hospital hospital = (Hospital) mCheckItem;
-            mResId = resId;
-            mName = hospital.getString(THospital.name);
-            Profile.inst().put(TProfile.hospital, mName);
-            Profile.inst().put(TProfile.hosLevel, mResId);
+            int levelId = h.getInt(THospitalLevel.id);
+            String name = hospital.getString(THospital.name);
+            mHospitalLevel = h;
+
+            Profile.inst().put(TProfile.hospital, name);
+            Profile.inst().put(TProfile.hosUrl, h.getInt(THospitalLevel.picture));
             Profile.inst().saveToSp();
 
             if (Profile.inst().isLogin()) {
-                exeNetworkReq(KSave, NetFactory.newModifyBuilder().hospital(mName).hospitalLevel(mResId).build());
-            }else {
-                Intent intent = new Intent()
-                        .putExtra(Extra.KData, mName)
-                        .putExtra(Extra.KId, mResId);
+                exeNetworkReq(KSave,NetFactory.newModifyBuilder().hospital(name).hospitalLevel(levelId).build());
+            } else {
+                Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
                 setResult(RESULT_OK, intent);
                 finish();
             }
         }
     }
 
-  /*  @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-            return JsonParser.error(r.getText());
-    }*/
-
     @Override
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
-        if (id == KSave) {
-            ListResult res = (ListResult) result;
-            YSLog.d(TAG,res.toString());
-            if (res.isSucceed()) {
-                Profile.inst().put(TProfile.hospital, mName);
-                Profile.inst().put(TProfile.hosLevel, mResId);
-                Profile.inst().saveToSp();
 
-                Intent i = new Intent().putExtra(Extra.KData, mName)
-                        .putExtra(Extra.KId,mResId);
+        if (id == KSave) {
+
+            ListResult res = (ListResult) result;
+            if (res.isSucceed()) {
+                Intent i = new Intent().putExtra(Extra.KData, mHospitalLevel);
                 setResult(RESULT_OK, i);
                 finish();
             } else {
                 onNetworkError(id, res.getError());
                 stopRefresh();
-                onNetworkError(id, res.getError());
             }
         }
 

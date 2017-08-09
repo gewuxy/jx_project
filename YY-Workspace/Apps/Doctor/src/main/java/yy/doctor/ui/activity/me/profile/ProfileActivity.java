@@ -43,16 +43,6 @@ import yy.doctor.ui.activity.register.ProvinceActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
-import static yy.doctor.model.Profile.TProfile.category;
-import static yy.doctor.model.Profile.TProfile.cmeId;
-import static yy.doctor.model.Profile.TProfile.department;
-import static yy.doctor.model.Profile.TProfile.hosLevel;
-import static yy.doctor.model.Profile.TProfile.hospital;
-import static yy.doctor.model.Profile.TProfile.licence;
-import static yy.doctor.model.Profile.TProfile.linkman;
-import static yy.doctor.model.Profile.TProfile.major;
-import static yy.doctor.model.Profile.TProfile.name;
-
 /**
  * 我的资料
  *
@@ -132,7 +122,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .related(RelatedId.name)
                 .observer(this)
                 .name(R.string.user_name)
-                .text(Profile.inst().getString(linkman))
+                .text(Profile.inst().getString(TProfile.linkman))
                 .hint(R.string.required)
                 .enable(false));
 
@@ -143,8 +133,8 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .name(R.string.user_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital)
-                .text(Profile.inst().getString(hospital))
-                .drawable(Profile.inst().getInt(hosLevel))
+                .text(Profile.inst().getString(TProfile.hospital))
+                .url(Profile.inst().getString(TProfile.hosUrl))
                 .hint(R.string.choose_hospital));
 
         addItem(Form.create(FormType.divider));
@@ -153,9 +143,9 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_section)
                 .limit(24)
-                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_section), department))
+                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_section), TProfile.department))
                 .type(IntentType.section)
-                .text(Profile.inst().getString(department))
+                .text(Profile.inst().getString(TProfile.department))
                 .hint(R.string.user_input_section));
 
         // FIXME: 是否默认显示定位城市
@@ -181,7 +171,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, SectionActivity.class))
                 .type(IntentType.medicine)
                 .name(R.string.specialized)
-                .text(Profile.inst().getString(category) + " " + Profile.inst().getString(name))
+                .text(Profile.inst().getString(TProfile.category) + " " + Profile.inst().getString(TProfile.name))
                 .hint(R.string.user_input_Specialist));
 
         addItem(Form.create(FormType.divider));
@@ -190,9 +180,9 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_CME_number)
                 .limit(30)
-                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_CME_number), cmeId))
+                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_CME_number), TProfile.cmeId))
                 .type(IntentType.cme_number)
-                .text(Profile.inst().getString(cmeId))
+                .text(Profile.inst().getString(TProfile.cmeId))
                 .hint(R.string.user_input_CME_number));
 
         addItem(Form.create(FormType.divider));
@@ -201,9 +191,9 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_certification_number)
                 .limit(30)
-                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_certification_number), licence))
+                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_certification_number), TProfile.licence))
                 .type(IntentType.certification)
-                .text(Profile.inst().getString(licence))
+                .text(Profile.inst().getString(TProfile.licence))
                 .hint(R.string.user_input_certification_number));
 
         addItem(Form.create(FormType.divider));
@@ -221,7 +211,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .related(RelatedId.skill)
                 .observer(this)
                 .name(R.string.medical_skill)
-                .intent(SkillActivity.newIntent(this, getString(R.string.medical_skill), major))
+                .intent(SkillActivity.newIntent(this, getString(R.string.medical_skill), TProfile.major))
                 .type(IntentType.skill)
                 .text(Profile.inst().getString(TProfile.major)));
     }

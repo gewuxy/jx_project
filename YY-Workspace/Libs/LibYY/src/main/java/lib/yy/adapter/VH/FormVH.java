@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.view.ToggleButton;
 import lib.yy.R;
 
@@ -30,7 +31,7 @@ public class FormVH extends ViewHolderEx {
         return getView(R.id.form_tv_text);
     }
 
-    public ImageView getIv() {
+    public NetworkImageView getIv() {
         return getView(R.id.form_iv);
     }
 
