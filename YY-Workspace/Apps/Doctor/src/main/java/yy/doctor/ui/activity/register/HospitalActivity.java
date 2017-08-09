@@ -26,8 +26,8 @@ import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetErrorBuilder;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -289,7 +289,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalBaiD
     private void onLocationError() {
         YSLog.d("Gps", "失败");
 
-        onNetworkError(0, NetErrorBuilder.create()
+        onNetworkError(0, NetworkErrorBuilder.create()
                 .code(ErrorCode.KUnKnow)
                 .message("定位失败")
                 .build());

@@ -21,7 +21,6 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
@@ -61,8 +60,10 @@ abstract public class BaseProcessor extends AbstractProcessor {
 
             try {
                 TypeSpec builderSpec = getBuilderSpec(annotatedElement);
-                JavaFile builderFile = JavaFile.builder(getPackageName(annotatedElement), builderSpec).build();
-                builderFile.writeTo(filer);
+                if (builderSpec != null) {
+                    JavaFile builderFile = JavaFile.builder(getPackageName(annotatedElement), builderSpec).build();
+                    builderFile.writeTo(filer);
+                }
             } catch (Exception e) {
                 error(annotatedElement, "Could not create builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
             }

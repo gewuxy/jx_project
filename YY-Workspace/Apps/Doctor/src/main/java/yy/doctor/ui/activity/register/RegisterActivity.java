@@ -30,8 +30,8 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.NetworkResp;
-import lib.network.model.err.NetErrorBuilder;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
@@ -530,7 +530,7 @@ public class RegisterActivity extends BaseFormActivity
     private void onLocationError() {
         YSLog.d("Gps", "失败");
 
-        onNetworkError(KRegister, NetErrorBuilder.create()
+        onNetworkError(KRegister, NetworkErrorBuilder.create()
                 .code(ErrorCode.KUnKnow)
                 .message("定位失败")
                 .build());

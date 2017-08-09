@@ -1,10 +1,5 @@
 package lib.processor;
 
-/**
- * @auther yuansui
- * @since 2017/8/1
- */
-
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
@@ -25,6 +20,12 @@ import lib.processor.android.AndroidClassName;
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
 
+/**
+ * 生成跳转Activity和
+ *
+ * @auther yuansui
+ * @since 2017/8/1
+ */
 @AutoService(Processor.class)
 public class AutoIntentProcessor extends BaseProcessor {
 
@@ -35,6 +36,13 @@ public class AutoIntentProcessor extends BaseProcessor {
 
     @Override
     protected TypeSpec getBuilderSpec(Element annotatedElement) {
+        TypeName annotatedTypeName = getTypeName(annotatedElement);
+        String annotatedElementName = annotatedTypeName.toString().toLowerCase();
+        if (!annotatedElementName.contains("serv") && !annotatedElementName.contains("act")) {
+            // 不是service或activity类型的不生成 FIXME: 是否能判断继承的父类Service或者Activity
+            return null;
+        }
+
         List<Element> required = new ArrayList<>();
         List<Element> optional = new ArrayList<>();
         List<Element> all = new ArrayList<>();
@@ -42,8 +50,6 @@ public class AutoIntentProcessor extends BaseProcessor {
         getAnnotatedFields(annotatedElement, required, optional);
         all.addAll(required);
         all.addAll(optional);
-
-        TypeName annotatedTypeName = getTypeName(annotatedElement);
 
         final String name = String.format("%sIntent", annotatedElement.getSimpleName());
         TypeSpec.Builder builder = TypeSpec.classBuilder(name)
@@ -109,7 +115,7 @@ public class AutoIntentProcessor extends BaseProcessor {
         newIntentMethod.addStatement("return intent");
         builder.addMethod(newIntentMethod.build());
 
-        if (annotatedTypeName.toString().toLowerCase().contains("serv")) {
+        if (annotatedElementName.contains("serv")) {
             // 服务
             /**
              * 生成 start 方法

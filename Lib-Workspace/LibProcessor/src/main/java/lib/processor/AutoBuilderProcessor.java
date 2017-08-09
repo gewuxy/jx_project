@@ -22,6 +22,8 @@ import lib.processor.annotation.Ignore;
 
 
 /**
+ * 用来生成简易的builder模式, 如果需要复杂的判断或者重载更多的方法, 需要自己写builder
+ *
  * @auther yuansui
  * @since 2017/8/2
  */
