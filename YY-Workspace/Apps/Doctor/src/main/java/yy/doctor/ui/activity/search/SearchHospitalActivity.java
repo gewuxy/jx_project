@@ -23,7 +23,6 @@ import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
-import lib.network.model.NetworkErrorBuilder;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -231,15 +230,20 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
      */
     private void onLocationError() {
 
-        onNetworkError(0, NetworkErrorBuilder.create()
-                .code(ErrorCode.KUnKnow)
-                .message("定位失败")
-                .build());
+        showToast("定位失败");
 
         mDialog = new BaseHintDialog(this);
         mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
         mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
         mDialog.show();
+
+        // 模拟成功无数据， 显示empty footer view
+        ListResult<IHospital> r = new ListResult<>();
+        r.setCode(ErrorCode.KOk);
+        List<IHospital> hospitals = new ArrayList<>();
+        r.setData(hospitals);
+        onNetworkSuccess(0, r);
+
     }
 
     @Override
