@@ -11,9 +11,12 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
+import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -22,6 +25,7 @@ import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -32,10 +36,11 @@ import yy.doctor.util.Util;
 
 public class ProvinceActivity extends BasePcdActivity {
 
+    private final int KIdCommit = 1;
+
     private final int KPermissionCodeLocation = 10;
 
     private AnimationDrawable mAnimation;
-
     private BaseHintDialog mDialog;
     private LinearLayout mLinearLayout;
     private OnLocationNotify mObserver;
@@ -138,16 +143,49 @@ public class ProvinceActivity extends BasePcdActivity {
             case R.id.province_change:
                 if (Profile.inst().isLogin() && mPlace != null) {
                     // 返回个人中心页面
-                    Intent i = new Intent()
-                            .putExtra(Extra.KData, mPlace);
-                    Profile.inst().put(TProfile.province, mPlace.getString(TPlace.province));
-                    Profile.inst().put(TProfile.city, mPlace.getString(TPlace.city));
-                    Profile.inst().put(TProfile.zone, mPlace.getString(TPlace.district));
-                    Profile.inst().saveToSp();
+                    refresh(RefreshWay.dialog);
+                    exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
+                            .province(mPlace.getString(TPlace.province))
+                            .city(mPlace.getString(TPlace.city))
+                            .area(mPlace.getString(TPlace.district))
+                            .build());
+                } else {
+                    // 返回注册页面
+                    Intent i = new Intent().putExtra(Extra.KData, mPlace);
                     setResult(RESULT_OK, i);
+                    finish();
                 }
-                finish();
                 break;
+        }
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        if (KIdCommit == id) {
+            return JsonParser.error(r.getText());
+        }else {
+            return super.onNetworkResponse(id, r);
+        }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (id== KIdCommit) {
+            Result r = (Result) result;
+            stopRefresh();
+            if (r.isSucceed()) {
+                Profile.inst().put(TProfile.province, mPlace.getString(TPlace.province));
+                Profile.inst().put(TProfile.city, mPlace.getString(TPlace.city));
+                Profile.inst().put(TProfile.zone, mPlace.getString(TPlace.district));
+                Profile.inst().saveToSp();
+               Intent i = new Intent().putExtra(Extra.KData, mPlace);
+                setResult(RESULT_OK, i);
+                finish();
+            } else {
+                onNetworkError(id, r.getError());
+            }
+        } else {
+            super.onNetworkSuccess(id, result);
         }
     }
 
