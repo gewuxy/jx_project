@@ -12,6 +12,10 @@ import java.lang.annotation.RetentionPolicy;
 @IntDef({
         FormType.text,
         FormType.text_intent,
+        FormType.text_dialog,
+        FormType.text_intent_no_name,
+        FormType.modify_intent_skill,
+        FormType.text_intent_me,
 
         FormType.divider,
         FormType.divider_large,
@@ -19,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 
         FormType.et,
         FormType.et_intent,
-        FormType.et_register,
+        FormType.et_register_pwd,
         FormType.et_phone_number,
         FormType.et_email,
         FormType.et_captcha,
@@ -27,8 +31,6 @@ import java.lang.annotation.RetentionPolicy;
         FormType.profile_checkbox,
 
         FormType.toggle_button,
-
-        FormType.modify_intent_skill,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -45,12 +47,10 @@ public @interface FormType {
 
     int et = 20;
     int et_intent = 21;
-    int et_register = 22;
-    int et_register_pwd = 23;
-    int et_number = 24;
-    int et_phone_number = 25;
-    int et_email = 26;
-    int et_captcha = 28;
+    int et_register_pwd = 22;
+    int et_phone_number = 23;
+    int et_email = 24;
+    int et_captcha = 25;
 
     int profile_checkbox = 30;
 

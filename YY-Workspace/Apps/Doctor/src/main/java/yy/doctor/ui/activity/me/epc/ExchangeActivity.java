@@ -76,25 +76,28 @@ public class ExchangeActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.divider_large));
 
-        addItem(Form.create(FormType.et_register)
+        addItem(Form.create(FormType.et)
                 .related(RelatedId.receiver)
+                .layout(R.layout.form_edit_register)
                 .hint(R.string.receiver));
 
-        // FIXME: 2017/6/30 caixiang  要添加到。。。
         addItem(Form.create(FormType.divider));
-        addItem(Form.create(FormType.et_number)
+        addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.mobile)
+                //.layout(R.layout.form_edit_number)
                 .hint(R.string.phone_num));
 
         addItem(Form.create(FormType.divider_large));
 
-        addItem(Form.create(FormType.et_register)
+        addItem(Form.create(FormType.et)
                 .related(RelatedId.province_city)
+                .layout(R.layout.form_edit_register)
                 .hint(R.string.province_city));
 
         addItem(Form.create(FormType.divider));
-        addItem(Form.create(FormType.et_register)
+        addItem(Form.create(FormType.et)
                 .related(RelatedId.address)
+                .layout(R.layout.form_edit_register)
                 .hint(R.string.address));
     }
 

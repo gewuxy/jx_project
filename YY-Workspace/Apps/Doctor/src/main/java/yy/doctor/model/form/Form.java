@@ -8,9 +8,7 @@ import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.edit.EditEmailForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
-import yy.doctor.model.form.edit.EditNumberForm;
 import yy.doctor.model.form.edit.EditPhoneNumberForm;
-import yy.doctor.model.form.edit.EditRegisterForm;
 import yy.doctor.model.form.edit.EditRegisterPwdForm;
 import yy.doctor.model.form.text.MeForm;
 import yy.doctor.model.form.text.TextDialogForm;
@@ -78,16 +76,8 @@ public class Form {
                 form = new EditIntentForm();
             }
             break;
-            case FormType.et_register: {
-                form = new EditRegisterForm();
-            }
-            break;
             case FormType.et_register_pwd: {
                 form = new EditRegisterPwdForm();
-            }
-            break;
-            case FormType.et_number: {
-                form = new EditNumberForm();
             }
             break;
             case FormType.et_phone_number: {
