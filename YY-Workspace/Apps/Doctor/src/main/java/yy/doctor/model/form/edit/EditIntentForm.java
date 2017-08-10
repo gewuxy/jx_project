@@ -21,6 +21,8 @@ public class EditIntentForm extends EditForm {
 
     @Override
     protected boolean onViewClick(View v) {
+        super.onViewClick(v);
+
         Intent i = getIntent();
         startActivityForResult(i, getPosition());
         return true;

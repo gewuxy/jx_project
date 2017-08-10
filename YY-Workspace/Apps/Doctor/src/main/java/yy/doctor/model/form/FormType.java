@@ -20,19 +20,15 @@ import java.lang.annotation.RetentionPolicy;
         FormType.et,
         FormType.et_intent,
         FormType.et_register,
-        FormType.et_register_name,
-        FormType.et_number,
         FormType.et_phone_number,
         FormType.et_email,
         FormType.et_captcha,
-        FormType.et_register_department,
 
         FormType.profile_checkbox,
 
         FormType.toggle_button,
 
         FormType.modify_intent_skill,
-        FormType.text_intent_hospital,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -42,7 +38,6 @@ public @interface FormType {
     int text_intent_no_name = 3;
     int modify_intent_skill = 4; // 学术专长(技能)修改
     int text_intent_me = 5;
-    int text_intent_hospital = 6;//个人资料医院
 
     int divider = 10;
     int divider_large = 11;
@@ -56,9 +51,6 @@ public @interface FormType {
     int et_phone_number = 25;
     int et_email = 26;
     int et_captcha = 28;
-    int et_register_name = 29;
-    int et_register_department = 31;
-
 
     int profile_checkbox = 30;
 

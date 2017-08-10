@@ -36,6 +36,7 @@ abstract public class BaseForm extends FormEx<FormVH> {
     private int mPaddingRight;
 
     private int mType;
+    private String mUrl;
 
     public <T extends BaseForm> T paddingLeft(int padding) {
         mPaddingLeft = padding;
@@ -52,6 +53,11 @@ abstract public class BaseForm extends FormEx<FormVH> {
         return (T) this;
     }
 
+    public <T extends BaseForm> T url(String url) {
+        mUrl = url;
+        return (T) this;
+    }
+
     public int getPaddingLeft() {
         return mPaddingLeft;
     }
@@ -62,6 +68,10 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     public int getPaddingRight() {
         return mPaddingRight;
+    }
+
+    public String getUrl() {
+        return mUrl;
     }
 
     @Override
@@ -338,11 +348,6 @@ abstract public class BaseForm extends FormEx<FormVH> {
     @Override
     public BaseForm id(int id) {
         return super.id(id);
-    }
-
-    @Override
-    public BaseForm url(String url) {
-        return super.url(url);
     }
 
     @Override

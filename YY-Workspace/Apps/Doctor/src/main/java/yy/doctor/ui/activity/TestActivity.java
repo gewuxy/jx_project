@@ -1,11 +1,7 @@
 package yy.doctor.ui.activity;
 
 import lib.yy.test.BaseTestActivity;
-import yy.doctor.ui.activity.login.LoginActivity;
-import yy.doctor.ui.activity.me.profile.SectionActivity;
-import yy.doctor.ui.activity.me.profile.TitleActivity;
-import yy.doctor.ui.activity.register.RegisterActivity;
-import yy.doctor.ui.activity.search.SearchHospitalActivity;
+import yy.doctor.serv.GlConfigServIntent;
 
 /**
  * @auther yuansui
@@ -22,13 +18,13 @@ public class TestActivity extends BaseTestActivity {
         add("数据", MainActivityIntent.newIntent(this, MainActivity.KTabData));
         add("我", MainActivityIntent.newIntent(this, MainActivity.KTabMe));
 
-        add("登录", LoginActivity.class);
-        add("注册", RegisterActivity.class);
-        add("扫一扫", ScanActivity.class);
-        add("手电筒", FlashActivity.class);
-        add("搜索医院", SearchHospitalActivity.class);
-        add("职称", TitleActivity.class);
-        add("专科", SectionActivity.class);
+        add("123", v -> {
+            GlConfigServIntent.create()
+                    .start(this);
+        });
+    }
+
+    private void download() {
 
     }
 

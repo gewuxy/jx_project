@@ -29,6 +29,7 @@ import yy.doctor.Constants.WXType;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.HintDialogMain;
+import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -193,14 +194,18 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_wx: {
-                String nickName = Profile.inst().getString(TProfile.wxNickname);
-                if (getString(R.string.no_bind).equals(nickName) || TextUtil.isEmpty(nickName)) {
-                    // 未绑定
-                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
-                    WXLoginApi.sendReq(WXType.bind);
+                WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
+                if (WXLoginApi.isWXAppInstalled()) {
+                    String nickName = Profile.inst().getString(TProfile.wxNickname);
+                    if (getString(R.string.no_bind).equals(nickName) || TextUtil.isEmpty(nickName)) {
+                        // 未绑定
+                        WXLoginApi.sendReq(WXType.bind);
+                    } else {
+                        // 已绑定
+                        relieveWx();
+                    }
                 } else {
-                    // 已绑定
-                    relieveWx();
+                    notInstallWx();
                 }
             }
             break;
@@ -311,6 +316,17 @@ public class SettingsActivity extends BaseFormActivity {
         } else {
             showToast(r.getMessage());
         }
+    }
+
+    /**
+     * 没有安装微信
+     */
+    private void notInstallWx() {
+        HintDialogSec dialogWx = new HintDialogSec(SettingsActivity.this);
+        dialogWx.setMainHint(R.string.wx_accredit_error);
+        dialogWx.setSecHint(R.string.wx_check_normal);
+        dialogWx.addButton(R.string.affirm, v1 -> dialogWx.dismiss());
+        dialogWx.show();
     }
 
     /**
