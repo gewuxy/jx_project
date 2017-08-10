@@ -76,6 +76,10 @@ android {
             shrinkResources true
             zipAlignEnabled true
             minifyEnabled true
+
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+            }
         }
     }
 
