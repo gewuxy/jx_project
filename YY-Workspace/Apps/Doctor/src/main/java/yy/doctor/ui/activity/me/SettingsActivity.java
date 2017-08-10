@@ -211,11 +211,11 @@ public class SettingsActivity extends BaseFormActivity {
             break;
             case RelatedId.bind_email: {
                 String email = Profile.inst().getString(TProfile.username);
-                if (TextUtil.isNotEmpty(email)) {
+                if (getString(R.string.no_bind).equals(email) || TextUtil.isEmpty(email)) {
+                    startActivity(BindEmailActivity.class);
+                } else {
                     // 已绑定
                     relieveEmail();
-                } else {
-                    startActivity(BindEmailActivity.class);
                 }
             }
             break;

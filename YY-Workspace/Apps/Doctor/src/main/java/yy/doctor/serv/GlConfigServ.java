@@ -29,9 +29,7 @@ import yy.doctor.sp.SpConfig;
  */
 @AutoIntent
 public class GlConfigServ extends ServiceEx {
-
-    private final int KHospital = 0; // 医院信息
-
+// FIXME:错误提示
     @Override
     protected void onHandleIntent(Intent intent) {
         SpConfig inst = SpConfig.inst();
@@ -62,7 +60,7 @@ public class GlConfigServ extends ServiceEx {
             // 保存配置信息
             inst.saveInfo(info);
         }
-        exeNetworkReq(NetFactory.config(KHospital, version));
+        exeNetworkReq(NetFactory.config(version));
     }
 
     @Override

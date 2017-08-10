@@ -157,8 +157,7 @@ public class NetFactory {
         String KLicence = "licence";//执业许可证号
         String KCaptcha = "captcha";//注册验证码
         String KMasterId = "masterId";//二维码参数，激活码提供方id
-        String KPropType = "propType"; // “0”表示获取医院等级
-        String KVersion = "version"; // 医院等级信息的版本号
+        String KVersion = "version"; // 配置信息的版本号
     }
 
     public interface UserParam {
@@ -350,13 +349,10 @@ public class NetFactory {
 
     /**
      * 配置信息
-     *
-     * @param type 0(医院)
      * @return
      */
-    public static NetworkReq config(int type, int version) {
+    public static NetworkReq config(int version) {
         return newPost(UrlRegister.KProperties)
-                .param(RegisterParam.KPropType, type)
                 .param(RegisterParam.KVersion, version)
                 .build();
     }
