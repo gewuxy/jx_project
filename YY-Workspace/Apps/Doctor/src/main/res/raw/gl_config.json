@@ -1,0 +1,68 @@
+{
+  "version": 0,
+  "propList": [
+    {
+      "id": 1,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_one.png",
+      "propDesc": "医院等级",
+      "propKey": "level_1",
+      "propType": "0",
+      "propValue": "一级",
+      "version": 0
+    },
+    {
+      "id": 2,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_two.png",
+      "propDesc": "医院等级",
+      "propKey": "level_2",
+      "propType": "0",
+      "propValue": "二级",
+      "version": 0
+    },
+    {
+      "id": 3,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_three.png",
+      "propDesc": "医院等级",
+      "propKey": "level_3",
+      "propType": "0",
+      "propValue": "三级",
+      "version": 0
+    },
+    {
+      "id": 4,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_community.png",
+      "propDesc": "医院等级",
+      "propKey": "level_4",
+      "propType": "0",
+      "propValue": "社区卫生服务中心",
+      "version": 0
+    },
+    {
+      "id": 5,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_village.png",
+      "propDesc": "医院等级",
+      "propKey": "level_5",
+      "propType": "0",
+      "propValue": "乡镇卫生院",
+      "version": 0
+    },
+    {
+      "id": 6,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_clinic.png",
+      "propDesc": "医院等级",
+      "propKey": "level_6",
+      "propType": "0",
+      "propValue": "诊所",
+      "version": 0
+    },
+    {
+      "id": 7,
+      "picture": "http://59.111.90.245:8083/file/hosLevel/hospital_level_other.png",
+      "propDesc": "医院等级",
+      "propKey": "level_7",
+      "propType": "0",
+      "propValue": "其他",
+      "version": 0
+    }
+  ]
+}

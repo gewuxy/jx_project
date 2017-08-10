@@ -26,7 +26,6 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.ys.YSLog;
-import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -334,6 +333,12 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     protected void onDestroy() {
         super.onDestroy();
 
+        if (mLevelDialog != null) {
+            mLevelDialog.dismiss();
+        }
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
         LocationNotifier.inst().remove(this);
         Location.inst().onDestroy();
     }
@@ -373,6 +378,9 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
 
     @Override
     public void onLevelChecked(HospitalLevel h) {
+        if (mLevelDialog != null) {
+            mLevelDialog.dismiss();
+        }
         if (mCheckItem instanceof Hospital) {
             Hospital hospital = (Hospital) mCheckItem;
             int levelId = h.getInt(THospitalLevel.id);
