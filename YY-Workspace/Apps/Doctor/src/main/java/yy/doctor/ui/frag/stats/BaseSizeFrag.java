@@ -29,7 +29,6 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
     private TextView mTvAll;
 
     private ArrayList<Stats> mStatses;
-    private int mTextColor;
 
     @Override
     public void initData() {
@@ -73,7 +72,8 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
         super.setViews();
 
         mTvTitle.setText(getTitle());
-        mTvTitle.setTextColor(ResLoader.getColor(getTextColor()));
+        mTvWeek.setTextColor(ResLoader.getColor(getTextColor()));
+        mTvAll.setTextColor(ResLoader.getColor(getTextColor()));
         setCurrentItem(KSize);
         setOffscreenPageLimit(3);
     }

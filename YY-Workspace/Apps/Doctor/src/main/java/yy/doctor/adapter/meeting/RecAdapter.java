@@ -49,7 +49,10 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
 
             case RecType.more: {
                 TextView tvMore = holder.getTvMore();
-                if (getItemViewType(getLastItemPosition()) == RecType.unit_num) {
+                if (position - 1 < 0) {
+                    return;
+                }
+                if (getItemViewType(position - 1) == RecType.unit_num) {
                     tvMore.setText("查看更多单位号");
                 } else {
                     tvMore.setText("查看更多会议");
