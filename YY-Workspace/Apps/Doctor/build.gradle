@@ -52,6 +52,10 @@ android {
             shrinkResources false
             zipAlignEnabled false
             minifyEnabled false
+
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86"
+            }
         }
         alpha {
             buildConfigField "boolean", "DEBUG_LOG", "true"
@@ -64,6 +68,10 @@ android {
             shrinkResources true
             zipAlignEnabled true
             minifyEnabled true
+
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+            }
         }
         release {
             buildConfigField "boolean", "DEBUG_LOG", "false"
