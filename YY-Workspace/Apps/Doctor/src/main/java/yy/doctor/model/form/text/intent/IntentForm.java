@@ -83,11 +83,7 @@ public class IntentForm extends TextForm {
     protected void onActivityResult(int position, Intent data) {
         switch (mCurrType) {
             case IntentType.location: {
-                String p = data.getStringExtra(Extra.KProvince);
-                String c = data.getStringExtra(Extra.KCity);
-                String d = data.getStringExtra(Extra.KDistrict);
-
-                Place place = new Place(p, c, d);
+                Place place = (Place) data.getSerializableExtra(Extra.KData);
                 String text = place.toString();
                 save(text, text);
             }
@@ -97,7 +93,7 @@ public class IntentForm extends TextForm {
                 if (level != null) {
                     String hospital = Profile.inst().getString(TProfile.hospital);
                     String url = level.getString(THospitalLevel.picture);
-                    YSLog.d("asdad","onActivityResult:"+ url);
+                    YSLog.d("asdad", "onActivityResult:" + url);
                     save(hospital, hospital);
                     data(level.getString(THospitalLevel.id))
                             .url(url)
