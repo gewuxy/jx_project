@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
-import lib.ys.ConstantsEx;
 import lib.ys.util.sp.SpBase;
 import yy.doctor.App;
 

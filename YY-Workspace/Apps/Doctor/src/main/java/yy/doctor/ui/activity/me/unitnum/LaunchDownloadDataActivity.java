@@ -1,17 +1,15 @@
 package yy.doctor.ui.activity.me.unitnum;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
+import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -122,79 +120,21 @@ public class LaunchDownloadDataActivity extends BaseActivity {
                     )
                             .start(this);
                 } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
-                    intent = getPptFileIntent(mFilePath + mFileNameEncryption);
-                    startActivity(intent);
+                    IntentAction.ppt()
+                            .filePath(mFilePath + mFileNameEncryption)
+                            .alert("没有打开PPT类应用")
+                            .launch();
                 } else {
-                    intent = getWordFileIntent(mFilePath + mFileNameEncryption);
-                    startActivity(intent);
+                    IntentAction.word()
+                            .filePath(mFilePath + mFileNameEncryption)
+                            .alert("没有打开Word类应用")
+                            .launch();
                 }
             } catch (Exception e) {
                 YSLog.d(TAG, " error msg " + e.getMessage());
                 showToast(R.string.can_not_find_relevant_software);
             }
-
         }
-    }
-
-    /**
-     * 获取一个用于打开Word文件的intent
-     *
-     * @param param
-     * @return
-     */
-    public Intent getWordFileIntent(String param) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(param));
-        intent.setDataAndType(uri, "application/msword");
-        return intent;
-    }
-
-    /**
-     * 获取一个用于打开PDF文件的intent
-     *
-     * @param param
-     * @return
-     */
-    public Intent getPdfFileIntent(String param) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(param));
-        intent.setDataAndType(uri, "application/pdf");
-        return intent;
-    }
-
-    /**
-     * 获取一个用于打开PPT文件的intent
-     *
-     * @param param
-     * @return
-     */
-    public static Intent getPptFileIntent(String param) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(param));
-        intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
-        return intent;
-    }
-
-    /**
-     * 获取一个用于打开Excel文件的intent
-     *
-     * @param param
-     * @return
-     */
-    public static Intent getExcelFileIntent(String param) {
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(param));
-        intent.setDataAndType(uri, "application/vnd.ms-excel");
-        return intent;
     }
 
 }

@@ -6,6 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.support.annotation.StringRes;
 
+import java.io.File;
 import java.util.List;
 
 import lib.ys.AppEx;
@@ -61,6 +62,17 @@ public class IntentAction {
         return new AnyAction();
     }
 
+    public static WordAction word() {
+        return new WordAction();
+    }
+
+    public static PptAction ppt() {
+        return new PptAction();
+    }
+
+    public static ExcelAction excel() {
+        return new ExcelAction();
+    }
 
     abstract static public class BaseAction {
         protected boolean mCreateChooser;
@@ -112,10 +124,8 @@ public class IntentAction {
     public static class MailAction extends BaseAction {
 
         private String mAddress;
-
         private String mSubject;
         private int mSubjectId;
-
         private String mText;
 
         private MailAction() {
@@ -161,7 +171,6 @@ public class IntentAction {
         }
     }
 
-
     /**
      * 外部浏览器
      */
@@ -191,7 +200,6 @@ public class IntentAction {
             normalLaunch(intent);
         }
     }
-
 
     public static class MarketAction extends BaseAction {
 
@@ -315,4 +323,83 @@ public class IntentAction {
             normalLaunch(mIntent);
         }
     }
+
+    /**
+     * 调用第三方打开Word文件
+     */
+    public static class WordAction extends BaseAction {
+
+        private String mFilePath;
+
+        private WordAction() {
+        }
+
+        public WordAction filePath(String filePath) {
+            mFilePath = filePath;
+            return this;
+        }
+
+        @Override
+        public void launch() {
+            Uri uri = Uri.fromFile(new File(mFilePath));
+            Intent intent = new Intent(Intent.ACTION_VIEW)
+                    .addCategory(Intent.CATEGORY_DEFAULT)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .setDataAndType(uri, "application/msword");
+            normalLaunch(intent);
+        }
+    }
+
+    /**
+     * 调用第三方打开PPT文件
+     */
+    public static class PptAction extends BaseAction {
+
+        private String mFilePath;
+
+        private PptAction() {
+        }
+
+        public PptAction filePath(String filePath) {
+            mFilePath = filePath;
+            return this;
+        }
+
+        @Override
+        public void launch() {
+            Uri uri = Uri.fromFile(new File(mFilePath));
+            Intent intent = new Intent(Intent.ACTION_VIEW)
+                    .addCategory(Intent.CATEGORY_DEFAULT)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .setDataAndType(uri, "application/vnd.ms-powerpoint");
+            normalLaunch(intent);
+        }
+    }
+
+    /**
+     * 调用第三方打开excel文件
+     */
+    public static class ExcelAction extends BaseAction {
+
+        private String mFilePath;
+
+        public ExcelAction() {
+        }
+
+        public ExcelAction filePath(String filePath) {
+            mFilePath = filePath;
+            return this;
+        }
+
+        @Override
+        public void launch() {
+            Uri uri = Uri.fromFile(new File(mFilePath));
+            Intent intent = new Intent(Intent.ACTION_VIEW)
+                    .addCategory(Intent.CATEGORY_DEFAULT)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .setDataAndType(uri, "application/vnd.ms-excel");
+            normalLaunch(intent);
+        }
+    }
+
 }

@@ -9,7 +9,7 @@ import lib.processor.annotation.AutoArg;
  * @since 2017/4/24
  */
 @AutoArg
-public class ThomsonsFrag extends BaseDataUnitsFrag {
+public class ThomsonFrag extends BaseDataUnitsFrag {
 
     @Override
     protected int getDataType() {
