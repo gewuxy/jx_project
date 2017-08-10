@@ -37,7 +37,6 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
-import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -306,8 +305,14 @@ public class RegisterActivity extends BaseFormActivity
 
         String specialSymbol = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-×÷＝%√°′″{}()[].|*/#~,:;?\\\"‖&*@\\\\^,$–…'=+!><.-—_";
         // FIXME: 2017/8/9 
-        String symbol = "^([0-9]|[a-z]|[A-Z]|-|×|÷|＝|%|√|°|′|″|{|}|(|)|[|]|.|||*|/|#|~|,|:|;|?|\"|‖|&|*|@|\\|^|,|$|–|…|'|=|+|!|>|<|.|-|—|_)+$";
-        char[] chars = specialSymbol.toCharArray();
+      //  String symbol = "^([0-9]|[a-z]|[A-Z]|-|×|÷|＝|%|√|°|′|″|{|}|(|)|[|]|.|||*|/|#|~|,|:|;|?|\"|‖|&|*|@|\\|^|,|$|–|…|'|=|+|!|>|<|.|-|—|_)+$";
+        String symbol2 = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
+        if (!strPwd.matches(symbol2)) {
+            showToast(R.string.input_special_symbol);
+            return;
+        }
+
+      /*  char[] chars = specialSymbol.toCharArray();
         String pwd = strPwd;
         for (char c : chars) {
             pwd = pwd.replace(String.valueOf(c), "");
@@ -315,7 +320,7 @@ public class RegisterActivity extends BaseFormActivity
         if (pwd.length() > 0) {
             showToast(R.string.input_special_symbol);
             return;
-        }
+        }*/
 
         if (strPwd.length() < 6 || strPwd.length() > 24) {
             showToast(R.string.input_right_pwd_num);
@@ -331,7 +336,7 @@ public class RegisterActivity extends BaseFormActivity
         String category = s[0];
         String name = s[1];
 
-        int hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
+        String hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
 
         //注册
         refresh(RefreshWay.dialog);
@@ -344,7 +349,7 @@ public class RegisterActivity extends BaseFormActivity
                 .city(place.getString(TPlace.city))
                 .zone(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
-                .hospitalLevel(hospitalLevel)//医院级别
+                .hospitalLevel(Integer.parseInt(hospitalLevel))//医院级别
                 .category(category)//专科一级名称，要分开
                 .name(name)//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称

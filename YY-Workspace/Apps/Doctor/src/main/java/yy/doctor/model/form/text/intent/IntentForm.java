@@ -83,13 +83,11 @@ public class IntentForm extends TextForm {
     protected void onActivityResult(int position, Intent data) {
         switch (mCurrType) {
             case IntentType.location: {
-                String p = data.getStringExtra(Extra.KProvince);
-                String c = data.getStringExtra(Extra.KCity);
-                String d = data.getStringExtra(Extra.KDistrict);
-
-                Place place = new Place(p, c, d);
-                String text = place.toString();
-                save(text, text);
+                if (data != null) {
+                    Place place = (Place) data.getSerializableExtra(Extra.KData);
+                    String text = place.toString();
+                    save(text, text);
+                }
             }
             break;
             case IntentType.hospital: {
