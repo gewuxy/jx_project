@@ -97,9 +97,8 @@ public class NetworkOpt implements INetworkOpt {
         }
 
         if (request.getRetry().reduce()) {
-            Observable.just(request)
-                    .delay(request.getRetry().getDelay(), TimeUnit.MILLISECONDS)
-                    .subscribe(networkReq -> exeNetworkReq(id, networkReq));
+            Observable.timer(request.getRetry().getDelay(), TimeUnit.MILLISECONDS)
+                    .subscribe(aLong -> exeNetworkReq(id, request));
         } else {
             mMapRetryTask.remove(id);
             return false;

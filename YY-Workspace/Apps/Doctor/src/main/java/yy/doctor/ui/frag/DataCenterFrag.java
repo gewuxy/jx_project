@@ -85,8 +85,8 @@ public class DataCenterFrag extends BaseVPFrag {
     public void setViews() {
         super.setViews();
 
-        setOffscreenPageLimit(getCount());
         addTabs();
+        setOffscreenPageLimit(getCount());
 
         setOnPageChangeListener(new OnPageChangeListener() {
 
