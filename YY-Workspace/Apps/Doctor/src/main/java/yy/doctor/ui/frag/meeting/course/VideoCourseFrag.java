@@ -81,7 +81,7 @@ public class VideoCourseFrag extends BaseCourseFrag implements
 
     @Override
     public void setViews() {
-        mVideoUrl = Util.convertUrl(getDetail().getString(TCourse.videoUrl));
+        mVideoUrl = Util.convertUrl(getCourse().getString(TCourse.videoUrl));
         // 初始化NetVideoView
         initVideo();
         setOnClickListener(mLayout);

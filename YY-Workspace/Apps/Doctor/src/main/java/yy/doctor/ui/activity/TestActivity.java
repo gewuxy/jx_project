@@ -24,7 +24,6 @@ public class TestActivity extends BaseTestActivity {
 
         add("登录", LoginActivity.class);
         add("注册", RegisterActivity.class);
-        add("百度", BaiDuTestActivity.class);
         add("扫一扫", ScanActivity.class);
         add("手电筒", FlashActivity.class);
         add("搜索医院", SearchHospitalActivity.class);

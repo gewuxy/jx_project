@@ -6,7 +6,6 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.squareup.leakcanary.LeakCanary;
 
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
@@ -102,7 +101,7 @@ public class App extends BaseApp {
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
 
         if (BuildConfig.DEBUG_LOG) {
-            LeakCanary.install(this);
+//            LeakCanary.install(this);
         }
     }
 

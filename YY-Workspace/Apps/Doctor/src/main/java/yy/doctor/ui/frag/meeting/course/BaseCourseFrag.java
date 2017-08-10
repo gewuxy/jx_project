@@ -28,7 +28,7 @@ public abstract class BaseCourseFrag extends BaseFrag {
         // no nav bar
     }
 
-    protected Course getDetail() {
+    protected Course getCourse() {
         return mCourse;
     }
 

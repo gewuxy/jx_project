@@ -43,7 +43,7 @@ public class SplashActivity extends SimpleSplashActivityEx {
         if (BuildConfig.TEST) {
             startActivity(TestActivity.class);
         } else if (Profile.inst().isLogin()) {
-            startActivity(MainActivity.class);
+            MainActivityIntent.create().start(this);
         } else {
             startActivity(LoginActivity.class);
         }

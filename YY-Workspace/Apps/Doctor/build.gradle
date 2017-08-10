@@ -21,6 +21,7 @@ android {
                 '../../../Lib-Workspace/LibYS_Rx/proguard-ys.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-fresco.pro',
                 '../../../Lib-Workspace/LibYS_Rx/proguard-lambda.pro',
+                '../../../Lib-Workspace/LibProcessor/proguard-processor.pro',
                 '../../../Lib-Workspace/LibBD/proguard-baidu.pro',
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
@@ -148,8 +149,8 @@ dependencies {
     /**
      * leakcanary
      */
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     compile deps.support.dex
 }

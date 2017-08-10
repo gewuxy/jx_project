@@ -93,9 +93,6 @@
             android:name=".ui.activity.register.DistrictActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.BaiDuTestActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.activity.FlashActivity"
             android:screenOrientation="portrait"/>
         <activity
