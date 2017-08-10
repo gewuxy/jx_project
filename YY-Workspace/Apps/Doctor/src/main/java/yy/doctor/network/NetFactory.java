@@ -349,12 +349,12 @@ public class NetFactory {
     }
 
     /**
-     * 医院信息
+     * 配置信息
      *
-     * @param type
+     * @param type 0(医院)
      * @return
      */
-    public static NetworkReq hospitalLevel(String type, String version) {
+    public static NetworkReq config(int type, int version) {
         return newPost(UrlRegister.KProperties)
                 .param(RegisterParam.KPropType, type)
                 .param(RegisterParam.KVersion, version)

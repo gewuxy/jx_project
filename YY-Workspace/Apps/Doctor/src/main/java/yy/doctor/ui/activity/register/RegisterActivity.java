@@ -336,7 +336,7 @@ public class RegisterActivity extends BaseFormActivity
         String category = s[0];
         String name = s[1];
 
-        String hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
+        int hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
 
         //注册
         refresh(RefreshWay.dialog);
@@ -349,7 +349,7 @@ public class RegisterActivity extends BaseFormActivity
                 .city(place.getString(TPlace.city))
                 .zone(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
-                .hospitalLevel(Integer.parseInt(hospitalLevel))//医院级别
+                .hospitalLevel(hospitalLevel)//医院级别
                 .category(category)//专科一级名称，要分开
                 .name(name)//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称

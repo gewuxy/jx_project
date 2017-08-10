@@ -95,7 +95,7 @@ public class IntentForm extends TextForm {
                     String url = level.getString(THospitalLevel.picture);
                     YSLog.d("asdad", "onActivityResult:" + url);
                     save(hospital, hospital);
-                    data(level.getString(THospitalLevel.id))
+                    data(level.getInt(THospitalLevel.id))
                             .url(url)
                             .refresh();
                 }

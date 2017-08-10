@@ -33,8 +33,6 @@ public class SpApp extends SpBase {
 
     public interface SpAppKey {
         String KUserName = "user_name";
-        String KVersionHosLV = "version_hos_level";
-        String KHosLVs = "hos_levels";
         String KAppUpdateTime = "app_update_time";
         String KFirstEnterExam = "first_enter_exam";
         String KFirstEnterQue = "first_enter_que";
