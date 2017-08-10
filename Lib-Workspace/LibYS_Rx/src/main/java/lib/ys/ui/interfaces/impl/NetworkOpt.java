@@ -2,6 +2,9 @@ package lib.ys.ui.interfaces.impl;
 
 import android.util.SparseArray;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
 import lib.network.Network;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkErrorBuilder;
@@ -94,7 +97,9 @@ public class NetworkOpt implements INetworkOpt {
         }
 
         if (request.getRetry().reduce()) {
-            exeNetworkReq(id, request);
+            Observable.just(request)
+                    .delay(request.getRetry().getDelay(), TimeUnit.MILLISECONDS)
+                    .subscribe(networkReq -> exeNetworkReq(id, networkReq));
         } else {
             mMapRetryTask.remove(id);
             return false;

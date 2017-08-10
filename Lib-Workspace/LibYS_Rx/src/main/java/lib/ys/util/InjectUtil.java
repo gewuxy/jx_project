@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 
 import lib.processor.annotation.AutoArg;
 import lib.processor.annotation.AutoIntent;
+import lib.ys.YSLog;
 
 
 /**
@@ -25,9 +26,9 @@ public class InjectUtil {
     public static void bind(Fragment frag) {
         Class clz = frag.getClass();
         if (clz.isAnnotationPresent(AutoArg.class)) {
-            String clsName = clz.getName();
+            String clzName = clz.getName();
             try {
-                Class<?> builderClz = Class.forName(clsName + "Arg");
+                Class<?> builderClz = Class.forName(clzName + "Arg");
 
                 Method method = builderClz.getMethod("inject", clz);
                 method.invoke(null, frag);
@@ -44,9 +45,9 @@ public class InjectUtil {
     private static void intentBuilder(Object o, Intent i) {
         Class clz = o.getClass();
         if (clz.isAnnotationPresent(AutoIntent.class)) {
-            String clsName = clz.getName();
+            String clzName = clz.getName();
             try {
-                Class<?> builderClz = Class.forName(clsName + "Intent");
+                Class<?> builderClz = Class.forName(clzName + "Intent");
 
                 Method method = builderClz.getMethod("inject", clz, Intent.class);
                 method.invoke(null, o, i);

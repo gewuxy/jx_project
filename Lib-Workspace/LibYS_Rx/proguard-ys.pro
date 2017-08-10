@@ -77,6 +77,7 @@
   public static final android.os.Parcelable$Creator *;
 }
 
+#保留注解参数
 -keepattributes *Annotation*
 
 #上面是通用的
