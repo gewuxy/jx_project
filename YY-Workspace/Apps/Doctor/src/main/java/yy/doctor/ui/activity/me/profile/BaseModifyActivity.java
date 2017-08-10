@@ -51,6 +51,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
         mTv = bar.addTextViewRight(R.string.save, v -> {
             refresh(RefreshWay.dialog);
             doModify();
+            showToast("修改成功");
         });
     }
 

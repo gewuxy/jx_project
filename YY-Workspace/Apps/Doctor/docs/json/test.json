@@ -1,54 +1,18 @@
 {
   "code": "0",
-  "data": [
-    {
-      "id": 1,
-      "propDesc": "医院等级",
-      "propKey": "level_1",
-      "propType": "0",
-      "propValue": "一级"
-    },
-    {
-      "id": 2,
-      "propDesc": "医院等级",
-      "propKey": "level_2",
-      "propType": "0",
-      "propValue": "二级"
-    },
-    {
-      "id": 3,
-      "propDesc": "医院等级",
-      "propKey": "level_3",
-      "propType": "0",
-      "propValue": "三级"
-    },
-    {
-      "id": 4,
-      "propDesc": "医院等级",
-      "propKey": "level_4",
-      "propType": "0",
-      "propValue": "社区服务中心(站)"
-    },
-    {
-      "id": 5,
-      "propDesc": "医院等级",
-      "propKey": "level_5",
-      "propType": "0",
-      "propValue": "卫生院"
-    },
-    {
-      "id": 6,
-      "propDesc": "医院等级",
-      "propKey": "level_6",
-      "propType": "0",
-      "propValue": "诊所"
-    },
-    {
-      "id": 7,
-      "propDesc": "医院等级",
-      "propKey": "level_7",
-      "propType": "0",
-      "propValue": "其他"
-    }
-  ]
+  "data": {
+    "city": "长治市",
+    "credits": 100,
+    "headimg": "http://59.111.90.245:8083/file//headimg/17080811310999939955.jpg",
+    "hospital": "爱康君安健疗国际",
+    "id": 166,
+    "integrity": 40,
+    "licence": "10086123",
+    "linkman": "6788",
+    "mobile": "13710920091",
+    "nickname": "6788",
+    "province": "山西省",
+    "token": "3f27a4131836450cac483ecce27f4906",
+    "zone": "长治县"
+  }
 }
