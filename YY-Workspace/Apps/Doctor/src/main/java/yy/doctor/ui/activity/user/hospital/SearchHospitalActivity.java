@@ -70,7 +70,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     private boolean mLocation = true; //定位成功默认为true,定位失败为false;
     private boolean mFindHospital = true; //找到医院默默认为true，找不到为false；
 
-
     @Override
     public void initData() {
         mSearch = PoiSearch.newInstance();
@@ -93,6 +92,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             }
             if (!mLocation) {
                 onLocationError();
+                showToast("无法获取您的位置信息");
                 return;
             } else {
                 getDataFromNet();
@@ -337,20 +337,12 @@ public class SearchHospitalActivity extends BaseHospitalActivity
 
     @Override
     public View createEmptyFooterView() {
-        if (!mLocation) {
-            return inflate(R.layout.layout_locate_fail_empty_footer);
-        } else {
-            return inflate(R.layout.layout_empty_footer);
-        }
+        return inflate(R.layout.layout_locate_fail_empty_footer);
     }
 
     @Override
     protected String getEmptyText() {
-        if (!mLocation) {
-            return "无法获取您的位置信息";
-        } else {
-            return "暂时没有相关内容";
-        }
+        return "无法获取您的位置信息";
     }
 
 }

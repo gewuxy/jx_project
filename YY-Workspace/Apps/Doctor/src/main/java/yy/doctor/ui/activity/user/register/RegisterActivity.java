@@ -55,14 +55,16 @@ import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.UrlUtil;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.user.hospital.HospitalActivity;
-import yy.doctor.ui.activity.user.login.LoginActivity;
+import yy.doctor.ui.activity.me.CommonWebViewActivityIntent;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;
+import yy.doctor.ui.activity.user.hospital.HospitalActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
 import yy.doctor.util.input.InputSpaceFilter;
@@ -88,6 +90,9 @@ public class RegisterActivity extends BaseFormActivity
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
     private EditText mEtActivatedCode;      //填写激活码
+
+    //免责声明  服务协议
+    private String mUrlDisclaimer = UrlUtil.getHostName() + "api/register/get_protocol";
 
     @IntDef({
             RelatedId.phone_number,
@@ -116,6 +121,7 @@ public class RegisterActivity extends BaseFormActivity
 
     private TextView mTvAgree;       //注册按钮的下一行字
     private TextView mTvActivatedCode;   //获取激活码
+    private TextView mTvProtocol; //协议
 
     private ImageView mIvCancel; // 激活码的“×”图标
     private long mStartTime; // 开始计算10分钟间隔的时间
@@ -243,6 +249,7 @@ public class RegisterActivity extends BaseFormActivity
         mTvAgree = findView(R.id.register_tv_agree);
         mTvHeader = findView(R.id.register_header);
         mLayoutCaptcha = findView(R.id.register_layout_captcha);
+        mTvProtocol = findView(R.id.help_and_feedback_footer_tv_agreement);
     }
 
     @Override
@@ -252,6 +259,7 @@ public class RegisterActivity extends BaseFormActivity
         setOnClickListener(mTvReg);
         setOnClickListener(mTvActivatedCode);
         setOnClickListener(mIvCancel);
+        setOnClickListener(mTvProtocol);
 
         mTvReg.setEnabled(false);
         SpannableString s = new SpannableString("点击“注册”即表示您同意");
@@ -281,6 +289,13 @@ public class RegisterActivity extends BaseFormActivity
                 mEtActivatedCode.setText("");
             }
             break;
+            case R.id.help_and_feedback_footer_tv_agreement:{
+                CommonWebViewActivityIntent.create(
+                        getString(R.string.service_agreement),
+                        mUrlDisclaimer
+                )
+                        .start(this);
+            }
         }
     }
 
