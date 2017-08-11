@@ -32,8 +32,6 @@ public class IntentForm extends TextForm {
             IntentType.cme_number,
             IntentType.certification,
             IntentType.skill,
-            IntentType.set_phone,
-            IntentType.set_email,
             IntentType.doctor_title,
             IntentType.common,
     })
@@ -47,8 +45,6 @@ public class IntentForm extends TextForm {
         int cme_number = 6;
         int certification = 7;
         int skill = 8;
-        int set_phone = 10;
-        int set_email = 11;
         int doctor_title = 13;
         int common = 100; // 通用
     }
@@ -124,16 +120,6 @@ public class IntentForm extends TextForm {
             case IntentType.skill: {
                 String skill = data.getStringExtra(Extra.KData);
                 save(skill, skill);
-            }
-            break;
-            case IntentType.set_phone: {
-                String mobile = data.getStringExtra(Extra.KData);
-                save(mobile, mobile);
-            }
-            break;
-            case IntentType.set_email: {
-                String email = data.getStringExtra(Extra.KData);
-                save(email, email);
             }
             break;
             case IntentType.doctor_title: {

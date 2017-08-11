@@ -5,11 +5,10 @@ import yy.doctor.model.form.divider.DividerForm;
 import yy.doctor.model.form.divider.DividerLargeForm;
 import yy.doctor.model.form.divider.DividerMarginForm;
 import yy.doctor.model.form.edit.EditCaptchaForm;
-import yy.doctor.model.form.edit.EditEmailForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
 import yy.doctor.model.form.edit.EditPhoneNumberForm;
-import yy.doctor.model.form.edit.EditRegisterPwdForm;
+import yy.doctor.model.form.edit.EditPwdForm;
 import yy.doctor.model.form.text.MeForm;
 import yy.doctor.model.form.text.TextDialogForm;
 import yy.doctor.model.form.text.TextForm;
@@ -76,16 +75,12 @@ public class Form {
                 form = new EditIntentForm();
             }
             break;
-            case FormType.et_register_pwd: {
-                form = new EditRegisterPwdForm();
+            case FormType.et_pwd: {
+                form = new EditPwdForm();
             }
             break;
             case FormType.et_phone_number: {
                 form = new EditPhoneNumberForm();
-            }
-            break;
-            case FormType.et_email: {
-                form = new EditEmailForm();
             }
             break;
             case FormType.et_captcha: {

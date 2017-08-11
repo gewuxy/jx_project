@@ -36,7 +36,7 @@ public class BindEmailActivity extends BaseSetActivity {
     public void initData() {
         super.initData();
 
-        addItem(Form.create(FormType.et_email)
+        addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
                 .hint("请输入邮箱地址")
                 .layout(R.layout.form_edit_bind_email));

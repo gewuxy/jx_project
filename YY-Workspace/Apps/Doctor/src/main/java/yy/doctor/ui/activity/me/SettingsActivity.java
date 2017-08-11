@@ -122,9 +122,7 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
                 .name(R.string.phone_num_account)
-                .text(getProfileString(TProfile.mobile)))
-                .type(IntentType.set_phone)
-                .intent(new Intent(this, BindPhoneActivity.class));
+                .text(getProfileString(TProfile.mobile)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
@@ -206,6 +204,16 @@ public class SettingsActivity extends BaseFormActivity {
                     }
                 } else {
                     notInstallWx();
+                }
+            }
+            break;
+            case RelatedId.bind_phone: {
+                String phone = Profile.inst().getString(TProfile.mobile);
+                if (getString(R.string.no_bind).equals(phone) || TextUtil.isEmpty(phone)) {
+                    startActivity(BindPhoneActivity.class);
+                } else {
+                    // 已绑定
+                    relievePhone();
                 }
             }
             break;
@@ -300,6 +308,20 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     /**
+     *
+     * @param key
+     * @return
+     */
+    private String checkBind(TProfile key) {
+        String string = Profile.inst().getString(key);
+        if (TextUtil.isEmpty(string)) {
+            return getString(R.string.no_bind);
+        } else {
+            return string;
+        }
+    }
+
+    /**
      * 解绑成功
      *
      * @param id
@@ -343,6 +365,19 @@ public class SettingsActivity extends BaseFormActivity {
         relieveDialog.show();
     }
 
+    /**
+     * 更换手机
+     */
+    private void relievePhone() {
+        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
+        relieveDialog.setHint("是否更换绑定的手机号码？");
+        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+            startActivity(BindPhoneActivity.class);
+            relieveDialog.dismiss();
+        });
+        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
+        relieveDialog.show();
+    }
     /**
      * 解绑邮箱
      */

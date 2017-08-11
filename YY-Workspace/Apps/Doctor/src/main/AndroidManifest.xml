@@ -205,9 +205,6 @@
             android:name=".ui.activity.me.epn.EpnRechargeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.ChangePwdActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.activity.me.epn.EpnDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity

@@ -161,7 +161,7 @@ public class RegisterActivity extends BaseFormActivity
                 .enable(false));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register_pwd)
+        addItem(Form.create(FormType.et_pwd)
                 .observer(this)
                 .related(RelatedId.pwd)
                 .hint(R.string.pwd)
