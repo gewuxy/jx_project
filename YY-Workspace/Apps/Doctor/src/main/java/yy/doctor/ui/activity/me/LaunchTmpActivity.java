@@ -9,8 +9,8 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 
 /**
  * 桌面快捷方式的启动中间页 判断登录有没有过时
