@@ -1,8 +1,6 @@
-package yy.doctor.ui.activity.register;
+package yy.doctor.ui.activity.user.hospital;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -36,13 +34,11 @@ import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.HospitalAdapter;
-import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
+import yy.doctor.dialog.LocateErrDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
@@ -54,8 +50,7 @@ import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.search.SearchHospitalActivity;
-import yy.doctor.ui.activity.search.SearchHospitalActivity.Hos;
+import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.util.Util;
 
 /**
@@ -63,7 +58,8 @@ import yy.doctor.util.Util;
  * @since 2017/7/19
  */
 
-public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
+public class HospitalActivity extends BaseHospitalActivity
+        implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
 
     private int KIdHospital = 0;
     private int KIdSave = 1;
@@ -74,7 +70,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
 
     private LatLng mLatLng;
     private PoiSearch mSearch;
-    private BaseHintDialog mDialog;
+    private LocateErrDialog mDialog;
 
     private LinearLayout mHospitalSearch;
 
@@ -175,7 +171,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
-
             case PermissionResult.granted: {
                 Location.inst().start();
             }
@@ -298,26 +293,12 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         } else {
             //有网但是定位失败  显示dialog
             if (mDialog == null) {
-                mDialog = new BaseHintDialog(this);
-                mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-                mDialog.addButton("取消", v -> mDialog.dismiss());
-                mDialog.addButton("去设置", v -> {
-                    Uri packageUri = Uri.parse("package:"+getPackageName());
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageUri);
-                    startActivityForResult(intent, 0);
-                    mDialog.dismiss();
-                });
+                mDialog = new LocateErrDialog(this);
             }
-
             mDialog.show();
         }
 
-        // 模拟成功无数据， 显示empty footer view
-        ListResult<IHospital> r = new ListResult<>();
-        r.setCode(ErrorCode.KOk);
-        List<IHospital> hospitals = new ArrayList<>();
-        r.setData(hospitals);
-        onNetworkSuccess(KIdHospital, r);
+        simulateSuccess(KIdHospital);
     }
 
     @Override

@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import lib.network.model.NetworkResp;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
 import lib.processor.annotation.AutoIntent;
 import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;

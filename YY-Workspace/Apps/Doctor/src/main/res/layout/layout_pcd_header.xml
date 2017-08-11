@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/province_change"
+        android:id="@+id/pcd_header_layout_location"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:background="@color/white"
@@ -21,60 +21,20 @@
             android:textColor="@color/text_888"
             android:textSize="12dp"/>
 
-        <!-- 定位中布局 -->
-        <LinearLayout
-            android:id="@+id/layout_province_location_load_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+        <lib.ys.view.ProgressView
+            android:id="@+id/pcd_header_iv_progress"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@mipmap/pcd_ic_loading"/>
 
-            <ImageView
-                android:id="@+id/layout_province_location_load_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/province_ic_load_1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="定位中..."
-                android:textColor="@color/text_888"
-                android:textSize="12dp"/>
-
-
-        </LinearLayout>
-
-
-        <!--定位成功-->
         <TextView
-            android:id="@+id/layout_pcd_header_tv"
+            android:id="@+id/pcd_header_tv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="定位中..."
             android:textColor="@color/text_888"
             android:textSize="12dp"/>
-
-        <!--定位失败-->
-        <TextView
-            android:id="@+id/layout_pcd_header_tv_failure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/pcd_ic_locate_failed"
-            android:drawablePadding="5dp"
-            android:text="无法获取当前的位置信息"
-            android:textColor="@color/text_888"
-            android:textSize="12dp"
-            android:visibility="gone"/>
-       <!-- <TextView
-            android:id="@+id/province_tv_change"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginLeft="120dp"
-            android:textColor="@color/text_0882e7"
-            android:text="更换"/>-->
-
     </LinearLayout>
 
     <TextView

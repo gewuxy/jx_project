@@ -44,27 +44,46 @@
             android:name=".ui.activity.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
+
+        <!--user-->
         <activity
-            android:name=".ui.activity.ScanActivity"
+            android:name=".ui.activity.user.register.ScanActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.register.RegisterActivity"
+            android:name=".ui.activity.user.register.RegisterActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
-
         <activity
-            android:name=".ui.activity.login.WXLoginActivity"
+            android:name=".ui.activity.user.login.WXLoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.login.LoginActivity"
+            android:name=".ui.activity.user.login.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.ForgetPwdEmailActivity"
+            android:name=".ui.activity.user.ForgetPwdEmailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.ForgetPwdPhoneActivity"
+            android:name=".ui.activity.user.ForgetPwdPhoneActivity"
             android:screenOrientation="portrait"/>
+
+        <!-- user register -->
+        <activity
+            android:name=".ui.activity.user.register.CaptchaActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.user.PcdActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--user hospital-->
+        <activity
+            android:name=".ui.activity.user.hospital.HospitalActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.user.hospital.SearchHospitalActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--首页-->
         <activity
             android:name=".ui.activity.home.NoticeActivity"
             android:screenOrientation="portrait"/>
@@ -72,36 +91,11 @@
             android:name=".ui.activity.home.BannerActivity"
             android:screenOrientation="portrait"/>
 
-
         <!-- 注册微信回调 -->
         <activity
             android:name="com.zhuanyeban.yaya.wxapi.WXEntryActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent"/>
-
-        <!-- register -->
-        <activity
-            android:name=".ui.activity.register.CaptchaActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.register.ProvinceActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.register.CityActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.register.DistrictActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.FlashActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.register.HospitalActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.search.SearchHospitalActivity"
-            android:screenOrientation="portrait"/>
-
 
         <!-- meeting -->
         <activity

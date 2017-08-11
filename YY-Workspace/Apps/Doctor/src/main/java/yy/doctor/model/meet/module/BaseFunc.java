@@ -5,9 +5,9 @@ import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.network.model.NetworkError;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ConstantsEx;

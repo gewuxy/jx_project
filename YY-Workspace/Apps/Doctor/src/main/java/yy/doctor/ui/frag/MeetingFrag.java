@@ -116,9 +116,9 @@ public class MeetingFrag extends BaseVPFrag {
                 mTvSection.setText(text);
                 if (KSectionAll.equals(text)) {
                     notify(NotifyType.section_change, ConstantsEx.KEmptyValue);
-                }else {
+                } else {
                     notify(NotifyType.section_change, text);
-               }
+                }
             });
             mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
         }

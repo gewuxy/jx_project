@@ -9,7 +9,8 @@ public class Gps extends EVal<TGps> {
         longitude,
         latitude,
 
-        @Bind(Place.class)
-        place, // 地点(省市区)
+        province,
+        city,
+        district,
     }
 }

@@ -159,6 +159,7 @@
 
     <!-- 首页会议文件夹 -->
     <style name="v.home"/>
+
     <style name="v.home.folder">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -176,6 +177,7 @@
     </style>
 
     <style name="tv.home"/>
+
     <style name="tv.home.meet">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

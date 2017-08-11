@@ -134,7 +134,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                 EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
                 item.start();
             } else {
-                notify(NotifyType.bind_phone,getPhone());
+                notify(NotifyType.bind_phone, getPhone());
                 finish();
             }
         } else {

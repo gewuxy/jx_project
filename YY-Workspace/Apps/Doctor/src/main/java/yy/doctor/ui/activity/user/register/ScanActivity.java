@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.user.register;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

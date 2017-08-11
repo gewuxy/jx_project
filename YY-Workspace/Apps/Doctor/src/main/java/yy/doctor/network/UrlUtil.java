@@ -17,7 +17,7 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线
-           mBaseHost = "59.111.90.245:8083/v7/";
+            mBaseHost = "59.111.90.245:8083/v7/";
 //            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8082/"; // 轩哥电脑
 //            mBaseHost = "10.0.0.252:8082/"; // 长玲电脑

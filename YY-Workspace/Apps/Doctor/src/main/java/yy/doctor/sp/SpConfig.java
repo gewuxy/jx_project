@@ -48,7 +48,7 @@ public class SpConfig extends SpBase {
             return;
         } else {
             save(SpConfigKey.KConfigVersion, config.getInt(TGlConfigInfo.version));
-            save(SpConfigKey.KConfigHospitalLevels, (ArrayList)config.getList(TGlConfigInfo.propList));
+            save(SpConfigKey.KConfigHospitalLevels, (ArrayList) config.getList(TGlConfigInfo.propList));
         }
     }
 

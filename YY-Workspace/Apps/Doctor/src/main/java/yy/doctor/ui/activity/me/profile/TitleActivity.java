@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import lib.network.model.NetworkResp;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;

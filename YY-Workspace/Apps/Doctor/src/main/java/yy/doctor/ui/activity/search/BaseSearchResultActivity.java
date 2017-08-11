@@ -84,7 +84,7 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
         switch (type) {
             case RecType.unit_num: {
                 UnitNum item = (UnitNum) getItem(position);
-                UnitNumDetailActivity.nav(BaseSearchResultActivity.this, item.getInt(TUnitNum.id));
+                UnitNumDetailActivity.nav(this, item.getInt(TUnitNum.id));
             }
             break;
 
@@ -92,7 +92,7 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
                 Meeting item = (Meeting) getItem(position);
                 MeetingDetailsActivityIntent.create(
                         item.getString(TMeeting.id), item.getString(TMeeting.meetName)
-                ).start(BaseSearchResultActivity.this);
+                ).start(this);
             }
             break;
 
@@ -101,7 +101,7 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
                 MeetingFolderActivityIntent.create(item.getString(TMeeting.id))
                         .title(item.getString(TMeeting.meetName))
                         .num(item.getInt(TMeeting.meetCount))
-                        .start(BaseSearchResultActivity.this);
+                        .start(this);
             }
             break;
 
@@ -109,11 +109,11 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
                 if (getAdapter().getItemViewType(position - 1) == IRec.RecType.unit_num) {
                     UnitNumResultActivityIntent.create()
                             .searchContent(mSearchContent)
-                            .start(BaseSearchResultActivity.this);
+                            .start(this);
                 } else {
                     MeetingResultActivityIntent.create()
                             .searchContent(mSearchContent)
-                            .start(BaseSearchResultActivity.this);
+                            .start(this);
                 }
             }
             break;

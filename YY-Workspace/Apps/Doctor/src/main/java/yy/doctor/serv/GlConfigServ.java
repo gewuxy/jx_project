@@ -25,7 +25,7 @@ import yy.doctor.sp.SpConfig;
  */
 @AutoIntent
 public class GlConfigServ extends ServiceEx {
-// FIXME:错误提示
+
     @Override
     protected void onHandleIntent(Intent intent) {
         SpConfig inst = SpConfig.inst();
@@ -53,6 +53,11 @@ public class GlConfigServ extends ServiceEx {
         Result<GlConfigInfo> r = (Result) result;
         if (r.isSucceed()) {
             GlConfigInfo info = r.getData();
+            if (info == null) {
+                stopSelf();
+                return;
+            }
+
             int newVersion = info.getInt(TGlConfigInfo.version);
             int oldVersion = SpConfig.inst().getVersion();
             if (oldVersion < newVersion) {
@@ -61,6 +66,7 @@ public class GlConfigServ extends ServiceEx {
                 YSLog.d(TAG, "onNetworkSuccess:update");
             }
         }
+
         stopSelf();
     }
 

@@ -1,8 +1,5 @@
-package yy.doctor.ui.activity.search;
+package yy.doctor.ui.activity.user.hospital;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -37,10 +34,8 @@ import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.HospitalAdapter;
-import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
 import yy.doctor.model.hospital.Hospital;
@@ -51,25 +46,30 @@ import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.util.Util;
 
 /**
+ * 医院搜索
+ *
  * @auther WangLan
  * @since 2017/7/20
  */
+public class SearchHospitalActivity extends BaseHospitalActivity
+        implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener, OnClickListener {
 
-public class SearchHospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener,OnClickListener {
+    private final int KLimit = 12;
 
     private EditText mEtSearch;
+
+    private HintDialog mDialog;
+    private LevelDialog mDialogLevel;
+
     private PoiSearch mSearch;
-    private BaseHintDialog mDialog;
     private double mLocLon;
     private double mLocLat;
     private LatLng mLatLng;
     private String mStrSearch;
-    private final int KLimit = 12;
     private IHospital mCheckItem;
-    private LevelDialog mLevelDialog;
-    private int KSave = 1;
     private boolean mLocation = true; //定位成功默认为true,定位失败为false;
     private boolean mFindHospital = true; //找到医院默默认为true，找不到为false；
+
 
     @Override
     public void initData() {
@@ -79,6 +79,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
+
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         mEtSearch.setHint("搜索医院");
@@ -93,7 +94,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
             if (!mLocation) {
                 onLocationError();
                 return;
-            }else {
+            } else {
                 getDataFromNet();
                 YSLog.d(TAG, "offset = " + getOffset());
             }
@@ -115,8 +116,9 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         }
 
         LocationNotifier.inst().add(this);
-            //POI检索的监听对象
-            mSearch.setOnGetPoiSearchResultListener(this);
+
+        //POI检索的监听对象
+        mSearch.setOnGetPoiSearchResultListener(this);
 
         setRefreshEnabled(false);
         setViewState(ViewState.normal);
@@ -140,9 +142,9 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
 
         mCheckItem = getItem(position);
         if (mCheckItem.getType() != HospitalType.hospital_title) {
-            mLevelDialog = new LevelDialog(this);
-            mLevelDialog.setListener(SearchHospitalActivity.this);
-            mLevelDialog.show();
+            mDialogLevel = new LevelDialog(this);
+            mDialogLevel.setListener(SearchHospitalActivity.this);
+            mDialogLevel.show();
         }
     }
 
@@ -189,21 +191,26 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
                 r.setData(hospitals);
             }
         } else {
-            mDialog = new BaseHintDialog(this);
-            mDialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));
-            mDialog.addButton("取消", v -> mDialog.dismiss());
-            mDialog.addButton("确定", v -> {
-                mLevelDialog = new LevelDialog(this);
-                mLevelDialog.setListener(SearchHospitalActivity.this);
-                mLevelDialog.show();
-            });
+            if (mDialog == null) {
+                mDialog = new HintDialog(this);
+                mDialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));
+                mDialog.addButton("取消", v -> mDialog.dismiss());
+                mDialog.addButton("确定", v -> {
+                    mDialogLevel = new LevelDialog(this);
+                    mDialogLevel.setListener(SearchHospitalActivity.this);
+                    mDialogLevel.show();
+                });
+            }
             mDialog.show();
+
             // 模拟成功无数据， 显示empty footer view
             r.setCode(ErrorCode.KOk);
             List<IHospital> hospitals = new ArrayList<>();
             r.setData(hospitals);
+
             mFindHospital = false;
         }
+
         onNetworkSuccess(0, r);
     }
 
@@ -251,30 +258,9 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
      * 初始化Dialog
      */
     private void onLocationError() {
+        simulateSuccess(0);
 
-        showToast("定位失败");
-
-        // 模拟成功无数据， 显示empty footer view
-        ListResult<IHospital> r = new ListResult<>();
-        r.setCode(ErrorCode.KOk);
-        List<IHospital> hospitals = new ArrayList<>();
-        r.setData(hospitals);
-        onNetworkSuccess(0, r);
         mLocation = false;
-
-        if (mDialog ==null) {
-            mDialog = new BaseHintDialog(this);
-            mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-            mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
-            mDialog.addButton("去设置", v -> {
-                Uri packageUri = Uri.parse("package:"+getPackageName());
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageUri);
-                startActivityForResult(intent, 0);
-                mDialog.dismiss();
-                mLocation = true;
-            });
-        }
-        mDialog.show();
     }
 
     @Override
@@ -286,6 +272,14 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+
+        if (mDialogLevel != null) {
+            mDialogLevel.dismiss();
+        }
 
         LocationNotifier.inst().remove(this);
         Location.inst().onDestroy();
@@ -322,11 +316,11 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     @Override
     public void onLevelChecked(HospitalLevel h) {
         Hos hos = new Hos();
-        if (mCheckItem==null && !mFindHospital) {
+        if (mCheckItem == null && !mFindHospital) {
             Hospital hospital = new Hospital();
-            hospital.put(THospital.name,mStrSearch);
+            hospital.put(THospital.name, mStrSearch);
             hos.mName = hospital.getString(THospital.name);
-        }else {
+        } else {
             Hospital hospital2 = (Hospital) mCheckItem;
             hos.mName = hospital2.getString(THospital.name);
         }
@@ -345,7 +339,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     public View createEmptyFooterView() {
         if (!mLocation) {
             return inflate(R.layout.layout_locate_fail_empty_footer);
-        }else {
+        } else {
             return inflate(R.layout.layout_empty_footer);
         }
     }
@@ -354,7 +348,7 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
     protected String getEmptyText() {
         if (!mLocation) {
             return "无法获取您的位置信息";
-        }else {
+        } else {
             return "暂时没有相关内容";
         }
     }

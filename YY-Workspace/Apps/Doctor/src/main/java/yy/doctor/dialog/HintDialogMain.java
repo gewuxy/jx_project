@@ -13,7 +13,7 @@ import yy.doctor.R;
  * @author : GuoXuan
  * @since : 2017/5/23
  */
-public class HintDialogMain extends BaseHintDialog {
+public class HintDialogMain extends HintDialog {
 
     private TextView mTvHint; // 提示语
 

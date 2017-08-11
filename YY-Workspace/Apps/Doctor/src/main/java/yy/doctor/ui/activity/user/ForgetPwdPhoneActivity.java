@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.user;
 
 import android.graphics.Color;
 import android.support.annotation.IntDef;
@@ -19,13 +19,14 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Constants.CaptchaType;
 import yy.doctor.R;
-import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.dialog.HintDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
 
 /**
@@ -44,7 +45,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
-    private BaseHintDialog mDialog;
+    private HintDialog mDialog;
     private long mStartTime; // 开始计算10分钟间隔的时间
     private int mCount;//计算点击多少次
 
@@ -145,7 +146,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                         return;
                     }
 
-                    mDialog = new BaseHintDialog(this);
+                    mDialog = new HintDialog(this);
 
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);

@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.network.model.NetworkResp;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;

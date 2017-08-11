@@ -1,11 +1,15 @@
-package lib.bd.location;
+package yy.doctor.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import lib.bd.location.Place.TPlace;
+import java.util.List;
+
+import lib.bd.location.Gps;
+import lib.bd.location.Gps.TGps;
 import lib.ys.model.EVal;
 import lib.ys.util.TextUtil;
+import yy.doctor.model.Place.TPlace;
 
 
 /**
@@ -27,15 +31,30 @@ public class Place extends EVal<TPlace> {
         district,
     }
 
-    public Place() {
+    public Place(List<String> mDescs) {
+        // FIXME: 临时方案
+        if (mDescs.size() >= 2) {
+            put(TPlace.province, mDescs.get(0));
+            put(TPlace.city, mDescs.get(1));
+        }
+
+        if (mDescs.size() > 2) {
+            put(TPlace.district, mDescs.get(2));
+        }
     }
 
-    public Place(String pcd) {
-        if (TextUtil.isEmpty(pcd)) {
+    public Place(Gps gps) {
+        put(TPlace.province, gps.getString(TGps.province));
+        put(TPlace.city, gps.getString(TGps.city));
+        put(TPlace.district, gps.getString(TGps.district));
+    }
+
+    public Place(String desc) {
+        if (TextUtil.isEmpty(desc)) {
             return;
         }
 
-        String[] addresses = pcd.split(KSplit);
+        String[] addresses = desc.split(KSplit);
         for (int i = 0; i < addresses.length; ++i) {
             switch (i) {
                 case KProvince: {
@@ -60,13 +79,17 @@ public class Place extends EVal<TPlace> {
         put(TPlace.district, d);
     }
 
-    @Override
-    public String toString() {
+    /**
+     * 获取描述
+     *
+     * @return
+     */
+    public String getDesc() {
         String p = getString(TPlace.province);
         String c = getString(TPlace.city);
         String d = getString(TPlace.district);
 
-        return generatePcd(p, c, d);
+        return generateDesc(p, c, d);
     }
 
     /**
@@ -77,7 +100,7 @@ public class Place extends EVal<TPlace> {
      * @param d
      * @return
      */
-    private String generatePcd(String p, String c, String d) {
+    private String generateDesc(String p, String c, String d) {
         StringBuffer b = new StringBuffer()
                 .append(p)
                 .append(KSplit)

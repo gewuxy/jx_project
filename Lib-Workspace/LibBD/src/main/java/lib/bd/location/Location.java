@@ -9,7 +9,6 @@ import com.baidu.location.LocationClientOption.LocationMode;
 
 import lib.bd.location.Gps.TGps;
 import lib.bd.location.LocationNotifier.LocateUnit;
-import lib.bd.location.Place.TPlace;
 import lib.ys.AppEx;
 import lib.ys.YSLog;
 
@@ -60,16 +59,13 @@ public class Location {
             }
             stop();
 
-            Place p = new Place();
             Address a = location.getAddress();
-            p.put(TPlace.province, a.province);
-            p.put(TPlace.city, a.city);
-            p.put(TPlace.district, a.district);
-
-            Gps g = new Gps();
-            g.put(TGps.longitude, location.getLongitude());
-            g.put(TGps.latitude, location.getLatitude());
-            g.put(TGps.place, p);
+            Gps g = new Gps()
+                    .put(TGps.longitude, location.getLongitude())
+                    .put(TGps.latitude, location.getLatitude())
+                    .put(TGps.province, a.province)
+                    .put(TGps.city, a.city)
+                    .put(TGps.district, a.district);
 
             unit.mSuccess = true;
             unit.mGps = g;

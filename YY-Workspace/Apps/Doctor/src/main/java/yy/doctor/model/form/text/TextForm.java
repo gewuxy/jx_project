@@ -34,7 +34,7 @@ public class TextForm extends BaseForm {
             setIvIfValid(iv, getDrawable());
         } else {
             iv.url(getUrl()).load();
-            YSLog.d(TAG,"refresh:"+ getUrl());
+            YSLog.d(TAG, "refresh:" + getUrl());
             ViewUtil.showView(iv);
         }
 

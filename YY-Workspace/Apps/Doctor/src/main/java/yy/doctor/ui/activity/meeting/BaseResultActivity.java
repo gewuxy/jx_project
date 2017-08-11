@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.network.model.NetworkResp;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TimeUtil;
 import lib.yy.network.Result;

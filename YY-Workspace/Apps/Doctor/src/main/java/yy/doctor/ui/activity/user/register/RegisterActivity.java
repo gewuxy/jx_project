@@ -1,9 +1,7 @@
-package yy.doctor.ui.activity.register;
+package yy.doctor.ui.activity.user.register;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -28,32 +26,28 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import lib.bd.location.Gps;
-import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
-import lib.bd.location.Place;
-import lib.bd.location.Place.TPlace;
-import lib.network.model.NetworkErrorBuilder;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
-import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.model.form.BaseForm;
-import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Constants.CaptchaType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.dialog.HintDialog;
+import yy.doctor.model.Place;
+import yy.doctor.model.Place.TPlace;
 import yy.doctor.model.Profile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
@@ -64,13 +58,16 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.ScanActivity;
-import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.user.hospital.HospitalActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
+import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
 import yy.doctor.util.input.InputSpaceFilter;
+
+import static cn.jiguang.analytics.android.api.JAnalyticsInterface.mContext;
 
 /**
  * 注册界面  7.1
@@ -126,7 +123,6 @@ public class RegisterActivity extends BaseFormActivity
     private int mCount;//计算点击多少次
 
     private View mTvReg;
-    private BaseHintDialog mDialog;
 
     private String mPhone;
     private TextView mTvHeader;
@@ -178,7 +174,7 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .related(RelatedId.name)
                 .layout(R.layout.form_edit_no_text)
-                .input(new InputFilter[]{new InputFilterChineseImpl(),new LengthFilter(18)})
+                .input(new InputFilter[]{new InputFilterChineseImpl(), new LengthFilter(18)})
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
@@ -186,7 +182,7 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .related(RelatedId.location)
                 .hint(R.string.province_city_district)
-                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
+                .intent(new Intent(this, PcdActivity.class))
                 .type(IntentType.location));
 
 
@@ -212,7 +208,7 @@ public class RegisterActivity extends BaseFormActivity
                 .limit(24) // 部门限制24位
                 .related(RelatedId.department)
                 .layout(R.layout.form_edit_no_text)
-                .input(new InputFilter[]{new InputSpaceFilter(),new LengthFilter(24)})
+                .input(new InputFilter[]{new InputSpaceFilter(), new LengthFilter(24)})
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));
@@ -256,37 +252,35 @@ public class RegisterActivity extends BaseFormActivity
         setOnClickListener(mTvReg);
         setOnClickListener(mTvActivatedCode);
         setOnClickListener(mIvCancel);
+
         mTvReg.setEnabled(false);
         SpannableString s = new SpannableString("点击“注册”即表示您同意");
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 2, 6, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mTvAgree.setText(s);
 
-        runOnUIThread(() -> {
-            //检查有没有定位权限   没有的话直接弹dialog
-            if (checkPermission(0, Permission.location)) {
-                startLocation();
-            }
-        });
+        // 静默检查定位权限
+        if (PermissionChecker.allow(mContext, Permission.location)) {
+            startLocation();
+        }
 
         mEtActivatedCode.addTextChangedListener(this);
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_tv_activated_code:{
+            case R.id.register_tv_activated_code: {
                 startActivity(CaptchaActivity.class);
             }
-                break;
-            case R.id.register:{
+            break;
+            case R.id.register: {
                 enroll();
             }
-                break;
-            case R.id.iv_activated_cancel:{
+            break;
+            case R.id.iv_activated_cancel: {
                 mEtActivatedCode.setText("");
             }
-                break;
+            break;
         }
     }
 
@@ -383,7 +377,7 @@ public class RegisterActivity extends BaseFormActivity
                         return;
                     }
 
-                    BaseHintDialog dialog = new BaseHintDialog(this);
+                    HintDialog dialog = new HintDialog(this);
 
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
@@ -422,9 +416,9 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         BaseForm form = getRelatedItem(RelatedId.captcha);
-        if (type == NotifyType.province_finish) {
+        if (type == NotifyType.pcd_selected) {
             Place place = (Place) data;
-            String text = place.toString();
+            String text = place.getDesc();
 
             getRelatedItem(RelatedId.location).save(text, text);
             refreshRelatedItem(RelatedId.location);
@@ -438,85 +432,32 @@ public class RegisterActivity extends BaseFormActivity
     }
 
     @Override
-    public void onPermissionResult(int code, @PermissionResult int result) {
-        switch (result) {
-            case PermissionResult.granted: {
-                Location.inst().start();
-            }
-            break;
-            case PermissionResult.denied:
-            case PermissionResult.never_ask: {
-                onLocationError();
-            }
-            break;
-        }
-    }
-
-    @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
-        if (isSuccess) {
-            //定位成功
-            Place place = gps.getEv(TGps.place);
-            YSLog.d(TAG, place.toString());
-            if (place != null) {
-                addOnPreDrawListener(new OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
-                        locationText.setText(place.toString());
-                        getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
-
-                        TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
-                        specialText.setText("内科 普内科");
-                        getRelatedItem(RelatedId.special).save(specialText.getText().toString(), specialText.getText().toString());
-                        removeOnPreDrawListener(this);
-                        return true;
-                    }
-                });
-            } else {
-                onLocationError();
-            }
-        } else {
-            onLocationError();
+        if (!isSuccess) {
+            stopLocation();
+            return;
         }
+
+        //定位成功
+        Place place = new Place(gps);
+        YSLog.d(TAG, place.getDesc());
+
+        addOnPreDrawListener(new OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
+                locationText.setText(place.toString());
+                getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
+
+                TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
+                specialText.setText("内科 普内科");
+                getRelatedItem(RelatedId.special).save(specialText.getText().toString(), specialText.getText().toString());
+                removeOnPreDrawListener(this);
+                return true;
+            }
+        });
 
         stopLocation();
-    }
-
-    /**
-     * 初始化Dialog
-     */
-    private void onLocationError() {
-        YSLog.d("Gps", "失败");
-
-        onNetworkError(KRegister, NetworkErrorBuilder.create()
-                .code(ErrorCode.KUnKnow)
-                .message("定位失败")
-                .build());
-
-        if (DeviceUtil.isNetworkEnabled()) {
-            if (mDialog == null) {
-                //有网但是定位失败  显示dialog
-                mDialog = new BaseHintDialog(this);
-                mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-                mDialog.addButton("取消", v -> mDialog.dismiss());
-                mDialog.addButton("去设置", v -> {
-                    Uri packageUri = Uri.parse("package:"+getPackageName());
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageUri);
-                    startActivityForResult(intent, 0);
-                    mDialog.dismiss();
-                });
-            }
-            mDialog.show();
-        } else {
-            showToast("当前网络不可用,不可定位");
-        }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        startLocation();
     }
 
     @Override
@@ -597,11 +538,6 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (mDialog != null) {
-            mDialog.dismiss();
-
-        }
 
         stopLocation();
         Location.inst().onDestroy();

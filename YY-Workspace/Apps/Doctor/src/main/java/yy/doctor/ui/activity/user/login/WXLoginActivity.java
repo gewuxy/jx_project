@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.login;
+package yy.doctor.ui.activity.user.login;
 
 import android.content.Context;
 import android.content.Intent;

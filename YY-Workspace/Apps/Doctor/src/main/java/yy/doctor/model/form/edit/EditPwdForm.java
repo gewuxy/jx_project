@@ -32,12 +32,12 @@ public class EditPwdForm extends EditForm {
     protected void init(FormVH holder) {
         super.init(holder);
         // 设置输入digits
-       // UISetter.setPwdRange(holder.getEt());
+        // UISetter.setPwdRange(holder.getEt());
 
         holder.getIv().setSelected(true);
         setOnClickListener(holder.getIv());
 
-        holder.getEt().setFilters(new InputFilter[]{new InputFilterUtils(),new LengthFilter(24)});
+        holder.getEt().setFilters(new InputFilter[]{new InputFilterUtils(), new LengthFilter(24)});
 
         getHolder().getIv().setSelected(mFlag);
     }

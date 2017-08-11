@@ -26,12 +26,12 @@ import yy.doctor.R;
  * @author : GuoXuan
  * @since : 2017/5/23
  */
-public class BaseHintDialog extends BaseDialog {
+public class HintDialog extends BaseDialog {
 
     private LinearLayout mLayoutHint; // 提示语
     private LinearLayout mLayoutButton; // 底部按钮的容器
 
-    public BaseHintDialog(Context context) {
+    public HintDialog(Context context) {
         super(context);
     }
 

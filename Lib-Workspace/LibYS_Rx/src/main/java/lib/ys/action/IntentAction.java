@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.StringRes;
 
 import java.io.File;
@@ -72,6 +73,10 @@ public class IntentAction {
 
     public static ExcelAction excel() {
         return new ExcelAction();
+    }
+
+    public static AppSetupAction appSetup() {
+        return new AppSetupAction();
     }
 
     abstract static public class BaseAction {
@@ -402,4 +407,13 @@ public class IntentAction {
         }
     }
 
+    public static class AppSetupAction extends BaseAction {
+
+        @Override
+        public void launch() {
+            Uri uri = Uri.parse("package:" + AppEx.ct().getPackageName());
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri);
+            normalLaunch(intent);
+        }
+    }
 }

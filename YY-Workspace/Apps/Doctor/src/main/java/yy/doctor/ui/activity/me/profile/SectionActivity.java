@@ -125,7 +125,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
                     .category(mCategory)
                     .name(mCategoryName)
                     .build());
-        }else {
+        } else {
             Intent intent = new Intent()
                     .putExtra(Extra.KName, mCategory)
                     .putExtra(Extra.KData, mCategoryName);

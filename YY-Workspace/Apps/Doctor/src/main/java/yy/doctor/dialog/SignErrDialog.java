@@ -14,7 +14,7 @@ import yy.doctor.R;
  * @since : 2017/5/12
  */
 
-public class LocationDialog extends BaseDialog {
+public class SignErrDialog extends BaseDialog {
 
     private OnLocationListener mOnLocationListener;
 
@@ -27,7 +27,7 @@ public class LocationDialog extends BaseDialog {
         void onAgain(View v);
     }
 
-    public LocationDialog(Context context) {
+    public SignErrDialog(Context context) {
         super(context);
     }
 

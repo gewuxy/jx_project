@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity;
+package yy.doctor.ui.activity.user;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -17,7 +17,7 @@ import yy.doctor.R;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
 

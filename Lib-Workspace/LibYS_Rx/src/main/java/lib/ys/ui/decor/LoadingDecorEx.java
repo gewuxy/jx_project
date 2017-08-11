@@ -16,7 +16,7 @@ import lib.ys.util.view.LayoutUtil;
  */
 public class LoadingDecorEx extends RelativeLayout {
 
-    private IDecorProgressView mPv;
+    private IProgressView mPv;
     private DialogEx mDialogEx;
 
     public LoadingDecorEx(Context context, @RefreshWay int style, DialogEx dialog) {
@@ -30,7 +30,7 @@ public class LoadingDecorEx extends RelativeLayout {
             LayoutParams params = LayoutUtil.getRelativeParams(LayoutUtil.WRAP_CONTENT, LayoutUtil.WRAP_CONTENT);
             params.addRule(CENTER_IN_PARENT);
             addView(v, params);
-            mPv = (IDecorProgressView) findViewById(R.id.progress_view);
+            mPv = (IProgressView) findViewById(R.id.progress_view);
         }
     }
 

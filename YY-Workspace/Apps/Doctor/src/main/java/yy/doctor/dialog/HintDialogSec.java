@@ -15,7 +15,7 @@ import yy.doctor.R;
  * @author : GuoXuan
  * @since : 2017/5/22
  */
-public class HintDialogSec extends BaseHintDialog implements OnCountDownListener {
+public class HintDialogSec extends HintDialog implements OnCountDownListener {
 
     private TextView mTvMainHint; // 主提示
     private TextView mTvSecHint; // 副提示

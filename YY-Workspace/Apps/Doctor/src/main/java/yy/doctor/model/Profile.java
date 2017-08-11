@@ -2,11 +2,10 @@ package yy.doctor.model;
 
 import java.util.Observable;
 
-import lib.bd.location.Place;
-import lib.bd.location.Place.TPlace;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.model.EVal;
 import lib.ys.ui.interfaces.ISingleton;
+import yy.doctor.model.Place.TPlace;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.sp.SpUser;

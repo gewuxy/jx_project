@@ -44,7 +44,7 @@ import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServIntent;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.ui.activity.me.set.BindEmailActivity;
 import yy.doctor.ui.activity.me.set.BindPhoneActivity;
 import yy.doctor.ui.activity.me.set.ChangePwdActivity;

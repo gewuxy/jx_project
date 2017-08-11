@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import lib.ys.R;
-import lib.ys.view.DecorProgressView;
+import lib.ys.view.ProgressView;
 import lib.ys.view.swipeRefresh.base.BaseSRLayout;
 
 /**
@@ -19,7 +19,7 @@ public class DefaultLayoutHeader extends BaseLayoutHeader {
     private View mLayoutRefresh;
     private TextView mTvHint;
     private View mLayoutLoading;
-    private DecorProgressView mProgressView;
+    private ProgressView mProgressView;
 
     private Animation mRotateUpAnim;
     private Animation mRotateDownAnim;
@@ -39,7 +39,7 @@ public class DefaultLayoutHeader extends BaseLayoutHeader {
         mTvHint = (TextView) findViewById(R.id.sr_list_header_tv_hint);
         mIvArrow = findViewById(R.id.sr_list_header_iv_arrow);
         mLayoutLoading = findViewById(R.id.sr_list_header_layout_loading);
-        mProgressView = (DecorProgressView) findViewById(R.id.sr_list_header_progress_view);
+        mProgressView = (ProgressView) findViewById(R.id.sr_list_header_progress_view);
     }
 
     @Override

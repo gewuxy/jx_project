@@ -22,8 +22,8 @@ public class MeetingDepartmentAdapter extends AdapterEx<MeetingDepartment, Secti
     protected void refreshView(int position, SectionFilterVH holder) {
         MeetingDepartment item = getItem(position);
         holder.getImageView().placeHolder(R.mipmap.ic_section_default)
-               .url(item.getString(TMeetingDepartment.icon))
-               .load();
+                .url(item.getString(TMeetingDepartment.icon))
+                .load();
         holder.getName().setText(item.getString(TMeetingDepartment.name));
         holder.getNumber().setText(item.getString(TMeetingDepartment.count));
     }

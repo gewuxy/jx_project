@@ -27,7 +27,7 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.login.WXLoginActivity;
+import yy.doctor.ui.activity.user.login.WXLoginActivity;
 
 
 /**

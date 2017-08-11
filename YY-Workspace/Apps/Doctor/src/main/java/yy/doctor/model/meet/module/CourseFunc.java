@@ -65,7 +65,7 @@ public class CourseFunc extends BaseFunc {
     protected void onNetworkSuccess(Object result) {
         Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
-            
+
             PPT ppt = r.getData();
             if (ppt == null) {
                 App.showToast(R.string.course_no);

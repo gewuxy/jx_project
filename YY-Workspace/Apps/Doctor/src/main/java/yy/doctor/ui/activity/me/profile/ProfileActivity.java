@@ -14,8 +14,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.Set;
 
-import lib.bd.location.Place;
-import lib.bd.location.Place.TPlace;
 import lib.ys.ConstantsEx.FileSuffix;
 import lib.ys.YSLog;
 import lib.ys.form.OnFormObserver;
@@ -34,6 +32,7 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
+import yy.doctor.model.Place;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
@@ -41,8 +40,8 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
-import yy.doctor.ui.activity.register.HospitalActivity;
-import yy.doctor.ui.activity.register.ProvinceActivity;
+import yy.doctor.ui.activity.user.hospital.HospitalActivity;
+import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -135,7 +134,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         String string = "";
         if (p != null) {
             string = p.getString(THospitalLevel.picture);
-            YSLog.d(TAG,"initData:"+ string);
+            YSLog.d(TAG, "initData:" + string);
         }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.hospital)
@@ -159,20 +158,14 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .text(Profile.inst().getString(TProfile.department))
                 .hint(R.string.user_input_section));
 
-        // FIXME: 是否默认显示定位城市
-        Place place = new Place();
-        place.put(TPlace.province, Profile.inst().getString(TProfile.province));
-        place.put(TPlace.city, Profile.inst().getString(TProfile.city));
-        place.put(TPlace.district, Profile.inst().getString(TProfile.zone));
-
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.address)
                 .observer(this)
                 .name(R.string.user_city)
-                .intent(new Intent(this, ProvinceActivity.class).putExtra(Extra.KData, IntentType.location))
+                .intent(new Intent(this, PcdActivity.class))
                 .type(IntentType.location)
-                .text(place.toString())
+                .text(Profile.inst().getPlace().getDesc())
                 .hint(R.string.province_city_district));
 
         addItem(Form.create(FormType.divider_large));
@@ -431,9 +424,9 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
 
-        if (type == NotifyType.province_finish) {
+        if (type == NotifyType.pcd_selected) {
             Place place = (Place) data;
-            String text = place.toString();
+            String text = place.getDesc();
             getRelatedItem(RelatedId.address).save(text, text);
             refreshRelatedItem(RelatedId.address);
         }

@@ -354,6 +354,7 @@ public class NetFactory {
 
     /**
      * 配置信息
+     *
      * @return
      */
     public static NetworkReq config(int version) {
@@ -635,6 +636,7 @@ public class NetFactory {
 
     /**
      * 收藏或者取消收藏
+     *
      * @param resourceId
      * @param type
      * @return

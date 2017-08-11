@@ -4,12 +4,12 @@
 
     <item
         android:drawable="@mipmap/meeting_ic_audio_animation1"
-        android:duration="200" />
+        android:duration="200"/>
     <item
         android:drawable="@mipmap/meeting_ic_audio_animation2"
-        android:duration="200" />
+        android:duration="200"/>
     <item
         android:drawable="@mipmap/meeting_ic_audio_animation3"
-        android:duration="200" />
+        android:duration="200"/>
 
 </animation-list>

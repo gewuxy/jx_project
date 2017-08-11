@@ -7,7 +7,7 @@ import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.serv.GlConfigServIntent;
-import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 
 /**
  * 推广页面

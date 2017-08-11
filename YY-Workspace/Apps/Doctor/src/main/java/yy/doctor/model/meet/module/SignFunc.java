@@ -18,7 +18,7 @@ import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import yy.doctor.App;
 import yy.doctor.R;
-import yy.doctor.dialog.LocationDialog;
+import yy.doctor.dialog.SignErrDialog;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
@@ -36,7 +36,7 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
     private PermissionOpt mPermission;
     private OnLocationNotify mObserver;
     private Gps mGps;
-    private LocationDialog mLocationDialog;
+    private SignErrDialog mSignErrDialog;
 
     public SignFunc(Context context, MeetDetail detail, OnFuncListener l) {
         super(context, detail, l);
@@ -119,9 +119,9 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
      * 初始化Dialog
      */
     private void showLocationDialog() {
-        mLocationDialog = new LocationDialog(getContext());
-        mLocationDialog.setLocationListener(v -> attend());
-        mLocationDialog.show();
+        mSignErrDialog = new SignErrDialog(getContext());
+        mSignErrDialog.setLocationListener(v -> attend());
+        mSignErrDialog.show();
     }
 
     /**
@@ -157,8 +157,8 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
     public void onDestroy() {
         super.onDestroy();
 
-        if (mLocationDialog != null) {
-            mLocationDialog.dismiss();
+        if (mSignErrDialog != null) {
+            mSignErrDialog.dismiss();
         }
         mObserver = null;
     }

@@ -40,7 +40,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.collection_cancel_thomson,
 
             NotifyType.exit,
-            NotifyType.province_finish,
+            NotifyType.pcd_selected,
             NotifyType.fetch_message_captcha,
             NotifyType.disable_fetch_message_captcha,
 
@@ -127,7 +127,7 @@ public class Notifier extends NotifierEx<OnNotify> {
         /**
          * 结束省份页面
          */
-        int province_finish = 14;
+        int pcd_selected = 14;
 
         /**
          * 提示获取验证码

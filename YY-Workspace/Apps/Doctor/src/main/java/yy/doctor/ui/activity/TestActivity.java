@@ -1,7 +1,8 @@
 package yy.doctor.ui.activity;
 
 import lib.yy.test.BaseTestActivity;
-import yy.doctor.serv.GlConfigServIntent;
+import yy.doctor.ui.activity.user.login.LoginActivity;
+import yy.doctor.ui.activity.user.register.RegisterActivity;
 
 /**
  * @auther yuansui
@@ -18,14 +19,8 @@ public class TestActivity extends BaseTestActivity {
         add("数据", MainActivityIntent.newIntent(this, MainActivity.KTabData));
         add("我", MainActivityIntent.newIntent(this, MainActivity.KTabMe));
 
-        add("123", v -> {
-            GlConfigServIntent.create()
-                    .start(this);
-        });
-    }
-
-    private void download() {
-
+        add("登录", LoginActivity.class);
+        add("注册", RegisterActivity.class);
     }
 
 }

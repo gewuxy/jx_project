@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.login;
+package yy.doctor.ui.activity.user.login;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -7,6 +7,7 @@ import lib.network.model.NetworkError;
 import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
+import lib.ys.util.permission.Permission;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -14,14 +15,14 @@ import yy.doctor.Constants;
 import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.BaseHintDialog;
 import yy.doctor.dialog.ForgetPwdTooltipDialog;
+import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.register.RegisterActivity;
+import yy.doctor.ui.activity.user.register.RegisterActivity;
 
 /**
  * 登录
@@ -61,6 +62,8 @@ public class LoginActivity extends BaseLoginActivity {
 
         getEtName().setText(SpApp.inst().getUserName());
         getEtName().setSelection(getUserName().length());
+
+        checkPermission(0, Permission.location);
     }
 
     @Override
@@ -136,7 +139,7 @@ public class LoginActivity extends BaseLoginActivity {
             mCount++;
             YSLog.d("lol", mCount + "次.....");
             if (mCount > 5 && mCount < 8) {
-                BaseHintDialog dialog = new BaseHintDialog(this);
+                HintDialog dialog = new HintDialog(this);
                 View view = inflate(R.layout.dialog_pwd_error_toast);
 
                 dialog.addHintView(view);

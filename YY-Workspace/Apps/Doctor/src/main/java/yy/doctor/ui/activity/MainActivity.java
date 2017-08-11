@@ -24,7 +24,7 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
-import yy.doctor.dialog.BaseHintDialog;
+import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -36,7 +36,7 @@ import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServIntent;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.login.LoginActivity;
+import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.frag.DataCenterFrag;
 import yy.doctor.ui.frag.HomeFrag;
@@ -241,7 +241,7 @@ public class MainActivity extends BaseVPActivity {
     }
 
     private void showBind() {
-        BaseHintDialog bindDialog = new BaseHintDialog(this);
+        HintDialog bindDialog = new HintDialog(this);
         bindDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
         bindDialog.addButton(R.string.cancel, v -> bindDialog.dismiss());
         bindDialog.addButton(R.string.go_binding, v -> {

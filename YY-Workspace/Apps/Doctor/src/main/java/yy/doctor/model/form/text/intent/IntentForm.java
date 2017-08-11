@@ -7,7 +7,6 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.bd.location.Place;
 import lib.ys.YSLog;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.Extra;
@@ -78,12 +77,6 @@ public class IntentForm extends TextForm {
     @Override
     protected void onActivityResult(int position, Intent data) {
         switch (mCurrType) {
-            case IntentType.location: {
-                Place place = (Place) data.getSerializableExtra(Extra.KData);
-                String text = place.toString();
-                save(text, text);
-            }
-            break;
             case IntentType.hospital: {
                 HospitalLevel level = (HospitalLevel) data.getSerializableExtra(Extra.KData);
                 if (level != null) {
@@ -125,6 +118,10 @@ public class IntentForm extends TextForm {
             case IntentType.doctor_title: {
                 String title = data.getStringExtra(Extra.KData);
                 save(title, title);
+            }
+            break;
+            default: {
+                // location不处理
             }
             break;
         }

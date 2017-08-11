@@ -7,8 +7,8 @@ import android.view.View;
 
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
-import yy.doctor.ui.activity.ForgetPwdEmailActivity;
-import yy.doctor.ui.activity.ForgetPwdPhoneActivity;
+import yy.doctor.ui.activity.user.ForgetPwdEmailActivity;
+import yy.doctor.ui.activity.user.ForgetPwdPhoneActivity;
 
 /**
  * @auther HuoXuYu

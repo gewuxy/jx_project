@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.login;
+package yy.doctor.ui.activity.user.login;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;

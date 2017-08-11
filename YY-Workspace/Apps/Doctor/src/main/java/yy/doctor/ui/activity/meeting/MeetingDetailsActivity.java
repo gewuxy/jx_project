@@ -425,5 +425,4 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                     .start(this);
         }
     }
-
 }

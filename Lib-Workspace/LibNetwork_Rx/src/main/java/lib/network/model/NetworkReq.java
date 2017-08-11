@@ -1,8 +1,6 @@
 package lib.network.model;
 
 
-import android.text.TextUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,21 +133,21 @@ public class NetworkReq {
             return (T) this;
         }
 
-        public <T extends Builder> T param(String name, String value) {
-            if (TextUtils.isEmpty(value)) {
+        public <T extends Builder> T param(String name, String val) {
+            if (val == null) {
                 return (T) this;
             }
-            mParams.add(new CommonPair(name, String.valueOf(value)));
+            mParams.add(new CommonPair(name, String.valueOf(val)));
             return (T) this;
         }
 
-        public <T extends Builder> T param(String name, int value) {
-            param(name, String.valueOf(value));
+        public <T extends Builder> T param(String name, int val) {
+            param(name, String.valueOf(val));
             return (T) this;
         }
 
-        public <T extends Builder> T param(String name, long value) {
-            param(name, String.valueOf(value));
+        public <T extends Builder> T param(String name, long val) {
+            param(name, String.valueOf(val));
             return (T) this;
         }
 

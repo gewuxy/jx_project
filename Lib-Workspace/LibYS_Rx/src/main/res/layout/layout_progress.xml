@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<lib.ys.view.DecorProgressView
+<lib.ys.view.ProgressView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/progress_view"
     android:layout_width="match_parent"

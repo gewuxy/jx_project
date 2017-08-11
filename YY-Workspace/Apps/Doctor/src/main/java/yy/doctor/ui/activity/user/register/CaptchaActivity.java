@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.register;
+package yy.doctor.ui.activity.user.register;
 
 import android.support.annotation.NonNull;
 import android.webkit.WebView;

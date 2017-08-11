@@ -45,7 +45,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <lib.ys.view.DecorProgressView
+            <lib.ys.view.ProgressView
                 android:id="@+id/sr_list_header_progress_view"
                 android:layout_width="@dimen/list_header_footer_loading_size"
                 android:layout_height="@dimen/list_header_footer_loading_size"

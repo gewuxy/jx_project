@@ -9,24 +9,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="暂时找不到相应的结果，是否将此"
-            android:textSize="15dp"
-            android:textColor="@color/text_666"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_gravity="center_horizontal"
-            android:text="医院设置为默认医院"
-            android:textSize="15dp"
-            android:textColor="@color/text_666"/>
+            android:gravity="center"
+            android:lineSpacingExtra="13dp"
+            android:text="暂时找不到相应的结果，是否将此\n医院设置为默认医院"
+            android:textColor="@color/text_666"
+            android:textSize="15dp"/>
+
     </LinearLayout>
 
 </LinearLayout>

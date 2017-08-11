@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import lib.ys.R;
-import lib.ys.view.DecorProgressView;
+import lib.ys.view.ProgressView;
 
 /**
  * @author yuansui
@@ -13,7 +13,7 @@ public class DefaultFooter extends BaseFooter {
 
     private View mLayoutLoading;
     private View mLayoutReLoadMore;
-    private DecorProgressView mProgressView;
+    private ProgressView mProgressView;
 
     public DefaultFooter(Context context) {
         super(context);
@@ -28,7 +28,7 @@ public class DefaultFooter extends BaseFooter {
     protected void findViews() {
         mLayoutLoading = findViewById(R.id.sr_list_footer_layout_loading);
         mLayoutReLoadMore = findViewById(R.id.sr_list_footer_btn_reload_more);
-        mProgressView = (DecorProgressView) findViewById(R.id.sr_list_footer_progress_view);
+        mProgressView = (ProgressView) findViewById(R.id.sr_list_footer_progress_view);
     }
 
     @Override

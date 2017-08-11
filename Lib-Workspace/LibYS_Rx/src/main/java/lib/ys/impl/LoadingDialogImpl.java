@@ -6,13 +6,13 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 
 import lib.ys.R;
-import lib.ys.ui.decor.IDecorProgressView;
+import lib.ys.ui.decor.IProgressView;
 import lib.ys.ui.dialog.MatchScreenDialog;
 
 
 public class LoadingDialogImpl extends MatchScreenDialog implements OnCancelListener, OnDismissListener {
 
-    private IDecorProgressView mProgressView;
+    private IProgressView mProgressView;
 
     private OnCancelListener mOnCancelListener;
     private OnDismissListener mOnDismissListener;
