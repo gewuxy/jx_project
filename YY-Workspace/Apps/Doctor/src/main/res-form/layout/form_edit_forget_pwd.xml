@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/v.form"
-    android:layout_height="52dp"
-    android:background="@drawable/white"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@id/form_et"
-        style="@style/et.common"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:hint=""
-        android:singleLine="true"
-        android:textColor="@color/text_333"
-        android:textColorHint="@color/text_888"
-        android:textSize="15dp"/>
+    <LinearLayout
+        style="@style/v.form"
+        android:background="@drawable/white"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
-    <ImageView
-        style="@style/iv.form.clean.right"/>
+        <EditText
+            android:id="@id/form_et"
+            style="@style/et.common"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint=""
+            android:singleLine="true"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_888"
+            android:textSize="15dp"/>
 
-    <lib.ys.network.image.NetworkImageView
-        android:id="@id/form_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin"
-        android:padding="9dp"/>
+        <ImageView
+            style="@style/iv.form.clean.right"/>
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@id/form_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin"
+            android:padding="9dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

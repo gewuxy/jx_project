@@ -172,7 +172,7 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .limit(18) // 姓名限制18位
                 .related(RelatedId.name)
-                .layout(R.layout.form_edit_register)
+                .layout(R.layout.form_edit_no_text)
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
@@ -205,7 +205,7 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .limit(24) // 部门限制24位
                 .related(RelatedId.department)
-                .layout(R.layout.form_edit_register)
+                .layout(R.layout.form_edit_no_text)
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));

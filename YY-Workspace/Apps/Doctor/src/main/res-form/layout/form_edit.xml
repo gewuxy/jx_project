@@ -27,6 +27,7 @@
                 android:layout_height="21dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin"/>
+
         </LinearLayout>
 
     </LinearLayout>

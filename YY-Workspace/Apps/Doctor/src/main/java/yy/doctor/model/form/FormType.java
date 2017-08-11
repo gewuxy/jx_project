@@ -48,7 +48,7 @@ public @interface FormType {
     int et_intent = 21;
     int et_pwd = 22;
     int et_phone_number = 23;
-    int et_captcha = 25;
+    int et_captcha = 24;
 
     int profile_checkbox = 30;
 

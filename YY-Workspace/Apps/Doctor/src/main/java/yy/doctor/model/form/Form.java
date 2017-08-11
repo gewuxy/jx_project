@@ -87,10 +87,12 @@ public class Form {
                 form = new EditCaptchaForm();
             }
             break;
+
             case FormType.profile_checkbox: {
                 form = new CheckBoxForm();
             }
             break;
+
             case FormType.toggle_button: {
                 form = new ToggleButtonForm();
             }

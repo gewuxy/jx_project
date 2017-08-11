@@ -78,26 +78,25 @@ public class ExchangeActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.receiver)
-                .layout(R.layout.form_edit_register)
+                .layout(R.layout.form_edit_no_text)
                 .hint(R.string.receiver));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.mobile)
-                //.layout(R.layout.form_edit_number)
                 .hint(R.string.phone_num));
 
         addItem(Form.create(FormType.divider_large));
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.province_city)
-                .layout(R.layout.form_edit_register)
+                .layout(R.layout.form_edit_no_text)
                 .hint(R.string.province_city));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.et)
                 .related(RelatedId.address)
-                .layout(R.layout.form_edit_register)
+                .layout(R.layout.form_edit_no_text)
                 .hint(R.string.address));
     }
 

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/v.form"
-    android:layout_height="52dip"
-    android:background="@drawable/white">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@id/form_et"
-        style="@style/et.common"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:maxLength="13"
-        android:singleLine="true"
-        android:textColor="@color/text_333"
-        android:textColorHint="@color/text_888"
-        android:textSize="15dp"/>
+    <LinearLayout
+        style="@style/v.form"
+        android:background="@drawable/white">
 
+        <EditText
+            android:id="@id/form_et"
+            style="@style/et.common"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:maxLength="13"
+            android:singleLine="true"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_888"
+            android:textSize="15dp"/>
 
-    <ImageView
-        style="@style/iv.form.clean.right"/>
+        <ImageView
+            style="@style/iv.form.clean.right"/>
+
+    </LinearLayout>
 
 </LinearLayout>

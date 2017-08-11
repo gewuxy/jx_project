@@ -5,7 +5,8 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        style="@style/iv.form">
+        style="@style/iv.form"
+        android:layout_width="match_parent">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -17,16 +18,15 @@
             <yy.doctor.view.AutoCompleteEditText
                 android:id="@id/form_et"
                 style="@style/et.form.bind"
+                android:layout_marginRight="28dp"
                 android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
-        <lib.ys.network.image.NetworkImageView
-            android:id="@id/form_iv"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_marginRight="@dimen/margin"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp"/>
+        <ImageView
+            style="@style/iv.form.clean.right"
+            android:layout_gravity="center_vertical"/>
+
     </LinearLayout>
 
 </LinearLayout>
