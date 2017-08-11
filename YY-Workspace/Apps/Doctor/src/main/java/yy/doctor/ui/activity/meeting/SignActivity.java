@@ -91,4 +91,15 @@ public class SignActivity extends BaseResultActivity {
         mTvResultMsg.setText(error);
     }
 
+    @Override
+    public boolean onRetryClick() {
+        exeNetworkReq(NetFactory.sign()
+                .meetId(mMeetId)
+                .moduleId(mModuleId)
+                .positionId(mSignId)
+                .signLat(mLatitude)
+                .signLng(mLongitude)
+                .builder());
+        return super.onRetryClick();
+    }
 }

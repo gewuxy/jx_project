@@ -194,6 +194,12 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onRetryClick() {
+        exeNetworkReq(NetFactory.toExam(mMeetId, mModuleId));
+        return super.onRetryClick();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start: {

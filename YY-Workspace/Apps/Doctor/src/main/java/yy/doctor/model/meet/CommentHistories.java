@@ -12,6 +12,6 @@ public class CommentHistories extends EVal<TCommentHistories> {
 
     public enum TCommentHistories {
         @Bind(asList = Comment.class)
-        datas,
+        dataList,
     }
 }
