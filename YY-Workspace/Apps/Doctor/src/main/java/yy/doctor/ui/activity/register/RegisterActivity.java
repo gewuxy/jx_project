@@ -161,16 +161,18 @@ public class RegisterActivity extends BaseFormActivity
                 .enable(false));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register_pwd)
+        addItem(Form.create(FormType.et_pwd)
                 .observer(this)
                 .related(RelatedId.pwd)
                 .hint(R.string.pwd)
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register_name)
+        addItem(Form.create(FormType.et)
                 .observer(this)
+                .limit(18) // 姓名限制18位
                 .related(RelatedId.name)
+                .layout(R.layout.form_edit_register)
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
@@ -199,9 +201,11 @@ public class RegisterActivity extends BaseFormActivity
                 .type(IntentType.medicine));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register_department)
+        addItem(Form.create(FormType.et)
                 .observer(this)
+                .limit(24) // 部门限制24位
                 .related(RelatedId.department)
+                .layout(R.layout.form_edit_register)
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));
@@ -336,7 +340,7 @@ public class RegisterActivity extends BaseFormActivity
         String category = s[0];
         String name = s[1];
 
-        String hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
+        int hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
 
         //注册
         refresh(RefreshWay.dialog);
@@ -349,7 +353,7 @@ public class RegisterActivity extends BaseFormActivity
                 .city(place.getString(TPlace.city))
                 .zone(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
-                .hospitalLevel(Integer.parseInt(hospitalLevel))//医院级别
+                .hospitalLevel(hospitalLevel)//医院级别
                 .category(category)//专科一级名称，要分开
                 .name(name)//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称

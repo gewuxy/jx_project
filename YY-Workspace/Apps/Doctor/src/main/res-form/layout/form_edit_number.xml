@@ -11,8 +11,8 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:singleLine="true"
-        android:textColor="#666666"
-        android:textColorHint="#b3b3b3"
+        android:textColor="@color/text_333"
+        android:textColorHint="@color/text_888"
         android:inputType="number"/>
 
     <lib.ys.network.image.NetworkImageView

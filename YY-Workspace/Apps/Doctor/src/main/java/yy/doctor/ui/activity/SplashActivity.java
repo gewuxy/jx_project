@@ -6,8 +6,7 @@ import lib.ys.ui.activity.SimpleSplashActivityEx;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
-import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.serv.CommonServIntent;
+import yy.doctor.serv.GlConfigServIntent;
 import yy.doctor.ui.activity.login.LoginActivity;
 
 /**
@@ -22,9 +21,7 @@ public class SplashActivity extends SimpleSplashActivityEx {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CommonServIntent.create()
-                .type(ReqType.hospital)
-                .start(SplashActivity.this);
+        GlConfigServIntent.create().start(SplashActivity.this);
     }
 
     @Override

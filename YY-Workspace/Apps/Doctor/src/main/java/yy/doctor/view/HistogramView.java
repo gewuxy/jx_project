@@ -10,6 +10,8 @@ import android.graphics.Typeface;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import lib.ys.YSLog;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.DrawUtil;
 import lib.ys.util.TimeUtil;
@@ -48,21 +51,23 @@ public class HistogramView extends View {
     private final int KDividerColor = R.color.divider;
     private final int KTextColor = R.color.text_888;
 
-    private int mRecColor; // 柱状图的颜色
     private int mLayoutWidth; // 控件宽度
     private int mLayoutHeight; // 控件高度
+
+    private int mMaxMeetNum; // 最大会议数
+    private int mCheckPosition; // 点击的position
+
+    private boolean mComputeAgain; // 重新计算
 
     private List<StatsPerDay> mPerDays; // 日期和会议数量
     private List<Float> mHeights; // 柱状高度
     private List<Float> mMiddles; // 柱状中心
 
-    private int mMaxMeetNum; // 最大会议数
-    private int mCheckPosition; // 点击的position
-    private boolean mCheck; // 是否为点击事件
+    private Paint mPaintRec; // 柱状图的画笔
+    private Paint mPaintText; // 文字的画笔
+    private Paint mPaintDivider; // 分割线的画笔
 
-    private Paint mPaintRec;
-    private Paint mPaintText;
-    private Paint mPaintDivider;
+    private GestureDetector mGestureDetector;
 
     public void setRecColor(@ColorRes int recColor) {
         mPaintRec.setColor(ResLoader.getColor(recColor));
@@ -78,10 +83,40 @@ public class HistogramView extends View {
      * 初始化(画笔准备)
      */
     private void init() {
-        mRecColor = KRecColor;
         mCheckPosition = Integer.MIN_VALUE; // 非法值
+        mComputeAgain = false; // 没有数据不计算
         mHeights = new ArrayList<>();
         mMiddles = new ArrayList<>();
+
+        mGestureDetector = new GestureDetector(getContext(), new SimpleOnGestureListener() {
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                YSLog.d(TAG, "onDown:");
+                return true;
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                YSLog.d(TAG, "onSingleTapUp:");
+                return true;
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                YSLog.d(TAG, "onSingleTapConfirmed:");
+                if (mPerDays != null) {
+                    int position = (int) (e.getX() / (mLayoutWidth / mPerDays.size()));
+                    if (position != mCheckPosition) {
+                        // 不是点击同一个
+                        mCheckPosition = position;
+                        invalidate();
+                    }
+                }
+                return true;
+            }
+
+        });
 
         mPaintDivider = new Paint();
         mPaintDivider.setStyle(Style.FILL);
@@ -97,7 +132,7 @@ public class HistogramView extends View {
         mPaintRec.setStyle(Style.FILL);
         mPaintRec.setStrokeWidth(KLineWidth);
         mPaintRec.setStrokeCap(Cap.ROUND);
-        mPaintRec.setColor(ResLoader.getColor(mRecColor));
+        mPaintRec.setColor(ResLoader.getColor(KRecColor));
     }
 
     @Override
@@ -110,21 +145,31 @@ public class HistogramView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mPerDays != null) {
+        if (mComputeAgain) {
             compute();
+        }
 
+        if (mPerDays != null) {
             drawRec(canvas);
             drawText(canvas);
             drawDivider(canvas);
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
+    }
+
+    /**
+     * 计算
+     */
     private void compute() {
         int day = mPerDays.size(); // 数量
         int width = mLayoutWidth / day; // 单个的宽度
         float maxHeight = mLayoutHeight - KLineMarginBottom - KLineMarginTop; // 单个最高的高度
 
-        int num = 0; // 数量(一天的会议数)
+        int num; // 数量(一天的会议数)
         float posX;
         float posY;
         int bottom = mLayoutHeight - KLineMarginBottom; // 柱状的底(部)点
@@ -138,15 +183,14 @@ public class HistogramView extends View {
             }
             mHeights.add(posY);
         }
+        mComputeAgain = false;
     }
 
     /**
      * 柱状
-     *
-     * @param canvas
      */
     private void drawRec(Canvas canvas) {
-        int num = 0; // 数量(一天的会议数)
+        int num; // 数量(一天的会议数)
         int bottom = mLayoutHeight - KLineMarginBottom; // 柱状的底(部)点
         for (int i = 0; i < mPerDays.size(); i++) {
             num = mPerDays.get(i).getInt(TStatsPerDay.count, 0);
@@ -158,8 +202,6 @@ public class HistogramView extends View {
 
     /**
      * 文字
-     *
-     * @param canvas
      */
     private void drawText(Canvas canvas) {
         StatsPerDay statsPerDay;
@@ -179,10 +221,6 @@ public class HistogramView extends View {
 
     /**
      * 格式化时间
-     *
-     * @param statsPerDay
-     * @param i
-     * @return
      */
     private String getData(StatsPerDay statsPerDay, int i) {
         String format = KMonth;
@@ -204,44 +242,15 @@ public class HistogramView extends View {
 
     /**
      * 分割线
-     *
-     * @param canvas
      */
     private void drawDivider(Canvas canvas) {
         int pos = mLayoutHeight - KLineMarginBottom + KDividerMargin;
         canvas.drawLine(0, pos, mLayoutWidth, pos, mPaintDivider);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                mCheck = true;
-            }
-            return true;
-            case MotionEvent.ACTION_MOVE: {
-                if (mCheck) {
-                    mCheck = false;
-                }
-            }
-            break;
-            case MotionEvent.ACTION_UP: {
-                if (mCheck) {
-                    if (mPerDays != null) {
-                        int position = (int) (event.getX() / (mLayoutWidth / mPerDays.size()));
-                        if (position != mCheckPosition) {
-                            // 不是点击同一个
-                            mCheckPosition = position;
-                            invalidate();
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
-
+    /**
+     * 设置数据
+     */
     public void setStats(List<StatsPerDay> week) {
         if (week == null) {
             return;
@@ -249,6 +258,7 @@ public class HistogramView extends View {
         // 重置数据
         mPerDays = week;
         mCheckPosition = Integer.MIN_VALUE;
+        mComputeAgain = true; // 设置数据就重新计算
         if (mHeights != null) {
             mHeights.clear();
         }
@@ -263,4 +273,5 @@ public class HistogramView extends View {
 
         invalidate();
     }
+
 }

@@ -205,9 +205,6 @@
             android:name=".ui.activity.me.epn.EpnRechargeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.ChangePwdActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.activity.me.epn.EpnDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -276,6 +273,7 @@
         <service android:name=".serv.CommonServ"/>
         <service android:name=".serv.DownloadServ"/>
         <service android:name=".serv.DownloadApkServ"/>
+        <service android:name=".serv.GlConfigServ"/>
 
         <!--极光推送-->
         <receiver

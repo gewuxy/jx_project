@@ -153,6 +153,8 @@ public class MeetingFrag extends BaseVPFrag {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        setOffscreenPageLimit(getCount());
     }
 
     @Override

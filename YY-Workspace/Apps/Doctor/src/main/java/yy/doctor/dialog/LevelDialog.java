@@ -8,17 +8,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.ys.YSLog;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
-import yy.doctor.model.hospital.HospitalLevelInfo;
-import yy.doctor.model.hospital.HospitalLevelInfo.THospitalLevelInfo;
-import yy.doctor.sp.SpApp;
-import yy.doctor.sp.SpApp.SpAppKey;
+import yy.doctor.sp.SpConfig;
 
 /**
  * @auther WangLan
@@ -45,8 +41,7 @@ public class LevelDialog extends BaseDialog {
 
     @Override
     public void initData() {
-        HospitalLevelInfo info = SpApp.inst().getEV(SpAppKey.KHosLVs, HospitalLevelInfo.class);
-        mLevels = info.getList(THospitalLevelInfo.propList);
+        mLevels = SpConfig.inst().getHospitalLevels();
     }
 
     @NonNull
@@ -76,7 +71,6 @@ public class LevelDialog extends BaseDialog {
             setOnClickListener(v);
             mLayout.addView(v);
         }
-
     }
 
     @Override

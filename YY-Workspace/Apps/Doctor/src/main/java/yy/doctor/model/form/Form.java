@@ -5,20 +5,14 @@ import yy.doctor.model.form.divider.DividerForm;
 import yy.doctor.model.form.divider.DividerLargeForm;
 import yy.doctor.model.form.divider.DividerMarginForm;
 import yy.doctor.model.form.edit.EditCaptchaForm;
-import yy.doctor.model.form.edit.EditEmailForm;
 import yy.doctor.model.form.edit.EditForm;
 import yy.doctor.model.form.edit.EditIntentForm;
-import yy.doctor.model.form.edit.EditNumberForm;
 import yy.doctor.model.form.edit.EditPhoneNumberForm;
-import yy.doctor.model.form.edit.EditRegisterDepartmentForm;
-import yy.doctor.model.form.edit.EditRegisterForm;
-import yy.doctor.model.form.edit.EditRegisterNameForm;
-import yy.doctor.model.form.edit.EditRegisterPwdForm;
+import yy.doctor.model.form.edit.EditPwdForm;
 import yy.doctor.model.form.text.MeForm;
 import yy.doctor.model.form.text.TextDialogForm;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.intent.IntentForm;
-import yy.doctor.model.form.text.intent.IntentHospitalForm;
 import yy.doctor.model.form.text.intent.IntentNoNameForm;
 import yy.doctor.model.form.text.intent.IntentSkillForm;
 
@@ -51,10 +45,6 @@ public class Form {
                 form = new IntentSkillForm();
             }
             break;
-            case FormType.text_intent_hospital: {
-                form = new IntentHospitalForm();
-            }
-            break;
             case FormType.text_dialog: {
                 form = new TextDialogForm();
             }
@@ -85,32 +75,12 @@ public class Form {
                 form = new EditIntentForm();
             }
             break;
-            case FormType.et_register: {
-                form = new EditRegisterForm();
-            }
-            break;
-            case FormType.et_register_name: {
-                form = new EditRegisterNameForm();
-            }
-            break;
-            case FormType.et_register_department: {
-                form = new EditRegisterDepartmentForm();
-            }
-            break;
-            case FormType.et_register_pwd: {
-                form = new EditRegisterPwdForm();
-            }
-            break;
-            case FormType.et_number: {
-                form = new EditNumberForm();
+            case FormType.et_pwd: {
+                form = new EditPwdForm();
             }
             break;
             case FormType.et_phone_number: {
                 form = new EditPhoneNumberForm();
-            }
-            break;
-            case FormType.et_email: {
-                form = new EditEmailForm();
             }
             break;
             case FormType.et_captcha: {

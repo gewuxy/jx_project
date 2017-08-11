@@ -16,7 +16,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/open_location_service"
+            android:text="暂时找不到相应的结果，是否将此"
+            android:textSize="15dp"
+            android:textColor="@color/text_666"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_gravity="center_horizontal"
+            android:text="医院设置为默认医院"
             android:textSize="15dp"
             android:textColor="@color/text_666"/>
 

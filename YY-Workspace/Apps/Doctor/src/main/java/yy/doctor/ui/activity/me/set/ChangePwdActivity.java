@@ -42,16 +42,18 @@ public class ChangePwdActivity extends BaseSetActivity {
     public void initData() {
         super.initData();
 
-        addItem(Form.create(FormType.et_register_pwd)
+        addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_old)
                 .hint("请输入旧密码")
+                .limit(KLengthMax)
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider));
 
-        addItem(Form.create(FormType.et_register_pwd)
+        addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_new)
                 .hint("请输入新密码")
+                .limit(KLengthMax)
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider));
@@ -100,7 +102,7 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(checkPwd(mEtPwdOld) && checkPwd(mEtPwdOld));
+        setChanged(checkPwd(mEtPwdOld) && checkPwd(mEtPwdNew));
     }
 
     /**
@@ -111,6 +113,6 @@ public class ChangePwdActivity extends BaseSetActivity {
      */
     private boolean checkPwd(EditText et) {
         String pwd = Util.getEtString(et);
-        return TextUtil.isNotEmpty(pwd) && pwd.length() >= KLengthMin && pwd.length() <= KLengthMax;
+        return TextUtil.isNotEmpty(pwd) && pwd.length() >= KLengthMin;
     }
 }

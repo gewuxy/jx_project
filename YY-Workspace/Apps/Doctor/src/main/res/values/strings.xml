@@ -54,7 +54,7 @@
     <string name="optional">选填</string>
     <string name="required">必填</string>
 
-    <string name="open_location_service">请在系统设置中，打开“隐私-定位服务”</string>
+    <string name="open_location_service">请在设置-隐私-定位服务中打开权限”</string>
     <string name="allow_locate_permission">并允许定位服务</string>
 
     <string name="binding_phone_or_wx">绑定微信或者手机号可直接</string>

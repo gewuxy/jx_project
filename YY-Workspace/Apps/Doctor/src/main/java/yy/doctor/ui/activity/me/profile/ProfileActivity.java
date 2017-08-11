@@ -137,9 +137,10 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             string = p.getString(THospitalLevel.picture);
             YSLog.d(TAG,"initData:"+ string);
         }
-        addItem(Form.create(FormType.text_intent_hospital)
+        addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.hospital)
                 .observer(this)
+                .layout(R.layout.form_text_hospital)
                 .name(R.string.user_hospital)
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital)

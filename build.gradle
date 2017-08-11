@@ -90,8 +90,8 @@ ext.deps = [
                 'poet'  : 'com.squareup:javapoet:1.9.0',
                 'parser': 'com.github.javaparser:javaparser-core:3.3.0',
         ],
-        'rx': [
-                'java': "io.reactivex.rxjava2:rxjava:2.1+",
+        'rx'     : [
+                'java'   : "io.reactivex.rxjava2:rxjava:2.1+",
                 'android': "io.reactivex.rxjava2:rxandroid:2+"
         ]
 ]

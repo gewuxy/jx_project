@@ -16,7 +16,7 @@ import yy.doctor.util.input.InputFilterUtils;
  * @author GuoXuan
  * @since 2017/6/8
  */
-public class EditRegisterPwdForm extends EditForm {
+public class EditPwdForm extends EditForm {
     private boolean mFlag = true;//密码是否可见
 
     @Override

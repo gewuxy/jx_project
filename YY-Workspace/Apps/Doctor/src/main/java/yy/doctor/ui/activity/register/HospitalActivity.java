@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.register;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -26,7 +27,6 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.ys.YSLog;
-import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -275,6 +275,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         //获得POI的详细检索结果，如果发起的是详细检索，这个方法会得到回调(需要uid)
         //详细检索一般用于单个地点的搜索，比如搜索一大堆信息后，选择其中一个地点再使用详细检索
         if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
+
             showToast("抱歉，未找到结果");
         } else {
             // 正常返回结果的时候，此处可以获得很多相关信息
@@ -298,7 +299,11 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             //有网但是定位失败  显示dialog
             mDialog = new BaseHintDialog(this);
             mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-            mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
+            mDialog.addButton("取消", v -> mDialog.dismiss());
+            mDialog.addButton("去设置", v -> {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivityForResult(intent,0);
+            });
             mDialog.show();
         }
 
@@ -334,6 +339,12 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     protected void onDestroy() {
         super.onDestroy();
 
+        if (mLevelDialog != null) {
+            mLevelDialog.dismiss();
+        }
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
         LocationNotifier.inst().remove(this);
         Location.inst().onDestroy();
     }
@@ -373,6 +384,9 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
 
     @Override
     public void onLevelChecked(HospitalLevel h) {
+        if (mLevelDialog != null) {
+            mLevelDialog.dismiss();
+        }
         if (mCheckItem instanceof Hospital) {
             Hospital hospital = (Hospital) mCheckItem;
             int levelId = h.getInt(THospitalLevel.id);
@@ -410,4 +424,13 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         }
     }
 
+    @Override
+    public View createEmptyFooterView() {
+        return inflate(R.layout.layout_locate_fail_empty_footer);
+    }
+
+    @Override
+    protected String getEmptyText() {
+        return "无法获取您的位置信息";
+    }
 }

@@ -120,8 +120,6 @@ public class BindPhoneActivity extends BaseSetActivity {
                     }
                     // 获取验证码
                     exeNetworkReq(KCaptcha, NetFactory.captcha(getPhone(), CaptchaType.fetch));
-                    EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
-                    item.start();
                 }
             }
             break;
@@ -135,6 +133,8 @@ public class BindPhoneActivity extends BaseSetActivity {
         if (r.isSucceed()) {
             if (id == KCaptcha) {
                 // 获取验证码
+                EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
+                item.start();
             } else {
                 setResult(RESULT_OK, new Intent().putExtra(Extra.KData, getPhone()));
                 Profile.inst().put(TProfile.mobile, getPhone());

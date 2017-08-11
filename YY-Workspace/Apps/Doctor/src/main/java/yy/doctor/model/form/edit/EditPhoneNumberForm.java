@@ -15,7 +15,7 @@ import yy.doctor.R;
  * @since 2017/7/4
  */
 
-public class EditPhoneNumberForm extends EditNumberForm {
+public class EditPhoneNumberForm extends EditForm {
 
     private boolean mIsAdd;
 

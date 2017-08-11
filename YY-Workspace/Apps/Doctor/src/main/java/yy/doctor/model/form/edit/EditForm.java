@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import lib.ys.ConstantsEx;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
@@ -30,6 +31,10 @@ public class EditForm extends BaseForm implements TextWatcher {
 
     @Override
     public int getContentViewResId() {
+        int layout = getLayoutId();
+        if (layout != ConstantsEx.KInvalidValue) {
+            return layout;
+        }
         return R.layout.form_edit;
     }
 

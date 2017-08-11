@@ -29,6 +29,7 @@ import yy.doctor.Constants.WXType;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.HintDialogMain;
+import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.dialog.UpdateNoticeDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -121,9 +122,7 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
                 .name(R.string.phone_num_account)
-                .text(getProfileString(TProfile.mobile)))
-                .type(IntentType.set_phone)
-                .intent(new Intent(this, BindPhoneActivity.class));
+                .text(getProfileString(TProfile.mobile)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
@@ -193,24 +192,38 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_wx: {
-                String nickName = Profile.inst().getString(TProfile.wxNickname);
-                if (getString(R.string.no_bind).equals(nickName) || TextUtil.isEmpty(nickName)) {
-                    // 未绑定
-                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
-                    WXLoginApi.sendReq(WXType.bind);
+                WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
+                if (WXLoginApi.isWXAppInstalled()) {
+                    String nickName = Profile.inst().getString(TProfile.wxNickname);
+                    if (getString(R.string.no_bind).equals(nickName) || TextUtil.isEmpty(nickName)) {
+                        // 未绑定
+                        WXLoginApi.sendReq(WXType.bind);
+                    } else {
+                        // 已绑定
+                        relieveWx();
+                    }
+                } else {
+                    notInstallWx();
+                }
+            }
+            break;
+            case RelatedId.bind_phone: {
+                String phone = Profile.inst().getString(TProfile.mobile);
+                if (getString(R.string.no_bind).equals(phone) || TextUtil.isEmpty(phone)) {
+                    startActivity(BindPhoneActivity.class);
                 } else {
                     // 已绑定
-                    relieveWx();
+                    relievePhone();
                 }
             }
             break;
             case RelatedId.bind_email: {
                 String email = Profile.inst().getString(TProfile.username);
-                if (TextUtil.isNotEmpty(email)) {
+                if (getString(R.string.no_bind).equals(email) || TextUtil.isEmpty(email)) {
+                    startActivity(BindEmailActivity.class);
+                } else {
                     // 已绑定
                     relieveEmail();
-                } else {
-                    startActivity(BindEmailActivity.class);
                 }
             }
             break;
@@ -295,6 +308,20 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     /**
+     *
+     * @param key
+     * @return
+     */
+    private String checkBind(TProfile key) {
+        String string = Profile.inst().getString(key);
+        if (TextUtil.isEmpty(string)) {
+            return getString(R.string.no_bind);
+        } else {
+            return string;
+        }
+    }
+
+    /**
      * 解绑成功
      *
      * @param id
@@ -314,6 +341,17 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     /**
+     * 没有安装微信
+     */
+    private void notInstallWx() {
+        HintDialogSec dialogWx = new HintDialogSec(SettingsActivity.this);
+        dialogWx.setMainHint(R.string.wx_accredit_error);
+        dialogWx.setSecHint(R.string.wx_check_normal);
+        dialogWx.addButton(R.string.affirm, v1 -> dialogWx.dismiss());
+        dialogWx.show();
+    }
+
+    /**
      * 解绑微信
      */
     private void relieveWx() {
@@ -327,6 +365,19 @@ public class SettingsActivity extends BaseFormActivity {
         relieveDialog.show();
     }
 
+    /**
+     * 更换手机
+     */
+    private void relievePhone() {
+        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
+        relieveDialog.setHint("是否更换绑定的手机号码？");
+        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+            startActivity(BindPhoneActivity.class);
+            relieveDialog.dismiss();
+        });
+        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
+        relieveDialog.show();
+    }
     /**
      * 解绑邮箱
      */
