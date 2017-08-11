@@ -22,12 +22,13 @@
     <TextView
         style="@style/tv.form.text"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="18dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin_large"
         android:gravity="top"
+        android:singleLine="false"
+        android:ellipsize="none"
         android:hint="@string/user_input_academic"
-        android:paddingTop="@dimen/margin"
-        android:textColor="@color/text_333"/>
+        android:paddingTop="@dimen/margin"/>
 
     <View style="@style/divider.form"/>
 

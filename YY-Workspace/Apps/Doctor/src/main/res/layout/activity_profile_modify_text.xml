@@ -32,8 +32,7 @@
                 android:id="@+id/academic_iv_clean"
                 style="@style/iv.form.clean.right"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="21dp"/>
+                android:layout_centerVertical="true"/>
 
         </RelativeLayout>
 
