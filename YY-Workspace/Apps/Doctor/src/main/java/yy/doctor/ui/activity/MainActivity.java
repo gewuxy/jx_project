@@ -93,7 +93,7 @@ public class MainActivity extends BaseVPActivity {
 
         YSLog.d(TAG, "wucaixiang@medcn.cn md5 =  " + UtilEx.md5("wucaixiang@medcn.cn"));
 
-        //检查有没有定位权限   没有的话直接弹dialog
+        //检查有没有定位权限
         checkPermission(KPermissionCodeLocation, Permission.location);
 
         addIndicators();

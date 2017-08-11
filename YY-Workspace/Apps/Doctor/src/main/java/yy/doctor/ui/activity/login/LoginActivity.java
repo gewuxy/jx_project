@@ -7,6 +7,7 @@ import lib.network.model.NetworkError;
 import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
+import lib.ys.util.permission.Permission;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -61,6 +62,9 @@ public class LoginActivity extends BaseLoginActivity {
 
         getEtName().setText(SpApp.inst().getUserName());
         getEtName().setSelection(getUserName().length());
+
+        //检查有没有定位权限
+        checkPermission(0, Permission.location);
     }
 
     @Override

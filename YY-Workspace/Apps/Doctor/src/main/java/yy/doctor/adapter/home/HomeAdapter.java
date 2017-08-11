@@ -73,12 +73,13 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                         .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
                         .url(item.getString(TMeeting.lecturerHead))
                         .load();
-                homeVH.getTvSpeakerName().setText(item.getString(TMeeting.lecturer));
-                homeVH.getTvSpeakerRank().setText(item.getString(TMeeting.lecturerTitle));
 
                 MeetingVH meetVH = homeVH.getMeetingVH();
                 UISetter.meetingHolderSet(meetVH, item, true);
 
+                //判断是否有名字 职称
+                UISetter.viewVisibility(item.getString(TMeeting.lecturer), homeVH.getTvSpeakerName());
+                UISetter.viewVisibility(item.getString(TMeeting.lecturerTitle), homeVH.getTvSpeakerRank());
             }
             break;
             case HomeType.meeting_folder: {
