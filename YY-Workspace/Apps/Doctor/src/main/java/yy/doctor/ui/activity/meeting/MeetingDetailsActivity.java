@@ -122,6 +122,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private int mType = DataType.meeting;
 
     private ShareDialog mShareDialog; // 分享
+    private BaseFunc mCourseFunc;
 
 
     @NonNull
@@ -208,8 +209,20 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     @Override
     public void setViews() {
+        setOnClickListener(mIvPlay);
+
         refresh(RefreshWay.embed);
         exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.meeting_detail_iv_play: {
+                mCourseFunc.onClick(v);
+            }
+            break;
+        }
     }
 
     @Override
@@ -312,6 +325,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             if (progress == 100) {
                 percent = "完成";
             }
+            mLayoutProgress.setProgress(progress);
             mTvProgress.setText(percent);
         }
 
@@ -367,8 +381,8 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         func = new SignFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
-        func = new CourseFunc(this, detail, this);
-        mFuncs.add(Integer.valueOf(func.getType()), func);
+        mCourseFunc = new CourseFunc(this, detail, this);
+        mFuncs.add(Integer.valueOf(mCourseFunc.getType()), mCourseFunc);
 
         // 模块处理
         mModuleLayout

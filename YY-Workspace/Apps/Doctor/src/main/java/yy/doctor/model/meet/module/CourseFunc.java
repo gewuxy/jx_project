@@ -65,21 +65,25 @@ public class CourseFunc extends BaseFunc {
     protected void onNetworkSuccess(Object result) {
         Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
+            
             PPT ppt = r.getData();
             if (ppt == null) {
                 App.showToast(R.string.course_no);
+                return;
+            }
+
+            CourseInfo course = ppt.getEv(TPPT.course);
+            if (course == null) {
+                App.showToast(R.string.course_no);
+                return;
+            }
+
+            List details = course.getList(TCourseInfo.details);
+            if (details == null || details.size() == 0) {
+                App.showToast(R.string.course_no);
             } else {
-                CourseInfo course = ppt.getEv(TPPT.course);
-                if (course == null) {
-                    App.showToast(R.string.course_no);
-                } else {
-                    List details = course.getList(TCourseInfo.details);
-                    if (details == null || details.size() == 0) {
-                        App.showToast(R.string.course_no);
-                    } else {
-                        MeetingCourseActivity.nav(getContext(), getMeetId(), getModuleId());
-                    }
-                }
+                MeetingCourseActivity.nav(getContext(), getMeetId(), getModuleId());
+
             }
         } else {
             App.showToast(r.getMessage());

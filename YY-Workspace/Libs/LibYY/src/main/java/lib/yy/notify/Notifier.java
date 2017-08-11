@@ -50,6 +50,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.academic,
             NotifyType.hospital_finish,
             NotifyType.bind_wx,
+            NotifyType.bind_phone,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -163,7 +164,11 @@ public class Notifier extends NotifierEx<OnNotify> {
 
         int hospital_finish = 21;
 
+        /**
+         * 绑定成功
+         */
         int bind_wx = 22;
+        int bind_phone = 23;
 
 
         /**

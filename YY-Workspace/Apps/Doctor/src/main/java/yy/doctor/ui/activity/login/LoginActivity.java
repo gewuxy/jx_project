@@ -61,8 +61,6 @@ public class LoginActivity extends BaseLoginActivity {
 
         getEtName().setText(SpApp.inst().getUserName());
         getEtName().setSelection(getUserName().length());
-
-        WXLoginApi.create(this, Constants.KAppId);
     }
 
     @Override
@@ -88,6 +86,7 @@ public class LoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.login_layout_wechat: {
+                WXLoginApi.create(LoginActivity.this, Constants.KAppId);
                 if (WXLoginApi.isWXAppInstalled()) {
                     WXLoginApi.sendReq(WXType.login);
                 } else {

@@ -66,7 +66,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     private final int KUnBindEmail = 0; // 解绑邮箱
     private final int KUnBindWX = 1; // 解绑微信
-    private final int KVersion = 2;
+    private final int KVersion = 2; // 检查版本号
 
     private String mImgSize;
     private String mSoundSize;
@@ -194,8 +194,7 @@ public class SettingsActivity extends BaseFormActivity {
             case RelatedId.bind_wx: {
                 WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
                 if (WXLoginApi.isWXAppInstalled()) {
-                    String nickName = Profile.inst().getString(TProfile.wxNickname);
-                    if (getString(R.string.no_bind).equals(nickName) || TextUtil.isEmpty(nickName)) {
+                    if (checkBind(TProfile.wxNickname)) {
                         // 未绑定
                         WXLoginApi.sendReq(WXType.bind);
                     } else {
@@ -208,8 +207,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_phone: {
-                String phone = Profile.inst().getString(TProfile.mobile);
-                if (getString(R.string.no_bind).equals(phone) || TextUtil.isEmpty(phone)) {
+                if (checkBind(TProfile.mobile)) {
                     startActivity(BindPhoneActivity.class);
                 } else {
                     // 已绑定
@@ -218,8 +216,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_email: {
-                String email = Profile.inst().getString(TProfile.username);
-                if (getString(R.string.no_bind).equals(email) || TextUtil.isEmpty(email)) {
+                if (checkBind(TProfile.username)) {
                     startActivity(BindEmailActivity.class);
                 } else {
                     // 已绑定
@@ -244,7 +241,11 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), CheckAppVersion.class);
+        if (id == KVersion) {
+            return JsonParser.ev(r.getText(), CheckAppVersion.class);
+        } else {
+            return JsonParser.error(r.getText());
+        }
     }
 
     @Override
@@ -294,9 +295,6 @@ public class SettingsActivity extends BaseFormActivity {
 
     /**
      * 要绑定的地方获取不到信息是显示未绑定
-     *
-     * @param key
-     * @return
      */
     private String getProfileString(TProfile key) {
         String string = Profile.inst().getString(key);
@@ -308,24 +306,15 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     /**
-     *
-     * @param key
-     * @return
+     * 检查是否绑定
      */
-    private String checkBind(TProfile key) {
+    private boolean checkBind(TProfile key) {
         String string = Profile.inst().getString(key);
-        if (TextUtil.isEmpty(string)) {
-            return getString(R.string.no_bind);
-        } else {
-            return string;
-        }
+        return getString(R.string.no_bind).equals(string) || TextUtil.isEmpty(string);
     }
 
     /**
      * 解绑成功
-     *
-     * @param id
-     * @param key
      */
     private void unBindUpdate(Result r, @RelatedId int id, TProfile key) {
         if (r.isSucceed()) {
@@ -378,6 +367,7 @@ public class SettingsActivity extends BaseFormActivity {
         relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
         relieveDialog.show();
     }
+
     /**
      * 解绑邮箱
      */
@@ -486,11 +476,17 @@ public class SettingsActivity extends BaseFormActivity {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.bind_wx) {
-            String wxNickname = (String) data;
-            Profile.inst().put(TProfile.wxNickname, wxNickname);
-            Profile.inst().saveToSp();
-            getRelatedItem(RelatedId.bind_wx).save(wxNickname, wxNickname);
-            refreshRelatedItem(RelatedId.bind_wx);
+            bindSuccess((String) data, TProfile.wxNickname, RelatedId.bind_wx);
+        } else if (type == NotifyType.bind_phone) {
+            bindSuccess((String) data, TProfile.mobile, RelatedId.bind_phone);
         }
+    }
+
+    private void bindSuccess(String data, TProfile key, @RelatedId int id) {
+        Profile.inst().put(key, data);
+        Profile.inst().saveToSp();
+        getRelatedItem(id).save(data, data);
+        refreshRelatedItem(id);
+        showToast("绑定成功");
     }
 }

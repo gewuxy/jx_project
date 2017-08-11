@@ -33,6 +33,7 @@ import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
+import yy.doctor.ui.frag.meeting.exam.TopicFragArg;
 
 /**
  * 考试(问卷)题目界面
@@ -216,20 +217,13 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
         TopicFrag topicFrag = null;
         int size = mAllTopics.size();
-
         for (int i = 0; i < size; i++) {
-            topicFrag = new TopicFrag();
-
-            Bundle b = new Bundle();
-            Topic topic = mAllTopics.get(i);
-            b.putSerializable(Extra.KData, topic);
             //最后一题
+            boolean isLast = false;
             if (i == size - 1) {
-                b.putBoolean(Extra.KType, true);
+                isLast = true;
             }
-            b.putInt(Extra.KId, i);
-
-            topicFrag.setArguments(b);
+            topicFrag = TopicFragArg.create(isLast, mAllTopics.get(i), i).build();
             topicFrag.setOnTopicListener(this);
             add(topicFrag);
         }

@@ -114,11 +114,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<Profile> r = (Result<Profile>) result;
-        Profile profile = r.getData();
-        if (profile == null) {
-            showToast("绑定失败");
-            finish();
-        }
         if (id == KLogin) {
             if (r.isSucceed()) {
                 Profile login = r.getData();
@@ -138,7 +133,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         } else {
             if (r.isSucceed()) {
-                showToast("绑定成功");
+                Profile profile = r.getData();
+                if (profile == null) {
+                    showToast("绑定失败");
+                }
                 notify(NotifyType.bind_wx, profile.getString(TProfile.wxNickname));
             } else {
                 onNetworkError(id, r.getError());

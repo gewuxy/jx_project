@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.me.set;
 
-import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -16,7 +15,6 @@ import lib.yy.model.form.BaseForm;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Constants.CaptchaType;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -136,10 +134,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                 EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
                 item.start();
             } else {
-                setResult(RESULT_OK, new Intent().putExtra(Extra.KData, getPhone()));
-                Profile.inst().put(TProfile.mobile, getPhone());
-                Profile.inst().saveToSp();
-                showToast("绑定成功");
+                notify(NotifyType.bind_phone,getPhone());
                 finish();
             }
         } else {
