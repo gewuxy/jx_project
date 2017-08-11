@@ -83,6 +83,10 @@ public class ExamEndActivity extends BaseActivity {
 
         // FIXME: 考试用时
         refresh(RefreshWay.embed);
+        getDataFromNet();
+    }
+
+    private void getDataFromNet() {
         exeNetworkReq(NetFactory.submitEx()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
@@ -121,13 +125,10 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public boolean onRetryClick() {
-        exeNetworkReq(NetFactory.submitEx()
-                .meetId(mMeetId)
-                .moduleId(mModuleId)
-                .paperId(mPaperId)
-                .items(mAnswers)
-                .builder());
-        return super.onRetryClick();
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
     }
 
     @Override

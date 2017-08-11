@@ -286,11 +286,13 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public boolean onRetryClick() {
-        //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
-        exeNetworkReq(KReqIdBanner, NetFactory.banner());
-        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
-        mIsNetworkError = false;
-        return super.onRetryClick();
+        if (!super.onRetryClick()) {
+            //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
+            exeNetworkReq(KReqIdBanner, NetFactory.banner());
+            exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
+            mIsNetworkError = false;
+        }
+        return false;
     }
 
     @Override
