@@ -22,7 +22,7 @@ import yy.doctor.R;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.ui.frag.data.ClinicsFrag;
 import yy.doctor.ui.frag.data.DrugsFrag;
-import yy.doctor.ui.frag.data.ThomsonsFrag;
+import yy.doctor.ui.frag.data.ThomsonFrag;
 
 /**
  * 数据
@@ -56,7 +56,7 @@ public class DataCenterFrag extends BaseVPFrag {
     @Override
     public void initData() {
 
-        add(new ThomsonsFrag());
+        add(new ThomsonFrag());
         add(new DrugsFrag());
         add(new ClinicsFrag());
     }

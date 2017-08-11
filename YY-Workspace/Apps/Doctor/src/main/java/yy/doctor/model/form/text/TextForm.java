@@ -1,5 +1,6 @@
 package yy.doctor.model.form.text;
 
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
@@ -16,6 +17,10 @@ public class TextForm extends BaseForm {
 
     @Override
     public int getContentViewResId() {
+        int layout = getLayoutId();
+        if (layout != ConstantsEx.KInvalidValue) {
+            return layout;
+        }
         return R.layout.form_text;
     }
 

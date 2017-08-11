@@ -168,9 +168,11 @@ public class RegisterActivity extends BaseFormActivity
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register_name)
+        addItem(Form.create(FormType.et)
                 .observer(this)
+                .limit(18) // 姓名限制18位
                 .related(RelatedId.name)
+                .layout(R.layout.form_edit_register)
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
@@ -199,9 +201,11 @@ public class RegisterActivity extends BaseFormActivity
                 .type(IntentType.medicine));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.et_register_department)
+        addItem(Form.create(FormType.et)
                 .observer(this)
+                .limit(24) // 部门限制24位
                 .related(RelatedId.department)
+                .layout(R.layout.form_edit_register)
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));

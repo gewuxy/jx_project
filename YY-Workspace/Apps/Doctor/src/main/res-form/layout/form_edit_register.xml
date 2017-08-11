@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:textColor="@color/text_333"
-            android:textColorHint="@color/text_888"
+            android:textColorHint="@color/text_999"
             android:textSize="15dp"/>
 
         <ImageView
