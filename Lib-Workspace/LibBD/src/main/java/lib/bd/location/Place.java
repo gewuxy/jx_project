@@ -15,7 +15,6 @@ import lib.ys.util.TextUtil;
 
 public class Place extends EVal<TPlace> {
 
-    public static final int KMaxCount = 3;
     public static final String KSplit = " ";
 
     public static final int KProvince = 0;
@@ -88,11 +87,4 @@ public class Place extends EVal<TPlace> {
         }
         return b.toString();
     }
-
-//    private String generatePcd(String[] pcd) {
-//        if (pcd == null || pcd.length < KMaxCount) {
-//            return ConstantsEx.KEmptyValue;
-//        }
-//        return generatePcd(pcd[KProvince], pcd[KCity], pcd[KDistrict]);
-//    }
 }
