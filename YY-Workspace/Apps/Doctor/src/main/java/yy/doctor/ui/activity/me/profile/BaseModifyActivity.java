@@ -58,13 +58,6 @@ abstract public class BaseModifyActivity extends BaseActivity {
     public void setViews() {
         getEt().setHint("请输入" + getIntent().getStringExtra(Extra.KTitle));
         getEt().setText(getVal());
-//        if (TextUtil.isEmpty(getEt().getText())) {
-//            mTv.setEnabled(false);
-//            mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-//        } else {
-//            mTv.setEnabled(true);
-//            mTv.setTextColor(ResLoader.getColor(R.color.white));
-//        }
     }
 
     protected void addTextChangedListener(@NonNull EditText et, @NonNull View ivClear) {
@@ -93,16 +86,6 @@ abstract public class BaseModifyActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                if (TextUtil.isEmpty(et.getText())) {
-//                    mTv.setEnabled(false);
-//                    mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-//
-//                } else {
-//                    mTv.setEnabled(true);
-//                    mTv.setTextColor(ResLoader.getColor(R.color.white));
-//
-//                }
-
                 if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
                     showView(ivClear);
                 } else {

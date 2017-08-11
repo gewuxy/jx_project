@@ -152,6 +152,9 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                     tv.setText(mPhone);
 
                     mDialog.addHintView(view);
+                    mDialog.addButton("取消", v1 -> {
+                        mDialog.dismiss();
+                    });
                     mDialog.addButton("好", v1 -> {
                         if (mCount == 0) {
                             mStartTime = System.currentTimeMillis();
@@ -171,10 +174,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                         mDialog.dismiss();
                         ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                     });
-                    mDialog.addButton("取消", v1 -> {
-                        mDialog.dismiss();
-                    });
-
                     mDialog.show();
                 }
             }
@@ -202,6 +201,11 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
         // 检查密码
         String strPwd = getItemStr(RelatedId.pwd);
+        String symbol2 = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
+        if (!strPwd.matches(symbol2)) {
+            showToast(R.string.input_special_symbol);
+            return;
+        }
         if (strPwd.length() < 6 || strPwd.length() > 24) {
             showToast(R.string.input_right_pwd_num);
             return;
