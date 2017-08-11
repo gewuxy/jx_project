@@ -121,7 +121,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             if (history == null) {
                 return;
             }
-            List<Comment> comments = history.getList(TCommentHistories.datas);
+            List<Comment> comments = history.getList(TCommentHistories.dataList);
             // 排序(升序)
             if (comments == null) {
                 return;

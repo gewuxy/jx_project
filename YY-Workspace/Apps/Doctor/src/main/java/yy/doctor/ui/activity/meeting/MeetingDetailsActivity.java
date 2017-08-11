@@ -257,6 +257,12 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         }
     }
 
+    @Override
+    public boolean onRetryClick() {
+        exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
+        return super.onRetryClick();
+    }
+
     /**
      * 更新界面数据
      *

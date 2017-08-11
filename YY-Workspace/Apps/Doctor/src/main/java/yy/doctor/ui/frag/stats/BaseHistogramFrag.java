@@ -122,6 +122,12 @@ public abstract class BaseHistogramFrag extends BaseFrag {
         setViewState(ViewState.error);
     }
 
+    @Override
+    public boolean onRetryClick() {
+        exeNetworkReq(getNetReq());
+        return super.onRetryClick();
+    }
+
     public int getOffset() {
         if (mStats == null) {
             return 0;

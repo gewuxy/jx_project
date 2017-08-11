@@ -120,6 +120,17 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onRetryClick() {
+        exeNetworkReq(NetFactory.submitEx()
+                .meetId(mMeetId)
+                .moduleId(mModuleId)
+                .paperId(mPaperId)
+                .items(mAnswers)
+                .builder());
+        return super.onRetryClick();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exam_end_tv_btn:
