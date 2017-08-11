@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.register;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -174,6 +175,7 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
+
             case PermissionResult.granted: {
                 Location.inst().start();
             }
@@ -300,8 +302,10 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
                 mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
                 mDialog.addButton("取消", v -> mDialog.dismiss());
                 mDialog.addButton("去设置", v -> {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivityForResult(intent,0);
+                    Uri packageUri = Uri.parse("package:"+getPackageName());
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageUri);
+                    startActivityForResult(intent, 0);
+                    mDialog.dismiss();
                 });
             }
 
@@ -314,6 +318,12 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         List<IHospital> hospitals = new ArrayList<>();
         r.setData(hospitals);
         onNetworkSuccess(KIdHospital, r);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Location.inst().start();
     }
 
     @Override

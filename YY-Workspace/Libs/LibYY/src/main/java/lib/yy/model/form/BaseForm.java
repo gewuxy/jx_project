@@ -6,6 +6,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.text.InputFilter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,10 +20,8 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
-
-import lib.yy.adapter.VH.FormVH;
-
 import lib.yy.R;
+import lib.yy.adapter.VH.FormVH;
 
 
 
@@ -37,6 +36,8 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     private int mType;
     private String mUrl;
+
+    private InputFilter[] mInputFilter;
 
     public <T extends BaseForm> T paddingLeft(int padding) {
         mPaddingLeft = padding;
@@ -57,6 +58,10 @@ abstract public class BaseForm extends FormEx<FormVH> {
         mUrl = url;
         return (T) this;
     }
+    public <T extends BaseForm> T input(InputFilter[] inputFilter) {
+        mInputFilter = inputFilter;
+        return (T) this;
+    }
 
     public int getPaddingLeft() {
         return mPaddingLeft;
@@ -72,6 +77,10 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     public String getUrl() {
         return mUrl;
+    }
+
+    public InputFilter[] getInputFilter() {
+        return mInputFilter;
     }
 
     @Override

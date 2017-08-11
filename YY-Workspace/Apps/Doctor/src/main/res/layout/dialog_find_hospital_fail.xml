@@ -27,7 +27,6 @@
             android:text="医院设置为默认医院"
             android:textSize="15dp"
             android:textColor="@color/text_666"/>
-
     </LinearLayout>
 
 </LinearLayout>

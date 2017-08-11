@@ -3,6 +3,7 @@ package yy.doctor.model.form.edit;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.CallSuper;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -66,8 +67,15 @@ public class EditForm extends BaseForm implements TextWatcher {
             }
         }
 
+        //限制长度
         if (getLimit() != Constants.KInvalidValue) {
             ViewUtil.limitInputCount(holder.getEt(), getLimit());
+        }
+
+        //限制输入的类型，比如只能输入中文等，此方法覆盖限制长度的方法，目前暂时不共存
+        InputFilter[] inputFilter = getInputFilter();
+        if (inputFilter != null && inputFilter.length > 0) {
+            et.setFilters(inputFilter);
         }
     }
 
@@ -114,7 +122,7 @@ public class EditForm extends BaseForm implements TextWatcher {
         save(s.toString(), s.toString());
 
         View clean = getHolder().getIvClean();
-        if (clean != null ) {
+        if (clean != null) {
             if (TextUtil.isNotEmpty(s)) {
                 ViewUtil.showView(clean);
             } else {

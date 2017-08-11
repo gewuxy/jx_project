@@ -14,6 +14,7 @@ import yy.doctor.R;
 
 public class EditCaptchaForm extends EditForm {
 
+
     @Override
     protected void init(FormVH holder) {
         super.init(holder);

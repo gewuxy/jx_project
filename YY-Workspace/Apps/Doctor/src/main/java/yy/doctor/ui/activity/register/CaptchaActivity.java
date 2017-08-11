@@ -1,10 +1,12 @@
 package yy.doctor.ui.activity.register;
 
 import android.support.annotation.NonNull;
+import android.webkit.WebView;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.network.UrlUtil;
 import yy.doctor.util.Util;
 
 /**
@@ -14,6 +16,8 @@ import yy.doctor.util.Util;
  * 创建人 : guoxuan
  */
 public class CaptchaActivity extends BaseActivity {
+    private WebView mWebView;
+    private String mUrlActivityCode = UrlUtil.getHostName() + "api/register/get_invite_code";
 
     @Override
     public void initData() {
@@ -32,10 +36,11 @@ public class CaptchaActivity extends BaseActivity {
 
     @Override
     public void findViews() {
+        mWebView = findView(R.id.captcha_web);
     }
 
     @Override
     public void setViews() {
+        mWebView.loadUrl(mUrlActivityCode);
     }
-
 }

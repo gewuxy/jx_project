@@ -2,8 +2,12 @@ package yy.doctor.ui.activity.register;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputFilter.LengthFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -65,6 +69,8 @@ import yy.doctor.ui.activity.login.LoginActivity;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.util.Util;
+import yy.doctor.util.input.InputFilterChineseImpl;
+import yy.doctor.util.input.InputSpaceFilter;
 
 /**
  * 注册界面  7.1
@@ -170,9 +176,9 @@ public class RegisterActivity extends BaseFormActivity
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et)
                 .observer(this)
-                .limit(18) // 姓名限制18位
                 .related(RelatedId.name)
                 .layout(R.layout.form_edit_no_text)
+                .input(new InputFilter[]{new InputFilterChineseImpl(),new LengthFilter(18)})
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
@@ -206,6 +212,7 @@ public class RegisterActivity extends BaseFormActivity
                 .limit(24) // 部门限制24位
                 .related(RelatedId.department)
                 .layout(R.layout.form_edit_no_text)
+                .input(new InputFilter[]{new InputSpaceFilter(),new LengthFilter(24)})
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));
@@ -258,8 +265,6 @@ public class RegisterActivity extends BaseFormActivity
             //检查有没有定位权限   没有的话直接弹dialog
             if (checkPermission(0, Permission.location)) {
                 startLocation();
-            } else {
-                onLocationError();
             }
         });
 
@@ -270,14 +275,18 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_tv_activated_code:
+            case R.id.register_tv_activated_code:{
                 startActivity(CaptchaActivity.class);
+            }
                 break;
-            case R.id.register:
+            case R.id.register:{
                 enroll();
+            }
                 break;
-            case R.id.iv_activated_cancel:
+            case R.id.iv_activated_cancel:{
                 mEtActivatedCode.setText("");
+            }
+                break;
         }
     }
 
@@ -307,24 +316,11 @@ public class RegisterActivity extends BaseFormActivity
         // 检查密码
         String strPwd = getItemStr(RelatedId.pwd);
 
-        String specialSymbol = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-×÷＝%√°′″{}()[].|*/#~,:;?\\\"‖&*@\\\\^,$–…'=+!><.-—_";
-        // FIXME: 2017/8/9 
-      //  String symbol = "^([0-9]|[a-z]|[A-Z]|-|×|÷|＝|%|√|°|′|″|{|}|(|)|[|]|.|||*|/|#|~|,|:|;|?|\"|‖|&|*|@|\\|^|,|$|–|…|'|=|+|!|>|<|.|-|—|_)+$";
         String symbol2 = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
         if (!strPwd.matches(symbol2)) {
             showToast(R.string.input_special_symbol);
             return;
         }
-
-      /*  char[] chars = specialSymbol.toCharArray();
-        String pwd = strPwd;
-        for (char c : chars) {
-            pwd = pwd.replace(String.valueOf(c), "");
-        }
-        if (pwd.length() > 0) {
-            showToast(R.string.input_special_symbol);
-            return;
-        }*/
 
         if (strPwd.length() < 6 || strPwd.length() > 24) {
             showToast(R.string.input_right_pwd_num);
@@ -398,7 +394,7 @@ public class RegisterActivity extends BaseFormActivity
                         dialog.dismiss();
                     });
                     dialog.addButton("好", v1 -> {
-                        if (mCount == 0) {
+                        if (mCount == 1) {
                             mStartTime = System.currentTimeMillis();
                         }
                         mCount++;
@@ -416,7 +412,6 @@ public class RegisterActivity extends BaseFormActivity
                         dialog.dismiss();
                         ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                     });
-
                     dialog.show();
                 }
             }
@@ -500,15 +495,28 @@ public class RegisterActivity extends BaseFormActivity
                 .build());
 
         if (DeviceUtil.isNetworkEnabled()) {
-            //有网但是定位失败  显示dialog
-            mDialog = new BaseHintDialog(this);
-            mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-            mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
+            if (mDialog == null) {
+                //有网但是定位失败  显示dialog
+                mDialog = new BaseHintDialog(this);
+                mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
+                mDialog.addButton("取消", v -> mDialog.dismiss());
+                mDialog.addButton("去设置", v -> {
+                    Uri packageUri = Uri.parse("package:"+getPackageName());
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageUri);
+                    startActivityForResult(intent, 0);
+                    mDialog.dismiss();
+                });
+            }
             mDialog.show();
         } else {
             showToast("当前网络不可用,不可定位");
         }
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        startLocation();
     }
 
     @Override

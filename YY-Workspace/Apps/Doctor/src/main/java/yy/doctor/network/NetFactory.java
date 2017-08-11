@@ -339,6 +339,11 @@ public class NetFactory {
                 .build();
     }
 
+    public static NetworkReq getInviteCode(){
+        return newGet(UrlRegister.KGetInviteCode)
+                .build();
+    }
+
 
     /**
      * 注册

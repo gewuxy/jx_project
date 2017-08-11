@@ -65,7 +65,7 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
                         .province(mProvince)
                         .city(item.getString(TPcd.name))
                         .pcdDesc(getLocation())
-                        .place(mPlace)
+//                        .place(mPlace)
                         .start(this);
             } else {
                 Place place = makePlace(item.getString(TPcd.name));

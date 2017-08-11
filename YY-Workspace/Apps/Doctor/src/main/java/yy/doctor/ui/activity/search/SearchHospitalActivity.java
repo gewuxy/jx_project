@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.search;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -111,8 +112,6 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         //检查有没有定位权限   没有的话直接弹dialog
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
-        } else {
-            onLocationError();
         }
 
         LocationNotifier.inst().add(this);
@@ -255,15 +254,6 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
 
         showToast("定位失败");
 
-        mDialog = new BaseHintDialog(this);
-        mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-        mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
-        mDialog.addButton("去设置", v -> {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivityForResult(intent,0);
-        });
-        mDialog.show();
-
         // 模拟成功无数据， 显示empty footer view
         ListResult<IHospital> r = new ListResult<>();
         r.setCode(ErrorCode.KOk);
@@ -271,6 +261,26 @@ public class SearchHospitalActivity extends BaseSRListActivity<IHospital, Hospit
         r.setData(hospitals);
         onNetworkSuccess(0, r);
         mLocation = false;
+
+        if (mDialog ==null) {
+            mDialog = new BaseHintDialog(this);
+            mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
+            mDialog.addButton(getString(R.string.know), v -> mDialog.dismiss());
+            mDialog.addButton("去设置", v -> {
+                Uri packageUri = Uri.parse("package:"+getPackageName());
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageUri);
+                startActivityForResult(intent, 0);
+                mDialog.dismiss();
+                mLocation = true;
+            });
+        }
+        mDialog.show();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Location.inst().start();
     }
 
     @Override

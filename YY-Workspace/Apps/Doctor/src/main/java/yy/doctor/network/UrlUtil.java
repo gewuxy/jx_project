@@ -78,6 +78,7 @@ public class UrlUtil {
 
         String KCaptcha = KRegisterBase + "get_captcha";
         String KScan = KRegisterBase + "scan_register";
+        String KGetInviteCode = KRegisterBase + "get_invite_code";
         String KSpecialty = KRegisterBase + "specialty";
         String KTitle = KRegisterBase + "title";
         String KProperties = KRegisterBase + "properties";
