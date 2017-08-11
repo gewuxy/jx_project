@@ -40,7 +40,6 @@ public class BadgeView extends TextView {
 
     private void init() {
         if (!(getLayoutParams() instanceof LayoutParams)) {
-            //FIXME:  小红点
             LayoutParams layoutParams =
                     new LayoutParams(
 //                            android.view.ViewGroup.LayoutParams.WRAP_CONTENT,

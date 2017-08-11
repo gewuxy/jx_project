@@ -147,7 +147,6 @@ public class ExchangeActivity extends BaseFormActivity {
                     return;
                 }
 
-                // FIXME: 2017/6/30 caixiang
                 //检查手机号格式是否正确
                 if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText())) {
                     showToast(R.string.phone_error);

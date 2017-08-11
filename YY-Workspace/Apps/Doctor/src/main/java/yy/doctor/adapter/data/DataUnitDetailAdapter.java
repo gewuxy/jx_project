@@ -16,7 +16,6 @@ import yy.doctor.model.data.GroupDataUnitDetail;
 
 public class DataUnitDetailAdapter extends GroupAdapterEx<GroupDataUnitDetail, DataUnitDetail, DataUnitDetailVH> {
 
-    // FIXME: 布局文件id需要修改
     @Override
     public int getGroupConvertViewResId() {
         return R.layout.layout_data_unit_detail_group;

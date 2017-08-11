@@ -871,15 +871,6 @@ public class NetFactory {
     }
 
     /**
-     * 返回会议搜索时的科室列表选择
-     * TODO:调用时机?
-     */
-    public static NetworkReq types() {
-        return newGet(UrlMeet.KTypes)
-                .build();
-    }
-
-    /**
      * 会议详情
      */
     public static NetworkReq meetInfo(String meetId) {
