@@ -107,8 +107,6 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
         //检查有没有定位权限   没有的话直接弹dialog
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
-        } else {
-            onLocationError();
         }
 
         LocationNotifier.inst().add(this);
@@ -297,13 +295,16 @@ public class HospitalActivity extends BaseSRListActivity<IHospital, HospitalAdap
             showToast("当前网络不可用, 不可定位");
         } else {
             //有网但是定位失败  显示dialog
-            mDialog = new BaseHintDialog(this);
-            mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
-            mDialog.addButton("取消", v -> mDialog.dismiss());
-            mDialog.addButton("去设置", v -> {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(intent,0);
-            });
+            if (mDialog == null) {
+                mDialog = new BaseHintDialog(this);
+                mDialog.addHintView(inflate(R.layout.dialog_locate_fail));
+                mDialog.addButton("取消", v -> mDialog.dismiss());
+                mDialog.addButton("去设置", v -> {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(intent,0);
+                });
+            }
+
             mDialog.show();
         }
 
