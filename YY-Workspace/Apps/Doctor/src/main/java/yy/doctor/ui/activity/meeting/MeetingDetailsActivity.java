@@ -212,7 +212,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         setOnClickListener(mIvPlay);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
+        getDataFromNet();
     }
 
     @Override
@@ -259,8 +259,14 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     @Override
     public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
+    }
+
+    private void getDataFromNet() {
         exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
-        return super.onRetryClick();
     }
 
     /**

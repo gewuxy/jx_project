@@ -124,8 +124,10 @@ public abstract class BaseHistogramFrag extends BaseFrag {
 
     @Override
     public boolean onRetryClick() {
-        exeNetworkReq(getNetReq());
-        return super.onRetryClick();
+        if (super.onRetryClick()) {
+            exeNetworkReq(getNetReq());
+        }
+        return true;
     }
 
     public int getOffset() {

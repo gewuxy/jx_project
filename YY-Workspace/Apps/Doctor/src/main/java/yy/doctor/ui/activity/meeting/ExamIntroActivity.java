@@ -52,12 +52,6 @@ public class ExamIntroActivity extends BaseActivity {
     @Extra(optional = true)
     String mModuleId;
 
-
-  /*  private String mHost; // 会议主办方
-    private String mMeetId; // 会议ID
-    private String mModuleId; // 模块ID
-    private String mEduCredits; // 奖励学分*/
-
     private long mStartTime; // 考试开始时间
     private long mEndTime; // 考试结束时间
 
@@ -83,26 +77,9 @@ public class ExamIntroActivity extends BaseActivity {
         String from_h_to_m_24 = "HH:mm";
     }
 
-   /* public static void nav(Context context, String meetId, String moduleId, String host,String eduCredits) {
-        Intent i = new Intent(context, ExamIntroActivity.class)
-                .putExtra(Extra.KMeetId, meetId)
-                .putExtra(Extra.KModuleId, moduleId)
-                .putExtra(Extra.KData, host)
-                .putExtra(Extra.KNum,eduCredits);
-        LaunchUtil.startActivity(context, i);
-    }*/
-
     @Override
     public void initData() {
         notify(NotifyType.study_start);
-
-       /* mMeetId = getIntent().getStringExtra(Extra.KMeetId);
-        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
-        mHost = getIntent().getStringExtra(Extra.KData);
-        mEduCredits = getIntent().getStringExtra(Extra.KNum);*/
-       /* if (TextUtil.isNotEmpty(mEduCredits) && TextUtil.isEmpty(Profile.inst().getString(TProfile.cmeId).toString())) {
-
-        }*/
     }
 
     @NonNull
@@ -138,7 +115,7 @@ public class ExamIntroActivity extends BaseActivity {
         setOnClickListener(R.id.exam_intro_tv_start);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.toExam(mMeetId, mModuleId));
+        getDataFromNet();
     }
 
     @Override
@@ -195,8 +172,14 @@ public class ExamIntroActivity extends BaseActivity {
 
     @Override
     public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
+    }
+
+    private void getDataFromNet() {
         exeNetworkReq(NetFactory.toExam(mMeetId, mModuleId));
-        return super.onRetryClick();
     }
 
     @Override

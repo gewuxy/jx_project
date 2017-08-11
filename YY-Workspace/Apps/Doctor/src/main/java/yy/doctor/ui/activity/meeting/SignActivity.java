@@ -69,13 +69,7 @@ public class SignActivity extends BaseResultActivity {
         super.setViews();
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.sign()
-                .meetId(mMeetId)
-                .moduleId(mModuleId)
-                .positionId(mSignId)
-                .signLat(mLatitude)
-                .signLng(mLongitude)
-                .builder());
+        getDataFromNet();
     }
 
     @Override
@@ -93,6 +87,13 @@ public class SignActivity extends BaseResultActivity {
 
     @Override
     public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
+    }
+
+    private void getDataFromNet() {
         exeNetworkReq(NetFactory.sign()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
@@ -100,6 +101,5 @@ public class SignActivity extends BaseResultActivity {
                 .signLat(mLatitude)
                 .signLng(mLongitude)
                 .builder());
-        return super.onRetryClick();
     }
 }
