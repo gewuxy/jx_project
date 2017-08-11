@@ -14,7 +14,6 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -51,7 +50,6 @@ abstract public class BaseModifyActivity extends BaseActivity {
         mTv = bar.addTextViewRight(R.string.save, v -> {
             refresh(RefreshWay.dialog);
             doModify();
-            showToast("修改成功");
         });
     }
 
@@ -60,13 +58,13 @@ abstract public class BaseModifyActivity extends BaseActivity {
     public void setViews() {
         getEt().setHint("请输入" + getIntent().getStringExtra(Extra.KTitle));
         getEt().setText(getVal());
-        if (TextUtil.isEmpty(getEt().getText())) {
-            mTv.setEnabled(false);
-            mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-        } else {
-            mTv.setEnabled(true);
-            mTv.setTextColor(ResLoader.getColor(R.color.white));
-        }
+//        if (TextUtil.isEmpty(getEt().getText())) {
+//            mTv.setEnabled(false);
+//            mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
+//        } else {
+//            mTv.setEnabled(true);
+//            mTv.setTextColor(ResLoader.getColor(R.color.white));
+//        }
     }
 
     protected void addTextChangedListener(@NonNull EditText et, @NonNull View ivClear) {
@@ -95,15 +93,15 @@ abstract public class BaseModifyActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtil.isEmpty(et.getText())) {
-                    mTv.setEnabled(false);
-                    mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
-
-                } else {
-                    mTv.setEnabled(true);
-                    mTv.setTextColor(ResLoader.getColor(R.color.white));
-
-                }
+//                if (TextUtil.isEmpty(et.getText())) {
+//                    mTv.setEnabled(false);
+//                    mTv.setTextColor(ResLoader.getColor(R.color.text_b3));
+//
+//                } else {
+//                    mTv.setEnabled(true);
+//                    mTv.setTextColor(ResLoader.getColor(R.color.white));
+//
+//                }
 
                 if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
                     showView(ivClear);
@@ -152,6 +150,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
         Intent i = new Intent().putExtra(Extra.KData, text);
         setResult(RESULT_OK, i);
         finish();
+        showToast("修改成功");
     }
 
     abstract protected EditText getEt();

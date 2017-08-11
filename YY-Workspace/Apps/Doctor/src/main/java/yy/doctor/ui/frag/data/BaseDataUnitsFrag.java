@@ -129,9 +129,10 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                         String dataFileId = item.getString(TDataUnit.id);
                         String fileName = item.getString(TDataUnit.title);
                         DataUnitDetailActivityIntent.create(
-                                dataFileId, fileName, getDataType()
-                        )
-                                .start(getContext());
+                                dataFileId,
+                                fileName,
+                                getDataType()
+                        ).start(getContext());
                     }
                     break;
                     case FileOpenType.pdf: {
