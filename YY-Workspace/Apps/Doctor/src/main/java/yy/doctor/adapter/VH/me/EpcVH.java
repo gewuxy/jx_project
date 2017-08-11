@@ -18,6 +18,10 @@ public class EpcVH extends ViewHolderEx {
         super(convertView);
     }
 
+    public View getItemLayout() {
+        return getView(R.id.epc_item_layout);
+    }
+
     public NetworkImageView getIv() {
         return getView(R.id.epc_item_iv);
     }

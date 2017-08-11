@@ -9,7 +9,7 @@ import java.util.List;
 
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.util.res.ResLoader;
-import lib.ys.util.res.ResUtil;
+import lib.ys.util.res.ResUtil.ResDefType;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.home.HomeMeetFolderVH;
 import yy.doctor.adapter.VH.home.HomeMeetingVH;
@@ -103,14 +103,14 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
 
                     int index = 1;
                     while (true) {
-                        View v = holder.getConvertView().findViewById(ResLoader.getIdentifier(KLayout + index, ResUtil.ResDefType.id));
+                        View v = holder.getConvertView().findViewById(ResLoader.getIdentifier(KLayout + index, ResDefType.id));
                         if (v == null) {
                             break;
                         } else {
                             // 确保size一致
-                            TextView name = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KName + index, ResUtil.ResDefType.id));
+                            TextView name = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KName + index, ResDefType.id));
                             names.add(name);
-                            TextView title = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KTitle + index, ResUtil.ResDefType.id));
+                            TextView title = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KTitle + index, ResDefType.id));
                             titles.add(title);
                             layouts.add(v);
                             index++;

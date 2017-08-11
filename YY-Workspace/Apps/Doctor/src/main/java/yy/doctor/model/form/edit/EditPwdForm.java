@@ -25,7 +25,7 @@ public class EditPwdForm extends EditForm {
         if (layout != ConstantsEx.KInvalidValue) {
             return layout;
         }
-        return R.layout.form_edit_register_pwd;
+        return R.layout.form_edit_pwd;
     }
 
     @Override

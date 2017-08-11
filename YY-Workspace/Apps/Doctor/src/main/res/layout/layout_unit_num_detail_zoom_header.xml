@@ -1,64 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/unit_num_zoom_header_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
-
-    <lib.ys.network.image.NetworkImageView
-        android:id="@+id/unit_num_detail_iv_avatar"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="54dp"/>
-
-    <TextView
-        android:id="@+id/unit_num_detail_tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="广州广州"
-        android:textColor="@color/white"
-        android:textSize="14dp"/>
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/unit_num_zoom_header_root"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/unit_num_detail_iv_avatar"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="54dp"/>
 
         <TextView
+            android:id="@+id/unit_num_detail_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="关注人数："
+            android:layout_marginTop="14dp"
+            android:text="广州广州"
             android:textColor="@color/white"
-            android:textSize="12dp"/>
+            android:textSize="14dp"/>
 
-        <TextView
-            android:id="@+id/unit_num_deatil_tv_attention_num"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="259人"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关注人数："
+                android:textColor="@color/white"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/unit_num_deatil_tv_attention_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="259人"
+                android:textColor="@color/white"
+                android:textSize="12dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/unit_num_detail_tv_attention"
+            android:layout_width="89dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/unit_num_detail_tv_attention_selector"
+            android:paddingLeft="25dp"
+            android:drawablePadding="4dp"
+            android:background="@drawable/unit_num_detail_tv_attention_bg_selector"
+            android:text="关注"
             android:textColor="@color/white"
             android:textSize="12dp"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/unit_num_detail_tv_attention"
-        android:layout_width="89dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_large"
-        android:gravity="center_vertical"
-        android:drawableLeft="@drawable/unit_num_detail_tv_attention_selector"
-        android:paddingLeft="25dp"
-        android:drawablePadding="4dp"
-        android:background="@drawable/unit_num_detail_tv_attention_bg_selector"
-        android:text="关注"
-        android:textColor="@color/white"
-        android:textSize="12dp"/>
 
 </LinearLayout>
