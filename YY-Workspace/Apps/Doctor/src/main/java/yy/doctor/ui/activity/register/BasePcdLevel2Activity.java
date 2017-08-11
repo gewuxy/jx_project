@@ -5,15 +5,14 @@ import android.content.Intent;
 import lib.bd.location.Place;
 import lib.bd.location.Place.TPlace;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
-import yy.doctor.Extra;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
 import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 
@@ -26,19 +25,28 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
 
     private final int KIdCommit = 1;
 
-    private int mCurrItem;
+    @Extra(optional = true)
+    String mPcdDesc;
 
-    private Place mPlace;
+    @Extra(optional = true)
+    String mProvinceId;
+
+    @Extra(optional = true)
+    String mCityId;
+
+    @Extra(optional = true)
+    String mProvince;
+
+    @Extra(optional = true)
+    String mCity;
+
+    @Extra(optional = true)
+    String mDistrict;
+
+    private int mCurrItem;
 
     @Override
     public void initData() {
-        mProvinceId = getIntent().getStringExtra(Extra.KProvinceId);
-        mCityId = getIntent().getStringExtra(Extra.KCityId);
-
-        mProvince = getIntent().getStringExtra(Extra.KProvince);
-        mCity = getIntent().getStringExtra(Extra.KCity);
-
-        mPcdDesc = getIntent().getStringExtra(Extra.KPcdDesc);
     }
 
     @Override
@@ -51,7 +59,14 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
 
             Pcd item = getItem(position);
             if (item.getInt(TPcd.level) != Pcd.KLevelEnd) {
-                DistrictActivity.nav(this, item.getString(TPcd.id), mProvince, item.getString(TPcd.name), getLocation());
+//                DistrictActivity.nav(this, item.getString(TPcd.id), mProvince, item.getString(TPcd.name), getLocation());
+                DistrictActivityIntent.create()
+                        .cityId(item.getString(TPcd.id))
+                        .province(mProvince)
+                        .city(item.getString(TPcd.name))
+                        .pcdDesc(getLocation())
+                        .place(mPlace)
+                        .start(this);
             } else {
                 Place place = makePlace(item.getString(TPcd.name));
                 if (Profile.inst().isLogin()) {
@@ -62,12 +77,11 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
                             .area(place.getString(TPlace.district))
                             .build());
                 }else {
-                    Intent intent = new Intent()
-                            .putExtra(Extra.KProvince, place.getString(TPlace.province))
-                            .putExtra(Extra.KCity, place.getString(TPlace.city))
-                            .putExtra(Extra.KDistrict,place.getString(TPlace.district));
-                    setResult(RESULT_OK, intent);
                     notify(NotifyType.province_finish, place);
+
+                    Intent intent = new Intent()
+                            .putExtra(yy.doctor.Extra.KData, place);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             }
@@ -90,9 +104,7 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
             if (r.isSucceed()) {
                 Place place = makePlace(getItem(mCurrItem).getString(TPcd.name));
 
-                Profile.inst().put(TProfile.province, place.getString(TPlace.province));
-                Profile.inst().put(TProfile.city, place.getString(TPlace.city));
-                Profile.inst().put(TProfile.zone, place.getString(TPlace.district));
+                Profile.inst().put(place);
                 Profile.inst().saveToSp();
 
                 stopRefresh();
@@ -121,17 +133,17 @@ abstract public class BasePcdLevel2Activity extends BasePcdActivity {
         }
 
         //判断市区哪个为空
-        String d = null;
+        mDistrict = null;
         if (TextUtil.isEmpty(mCity)) {
             mCity = name;
         } else {
-            d = name;
+            mDistrict = name;
         }
 
         mPlace = new Place();
         mPlace.put(TPlace.province, mProvince);
         mPlace.put(TPlace.city, mCity);
-        mPlace.put(TPlace.district, d);
+        mPlace.put(TPlace.district, mDistrict);
 
         return mPlace;
     }

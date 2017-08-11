@@ -28,13 +28,6 @@ public interface Extra {
     String KLatitude = "latitude"; // 维度
     String KLongitude = "longitude"; // 经度
 
-    String KPcdDesc = "pcd_desc";
-    String KProvince = "province";
-    String KProvinceId = "province_id";
-    String KCity = "city";
-    String KCityId = "city_id";
-    String KDistrict = "district";
-
     @IntDef({
             FileFrom.meeting,
             FileFrom.unit_num,
