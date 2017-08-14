@@ -62,7 +62,6 @@ import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
-import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
@@ -207,7 +206,7 @@ public class RegisterActivity extends BaseFormActivity
                 .text(R.string.special)
                 .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
                 .type(IntentType.medicine))
-                .save(getString(R.string.special),getString(R.string.special));
+                .save(getString(R.string.special), getString(R.string.special));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et)
@@ -289,7 +288,7 @@ public class RegisterActivity extends BaseFormActivity
                 mEtActivatedCode.setText("");
             }
             break;
-            case R.id.help_and_feedback_footer_tv_agreement:{
+            case R.id.help_and_feedback_footer_tv_agreement: {
                 CommonWebViewActivityRouter.create(
                         getString(R.string.service_agreement),
                         mUrlDisclaimer
@@ -538,7 +537,7 @@ public class RegisterActivity extends BaseFormActivity
         if (resultCode == RESULT_FIRST_USER && data != null) {
             String name = data.getStringExtra(Extra.KData);
             mMasId = data.getStringExtra(Extra.KId);
-            mTvHeader.setText(String.format(getString(R.string.free_provide),name));
+            mTvHeader.setText(String.format(getString(R.string.free_provide), name));
             goneView(mLayoutCaptcha);
             mStatus.add(KActivateCodeCheckStatus);
         }

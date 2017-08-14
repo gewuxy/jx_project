@@ -7,9 +7,9 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import inject.annotation.router.Arg;
 import yy.doctor.Constants.FileSuffix;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkError;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
@@ -33,7 +32,7 @@ import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
-import yy.doctor.ui.frag.meeting.exam.TopicFragArg;
+import yy.doctor.ui.frag.meeting.exam.TopicFragRouter;
 
 /**
  * 考试(问卷)题目界面
@@ -70,7 +69,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     protected Intro mIntro;
     protected Paper mPaper; // 整套考题
     protected List<Topic> mAllTopics; // 所有的考题
-    protected ArrayList< Answer> mAnswers; // 答案
+    protected ArrayList<Answer> mAnswers; // 答案
     protected TextView mTvCase; // 总数(底部)
     protected TextView mTvAllCase; // 总数(查看考题)
 
@@ -223,7 +222,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             if (i == size - 1) {
                 isLast = true;
             }
-            topicFrag = TopicFragArg.create(i, isLast, mAllTopics.get(i)).build();
+            topicFrag = TopicFragRouter.create(i, isLast, mAllTopics.get(i)).route();
             topicFrag.setOnTopicListener(this);
             add(topicFrag);
         }

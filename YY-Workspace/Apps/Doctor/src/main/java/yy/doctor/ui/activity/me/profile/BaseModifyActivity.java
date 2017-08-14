@@ -3,12 +3,13 @@ package yy.doctor.ui.activity.me.profile;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import inject.annotation.router.Arg;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -27,27 +28,21 @@ import yy.doctor.util.Util;
  * @auther HuoXuYu
  * @since 2017/7/24
  */
-
 abstract public class BaseModifyActivity extends BaseActivity {
 
-    private TProfile mEnum;
-    private TextView mTv;
+    @Arg
+    TProfile mAttr;
+    @Arg
+    @StringRes
+    int mTitleId;
 
-    @CallSuper
-    @Override
-    public void initData() {
-        mEnum = (TProfile) getIntent().getSerializableExtra(Extra.KData);
-        if (mEnum == null) {
-            throw new NullPointerException("tProfile can not be null");
-        }
-    }
 
     @CallSuper
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, getIntent().getStringExtra(Extra.KTitle), this);
+        Util.addBackIcon(bar, getString(mTitleId), this);
 
-        mTv = bar.addTextViewRight(R.string.save, v -> {
+        bar.addTextViewRight(R.string.save, v -> {
             refresh(RefreshWay.dialog);
             doModify();
         });
@@ -122,12 +117,12 @@ abstract public class BaseModifyActivity extends BaseActivity {
 
     protected void doModify() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.modifyProfile(mEnum.name(), getEt().getText().toString()));
+        exeNetworkReq(NetFactory.modifyProfile(mAttr.name(), getEt().getText().toString()));
     }
 
     protected void onModifySuccess() {
         String text = Util.getEtString(getEt());
-        Profile.inst().put(mEnum, text);
+        Profile.inst().put(mAttr, text);
         Profile.inst().saveToSp();
 
         Intent i = new Intent().putExtra(Extra.KData, text);
@@ -145,6 +140,6 @@ abstract public class BaseModifyActivity extends BaseActivity {
      */
     @NonNull
     protected String getVal() {
-        return Profile.inst().getString(mEnum);
+        return Profile.inst().getString(mAttr);
     }
 }

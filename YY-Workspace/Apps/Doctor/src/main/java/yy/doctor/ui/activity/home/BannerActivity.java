@@ -1,7 +1,7 @@
 package yy.doctor.ui.activity.home;
 
-import inject.annotation.router.Route;
 import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.R;

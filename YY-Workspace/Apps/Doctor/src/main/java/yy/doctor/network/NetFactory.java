@@ -339,7 +339,7 @@ public class NetFactory {
                 .build();
     }
 
-    public static NetworkReq getInviteCode(){
+    public static NetworkReq getInviteCode() {
         return newGet(UrlRegister.KGetInviteCode)
                 .build();
     }

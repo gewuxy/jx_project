@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -30,25 +30,25 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/28
  */
-@AutoIntent
+@Route
 public class ExamEndActivity extends BaseActivity {
 
-    @Extra (optional = true)
+    @Arg(optional = true)
     String mMeetId;
 
-    @Extra (optional = true)
+    @Arg(optional = true)
     String mModuleId;
 
-    @Extra (optional = true)
+    @Arg(optional = true)
     String mPaperId; // 试卷Id
 
-    @Extra (optional = true)
+    @Arg(optional = true)
     int mCount; // 考试次数
 
-    @Extra (optional = true)
+    @Arg(optional = true)
     int mPass; // 及格线
 
-    @Extra (optional = true)
+    @Arg(optional = true)
     ArrayList<Answer> mAnswers; // 答案
 
     private TextView mTvScore;

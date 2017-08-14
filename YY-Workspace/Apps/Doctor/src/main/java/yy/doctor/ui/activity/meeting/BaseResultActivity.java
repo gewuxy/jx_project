@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.Extra;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TimeUtil;
 import lib.yy.network.Result;
@@ -28,9 +28,9 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
 
     private static final int KReturnTime = 3; // 关闭倒计时
 
-    @Extra
+    @Arg
     protected String mMeetId; // 会议id
-    @Extra
+    @Arg
     protected String mModuleId; // 模块id
 
     protected TextView mTvWelcome; // 欢迎

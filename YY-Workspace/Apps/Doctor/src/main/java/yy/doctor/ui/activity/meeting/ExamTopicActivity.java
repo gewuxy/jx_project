@@ -114,14 +114,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
 
     @Override
     protected void submit() {
-        ExamEndActivityIntent.create()
+        ExamEndActivityRouter.create()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
                 .paperId(mPaper.getString(TPaper.id))
                 .pass(mIntro.getInt(TIntro.passScore))
                 .count(mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
                 .answers(mAnswers)
-                .start(ExamTopicActivity.this);
+                .route(ExamTopicActivity.this);
         finish();
     }
 

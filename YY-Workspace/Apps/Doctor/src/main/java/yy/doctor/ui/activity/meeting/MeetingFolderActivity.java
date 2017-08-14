@@ -8,8 +8,8 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import inject.annotation.router.Route;
 import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;

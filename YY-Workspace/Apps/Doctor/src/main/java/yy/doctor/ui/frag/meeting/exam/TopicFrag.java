@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.processor.annotation.Arg;
-import lib.processor.annotation.AutoArg;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -26,7 +26,7 @@ import yy.doctor.model.meet.exam.Topic.TopicType;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-@AutoArg
+@Route
 public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     private TextView mTvTitle; // 题目
@@ -171,7 +171,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
         }
 
         if (mOnTopicListener != null) {
-            YSLog.d(TAG,"onItemClick:"+ answer);
+            YSLog.d(TAG, "onItemClick:" + answer);
             mOnTopicListener.topicFinish(mListId, mTopic.getInt(TTopic.id), answer);
         }
     }

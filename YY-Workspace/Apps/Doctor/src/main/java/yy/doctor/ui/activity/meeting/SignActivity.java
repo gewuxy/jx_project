@@ -2,8 +2,8 @@ package yy.doctor.ui.activity.meeting;
 
 import android.widget.ImageView;
 
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
@@ -18,17 +18,17 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/2
  */
-@AutoIntent
+@Route
 public class SignActivity extends BaseResultActivity {
 
     private final int KErrorResId = R.mipmap.result_ic_defeat; // 失败的图片
     private final int KErrorColId = R.color.text_333; // 失败的颜色
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mLongitude; // 经度
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mLatitude; // 维度
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mSignId; // 签到id
 
     private ImageView mIvResult;//结果图标

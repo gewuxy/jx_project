@@ -41,7 +41,6 @@ import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
-import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -153,7 +152,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_section)
                 .limit(24)
-                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_section), TProfile.department))
+                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.department, R.string.user_section))
                 .type(IntentType.section)
                 .text(Profile.inst().getString(TProfile.department))
                 .hint(R.string.user_input_section));
@@ -184,7 +183,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_CME_number)
                 .limit(30)
-                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_CME_number), TProfile.cmeId))
+                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.cmeId, R.string.user_CME_number))
                 .type(IntentType.cme_number)
                 .text(Profile.inst().getString(TProfile.cmeId))
                 .hint(R.string.user_input_CME_number));
@@ -195,7 +194,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_certification_number)
                 .limit(30)
-                .intent(ModifyTextActivity.newIntent(this, getString(R.string.user_certification_number), TProfile.licence))
+                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.licence, R.string.user_certification_number))
                 .type(IntentType.certification)
                 .text(Profile.inst().getString(TProfile.licence))
                 .hint(R.string.user_input_certification_number));
@@ -215,7 +214,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .related(RelatedId.skill)
                 .observer(this)
                 .name(R.string.medical_skill)
-                .intent(SkillActivity.newIntent(this, getString(R.string.medical_skill), TProfile.major))
+                .intent(SkillActivityRouter.newIntent(this, TProfile.major, R.string.medical_skill))
                 .type(IntentType.skill)
                 .text(Profile.inst().getString(TProfile.major)));
     }

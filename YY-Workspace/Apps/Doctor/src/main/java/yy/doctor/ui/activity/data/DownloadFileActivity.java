@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import inject.annotation.router.Route;
 import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;

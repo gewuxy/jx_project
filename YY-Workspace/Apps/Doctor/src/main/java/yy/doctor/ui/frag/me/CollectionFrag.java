@@ -1,11 +1,11 @@
 package yy.doctor.ui.frag.me;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import inject.annotation.router.Arg;
-import inject.annotation.router.Route;
 import yy.doctor.Constants.FileSuffix;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;

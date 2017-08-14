@@ -4,9 +4,9 @@ import android.content.Intent;
 
 import org.json.JSONException;
 
+import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;

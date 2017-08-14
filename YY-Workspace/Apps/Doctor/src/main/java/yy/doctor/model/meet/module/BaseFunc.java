@@ -26,11 +26,9 @@ import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
-import yy.doctor.ui.activity.me.profile.ModifyTextActivity;
+import yy.doctor.ui.activity.me.profile.ModifyTextActivityRouter;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.view.meet.ModuleView;
-
-import static yy.doctor.model.Profile.TProfile.cmeId;
 
 /**
  * @auther yuansui
@@ -200,7 +198,12 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
         mDialogCme.setHint("填写CME卡号才能获得学分");
         mDialogCme.addButton("完善资料", R.color.text_666, v -> {
             mDialogCme.dismiss();
-            LaunchUtil.startActivity(getContext(), ModifyTextActivity.newIntent(getContext(), getContext().getString(R.string.user_CME_number), cmeId));
+
+            ModifyTextActivityRouter.create(
+                    TProfile.cmeId,
+                    R.string.user_CME_number
+            ).route(getContext());
+
         });
         mDialogCme.addButton("取消", R.color.text_666, v -> mDialogCme.dismiss());
         mDialogCme.show();

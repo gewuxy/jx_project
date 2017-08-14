@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity.me.profile;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,10 +8,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import inject.annotation.router.Route;
 import lib.ys.util.TextUtil;
-import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.Profile.TProfile;
 
 /**
  * 学术专长
@@ -21,17 +18,16 @@ import yy.doctor.model.Profile.TProfile;
  * @auther HuoXuYu
  * @since 2017/7/14
  */
-
+@Route
 public class SkillActivity extends BaseModifyActivity {
 
     private EditText mEt;
     private TextView mTv;
     private ImageView mIvCancel;
 
-    public static Intent newIntent(Context context, String title, TProfile t) {
-        return new Intent(context, SkillActivity.class)
-                .putExtra(Extra.KData, t)
-                .putExtra(Extra.KTitle, title);
+
+    @Override
+    public void initData() {
     }
 
     @NonNull

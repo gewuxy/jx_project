@@ -4,8 +4,8 @@ import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.network.model.NetworkError;
 import inject.annotation.router.Arg;
+import lib.network.model.NetworkError;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;

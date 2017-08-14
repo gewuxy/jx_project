@@ -7,13 +7,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.bd.location.Gps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
-import inject.annotation.router.Route;
-import inject.annotation.router.Arg;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
@@ -216,8 +216,6 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
             finish();
         }
     }
-
-
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {

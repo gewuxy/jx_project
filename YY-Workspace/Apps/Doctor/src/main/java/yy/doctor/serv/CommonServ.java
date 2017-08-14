@@ -9,10 +9,10 @@ import org.json.JSONException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import inject.annotation.router.Route;
-import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;

@@ -3,8 +3,8 @@ package yy.doctor.ui.activity.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkResp;
 import inject.annotation.router.Route;
+import lib.network.model.NetworkResp;
 import lib.yy.network.ListResult;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.search.IRec;

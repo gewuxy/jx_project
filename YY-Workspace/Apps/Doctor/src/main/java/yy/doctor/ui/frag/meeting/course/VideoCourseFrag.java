@@ -16,9 +16,9 @@ import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 
 import java.util.concurrent.TimeUnit;
 
+import inject.annotation.router.Route;
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
-import inject.annotation.router.Route;
 import lib.ys.YSLog;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.util.CountDown;

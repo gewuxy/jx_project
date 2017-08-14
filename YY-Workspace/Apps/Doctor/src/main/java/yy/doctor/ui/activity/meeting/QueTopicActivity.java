@@ -120,10 +120,10 @@ public class QueTopicActivity extends BaseTopicActivity {
 
     @Override
     protected void submit() {
-        QueEndActivityIntent.create(mMeetId,mModuleId)
+        QueEndActivityRouter.create(mMeetId, mModuleId)
                 .paperId(mPaper.getString(TPaper.id))
                 .answers(mAnswers)
-                .start(QueTopicActivity.this);
+                .route(this);
         finish();
     }
 

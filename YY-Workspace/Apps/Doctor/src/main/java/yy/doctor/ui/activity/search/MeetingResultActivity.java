@@ -4,8 +4,8 @@ import android.view.View;
 
 import java.util.List;
 
-import lib.network.model.NetworkResp;
 import inject.annotation.router.Route;
+import lib.network.model.NetworkResp;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;

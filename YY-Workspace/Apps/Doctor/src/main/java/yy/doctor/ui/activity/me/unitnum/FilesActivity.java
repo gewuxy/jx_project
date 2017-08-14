@@ -2,8 +2,8 @@ package yy.doctor.ui.activity.me.unitnum;
 
 import android.view.View;
 
-import inject.annotation.router.Route;
 import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;

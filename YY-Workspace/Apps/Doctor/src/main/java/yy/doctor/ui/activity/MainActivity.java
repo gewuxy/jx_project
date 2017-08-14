@@ -8,10 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import inject.annotation.router.Route;
-import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;

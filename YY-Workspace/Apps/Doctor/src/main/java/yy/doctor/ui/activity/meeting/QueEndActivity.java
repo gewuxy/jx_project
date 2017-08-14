@@ -2,8 +2,8 @@ package yy.doctor.ui.activity.meeting;
 
 import java.util.ArrayList;
 
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
@@ -17,12 +17,12 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/6/10
  */
-@AutoIntent
+@Route
 public class QueEndActivity extends BaseResultActivity {
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mPaperId;
-    @Extra(optional = true)
+    @Arg(optional = true)
     ArrayList<Answer> mAnswers;
 
     @Override
