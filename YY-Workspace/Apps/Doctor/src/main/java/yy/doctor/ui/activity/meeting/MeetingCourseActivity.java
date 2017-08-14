@@ -60,6 +60,7 @@ import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragArg;
 import yy.doctor.ui.frag.meeting.course.PicCourseFragArg;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFragArg;
 import yy.doctor.util.Time;
+import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
 /**
@@ -321,6 +322,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
             @Override
             public void onPageSelected(int position) {
+                Util.noNetwork();
                 statsStudy();
 
                 setPlayStatus(position);

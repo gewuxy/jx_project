@@ -50,7 +50,7 @@ public class ClipImgMaskView extends View {
         int halfW = getMeasuredWidth() / 2;
         int halfH = getMeasuredHeight() / 2;
 
-        // 需要创建一层画布来使用SRC_OUT模式, 不要会影响整张画布 FIXME: 其他方式???
+        // 需要创建一层画布来使用SRC_OUT模式, 不要会影响整张画布
         mMaskBmp = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Config.ARGB_8888);
         mMaskCanvas = BmpUtil.createCanvas(mMaskBmp);
         mMaskCanvas.drawCircle(halfW, halfH, KRadius, new Paint());

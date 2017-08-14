@@ -25,7 +25,7 @@ import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.meeting.SignActivity;
+import yy.doctor.ui.activity.meeting.SignActivityIntent;
 
 /**
  * @auther yuansui
@@ -81,12 +81,11 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
                 if (mGps == null) {
                     mGps = new Gps();
                 }
-                SignActivity.nav(getContext(),
-                        getMeetId(),
-                        getModuleId(),
-                        signData.getString(TSign.id),
-                        mGps.getString(TGps.latitude),
-                        mGps.getString(TGps.longitude));
+                SignActivityIntent.create(getMeetId(),getModuleId())
+                        .signId(signData.getString(TSign.id))
+                        .latitude(mGps.getString(TGps.latitude))
+                        .longitude(mGps.getString(TGps.longitude))
+                        .start(getContext());
             }
         } else {
             App.showToast(r.getMessage());

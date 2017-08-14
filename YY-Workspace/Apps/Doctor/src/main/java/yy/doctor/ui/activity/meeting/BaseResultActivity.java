@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.Extra;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TimeUtil;
 import lib.yy.network.Result;
@@ -14,7 +15,6 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.network.JsonParser;
 
@@ -28,7 +28,9 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
 
     private static final int KReturnTime = 3; // 关闭倒计时
 
+    @Extra
     protected String mMeetId; // 会议id
+    @Extra
     protected String mModuleId; // 模块id
 
     protected TextView mTvWelcome; // 欢迎
@@ -47,9 +49,6 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     @CallSuper
     @Override
     public void initData() {
-        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
-        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
-
         mCountDown = new CountDown();
         mCountDown.setListener(this);
     }

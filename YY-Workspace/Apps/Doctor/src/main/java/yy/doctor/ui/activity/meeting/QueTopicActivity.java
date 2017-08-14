@@ -120,13 +120,10 @@ public class QueTopicActivity extends BaseTopicActivity {
 
     @Override
     protected void submit() {
-        // FIXME: 
-        Intent i = new Intent(QueTopicActivity.this, QueEndActivity.class)
-                .putExtra(Extra.KMeetId, mMeetId)
-                .putExtra(Extra.KModuleId, mModuleId)
-                .putExtra(Extra.KPaperId, mPaper.getString(TPaper.id))
-                .putExtra(Extra.KData, mAnswers);
-        LaunchUtil.startActivity(QueTopicActivity.this, i);
+        QueEndActivityIntent.create(mMeetId,mModuleId)
+                .paperId(mPaper.getString(TPaper.id))
+                .answers(mAnswers)
+                .start(QueTopicActivity.this);
         finish();
     }
 
