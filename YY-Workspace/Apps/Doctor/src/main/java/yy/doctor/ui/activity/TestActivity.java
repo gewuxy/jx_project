@@ -18,17 +18,6 @@ public class TestActivity extends BaseTestActivity {
         add("会议", MainActivityIntent.newIntent(this, MainActivity.KTabMeeting));
         add("数据", MainActivityIntent.newIntent(this, MainActivity.KTabData));
         add("我", MainActivityIntent.newIntent(this, MainActivity.KTabMe));
-
-
-        add("邮箱", BindEmailActivity.class);
-        add("123", v -> {
-            GlConfigServIntent.create()
-                    .start(this);
-        });
-    }
-
-    private void download() {
-
     }
 
 }
