@@ -206,7 +206,8 @@ public class RegisterActivity extends BaseFormActivity
                 .hint(R.string.special)
                 .text(R.string.special)
                 .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
-                .type(IntentType.medicine));
+                .type(IntentType.medicine))
+                .save(getString(R.string.special),getString(R.string.special));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et)
