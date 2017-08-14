@@ -141,6 +141,11 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         Util.addBackIcon(bar, R.string.meeting_detail, this);
         // 收藏
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
+            // 无网
+            if (Util.noNetwork()) {
+                return;
+            }
+
             boolean storedState = true; // 默认没有关注, 故点击时关注(MeetDetail还没获取到数据时)
             @StringRes int collectHint = R.string.collect_finish;
             if (mMeetDetail != null) {
@@ -211,7 +216,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     public void setViews() {
         setOnClickListener(mIvPlay);
 
-        refresh(RefreshWay.embed);
         getDataFromNet();
     }
 
@@ -266,6 +270,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     private void getDataFromNet() {
+        refresh(RefreshWay.embed);
         exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
     }
 
@@ -405,6 +410,10 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     @Override
     public void onFuncLoading(int type, String moduleId) {
+        // 无网
+        if (Util.noNetwork()) {
+            return;
+        }
         refresh(RefreshWay.dialog);
     }
 

@@ -114,7 +114,6 @@ public class ExamIntroActivity extends BaseActivity {
     public void setViews() {
         setOnClickListener(R.id.exam_intro_tv_start);
 
-        refresh(RefreshWay.embed);
         getDataFromNet();
     }
 
@@ -179,6 +178,7 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     private void getDataFromNet() {
+        refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.toExam(mMeetId, mModuleId));
     }
 

@@ -160,10 +160,13 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         int id = v.getId();
 
         if (id == R.id.unit_num_detail_tv_attention) {
+            // 无网
+            if (Util.noNetwork()) {
+                return;
+            }
             exeNetworkReq(KReqIdAttention, NetFactory.attention(mUnitNumId, Attention.yes));
             //关注人数加1
             mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + 1);

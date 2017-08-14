@@ -68,7 +68,6 @@ public class SignActivity extends BaseResultActivity {
     public void setViews() {
         super.setViews();
 
-        refresh(RefreshWay.embed);
         getDataFromNet();
     }
 
@@ -94,6 +93,7 @@ public class SignActivity extends BaseResultActivity {
     }
 
     private void getDataFromNet() {
+        refresh(RefreshWay.embed);
         exeNetworkReq(NetFactory.sign()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
