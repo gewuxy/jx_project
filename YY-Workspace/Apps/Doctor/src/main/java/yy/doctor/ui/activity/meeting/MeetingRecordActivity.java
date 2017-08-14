@@ -89,7 +89,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             finish();
         });
 
-        String title = TextUtil.cutString(mCourseInfo.getString(TCourseInfo.title), fitDp(App.KTitleBarTextSizeDp), fitDp(200), "...");
+        String title = TextUtil.cutString(mCourseInfo.getString(TCourseInfo.title), fitDp(App.KTitleBarLeftTextSizeDp), fitDp(200), "...");
         bar.addTextViewMid(title);
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));

@@ -42,11 +42,10 @@ public class EpcAdapter extends AdapterEx<Epc, EpcVH> {
     @Override
     protected void onViewClick(int position, View v) {
         Epc item = getItem(position);
-        EpcDetailActivityIntent.create(
-                item.getInt(TEpc.id),
-                item.getString(TEpc.name),
-                item.getString(TEpc.picture)
-        )
+        EpcDetailActivityIntent.create()
+                .goodId(item.getInt(TEpc.id))
+                .goodName(item.getString(TEpc.name))
+                .smallImgUrl(item.getString(TEpc.picture))
                 .start(getContext());
     }
 

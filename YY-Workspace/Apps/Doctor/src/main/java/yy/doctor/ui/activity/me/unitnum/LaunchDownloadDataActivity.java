@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.me.unitnum;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -90,6 +89,14 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
         if (mFileSuffix.equals(KPdf)) {
             mIv.setImageResource(R.mipmap.open_data_ic_pdf);
+            PDFActivityIntent.create(
+                    mFilePath,
+                    mFileNameEncryption,
+                    mFileName,
+                    mDataFileId,
+                    mDataType
+            ).start(this);
+            finish();
         } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
             mIv.setImageResource(R.mipmap.open_data_ic_ppt);
         } else {
@@ -108,18 +115,8 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
         if (v.getId() == R.id.open_download_data_tv_btn) {
 
-            Intent intent = null;
             try {
-                if (mFileSuffix.equals(KPdf)) {
-                    PDFActivityIntent.create(
-                            mFilePath,
-                            mFileNameEncryption,
-                            mFileName,
-                            mDataFileId,
-                            mDataType
-                    )
-                            .start(this);
-                } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
+                if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
                     IntentAction.ppt()
                             .filePath(mFilePath + mFileNameEncryption)
                             .alert("没有打开PPT类应用")

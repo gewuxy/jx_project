@@ -57,10 +57,9 @@
         android:id="@+id/epc_tv_btn"
         android:layout_below="@+id/epe_tv_btn"
         android:layout_marginTop="20dp"
-        android:background="@drawable/epc_shape_blue"
+        android:background="@drawable/btn_selector_white"
         android:text="进入象城"
         android:textColor="@color/text_0882e7"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"

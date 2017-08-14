@@ -37,19 +37,19 @@ import yy.doctor.util.Util;
 @AutoIntent
 public class ExchangeActivity extends BaseFormActivity {
 
+    @Extra(optional = true)
+    int mGoodId;
+    @Extra(optional = true)
+    String mGoodName;
+    @Extra(optional = true)
+    int mEpn;
+    @Extra(optional = true)
+    String mUrl;
+
     private NetworkImageView mIvGoods;
     private TextView mTvName;
     private TextView mTvEpn;
     private TextView mTvPayEpn;
-
-    @Extra
-    int mGoodId;
-    @Extra
-    String mGoodName;
-    @Extra
-    int mEpn;
-    @Extra
-    String mUrl;
 
     @IntDef({
             RelatedId.receiver,
@@ -148,7 +148,7 @@ public class ExchangeActivity extends BaseFormActivity {
                 }
 
                 //检查手机号格式是否正确
-                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText())) {
+                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText().trim())) {
                     showToast(R.string.phone_error);
                 }
 

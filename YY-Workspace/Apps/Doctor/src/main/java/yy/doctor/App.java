@@ -32,7 +32,9 @@ public class App extends BaseApp {
     private static final int KTitleBarIconSizeDp = 16;
     private static final int KTitleBarIconPaddingHorizontalDp = 12;
     private static final int KTitleBarTextMarginHorizontalDp = 12;
-    public static final int KTitleBarTextSizeDp = 16;
+    public static final int KTitleBarLeftTextSizeDp = 14;
+    public static final int KTitleBarMidTextSizeDp = 17;
+    public static final int KTitleBarRightTextSizeDp = 14;
 
     @Override
     protected AppConfig configureApp() {
@@ -64,9 +66,9 @@ public class App extends BaseApp {
                 .iconSizeDp(KTitleBarIconSizeDp)
                 .textColorRes(R.color.nav_bar_text_selector)
                 .textMarginHorizontalDp(KTitleBarTextMarginHorizontalDp)
-                .textSizeLeftDp(KTitleBarTextSizeDp)
-                .textSizeMidDp(KTitleBarTextSizeDp)
-                .textSizeRightDp(KTitleBarTextSizeDp)
+                .textSizeLeftDp(KTitleBarLeftTextSizeDp)
+                .textSizeMidDp(KTitleBarMidTextSizeDp)
+                .textSizeRightDp(KTitleBarRightTextSizeDp)
                 .focusBgDrawableRes(R.drawable.nav_bar_selector)
                 .build();
     }

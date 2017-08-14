@@ -11,15 +11,17 @@ import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
-import yy.doctor.Extra;
 import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.jpush.JPushMsg;
+import yy.doctor.model.jpush.JPushMsg.MsgType;
 import yy.doctor.model.jpush.JPushMsg.TJPushMsg;
 import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 import yy.doctor.model.notice.NoticeManager;
 import yy.doctor.model.notice.NoticeNum;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
 
 /**
  * @author CaiXiang
@@ -29,7 +31,6 @@ import yy.doctor.ui.activity.meeting.MeetingDetailsActivity;
 public class JPushReceiver extends BaseJPushReceiver {
 
     private static String TAG = "JPushReceiver";
-    private static int KMsgMeetingType = 1;
 
     @Override
     protected void onRegistrationId(Context context, String id) {
@@ -45,46 +46,53 @@ public class JPushReceiver extends BaseJPushReceiver {
 
         JPushMsg jPushMsg = new JPushMsg();
         jPushMsg.parse(message);
-        YSLog.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType) + "    " + "meetingId = " + jPushMsg.getString(TJPushMsg.meetId));
+        YSLog.d(TAG, "type = " + jPushMsg.getString(TJPushMsg.msgType));
 
-        //把消息添加进数据库
-        Notice notice = new Notice();
-        notice.put(TNotice.content, jPushMsg.getString(TJPushMsg.content));
-        notice.put(TNotice.from, jPushMsg.getString(TJPushMsg.senderName));
-        notice.put(TNotice.time, jPushMsg.getString(TJPushMsg.sendTime));
-        notice.put(TNotice.msgType, jPushMsg.getString(TJPushMsg.msgType));
-        notice.put(TNotice.meetId, jPushMsg.getString(TJPushMsg.meetId));
-        notice.put(TNotice.meetName, jPushMsg.getString(TJPushMsg.meetName));
-        notice.put(TNotice.is_read, false);
-        notice.setContent(notice.toJson());
-        NoticeManager.inst().insert(notice);
-        //通知主页面出现小红点
-        Notifier.inst().notify(NotifyType.receiver_notice);
+        // type==1 推送的是会议的  ==0 是普通消息  == 2 代表象数发生改变
+        if (jPushMsg.getInt(TJPushMsg.msgType) == MsgType.common || jPushMsg.getInt(TJPushMsg.msgType) == MsgType.meeting) {
 
-        //未读消息数加 1
-        NoticeNum.inst().add();
+            //把消息添加进数据库
+            Notice notice = new Notice();
+            notice.put(TNotice.content, jPushMsg.getString(TJPushMsg.content));
+            notice.put(TNotice.from, jPushMsg.getString(TJPushMsg.senderName));
+            notice.put(TNotice.time, jPushMsg.getString(TJPushMsg.sendTime));
+            notice.put(TNotice.msgType, jPushMsg.getString(TJPushMsg.msgType));
+            notice.put(TNotice.meetId, jPushMsg.getString(TJPushMsg.meetId));
+            notice.put(TNotice.meetName, jPushMsg.getString(TJPushMsg.meetName));
+            notice.put(TNotice.is_read, false);
+            notice.setContent(notice.toJson());
+            NoticeManager.inst().insert(notice);
+            //通知主页面出现小红点
+            Notifier.inst().notify(NotifyType.receiver_notice);
+            //未读消息数加 1
+            NoticeNum.inst().add();
 
-        Intent intent = new Intent();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setAutoCancel(true);//点击后消失
-        builder.setSmallIcon(R.mipmap.ic_launcher);//设置通知栏消息标题的头像
-        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-        builder.setContentText(jPushMsg.getString(TJPushMsg.content));//通知内容
-        builder.setContentTitle(jPushMsg.getString(TJPushMsg.title));
+            Intent intent = null;
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            builder.setAutoCancel(true);//点击后消失
+            builder.setSmallIcon(R.mipmap.ic_launcher);//设置通知栏消息标题的头像
+            builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+            builder.setContentText(jPushMsg.getString(TJPushMsg.content));//通知内容
+            builder.setContentTitle(jPushMsg.getString(TJPushMsg.title));
 
-        // type==1 推送的是会议的  ==0 是普通消息
-        if (jPushMsg.getInt(TJPushMsg.msgType) == KMsgMeetingType) {
-            intent.setClass(context, MeetingDetailsActivity.class);
-            intent.putExtra(Extra.KData, jPushMsg.getString(TJPushMsg.meetId));
-        } else {
-            //do nothing
+            if (jPushMsg.getInt(TJPushMsg.msgType) == MsgType.meeting) {
+                intent = MeetingDetailsActivityIntent.newIntent(context, jPushMsg.getString(TJPushMsg.meetId), jPushMsg.getString(TJPushMsg.meetName));
+            } else {
+                intent = new Intent();
+            }
+
+            //利用PendingIntent来包装我们的intent对象,使其延迟跳转
+            PendingIntent intentPend = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            builder.setContentIntent(intentPend);
+            NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            manager.notify(0, builder.build());
+
+        } else  if (jPushMsg.getInt(TJPushMsg.msgType) == MsgType.epn_change) {
+            Profile.inst().put(TProfile.credits, jPushMsg.getString(TJPushMsg.result));
+            Profile.inst().saveToSp();
+            Notifier.inst().notify(NotifyType.profile_change);
         }
 
-        //利用PendingIntent来包装我们的intent对象,使其延迟跳转
-        PendingIntent intentPend = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        builder.setContentIntent(intentPend);
-        NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
     }
 
     //普通消息

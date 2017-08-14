@@ -74,6 +74,11 @@ public class CollectionViewImpl implements ICollectionView {
             return;
         }
 
+        // 无网
+        if (Util.noNetwork()) {
+            return;
+        }
+
         boolean state = mData.getBoolean(TDataUnitDetails.favorite, false);
         state = !state;
         UISetter.setCollectionState(mIv, mData);

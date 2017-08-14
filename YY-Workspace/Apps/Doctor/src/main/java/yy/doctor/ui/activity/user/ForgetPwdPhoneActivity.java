@@ -139,6 +139,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
+
                     mPhone = getRelatedItem(RelatedId.phone_number).getVal();
                     if (!Util.isMobileCN(mPhone)) {
                         showToast("该号码不是电话号，请输入正确的电话号码");
@@ -146,6 +147,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                     }
 
                     mDialog = new HintDialog(this);
+
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
                     tv.setText(mPhone);
@@ -169,8 +171,9 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch));
+                        exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         mDialog.dismiss();
+                        ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                     });
                     mDialog.show();
                 }
@@ -216,6 +219,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         return mPhone.toString().replace(" ", "");
     }
 
+
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KLogin) {
@@ -242,7 +246,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         } else if (id == KCaptcha) {//验证码
             Result r = (Result) result;
             if (r.isSucceed()) {
-                ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                 showToast("已发送验证码");
             } else {
                 showToast(r.getMessage());

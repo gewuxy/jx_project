@@ -28,17 +28,17 @@ import yy.doctor.util.Util;
 @AutoIntent
 public class EpcDetailActivity extends BaseActivity {
 
+    @Extra(optional = true)
+    int mGoodId;
+    @Extra(optional = true)
+    String mGoodName;
+    @Extra(optional = true)
+    String mSmallImgUrl;
+
     private NetworkImageView mIv;
     private TextView mTvName;
     private TextView mTvEpn;
     private TextView mTvDescription;
-
-    @Extra
-    int mGoodId;
-    @Extra
-    String mGoodName;
-    @Extra
-    String mSmallImgUrl;
 
     private int mEpn;
 
@@ -107,9 +107,11 @@ public class EpcDetailActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.epc_detail_tv_btn: {
-                ExchangeActivityIntent.create(
-                        mGoodId, mGoodName, mEpn, mSmallImgUrl
-                )
+                ExchangeActivityIntent.create()
+                        .goodId(mGoodId)
+                        .goodName(mGoodName)
+                        .epn(mEpn)
+                        .url(mSmallImgUrl)
                         .start(this);
             }
             break;
