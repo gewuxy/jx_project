@@ -386,9 +386,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     //页面跳转
     private void startActForResult(String path) {
         if (path != null) {
-            Intent intent = new Intent(this, ClipImageActivity.class);
-            intent.putExtra(Extra.KData, path);
-            startActivityForResult(intent, KCodeClipImage);
+            ClipImageActivityRouter.create(path).route(this, KCodeClipImage);
         }
     }
 

@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -11,7 +13,6 @@ import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -27,17 +28,19 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/5/2
  */
+@Route
 public class ClipImageActivity extends BaseActivity {
 
     public static Bitmap mBmp;
     private final int KBmpSize = fitDp(280);
 
     private NetworkPhotoView mPv;
-    private String mPath;
+
+    @Arg
+    String mPath;
 
     @Override
     public void initData() {
-        mPath = getIntent().getStringExtra(Extra.KData);
     }
 
     @NonNull

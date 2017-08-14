@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -25,14 +25,14 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/26
  */
-@AutoIntent
+@Route
 public class EpcDetailActivity extends BaseActivity {
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     int mGoodId;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mGoodName;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mSmallImgUrl;
 
     private NetworkImageView mIv;
@@ -107,12 +107,12 @@ public class EpcDetailActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.epc_detail_tv_btn: {
-                ExchangeActivityIntent.create()
+                ExchangeActivityRouter.create()
                         .goodId(mGoodId)
                         .goodName(mGoodName)
                         .epn(mEpn)
                         .url(mSmallImgUrl)
-                        .start(this);
+                        .route(this);
             }
             break;
         }

@@ -7,10 +7,10 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -34,16 +34,16 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/26
  */
-@AutoIntent
+@Route
 public class ExchangeActivity extends BaseFormActivity {
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     int mGoodId;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mGoodName;
-    @Extra(optional = true)
+    @Arg(optional = true)
     int mEpn;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mUrl;
 
     private NetworkImageView mIvGoods;

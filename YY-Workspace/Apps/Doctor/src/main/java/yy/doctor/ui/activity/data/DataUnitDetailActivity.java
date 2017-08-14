@@ -5,10 +5,10 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
-import inject.annotation.router.Route;
-import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;

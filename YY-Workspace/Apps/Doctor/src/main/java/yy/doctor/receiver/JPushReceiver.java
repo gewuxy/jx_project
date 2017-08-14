@@ -21,7 +21,7 @@ import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 import yy.doctor.model.notice.NoticeManager;
 import yy.doctor.model.notice.NoticeNum;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityRouter;
 
 /**
  * @author CaiXiang
@@ -76,7 +76,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             builder.setContentTitle(jPushMsg.getString(TJPushMsg.title));
 
             if (jPushMsg.getInt(TJPushMsg.msgType) == MsgType.meeting) {
-                intent = MeetingDetailsActivityIntent.newIntent(context, jPushMsg.getString(TJPushMsg.meetId), jPushMsg.getString(TJPushMsg.meetName));
+                intent = MeetingDetailsActivityRouter.newIntent(context, jPushMsg.getString(TJPushMsg.meetId), jPushMsg.getString(TJPushMsg.meetName));
             } else {
                 intent = new Intent();
             }
@@ -87,7 +87,7 @@ public class JPushReceiver extends BaseJPushReceiver {
             NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             manager.notify(0, builder.build());
 
-        } else  if (jPushMsg.getInt(TJPushMsg.msgType) == MsgType.epn_change) {
+        } else if (jPushMsg.getInt(TJPushMsg.msgType) == MsgType.epn_change) {
             Profile.inst().put(TProfile.credits, jPushMsg.getString(TJPushMsg.result));
             Profile.inst().saveToSp();
             Notifier.inst().notify(NotifyType.profile_change);
