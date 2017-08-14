@@ -12,6 +12,7 @@ import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
 import yy.doctor.util.UISetter;
+import yy.doctor.util.Util;
 
 /**
  * 首页单位号的adapter
@@ -61,6 +62,10 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
                 if (mListener != null) {
                     int attention = item.getInt(TRecUnitNum.attention);
                     if (attention == Attention.no) {
+                        // 无网
+                        if (Util.noNetwork()) {
+                            return;
+                        }
                         setTvAttention(position, Attention.yes);
                         //改变源数据
                         item.put(TRecUnitNum.attention, Attention.yes);

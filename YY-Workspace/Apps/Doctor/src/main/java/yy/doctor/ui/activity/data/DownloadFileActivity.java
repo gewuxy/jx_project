@@ -138,6 +138,10 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
         int id = v.getId();
         switch (id) {
             case R.id.download_iv: {
+                // 无网
+                if (Util.noNetwork()) {
+                    return;
+                }
                 if (mIsDownload) {
                     mIvDownload.setImageResource(R.mipmap.download_ic_start);
                     mTvStatus.setText(R.string.download_pause);

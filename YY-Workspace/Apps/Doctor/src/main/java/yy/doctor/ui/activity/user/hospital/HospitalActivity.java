@@ -352,7 +352,6 @@ public class HospitalActivity extends BaseHospitalActivity
             getDataFromNet();
         } else {
             //定位失败  显示dialog
-            // FIXME: 失败
             YSLog.d("Gps", "失败");
             onLocationError();
         }

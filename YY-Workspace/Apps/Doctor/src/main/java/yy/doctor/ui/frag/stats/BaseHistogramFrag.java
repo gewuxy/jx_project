@@ -124,7 +124,8 @@ public abstract class BaseHistogramFrag extends BaseFrag {
 
     @Override
     public boolean onRetryClick() {
-        if (super.onRetryClick()) {
+        if (!super.onRetryClick()) {
+            setViewState(ViewState.loading);
             exeNetworkReq(getNetReq());
         }
         return true;

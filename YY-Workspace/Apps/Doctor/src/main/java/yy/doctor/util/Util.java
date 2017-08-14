@@ -9,12 +9,15 @@ import android.widget.EditText;
 import java.util.Arrays;
 import java.util.List;
 
+import lib.network.Network;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
+import yy.doctor.App;
 import yy.doctor.R;
 
 /**
@@ -88,5 +91,13 @@ public class Util extends BaseUtil {
      */
     public static boolean isMobileCN(CharSequence phone) {
         return RegexUtil.isMobileCN(phone.toString().replace(" ", ""));
+    }
+
+    public static boolean noNetwork() {
+        boolean b = !DeviceUtil.isNetworkEnabled();
+        if (b) {
+            App.showToast(Network.getConfig().getDisconnectToast());
+        }
+        return b;
     }
 }
