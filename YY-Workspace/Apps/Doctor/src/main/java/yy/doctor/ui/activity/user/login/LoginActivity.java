@@ -16,7 +16,7 @@ import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.ForgetPwdTooltipDialog;
-import yy.doctor.dialog.HintDialog;
+import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.sp.SpApp;
@@ -140,10 +140,8 @@ public class LoginActivity extends BaseLoginActivity {
             mCount++;
             YSLog.d("lol", mCount + "次.....");
             if (mCount > 5 && mCount < 8) {
-                HintDialog dialog = new HintDialog(this);
-                View view = inflate(R.layout.dialog_pwd_error_toast);
-
-                dialog.addHintView(view);
+                HintDialogMain dialog = new HintDialogMain(this);
+                dialog.setHint("密码错误");
                 dialog.addButton("取消", v1 -> {
                     dialog.dismiss();
                 });
