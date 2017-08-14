@@ -1,19 +1,18 @@
 package yy.doctor.ui.activity.me.unitnum;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import inject.annotation.router.Route;
-import inject.annotation.router.Arg;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.ui.activity.data.PDFActivityRouter;
+import yy.doctor.ui.activity.data.PDFActivityIntent;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 
@@ -27,26 +26,26 @@ import static yy.doctor.Constants.FileSuffix.KPptX;
  * @author CaiXiang
  * @since 2017/5/17
  */
-@Route
+@AutoIntent
 public class LaunchDownloadDataActivity extends BaseActivity {
 
     private ImageView mIv;
     private TextView mTvName;
     private TextView mTvSize;
 
-    @Arg(optional = true)
+    @Extra(optional = true)
     String mFilePath;
-    @Arg(optional = true)
+    @Extra(optional = true)
     String mFileName;
-    @Arg(optional = true)
+    @Extra(optional = true)
     String mFileSuffix;
-    @Arg(optional = true)
+    @Extra(optional = true)
     String mSize;
-    @Arg(optional = true)
+    @Extra(optional = true)
     String mDataFileId;
-    @Arg(optional = true)
+    @Extra(optional = true)
     String mFileNameEncryption;
-    @Arg(optional = true)
+    @Extra(optional = true)
     @DataType
     int mDataType;
 
@@ -90,6 +89,14 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
         if (mFileSuffix.equals(KPdf)) {
             mIv.setImageResource(R.mipmap.open_data_ic_pdf);
+            PDFActivityIntent.create(
+                    mFilePath,
+                    mFileNameEncryption,
+                    mFileName,
+                    mDataFileId,
+                    mDataType
+            ).start(this);
+            finish();
         } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
             mIv.setImageResource(R.mipmap.open_data_ic_ppt);
         } else {
@@ -108,18 +115,8 @@ public class LaunchDownloadDataActivity extends BaseActivity {
 
         if (v.getId() == R.id.open_download_data_tv_btn) {
 
-            Intent intent = null;
             try {
-                if (mFileSuffix.equals(KPdf)) {
-                    PDFActivityRouter.create(
-                            mFilePath,
-                            mFileNameEncryption,
-                            mFileName,
-                            mDataFileId,
-                            mDataType
-                    )
-                            .route(this);
-                } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
+                if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
                     IntentAction.ppt()
                             .filePath(mFilePath + mFileNameEncryption)
                             .alert("没有打开PPT类应用")

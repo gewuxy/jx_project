@@ -21,7 +21,7 @@
         <lib.ys.view.pager.indicator.UnderlinePageIndicator
             android:id="@+id/meeting_layout_indicator"
             android:layout_width="match_parent"
-            android:layout_height="3dp"/>
+            android:layout_height="2dp"/>
     </LinearLayout>
 
     <include layout="@layout/layout_viewpager"/>

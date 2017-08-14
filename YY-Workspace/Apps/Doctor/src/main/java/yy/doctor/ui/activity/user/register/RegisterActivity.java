@@ -212,7 +212,6 @@ public class RegisterActivity extends BaseFormActivity
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et)
                 .observer(this)
-                .limit(24) // 部门限制24位
                 .related(RelatedId.department)
                 .layout(R.layout.form_edit_no_text)
                 .input(new InputFilter[]{new InputSpaceFilter(), new LengthFilter(24)})

@@ -9,8 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import inject.annotation.router.Route;
-import inject.annotation.router.Arg;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -34,22 +34,22 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/26
  */
-@Route
+@AutoIntent
 public class ExchangeActivity extends BaseFormActivity {
+
+    @Extra(optional = true)
+    int mGoodId;
+    @Extra(optional = true)
+    String mGoodName;
+    @Extra(optional = true)
+    int mEpn;
+    @Extra(optional = true)
+    String mUrl;
 
     private NetworkImageView mIvGoods;
     private TextView mTvName;
     private TextView mTvEpn;
     private TextView mTvPayEpn;
-
-    @Arg
-    int mGoodId;
-    @Arg
-    String mGoodName;
-    @Arg
-    int mEpn;
-    @Arg
-    String mUrl;
 
     @IntDef({
             RelatedId.receiver,
@@ -148,7 +148,7 @@ public class ExchangeActivity extends BaseFormActivity {
                 }
 
                 //检查手机号格式是否正确
-                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText())) {
+                if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText().trim())) {
                     showToast(R.string.phone_error);
                 }
 

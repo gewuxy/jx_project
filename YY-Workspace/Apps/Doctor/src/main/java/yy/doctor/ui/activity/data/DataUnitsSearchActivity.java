@@ -73,7 +73,16 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
     public void setViews() {
         super.setViews();
 
-        mEtSearch.setHint(R.string.drug_list_search_hint);
+        switch (mType) {
+            case DataType.drug: {
+                mEtSearch.setHint(R.string.drug_list_search_hint);
+            }
+            break;
+            case DataType.clinic: {
+                mEtSearch.setHint(R.string.clinical_guide_search_hint);
+            }
+            break;
+        }
 
         if (!TextUtil.isEmpty(mSearchContent)) {
             mEtSearch.setText(mSearchContent);
