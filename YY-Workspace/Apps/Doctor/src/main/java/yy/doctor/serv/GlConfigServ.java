@@ -6,7 +6,7 @@ import org.json.JSONException;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
+import router.annotation.AutoIntent;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;

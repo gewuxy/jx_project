@@ -38,6 +38,6 @@ dependencies {
     /**
      * Processor
      */
-    compile project(':Lib-Workspace:LibProcessor')
-    annotationProcessor project(':Lib-Workspace:LibProcessor')
+    compile project(':Compiler')
+    annotationProcessor project(':Compiler')
 }

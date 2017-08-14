@@ -7,8 +7,8 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;

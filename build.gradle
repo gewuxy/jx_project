@@ -80,18 +80,20 @@ ext.deps = [
                 'test'        : [
                         'runner': 'com.android.support.test:runner:1.0.0',
                 ],
-                'dex'         : "com.android.support:multidex:1.0.1",
+                'dex'         : 'com.android.support:multidex:1.0.1',
         ],
         'auto'   : [
                 'service': 'com.google.auto.service:auto-service:1.0-rc3',
                 'common' : 'com.google.auto:auto-common:0.8',
         ],
         'java'   : [
-                'poet'  : 'com.squareup:javapoet:1.9.0',
-                'parser': 'com.github.javaparser:javaparser-core:3.3.0',
+                'poet': 'com.squareup:javapoet:1.9.0',
         ],
         'rx'     : [
-                'java'   : "io.reactivex.rxjava2:rxjava:2.1+",
-                'android': "io.reactivex.rxjava2:rxandroid:2+"
+                'java'   : 'io.reactivex.rxjava2:rxjava:2.1+',
+                'android': 'io.reactivex.rxjava2:rxandroid:2+'
+        ],
+        'network': [
+                'ok': 'com.squareup.okhttp3:okhttp:3.8.0'
         ]
 ]

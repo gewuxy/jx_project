@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.processor.annotation.Arg;
-import lib.processor.annotation.AutoArg;
+import router.annotation.Arg;
+import router.annotation.AutoArg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
 import yy.doctor.R;

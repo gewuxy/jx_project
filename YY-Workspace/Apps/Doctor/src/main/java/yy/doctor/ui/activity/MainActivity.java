@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;

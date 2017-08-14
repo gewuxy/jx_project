@@ -2,7 +2,7 @@ package yy.doctor.ui.frag.data;
 
 import android.support.annotation.Nullable;
 
-import lib.processor.annotation.AutoArg;
+import router.annotation.AutoArg;
 
 /**
  * @author CaiXiang

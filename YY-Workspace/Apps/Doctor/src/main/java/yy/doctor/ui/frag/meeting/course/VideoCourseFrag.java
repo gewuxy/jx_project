@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import lib.player.NetVideoView;
 import lib.player.NetVideoView.VideoViewListener;
-import lib.processor.annotation.AutoArg;
+import router.annotation.AutoArg;
 import lib.ys.YSLog;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.util.CountDown;

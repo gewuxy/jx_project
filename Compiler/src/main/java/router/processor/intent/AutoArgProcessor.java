@@ -1,4 +1,4 @@
-package lib.processor;
+package router.processor.intent;
 
 /**
  * @auther yuansui
@@ -22,10 +22,11 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 
-import lib.processor.android.AndroidClassName;
-import lib.processor.android.JavaClassName;
-import lib.processor.annotation.Arg;
-import lib.processor.annotation.AutoArg;
+import router.android.AndroidClassName;
+import router.android.JavaClassName;
+import router.annotation.Arg;
+import router.annotation.AutoArg;
+import router.processor.BaseProcessor;
 
 @AutoService(Processor.class)
 public class AutoArgProcessor extends BaseProcessor {

@@ -1,6 +1,6 @@
 package yy.doctor.ui.activity.data;
 
-import lib.processor.annotation.AutoIntent;
+import router.annotation.AutoIntent;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;

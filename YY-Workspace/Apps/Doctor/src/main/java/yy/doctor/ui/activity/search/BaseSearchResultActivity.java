@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.network.model.NetworkError;
-import lib.processor.annotation.Extra;
+import router.annotation.Extra;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;

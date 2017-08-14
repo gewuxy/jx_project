@@ -11,8 +11,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;

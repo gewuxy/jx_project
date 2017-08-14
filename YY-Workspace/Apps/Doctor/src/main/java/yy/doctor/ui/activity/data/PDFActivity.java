@@ -7,8 +7,8 @@ import com.github.barteksc.pdfviewer.PDFView;
 import java.io.File;
 
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;

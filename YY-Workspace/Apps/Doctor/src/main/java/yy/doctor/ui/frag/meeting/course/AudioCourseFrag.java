@@ -2,7 +2,7 @@ package yy.doctor.ui.frag.meeting.course;
 
 import android.graphics.Color;
 
-import lib.processor.annotation.AutoArg;
+import router.annotation.AutoArg;
 import yy.doctor.R;
 
 /**

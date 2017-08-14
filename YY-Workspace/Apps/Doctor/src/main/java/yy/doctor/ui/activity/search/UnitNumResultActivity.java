@@ -5,7 +5,7 @@ import java.util.List;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
-import lib.processor.annotation.AutoIntent;
+import router.annotation.AutoIntent;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;

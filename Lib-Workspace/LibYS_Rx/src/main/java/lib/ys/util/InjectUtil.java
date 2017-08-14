@@ -7,9 +7,8 @@ import android.support.v4.app.Fragment;
 
 import java.lang.reflect.Method;
 
-import lib.processor.annotation.AutoArg;
-import lib.processor.annotation.AutoIntent;
-import lib.ys.YSLog;
+import router.annotation.AutoArg;
+import router.annotation.AutoIntent;
 
 
 /**

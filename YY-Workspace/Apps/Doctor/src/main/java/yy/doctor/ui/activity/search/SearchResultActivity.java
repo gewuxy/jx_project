@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
+import router.annotation.AutoIntent;
 import lib.yy.network.ListResult;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.search.IRec;

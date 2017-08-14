@@ -9,8 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;

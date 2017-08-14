@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;

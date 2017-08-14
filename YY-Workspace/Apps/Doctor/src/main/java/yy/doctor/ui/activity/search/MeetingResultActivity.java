@@ -5,7 +5,7 @@ import android.view.View;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import lib.processor.annotation.AutoIntent;
+import router.annotation.AutoIntent;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;

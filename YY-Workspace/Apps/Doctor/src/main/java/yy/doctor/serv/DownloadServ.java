@@ -2,8 +2,8 @@ package yy.doctor.serv;
 
 import android.content.Intent;
 
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;

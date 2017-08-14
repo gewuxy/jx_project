@@ -1,4 +1,4 @@
-package lib.processor;
+package router.processor.intent;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -13,16 +13,20 @@ import java.util.List;
 import javax.annotation.processing.Processor;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 
-import lib.processor.android.AndroidClassName;
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.android.AndroidClassName;
+import router.android.AndroidName;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
+import router.processor.BaseProcessor;
+
+import static javax.lang.model.element.Modifier.FINAL;
+import static javax.lang.model.element.Modifier.PRIVATE;
+import static javax.lang.model.element.Modifier.PUBLIC;
+import static javax.lang.model.element.Modifier.STATIC;
 
 /**
- * 生成跳转Activity和
- *
  * @auther yuansui
  * @since 2017/8/1
  */
@@ -53,13 +57,13 @@ public class AutoIntentProcessor extends BaseProcessor {
 
         final String name = String.format("%sIntent", annotatedElement.getSimpleName());
         TypeSpec.Builder builder = TypeSpec.classBuilder(name)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+                .addModifiers(PUBLIC, FINAL);
 
         /**
          * 生成构造方法
          */
         MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
-                .addModifiers(Modifier.PRIVATE);
+                .addModifiers(PRIVATE);
         builder.addMethod(constructor.build());
 
         ClassName clzName = ClassName.get(getPackageName(annotatedElement), name);
@@ -69,13 +73,13 @@ public class AutoIntentProcessor extends BaseProcessor {
          */
         String simpleName = clzName.simpleName();
         MethodSpec.Builder createMethod = MethodSpec.methodBuilder("create")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addModifiers(PUBLIC, STATIC)
                 .addStatement(simpleName + " builder = new " + simpleName + "()")
                 .returns(clzName);
         // 添加必须的参数
         for (Element e : required) {
             String paramName = getParamName(e);
-            builder.addField(getTypeNameBox(e), paramName, Modifier.PRIVATE);
+            builder.addField(getTypeNameBox(e), paramName, PRIVATE);
 
             createMethod.addParameter(createNonNullParam(e, paramName));
             createMethod.addStatement("builder.$N = $N", paramName, paramName);
@@ -88,10 +92,10 @@ public class AutoIntentProcessor extends BaseProcessor {
          */
         for (Element e : optional) {
             String paramName = getParamName(e);
-            builder.addField(getTypeNameBox(e), paramName, Modifier.PRIVATE);
+            builder.addField(getTypeNameBox(e), paramName, PRIVATE);
 
             builder.addMethod(MethodSpec.methodBuilder(paramName)
-                    .addModifiers(Modifier.PUBLIC)
+                    .addModifiers(PUBLIC)
                     .addParameter(getTypeNameBox(e), paramName)
                     .addStatement("this.$N = $N", paramName, paramName)
                     .addStatement("return this")
@@ -103,7 +107,7 @@ public class AutoIntentProcessor extends BaseProcessor {
          * 生成new intent方法
          */
         MethodSpec.Builder newIntentMethod = MethodSpec.methodBuilder("newIntent")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addModifiers(PUBLIC, STATIC)
                 .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
                 .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName)
                 .returns(AndroidClassName.KIntent);
@@ -115,13 +119,16 @@ public class AutoIntentProcessor extends BaseProcessor {
         newIntentMethod.addStatement("return intent");
         builder.addMethod(newIntentMethod.build());
 
-        if (annotatedElementName.contains("serv")) {
+        TypeMirror activityTm = getElementUtils().getTypeElement(AndroidName.KActivity).asType();
+        TypeMirror serviceTm = getElementUtils().getTypeElement(AndroidName.KService).asType();
+
+        if (getTypeUtils().isSubtype(annotatedElement.asType(), serviceTm)) {
             // 服务
             /**
              * 生成 start 方法
              */
             MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
-                    .addModifiers(Modifier.PUBLIC)
+                    .addModifiers(PUBLIC)
                     .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
                     .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startMethod, all);
@@ -132,18 +139,19 @@ public class AutoIntentProcessor extends BaseProcessor {
              * 生成 stop 方法
              */
             MethodSpec.Builder stopMethod = MethodSpec.methodBuilder("stop")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .addModifiers(PUBLIC, STATIC)
                     .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
                     .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName)
                     .addStatement("context.stopService(intent)");
             builder.addMethod(stopMethod.build());
+
         } else {
             // activity
             /**
              * 生成 start 方法
              */
             MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
-                    .addModifiers(Modifier.PUBLIC)
+                    .addModifiers(PUBLIC)
                     .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
                     .addStatement("$T intent = new $T(context, $T.class)", AndroidClassName.KIntent, AndroidClassName.KIntent, annotatedTypeName);
             addIntentStatement(startMethod, all);
@@ -157,7 +165,7 @@ public class AutoIntentProcessor extends BaseProcessor {
              * 生成 start for result 方法
              */
             MethodSpec.Builder startForResultMethod = MethodSpec.methodBuilder("startForResult")
-                    .addModifiers(Modifier.PUBLIC)
+                    .addModifiers(PUBLIC)
                     .addParameter(Object.class, "objectHost")
                     .addParameter(TypeName.INT, "code")
                     .beginControlFlow("if (!(objectHost instanceof $T) || !(objectHost instanceof $T))", AndroidClassName.KActivity, AndroidClassName.KFragment)
@@ -177,7 +185,7 @@ public class AutoIntentProcessor extends BaseProcessor {
          * 生成objectHost调用的inject方法
          */
         MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addModifiers(PUBLIC, STATIC)
                 .addParameter(annotatedTypeName, "objectHost")
                 .addParameter(AndroidClassName.KIntent, "intent")
                 .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle);
@@ -214,7 +222,7 @@ public class AutoIntentProcessor extends BaseProcessor {
 //            MethodSpec.Builder getterMethod = MethodSpec
 //                    .methodBuilder("get" + paramName.substring(0, 1).toUpperCase() + paramName.substring(1))
 //                    .returns(ClassName.get(e.asType()))
-//                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+//                    .addModifiers(Modifier.PUBLIC, STATIC)
 //                    .addParameter(AndroidClassName.KIntent, "intent")
 //                    .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle)
 //                    .beginControlFlow("if (extras.containsKey($S))", paramName)

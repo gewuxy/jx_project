@@ -1,6 +1,6 @@
 package lib.network.model;
 
-import lib.processor.annotation.AutoBuilder;
+import router.annotation.AutoBuilder;
 
 /**
  * @author yuansui

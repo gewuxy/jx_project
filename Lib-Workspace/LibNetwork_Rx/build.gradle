@@ -19,7 +19,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    compile deps.network.ok
     provided deps.support.annotations
     /**
      * Rx
@@ -29,6 +29,6 @@ dependencies {
     /**
      * Processor
      */
-    provided project(':Lib-Workspace:LibProcessor')
-    annotationProcessor project(':Lib-Workspace:LibProcessor')
+    provided project(':Compiler')
+    annotationProcessor project(':Compiler')
 }

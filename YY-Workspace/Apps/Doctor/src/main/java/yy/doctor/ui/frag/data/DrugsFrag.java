@@ -1,6 +1,6 @@
 package yy.doctor.ui.frag.data;
 
-import lib.processor.annotation.AutoArg;
+import router.annotation.AutoArg;
 import yy.doctor.R;
 
 /**

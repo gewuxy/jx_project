@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;

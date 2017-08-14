@@ -1,7 +1,7 @@
 package yy.doctor.ui.frag.me;
 
-import lib.processor.annotation.Arg;
-import lib.processor.annotation.AutoArg;
+import router.annotation.Arg;
+import router.annotation.AutoArg;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;

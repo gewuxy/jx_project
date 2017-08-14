@@ -1,7 +1,7 @@
 package yy.doctor.ui.activity.me;
 
-import lib.processor.annotation.AutoIntent;
-import lib.processor.annotation.Extra;
+import router.annotation.AutoIntent;
+import router.annotation.Extra;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.util.Util;

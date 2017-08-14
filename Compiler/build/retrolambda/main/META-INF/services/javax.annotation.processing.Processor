@@ -1,0 +1,3 @@
+router.processor.AutoBuilderProcessor
+router.processor.intent.AutoArgProcessor
+router.processor.intent.AutoIntentProcessor
