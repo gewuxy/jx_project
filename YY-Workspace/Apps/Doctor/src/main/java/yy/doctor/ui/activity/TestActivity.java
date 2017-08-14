@@ -1,6 +1,9 @@
 package yy.doctor.ui.activity;
 
+import android.content.Intent;
+
 import lib.yy.test.BaseTestActivity;
+import yy.doctor.ui.activity.user.register.RegisterActivity;
 
 /**
  * @auther yuansui
@@ -16,6 +19,8 @@ public class TestActivity extends BaseTestActivity {
         add("会议", MainActivityRouter.newIntent(this, MainActivity.KTabMeeting));
         add("数据", MainActivityRouter.newIntent(this, MainActivity.KTabData));
         add("我", MainActivityRouter.newIntent(this, MainActivity.KTabMe));
+
+        add("注册", new Intent(this, RegisterActivity.class));
     }
 
 }
