@@ -1,18 +1,18 @@
 package yy.doctor.ui.activity.data;
 
-import router.annotation.AutoIntent;
+import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag;
-import yy.doctor.ui.frag.data.ClinicsFragArg;
+import yy.doctor.ui.frag.data.ClinicsFragRouter;
 import yy.doctor.util.Util;
 
 /**
  * @auther Huoxuyu
  * @since 2017/8/3
  */
-@AutoIntent
+@Route
 public class ClinicsActivity extends BaseDataUnitsActivity {
 
     @Override
@@ -23,6 +23,6 @@ public class ClinicsActivity extends BaseDataUnitsActivity {
 
     @Override
     protected BaseDataUnitsFrag createFrag() {
-        return ClinicsFragArg.create(mId, mLeaf).build();
+        return ClinicsFragRouter.create(mId, mLeaf).route();
     }
 }

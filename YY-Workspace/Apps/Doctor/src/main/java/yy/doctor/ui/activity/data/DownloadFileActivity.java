@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
@@ -16,8 +16,8 @@ import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.serv.DownloadServ.Download;
-import yy.doctor.serv.DownloadServIntent;
-import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivityIntent;
+import yy.doctor.serv.DownloadServRouter;
+import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
@@ -28,7 +28,7 @@ import yy.doctor.view.CircleProgressView;
  * @author CaiXiang
  * @since 2017/5/17
  */
-@AutoIntent
+@Route
 public class DownloadFileActivity extends BaseActivity implements OnDownloadNotify {
 
     private static final String KByteSymbol = "K";
@@ -41,28 +41,28 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     private ImageView mIvDownload;
     private boolean mIsDownload = false;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileName;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mUrl;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileSuffix;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     long mFileSize;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mDataFileId;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileNameEncryption;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFilePath;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     @DataType
     int mDataType;
 
@@ -90,7 +90,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
         //先判断文件是否已经存在  通过url的hashcode
         File f = new File(mFilePath, mFileNameEncryption);
         if (f.exists()) {
-            LaunchDownloadDataActivityIntent.create()
+            LaunchDownloadDataActivityRouter.create()
                     .filePath(mFilePath)
                     .fileName(mFileName)
                     .fileNameEncryption(mFileNameEncryption)
@@ -98,7 +98,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                     .dataType(mDataType)
                     .size(mFileSizeKB)
                     .dataFileId(mDataFileId)
-                    .start(this);
+                    .route(this);
             finish();
         }
 
@@ -148,7 +148,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                 } else {
                     mIvDownload.setImageResource(R.mipmap.download_ic_pause);
                     mTvStatus.setText(R.string.download_ing);
-                    DownloadServIntent.create(mUrl, mFilePath, mFileSuffix).start(this);
+                    DownloadServRouter.create(mUrl, mFilePath, mFileSuffix).route(this);
                     //现在不提供断点下载 点击下载按钮后就不能点击暂停
                     mIvDownload.setClickable(false);
                 }
@@ -162,7 +162,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     protected void onDestroy() {
         super.onDestroy();
 
-        DownloadServIntent.stop(this);
+        DownloadServRouter.stop(this);
 
         DownloadNotifier.inst().remove(this);
     }
@@ -182,7 +182,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
             long downloadSize = (long) (mFileSize * ((float) progress / 100f));
             mTvNum.setText(downloadSize + KByteSymbol);
         } else if (type == DownloadNotifyType.complete) {
-            LaunchDownloadDataActivityIntent.create()
+            LaunchDownloadDataActivityRouter.create()
                     .filePath(mFilePath)
                     .fileName(mFileName)
                     .fileNameEncryption(mFileNameEncryption)
@@ -190,7 +190,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                     .dataType(mDataType)
                     .size(mTvTotal.getText().toString())
                     .dataFileId(mDataFileId)
-                    .start(this);
+                    .route(this);
             finish();
 
 //            if (mType.equals(FileTypeConstants.KPdf)) {

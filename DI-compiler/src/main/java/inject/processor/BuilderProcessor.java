@@ -1,4 +1,4 @@
-package lib.processor;
+package inject.processor;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -17,8 +17,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 
-import lib.processor.annotation.AutoBuilder;
-import lib.processor.annotation.Ignore;
+import inject.annotation.builder.Builder;
+import inject.annotation.builder.Ignore;
 
 
 /**
@@ -29,11 +29,11 @@ import lib.processor.annotation.Ignore;
  */
 
 @AutoService(Processor.class)
-public class AutoBuilderProcessor extends BaseProcessor {
+public class BuilderProcessor extends BaseProcessor {
 
     @Override
     protected Class<? extends Annotation> getAnnotationClass() {
-        return AutoBuilder.class;
+        return Builder.class;
     }
 
     @Override

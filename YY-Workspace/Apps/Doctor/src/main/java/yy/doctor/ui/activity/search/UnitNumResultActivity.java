@@ -5,7 +5,7 @@ import java.util.List;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
-import router.annotation.AutoIntent;
+import inject.annotation.router.Route;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;
@@ -21,7 +21,7 @@ import yy.doctor.network.NetFactory;
  * @auther yuansui
  * @since 2017/6/12
  */
-@AutoIntent
+@Route
 public class UnitNumResultActivity extends BaseSearchResultActivity {
 
     private final int KRecUnitNum = 2; // 热门单位号

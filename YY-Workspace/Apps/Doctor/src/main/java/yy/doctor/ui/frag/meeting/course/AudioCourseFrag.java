@@ -2,14 +2,14 @@ package yy.doctor.ui.frag.meeting.course;
 
 import android.graphics.Color;
 
-import router.annotation.AutoArg;
+import inject.annotation.router.Route;
 import yy.doctor.R;
 
 /**
  * @auther yuansui
  * @since 2017/6/7
  */
-@AutoArg
+@Route
 public class AudioCourseFrag extends PicAudioCourseFrag {
 
     @Override

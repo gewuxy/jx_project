@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.network.model.NetworkError;
-import router.annotation.Extra;
+import inject.annotation.router.Arg;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
@@ -20,8 +20,8 @@ import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
-import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityRouter;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivityRouter;
 import yy.doctor.util.Util;
 
 /**
@@ -30,7 +30,7 @@ import yy.doctor.util.Util;
  */
 public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mSearchContent; // 搜索内容
 
     private EditText mEtSearch;
@@ -90,30 +90,30 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
 
             case RecType.meeting: {
                 Meeting item = (Meeting) getItem(position);
-                MeetingDetailsActivityIntent.create(
+                MeetingDetailsActivityRouter.create(
                         item.getString(TMeeting.id), item.getString(TMeeting.meetName)
-                ).start(this);
+                ).route(this);
             }
             break;
 
             case RecType.meet_folder: {
                 Meeting item = (Meeting) getItem(position);
-                MeetingFolderActivityIntent.create(item.getString(TMeeting.id))
+                MeetingFolderActivityRouter.create(item.getString(TMeeting.id))
                         .title(item.getString(TMeeting.meetName))
                         .num(item.getInt(TMeeting.meetCount))
-                        .start(this);
+                        .route(this);
             }
             break;
 
             case RecType.more: {
                 if (getAdapter().getItemViewType(position - 1) == IRec.RecType.unit_num) {
-                    UnitNumResultActivityIntent.create()
+                    UnitNumResultActivityRouter.create()
                             .searchContent(mSearchContent)
-                            .start(this);
+                            .route(this);
                 } else {
-                    MeetingResultActivityIntent.create()
+                    MeetingResultActivityRouter.create()
                             .searchContent(mSearchContent)
-                            .start(this);
+                            .route(this);
                 }
             }
             break;

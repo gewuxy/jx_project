@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;
@@ -48,8 +48,8 @@ import yy.doctor.network.NetFactory;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.serv.CommonServIntent;
-import yy.doctor.ui.activity.me.unitnum.FilesActivityIntent;
+import yy.doctor.serv.CommonServRouter;
+import yy.doctor.ui.activity.me.unitnum.FilesActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
@@ -63,7 +63,7 @@ import yy.doctor.view.meet.ModuleLayout;
  * 日期 : 2017/4/21
  * 创建人 : guoxuan
  */
-@AutoIntent
+@Route
 public class MeetingDetailsActivity extends BaseActivity implements OnFuncListener {
 
     private static final int KIdMeetDetail = 0; // 会议详情
@@ -110,9 +110,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private ModuleLayout mModuleLayout; // 模块
 
     private MeetDetail mMeetDetail; // 会议详情信息
-    @Extra
+    @Arg
     String mMeetId; // 会议Id
-    @Extra
+    @Arg
     String mMeetName; //  会议名字(没有请求到数据时也可以分享会议)
 
     private long mStartModuleTime; // 模块开始时间
@@ -359,7 +359,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             showView(mIvFileArrow);
             mTvFileNum.setText(String.format(getString(R.string.meeting_file_more), fileNum));
             mLayoutData.setOnClickListener(v ->
-                    FilesActivityIntent.create(mMeetId, FileFrom.meeting).start(this)
+                    FilesActivityRouter.create(mMeetId, FileFrom.meeting).route(this)
             );
 
         }
@@ -439,11 +439,11 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
         // 开启服务提交会议学习时间
         if (mMeetTime > 0) {
-            CommonServIntent.create()
+            CommonServRouter.create()
                     .type(ReqType.meet)
                     .meetId(mMeetId)
                     .meetTime(mMeetTime / TimeUnit.SECONDS.toMillis(1))
-                    .start(this);
+                    .route(this);
         }
     }
 }

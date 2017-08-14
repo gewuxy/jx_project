@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import java.io.File;
 
-import router.annotation.AutoArg;
+import inject.annotation.router.Route;
 import lib.ys.YSLog;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
@@ -31,7 +31,7 @@ import yy.doctor.view.RootLayout.OnRootTouchListener;
  * @auther yuansui
  * @since 2017/6/7
  */
-@AutoArg
+@Route
 public class PicAudioCourseFrag extends BaseCourseFrag implements
         OnCompletionListener,
         OnCountDownListener,

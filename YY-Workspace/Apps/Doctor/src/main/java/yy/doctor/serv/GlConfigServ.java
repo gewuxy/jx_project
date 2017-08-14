@@ -6,7 +6,7 @@ import org.json.JSONException;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
+import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
@@ -23,7 +23,7 @@ import yy.doctor.sp.SpConfig;
  * @auther : GuoXuan
  * @since : 2017/8/10
  */
-@AutoIntent
+@Route
 public class GlConfigServ extends ServiceEx {
 
     @Override

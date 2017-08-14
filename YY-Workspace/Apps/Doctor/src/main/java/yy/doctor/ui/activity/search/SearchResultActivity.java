@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
+import inject.annotation.router.Route;
 import lib.yy.network.ListResult;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.search.IRec;
@@ -20,7 +20,7 @@ import yy.doctor.network.NetFactory;
  * @auther yuansui
  * @since 2017/6/12
  */
-@AutoIntent
+@Route
 public class SearchResultActivity extends BaseSearchResultActivity {
 
     protected final int KMeeting = 0; // 搜索会议

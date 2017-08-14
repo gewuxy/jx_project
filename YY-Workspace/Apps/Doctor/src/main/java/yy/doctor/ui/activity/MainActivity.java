@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
@@ -33,7 +33,7 @@ import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.serv.CommonServIntent;
+import yy.doctor.serv.CommonServRouter;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.me.SettingsActivity;
@@ -44,7 +44,7 @@ import yy.doctor.ui.frag.MeetingFrag;
 import yy.doctor.ui.frag.me.MeFrag;
 
 
-@AutoIntent
+@Route
 public class MainActivity extends BaseVPActivity {
 
     public static final int KTabHome = 0;
@@ -60,7 +60,7 @@ public class MainActivity extends BaseVPActivity {
     private LinearLayout mLayoutTab;
     private View mTabPrev;
 
-    @Extra(optional = true, defaultInt = KTabHome)
+    @Arg(optional = true, defaultInt = KTabHome)
     int mCurrPage;
 
     @Override
@@ -108,10 +108,10 @@ public class MainActivity extends BaseVPActivity {
             YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
             if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-                CommonServIntent.create()
+                CommonServRouter.create()
                         .type(ReqType.j_push)
                         .jPushRegisterId(SpJPush.inst().registerId())
-                        .start(this);
+                        .route(this);
                 YSLog.d(TAG, "启动绑定极光服务");
             }
         } else {
@@ -119,10 +119,10 @@ public class MainActivity extends BaseVPActivity {
             YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
             YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
             if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-                CommonServIntent.create()
+                CommonServRouter.create()
                         .type(ReqType.j_push)
                         .jPushRegisterId(SpJPush.inst().registerId())
-                        .start(this);
+                        .route(this);
                 YSLog.d(TAG, "启动绑定极光服务");
             }
         }

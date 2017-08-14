@@ -8,7 +8,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.me.EpcVH;
 import yy.doctor.model.me.Epc;
 import yy.doctor.model.me.Epc.TEpc;
-import yy.doctor.ui.activity.me.epc.EpcDetailActivityIntent;
+import yy.doctor.ui.activity.me.epc.EpcDetailActivityRouter;
 
 import static lib.ys.util.res.ResLoader.getString;
 
@@ -42,12 +42,12 @@ public class EpcAdapter extends AdapterEx<Epc, EpcVH> {
     @Override
     protected void onViewClick(int position, View v) {
         Epc item = getItem(position);
-        EpcDetailActivityIntent.create(
+        EpcDetailActivityRouter.create(
                 item.getInt(TEpc.id),
                 item.getString(TEpc.name),
                 item.getString(TEpc.picture)
         )
-                .start(getContext());
+                .route(getContext());
     }
 
 }

@@ -9,8 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -34,7 +34,7 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/26
  */
-@AutoIntent
+@Route
 public class ExchangeActivity extends BaseFormActivity {
 
     private NetworkImageView mIvGoods;
@@ -42,13 +42,13 @@ public class ExchangeActivity extends BaseFormActivity {
     private TextView mTvEpn;
     private TextView mTvPayEpn;
 
-    @Extra
+    @Arg
     int mGoodId;
-    @Extra
+    @Arg
     String mGoodName;
-    @Extra
+    @Arg
     int mEpn;
-    @Extra
+    @Arg
     String mUrl;
 
     @IntDef({

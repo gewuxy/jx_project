@@ -52,13 +52,13 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.serv.CommonServIntent;
-import yy.doctor.ui.frag.meeting.course.AudioCourseFragArg;
+import yy.doctor.serv.CommonServRouter;
+import yy.doctor.ui.frag.meeting.course.AudioCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag.OnCourseListener;
-import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragArg;
-import yy.doctor.ui.frag.meeting.course.PicCourseFragArg;
-import yy.doctor.ui.frag.meeting.course.VideoCourseFragArg;
+import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragRouter;
+import yy.doctor.ui.frag.meeting.course.PicCourseFragRouter;
+import yy.doctor.ui.frag.meeting.course.VideoCourseFragRouter;
 import yy.doctor.util.Time;
 import yy.doctor.view.CircleProgressView;
 
@@ -447,19 +447,19 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
 
         switch (course.getType()) {
             case CourseType.audio: {
-                frag = AudioCourseFragArg.create(course, mMeetId).build();
+                frag = AudioCourseFragRouter.create(course, mMeetId).route();
             }
             break;
             case CourseType.video: {
-                frag = VideoCourseFragArg.create(course, mMeetId).build();
+                frag = VideoCourseFragRouter.create(course, mMeetId).route();
             }
             break;
             case CourseType.pic: {
-                frag = PicCourseFragArg.create(course, mMeetId).build();
+                frag = PicCourseFragRouter.create(course, mMeetId).route();
             }
             break;
             case CourseType.pic_audio: {
-                frag = PicAudioCourseFragArg.create(course, mMeetId).build();
+                frag = PicAudioCourseFragRouter.create(course, mMeetId).route();
             }
             break;
         }
@@ -634,10 +634,10 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         submit.put(TSubmit.times, ja.toString());
 
         // 把需要的对象传给服务提交(失败再次提交)
-        CommonServIntent.create()
+        CommonServRouter.create()
                 .type(ReqType.course)
                 .submit(submit)
-                .start(this);
+                .route(this);
     }
 
     @Override

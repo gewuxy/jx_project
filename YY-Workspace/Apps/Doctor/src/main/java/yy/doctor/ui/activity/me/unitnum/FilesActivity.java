@@ -2,8 +2,8 @@ package yy.doctor.ui.activity.me.unitnum;
 
 import android.view.View;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;
@@ -13,7 +13,7 @@ import yy.doctor.adapter.FileDataAdapter;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
+import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
@@ -24,13 +24,13 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/5/3
  */
-@AutoIntent
+@Route
 public class FilesActivity extends BaseSRListActivity<FileData, FileDataAdapter> {
 
-    @Extra
+    @Arg
     String mId;
 
-    @Extra
+    @Arg
     @FileFrom
     int mType;
 
@@ -93,7 +93,7 @@ public class FilesActivity extends BaseSRListActivity<FileData, FileDataAdapter>
             mFileType = item.getString(TFileData.materialType);
         }
 
-        DownloadFileActivityIntent.create()
+        DownloadFileActivityRouter.create()
                 .filePath(mFilePath)
                 .fileName(mFileName)
                 .url(mFileUrl)
@@ -101,7 +101,7 @@ public class FilesActivity extends BaseSRListActivity<FileData, FileDataAdapter>
                 .fileSize(mFileSize)
                 .dataFileId(mFileId)
                 .dataType(DataType.un_know)
-                .start(this);
+                .route(this);
     }
 
 }

@@ -11,8 +11,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
@@ -27,21 +27,21 @@ import yy.doctor.network.NetFactory;
  * @author CaiXiang
  * @since 2017/5/4
  */
-@AutoIntent
+@Route
 public class CommonServ extends ServiceEx {
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     @ReqType
     int mType;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mJPushRegisterId;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mToken;
-    @Extra(optional = true)
+    @Arg(optional = true)
     Submit mSubmit;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mMeetId;
-    @Extra(optional = true)
+    @Arg(optional = true)
     long mMeetTime;
 
     @IntDef({

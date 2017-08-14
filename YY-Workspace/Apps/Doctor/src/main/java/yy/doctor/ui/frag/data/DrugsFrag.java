@@ -1,13 +1,13 @@
 package yy.doctor.ui.frag.data;
 
-import router.annotation.AutoArg;
+import inject.annotation.router.Route;
 import yy.doctor.R;
 
 /**
  * @auther Huoxuyu
  * @since 2017/8/3
  */
-@AutoArg
+@Route
 public class DrugsFrag extends BaseDataUnitsFrag {
 
     @Override

@@ -24,8 +24,8 @@ import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
-import yy.doctor.ui.activity.meeting.MeetingFolderActivityIntent;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityRouter;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivityRouter;
 import yy.doctor.util.UISetter;
 
 /**
@@ -184,14 +184,14 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
     protected void onViewClick(int position, View v) {
         RecMeeting item = (RecMeeting) getItem(position);
         if (getItem(position).getHomeType() == HomeType.meeting_folder) {
-            MeetingFolderActivityIntent.create(item.getString(TMeeting.id))
+            MeetingFolderActivityRouter.create(item.getString(TMeeting.id))
                     .title(item.getString(TMeeting.meetName))
                     .num(item.getInt(TMeeting.meetCount))
-                    .start(getContext());
+                    .route(getContext());
         } else {
-            MeetingDetailsActivityIntent.create(
+            MeetingDetailsActivityRouter.create(
                     item.getString(TMeeting.id), item.getString(TMeeting.meetName)
-            ).start(getContext());
+            ).route(getContext());
         }
     }
 }

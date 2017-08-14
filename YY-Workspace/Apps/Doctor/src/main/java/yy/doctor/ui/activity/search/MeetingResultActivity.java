@@ -5,7 +5,7 @@ import android.view.View;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
+import inject.annotation.router.Route;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.ListResult;
@@ -20,7 +20,7 @@ import yy.doctor.network.NetFactory;
  * @author : GuoXuan
  * @since : 2017/5/3
  */
-@AutoIntent
+@Route
 public class MeetingResultActivity extends BaseSearchResultActivity {
 
     private View mLayoutEmpty; // 空视图

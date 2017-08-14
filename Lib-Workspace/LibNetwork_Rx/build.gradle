@@ -29,6 +29,6 @@ dependencies {
     /**
      * Processor
      */
-    provided project(':Router')
-    annotationProcessor project(':Router')
+    provided project(':DI-compiler')
+    annotationProcessor project(':DI-compiler')
 }

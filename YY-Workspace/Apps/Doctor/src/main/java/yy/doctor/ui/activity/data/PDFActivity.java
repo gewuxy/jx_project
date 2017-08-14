@@ -7,8 +7,8 @@ import com.github.barteksc.pdfviewer.PDFView;
 import java.io.File;
 
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -30,21 +30,21 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/7/12
  */
-@AutoIntent
+@Route
 public class PDFActivity extends BaseActivity {
 
     private PDFView mPDFView;
 
-    @Extra
+    @Arg
     String mFilePath;
-    @Extra
+    @Arg
     String mFileEncryptionName;
-    @Extra
+    @Arg
     String mFileName;
-    @Extra
+    @Arg
     String mDataFileId;
 
-    @Extra(defaultInt = DataType.un_know)
+    @Arg(defaultInt = DataType.un_know)
     @DataType
     int mType;
 

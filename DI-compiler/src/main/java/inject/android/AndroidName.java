@@ -1,4 +1,4 @@
-package router.android;
+package inject.android;
 
 /**
  * @auther yuansui

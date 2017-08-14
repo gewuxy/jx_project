@@ -1,7 +1,7 @@
 package yy.doctor.ui.activity.home;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.R;
@@ -11,13 +11,13 @@ import yy.doctor.util.Util;
 /**
  * Created by CaiXiang on 2017/5/16.
  */
-@AutoIntent
+@Route
 public class BannerActivity extends BaseWebViewActivity {
 
-    @Extra
+    @Arg
     String mUrl;
 
-    @Extra
+    @Arg
     String mTitle;
 
     private ShareDialog mShareDialog;

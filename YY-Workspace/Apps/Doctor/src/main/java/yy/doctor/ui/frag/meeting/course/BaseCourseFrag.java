@@ -1,6 +1,6 @@
 package yy.doctor.ui.frag.meeting.course;
 
-import router.annotation.Arg;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
 import yy.doctor.model.meet.Course;

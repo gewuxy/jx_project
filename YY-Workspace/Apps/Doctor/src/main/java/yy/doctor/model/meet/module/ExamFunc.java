@@ -12,7 +12,7 @@ import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.meeting.ExamIntroActivityIntent;
+import yy.doctor.ui.activity.meeting.ExamIntroActivityRouter;
 
 /**
  * @auther yuansui
@@ -53,11 +53,11 @@ public class ExamFunc extends BaseFunc {
     public void onNetworkSuccess(Object result) {
         Result r = (Result) result;
         if (r.isSucceed()) {
-            ExamIntroActivityIntent.create()
+            ExamIntroActivityRouter.create()
                     .meetId(getMeetId())
                     .moduleId(getModuleId())
                     .host(getDetail().getString(TMeetDetail.organizer))
-                    .start(getContext());
+                    .route(getContext());
         } else {
             AppEx.showToast(r.getMessage());
         }

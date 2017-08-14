@@ -32,7 +32,7 @@ import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
-import yy.doctor.ui.frag.meeting.exam.TopicFragArg;
+import yy.doctor.ui.frag.meeting.exam.TopicFragRouter;
 
 /**
  * 考试(问卷)题目界面
@@ -222,7 +222,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             if (i == size - 1) {
                 isLast = true;
             }
-            topicFrag = TopicFragArg.create(isLast, mAllTopics.get(i), i).build();
+            topicFrag = TopicFragRouter.create(isLast, mAllTopics.get(i), i).route();
             topicFrag.setOnTopicListener(this);
             add(topicFrag);
         }

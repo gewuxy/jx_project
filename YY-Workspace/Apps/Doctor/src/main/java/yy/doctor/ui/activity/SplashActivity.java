@@ -6,7 +6,7 @@ import lib.ys.ui.activity.SimpleSplashActivityEx;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
-import yy.doctor.serv.GlConfigServIntent;
+import yy.doctor.serv.GlConfigServRouter;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 
 /**
@@ -21,7 +21,7 @@ public class SplashActivity extends SimpleSplashActivityEx {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        GlConfigServIntent.create().start(SplashActivity.this);
+        GlConfigServRouter.create().route(this);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SplashActivity extends SimpleSplashActivityEx {
         if (BuildConfig.TEST) {
             startActivity(TestActivity.class);
         } else if (Profile.inst().isLogin()) {
-            MainActivityIntent.create().start(this);
+            MainActivityRouter.create().route(this);
         } else {
             startActivity(LoginActivity.class);
         }

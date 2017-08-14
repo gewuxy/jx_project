@@ -38,6 +38,6 @@ dependencies {
     /**
      * Processor
      */
-    compile project(':Router')
-    annotationProcessor project(':Router')
+    compile project(':DI-compiler')
+    annotationProcessor project(':DI-compiler')
 }

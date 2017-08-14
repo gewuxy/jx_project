@@ -3,8 +3,8 @@ package yy.doctor.ui.activity.data;
 import android.view.View;
 import android.widget.EditText;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -28,13 +28,13 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/7/14
  */
-@AutoIntent
+@Route
 public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUnitAdapter> {
 
     protected String mSearchContent; // 搜索内容
     protected EditText mEtSearch; // 搜索框
 
-    @Extra
+    @Arg
     @DataType
     int mType;
 
@@ -88,10 +88,10 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
                 case FileOpenType.details: {
                     String dataFileId = item.getString(TDataUnit.id);
                     String fileName = item.getString(TDataUnit.title);
-                    DataUnitDetailActivityIntent.create(
+                    DataUnitDetailActivityRouter.create(
                             dataFileId, fileName, mType
                     )
-                            .start(this);
+                            .route(this);
                 }
                 break;
                 case FileOpenType.pdf: {
@@ -101,7 +101,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
                     String url = item.getString(TDataUnit.filePath);
                     String dataFileId = item.getString(TDataUnit.id);
 
-                    DownloadFileActivityIntent.create()
+                    DownloadFileActivityRouter.create()
                             .filePath(filePath)
                             .fileName(fileName)
                             .url(url)
@@ -109,7 +109,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
                             .dataType(mType)
                             .fileSize(fileSize)
                             .dataFileId(dataFileId)
-                            .start(this);
+                            .route(this);
                 }
                 break;
             }

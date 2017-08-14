@@ -50,7 +50,7 @@ public class SearchActivity extends BaseActivity {
                 showToast("请输入搜索内容");
                 return;
             }
-            SearchResultActivityIntent.create().searchContent(search).start(SearchActivity.this);
+            SearchResultActivityRouter.create().searchContent(search).route(this);
         });
     }
 
@@ -80,10 +80,10 @@ public class SearchActivity extends BaseActivity {
             tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
             tvSection.setText(name);
             view.setOnClickListener(v ->
-                    MeetingResultActivityIntent
+                    MeetingResultActivityRouter
                             .create()
                             .searchContent(name)
-                            .start(SearchActivity.this));
+                            .route(SearchActivity.this));
             fit(view);
             mFlowLayout.addView(view);
         }
@@ -93,17 +93,17 @@ public class SearchActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.meeting_search_tv_unit_num: {
-                UnitNumResultActivityIntent
+                UnitNumResultActivityRouter
                         .create()
                         .searchContent(ConstantsEx.KEmptyValue)
-                        .start(SearchActivity.this);
+                        .route(this);
             }
             break;
             case R.id.meeting_search_tv_meeting: {
-                MeetingResultActivityIntent
+                MeetingResultActivityRouter
                         .create()
                         .searchContent(ConstantsEx.KEmptyValue)
-                        .start(SearchActivity.this);
+                        .route(this);
             }
             break;
         }

@@ -2,8 +2,8 @@ package yy.doctor.serv;
 
 import android.content.Intent;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;
@@ -15,18 +15,18 @@ import yy.doctor.network.NetFactory;
  * @author CaiXiang
  * @since 2017/6/2
  */
-@AutoIntent
+@Route
 public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
     private static final String KDot = ".";
 
-    @Extra
+    @Arg
     String mUrl;
 
-    @Extra
+    @Arg
     String mFilePath;
 
-    @Extra
+    @Arg
     String mType;
 
     private String mFileNameHashCode;

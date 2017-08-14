@@ -15,7 +15,7 @@ import yy.doctor.model.notice.Notice;
 import yy.doctor.model.notice.Notice.TNotice;
 import yy.doctor.model.notice.NoticeManager;
 import yy.doctor.model.notice.NoticeNum;
-import yy.doctor.ui.activity.meeting.MeetingDetailsActivityIntent;
+import yy.doctor.ui.activity.meeting.MeetingDetailsActivityRouter;
 import yy.doctor.util.Util;
 
 /**
@@ -74,9 +74,9 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
         YSLog.d(TAG, " msgType = " + item.getInt(TNotice.msgType));
         //判断是否有跳转事件  有就跳转会议详情页面
         if (item.getInt(TNotice.msgType) == 1) {
-            MeetingDetailsActivityIntent.create(
+            MeetingDetailsActivityRouter.create(
                     item.getString(TNotice.meetId), item.getString(TNotice.meetName)
-            ).start(this);
+            ).route(this);
         } else {
             // do nothing
         }

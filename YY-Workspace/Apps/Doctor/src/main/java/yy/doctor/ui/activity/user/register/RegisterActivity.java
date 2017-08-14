@@ -60,7 +60,7 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.me.CommonWebViewActivityIntent;
+import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;
@@ -291,11 +291,11 @@ public class RegisterActivity extends BaseFormActivity
             }
             break;
             case R.id.help_and_feedback_footer_tv_agreement:{
-                CommonWebViewActivityIntent.create(
+                CommonWebViewActivityRouter.create(
                         getString(R.string.service_agreement),
                         mUrlDisclaimer
                 )
-                        .start(this);
+                        .route(this);
             }
         }
     }

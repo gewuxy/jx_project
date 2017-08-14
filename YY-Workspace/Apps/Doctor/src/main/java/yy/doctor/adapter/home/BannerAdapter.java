@@ -5,7 +5,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.VH.home.BannerVH;
 import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.Banner.TBanner;
-import yy.doctor.ui.activity.home.BannerActivityIntent;
+import yy.doctor.ui.activity.home.BannerActivityRouter;
 
 /**
  * Banner的adapter
@@ -34,11 +34,11 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
                 .load();
 
         holder.getLayoutRoot().setOnClickListener(v ->
-                BannerActivityIntent.create(
+                BannerActivityRouter.create(
                         item.getString(TBanner.link),
                         item.getString(TBanner.title)
                 )
-                        .start(getContext()));
+                        .route(getContext()));
     }
 
     @Override

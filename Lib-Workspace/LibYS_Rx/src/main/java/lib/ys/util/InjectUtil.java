@@ -7,8 +7,7 @@ import android.support.v4.app.Fragment;
 
 import java.lang.reflect.Method;
 
-import router.annotation.AutoArg;
-import router.annotation.AutoIntent;
+import inject.annotation.router.Route;
 
 
 /**
@@ -24,10 +23,10 @@ public class InjectUtil {
 
     public static void bind(Fragment frag) {
         Class clz = frag.getClass();
-        if (clz.isAnnotationPresent(AutoArg.class)) {
+        if (clz.isAnnotationPresent(Route.class)) {
             String clzName = clz.getName();
             try {
-                Class<?> builderClz = Class.forName(clzName + "Arg");
+                Class<?> builderClz = Class.forName(clzName + "Router");
 
                 Method method = builderClz.getMethod("inject", clz);
                 method.invoke(null, frag);
@@ -43,10 +42,10 @@ public class InjectUtil {
 
     private static void intentBuilder(Object o, Intent i) {
         Class clz = o.getClass();
-        if (clz.isAnnotationPresent(AutoIntent.class)) {
+        if (clz.isAnnotationPresent(Route.class)) {
             String clzName = clz.getName();
             try {
-                Class<?> builderClz = Class.forName(clzName + "Intent");
+                Class<?> builderClz = Class.forName(clzName + "Router");
 
                 Method method = builderClz.getMethod("inject", clz, Intent.class);
                 method.invoke(null, o, i);

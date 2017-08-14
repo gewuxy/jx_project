@@ -331,9 +331,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 mTvFileNum.setText(dataNum);
                 showView(mIvArrows);
                 mLayoutFile.setOnClickListener(v ->
-                        FilesActivityIntent.create(mUnitNumDetail.getString(TUnitNumDetail.id),
+                        FilesActivityRouter.create(mUnitNumDetail.getString(TUnitNumDetail.id),
                                 FileFrom.unit_num)
-                                .start(this)
+                                .route(this)
                 );
             }
 

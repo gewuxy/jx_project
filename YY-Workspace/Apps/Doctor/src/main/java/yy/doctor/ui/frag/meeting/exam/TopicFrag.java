@@ -5,10 +5,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import router.annotation.Arg;
-import router.annotation.AutoArg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicAdapter;
 import yy.doctor.model.meet.exam.Answer;
@@ -25,7 +25,7 @@ import yy.doctor.model.meet.exam.Topic.TopicType;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-@AutoArg
+@Route
 public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     private TextView mTvQ; // 题目

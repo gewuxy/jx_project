@@ -1,19 +1,19 @@
 package yy.doctor.ui.frag.me;
 
-import router.annotation.Arg;
-import router.annotation.AutoArg;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import yy.doctor.Constants.FileSuffix;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
 import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.data.DataUnitDetailActivityIntent;
-import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
+import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
+import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.CacheUtil;
 
@@ -21,7 +21,7 @@ import yy.doctor.util.CacheUtil;
  * @auther yuansui
  * @since 2017/8/9
  */
-@AutoArg
+@Route
 public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
     @Arg(defaultInt = DataType.un_know)
@@ -54,7 +54,7 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
             @FileOpenType int type = item.getInt(TDataUnit.openType);
             YSLog.d(TAG, type + "");
             if (type == FileOpenType.pdf) {
-                DownloadFileActivityIntent.create()
+                DownloadFileActivityRouter.create()
                         .filePath(filePath)
                         .fileName(fileName)
                         .url(url)
@@ -62,12 +62,12 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
                         .fileSize(fileSize)
                         .dataType(mType)
                         .dataFileId(dataFileId)
-                        .start(getContext());
+                        .route(getContext());
             } else if (type == FileOpenType.details) {
-                DataUnitDetailActivityIntent.create(
+                DataUnitDetailActivityRouter.create(
                         dataFileId, fileName, mType
                 )
-                        .start(getContext());
+                        .route(getContext());
             }
 
         });

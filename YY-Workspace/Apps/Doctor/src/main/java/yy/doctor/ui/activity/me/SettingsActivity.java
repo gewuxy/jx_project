@@ -41,7 +41,7 @@ import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.serv.CommonServ.ReqType;
-import yy.doctor.serv.CommonServIntent;
+import yy.doctor.serv.CommonServRouter;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.user.login.LoginActivity;
@@ -447,10 +447,10 @@ public class SettingsActivity extends BaseFormActivity {
         dialog.addButton("退出", v1 -> {
             dialog.dismiss();
 
-            CommonServIntent.create()
+            CommonServRouter.create()
                     .type(ReqType.logout)
                     .token(Profile.inst().getString(TProfile.token))
-                    .start(this);
+                    .route(this);
 
             notify(NotifyType.logout);
 

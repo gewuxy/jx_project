@@ -8,8 +8,8 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
@@ -18,7 +18,7 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
-@AutoIntent
+@Route
 public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
     @IntDef({
@@ -31,17 +31,17 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
         int hide = 1; // 隐藏
     }
 
-    @Extra
+    @Arg
     public String mPreId;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     public String mTitle;
 
-    @Extra(optional = true, defaultInt = 0)
+    @Arg(optional = true, defaultInt = 0)
     public int mNum;
 
     @ZeroShowType
-    @Extra(optional = true, defaultInt = ZeroShowType.show)
+    @Arg(optional = true, defaultInt = ZeroShowType.show)
     public int mShowZero;
 
     private TextView mTvNum;

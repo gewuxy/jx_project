@@ -1,4 +1,4 @@
-package router.annotation;
+package inject.annotation.router;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,12 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 是否忽略此属性
- *
  * @auther yuansui
- * @since 2017/8/2
+ * @since 2017/8/1
  */
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.SOURCE)
-public @interface Ignore {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Route {
 }

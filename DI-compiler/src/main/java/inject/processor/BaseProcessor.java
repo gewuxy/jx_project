@@ -1,4 +1,4 @@
-package lib.processor;
+package inject.processor;
 
 import com.google.common.collect.ImmutableSet;
 import com.squareup.javapoet.ClassName;
@@ -21,11 +21,12 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import lib.processor.android.AnnotationName;
+import inject.android.AnnotationName;
 
 /**
  * @auther yuansui
@@ -161,5 +162,9 @@ abstract public class BaseProcessor extends AbstractProcessor {
 
     protected TypeName getTypeName(Element e) {
         return TypeName.get(e.asType());
+    }
+
+    protected boolean isSubtype(TypeMirror var1, TypeMirror var2) {
+        return typeUtils.isSubtype(var1, var2);
     }
 }

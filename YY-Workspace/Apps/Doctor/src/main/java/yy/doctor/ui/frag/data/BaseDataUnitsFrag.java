@@ -7,9 +7,9 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
-import router.annotation.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
+import inject.annotation.router.Arg;
 import yy.doctor.Constants.FileSuffix;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
@@ -18,11 +18,11 @@ import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.data.BaseDataUnitsActivity;
-import yy.doctor.ui.activity.data.ClinicsActivityIntent;
-import yy.doctor.ui.activity.data.DataUnitDetailActivityIntent;
-import yy.doctor.ui.activity.data.DataUnitsSearchActivityIntent;
-import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
-import yy.doctor.ui.activity.data.DrugsActivityIntent;
+import yy.doctor.ui.activity.data.ClinicsActivityRouter;
+import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
+import yy.doctor.ui.activity.data.DataUnitsSearchActivityRouter;
+import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
+import yy.doctor.ui.activity.data.DrugsActivityRouter;
 import yy.doctor.util.CacheUtil;
 
 /**
@@ -104,21 +104,22 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
 
                 switch (getDataType()) {
                     case DataType.drug: {
-                        DrugsActivityIntent.create()
+                        DrugsActivityRouter
+                                .create()
                                 .id(item.getString(TDataUnit.id))
                                 .fileName(item.getString(TDataUnit.title))
                                 .leaf(item.getBoolean(TDataUnit.leaf))
                                 .path(path)
-                                .start(getContext());
+                                .route(getContext());
                     }
                     break;
                     case DataType.clinic: {
-                        ClinicsActivityIntent.create()
+                        ClinicsActivityRouter.create()
                                 .id(item.getString(TDataUnit.id))
                                 .fileName(item.getString(TDataUnit.title))
                                 .leaf(item.getBoolean(TDataUnit.leaf))
                                 .path(path)
-                                .start(getContext());
+                                .route(getContext());
                     }
                     break;
                 }
@@ -128,11 +129,11 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                     case FileOpenType.details: {
                         String dataFileId = item.getString(TDataUnit.id);
                         String fileName = item.getString(TDataUnit.title);
-                        DataUnitDetailActivityIntent.create(
+                        DataUnitDetailActivityRouter.create(
                                 dataFileId,
                                 fileName,
                                 getDataType()
-                        ).start(getContext());
+                        ).route(getContext());
                     }
                     break;
                     case FileOpenType.pdf: {
@@ -142,7 +143,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                         String url = item.getString(TDataUnit.filePath);
                         String dataFileId = item.getString(TDataUnit.id);
 
-                        DownloadFileActivityIntent.create()
+                        DownloadFileActivityRouter.create()
                                 .filePath(filePath)
                                 .fileName(fileName)
                                 .url(url)
@@ -150,7 +151,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                                 .dataType(getDataType())
                                 .fileSize(fileSize)
                                 .dataFileId(dataFileId)
-                                .start(getContext());
+                                .route(getContext());
                     }
                     break;
                     case FileOpenType.html: {
@@ -179,7 +180,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.data_header_search_layout) {
-            DataUnitsSearchActivityIntent.create(getDataType()).start(getContext());
+            DataUnitsSearchActivityRouter.create(getDataType()).route(getContext());
         }
     }
 }

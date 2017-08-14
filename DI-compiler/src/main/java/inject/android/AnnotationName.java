@@ -1,5 +1,5 @@
 
-package router.android;
+package inject.android;
 
 import com.squareup.javapoet.ClassName;
 

@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.YSLog;
 import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.ui.activity.data.PDFActivityIntent;
+import yy.doctor.ui.activity.data.PDFActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 
@@ -27,26 +27,26 @@ import static yy.doctor.Constants.FileSuffix.KPptX;
  * @author CaiXiang
  * @since 2017/5/17
  */
-@AutoIntent
+@Route
 public class LaunchDownloadDataActivity extends BaseActivity {
 
     private ImageView mIv;
     private TextView mTvName;
     private TextView mTvSize;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFilePath;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileName;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileSuffix;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mSize;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mDataFileId;
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileNameEncryption;
-    @Extra(optional = true)
+    @Arg(optional = true)
     @DataType
     int mDataType;
 
@@ -111,14 +111,14 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             Intent intent = null;
             try {
                 if (mFileSuffix.equals(KPdf)) {
-                    PDFActivityIntent.create(
+                    PDFActivityRouter.create(
                             mFilePath,
                             mFileNameEncryption,
                             mFileName,
                             mDataFileId,
                             mDataType
                     )
-                            .start(this);
+                            .route(this);
                 } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
                     IntentAction.ppt()
                             .filePath(mFilePath + mFileNameEncryption)

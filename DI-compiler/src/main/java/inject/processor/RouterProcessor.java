@@ -1,4 +1,4 @@
-package router.processor.intent;
+package inject.processor;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -6,6 +6,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,11 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeMirror;
 
-import router.android.AndroidClassName;
-import router.android.AndroidName;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
-import router.processor.BaseProcessor;
+import inject.android.AndroidClassName;
+import inject.android.AndroidName;
+import inject.android.JavaClassName;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PRIVATE;
@@ -28,24 +29,24 @@ import static javax.lang.model.element.Modifier.STATIC;
 
 /**
  * @auther yuansui
- * @since 2017/8/1
+ * @since 2017/8/14
  */
 @AutoService(Processor.class)
-public class AutoIntentProcessor extends BaseProcessor {
+public class RouterProcessor extends BaseProcessor {
 
     @Override
     protected Class<? extends Annotation> getAnnotationClass() {
-        return AutoIntent.class;
+        return Route.class;
     }
 
     @Override
     protected TypeSpec getBuilderSpec(Element annotatedElement) {
         TypeName annotatedTypeName = getTypeName(annotatedElement);
-        String annotatedElementName = annotatedTypeName.toString().toLowerCase();
-        if (!annotatedElementName.contains("serv") && !annotatedElementName.contains("act")) {
-            // 不是service或activity类型的不生成 FIXME: 是否能判断继承的父类Service或者Activity
-            return null;
-        }
+        TypeMirror annotatedMirror = annotatedElement.asType();
+
+        TypeMirror activityTm = getElementUtils().getTypeElement(AndroidName.KActivity).asType();
+        TypeMirror serviceTm = getElementUtils().getTypeElement(AndroidName.KService).asType();
+        TypeMirror fragTm = getElementUtils().getTypeElement(AndroidName.KFragment_v4).asType();
 
         List<Element> required = new ArrayList<>();
         List<Element> optional = new ArrayList<>();
@@ -55,7 +56,7 @@ public class AutoIntentProcessor extends BaseProcessor {
         all.addAll(required);
         all.addAll(optional);
 
-        final String name = String.format("%sIntent", annotatedElement.getSimpleName());
+        final String name = String.format("%sRouter", annotatedElement.getSimpleName());
         TypeSpec.Builder builder = TypeSpec.classBuilder(name)
                 .addModifiers(PUBLIC, FINAL);
 
@@ -106,28 +107,29 @@ public class AutoIntentProcessor extends BaseProcessor {
         /**
          * 生成new intent方法
          */
-        MethodSpec.Builder newIntentMethod = MethodSpec.methodBuilder("newIntent")
-                .addModifiers(PUBLIC, STATIC)
-                .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
-                .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName)
-                .returns(AndroidClassName.KIntent);
-        for (Element e : all) {
-            String paramName = getParamName(e);
-            newIntentMethod.addParameter(createNonNullParam(e, paramName));
+        if (isSubtype(annotatedMirror, serviceTm)
+                || isSubtype(annotatedMirror, activityTm)) {
+            // 只有activity和service需要
+            MethodSpec.Builder newIntentMethod = MethodSpec.methodBuilder("newIntent")
+                    .addModifiers(PUBLIC, STATIC)
+                    .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
+                    .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName)
+                    .returns(AndroidClassName.KIntent);
+            for (Element e : all) {
+                String paramName = getParamName(e);
+                newIntentMethod.addParameter(createNonNullParam(e, paramName));
+            }
+            addIntentStatement(newIntentMethod, all);
+            newIntentMethod.addStatement("return intent");
+            builder.addMethod(newIntentMethod.build());
         }
-        addIntentStatement(newIntentMethod, all);
-        newIntentMethod.addStatement("return intent");
-        builder.addMethod(newIntentMethod.build());
 
-        TypeMirror activityTm = getElementUtils().getTypeElement(AndroidName.KActivity).asType();
-        TypeMirror serviceTm = getElementUtils().getTypeElement(AndroidName.KService).asType();
-
-        if (getTypeUtils().isSubtype(annotatedElement.asType(), serviceTm)) {
+        if (isSubtype(annotatedMirror, serviceTm)) {
             // 服务
             /**
              * 生成 start 方法
              */
-            MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
+            MethodSpec.Builder startMethod = MethodSpec.methodBuilder("route")
                     .addModifiers(PUBLIC)
                     .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
                     .addStatement("$T intent = new Intent(context, $T.class)", AndroidClassName.KIntent, annotatedTypeName);
@@ -145,12 +147,23 @@ public class AutoIntentProcessor extends BaseProcessor {
                     .addStatement("context.stopService(intent)");
             builder.addMethod(stopMethod.build());
 
-        } else {
+        } else if (isSubtype(annotatedMirror, fragTm)) {
+            // fragment
+            MethodSpec.Builder buildMethod = MethodSpec.methodBuilder("route")
+                    .addModifiers(PUBLIC)
+                    .addStatement("$T b = new $T()", AndroidClassName.KBundle, AndroidClassName.KBundle);
+            addBundleStatement(buildMethod, all);
+            buildMethod.addStatement("$T frag = new $T()", annotatedTypeName, annotatedTypeName)
+                    .addStatement("frag.setArguments(b)")
+                    .addStatement("return frag")
+                    .returns(annotatedTypeName);
+            builder.addMethod(buildMethod.build());
+        } else if (isSubtype(annotatedMirror, activityTm)) {
             // activity
             /**
              * 生成 start 方法
              */
-            MethodSpec.Builder startMethod = MethodSpec.methodBuilder("start")
+            MethodSpec.Builder startMethod = MethodSpec.methodBuilder("route")
                     .addModifiers(PUBLIC)
                     .addParameter(createNonNullParam(AndroidClassName.KContext, "context"))
                     .addStatement("$T intent = new $T(context, $T.class)", AndroidClassName.KIntent, AndroidClassName.KIntent, annotatedTypeName);
@@ -164,7 +177,7 @@ public class AutoIntentProcessor extends BaseProcessor {
             /**
              * 生成 start for result 方法
              */
-            MethodSpec.Builder startForResultMethod = MethodSpec.methodBuilder("startForResult")
+            MethodSpec.Builder startForResultMethod = MethodSpec.methodBuilder("route")
                     .addModifiers(PUBLIC)
                     .addParameter(Object.class, "objectHost")
                     .addParameter(TypeName.INT, "code")
@@ -184,27 +197,36 @@ public class AutoIntentProcessor extends BaseProcessor {
         /**
          * 生成objectHost调用的inject方法
          */
-        MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
-                .addModifiers(PUBLIC, STATIC)
-                .addParameter(annotatedTypeName, "objectHost")
-                .addParameter(AndroidClassName.KIntent, "intent")
-                .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle);
+        MethodSpec.Builder injectMethod = null;
+        if (isSubtype(annotatedMirror, fragTm)) {
+            injectMethod = MethodSpec.methodBuilder("inject")
+                    .addModifiers(PUBLIC, STATIC)
+                    .addParameter(annotatedTypeName, "objectHost")
+                    .addStatement("$T extras = objectHost.getArguments()", AndroidClassName.KBundle);
+        } else {
+            injectMethod = MethodSpec.methodBuilder("inject")
+                    .addModifiers(PUBLIC, STATIC)
+                    .addParameter(annotatedTypeName, "objectHost")
+                    .addParameter(AndroidClassName.KIntent, "intent")
+                    .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle);
+        }
+
         for (Element e : all) {
             String paramName = getParamName(e);
             injectMethod.beginControlFlow("if (extras.containsKey($S))", paramName)
                     .addStatement("objectHost.$N = ($T) extras.get($S)", e.getSimpleName().toString(), e.asType(), paramName)
                     .nextControlFlow("else");
 
-            Extra extra = e.getAnnotation(Extra.class);
+            Arg arg = e.getAnnotation(Arg.class);
             TypeName typeName = getTypeName(e);
             if (typeName == TypeName.LONG) {
-                injectMethod.addStatement("objectHost.$N = " + extra.defaultLong(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + arg.defaultLong(), e.getSimpleName().toString());
             } else if (typeName == TypeName.INT) {
-                injectMethod.addStatement("objectHost.$N = " + extra.defaultInt(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + arg.defaultInt(), e.getSimpleName().toString());
             } else if (typeName == TypeName.FLOAT) {
-                injectMethod.addStatement("objectHost.$N = " + extra.defaultFloat(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + arg.defaultFloat(), e.getSimpleName().toString());
             } else if (typeName == TypeName.BOOLEAN) {
-                injectMethod.addStatement("objectHost.$N = " + extra.defaultBoolean(), e.getSimpleName().toString());
+                injectMethod.addStatement("objectHost.$N = " + arg.defaultBoolean(), e.getSimpleName().toString());
             } else {
                 // Object
                 injectMethod.addStatement("objectHost.$N = null", e.getSimpleName().toString());
@@ -222,7 +244,7 @@ public class AutoIntentProcessor extends BaseProcessor {
 //            MethodSpec.Builder getterMethod = MethodSpec
 //                    .methodBuilder("get" + paramName.substring(0, 1).toUpperCase() + paramName.substring(1))
 //                    .returns(ClassName.get(e.asType()))
-//                    .addModifiers(Modifier.PUBLIC, STATIC)
+//                    .addModifiers(PUBLIC, STATIC)
 //                    .addParameter(AndroidClassName.KIntent, "intent")
 //                    .addStatement("$T extras = intent.getExtras()", AndroidClassName.KBundle)
 //                    .beginControlFlow("if (extras.containsKey($S))", paramName)
@@ -238,7 +260,7 @@ public class AutoIntentProcessor extends BaseProcessor {
 
     private void getAnnotatedFields(Element annotatedElement, List<Element> required, List<Element> optional) {
         for (Element e : annotatedElement.getEnclosedElements()) {
-            Extra a = e.getAnnotation(Extra.class);
+            Arg a = e.getAnnotation(Arg.class);
             if (a != null) {
                 if (a.optional()) {
                     optional.add(e);
@@ -257,12 +279,37 @@ public class AutoIntentProcessor extends BaseProcessor {
     }
 
     private String getParamName(Element e) {
-        String extraVal = e.getAnnotation(Extra.class).value();
+        String extraVal = e.getAnnotation(Arg.class).value();
         return getParamName(e, extraVal);
     }
 
-    private void addIntentStatement(MethodSpec.Builder builder, List<Element> all) {
-        for (Element e : all) {
+    private void addBundleStatement(MethodSpec.Builder builder, List<Element> elements) {
+        for (Element e : elements) {
+            String paramName = getParamName(e);
+            builder.beginControlFlow("if ($N != null)", paramName);
+            TypeName typeName = getTypeNameBox(e);
+            if (typeName.isBoxedPrimitive()) {
+                // Long Boolean Integer...
+                if (typeName.unbox() == TypeName.INT) {
+                    builder.addStatement("b.put$N($S, $N)", "Int", paramName, paramName);
+                } else {
+                    builder.addStatement("b.put$T($S, $N)", typeName, paramName, paramName);
+                }
+            } else {
+                // 判断是否为String, serialize等, FIXME: 可以自行添加类型
+                if (typeName.equals(JavaClassName.KString)) {
+                    builder.addStatement("b.put$T($S, $N)", typeName, paramName, paramName);
+                } else {
+                    builder.addStatement("b.put$T($S, $N)", Serializable.class, paramName, paramName);
+                }
+            }
+
+            builder.endControlFlow();
+        }
+    }
+
+    private void addIntentStatement(MethodSpec.Builder builder, List<Element> elements) {
+        for (Element e : elements) {
             String paramName = getParamName(e);
             builder.beginControlFlow("if ($N != null)", paramName)
                     .addStatement("intent.putExtra($S, $N)", paramName, paramName)

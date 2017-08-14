@@ -2,7 +2,7 @@ package yy.doctor.ui.frag.meeting.course;
 
 import android.graphics.Color;
 
-import router.annotation.AutoArg;
+import inject.annotation.router.Route;
 
 /**
  * PPT图片
@@ -10,7 +10,7 @@ import router.annotation.AutoArg;
  * @auther : GuoXuan
  * @since : 2017/6/3
  */
-@AutoArg
+@Route
 public class PicCourseFrag extends PicAudioCourseFrag {
 
     @Override

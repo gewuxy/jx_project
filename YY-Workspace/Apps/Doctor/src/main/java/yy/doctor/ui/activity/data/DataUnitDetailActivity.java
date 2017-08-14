@@ -7,8 +7,8 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.ListResult;
 import lib.yy.network.Result;
@@ -30,16 +30,16 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/7/14
  */
-@AutoIntent
+@Route
 public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUnitDetail, DataUnitDetail, DataUnitDetailAdapter> {
 
-    @Extra
+    @Arg
     String mDataFileId;
 
-    @Extra
+    @Arg
     String mFileName;
 
-    @Extra(defaultInt = DataType.un_know)
+    @Arg(defaultInt = DataType.un_know)
     @DataType
     int mType;
 

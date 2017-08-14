@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -38,18 +38,18 @@ import yy.doctor.util.ExamCount;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-@AutoIntent
+@Route
 public class ExamIntroActivity extends BaseActivity {
 
     private Intro mIntro; // 考试信息
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mHost;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mMeetId;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mModuleId;
 
     private long mStartTime; // 考试开始时间

@@ -1,11 +1,11 @@
 package lib.network.model;
 
-import router.annotation.AutoBuilder;
+import inject.annotation.builder.Builder;
 
 /**
  * @author yuansui
  */
-@AutoBuilder
+@Builder
 public class NetworkError {
 
     // 错误提示文字

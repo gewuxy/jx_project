@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 
-import router.annotation.Extra;
+import inject.annotation.router.Arg;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.R;
@@ -19,16 +19,16 @@ abstract public class BaseDataUnitsActivity extends BaseVPActivity {
 
     private static final String KSeparate = " > ";
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mId;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mFileName;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     boolean mLeaf;
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mPath;
 
     private EditText mEtPath;

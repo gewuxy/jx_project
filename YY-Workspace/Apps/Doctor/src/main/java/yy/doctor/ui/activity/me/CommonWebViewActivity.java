@@ -1,7 +1,7 @@
 package yy.doctor.ui.activity.me;
 
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.util.Util;
@@ -12,13 +12,13 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/6/16
  */
-@AutoIntent
+@Route
 public class CommonWebViewActivity extends BaseWebViewActivity {
 
-    @Extra
+    @Arg
     String mName;
 
-    @Extra
+    @Arg
     String mUrl;
 
     @Override

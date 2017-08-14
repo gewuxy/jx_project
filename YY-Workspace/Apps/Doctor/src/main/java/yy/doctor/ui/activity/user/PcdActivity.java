@@ -12,8 +12,8 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
-import router.annotation.AutoIntent;
-import router.annotation.Extra;
+import inject.annotation.router.Route;
+import inject.annotation.router.Arg;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
@@ -41,7 +41,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/8/11
  */
-@AutoIntent
+@Route
 public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements OnLocationNotify {
 
     private final int KIdCommit = 1;
@@ -53,13 +53,13 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private TextView mTvLocation;
 
     @Nullable
-    @Extra(optional = true)
+    @Arg(optional = true)
     Place mLocatePlace; // 定位的地点
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     ArrayList<String> mSelects; // 选择的地点
 
-    @Extra(optional = true)
+    @Arg(optional = true)
     String mPreId; // 上一级选中的id
 
     private Place mRetPlace;
@@ -113,11 +113,11 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
             mSelects.add(item.getString(TPcd.name));
 
             if (item.getInt(TPcd.level) != Pcd.KLevelEnd) {
-                PcdActivityIntent.create()
+                PcdActivityRouter.create()
                         .locatePlace(mLocatePlace)
                         .selects(mSelects)
                         .preId(item.getString(TPcd.id))
-                        .start(this);
+                        .route(this);
             } else {
                 Place place = new Place(mSelects);
                 if (Profile.inst().isLogin()) {

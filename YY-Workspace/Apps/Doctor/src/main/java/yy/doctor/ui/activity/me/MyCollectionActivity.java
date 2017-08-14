@@ -18,7 +18,7 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.R;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
-import yy.doctor.ui.frag.me.CollectionFragArg;
+import yy.doctor.ui.frag.me.CollectionFragRouter;
 import yy.doctor.ui.frag.me.MyMeetingFrag;
 import yy.doctor.util.Util;
 
@@ -52,9 +52,9 @@ public class MyCollectionActivity extends BaseVPActivity {
     @Override
     public void initData() {
         add(new MyMeetingFrag());
-        add(CollectionFragArg.create(DataType.thomson).build());
-        add(CollectionFragArg.create(DataType.drug).build());
-        add(CollectionFragArg.create(DataType.clinic).build());
+        add(CollectionFragRouter.create(DataType.thomson).route());
+        add(CollectionFragRouter.create(DataType.drug).route());
+        add(CollectionFragRouter.create(DataType.clinic).route());
     }
 
     @Override

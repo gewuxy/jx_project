@@ -30,7 +30,7 @@ import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
-import yy.doctor.ui.activity.data.DownloadFileActivityIntent;
+import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
@@ -103,7 +103,7 @@ public class UISetter {
             String finalFileSuffix = fileType;
 
             addFileItem(layout, fileName, v ->
-                    DownloadFileActivityIntent.create()
+                    DownloadFileActivityRouter.create()
                             .filePath(CacheUtil.getUnitNumCacheDir(String.valueOf(id)))
                             .fileName(finalFileName)
                             .url(finalFileUrl)
@@ -111,7 +111,7 @@ public class UISetter {
                             .dataType(DataType.un_know)
                             .fileSize(fileSize)
                             .dataFileId(fileId)
-                            .start(v.getContext()));
+                            .route(v.getContext()));
         }
 
     }

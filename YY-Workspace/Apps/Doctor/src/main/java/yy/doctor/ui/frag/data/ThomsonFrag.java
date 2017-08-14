@@ -2,13 +2,13 @@ package yy.doctor.ui.frag.data;
 
 import android.support.annotation.Nullable;
 
-import router.annotation.AutoArg;
+import inject.annotation.router.Route;
 
 /**
  * @author CaiXiang
  * @since 2017/4/24
  */
-@AutoArg
+@Route
 public class ThomsonFrag extends BaseDataUnitsFrag {
 
     @Override
