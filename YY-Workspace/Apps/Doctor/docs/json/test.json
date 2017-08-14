@@ -1,18 +1,4 @@
 {
   "code": "0",
-  "data": {
-    "city": "长治市",
-    "credits": 100,
-    "headimg": "http://59.111.90.245:8083/file//headimg/17080811310999939955.jpg",
-    "hospital": "爱康君安健疗国际",
-    "id": 166,
-    "integrity": 40,
-    "licence": "10086123",
-    "linkman": "6788",
-    "mobile": "13710920091",
-    "nickname": "6788",
-    "province": "山西省",
-    "token": "3f27a4131836450cac483ecce27f4906",
-    "zone": "长治县"
-  }
+  "data": {}
 }

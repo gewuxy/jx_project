@@ -34,7 +34,6 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
@@ -68,7 +67,7 @@ import yy.doctor.ui.activity.user.hospital.HospitalActivity;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
-import yy.doctor.util.input.InputSpaceFilter;
+import yy.doctor.util.input.InputFilterSpace;
 
 import static cn.jiguang.analytics.android.api.JAnalyticsInterface.mContext;
 
@@ -86,7 +85,6 @@ public class RegisterActivity extends BaseFormActivity
     private final int KCaptcha = 2;
     private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
     private final int KActivateCodeCheckStatus = 100;
-
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
@@ -153,8 +151,8 @@ public class RegisterActivity extends BaseFormActivity
         mCount = 0;
 
         mStatus = new HashSet<>();
-        // 激活码不在form体系内，需要单独 +1
-        mEnableSize = RelatedId.class.getDeclaredFields().length + 1;
+        // 激活码不在form体系内，需要单独 +1，但是因为专科不用监听要-1，所以长度不变
+        mEnableSize = RelatedId.class.getDeclaredFields().length;
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
@@ -201,20 +199,22 @@ public class RegisterActivity extends BaseFormActivity
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital));
 
+        //专科有默认的就不用监听了
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
-                .observer(this)
                 .related(RelatedId.special)
                 .hint(R.string.special)
+                .text(R.string.special)
                 .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
-                .type(IntentType.medicine));
+                .type(IntentType.medicine))
+                .save(getString(R.string.special),getString(R.string.special));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et)
                 .observer(this)
                 .related(RelatedId.department)
                 .layout(R.layout.form_edit_no_text)
-                .input(new InputFilter[]{new InputSpaceFilter(), new LengthFilter(24)})
+                .input(new InputFilter[]{new InputFilterSpace(), new LengthFilter(24)})
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));
@@ -262,7 +262,7 @@ public class RegisterActivity extends BaseFormActivity
         setOnClickListener(mTvProtocol);
 
         mTvReg.setEnabled(false);
-        SpannableString s = new SpannableString("点击“注册”即表示您同意");
+        SpannableString s = new SpannableString(getString(R.string.you_agree));
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 2, 6, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mTvAgree.setText(s);
 
@@ -325,8 +325,8 @@ public class RegisterActivity extends BaseFormActivity
         // 检查密码
         String strPwd = getItemStr(RelatedId.pwd);
 
-        String symbol2 = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
-        if (!strPwd.matches(symbol2)) {
+        String symbol = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
+        if (!strPwd.matches(symbol)) {
             showToast(R.string.input_special_symbol);
             return;
         }
@@ -372,7 +372,6 @@ public class RegisterActivity extends BaseFormActivity
         return mPhone.toString().replace(" ", "");
     }
 
-
     /**
      * 获取Item的文本信息
      */
@@ -386,9 +385,9 @@ public class RegisterActivity extends BaseFormActivity
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-                    mPhone = getRelatedItem(RelatedId.phone_number).getVal();
+                    mPhone = getItemStr(RelatedId.phone_number);
                     if (!Util.isMobileCN(mPhone)) {
-                        showToast("该号码不是电话号，请输入正确的电话号码");
+                        showToast(R.string.not_phone_number);
                         return;
                     }
 
@@ -399,29 +398,26 @@ public class RegisterActivity extends BaseFormActivity
                     tv.setText(mPhone);
 
                     dialog.addHintView(view);
-                    dialog.addButton("取消", v1 -> {
+                    dialog.addButton(R.string.cancel, v1 -> {
                         dialog.dismiss();
                     });
-                    dialog.addButton("好", v1 -> {
+                    dialog.addButton(R.string.well, v1 -> {
+                        mCount++;
                         if (mCount == 1) {
                             mStartTime = System.currentTimeMillis();
                         }
-                        mCount++;
                         if (mCount > KMaxCount) {
                             long duration = System.currentTimeMillis() - mStartTime;
                             if (duration <= KCaptchaDuration) {
-                                showToast("获取验证码太频繁");
+                                showToast(R.string.get_captcha_frequently);
                                 dialog.dismiss();
                                 return;
                             } else {
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
+                        exeNetworkReq(KCaptcha, NetFactory.captcha(getPhone(), CaptchaType.fetch));
                         dialog.dismiss();
-                        if (DeviceUtil.isNetworkEnabled()) {
-                            ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
-                        }
                     });
                     dialog.show();
                 }
@@ -466,9 +462,9 @@ public class RegisterActivity extends BaseFormActivity
                 locationText.setText(place.getDesc());
                 getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
 
-                TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
-                specialText.setText("内科 普内科");
-                getRelatedItem(RelatedId.special).save(specialText.getText().toString(), specialText.getText().toString());
+//                TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
+//                specialText.setText(R.string.special);
+//                getRelatedItem(RelatedId.special).save(specialText.getText().toString(), specialText.getText().toString());
                 removeOnPreDrawListener(this);
                 return true;
             }
@@ -500,14 +496,13 @@ public class RegisterActivity extends BaseFormActivity
                 finish();
             } else {
                 onNetworkError(id, r.getError());
-
                 startActivity(LoginActivity.class);
                 finish();
             }
         } else if (id == KCaptcha) {
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("发送成功");
+                ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -515,12 +510,10 @@ public class RegisterActivity extends BaseFormActivity
             //注册
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("注册成功");
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
                 exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
-                YSLog.d("yaya", "_________________________");
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -545,7 +538,7 @@ public class RegisterActivity extends BaseFormActivity
         if (resultCode == RESULT_FIRST_USER && data != null) {
             String name = data.getStringExtra(Extra.KData);
             mMasId = data.getStringExtra(Extra.KId);
-            mTvHeader.setText("该账号（价值69.9元），由" + name + "为您免费提供");
+            mTvHeader.setText(String.format(getString(R.string.free_provide),name));
             goneView(mLayoutCaptcha);
             mStatus.add(KActivateCodeCheckStatus);
         }

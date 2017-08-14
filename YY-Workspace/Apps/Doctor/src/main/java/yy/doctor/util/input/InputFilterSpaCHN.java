@@ -12,7 +12,7 @@ import static yy.doctor.util.input.InputFilterChineseImpl.isChinese;
  * @since 2017/8/8
  */
 
-public class InputFilterUtils implements InputFilter {
+public class InputFilterSpaCHN implements InputFilter {
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {

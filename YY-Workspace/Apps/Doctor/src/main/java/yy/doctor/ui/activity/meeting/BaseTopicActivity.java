@@ -12,9 +12,10 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lib.ys.model.MapList;
+import lib.network.model.NetworkError;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
@@ -32,7 +33,7 @@ import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag;
 import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
-import yy.doctor.ui.frag.meeting.exam.TopicFragRouter;
+import yy.doctor.ui.frag.meeting.exam.TopicFragArg;
 
 /**
  * 考试(问卷)题目界面
@@ -69,7 +70,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     protected Intro mIntro;
     protected Paper mPaper; // 整套考题
     protected List<Topic> mAllTopics; // 所有的考题
-    protected MapList<Integer, Answer> mAnswers; // 答案
+    protected ArrayList< Answer> mAnswers; // 答案
     protected TextView mTvCase; // 总数(底部)
     protected TextView mTvAllCase; // 总数(查看考题)
 
@@ -83,7 +84,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     public void initData() {
         mCount = 0;
         mIsAnimating = false;
-        mAnswers = new MapList<>();
+        mAnswers = new ArrayList<>();
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);
         mModuleId = getIntent().getStringExtra(Extra.KModuleId);
     }
@@ -222,7 +223,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             if (i == size - 1) {
                 isLast = true;
             }
-            topicFrag = TopicFragRouter.create(isLast, mAllTopics.get(i), i).route();
+            topicFrag = TopicFragArg.create(i, isLast, mAllTopics.get(i)).build();
             topicFrag.setOnTopicListener(this);
             add(topicFrag);
         }
@@ -284,9 +285,9 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     }
 
     @Override
-    public void topicFinish(int id, Answer answer) {
-        Topic checkTopic = mAllTopics.get(id);
-        if (answer.getString(TAnswer.answer).length() > 0) {
+    public void topicFinish(int listId, int titleId, String answer) {
+        Topic checkTopic = mAllTopics.get(listId);
+        if (answer.length() > 0) {
             // 选择了答案
             if (!checkTopic.getBoolean(TTopic.finish)) {
                 // 之前未完成
@@ -300,13 +301,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
                 mCount--;
             }
         }
-        Answer a = mAnswers.getByKey(id);
-        if (a == null) {
-            mAnswers.add(Integer.valueOf(id), answer);
-        } else {
-            // 改答案
-            a.put(answer);
-        }
+        checkTopic.put(TTopic.choice, answer);
+
         mTvFinish.setText(String.valueOf(mCount));
         mTvAllFinish.setText(String.valueOf(mCount));
     }
@@ -331,6 +327,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         mSubDialog.setHint(submitHint(noFinish));
         mSubDialog.addButton(R.string.confirm, v -> {
             mSubDialog.dismiss();
+            toAnswer();
             submit();
         });
         mSubDialog.addButton(R.string.cancel, R.color.text_666, v -> mSubDialog.dismiss());
@@ -356,6 +353,15 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         });
         mExitDialog.addButton(R.string.cancel, R.color.text_666, v -> mExitDialog.dismiss());
         mExitDialog.show();
+    }
+
+    public void toAnswer() {
+        for (Topic allTopic : mAllTopics) {
+            Answer a = new Answer();
+            a.put(TAnswer.id, allTopic.getString(TTopic.id));
+            a.put(TAnswer.answer, allTopic.getString(TTopic.choice));
+            mAnswers.add(a);
+        }
     }
 
     @Override

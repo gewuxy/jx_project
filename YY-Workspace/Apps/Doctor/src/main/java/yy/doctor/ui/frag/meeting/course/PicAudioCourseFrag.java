@@ -120,15 +120,15 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
 
         File file = CacheUtil.getMeetingCacheFile(getMeetId(), fileName);
 
-        if (!file.exists()) {
-            // 不存在下载
-            exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
-        } else {
+        if (file.exists()) {
             // 存在可以播放
             mAudioExist = true;
             if (getVisible()) { // 系统的isVisible()不准确
                 start();
             }
+        } else {
+            // 不存在下载
+            exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
         }
     }
 
