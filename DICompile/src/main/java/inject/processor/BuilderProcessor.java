@@ -27,7 +27,6 @@ import inject.annotation.builder.Ignore;
  * @auther yuansui
  * @since 2017/8/2
  */
-
 @AutoService(Processor.class)
 public class BuilderProcessor extends BaseProcessor {
 

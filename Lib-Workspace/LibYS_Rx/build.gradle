@@ -38,6 +38,6 @@ dependencies {
     /**
      * Processor
      */
-    compile project(':DI-compiler')
-    annotationProcessor project(':DI-compiler')
+    compile project(':DICompile')
+    annotationProcessor project(':DICompile')
 }
