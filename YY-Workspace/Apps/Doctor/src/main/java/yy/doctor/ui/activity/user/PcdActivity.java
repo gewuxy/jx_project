@@ -217,14 +217,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
-    }
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
@@ -269,6 +262,12 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        startLocation();
+    }
+
+    @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
         Location.inst().onDestroy();
         LocationNotifier.inst().remove(this);
@@ -296,5 +295,14 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
                 .city(place.getString(TPlace.city))
                 .area(place.getString(TPlace.district))
                 .build());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
     }
 }

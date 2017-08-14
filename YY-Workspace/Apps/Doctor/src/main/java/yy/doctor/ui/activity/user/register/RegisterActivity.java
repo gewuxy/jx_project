@@ -34,6 +34,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
@@ -419,7 +420,9 @@ public class RegisterActivity extends BaseFormActivity
                         }
                         exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.fetch));
                         dialog.dismiss();
-                        ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                        if (DeviceUtil.isNetworkEnabled()) {
+                            ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                        }
                     });
                     dialog.show();
                 }
@@ -461,7 +464,7 @@ public class RegisterActivity extends BaseFormActivity
             @Override
             public boolean onPreDraw() {
                 TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
-                locationText.setText(place.toString());
+                locationText.setText(place.getDesc());
                 getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
 
                 TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
@@ -471,7 +474,6 @@ public class RegisterActivity extends BaseFormActivity
                 return true;
             }
         });
-
         stopLocation();
     }
 
