@@ -8,7 +8,7 @@ import android.text.Spanned;
  * @since 2017/8/9
  */
 
-public class InputSpaceFilter implements InputFilter {
+public class InputFilterSpace implements InputFilter {
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {

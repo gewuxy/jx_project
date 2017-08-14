@@ -13,7 +13,7 @@ import yy.doctor.R;
  */
 
 public class EditCaptchaForm extends EditForm {
-
+    private final int KCountDown = 60;
 
     @Override
     protected void init(FormVH holder) {
@@ -49,7 +49,7 @@ public class EditCaptchaForm extends EditForm {
 
     public void start() {
         CaptchaView v = (CaptchaView) getHolder().getTvText();
-        v.setMaxCount(60);
+        v.setMaxCount(KCountDown);
         v.start();
     }
 }

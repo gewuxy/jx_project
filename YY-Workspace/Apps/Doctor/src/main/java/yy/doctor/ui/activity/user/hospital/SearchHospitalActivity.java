@@ -264,12 +264,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Location.inst().start();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -280,7 +274,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         if (mDialogLevel != null) {
             mDialogLevel.dismiss();
         }
-
         LocationNotifier.inst().remove(this);
         Location.inst().onDestroy();
     }
@@ -295,7 +288,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
 
         } else {
             //定位失败  显示dialog
-            // FIXME: 失败
             YSLog.d("Gps", "失败");
             onLocationError();
         }

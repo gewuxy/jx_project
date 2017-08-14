@@ -10,7 +10,7 @@ import android.widget.EditText;
 import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
-import yy.doctor.util.input.InputFilterUtils;
+import yy.doctor.util.input.InputFilterSpaCHN;
 
 /**
  * @author GuoXuan
@@ -37,7 +37,7 @@ public class EditPwdForm extends EditForm {
         holder.getIv().setSelected(true);
         setOnClickListener(holder.getIv());
 
-        holder.getEt().setFilters(new InputFilter[]{new InputFilterUtils(), new LengthFilter(24)});
+        holder.getEt().setFilters(new InputFilter[]{new InputFilterSpaCHN(), new LengthFilter(24)});
 
         getHolder().getIv().setSelected(mFlag);
     }
