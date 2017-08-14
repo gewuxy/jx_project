@@ -40,6 +40,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
+import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;

@@ -181,7 +181,7 @@ public class RouterProcessor extends BaseProcessor {
                     .addModifiers(PUBLIC)
                     .addParameter(Object.class, "objectHost")
                     .addParameter(TypeName.INT, "code")
-                    .beginControlFlow("if (!(objectHost instanceof $T) || !(objectHost instanceof $T))", AndroidClassName.KActivity, AndroidClassName.KFragment)
+                    .beginControlFlow("if (!(objectHost instanceof $T) && !(objectHost instanceof $T))", AndroidClassName.KActivity, AndroidClassName.KFragment)
                     .addStatement("throw new $T(\"objectHost must be one of activity or fragment\")", IllegalStateException.class)
                     .endControlFlow()
                     .addStatement("$T intent = new Intent((Context) objectHost, $T.class)", AndroidClassName.KIntent, annotatedTypeName);

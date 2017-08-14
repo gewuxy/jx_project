@@ -51,7 +51,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
     @CallSuper
     @Override
     public void setViews() {
-        getEt().setHint("请输入" + getIntent().getStringExtra(Extra.KTitle));
+        getEt().setHint("请输入" + getString(mTitleId));
         getEt().setText(getVal());
     }
 

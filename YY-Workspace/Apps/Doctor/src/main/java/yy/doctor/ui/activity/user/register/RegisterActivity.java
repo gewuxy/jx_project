@@ -62,6 +62,7 @@ import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
+import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
@@ -150,8 +151,8 @@ public class RegisterActivity extends BaseFormActivity
         mCount = 0;
 
         mStatus = new HashSet<>();
-        // 激活码不在form体系内，需要单独 +1，但是因为专科不用监听要-1，所以长度不变
-        mEnableSize = RelatedId.class.getDeclaredFields().length;
+        // 激活码不在form体系内，需要单独 +1
+        mEnableSize = RelatedId.class.getDeclaredFields().length + 1;
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
@@ -202,8 +203,7 @@ public class RegisterActivity extends BaseFormActivity
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.special)
-                .hint(R.string.special)
-                .text(R.string.special)
+                .observer(this)
                 .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
                 .type(IntentType.medicine))
                 .save(getString(R.string.special), getString(R.string.special));
@@ -220,9 +220,9 @@ public class RegisterActivity extends BaseFormActivity
         addItem(Form.create(FormType.text_intent_no_name)
                 .observer(this)
                 .related(RelatedId.title)
-                .hint(R.string.title)
                 .intent(new Intent(this, TitleActivity.class))
-                .type(IntentType.doctor_title));
+                .type(IntentType.doctor_title))
+                .save(getString(R.string.title), getString(R.string.title));
 
         addItem(Form.create(FormType.divider_margin));
     }
@@ -571,6 +571,9 @@ public class RegisterActivity extends BaseFormActivity
      * 根据填写的资料完成度设置注册按钮是否可以点击
      */
     private void setBtnStatus() {
+        if (mTvReg == null) {
+            return;
+        }
         if (mStatus.size() == mEnableSize) {
             // 按钮可以点击
             mTvReg.setEnabled(true);
