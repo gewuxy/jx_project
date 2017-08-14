@@ -114,15 +114,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
 
     @Override
     protected void submit() {
-        // FIXME:
-        Intent i = new Intent(ExamTopicActivity.this, ExamEndActivity.class)
-                .putExtra(Extra.KMeetId, mMeetId)
-                .putExtra(Extra.KModuleId, mModuleId)
-                .putExtra(Extra.KPaperId, mPaper.getString(TPaper.id))
-                .putExtra(Extra.KPass, mIntro.getInt(TIntro.passScore))
-                .putExtra(Extra.KNum, mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
-                .putExtra(Extra.KData, mAnswers);
-        LaunchUtil.startActivity(ExamTopicActivity.this, i);
+        ExamEndActivityIntent.create()
+                .meetId(mMeetId)
+                .moduleId(mModuleId)
+                .paperId(mPaper.getString(TPaper.id))
+                .pass(mIntro.getInt(TIntro.passScore))
+                .count(mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
+                .answers(mAnswers)
+                .start(ExamTopicActivity.this);
         finish();
     }
 
@@ -155,6 +154,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             mSubmitDialog.setCancelable(false);
             mSubmitDialog.addButton(R.string.confirm, v -> {
                 mSubmitDialog.dismiss();
+                toAnswer();
                 submit();
             });
             mSubmitDialog.show();

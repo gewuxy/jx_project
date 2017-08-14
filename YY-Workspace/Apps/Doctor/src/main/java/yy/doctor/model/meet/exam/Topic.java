@@ -46,5 +46,7 @@ public class Topic extends EVal<TTopic> {
          * 本地字段
          */
         finish, // 已作答
+
+        choice, // 作答答案
     }
 }

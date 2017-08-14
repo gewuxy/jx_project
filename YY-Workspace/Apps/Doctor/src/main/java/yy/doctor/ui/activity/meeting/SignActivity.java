@@ -1,15 +1,13 @@
 package yy.doctor.ui.activity.meeting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.widget.ImageView;
 
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.notify.Notifier.NotifyType;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
@@ -20,36 +18,26 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/2
  */
+@AutoIntent
 public class SignActivity extends BaseResultActivity {
 
     private final int KErrorResId = R.mipmap.result_ic_defeat; // 失败的图片
     private final int KErrorColId = R.color.text_333; // 失败的颜色
 
-    private String mLongitude; // 经度
-    private String mLatitude; // 维度
-    private String mSignId; // 签到id
+    @Extra(optional = true)
+    String mLongitude; // 经度
+    @Extra(optional = true)
+    String mLatitude; // 维度
+    @Extra(optional = true)
+    String mSignId; // 签到id
 
     private ImageView mIvResult;//结果图标
-
-    public static void nav(Context context, String meetId, String moduleId, String signId, String latitude, String longitude) {
-        Intent i = new Intent(context, SignActivity.class)
-                .putExtra(Extra.KMeetId, meetId)
-                .putExtra(Extra.KModuleId, moduleId)
-                .putExtra(Extra.KData, signId)
-                .putExtra(Extra.KLatitude, latitude)
-                .putExtra(Extra.KLongitude, longitude);
-        LaunchUtil.startActivity(context, i);
-    }
 
     @Override
     public void initData() {
         super.initData();
 
         notify(NotifyType.study_start);
-
-        mLatitude = getIntent().getStringExtra(Extra.KLatitude);
-        mLongitude = getIntent().getStringExtra(Extra.KLongitude);
-        mSignId = getIntent().getStringExtra(Extra.KData);
     }
 
     @Override

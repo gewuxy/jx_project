@@ -1,18 +1,76 @@
 {
   "code": "0",
   "data": {
-    "city": "长治市",
-    "credits": 100,
-    "headimg": "http://59.111.90.245:8083/file//headimg/17080811310999939955.jpg",
-    "hospital": "爱康君安健疗国际",
-    "id": 166,
-    "integrity": 40,
-    "licence": "10086123",
-    "linkman": "6788",
-    "mobile": "13710920091",
-    "nickname": "6788",
-    "province": "山西省",
-    "token": "3f27a4131836450cac483ecce27f4906",
-    "zone": "长治县"
+    "endTime": 1502849700000,
+    "finishTimes": 3,
+    "finished": true,
+    "id": 97,
+    "meetId": "17081410185188045508",
+    "moduleId": 1982,
+    "paper": {
+      "id": 133,
+      "name": "国煊要考试！",
+      "questions": [
+        {
+          "id": 1309,
+          "options": [
+            {
+              "key": "A",
+              "value": "是"
+            },
+            {
+              "key": "B",
+              "value": "必须的"
+            },
+            {
+              "key": "C",
+              "value": "那当然"
+            },
+            {
+              "key": "D",
+              "value": "不然呢"
+            }
+          ],
+          "point": 30,
+          "qtype": 0,
+          "rightKey": "A",
+          "sort": 1,
+          "title": "李国煊                             是不               是  傻"
+        },
+        {
+          "id": 1310,
+          "options": [
+            {
+              "key": "A",
+              "value": "你猜"
+            },
+            {
+              "key": "B",
+              "value": "我猜是"
+            },
+            {
+              "key": "C",
+              "value": "那我也猜是"
+            },
+            {
+              "key": "D",
+              "value": "那就是了"
+            }
+          ],
+          "point": 30,
+          "qtype": 1,
+          "rightKey": "ABCD",
+          "sort": 2,
+          "title": "李国煊                                                   是不是                                        傻 "
+        }
+      ],
+      "totalPoint": 60
+    },
+    "passScore": 60,
+    "resitTimes": 3,
+    "score": 0,
+    "serverTime": 1502703416684,
+    "startTime": 1502676900000,
+    "usetime": 5
   }
 }

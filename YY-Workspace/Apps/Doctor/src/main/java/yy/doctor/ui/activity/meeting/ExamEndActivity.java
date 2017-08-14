@@ -4,17 +4,18 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.processor.annotation.AutoIntent;
+import lib.processor.annotation.Extra;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Answer;
 import yy.doctor.model.meet.exam.TopicResult;
@@ -29,14 +30,26 @@ import yy.doctor.util.Util;
  * @author CaiXiang
  * @since 2017/4/28
  */
+@AutoIntent
 public class ExamEndActivity extends BaseActivity {
 
-    private String mMeetId;
-    private String mModuleId;
-    private String mPaperId; // 试卷Id
-    private int mCount; // 考试次数
-    private int mPass; // 及格线
-    private List<Answer> mAnswers; // 答案
+    @Extra (optional = true)
+    String mMeetId;
+
+    @Extra (optional = true)
+    String mModuleId;
+
+    @Extra (optional = true)
+    String mPaperId; // 试卷Id
+
+    @Extra (optional = true)
+    int mCount; // 考试次数
+
+    @Extra (optional = true)
+    int mPass; // 及格线
+
+    @Extra (optional = true)
+    ArrayList<Answer> mAnswers; // 答案
 
     private TextView mTvScore;
     private TextView mTvPass;
@@ -46,12 +59,6 @@ public class ExamEndActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
-        mModuleId = getIntent().getStringExtra(Extra.KModuleId);
-        mPaperId = getIntent().getStringExtra(Extra.KPaperId);
-        mCount = getIntent().getIntExtra(Extra.KNum, 0);
-        mPass = getIntent().getIntExtra(Extra.KPass, 0);
-        mAnswers = (List<Answer>) getIntent().getSerializableExtra(Extra.KData);
     }
 
     @NonNull
