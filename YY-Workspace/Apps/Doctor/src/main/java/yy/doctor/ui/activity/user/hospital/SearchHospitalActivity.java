@@ -337,12 +337,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
 
     @Override
     public View createEmptyFooterView() {
-        return inflate(R.layout.layout_locate_fail_empty_footer);
+        return inflate(R.layout.layout_empty_footer_locate_err);
     }
-
-    @Override
-    protected String getEmptyText() {
-        return "无法获取您的位置信息";
-    }
-
 }

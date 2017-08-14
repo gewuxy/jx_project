@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:drawableLeft="@mipmap/pcd_ic_locate_err"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="无法获取您的位置信息"
+        android:textColor="@color/text_888"
+        android:textSize="12dp"/>
+
+</LinearLayout>

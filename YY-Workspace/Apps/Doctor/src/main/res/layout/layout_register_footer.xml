@@ -9,12 +9,12 @@
     <RelativeLayout
         android:id="@+id/register_layout_captcha"
         android:layout_width="match_parent"
-        android:layout_height="52dip">
+        android:layout_height="52dp">
 
         <EditText
             android:id="@+id/register_et_captcha"
             style="@style/et.common"
-            android:layout_height="50dip"
+            android:layout_height="50dp"
             android:hint="请输入YaYa医师注册激活码"
             android:imeActionLabel="@string/register"
             android:imeOptions="actionGo"
@@ -79,7 +79,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="38dp"
             android:text="点击“注册”即表示您同意"
-            android:textColor="#b3b3b3"
+            android:textColor="@color/text_b3"
             android:textSize="12dp"/>
 
         <TextView
@@ -90,7 +90,7 @@
             android:layout_marginBottom="26dp"
             android:layout_marginTop="8dp"
             android:text="《敬信科技YaYa医师服务协议》"
-            android:textColor="#0882e7"
+            android:textColor="@color/text_0882e7"
             android:textSize="10dp"/>
     </LinearLayout>
 
