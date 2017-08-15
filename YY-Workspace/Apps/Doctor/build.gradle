@@ -161,8 +161,8 @@ dependencies {
     /**
      * leakcanary
      */
-//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+//    debugCompile deps.debug.leakcanary
+//    releaseCompile deps.release.leakcanary
 
     compile deps.support.dex
 }

@@ -95,5 +95,11 @@ ext.deps = [
         ],
         'network': [
                 'ok': 'com.squareup.okhttp3:okhttp:3.8.0'
-        ]
+        ],
+        'debug'  : [
+                'leakcanary': 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+        ],
+        'release': [
+                'leakcanary': 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+        ],
 ]
