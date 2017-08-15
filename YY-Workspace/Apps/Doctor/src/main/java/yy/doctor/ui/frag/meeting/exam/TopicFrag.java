@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import io.reactivex.Flowable;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -42,9 +43,9 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
 
     public interface OnTopicListener {
         /**
-         * @param listId 题号
+         * @param listId  题号
          * @param titleId 题目Id
-         * @param answer 该题选择的答案
+         * @param answer  该题选择的答案
          */
         void topicFinish(int listId, int titleId, String answer);
 
@@ -153,13 +154,11 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
                 boolean selected = !ivAnswer.isSelected();
                 ivAnswer.setSelected(selected);
                 item.put(TChoice.check, selected);
+
                 StringBuffer sb = new StringBuffer();
-                for (Choice choice : getData()) {
-                    if (choice.getBoolean(TChoice.check)) {
-                        // 选中
-                        sb.append(choice.getString(TChoice.key));
-                    }
-                }
+                Flowable.fromIterable(getData())
+                        .filter(choice -> choice.getBoolean(TChoice.check))
+                        .subscribe(choice -> sb.append(choice.getString(TChoice.key)));
                 answer = sb.toString();
             }
             break;

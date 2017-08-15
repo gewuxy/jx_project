@@ -1,12 +1,13 @@
 package yy.doctor.network.builder;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.ys.YSLog;
@@ -124,23 +125,22 @@ public class SubmitBuilder {
                 .build();
     }
 
-    private String answersToJson(List<Topic> topics) {
+    private String answersToJson(@NonNull List<Topic> topics) {
         JSONArray arr = new JSONArray();
 
-        Observable.fromIterable(topics)
-                .subscribe(topic -> {
-                    String answer = topic.getString(TTopic.choice);
-                    if (TextUtil.isNotEmpty(answer)){
-                        JSONObject o = new JSONObject();
-                        try {
-                            o.put(MeetParam.KQuestionId, topic.getString(TTopic.id));
-                            o.put(MeetParam.KAnswer, answer);
-                        } catch (JSONException e) {
-                            YSLog.e(TAG, MeetParam.KItemJson, e);
-                        }
-                        arr.put(o);
-                    }
-                });
+        for (Topic topic : topics) {
+            String answer = topic.getString(TTopic.choice);
+            if (TextUtil.isNotEmpty(answer)) {
+                JSONObject o = new JSONObject();
+                try {
+                    o.put(MeetParam.KQuestionId, topic.getString(TTopic.id));
+                    o.put(MeetParam.KAnswer, answer);
+                } catch (JSONException e) {
+                    YSLog.e(TAG, MeetParam.KItemJson, e);
+                }
+                arr.put(o);
+            }
+        }
         return arr.toString();
     }
 }

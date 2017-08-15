@@ -155,6 +155,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
             exeNetworkReq(KIdGet, NetFactory.specialty());
         }
         return true;

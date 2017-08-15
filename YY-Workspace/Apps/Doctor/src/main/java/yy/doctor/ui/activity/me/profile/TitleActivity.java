@@ -137,6 +137,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
             exeNetworkReq(KIdGet, NetFactory.title());
         }
         return true;
