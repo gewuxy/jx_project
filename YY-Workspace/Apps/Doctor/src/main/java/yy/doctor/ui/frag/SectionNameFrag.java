@@ -5,7 +5,7 @@ import android.view.View;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseSRListFrag;
+import lib.yy.ui.frag.base.BaseListFrag;
 import yy.doctor.adapter.SectionNameAdapter;
 
 /**
@@ -15,7 +15,7 @@ import yy.doctor.adapter.SectionNameAdapter;
  * @since 2017/5/15
  */
 
-public class SectionNameFrag extends BaseSRListFrag<String, SectionNameAdapter> {
+public class SectionNameFrag extends BaseListFrag<String, SectionNameAdapter> {
 
     private OnSectionListener mListener;
 
@@ -30,15 +30,7 @@ public class SectionNameFrag extends BaseSRListFrag<String, SectionNameAdapter> 
     @Override
     public void setViews() {
         super.setViews();
-
-        getScrollableView().setVerticalScrollBarEnabled(false);
         setDividerHeight(fitDp(0));
-        setRefreshEnabled(false);
-        setAutoLoadMoreEnabled(false);
-    }
-
-    @Override
-    public void getDataFromNet() {
     }
 
     @Override
@@ -51,11 +43,6 @@ public class SectionNameFrag extends BaseSRListFrag<String, SectionNameAdapter> 
     public void setSection(List<String> sections) {
         setData(sections);
         getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
-    public boolean enableInitRefresh() {
-        return false;
     }
 
     public interface OnSectionListener {

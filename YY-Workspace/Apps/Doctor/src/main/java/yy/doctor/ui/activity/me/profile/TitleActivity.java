@@ -87,12 +87,12 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
                 return JsonParser.error(r.getText());
             }
         }
-
         return null;
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         switch (id) {
             case KIdGet: {
                 Result<Title> r = (Result<Title>) result;
@@ -115,9 +115,6 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
                 if (r.isSucceed()) {
                     Profile.inst().put(TProfile.title, mTitle);
                     Profile.inst().saveToSp();
-
-                    stopRefresh();
-
                     Intent i = new Intent().putExtra(Extra.KData, mTitle);
                     setResult(RESULT_OK, i);
                     finish();
@@ -161,9 +158,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
             exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
         } else {
             // 没有登录就是在注册界面
-            Intent i = new Intent()
-                    .putExtra(Extra.KData, mTitle);
-
+            Intent i = new Intent().putExtra(Extra.KData, mTitle);
             setResult(RESULT_OK, i);
             finish();
         }
