@@ -7,7 +7,7 @@ import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
-import yy.doctor.model.meet.exam.Answer;
+import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.network.NetFactory;
 import yy.doctor.util.Util;
 
@@ -23,7 +23,7 @@ public class QueEndActivity extends BaseResultActivity {
     @Arg(optional = true)
     String mPaperId;
     @Arg(optional = true)
-    ArrayList<Answer> mAnswers;
+    ArrayList<Topic> mTopics;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -39,7 +39,7 @@ public class QueEndActivity extends BaseResultActivity {
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
                 .paperId(mPaperId)
-                .items(mAnswers)
+                .items(mTopics)
                 .builder());
     }
 

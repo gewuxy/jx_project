@@ -10,8 +10,9 @@ import io.reactivex.Observable;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.ys.YSLog;
-import yy.doctor.model.meet.exam.Answer;
-import yy.doctor.model.meet.exam.Answer.TAnswer;
+import lib.ys.util.TextUtil;
+import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetFactory.MeetParam;
 
@@ -69,23 +70,8 @@ public class SubmitBuilder {
      *
      * 答案明细列表
      */
-    public SubmitBuilder items(List<Answer> items) {
-        JSONArray arr = new JSONArray();
-
-        Observable.fromIterable(items)
-                .subscribe(answer -> {
-                    JSONObject o = new JSONObject();
-                    try {
-                        o.put(MeetParam.KAnswer, answer.getString(TAnswer.answer));
-                        o.put(MeetParam.KQuestionId, answer.getString(TAnswer.id));
-                    } catch (JSONException e) {
-                        YSLog.e(TAG, MeetParam.KItemJson, e);
-                    }
-
-                    arr.put(o);
-                });
-
-        mBuilder.param(MeetParam.KItemJson, arr.toString());
+    public SubmitBuilder items(List<Topic> topics) {
+        mBuilder.param(MeetParam.KItemJson, answersToJson(topics));
         return this;
     }
 
@@ -136,5 +122,25 @@ public class SubmitBuilder {
         return mBuilder
                 .retry(5, 1000)
                 .build();
+    }
+
+    private String answersToJson(List<Topic> topics) {
+        JSONArray arr = new JSONArray();
+
+        Observable.fromIterable(topics)
+                .subscribe(topic -> {
+                    String answer = topic.getString(TTopic.choice);
+                    if (TextUtil.isNotEmpty(answer)){
+                        JSONObject o = new JSONObject();
+                        try {
+                            o.put(MeetParam.KQuestionId, topic.getString(TTopic.id));
+                            o.put(MeetParam.KAnswer, answer);
+                        } catch (JSONException e) {
+                            YSLog.e(TAG, MeetParam.KItemJson, e);
+                        }
+                        arr.put(o);
+                    }
+                });
+        return arr.toString();
     }
 }

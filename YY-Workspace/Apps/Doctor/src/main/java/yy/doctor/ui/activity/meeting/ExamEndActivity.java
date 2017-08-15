@@ -17,7 +17,7 @@ import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.model.meet.exam.Answer;
+import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.TopicResult;
 import yy.doctor.model.meet.exam.TopicResult.TTopicResult;
 import yy.doctor.network.JsonParser;
@@ -49,7 +49,7 @@ public class ExamEndActivity extends BaseActivity {
     int mPass; // 及格线
 
     @Arg(optional = true)
-    ArrayList<Answer> mAnswers; // 答案
+    ArrayList<Topic> mTopics; // 试题(记录答案)
 
     private TextView mTvScore;
     private TextView mTvPass;
@@ -97,7 +97,7 @@ public class ExamEndActivity extends BaseActivity {
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
                 .paperId(mPaperId)
-                .items(mAnswers)
+                .items(mTopics)
                 .builder());
     }
 
