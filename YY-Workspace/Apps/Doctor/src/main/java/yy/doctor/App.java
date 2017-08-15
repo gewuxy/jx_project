@@ -15,6 +15,7 @@ import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.config.ListConfig;
 import lib.ys.config.ListConfig.PageDownType;
+import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.yy.BaseApp;
@@ -75,7 +76,7 @@ public class App extends BaseApp {
 
     @Override
     protected ListConfig configureList() {
-        return ListConfig.newBuilder()
+        return ListConfigBuilder.create()
                 .type(PageDownType.page)
                 .initOffset(PageConstants.KPage)
                 .limit(PageConstants.KPageSize)

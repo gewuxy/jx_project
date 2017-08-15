@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import inject.annotation.builder.Builder;
 import lib.ys.ConstantsEx.ListConstants;
 import lib.ys.view.swipeRefresh.footer.BaseFooter;
 import lib.ys.view.swipeRefresh.header.BaseHeader;
@@ -12,6 +13,7 @@ import lib.ys.view.swipeRefresh.header.BaseHeader;
 /**
  * @author yuansui
  */
+@Builder
 public class ListConfig {
 
     /**
@@ -32,17 +34,13 @@ public class ListConfig {
     }
 
     @PageDownType
-    private int mType = PageDownType.offset; // 默认根据个数偏移
+    int mType = PageDownType.offset; // 默认根据个数偏移
 
-    private int mInitOffset = ListConstants.KDefaultInitOffset;
-    private int mLimit = ListConstants.KDefaultLimit;
+    int mInitOffset = ListConstants.KDefaultInitOffset;
+    int mLimit = ListConstants.KDefaultLimit;
 
-    private Class<? extends BaseHeader> mHeaderClz = null;
-    private Class<? extends BaseFooter> mFooterClz = null;
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
+    Class<? extends BaseHeader> mHeaderClz = null;
+    Class<? extends BaseFooter> mFooterClz = null;
 
     @PageDownType
     public int getType() {
@@ -63,67 +61,5 @@ public class ListConfig {
 
     public Class<? extends BaseFooter> getFooterClz() {
         return mFooterClz;
-    }
-
-
-    public static class Builder {
-
-        @PageDownType
-        private int mType = PageDownType.offset; // 默认根据个数偏移
-
-        private int mInitOffset = 0;
-        private int mLimit = 0;
-
-        private Class<? extends BaseHeader> mHeaderClz = null;
-        private Class<? extends BaseFooter> mFooterClz = null;
-
-        public Builder type(@PageDownType int type) {
-            mType = type;
-            return this;
-        }
-
-        public Builder initOffset(int initOffset) {
-            mInitOffset = initOffset;
-            return this;
-        }
-
-        public Builder limit(int limit) {
-            mLimit = limit;
-            return this;
-        }
-
-        public Builder footerClz(Class<? extends BaseFooter> clz) {
-            mFooterClz = clz;
-            return this;
-        }
-
-        public Builder headerClz(Class<? extends BaseHeader> clz) {
-            mHeaderClz = clz;
-            return this;
-        }
-
-        public ListConfig build() {
-            ListConfig config = new ListConfig();
-
-            config.mType = mType;
-
-            if (mHeaderClz != null) {
-                config.mHeaderClz = mHeaderClz;
-            }
-
-            if (mFooterClz != null) {
-                config.mFooterClz = mFooterClz;
-            }
-
-            if (mInitOffset != 0) {
-                config.mInitOffset = mInitOffset;
-            }
-
-            if (mLimit != 0) {
-                config.mLimit = mLimit;
-            }
-
-            return config;
-        }
     }
 }

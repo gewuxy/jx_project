@@ -10,6 +10,7 @@ import lib.network.Network;
 import lib.network.NetworkConfig;
 import lib.ys.config.AppConfig;
 import lib.ys.config.ListConfig;
+import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.crash.CrashMgr;
 import lib.ys.network.image.NetworkImageView;
@@ -78,7 +79,7 @@ abstract public class AppEx extends Application {
      * @return
      */
     protected ListConfig configureList() {
-        return ListConfig.newBuilder().build();
+        return ListConfigBuilder.create().build();
     }
 
     public static AppConfig getConfig() {
