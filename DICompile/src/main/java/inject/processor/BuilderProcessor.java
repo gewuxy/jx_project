@@ -1,16 +1,20 @@
 package inject.processor;
 
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -19,6 +23,8 @@ import javax.lang.model.util.ElementFilter;
 
 import inject.annotation.builder.Builder;
 import inject.annotation.builder.Ignore;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 
 
 /**
@@ -61,39 +67,42 @@ public class BuilderProcessor extends BaseProcessor {
         builder.addMethod(createMethod.build());
 
         /**
-         * 生成filed的设置方法
+         * 获取所有filed
          */
         TypeElement classElement = (TypeElement) annotatedElement;
         String key = classElement.getQualifiedName().toString();
-
         TypeElement typeElement = getElementUtils().getTypeElement(key);
-        List<? extends Element> allMembers = getElementUtils().getAllMembers(typeElement);
-        if (allMembers.size() > 0) {
-            List<VariableElement> fields = ElementFilter.fieldsIn(allMembers);
-            for (VariableElement field : fields) {
-                if (field.getAnnotation(Ignore.class) != null) {
-                    continue;
-                }
+        List<? extends Element> members = getElementUtils().getAllMembers(typeElement);
+        List<VariableElement> fields = ElementFilter.fieldsIn(members);
 
-                String paramName = getParamName(field, field.getSimpleName().toString());
-
-                FieldSpec.Builder fieldBuilder = FieldSpec.builder(getTypeName(field), paramName, Modifier.PRIVATE);
-//                for (AnnotationMirror annotation : field.getAnnotationMirrors()) {
-//                    getMessager().printMessage(Kind.NOTE, annotation.getAnnotationType().asElement().getSimpleName().toString());
-//                    fieldBuilder.addAnnotation(ClassName.bestGuess(annotation.getAnnotationType().asElement().getSimpleName().toString()));
-//                }
-                builder.addField(fieldBuilder.build());
-
-                MethodSpec spec = MethodSpec.methodBuilder(paramName)
-                        .addModifiers(Modifier.PUBLIC)
-                        .addParameter(getTypeName(field), paramName)
-                        .addStatement("this.$N = $N", paramName, paramName)
-                        .addStatement("return this")
-                        .returns(clzName)
-                        .build();
-
-                builder.addMethod(spec);
+        /**
+         * 生成filed的设置方法
+         */
+        for (VariableElement field : fields) {
+            if (field.getAnnotation(Ignore.class) != null) {
+                continue;
             }
+
+            String paramName = getParamName(field, field.getSimpleName().toString());
+
+            // 添加成员变量
+            FieldSpec.Builder fieldBuilder = FieldSpec.builder(getTypeNameBox(field), paramName, Modifier.PRIVATE);
+            fieldBuilder.addAnnotations(getAnnotations(field));
+            builder.addField(fieldBuilder.build());
+
+            // 添加set方法
+            MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(paramName)
+                    .addModifiers(Modifier.PUBLIC);
+
+            ParameterSpec.Builder paramBuilder = ParameterSpec.builder(getTypeName(field), paramName);
+            paramBuilder.addAnnotations(getAnnotations(field));
+
+            methodBuilder.addParameter(paramBuilder.build())
+                    .addStatement("this.$N = $N", paramName, paramName)
+                    .addStatement("return this")
+                    .returns(clzName);
+
+            builder.addMethod(methodBuilder.build());
         }
 
         TypeName annotatedTypeName = getTypeName(annotatedElement);
@@ -104,9 +113,7 @@ public class BuilderProcessor extends BaseProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ClassName.get(annotatedElement.asType()))
                 .addStatement("$T inst = new $T()", annotatedTypeName, annotatedElement);
-
-        if (allMembers.size() > 0) {
-            List<VariableElement> fields = ElementFilter.fieldsIn(allMembers);
+        if (!fields.isEmpty()) {
             for (VariableElement field : fields) {
                 if (field.getAnnotation(Ignore.class) != null) {
                     continue;
@@ -115,27 +122,27 @@ public class BuilderProcessor extends BaseProcessor {
                 String filedName = field.getSimpleName().toString();
                 String paramName = getParamName(field, filedName);
 
-                TypeName typeName = getTypeName(field);
-                if (typeName.isBoxedPrimitive()) {
-                    // 基础类型Integer Long等
-                    buildMethod.beginControlFlow("if (this.$N != null)", paramName);
-                } else {
-                    // 基础类型int long等
-                    if (typeName == TypeName.LONG) {
-                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
-                    } else if (typeName == TypeName.INT) {
-                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
-                    } else if (typeName == TypeName.FLOAT) {
-                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
-                    } else if (typeName == TypeName.DOUBLE) {
-                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
-                    } else if (typeName == TypeName.BOOLEAN) {
-                        buildMethod.beginControlFlow("if (!this.$N)", paramName);
-                    } else {
-                        buildMethod.beginControlFlow("if (this.$N != null)", paramName);
-                    }
-                }
-
+                buildMethod.beginControlFlow("if (this.$N != null)", paramName);
+//                TypeName typeName = getTypeName(field);
+//                if (typeName.isBoxedPrimitive()) {
+//                    // 基础类型Integer Long等
+//                    buildMethod.beginControlFlow("if (this.$N != null)", paramName);
+//                } else {
+//                    // 基础类型int long等
+//                    if (typeName == TypeName.LONG) {
+//                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
+//                    } else if (typeName == TypeName.INT) {
+//                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
+//                    } else if (typeName == TypeName.FLOAT) {
+//                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
+//                    } else if (typeName == TypeName.DOUBLE) {
+//                        buildMethod.beginControlFlow("if (this.$N != 0)", paramName);
+//                    } else if (typeName == TypeName.BOOLEAN) {
+//                        buildMethod.beginControlFlow("if (!this.$N)", paramName);
+//                    } else {
+//                        buildMethod.beginControlFlow("if (this.$N != null)", paramName);
+//                    }
+//                }
                 buildMethod.addStatement("inst.$N = $N", filedName, paramName)
                         .endControlFlow();
             }
@@ -144,5 +151,29 @@ public class BuilderProcessor extends BaseProcessor {
         builder.addMethod(buildMethod.build());
 
         return builder.build();
+    }
+
+    /**
+     * 获取变量上的注解, 排除掉以下注解
+     * {@link Arg}
+     * {@link Route}
+     *
+     * @param field
+     * @return
+     */
+    private List<AnnotationSpec> getAnnotations(VariableElement field) {
+        List<AnnotationSpec> specs = new ArrayList<>();
+        for (AnnotationMirror annotation : field.getAnnotationMirrors()) {
+            AnnotationSpec spec = AnnotationSpec.get(annotation);
+            String name = spec.toString();
+            if (name.contains(Arg.class.getCanonicalName())) {
+                continue;
+            } else if (name.contains(Route.class.getCanonicalName())) {
+                continue;
+            }
+
+            specs.add(AnnotationSpec.get(annotation));
+        }
+        return specs;
     }
 }

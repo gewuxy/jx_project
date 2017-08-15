@@ -7,9 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * @auther yuansui
- * @since 2017/8/1
- *
  * @see {@link Route}
+ * @since 2017/8/1
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.SOURCE)

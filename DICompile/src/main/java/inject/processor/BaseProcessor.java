@@ -24,7 +24,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 
 import inject.android.AnnotationName;
 
@@ -55,7 +55,7 @@ abstract public class BaseProcessor extends AbstractProcessor {
         for (Element annotatedElement : env.getElementsAnnotatedWith(getAnnotationClass())) {
             // Make sure element is a field or a method declaration
             if (!annotatedElement.getKind().isClass()) {
-                error(annotatedElement, "Only classes can be annotated with @%s", getAnnotationClass().getSimpleName());
+                printErr(annotatedElement, "Only classes can be annotated with @%s", getAnnotationClass().getSimpleName());
                 return true;
             }
 
@@ -66,7 +66,7 @@ abstract public class BaseProcessor extends AbstractProcessor {
                     builderFile.writeTo(filer);
                 }
             } catch (Exception e) {
-                error(annotatedElement, "Could not create builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
+                printErr(annotatedElement, "Could not create builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
             }
         }
         return true;
@@ -93,10 +93,6 @@ abstract public class BaseProcessor extends AbstractProcessor {
         return filer;
     }
 
-    protected Messager getMessager() {
-        return messager;
-    }
-
     @Override
     public SourceVersion getSupportedSourceVersion() {
         return SourceVersion.latestSupported();
@@ -116,10 +112,6 @@ abstract public class BaseProcessor extends AbstractProcessor {
             }
         }
         return false;
-    }
-
-    protected void error(Element e, String msg, Object... args) {
-        getMessager().printMessage(Diagnostic.Kind.ERROR, String.format(msg, args), e);
     }
 
     protected String getPackageName(Element e) {
@@ -156,15 +148,39 @@ abstract public class BaseProcessor extends AbstractProcessor {
         return builder.build();
     }
 
+    /**
+     * 获取类型名称(向上转型)
+     *
+     * @param e
+     * @return
+     */
     protected TypeName getTypeNameBox(Element e) {
         return TypeName.get(e.asType()).box();
     }
 
+    /**
+     * 获取类型名称
+     *
+     * @param e
+     * @return
+     */
     protected TypeName getTypeName(Element e) {
         return TypeName.get(e.asType());
     }
 
     protected boolean isSubtype(TypeMirror var1, TypeMirror var2) {
         return typeUtils.isSubtype(var1, var2);
+    }
+
+    protected void print(String message) {
+        messager.printMessage(Kind.NOTE, message);
+    }
+
+    protected void printErr(String message) {
+        messager.printMessage(Kind.ERROR, message);
+    }
+
+    protected void printErr(Element e, String msg, Object... args) {
+        messager.printMessage(Kind.ERROR, String.format(msg, args), e);
     }
 }
