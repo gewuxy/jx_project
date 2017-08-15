@@ -273,6 +273,7 @@ public class SROpt<T> implements OnSRListener {
      * 重置网络状态
      */
     public void resetNetDataState() {
+        mTsNet = null;
         mLoadMore = false;
         mOffset = getInitOffset();
         mLastId = ListConstants.KDefaultInitLastId;
@@ -418,6 +419,10 @@ public class SROpt<T> implements OnSRListener {
             } else {
                 stopLoadMore(true);
                 setLoadMoreState(false);
+
+                if (mSROptListener.getRefreshWay() == RefreshWay.swipe) {
+                    stopSwipeRefresh();
+                }
 
                 if (mFooterEmptyView == null) {
                     mScrollable.showFooterView();
