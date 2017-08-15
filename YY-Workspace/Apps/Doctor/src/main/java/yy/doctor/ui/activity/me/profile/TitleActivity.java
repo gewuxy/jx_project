@@ -138,6 +138,14 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     }
 
     @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            exeNetworkReq(KIdGet, NetFactory.title());
+        }
+        return true;
+    }
+
+    @Override
     public void onGradeSelected(int position, String grade) {
         mGrade = grade;
         YSLog.d(TAG, "grade = " + grade);
