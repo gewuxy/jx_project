@@ -262,7 +262,6 @@ public class HospitalActivity extends BaseHospitalActivity
         }
 
         onNetworkSuccess(0, r);
-
     }
 
     @Override
