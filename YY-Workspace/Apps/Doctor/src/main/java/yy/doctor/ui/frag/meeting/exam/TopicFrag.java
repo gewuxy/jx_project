@@ -4,8 +4,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
@@ -35,14 +33,19 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
     private int mLastPosition;
     private OnTopicListener mOnTopicListener;
 
-    @Arg
+    @Arg(optional = true)
     int mListId; // 题号
-    @Arg
+    @Arg(optional = true)
     boolean mLast; // 最后一题
-    @Arg
+    @Arg(optional = true)
     Topic mTopic; // 该题目的信息
 
     public interface OnTopicListener {
+        /**
+         * @param listId 题号
+         * @param titleId 题目Id
+         * @param answer 该题选择的答案
+         */
         void topicFinish(int listId, int titleId, String answer);
 
         void toNext();
@@ -88,8 +91,9 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
             showView(mTvNext);
             title.append(".(多选)");
         }
+        title.append(mTopic.getString(TTopic.title));
 
-        mTvTitle.setText(title.append(mTopic.getString(TTopic.title)).toString()); // 设置题目
+        mTvTitle.setText(title); // 设置题目
         setData(mTopic.getList(TTopic.options)); // 设置选项
 
         // 最后一题的时候
@@ -120,7 +124,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
     @Override
     public void onItemClick(View v, int position) {
         Choice item = getItem(position);
-        String answer = item.getString(TChoice.key);
+        String answer = ConstantsEx.KEmptyValue;
         ImageView ivAnswer = getAdapter().getCacheVH(position).getIvAnswer();
 
         @TopicType int type = mTopic.getInt(TTopic.qtype);
@@ -138,6 +142,7 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
                     item.put(TChoice.check, true);
                     mLastPosition = position;
                 }
+                answer = item.getString(TChoice.key);
                 if (!mLast) {
                     onClick(mTvNext);
                 }
@@ -148,24 +153,14 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
                 boolean selected = !ivAnswer.isSelected();
                 ivAnswer.setSelected(selected);
                 item.put(TChoice.check, selected);
-                // FIXME: 不用for
-                List<Choice> choices = getData();
-                for (Choice choice : choices) {
-                    String key = choice.getString(TChoice.key);
+                StringBuffer sb = new StringBuffer();
+                for (Choice choice : getData()) {
                     if (choice.getBoolean(TChoice.check)) {
                         // 选中
-                        if (!answer.contains(key)) {
-                            // 答案没有
-                            answer = answer.concat(key);
-                        }
-                    } else {
-                        // 取消选择
-                        if (answer.contains(key)) {
-                            // 答案已有
-                            answer = answer.replaceAll(key, "");
-                        }
+                        sb.append(choice.getString(TChoice.key));
                     }
                 }
+                answer = sb.toString();
             }
             break;
         }

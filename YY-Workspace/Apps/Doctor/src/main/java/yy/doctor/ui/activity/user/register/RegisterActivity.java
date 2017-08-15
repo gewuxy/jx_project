@@ -92,6 +92,7 @@ public class RegisterActivity extends BaseFormActivity
 
     //免责声明  服务协议
     private String mUrlDisclaimer = UrlUtil.getHostName() + "api/register/get_protocol";
+    private String mUrlActivityCode = UrlUtil.getHostName() + "api/register/get_invite_code";
 
     @IntDef({
             RelatedId.phone_number,
@@ -276,7 +277,10 @@ public class RegisterActivity extends BaseFormActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_tv_activated_code: {
-                startActivity(CaptchaActivity.class);
+                CommonWebViewActivityRouter.create(
+                        getString(R.string.title_fetch_captcha),
+                        mUrlActivityCode)
+                        .route(this);
             }
             break;
             case R.id.register: {
@@ -290,8 +294,7 @@ public class RegisterActivity extends BaseFormActivity
             case R.id.help_and_feedback_footer_tv_agreement: {
                 CommonWebViewActivityRouter.create(
                         getString(R.string.service_agreement),
-                        mUrlDisclaimer
-                )
+                        mUrlDisclaimer)
                         .route(this);
             }
         }

@@ -3,19 +3,24 @@ package yy.doctor.ui.activity.me.profile;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.MapList;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.model.me.Section;
+import yy.doctor.model.me.Section.TSection;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.frag.SectionCategoryFrag;
@@ -33,15 +38,16 @@ import yy.doctor.util.Util;
 
 public class SectionActivity extends BaseActivity implements OnCategoryListener, OnSectionListener {
 
-    private final int KIdGet = 0;
-    private final int KIdCommit = 1;
+    private final int KIdGet = 1;
+    private final int KIdCommit = 2;
 
     private SectionCategoryFrag mSectionCategoryFrag;
     private SectionNameFrag mSectionNameFrag;
 
+    private MapList<String, List<String>> mSections;//全部科室数据(分类后)
+
     private String mCategory;
     private String mCategoryName;
-
 
     @Override
     public void initData() {
@@ -68,11 +74,16 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     public void setViews() {
         mSectionCategoryFrag.setCategoryListener(this);
         mSectionNameFrag.setListener(this);
+
+        refresh(RefreshWay.embed);
+        exeNetworkReq(KIdGet, NetFactory.specialty());
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KIdCommit) {
+        if (id == KIdGet) {
+            return JsonParser.evs(r.getText(), Section.class);
+        } else if (id == KIdCommit)  {
             return JsonParser.error(r.getText());
         } else {
             return super.onNetworkResponse(id, r);
@@ -81,14 +92,46 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KIdCommit) {
+        stopRefresh();
+        if (id == KIdGet) {
+            //全部数据
+            ListResult<Section> r = (ListResult<Section>) result;
+            if (r.isSucceed()) {
+                //把相同的过滤掉
+                ListResult<Section> showSection = new ListResult<>();
+                //隶属列表(一级)
+                List<Section> categories = r.getData();
+                mSections = new MapList<>();
+                String category;//科室隶属
+                String name;//科室名称
+                List<Section> categoryData = new ArrayList<>(); //存放一级科室名称（无重复）
+                List<String> sections = null;//隶属的科室列表(二级)
+                //按隶属分类
+                for (Section section : categories) {
+                    category = section.getString(TSection.category);
+                    name = section.getString(TSection.name);
+                    sections = mSections.getByKey(category);
+                    if (sections == null) {
+                        categoryData.add(section);
+                        sections = new ArrayList<>();
+                        mSections.add(category, sections);
+                        showSection.add(section);
+                    }
+                    sections.add(name);
+                }
+                mSectionCategoryFrag.setData(categoryData);
+                mSectionNameFrag.setSection(mSections.get(0));
+
+                setViewState(ViewState.normal);
+            } else {
+                onNetworkError(id, r.getError());
+            }
+        } else if (id == KIdCommit) {
             Result r = (Result) result;
             if (r.isSucceed()) {
                 Profile.inst().put(TProfile.category, mCategory);
                 Profile.inst().put(TProfile.name, mCategoryName);
                 Profile.inst().saveToSp();
-
-                stopRefresh();
 
                 Intent intent = new Intent()
                         .putExtra(Extra.KName, mCategory)
@@ -98,21 +141,29 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
             } else {
                 onNetworkError(id, r.getError());
             }
-        } else {
-            super.onNetworkSuccess(id, result);
         }
     }
 
     @Override
     public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
+        if (id == KIdGet) {
+            setViewState(ViewState.error);
+        }
     }
 
     @Override
-    public void onCategorySelected(int position, String category, List<String> names) {
-        mSectionNameFrag.setSection(names);
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            exeNetworkReq(KIdGet, NetFactory.specialty());
+        }
+        return true;
+    }
+
+    @Override
+    public void onCategorySelected(int position, String category) {
+        mSectionNameFrag.setSection(mSections.get(position));
         mCategory = category;
-        YSLog.d("yaya", mCategory);
     }
 
     @Override
@@ -130,10 +181,8 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
                     .putExtra(Extra.KName, mCategory)
                     .putExtra(Extra.KData, mCategoryName);
             setResult(RESULT_OK, intent);
-            stopRefresh();
             finish();
         }
-
 
     }
 

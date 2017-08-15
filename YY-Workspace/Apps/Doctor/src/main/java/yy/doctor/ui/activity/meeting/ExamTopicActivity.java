@@ -120,7 +120,7 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
                 .paperId(mPaper.getString(TPaper.id))
                 .pass(mIntro.getInt(TIntro.passScore))
                 .count(mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
-                .answers(mAnswers)
+                .topics(mTopics)
                 .route(ExamTopicActivity.this);
         finish();
     }
@@ -154,7 +154,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             mSubmitDialog.setCancelable(false);
             mSubmitDialog.addButton(R.string.confirm, v -> {
                 mSubmitDialog.dismiss();
-                toAnswer();
                 submit();
             });
             mSubmitDialog.show();

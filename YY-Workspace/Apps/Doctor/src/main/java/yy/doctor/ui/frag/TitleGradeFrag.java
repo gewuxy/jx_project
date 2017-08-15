@@ -16,11 +16,9 @@ import yy.doctor.adapter.TitleGradeAdapter;
 public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
 
     private OnGradeListener mListener;
-    // private List<String> mGrades;
 
     @Override
     public void initData() {
-
     }
 
     @Override
@@ -31,7 +29,6 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     public void setViews() {
         super.setViews();
         setDividerHeight(fitDp(0));
-        // setData(mGrades);
     }
 
     @Override

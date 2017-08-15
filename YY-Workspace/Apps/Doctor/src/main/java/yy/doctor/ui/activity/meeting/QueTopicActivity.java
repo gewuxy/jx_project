@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.meeting;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -45,8 +46,8 @@ public class QueTopicActivity extends BaseTopicActivity {
         bar.addTextViewMid(R.string.que);
 
         bar.addTextViewRight(R.string.submit, v -> {
-            if (mAllTopics != null && mAllTopics.size() > 0) {
-                toSubmit(mAllTopics.size() - mCount);
+            if (mTopics != null && mTopics.size() > 0) {
+                toSubmit(mTopics.size() - mCount);
             }
         });
     }
@@ -85,13 +86,17 @@ public class QueTopicActivity extends BaseTopicActivity {
 
             // 第一次进入考试时提示
             if (SpApp.inst().firstEnterQue()) {
-                runOnUIThread(() -> {
-                    mTopicPopup = new TopicPopup(QueTopicActivity.this);
-                    mTopicPopup.setCheck(R.mipmap.que_popup_check);
-                    mTopicPopup.setSlide(R.mipmap.que_popup_slide);
-                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                    SpApp.inst().saveEnterQue();
-                }, 300);
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mTopicPopup = new TopicPopup(QueTopicActivity.this);
+                        mTopicPopup.setCheck(R.mipmap.que_popup_check);
+                        mTopicPopup.setSlide(R.mipmap.que_popup_slide);
+                        mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                        SpApp.inst().saveEnterQue();
+                        removeOnGlobalLayoutListener(this);
+                    }
+                });
             }
             initFirstGv();
         } else {
@@ -122,7 +127,7 @@ public class QueTopicActivity extends BaseTopicActivity {
     protected void submit() {
         QueEndActivityRouter.create(mMeetId, mModuleId)
                 .paperId(mPaper.getString(TPaper.id))
-                .answers(mAnswers)
+                .topics(mTopics)
                 .route(this);
         finish();
     }
