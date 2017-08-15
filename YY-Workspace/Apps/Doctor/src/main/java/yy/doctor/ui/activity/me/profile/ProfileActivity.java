@@ -264,15 +264,15 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
 
     @Override
     public void callback(Object... params) {
-        int position = (int) params[0];
+        int related = (int) params[0];
         boolean valid = (boolean) params[1];
 
         if (valid) {
-            if (!mStatus.contains(position)) {
-                mStatus.add(position);
+            if (!mStatus.contains(related)) {
+                mStatus.add(related);
             }
         } else {
-            mStatus.remove(position);
+            mStatus.remove(related);
         }
 
         int diff = mStatus.size() * 10 - mProgressProFile;

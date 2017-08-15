@@ -11,6 +11,8 @@ import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 
 /**
+ * FIXME: 逻辑待调整. 有问题
+ *
  * @auther WangLan
  * @since 2017/7/4
  */

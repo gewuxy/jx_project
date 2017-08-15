@@ -371,7 +371,7 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     private void observed(String val) {
         if (getObserver() != null) {
-            getObserver().callback(getPosition(), TextUtil.isNotEmpty(val));
+            getObserver().callback(getRelated(), TextUtil.isNotEmpty(val));
         }
     }
 

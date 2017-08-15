@@ -199,7 +199,6 @@ public class RegisterActivity extends BaseFormActivity
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital));
 
-        //专科有默认的就不用监听了
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.special)
@@ -553,15 +552,15 @@ public class RegisterActivity extends BaseFormActivity
 
     @Override
     public void callback(Object... params) {
-        int position = (int) params[0];
+        int related = (int) params[0];
         boolean valid = (boolean) params[1];
 
         if (valid) {
-            if (!mStatus.contains(position)) {
-                mStatus.add(position);
+            if (!mStatus.contains(related)) {
+                mStatus.add(related);
             }
         } else {
-            mStatus.remove(position);
+            mStatus.remove(related);
         }
 
         setBtnStatus();
