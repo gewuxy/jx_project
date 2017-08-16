@@ -9,10 +9,8 @@ import java.lang.annotation.Target;
  * @auther yuansui
  * @since 2017/8/16
  */
-@Target(ElementType.PARAMETER)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Key {
-    String value() default "";
-
-    boolean opt() default false;
+public @interface Path {
+    String value();
 }

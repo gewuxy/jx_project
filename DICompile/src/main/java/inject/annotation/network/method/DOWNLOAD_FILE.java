@@ -1,4 +1,4 @@
-package inject.annotation.network;
+package inject.annotation.network.method;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,10 +9,10 @@ import java.lang.annotation.Target;
  * @auther yuansui
  * @since 2017/8/16
  */
-@Target(ElementType.PARAMETER)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Key {
-    String value() default "";
+public @interface DOWNLOAD_FILE {
+    String dir();
 
-    boolean opt() default false;
+    String fileName();
 }

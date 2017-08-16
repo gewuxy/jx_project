@@ -18,8 +18,12 @@ import inject.android.MyClassName;
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Key;
+import inject.annotation.network.method.DOWNLOAD;
+import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
-import inject.annotation.network.method.Path;
+import inject.annotation.network.Path;
+import inject.annotation.network.method.POST;
+import inject.annotation.network.method.UPLOAD;
 
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PRIVATE;
@@ -112,9 +116,6 @@ public class NetworkProcessor extends BaseProcessor {
 
                     Path path = methodEle.getAnnotation(Path.class);
                     String pathVal = path.value();
-//                    if (!pathVal.endsWith("/")) {
-//                        pathVal += "/";
-//                    }
 
                     String methodName = methodEle.getSimpleName().toString();
                     MethodSpec.Builder b = MethodSpec.methodBuilder(methodName)
@@ -130,8 +131,15 @@ public class NetworkProcessor extends BaseProcessor {
 
                     if (methodEle.getAnnotation(GET.class) != null) {
                         b.addStatement("b.get()");
-                    } else if (methodEle.getAnnotation(GET.class) != null) {
+                    } else if (methodEle.getAnnotation(POST.class) != null) {
                         b.addStatement("b.post()");
+                    } else if (methodEle.getAnnotation(UPLOAD.class) != null) {
+                        b.addStatement("b.upload()");
+                    } else if (methodEle.getAnnotation(DOWNLOAD.class) != null) {
+                        b.addStatement("b.download()");
+                    } else if (methodEle.getAnnotation(DOWNLOAD_FILE.class) != null) {
+                        DOWNLOAD_FILE df = methodEle.getAnnotation(DOWNLOAD_FILE.class);
+                        b.addStatement("b.downloadFile($S, $S)", df.dir(), df.fileName());
                     }
 
                     ExecutableElement executableElement = (ExecutableElement) methodEle;

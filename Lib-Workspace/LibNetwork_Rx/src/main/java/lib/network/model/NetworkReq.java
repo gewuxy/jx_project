@@ -135,6 +135,17 @@ public class NetworkReq {
             return (T) this;
         }
 
+        /**
+         * 下载到内存中
+         *
+         * @param <T>
+         * @return
+         */
+        public <T extends Builder> T download() {
+            mMethod = NetworkMethod.download;
+            return (T) this;
+        }
+
         public <T extends Builder> T param(String name, String val) {
             if (val == null) {
                 return (T) this;
