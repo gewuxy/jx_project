@@ -2,25 +2,44 @@ package lib.network;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import java.util.List;
+
+import inject.annotation.builder.Builder;
+import lib.network.model.param.CommonPair;
 
 /**
  * @auther yuansui
  * @since 2017/5/16
  */
-
+@Builder
 public class NetworkConfig {
-    private long mConnectTimeout;
-    private long mReadTimeout;
-    private long mWriteTimeout;
+    // 链接时间
+    @IntRange(from = 0)
+    long mConnectTimeout;
 
-    private String mCacheDir;
+    // 读取时间
+    @IntRange(from = 0)
+    long mReadTimeout;
 
+    // 写入时间
+    @IntRange(from = 0)
+    long mWriteTimeout;
+
+    // 缓存地址
+    @NonNull
+    String mCacheDir;
     // 网络超时
-    private String mTimeoutToast;
+    String mTimeoutToast;
     // 网络未连接
-    private String mDisconnectToast;
+    String mDisconnectToast;
+    // 共用参数
+    List<CommonPair> mCommonParams;
+    // 共用headers
+    List<CommonPair> mCommonHeaders;
 
-    private NetworkConfig() {
+    public NetworkConfig() {
         mConnectTimeout = 15;
         mReadTimeout = 15;
         mWriteTimeout = 15;
@@ -53,96 +72,17 @@ public class NetworkConfig {
         return mCacheDir;
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
+    @Nullable
+    public List<CommonPair> getCommonParams() {
+        return mCommonParams;
     }
 
-    public static class Builder {
-        private Long mConnectTimeout;
-        private Long mReadTimeout;
-        private Long mWriteTimeout;
-        private String mCacheDir;
+    @Nullable
+    public List<CommonPair> getCommonHeaders() {
+        return mCommonParams;
+    }
 
-        private String mTimeoutToast;
-        private String mDisconnectToast;
-
-        private Builder() {
-        }
-
-        /**
-         * 链接超时
-         *
-         * @param timeout 单位: 秒
-         * @return
-         */
-        public Builder connectTimeout(@IntRange(from = 0) long timeout) {
-            mConnectTimeout = timeout;
-            return this;
-        }
-
-        /**
-         * 读取超时
-         *
-         * @param timeout 单位: 秒
-         * @return
-         */
-        public Builder readTimeout(@IntRange(from = 0) long timeout) {
-            mReadTimeout = timeout;
-            return this;
-        }
-
-        /**
-         * 写入超时
-         *
-         * @param timeout 单位: 秒
-         * @return
-         */
-        public Builder writeTimeout(@IntRange(from = 0) long timeout) {
-            mWriteTimeout = timeout;
-            return this;
-        }
-
-        public Builder cacheDir(@NonNull String dir) {
-            mCacheDir = dir;
-            return this;
-        }
-
-        public Builder timeoutToast(@NonNull String toast) {
-            mTimeoutToast = toast;
-            return this;
-        }
-
-        public Builder disconnectToast(@NonNull String toast) {
-            mDisconnectToast = toast;
-            return this;
-        }
-
-        public NetworkConfig build() {
-            NetworkConfig config = new NetworkConfig();
-
-            if (mConnectTimeout != null) {
-                config.mConnectTimeout = mConnectTimeout;
-            }
-
-            if (mReadTimeout != null) {
-                config.mReadTimeout = mReadTimeout;
-            }
-
-            if (mWriteTimeout != null) {
-                config.mWriteTimeout = mWriteTimeout;
-            }
-
-            config.mCacheDir = mCacheDir;
-
-            if (mTimeoutToast != null) {
-                config.mTimeoutToast = mTimeoutToast;
-            }
-
-            if (mDisconnectToast != null) {
-                config.mDisconnectToast = mDisconnectToast;
-            }
-
-            return config;
-        }
+    public static NetworkConfigBuilder newBuilder() {
+        return NetworkConfigBuilder.create();
     }
 }

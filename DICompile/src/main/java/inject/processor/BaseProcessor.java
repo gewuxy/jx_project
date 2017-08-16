@@ -26,7 +26,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic.Kind;
 
-import inject.android.AnnotationName;
+import inject.android.AnnotationClassName;
 
 /**
  * @auther yuansui
@@ -34,6 +34,13 @@ import inject.android.AnnotationName;
  */
 
 abstract public class BaseProcessor extends AbstractProcessor {
+
+    protected interface Format {
+        String KString = "$S";
+        String KName = "$N";
+        String KType = "$T";
+        String KVal = "$L";
+    }
 
     private Elements elementUtils;
     private Types typeUtils;
@@ -53,12 +60,6 @@ abstract public class BaseProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {
         for (Element annotatedElement : env.getElementsAnnotatedWith(getAnnotationClass())) {
-            // Make sure element is a field or a method declaration
-            if (!annotatedElement.getKind().isClass()) {
-                printErr(annotatedElement, "Only classes can be annotated with @%s", getAnnotationClass().getSimpleName());
-                return true;
-            }
-
             try {
                 TypeSpec builderSpec = getBuilderSpec(annotatedElement);
                 if (builderSpec != null) {
@@ -69,7 +70,7 @@ abstract public class BaseProcessor extends AbstractProcessor {
                 printErr(annotatedElement, "Could not create builder for %s: %s", annotatedElement.getSimpleName(), e.getMessage());
             }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -138,13 +139,13 @@ abstract public class BaseProcessor extends AbstractProcessor {
     protected ParameterSpec createNonNullParam(Element e, String name) {
         TypeName typeName = getTypeNameBox(e);
         ParameterSpec.Builder builder = ParameterSpec.builder(typeName, name);
-        builder.addAnnotation(AnnotationName.KNonNull);
+        builder.addAnnotation(AnnotationClassName.KNonNull);
         return builder.build();
     }
 
     protected ParameterSpec createNonNullParam(ClassName className, String name) {
         ParameterSpec.Builder builder = ParameterSpec.builder(className, name);
-        builder.addAnnotation(AnnotationName.KNonNull);
+        builder.addAnnotation(AnnotationClassName.KNonNull);
         return builder.build();
     }
 

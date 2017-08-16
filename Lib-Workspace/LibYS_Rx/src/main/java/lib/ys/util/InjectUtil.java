@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import java.lang.reflect.Method;
 
 import inject.annotation.router.Route;
+import lib.ys.YSLog;
 
 
 /**
@@ -16,6 +17,7 @@ import inject.annotation.router.Route;
  */
 
 public class InjectUtil {
+    private static final String TAG = InjectUtil.class.getSimpleName();
 
     public static void bind(Activity activity) {
         intentBuilder(activity, activity.getIntent());
@@ -31,7 +33,7 @@ public class InjectUtil {
                 Method method = builderClz.getMethod("inject", clz);
                 method.invoke(null, frag);
             } catch (Exception e) {
-                e.printStackTrace();
+                YSLog.e(TAG, "bind", e);
             }
         }
     }
@@ -50,7 +52,7 @@ public class InjectUtil {
                 Method method = builderClz.getMethod("inject", clz, Intent.class);
                 method.invoke(null, o, i);
             } catch (Exception e) {
-                e.printStackTrace();
+                YSLog.e(TAG, "intentBuilder", e);
             }
         }
     }

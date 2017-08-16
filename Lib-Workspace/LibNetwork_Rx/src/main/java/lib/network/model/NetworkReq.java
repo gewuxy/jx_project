@@ -1,6 +1,8 @@
 package lib.network.model;
 
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,7 +153,10 @@ public class NetworkReq {
             return (T) this;
         }
 
-        public <T extends Builder> T param(List<CommonPair> pairs) {
+        public <T extends Builder> T param(@Nullable List<CommonPair> pairs) {
+            if (pairs == null) {
+                return (T) this;
+            }
             mParams.addAll(pairs);
             return (T) this;
         }
@@ -215,7 +220,11 @@ public class NetworkReq {
             return (T) this;
         }
 
-        public <T extends Builder> T header(List<CommonPair> pairs) {
+        public <T extends Builder> T header(@Nullable List<CommonPair> pairs) {
+            if (pairs == null) {
+                return (T) this;
+            }
+
             if (mHeaders == null) {
                 mHeaders = new ArrayList<>();
             }
