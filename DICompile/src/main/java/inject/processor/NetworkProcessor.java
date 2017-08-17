@@ -2,12 +2,15 @@ package inject.processor;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.processing.Processor;
 import javax.lang.model.element.Element;
@@ -18,10 +21,10 @@ import inject.android.MyClassName;
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Key;
+import inject.annotation.network.Path;
 import inject.annotation.network.method.DOWNLOAD;
 import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
-import inject.annotation.network.Path;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
 
@@ -41,7 +44,7 @@ public class NetworkProcessor extends BaseProcessor {
         String KHost = "KHost";
         String KHostDebuggable = "KHostDebuggable";
         String KBaseHost = "mBaseHost";
-        String KNetworkBuilder = "b";
+        String KNetworkBuilder = "builder";
     }
 
     @Override
@@ -113,70 +116,29 @@ public class NetworkProcessor extends BaseProcessor {
                         .addModifiers(PUBLIC, STATIC, FINAL);
 
                 for (Element methodEle : apiEle.getEnclosedElements()) {
-
-                    Path path = methodEle.getAnnotation(Path.class);
-                    String pathVal = path.value();
+                    List<VariableElement> required = new ArrayList<>();
+                    List<VariableElement> optional = new ArrayList<>();
+                    getAnnotatedFields(methodEle, required, optional);
 
                     String methodName = methodEle.getSimpleName().toString();
-                    MethodSpec.Builder b = MethodSpec.methodBuilder(methodName)
+
+                    String methodClassName = apiName + "_" + methodName;
+                    TypeSpec.Builder methodClzBuilder = TypeSpec.classBuilder(methodClassName)
+                            .addModifiers(PUBLIC, FINAL, STATIC);
+
+                    MethodSpec.Builder methodInstBuilder = MethodSpec.methodBuilder(methodName)
                             .addModifiers(PUBLIC, STATIC, FINAL)
-                            .returns(MyClassName.KNetworkReq)
-                            .addStatement("$T $N = $T.newBuilder($N + $S)",
-                                    MyClassName.KNetworkReqBuilder,
-                                    FieldName.KNetworkBuilder,
-                                    MyClassName.KNetworkReq,
-                                    FieldName.KBaseHost,
-                                    pathVal
-                            );
+                            .returns(ClassName.bestGuess(methodClassName))
+                            .addStatement("$N inst = new $N($L)", methodClassName, methodClassName, getRequiredParamStatement(required))
+                            .addStatement("return inst");
 
-                    if (methodEle.getAnnotation(GET.class) != null) {
-                        b.addStatement("b.get()");
-                    } else if (methodEle.getAnnotation(POST.class) != null) {
-                        b.addStatement("b.post()");
-                    } else if (methodEle.getAnnotation(UPLOAD.class) != null) {
-                        b.addStatement("b.upload()");
-                    } else if (methodEle.getAnnotation(DOWNLOAD.class) != null) {
-                        b.addStatement("b.download()");
-                    } else if (methodEle.getAnnotation(DOWNLOAD_FILE.class) != null) {
-                        DOWNLOAD_FILE df = methodEle.getAnnotation(DOWNLOAD_FILE.class);
-                        b.addStatement("b.downloadFile($S, $S)", df.dir(), df.fileName());
+                    for (Element e : required) {
+                        methodInstBuilder.addParameter(getTypeNameBox(e), e.getSimpleName().toString());
                     }
 
-                    ExecutableElement executableElement = (ExecutableElement) methodEle;
-                    for (VariableElement e : executableElement.getParameters()) {
-                        String paramName = e.getSimpleName().toString();
-
-                        Key key = e.getAnnotation(Key.class);
-                        if (key != null) {
-                            if (key.opt()) {
-                                // 生成链式调用方法
-                                apiBuilder.addField(getTypeNameBox(e), paramName, PRIVATE);
-
-                                apiBuilder.addMethod(MethodSpec.methodBuilder(paramName)
-                                        .addModifiers(PUBLIC)
-                                        .addParameter(getTypeNameBox(e), paramName)
-                                        .addStatement("this.$N = $N", paramName, paramName)
-                                        .addStatement("return this")
-                                        .returns(ClassName.get(getPackageName(annotatedElement) + "." + name, apiName))
-                                        .build());
-                            } else {
-                                b.addParameter(getTypeName(e), paramName);
-                                b.addStatement("$N.param($S, $L)", FieldName.KNetworkBuilder, key.value(), e);
-                            }
-                        } else {
-                            b.addParameter(getTypeName(e), paramName);
-                            b.addStatement("$N.param($S, $L)", FieldName.KNetworkBuilder, paramName, e);
-                        }
-                    }
-
-                    /**
-                     * 添加共用参数
-                     */
-                    b.addStatement("b.param($T.getConfig().getCommonParams())", MyClassName.KNetwork);
-                    b.addStatement("b.header($T.getConfig().getCommonHeaders())", MyClassName.KNetwork);
-
-                    b.addStatement("return $N.build()", FieldName.KNetworkBuilder);
-                    apiBuilder.addMethod(b.build());
+                    writeAPI(methodEle, methodClassName, apiName, name, methodClzBuilder);
+                    apiBuilder.addMethod(methodInstBuilder.build());
+                    apiBuilder.addType(methodClzBuilder.build());
                 }
 
                 builder.addType(apiBuilder.build());
@@ -184,5 +146,124 @@ public class NetworkProcessor extends BaseProcessor {
         }
 
         return builder.build();
+    }
+
+    private void writeAPI(Element ele, String methodName, String parentName, String baseName, TypeSpec.Builder typeBuilder) {
+        List<VariableElement> required = new ArrayList<>();
+        List<VariableElement> optional = new ArrayList<>();
+        List<VariableElement> all = new ArrayList<>();
+
+        getAnnotatedFields(ele, required, optional);
+        all.addAll(required);
+        all.addAll(optional);
+
+        for (VariableElement e : all) {
+            String paramName = e.getSimpleName().toString();
+            typeBuilder.addField(getTypeNameBox(e), paramName, PRIVATE);
+        }
+
+        if (!required.isEmpty()) {
+            MethodSpec.Builder b = MethodSpec.constructorBuilder()
+                    .addModifiers(PUBLIC);
+
+            for (VariableElement e : required) {
+                String paramName = e.getSimpleName().toString();
+                b.addParameter(createNonNullParam(e, paramName));
+                b.addStatement("this.$N = $N", paramName, paramName);
+            }
+
+            typeBuilder.addMethod(b.build());
+        }
+
+        Path path = ele.getAnnotation(Path.class);
+        String pathVal = path.value();
+
+        typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KNetworkBuilder, PRIVATE)
+                .initializer(CodeBlock.of("$T.newBuilder($N + $S)",
+                        MyClassName.KNetworkReq,
+                        FieldName.KBaseHost,
+                        pathVal))
+                .build());
+
+        MethodSpec.Builder b = MethodSpec.methodBuilder("build")
+                .addModifiers(PUBLIC)
+                .returns(MyClassName.KNetworkReq);
+
+        if (ele.getAnnotation(GET.class) != null) {
+            b.addStatement("$N.get()", FieldName.KNetworkBuilder);
+        } else if (ele.getAnnotation(POST.class) != null) {
+            b.addStatement("b.post()");
+        } else if (ele.getAnnotation(UPLOAD.class) != null) {
+            b.addStatement("b.upload()");
+        } else if (ele.getAnnotation(DOWNLOAD.class) != null) {
+            b.addStatement("b.download()");
+        } else if (ele.getAnnotation(DOWNLOAD_FILE.class) != null) {
+            DOWNLOAD_FILE df = ele.getAnnotation(DOWNLOAD_FILE.class);
+            b.addStatement("b.downloadFile($S, $S)", df.dir(), df.fileName());
+        }
+
+        for (VariableElement e : optional) {
+            String paramName = e.getSimpleName().toString();
+            // 生成链式调用方法
+            typeBuilder.addMethod(MethodSpec.methodBuilder(paramName)
+                    .addModifiers(PUBLIC)
+                    .addParameter(getTypeNameBox(e), paramName)
+//                    .addStatement("$N.param($N, $L)", FieldName.KNetworkBuilder, paramName)
+                    .addStatement("this.$N = $L", paramName, paramName)
+                    .addStatement("return this")
+                    .returns(ClassName.bestGuess(methodName))
+                    .build());
+        }
+
+        for (VariableElement e : all) {
+            b.addStatement("$N.param($S, $L)", FieldName.KNetworkBuilder, getParamName(e), e);
+        }
+
+        /**
+         * 添加共用参数
+         */
+        b.addStatement("$N.param($T.getConfig().getCommonParams())", FieldName.KNetworkBuilder, MyClassName.KNetwork);
+        b.addStatement("$N.header($T.getConfig().getCommonHeaders())", FieldName.KNetworkBuilder, MyClassName.KNetwork);
+
+        b.addStatement("return $N.build()", FieldName.KNetworkBuilder);
+
+        typeBuilder.addMethod(b.build());
+    }
+
+    private void getAnnotatedFields(Element ele, List<VariableElement> required, List<VariableElement> optional) {
+        ExecutableElement executableElement = (ExecutableElement) ele;
+        for (VariableElement e : executableElement.getParameters()) {
+            Key a = e.getAnnotation(Key.class);
+            if (a != null) {
+                if (a.opt()) {
+                    optional.add(e);
+                } else {
+                    required.add(e);
+                }
+            } else {
+                required.add(e);
+            }
+        }
+    }
+
+    private String getParamName(Element ele) {
+        Key key = ele.getAnnotation(Key.class);
+        String name = ele.getSimpleName().toString();
+        if (key != null) {
+            return key.value().isEmpty() ? name : key.value();
+        } else {
+            return name;
+        }
+    }
+
+    private StringBuffer getRequiredParamStatement(List<VariableElement> required) {
+        StringBuffer statement = new StringBuffer();
+        for (int i = 0; i < required.size(); ++i) {
+            statement.append(required.get(i).getSimpleName());
+            if (i != required.size() - 1) {
+                statement.append(", ");
+            }
+        }
+        return statement;
     }
 }

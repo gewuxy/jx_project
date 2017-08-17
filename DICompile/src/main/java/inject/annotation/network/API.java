@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface API {
+    // 中间路径
+    String value() default "";
 }
