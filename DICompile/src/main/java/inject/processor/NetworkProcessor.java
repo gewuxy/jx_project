@@ -20,7 +20,7 @@ import javax.lang.model.element.VariableElement;
 import inject.android.MyClassName;
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
-import inject.annotation.network.Key;
+import inject.annotation.network.Part;
 import inject.annotation.network.Path;
 import inject.annotation.network.method.DOWNLOAD;
 import inject.annotation.network.method.DOWNLOAD_FILE;
@@ -136,7 +136,8 @@ public class NetworkProcessor extends BaseProcessor {
                         methodInstBuilder.addParameter(getTypeNameBox(e), e.getSimpleName().toString());
                     }
 
-                    writeAPI(methodEle, methodClassName, apiName, name, methodClzBuilder);
+                    writeAPI(methodEle, methodClassName, methodClzBuilder);
+
                     apiBuilder.addMethod(methodInstBuilder.build());
                     apiBuilder.addType(methodClzBuilder.build());
                 }
@@ -148,7 +149,7 @@ public class NetworkProcessor extends BaseProcessor {
         return builder.build();
     }
 
-    private void writeAPI(Element ele, String methodName, String parentName, String baseName, TypeSpec.Builder typeBuilder) {
+    private void writeAPI(Element ele, String methodName, TypeSpec.Builder typeBuilder) {
         List<VariableElement> required = new ArrayList<>();
         List<VariableElement> optional = new ArrayList<>();
         List<VariableElement> all = new ArrayList<>();
@@ -162,18 +163,16 @@ public class NetworkProcessor extends BaseProcessor {
             typeBuilder.addField(getTypeNameBox(e), paramName, PRIVATE);
         }
 
+        MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder()
+                .addModifiers(PRIVATE);
         if (!required.isEmpty()) {
-            MethodSpec.Builder b = MethodSpec.constructorBuilder()
-                    .addModifiers(PUBLIC);
-
             for (VariableElement e : required) {
                 String paramName = e.getSimpleName().toString();
-                b.addParameter(createNonNullParam(e, paramName));
-                b.addStatement("this.$N = $N", paramName, paramName);
+                constructorBuilder.addParameter(createNonNullParam(e, paramName));
+                constructorBuilder.addStatement("this.$N = $N", paramName, paramName);
             }
-
-            typeBuilder.addMethod(b.build());
         }
+        typeBuilder.addMethod(constructorBuilder.build());
 
         Path path = ele.getAnnotation(Path.class);
         String pathVal = path.value();
@@ -192,14 +191,14 @@ public class NetworkProcessor extends BaseProcessor {
         if (ele.getAnnotation(GET.class) != null) {
             b.addStatement("$N.get()", FieldName.KNetworkBuilder);
         } else if (ele.getAnnotation(POST.class) != null) {
-            b.addStatement("b.post()");
+            b.addStatement("$N.post()", FieldName.KNetworkBuilder);
         } else if (ele.getAnnotation(UPLOAD.class) != null) {
-            b.addStatement("b.upload()");
+            b.addStatement("$N.upload()", FieldName.KNetworkBuilder);
         } else if (ele.getAnnotation(DOWNLOAD.class) != null) {
-            b.addStatement("b.download()");
+            b.addStatement("$N.download()", FieldName.KNetworkBuilder);
         } else if (ele.getAnnotation(DOWNLOAD_FILE.class) != null) {
             DOWNLOAD_FILE df = ele.getAnnotation(DOWNLOAD_FILE.class);
-            b.addStatement("b.downloadFile($S, $S)", df.dir(), df.fileName());
+            b.addStatement("$N.downloadFile($S, $S)", FieldName.KNetworkBuilder, df.dir(), df.fileName());
         }
 
         for (VariableElement e : optional) {
@@ -208,7 +207,6 @@ public class NetworkProcessor extends BaseProcessor {
             typeBuilder.addMethod(MethodSpec.methodBuilder(paramName)
                     .addModifiers(PUBLIC)
                     .addParameter(getTypeNameBox(e), paramName)
-//                    .addStatement("$N.param($N, $L)", FieldName.KNetworkBuilder, paramName)
                     .addStatement("this.$N = $L", paramName, paramName)
                     .addStatement("return this")
                     .returns(ClassName.bestGuess(methodName))
@@ -233,9 +231,9 @@ public class NetworkProcessor extends BaseProcessor {
     private void getAnnotatedFields(Element ele, List<VariableElement> required, List<VariableElement> optional) {
         ExecutableElement executableElement = (ExecutableElement) ele;
         for (VariableElement e : executableElement.getParameters()) {
-            Key a = e.getAnnotation(Key.class);
-            if (a != null) {
-                if (a.opt()) {
+            Part part = e.getAnnotation(Part.class);
+            if (part != null) {
+                if (part.opt()) {
                     optional.add(e);
                 } else {
                     required.add(e);
@@ -247,10 +245,10 @@ public class NetworkProcessor extends BaseProcessor {
     }
 
     private String getParamName(Element ele) {
-        Key key = ele.getAnnotation(Key.class);
+        Part part = ele.getAnnotation(Part.class);
         String name = ele.getSimpleName().toString();
-        if (key != null) {
-            return key.value().isEmpty() ? name : key.value();
+        if (part != null) {
+            return part.value().isEmpty() ? name : part.value();
         } else {
             return name;
         }

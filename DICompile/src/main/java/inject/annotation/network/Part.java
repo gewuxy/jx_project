@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Key {
-    String value() default "";
+public @interface Part {
+    String key() default "";
 
     boolean opt() default false;
 }
