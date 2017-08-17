@@ -2,9 +2,9 @@ package inject.processor;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -21,7 +21,7 @@ import inject.android.MyClassName;
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
-import inject.annotation.network.Path;
+import inject.annotation.network.Url;
 import inject.annotation.network.method.DOWNLOAD;
 import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
@@ -40,11 +40,15 @@ import static javax.lang.model.element.Modifier.STATIC;
 @AutoService(Processor.class)
 public class NetworkProcessor extends BaseProcessor {
 
+    private final String KSplit = ", ";
+
     private interface FieldName {
         String KHost = "KHost";
         String KHostDebuggable = "KHostDebuggable";
         String KBaseHost = "mBaseHost";
         String KNetworkBuilder = "builder";
+        String KDir = "dir";
+        String KFileName = "fileName";
     }
 
     @Override
@@ -126,11 +130,28 @@ public class NetworkProcessor extends BaseProcessor {
                     TypeSpec.Builder methodClzBuilder = TypeSpec.classBuilder(methodClassName)
                             .addModifiers(PUBLIC, FINAL, STATIC);
 
+                    StringBuffer paramStatements = getRequiredParamStatement(required);
+                    if (isDownloadFileType(methodEle)) {
+                        // 下载文件的参数
+                        if (paramStatements.length() != 0) {
+                            paramStatements.append(KSplit);
+                        }
+                        paramStatements.append(FieldName.KDir)
+                                .append(KSplit)
+                                .append(FieldName.KFileName);
+                    }
+
                     MethodSpec.Builder methodInstBuilder = MethodSpec.methodBuilder(methodName)
                             .addModifiers(PUBLIC, STATIC, FINAL)
                             .returns(ClassName.bestGuess(methodClassName))
-                            .addStatement("$N inst = new $N($L)", methodClassName, methodClassName, getRequiredParamStatement(required))
+                            .addStatement("$N inst = new $N($L)", methodClassName, methodClassName, paramStatements)
                             .addStatement("return inst");
+
+                    if (isDownloadFileType(methodEle)) {
+                        // 下载文件的参数
+                        methodInstBuilder.addParameter(ParameterSpec.builder(String.class, FieldName.KDir).build());
+                        methodInstBuilder.addParameter(ParameterSpec.builder(String.class, FieldName.KFileName).build());
+                    }
 
                     for (Element e : required) {
                         methodInstBuilder.addParameter(getTypeNameBox(e), e.getSimpleName().toString());
@@ -158,9 +179,14 @@ public class NetworkProcessor extends BaseProcessor {
         all.addAll(required);
         all.addAll(optional);
 
+        // 添加fields
         for (VariableElement e : all) {
             String paramName = e.getSimpleName().toString();
-            typeBuilder.addField(getTypeNameBox(e), paramName, PRIVATE);
+
+            Url url = getAnnotation(e, Url.class);
+            if (url == null) {
+                typeBuilder.addField(getTypeNameBox(e), paramName, PRIVATE);
+            }
         }
 
         MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder()
@@ -169,37 +195,70 @@ public class NetworkProcessor extends BaseProcessor {
             for (VariableElement e : required) {
                 String paramName = e.getSimpleName().toString();
                 constructorBuilder.addParameter(createNonNullParam(e, paramName));
-                constructorBuilder.addStatement("this.$N = $N", paramName, paramName);
+
+                Url url = getAnnotation(e, Url.class);
+                if (url == null) {
+                    constructorBuilder.addStatement("this.$N = $N", paramName, paramName);
+                }
             }
         }
-        typeBuilder.addMethod(constructorBuilder.build());
 
-        Path path = ele.getAnnotation(Path.class);
-        String pathVal = path.value();
-
-        typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KNetworkBuilder, PRIVATE)
-                .initializer(CodeBlock.of("$T.newBuilder($N + $S)",
-                        MyClassName.KNetworkReq,
-                        FieldName.KBaseHost,
-                        pathVal))
-                .build());
+        String baseHost = FieldName.KBaseHost;
+        String pathVal = null;
 
         MethodSpec.Builder b = MethodSpec.methodBuilder("build")
                 .addModifiers(PUBLIC)
                 .returns(MyClassName.KNetworkReq);
 
-        if (ele.getAnnotation(GET.class) != null) {
-            b.addStatement("$N.get()", FieldName.KNetworkBuilder);
-        } else if (ele.getAnnotation(POST.class) != null) {
-            b.addStatement("$N.post()", FieldName.KNetworkBuilder);
-        } else if (ele.getAnnotation(UPLOAD.class) != null) {
-            b.addStatement("$N.upload()", FieldName.KNetworkBuilder);
-        } else if (ele.getAnnotation(DOWNLOAD.class) != null) {
-            b.addStatement("$N.download()", FieldName.KNetworkBuilder);
-        } else if (ele.getAnnotation(DOWNLOAD_FILE.class) != null) {
-            DOWNLOAD_FILE df = ele.getAnnotation(DOWNLOAD_FILE.class);
-            b.addStatement("$N.downloadFile($S, $S)", FieldName.KNetworkBuilder, df.dir(), df.fileName());
+        if (isDownloadFileType(ele)) {
+            // 下载文件多加入两个默认参数
+            typeBuilder.addField(FieldSpec.builder(String.class, FieldName.KDir, PRIVATE).build());
+            typeBuilder.addField(FieldSpec.builder(String.class, FieldName.KFileName, PRIVATE).build());
+
+            constructorBuilder.addParameter(createNonNullParam(String.class, FieldName.KDir));
+            constructorBuilder.addParameter(createNonNullParam(String.class, FieldName.KFileName));
+            constructorBuilder.addStatement("this.$N = $L", FieldName.KDir, FieldName.KDir);
+            constructorBuilder.addStatement("this.$N = $L", FieldName.KFileName, FieldName.KFileName);
+
+            b.addStatement("$N.download($L, $L)", FieldName.KNetworkBuilder, FieldName.KDir, FieldName.KFileName);
+
+            String urlName = null;
+            // 如果有声明@Url, 则使用@Url的作为baseHost
+            for (VariableElement e : required) {
+                // @Url的声明只支持必需参数
+                Url url = getAnnotation(e, Url.class);
+                if (url != null) {
+                    urlName = e.getSimpleName().toString();
+                    break;
+                }
+            }
+
+            if (urlName == null) {
+                pathVal = getAnnotation(ele, DOWNLOAD_FILE.class).value();
+                constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KNetworkBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+            } else {
+                constructorBuilder.addStatement("this.$N = $T.newBuilder($L)", FieldName.KNetworkBuilder, MyClassName.KNetworkReq, urlName);
+            }
+        } else {
+            if (getAnnotation(ele, GET.class) != null) {
+                pathVal = getAnnotation(ele, GET.class).value();
+                b.addStatement("$N.get()", FieldName.KNetworkBuilder);
+            } else if (ele.getAnnotation(POST.class) != null) {
+                pathVal = getAnnotation(ele, POST.class).value();
+                b.addStatement("$N.post()", FieldName.KNetworkBuilder);
+            } else if (ele.getAnnotation(UPLOAD.class) != null) {
+                pathVal = getAnnotation(ele, UPLOAD.class).value();
+                b.addStatement("$N.upload()", FieldName.KNetworkBuilder);
+            } else if (ele.getAnnotation(DOWNLOAD.class) != null) {
+                pathVal = getAnnotation(ele, DOWNLOAD.class).value();
+                b.addStatement("$N.download()", FieldName.KNetworkBuilder);
+            }
+
+            constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KNetworkBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
         }
+
+        typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KNetworkBuilder, PRIVATE)
+                .build());
 
         for (VariableElement e : optional) {
             String paramName = e.getSimpleName().toString();
@@ -214,7 +273,9 @@ public class NetworkProcessor extends BaseProcessor {
         }
 
         for (VariableElement e : all) {
-            b.addStatement("$N.param($S, $L)", FieldName.KNetworkBuilder, getParamName(e), e);
+            if (!isDownloadFileType(ele)) {
+                b.addStatement("$N.param($S, $L)", FieldName.KNetworkBuilder, getParamName(e), e);
+            }
         }
 
         /**
@@ -224,6 +285,8 @@ public class NetworkProcessor extends BaseProcessor {
         b.addStatement("$N.header($T.getConfig().getCommonHeaders())", FieldName.KNetworkBuilder, MyClassName.KNetwork);
 
         b.addStatement("return $N.build()", FieldName.KNetworkBuilder);
+
+        typeBuilder.addMethod(constructorBuilder.build());
 
         typeBuilder.addMethod(b.build());
     }
@@ -259,9 +322,17 @@ public class NetworkProcessor extends BaseProcessor {
         for (int i = 0; i < required.size(); ++i) {
             statement.append(required.get(i).getSimpleName());
             if (i != required.size() - 1) {
-                statement.append(", ");
+                statement.append(KSplit);
             }
         }
         return statement;
+    }
+
+    private boolean isDownloadFileType(Element e) {
+        return e.getAnnotation(DOWNLOAD_FILE.class) != null;
+    }
+
+    private <T extends Annotation> T getAnnotation(Element ele, Class<T> clz) {
+        return ele.getAnnotation(clz);
     }
 }

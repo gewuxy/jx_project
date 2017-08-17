@@ -79,7 +79,7 @@ public class NetworkConfig {
 
     @Nullable
     public List<CommonPair> getCommonHeaders() {
-        return mCommonParams;
+        return mCommonHeaders;
     }
 
     public static NetworkConfigBuilder newBuilder() {

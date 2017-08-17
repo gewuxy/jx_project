@@ -8,6 +8,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -145,6 +146,12 @@ abstract public class BaseProcessor extends AbstractProcessor {
 
     protected ParameterSpec createNonNullParam(ClassName className, String name) {
         ParameterSpec.Builder builder = ParameterSpec.builder(className, name);
+        builder.addAnnotation(AnnotationClassName.KNonNull);
+        return builder.build();
+    }
+
+    protected ParameterSpec createNonNullParam(Type typeName, String name) {
+        ParameterSpec.Builder builder = ParameterSpec.builder(typeName, name);
         builder.addAnnotation(AnnotationClassName.KNonNull);
         return builder.build();
     }

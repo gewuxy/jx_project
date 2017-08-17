@@ -63,6 +63,9 @@ public class Network {
     }
 
     public static NetworkConfig getConfig() {
+        if (mConfig == null) {
+            mConfig = NetworkConfigBuilder.create().build();
+        }
         return mConfig;
     }
 }

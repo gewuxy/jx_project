@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.SOURCE)
 public @interface Part {
-    String key() default "";
+    String value() default "";
 
     boolean opt() default false;
 }

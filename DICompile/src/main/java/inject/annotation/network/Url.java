@@ -6,11 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 声明下载文件的url
+ *
  * @auther yuansui
  * @since 2017/8/16
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Path {
-    String value();
+public @interface Url {
 }

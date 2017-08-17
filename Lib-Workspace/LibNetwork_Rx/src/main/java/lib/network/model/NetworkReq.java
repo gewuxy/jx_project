@@ -128,7 +128,7 @@ public class NetworkReq {
          * @param fileName
          * @return
          */
-        public <T extends Builder> T downloadFile(String dir, String fileName) {
+        public <T extends Builder> T download(String dir, String fileName) {
             mMethod = NetworkMethod.download_file;
             mDir = dir;
             mFileName = fileName;
@@ -179,6 +179,9 @@ public class NetworkReq {
          * @param value
          */
         public <T extends Builder> T param(String name, byte[] value) {
+            if (value == null) {
+                return (T) this;
+            }
             return param(name, value, NetworkUtil.KTextEmpty);
         }
 
@@ -201,14 +204,13 @@ public class NetworkReq {
         /**
          * 添加文件param
          *
-         * @param name
-         * @param path
+         * @param pair
          */
-        public <T extends Builder> T paramFile(String name, String path) {
+        public <T extends Builder> T param(FilePair pair) {
             if (mFileParams == null) {
                 mFileParams = new ArrayList<>();
             }
-            mFileParams.add(new FilePair(name, path));
+            mFileParams.add(pair);
             return (T) this;
         }
 
