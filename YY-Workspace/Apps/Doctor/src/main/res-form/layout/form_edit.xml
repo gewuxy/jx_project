@@ -18,7 +18,7 @@
 
             <EditText
                 style="@style/et.form"
-                android:layout_marginRight="@dimen/margin"
+                android:layout_marginRight="9dp"
                 android:gravity="right"/>
 
             <lib.ys.network.image.NetworkImageView

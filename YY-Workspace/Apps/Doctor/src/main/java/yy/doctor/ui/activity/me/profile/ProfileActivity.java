@@ -175,7 +175,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, SectionActivity.class))
                 .type(IntentType.medicine)
                 .name(R.string.specialized)
-                .text(Profile.inst().getString(category) + Profile.inst().getString(name))
+                .text(Profile.inst().getString(category) + " " + Profile.inst().getString(name))
                 .hint(R.string.user_input_Specialist));
 
         addItem(Form.create(FormType.divider));
@@ -255,7 +255,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             BaseForm item = getItem(i);
             if (TextUtil.isNotEmpty(item.getText())
                     || TextUtil.isNotEmpty(item.getVal())) { // 头像是使用的是val
-                mStatus.add(i);
+                mStatus.add(item.getRelated());
             }
         }
 
