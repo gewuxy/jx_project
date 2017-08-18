@@ -1,8 +1,5 @@
 package yy.doctor.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
@@ -12,11 +9,7 @@ import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
-import lib.network.model.param.CommonPair;
-import lib.ys.util.DeviceUtil;
 import yy.doctor.model.meet.Meeting.MeetState;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
@@ -33,15 +26,8 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 )
 public class NetworkAPI {
 
-    public interface Param {
-        String KOSVersion = "os_version";
-        String KDevice = "os_type";
-        String KAppVersion = "app_version";
-        String KToken = "token";
-    }
-
     @API
-    public interface User {
+    interface User {
         /**
          * 登录(绑定微信号)
          *
@@ -169,7 +155,7 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Home {
+    interface Home {
 
         /**
          * 首页banner
@@ -185,7 +171,7 @@ public class NetworkAPI {
     }
 
     @API("data")
-    public interface Data {
+    interface Data {
         @DOWNLOAD_FILE
         void download(@Url String url);
 
@@ -230,8 +216,8 @@ public class NetworkAPI {
         void thomson(String preId);
     }
 
-    @API("publicAccount")
-    public interface UnitNum {
+    @API("Account")
+    interface UnitNum {
 
         /**
          * 关注的单位号
@@ -271,7 +257,7 @@ public class NetworkAPI {
     }
 
     @API("shop")
-    public interface Epc {
+    interface Epc {
 
         /**
          * 象城
@@ -324,7 +310,7 @@ public class NetworkAPI {
     }
 
     @API("register")
-    public interface Register {
+    interface Register {
         /**
          * @param nickname      用户昵称
          * @param linkman       真实姓名
@@ -415,7 +401,7 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Collection {
+    interface Collection {
 
         /**
          * 收藏或者取消收藏
@@ -439,7 +425,7 @@ public class NetworkAPI {
     }
 
     @API("meet/")
-    public interface Meet {
+    interface Meet {
 
         /**
          * @param meetId     会议id
@@ -628,7 +614,7 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Common {
+    interface Common {
 
         /**
          * 检查app版本
@@ -641,7 +627,7 @@ public class NetworkAPI {
          *
          * @return
          */
-        @GET("publicAccount/recommend")
+        @GET("Account/recommend")
         void recommendUnitNum();
 
         /**
@@ -649,7 +635,7 @@ public class NetworkAPI {
          *
          * @param keyword 关键字
          */
-        @POST("publicAccount/search")
+        @POST("Account/search")
         void searchUnitNum(String keyword, int pageNum, int pageSize);
 
         /**
@@ -660,22 +646,5 @@ public class NetworkAPI {
          */
         @GET("alipay/recharge")
         void epnRecharge(String subject, int totalAmount);
-    }
-
-    public static List<CommonPair> getCommonPairs() {
-        List<CommonPair> ps = new ArrayList<>();
-
-        ps.add(newPair(Param.KDevice, "android"));
-        ps.add(newPair(Param.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(Param.KAppVersion, DeviceUtil.getAppVersion()));
-        if (Profile.inst().isLogin()) {
-            ps.add(newPair(Param.KToken, Profile.inst().getString(TProfile.token)));
-        }
-
-        return ps;
-    }
-
-    private static CommonPair newPair(String key, Object value) {
-        return new CommonPair(key, value);
     }
 }

@@ -230,31 +230,7 @@ public class NetworkProcessor extends BaseProcessor {
 
             b.addStatement("$N.download($L, $L)", FieldName.KBuilder, FieldName.KDir, FieldName.KFileName);
 
-            String urlName = null;
-            // 如果有声明@Url, 则使用@Url的作为baseHost
-            for (VariableElement e : required) {
-                // @Url的声明只支持必需参数
-                Url url = getAnnotation(e, Url.class);
-                if (url != null) {
-                    urlName = e.getSimpleName().toString();
-                    break;
-                }
-            }
-
-            if (urlName == null) {
-                pathVal = getAnnotation(ele, DOWNLOAD_FILE.class).value();
-                String apiVal = api.value();
-                if (!apiVal.isEmpty()) {
-                    if (!apiVal.endsWith("/")) {
-                        apiVal += "/";
-                    }
-                    constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, apiVal, pathVal);
-                } else {
-                    constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
-                }
-            } else {
-                constructorBuilder.addStatement("this.$N = $T.newBuilder($L)", FieldName.KBuilder, MyClassName.KNetworkReq, urlName);
-            }
+            pathVal = getAnnotation(ele, DOWNLOAD_FILE.class).value();
         } else {
             if (getAnnotation(ele, GET.class) != null) {
                 pathVal = getAnnotation(ele, GET.class).value();
@@ -269,7 +245,20 @@ public class NetworkProcessor extends BaseProcessor {
                 pathVal = getAnnotation(ele, DOWNLOAD.class).value();
                 b.addStatement("$N.download()", FieldName.KBuilder);
             }
+        }
 
+        String urlName = null;
+        // 如果有声明@Url, 则使用@Url的作为baseHost
+        for (VariableElement e : required) {
+            // @Url的声明只支持必需参数
+            Url url = getAnnotation(e, Url.class);
+            if (url != null) {
+                urlName = e.getSimpleName().toString();
+                break;
+            }
+        }
+
+        if (urlName == null) {
             String apiVal = api.value();
             if (!apiVal.isEmpty()) {
                 if (!apiVal.endsWith("/")) {
@@ -279,6 +268,8 @@ public class NetworkProcessor extends BaseProcessor {
             } else {
                 constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
             }
+        } else {
+            constructorBuilder.addStatement("this.$N = $T.newBuilder($L)", FieldName.KBuilder, MyClassName.KNetworkReq, urlName);
         }
 
         typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KBuilder, PRIVATE)
