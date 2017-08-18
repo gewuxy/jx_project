@@ -25,9 +25,8 @@ import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
-import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.ForgetAPI;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
@@ -41,9 +40,10 @@ import yy.doctor.util.Util;
 
 public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormObserver {
 
-    private final int KLogin = 1;
-    private final int KCaptcha = 2;
-    private final int KModify = 3;
+    private final int KIdLogin = 1;
+    private final int KIdCaptcha = 2;
+    private final int KIdModify = 3;
+
     private final int KMaxCount = 4; // 10分钟内最多获取3次验证码
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
@@ -172,7 +172,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch));
+
+                        exeNetworkReq(KIdCaptcha, RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
                         mDialog.dismiss();
                     });
                     mDialog.show();
@@ -212,8 +213,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             return;
         }
         refresh(RefreshWay.dialog);
-//        exeNetworkReq(KModify, NetFactory.forgetPwd(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)));
-        exeNetworkReq(KModify, ForgetAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
+//        exeNetworkReq(KIdModify, NetFactory.forgetPwd(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)));
+        exeNetworkReq(KIdModify, ForgetAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
     }
 
     private String getPhone() {
@@ -222,7 +223,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KLogin) {
+        if (id == KIdLogin) {
             return JsonParser.ev(r.getText(), Profile.class);
         } else {
             return JsonParser.error(r.getText());
@@ -231,7 +232,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KLogin) { //登陆
+        if (id == KIdLogin) { //登陆
             stopRefresh();
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
@@ -243,7 +244,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 stopRefresh();
                 showToast(r.getMessage());
             }
-        } else if (id == KCaptcha) {//验证码
+        } else if (id == KIdCaptcha) {//验证码
             Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
@@ -251,12 +252,12 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             } else {
                 showToast(r.getMessage());
             }
-        } else if (id == KModify) {//修改并设置新密码
+        } else if (id == KIdModify) {//修改并设置新密码
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("修改成功");
                 //注册成功后登录,登录有结果才stopRefresh
-                exeNetworkReq(KLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null).build());
+                exeNetworkReq(KIdLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null).build());
             } else {
                 stopRefresh();
                 showToast(r.getMessage());

@@ -1,8 +1,5 @@
 package yy.doctor.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
@@ -12,10 +9,7 @@ import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
-import lib.network.model.param.CommonPair;
-import lib.ys.util.DeviceUtil;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @auther yuansui
@@ -30,15 +24,8 @@ import yy.doctor.model.Profile.TProfile;
 )
 public class NetworkAPI {
 
-    public interface Param {
-        String KOSVersion = "os_version";
-        String KDevice = "os_type";
-        String KAppVersion = "app_version";
-        String KToken = "token";
-    }
-
     @API
-    public interface User {
+    interface User {
         /**
          * 登录(绑定微信号)
          *
@@ -94,7 +81,7 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Forget{
+    interface Forget {
 
         /**
          * 通过邮箱找回密码
@@ -116,32 +103,23 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Home {
+    interface Home {
 
         /**
          * 首页banner
-         *
          */
         @GET("banner")
         void banner();
 
         /**
          * 首页推荐会议(含文件夹)
-         *
          */
         @GET("meet/recommend/meet/folder")
         void recommendMeeting(int page, int pageSize);
-
-        /**
-         * 首页推荐单位号
-         *
-         */
-        @GET("publicAccount/recommend")
-        void recommendUnitNum();
     }
 
     @API("data")
-    public interface Data {
+    interface Data {
         @DOWNLOAD_FILE
         void download(@Url String url);
 
@@ -160,6 +138,7 @@ public class NetworkAPI {
 
         /**
          * 收藏的药品目录详情
+         *
          * @param dataFileId
          */
         @GET("data_detail")
@@ -174,15 +153,20 @@ public class NetworkAPI {
          * @param pageSize
          */
         @POST("data_search")
-        void search(String keyword, int type, int pageNum, int pageSize);
+        void search(String keyword, @DataType int type, int pageNum, int pageSize);
     }
 
     @API("publicAccount")
-    public interface UnitNum {
+    interface UnitNum {
+
+        /**
+         * 首页推荐单位号
+         */
+        @GET("recommend")
+        void recommendUnitNum();
 
         /**
          * 关注的单位号
-         *
          */
         @GET("mySubscribe")
         void attentionUnitNum();
@@ -214,7 +198,7 @@ public class NetworkAPI {
          * @param status   0:取消关注 1：关注
          */
         @GET("subscribe")
-        void attention(int masterId, int status) ;
+        void attention(int masterId, int status);
 
     }
 
@@ -266,24 +250,23 @@ public class NetworkAPI {
     }
 
     @API("register")
-    public interface Register{
+    interface Register {
         /**
-         *
-         * @param nickname 用户昵称
-         * @param linkman  真实姓名
-         * @param mobile  手机号
-         * @param captcha 验证码
-         * @param password  密码
-         * @param province  省份
-         * @param city  城市
-         * @param zone  区县
-         * @param hospital  医院名称
-         * @param hospitalLevel  hospitalLevel
-         * @param category  专科一级名称
-         * @param name  专科二级名称
-         * @param department  科室名称
-         * @param title  职称
-         * @param invite  邀请码
+         * @param nickname      用户昵称
+         * @param linkman       真实姓名
+         * @param mobile        手机号
+         * @param captcha       验证码
+         * @param password      密码
+         * @param province      省份
+         * @param city          城市
+         * @param zone          区县
+         * @param hospital      医院名称
+         * @param hospitalLevel hospitalLevel
+         * @param category      专科一级名称
+         * @param name          专科二级名称
+         * @param department    科室名称
+         * @param title         职称
+         * @param invite        邀请码
          * @param masterId
          */
 
@@ -313,6 +296,7 @@ public class NetworkAPI {
 
         /**
          * 城市
+         *
          * @param preId
          */
         @GET("cities")
@@ -320,6 +304,7 @@ public class NetworkAPI {
 
         /**
          * 获取验证码
+         *
          * @param mobile
          * @param type
          */
@@ -328,13 +313,14 @@ public class NetworkAPI {
 
         /**
          * 扫一扫
+         *
          * @param masterId
          */
         @GET("scan_register")
         void scan(@Part(opt = true) String masterId);
 
         /**
-         *专科
+         * 专科
          */
         @GET("specialty")
         void specialty();
@@ -347,6 +333,7 @@ public class NetworkAPI {
 
         /**
          * 配置信息
+         *
          * @param version
          */
         @POST("properties")
@@ -354,7 +341,7 @@ public class NetworkAPI {
     }
 
     @API
-   public interface Collection{
+    interface Collection {
 
         /**
          * 收藏或者取消收藏
@@ -375,24 +362,5 @@ public class NetworkAPI {
          */
         @GET("my_favorite")
         void collection(int pageNum, int pageSize, int type);
-   }
-
-
-
-    public static List<CommonPair> getCommonPairs() {
-        List<CommonPair> ps = new ArrayList<>();
-
-        ps.add(newPair(Param.KDevice, "android"));
-        ps.add(newPair(Param.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(Param.KAppVersion, DeviceUtil.getAppVersion()));
-        if (Profile.inst().isLogin()) {
-            ps.add(newPair(Param.KToken, Profile.inst().getString(TProfile.token)));
-        }
-
-        return ps;
-    }
-
-    private static CommonPair newPair(String key, Object value) {
-        return new CommonPair(key, value);
     }
 }
