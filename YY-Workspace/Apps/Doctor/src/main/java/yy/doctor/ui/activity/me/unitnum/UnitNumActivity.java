@@ -15,7 +15,7 @@ import yy.doctor.model.unitnum.GroupUnitNum;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 import yy.doctor.ui.activity.BaseGroupIndexActivity;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.util.Util;
@@ -36,7 +36,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.unitNum());
+        exeNetworkReq(UnitNumAPI.attentionUnitNum().build());
     }
 
     @Override

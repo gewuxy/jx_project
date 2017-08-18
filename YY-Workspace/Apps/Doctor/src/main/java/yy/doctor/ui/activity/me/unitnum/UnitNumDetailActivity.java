@@ -42,7 +42,7 @@ import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 import yy.doctor.network.image.CutInterceptor;
 import yy.doctor.ui.activity.me.LaunchTmpActivity;
 import yy.doctor.ui.activity.search.SearchActivity;
@@ -156,7 +156,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(KReqIdUnitNumDetail, NetFactory.unitNumDetail(mUnitNumId, getOffset(), getLimit()));
+        exeNetworkReq(KReqIdUnitNumDetail, UnitNumAPI.unitNumDetail(mUnitNumId, getOffset(), getLimit()).build());
     }
 
     @Override
@@ -168,7 +168,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             if (Util.noNetwork() || mUnitNumDetail == null) {
                 return;
             }
-            exeNetworkReq(KReqIdAttention, NetFactory.attention(mUnitNumId, Attention.yes));
+            exeNetworkReq(KReqIdAttention, UnitNumAPI.attention(mUnitNumId, Attention.yes).build());
             //关注人数加1
             mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + 1);
             mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
@@ -228,7 +228,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 if (Util.noNetwork() || mUnitNumDetail == null) {
                     return;
                 }
-                exeNetworkReq(KReqIdCancelAttention, NetFactory.attention(mUnitNumId, Attention.no));
+                exeNetworkReq(KReqIdCancelAttention, UnitNumAPI.attention(mUnitNumId, Attention.no).build());
                 //关注人数减1
                 mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
                 mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));

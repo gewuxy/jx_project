@@ -65,6 +65,31 @@ public class NetworkAPI {
         void upload(byte[] file);
     }
 
+    @API
+    public interface Home {
+
+        /**
+         * 首页banner
+         *
+         */
+        @GET("banner")
+        void banner();
+
+        /**
+         * 首页推荐会议(含文件夹)
+         *
+         */
+        @GET("meet/recommend/meet/folder")
+        void recommendMeeting(int page, int pageSize);
+
+        /**
+         * 首页推荐单位号
+         *
+         */
+        @GET("publicAccount/recommend")
+        void recommendUnitNum();
+    }
+
     @API("data")
     public interface Data {
         @DOWNLOAD_FILE
@@ -84,8 +109,75 @@ public class NetworkAPI {
         void units(String preId, int type, boolean leaf, int pageNum, int pageSize);
     }
 
+    @API("publicAccount")
+    public interface UnitNum {
+
+        /**
+         * 关注的单位号
+         *
+         */
+        @GET("mySubscribe")
+        void attentionUnitNum();
+
+        /**
+         * 单位号详情
+         *
+         * @param id
+         * @param pageNum
+         * @param pageSize
+         */
+        @GET("unitInfo")
+        void unitNumDetail(int id, int pageNum, int pageSize);
+
+        /**
+         * 单位号资料列表
+         *
+         * @param id
+         * @param pageNum
+         * @param pageSize
+         */
+        @GET("materialList")
+        void unitNumData(String id, int pageNum, int pageSize);
+
+        /**
+         * 关注单位号 取消关注
+         *
+         * @param masterId
+         * @param status   0:取消关注 1：关注
+         */
+        @GET("subscribe")
+        void attention(int masterId, int status) ;
+
+    }
+
     @API("shop")
     public interface Epc {
+
+        /**
+         * 象城
+         *
+         * @param pageNum
+         * @param pageSize
+         */
+        @GET("goods")
+        void epc(int pageNum, int pageSize);
+
+        /**
+         * 商品详情
+         *
+         * @param id
+         */
+        @GET("goodInfo")
+        void epcDetail(int id);
+
+        /**
+         * 订单
+         *
+         * @param pageNum
+         */
+        @GET("order")
+        void order(int pageNum, int pageSize);
+
         /**
          * 商品兑换
          *

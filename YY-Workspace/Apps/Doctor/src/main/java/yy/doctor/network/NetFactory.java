@@ -10,13 +10,10 @@ import lib.ys.util.DeviceUtil;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlData;
-import yy.doctor.network.UrlUtil.UrlEpc;
 import yy.doctor.network.UrlUtil.UrlEpn;
-import yy.doctor.network.UrlUtil.UrlHome;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlSearch;
-import yy.doctor.network.UrlUtil.UrlUnitNum;
 import yy.doctor.network.UrlUtil.UrlUser;
 import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
@@ -427,26 +424,6 @@ public class NetFactory {
     }
 
     /**
-     * 首页banner
-     *
-     * @return
-     */
-    public static NetworkReq banner() {
-        return newGet(UrlHome.KBanner)
-                .build();
-    }
-
-    /**
-     * 首页推荐会议(含文件夹)
-     *
-     * @return
-     */
-    public static NetworkReq recommendMeeting(int page, int pageSize) {
-        return newGet(UrlHome.KRecommendMeeting, page, pageSize)
-                .build();
-    }
-
-    /**
      * 文件夹
      *
      * @param showFlag {@link ZeroShowType}
@@ -470,15 +447,6 @@ public class NetFactory {
                 .build();
     }
 
-    /**
-     * 首页推荐单位号
-     *
-     * @return
-     */
-    public static NetworkReq recommendUnitNum() {
-        return newGet(UrlHome.KRecommendUnitNum)
-                .build();
-    }
 
     /**
      * 个人信息
@@ -619,93 +587,6 @@ public class NetFactory {
         return newPost(UrlEpn.KEpnRecharge)
                 .param(EpnRechargeParam.KSubject, subject)
                 .param(EpnRechargeParam.KTotalAmount, totalAmount)
-                .build();
-    }
-
-    /**
-     * 订单
-     *
-     * @param page
-     * @param pageSize
-     * @return
-     */
-    public static NetworkReq order(int page, int pageSize) {
-        return newGet(UrlEpc.KOrder, page, pageSize)
-                .build();
-    }
-
-    /**
-     * 象城
-     *
-     * @param page
-     * @param pageSize
-     * @return
-     */
-    public static NetworkReq epc(int page, int pageSize) {
-        return newGet(UrlEpc.KEpc, page, pageSize)
-                .build();
-    }
-
-    /**
-     * 商品详情
-     *
-     * @param id
-     * @return
-     */
-    public static NetworkReq epcDetail(int id) {
-        return newGet(UrlEpc.KEpcDetail)
-                .param(EpcParam.KGoodsId, id)
-                .build();
-    }
-
-    /**
-     * 关注的单位号
-     *
-     * @return
-     */
-    public static NetworkReq unitNum() {
-        return newGet(UrlUnitNum.KUnitNum)
-                .build();
-    }
-
-    /**
-     * 关注单位号 取消关注
-     *
-     * @param masterId
-     * @param status   0:取消关注 1：关注
-     * @return
-     */
-    public static NetworkReq attention(int masterId, int status) {
-        return newGet(UrlUnitNum.KAttention)
-                .param(AttentionParam.KMasterId, masterId)
-                .param(AttentionParam.KStatus, status)
-                .build();
-    }
-
-    /**
-     * 单位号详情
-     *
-     * @param id
-     * @param page
-     * @param size
-     * @return
-     */
-    public static NetworkReq unitNumDetail(int id, int page, int size) {
-        return newGet(UrlUnitNum.KUnitNumDetail, page, size)
-                .param(UnitNumDetailParam.KId, id)
-                .build();
-    }
-
-    /**
-     * 单位号资料列表
-     *
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    public static NetworkReq unitNumData(String id, int pageNum, int pageSize) {
-        return newGet(UrlUnitNum.KUnitNumData, pageNum, pageSize)
-                .param(UnitNumDetailParam.KId, id)
                 .build();
     }
 

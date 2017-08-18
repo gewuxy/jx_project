@@ -8,7 +8,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.me.OrderAdapter;
 import yy.doctor.model.me.Order;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.EpcAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -75,6 +75,6 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.order(getOffset(), getLimit()));
+        exeNetworkReq(EpcAPI.order(getOffset(), getLimit()).build());
     }
 }

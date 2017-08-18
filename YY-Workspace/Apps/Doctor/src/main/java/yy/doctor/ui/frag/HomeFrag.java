@@ -20,11 +20,13 @@ import yy.doctor.model.home.Banner;
 import yy.doctor.model.home.IHome;
 import yy.doctor.model.home.RecMeeting;
 import yy.doctor.model.home.RecUnitNum;
+import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
 import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.HomeAPI;
+import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 import yy.doctor.ui.activity.home.NoticeActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import yy.doctor.ui.activity.search.SearchActivity;
@@ -43,7 +45,6 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private final int KReqIdMeeting = 2;
     private final int KReqIdUnitNum = 3;
     private final int KReqIdAttention = 4;
-    private final int KAttention = 1;  //关注单位号
 
     private final int KFirstSection = 3;
     private final int KSecondSection = 5;
@@ -106,8 +107,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             hideView(mBadgeView);
         }
 
-        exeNetworkReq(KReqIdBanner, NetFactory.banner());
-        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
+        exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
+        exeNetworkReq(KReqIdUnitNum, HomeAPI.recommendUnitNum().build());
     }
 
     @Override
@@ -115,7 +116,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (initComplete()) {
             mMeetingReqIsOK = false;
         }
-        exeNetworkReq(KReqIdMeeting, NetFactory.recommendMeeting(getOffset(), getLimit()));
+        exeNetworkReq(KReqIdMeeting, HomeAPI.recommendMeeting(getOffset(), getLimit()).build());
     }
 
     @Override
@@ -127,8 +128,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mIsLoadFirstPage = true;
         mIsSwipeRefresh = true;
 
-        exeNetworkReq(KReqIdBanner, NetFactory.banner());
-        exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
+        exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
+        exeNetworkReq(KReqIdUnitNum, HomeAPI.recommendUnitNum().build());
     }
 
     @Override
@@ -274,7 +275,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public void onAttentionChanged(int attention, int unitNumId) {
-        exeNetworkReq(KReqIdAttention, NetFactory.attention(unitNumId, KAttention));
+        exeNetworkReq(KReqIdAttention, UnitNumAPI.attention(unitNumId, Attention.yes).build());
     }
 
     @Override
@@ -288,8 +289,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
-            exeNetworkReq(KReqIdBanner, NetFactory.banner());
-            exeNetworkReq(KReqIdUnitNum, NetFactory.recommendUnitNum());
+            exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
+            exeNetworkReq(KReqIdUnitNum, HomeAPI.recommendUnitNum().build());
             mIsNetworkError = false;
         }
         return false;

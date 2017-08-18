@@ -5,7 +5,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.me.EpcAdapter;
 import yy.doctor.model.me.Epc;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.EpcAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -28,6 +28,6 @@ public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.epc(getOffset(), getLimit()));
+        exeNetworkReq(EpcAPI.epc(getOffset(), getLimit()).build());
     }
 }
