@@ -20,6 +20,8 @@ import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.yy.BaseApp;
 import yy.doctor.Constants.PageConstants;
+import yy.doctor.network.NetworkAPI;
+import yy.doctor.network.NetworkAPISetter;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;
 
@@ -53,6 +55,7 @@ public class App extends BaseApp {
                 .connectTimeout(15)
                 .readTimeout(15)
                 .writeTimeout(15)
+                .commonHeaders(NetworkAPI.getCommonPairs())
                 .timeoutToast(getString(R.string.connect_timeout))
                 .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();
@@ -90,12 +93,13 @@ public class App extends BaseApp {
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
+        NetworkAPISetter.setDebuggable(BuildConfig.DEBUG_NETWORK);
 
         //百度地图
         SDKInitializer.initialize(this);
 
         // 临时的
-        if (Build.VERSION.SDK_INT >= 24/*Build.VERSION_CODES.N*/) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }

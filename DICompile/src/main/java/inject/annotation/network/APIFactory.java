@@ -12,6 +12,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface APIFactory {
+    /**
+     * 正式线
+     *
+     * @return
+     */
     String host();
+
+    /**
+     * 测试线
+     *
+     * @return
+     */
     String hostDebuggable() default "";
 }

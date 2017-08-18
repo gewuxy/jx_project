@@ -21,7 +21,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
@@ -180,7 +180,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.login_tv_login: {
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(NetFactory.login(getUserName(), Util.getEtString(mEtPwd), getOpenId()));
+                exeNetworkReq(UserAPI.login(getUserName(), Util.getEtString(mEtPwd), getOpenId()).build());
             }
             break;
             case R.id.login_iv_cancel: {

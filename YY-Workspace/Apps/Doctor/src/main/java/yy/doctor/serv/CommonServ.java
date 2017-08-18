@@ -20,6 +20,7 @@ import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 
 /**
  * 常驻服务
@@ -64,7 +65,7 @@ public class CommonServ extends ServiceEx {
     protected void onHandleIntent(@Nullable Intent intent) {
         switch (mType) {
             case ReqType.logout: {
-                exeNetworkReq(ReqType.logout, NetFactory.logout(mToken));
+                exeNetworkReq(ReqType.logout, UserAPI.logout(mToken).build());
             }
             break;
             case ReqType.j_push: {

@@ -26,6 +26,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
 
@@ -252,7 +253,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             if (r.isSucceed()) {
                 showToast("修改成功");
                 //注册成功后登录,登录有结果才stopRefresh
-                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
+                exeNetworkReq(KLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null).build());
             } else {
                 stopRefresh();
                 showToast(r.getMessage());

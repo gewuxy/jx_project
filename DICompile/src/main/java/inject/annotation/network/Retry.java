@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 声明下载文件的url
+ * 声明重试的条件
  *
  * @auther yuansui
  * @since 2017/8/16
@@ -14,7 +14,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.SOURCE)
 public @interface Retry {
+    /**
+     * 次数
+     *
+     * @return
+     */
     int count();
 
+    /**
+     * 延时
+     *
+     * @return
+     */
     long delay();
 }

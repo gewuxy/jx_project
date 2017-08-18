@@ -55,6 +55,7 @@ import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
@@ -80,9 +81,10 @@ import static cn.jiguang.analytics.android.api.JAnalyticsInterface.mContext;
 public class RegisterActivity extends BaseFormActivity
         implements OnEditorActionListener, OnLocationNotify, OnFormObserver, TextWatcher {
 
-    private final int KRegister = 0;
-    private final int KLogin = 1;
-    private final int KCaptcha = 2;
+    private final int KIdRegister = 0;
+    private final int KIdLogin = 1;
+    private final int KIdCaptcha = 2;
+
     private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
     private final int KActivateCodeCheckStatus = 100;
 
@@ -350,7 +352,7 @@ public class RegisterActivity extends BaseFormActivity
 
         //注册
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KRegister, NetFactory.register()
+        exeNetworkReq(KIdRegister, NetFactory.register()
                 .mobile(getPhone())
                 .captcha(getItemStr(RelatedId.captcha))
                 .password(getItemStr(RelatedId.pwd))
@@ -417,7 +419,7 @@ public class RegisterActivity extends BaseFormActivity
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KCaptcha, NetFactory.captcha(getPhone(), CaptchaType.fetch));
+                        exeNetworkReq(KIdCaptcha, NetFactory.captcha(getPhone(), CaptchaType.fetch));
                         dialog.dismiss();
                     });
                     dialog.show();
@@ -475,7 +477,7 @@ public class RegisterActivity extends BaseFormActivity
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KLogin) {
+        if (id == KIdLogin) {
             return JsonParser.ev(r.getText(), Profile.class);
         } else {
             return JsonParser.error(r.getText());
@@ -484,7 +486,7 @@ public class RegisterActivity extends BaseFormActivity
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KLogin) {
+        if (id == KIdLogin) {
             //登录
             stopRefresh();
 
@@ -500,7 +502,7 @@ public class RegisterActivity extends BaseFormActivity
                 startActivity(LoginActivity.class);
                 finish();
             }
-        } else if (id == KCaptcha) {
+        } else if (id == KIdCaptcha) {
             Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
@@ -514,7 +516,7 @@ public class RegisterActivity extends BaseFormActivity
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
-                exeNetworkReq(KLogin, NetFactory.login(getPhone(), getItemStr(RelatedId.pwd), null));
+                exeNetworkReq(KIdLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null).build());
             } else {
                 onNetworkError(id, r.getError());
             }

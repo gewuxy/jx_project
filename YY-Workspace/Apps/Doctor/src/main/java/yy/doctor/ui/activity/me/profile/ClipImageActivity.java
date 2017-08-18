@@ -19,7 +19,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.me.UpHeadImage;
 import yy.doctor.model.me.UpHeadImage.TUpHeadImage;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -68,7 +68,7 @@ public class ClipImageActivity extends BaseActivity {
 
                 // 网络上传图片
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(NetFactory.upHeadImg(BmpUtil.toBytes(mBmp)));
+                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
             } else {
                 // FIXME: 产品，这里如何处理？
                 showToast("未知错误");

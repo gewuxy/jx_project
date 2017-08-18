@@ -18,7 +18,6 @@ import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlSearch;
 import yy.doctor.network.UrlUtil.UrlUnitNum;
 import yy.doctor.network.UrlUtil.UrlUser;
-import yy.doctor.network.builder.ExchangeBuilder;
 import yy.doctor.network.builder.ModifyBuilder;
 import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
@@ -101,7 +100,7 @@ public class NetFactory {
      */
     public static Builder newDownload(String url, String filePath, String fileName) {
         return NetworkReq.newBuilder(url)
-                .downloadFile(filePath, fileName)
+                .download(filePath, fileName)
                 .header(getBaseHeader());
     }
 
@@ -118,17 +117,17 @@ public class NetFactory {
         return ps;
     }
 
-    private static CommonPair newPair(String key, Object value) {
+    public static CommonPair newPair(String key, Object value) {
         return new CommonPair(key, value);
     }
 
-    private interface BaseParam {
+    public interface BaseParam {
         String KOSVersion = "os_version";
         String KDevice = "os_type";
         String KAppVersion = "app_version";
     }
 
-    private interface CommonParam {
+    public interface CommonParam {
         String KToken = "token";
         String KPreId = "preId";
         String KOffset = "offset";
@@ -294,16 +293,6 @@ public class NetFactory {
     }
 
     /**
-     * 开机广告
-     *
-     * @return
-     */
-    public static NetworkReq ad() {
-        return newGet(UrlUser.KAd)
-                .build();
-    }
-
-    /**
      * 验证码
      *
      * @param mobile 手机号
@@ -385,21 +374,6 @@ public class NetFactory {
 
 
     /**
-     * 登录(绑定微信号)
-     *
-     * @param name
-     * @param pwd
-     * @return
-     */
-    public static NetworkReq login(String name, String pwd, String openId) {
-        return newPost(UrlUser.KLogin)
-                .param(UserParam.KUserName, name)
-                .param(UserParam.KPassword, pwd)
-                .param(WXParam.KOpenId, openId)
-                .build();
-    }
-
-    /**
      * 检查是否已被绑定
      *
      * @param code
@@ -449,18 +423,6 @@ public class NetFactory {
                 .param(RegisterParam.KMobile, mobile)
                 .param(RegisterParam.KCaptcha, captcha)
                 .param(RegisterParam.KPassword, passWord)
-                .build();
-    }
-
-    /**
-     * 登出
-     *
-     * @return
-     */
-    public static NetworkReq logout(String token) {
-        return newGet(UrlUser.KLogout)
-                .param(CommonParam.KToken, token)
-                .retry(5, 1000)
                 .build();
     }
 
@@ -534,17 +496,6 @@ public class NetFactory {
      */
     public static ModifyBuilder newModifyBuilder() {
         return new ModifyBuilder();
-    }
-
-    /**
-     * 头像上传
-     *
-     * @return
-     */
-    public static NetworkReq upHeadImg(byte[] bytes) {
-        return newUpload(UrlUser.KUpHeaderImg)
-                .param(UpHeadImgParam.KFile, bytes)
-                .build();
     }
 
     /**
@@ -669,15 +620,6 @@ public class NetFactory {
                 .param(EpnRechargeParam.KSubject, subject)
                 .param(EpnRechargeParam.KTotalAmount, totalAmount)
                 .build();
-    }
-
-    /**
-     * 商品兑换
-     *
-     * @return
-     */
-    public static ExchangeBuilder newExchangeBuilder() {
-        return new ExchangeBuilder();
     }
 
     /**

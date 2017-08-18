@@ -25,7 +25,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.EpcAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -159,14 +159,14 @@ public class ExchangeActivity extends BaseFormActivity {
                 }
 
                 refresh(RefreshWay.dialog);
-                NetworkReq r = NetFactory.newExchangeBuilder()
+                NetworkReq r = EpcAPI.exchange()
                         .goodsId(mGoodId)
                         .price(mEpn)
                         .receiver(getRelatedItem(RelatedId.receiver).getText())
                         .phone(getRelatedItem(RelatedId.mobile).getText())
                         .province(getRelatedItem(RelatedId.province_city).getText())
                         .address(getRelatedItem(RelatedId.address).getText())
-                        .builder();
+                        .build();
                 exeNetworkReq(r);
             }
             break;

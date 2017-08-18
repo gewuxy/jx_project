@@ -9,7 +9,7 @@ import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
 import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.DataAPI;
 
 /**
  * @author CaiXiang
@@ -50,7 +50,7 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
         mFileNameEncryption = sb.toString();
         YSLog.d(TAG, " download FileNameEncryption = " + mFileNameEncryption);
 
-        exeNetworkReq(NetFactory.downloadData(mUrl, mFilePath, mFileNameEncryption));
+        exeNetworkReq(DataAPI.download(mFilePath, mFileNameEncryption, mUrl).build());
     }
 
     @Override

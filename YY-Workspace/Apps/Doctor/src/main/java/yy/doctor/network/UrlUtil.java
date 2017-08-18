@@ -49,16 +49,12 @@ public class UrlUtil {
     }
 
     public interface UrlUser {
-        String KAd = "advert";
-        String KLogin = "login";
         String KBindWX = "check_wx_bind";
-        String KLogout = "logout";
         String KForgetPwdEmail = "email/pwd/send_reset_mail";
         String KForgetPwdPhone = "register/pwd/reset/by_mobile";
         String KProfile = "user/info";
         String KModify = "user/modify";
         String KCollection = "my_favorite";
-        String KUpHeaderImg = "user/update_avatar";
         String KChangePwd = "user/resetPwd";
         String KBindJPush = "bindJpush";
         String KCheckAppVersion = "version/newly";
@@ -132,12 +128,8 @@ public class UrlUtil {
     }
 
     public interface UrlData {
-        String KThomsonAll = "data/thomson/all";
         String KThomson = "data/thomson/category";
-        String KThomSonData = "data/thomson/datas";
-        String KPreview = "data/view";
         String KDrugCategory = "data/data_category";
-        String KDrugAllFile = "data/all_file";
         String KDrugSearch = "data/data_search";
 
         String KCollectionDetail = "data/data_detail";
@@ -150,7 +142,6 @@ public class UrlUtil {
     }
 
     public interface UrlEpc {
-        String KExchange = "shop/buy";
         String KOrder = "shop/order";
         String KEpc = "shop/goods";
         String KEpcDetail = "shop/goodInfo";
