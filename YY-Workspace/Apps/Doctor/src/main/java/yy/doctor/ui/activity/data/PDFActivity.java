@@ -19,7 +19,7 @@ import yy.doctor.R;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 
@@ -78,7 +78,7 @@ public class PDFActivity extends BaseActivity {
         mCollectionView = new CollectionViewImpl(getNavBar(), mDataFileId, mType, this);
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(ICollectionView.KIdDetail, NetFactory.collectionDetail(mDataFileId));
+        exeNetworkReq(ICollectionView.KIdDetail, DataAPI.collectionDetail(mDataFileId).build());
 
         mPDFView.setBackgroundColor(ResLoader.getColor(R.color.app_bg));
         File file = new File(mFilePath, mFileEncryptionName);

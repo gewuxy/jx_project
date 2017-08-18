@@ -21,6 +21,7 @@ import yy.doctor.model.Title;
 import yy.doctor.model.Title.TTitle;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.frag.TitleCategoryFrag;
 import yy.doctor.ui.frag.TitleCategoryFrag.OnCategoryListener;
@@ -74,7 +75,8 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         mTitleCategoryFrag.setCategoryListener(this);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(KIdGet, NetFactory.title());
+        exeNetworkReq(KIdGet, RegisterAPI.title().build());
+
     }
 
 
@@ -139,7 +141,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
-            exeNetworkReq(KIdGet, NetFactory.title());
+            exeNetworkReq(KIdGet, RegisterAPI.title().build());
         }
         return true;
     }

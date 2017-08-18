@@ -29,6 +29,7 @@ import lib.bd.location.Gps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
+import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -54,7 +55,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.sp.SpApp;
@@ -352,7 +353,7 @@ public class RegisterActivity extends BaseFormActivity
 
         //注册
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdRegister, NetFactory.register()
+        NetworkReq r = RegisterAPI.reg()
                 .mobile(getPhone())
                 .captcha(getItemStr(RelatedId.captcha))
                 .password(getItemStr(RelatedId.pwd))
@@ -368,7 +369,26 @@ public class RegisterActivity extends BaseFormActivity
                 .title(getItemStr(RelatedId.title))//职称
                 .invite(code)
                 .masterId(mMasId)
-                .build());
+                .build();
+        exeNetworkReq(KIdRegister,r);
+
+       /* exeNetworkReq(KIdRegister, NetFactory.register()
+                .mobile(getPhone())
+                .captcha(getItemStr(RelatedId.captcha))
+                .password(getItemStr(RelatedId.pwd))
+                .linkman(getItemStr(RelatedId.name))
+                .province(place.getString(TPlace.province))
+                .city(place.getString(TPlace.city))
+                .zone(place.getString(TPlace.district))
+                .hospital(getItemStr(RelatedId.hospital))
+                .hospitalLevel(hospitalLevel)//医院级别
+                .category(category)//专科一级名称，要分开
+                .name(name)//专科二级名称
+                .department(getItemStr(RelatedId.department))//科室名称
+                .title(getItemStr(RelatedId.title))//职称
+                .invite(code)
+                .masterId(mMasId)
+                .build());*/
     }
 
     private String getPhone() {
@@ -419,7 +439,7 @@ public class RegisterActivity extends BaseFormActivity
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KIdCaptcha, NetFactory.captcha(getPhone(), CaptchaType.fetch));
+                        exeNetworkReq(KIdCaptcha,RegisterAPI.captcha(getPhone(), CaptchaType.fetch).build());
                         dialog.dismiss();
                     });
                     dialog.show();
@@ -464,10 +484,6 @@ public class RegisterActivity extends BaseFormActivity
                 TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
                 locationText.setText(place.getDesc());
                 getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
-
-//                TextView specialText = getRelatedItem(RelatedId.special).getHolder().getTvText();
-//                specialText.setText(R.string.special);
-//                getRelatedItem(RelatedId.special).save(specialText.getText().toString(), specialText.getText().toString());
                 removeOnPreDrawListener(this);
                 return true;
             }

@@ -45,6 +45,7 @@ import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
@@ -158,7 +159,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
             mIvCollection.setSelected(storedState);
             showToast(storedState ? collectHint : R.string.cancel_collect);
-            exeNetworkReq(KIdCollection, NetFactory.collectionStatus(mMeetId, mType));
+            exeNetworkReq(KIdCollection, CollectionAPI.collectionStatus(mMeetId, mType).build());
             if (!storedState) {
                 // 取消收藏(通知会议收藏列表去除会议)
                 notify(NotifyType.collection_cancel_meeting, mMeetId);

@@ -1,5 +1,8 @@
 package yy.doctor.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
@@ -9,7 +12,10 @@ import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
-import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
+import lib.network.model.param.CommonPair;
+import lib.ys.util.DeviceUtil;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 
 /**
  * @auther yuansui
@@ -19,13 +25,20 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
         host = "http://app.medyaya.cn/v7/api/",
         hostDebuggable = "http://59.111.90.245:8083/v7/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
-//        hostDebuggable = "http://10.0.0.250:8081/api/"; // 轩哥电脑
-//        hostDebuggable = "http://10.0.0.252:8082/api/"; // 长玲电脑
+//        hostDebuggable = "http://10.0.0.250:8081/"; // 轩哥电脑
+//        hostDebuggable = "http://10.0.0.252:8082/"; // 长玲电脑
 )
 public class NetworkAPI {
 
+    public interface Param {
+        String KOSVersion = "os_version";
+        String KDevice = "os_type";
+        String KAppVersion = "app_version";
+        String KToken = "token";
+    }
+
     @API
-    interface User {
+    public interface User {
         /**
          * 登录(绑定微信号)
          *
@@ -81,7 +94,7 @@ public class NetworkAPI {
     }
 
     @API
-    interface Forget {
+    public interface Forget{
 
         /**
          * 通过邮箱找回密码
@@ -103,23 +116,32 @@ public class NetworkAPI {
     }
 
     @API
-    interface Home {
+    public interface Home {
 
         /**
          * 首页banner
+         *
          */
         @GET("banner")
         void banner();
 
         /**
          * 首页推荐会议(含文件夹)
+         *
          */
         @GET("meet/recommend/meet/folder")
         void recommendMeeting(int page, int pageSize);
+
+        /**
+         * 首页推荐单位号
+         *
+         */
+        @GET("publicAccount/recommend")
+        void recommendUnitNum();
     }
 
     @API("data")
-    interface Data {
+    public interface Data {
         @DOWNLOAD_FILE
         void download(@Url String url);
 
@@ -137,27 +159,30 @@ public class NetworkAPI {
         void units(String preId, int type, boolean leaf, int pageNum, int pageSize);
 
         /**
+         * 收藏的药品目录详情
+         * @param dataFileId
+         */
+        @GET("data_detail")
+        void collectionDetail(String dataFileId);
+
+        /**
          * 搜索药品或临床指南
          *
-         * @param keyword  搜索关键字
+         * @param keyword
          * @param type
          * @param pageNum
          * @param pageSize
          */
         @POST("data_search")
-        void search(String keyword, @DataType int type, int pageNum, int pageSize);
+        void search(String keyword, int type, int pageNum, int pageSize);
     }
 
-    @API("Account")
-    interface UnitNum {
-        /**
-         * 首页推荐单位号
-         */
-        @GET("recommend")
-        void recommendUnitNum();
+    @API("publicAccount")
+    public interface UnitNum {
 
         /**
          * 关注的单位号
+         *
          */
         @GET("mySubscribe")
         void attentionUnitNum();
@@ -189,12 +214,12 @@ public class NetworkAPI {
          * @param status   0:取消关注 1：关注
          */
         @GET("subscribe")
-        void attention(int masterId, int status);
+        void attention(int masterId, int status) ;
 
     }
 
     @API("shop")
-    interface Epc {
+    public interface Epc {
 
         /**
          * 象城
@@ -238,5 +263,136 @@ public class NetworkAPI {
                       @Part(opt = true) String phone,
                       @Part(opt = true) String province,
                       @Part(opt = true) String address);
+    }
+
+    @API("register")
+    public interface Register{
+        /**
+         *
+         * @param nickname 用户昵称
+         * @param linkman  真实姓名
+         * @param mobile  手机号
+         * @param captcha 验证码
+         * @param password  密码
+         * @param province  省份
+         * @param city  城市
+         * @param zone  区县
+         * @param hospital  医院名称
+         * @param hospitalLevel  hospitalLevel
+         * @param category  专科一级名称
+         * @param name  专科二级名称
+         * @param department  科室名称
+         * @param title  职称
+         * @param invite  邀请码
+         * @param masterId
+         */
+
+        @POST("reg")
+        void reg(@Part(opt = true) String nickname,
+                 @Part(opt = true) String linkman,
+                 @Part(opt = true) String mobile,
+                 @Part(opt = true) String captcha,
+                 @Part(opt = true) String password,
+                 @Part(opt = true) String province,
+                 @Part(opt = true) String city,
+                 @Part(opt = true) String zone,
+                 @Part(opt = true) String hospital,
+                 @Part(opt = true) Integer hospitalLevel,
+                 @Part(opt = true) String category,
+                 @Part(opt = true) String name,
+                 @Part(opt = true) String department,
+                 @Part(opt = true) String title,
+                 @Part(opt = true) String invite,
+                 @Part(opt = true) String masterId);
+
+        /**
+         * 省份
+         */
+        @GET("provinces")
+        void province();
+
+        /**
+         * 城市
+         * @param preId
+         */
+        @GET("cities")
+        void city(String preId);
+
+        /**
+         * 获取验证码
+         * @param mobile
+         * @param type
+         */
+        @GET("get_captcha")
+        void captcha(String mobile, int type);
+
+        /**
+         * 扫一扫
+         * @param masterId
+         */
+        @GET("scan_register")
+        void scan(@Part(opt = true) String masterId);
+
+        /**
+         *专科
+         */
+        @GET("specialty")
+        void specialty();
+
+        /**
+         * 职称
+         */
+        @GET("title")
+        void title();
+
+        /**
+         * 配置信息
+         * @param version
+         */
+        @POST("properties")
+        void config(int version);
+    }
+
+    @API
+   public interface Collection{
+
+        /**
+         * 收藏或者取消收藏
+         *
+         * @param resourceId
+         * @param type
+         * @return
+         */
+        @GET("set_favorite_status")
+        void collectionStatus(String resourceId, @DataType int type);
+
+        /**
+         * 收藏的会议列表
+         *
+         * @param pageNum
+         * @param pageSize
+         * @return 该值为空或0时，表示会议类型
+         */
+        @GET("my_favorite")
+        void collection(int pageNum, int pageSize, int type);
+   }
+
+
+
+    public static List<CommonPair> getCommonPairs() {
+        List<CommonPair> ps = new ArrayList<>();
+
+        ps.add(newPair(Param.KDevice, "android"));
+        ps.add(newPair(Param.KOSVersion, DeviceUtil.getSystemVersion()));
+        ps.add(newPair(Param.KAppVersion, DeviceUtil.getAppVersion()));
+        if (Profile.inst().isLogin()) {
+            ps.add(newPair(Param.KToken, Profile.inst().getString(TProfile.token)));
+        }
+
+        return ps;
+    }
+
+    private static CommonPair newPair(String key, Object value) {
+        return new CommonPair(key, value);
     }
 }

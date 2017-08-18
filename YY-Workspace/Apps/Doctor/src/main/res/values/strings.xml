@@ -325,7 +325,7 @@
     <string name="section">科室</string>
     <string name="specialized">专科</string>
     <string name="medical_skill">学术专长</string>
-    <string name="high_grade">高级</string>
+    <string name="high_grade">高级职称</string>
     <string name="user_input_section">请输入科室名称</string>
     <string name="user_input_certification_number">请输入职业资格证号</string>
     <string name="user_input_CME_number">请输入CME卡号</string>
