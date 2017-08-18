@@ -16,7 +16,7 @@ import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
 import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.ui.activity.data.BaseDataUnitsActivity;
 import yy.doctor.ui.activity.data.ClinicsActivityRouter;
 import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
@@ -166,7 +166,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.dataUnits(mPreId, getDataType(), mLeaf, getOffset(), getLimit()));
+        exeNetworkReq(DataAPI.units(mPreId, getDataType(), mLeaf, getOffset(), getLimit()).build());
     }
 
     @DataType

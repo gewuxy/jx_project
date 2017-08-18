@@ -9,6 +9,7 @@ import inject.annotation.network.Part;
 import inject.annotation.network.Retry;
 import inject.annotation.network.Url;
 import inject.annotation.network.method.DOWNLOAD_FILE;
+import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
 import lib.network.model.param.CommonPair;
@@ -64,10 +65,23 @@ public class NetworkAPI {
         void upload(byte[] file);
     }
 
-    @API
+    @API("data")
     public interface Data {
         @DOWNLOAD_FILE
         void download(@Url String url);
+
+        /**
+         * 药品目录文件或文件夹列表
+         *
+         * @param preId    父级id,第一级不用传preId
+         * @param type     {@link yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType}
+         * @param leaf     下一级是否是文件夹, 下一级为文件返回true,下一级是文件夹返回false.第一级传null或空字符串
+         * @param pageNum  当前页数
+         * @param pageSize 显示条数
+         * @return
+         */
+        @GET("data_category")
+        void units(String preId, int type, boolean leaf, int pageNum, int pageSize);
     }
 
     @API("shop")

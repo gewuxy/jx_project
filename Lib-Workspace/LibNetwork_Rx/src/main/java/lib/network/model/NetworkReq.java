@@ -154,6 +154,11 @@ public class NetworkReq {
             return (T) this;
         }
 
+        public <T extends Builder> T param(String name, boolean val) {
+            mParams.add(new CommonPair(name, String.valueOf(val)));
+            return (T) this;
+        }
+
         public <T extends Builder> T param(String name, int val) {
             param(name, String.valueOf(val));
             return (T) this;

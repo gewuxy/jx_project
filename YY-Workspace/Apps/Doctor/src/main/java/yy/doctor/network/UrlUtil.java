@@ -129,7 +129,6 @@ public class UrlUtil {
 
     public interface UrlData {
         String KThomson = "data/thomson/category";
-        String KDrugCategory = "data/data_category";
         String KDrugSearch = "data/data_search";
 
         String KCollectionDetail = "data/data_detail";

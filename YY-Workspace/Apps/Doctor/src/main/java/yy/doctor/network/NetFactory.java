@@ -735,24 +735,6 @@ public class NetFactory {
     }
 
     /**
-     * 药品目录文件或文件夹列表
-     *
-     * @param preId    父级id,第一级不用传preId
-     * @param type     {@link yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType}
-     * @param leaf     下一级是否是文件夹, 下一级为文件返回true,下一级是文件夹返回false.第一级传null或空字符串
-     * @param pageNum  当前页数
-     * @param pageSize 显示条数
-     * @return
-     */
-    public static NetworkReq dataUnits(String preId, int type, boolean leaf, int pageNum, int pageSize) {
-        return newGet(UrlData.KDrugCategory, pageNum, pageSize)
-                .param(DataUnitParam.KPreId, preId)
-                .param(DataUnitParam.KType, type)
-                .param(DataUnitParam.KLeaf, String.valueOf(leaf))
-                .build();
-    }
-
-    /**
      * 搜索药品或临床指南
      *
      * @param keyWord  关键字
