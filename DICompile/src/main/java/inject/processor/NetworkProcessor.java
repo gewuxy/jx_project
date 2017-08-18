@@ -157,7 +157,7 @@ public class NetworkProcessor extends BaseProcessor {
                         methodInstBuilder.addParameter(getTypeNameBox(e), e.getSimpleName().toString());
                     }
 
-                    writeAPI(methodEle, methodClassName, methodClzBuilder);
+                    writeAPI(methodEle, methodClassName, methodClzBuilder, api);
 
                     apiBuilder.addMethod(methodInstBuilder.build());
                     apiBuilder.addType(methodClzBuilder.build());
@@ -170,7 +170,7 @@ public class NetworkProcessor extends BaseProcessor {
         return builder.build();
     }
 
-    private void writeAPI(Element ele, String methodName, TypeSpec.Builder typeBuilder) {
+    private void writeAPI(Element ele, String methodName, TypeSpec.Builder typeBuilder, API api) {
         List<VariableElement> required = new ArrayList<>();
         List<VariableElement> optional = new ArrayList<>();
         List<VariableElement> all = new ArrayList<>();
@@ -243,7 +243,15 @@ public class NetworkProcessor extends BaseProcessor {
 
             if (urlName == null) {
                 pathVal = getAnnotation(ele, DOWNLOAD_FILE.class).value();
-                constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+                String apiVal = api.value();
+                if (!apiVal.isEmpty()) {
+                    if (!apiVal.endsWith("/")) {
+                        apiVal += "/";
+                    }
+                    constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, apiVal, pathVal);
+                } else {
+                    constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+                }
             } else {
                 constructorBuilder.addStatement("this.$N = $T.newBuilder($L)", FieldName.KBuilder, MyClassName.KNetworkReq, urlName);
             }
@@ -262,7 +270,15 @@ public class NetworkProcessor extends BaseProcessor {
                 b.addStatement("$N.download()", FieldName.KBuilder);
             }
 
-            constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+            String apiVal = api.value();
+            if (!apiVal.isEmpty()) {
+                if (!apiVal.endsWith("/")) {
+                    apiVal += "/";
+                }
+                constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, apiVal, pathVal);
+            } else {
+                constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+            }
         }
 
         typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KBuilder, PRIVATE)
