@@ -21,6 +21,7 @@ import inject.android.MyClassName;
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
+import inject.annotation.network.Retry;
 import inject.annotation.network.Url;
 import inject.annotation.network.method.DOWNLOAD;
 import inject.annotation.network.method.DOWNLOAD_FILE;
@@ -34,6 +35,9 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 
 /**
+ * 和LibNetwork结合使用
+ * 生成的都是NetworkReq
+ *
  * @auther yuansui
  * @since 2017/8/16
  */
@@ -46,7 +50,7 @@ public class NetworkProcessor extends BaseProcessor {
         String KHost = "KHost";
         String KHostDebuggable = "KHostDebuggable";
         String KBaseHost = "mBaseHost";
-        String KNetworkBuilder = "builder";
+        String KBuilder = "builder";
         String KDir = "dir";
         String KFileName = "fileName";
     }
@@ -93,13 +97,9 @@ public class NetworkProcessor extends BaseProcessor {
         /**
          * setDebuggable()
          */
-//        builder.addField(FieldSpec.builder(Boolean.class, FieldName.KDebuggable, PRIVATE, STATIC)
-//                .initializer(Format.KVal, true)
-//                .build());
         builder.addMethod(MethodSpec.methodBuilder("setDebuggable")
                 .addModifiers(PUBLIC, STATIC)
                 .addParameter(TypeName.BOOLEAN, "state")
-//                .addStatement("$N = state", FieldName.KDebuggable)
                 .beginControlFlow("if (state)")
                 .addStatement("$N = $L", FieldName.KBaseHost, FieldName.KHostDebuggable)
                 .nextControlFlow("else")
@@ -210,6 +210,14 @@ public class NetworkProcessor extends BaseProcessor {
                 .addModifiers(PUBLIC)
                 .returns(MyClassName.KNetworkReq);
 
+        /**
+         * 是否有{@link Retry}
+         */
+        Retry retry = getAnnotation(ele, Retry.class);
+        if (retry != null) {
+            b.addStatement("$N.retry($L, $L)", FieldName.KBuilder, retry.count(), retry.delay());
+        }
+
         if (isDownloadFileType(ele)) {
             // 下载文件多加入两个默认参数
             typeBuilder.addField(FieldSpec.builder(String.class, FieldName.KDir, PRIVATE).build());
@@ -220,7 +228,7 @@ public class NetworkProcessor extends BaseProcessor {
             constructorBuilder.addStatement("this.$N = $L", FieldName.KDir, FieldName.KDir);
             constructorBuilder.addStatement("this.$N = $L", FieldName.KFileName, FieldName.KFileName);
 
-            b.addStatement("$N.download($L, $L)", FieldName.KNetworkBuilder, FieldName.KDir, FieldName.KFileName);
+            b.addStatement("$N.download($L, $L)", FieldName.KBuilder, FieldName.KDir, FieldName.KFileName);
 
             String urlName = null;
             // 如果有声明@Url, 则使用@Url的作为baseHost
@@ -235,29 +243,29 @@ public class NetworkProcessor extends BaseProcessor {
 
             if (urlName == null) {
                 pathVal = getAnnotation(ele, DOWNLOAD_FILE.class).value();
-                constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KNetworkBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+                constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
             } else {
-                constructorBuilder.addStatement("this.$N = $T.newBuilder($L)", FieldName.KNetworkBuilder, MyClassName.KNetworkReq, urlName);
+                constructorBuilder.addStatement("this.$N = $T.newBuilder($L)", FieldName.KBuilder, MyClassName.KNetworkReq, urlName);
             }
         } else {
             if (getAnnotation(ele, GET.class) != null) {
                 pathVal = getAnnotation(ele, GET.class).value();
-                b.addStatement("$N.get()", FieldName.KNetworkBuilder);
+                b.addStatement("$N.get()", FieldName.KBuilder);
             } else if (ele.getAnnotation(POST.class) != null) {
                 pathVal = getAnnotation(ele, POST.class).value();
-                b.addStatement("$N.post()", FieldName.KNetworkBuilder);
+                b.addStatement("$N.post()", FieldName.KBuilder);
             } else if (ele.getAnnotation(UPLOAD.class) != null) {
                 pathVal = getAnnotation(ele, UPLOAD.class).value();
-                b.addStatement("$N.upload()", FieldName.KNetworkBuilder);
+                b.addStatement("$N.upload()", FieldName.KBuilder);
             } else if (ele.getAnnotation(DOWNLOAD.class) != null) {
                 pathVal = getAnnotation(ele, DOWNLOAD.class).value();
-                b.addStatement("$N.download()", FieldName.KNetworkBuilder);
+                b.addStatement("$N.download()", FieldName.KBuilder);
             }
 
-            constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KNetworkBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
+            constructorBuilder.addStatement("this.$N = $T.newBuilder($N + $S)", FieldName.KBuilder, MyClassName.KNetworkReq, baseHost, pathVal);
         }
 
-        typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KNetworkBuilder, PRIVATE)
+        typeBuilder.addField(FieldSpec.builder(MyClassName.KNetworkReqBuilder, FieldName.KBuilder, PRIVATE)
                 .build());
 
         for (VariableElement e : optional) {
@@ -274,17 +282,17 @@ public class NetworkProcessor extends BaseProcessor {
 
         for (VariableElement e : all) {
             if (!isDownloadFileType(ele)) {
-                b.addStatement("$N.param($S, $L)", FieldName.KNetworkBuilder, getParamName(e), e);
+                b.addStatement("$N.param($S, $L)", FieldName.KBuilder, getParamName(e), e);
             }
         }
 
         /**
          * 添加共用参数
          */
-        b.addStatement("$N.param($T.getConfig().getCommonParams())", FieldName.KNetworkBuilder, MyClassName.KNetwork);
-        b.addStatement("$N.header($T.getConfig().getCommonHeaders())", FieldName.KNetworkBuilder, MyClassName.KNetwork);
+        b.addStatement("$N.param($T.getConfig().getCommonParams())", FieldName.KBuilder, MyClassName.KNetwork);
+        b.addStatement("$N.header($T.getConfig().getCommonHeaders())", FieldName.KBuilder, MyClassName.KNetwork);
 
-        b.addStatement("return $N.build()", FieldName.KNetworkBuilder);
+        b.addStatement("return $N.build()", FieldName.KBuilder);
 
         typeBuilder.addMethod(constructorBuilder.build());
 
