@@ -154,7 +154,7 @@ public class NetworkProcessor extends BaseProcessor {
                     }
 
                     for (Element e : required) {
-                        methodInstBuilder.addParameter(getTypeNameBox(e), e.getSimpleName().toString());
+                        methodInstBuilder.addParameter(getTypeName(e), e.getSimpleName().toString());
                     }
 
                     writeAPI(methodEle, methodClassName, methodClzBuilder, api);
@@ -185,7 +185,7 @@ public class NetworkProcessor extends BaseProcessor {
 
             Url url = getAnnotation(e, Url.class);
             if (url == null) {
-                typeBuilder.addField(getTypeNameBox(e), paramName, PRIVATE);
+                typeBuilder.addField(getTypeName(e), paramName, PRIVATE);
             }
         }
 
@@ -289,7 +289,7 @@ public class NetworkProcessor extends BaseProcessor {
             // 生成链式调用方法
             typeBuilder.addMethod(MethodSpec.methodBuilder(paramName)
                     .addModifiers(PUBLIC)
-                    .addParameter(getTypeNameBox(e), paramName)
+                    .addParameter(getTypeName(e), paramName)
                     .addStatement("this.$N = $L", paramName, paramName)
                     .addStatement("return this")
                     .returns(ClassName.bestGuess(methodName))
