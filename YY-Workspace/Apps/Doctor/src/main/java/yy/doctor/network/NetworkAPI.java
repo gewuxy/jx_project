@@ -25,6 +25,8 @@ import yy.doctor.model.Profile.TProfile;
         host = "http://app.medyaya.cn/v7/api/",
         hostDebuggable = "http://59.111.90.245:8083/v7/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
+//        hostDebuggable = "http://10.0.0.250:8081/"; // 轩哥电脑
+//        hostDebuggable = "http://10.0.0.252:8082/"; // 长玲电脑
 )
 public class NetworkAPI {
 
@@ -63,6 +65,54 @@ public class NetworkAPI {
          */
         @UPLOAD("user/update_avatar")
         void upload(byte[] file);
+
+        /**
+         * 修改个人资料
+         *
+         * @param headimg       头像地址
+         * @param linkman       真实姓名
+         * @param hospital      医院
+         * @param hospitalLevel 医院等级
+         * @param title         职称
+         * @param category      专科一级
+         * @param name          专科二级
+         * @param province      省份
+         * @param city          城市
+         * @param zone          区
+         */
+        @POST("user/modify")
+        void modify(@Part(opt = true) String headimg,
+                    @Part(opt = true) String linkman,
+                    @Part(opt = true) String hospital,
+                    @Part(opt = true) String hospitalLevel,
+                    @Part(opt = true) String title,
+                    @Part(opt = true) String category,
+                    @Part(opt = true) String name,
+                    @Part(opt = true) String province,
+                    @Part(opt = true) String city,
+                    @Part(opt = true) String zone);
+    }
+
+    @API
+    public interface Forget{
+
+        /**
+         * 通过邮箱找回密码
+         *
+         * @param username
+         */
+        @GET("email/pwd/send_reset_mail")
+        void email(String username);
+
+        /**
+         * 通过手机找回密码
+         *
+         * @param mobile
+         * @param captcha
+         * @param password
+         */
+        @GET("register/pwd/reset/by_mobile")
+        void phone(String mobile, String captcha, String password);
     }
 
     @API
@@ -107,6 +157,17 @@ public class NetworkAPI {
          */
         @GET("data_category")
         void units(String preId, int type, boolean leaf, int pageNum, int pageSize);
+
+        /**
+         * 搜索药品或临床指南
+         *
+         * @param keyword
+         * @param type
+         * @param pageNum
+         * @param pageSize
+         */
+        @POST("data_search")
+        void search(String keyword, int type, int pageNum, int pageSize);
     }
 
     @API("publicAccount")

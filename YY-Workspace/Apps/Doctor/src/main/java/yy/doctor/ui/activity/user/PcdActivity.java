@@ -32,6 +32,7 @@ import yy.doctor.model.Place.TPlace;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
 
 
@@ -288,10 +289,10 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
         mRetPlace = place;
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
+        exeNetworkReq(KIdCommit, UserAPI.modify()
                 .province(place.getString(TPlace.province))
                 .city(place.getString(TPlace.city))
-                .area(place.getString(TPlace.district))
+                .zone(place.getString(TPlace.district))
                 .build());
     }
 

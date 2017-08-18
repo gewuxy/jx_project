@@ -26,6 +26,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.ForgetAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
@@ -210,7 +211,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             return;
         }
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KModify, NetFactory.forgetPwd(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)));
+//        exeNetworkReq(KModify, NetFactory.forgetPwd(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)));
+        exeNetworkReq(KModify, ForgetAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
     }
 
     private String getPhone() {

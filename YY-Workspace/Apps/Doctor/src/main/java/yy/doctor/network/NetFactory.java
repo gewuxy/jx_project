@@ -396,34 +396,6 @@ public class NetFactory {
     }
 
     /**
-     * 通过邮箱找回密码
-     *
-     * @param username
-     * @return
-     */
-    public static NetworkReq forgetPwd(String username) {
-        return newGet(UrlUser.KForgetPwdEmail)
-                .param(UserParam.KUserName, username)
-                .build();
-    }
-
-    /**
-     * 通过手机找回密码
-     *
-     * @param mobile
-     * @param captcha
-     * @param passWord
-     * @return
-     */
-    public static NetworkReq forgetPwd(String mobile, String captcha, String passWord) {
-        return newGet(UrlUser.KForgetPwdPhone)
-                .param(RegisterParam.KMobile, mobile)
-                .param(RegisterParam.KCaptcha, captcha)
-                .param(RegisterParam.KPassword, passWord)
-                .build();
-    }
-
-    /**
      * 文件夹
      *
      * @param showFlag {@link ZeroShowType}
@@ -612,22 +584,6 @@ public class NetFactory {
     public static NetworkReq thomson(String preId) {
         return newGet(UrlData.KThomson)
                 .param(ThomsonParam.KPreId, preId)
-                .build();
-    }
-
-    /**
-     * 搜索药品或临床指南
-     *
-     * @param keyWord  关键字
-     * @param type     type=1代表药品目录，type=2代表临床
-     * @param pageNum  当前页数
-     * @param pageSize 显示条数
-     * @return
-     */
-    public static NetworkReq drugSearch(String keyWord, int type, int pageNum, int pageSize) {
-        return newPost(UrlData.KDrugSearch, pageNum, pageSize)
-                .param(DataUnitParam.KKeyword, keyWord)
-                .param(DataUnitParam.KType, type)
                 .build();
     }
 

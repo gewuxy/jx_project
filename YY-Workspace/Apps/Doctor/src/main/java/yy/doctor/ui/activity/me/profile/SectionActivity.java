@@ -23,6 +23,7 @@ import yy.doctor.model.me.Section;
 import yy.doctor.model.me.Section.TSection;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.frag.SectionCategoryFrag;
 import yy.doctor.ui.frag.SectionCategoryFrag.OnCategoryListener;
 import yy.doctor.ui.frag.SectionNameFrag;
@@ -51,6 +52,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
     @Override
     public void initData() {
+        mCategory = "内科系统";
     }
 
     @NonNull
@@ -173,7 +175,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
 
         if (Profile.inst().isLogin()) {
             refresh(RefreshWay.dialog);
-            exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder()
+            exeNetworkReq(KIdCommit, UserAPI.modify()
                     .category(mCategory)
                     .name(mCategoryName)
                     .build());

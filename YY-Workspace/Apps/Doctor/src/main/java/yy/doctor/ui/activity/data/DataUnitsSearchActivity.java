@@ -17,7 +17,7 @@ import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
 import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
@@ -127,7 +127,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.drugSearch(mSearchContent, mType, getOffset(), getLimit()));
+        exeNetworkReq(DataAPI.search(mSearchContent, mType, getOffset(), getLimit()).build());
     }
 
     protected void searchEmpty() {

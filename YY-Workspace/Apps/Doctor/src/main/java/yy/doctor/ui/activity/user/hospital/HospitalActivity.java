@@ -49,7 +49,7 @@ import yy.doctor.model.hospital.HospitalTitle;
 import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.util.Util;
 
@@ -317,7 +317,10 @@ public class HospitalActivity extends BaseHospitalActivity
             Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
             Profile.inst().saveToSp();
             if (Profile.inst().isLogin()) {
-                exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(hosName).hospitalLevel(HosLvId).build());
+                exeNetworkReq(KIdSave, UserAPI.modify()
+                        .hospital(hosName)
+                        .hospitalLevel(String.valueOf(HosLvId))
+                        .build());
             }
             Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
             setResult(RESULT_OK, intent);
@@ -388,7 +391,11 @@ public class HospitalActivity extends BaseHospitalActivity
             Profile.inst().saveToSp();
 
             if (Profile.inst().isLogin()) {
-                exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(name).hospitalLevel(levelId).build());
+//                exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(name).hospitalLevel(levelId).build());
+                exeNetworkReq(KIdSave, UserAPI.modify()
+                        .hospital(name)
+                        .hospitalLevel(String.valueOf(levelId))
+                        .build());
             } else {
                 Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
                 setResult(RESULT_OK, intent);

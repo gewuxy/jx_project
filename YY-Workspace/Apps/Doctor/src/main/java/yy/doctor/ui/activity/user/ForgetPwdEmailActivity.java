@@ -16,7 +16,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.ForgetAPI;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;
@@ -111,7 +111,8 @@ public class ForgetPwdEmailActivity extends BaseActivity {
                     showToast(R.string.input_right_email);
                     return;
                 }
-                exeNetworkReq(NetFactory.forgetPwd(mEt.getText().toString().trim()));
+//                exeNetworkReq(NetFactory.forgetPwd(mEt.getText().toString().trim()));
+                exeNetworkReq(ForgetAPI.email(mEt.getText().toString().trim()).build());
             }
             break;
             case R.id.forget_email_iv_cancel: {

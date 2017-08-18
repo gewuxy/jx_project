@@ -50,8 +50,6 @@ public class UrlUtil {
 
     public interface UrlUser {
         String KBindWX = "check_wx_bind";
-        String KForgetPwdEmail = "email/pwd/send_reset_mail";
-        String KForgetPwdPhone = "register/pwd/reset/by_mobile";
         String KProfile = "user/info";
         String KModify = "user/modify";
         String KCollection = "my_favorite";

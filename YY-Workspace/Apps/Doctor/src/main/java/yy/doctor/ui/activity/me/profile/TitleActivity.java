@@ -21,6 +21,7 @@ import yy.doctor.model.Title;
 import yy.doctor.model.Title.TTitle;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.frag.TitleCategoryFrag;
 import yy.doctor.ui.frag.TitleCategoryFrag.OnCategoryListener;
 import yy.doctor.ui.frag.TitleGradeFrag;
@@ -156,7 +157,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         if (Profile.inst().isLogin()) {
             // 登录了就是在个人中心界面p
             refresh(RefreshWay.dialog);
-            exeNetworkReq(KIdCommit, NetFactory.newModifyBuilder().title(mTitle).build());
+            exeNetworkReq(KIdCommit, UserAPI.modify().title(mTitle).build());
         } else {
             // 没有登录就是在注册界面
             Intent i = new Intent().putExtra(Extra.KData, mTitle);
