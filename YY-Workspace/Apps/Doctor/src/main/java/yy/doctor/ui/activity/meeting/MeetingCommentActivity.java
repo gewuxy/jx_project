@@ -37,6 +37,7 @@ import yy.doctor.model.meet.CommentHistories;
 import yy.doctor.model.meet.CommentHistories.TCommentHistories;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -103,7 +104,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         /**
          * @deprecated 这版本没有下拉加载以前数据
          */
-        exeNetworkReq(NetFactory.histories(mMeetId, 100, 1));
+        exeNetworkReq(MeetAPI.commentHistories(mMeetId, 100, 1).build());
         mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
     }
 

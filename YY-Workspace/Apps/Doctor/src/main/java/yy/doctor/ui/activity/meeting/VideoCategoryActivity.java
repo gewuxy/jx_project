@@ -28,7 +28,7 @@ import yy.doctor.model.meet.video.Detail.TDetail;
 import yy.doctor.model.meet.video.Intro;
 import yy.doctor.model.meet.video.Intro.TIntro;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.util.Time;
 
 /**
@@ -91,10 +91,10 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     @Override
     public void getDataFromNet() {
         if (TextUtil.isEmpty(mPreId)) {
-            exeNetworkReq(KIdToVideo, NetFactory.toVideo(mSubmit.getString(TSubmit.meetId),
-                    mSubmit.getString(TSubmit.moduleId)));
+            exeNetworkReq(KIdToVideo, MeetAPI.toVideo(mSubmit.getString(TSubmit.meetId),
+                    mSubmit.getString(TSubmit.moduleId)).build());
         } else {
-            exeNetworkReq(KIdVideo, NetFactory.video(mPreId));
+            exeNetworkReq(KIdVideo, MeetAPI.video(mPreId).build());
         }
     }
 

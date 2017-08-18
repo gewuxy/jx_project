@@ -12,7 +12,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.FileDataAdapter;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
@@ -71,7 +71,7 @@ public class FilesActivity extends BaseSRListActivity<FileData, FileDataAdapter>
         if (mType == FileFrom.unit_num) {
             exeNetworkReq(UnitNumAPI.unitNumData(mId, getOffset(), getLimit()).build());
         } else {
-            exeNetworkReq(NetFactory.meetingData(mId, getOffset(), getLimit()));
+            exeNetworkReq(MeetAPI.meetData(mId, getOffset(), getLimit()).build());
         }
     }
 

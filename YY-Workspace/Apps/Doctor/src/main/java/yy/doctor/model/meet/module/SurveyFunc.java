@@ -10,16 +10,18 @@ import yy.doctor.R;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
-import yy.doctor.ui.activity.meeting.QueTopicActivity;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.ui.activity.meeting.SurveyTopicActivity;
 
 /**
+ * 问卷模块
+ *
  * @auther yuansui
  * @since 2017/7/12
  */
-public class QueFunc extends BaseFunc {
+public class SurveyFunc extends BaseFunc {
 
-    public QueFunc(Context context, MeetDetail detail, OnFuncListener l) {
+    public SurveyFunc(Context context, MeetDetail detail, OnFuncListener l) {
         super(context, detail, l);
     }
 
@@ -40,7 +42,7 @@ public class QueFunc extends BaseFunc {
 
     @Override
     protected NetworkReq getNetworkReq() {
-        return NetFactory.toSurvey(getMeetId(), getModuleId());
+        return MeetAPI.toSurvey(getMeetId(), getModuleId()).build();
     }
 
     @Override
@@ -52,7 +54,7 @@ public class QueFunc extends BaseFunc {
     public void onNetworkSuccess(Object result) {
         Result r = (Result) result;
         if (r.isSucceed()) {
-            QueTopicActivity.nav(getContext(), getMeetId(), getModuleId());
+            SurveyTopicActivity.nav(getContext(), getMeetId(), getModuleId());
         } else {
             AppEx.showToast(r.getMessage());
         }

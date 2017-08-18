@@ -20,7 +20,7 @@ import yy.doctor.adapter.meeting.MeetingDepartmentAdapter;
 import yy.doctor.model.meet.MeetingDepartment;
 import yy.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 
 /**
  * @auther yuansui
@@ -61,38 +61,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
     @Override
     public void setViews() {
         adapter = new MeetingDepartmentAdapter();
-        exeNetworkReq(NetFactory.meetingDepartment());
-      /*  for (int i = 0; i < 25; i++) {
-            mSectionFilter.put(TSectionFilter.bitmap, R.mipmap.data_ic_arrow_down);
-            mSectionFilter.put(TSectionFilter.name, "内科");
-            mSectionFilter.put(TSectionFilter.number, 100);
-            mList.add(mSectionFilter);
-        }
-        adapter.setData(mList);
-        mListView.setAdapter(adapter);
-        mListView.setOnItemClickListener(this);*/
-        //  mListView.getDivider();
-//        mRv.setLayoutManager(new StaggeredGridLayoutManager(KRowCount, StaggeredGridLayoutManager.VERTICAL));
-//
-//        // 分割线
-//        mRv.addItemDecoration(new GridDivider(
-//                DpFitter.dp(KDividerHeight),
-//                R.drawable.section_divider_bg));
-//
-//        final SectionAdapter adapter = new SectionAdapter();
-//        adapter.addAll(Util.getSections());
-//        mRv.setAdapter(adapter);
-//        adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(View v, int position) {
-//                if (mLsn != null) {
-//                    mLsn.onSectionSelected(adapter.getItem(position));
-//                }
-//                dismiss();
-//            }
-//        });
-
+        exeNetworkReq(MeetAPI.meetDepartment().build());
     }
 
     @Override

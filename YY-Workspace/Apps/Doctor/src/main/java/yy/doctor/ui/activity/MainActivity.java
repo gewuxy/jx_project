@@ -31,7 +31,8 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CommonAPI;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
 import yy.doctor.sp.SpApp;
@@ -143,11 +144,11 @@ public class MainActivity extends BaseVPActivity {
 
         // 静默更新用户数据
         if (SpUser.inst().needUpdateProfile()) {
-            exeNetworkReq(KReqIdProfile, NetFactory.profile());
+            exeNetworkReq(KReqIdProfile, UserAPI.profile().build());
         }
         //判断是否需要检查版本
         if (SpApp.inst().needUpdateApp()) {
-            exeNetworkReq(KReqIdApp, NetFactory.checkAppVersion());
+            exeNetworkReq(KReqIdApp, CommonAPI.checkAppVersion().build());
         }
     }
 

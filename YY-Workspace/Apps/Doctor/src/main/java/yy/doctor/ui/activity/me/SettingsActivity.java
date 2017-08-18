@@ -39,7 +39,8 @@ import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.me.CheckAppVersion;
 import yy.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CommonAPI;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
 import yy.doctor.sp.SpApp;
@@ -225,7 +226,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.check_version: {
-                exeNetworkReq(KVersion, NetFactory.checkAppVersion());
+                exeNetworkReq(KVersion, CommonAPI.checkAppVersion().build());
             }
             break;
             case RelatedId.clear_img_cache: {
@@ -347,7 +348,7 @@ public class SettingsActivity extends BaseFormActivity {
         HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
         relieveDialog.setHint("是否解除绑定微信号");
         relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-            exeNetworkReq(KUnBindWX, NetFactory.bindWX(null));
+            exeNetworkReq(KUnBindWX, UserAPI.bindWX().build());
             relieveDialog.dismiss();
         });
         relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
@@ -375,7 +376,7 @@ public class SettingsActivity extends BaseFormActivity {
         HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
         relieveDialog.setHint("是否解除绑定邮箱");
         relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-            exeNetworkReq(KUnBindEmail, NetFactory.unBindEmail());
+            exeNetworkReq(KUnBindEmail, UserAPI.unBindEmail().build());
             relieveDialog.dismiss();
         });
         relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());

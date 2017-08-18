@@ -12,7 +12,7 @@ import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 
 /**
  * 搜索会议结果
@@ -51,7 +51,7 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.searchMeeting(mSearchContent, getOffset(), getLimit()));
+        exeNetworkReq(MeetAPI.searchMeet(mSearchContent, getOffset(), getLimit()).build());
     }
 
     @Override

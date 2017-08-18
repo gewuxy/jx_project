@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import lib.network.model.NetworkReq;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -18,10 +19,11 @@ import yy.doctor.util.Util;
  * @since : 2017/6/10
  */
 @Route
-public class QueEndActivity extends BaseResultActivity {
+public class SurveyEndActivity extends BaseResultActivity {
 
     @Arg(optional = true)
     String mPaperId;
+
     @Arg(optional = true)
     ArrayList<Topic> mTopics;
 
@@ -35,12 +37,13 @@ public class QueEndActivity extends BaseResultActivity {
         super.setViews();
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.submitSur()
+        NetworkReq r = MeetAPI.submitSurvey()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
                 .paperId(mPaperId)
-                .items(mTopics)
-                .builder());
+                .itemJson(Util.chooseToJson(mTopics))
+                .build();
+        exeNetworkReq(r);
     }
 
     @Override

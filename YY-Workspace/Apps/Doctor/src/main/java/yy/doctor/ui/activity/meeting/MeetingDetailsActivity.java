@@ -38,13 +38,14 @@ import yy.doctor.model.meet.module.BaseFunc;
 import yy.doctor.model.meet.module.BaseFunc.OnFuncListener;
 import yy.doctor.model.meet.module.CourseFunc;
 import yy.doctor.model.meet.module.ExamFunc;
-import yy.doctor.model.meet.module.QueFunc;
+import yy.doctor.model.meet.module.SurveyFunc;
 import yy.doctor.model.meet.module.SignFunc;
 import yy.doctor.model.meet.module.VideoFunc;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
@@ -272,7 +273,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     private void getDataFromNet() {
         refresh(RefreshWay.embed);
-        exeNetworkReq(KIdMeetDetail, NetFactory.meetInfo(mMeetId));
+        exeNetworkReq(KIdMeetDetail, MeetAPI.meetInfo(mMeetId).build());
     }
 
     /**
@@ -390,7 +391,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         func = new ExamFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
-        func = new QueFunc(this, detail, this);
+        func = new SurveyFunc(this, detail, this);
         mFuncs.add(Integer.valueOf(func.getType()), func);
 
         func = new VideoFunc(this, detail, this);
