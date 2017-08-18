@@ -5,7 +5,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.me.EpnDetailsAdapter;
 import yy.doctor.model.me.EpnDetails;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.EpcAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -27,7 +27,7 @@ public class EpnDetailsActivity extends BaseSRListActivity<EpnDetails, EpnDetail
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.epnDetails());
+        exeNetworkReq(EpcAPI.epnDetails().build());
     }
 
 }

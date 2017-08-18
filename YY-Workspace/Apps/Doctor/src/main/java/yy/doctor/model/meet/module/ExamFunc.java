@@ -11,10 +11,12 @@ import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.ui.activity.meeting.ExamIntroActivityRouter;
 
 /**
+ * 考试模块
+ *
  * @auther yuansui
  * @since 2017/7/12
  */
@@ -41,7 +43,7 @@ public class ExamFunc extends BaseFunc {
 
     @Override
     protected NetworkReq getNetworkReq() {
-        return NetFactory.toExam(getMeetId(), getModuleId());
+        return MeetAPI.toExam(getMeetId(), getModuleId()).build();
     }
 
     @Override

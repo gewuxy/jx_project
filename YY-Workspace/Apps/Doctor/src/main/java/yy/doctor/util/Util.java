@@ -1,15 +1,21 @@
 package yy.doctor.util;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.List;
 
 import lib.network.Network;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
@@ -19,6 +25,9 @@ import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
 import yy.doctor.App;
 import yy.doctor.R;
+import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.network.NetFactory.MeetParam;
 
 /**
  * @author CaiXiang
@@ -99,5 +108,24 @@ public class Util extends BaseUtil {
             App.showToast(Network.getConfig().getDisconnectToast());
         }
         return b;
+    }
+
+    public static String chooseToJson(@NonNull List<Topic> topics) {
+        JSONArray arr = new JSONArray();
+
+        for (Topic topic : topics) {
+            String answer = topic.getString(TTopic.choice);
+            if (TextUtil.isNotEmpty(answer)) {
+                JSONObject o = new JSONObject();
+                try {
+                    o.put(MeetParam.KQuestionId, topic.getString(TTopic.id));
+                    o.put(MeetParam.KAnswer, answer);
+                } catch (JSONException e) {
+                    YSLog.e("toJson", MeetParam.KItemJson, e);
+                }
+                arr.put(o);
+            }
+        }
+        return arr.toString();
     }
 }

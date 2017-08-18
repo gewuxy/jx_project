@@ -13,7 +13,7 @@ import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -65,7 +65,7 @@ public class BindEmailActivity extends BaseSetActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.bindEmail(Util.getEtString(mEtEmail)));
+        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEtEmail)).build());
     }
 
     @Override

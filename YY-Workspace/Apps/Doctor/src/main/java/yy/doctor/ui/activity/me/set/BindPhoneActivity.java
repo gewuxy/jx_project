@@ -23,6 +23,7 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -100,7 +101,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.bindMobile(getPhone(), getCaptcha()));
+        exeNetworkReq(UserAPI.bindMobile(getPhone(), getCaptcha()).build());
     }
 
     @Override

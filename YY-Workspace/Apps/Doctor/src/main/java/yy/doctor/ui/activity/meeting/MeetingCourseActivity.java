@@ -49,7 +49,7 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
@@ -340,7 +340,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         });
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.toPPT(mMeetId, mModuleId));
+        exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
     }
 
     private void setPlayStatus(int position) {

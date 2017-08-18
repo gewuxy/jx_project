@@ -2,7 +2,7 @@ package yy.doctor.ui.frag.stats;
 
 import lib.network.model.NetworkReq;
 import yy.doctor.R;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 
 /**
  * @auther : GuoXuan
@@ -17,6 +17,6 @@ public class UnitNumHistogramFrag extends BaseHistogramFrag {
 
     @Override
     protected NetworkReq getNetReq() {
-        return NetFactory.statsUnitNum(getOffset());
+        return MeetAPI.statsUnitNum(getOffset()).build();
     }
 }

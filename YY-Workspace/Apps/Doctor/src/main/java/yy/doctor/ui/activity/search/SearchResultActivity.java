@@ -12,7 +12,8 @@ import yy.doctor.model.search.Margin;
 import yy.doctor.model.search.More;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CommonAPI;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 
 /**
  * 单位号和会议的结果
@@ -46,12 +47,12 @@ public class SearchResultActivity extends BaseSearchResultActivity {
             mMeets.clear();
         }
         mMeetReqIsOK = false;
-        exeNetworkReq(KMeeting, NetFactory.searchMeeting(mSearchContent, getOffset(), KMeetingNum + 1));
+        exeNetworkReq(KMeeting, MeetAPI.searchMeet(mSearchContent, getOffset(), KMeetingNum + 1).build());
         if (mUnitNums != null) {
             mUnitNums.clear();
         }
         mUnitNumReqIsOK = false;
-        exeNetworkReq(KUnitNum, NetFactory.searchUnitNum(mSearchContent, getOffset(), KUnitNumNum + 1));
+        exeNetworkReq(KUnitNum, CommonAPI.searchUnitNum(mSearchContent, getOffset(), KUnitNumNum + 1).build());
     }
 
     @Override

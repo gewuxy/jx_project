@@ -24,11 +24,10 @@ import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.user.login.WXLoginActivity;
-
 
 /**
  * 微信的回调, (根据applicationId回调)
@@ -92,9 +91,9 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 String code = r.code;
                 String state = r.state;
                 if (state.equals(WXType.login)) {
-                    exeNetworkReq(KLogin, NetFactory.check_wx_bind(code));
+                    exeNetworkReq(KLogin, UserAPI.checkWxBind(code).build());
                 } else {
-                    exeNetworkReq(KBind, NetFactory.bindWX(code));
+                    exeNetworkReq(KBind, UserAPI.bindWX().code(code).build());
                 }
             }
             break;

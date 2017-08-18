@@ -18,7 +18,7 @@ import yy.doctor.R;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.popup.TopicPopup;
 import yy.doctor.sp.SpApp;
 
@@ -28,12 +28,12 @@ import yy.doctor.sp.SpApp;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-public class QueTopicActivity extends BaseTopicActivity {
+public class SurveyTopicActivity extends BaseTopicActivity {
 
     private TopicPopup mTopicPopup;
 
     public static void nav(Context context, String meetId, String moduleId) {
-        Intent i = new Intent(context, QueTopicActivity.class)
+        Intent i = new Intent(context, SurveyTopicActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
                 .putExtra(Extra.KModuleId, moduleId);
         LaunchUtil.startActivity(context, i);
@@ -64,7 +64,7 @@ public class QueTopicActivity extends BaseTopicActivity {
         super.setViews();
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.toSurvey(mMeetId, mModuleId));
+        exeNetworkReq(MeetAPI.toSurvey(mMeetId, mModuleId).build());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class QueTopicActivity extends BaseTopicActivity {
                 addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        mTopicPopup = new TopicPopup(QueTopicActivity.this);
+                        mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
                         mTopicPopup.setCheck(R.mipmap.que_popup_check);
                         mTopicPopup.setSlide(R.mipmap.que_popup_slide);
                         mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
@@ -125,7 +125,7 @@ public class QueTopicActivity extends BaseTopicActivity {
 
     @Override
     protected void submit() {
-        QueEndActivityRouter.create(mMeetId, mModuleId)
+        SurveyEndActivityRouter.create(mMeetId, mModuleId)
                 .paperId(mPaper.getString(TPaper.id))
                 .topics(mTopics)
                 .route(this);

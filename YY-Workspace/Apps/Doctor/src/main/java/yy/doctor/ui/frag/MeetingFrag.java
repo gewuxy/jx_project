@@ -24,11 +24,10 @@ import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
+import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.popup.SectionPopup;
 import yy.doctor.ui.activity.search.SearchActivity;
-import yy.doctor.ui.frag.meeting.NotStartedMeetingsFrag;
-import yy.doctor.ui.frag.meeting.RetrospectMeetingsFrag;
-import yy.doctor.ui.frag.meeting.UnderWayMeetingsFrag;
+import yy.doctor.ui.frag.meeting.MeetsFragRouter;
 
 /**
  * 会议界面
@@ -36,7 +35,7 @@ import yy.doctor.ui.frag.meeting.UnderWayMeetingsFrag;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class MeetingFrag extends BaseVPFrag {
+public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
 
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
     private static final int KIndicatorWidth = 30;//滑块的宽度
@@ -68,11 +67,11 @@ public class MeetingFrag extends BaseVPFrag {
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface PageType {
+
         int under_way = 0;//进行中
         int not_started = 1;//未开始
         int retrospect = 2;//精彩回顾
     }
-
     @Override
     public void initData() {
         mAnimUp = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -83,9 +82,9 @@ public class MeetingFrag extends BaseVPFrag {
         mAnimDown.setDuration(KDuration);
         mAnimDown.setFillAfter(true);
 
-        add(new UnderWayMeetingsFrag());
-        add(new NotStartedMeetingsFrag());
-        add(new RetrospectMeetingsFrag());
+        add(MeetsFragRouter.create(MeetState.under_way).route());
+        add(MeetsFragRouter.create(MeetState.not_started).route());
+        add(MeetsFragRouter.create(MeetState.retrospect).route());
     }
 
     @NonNull
@@ -138,21 +137,7 @@ public class MeetingFrag extends BaseVPFrag {
         super.setViews();
         addTabs();
 
-        setOnPageChangeListener(new OnPageChangeListener() {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setPreTab(mLayoutTab.getChildAt(position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        setOnPageChangeListener(this);
 
         setOffscreenPageLimit(getCount());
     }
@@ -211,12 +196,24 @@ public class MeetingFrag extends BaseVPFrag {
     }
 
     @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setPreTab(mLayoutTab.getChildAt(position));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
 
         if (mPopup != null) {
             mPopup.dismiss();
-            mPopup = null;
         }
     }
 

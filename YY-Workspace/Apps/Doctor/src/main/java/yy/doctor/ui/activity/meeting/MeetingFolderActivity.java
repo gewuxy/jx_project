@@ -15,7 +15,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.util.Util;
 
 @Route
@@ -71,7 +71,7 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.meetFolder(mPreId, mShowZero));
+        exeNetworkReq(MeetAPI.meetFolder(mPreId, mShowZero).build());
     }
 
     @Override

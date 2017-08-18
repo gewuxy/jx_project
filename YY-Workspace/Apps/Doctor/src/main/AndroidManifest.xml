@@ -121,13 +121,13 @@
             android:name=".ui.activity.meeting.ExamTopicActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.meeting.QueTopicActivity"
+            android:name=".ui.activity.meeting.SurveyTopicActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.meeting.ExamEndActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.meeting.QueEndActivity"
+            android:name=".ui.activity.meeting.SurveyEndActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.meeting.VideoCategoryActivity"

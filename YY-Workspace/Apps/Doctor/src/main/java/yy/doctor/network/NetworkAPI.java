@@ -1,5 +1,8 @@
 package yy.doctor.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
@@ -9,6 +12,12 @@ import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
+import lib.network.model.param.CommonPair;
+import lib.ys.util.DeviceUtil;
+import yy.doctor.model.meet.Meeting.MeetState;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
+import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
@@ -24,8 +33,15 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 )
 public class NetworkAPI {
 
+    public interface Param {
+        String KOSVersion = "os_version";
+        String KDevice = "os_type";
+        String KAppVersion = "app_version";
+        String KToken = "token";
+    }
+
     @API
-    interface User {
+    public interface User {
         /**
          * 登录(绑定微信号)
          *
@@ -44,6 +60,12 @@ public class NetworkAPI {
         @POST("logout")
         @Retry(count = 5, delay = 1000)
         void logout(String token);
+
+        /**
+         * 个人信息
+         */
+        @GET("user/info")
+        void profile();
 
         /**
          * 头像上传
@@ -78,10 +100,54 @@ public class NetworkAPI {
                     @Part(opt = true) String province,
                     @Part(opt = true) String city,
                     @Part(opt = true) String zone);
-    }
 
-    @API
-    interface Forget {
+        /**
+         * 检查是否已被绑定
+         *
+         * @param code 微信授权的code
+         */
+        @GET("check_wx_bind")
+        void checkWxBind(String code);
+
+        /**
+         * 绑定(解绑)微信
+         *
+         * @param code 微信授权的code
+         */
+        @GET("user/set_wx_bind_status")
+        void bindWX(@Part(opt = true) String code);
+
+        /**
+         * 绑定手机号
+         *
+         * @param mobile  手机号
+         * @param captcha 验证码
+         */
+        @GET("user/set_bind_mobile")
+        void bindMobile(String mobile, String captcha);
+
+        /**
+         * 绑定邮箱
+         *
+         * @param username 用户名
+         */
+        @GET("email/send_bind_email")
+        void bindEmail(String username);
+
+        /**
+         * 解绑邮箱
+         */
+        @GET("user/unbind_email")
+        void unBindEmail();
+
+        /**
+         * 修改密码
+         *
+         * @param oldPwd 旧密码
+         * @param newPwd 新密码
+         */
+        @POST("user/resetPwd")
+        void changePwd(String oldPwd, String newPwd);
 
         /**
          * 通过邮箱找回密码
@@ -103,7 +169,7 @@ public class NetworkAPI {
     }
 
     @API
-    interface Home {
+    public interface Home {
 
         /**
          * 首页banner
@@ -119,7 +185,7 @@ public class NetworkAPI {
     }
 
     @API("data")
-    interface Data {
+    public interface Data {
         @DOWNLOAD_FILE
         void download(@Url String url);
 
@@ -153,17 +219,19 @@ public class NetworkAPI {
          * @param pageSize
          */
         @POST("data_search")
-        void search(String keyword, @DataType int type, int pageNum, int pageSize);
+        void search(String keyword, int type, int pageNum, int pageSize);
+
+        /**
+         * 汤森路透
+         *
+         * @param preId 不传值的时候，返回汤森路透下一层的子栏目，传值的时候返回该preId下面的子栏目
+         */
+        @GET("thomson/category")
+        void thomson(String preId);
     }
 
     @API("publicAccount")
-    interface UnitNum {
-
-        /**
-         * 首页推荐单位号
-         */
-        @GET("recommend")
-        void recommendUnitNum();
+    public interface UnitNum {
 
         /**
          * 关注的单位号
@@ -247,10 +315,16 @@ public class NetworkAPI {
                       @Part(opt = true) String phone,
                       @Part(opt = true) String province,
                       @Part(opt = true) String address);
+
+        /**
+         * 象数明细
+         */
+        @GET("tradeInfo")
+        void epnDetails();
     }
 
     @API("register")
-    interface Register {
+    public interface Register {
         /**
          * @param nickname      用户昵称
          * @param linkman       真实姓名
@@ -341,7 +415,7 @@ public class NetworkAPI {
     }
 
     @API
-    interface Collection {
+    public interface Collection {
 
         /**
          * 收藏或者取消收藏
@@ -362,5 +436,246 @@ public class NetworkAPI {
          */
         @GET("my_favorite")
         void collection(int pageNum, int pageSize, int type);
+    }
+
+    @API("meet/")
+    public interface Meet {
+
+        /**
+         * @param meetId     会议id
+         * @param moduleId   模块id
+         */
+
+        /**
+         * 搜索会议
+         *
+         * @param keyword 关键字
+         */
+        @POST("search")
+        void searchMeet(String keyword, int pageNum, int pageSize);
+
+        /**
+         * 会议列表(关注过的公众的所有会议)
+         *
+         * @param state  {@link MeetState} 会议状态
+         * @param depart 科室类型
+         */
+        @POST("meets")
+        void meets(@Part(opt = true) int state,
+                   @Part(opt = true) String depart,
+                   @Part(opt = true) int pageNum,
+                   @Part(opt = true) int pageSize);
+
+        /**
+         * 文件夹
+         *
+         * @param preId
+         * @param showFlag {@link ZeroShowType} 是否显示会议数是0的文件夹
+         */
+        @GET("folder/leaf")
+        void meetFolder(String preId, int showFlag);
+
+        /**
+         * 会议科室列表
+         */
+        @POST("department")
+        void meetDepartment();
+
+        /**
+         * 会议详情
+         */
+        @GET("info")
+        void meetInfo(String meetId);
+
+        /**
+         * 会议资料
+         */
+        @GET("pageMaterial")
+        void meetData(String meetId, int pageNum, int pageSize);
+
+        /**
+         * 考试入口
+         */
+        @GET("toexam")
+        void toExam(String meetId, String moduleId);
+
+        /**
+         * 问卷入口
+         */
+        @GET("tosurvey")
+        void toSurvey(String meetId, String moduleId);
+
+        /**
+         * 视频入口
+         */
+        @GET("tovideo")
+        void toVideo(String meetId, String moduleId);
+
+        /**
+         * 签到入口
+         */
+        @GET("tosign")
+        void toSign(String meetId, String moduleId);
+
+        /**
+         * 微课(语音+PPT)入口
+         */
+        @GET("toppt")
+        void toCourse(String meetId, String moduleId);
+
+        /**
+         * 视频子目录
+         */
+        @GET("video/sublist")
+        void video(String preId);
+
+        /**
+         * 提交考试答案
+         *
+         * @param itemJson 题号+选项的json串
+         */
+        @GET("submitex")
+        void submitExam(@Part(opt = true) String meetId,
+                        @Part(opt = true) String moduleId,
+                        @Part(opt = true) String paperId,
+                        @Part(opt = true) String itemJson);
+
+        /**
+         * 提交问卷答案
+         *
+         * @param itemJson 题号+选项的json串
+         */
+        @GET("submitsur")
+        void submitSurvey(@Part(opt = true) String meetId,
+                          @Part(opt = true) String moduleId,
+                          @Part(opt = true) String paperId,
+                          @Part(opt = true) String itemJson);
+
+        /**
+         * 微课学习时间提交
+         *
+         * @param courseId 微课ID
+         * @param details  学习用时
+         */
+        @GET("ppt/record")
+        @Retry(count = 5, delay = 1000)
+        void submitCourse(@Part(opt = true) String meetId,
+                          @Part(opt = true) String moduleId,
+                          @Part(opt = true) String courseId,
+                          @Part(opt = true) String details);
+
+        /**
+         * @param meetId
+         * @param moduleId
+         * @param courseId 微课ID
+         * @param detailId 视频明细ID
+         * @param finished 是否完成
+         * @param usedTime 视频用时
+         */
+        @GET("video/record")
+        @Retry(count = 5, delay = 1000)
+        void submitVideo(@Part(opt = true) String meetId,
+                         @Part(opt = true) String moduleId,
+                         @Part(opt = true) String courseId,
+                         @Part(opt = true) String detailId,
+                         @Part(opt = true) boolean finished,
+                         @Part(opt = true, value = "usedtime") String usedTime);
+
+        /**
+         * 提交会议学习时间
+         *
+         * @param useTime 会议学习时间
+         */
+        @GET("exit")
+        @Retry(count = 5, delay = 1000)
+        void submitMeet(String meetId, @Part(value = "usedtime") long useTime);
+
+        /**
+         * 会议留言记录
+         */
+        @GET("message/histories")
+        void commentHistories(String meetId, int pageSize, int pageNum);
+
+        /**
+         * 签到
+         *
+         * @param positionId 签到位置ID
+         * @param signLng    签到经度
+         * @param signLat    签到维度
+         */
+        @POST("sign")
+        void sign(@Part(opt = true) String meetId,
+                  @Part(opt = true) String moduleId,
+                  @Part(opt = true) String positionId,
+                  @Part(opt = true) String signLng,
+                  @Part(opt = true) String signLat);
+
+        /**
+         * 参会统计(个人参会统计)
+         *
+         * @param offset 偏移量
+         */
+        @POST("attend_stats")
+        void statsMeet(int offset);
+
+        /**
+         * 参会统计(关注单位号发布会议统计)
+         *
+         * @param offset 偏移量
+         */
+        @POST("publish_stats")
+        void statsUnitNum(int offset);
+    }
+
+    @API
+    public interface Common {
+
+        /**
+         * 检查app版本
+         */
+        @GET("version/newly")
+        void checkAppVersion();
+
+        /**
+         * 推荐的单位号
+         *
+         * @return
+         */
+        @GET("publicAccount/recommend")
+        void recommendUnitNum();
+
+        /**
+         * 搜索单位号
+         *
+         * @param keyword 关键字
+         */
+        @POST("publicAccount/search")
+        void searchUnitNum(String keyword, int pageNum, int pageSize);
+
+        /**
+         * 象数充值
+         *
+         * @param subject     商品名称
+         * @param totalAmount 商品价格
+         */
+        @GET("alipay/recharge")
+        void epnRecharge(String subject, int totalAmount);
+    }
+
+    public static List<CommonPair> getCommonPairs() {
+        List<CommonPair> ps = new ArrayList<>();
+
+        ps.add(newPair(Param.KDevice, "android"));
+        ps.add(newPair(Param.KOSVersion, DeviceUtil.getSystemVersion()));
+        ps.add(newPair(Param.KAppVersion, DeviceUtil.getAppVersion()));
+        if (Profile.inst().isLogin()) {
+            ps.add(newPair(Param.KToken, Profile.inst().getString(TProfile.token)));
+        }
+
+        return ps;
+    }
+
+    private static CommonPair newPair(String key, Object value) {
+        return new CommonPair(key, value);
     }
 }

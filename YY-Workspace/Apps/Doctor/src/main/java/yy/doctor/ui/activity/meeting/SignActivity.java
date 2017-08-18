@@ -4,12 +4,13 @@ import android.widget.ImageView;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import lib.network.model.NetworkReq;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -82,12 +83,13 @@ public class SignActivity extends BaseResultActivity {
 
     private void getDataFromNet() {
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.sign()
+        NetworkReq r = MeetAPI.sign()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
                 .positionId(mSignId)
                 .signLat(mLatitude)
                 .signLng(mLongitude)
-                .builder());
+                .build();
+        exeNetworkReq(r);
     }
 }

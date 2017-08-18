@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -21,7 +22,7 @@ import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.TopicResult;
 import yy.doctor.model.meet.exam.TopicResult.TTopicResult;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -93,12 +94,13 @@ public class ExamEndActivity extends BaseActivity {
 
     private void getDataFromNet() {
         refresh(RefreshWay.embed);
-        exeNetworkReq(NetFactory.submitEx()
+        NetworkReq r = MeetAPI.submitExam()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
                 .paperId(mPaperId)
-                .items(mTopics)
-                .builder());
+                .itemJson(Util.chooseToJson(mTopics))
+                .build();
+        exeNetworkReq(r);
     }
 
     @Override

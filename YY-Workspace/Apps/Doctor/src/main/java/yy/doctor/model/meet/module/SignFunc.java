@@ -24,7 +24,7 @@ import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.ui.activity.meeting.SignActivityRouter;
 
 /**
@@ -60,7 +60,7 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
 
     @Override
     protected NetworkReq getNetworkReq() {
-        return NetFactory.toSign(getMeetId(), getModuleId());
+        return MeetAPI.toSign(getMeetId(), getModuleId()).build();
     }
 
     @Override

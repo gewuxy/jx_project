@@ -18,10 +18,12 @@ import yy.doctor.model.meet.PPT;
 import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.ui.activity.meeting.MeetingCourseActivity;
 
 /**
+ * 微课模块
+ *
  * @auther yuansui
  * @since 2017/7/12
  */
@@ -53,7 +55,7 @@ public class CourseFunc extends BaseFunc {
 
     @Override
     protected NetworkReq getNetworkReq() {
-        return NetFactory.toPPT(getMeetId(), getModuleId());
+        return MeetAPI.toCourse(getMeetId(), getModuleId()).build();
     }
 
     @Override

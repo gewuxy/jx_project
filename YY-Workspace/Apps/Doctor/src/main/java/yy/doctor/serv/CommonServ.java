@@ -12,6 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.jg.jpush.SpJPush;
+import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
@@ -20,6 +21,7 @@ import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 
 /**
@@ -73,27 +75,28 @@ public class CommonServ extends ServiceEx {
             }
             break;
             case ReqType.video: {
-                exeNetworkReq(ReqType.video, NetFactory.submitVideo()
+                exeNetworkReq(ReqType.video, MeetAPI.submitVideo()
                         .meetId(mSubmit.getString(TSubmit.meetId))
                         .moduleId(mSubmit.getString(TSubmit.moduleId))
                         .courseId(mSubmit.getString(TSubmit.courseId))
                         .detailId(mSubmit.getString(TSubmit.detailId))
-                        .useTime(mSubmit.getString(TSubmit.usedtime))
-                        .isFinish(mSubmit.getBoolean(TSubmit.finished))
-                        .builder());
+                        .usedTime(mSubmit.getString(TSubmit.usedtime))
+                        .finished(mSubmit.getBoolean(TSubmit.finished))
+                        .build());
             }
             break;
             case ReqType.course: {
-                exeNetworkReq(ReqType.course, NetFactory.submitPpt()
+                NetworkReq r = MeetAPI.submitCourse()
                         .meetId(mSubmit.getString(TSubmit.meetId))
                         .moduleId(mSubmit.getString(TSubmit.moduleId))
                         .courseId(mSubmit.getString(TSubmit.courseId))
                         .details(mSubmit.getString(TSubmit.times))
-                        .builder());
+                        .build();
+                exeNetworkReq(ReqType.course, r);
             }
             break;
             case ReqType.meet: {
-                exeNetworkReq(ReqType.meet, NetFactory.submitMeet(mMeetId, mMeetTime));
+                exeNetworkReq(ReqType.meet, MeetAPI.submitMeet(mMeetId, mMeetTime).build());
             }
             break;
         }
