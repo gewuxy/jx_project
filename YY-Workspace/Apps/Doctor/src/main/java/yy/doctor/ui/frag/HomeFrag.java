@@ -108,7 +108,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         }
 
         exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
-        exeNetworkReq(KReqIdUnitNum, HomeAPI.recommendUnitNum().build());
+        exeNetworkReq(KReqIdUnitNum, UnitNumAPI.recommendUnitNum().build());
     }
 
     @Override
@@ -129,7 +129,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mIsSwipeRefresh = true;
 
         exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
-        exeNetworkReq(KReqIdUnitNum, HomeAPI.recommendUnitNum().build());
+        exeNetworkReq(KReqIdUnitNum, UnitNumAPI.recommendUnitNum().build());
     }
 
     @Override
@@ -290,7 +290,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (!super.onRetryClick()) {
             //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
             exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
-            exeNetworkReq(KReqIdUnitNum, HomeAPI.recommendUnitNum().build());
+            exeNetworkReq(KReqIdUnitNum, UnitNumAPI.recommendUnitNum().build());
             mIsNetworkError = false;
         }
         return false;

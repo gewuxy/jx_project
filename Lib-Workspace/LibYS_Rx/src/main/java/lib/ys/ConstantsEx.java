@@ -10,15 +10,6 @@ public interface ConstantsEx {
 
     String KFakeIMEI = "35278404110901162";
 
-    interface FileSuffix {
-        String KTxt = ".txt";
-        String KXml = ".xml";
-        String KHtml = ".html";
-        String KJpg = ".jpg";
-        String KPng = ".png";
-        String KJs = ".js";
-    }
-
     int KAlphaMax = 255;
     int KAlphaMin = 0;
 

@@ -114,7 +114,7 @@ public class NetFactory {
         return ps;
     }
 
-    public static CommonPair newPair(String key, Object value) {
+    private static CommonPair newPair(String key, Object value) {
         return new CommonPair(key, value);
     }
 

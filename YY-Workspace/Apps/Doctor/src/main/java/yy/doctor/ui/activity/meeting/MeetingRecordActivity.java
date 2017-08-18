@@ -21,7 +21,7 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseListActivity;
-import yy.doctor.App;
+import yy.doctor.App.NavBarVal;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.RecordAdapter;
@@ -89,7 +89,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             finish();
         });
 
-        String title = TextUtil.cutString(mCourseInfo.getString(TCourseInfo.title), fitDp(App.KTitleBarLeftTextSizeDp), fitDp(200), "...");
+        String title = TextUtil.cutString(mCourseInfo.getString(TCourseInfo.title), fitDp(NavBarVal.KLeftTextSizeDp), fitDp(200), "...");
         bar.addTextViewMid(title);
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));

@@ -1,8 +1,5 @@
 package yy.doctor.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
 import inject.annotation.network.Part;
@@ -12,10 +9,7 @@ import inject.annotation.network.method.DOWNLOAD_FILE;
 import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
-import lib.network.model.param.CommonPair;
-import lib.ys.util.DeviceUtil;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @auther yuansui
@@ -25,20 +19,13 @@ import yy.doctor.model.Profile.TProfile;
         host = "http://app.medyaya.cn/v7/api/",
         hostDebuggable = "http://59.111.90.245:8083/v7/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
-//        hostDebuggable = "http://10.0.0.250:8081/"; // 轩哥电脑
-//        hostDebuggable = "http://10.0.0.252:8082/"; // 长玲电脑
+//        hostDebuggable = "http://10.0.0.250:8081/api/"; // 轩哥电脑
+//        hostDebuggable = "http://10.0.0.252:8082/api/"; // 长玲电脑
 )
 public class NetworkAPI {
 
-    public interface Param {
-        String KOSVersion = "os_version";
-        String KDevice = "os_type";
-        String KAppVersion = "app_version";
-        String KToken = "token";
-    }
-
     @API
-    public interface User {
+    interface User {
         /**
          * 登录(绑定微信号)
          *
@@ -94,7 +81,7 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Forget{
+    interface Forget {
 
         /**
          * 通过邮箱找回密码
@@ -116,32 +103,23 @@ public class NetworkAPI {
     }
 
     @API
-    public interface Home {
+    interface Home {
 
         /**
          * 首页banner
-         *
          */
         @GET("banner")
         void banner();
 
         /**
          * 首页推荐会议(含文件夹)
-         *
          */
         @GET("meet/recommend/meet/folder")
         void recommendMeeting(int page, int pageSize);
-
-        /**
-         * 首页推荐单位号
-         *
-         */
-        @GET("publicAccount/recommend")
-        void recommendUnitNum();
     }
 
     @API("data")
-    public interface Data {
+    interface Data {
         @DOWNLOAD_FILE
         void download(@Url String url);
 
@@ -161,21 +139,25 @@ public class NetworkAPI {
         /**
          * 搜索药品或临床指南
          *
-         * @param keyword
+         * @param keyword  搜索关键字
          * @param type
          * @param pageNum
          * @param pageSize
          */
         @POST("data_search")
-        void search(String keyword, int type, int pageNum, int pageSize);
+        void search(String keyword, @DataType int type, int pageNum, int pageSize);
     }
 
-    @API("publicAccount")
-    public interface UnitNum {
+    @API("Account")
+    interface UnitNum {
+        /**
+         * 首页推荐单位号
+         */
+        @GET("recommend")
+        void recommendUnitNum();
 
         /**
          * 关注的单位号
-         *
          */
         @GET("mySubscribe")
         void attentionUnitNum();
@@ -207,12 +189,12 @@ public class NetworkAPI {
          * @param status   0:取消关注 1：关注
          */
         @GET("subscribe")
-        void attention(int masterId, int status) ;
+        void attention(int masterId, int status);
 
     }
 
     @API("shop")
-    public interface Epc {
+    interface Epc {
 
         /**
          * 象城
@@ -256,22 +238,5 @@ public class NetworkAPI {
                       @Part(opt = true) String phone,
                       @Part(opt = true) String province,
                       @Part(opt = true) String address);
-    }
-
-    public static List<CommonPair> getCommonPairs() {
-        List<CommonPair> ps = new ArrayList<>();
-
-        ps.add(newPair(Param.KDevice, "android"));
-        ps.add(newPair(Param.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(Param.KAppVersion, DeviceUtil.getAppVersion()));
-        if (Profile.inst().isLogin()) {
-            ps.add(newPair(Param.KToken, Profile.inst().getString(TProfile.token)));
-        }
-
-        return ps;
-    }
-
-    private static CommonPair newPair(String key, Object value) {
-        return new CommonPair(key, value);
     }
 }

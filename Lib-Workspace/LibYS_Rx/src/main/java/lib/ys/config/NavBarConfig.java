@@ -8,7 +8,7 @@ import lib.ys.util.UIUtil;
 
 /**
  * 导航栏配置
- * 单例模式, 通过内部Builder类进行构造
+ * 通过内部Builder类进行构造
  *
  * @author yuansui
  */
@@ -226,9 +226,6 @@ public class NavBarConfig {
             return this;
         }
 
-        /**
-         * 直接给单例赋值, 不进行返回
-         */
         public NavBarConfig build() {
             NavBarConfig c = new NavBarConfig();
 

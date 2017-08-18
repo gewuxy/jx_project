@@ -6,12 +6,12 @@ import android.widget.EditText;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.FileSuffix;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRListActivity;
-import yy.doctor.Constants.FileSuffix;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
@@ -114,7 +114,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
                             .filePath(filePath)
                             .fileName(fileName)
                             .url(url)
-                            .fileSuffix(FileSuffix.KPdf)
+                            .fileSuffix(FileSuffix.pdf)
                             .dataType(mType)
                             .fileSize(fileSize)
                             .dataFileId(dataFileId)

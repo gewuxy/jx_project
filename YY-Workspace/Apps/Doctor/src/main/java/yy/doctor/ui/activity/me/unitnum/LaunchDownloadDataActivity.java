@@ -9,6 +9,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.YSLog;
 import lib.ys.action.IntentAction;
+import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -16,9 +17,6 @@ import yy.doctor.ui.activity.data.PDFActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 
-import static yy.doctor.Constants.FileSuffix.KPdf;
-import static yy.doctor.Constants.FileSuffix.KPpt;
-import static yy.doctor.Constants.FileSuffix.KPptX;
 
 /**
  * 打开下载资料
@@ -87,7 +85,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     @Override
     public void setViews() {
 
-        if (mFileSuffix.equals(KPdf)) {
+        if (mFileSuffix.equals(FileSuffix.pdf)) {
             mIv.setImageResource(R.mipmap.open_data_ic_pdf);
             PDFActivityRouter.create(
                     mFilePath,
@@ -97,7 +95,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
                     mDataType
             ).route(this);
             finish();
-        } else if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
+        } else if (mFileSuffix.equals(FileSuffix.ppt) || mFileSuffix.equals(FileSuffix.pptx)) {
             mIv.setImageResource(R.mipmap.open_data_ic_ppt);
         } else {
             mIv.setImageResource(R.mipmap.open_data_ic_word);
@@ -116,7 +114,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
         if (v.getId() == R.id.open_download_data_tv_btn) {
 
             try {
-                if (mFileSuffix.equals(KPpt) || mFileSuffix.equals(KPptX)) {
+                if (mFileSuffix.equals(FileSuffix.ppt) || mFileSuffix.equals(FileSuffix.pptx)) {
                     IntentAction.ppt()
                             .filePath(mFilePath + mFileNameEncryption)
                             .alert("没有打开PPT类应用")

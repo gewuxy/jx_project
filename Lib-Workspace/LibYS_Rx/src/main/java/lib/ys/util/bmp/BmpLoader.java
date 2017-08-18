@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.support.annotation.DrawableRes;
 
+import lib.ys.model.FileSuffix;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.res.ResUtil.ResDefType;
 
@@ -142,10 +143,10 @@ public class BmpLoader {
 
     /**
      * @param path
-     * @param suffix {@link lib.ys.ConstantsEx.FileSuffix}
+     * @param suffix {@link FileSuffix}
      * @return
      */
-    public static Bitmap loadPath(String path, String suffix) {
+    public static Bitmap loadPath(String path, @FileSuffix String suffix) {
         return ResLoader.getBitmap(path + suffix);
     }
 

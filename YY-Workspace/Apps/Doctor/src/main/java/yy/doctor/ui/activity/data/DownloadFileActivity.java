@@ -32,7 +32,6 @@ import yy.doctor.view.CircleProgressView;
 public class DownloadFileActivity extends BaseActivity implements OnDownloadNotify {
 
     private static final String KByteSymbol = "K";
-    private static final String KDot = ".";
 
     private CircleProgressView mProgressBar;
     private TextView mTvNum;
@@ -75,7 +74,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
         DownloadNotifier.inst().add(this);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;
-        mFileNameHashCode = String.valueOf((mUrl.hashCode() + KDot + mFileSuffix));
+        mFileNameHashCode = String.valueOf((mUrl.hashCode() + mFileSuffix));
 
         //打乱文件名
         int shift = 5;

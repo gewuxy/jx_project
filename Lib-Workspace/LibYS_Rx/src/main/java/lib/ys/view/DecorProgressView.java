@@ -7,14 +7,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import lib.ys.R;
-import lib.ys.ui.decor.IDecorProgressView;
+import lib.ys.ui.decor.IProgressView;
 
 /**
  * 其实是loading view
  *
  * @author yuansui
  */
-public class DecorProgressView extends ImageView implements IDecorProgressView {
+public class DecorProgressView extends ImageView implements IProgressView {
 
     private Animation mAnimRotate;
 

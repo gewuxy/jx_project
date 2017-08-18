@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
+import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
-import yy.doctor.Constants.FileSuffix;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
@@ -147,7 +147,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                                 .filePath(filePath)
                                 .fileName(fileName)
                                 .url(url)
-                                .fileSuffix(FileSuffix.KPdf)
+                                .fileSuffix(FileSuffix.pdf)
                                 .dataType(getDataType())
                                 .fileSize(fileSize)
                                 .dataFileId(dataFileId)

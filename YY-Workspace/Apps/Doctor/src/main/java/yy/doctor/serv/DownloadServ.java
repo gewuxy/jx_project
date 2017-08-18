@@ -18,8 +18,6 @@ import yy.doctor.network.NetworkAPISetter.DataAPI;
 @Route
 public class DownloadServ extends ServiceEx implements OnDownloadNotify {
 
-    private static final String KDot = ".";
-
     @Arg
     String mUrl;
 
@@ -36,7 +34,7 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
     protected void onHandleIntent(Intent intent) {
         DownloadNotifier.inst().add(this);
 
-        mFileNameHashCode = String.valueOf(mUrl.hashCode()) + KDot + mType;
+        mFileNameHashCode = String.valueOf(mUrl.hashCode()) + mType;
         YSLog.d(TAG, " download FileNameHashCode = " + mFileNameHashCode);
 
         //打乱文件名

@@ -14,9 +14,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.Set;
 
-import lib.ys.ConstantsEx.FileSuffix;
 import lib.ys.YSLog;
 import lib.ys.form.OnFormObserver;
+import lib.ys.model.FileSuffix;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
@@ -337,7 +337,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     }
 
     private void getPhotoFromCamera() {
-        mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.KJpg;
+        mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.jpg;
         PhotoUtil.fromCamera(this, mStrPhotoPath, KCodePhotograph);
     }
 
