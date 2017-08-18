@@ -16,6 +16,7 @@ import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @auther yuansui
@@ -159,6 +160,13 @@ public class NetworkAPI {
         void units(String preId, int type, boolean leaf, int pageNum, int pageSize);
 
         /**
+         * 收藏的药品目录详情
+         * @param dataFileId
+         */
+        @GET("data_detail")
+        void collectionDetail(String dataFileId);
+
+        /**
          * 搜索药品或临床指南
          *
          * @param keyword
@@ -257,6 +265,120 @@ public class NetworkAPI {
                       @Part(opt = true) String province,
                       @Part(opt = true) String address);
     }
+
+    @API("register")
+    public interface Register{
+        /**
+         *
+         * @param nickname 用户昵称
+         * @param linkman  真实姓名
+         * @param mobile  手机号
+         * @param captcha 验证码
+         * @param password  密码
+         * @param province  省份
+         * @param city  城市
+         * @param zone  区县
+         * @param hospital  医院名称
+         * @param hospitalLevel  hospitalLevel
+         * @param category  专科一级名称
+         * @param name  专科二级名称
+         * @param department  科室名称
+         * @param title  职称
+         * @param invite  邀请码
+         * @param masterId
+         */
+
+        @POST("reg")
+        void reg(@Part(opt = true) String nickname,
+                 @Part(opt = true) String linkman,
+                 @Part(opt = true) String mobile,
+                 @Part(opt = true) String captcha,
+                 @Part(opt = true) String password,
+                 @Part(opt = true) String province,
+                 @Part(opt = true) String city,
+                 @Part(opt = true) String zone,
+                 @Part(opt = true) String hospital,
+                 @Part(opt = true) Integer hospitalLevel,
+                 @Part(opt = true) String category,
+                 @Part(opt = true) String name,
+                 @Part(opt = true) String department,
+                 @Part(opt = true) String title,
+                 @Part(opt = true) String invite,
+                 @Part(opt = true) String masterId);
+
+        /**
+         * 省份
+         */
+        @GET("provinces")
+        void province();
+
+        /**
+         * 城市
+         * @param preId
+         */
+        @GET("cities")
+        void city(String preId);
+
+        /**
+         * 获取验证码
+         * @param mobile
+         * @param type
+         */
+        @GET("get_captcha")
+        void captcha(String mobile, int type);
+
+        /**
+         * 扫一扫
+         * @param masterId
+         */
+        @GET("scan_register")
+        void scan(@Part(opt = true) String masterId);
+
+        /**
+         *专科
+         */
+        @GET("specialty")
+        void specialty();
+
+        /**
+         * 职称
+         */
+        @GET("title")
+        void title();
+
+        /**
+         * 配置信息
+         * @param version
+         */
+        @POST("properties")
+        void config(int version);
+    }
+
+    @API
+   public interface Collection{
+
+        /**
+         * 收藏或者取消收藏
+         *
+         * @param resourceId
+         * @param type
+         * @return
+         */
+        @GET("set_favorite_status")
+        void collectionStatus(String resourceId, @DataType int type);
+
+        /**
+         * 收藏的会议列表
+         *
+         * @param pageNum
+         * @param pageSize
+         * @return 该值为空或0时，表示会议类型
+         */
+        @GET("my_favorite")
+        void collection(int pageNum, int pageSize, int type);
+   }
+
+
 
     public static List<CommonPair> getCommonPairs() {
         List<CommonPair> ps = new ArrayList<>();

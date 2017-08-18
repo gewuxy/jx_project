@@ -16,7 +16,6 @@ import yy.doctor.network.UrlUtil.UrlRegister;
 import yy.doctor.network.UrlUtil.UrlSearch;
 import yy.doctor.network.UrlUtil.UrlUser;
 import yy.doctor.network.builder.ModifyBuilder;
-import yy.doctor.network.builder.RegisterBuilder;
 import yy.doctor.network.builder.SignBuilder;
 import yy.doctor.network.builder.SubmitBuilder;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
@@ -290,87 +289,6 @@ public class NetFactory {
     }
 
     /**
-     * 验证码
-     *
-     * @param mobile 手机号
-     * @param type   type=0或者空时表示注册时获取验证码,1表示重置密码时获取验证码
-     * @return
-     */
-    public static NetworkReq captcha(String mobile, int type) {
-        return newGet(UrlRegister.KCaptcha)
-                .param(RegisterParam.KMobile, mobile)
-                .param(RegisterParam.KType, type)
-                .build();
-    }
-
-    /**
-     * 二维码，有masterId
-     *
-     * @param masterId
-     * @return
-     */
-    public static NetworkReq scan(String masterId) {
-        return newGet(UrlRegister.KScan)
-                .param(RegisterParam.KMasterId, masterId)
-                .build();
-    }
-
-    /**
-     * 二维码，没有masterId
-     *
-     * @return
-     */
-    public static NetworkReq scan() {
-        return newGet(UrlRegister.KScan)
-                .build();
-    }
-
-    public static NetworkReq getInviteCode() {
-        return newGet(UrlRegister.KGetInviteCode)
-                .build();
-    }
-
-
-    /**
-     * 注册
-     */
-    public static RegisterBuilder register() {
-        return new RegisterBuilder();
-    }
-
-    /**
-     * 配置信息
-     *
-     * @return
-     */
-    public static NetworkReq config(int version) {
-        return newPost(UrlRegister.KProperties)
-                .param(RegisterParam.KVersion, version)
-                .build();
-    }
-
-    /**
-     * 专科信息
-     *
-     * @return
-     */
-    public static NetworkReq specialty() {
-        return newGet(UrlRegister.KSpecialty)
-                .build();
-    }
-
-    /**
-     * 职称信息
-     *
-     * @return
-     */
-    public static NetworkReq title() {
-        return newGet(UrlRegister.KTitle)
-                .build();
-    }
-
-
-    /**
      * 检查是否已被绑定
      *
      * @param code
@@ -466,27 +384,6 @@ public class NetFactory {
         } else {
             return newGet(UrlRegister.KProvince).build();
         }
-    }
-
-    /**
-     * 省份
-     *
-     * @return
-     */
-    public static NetworkReq province() {
-        return newGet(UrlRegister.KProvince)
-                .build();
-    }
-
-    /**
-     * 城市
-     *
-     * @return
-     */
-    public static NetworkReq city(String preId) {
-        return newGet(UrlRegister.KCity)
-                .param(CityParam.KCity, preId)
-                .build();
     }
 
 

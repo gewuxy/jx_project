@@ -25,7 +25,9 @@ import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
+import lib.network.model.NetworkError;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -78,6 +80,7 @@ public class HospitalActivity extends BaseHospitalActivity
     private LevelDialog mLevelDialog;
     private IHospital mCheckItem;
     private HospitalLevel mHospitalLevel;
+    private PoiNearbySearchOption mNearbySearchOption;
 
     @Override
     public void initData() {
@@ -148,14 +151,14 @@ public class HospitalActivity extends BaseHospitalActivity
         String key = "医院";
         //周边检索
 
-        PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption()
+        mNearbySearchOption = new PoiNearbySearchOption()
                 .location(mLatLng)
                 .pageCapacity(getLimit())    //每页条数
                 .keyword(key)
                 .radius(10000)// 检索半径，单位是米
                 .pageNum(getOffset())
                 .sortType(PoiSortType.distance_from_near_to_far);//由近到远排序
-        mSearch.searchNearby(nearbySearchOption);// 发起附近检索请求
+        mSearch.searchNearby(mNearbySearchOption);// 发起附近检索请求
     }
 
     @Override
@@ -261,7 +264,7 @@ public class HospitalActivity extends BaseHospitalActivity
             r.setMessage("搜索不到你需要的信息");
         }
 
-        onNetworkSuccess(0, r);
+        onNetworkSuccess(KIdHospital, r);
     }
 
     @Override
@@ -286,8 +289,10 @@ public class HospitalActivity extends BaseHospitalActivity
      * 初始化Dialog
      */
     private void onLocationError() {
+
         YSLog.d("Gps", "失败");
         if (!DeviceUtil.isNetworkEnabled()) {
+            //setViewState(ViewState.error);
             showToast("当前网络不可用, 不可定位");
         } else {
             //有网但是定位失败  显示dialog
@@ -297,7 +302,7 @@ public class HospitalActivity extends BaseHospitalActivity
             mDialog.show();
         }
 
-        simulateSuccess(KIdHospital);
+        //simulateSuccess(KIdHospital);
     }
 
     @Override
@@ -406,6 +411,7 @@ public class HospitalActivity extends BaseHospitalActivity
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         if (id == KIdSave) {
             ListResult res = (ListResult) result;
             if (res.isSucceed()) {
@@ -419,6 +425,24 @@ public class HospitalActivity extends BaseHospitalActivity
         } else {
             super.onNetworkSuccess(id, result);
         }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetworkError error) {
+        super.onNetworkError(id, error);
+        if (id == KIdHospital) {
+            setViewState(ViewState.error);
+        }
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
+            mSearch.searchNearby(mNearbySearchOption);// 发起附近检索请求
+        }
+        setViewState(ViewState.error);
+        return true;
     }
 
     @Override

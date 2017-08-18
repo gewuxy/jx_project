@@ -24,7 +24,7 @@ import yy.doctor.R;
 import yy.doctor.model.Scan;
 import yy.doctor.model.Scan.TScan;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.util.Util;
 
 /**
@@ -99,14 +99,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 String url = parsedResult.toString();
                 if (url.contains("masterId")) {
                     //http://10.0.0.234/api/api/register/scan_register?masterId=8,14
-                    showToast("有id");
+                   // showToast("有id");
                     String[] s = url.split("=");
                     String masterId = s[1];
-                    exeNetworkReq(KScanId, NetFactory.scan(masterId));
+                    exeNetworkReq(KScanId, RegisterAPI.scan().masterId(masterId).build());
                 } else {
                     //http://10.0.0.234/api/api/register/scan_register
-                    exeNetworkReq(NetFactory.scan());
-                    showToast("没有Id");
+                    exeNetworkReq(KScanId, RegisterAPI.scan().build());
+                   // showToast("没有Id");
                 }
                 break;
             }

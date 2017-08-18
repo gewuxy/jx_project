@@ -14,7 +14,7 @@ import yy.doctor.R;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
@@ -88,7 +88,7 @@ public class CollectionViewImpl implements ICollectionView {
         // 暂时只有两种
         if (mHost instanceof ActivityEx) {
             ActivityEx act = (ActivityEx) mHost;
-            act.exeNetworkReq(KIdState, NetFactory.collectionStatus(mFileId, mType));
+            act.exeNetworkReq(KIdState, CollectionAPI.collectionStatus(mFileId, mType).build());
         }
 
         if (!state) {

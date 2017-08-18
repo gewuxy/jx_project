@@ -16,7 +16,7 @@ import yy.doctor.R;
 import yy.doctor.model.GlConfigInfo;
 import yy.doctor.model.GlConfigInfo.TGlConfigInfo;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.sp.SpConfig;
 
 /**
@@ -40,7 +40,7 @@ public class GlConfigServ extends ServiceEx {
             // 保存配置信息
             inst.saveInfo(info);
         }
-        exeNetworkReq(NetFactory.config(version));
+        exeNetworkReq(RegisterAPI.config(version).build());
     }
 
     @Override

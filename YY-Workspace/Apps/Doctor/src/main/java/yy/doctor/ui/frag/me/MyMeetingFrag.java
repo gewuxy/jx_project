@@ -11,7 +11,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
@@ -39,7 +39,7 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(), mType));
+        exeNetworkReq(CollectionAPI.collection(getOffset(), getLimit(), mType).build());
     }
 
     @Override

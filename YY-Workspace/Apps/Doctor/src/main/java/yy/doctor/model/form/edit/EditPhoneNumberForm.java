@@ -55,7 +55,6 @@ public class EditPhoneNumberForm extends EditForm {
     @Override
     public void afterTextChanged(Editable s) {
         super.afterTextChanged(s);
-
         int length = s.length();
         if (mIsAdd) {
             String str = s.toString();

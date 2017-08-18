@@ -32,6 +32,7 @@ import yy.doctor.model.Place.TPlace;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
 
@@ -149,9 +150,9 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     @Override
     public void getDataFromNet() {
         if (mPreId == null) {
-            exeNetworkReq(NetFactory.province());
+            exeNetworkReq(RegisterAPI.province().build());
         } else {
-            exeNetworkReq(NetFactory.city(mPreId));
+            exeNetworkReq(RegisterAPI.city(mPreId).build());
         }
     }
 

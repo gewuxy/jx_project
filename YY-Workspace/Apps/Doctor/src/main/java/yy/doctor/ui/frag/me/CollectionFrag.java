@@ -11,7 +11,7 @@ import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
 import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
@@ -75,7 +75,7 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(NetFactory.collection(getOffset(), getLimit(), mType));
+        exeNetworkReq(CollectionAPI.collection(getOffset(), getLimit(), mType).build());
     }
 
     @Override

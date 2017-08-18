@@ -22,7 +22,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.me.Section;
 import yy.doctor.model.me.Section.TSection;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.frag.SectionCategoryFrag;
 import yy.doctor.ui.frag.SectionCategoryFrag.OnCategoryListener;
@@ -78,7 +78,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
         mSectionNameFrag.setListener(this);
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(KIdGet, NetFactory.specialty());
+        exeNetworkReq(KIdGet, RegisterAPI.specialty().build());
     }
 
     @Override
@@ -158,7 +158,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
-            exeNetworkReq(KIdGet, NetFactory.specialty());
+            exeNetworkReq(KIdGet, RegisterAPI.specialty().build());
         }
         return true;
     }
