@@ -55,7 +55,7 @@ public class App extends BaseApp {
                 .connectTimeout(15)
                 .readTimeout(15)
                 .writeTimeout(15)
-                .commonHeaders(NetworkAPI.getCommonPairs())
+                .headersMaker(() -> NetworkAPI.getCommonPairs())
                 .timeoutToast(getString(R.string.connect_timeout))
                 .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();

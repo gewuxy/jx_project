@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import java.util.List;
 
 import inject.annotation.builder.Builder;
+import lib.network.model.interfaces.IConfigsMaker;
 import lib.network.model.param.CommonPair;
 
 /**
@@ -15,6 +16,7 @@ import lib.network.model.param.CommonPair;
  */
 @Builder
 public class NetworkConfig {
+
     // 链接时间
     @IntRange(from = 0)
     long mConnectTimeout;
@@ -35,9 +37,9 @@ public class NetworkConfig {
     // 网络未连接
     String mDisconnectToast;
     // 共用参数
-    List<CommonPair> mCommonParams;
+    IConfigsMaker mParamsMaker;
     // 共用headers
-    List<CommonPair> mCommonHeaders;
+    IConfigsMaker mHeadersMaker;
 
     public NetworkConfig() {
         mConnectTimeout = 15;
@@ -74,12 +76,20 @@ public class NetworkConfig {
 
     @Nullable
     public List<CommonPair> getCommonParams() {
-        return mCommonParams;
+        if (mParamsMaker != null) {
+            return mParamsMaker.make();
+        } else {
+            return null;
+        }
     }
 
     @Nullable
     public List<CommonPair> getCommonHeaders() {
-        return mCommonHeaders;
+        if (mHeadersMaker != null) {
+            return mHeadersMaker.make();
+        } else {
+            return null;
+        }
     }
 
     public static NetworkConfigBuilder newBuilder() {

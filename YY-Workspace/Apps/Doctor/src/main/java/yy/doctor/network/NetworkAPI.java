@@ -14,8 +14,7 @@ import inject.annotation.network.method.UPLOAD;
 import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
 import yy.doctor.model.Profile;
-
-import static yy.doctor.model.Profile.TProfile.token;
+import yy.doctor.model.Profile.TProfile;
 
 /**
  * @auther yuansui
@@ -99,7 +98,7 @@ public class NetworkAPI {
         ps.add(newPair(Param.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(Param.KAppVersion, DeviceUtil.getAppVersion()));
         if (Profile.inst().isLogin()) {
-            ps.add(newPair(Param.KToken, Profile.inst().getString(token)));
+            ps.add(newPair(Param.KToken, Profile.inst().getString(TProfile.token)));
         }
 
         return ps;
