@@ -22,7 +22,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="广州广州"
             android:textColor="@color/white"
             android:textSize="14dp"/>
 
@@ -43,7 +42,7 @@
                 android:id="@+id/unit_num_deatil_tv_attention_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="259人"
+                android:text="0人"
                 android:textColor="@color/white"
                 android:textSize="12dp"/>
 

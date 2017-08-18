@@ -19,6 +19,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.BlurInterceptor;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
@@ -163,8 +164,8 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         int id = v.getId();
 
         if (id == R.id.unit_num_detail_tv_attention) {
-            // 无网
-            if (Util.noNetwork()) {
+            // 无网 或则数据还没有返回时
+            if (Util.noNetwork() || mUnitNumDetail == null) {
                 return;
             }
             exeNetworkReq(KReqIdAttention, NetFactory.attention(mUnitNumId, Attention.yes));
@@ -177,6 +178,17 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             showToast(R.string.attention_success);
             //通知首页的单位号改变状态
             notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.yes));
+        }
+    }
+
+    @Override
+    public void setViewState(@ViewState int state) {
+        super.setViewState(state);
+
+        if (state == ViewState.normal) {
+            showView(mZoomView);
+        } else {
+            goneView(mZoomView);
         }
     }
 
@@ -212,6 +224,10 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             if (position == 0) {
+                // 无网 或则数据还没有返回时
+                if (Util.noNetwork() || mUnitNumDetail == null) {
+                    return;
+                }
                 exeNetworkReq(KReqIdCancelAttention, NetFactory.attention(mUnitNumId, Attention.no));
                 //关注人数减1
                 mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
