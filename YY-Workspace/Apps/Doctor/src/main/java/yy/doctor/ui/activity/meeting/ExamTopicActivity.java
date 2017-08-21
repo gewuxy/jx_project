@@ -24,6 +24,7 @@ import yy.doctor.sp.SpApp;
 import yy.doctor.util.ExamCount;
 import yy.doctor.util.ExamCount.OnCountListener;
 import yy.doctor.util.Time;
+import yy.doctor.util.Util;
 
 /**
  * 考试答题界面
@@ -113,7 +114,21 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     }
 
     @Override
+    protected String submitHint(int noFinish) {
+        if (noFinish > 0) {
+            //还有没作答
+            return String.format(getString(R.string.exam_submit_hint_no_finish), noFinish);
+        } else {
+            //全部作答完了
+            return getString(R.string.exam_submit_hint_finish);
+        }
+    }
+
+    @Override
     protected void submit() {
+        if (Util.noNetwork()) {
+            return;
+        }
         ExamEndActivityRouter.create()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
@@ -123,17 +138,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
                 .topics(mTopics)
                 .route(ExamTopicActivity.this);
         finish();
-    }
-
-    @Override
-    protected String submitHint(int noFinish) {
-        if (noFinish > 0) {
-            //还有没作答
-            return String.format(getString(R.string.exam_submit_hint_no_finish), noFinish);
-        } else {
-            //全部作答完了
-            return getString(R.string.exam_submit_hint_finish);
-        }
     }
 
     @Override

@@ -21,6 +21,7 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.popup.TopicPopup;
 import yy.doctor.sp.SpApp;
+import yy.doctor.util.Util;
 
 /**
  * 问卷
@@ -84,7 +85,7 @@ public class SurveyTopicActivity extends BaseTopicActivity {
                 invalidate();
             }
 
-            // 第一次进入考试时提示
+            // 第一次进入问卷时提示
             if (SpApp.inst().firstEnterQue()) {
                 addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                     @Override
@@ -125,6 +126,9 @@ public class SurveyTopicActivity extends BaseTopicActivity {
 
     @Override
     protected void submit() {
+        if (Util.noNetwork()) {
+            return;
+        }
         SurveyEndActivityRouter.create(mMeetId, mModuleId)
                 .paperId(mPaper.getString(TPaper.id))
                 .topics(mTopics)

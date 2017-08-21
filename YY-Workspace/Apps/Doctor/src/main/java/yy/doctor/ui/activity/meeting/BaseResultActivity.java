@@ -66,6 +66,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     @Override
     public void setViews() {
         setOnClickListener(mTvReturn);
+        getDataFromNet();
     }
 
     @Override
@@ -93,6 +94,14 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
         setViewState(ViewState.error);
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
     }
 
     @Override
@@ -124,6 +133,8 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
         notify(NotifyType.study_end);
         mCountDown.recycle();
     }
+
+    protected abstract void getDataFromNet();
 
     protected abstract void successResult();
 

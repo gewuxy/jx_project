@@ -193,17 +193,22 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_wx: {
-                WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
-                if (WXLoginApi.isWXAppInstalled()) {
-                    if (checkBind(TProfile.wxNickname)) {
-                        // 未绑定
+                if (checkBind(TProfile.wxNickname)) {
+                    // 未绑定
+
+                    if (Util.noNetwork()) {
+                        return;
+                    }
+
+                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
+                    if (WXLoginApi.isWXAppInstalled()) {
                         WXLoginApi.sendReq(WXType.bind);
                     } else {
-                        // 已绑定
-                        relieveWx();
+                        notInstallWx();
                     }
                 } else {
-                    notInstallWx();
+                    // 已绑定
+                    relieveWx();
                 }
             }
             break;

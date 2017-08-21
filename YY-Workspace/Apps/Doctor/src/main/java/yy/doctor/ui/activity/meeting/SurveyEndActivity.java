@@ -33,9 +33,7 @@ public class SurveyEndActivity extends BaseResultActivity {
     }
 
     @Override
-    public void setViews() {
-        super.setViews();
-
+    protected void getDataFromNet() {
         refresh(RefreshWay.embed);
         NetworkReq r = MeetAPI.submitSurvey()
                 .meetId(mMeetId)
