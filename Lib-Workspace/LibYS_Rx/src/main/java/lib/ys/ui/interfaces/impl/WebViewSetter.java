@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import java.io.File;
 
 import lib.ys.AppEx;
-import lib.ys.ui.interfaces.IWebViewHost;
+import lib.ys.ui.interfaces.web.IWebViewHost;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;

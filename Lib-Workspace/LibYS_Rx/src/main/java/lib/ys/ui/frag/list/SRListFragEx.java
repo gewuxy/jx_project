@@ -161,7 +161,11 @@ abstract public class SRListFragEx<T, A extends IAdapter<T>> extends ListFragEx<
 
     @Override
     public boolean onRetryClick() {
-        return super.onRetryClick() || mSROpt.onRetryClick();
+        if (super.onRetryClick()) {
+            return true;
+        }
+
+        return mSROpt.onRetryClick();
     }
 
     @Override

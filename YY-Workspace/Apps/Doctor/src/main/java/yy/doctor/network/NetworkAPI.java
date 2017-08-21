@@ -154,22 +154,6 @@ public class NetworkAPI {
         void phone(String mobile, String captcha, String password);
     }
 
-    @API
-    interface Home {
-
-        /**
-         * 首页banner
-         */
-        @GET("banner")
-        void banner();
-
-        /**
-         * 首页推荐会议(含文件夹)
-         */
-        @GET("meet/recommend/meet/folder")
-        void recommendMeeting(int page, int pageSize);
-    }
-
     @API("data")
     interface Data {
         @DOWNLOAD_FILE
@@ -216,8 +200,24 @@ public class NetworkAPI {
         void thomson(String preId);
     }
 
-    @API("Account")
+    @API("publicAccount")
     interface UnitNum {
+        /**
+         * 推荐的单位号
+         *
+         * @return
+         */
+        @GET("recommend")
+        void recommendUnitNum();
+
+        /**
+         * 搜索单位号
+         *
+         * @param keyword 关键字
+         */
+        @POST("search")
+        void searchUnitNum(String keyword, int pageNum, int pageSize);
+
 
         /**
          * 关注的单位号
@@ -426,7 +426,12 @@ public class NetworkAPI {
 
     @API("meet/")
     interface Meet {
-
+        /**
+         * 首页推荐会议(含文件夹)
+         */
+        @GET("recommend/meet/folder")
+        void recommendMeeting(int page, int pageSize);
+        
         /**
          * @param meetId     会议id
          * @param moduleId   模块id
@@ -615,28 +620,17 @@ public class NetworkAPI {
 
     @API
     interface Common {
+        /**
+         * 首页banner
+         */
+        @GET("banner")
+        void banner();
 
         /**
          * 检查app版本
          */
         @GET("version/newly")
         void checkAppVersion();
-
-        /**
-         * 推荐的单位号
-         *
-         * @return
-         */
-        @GET("Account/recommend")
-        void recommendUnitNum();
-
-        /**
-         * 搜索单位号
-         *
-         * @param keyword 关键字
-         */
-        @POST("Account/search")
-        void searchUnitNum(String keyword, int pageNum, int pageSize);
 
         /**
          * 象数充值

@@ -6,7 +6,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import lib.ys.R;
-import lib.ys.ui.interfaces.IWebViewHost;
+import lib.ys.ui.interfaces.web.IWebViewHost;
 import lib.ys.ui.interfaces.impl.WebOption;
 import lib.ys.ui.interfaces.impl.WebViewSetter;
 

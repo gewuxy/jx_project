@@ -26,7 +26,7 @@ import yy.doctor.model.home.RecUnitNums;
 import yy.doctor.model.notice.NoticeNum;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.CommonAPI;
-import yy.doctor.network.NetworkAPISetter.HomeAPI;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 import yy.doctor.ui.activity.home.NoticeActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
@@ -108,8 +108,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
             hideView(mBadgeView);
         }
 
-        exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
-        exeNetworkReq(KReqIdUnitNum, CommonAPI.recommendUnitNum().build());
+        exeNetworkReq(KReqIdBanner, CommonAPI.banner().build());
+        exeNetworkReq(KReqIdUnitNum, UnitNumAPI.recommendUnitNum().build());
     }
 
     @Override
@@ -117,7 +117,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (initComplete()) {
             mMeetingReqIsOK = false;
         }
-        exeNetworkReq(KReqIdMeeting, HomeAPI.recommendMeeting(getOffset(), getLimit()).build());
+        exeNetworkReq(KReqIdMeeting, MeetAPI.recommendMeeting(getOffset(), getLimit()).build());
     }
 
     @Override
@@ -129,8 +129,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         mIsLoadFirstPage = true;
         mIsSwipeRefresh = true;
 
-        exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
-        exeNetworkReq(KReqIdUnitNum, CommonAPI.recommendUnitNum().build());
+        exeNetworkReq(KReqIdBanner, CommonAPI.banner().build());
+        exeNetworkReq(KReqIdUnitNum, UnitNumAPI.recommendUnitNum().build());
     }
 
     @Override
@@ -288,12 +288,13 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     @Override
     public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
-            exeNetworkReq(KReqIdBanner, HomeAPI.banner().build());
-            exeNetworkReq(KReqIdUnitNum, CommonAPI.recommendUnitNum().build());
-            mIsNetworkError = false;
-        }
+        super.onRetryClick();
+
+        //点击重新加载的时候，只会执行getDataFromNet（）方法，所有需要添加另外两个网络请求
+        exeNetworkReq(KReqIdBanner, CommonAPI.banner().build());
+        exeNetworkReq(KReqIdUnitNum, UnitNumAPI.recommendUnitNum().build());
+        mIsNetworkError = false;
+
         return false;
     }
 

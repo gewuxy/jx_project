@@ -13,7 +13,7 @@ import yy.doctor.model.search.Hot;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.CommonAPI;
+import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 
 /**
  * 搜索单位号的结果
@@ -30,9 +30,9 @@ public class UnitNumResultActivity extends BaseSearchResultActivity {
     @Override
     public void getDataFromNet() {
         if (TextUtil.isEmpty(mSearchContent)) {
-            exeNetworkReq(KRecUnitNum, CommonAPI.recommendUnitNum().build());
+            exeNetworkReq(KRecUnitNum, UnitNumAPI.recommendUnitNum().build());
         } else {
-            exeNetworkReq(KUnitNum, CommonAPI.searchUnitNum(mSearchContent, getOffset(), getLimit()).build());
+            exeNetworkReq(KUnitNum, UnitNumAPI.searchUnitNum(mSearchContent, getOffset(), getLimit()).build());
         }
     }
 

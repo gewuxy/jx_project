@@ -1,8 +1,6 @@
 package lib.ys.ui.frag;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -589,13 +587,9 @@ abstract public class FragEx extends Fragment implements
      */
     protected DialogEx initLoadingDialog() {
         DialogEx dialog = new LoadingDialogImpl(getActivity());
-        dialog.setOnCancelListener(new OnCancelListener() {
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                stopRefresh();
-                cancelAllNetworkReq();
-            }
+        dialog.setOnCancelListener(dialog1 -> {
+            stopRefresh();
+            cancelAllNetworkReq();
         });
         return dialog;
     }

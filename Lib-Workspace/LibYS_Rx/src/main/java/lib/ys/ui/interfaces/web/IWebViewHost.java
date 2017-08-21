@@ -1,4 +1,4 @@
-package lib.ys.ui.interfaces;
+package lib.ys.ui.interfaces.web;
 
 import lib.ys.ui.interfaces.impl.WebOption;
 

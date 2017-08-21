@@ -12,8 +12,8 @@ import yy.doctor.model.search.Margin;
 import yy.doctor.model.search.More;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.CommonAPI;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 
 /**
  * 单位号和会议的结果
@@ -52,7 +52,7 @@ public class SearchResultActivity extends BaseSearchResultActivity {
             mUnitNums.clear();
         }
         mUnitNumReqIsOK = false;
-        exeNetworkReq(KUnitNum, CommonAPI.searchUnitNum(mSearchContent, getOffset(), KUnitNumNum + 1).build());
+        exeNetworkReq(KUnitNum, UnitNumAPI.searchUnitNum(mSearchContent, getOffset(), KUnitNumNum + 1).build());
     }
 
     @Override
