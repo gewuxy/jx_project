@@ -25,5 +25,5 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    provided project(path: ':Lib-Workspace:LibYS_Rx')
+    provided project(deps.ys.core)
 }

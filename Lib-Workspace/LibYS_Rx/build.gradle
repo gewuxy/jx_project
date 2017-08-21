@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    compile project(':Lib-Workspace:LibNetwork_Rx')
+    compile project(':Android:Lib-Workspace:LibNetwork_Rx')
     /**
      * support包相关
      */

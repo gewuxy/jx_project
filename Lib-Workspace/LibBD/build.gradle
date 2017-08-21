@@ -23,5 +23,5 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    provided project(':Lib-Workspace:LibYS_Rx')
+    provided project(':Android:Libs:LibYS_Rx')
 }
