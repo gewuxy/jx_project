@@ -103,6 +103,9 @@ ext.deps = [
                 'leakcanary': 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
         ],
         'ys'     : [
-                'core': ':Android:Libs:LibYS_Rx'
+                'core'   : ':Android:Libs:LibYS_Rx',
+                'network': ':Android:Libs:LibNetwork_Rx',
+                'di'     : ':Android:DI-compiler',
+                'baidu'  : ':Android:Libs:LibBD'
         ]
 ]

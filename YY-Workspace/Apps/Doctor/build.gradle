@@ -17,12 +17,16 @@ android {
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
                 // LibYS里的混淆, 相对路径为3级
-                '../../../Lib-Workspace/LibNetwork_Rx/proguard-network.pro',
-                '../../../Lib-Workspace/LibYS_Rx/proguard-ys.pro',
-                '../../../Lib-Workspace/LibYS_Rx/proguard-fresco.pro',
-                '../../../Lib-Workspace/LibYS_Rx/proguard-lambda.pro',
-                '../../../DICompiler/proguard-injection.pro',
-                '../../../Lib-Workspace/LibBD/proguard-baidu.pro',
+                '../../../Android/Libs/LibNetwork_Rx/proguard-network.pro',
+
+                '../../../Android/Libs/LibYS_Rx/proguard-ys.pro',
+                '../../../Android/Libs/LibYS_Rx/proguard-fresco.pro',
+                '../../../Android/Libs/LibYS_Rx/proguard-lambda.pro',
+
+                '../../../Android/DI-compiler/proguard-injection.pro',
+
+                '../../../Android/Libs/LibBD/proguard-baidu.pro',
+
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',

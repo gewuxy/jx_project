@@ -18,6 +18,6 @@ android {
 }
 
 dependencies {
-    compile project(':Android:Libs:LibYS_Rx')
-    compile project(':Android:Libs:LibBD')
+    compile project(deps.ys.core)
+    compile project(deps.ys.baidu)
 }
