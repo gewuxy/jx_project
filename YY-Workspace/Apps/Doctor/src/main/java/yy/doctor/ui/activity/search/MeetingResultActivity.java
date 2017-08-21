@@ -63,15 +63,14 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        ListResult result = JsonParser.evs(r.getText(), Meeting.class);
-        return result;
+        return JsonParser.evs(r.getText(), Meeting.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         super.onNetworkSuccess(id, result);
 
-        ListResult<Meeting> r = (ListResult) result;
+        ListResult<Meeting> r = (ListResult<Meeting>) result;
         if (r.isSucceed()) {
             List meets = r.getData();
             // 单独管理空界面

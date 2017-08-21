@@ -15,11 +15,17 @@ import lib.yy.BaseConstants;
 public interface Constants extends BaseConstants {
 
     String KAppId = "wx83d3ea20a714b660";
-    boolean flag = false;//没有二维码
 
-    interface SectionConstants {
-        int KRowCount = 3; // 列数
-        int KDividerHeight = 14; // 分割线高度
+    @StringDef({
+            MeetStateText.under_way,
+            MeetStateText.not_started,
+            MeetStateText.retrospect,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface MeetStateText {
+        String under_way = "进行中";
+        String not_started = "未开始";
+        String retrospect = "精彩回顾";
     }
 
     interface PageConstants {

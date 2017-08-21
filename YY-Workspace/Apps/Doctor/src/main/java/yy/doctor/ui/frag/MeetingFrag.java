@@ -1,6 +1,5 @@
 package yy.doctor.ui.frag;
 
-import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -23,9 +22,11 @@ import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseVPFrag;
+import yy.doctor.Constants.MeetStateText;
 import yy.doctor.R;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.popup.SectionPopup;
+import yy.doctor.popup.SectionPopup.OnSectionListener;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.ui.frag.meeting.MeetsFragRouter;
 
@@ -35,12 +36,13 @@ import yy.doctor.ui.frag.meeting.MeetsFragRouter;
  * @author CaiXiang
  * @since 2017/4/6
  */
-public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
+public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnSectionListener {
 
-    private static final int KIndicatorColor = Color.parseColor("#006ebd");
-    private static final int KIndicatorWidth = 30;//滑块的宽度
-    private static final long KDuration = 100L;//切换科室动画时长
+    private static final int KIndicatorColor = R.color.text_006ebd;
+    private static final int KIndicatorWidth = 30; // 滑块的宽度
+    private static final long KDuration = 100L; // 切换科室动画时长
     private static final String KSectionAll = "全部科室";
+
     //科室选择
     private ImageView mIvSection;
     private TextView mTvSection;
@@ -56,9 +58,8 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
     private ViewGroup mLayoutTab;
     private UnderlinePageIndicator mIndicator;
 
-    private View mPreTab;
+    private View mPreTab; // 上一个被选择的View
     private OnClickListener mTabListener;
-
 
     @IntDef({
             PageType.under_way,
@@ -67,21 +68,13 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface PageType {
-
         int under_way = 0;//进行中
         int not_started = 1;//未开始
         int retrospect = 2;//精彩回顾
     }
+
     @Override
     public void initData() {
-        mAnimUp = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mAnimUp.setDuration(KDuration);
-        mAnimUp.setFillAfter(true);
-
-        mAnimDown = new RotateAnimation(180.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mAnimDown.setDuration(KDuration);
-        mAnimDown.setFillAfter(true);
-
         add(MeetsFragRouter.create(MeetState.under_way).route());
         add(MeetsFragRouter.create(MeetState.not_started).route());
         add(MeetsFragRouter.create(MeetState.retrospect).route());
@@ -99,29 +92,36 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
         mIvSection = (ImageView) v.findViewById(R.id.meeting_nav_bar_mid_iv);
         mTvSection = (TextView) v.findViewById(R.id.meeting_nav_bar_mid_tv);
         bar.addViewMid(v, v1 -> {
+            if (mAnimUp == null) {
+                mAnimUp = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                mAnimUp.setDuration(KDuration);
+                mAnimUp.setFillAfter(true);
+            }
+            if (mAnimDown == null) {
+                mAnimDown = new RotateAnimation(180.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                mAnimDown.setDuration(KDuration);
+                mAnimDown.setFillAfter(true);
+            }
+            if (mPopup == null) {
+                mPopup = new SectionPopup(getContext(), this);
+                mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
+            }
+
             mIvSection.startAnimation(mAnimUp);
-            showSection(bar);
+            // 显示选择科室
+            mPopup.showAsDropDown(bar);
         });
 
         bar.addViewRight(R.mipmap.nav_bar_ic_search, v1 -> startActivity(SearchActivity.class));
     }
 
-    /**
-     * 显示选择科室
-     */
-    private void showSection(View anchor) {
-        if (mPopup == null) {
-            mPopup = new SectionPopup(getContext(), text -> {
-                mTvSection.setText(text);
-                if (KSectionAll.equals(text)) {
-                    notify(NotifyType.section_change, ConstantsEx.KEmptyValue);
-                } else {
-                    notify(NotifyType.section_change, text);
-                }
-            });
-            mPopup.setOnDismissListener(() -> mIvSection.startAnimation(mAnimDown));
+    @Override
+    public void onSectionSelected(String text) {
+        mTvSection.setText(text);
+        if (KSectionAll.equals(text)) {
+            text = ConstantsEx.KEmptyValue;
         }
-        mPopup.showAsDropDown(anchor);
+        notify(NotifyType.section_change, text);
     }
 
     @Override
@@ -135,7 +135,13 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
     @Override
     public void setViews() {
         super.setViews();
-        addTabs();
+
+        // 添加导航
+        addTab(PageType.under_way, MeetStateText.under_way);
+        addTab(PageType.not_started, MeetStateText.not_started);
+        addTab(PageType.retrospect, MeetStateText.retrospect);
+
+        invalidate();
 
         setOnPageChangeListener(this);
 
@@ -148,14 +154,6 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
         mIndicator.setLineWidth(fitDp(KIndicatorWidth));
         mIndicator.setSelectedColor(KIndicatorColor);
         return mIndicator;
-    }
-
-    private void addTabs() {
-        addTab(PageType.under_way, "进行中");
-        addTab(PageType.not_started, "未开始");
-        addTab(PageType.retrospect, "精彩回顾");
-
-        invalidate();
     }
 
     private void addTab(final int index, CharSequence text) {

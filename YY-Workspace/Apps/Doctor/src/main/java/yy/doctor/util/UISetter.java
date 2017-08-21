@@ -19,6 +19,7 @@ import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
+import yy.doctor.Constants.MeetStateText;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
 import yy.doctor.model.data.DataUnitDetails;
@@ -47,22 +48,22 @@ public class UISetter {
      * @param tv
      */
     public static void setHomeMeetingState(@MeetState int state, TextView tv) {
-        String text = "未开始";
+        String text = MeetStateText.not_started;
         int color = R.color.text_01b557;
 
         switch (state) {
             case MeetState.not_started: {
-                text = "未开始";
+                text = MeetStateText.not_started;
                 color = R.color.text_01b557;
             }
             break;
             case MeetState.under_way: {
-                text = "进行中";
+                text = MeetStateText.under_way;
                 color = R.color.text_e6600e;
             }
             break;
             case MeetState.retrospect: {
-                text = "精彩回顾";
+                text = MeetStateText.retrospect;
                 color = R.color.text_5cb0de;
             }
             break;
