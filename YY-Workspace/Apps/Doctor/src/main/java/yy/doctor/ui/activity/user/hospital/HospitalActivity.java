@@ -26,7 +26,6 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -291,7 +290,7 @@ public class HospitalActivity extends BaseHospitalActivity
         YSLog.d("Gps", "失败");
         if (!DeviceUtil.isNetworkEnabled()) {
             setViewState(ViewState.error);
-            showToast("当前网络不可用, 不可定位");
+           // showToast("当前网络不可用, 不可定位");
         } else {
             //有网但是定位失败  显示dialog
             if (mDialog == null) {
@@ -360,11 +359,11 @@ public class HospitalActivity extends BaseHospitalActivity
             YSLog.d("Gps", "失败");
             onLocationError();
         }
-        stopLocation();
+       // stopLocation();
     }
 
     private void stopLocation() {
-        LocationNotifier.inst().remove(this);
+       // LocationNotifier.inst().remove(this);
         Location.inst().stop();
     }
 
@@ -424,13 +423,13 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
-    @Override
+
+ @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             Location.inst().start();
-            refresh(RefreshWay.embed);
+       //     refresh(RefreshWay.embed);
         }
-       // setViewState(ViewState.error);
         return true;
     }
 

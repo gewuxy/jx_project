@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import lib.network.Network;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IListResult;
 import lib.ys.AppEx;
@@ -17,6 +18,7 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.ui.interfaces.impl.scrollable.SROpt;
 import lib.ys.ui.interfaces.listener.OnScrollMixListener;
 import lib.ys.ui.interfaces.listener.scrollable.OnSROptListener;
+import lib.ys.util.DeviceUtil;
 
 
 /**
@@ -154,12 +156,21 @@ abstract public class SRListActivityEx<T, A extends IAdapter<T>> extends ListAct
         return AppEx.getListConfig().getInitOffset();
     }
 
-    @Override
+   /* @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             return mSROpt.onRetryClick();
         }
         return true;
+    }*/
+
+    @Override
+    public boolean onRetryClick() {
+        if (!DeviceUtil.isNetworkEnabled()) {
+            showToast(Network.getConfig().getDisconnectToast());
+            return true;
+        }
+        return false;
     }
 
     @Override

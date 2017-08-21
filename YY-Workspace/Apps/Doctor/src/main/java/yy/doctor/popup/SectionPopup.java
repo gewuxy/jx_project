@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.PopupWindowEx;
 import lib.yy.network.ListResult;
@@ -96,7 +97,14 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener {
         mListView.setOnItemClickListener(this);
     }
 
+    @Override
+    public void onNetworkError(int id, NetworkError error) {
+        super.onNetworkError(id, error);
+       // setViewState(ViewState.error);
+    }
+
     public interface OnSectionListener {
         void onSectionSelected(String text);
     }
+
 }

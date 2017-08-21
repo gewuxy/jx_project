@@ -321,7 +321,7 @@ public class NetworkAPI {
          * @param city          城市
          * @param zone          区县
          * @param hospital      医院名称
-         * @param hospitalLevel hospitalLevel
+         * @param hospitalLevel 医院等级
          * @param category      专科一级名称
          * @param name          专科二级名称
          * @param department    科室名称

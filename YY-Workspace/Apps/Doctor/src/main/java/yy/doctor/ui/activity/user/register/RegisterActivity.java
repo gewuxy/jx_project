@@ -372,23 +372,6 @@ public class RegisterActivity extends BaseFormActivity
                 .build();
         exeNetworkReq(KIdRegister,r);
 
-       /* exeNetworkReq(KIdRegister, NetFactory.register()
-                .mobile(getPhone())
-                .captcha(getItemStr(RelatedId.captcha))
-                .password(getItemStr(RelatedId.pwd))
-                .linkman(getItemStr(RelatedId.name))
-                .province(place.getString(TPlace.province))
-                .city(place.getString(TPlace.city))
-                .zone(place.getString(TPlace.district))
-                .hospital(getItemStr(RelatedId.hospital))
-                .hospitalLevel(hospitalLevel)//医院级别
-                .category(category)//专科一级名称，要分开
-                .name(name)//专科二级名称
-                .department(getItemStr(RelatedId.department))//科室名称
-                .title(getItemStr(RelatedId.title))//职称
-                .invite(code)
-                .masterId(mMasId)
-                .build());*/
     }
 
     private String getPhone() {
@@ -470,6 +453,7 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
         if (!isSuccess) {
+            showToast("当前网络不可用，请检查网络配置");
             stopLocation();
             return;
         }
@@ -538,6 +522,7 @@ public class RegisterActivity extends BaseFormActivity
             }
         }
     }
+
 
     private void startLocation() {
         LocationNotifier.inst().add(this);
