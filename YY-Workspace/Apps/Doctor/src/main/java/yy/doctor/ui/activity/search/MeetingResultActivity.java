@@ -42,8 +42,10 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
         super.setViews();
 
         if (TextUtil.isEmpty(mSearchContent)) {
-            getSearchView().requestFocus();
-            KeyboardUtil.showFromView(getSearchView());
+            runOnUIThread(() -> {
+                getSearchView().requestFocus();
+                KeyboardUtil.showFromView(getSearchView());
+            });
         } else {
             showView(mLayoutEmpty);
         }
