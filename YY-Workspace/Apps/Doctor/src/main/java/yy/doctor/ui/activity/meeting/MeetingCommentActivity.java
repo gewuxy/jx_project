@@ -100,6 +100,12 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         super.setViews();
 
         setOnClickListener(mTvSend);
+
+        getDataFromNet();
+    }
+
+    @Override
+    public void getDataFromNet() {
         refresh(RefreshWay.embed);
         /**
          * @deprecated 这版本没有下拉加载以前数据
@@ -161,6 +167,14 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
                 mEtSend.setText("");
                 break;
         }
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
     }
 
     /**
@@ -240,9 +254,10 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             }
             // 没退出继续发任务
             runOnUIThread(() -> {
-                if (isFinishing()) {
+                if (isFinishing() || Util.noNetwork()) {
                     return;
                 }
+
                 // 没退出继续重连
                 mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
             }, TimeUnit.SECONDS.toMillis(2));

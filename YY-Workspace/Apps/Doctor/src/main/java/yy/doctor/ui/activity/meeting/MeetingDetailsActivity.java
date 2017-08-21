@@ -44,7 +44,6 @@ import yy.doctor.model.meet.module.VideoFunc;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.network.UrlUtil;
@@ -169,6 +168,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         mIvCollection = Util.getBarView(group, ImageView.class);
         // 分享
         bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
+            if (Util.noNetwork()){
+                return;
+            }
             mShareDialog = new ShareDialog(MeetingDetailsActivity.this, UrlUtil.getBaseUrl() + UrlMeet.KMeetShare + mMeetId, mMeetName);
             mShareDialog.show();
         });

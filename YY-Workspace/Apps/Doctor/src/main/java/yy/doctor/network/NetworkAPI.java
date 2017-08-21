@@ -106,7 +106,7 @@ public class NetworkAPI {
          *
          * @param code 微信授权的code
          */
-        @GET("check_wx_bind")
+        @POST("check_wx_bind")
         void checkWxBind(String code);
 
         /**
@@ -534,7 +534,7 @@ public class NetworkAPI {
          *
          * @param itemJson 题号+选项的json串
          */
-        @GET("submitex")
+        @POST("submitex")
         void submitExam(@Part(opt = true) String meetId,
                         @Part(opt = true) String moduleId,
                         @Part(opt = true) String paperId,
@@ -545,7 +545,7 @@ public class NetworkAPI {
          *
          * @param itemJson 题号+选项的json串
          */
-        @GET("submitsur")
+        @POST("submitsur")
         void submitSurvey(@Part(opt = true) String meetId,
                           @Part(opt = true) String moduleId,
                           @Part(opt = true) String paperId,
@@ -557,7 +557,7 @@ public class NetworkAPI {
          * @param courseId 微课ID
          * @param details  学习用时
          */
-        @GET("ppt/record")
+        @POST("ppt/record")
         @Retry(count = 5, delay = 1000)
         void submitCourse(@Part(opt = true) String meetId,
                           @Part(opt = true) String moduleId,
@@ -572,7 +572,7 @@ public class NetworkAPI {
          * @param finished 是否完成
          * @param usedTime 视频用时
          */
-        @GET("video/record")
+        @POST("video/record")
         @Retry(count = 5, delay = 1000)
         void submitVideo(@Part(opt = true) String meetId,
                          @Part(opt = true) String moduleId,
@@ -586,7 +586,7 @@ public class NetworkAPI {
          *
          * @param useTime 会议学习时间
          */
-        @GET("exit")
+        @POST("exit")
         @Retry(count = 5, delay = 1000)
         void submitMeet(String meetId, @Part(value = "usedtime") long useTime);
 
@@ -658,7 +658,7 @@ public class NetworkAPI {
          * @param subject     商品名称
          * @param totalAmount 商品价格
          */
-        @GET("alipay/recharge")
+        @POST("alipay/recharge")
         void epnRecharge(String subject, int totalAmount);
     }
 

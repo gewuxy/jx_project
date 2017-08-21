@@ -54,10 +54,16 @@ public class SignActivity extends BaseResultActivity {
     }
 
     @Override
-    public void setViews() {
-        super.setViews();
-
-        getDataFromNet();
+    protected void getDataFromNet() {
+        refresh(RefreshWay.embed);
+        NetworkReq r = MeetAPI.sign()
+                .meetId(mMeetId)
+                .moduleId(mModuleId)
+                .positionId(mSignId)
+                .signLat(mLatitude)
+                .signLng(mLongitude)
+                .build();
+        exeNetworkReq(r);
     }
 
     @Override
@@ -71,25 +77,5 @@ public class SignActivity extends BaseResultActivity {
         mTvResult.setTextColor(ResLoader.getColor(KErrorColId));
         mTvResult.setText("签到失败");
         mTvResultMsg.setText(error);
-    }
-
-    @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            getDataFromNet();
-        }
-        return true;
-    }
-
-    private void getDataFromNet() {
-        refresh(RefreshWay.embed);
-        NetworkReq r = MeetAPI.sign()
-                .meetId(mMeetId)
-                .moduleId(mModuleId)
-                .positionId(mSignId)
-                .signLat(mLatitude)
-                .signLng(mLongitude)
-                .build();
-        exeNetworkReq(r);
     }
 }
