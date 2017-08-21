@@ -40,7 +40,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
     private static final int KIndicatorWidth = 30;//滑块的宽度
     private static final long KDuration = 100L;//切换科室动画时长
-
+    private static final String KSectionAll = "全部科室";
     //科室选择
     private ImageView mIvSection;
     private TextView mTvSection;
@@ -58,7 +58,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener {
 
     private View mPreTab;
     private OnClickListener mTabListener;
-    private String KSectionAll = "全部科室";
+
 
     @IntDef({
             PageType.under_way,

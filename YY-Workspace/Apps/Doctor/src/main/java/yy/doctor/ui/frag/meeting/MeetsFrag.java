@@ -5,8 +5,6 @@ import android.view.View;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkReq;
-import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -28,7 +26,6 @@ import yy.doctor.network.NetworkAPISetter.MeetAPI;
 public class MeetsFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
 
     private String mDepart;
-    private Object mData;
 
     @MeetState
     @Arg
@@ -73,18 +70,16 @@ public class MeetsFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.section_change) {
+            mDepart = (String) data;
             if (!DeviceUtil.isNetworkEnabled()) {
                 setViewState(ViewState.error);
             }else {
-                mData = data;
-                YSLog.d("-----------------------------",mData+"");
-                mDepart = (String) data;
                 refresh();
             }
         }
     }
 
-    @Override
+  /*  @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
@@ -92,5 +87,5 @@ public class MeetsFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
             refresh();
         }
         return true;
-    }
+    }*/
 }

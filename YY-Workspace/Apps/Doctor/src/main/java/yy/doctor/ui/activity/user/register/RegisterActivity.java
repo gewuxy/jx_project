@@ -329,8 +329,7 @@ public class RegisterActivity extends BaseFormActivity
         // 检查密码
         String strPwd = getItemStr(RelatedId.pwd);
 
-        String symbol = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
-        if (!strPwd.matches(symbol)) {
+        if (!strPwd.matches(Util.symbol())) {
             showToast(R.string.input_special_symbol);
             return;
         }

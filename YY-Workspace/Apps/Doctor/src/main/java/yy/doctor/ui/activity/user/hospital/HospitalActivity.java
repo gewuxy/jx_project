@@ -423,15 +423,14 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
-
- @Override
+/* @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             Location.inst().start();
        //     refresh(RefreshWay.embed);
         }
         return true;
-    }
+    }*/
 
     @Override
     public View createEmptyFooterView() {
