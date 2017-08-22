@@ -67,13 +67,37 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     private double mLocLat;
     private LatLng mLatLng;
     private String mStrSearch;
-    private IHospital mCheckItem;
-    private boolean mLocation = true; //定位成功默认为true,定位失败为false;
+    private IHospital mCheckItem; // 点击的医院
+    private boolean mLocationAgain; // 需要再次定位;
     private boolean mFindHospital = true; //找到医院默默认为true，找不到为false；
+    private OnClickListener mSearchListener;
 
     @Override
     public void initData() {
         mSearch = PoiSearch.newInstance();
+        mSearchListener = v -> {
+            // KeyboardUtil.hideFromView(v);
+            mStrSearch = mEtSearch.getText().toString().trim();
+            if (TextUtil.isEmpty(mStrSearch)) {
+                showToast("请输入搜索内容");
+                return;
+            }
+            if (Util.noNetwork()) {
+                return;
+            }
+            if (mLocationAgain) {
+                Location.inst().start();
+                return;
+            }
+            if (mLatLng == null) {
+                // 定位失败
+                onLocationError();
+                showToast("无法获取您的位置信息");
+            } else {
+                refresh();
+                YSLog.d(TAG, "offset = " + getOffset());
+            }
+        };
     }
 
     @Override
@@ -84,28 +108,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         mEtSearch.setHint("搜索医院");
         bar.addViewLeft(view, null);
-        bar.addTextViewRight("搜索", v -> {
-            // KeyboardUtil.hideFromView(v);
-            mStrSearch = mEtSearch.getText().toString().trim();
-            if (TextUtil.isEmpty(mStrSearch)) {
-                showToast("请输入搜索内容");
-                return;
-            }
-            if (DeviceUtil.isNetworkEnabled()) {
-                if (!mLocation) {
-                    onLocationError();
-                    showToast("无法获取您的位置信息");
-                    mLocation = !mLocation;
-                    return;
-                } else {
-                    getDataFromNet();
-                    YSLog.d(TAG, "offset = " + getOffset());
-                }
-            }else {
-                showToast(R.string.network_disabled);
-            }
-
-        });
+        // KeyboardUtil.hideFromView(v);
+        bar.addTextViewRight("搜索", mSearchListener);
     }
 
     @Override
@@ -120,6 +124,12 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         //检查有没有定位权限   没有的话直接弹dialog
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
+        }
+
+        if (DeviceUtil.isNetworkEnabled()) {
+            mLocationAgain = false;
+        } else {
+            mLocationAgain = true;
         }
 
         LocationNotifier.inst().add(this);
@@ -265,8 +275,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
      */
     private void onLocationError() {
         simulateSuccess(0);
-
-        mLocation = false;
     }
 
     @Override
@@ -290,15 +298,23 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             //定位成功
             mLocLon = Double.parseDouble(gps.getString(TGps.longitude));
             mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
+            YSLog.d(TAG,"onLocationResult:"+ mLocLon);
+            YSLog.d(TAG,"onLocationResult:"+ mLocLat);
             mLatLng = new LatLng(mLocLat, mLocLon);
-
+            if (mLocationAgain) {
+                mSearchListener.onClick(null);
+            }
         } else {
             //定位失败  显示dialog
             YSLog.d("Gps", "失败");
             onLocationError();
         }
 
-       // Location.inst().stop();
+        if (DeviceUtil.isNetworkEnabled()) {
+            mLocationAgain = false;
+        }
+
+        Location.inst().stop();
     }
 
     @Override

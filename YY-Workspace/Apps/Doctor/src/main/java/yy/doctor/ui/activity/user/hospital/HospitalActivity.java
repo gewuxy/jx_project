@@ -295,7 +295,7 @@ public class HospitalActivity extends BaseHospitalActivity
                 showToast(R.string.network_disabled);
                 mFirstToast = false;
             }
-           // setViewState(ViewState.error);
+            // setViewState(ViewState.error);
         } else {
             //有网但是定位失败  显示dialog
             if (mDialog == null) {
@@ -359,19 +359,15 @@ public class HospitalActivity extends BaseHospitalActivity
                 mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
                 mLatLng = new LatLng(mLocLat, mLocLon);
 
-                getDataFromNet();
+                refresh();
+                YSLog.d(TAG, "onLocationResult:====" + getOffset() + mLocLon);
+                YSLog.d(TAG, "onLocationResult:" + getOffset() + mLocLat);
             }
         } else {
             //定位失败  显示dialog
             YSLog.d("Gps", "失败");
             onLocationError();
         }
-       // stopLocation();
-    }
-
-    private void stopLocation() {
-       // LocationNotifier.inst().remove(this);
-        Location.inst().stop();
     }
 
     @Override
