@@ -303,12 +303,15 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             mLatLng = new LatLng(mLocLat, mLocLon);
             if (mLocationAgain) {
                 mSearchListener.onClick(null);
-                mLocationAgain = false;
             }
         } else {
             //定位失败  显示dialog
             YSLog.d("Gps", "失败");
             onLocationError();
+        }
+
+        if (DeviceUtil.isNetworkEnabled()) {
+            mLocationAgain = false;
         }
 
         Location.inst().stop();
