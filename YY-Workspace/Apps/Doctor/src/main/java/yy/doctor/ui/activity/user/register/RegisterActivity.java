@@ -452,7 +452,7 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
         if (!isSuccess) {
-            showToast("当前网络不可用，请检查网络配置");
+            showToast(R.string.network_disabled);
             stopLocation();
             return;
         }

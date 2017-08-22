@@ -75,6 +75,8 @@ public class HospitalActivity extends BaseHospitalActivity
     private LinearLayout mHospitalSearch;
 
     private boolean mIsFirst = true;
+    private boolean mFirstToast = true;
+
     private LevelDialog mLevelDialog;
     private IHospital mCheckItem;
     private HospitalLevel mHospitalLevel;
@@ -289,16 +291,19 @@ public class HospitalActivity extends BaseHospitalActivity
 
         YSLog.d("Gps", "失败");
         if (!DeviceUtil.isNetworkEnabled()) {
-            setViewState(ViewState.error);
-           // showToast("当前网络不可用, 不可定位");
+            if (mFirstToast) {
+                showToast("当前网络不可用，请检查网络配置");
+                mFirstToast = false;
+            }
+           // setViewState(ViewState.error);
         } else {
             //有网但是定位失败  显示dialog
             if (mDialog == null) {
                 mDialog = new LocateErrDialog(this);
+                mDialog.show();
             }
-            mDialog.show();
-            simulateSuccess(KIdHospital);
         }
+        simulateSuccess(KIdHospital);
 
     }
 
@@ -348,12 +353,14 @@ public class HospitalActivity extends BaseHospitalActivity
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
         if (isSuccess) {
-            //定位成功
-            mLocLon = Double.parseDouble(gps.getString(TGps.longitude));
-            mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
-            mLatLng = new LatLng(mLocLat, mLocLon);
+            if (DeviceUtil.isNetworkEnabled()) {
+                //定位成功
+                mLocLon = Double.parseDouble(gps.getString(TGps.longitude));
+                mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
+                mLatLng = new LatLng(mLocLat, mLocLon);
 
-            getDataFromNet();
+                getDataFromNet();
+            }
         } else {
             //定位失败  显示dialog
             YSLog.d("Gps", "失败");
@@ -423,14 +430,6 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
-/* @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            Location.inst().start();
-       //     refresh(RefreshWay.embed);
-        }
-        return true;
-    }*/
 
     @Override
     public View createEmptyFooterView() {

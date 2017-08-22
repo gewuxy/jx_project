@@ -27,6 +27,7 @@ import lib.bd.location.OnLocationNotify;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
@@ -90,14 +91,20 @@ public class SearchHospitalActivity extends BaseHospitalActivity
                 showToast("请输入搜索内容");
                 return;
             }
-            if (!mLocation) {
-                onLocationError();
-                showToast("无法获取您的位置信息");
-                return;
-            } else {
-                getDataFromNet();
-                YSLog.d(TAG, "offset = " + getOffset());
+            if (DeviceUtil.isNetworkEnabled()) {
+                if (!mLocation) {
+                    onLocationError();
+                    showToast("无法获取您的位置信息");
+                    mLocation = !mLocation;
+                    return;
+                } else {
+                    getDataFromNet();
+                    YSLog.d(TAG, "offset = " + getOffset());
+                }
+            }else {
+                showToast(R.string.network_disabled);
             }
+
         });
     }
 
@@ -167,7 +174,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     public void onGetPoiResult(PoiResult poiResult) {
         KeyboardUtil.hideFromView(getCurrentFocus());
         //removeAll();//清空列表
-        showToast("找到结果");
         ListResult<IHospital> r = new ListResult<>();
         if (poiResult != null && poiResult.error == PoiResult.ERRORNO.NO_ERROR) {
             //如果搜索到的结果不为空，并且没有错误
@@ -292,7 +298,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             onLocationError();
         }
 
-        Location.inst().stop();
+       // Location.inst().stop();
     }
 
     @Override
