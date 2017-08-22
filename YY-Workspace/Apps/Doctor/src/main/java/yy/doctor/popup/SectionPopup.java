@@ -25,7 +25,6 @@ import yy.doctor.model.meet.MeetingDepartment;
 import yy.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.util.Util;
 
 /**
  * @auther yuansui
