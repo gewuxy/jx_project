@@ -80,6 +80,7 @@ public class HospitalActivity extends BaseHospitalActivity
     private LevelDialog mLevelDialog;
     private IHospital mCheckItem;
     private HospitalLevel mHospitalLevel;
+    private boolean mLocationAgain;
 
     @Override
     public void initData() {
@@ -113,7 +114,13 @@ public class HospitalActivity extends BaseHospitalActivity
         mSearch.setOnGetPoiSearchResultListener(this);
         setViewState(ViewState.loading);
 
-        setRefreshEnabled(false);
+        if (DeviceUtil.isNetworkEnabled()) {
+            mLocationAgain = false;
+        } else {
+            mLocationAgain = true;
+        }
+
+//        setRefreshEnabled(false);
 //        setAutoLoadMoreEnabled(true);
     }
 
@@ -125,6 +132,11 @@ public class HospitalActivity extends BaseHospitalActivity
     @Override
     public boolean enableInitRefresh() {
         return false;
+    }
+
+    @Override
+    public void swipeRefresh() {
+        Location.inst().start();
     }
 
     @Override
@@ -145,7 +157,21 @@ public class HospitalActivity extends BaseHospitalActivity
     }
 
     @Override
+    public void onSwipeRefreshAction() {
+        mIsFirst = true;
+    }
+
+    @Override
     public void getDataFromNet() {
+        if (mLatLng == null && mLocationAgain) {
+            mLocationAgain = false;
+            Location.inst().start();
+            return;
+        }
+        netWork();
+    }
+
+    private void netWork() {
         //获得Key
         String key = "医院";
         //周边检索
@@ -352,6 +378,7 @@ public class HospitalActivity extends BaseHospitalActivity
 
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
+        Location.inst().stop();
         if (isSuccess) {
             if (DeviceUtil.isNetworkEnabled()) {
                 //定位成功
@@ -359,7 +386,7 @@ public class HospitalActivity extends BaseHospitalActivity
                 mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
                 mLatLng = new LatLng(mLocLat, mLocLon);
 
-                refresh();
+                getDataFromNet();
                 YSLog.d(TAG, "onLocationResult:====" + getOffset() + mLocLon);
                 YSLog.d(TAG, "onLocationResult:" + getOffset() + mLocLat);
             }
