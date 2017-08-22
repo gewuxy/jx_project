@@ -28,6 +28,7 @@ import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
 import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
 import yy.doctor.ui.activity.me.profile.ModifyTextActivityRouter;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
+import yy.doctor.util.Util;
 import yy.doctor.view.meet.ModuleView;
 
 /**
@@ -53,9 +54,9 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     private HintDialogMain mDialogPayEpn; // 支付象数
 
     public interface OnFuncListener {
-        void onFuncLoading(int type, String moduleId);
+        void onFuncLoading();
 
-        void onFuncNormal(int type, String moduleId);
+        void onFuncNormal();
 
     }
 
@@ -179,6 +180,10 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
         mDialogAttention.setHint("请先关注会议");
         mDialogAttention.addButton("确认关注", v1 -> {
             mDialogAttention.dismiss();
+            if (Util.noNetwork()) {
+                return;
+            }
+
             App.showToast("关注成功");
             getDetail().put(TMeetDetail.attention, true);
             int id = getDetail().getInt(TMeetDetail.pubUserId);
@@ -205,7 +210,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
             ).route(getContext());
 
         });
-        mDialogCme.addButton("取消", R.color.text_666, v -> mDialogCme.dismiss());
+        mDialogCme.addButton(R.string.cancel, R.color.text_666, v -> mDialogCme.dismiss());
         mDialogCme.show();
     }
 
@@ -242,10 +247,13 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
      * 参与会议
      */
     protected void attend() {
-        getNetwork().exeNetworkReq(KIdModule, getNetworkReq());
-        if (mListener != null) {
-            mListener.onFuncLoading(getType(), getModuleId());
+        if (Util.noNetwork()) {
+            return;
         }
+        if (mListener != null) {
+            mListener.onFuncLoading();
+        }
+        getNetwork().exeNetworkReq(KIdModule, getNetworkReq());
     }
 
     @ModuleType
@@ -277,7 +285,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     @Override
     public void onNetworkSuccess(int id, Object result) {
         if (getListener() != null) {
-            getListener().onFuncNormal(getType(), getModuleId());
+            getListener().onFuncNormal();
         }
         if (id == KIdModule) {
             onNetworkSuccess(result);
@@ -287,7 +295,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     @Override
     public void onNetworkError(int id, NetworkError error) {
         if (mListener != null) {
-            mListener.onFuncNormal(getType(), getModuleId());
+            mListener.onFuncNormal();
         }
     }
 

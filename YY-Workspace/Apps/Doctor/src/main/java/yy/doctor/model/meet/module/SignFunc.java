@@ -31,10 +31,9 @@ import yy.doctor.ui.activity.meeting.SignActivityRouter;
  * @auther yuansui
  * @since 2017/7/12
  */
-public class SignFunc extends BaseFunc implements OnPermissionListener {
+public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocationNotify {
 
     private PermissionOpt mPermission;
-    private OnLocationNotify mObserver;
     private Gps mGps;
     private SignErrDialog mSignErrDialog;
 
@@ -95,7 +94,7 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
     @Override
     protected void attend() {
         if (mPermission.checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
-            getSignInfo();
+            location();
         }
     }
 
@@ -103,53 +102,52 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
             case PermissionResult.granted: {
-                getSignInfo();
+                location();
             }
             break;
             case PermissionResult.denied:
             case PermissionResult.never_ask: {
-                showLocationDialog();
+                locationError();
             }
             break;
         }
     }
 
     /**
-     * 初始化Dialog
+     * 定位
      */
-    private void showLocationDialog() {
+    private void location() {
+        Location.inst().start();
+        LocationNotifier.inst().add(this);
+    }
+
+    /**
+     * 获取定位信息失败
+     */
+    private void locationError() {
         mSignErrDialog = new SignErrDialog(getContext());
         mSignErrDialog.setLocationListener(v -> attend());
         mSignErrDialog.show();
     }
 
-    /**
-     * 签到
-     */
-    private void getSignInfo() {
-        if (getListener() != null) {
-            getListener().onFuncLoading(getType(), getModuleId());
-        }
-        // FIXME: rxjava
-        mObserver = (isSuccess, gps) -> {
-            UtilEx.runOnUIThread(() -> {
-                if (isSuccess) {
-                    //定位成功
-                    mGps = gps;
-                    super.attend();
-                } else {
-                    //定位失败
-                    if (getListener() != null) {
-                        getListener().onFuncNormal(getType(), getModuleId());
-                    }
-                    showLocationDialog();
+    @Override
+    public void onLocationResult(boolean isSuccess, Gps gps) {
+        Location.inst().onDestroy();
+        LocationNotifier.inst().remove(this);
+
+        UtilEx.runOnUIThread(() -> {
+            if (isSuccess) {
+                //定位成功
+                mGps = gps;
+                super.attend();
+            } else {
+                //定位失败
+                if (getListener() != null) {
+                    getListener().onFuncNormal();
                 }
-            }, ResLoader.getInteger(R.integer.anim_default_duration));
-            LocationNotifier.inst().remove(mObserver);
-            Location.inst().onDestroy();
-        };
-        Location.inst().start();
-        LocationNotifier.inst().add(mObserver);
+                locationError();
+            }
+        }, ResLoader.getInteger(R.integer.anim_default_duration));
     }
 
     @Override
@@ -159,6 +157,5 @@ public class SignFunc extends BaseFunc implements OnPermissionListener {
         if (mSignErrDialog != null) {
             mSignErrDialog.dismiss();
         }
-        mObserver = null;
     }
 }

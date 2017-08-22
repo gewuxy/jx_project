@@ -413,16 +413,12 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public void onFuncLoading(int type, String moduleId) {
-        // 无网
-        if (Util.noNetwork()) {
-            return;
-        }
+    public void onFuncLoading() {
         refresh(RefreshWay.dialog);
     }
 
     @Override
-    public void onFuncNormal(int type, String moduleId) {
+    public void onFuncNormal() {
         stopRefresh();
     }
 
