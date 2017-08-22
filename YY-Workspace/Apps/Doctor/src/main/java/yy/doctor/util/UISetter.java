@@ -1,5 +1,6 @@
 package yy.doctor.util;
 
+import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.text.InputType;
 import android.text.method.NumberKeyListener;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import lib.ys.fitter.LayoutFitter;
+import lib.ys.model.FileSuffix;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
@@ -22,6 +24,9 @@ import lib.ys.util.view.ViewUtil;
 import yy.doctor.Constants.MeetStateText;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.MeetingVH;
+import yy.doctor.model.data.DataUnit;
+import yy.doctor.model.data.DataUnit.FileOpenType;
+import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.model.home.RecUnitNum.Attention;
@@ -31,7 +36,9 @@ import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.model.unitnum.FileData;
 import yy.doctor.model.unitnum.FileData.TFileData;
+import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
+import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
@@ -291,4 +298,42 @@ public class UISetter {
 
         v.setSelected(favorite);
     }
+
+    public static void onDataUnitClick(DataUnit item, @DataType int type, Context context) {
+        switch (item.getInt(TDataUnit.openType)) {
+            case FileOpenType.details: {
+                String dataFileId = item.getString(TDataUnit.id);
+                String fileName = item.getString(TDataUnit.title);
+                DataUnitDetailActivityRouter.create(
+                        dataFileId, fileName, type
+                ).route(context);
+            }
+            break;
+            case FileOpenType.pdf: {
+                String filePath = CacheUtil.getThomsonCacheDir(item.getString(TDataUnit.id));
+                long fileSize = item.getInt(TDataUnit.fileSize) * 1024;
+                String fileName = item.getString(TDataUnit.title);
+                String url = item.getString(TDataUnit.filePath);
+                String dataFileId = item.getString(TDataUnit.id);
+
+                DownloadFileActivityRouter.create()
+                        .filePath(filePath)
+                        .fileName(fileName)
+                        .url(url)
+                        .fileSuffix(FileSuffix.pdf)
+                        .dataType(type)
+                        .fileSize(fileSize)
+                        .dataFileId(dataFileId)
+                        .route(context);
+            }
+            break;
+            case FileOpenType.html: {
+                CommonWebViewActivityRouter.create(
+                        item.getString(TDataUnit.title), item.getString(TDataUnit.filePath)
+                ).route(context);
+            }
+            break;
+        }
+    }
+
 }

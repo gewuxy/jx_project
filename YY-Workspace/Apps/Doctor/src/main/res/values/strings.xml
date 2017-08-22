@@ -18,6 +18,7 @@
     <string name="search">搜索</string>
     <string name="please_input_search_content">请输入搜索内容</string>
     <string name="connect_timeout">超时，请检查当前网络</string>
+    <string name="network_disabled">当前网络不可用，请检查网络配置</string>
 
     <string name="login">登录</string>
     <string name="binding_login">绑定并登录</string>
@@ -53,7 +54,6 @@
     <string name="get_captcha_frequently">获取验证码太频繁</string>
     <string name="free_provide">该账号（价值69.9元），由%s为您免费提供</string>
     <string name="you_agree">点击“注册”即表示您同意</string>
-    <string name="network_disabled">当前网络不可用，请检查网络配置</string>
 
     <!--hint-->
     <string name="hint_not_fill">未填写</string>

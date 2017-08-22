@@ -6,7 +6,6 @@ import android.widget.EditText;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.model.FileSuffix;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
@@ -15,11 +14,9 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
-import yy.doctor.model.data.DataUnit.FileOpenType;
-import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
-import yy.doctor.util.CacheUtil;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
@@ -92,36 +89,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
         }
 
         setOnAdapterClickListener((position, v) -> {
-            DataUnit item = getItem(position);
-            switch (item.getInt(TDataUnit.openType)) {
-                case FileOpenType.details: {
-                    String dataFileId = item.getString(TDataUnit.id);
-                    String fileName = item.getString(TDataUnit.title);
-                    DataUnitDetailActivityRouter.create(
-                            dataFileId, fileName, mType
-                    )
-                            .route(this);
-                }
-                break;
-                case FileOpenType.pdf: {
-                    String filePath = CacheUtil.getThomsonCacheDir(item.getString(TDataUnit.id));
-                    long fileSize = item.getInt(TDataUnit.fileSize) * 1024;
-                    String fileName = item.getString(TDataUnit.title);
-                    String url = item.getString(TDataUnit.filePath);
-                    String dataFileId = item.getString(TDataUnit.id);
-
-                    DownloadFileActivityRouter.create()
-                            .filePath(filePath)
-                            .fileName(fileName)
-                            .url(url)
-                            .fileSuffix(FileSuffix.pdf)
-                            .dataType(mType)
-                            .fileSize(fileSize)
-                            .dataFileId(dataFileId)
-                            .route(this);
-                }
-                break;
-            }
+            UISetter.onDataUnitClick(getItem(position), mType, this);
         });
     }
 

@@ -292,7 +292,7 @@ public class HospitalActivity extends BaseHospitalActivity
         YSLog.d("Gps", "失败");
         if (!DeviceUtil.isNetworkEnabled()) {
             if (mFirstToast) {
-                showToast("当前网络不可用，请检查网络配置");
+                showToast(R.string.network_disabled);
                 mFirstToast = false;
             }
            // setViewState(ViewState.error);

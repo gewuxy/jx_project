@@ -8,22 +8,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
-import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
-import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.ui.activity.data.BaseDataUnitsActivity;
 import yy.doctor.ui.activity.data.ClinicsActivityRouter;
-import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
 import yy.doctor.ui.activity.data.DataUnitsSearchActivityRouter;
-import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.activity.data.DrugsActivityRouter;
-import yy.doctor.util.CacheUtil;
+import yy.doctor.util.UISetter;
 
 /**
  * @auther Huoxuyu
@@ -125,41 +121,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                 }
 
             } else {
-                switch (item.getInt(TDataUnit.openType)) {
-                    case FileOpenType.details: {
-                        String dataFileId = item.getString(TDataUnit.id);
-                        String fileName = item.getString(TDataUnit.title);
-                        DataUnitDetailActivityRouter.create(
-                                dataFileId,
-                                fileName,
-                                getDataType()
-                        ).route(getContext());
-                    }
-                    break;
-                    case FileOpenType.pdf: {
-                        String filePath = CacheUtil.getThomsonCacheDir(item.getString(TDataUnit.id));
-                        long fileSize = item.getInt(TDataUnit.fileSize) * 1024;
-                        String fileName = item.getString(TDataUnit.title);
-                        String url = item.getString(TDataUnit.filePath);
-                        String dataFileId = item.getString(TDataUnit.id);
-
-                        DownloadFileActivityRouter.create()
-                                .filePath(filePath)
-                                .fileName(fileName)
-                                .url(url)
-                                .fileSuffix(FileSuffix.pdf)
-                                .dataType(getDataType())
-                                .fileSize(fileSize)
-                                .dataFileId(dataFileId)
-                                .route(getContext());
-                    }
-                    break;
-                    case FileOpenType.html: {
-
-                    }
-                    break;
-                }
-
+                UISetter.onDataUnitClick(item, getDataType(), getContext());
             }
         });
     }

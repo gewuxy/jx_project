@@ -88,6 +88,7 @@ public class App extends BaseApp {
                     return ps;
                 })
                 .timeoutToast(getString(R.string.connect_timeout))
+                .disconnectToast(getString(R.string.network_disabled))
                 .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();
     }
