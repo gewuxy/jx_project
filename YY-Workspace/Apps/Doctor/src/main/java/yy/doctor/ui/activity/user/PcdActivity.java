@@ -48,7 +48,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private final int KIdCommit = 1;
 
     private static final String KLocating = "定位中...";
-    private static final String KLocateError = "无法获取当前的位置信息";
+    private static final String KLocateError = "无法获取您的位置信息";
 
     private ProgressView mIvProgress;
     private TextView mTvLocation;

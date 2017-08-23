@@ -10,7 +10,6 @@
     <lib.ys.view.CornerView
         android:layout_width="300dp"
         android:layout_height="375dp"
-        android:background="@color/text_fff"
         app:corner_radius="@dimen/radius"
         app:corner_useStroke="false">
 
@@ -18,7 +17,8 @@
             android:id="@+id/dialog_hospital_layout_levels"
             android:layout_width="300dp"
             android:layout_height="375dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/white">
 
             <TextView
                 android:layout_width="match_parent"

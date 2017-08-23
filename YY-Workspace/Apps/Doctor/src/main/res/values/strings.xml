@@ -391,7 +391,7 @@
     <string name="attend_meeting_statistics">参会统计</string>
 
     <!--空字符串-->
-    <string name="empty_collection_meeting">暂时没有收藏会议</string>
+    <string name="empty_collection_meeting">暂无收藏内容</string>
     <string name="empty_search_result">暂时搜索不到相应的结果</string>
     <string name="empty_notice">暂时没有通知</string>
     <string name="empty_attention_unit_num">暂时没有关注单位号</string>

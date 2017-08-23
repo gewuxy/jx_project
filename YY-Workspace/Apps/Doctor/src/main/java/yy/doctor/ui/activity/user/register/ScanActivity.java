@@ -54,6 +54,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public void initNavBar(NavBar bar) {
+        bar.setBackgroundResource(R.color.black);
         Util.addBackIcon(bar, "扫一扫", this);
     }
 
@@ -68,6 +69,10 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         mScannerView.setOnScannerCompletionListener(this);
         mScannerView.setLaserFrameBoundColor(ResLoader.getColor(R.color.btn_bg_blue));
         mScannerView.setDrawText("请对准二维码，耐心等待", 12, Color.WHITE, true, 20);
+        mScannerView.setLaserFrameSize(248,248);
+        mScannerView.setLaserFrameTopMargin(96);
+        mScannerView.setLaserColor(ResLoader.getColor(R.color.btn_bg_blue));
+        mScannerView.setLaserLineResId(R.mipmap.scan_ic_laser_line);
 
         mBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mFlag = !mFlag;

@@ -35,6 +35,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
@@ -47,6 +48,7 @@ import yy.doctor.Constants.CaptchaType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
+import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.model.Place;
 import yy.doctor.model.Place.TPlace;
 import yy.doctor.model.Profile;
@@ -265,7 +267,7 @@ public class RegisterActivity extends BaseFormActivity
 
         mTvReg.setEnabled(false);
         SpannableString s = new SpannableString(getString(R.string.you_agree));
-        s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 2, 6, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mTvAgree.setText(s);
 
         // 静默检查定位权限
@@ -274,6 +276,9 @@ public class RegisterActivity extends BaseFormActivity
         }
 
         mEtActivatedCode.addTextChangedListener(this);
+        if (!DeviceUtil.isNetworkEnabled()) {
+            showToast(R.string.network_disabled);
+        }
     }
 
     @Override
@@ -452,7 +457,6 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
         if (!isSuccess) {
-            showToast(R.string.network_disabled);
             stopLocation();
             return;
         }
@@ -511,6 +515,17 @@ public class RegisterActivity extends BaseFormActivity
         } else {
             //注册
             Result r = (Result) result;
+            if (r.getCode()==101 || r.getCode() == 102) {
+                HintDialogMain hintdialog = new HintDialogMain(this);
+                hintdialog.setHint("该手机已注册，是否立即登录？");;
+                hintdialog.addButton(R.string.cancel, v -> hintdialog.dismiss());
+                hintdialog.addButton("立即登录", v -> {
+                    //跳转到设置页面
+                    startActivity(LoginActivity.class);
+                    hintdialog.dismiss();
+                });
+                hintdialog.show();
+            }
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名

@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me;
 
+import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -14,6 +15,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
+import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import yy.doctor.R;
@@ -28,6 +30,8 @@ import yy.doctor.util.Util;
  */
 
 public class MyCollectionActivity extends BaseVPActivity {
+    private static final int KIndicatorColor = Color.parseColor("#006ebd");
+    private static final int KIndicatorWidth = 53;
 
     @IntDef({
             PageType.meeting,
@@ -94,6 +98,15 @@ public class MyCollectionActivity extends BaseVPActivity {
         });
     }
 
+
+    @Override
+    protected PageIndicator initPageIndicator() {
+        mIndicator.setFades(false);
+        mIndicator.setLineWidth(fitDp(KIndicatorWidth));
+        mIndicator.setSelectedColor(KIndicatorColor);
+        return mIndicator;
+    }
+
     private void addTabs() {
         addTab(PageType.meeting, R.string.meeting);
         addTab(PageType.thomson, R.string.thomson);
@@ -137,10 +150,7 @@ public class MyCollectionActivity extends BaseVPActivity {
         if (mPreTab != null) {
             mPreTab.setSelected(false);
         }
-
         mPreTab = v;
         mPreTab.setSelected(true);
     }
-
-
 }

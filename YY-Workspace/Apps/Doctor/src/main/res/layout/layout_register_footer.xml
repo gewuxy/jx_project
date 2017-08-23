@@ -67,6 +67,7 @@
             android:id="@+id/register"
             style="@style/tv.common"
             android:layout_width="match_parent"
+            android:layout_height="42dp"
             android:layout_marginTop="52dp"
             android:background="@drawable/btn_selector_blue"
             android:text="注册"

@@ -64,4 +64,8 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
             }
         }
     }
+
+    protected String getEmptyText() {
+        return "暂无收藏内容";
+    }
 }
