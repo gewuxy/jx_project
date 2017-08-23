@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">YaYa新医师</string>
 
-    <string name="company_name">敬信•YaYa医师 V</string>
+    <string name="company_name">YaYa医师 V</string>
 
     <string name="input_name">请输入邮箱或手机号</string>
     <string name="input_pwd">请输入密码</string>

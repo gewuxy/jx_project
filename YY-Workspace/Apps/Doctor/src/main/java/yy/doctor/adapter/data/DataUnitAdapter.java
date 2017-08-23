@@ -3,10 +3,13 @@ package yy.doctor.adapter.data;
 import android.view.View;
 
 import lib.ys.adapter.AdapterEx;
+import lib.ys.util.TextUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.data.DataVH;
 import yy.doctor.model.data.DataUnit;
+import yy.doctor.model.data.DataUnit.FileOpenType;
 import yy.doctor.model.data.DataUnit.TDataUnit;
+import yy.doctor.util.UISetter;
 
 /**
  * @author CaiXiang
@@ -14,8 +17,6 @@ import yy.doctor.model.data.DataUnit.TDataUnit;
  */
 
 public class DataUnitAdapter extends AdapterEx<DataUnit, DataVH> {
-
-    private static final String KSymbol = "K";
 
     @Override
     public int getConvertViewResId() {
@@ -31,20 +32,19 @@ public class DataUnitAdapter extends AdapterEx<DataUnit, DataVH> {
         }
 
         DataUnit item = getItem(position);
-        holder.getTvName().setText(getItem(position).getString(TDataUnit.title));
+        holder.getTvName().setText(item.getString(TDataUnit.title));
 
         View detail = holder.getTvDetail();
-        if (item.getBoolean(TDataUnit.isFile)) {
-            goneView(detail);
+        if (item.getBoolean(TDataUnit.isFile)
+                && item.getInt(TDataUnit.openType) == FileOpenType.pdf
+                && !TextUtil.isEmpty(item.getString(TDataUnit.author))) {
+            showView(detail);
+            holder.getTvDetail().setText(item.getString(TDataUnit.author));
         } else {
-            long size = item.getLong(TDataUnit.fileSize, -1);
-            if (size != -1) {
-                showView(detail);
-                holder.getTvDetail().setText(size + KSymbol);
-            } else {
-                goneView(detail);
-            }
+            goneView(detail);
         }
+
+        UISetter.viewVisibility(item.getString(TDataUnit.author), holder.getTvDetail());
 
         setOnViewClickListener(position, holder.getRootLayout());
     }

@@ -2,57 +2,66 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <lib.ys.view.CornerView
         android:id="@+id/home_unit_num_layout"
-        android:layout_width="98dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:corner_radius="3dp"
+        app:corner_strokeWidth="0dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/item_selector"
-        android:orientation="vertical">
+        android:layout_marginRight="4dp">
 
-        <lib.ys.network.image.NetworkImageView
-            android:id="@+id/home_unit_num_item_iv"
-            android:layout_width="51dp"
-            android:layout_height="51dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="12dp"
-            android:layout_marginTop="16dp"/>
+        <LinearLayout
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_selector"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/home_unit_num_item_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="26dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="2"
-            android:text=""
-            android:textColor="@color/text_6d"
-            android:textSize="10dp"/>
+            <lib.ys.network.image.NetworkImageView
+                android:id="@+id/home_unit_num_item_iv"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="16dp"/>
 
-        <TextView
-            android:id="@+id/home_unit_num_item_tv_attention"
-            android:layout_width="66dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/unit_num_detail_tv_attention_bg_selector"
-            android:drawableLeft="@drawable/unit_num_detail_tv_attention_selector"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:text="关注"
-            android:textColor="@color/white"
-            android:textSize="9dp"/>
+            <TextView
+                android:id="@+id/home_unit_num_item_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/text_6d"
+                android:textSize="10dp"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/home_unit_num_item_tv_attention"
+                android:layout_width="66dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/unit_num_detail_tv_attention_bg_selector"
+                android:drawableLeft="@drawable/unit_num_detail_tv_attention_selector"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="关注"
+                android:textColor="@color/white"
+                android:textSize="9dp"/>
+
+        </LinearLayout>
+
+    </lib.ys.view.CornerView>
 
 </LinearLayout>

@@ -70,5 +70,11 @@ abstract public class BaseDataUnitsActivity extends BaseVPActivity {
         }
     }
 
+    @Nullable
+    @Override
+    public int getContentHeaderViewId() {
+        return 0;
+    }
+
     abstract protected BaseDataUnitsFrag createFrag();
 }

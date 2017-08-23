@@ -70,6 +70,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
                         //改变源数据
                         item.put(TRecUnitNum.attention, Attention.yes);
                         mListener.onAttentionChanged(attention, item.getInt(TRecUnitNum.id));
+                        showToast(R.string.attention_success);
                     }
                 }
             }
