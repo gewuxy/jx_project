@@ -39,6 +39,15 @@ public class NetworkAPI {
         void login(String username, String password, String openid);
 
         /**
+         * 绑定极光推送的ID
+         *
+         * @param registionId
+         */
+        @GET("bindJpush")
+        @Retry(count = 5, delay = 1000)
+        void bindJPush(String registionId);
+
+        /**
          * 登出
          *
          * @param token

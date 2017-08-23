@@ -20,7 +20,6 @@ import lib.yy.network.Result;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 
@@ -71,7 +70,7 @@ public class CommonServ extends ServiceEx {
             }
             break;
             case ReqType.j_push: {
-                exeNetworkReq(ReqType.j_push, NetFactory.bindJPush(mJPushRegisterId));
+                exeNetworkReq(ReqType.j_push, UserAPI.bindJPush(mJPushRegisterId).build());
             }
             break;
             case ReqType.video: {

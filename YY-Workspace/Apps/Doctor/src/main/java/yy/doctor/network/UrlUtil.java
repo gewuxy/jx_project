@@ -49,112 +49,14 @@ public class UrlUtil {
     }
 
     public interface UrlUser {
-        String KBindWX = "check_wx_bind";
-        String KProfile = "user/info";
         String KModify = "user/modify";
-        String KCollection = "my_favorite";
-        String KChangePwd = "user/resetPwd";
-        String KBindJPush = "bindJpush";
-        String KCheckAppVersion = "version/newly";
-        String KBindMobile = "user/set_bind_mobile";
-        String KBindEmail = "email/send_bind_email";
-        String KUnBindEmail = "user/unbind_email";
-        String KBindWXSet = "user/set_wx_bind_status";
-    }
-
-    public interface UrlRegister {
-        String KRegisterBase = "register/";
-        String KProvince = KRegisterBase + "provinces";
-        String KCity = KRegisterBase + "cities";
-        String KRegister = KRegisterBase + "reg";
-        String KHospital = KRegisterBase + "hos";
-        String KDepart = KRegisterBase + "depart";
-
-        String KCaptcha = KRegisterBase + "get_captcha";
-        String KScan = KRegisterBase + "scan_register";
-        String KGetInviteCode = KRegisterBase + "get_invite_code";
-        String KSpecialty = KRegisterBase + "specialty";
-        String KTitle = KRegisterBase + "title";
-        String KProperties = KRegisterBase + "properties";
-    }
-
-    public interface UrlHome {
-        String KBanner = "banner";
-        String KRecommendMeeting = "meet/recommend/meet/folder";
-        String KRecommendUnitNum = "publicAccount/recommend";
     }
 
     public interface UrlMeet {
         String KMeetBase = "meet/";
-        String KMeets = KMeetBase + "meets";
-        String KInfo = KMeetBase + "info";
-        String KTypes = KMeetBase + "types";
-
-        String KToExam = KMeetBase + "toexam";
-        String KToSurvey = KMeetBase + "tosurvey";
-        String KToSign = KMeetBase + "tosign";
-        String KToPPT = KMeetBase + "toppt";
-        String KToVideo = KMeetBase + "tovideo";
-
-        String KSubmitSur = KMeetBase + "submitsur";
-        String KSubmitEx = KMeetBase + "submitex";
-        String KSubmitPPT = KMeetBase + "ppt/record";
-
-        String KSign = KMeetBase + "sign";
-        String KSend = KMeetBase + "message/send";
-        String KVideo = KMeetBase + "video/sublist";
-        String KHistories = KMeetBase + "message/histories";
-
-        String KCollectMeeting = KMeetBase + "favorite";
-
-        String KMeetingData = KMeetBase + "pageMaterial";
-        String KMeetingVideoRecord = KMeetBase + "video/record";
-
         String KMeetShare = KMeetBase + "share?meetId=";
-        String KMeetingRecord = KMeetBase + "exit";
-
-        String KMeetingDepartment = KMeetBase + "department";
-
-        String KMeetingFolder = KMeetBase + "folder/leaf";
-        String KMeetingFolderResource = KMeetBase + "folder/leaf/resource";
-
-        String KStatsAttend = KMeetBase + "attend_stats";
-        String KStatsPublish = KMeetBase + "publish_stats";
-
         String KWs = "ws://";
         String KIm = "/im";
-    }
-
-    public interface UrlData {
-        String KThomson = "data/thomson/category";
-        String KDrugSearch = "data/data_search";
-
-        String KCollectionDetail = "data/data_detail";
-        String KCollectionStatus = "set_favorite_status";
-    }
-
-    public interface UrlEpn {
-        String KEpnDetails = "shop/tradeInfo";
-        String KEpnRecharge = "alipay/recharge";
-    }
-
-    public interface UrlEpc {
-        String KOrder = "shop/order";
-        String KEpc = "shop/goods";
-        String KEpcDetail = "shop/goodInfo";
-    }
-
-    public interface UrlUnitNum {
-        String KUnitNum = "publicAccount/mySubscribe";
-        String KAttention = "publicAccount/subscribe";
-        String KUnitNumDetail = "publicAccount/unitInfo";
-        String KUnitNumData = "publicAccount/materialList";
-    }
-
-    public interface UrlSearch {
-        String KSearchRecUnitNum = "publicAccount/recommend";
-        String KSearchUnitNum = "publicAccount/search";
-        String KSearchMeeting = "meet/search";
     }
 
 }

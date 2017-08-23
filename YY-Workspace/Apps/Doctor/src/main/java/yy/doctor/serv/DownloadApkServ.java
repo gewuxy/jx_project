@@ -13,7 +13,7 @@ import lib.network.model.NetworkError;
 import lib.ys.service.ServiceEx;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.util.CacheUtil;
 
 /**
@@ -56,7 +56,7 @@ public class DownloadApkServ extends ServiceEx {
         builder.setProgress(100, 0, false);
         manager.notify(NO_3, builder.build());
 
-        exeNetworkReq(NetFactory.downloadData(mUrl, CacheUtil.getUploadCacheDir(), mFileName));
+        exeNetworkReq(DataAPI.download(CacheUtil.getUploadCacheDir(), mFileName, mUrl).build());
     }
 
     @Override
