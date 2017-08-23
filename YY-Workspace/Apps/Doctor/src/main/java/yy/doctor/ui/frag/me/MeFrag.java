@@ -77,7 +77,7 @@ public class MeFrag extends BaseFormFrag {
                 .name(R.string.attend_meeting_statistics)
                 .related(RelatedId.meeting_statistics));
 
-        addItem(Form.create(FormType.divider)
+        addItem(Form.create(FormType.divider_margin)
                 .paddingLeft(paddingLeft)
                 .paddingRight(paddingRight));
 
@@ -86,7 +86,7 @@ public class MeFrag extends BaseFormFrag {
                 .name(R.string.my_attention)
                 .related(RelatedId.my_attention));
 
-        addItem(Form.create(FormType.divider)
+        addItem(Form.create(FormType.divider_margin)
                 .paddingLeft(paddingLeft)
                 .paddingRight(paddingRight));
 
@@ -96,7 +96,7 @@ public class MeFrag extends BaseFormFrag {
                 .related(RelatedId.my_collection));
 
         //String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits));
-        addItem(Form.create(FormType.divider)
+        addItem(Form.create(FormType.divider_margin)
                 .paddingLeft(paddingLeft)
                 .paddingRight(paddingRight));
 
@@ -113,7 +113,7 @@ public class MeFrag extends BaseFormFrag {
                 .name(R.string.settings)
                 .related(RelatedId.settings));
 
-        addItem(Form.create(FormType.divider)
+        addItem(Form.create(FormType.divider_margin)
                 .paddingLeft(paddingLeft)
                 .paddingRight(paddingRight));
 

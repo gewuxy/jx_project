@@ -19,11 +19,11 @@ public class DataVH extends ViewHolderEx {
     }
 
     public View getDivider() {
-        return getView(R.id.form_divider);
+        return getView(R.id.data_item_divider);
     }
 
-    public LinearLayout getDataItemLayout() {
-        return getView(R.id.data_item_layout);
+    public LinearLayout getRootLayout() {
+        return getView(R.id.data_item_layout_root);
     }
 
     public TextView getTvName() {

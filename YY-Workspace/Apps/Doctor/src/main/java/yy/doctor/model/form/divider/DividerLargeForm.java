@@ -1,9 +1,5 @@
 package yy.doctor.model.form.divider;
 
-import android.view.ViewGroup.MarginLayoutParams;
-
-import lib.ys.fitter.DpFitter;
-import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
 
 /**
@@ -14,11 +10,7 @@ import yy.doctor.R;
 public class DividerLargeForm extends DividerForm {
 
     @Override
-    protected void init(FormVH holder) {
-        super.init(holder);
-
-        MarginLayoutParams params = (MarginLayoutParams) holder.getDivider().getLayoutParams();
-        params.height = DpFitter.dimen(R.dimen.form_divider_large_height);
-        holder.getDivider().setLayoutParams(params);
+    public int getContentViewResId() {
+        return R.layout.form_divider_large;
     }
 }
