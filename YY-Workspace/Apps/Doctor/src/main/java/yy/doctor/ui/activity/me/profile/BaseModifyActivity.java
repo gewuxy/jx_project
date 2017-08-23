@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.me.profile;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -55,7 +56,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
         getEt().setText(getVal());
     }
 
-    protected void addTextChangedListener(@NonNull EditText et, @NonNull View ivClear) {
+    protected void addTextChangedListener(@NonNull EditText et, @Nullable View ivClear) {
         if (et == null) {
             return;
         }
@@ -81,6 +82,9 @@ abstract public class BaseModifyActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (ivClear == null) {
+                    return;
+                }
                 if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
                     showView(ivClear);
                 } else {
@@ -90,6 +94,9 @@ abstract public class BaseModifyActivity extends BaseActivity {
         });
 
         et.setOnFocusChangeListener((v, hasFocus) -> {
+            if (ivClear == null) {
+                return;
+            }
             // iv是否显示
             if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
                 showView(ivClear);
@@ -128,7 +135,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
         Intent i = new Intent().putExtra(Extra.KData, text);
         setResult(RESULT_OK, i);
         finish();
-        showToast("修改成功");
+        showToast(R.string.user_save_success);
     }
 
     abstract protected EditText getEt();

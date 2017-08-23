@@ -455,6 +455,7 @@ public class HospitalActivity extends BaseHospitalActivity
                 Intent i = new Intent().putExtra(Extra.KData, mHospitalLevel);
                 setResult(RESULT_OK, i);
                 finish();
+                showToast(R.string.user_save_success);
             } else {
                 onNetworkError(id, res.getError());
                 stopRefresh();

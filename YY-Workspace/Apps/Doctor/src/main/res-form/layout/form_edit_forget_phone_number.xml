@@ -2,10 +2,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <LinearLayout
         style="@style/v.form"
+        android:layout_marginTop="50dp"
         android:background="@drawable/white"
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
@@ -26,5 +29,9 @@
             style="@style/iv.form.clean.right"/>
 
     </LinearLayout>
+
+    <View
+        style="@style/divider"
+        android:layout_width="280dp"/>
 
 </LinearLayout>

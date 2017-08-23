@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingLeft="40dp"
     android:paddingRight="40dp">
 
@@ -15,21 +15,21 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="40dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <yy.doctor.view.AutoCompleteEditText
             android:id="@+id/forget_pwd_et_email"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
             android:layout_weight="1"
             android:background="@null"
-            android:layout_marginLeft="28dp"
-            android:singleLine="true"
             android:hint="@string/input_email"
+            android:singleLine="true"
+            android:textColor="@color/text_666"
             android:textColorHint="@color/text_b3"
-            android:textSize="15dp"
-            android:textColor="@color/text_666"/>
+            android:textSize="15dp"/>
 
         <ImageView
             android:id="@+id/forget_email_iv_cancel"
@@ -37,9 +37,13 @@
 
     </LinearLayout>
 
+    <View
+        style="@style/divider"
+        android:layout_width="280dp"/>
+
     <TextView
-        style="@style/tv.common"
         android:id="@+id/forget_pwd_tv_send_email"
+        style="@style/tv.common"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="28dp"

@@ -20,7 +20,6 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.Title;
 import yy.doctor.model.Title.TTitle;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.frag.TitleCategoryFrag;
@@ -121,6 +120,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
                     Intent i = new Intent().putExtra(Extra.KData, mTitle);
                     setResult(RESULT_OK, i);
                     finish();
+                    showToast(R.string.user_save_success);
                 } else {
                     onNetworkError(id, r.getError());
                 }

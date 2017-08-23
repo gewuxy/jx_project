@@ -110,6 +110,7 @@ public class ClipImageActivity extends BaseActivity {
 
             setResult(RESULT_OK, getIntent());
             finish();
+            showToast(R.string.user_save_success);
         } else {
             onNetworkError(id, r.getError());
         }

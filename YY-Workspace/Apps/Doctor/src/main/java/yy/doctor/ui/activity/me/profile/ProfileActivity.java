@@ -325,8 +325,8 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             }
         });
 
-        dialog.addItem(getString(R.string.from_album_select), KColorNormal);
         dialog.addItem(getString(R.string.take_photo), KColorNormal);
+        dialog.addItem(getString(R.string.from_album_select), KColorNormal);
         dialog.addItem(getString(R.string.cancel), KColorCancel);
 
         dialog.show();

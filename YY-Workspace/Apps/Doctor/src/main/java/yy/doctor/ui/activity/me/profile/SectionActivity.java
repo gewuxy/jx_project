@@ -140,6 +140,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
                         .putExtra(Extra.KData, mCategoryName);
                 setResult(RESULT_OK, intent);
                 finish();
+                showToast(R.string.user_save_success);
             } else {
                 onNetworkError(id, r.getError());
             }

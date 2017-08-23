@@ -50,7 +50,7 @@ public class SkillActivity extends BaseModifyActivity {
         setLength(getVal().length());
 
         setOnClickListener(R.id.academic_iv_clean);
-        addTextChangedListener(mEt, mIvCancel);
+        addTextChangedListener(mEt, null);
 
         mEt.addTextChangedListener(new TextWatcher() {
 

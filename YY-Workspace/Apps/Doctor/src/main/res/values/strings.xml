@@ -76,8 +76,8 @@
     <string name="thomson">汤森路透</string>
     <string name="drug_list">药品目录</string>
     <string name="clinical_guide">临床指南</string>
-    <string name="drug_list_search_hint">药品通用名/商品名或者批文名称</string>
-    <string name="clinical_guide_search_hint">搜索症状/疾病关键字</string>
+    <string name="drug_list_search_hint">药品通用名/商品名或者批准文号</string>
+    <string name="clinical_guide_search_hint">搜索症状/疾病关键词</string>
 
     <!--忘记密码-->
     <string name="forget_pwd">找回密码</string>
@@ -309,26 +309,26 @@
     <!--个人资料-->
     <string name="user_profile">我的资料</string>
     <string name="user_save">完成并保存</string>
-    <string name="user_save_success">更新成功</string>
+    <string name="user_save_success">保存成功</string>
     <string name="user_name">姓名</string>
     <string name="user_hospital">单位</string>
     <string name="user_section">科室</string>
     <string name="user_hospital_grade">医院级别</string>
     <string name="user_title">职称</string>
-    <string name="user_certification_number">职业资格证号</string>
+    <string name="user_certification_number">执业资格证号</string>
     <string name="user_CME_number">CME卡号</string>
     <string name="user_city">所在省市</string>
     <string name="user_photo_permission">请开启拍照权限</string>
     <string name="user_album_permission">请开启查看相册权限</string>
     <string name="take_photo">拍照</string>
-    <string name="from_album_select">从相册中选择照片</string>
+    <string name="from_album_select">从相册选择</string>
     <string name="avatar">头像</string>
     <string name="section">科室</string>
     <string name="specialized">专科</string>
     <string name="medical_skill">学术专长</string>
     <string name="high_grade">高级职称</string>
     <string name="user_input_section">请输入科室名称</string>
-    <string name="user_input_certification_number">请输入职业资格证号</string>
+    <string name="user_input_certification_number">请输入执业资格证号</string>
     <string name="user_input_CME_number">请输入CME卡号</string>
     <string name="user_input_Specialist">请选择专科</string>
     <string name="user_input_academic">请完善个人学术专长资料</string>
