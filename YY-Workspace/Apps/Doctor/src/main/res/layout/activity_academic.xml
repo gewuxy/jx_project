@@ -53,7 +53,7 @@
             <ImageView
                 android:id="@+id/academic_iv_clean"
                 style="@style/iv.form.clean.right"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
         </LinearLayout>
 
         <View style="@style/divider"/>

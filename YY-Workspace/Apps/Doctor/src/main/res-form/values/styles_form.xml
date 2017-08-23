@@ -9,17 +9,16 @@
         <item name="android:background">@drawable/item_selector</item>
     </style>
 
-    <style name="divider.menu">
-        <item name="android:background">@color/divider_menu</item>
-    </style>
-
     <style name="divider.main">
         <item name="android:background">@color/divider</item>
     </style>
 
     <style name="divider.form">
         <item name="android:id">@id/form_divider</item>
-        <item name="android:background">@color/app_bg</item>
+    </style>
+
+    <style name="divider.form.match">
+        <item name="android:background">@color/divider</item>
     </style>
 
     <style name="iv.arrow">

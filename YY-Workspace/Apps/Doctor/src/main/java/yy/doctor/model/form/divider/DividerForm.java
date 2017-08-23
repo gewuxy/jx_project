@@ -31,8 +31,6 @@ public class DividerForm extends BaseForm {
         if (background >= 0) {
             holder.getDivider().setBackgroundColor(background);
         }
-
-        holder.getDividerLayout().setPadding(getPaddingLeft(), 0, getPaddingRight(), 0);
     }
 
 }

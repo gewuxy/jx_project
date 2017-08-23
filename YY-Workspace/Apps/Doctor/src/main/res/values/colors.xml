@@ -6,8 +6,7 @@
 
     <color name="app_nav_bar_bg">#006ebd</color>
 
-    <color name="divider">#dbdbdb</color>
-    <drawable name="divider">#dbdbdb</drawable>
+    <color name="divider">#f0f0f0</color>
 
     <color name="item_focus">#e8e8e8</color>
     <drawable name="item_focus">#e8e8e8</drawable>

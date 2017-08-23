@@ -32,7 +32,7 @@
         android:layout_below="@id/hospital_tv_location"
         android:orientation="vertical">
 
-        <include layout="@layout/sr_group_list_layout"/>
+        <include layout="@layout/layout_sr_group_list"/>
 
     </LinearLayout>
 

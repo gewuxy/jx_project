@@ -79,13 +79,18 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         mStatus = new HashSet<>();
         mEnableSize = RelatedId.class.getDeclaredFields().length;
 
+        int paddingLeft = fitDp(10);
+        int paddingRight = fitDp(10);
+
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_forget_phone_number)
                 .observer(this)
                 .hint(R.string.phone_number));
 
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin)
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight));
         addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
                 .layout(R.layout.form_edit_forget_captcha)
@@ -94,7 +99,9 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 .observer(this)
                 .enable(false));
 
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin)
+                .paddingLeft(paddingLeft)
+                .paddingRight(paddingRight));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd)
                 .layout(R.layout.form_edit_forget_pwd)
@@ -172,8 +179,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                                 mCount = 1;
                             }
                         }
-                       // exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch));
-                        exeNetworkReq(KCaptcha,RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
+                        // exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch));
+                        exeNetworkReq(KCaptcha, RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
                         mDialog.dismiss();
                     });
                     mDialog.show();

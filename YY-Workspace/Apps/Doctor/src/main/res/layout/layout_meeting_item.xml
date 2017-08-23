@@ -123,6 +123,4 @@
 
     </RelativeLayout>
 
-    <View style="@style/divider"/>
-
 </LinearLayout>

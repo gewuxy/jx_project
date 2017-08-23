@@ -1,6 +1,5 @@
 package yy.doctor.model.form.divider;
 
-import lib.ys.fitter.DpFitter;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
 
@@ -12,11 +11,14 @@ import yy.doctor.R;
 public class DividerMarginForm extends DividerForm {
 
     @Override
+    public int getContentViewResId() {
+        return R.layout.form_divider_margin;
+    }
+
+    @Override
     protected void init(FormVH holder) {
         super.init(holder);
 
-        int padding = DpFitter.dimen(R.dimen.form_divider_large_height);
-        paddingLeft(padding);
-        paddingRight(padding);
+        holder.getDividerLayout().setPadding(getPaddingLeft(), 0, getPaddingRight(), 0);
     }
 }

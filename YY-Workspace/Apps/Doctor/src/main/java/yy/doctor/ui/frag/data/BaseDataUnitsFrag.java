@@ -78,8 +78,12 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
         super.setViews();
 
         if (getContentHeaderViewId() != 0) {
-            setOnClickListener(R.id.data_header_search_layout);
-            mTvSearch.setText(getSearchId());
+            setOnClickListener(getHeaderView());
+            if (mPreId == null) {
+                mTvSearch.setText(getSearchId());
+            } else {
+                goneView(getHeaderView());
+            }
         }
 
         setOnAdapterClickListener((position, v) -> {
@@ -141,8 +145,6 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.data_header_search_layout) {
-            DataUnitsSearchActivityRouter.create(getDataType()).route(getContext());
-        }
+        DataUnitsSearchActivityRouter.create(getDataType()).route(getContext());
     }
 }

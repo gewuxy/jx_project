@@ -46,7 +46,7 @@ public class DataUnitAdapter extends AdapterEx<DataUnit, DataVH> {
             }
         }
 
-        setOnViewClickListener(position, holder.getDataItemLayout());
+        setOnViewClickListener(position, holder.getRootLayout());
     }
 
 }
