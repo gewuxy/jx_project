@@ -83,7 +83,7 @@
     <string name="forget_pwd">找回密码</string>
     <string name="email">电子邮箱</string>
     <string name="submit_email">提交</string>
-    <string name="input_email">请输入电子邮箱</string>
+    <string name="input_email">请输入注册时的邮箱地址</string>
     <string name="input_right_email">请输入正确邮箱</string>
     <string name="forget_pwd_success">重置密码的邮件已经发送至您的邮箱</string>
     <string name="know">知道了</string>
