@@ -1,7 +1,7 @@
-package yy.doctor.model;
+package yy.doctor.model.config;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.GlConfigInfo.TGlConfigInfo;
+import yy.doctor.model.config.GlConfigInfo.TGlConfigInfo;
 import yy.doctor.model.hospital.HospitalLevel;
 
 /**

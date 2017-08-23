@@ -7,17 +7,18 @@ import org.json.JSONException;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import yy.doctor.R;
-import yy.doctor.model.GlConfigInfo;
-import yy.doctor.model.GlConfigInfo.TGlConfigInfo;
+import yy.doctor.model.config.GlConfig;
+import yy.doctor.model.config.GlConfigInfo;
+import yy.doctor.model.config.GlConfigInfo.TGlConfigInfo;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.sp.SpConfig;
+import yy.doctor.sp.SpConfig.SpConfigKey;
 
 /**
  * @auther : GuoXuan
@@ -28,18 +29,24 @@ public class GlConfigServ extends ServiceEx {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SpConfig inst = SpConfig.inst();
-        int version = inst.getVersion();
-        if (ConstantsEx.KErrNotFound == version) {
+        SpConfig spConfig = SpConfig.inst();
+
+        int version = spConfig.getVersion();
+        GlConfigInfo info = new GlConfigInfo();
+        if (version == spConfig.KDefaultVersion) {
             // 初始(本地没有信息时)先从资源目录获取一次配置信息
             // 读取资源文件的内容
-            GlConfigInfo info = new GlConfigInfo();
             info.parse(ResLoader.getRawContent(R.raw.gl_config));
 
             version = info.getInt(TGlConfigInfo.version);
             // 保存配置信息
-            inst.saveInfo(info);
+            spConfig.saveInfo(info);
+        } else {
+            info.parse(SpConfig.inst().getString(SpConfigKey.KConfigHospitalLevels));
         }
+
+        GlConfig.inst().setHospitalLevels(info.getList(TGlConfigInfo.propList));
+
         exeNetworkReq(RegisterAPI.config(version).build());
     }
 
@@ -63,6 +70,7 @@ public class GlConfigServ extends ServiceEx {
             if (oldVersion < newVersion) {
                 // 有更新保存最新信息
                 SpConfig.inst().saveInfo(info);
+                GlConfig.inst().setHospitalLevels(info.getList(TGlConfigInfo.propList));
                 YSLog.d(TAG, "onNetworkSuccess:update");
             }
         }

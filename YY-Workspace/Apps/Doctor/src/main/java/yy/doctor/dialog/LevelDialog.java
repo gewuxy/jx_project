@@ -12,9 +12,9 @@ import lib.ys.fitter.LayoutFitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
+import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
-import yy.doctor.sp.SpConfig;
 
 /**
  * @auther WangLan
@@ -41,7 +41,7 @@ public class LevelDialog extends BaseDialog {
 
     @Override
     public void initData() {
-        mLevels = SpConfig.inst().getHospitalLevels();
+        mLevels = GlConfig.inst().getHospitalLevels();
     }
 
     @NonNull

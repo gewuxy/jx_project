@@ -51,6 +51,11 @@ public class DataUnit extends EVal<TDataUnit> {
         updateDate, // 修订日期
 
         /**
+         * html
+         */
+        htmlPath,
+
+        /**
          * 文件夹
          */
         leaf,   //下一级是否有文件夹

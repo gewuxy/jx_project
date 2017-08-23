@@ -329,7 +329,7 @@ public class UISetter {
             break;
             case FileOpenType.html: {
                 CommonWebViewActivityRouter.create(
-                        item.getString(TDataUnit.title), item.getString(TDataUnit.filePath)
+                        item.getString(TDataUnit.title), item.getString(TDataUnit.htmlPath)
                 ).route(context);
             }
             break;

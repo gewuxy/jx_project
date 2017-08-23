@@ -1,15 +1,14 @@
 package yy.doctor.sp;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 import lib.ys.util.sp.SpBase;
 import yy.doctor.App;
-import yy.doctor.model.GlConfigInfo;
-import yy.doctor.model.GlConfigInfo.TGlConfigInfo;
+import yy.doctor.model.config.GlConfigInfo;
+import yy.doctor.model.config.GlConfigInfo.TGlConfigInfo;
 
 /**
  * @auther : GuoXuan
@@ -19,10 +18,11 @@ import yy.doctor.model.GlConfigInfo.TGlConfigInfo;
 public class SpConfig extends SpBase {
 
     private static final String KFileName = "sp_config";
+    public static final int KDefaultVersion = 0;
 
     private static SpConfig mInst = null;
 
-    private interface SpConfigKey {
+    public interface SpConfigKey {
         String KConfigVersion = "gl_config_version";
         String KConfigHospitalLevels = "gl_config_hospital_levels";
     }
@@ -43,26 +43,16 @@ public class SpConfig extends SpBase {
         return mInst;
     }
 
-    public void saveInfo(GlConfigInfo config) {
+    public void saveInfo(@NonNull GlConfigInfo config) {
         if (config == null) {
             return;
         } else {
             save(SpConfigKey.KConfigVersion, config.getInt(TGlConfigInfo.version));
-            save(SpConfigKey.KConfigHospitalLevels, (ArrayList) config.getList(TGlConfigInfo.propList));
+            save(SpConfigKey.KConfigHospitalLevels, config.toJson());
         }
     }
 
     public int getVersion() {
-        if (mInst == null) {
-            inst();
-        }
-        return mInst.getInt(SpConfigKey.KConfigVersion);
-    }
-
-    public List getHospitalLevels() {
-        if (mInst == null) {
-            inst();
-        }
-        return (ArrayList) mInst.getSerializable(SpConfigKey.KConfigHospitalLevels);
+        return getInt(SpConfigKey.KConfigVersion, KDefaultVersion);
     }
 }
