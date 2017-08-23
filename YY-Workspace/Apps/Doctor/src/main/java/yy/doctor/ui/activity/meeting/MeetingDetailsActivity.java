@@ -24,7 +24,6 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeUtil;
-import lib.ys.util.TimeUtil.TimeFormat;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -291,7 +290,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                 .load();
 
         long startTime = detail.getLong(TMeetDetail.startTime); // 开始时间
-        mTvDate.setText(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24));
+        mTvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
         mTvDuration.setText("时长:" + Time.milliFormat(detail.getLong(TMeetDetail.endTime) - startTime));
 
         // 会议

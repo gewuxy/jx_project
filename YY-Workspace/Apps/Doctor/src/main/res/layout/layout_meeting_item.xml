@@ -12,35 +12,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/margin_large"
+        android:paddingBottom="14dp"
         android:paddingLeft="8dp"
         android:paddingRight="24dp"
-        android:paddingTop="@dimen/margin_large">
-
-        <ImageView
-            android:id="@+id/meeting_item_iv_state"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:src="@mipmap/meeting_ic_file_state_no_start"/>
+        android:paddingTop="14dp">
 
         <LinearLayout
+            android:id="@+id/meeting_layout_tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginRight="47dp"
-            android:layout_toRightOf="@id/meeting_item_iv_state"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/meeting_item_iv_state"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/meeting_ic_file_state_no_start"/>
 
             <TextView
                 android:id="@+id/meeting_item_tv_title"
                 style="@style/tv.meeting.title"
+                android:layout_marginLeft="8dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:text="廣東省第29屆腫瘤病學年會專家預告"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_layout_tv_title"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="47dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 style="@style/v"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -76,7 +87,7 @@
             <TextView
                 android:id="@+id/meeting_item_tv_unit_num"
                 style="@style/tv.meeting"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:text="广州CDC死因与肿瘤监测科"/>
         </LinearLayout>
 

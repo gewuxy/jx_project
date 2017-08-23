@@ -41,8 +41,8 @@ import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.model.meet.video.Detail;
 import yy.doctor.model.meet.video.Detail.TDetail;
-import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServRouter;
 import yy.doctor.util.Time;
 import yy.doctor.util.Util;
 
@@ -366,10 +366,10 @@ public class VideoActivity extends BaseActivity implements
         boolean finish = mDetail.getLong(TDetail.userdtime, 0) + mDuration > mAllTime;
         mSubmit.put(TSubmit.usedtime, mDuration + mDetail.getLong(TDetail.userdtime, 0));
         mSubmit.put(TSubmit.finished, finish);
-        Intent intent = new Intent(this, CommonServ.class)
-                .putExtra(Extra.KType, ReqType.video)
-                .putExtra(Extra.KData, mSubmit);
-        startService(intent);
+        CommonServRouter.create()
+                .type(ReqType.video)
+                .submit(mSubmit)
+                .route(this);
         super.finish();
     }
 

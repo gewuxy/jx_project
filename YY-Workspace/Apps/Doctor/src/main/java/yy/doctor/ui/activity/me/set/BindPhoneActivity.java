@@ -53,7 +53,7 @@ public class BindPhoneActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_bind_phone_number)
-                .hint("请输入手机号"));
+                .hint("请输入手机号码"));
 
         addItem(Form.create(FormType.divider));
 
@@ -80,7 +80,7 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @Override
     protected CharSequence getNavBarText() {
-        return "账号绑定";
+        return "绑定手机号";
     }
 
     @Override

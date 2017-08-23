@@ -54,7 +54,7 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public CharSequence getNavBarText() {
-        return "账号绑定";
+        return "绑定邮箱号";
     }
 
     @Override
@@ -73,7 +73,8 @@ public class BindEmailActivity extends BaseSetActivity {
         stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
-            showToast("成功发送验证邮件, 请查收");
+            showToast("成功发送");
+            finish();
         } else {
             showToast(r.getMessage());
         }

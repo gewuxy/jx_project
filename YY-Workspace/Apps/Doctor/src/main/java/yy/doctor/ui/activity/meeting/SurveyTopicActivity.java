@@ -29,7 +29,7 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/4/27
  */
-public class SurveyTopicActivity extends BaseTopicActivity {
+public class SurveyTopicActivity extends BaseTopicActivity implements OnGlobalLayoutListener {
 
     private TopicPopup mTopicPopup;
 
@@ -87,17 +87,7 @@ public class SurveyTopicActivity extends BaseTopicActivity {
 
             // 第一次进入问卷时提示
             if (SpApp.inst().firstEnterQue()) {
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
-                        mTopicPopup.setCheck(R.mipmap.que_popup_check);
-                        mTopicPopup.setSlide(R.mipmap.que_popup_slide);
-                        mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                        SpApp.inst().saveEnterQue();
-                        removeOnGlobalLayoutListener(this);
-                    }
-                });
+                addOnGlobalLayoutListener(this);
             }
             initFirstGv();
         } else {
@@ -111,6 +101,16 @@ public class SurveyTopicActivity extends BaseTopicActivity {
         super.onNetworkError(id, error);
 
         setViewState(ViewState.error);
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
+        mTopicPopup.setCheck(R.mipmap.que_popup_check);
+        mTopicPopup.setSlide(R.mipmap.que_popup_slide);
+        mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+        SpApp.inst().saveEnterQue();
+        removeOnGlobalLayoutListener(this);
     }
 
     @Override
@@ -135,5 +135,4 @@ public class SurveyTopicActivity extends BaseTopicActivity {
                 .route(this);
         finish();
     }
-
 }

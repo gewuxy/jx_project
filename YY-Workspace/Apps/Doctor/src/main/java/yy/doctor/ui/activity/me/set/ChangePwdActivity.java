@@ -44,7 +44,7 @@ public class ChangePwdActivity extends BaseSetActivity {
 
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_old)
-                .hint("请输入旧密码")
+                .hint("旧密码")
                 .limit(KLengthMax)
                 .drawable(R.drawable.register_pwd_selector));
 
@@ -52,7 +52,7 @@ public class ChangePwdActivity extends BaseSetActivity {
 
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_new)
-                .hint("请输入新密码")
+                .hint("输入6～24位密码")
                 .limit(KLengthMax)
                 .drawable(R.drawable.register_pwd_selector));
 

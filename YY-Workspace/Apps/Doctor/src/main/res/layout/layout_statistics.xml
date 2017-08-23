@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:gravity="center"
-                android:text="周数量"
+                android:text="周总数"
                 android:textColor="@color/text_666"
                 android:textSize="12dp"/>
 

@@ -163,12 +163,23 @@ public class HospitalActivity extends BaseHospitalActivity
 
     @Override
     public void getDataFromNet() {
-        if (mLatLng == null && mLocationAgain) {
-            mLocationAgain = false;
-            Location.inst().start();
+        if (!DeviceUtil.isNetworkEnabled()){
+            // 不影响mLocationAgain(无网到有网)
+            stopRefresh();
             return;
         }
-        netWork();
+        if (mLatLng == null ) {
+            // 定位失败(之前无网)
+            if (mLocationAgain) {
+                mLocationAgain = false;
+                Location.inst().start();
+            } else {
+                // 有网, 不需要重新定位
+                stopRefresh();
+            }
+        }else {
+            netWork();
+        }
     }
 
     private void netWork() {

@@ -1,5 +1,7 @@
 package yy.doctor.model.form.text;
 
+import android.widget.TextView;
+
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
@@ -28,7 +30,6 @@ public class TextForm extends BaseForm {
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 
-
         NetworkImageView iv = holder.getIv();
         if (TextUtil.isEmpty(getUrl())) {
             setIvIfValid(iv, getDrawable());
@@ -38,7 +39,11 @@ public class TextForm extends BaseForm {
             ViewUtil.showView(iv);
         }
 
-        holder.getTvText().setText(getText());
+        TextView tvText = holder.getTvText();
+        if (getTextColor() != null) {
+            tvText.setTextColor(getTextColor());
+        }
+        tvText.setText(getText());
     }
 
     @Override

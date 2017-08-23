@@ -86,11 +86,11 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
         if (type == TopicType.choice_single) {
             // 单选, 隐藏下一题的按钮
             goneView(mTvNext);
-            title.append(".(单选)");
+            title.append(". (单选)");
         } else {
             // 多选, 显示下一题的按钮
             showView(mTvNext);
-            title.append(".(多选)");
+            title.append(". (多选)");
         }
         title.append(mTopic.getString(TTopic.title));
 

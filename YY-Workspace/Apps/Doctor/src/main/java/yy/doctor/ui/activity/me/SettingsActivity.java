@@ -18,9 +18,11 @@ import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -117,19 +119,22 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
                 .name(R.string.wx_account)
-                .text(getProfileString(TProfile.wxNickname)));
+                .text(getProfileString(TProfile.wxNickname))
+                .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
                 .name(R.string.phone_num_account)
-                .text(getProfileString(TProfile.mobile)));
+                .text(getProfileString(TProfile.mobile))
+                .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_email)
                 .name(R.string.email_account)
-                .text(getProfileString(TProfile.username)));
+                .text(getProfileString(TProfile.username))
+                .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent)
@@ -152,13 +157,15 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text)
                 .related(RelatedId.clear_img_cache)
                 .name(R.string.clear_img_cache)
-                .text(mImgSize));
+                .text(mImgSize)
+                .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.clear_sound_cache)
                 .name(R.string.clear_sound_cache)
-                .text(mSoundSize));
+                .text(mSoundSize)
+                .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.toggle_button)
@@ -231,6 +238,10 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.check_version: {
+                if (Util.noNetwork()) {
+                    return;
+                }
+                refresh(RefreshWay.dialog);
                 exeNetworkReq(KVersion, CommonAPI.checkAppVersion().build());
             }
             break;
@@ -256,6 +267,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         if (id == KVersion) {
 
             Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
@@ -353,6 +365,10 @@ public class SettingsActivity extends BaseFormActivity {
         HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
         relieveDialog.setHint("是否解除绑定微信号");
         relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+            if (Util.noNetwork()) {
+                return;
+            }
+            refresh(RefreshWay.dialog);
             exeNetworkReq(KUnBindWX, UserAPI.bindWX().build());
             relieveDialog.dismiss();
         });
@@ -381,6 +397,10 @@ public class SettingsActivity extends BaseFormActivity {
         HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
         relieveDialog.setHint("是否解除绑定邮箱");
         relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
+            if (Util.noNetwork()) {
+                return;
+            }
+            refresh(RefreshWay.dialog);
             exeNetworkReq(KUnBindEmail, UserAPI.unBindEmail().build());
             relieveDialog.dismiss();
         });

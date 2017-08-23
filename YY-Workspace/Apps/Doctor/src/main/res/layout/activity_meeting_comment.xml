@@ -40,7 +40,8 @@
             android:gravity="center_vertical"
             android:hint="说说我的看法"
             android:padding="6dp"
-            android:textColor="@color/text_66fff"
+            android:textColorHint="@color/text_66fff"
+            android:textColor="@color/white"
             android:textSize="14dp"/>
 
         <TextView

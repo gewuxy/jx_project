@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
+import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.MapList;
 import lib.ys.util.view.LayoutUtil;
@@ -57,7 +58,7 @@ public class ModuleLayout extends LinearLayout {
     private void initLayout() {
         LayoutParams params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         params.weight = 1;
-        LayoutParams dividerParams = LayoutUtil.getLinearParams(1, 16);
+        LayoutParams dividerParams = LayoutUtil.getLinearParams(1, DpFitter.dp(16));
         dividerParams.gravity = Gravity.CENTER_VERTICAL;
         View divider;
 

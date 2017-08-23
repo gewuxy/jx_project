@@ -93,9 +93,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         bar.addTextViewMid(title);
 
         bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
-        bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> {
-            finish();
-        });
+        bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> finish());
     }
 
     @Override

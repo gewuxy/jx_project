@@ -46,7 +46,10 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="3dp"
         android:background="@drawable/meeting_comment_text_bg"
-        android:padding="@dimen/margin"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/margin"
+        android:paddingRight="@dimen/margin"
         android:text="评论是凤凰网评论部着力打造的专业性言论平台,包括凤凰论,第一解读,政能亮,高见,首席评论员等多个有影响力的品牌栏目,为公众提供更有价值的分析与判断。"
         android:textColor="@color/text_006ebd"
         android:textSize="12dp"/>

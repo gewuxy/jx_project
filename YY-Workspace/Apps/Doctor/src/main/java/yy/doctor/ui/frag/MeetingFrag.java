@@ -17,6 +17,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
@@ -152,7 +153,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
     protected PageIndicator initPageIndicator() {
         mIndicator.setFades(false);
         mIndicator.setLineWidth(fitDp(KIndicatorWidth));
-        mIndicator.setSelectedColor(KIndicatorColor);
+        mIndicator.setSelectedColor(ResLoader.getColor(KIndicatorColor));
         return mIndicator;
     }
 
