@@ -423,7 +423,6 @@ public class SettingsActivity extends BaseFormActivity {
                             if (aBoolean) {
                                 getRelatedItem(RelatedId.clear_img_cache).text("0M");
                                 refreshRelatedItem(RelatedId.clear_img_cache);
-                                showToast(R.string.clear_img_cache_success);
                             }
                         });
             }
@@ -453,7 +452,6 @@ public class SettingsActivity extends BaseFormActivity {
                             if (aBoolean) {
                                 getRelatedItem(RelatedId.clear_sound_cache).text("0M");
                                 refreshRelatedItem(RelatedId.clear_sound_cache);
-                                showToast(getString(R.string.clear_sound_cache_success));
                             }
                         });
             }
