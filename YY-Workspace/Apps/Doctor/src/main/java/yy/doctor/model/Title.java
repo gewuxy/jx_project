@@ -14,7 +14,6 @@ public class Title extends EVal<TTitle> {
         @Bind(asList = String.class)
         grade,
 
-        @Bind(asList = String.class)
         title,
     }
 }

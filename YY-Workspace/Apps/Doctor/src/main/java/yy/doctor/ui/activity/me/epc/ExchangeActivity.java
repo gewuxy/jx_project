@@ -150,6 +150,7 @@ public class ExchangeActivity extends BaseFormActivity {
                 //检查手机号格式是否正确
                 if (!RegexUtil.isMobileCN(getRelatedItem(RelatedId.mobile).getText().trim())) {
                     showToast(R.string.phone_error);
+                    return;
                 }
 
                 //检查象数是否够

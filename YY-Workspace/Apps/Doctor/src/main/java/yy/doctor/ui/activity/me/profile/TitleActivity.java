@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.me.profile;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkError;
@@ -11,6 +12,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
@@ -45,6 +47,8 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
     private String mGrade;
     private String mTitle;
+
+    private List<Title> mTitleGrade;
 
     @Override
     public void initData() {
@@ -83,7 +87,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         switch (id) {
             case KIdGet: {
-                return JsonParser.ev(r.getText(), Title.class);
+                return JsonParser.evs(r.getText(), Title.class);
             }
             case KIdCommit: {
                 return JsonParser.error(r.getText());
@@ -97,14 +101,20 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         stopRefresh();
         switch (id) {
             case KIdGet: {
-                Result<Title> r = (Result<Title>) result;
+                ListResult<Title> r = (ListResult<Title>) result;
                 if (r.isSucceed()) {
-                    Title data = r.getData();
-                    List<String> title = data.getList(TTitle.title);
-                    mTitleGradeFrag.setData(title);
 
-                    List<String> grade = data.getList(TTitle.grade);
-                    mTitleCategoryFrag.setData(grade);
+                    mTitleGrade = r.getData();
+                    List<String> titles = new ArrayList<>();
+                    for (Title title : mTitleGrade) {
+                        titles.add(title.getString(TTitle.title));
+                    }
+                    if (titles.size() > 0 ){
+                        mTitleGradeFrag.setData(titles);
+
+                        List<String> grade = mTitleGrade.get(0).getList(TTitle.grade);
+                        mTitleCategoryFrag.setData(grade);
+                    }
 
                     setViewState(ViewState.normal);
                 } else {
@@ -149,6 +159,8 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     @Override
     public void onGradeSelected(int position, String grade) {
         mGrade = grade;
+        mTitleCategoryFrag.setData(mTitleGrade.get(position).getList(TTitle.grade));
+        mTitleCategoryFrag.invalidate();
         YSLog.d(TAG, "grade = " + grade);
     }
 

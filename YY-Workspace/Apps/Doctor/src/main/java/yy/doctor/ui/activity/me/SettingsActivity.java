@@ -308,7 +308,12 @@ public class SettingsActivity extends BaseFormActivity {
         } catch (Exception e) {
             YSLog.e(TAG, "getFolderSize", e);
         }
-        return size / 1024 / 1024 + KM;
+        float format = size * 10 / (2<<19) / 10.0f;
+        if (size > 0) {
+            return format + KM;
+        } else {
+            return 0 + KM;
+        }
     }
 
     /**
