@@ -439,7 +439,7 @@ public class NetworkAPI {
          * 首页推荐会议(含文件夹)
          */
         @GET("recommend/meet/folder")
-        void recommendMeeting(int page, int pageSize);
+        void recommendMeeting(int pageNum, int pageSize);
         
         /**
          * @param meetId     会议id
