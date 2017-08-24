@@ -10,6 +10,7 @@ import com.google.zxing.client.result.ParsedResult;
 import com.google.zxing.client.result.ParsedResultType;
 import com.mylhyl.zxing.scanner.OnScannerCompletionListener;
 import com.mylhyl.zxing.scanner.ScannerView;
+import com.mylhyl.zxing.scanner.common.Scanner;
 
 import java.util.List;
 
@@ -69,16 +70,20 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         mScannerView.setOnScannerCompletionListener(this);
         mScannerView.setLaserFrameBoundColor(ResLoader.getColor(R.color.btn_bg_blue));
         mScannerView.setDrawText("请对准二维码，耐心等待", 12, Color.WHITE, true, 20);
-        mScannerView.setLaserFrameSize(248,248);
+        mScannerView.setLaserFrameSize(248, 248);
         mScannerView.setLaserFrameTopMargin(96);
         mScannerView.setLaserColor(ResLoader.getColor(R.color.btn_bg_blue));
         mScannerView.setLaserLineResId(R.mipmap.scan_ic_laser_line);
 
-        mBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        int i = Scanner.dp2px(this, 288);
+     //   MarginLayoutParams p = new MarginLayoutParams();
+//        mBtn.ma
+       // LayoutFitter.
+      /*  mBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mFlag = !mFlag;
 //            mBtn.setSelected(mFlag);
             mScannerView.toggleLight(isChecked);
-        });
+        });*/
     }
 
     @Override
@@ -104,14 +109,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 String url = parsedResult.toString();
                 if (url.contains("masterId")) {
                     //http://10.0.0.234/api/api/register/scan_register?masterId=8,14
-                   // showToast("有id");
+                    // showToast("有id");
                     String[] s = url.split("=");
                     String masterId = s[1];
                     exeNetworkReq(KScanId, RegisterAPI.scan().masterId(masterId).build());
                 } else {
                     //http://10.0.0.234/api/api/register/scan_register
                     exeNetworkReq(KScanId, RegisterAPI.scan().build());
-                   // showToast("没有Id");
+                    // showToast("没有Id");
                 }
                 break;
             }

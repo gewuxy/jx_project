@@ -38,7 +38,7 @@ public class BindEmailActivity extends BaseSetActivity {
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
-                .hint("请输入邮箱地址")
+                .hint("输入邮箱地址")
                 .layout(R.layout.form_edit_bind_email));
 
         addItem(Form.create(FormType.divider));
@@ -59,7 +59,7 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public CharSequence getSetText() {
-        return "发送邮箱验证";
+        return "发送验证邮件";
     }
 
     @Override
