@@ -328,6 +328,11 @@ public class RegisterActivity extends BaseFormActivity
             return;
         }
 
+        if (!Util.isMobileCN(mPhone)) {
+            showToast(R.string.not_phone_number);
+            return;
+        }
+
         // 检查激活码是否为空
         String code = mEtActivatedCode.getText().toString().trim();
 
@@ -396,11 +401,6 @@ public class RegisterActivity extends BaseFormActivity
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
                     mPhone = getItemStr(RelatedId.phone_number);
-                    if (!Util.isMobileCN(mPhone)) {
-                        showToast(R.string.not_phone_number);
-                        return;
-                    }
-
                     HintDialog dialog = new HintDialog(this);
 
                     View view = inflate(R.layout.dialog_captcha);

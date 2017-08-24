@@ -46,7 +46,7 @@
     <string name="title">初级职称 医师</string>
     <string name="captcha">输入6位验证码</string>
     <string name="get_captcha">获取验证码</string>
-    <string name="not_phone_number">该号码不是电话号，请输入正确的电话号码</string>
+    <string name="not_phone_number">手机号码格式错误</string>
     <string name="get_captcha_frequently">获取验证码太频繁</string>
     <string name="free_provide">该账号（价值69.9元），由%s为您免费提供</string>
     <string name="you_agree">点击“注册”即表示您同意</string>

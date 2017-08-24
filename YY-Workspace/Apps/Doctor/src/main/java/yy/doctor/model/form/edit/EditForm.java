@@ -93,7 +93,7 @@ public class EditForm extends BaseForm implements TextWatcher {
         }
 
         EditText et = holder.getEt();
-        et.setEnabled(isEnabled());
+      //  et.setEnabled(isEnabled());
         et.setText(getText());
         et.setHint(getHint());
     }

@@ -50,5 +50,4 @@
         android:layout_marginLeft="57dp"
         android:layout_marginRight="12dp"
         android:background="@color/divider"/>
-
 </LinearLayout>

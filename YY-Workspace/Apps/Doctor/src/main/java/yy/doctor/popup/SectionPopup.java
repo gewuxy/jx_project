@@ -82,7 +82,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
 
     @Override
     public int getWindowHeight() {
-        return 1390;
+       return 1480;
     }
 
     @Override

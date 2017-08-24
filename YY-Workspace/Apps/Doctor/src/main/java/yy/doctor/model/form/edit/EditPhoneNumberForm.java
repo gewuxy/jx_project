@@ -9,6 +9,7 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * FIXME: 逻辑待调整. 有问题
@@ -64,7 +65,7 @@ public class EditPhoneNumberForm extends EditForm {
                 EditText et = getHolder().getEt();
                 et.setText(str1);
                 et.setSelection(str1.length());
-            } else if (length == 13) {
+            } else if (length == 13 && Util.isMobileCN(str)) {
                 //KeyboardUtil.hideFromView(editText);
                 Notifier.inst().notify(NotifyType.fetch_message_captcha);
             }
