@@ -68,7 +68,8 @@
 
     <style name="tv.form.text">
         <item name="android:id">@id/form_tv_text</item>
-        <item name="android:textColorHint">@color/text_888</item>
+        <item name="android:textColor">@color/text_888</item>
+        <item name="android:textColorHint">@color/text_b3</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
     </style>
