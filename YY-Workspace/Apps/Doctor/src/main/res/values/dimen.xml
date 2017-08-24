@@ -6,6 +6,7 @@
     <dimen name="radius">3dp</dimen>
 
     <dimen name="form_height">54dp</dimen>
+    <dimen name="form_height_common">42dp</dimen>
     <dimen name="form_divider_large_height">10dp</dimen>
 
     <dimen name="edit_height">54dp</dimen>

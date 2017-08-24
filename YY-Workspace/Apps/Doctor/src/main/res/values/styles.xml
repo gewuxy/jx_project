@@ -3,7 +3,7 @@
     <!-- 普通按钮样式 -->
     <style name="tv.common">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/form_height</item>
+        <item name="android:layout_height">@dimen/form_height_common</item>
         <item name="android:background">@drawable/btn_selector_blue</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14dp</item>

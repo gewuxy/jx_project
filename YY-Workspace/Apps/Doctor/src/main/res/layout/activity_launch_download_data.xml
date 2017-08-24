@@ -29,8 +29,8 @@
         android:textColor="@color/text_888"/>
 
     <TextView
-        style="@style/tv.common"
         android:id="@+id/open_download_data_tv_btn"
+        style="@style/tv.common"
         android:layout_marginTop="32dp"
         android:text="@string/open_data"/>
 

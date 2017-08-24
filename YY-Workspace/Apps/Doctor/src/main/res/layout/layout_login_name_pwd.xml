@@ -70,7 +70,6 @@
         android:id="@+id/login_tv_login"
         style="@style/tv.common"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="28dp"

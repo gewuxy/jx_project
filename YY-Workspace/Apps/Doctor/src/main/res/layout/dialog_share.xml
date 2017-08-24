@@ -90,6 +90,7 @@
     <TextView
         android:id="@+id/dialog_share_tv_cancel"
         style="@style/tv.dialog"
+        android:layout_height="42dp"
         android:text="取消"/>
 
 </LinearLayout>
