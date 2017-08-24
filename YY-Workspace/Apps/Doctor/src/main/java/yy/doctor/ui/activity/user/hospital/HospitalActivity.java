@@ -82,10 +82,12 @@ public class HospitalActivity extends BaseHospitalActivity
     private IHospital mCheckItem;
     private HospitalLevel mHospitalLevel;
     private boolean mLocationAgain;
+    private boolean mIsShow; // 当前界面( 百度定位的回调会回调到这)
 
     @Override
     public void initData() {
         mSearch = PoiSearch.newInstance();
+        mIsShow = true;
     }
 
     @Override
@@ -378,7 +380,6 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -393,8 +394,26 @@ public class HospitalActivity extends BaseHospitalActivity
         Location.inst().onDestroy();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mIsShow = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mIsShow = false;
+    }
+
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
+        if (!mIsShow) {
+            return;
+        }
         Location.inst().stop();
         if (isSuccess) {
             if (DeviceUtil.isNetworkEnabled()) {
