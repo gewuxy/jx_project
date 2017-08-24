@@ -84,24 +84,30 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onResp(BaseResp resp) {
-        switch (resp.errCode) {
-            case ErrCode.ERR_OK: {
-                // 用户同意
-                SendAuth.Resp r = (SendAuth.Resp) resp;
-                String code = r.code;
-                String state = r.state;
-                if (state.equals(WXType.login)) {
-                    exeNetworkReq(KLogin, UserAPI.checkWxBind(code).build());
-                } else {
-                    exeNetworkReq(KBind, UserAPI.bindWX().code(code).build());
+        if (resp instanceof SendAuth.Resp) {
+            // 微信授权
+            switch (resp.errCode) {
+                case ErrCode.ERR_OK: {
+                    // 用户同意
+                    SendAuth.Resp r = (SendAuth.Resp) resp;
+                    String code = r.code;
+                    String state = r.state;
+                    if (state.equals(WXType.login)) {
+                        exeNetworkReq(KLogin, UserAPI.checkWxBind(code).build());
+                    } else {
+                        exeNetworkReq(KBind, UserAPI.bindWX().code(code).build());
+                    }
                 }
+                break;
+                // 其他不处理
+                default: {
+                    finish();
+                }
+                break;
             }
-            break;
-            // 其他不处理
-            default: {
-                finish();
-            }
-            break;
+        } else {
+            // 微信分享
+            finish();
         }
     }
 
