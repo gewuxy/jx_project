@@ -118,7 +118,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
                         .locatePlace(mLocatePlace)
                         .selects(mSelects)
                         .preId(item.getString(TPcd.id))
-                        .route(this);
+                        .route(this, 0);
             } else {
                 Place place = new Place(mSelects);
                 if (Profile.inst().isLogin()) {
@@ -299,11 +299,24 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (mSelects != null) {
+            mSelects.clear();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         if (mDialog != null) {
             mDialog.dismiss();
+        }
+        
+        if (mSelects != null) {
+            mSelects.clear();
         }
     }
 }

@@ -95,6 +95,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
         // FIXME: 目前效果是match完以后整个点击都能响应, 看需求是否要变更为只允许点击text view范围
         bar.addViewMid(v, v1 -> {
             if (mAnimUp == null) {
+                // FIXME: 考虑加入到{@link AnimateUtil}里面
                 mAnimUp = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 mAnimUp.setDuration(KDuration);
                 mAnimUp.setFillAfter(true);
