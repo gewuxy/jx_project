@@ -88,9 +88,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 .observer(this)
                 .hint(R.string.input_phone));
 
-        addItem(Form.create(FormType.divider_margin)
-                .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight));
         addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
                 .layout(R.layout.form_edit_forget_captcha)
@@ -99,9 +96,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 .observer(this)
                 .enable(false));
 
-        addItem(Form.create(FormType.divider_margin)
-                .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd)
                 .layout(R.layout.form_edit_forget_pwd)
