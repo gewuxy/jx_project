@@ -3,12 +3,10 @@ package yy.doctor.ui.activity.me.set;
 import android.support.annotation.CallSuper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -49,8 +47,6 @@ public abstract class BaseSetActivity extends BaseFormActivity implements TextWa
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
         setOnClickListener(R.id.activity_tv_set_set);
-        setOnClickListener(R.id.layout_set); // 为了抢焦点
-        setOnClickListener(R.id.activity_layout); // 为了抢焦点
     }
 
     @Override

@@ -64,12 +64,6 @@ public abstract class BaseLoginActivity extends BaseActivity {
     public void initData() {
     }
 
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_login;
-    }
-
     @Override
     public void initNavBar(NavBar bar) {
     }
