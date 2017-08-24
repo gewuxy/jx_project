@@ -63,7 +63,6 @@ public class MeFrag extends BaseFormFrag {
         int help_and_feedback = 5;
     }
 
-
     @Override
     public void initData() {
         super.initData();
@@ -152,8 +151,13 @@ public class MeFrag extends BaseFormFrag {
         mTvName.setText(Profile.inst().getString(TProfile.linkman));
         mTvTitle.setText(Profile.inst().getString(TProfile.title));
         mTvHospital.setText(Profile.inst().getString(TProfile.hospital));
-        mProgressbar.setProgress(Profile.inst().getInt(TProfile.integrity));
-        mTvProgress.setText(Profile.inst().getInt(TProfile.integrity) + "%");
+        int integrity = Profile.inst().getInt(TProfile.integrity);
+        mProgressbar.setProgress(integrity);
+        if (integrity == 100) {
+            mTvProgress.setText("完成");
+        } else {
+            mTvProgress.setText(Profile.inst().getInt(TProfile.integrity) + "%");
+        }
 
         setOnClickListener(R.id.layout_me_header);
         mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
@@ -224,8 +228,13 @@ public class MeFrag extends BaseFormFrag {
             mTvName.setText(Profile.inst().getString(TProfile.linkman));
             mTvHospital.setText(Profile.inst().getString(TProfile.hospital));
             mTvTitle.setText(Profile.inst().getString(TProfile.title));
-            mProgressbar.setProgress(Profile.inst().getInt(TProfile.integrity));
-            mTvProgress.setText(Profile.inst().getInt(TProfile.integrity) + "%");
+            int integrity = Profile.inst().getInt(TProfile.integrity);
+            mProgressbar.setProgress(integrity);
+            if (integrity == 100) {
+                mTvProgress.setText("完成");
+            } else {
+                mTvProgress.setText(Profile.inst().getInt(TProfile.integrity) + "%");
+            }
             getRelatedItem(RelatedId.my_epn).text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)));
             refreshRelatedItem(RelatedId.my_epn);
         }

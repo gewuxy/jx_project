@@ -17,7 +17,7 @@ public class TitleGradeAdapter extends AdapterEx<String, SectionVH> {
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.layout_section_item;
+        return R.layout.layout_title_category_item;
     }
 
     public void setSelectItem(int selectItem) {

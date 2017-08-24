@@ -171,6 +171,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             exeNetworkReq(KReqIdAttention, UnitNumAPI.attention(mUnitNumId, Attention.yes).build());
             //关注人数加1
             mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + 1);
+            mUnitNumDetail.put(TUnitNumDetail.attention, Attention.yes);
             mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
             //改变状态
             UISetter.setAttention(mTvAttention, Attention.yes);
@@ -228,15 +229,20 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 if (Util.noNetwork() || mUnitNumDetail == null) {
                     return;
                 }
+                showToast(R.string.cancel_attention_success);
+                //如果未关注就不能取消关注
+                if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == Attention.no) {
+                    return;
+                }
+
                 exeNetworkReq(KReqIdCancelAttention, UnitNumAPI.attention(mUnitNumId, Attention.no).build());
                 //关注人数减1
                 mUnitNumDetail.put(TUnitNumDetail.attentionNum, mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) - 1);
+                mUnitNumDetail.put(TUnitNumDetail.attention, Attention.no);
                 mTvAttentionNum.setText(mUnitNumDetail.getInt(TUnitNumDetail.attentionNum) + getString(R.string.attention_num_unit));
-
                 //改变状态
                 UISetter.setAttention(mTvAttention, Attention.no);
 
-                showToast(R.string.cancel_attention_success);
                 //通知首页的单位号改变状态
                 notify(NotifyType.unit_num_attention_change, new AttentionUnitNum(mUnitNumId, Attention.no));
 
@@ -325,7 +331,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
 
             //判断用户是否已经关注过此单位号
-            if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == 1) {
+            if (mUnitNumDetail.getInt(TUnitNumDetail.attention) == Attention.yes) {
                 mTvAttention.setText(R.string.already_attention);
                 mTvAttention.setSelected(true);
                 mTvAttention.setClickable(false);

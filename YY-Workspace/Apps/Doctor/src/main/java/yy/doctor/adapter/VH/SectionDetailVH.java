@@ -18,7 +18,7 @@ public class SectionDetailVH extends ViewHolderEx {
     }
 
     public TextView getTvCity() {
-        return getView(R.id.city_tv);
+        return getView(R.id.grade_tv);
     }
 
 }

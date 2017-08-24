@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag;
 
+import android.graphics.Color;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
@@ -29,6 +30,7 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     public void setViews() {
         super.setViews();
         setDividerHeight(fitDp(0));
+        setBackgroundColor(Color.parseColor("#eaeaea"));
     }
 
     @Override

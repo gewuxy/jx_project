@@ -14,7 +14,7 @@ public class TitleCategoryAdapter extends AdapterEx<String, SectionDetailVH> {
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.layout_city_item;
+        return R.layout.layout_title_grade_item;
     }
 
     @Override

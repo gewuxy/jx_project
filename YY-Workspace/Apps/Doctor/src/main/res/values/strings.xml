@@ -341,8 +341,8 @@
     <string name="epn_balance">象数余额:</string>
     <string name="recharge_epn">充值象数</string>
     <string name="epn_recharge">象数充值</string>
-    <string name="epn_unit">%d个象数</string>
-    <string name="zero_epn">0个象数</string>
+    <string name="epn_unit">%d象数</string>
+    <string name="zero_epn">0象数</string>
     <string name="ten_epn_equal_one_yuan">10个象数=1元</string>
     <string name="pay_money">支付金额</string>
     <string name="input_integer">输入整数</string>

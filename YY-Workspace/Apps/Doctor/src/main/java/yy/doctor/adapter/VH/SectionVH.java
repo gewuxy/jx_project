@@ -18,11 +18,11 @@ public class SectionVH extends ViewHolderEx {
     }
 
     public TextView getTvProvince() {
-        return getView(R.id.province_tv);
+        return getView(R.id.category_tv);
     }
 
     public View getV() {
-        return getView(R.id.province_layout_indicator);
+        return getView(R.id.category_indicator);
     }
 
 }

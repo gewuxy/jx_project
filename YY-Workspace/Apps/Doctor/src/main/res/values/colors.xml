@@ -39,6 +39,10 @@
     <drawable name="banner_focus">#96cccccc</drawable>
     <color name="banner_focus">#96cccccc</color>
 
+    <drawable name="title_grade">#f0f0f0</drawable>
+    <drawable name="title_grade_focus">#d6d6d6</drawable>
+    <color name="title_grade_focus">#d6d6d6</color>
+
     <color name="bg_f5f5f5">#f5f5f5</color>
 
     <!--text-->
