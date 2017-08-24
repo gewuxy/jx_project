@@ -20,6 +20,9 @@ public class MeetingDepartmentAdapter extends AdapterEx<MeetingDepartment, Secti
 
     @Override
     protected void refreshView(int position, SectionFilterVH holder) {
+        if (position ==getLastItemPosition() ) {
+            goneView(holder.getDivider());
+        }
         MeetingDepartment item = getItem(position);
         holder.getImageView().placeHolder(R.mipmap.ic_section_default)
                 .url(item.getString(TMeetingDepartment.icon))
