@@ -36,6 +36,9 @@ abstract public class BaseModifyActivity extends BaseActivity {
     @Arg
     @StringRes
     int mTitleId;
+    @Arg
+    @StringRes
+    int mHint;
 
 
     @CallSuper
@@ -52,7 +55,7 @@ abstract public class BaseModifyActivity extends BaseActivity {
     @CallSuper
     @Override
     public void setViews() {
-        getEt().setHint("请输入" + getString(mTitleId));
+        getEt().setHint(mHint);
         getEt().setText(getVal());
     }
 

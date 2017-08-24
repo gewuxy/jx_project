@@ -15,7 +15,7 @@
             android:id="@+id/register_et_captcha"
             style="@style/et.common"
             android:layout_height="50dp"
-            android:hint="请输入YaYa医师注册激活码"
+            android:hint="输入YaYa医师注册激活码"
             android:imeActionLabel="@string/register"
             android:imeOptions="actionGo"
             android:inputType="number"

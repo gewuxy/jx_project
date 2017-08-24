@@ -206,7 +206,8 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
 
             ModifyTextActivityRouter.create(
                     TProfile.cmeId,
-                    R.string.user_CME_number
+                    R.string.user_CME_number,
+                    R.string.user_input_CME_number
             ).route(getContext());
 
         });
