@@ -257,9 +257,9 @@
     <string name="no_bind">未绑定</string>
     <string name="already_latest_version">已是最新版本</string>
     <string name="clear_img_cache">清理图片缓存</string>
-    <string name="clear_sound_cache">清理声音缓存</string>
+    <string name="clear_sound_cache">清理音频缓存</string>
     <string name="clear_img_cache_success">图片缓存清理完毕</string>
-    <string name="clear_sound_cache_success">声音缓存清理完毕</string>
+    <string name="clear_sound_cache_success">音频缓存清理完毕</string>
     <string name="exit_account">退出当前账号</string>
     <string name="close_app">关闭YaYa</string>
 

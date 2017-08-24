@@ -21,7 +21,6 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
-import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
@@ -53,7 +52,7 @@ public class BindPhoneActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_bind_phone_number)
-                .hint("请输入手机号码"));
+                .hint("输入手机号码"));
 
         addItem(Form.create(FormType.divider));
 
