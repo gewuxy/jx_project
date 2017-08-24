@@ -54,10 +54,12 @@ public class ForgetPwdTooltipDialog extends BaseDialog {
         switch (id) {
             case R.id.forget_pwd_ll_tooltip_sms: {
                 startActivity(ForgetPwdPhoneActivity.class);
+                dismiss();
             }
             break;
             case R.id.forget_pwd_ll_tooltip_email: {
                 startActivity(ForgetPwdEmailActivity.class);
+                dismiss();
             }
             break;
             case R.id.forget_pwd_iv_close: {

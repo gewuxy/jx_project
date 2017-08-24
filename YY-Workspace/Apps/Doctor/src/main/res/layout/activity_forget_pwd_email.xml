@@ -44,6 +44,7 @@
     <TextView
         android:id="@+id/forget_pwd_tv_send_email"
         style="@style/tv.common"
+        android:layout_height="42dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="28dp"

@@ -17,7 +17,6 @@
             style="@style/et.common"
             android:layout_weight="1"
             android:inputType="number"
-            android:textColorHint="@color/text_888"
             android:textSize="15dp"/>
 
         <ImageView
