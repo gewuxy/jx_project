@@ -22,7 +22,7 @@ public class JPushMsg extends EVal<TJPushMsg> {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface MsgType {
-        int common = 0; // 普通消息
+        int common = 0; // 普通消息  不能跳转
         int meeting = 1; // 会议消息
         int epn_change = 2; // 象数改变消息
     }

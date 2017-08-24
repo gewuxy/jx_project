@@ -22,4 +22,11 @@ public class ThomsonFrag extends BaseDataUnitsFrag {
         return 0;
     }
 
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        getAdapter().setDataType(DataType.thomson);
+    }
+
 }

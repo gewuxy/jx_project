@@ -15,9 +15,8 @@
         android:drawableLeft="@mipmap/nav_bar_ic_search"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:hint="搜索单位号或者会议"
+        android:hint="搜索单位号或会议"
         android:paddingLeft="6dp"
-        android:textColor="@color/text_66fff"
         android:textColorHint="@color/text_66fff"
         android:textSize="12dp"/>
 

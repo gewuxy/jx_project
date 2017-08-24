@@ -21,7 +21,7 @@ import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.DataAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
-import yy.doctor.util.Util;
+import yy.doctor.util.UISetter;
 
 
 /**
@@ -65,7 +65,7 @@ public class PDFActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, mFileName, this);
+        UISetter.setNavBarMidText(bar, mFileName, this);
     }
 
     @Override

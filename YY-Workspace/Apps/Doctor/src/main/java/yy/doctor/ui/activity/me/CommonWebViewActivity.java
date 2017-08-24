@@ -4,7 +4,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
-import yy.doctor.util.Util;
+import yy.doctor.util.UISetter;
 
 /**
  * WebView页面
@@ -27,7 +27,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, mName, this);
+        UISetter.setNavBarMidText(bar, mName, this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package yy.doctor.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.text.InputType;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.FileSuffix;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
@@ -334,6 +336,20 @@ public class UISetter {
             }
             break;
         }
+    }
+
+    /**
+     * NavBar中间文字设置 文字太长时的设置方法
+     * @param bar
+     * @param fileName
+     * @param act
+     */
+    public static void setNavBarMidText(NavBar bar, String fileName, Activity act) {
+        bar.addBackIcon(R.mipmap.nav_bar_ic_back, act);
+        View v = View.inflate(act, R.layout.layout_nav_bar_mid_text, null);
+        TextView tv = (TextView) v.findViewById(R.id.nav_bar_mid_tv);
+        tv.setText(fileName);
+        bar.addViewMid(v);
     }
 
 }

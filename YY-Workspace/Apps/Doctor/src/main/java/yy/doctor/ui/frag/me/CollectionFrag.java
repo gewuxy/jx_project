@@ -38,6 +38,7 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
         super.setViews();
 
         setOnAdapterClickListener((position, v) -> UISetter.onDataUnitClick(getItem(position), mType, getContext()));
+        getAdapter().setDataType(mType);
     }
 
     @Override

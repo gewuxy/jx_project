@@ -19,6 +19,7 @@ import yy.doctor.serv.DownloadServ.Download;
 import yy.doctor.serv.DownloadServRouter;
 import yy.doctor.ui.activity.me.unitnum.LaunchDownloadDataActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
@@ -111,7 +112,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, mFileName, this);
+        UISetter.setNavBarMidText(bar, mFileName, this);
     }
 
     @Override

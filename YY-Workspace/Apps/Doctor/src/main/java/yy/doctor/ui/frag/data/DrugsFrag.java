@@ -20,4 +20,10 @@ public class DrugsFrag extends BaseDataUnitsFrag {
         return R.string.drug_list_search_hint;
     }
 
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        getAdapter().setDataType(DataType.drug);
+    }
 }
