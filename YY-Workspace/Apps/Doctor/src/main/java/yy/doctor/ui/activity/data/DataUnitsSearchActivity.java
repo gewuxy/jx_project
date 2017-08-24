@@ -41,11 +41,12 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
 
     @Override
     public void initNavBar(NavBar bar) {
-
         Util.addBackIcon(bar, this);
+
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
-        bar.addViewLeft(view, null);
+        bar.addViewMid(view, null);
+
         bar.addTextViewRight(R.string.search, v -> {
             mSearchContent = mEtSearch.getText().toString().trim();
             if (TextUtil.isEmpty(mSearchContent)) {

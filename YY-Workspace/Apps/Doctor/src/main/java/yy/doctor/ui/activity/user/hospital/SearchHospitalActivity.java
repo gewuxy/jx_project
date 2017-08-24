@@ -107,7 +107,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         mEtSearch.setHint("搜索医院");
-        bar.addViewLeft(view, null);
+        bar.addViewMid(view, null);
+
         // KeyboardUtil.hideFromView(v);
         bar.addTextViewRight("搜索", mSearchListener);
     }

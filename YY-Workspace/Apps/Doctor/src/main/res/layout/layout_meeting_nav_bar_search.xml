@@ -1,45 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/meeting_search_nav_bar_et"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="56dp"
+        android:background="@drawable/bg_nav_bar_search"
+        android:drawableLeft="@mipmap/nav_bar_ic_search"
+        android:drawablePadding="8dp"
+        android:hint="搜索单位号或者会议"
+        android:paddingLeft="6dp"
+        android:singleLine="true"
+        android:textColor="@color/text_66fff"
+        android:textColorHint="@color/text_fff"
+        android:textSize="12dp"/>
 
-        <LinearLayout
-            android:layout_width="260dp"
-            android:layout_height="30dp"
-            android:background="@drawable/home_nav_search_bg"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="6dp"
-                android:src="@mipmap/nav_bar_ic_search"/>
-
-            <EditText
-                android:id="@+id/meeting_search_nav_bar_et"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent"
-                android:hint="搜索单位号或者会议"
-                android:singleLine="true"
-                android:textColor="@color/text_66fff"
-                android:textColorHint="@color/text_fff"
-                android:textSize="12dp"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

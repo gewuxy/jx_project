@@ -42,7 +42,7 @@ public class SearchActivity extends BaseActivity {
 
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
-        bar.addViewLeft(view, null);
+        bar.addViewMid(view, null);
 
         bar.addTextViewRight("搜索", v -> {
             String search = mEtSearch.getText().toString().trim();

@@ -22,8 +22,6 @@ public class DrugsActivity extends BaseDataUnitsActivity {
         bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> this.notify(NotifyType.data_finish));
     }
 
-
-
     @Override
     protected BaseDataUnitsFrag createFrag() {
         return DrugsFragRouter.create(mId, mLeaf).route();

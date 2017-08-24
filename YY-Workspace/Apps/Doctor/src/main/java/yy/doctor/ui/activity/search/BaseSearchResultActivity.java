@@ -52,7 +52,7 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         mEtSearch.setText(mSearchContent);
         mEtSearch.setHint(getSearchHint());
-        bar.addViewLeft(view, null);
+        bar.addViewMid(view, null);
 
         bar.addTextViewRight("搜索", v -> {
             mSearchContent = mEtSearch.getText().toString().trim();
