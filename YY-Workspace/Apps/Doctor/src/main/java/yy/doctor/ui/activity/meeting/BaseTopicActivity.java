@@ -269,8 +269,8 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      */
     private void exit() {
         mExitDialog = new HintDialogMain(BaseTopicActivity.this);
-        mExitDialog.setHint("确定退出?");
-        mExitDialog.addButton(R.string.confirm, v -> {
+        mExitDialog.setHint(getExitHint());
+        mExitDialog.addButton("确认退出", v -> {
             // 退出考试/问卷
             notify(NotifyType.study_end);
             finish();
@@ -380,5 +380,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * @return 提交的提示语
      */
     protected abstract String submitHint(int noFinish);
+
+    protected abstract String getExitHint();
 
 }

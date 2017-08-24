@@ -114,17 +114,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     }
 
     @Override
-    protected String submitHint(int noFinish) {
-        if (noFinish > 0) {
-            //还有没作答
-            return String.format(getString(R.string.exam_submit_hint_no_finish), noFinish);
-        } else {
-            //全部作答完了
-            return getString(R.string.exam_submit_hint_finish);
-        }
-    }
-
-    @Override
     protected void submit() {
         if (Util.noNetwork()) {
             return;
@@ -138,6 +127,22 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
                 .topics(mTopics)
                 .route(ExamTopicActivity.this);
         finish();
+    }
+
+    @Override
+    protected String submitHint(int noFinish) {
+        if (noFinish > 0) {
+            //还有没作答
+            return String.format(getString(R.string.exam_submit_hint_no_finish), noFinish);
+        } else {
+            //全部作答完了
+            return getString(R.string.exam_submit_hint_finish);
+        }
+    }
+
+    @Override
+    protected String getExitHint() {
+        return "考试正在进行中，如果退出，您的答题将失效。";
     }
 
     @Override

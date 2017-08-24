@@ -114,6 +114,18 @@ public class SurveyTopicActivity extends BaseTopicActivity implements OnGlobalLa
     }
 
     @Override
+    protected void submit() {
+        if (Util.noNetwork()) {
+            return;
+        }
+        SurveyEndActivityRouter.create(mMeetId, mModuleId)
+                .paperId(mPaper.getString(TPaper.id))
+                .topics(mTopics)
+                .route(this);
+        finish();
+    }
+
+    @Override
     protected String submitHint(int noFinish) {
         if (noFinish > 0) {
             //还有没作答
@@ -125,14 +137,7 @@ public class SurveyTopicActivity extends BaseTopicActivity implements OnGlobalLa
     }
 
     @Override
-    protected void submit() {
-        if (Util.noNetwork()) {
-            return;
-        }
-        SurveyEndActivityRouter.create(mMeetId, mModuleId)
-                .paperId(mPaper.getString(TPaper.id))
-                .topics(mTopics)
-                .route(this);
-        finish();
+    protected String getExitHint() {
+        return "问卷正在进行中，如果退出，您的答题将失效";
     }
 }

@@ -190,8 +190,8 @@
     <string name="exam_contact">如需考试请联系主办方咨询</string>
     <string name="exam_finish">距离考试结束还有 %d 分钟</string>
     <string name="exam_submit_confirm">请确认提交答卷</string>
-    <string name="exam_submit_hint_no_finish">还有 %d 题未完成, 继续提交将不得分是否确认提交答卷?</string>
-    <string name="exam_submit_hint_finish">确定提交答案?</string>
+    <string name="exam_submit_hint_no_finish">您还有%d道题未作答，是否确认提交？</string>
+    <string name="exam_submit_hint_finish">确认提交答卷?</string>
     <string name="exam_xs_close">s后自动关闭</string>
     <string name="exam_host">主办方:</string>
 
@@ -203,8 +203,8 @@
     <string name="collect_no_start">收藏成功，关注并绑定YaYa医师微信公众号，在会议开始前15分钟可收到提醒。</string>
     <string name="collect_finish">收藏成功</string>
     <string name="que">问卷</string>
-    <string name="que_submit_hint_no_finish">还有 %d 题未完成是否确认提交问卷?</string>
-    <string name="que_submit_hint_finish">确定提交问卷?</string>
+    <string name="que_submit_hint_no_finish">您还有%d道题未作答，是否确认提交？</string>
+    <string name="que_submit_hint_finish">确认提交答卷？</string>
     <string name="submit">提交</string>
     <string name="enough">象数不足</string>
     <string name="need_pay">"本会议需要支付%d象数"</string>
