@@ -508,6 +508,10 @@ public class SettingsActivity extends BaseFormActivity {
             bindSuccess((String) data, TProfile.wxNickname, RelatedId.bind_wx);
         } else if (type == NotifyType.bind_phone) {
             bindSuccess((String) data, TProfile.mobile, RelatedId.bind_phone);
+        } else if (type == NotifyType.bind_email) {
+            String email = Profile.inst().getString(TProfile.username);
+            getRelatedItem(RelatedId.bind_email).save(email, email);
+            refreshRelatedItem(RelatedId.bind_email);
         }
     }
 

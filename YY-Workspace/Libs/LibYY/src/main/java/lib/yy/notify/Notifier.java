@@ -51,6 +51,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.hospital_finish,
             NotifyType.bind_wx,
             NotifyType.bind_phone,
+            NotifyType.bind_email,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -108,11 +109,11 @@ public class Notifier extends NotifierEx<OnNotify> {
         /**
          * 开始学习
          */
-        int study_start = 100;
+        int study_start = 10;
         /**
          * 学习结束
          */
-        int study_end = 101;
+        int study_end = 11;
 
         /**
          * 数据中心页面结束
@@ -169,6 +170,7 @@ public class Notifier extends NotifierEx<OnNotify> {
          */
         int bind_wx = 22;
         int bind_phone = 23;
+        int bind_email = 24;
 
 
         /**
