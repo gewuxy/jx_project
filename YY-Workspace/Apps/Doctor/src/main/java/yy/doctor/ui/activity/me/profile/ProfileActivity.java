@@ -153,7 +153,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_section)
                 .limit(24)
-                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.department, R.string.user_section))
+                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.department, R.string.user_section, R.string.user_input_section))
                 .type(IntentType.section)
                 .text(Profile.inst().getString(TProfile.department))
                 .hint(R.string.user_input_section));
@@ -184,7 +184,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_CME_number)
                 .limit(30)
-                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.cmeId, R.string.user_CME_number))
+                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.cmeId, R.string.user_CME_number, R.string.user_input_CME_number))
                 .type(IntentType.cme_number)
                 .text(Profile.inst().getString(TProfile.cmeId))
                 .hint(R.string.user_input_CME_number));
@@ -195,7 +195,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .name(R.string.user_certification_number)
                 .limit(30)
-                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.licence, R.string.user_certification_number))
+                .intent(ModifyTextActivityRouter.newIntent(this, TProfile.licence, R.string.user_certification_number, R.string.user_input_certification_number))
                 .type(IntentType.certification)
                 .text(Profile.inst().getString(TProfile.licence))
                 .hint(R.string.user_input_certification_number));
@@ -215,7 +215,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .related(RelatedId.skill)
                 .observer(this)
                 .name(R.string.medical_skill)
-                .intent(SkillActivityRouter.newIntent(this, TProfile.major, R.string.medical_skill))
+                .intent(SkillActivityRouter.newIntent(this, TProfile.major, R.string.medical_skill, R.string.user_input_academic))
                 .type(IntentType.skill)
                 .text(Profile.inst().getString(TProfile.major)));
     }
@@ -311,14 +311,14 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
 
             switch (position) {
                 case 0: {
-                    if (checkPermission(KPermissionCodeAlbum, Permission.storage)) {
-                        getPhotoFromAlbum();
+                    if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
+                        getPhotoFromCamera();
                     }
                 }
                 break;
                 case 1: {
-                    if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
-                        getPhotoFromCamera();
+                    if (checkPermission(KPermissionCodeAlbum, Permission.storage)) {
+                        getPhotoFromAlbum();
                     }
                 }
                 break;

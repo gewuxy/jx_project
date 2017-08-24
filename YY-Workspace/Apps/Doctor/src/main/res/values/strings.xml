@@ -3,9 +3,6 @@
 
     <string name="company_name">YaYa医师 V</string>
 
-    <string name="input_name">请输入邮箱或手机号</string>
-    <string name="input_pwd">请输入密码</string>
-
     <!--通用-->
     <string name="affirm">确认</string>
     <string name="cancel">取消</string>
@@ -26,7 +23,7 @@
     <string name="we_chat_login">微信登录</string>
     <string name="wx_binding">账号绑定</string>
     <string name="wx_accredit_error">授权失败</string>
-    <string name="wx_check_normal">请检查“微信”是否正常启动</string>
+    <string name="wx_check_normal">检查“微信”是否正常启动</string>
 
     <!--注册-->
     <string name="register">注册</string>
@@ -35,7 +32,6 @@
     <string name="confirm_pwd">确认密码</string>
     <string name="hospital_name">医院名称</string>
     <string name="phone_number">输入手机号码</string>
-    <string name="input_real_name">请输入真实姓名</string>
     <string name="input_right_pwd_num">请输入6~24位密码</string>
     <string name="input_special_symbol">请不要输入特殊字符</string>
     <string name="check_pwd_is_same">请核对密码是否一致</string>
@@ -67,9 +63,6 @@
     <string name="is_binding">登录，是否绑定</string>
     <string name="go_binding">去绑定</string>
 
-    <string name="email_phone">电子邮箱或手机号</string>
-
-
     <!--数据中心-->
     <string name="data_center">数据中心</string>
     <string name="meeting">会议</string>
@@ -83,7 +76,7 @@
     <string name="forget_pwd">找回密码</string>
     <string name="email">电子邮箱</string>
     <string name="submit_email">提交</string>
-    <string name="input_email">请输入注册时的邮箱地址</string>
+    <string name="input_email">输入注册时的邮箱地址</string>
     <string name="input_right_email">请输入正确邮箱</string>
     <string name="forget_pwd_success">重置密码的邮件已经发送至您的邮箱</string>
     <string name="know">知道了</string>
@@ -92,7 +85,6 @@
     <string name="pass_email">通过邮件</string>
     <string name="send_email">发送验证邮件</string>
     <string name="input_phone">手机号（登陆账号）</string>
-    <string name="new_pwd">请输入新密码</string>
 
     <!--KTitle-->
     <string name="title_home">首页</string>
@@ -283,15 +275,11 @@
 
     <!--修改密码-->
     <string name="change_pwd">修改密码</string>
-    <string name="please_input_old_pwd">请输入旧密码</string>
-    <string name="please_input_new_pwd">请输入新密码</string>
-    <string name="please_input_confirm_pwd">请输入确认密码</string>
     <string name="input_old_pwd">输入旧密码</string>
     <string name="input_new_pwd">输入新密码</string>
     <string name="confirm_new_pwd">确认新密码</string>
     <string name="confirm_change">确认修改</string>
     <string name="confirm_no_equal_new">确认密码与新密码不一致！</string>
-    <string name="pwd_places_no_right">请输入6~18位密码</string>
     <string name="pwd_change_success">密码修改成功</string>
 
     <!--单位号-->
@@ -328,11 +316,11 @@
     <string name="specialized">专科</string>
     <string name="medical_skill">学术专长</string>
     <string name="high_grade">高级职称</string>
-    <string name="user_input_section">请输入科室名称</string>
-    <string name="user_input_certification_number">请输入执业资格证号</string>
-    <string name="user_input_CME_number">请输入CME卡号</string>
-    <string name="user_input_Specialist">请选择专科</string>
-    <string name="user_input_academic">请完善个人学术专长资料</string>
+    <string name="user_input_section">输入科室名称</string>
+    <string name="user_input_certification_number">输入执业资格证号</string>
+    <string name="user_input_CME_number">输入CME卡号</string>
+    <string name="user_input_Specialist">选择专科</string>
+    <string name="user_input_academic">完善个人学术专长资料</string>
     <string name="academic_unit">%1$d/500</string>
     <string name="save">保存</string>
 

@@ -105,7 +105,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd)
                 .layout(R.layout.form_edit_forget_pwd)
-                .hint(R.string.new_pwd)
+                .hint(R.string.input_new_pwd)
                 .observer(this)
                 .drawable(R.drawable.register_pwd_selector));
     }
