@@ -91,7 +91,8 @@
     <string name="pass_sms">通过短信</string>
     <string name="pass_email">通过邮件</string>
     <string name="send_email">发送验证邮件</string>
-    <string name="input_phone">请输入手机号（登陆账号）</string>
+    <string name="input_phone">手机号（登陆账号）</string>
+    <string name="new_pwd">请输入新密码</string>
 
     <!--KTitle-->
     <string name="title_home">首页</string>
@@ -317,7 +318,7 @@
     <string name="user_title">职称</string>
     <string name="user_certification_number">执业资格证号</string>
     <string name="user_CME_number">CME卡号</string>
-    <string name="user_city">所在省市</string>
+    <string name="user_city">所在地区</string>
     <string name="user_photo_permission">请开启拍照权限</string>
     <string name="user_album_permission">请开启查看相册权限</string>
     <string name="take_photo">拍照</string>
