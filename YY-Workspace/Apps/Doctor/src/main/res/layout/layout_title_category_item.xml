@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="24dp"
             android:textColor="@color/province_selector_text"
-            android:textSize="16dp"/>
+            android:textSize="14dp"/>
 
         <View
             android:id="@+id/category_indicator"

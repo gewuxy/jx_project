@@ -53,6 +53,7 @@ import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.util.Util;
 
+
 /**
  * @auther WangLan
  * @since 2017/7/19
@@ -151,6 +152,8 @@ public class HospitalActivity extends BaseHospitalActivity
         switch (v.getId()) {
             case R.id.hospital_search: {
                 startActivity(SearchHospitalActivity.class);
+                removeAll();
+                mIsFirst = true;
             }
             break;
         }
@@ -344,9 +347,12 @@ public class HospitalActivity extends BaseHospitalActivity
 
     }
 
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
+        YSLog.d(TAG,"---");
         Location.inst().start();
     }
 
