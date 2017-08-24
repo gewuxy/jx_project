@@ -27,6 +27,16 @@ public class TextForm extends BaseForm {
     }
 
     @Override
+    protected void init(FormVH holder) {
+        super.init(holder);
+
+        if (!isEnabled()) {
+            ViewUtil.hideView(holder.getIvArrow());
+            holder.getConvertView().setClickable(false);
+        }
+    }
+
+    @Override
     protected void refresh(FormVH holder) {
         super.refresh(holder);
 

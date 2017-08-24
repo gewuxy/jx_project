@@ -121,7 +121,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         }
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.et)
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.name)
                 .observer(this)
                 .name(R.string.user_name)

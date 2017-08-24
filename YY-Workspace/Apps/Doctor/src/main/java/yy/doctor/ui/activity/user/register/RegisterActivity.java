@@ -39,6 +39,7 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
+import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.model.form.BaseForm;
 import lib.yy.network.Result;
@@ -147,7 +148,11 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.register, this);
-        bar.addViewRight(R.mipmap.register_scan, v -> startActivityForResult(ScanActivity.class, 0));
+        bar.addViewRight(R.mipmap.register_scan, v -> {
+            if (checkPermission(0, Permission.camera)) {
+                startActivityForResult(ScanActivity.class, 0);
+            }
+        });
     }
 
     @Override
@@ -379,7 +384,7 @@ public class RegisterActivity extends BaseFormActivity
                 .invite(code)
                 .masterId(mMasId)
                 .build();
-        exeNetworkReq(KIdRegister,r);
+        exeNetworkReq(KIdRegister, r);
 
     }
 
@@ -426,7 +431,7 @@ public class RegisterActivity extends BaseFormActivity
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KIdCaptcha,RegisterAPI.captcha(getPhone(), CaptchaType.fetch).build());
+                        exeNetworkReq(KIdCaptcha, RegisterAPI.captcha(getPhone(), CaptchaType.fetch).build());
                         dialog.dismiss();
                     });
                     dialog.show();
@@ -515,9 +520,10 @@ public class RegisterActivity extends BaseFormActivity
         } else {
             //注册
             Result r = (Result) result;
-            if (r.getCode()==101 || r.getCode() == 102) {
+            if (r.getCode() == 101 || r.getCode() == 102) {
                 HintDialogMain hintdialog = new HintDialogMain(this);
-                hintdialog.setHint("该手机已注册，是否立即登录？");;
+                hintdialog.setHint("该手机已注册，是否立即登录？");
+                ;
                 hintdialog.addButton(R.string.cancel, v -> hintdialog.dismiss());
                 hintdialog.addButton("立即登录", v -> {
                     //跳转到设置页面
@@ -624,6 +630,21 @@ public class RegisterActivity extends BaseFormActivity
             ViewUtil.showView(mIvCancel);
         } else {
             ViewUtil.goneView(mIvCancel);
+        }
+    }
+
+    @Override
+    public void onPermissionResult(int code, @PermissionResult int result) {
+        switch (result) {
+            case PermissionResult.granted: {
+                startActivityForResult(ScanActivity.class, 0);
+            }
+            break;
+            case PermissionResult.denied:
+            case PermissionResult.never_ask: {
+                showToast(getString(R.string.user_photo_permission));
+            }
+            break;
         }
     }
 }

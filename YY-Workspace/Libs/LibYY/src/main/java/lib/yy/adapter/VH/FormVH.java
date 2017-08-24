@@ -35,7 +35,11 @@ public class FormVH extends ViewHolderEx {
         return getView(R.id.form_iv);
     }
 
-    public ImageView getIvClean(){
+    public ImageView getIvArrow() {
+        return getView(R.id.form_iv_arrow);
+    }
+
+    public ImageView getIvClean() {
         return getView(R.id.form_iv_clean);
     }
 

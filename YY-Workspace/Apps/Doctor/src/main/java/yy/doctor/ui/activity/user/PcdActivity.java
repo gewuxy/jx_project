@@ -302,8 +302,8 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (mSelects != null) {
-            mSelects.clear();
+        if (mSelects != null && !mSelects.isEmpty()) {
+            mSelects.remove(mSelects.size() - 1);
         }
     }
 

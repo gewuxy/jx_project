@@ -91,8 +91,6 @@ abstract public class BaseForm extends FormEx<FormVH> {
             }
         }
 
-        holder.getConvertView().setClickable(isEnabled());
-
         setTextIfExist(holder.getTvName(), getName());
     }
 

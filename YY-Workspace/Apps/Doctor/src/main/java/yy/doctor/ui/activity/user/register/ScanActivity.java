@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.LinearLayout;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ToggleButton;
 
 import com.google.zxing.client.result.ParsedResult;
@@ -19,7 +19,6 @@ import java.util.List;
 
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
@@ -38,6 +37,9 @@ import yy.doctor.util.Util;
  */
 
 public class ScanActivity extends BaseActivity implements OnScannerCompletionListener {
+
+    private final int KFrameSize = 248;
+    private final int KTopMargin = 96;
 
     private final int KScanId = 0;
     private final int KScan = 1;
@@ -74,21 +76,28 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         mScannerView.setOnScannerCompletionListener(this);
         mScannerView.setLaserFrameBoundColor(ResLoader.getColor(R.color.btn_bg_blue));
         mScannerView.setDrawText("请对准二维码，耐心等待", 12, Color.WHITE, true, 20);
-        mScannerView.setLaserFrameSize(248, 248);
-        mScannerView.setLaserFrameTopMargin(96);
+        mScannerView.setLaserFrameSize(KFrameSize, KFrameSize);
+        mScannerView.setLaserFrameTopMargin(KTopMargin);
         mScannerView.setLaserColor(ResLoader.getColor(R.color.btn_bg_blue));
         mScannerView.setLaserLineResId(R.mipmap.scan_ic_laser_line);
 
-        if (mBtn.getParent() instanceof RelativeLayout || mBtn.getParent() instanceof LinearLayout) {
-            MarginLayoutParams params = (MarginLayoutParams) mBtn.getLayoutParams();
-            params.topMargin = Scanner.dp2px(this, 288);
-            mBtn.setLayoutParams(params);
-        }
-      /*  mBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                int top = Scanner.dp2px(ScanActivity.this, KFrameSize + KTopMargin) - mBtn.getHeight();
+                RelativeLayout.LayoutParams params = (LayoutParams) mBtn.getLayoutParams();
+                params.topMargin = top;
+                mBtn.setLayoutParams(params);
+                removeOnGlobalLayoutListener(this);
+            }
+        });
+
+        mBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mFlag = !mFlag;
-//            mBtn.setSelected(mFlag);
+            mBtn.setSelected(mFlag);
             mScannerView.toggleLight(isChecked);
-        });*/
+        });
     }
 
     @Override
