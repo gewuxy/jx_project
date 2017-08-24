@@ -86,7 +86,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_forget_phone_number)
                 .observer(this)
-                .hint(R.string.phone_number));
+                .hint(R.string.input_phone));
 
         addItem(Form.create(FormType.divider_margin)
                 .paddingLeft(paddingLeft)
@@ -105,7 +105,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd)
                 .layout(R.layout.form_edit_forget_pwd)
-                .hint(R.string.pwd)
+                .hint(R.string.new_pwd)
                 .observer(this)
                 .drawable(R.drawable.register_pwd_selector));
     }

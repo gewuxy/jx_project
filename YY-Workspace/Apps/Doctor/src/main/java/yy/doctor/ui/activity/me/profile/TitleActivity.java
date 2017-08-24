@@ -169,7 +169,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
         mTitle = mGrade + " " + category;
 
         if (Profile.inst().isLogin()) {
-            // 登录了就是在个人中心界面p
+            // 登录了就是在个人中心界面
             refresh(RefreshWay.dialog);
             exeNetworkReq(KIdCommit, UserAPI.modify().title(mTitle).build());
         } else {
