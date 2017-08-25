@@ -52,6 +52,7 @@ public class ClipImageActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
 
+        bar.setBackgroundResource(R.color.black);
         Util.addBackIcon(bar, R.string.avatar, this);
         bar.addTextViewRight(R.string.confirm, v -> {
 
