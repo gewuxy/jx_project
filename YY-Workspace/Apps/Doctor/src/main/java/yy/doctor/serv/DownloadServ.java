@@ -1,6 +1,7 @@
 package yy.doctor.serv;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -48,7 +49,11 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
         mFileNameEncryption = sb.toString();
         YSLog.d(TAG, " download FileNameEncryption = " + mFileNameEncryption);
 
-        exeNetworkReq(DataAPI.download(mFilePath, mFileNameEncryption, mUrl).build());
+        try {
+            exeNetworkReq(DataAPI.download(mFilePath, mFileNameEncryption, mUrl).build());
+        } catch (Exception e) {
+            Toast.makeText(this,"文件下载错误",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
