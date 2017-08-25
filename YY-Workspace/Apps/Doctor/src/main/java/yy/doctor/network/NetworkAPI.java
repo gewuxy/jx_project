@@ -18,7 +18,7 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
  * @since 2017/8/16
  */
 @APIFactory(
-        host = "http://app.medyaya.cn/v7/api/",
+        host = "https://app.medyaya.cn/api/",
         hostDebuggable = "http://59.111.90.245:8083/v7/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/"; // 轩哥电脑
