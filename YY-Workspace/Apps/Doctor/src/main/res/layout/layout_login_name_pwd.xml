@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="请输入邮箱或手机号"
+            android:hint="输入邮箱或手机号"
             android:singleLine="true"/>
 
         <ImageView
@@ -41,7 +41,7 @@
             style="@style/et.login"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:hint="请输入密码"
+            android:hint="输入密码"
             android:maxLength="18"
             android:singleLine="true"/>
 
