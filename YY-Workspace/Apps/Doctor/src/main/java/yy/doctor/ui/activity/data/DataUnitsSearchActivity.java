@@ -5,7 +5,6 @@ import android.widget.EditText;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;

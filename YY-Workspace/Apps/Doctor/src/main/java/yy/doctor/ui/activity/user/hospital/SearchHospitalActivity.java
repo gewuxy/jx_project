@@ -39,6 +39,7 @@ import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
+import yy.doctor.model.Profile;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.HospitalLevel;
@@ -342,6 +343,9 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         hos.mHospitalLevel = h;
         notify(NotifyType.hospital_finish, hos);
 
+        if (Profile.inst().isLogin()) {
+            showToast(R.string.user_save_success);
+        }
         finish();
     }
 

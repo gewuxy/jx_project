@@ -459,7 +459,6 @@ public class HospitalActivity extends BaseHospitalActivity
             Profile.inst().saveToSp();
 
             if (Profile.inst().isLogin()) {
-//                exeNetworkReq(KIdSave, NetFactory.newModifyBuilder().hospital(name).hospitalLevel(levelId).build());
                 exeNetworkReq(KIdSave, UserAPI.modify()
                         .hospital(name)
                         .hospitalLevel(String.valueOf(levelId))
