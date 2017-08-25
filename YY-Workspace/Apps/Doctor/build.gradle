@@ -10,8 +10,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 7110
-        versionName "7.1.1"
+        versionCode 7112
+        versionName "7.1.2"
 
         multiDexEnabled true
 
