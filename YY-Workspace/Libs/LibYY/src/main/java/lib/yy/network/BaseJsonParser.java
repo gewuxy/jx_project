@@ -51,7 +51,7 @@ public class BaseJsonParser extends JsonParserEx {
             }
             errorStr = getString(object, CommonTag.KMsg);
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             code = ErrorCode.KServerErr;
             errorStr = ResLoader.getString(R.string.server_error);
         }

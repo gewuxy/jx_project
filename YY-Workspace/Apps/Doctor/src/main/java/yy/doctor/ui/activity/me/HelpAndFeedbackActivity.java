@@ -124,34 +124,30 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {
-                CommonWebViewActivityRouter.create(
-                        getString(R.string.update_log),
-                        mUrlUpdateLog
-                )
+                CommonWebViewActivityRouter.create()
+                        .name(getString(R.string.update_log))
+                        .url(mUrlUpdateLog)
                         .route(this);
             }
             break;
             case RelatedId.disclaimer: {
-                CommonWebViewActivityRouter.create(
-                        getString(R.string.disclaimer),
-                        mUrlDisclaimer
-                )
+                CommonWebViewActivityRouter.create()
+                        .name(getString(R.string.disclaimer))
+                        .url(mUrlDisclaimer)
                         .route(this);
             }
             break;
             case RelatedId.contribution_invited: {
-                CommonWebViewActivityRouter.create(
-                        getString(R.string.contribution_invited),
-                        mUrlContributionInvited
-                )
+                CommonWebViewActivityRouter.create()
+                        .name(getString(R.string.contribution_invited))
+                        .url(mUrlContributionInvited)
                         .route(this);
             }
             break;
             case RelatedId.jing_xin: {
-                CommonWebViewActivityRouter.create(
-                        getString(R.string.jing_xin),
-                        mUrlJX
-                )
+                CommonWebViewActivityRouter.create()
+                        .name(getString(R.string.jing_xin))
+                        .url(mUrlJX)
                         .route(this);
             }
             break;
@@ -172,10 +168,9 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.help_and_feedback_footer_tv_agreement: {
-                CommonWebViewActivityRouter.create(
-                        getString(R.string.service_agreement),
-                        mUrlDisclaimer
-                )
+                CommonWebViewActivityRouter.create()
+                        .name(getString(R.string.service_agreement))
+                        .url(mUrlDisclaimer)
                         .route(this);
             }
             break;

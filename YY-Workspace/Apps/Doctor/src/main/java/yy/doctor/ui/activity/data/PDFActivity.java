@@ -49,9 +49,7 @@ public class PDFActivity extends BaseActivity {
     int mType;
 
     private DataUnitDetails mData;
-
     private ICollectionView mCollectionView;
-
 
     @Override
     public void initData() {
@@ -78,6 +76,7 @@ public class PDFActivity extends BaseActivity {
         mCollectionView = new CollectionViewImpl(getNavBar(), mDataFileId, mType, this);
 
         refresh(RefreshWay.dialog);
+
         exeNetworkReq(ICollectionView.KIdDetail, DataAPI.collectionDetail(mDataFileId).build());
 
         mPDFView.setBackgroundColor(ResLoader.getColor(R.color.app_bg));
@@ -100,11 +99,11 @@ public class PDFActivity extends BaseActivity {
     public void onNetworkSuccess(int id, Object result) {
         if (id == ICollectionView.KIdDetail) {
             Result<DataUnitDetails> r = (Result) result;
-            mData = r.getData();
-            mCollectionView.setData(mData);
 
             stopRefresh();
             if (r.isSucceed()) {
+                mData = r.getData();
+                mCollectionView.setData(mData);
                 boolean state = mData.getBoolean(TDataUnitDetails.favorite);
                 YSLog.d(TAG, "StoredState = " + state);
                 mCollectionView.setState(state);
