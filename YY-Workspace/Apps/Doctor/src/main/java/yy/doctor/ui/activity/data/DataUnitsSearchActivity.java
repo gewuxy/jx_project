@@ -56,14 +56,8 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
             if (KeyboardUtil.isActive()) {
                 KeyboardUtil.hideFromView(mEtSearch);
             }
-            search();
+            refresh();
         });
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-
     }
 
     @Override
@@ -81,40 +75,13 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
             break;
         }
 
-        if (!TextUtil.isEmpty(mSearchContent)) {
-            mEtSearch.setText(mSearchContent);
-            search();
-        } else {
-            searchEmpty();
-        }
-
-        setOnAdapterClickListener((position, v) -> {
-            UISetter.onDataUnitClick(getItem(position), mType, this);
-        });
+        setOnAdapterClickListener((position, v) -> UISetter.onDataUnitClick(getItem(position), mType, this));
         setRefreshEnabled(false);
     }
 
     @Override
     public void getDataFromNet() {
         exeNetworkReq(DataAPI.search(mSearchContent, mType, getOffset(), getLimit()).build());
-    }
-
-    @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            getDataFromNet();
-        }
-        return true;
-    }
-
-    protected void searchEmpty() {
-    }
-
-    private void search() {
-        removeAll(); // 搜索前清空之前的数据集
-        invalidate();
-
-        refresh();
     }
 
     @Override

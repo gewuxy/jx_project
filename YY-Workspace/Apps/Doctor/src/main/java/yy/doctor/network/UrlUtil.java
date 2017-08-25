@@ -55,7 +55,7 @@ public class UrlUtil {
     public interface UrlMeet {
         String KMeetBase = "meet/";
         String KMeetShare = KMeetBase + "share?meetId=";
-        String KWs = "ws://";
+        String KWs = "wss://";
         String KIm = "/im";
     }
 

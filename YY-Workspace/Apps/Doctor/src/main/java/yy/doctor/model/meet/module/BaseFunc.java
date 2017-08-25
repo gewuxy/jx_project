@@ -10,9 +10,9 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
-import lib.ys.ConstantsEx;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.App;
@@ -143,7 +143,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
         boolean reward = getDetail().getBoolean(TMeetDetail.rewardCredit); // 是否奖励
         if (credits > 0 && reward) {
             // 奖励学分
-            boolean haveCme = Profile.inst().getString(TProfile.cmeId) == ConstantsEx.KEmptyValue;
+            boolean haveCme = TextUtil.isEmpty(Profile.inst().getString(TProfile.cmeId));
             // 检查cme卡号
             if (haveCme) {
                 // 没有填cme卡号
