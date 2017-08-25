@@ -154,8 +154,6 @@ public class HospitalActivity extends BaseHospitalActivity
         switch (v.getId()) {
             case R.id.hospital_search: {
                 startActivity(SearchHospitalActivity.class);
-                removeAll();
-                mIsFirst = true;
             }
             break;
         }
