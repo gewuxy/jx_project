@@ -68,6 +68,13 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
         });
     }
 
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        setRefreshEnabled(false);
+    }
+
     @CallSuper
     @Override
     public void onNetworkError(int id, NetworkError error) {

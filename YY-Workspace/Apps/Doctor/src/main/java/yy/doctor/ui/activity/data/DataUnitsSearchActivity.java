@@ -92,11 +92,20 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
         setOnAdapterClickListener((position, v) -> {
             UISetter.onDataUnitClick(getItem(position), mType, this);
         });
+        setRefreshEnabled(false);
     }
 
     @Override
     public void getDataFromNet() {
         exeNetworkReq(DataAPI.search(mSearchContent, mType, getOffset(), getLimit()).build());
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            getDataFromNet();
+        }
+        return true;
     }
 
     protected void searchEmpty() {
@@ -106,7 +115,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
         removeAll(); // 搜索前清空之前的数据集
         invalidate();
 
-        refresh(RefreshWay.embed);
+        refresh();
     }
 
     @Override
