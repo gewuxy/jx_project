@@ -26,6 +26,7 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -50,9 +51,8 @@ import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
-import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.util.Util;
-
+import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 
 /**
  * @auther WangLan
@@ -359,21 +359,6 @@ public class HospitalActivity extends BaseHospitalActivity
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.hospital_finish) {
-            Hos hos = (Hos) data;
-            String hosName = hos.mName;
-            mHospitalLevel = hos.mHospitalLevel;
-            int HosLvId = mHospitalLevel.getInt(THospitalLevel.id);
-            Profile.inst().put(TProfile.hospital, hosName);
-            Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
-            Profile.inst().saveToSp();
-            if (Profile.inst().isLogin()) {
-                exeNetworkReq(KIdSave, UserAPI.modify()
-                        .hospital(hosName)
-                        .hospitalLevel(String.valueOf(HosLvId))
-                        .build());
-            }
-            Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
-            setResult(RESULT_OK, intent);
             finish();
         }
     }
@@ -448,21 +433,19 @@ public class HospitalActivity extends BaseHospitalActivity
         }
         if (mCheckItem instanceof Hospital) {
             Hospital hospital = (Hospital) mCheckItem;
-            int levelId = h.getInt(THospitalLevel.id);
-            String name = hospital.getString(THospital.name);
             mHospitalLevel = h;
 
-            Profile.inst().put(TProfile.hospital, name);
-            Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
-            Profile.inst().saveToSp();
-
             if (Profile.inst().isLogin()) {
+                refresh(RefreshWay.dialog);
                 exeNetworkReq(KIdSave, UserAPI.modify()
-                        .hospital(name)
-                        .hospitalLevel(String.valueOf(levelId))
+                        .hospital(hospital.getString(THospital.name))
+                        .hospitalLevel(String.valueOf(h.getInt(THospitalLevel.id)))
                         .build());
             } else {
-                Intent intent = new Intent().putExtra(Extra.KData, mHospitalLevel);
+                Hos hos = new Hos();
+                hos.mName = hospital.getString(THospital.name);
+                hos.mHospitalLevel = mHospitalLevel;
+                Intent intent = new Intent().putExtra(Extra.KData, hos);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -474,10 +457,19 @@ public class HospitalActivity extends BaseHospitalActivity
         if (id == KIdSave) {
             ListResult res = (ListResult) result;
             if (res.isSucceed()) {
-                Intent i = new Intent().putExtra(Extra.KData, mHospitalLevel);
+
+                String name = ((Hospital) mCheckItem).getString(THospital.name);
+                Profile.inst().put(TProfile.hospital, name);
+                Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
+                Profile.inst().saveToSp();
+
+                Hos hos = new Hos();
+                hos.mName = name;
+                hos.mHospitalLevel = mHospitalLevel;
+                Intent i = new Intent().putExtra(Extra.KData, hos);
                 setResult(RESULT_OK, i);
-                finish();
                 showToast(R.string.user_save_success);
+                finish();
             } else {
                 onNetworkError(id, res.getError());
                 stopRefresh();

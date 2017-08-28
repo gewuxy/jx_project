@@ -1,8 +1,10 @@
 package yy.doctor.ui.activity.user.hospital;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -15,6 +17,7 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.poi.PoiSortType;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,9 @@ import lib.bd.location.Gps.TGps;
 import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
+import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -34,17 +39,22 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
 import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.HospitalLevel;
+import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetworkAPISetter;
 import yy.doctor.util.Util;
 
 /**
@@ -57,8 +67,10 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener, OnClickListener {
 
     private final int KLimit = 12;
+    private final int KIdSave = 10;
 
     private EditText mEtSearch;
+    private TextView mTvSearch;
 
     private HintDialog mDialog;
     private LevelDialog mDialogLevel;
@@ -72,6 +84,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     private boolean mLocationAgain; // 需要再次定位;
     private boolean mFindHospital = true; //找到医院默默认为true，找不到为false；
     private OnClickListener mSearchListener;
+    private HospitalLevel mHospitalLevel;
 
     @Override
     public void initData() {
@@ -83,19 +96,22 @@ public class SearchHospitalActivity extends BaseHospitalActivity
                 showToast("请输入搜索内容");
                 return;
             }
+
             if (Util.noNetwork()) {
                 return;
             }
+
             if (mLocationAgain) {
                 Location.inst().start();
                 return;
             }
+
             if (mLatLng == null) {
                 // 定位失败
                 onLocationError();
                 showToast("无法获取您的位置信息");
             } else {
-                refresh();
+                refresh(RefreshWay.embed);
                 YSLog.d(TAG, "offset = " + getOffset());
             }
         };
@@ -111,7 +127,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         bar.addViewMid(view, null);
 
         // KeyboardUtil.hideFromView(v);
-        bar.addTextViewRight("搜索", mSearchListener);
+        mTvSearch = bar.addTextViewRight("搜索", mSearchListener);
     }
 
     @Override
@@ -123,6 +139,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     public void setViews() {
         super.setViews();
 
+        LocationNotifier.inst().add(this);
         //检查有没有定位权限   没有的话直接弹dialog
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
@@ -133,8 +150,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         } else {
             mLocationAgain = true;
         }
-
-        LocationNotifier.inst().add(this);
 
         //POI检索的监听对象
         mSearch.setOnGetPoiSearchResultListener(this);
@@ -157,8 +172,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
 
     @Override
     public void onItemClick(View v, int position) {
-        super.onItemClick(v, position);
-
         mCheckItem = getItem(position);
         if (mCheckItem.getType() != HospitalType.hospital_title) {
             mDialogLevel = new LevelDialog(this);
@@ -185,7 +198,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     @Override
     public void onGetPoiResult(PoiResult poiResult) {
         KeyboardUtil.hideFromView(getCurrentFocus());
-        //removeAll();//清空列表
+
         ListResult<IHospital> r = new ListResult<>();
         if (poiResult != null && poiResult.error == PoiResult.ERRORNO.NO_ERROR) {
             //如果搜索到的结果不为空，并且没有错误
@@ -214,6 +227,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
                 mDialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));
                 mDialog.addButton("取消", v -> mDialog.dismiss());
                 mDialog.addButton("确定", v -> {
+                    mDialog.dismiss();
                     mDialogLevel = new LevelDialog(this);
                     mDialogLevel.setListener(SearchHospitalActivity.this);
                     mDialogLevel.show();
@@ -300,11 +314,11 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             //定位成功
             mLocLon = Double.parseDouble(gps.getString(TGps.longitude));
             mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
-            YSLog.d(TAG,"onLocationResult:"+ mLocLon);
-            YSLog.d(TAG,"onLocationResult:"+ mLocLat);
+            YSLog.d(TAG, "onLocationResult:" + mLocLon);
+            YSLog.d(TAG, "onLocationResult:" + mLocLat);
             mLatLng = new LatLng(mLocLat, mLocLon);
             if (mLocationAgain) {
-                mSearchListener.onClick(null);
+                mTvSearch.performClick();
             }
         } else {
             //定位失败  显示dialog
@@ -331,6 +345,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
 
     @Override
     public void onLevelChecked(HospitalLevel h) {
+        mDialogLevel.dismiss();
         Hos hos = new Hos();
         if (mCheckItem == null && !mFindHospital) {
             Hospital hospital = new Hospital();
@@ -341,15 +356,63 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             hos.mName = hospital2.getString(THospital.name);
         }
         hos.mHospitalLevel = h;
-        notify(NotifyType.hospital_finish, hos);
 
+        mHospitalLevel = hos.mHospitalLevel;
         if (Profile.inst().isLogin()) {
-            showToast(R.string.user_save_success);
+            refresh(RefreshWay.dialog);
+            exeNetworkReq(KIdSave, NetworkAPISetter.UserAPI.modify()
+                    .hospital(hos.mName)
+                    .hospitalLevel(mHospitalLevel.getString(THospitalLevel.id))
+                    .build());
+        } else {
+            notify(NotifyType.hospital_finish, hos);
+            finish();
         }
-        finish();
     }
 
-    public class Hos {
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        if (KIdSave == id) {
+            return JsonParser.error(r.getText());
+        } else {
+            return super.onNetworkResponse(id, r);
+        }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (KIdSave == id) {
+            stopRefresh();
+            Result<String> r = (Result<String>) result;
+            if (r.isSucceed()) {
+
+                Hospital h = (Hospital) mCheckItem;
+                String name = "";
+                if (h == null) {
+                    name = Util.getEtString(mEtSearch);
+                } else {
+                    name = h.getString(THospital.name);
+                }
+                Profile.inst().put(TProfile.hospital, name);
+                Profile.inst().put(TProfile.systemProperties, mHospitalLevel);
+                Profile.inst().saveToSp();
+
+                Hos hos = new Hos();
+                hos.mHospitalLevel = mHospitalLevel;
+                hos.mName = name;
+
+                showToast(R.string.user_save_success);
+                notify(NotifyType.hospital_finish, hos);
+                finish();
+            } else {
+                showToast(r.getMessage());
+            }
+        } else {
+            super.onNetworkSuccess(id, result);
+        }
+    }
+
+    public static class Hos implements Serializable {
         public String mName;
         public HospitalLevel mHospitalLevel;
     }

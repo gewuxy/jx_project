@@ -42,6 +42,7 @@ import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
+import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -427,6 +428,16 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             String text = place.getDesc();
             getRelatedItem(RelatedId.address).save(text, text);
             refreshRelatedItem(RelatedId.address);
+        } else if(type == NotifyType.hospital_finish) {
+            if (data instanceof Hos) {
+                Hos level = (Hos) data;
+                String hospital = level.mName;
+                String url = level.mHospitalLevel.getString(THospitalLevel.picture);
+                YSLog.d("asdad", "onActivityResult:" + url);
+                getRelatedItem(RelatedId.hospital).save(hospital, hospital);
+                getRelatedItem(RelatedId.hospital).url(level.mHospitalLevel.getString(THospitalLevel.picture));
+            }
+            refreshRelatedItem(RelatedId.hospital);
         }
     }
 

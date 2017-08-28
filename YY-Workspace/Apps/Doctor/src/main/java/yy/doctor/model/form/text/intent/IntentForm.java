@@ -15,6 +15,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
+import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 
 /**
  * @author CaiXiang
@@ -78,13 +79,13 @@ public class IntentForm extends TextForm {
     protected void onActivityResult(int position, Intent data) {
         switch (mCurrType) {
             case IntentType.hospital: {
-                HospitalLevel level = (HospitalLevel) data.getSerializableExtra(Extra.KData);
-                if (level != null) {
-                    String hospital = Profile.inst().getString(TProfile.hospital);
-                    String url = level.getString(THospitalLevel.picture);
+                Hos hos = (Hos) data.getSerializableExtra(Extra.KData);
+                if (hos != null) {
+                    String hospital = hos.mName;
+                    String url = hos.mHospitalLevel.getString(THospitalLevel.picture);
                     YSLog.d("asdad", "onActivityResult:" + url);
                     save(hospital, hospital);
-                    data(level.getInt(THospitalLevel.id))
+                    data(hos.mHospitalLevel.getInt(THospitalLevel.id))
                             .url(url)
                             .refresh();
                 }

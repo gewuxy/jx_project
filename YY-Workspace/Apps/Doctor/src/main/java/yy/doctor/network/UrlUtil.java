@@ -6,7 +6,6 @@ package yy.doctor.network;
  */
 public class UrlUtil {
 
-    private static String KHttpDef = "https://";
     private static String mHostName = null;
     private static String mBaseHost = null;
 
@@ -21,12 +20,13 @@ public class UrlUtil {
 //            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8081/"; // 轩哥电脑
 //            mBaseHost = "10.0.0.252:8082/"; // 长玲电脑
+            mHostName = "http://" + mBaseHost;
         } else {
             // 正式线
             mBaseHost = "app.medyaya.cn/";
+            mHostName = "https://" + mBaseHost;
         }
 
-        mHostName = KHttpDef + mBaseHost;
         mBase = mHostName + "api/";
         mBaseHost += "api/";
     }

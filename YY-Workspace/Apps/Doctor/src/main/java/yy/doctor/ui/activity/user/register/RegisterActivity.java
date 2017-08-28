@@ -57,6 +57,8 @@ import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
+import yy.doctor.model.hospital.HospitalLevel;
+import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
@@ -69,6 +71,7 @@ import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
+import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
@@ -99,6 +102,7 @@ public class RegisterActivity extends BaseFormActivity
     //免责声明  服务协议
     private String mUrlDisclaimer = UrlUtil.getHostName() + "api/register/get_protocol";
     private String mUrlActivityCode = UrlUtil.getHostName() + "api/register/get_invite_code";
+    private int mHospitalLevel;
 
     @IntDef({
             RelatedId.phone_number,
@@ -363,7 +367,7 @@ public class RegisterActivity extends BaseFormActivity
         String category = s[0];
         String name = s[1];
 
-        int hospitalLevel = getRelatedItem(RelatedId.hospital).getData();
+        mHospitalLevel = getRelatedItem(RelatedId.hospital).getData();
 
         //注册
         refresh(RefreshWay.dialog);
@@ -376,7 +380,7 @@ public class RegisterActivity extends BaseFormActivity
                 .city(place.getString(TPlace.city))
                 .zone(place.getString(TPlace.district))
                 .hospital(getItemStr(RelatedId.hospital))
-                .hospitalLevel(hospitalLevel)//医院级别
+                .hospitalLevel(mHospitalLevel)//医院级别
                 .category(category)//专科一级名称，要分开
                 .name(name)//专科二级名称
                 .department(getItemStr(RelatedId.department))//科室名称
@@ -456,6 +460,18 @@ public class RegisterActivity extends BaseFormActivity
         } else if (type == NotifyType.disable_fetch_message_captcha) {
             form.enable(false);
             refreshItem(form);
+        } else if (type == NotifyType.hospital_finish) {
+            if (data instanceof Hos) {
+                Hos level = (Hos) data;
+                String hospital = level.mName;
+                HospitalLevel hospitalLevel = level.mHospitalLevel;
+                String url = hospitalLevel.getString(THospitalLevel.picture);
+                YSLog.d("asdad", "onActivityResult:" + url);
+                getRelatedItem(RelatedId.hospital).save(hospital, hospital);
+                getRelatedItem(RelatedId.hospital).url(hospitalLevel.getString(THospitalLevel.picture));
+                mHospitalLevel = hospitalLevel.getInt(THospitalLevel.id);
+            }
+            refreshRelatedItem(RelatedId.hospital);
         }
     }
 
