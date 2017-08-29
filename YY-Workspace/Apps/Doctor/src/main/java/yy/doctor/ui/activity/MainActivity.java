@@ -61,7 +61,7 @@ public class MainActivity extends BaseVPActivity {
     private LinearLayout mLayoutTab;
     private View mTabPrev;
 
-    @Arg(optional = true, defaultInt = KTabHome)
+    @Arg(opt = true, defaultInt = KTabHome)
     int mCurrPage;
 
     @Override

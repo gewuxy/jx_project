@@ -41,28 +41,28 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     private ImageView mIvDownload;
     private boolean mIsDownload = false;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileName;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mUrl;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileSuffix;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     long mFileSize;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mDataFileId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileNameEncryption;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFilePath;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     @DataType
     int mDataType;
 

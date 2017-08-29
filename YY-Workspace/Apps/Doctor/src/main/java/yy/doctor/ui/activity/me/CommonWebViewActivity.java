@@ -25,16 +25,16 @@ import yy.doctor.util.UISetter;
 @Route
 public class CommonWebViewActivity extends BaseWebViewActivity {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mName;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mUrl;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     @DataType int mType;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileId;
 
     private ICollectionView mCollectionView;

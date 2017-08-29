@@ -34,11 +34,11 @@ public class TopicFrag extends BaseListFrag<Choice, TopicAdapter> {
     private int mLastPosition;
     private OnTopicListener mOnTopicListener;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     int mListId; // 题号
-    @Arg(optional = true)
+    @Arg(opt = true)
     boolean mLast; // 最后一题
-    @Arg(optional = true)
+    @Arg(opt = true)
     Topic mTopic; // 该题目的信息
 
     public interface OnTopicListener {

@@ -15,7 +15,6 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.RegexUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -37,13 +36,13 @@ import yy.doctor.util.Util;
 @Route
 public class ExchangeActivity extends BaseFormActivity {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     int mGoodId;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mGoodName;
-    @Arg(optional = true)
+    @Arg(opt = true)
     int mEpn;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mUrl;
 
     private NetworkImageView mIvGoods;

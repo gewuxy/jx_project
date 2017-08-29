@@ -30,7 +30,7 @@ import yy.doctor.util.Util;
  */
 public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mSearchContent; // 搜索内容
 
     private EditText mEtSearch;

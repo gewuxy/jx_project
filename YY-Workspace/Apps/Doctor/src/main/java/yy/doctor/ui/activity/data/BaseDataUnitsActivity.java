@@ -19,16 +19,16 @@ abstract public class BaseDataUnitsActivity extends BaseVPActivity {
 
     private static final String KSeparate = " > ";
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileName;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     boolean mLeaf;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mPath;
 
     private EditText mEtPath;

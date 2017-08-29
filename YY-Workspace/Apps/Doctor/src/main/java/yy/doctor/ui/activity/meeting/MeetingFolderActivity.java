@@ -34,14 +34,14 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
     @Arg
     public String mPreId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     public String mTitle;
 
-    @Arg(optional = true, defaultInt = 0)
+    @Arg(opt = true, defaultInt = 0)
     public int mNum;
 
     @ZeroShowType
-    @Arg(optional = true, defaultInt = ZeroShowType.show)
+    @Arg(opt = true, defaultInt = ZeroShowType.show)
     public int mShowZero;
 
     private TextView mTvNum;

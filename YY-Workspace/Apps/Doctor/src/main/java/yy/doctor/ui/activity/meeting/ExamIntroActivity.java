@@ -43,13 +43,13 @@ public class ExamIntroActivity extends BaseActivity {
 
     private Intro mIntro; // 考试信息
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mHost;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mMeetId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mModuleId;
 
     private long mStartTime; // 考试开始时间

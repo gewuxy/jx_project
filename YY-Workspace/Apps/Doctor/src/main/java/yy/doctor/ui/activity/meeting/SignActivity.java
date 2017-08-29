@@ -25,11 +25,11 @@ public class SignActivity extends BaseResultActivity {
     private final int KErrorResId = R.mipmap.result_ic_defeat; // 失败的图片
     private final int KErrorColId = R.color.text_333; // 失败的颜色
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mLongitude; // 经度
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mLatitude; // 维度
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mSignId; // 签到id
 
     private ImageView mIvResult;//结果图标

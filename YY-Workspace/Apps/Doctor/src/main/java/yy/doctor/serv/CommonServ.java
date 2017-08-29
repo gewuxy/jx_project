@@ -32,18 +32,18 @@ import yy.doctor.network.NetworkAPISetter.UserAPI;
 @Route
 public class CommonServ extends ServiceEx {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     @ReqType
     int mType;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mJPushRegisterId;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mToken;
-    @Arg(optional = true)
+    @Arg(opt = true)
     Submit mSubmit;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mMeetId;
-    @Arg(optional = true)
+    @Arg(opt = true)
     long mMeetTime;
 
     @IntDef({

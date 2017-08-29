@@ -21,10 +21,10 @@ import yy.doctor.util.Util;
 @Route
 public class SurveyEndActivity extends BaseResultActivity {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mPaperId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     ArrayList<Topic> mTopics;
 
     @Override

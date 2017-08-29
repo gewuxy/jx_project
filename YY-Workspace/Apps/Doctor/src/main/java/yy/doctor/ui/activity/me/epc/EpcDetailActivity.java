@@ -28,11 +28,11 @@ import yy.doctor.util.Util;
 @Route
 public class EpcDetailActivity extends BaseActivity {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     int mGoodId;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mGoodName;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mSmallImgUrl;
 
     private NetworkImageView mIv;

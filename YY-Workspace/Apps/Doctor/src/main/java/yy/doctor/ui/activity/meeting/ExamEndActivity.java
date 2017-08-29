@@ -34,22 +34,22 @@ import yy.doctor.util.Util;
 @Route
 public class ExamEndActivity extends BaseActivity {
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mMeetId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mModuleId;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mPaperId; // 试卷Id
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     int mCount; // 考试次数
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     int mPass; // 及格线
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     ArrayList<Topic> mTopics; // 试题(记录答案)
 
     private TextView mTvScore;

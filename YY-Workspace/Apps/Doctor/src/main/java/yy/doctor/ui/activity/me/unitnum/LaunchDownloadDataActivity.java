@@ -31,19 +31,19 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     private TextView mTvName;
     private TextView mTvSize;
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFilePath;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileName;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileSuffix;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mSize;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mDataFileId;
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mFileNameEncryption;
-    @Arg(optional = true)
+    @Arg(opt = true)
     @DataType
     int mDataType;
 

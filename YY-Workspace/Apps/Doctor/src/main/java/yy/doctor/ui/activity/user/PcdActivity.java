@@ -54,13 +54,13 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private TextView mTvLocation;
 
     @Nullable
-    @Arg(optional = true)
+    @Arg(opt = true)
     Place mLocatePlace; // 定位的地点
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     ArrayList<String> mSelects; // 选择的地点
 
-    @Arg(optional = true)
+    @Arg(opt = true)
     String mPreId; // 上一级选中的id
 
     private Place mRetPlace;
