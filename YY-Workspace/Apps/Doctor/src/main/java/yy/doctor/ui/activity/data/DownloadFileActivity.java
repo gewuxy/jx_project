@@ -10,6 +10,7 @@ import java.io.File;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
 import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
@@ -140,6 +141,10 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
             case R.id.download_iv: {
                 // 无网
                 if (Util.noNetwork()) {
+                    return;
+                }
+                if (TextUtil.isEmpty(mUrl)) {
+                    showToast("文件不存在");
                     return;
                 }
                 if (mIsDownload) {

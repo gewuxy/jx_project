@@ -16,9 +16,9 @@ import yy.doctor.R;
 
 public class SignErrDialog extends BaseDialog {
 
-    private OnLocationListener mOnLocationListener;
+    private OnSignAgainListener mOnSignAgainListener;
 
-    public interface OnLocationListener {
+    public interface OnSignAgainListener {
         /**
          * 重试
          *
@@ -31,24 +31,22 @@ public class SignErrDialog extends BaseDialog {
         super(context);
     }
 
-    public void setLocationListener(OnLocationListener onLocationListener) {
-        mOnLocationListener = onLocationListener;
+    public void setLocationListener(OnSignAgainListener onLocationListener) {
+        mOnSignAgainListener = onLocationListener;
     }
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.dialog_location;
+        return R.layout.dialog_sign_err;
     }
 
     @Override
     public void findViews() {
-
     }
 
     @Override
@@ -60,15 +58,14 @@ public class SignErrDialog extends BaseDialog {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dialog_location_tv_again:
-                dismiss();
-                if (mOnLocationListener != null) {
-                    mOnLocationListener.onAgain(v);
+            case R.id.dialog_location_tv_again: {
+                if (mOnSignAgainListener != null) {
+                    mOnSignAgainListener.onAgain(v);
                 }
-                break;
-            case R.id.dialog_location_tv_cancel:
-                dismiss();
-                break;
+            }
+            break;
         }
+        dismiss();
     }
+
 }

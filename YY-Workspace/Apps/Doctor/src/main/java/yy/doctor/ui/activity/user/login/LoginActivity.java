@@ -15,7 +15,7 @@ import yy.doctor.Constants;
 import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.dialog.ForgetPwdTooltipDialog;
+import yy.doctor.dialog.ForgetPwdDialog;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
@@ -32,7 +32,7 @@ import yy.doctor.ui.activity.user.register.RegisterActivity;
  */
 public class LoginActivity extends BaseLoginActivity {
 
-    private ForgetPwdTooltipDialog mDialogForgetPwd;
+    private ForgetPwdDialog mDialogForgetPwd;
     private String mRequest; // 判断桌面快捷方式进来
     private HintDialogSec mDialogWX; // 提示未安装微信
 
@@ -85,7 +85,7 @@ public class LoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.login_tv_forget_pwd: {
-                mDialogForgetPwd = new ForgetPwdTooltipDialog(LoginActivity.this);
+                mDialogForgetPwd = new ForgetPwdDialog(LoginActivity.this);
                 mDialogForgetPwd.show();
             }
             break;
@@ -147,7 +147,7 @@ public class LoginActivity extends BaseLoginActivity {
                 });
                 dialog.addButton("找回密码", v1 -> {
                     dialog.dismiss();
-                    mDialogForgetPwd = new ForgetPwdTooltipDialog(LoginActivity.this);
+                    mDialogForgetPwd = new ForgetPwdDialog(LoginActivity.this);
                     mDialogForgetPwd.show();
                 });
                 dialog.show();

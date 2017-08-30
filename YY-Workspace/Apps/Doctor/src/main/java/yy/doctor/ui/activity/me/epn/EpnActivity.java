@@ -70,9 +70,7 @@ public class EpnActivity extends BaseActivity {
             }
             break;
             case R.id.epn_instruction: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.epn_use_rule))
-                        .url(mUrlEpnUseRule)
+                CommonWebViewActivityRouter.create(getString(R.string.epn_use_rule), mUrlEpnUseRule)
                         .route(this);
             }
             break;

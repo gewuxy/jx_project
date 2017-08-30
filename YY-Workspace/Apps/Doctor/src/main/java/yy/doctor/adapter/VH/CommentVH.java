@@ -14,6 +14,7 @@ import yy.doctor.R;
  */
 
 public class CommentVH extends ViewHolderEx {
+
     public CommentVH(@NonNull View convertView) {
         super(convertView);
     }
@@ -23,7 +24,7 @@ public class CommentVH extends ViewHolderEx {
      *
      * @return
      */
-    public NetworkImageView getIcon() {
+    public NetworkImageView getIv() {
         return getView(R.id.meeting_comment_iv_icon);
     }
 
@@ -32,7 +33,7 @@ public class CommentVH extends ViewHolderEx {
      *
      * @return
      */
-    public TextView getName() {
+    public TextView getTvName() {
         return getView(R.id.meeting_comment_tv_name);
     }
 
@@ -41,7 +42,7 @@ public class CommentVH extends ViewHolderEx {
      *
      * @return
      */
-    public TextView getDate() {
+    public TextView getTvDate() {
         return getView(R.id.meeting_comment_tv_date);
     }
 
@@ -50,7 +51,7 @@ public class CommentVH extends ViewHolderEx {
      *
      * @return
      */
-    public TextView getContent() {
+    public TextView getTvContent() {
         return getView(R.id.meeting_comment_tv_content);
     }
 }

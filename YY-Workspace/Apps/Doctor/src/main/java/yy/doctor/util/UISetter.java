@@ -330,9 +330,7 @@ public class UISetter {
             }
             break;
             case FileOpenType.html: {
-                CommonWebViewActivityRouter.create()
-                        .name(item.getString(TDataUnit.title))
-                        .url(item.getString(TDataUnit.htmlPath))
+                CommonWebViewActivityRouter.create(item.getString(TDataUnit.title), item.getString(TDataUnit.htmlPath))
                         .fileId(item.getString(TDataUnit.id))
                         .type(type)
                         .route(context);

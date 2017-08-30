@@ -294,9 +294,7 @@ public class RegisterActivity extends BaseFormActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_tv_activated_code: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.title_fetch_captcha))
-                        .url(mUrlActivityCode)
+                CommonWebViewActivityRouter.create(getString(R.string.title_fetch_captcha), mUrlActivityCode)
                         .route(this);
             }
             break;
@@ -309,9 +307,7 @@ public class RegisterActivity extends BaseFormActivity
             }
             break;
             case R.id.help_and_feedback_footer_tv_agreement: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.service_agreement))
-                        .url(mUrlDisclaimer)
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), mUrlDisclaimer)
                         .route(this);
             }
         }

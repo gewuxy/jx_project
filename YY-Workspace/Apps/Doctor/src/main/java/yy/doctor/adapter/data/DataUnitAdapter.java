@@ -27,20 +27,15 @@ public class DataUnitAdapter extends AdapterEx<DataUnit, DataVH> {
 
     @Override
     protected void refreshView(int position, DataVH holder) {
-        if (position != 0) {
-            goneView(holder.getDivider());
-        } else {
-            showView(holder.getDivider());
-        }
 
         DataUnit item = getItem(position);
         holder.getTvName().setText(item.getString(TDataUnit.title));
 
-        //只有数据中心和收藏药品才需要显示生产商
+        //只有数据中心和收藏药品才需要显示生产商  这两者的数据结构（字段）不太一致
         View detail = holder.getTvDetail();
         if (mType == DataType.drug) {
-            boolean is_drug = item.getBoolean(TDataUnit.isFile) || item.getString(TDataUnit.dataFrom).equals("药品目录");
-            if (is_drug && !TextUtil.isEmpty(item.getString(TDataUnit.author))) {
+            boolean isDrug = item.getBoolean(TDataUnit.isFile) || item.getString(TDataUnit.dataFrom).equals("药品目录");
+            if (isDrug && !TextUtil.isEmpty(item.getString(TDataUnit.author))) {
                 showView(detail);
                 holder.getTvDetail().setText(item.getString(TDataUnit.author));
             } else {

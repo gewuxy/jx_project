@@ -18,10 +18,6 @@ public class DataVH extends ViewHolderEx {
         super(convertView);
     }
 
-    public View getDivider() {
-        return getView(R.id.data_item_divider);
-    }
-
     public LinearLayout getRootLayout() {
         return getView(R.id.data_item_layout_root);
     }

@@ -124,30 +124,22 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.update_log))
-                        .url(mUrlUpdateLog)
+                CommonWebViewActivityRouter.create(getString(R.string.update_log), mUrlUpdateLog)
                         .route(this);
             }
             break;
             case RelatedId.disclaimer: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.disclaimer))
-                        .url(mUrlDisclaimer)
+                CommonWebViewActivityRouter.create(getString(R.string.disclaimer), mUrlDisclaimer)
                         .route(this);
             }
             break;
             case RelatedId.contribution_invited: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.contribution_invited))
-                        .url(mUrlContributionInvited)
+                CommonWebViewActivityRouter.create(getString(R.string.contribution_invited), mUrlContributionInvited)
                         .route(this);
             }
             break;
             case RelatedId.jing_xin: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.jing_xin))
-                        .url(mUrlJX)
+                CommonWebViewActivityRouter.create(getString(R.string.jing_xin), mUrlJX)
                         .route(this);
             }
             break;
@@ -168,9 +160,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int id = v.getId();
         switch (id) {
             case R.id.help_and_feedback_footer_tv_agreement: {
-                CommonWebViewActivityRouter.create()
-                        .name(getString(R.string.service_agreement))
-                        .url(mUrlDisclaimer)
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), mUrlDisclaimer)
                         .route(this);
             }
             break;

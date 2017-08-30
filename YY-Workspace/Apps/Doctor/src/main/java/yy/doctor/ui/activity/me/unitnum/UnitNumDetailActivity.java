@@ -379,7 +379,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         //设置点击快捷方式时启动的Activity,因为是从Lanucher中启动，所以包名类名要写全。
         shortcutIntent.setComponent(new ComponentName(getPackageName(), LaunchTmpActivity.class.getName()));
         YSLog.d(TAG, " getPackageName() = " + getPackageName());
-        YSLog.d(TAG, "UnitNumDetailActivity.class.getName()) = " + LaunchTmpActivity.class.getName());
+        YSLog.d(TAG, "UnitNumDetailActivity.class.getTvName()) = " + LaunchTmpActivity.class.getName());
         //设置启动的模式
         shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.putExtra(Extra.KUnitNumId, mUnitNumId);

@@ -35,7 +35,6 @@ public class FilesActivity extends BaseSRListActivity<FileData, FileDataAdapter>
     @FileFrom
     int mType;
 
-
     private String mFilePath;
     private String mFileId;
 

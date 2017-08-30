@@ -23,11 +23,8 @@ public class DataUnitDetailAdapter extends GroupAdapterEx<GroupDataUnitDetail, D
 
     @Override
     public void refreshGroupView(int groupPosition, boolean isExpanded, DataUnitDetailVH holder) {
-        if (isExpanded) {
-            holder.getIv().setSelected(true);
-        } else {
-            holder.getIv().setSelected(false);
-        }
+
+        holder.getIv().setSelected(isExpanded);
         GroupDataUnitDetail group = getGroup(groupPosition);
         holder.getTvName().setText(group.getTag());
     }

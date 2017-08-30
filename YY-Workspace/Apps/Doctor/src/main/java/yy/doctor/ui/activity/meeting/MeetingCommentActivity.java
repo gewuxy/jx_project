@@ -30,7 +30,7 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.CommentAdapter;
+import yy.doctor.adapter.meeting.CommentAdapter;
 import yy.doctor.model.meet.Comment;
 import yy.doctor.model.meet.Comment.TComment;
 import yy.doctor.model.meet.CommentHistories;

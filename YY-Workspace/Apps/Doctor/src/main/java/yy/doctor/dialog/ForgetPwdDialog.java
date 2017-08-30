@@ -17,10 +17,10 @@ import yy.doctor.ui.activity.user.ForgetPwdPhoneActivity;
  * @since 2017/7/18
  */
 
-public class ForgetPwdTooltipDialog extends BaseDialog {
+public class ForgetPwdDialog extends BaseDialog {
 
 
-    public ForgetPwdTooltipDialog(Context context) {
+    public ForgetPwdDialog(Context context) {
         super(context);
     }
 
@@ -32,7 +32,7 @@ public class ForgetPwdTooltipDialog extends BaseDialog {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.dialog_forget_pwd_tooltip;
+        return R.layout.dialog_forget_pwd;
     }
 
     @Override

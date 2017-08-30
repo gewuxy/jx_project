@@ -51,7 +51,7 @@
             android:layout_alignParentBottom="true"
             android:background="#dbdbdb"
             android:orientation="horizontal"
-            android:paddingTop="1dp">
+            android:paddingTop="1px">
 
             <TextView
                 android:id="@+id/dialog_location_tv_again"
@@ -64,17 +64,23 @@
                 android:textColor="#0682e6"
                 android:textSize="16dp"/>
 
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
             <TextView
                 android:id="@+id/dialog_location_tv_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
                 android:text="取消"
                 android:textColor="@color/text_666"
                 android:textSize="16dp"/>
+
         </LinearLayout>
+
     </lib.ys.view.CornerView>
+
 </LinearLayout>

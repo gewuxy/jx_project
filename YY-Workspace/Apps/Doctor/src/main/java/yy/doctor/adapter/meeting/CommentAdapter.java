@@ -1,4 +1,4 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TextUtil;
@@ -24,15 +24,15 @@ public class CommentAdapter extends AdapterEx<Comment, CommentVH> {
 
     @Override
     protected void refreshView(int position, CommentVH holder) {
-        holder.getIcon()
+        holder.getIv()
                 .placeHolder(R.mipmap.ic_default_meeting_comment)
                 .url(getItem(position).getString(TComment.headimg))
                 .load();
-        holder.getName().setText(getItem(position).getString(TComment.sender));
-        holder.getDate().setText(TimeUtil.formatMilli(getItem(position).getString(TComment.sendTime), "MM-dd HH:mm"));
+        holder.getTvName().setText(getItem(position).getString(TComment.sender));
+        holder.getTvDate().setText(TimeUtil.formatMilli(getItem(position).getString(TComment.sendTime), "MM-dd HH:mm"));
         String message = getItem(position).getString(TComment.message);
         if (TextUtil.isNotEmpty(message)) {
-            holder.getContent().setText(message);
+            holder.getTvContent().setText(message);
         }
     }
 }
