@@ -11,7 +11,7 @@ import yy.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
  * @since 2017/7/28
  */
 
-public class MeetingDepartmentAdapter extends AdapterEx<MeetingDepartment, SectionFilterVH> {
+public class MeetingSectionAdapter extends AdapterEx<MeetingDepartment, SectionFilterVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -20,15 +20,15 @@ public class MeetingDepartmentAdapter extends AdapterEx<MeetingDepartment, Secti
 
     @Override
     protected void refreshView(int position, SectionFilterVH holder) {
-        if (position ==getLastItemPosition() ) {
+        if (position == getLastItemPosition()) {
             goneView(holder.getDivider());
         }
         MeetingDepartment item = getItem(position);
         holder.getImageView().placeHolder(R.mipmap.ic_section_default)
                 .url(item.getString(TMeetingDepartment.icon))
                 .load();
-        holder.getName().setText(item.getString(TMeetingDepartment.name));
-        holder.getNumber().setText(item.getString(TMeetingDepartment.count));
+        holder.getTvName().setText(item.getString(TMeetingDepartment.name));
+        holder.getTvNumber().setText(item.getString(TMeetingDepartment.count));
     }
 
 

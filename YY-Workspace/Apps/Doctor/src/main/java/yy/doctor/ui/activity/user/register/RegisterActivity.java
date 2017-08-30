@@ -1,7 +1,6 @@
 package yy.doctor.ui.activity.user.register;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -40,6 +39,7 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.model.form.BaseForm;
 import lib.yy.network.Result;
@@ -276,7 +276,7 @@ public class RegisterActivity extends BaseFormActivity
 
         mTvReg.setEnabled(false);
         SpannableString s = new SpannableString(getString(R.string.you_agree));
-        s.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(ResLoader.getColor(R.color.text_888)), 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mTvAgree.setText(s);
 
         // 静默检查定位权限
@@ -301,7 +301,7 @@ public class RegisterActivity extends BaseFormActivity
             }
             break;
             case R.id.register: {
-                enroll();
+                register();
             }
             break;
             case R.id.iv_activated_cancel: {
@@ -321,7 +321,7 @@ public class RegisterActivity extends BaseFormActivity
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_GO) {
-            enroll();
+            register();
             return true;
         }
         return false;
@@ -330,22 +330,17 @@ public class RegisterActivity extends BaseFormActivity
     /**
      * 注册操作
      */
-    private void enroll() {
+    private void register() {
         mPhone = getRelatedItem(RelatedId.phone_number).getVal();
-        // 判断空
-        if (!check()) {
-            return;
-        }
 
         if (!Util.isMobileCN(mPhone)) {
             showToast(R.string.not_phone_number);
             return;
         }
 
-        // 检查激活码是否为空
-        String code = mEtActivatedCode.getText().toString().trim();
 
-        // 检查密码
+
+        // 密码
         String strPwd = getItemStr(RelatedId.pwd);
 
         if (!strPwd.matches(Util.symbol())) {
@@ -353,7 +348,7 @@ public class RegisterActivity extends BaseFormActivity
             return;
         }
 
-        if (strPwd.length() < 6 || strPwd.length() > 24) {
+        if (strPwd.length() < 6) {
             showToast(R.string.input_right_pwd_num);
             return;
         }
@@ -361,6 +356,7 @@ public class RegisterActivity extends BaseFormActivity
         // 省市区
         String addresses = getItemStr(RelatedId.location);
         Place place = new Place(addresses);
+
         //专科,按照空格来分
         String special = getItemStr(RelatedId.special);
         String[] s = special.split(" ");
@@ -368,6 +364,9 @@ public class RegisterActivity extends BaseFormActivity
         String name = s[1];
 
         mHospitalLevel = getRelatedItem(RelatedId.hospital).getData();
+
+        // 激活码
+        String code = mEtActivatedCode.getText().toString().trim();
 
         //注册
         refresh(RefreshWay.dialog);
@@ -429,7 +428,6 @@ public class RegisterActivity extends BaseFormActivity
                             long duration = System.currentTimeMillis() - mStartTime;
                             if (duration <= KCaptchaDuration) {
                                 showToast(R.string.get_captcha_frequently);
-                                dialog.dismiss();
                                 return;
                             } else {
                                 mCount = 1;
@@ -537,16 +535,16 @@ public class RegisterActivity extends BaseFormActivity
             //注册
             Result r = (Result) result;
             if (r.getCode() == 101 || r.getCode() == 102) {
-                HintDialogMain hintdialog = new HintDialogMain(this);
-                hintdialog.setHint("该手机已注册，是否立即登录？");
-                ;
-                hintdialog.addButton(R.string.cancel, v -> hintdialog.dismiss());
-                hintdialog.addButton("立即登录", v -> {
+                HintDialogMain dialog = new HintDialogMain(this);
+                dialog.setHint(getString(R.string.phone_have_been_register));
+                dialog.addButton(R.string.cancel, v -> dialog.dismiss());
+                dialog.addButton(R.string.immediately_register, v -> {
                     //跳转到设置页面
                     startActivity(LoginActivity.class);
-                    hintdialog.dismiss();
+                    dialog.dismiss();
                 });
-                hintdialog.show();
+                dialog.show();
+                finish();
             }
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh

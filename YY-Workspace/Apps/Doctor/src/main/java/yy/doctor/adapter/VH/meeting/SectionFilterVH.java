@@ -23,11 +23,11 @@ public class SectionFilterVH extends ViewHolderEx {
         return getView(R.id.iv_section_filter);
     }
 
-    public TextView getName() {
+    public TextView getTvName() {
         return getView(R.id.section_name);
     }
 
-    public TextView getNumber() {
+    public TextView getTvNumber() {
         return getView(R.id.section_number);
     }
 

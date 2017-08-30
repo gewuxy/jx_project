@@ -15,12 +15,13 @@ import java.util.List;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.fitter.DpFitter;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.other.PopupWindowEx;
 import lib.yy.network.ListResult;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.MeetingDepartmentAdapter;
+import yy.doctor.adapter.meeting.MeetingSectionAdapter;
 import yy.doctor.model.meet.MeetingDepartment;
 import yy.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
 import yy.doctor.network.JsonParser;
@@ -36,7 +37,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     private OnSectionListener mLsn;
 
     private ListView mListView;
-    private MeetingDepartmentAdapter adapter;
+    private MeetingSectionAdapter mAdapter;
 
     public interface OnSectionListener {
         void onSectionSelected(String text);
@@ -66,7 +67,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
 
     @Override
     public void setViews() {
-        adapter = new MeetingDepartmentAdapter();
+        mAdapter = new MeetingSectionAdapter();
         getDataFromNet();
     }
 
@@ -82,13 +83,13 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
 
     @Override
     public int getWindowHeight() {
-       return 1480;
+        return DpFitter.dp(484);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mLsn != null) {
-            mLsn.onSectionSelected(adapter.getItem(position).getString(TMeetingDepartment.name));
+            mLsn.onSectionSelected(mAdapter.getItem(position).getString(TMeetingDepartment.name));
         }
         dismiss();
     }
@@ -101,10 +102,10 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         ListResult r = (ListResult) result;
-        if (r.isSucceed()){
+        if (r.isSucceed()) {
             List<MeetingDepartment> data = r.getData();
-            adapter.setData(data);
-            mListView.setAdapter(adapter);
+            mAdapter.setData(data);
+            mListView.setAdapter(mAdapter);
             mListView.setOnItemClickListener(this);
             setViewState(ViewState.normal);
         } else {
@@ -125,7 +126,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
             return true;
         }
         getDataFromNet();
-        return false;
+        return true;
     }
 
 }

@@ -25,13 +25,13 @@ public class LevelDialog extends BaseDialog {
 
     private LinearLayout mLayout;
     private List<HospitalLevel> mLevels;
-    private OnLevelCheckListener mListener;
+    private OnLevelCheckChangeListener mListener;
 
-    public interface OnLevelCheckListener {
+    public interface OnLevelCheckChangeListener {
         void onLevelChecked(HospitalLevel h);
     }
 
-    public void setListener(OnLevelCheckListener l) {
+    public void setListener(OnLevelCheckChangeListener l) {
         mListener = l;
     }
 
@@ -64,8 +64,10 @@ public class LevelDialog extends BaseDialog {
             v = View.inflate(getContext(), R.layout.layout_hospital_level, null);
             tvLevel = (TextView) v.findViewById(R.id.layout_hospital_tv_level);
             tvLevel.setText(level.getString(THospitalLevel.propValue));
+
             ivLevel = (NetworkImageView) v.findViewById(R.id.layout_hospital_iv_level);
             ivLevel.url(level.getString(THospitalLevel.picture)).load();
+
             v.setTag(level);
             LayoutFitter.fit(v);
             setOnClickListener(v);
@@ -75,8 +77,8 @@ public class LevelDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-        HospitalLevel h = (HospitalLevel) v.getTag();
         if (mListener != null) {
+            HospitalLevel h = (HospitalLevel) v.getTag();
             mListener.onLevelChecked(h);
         }
     }

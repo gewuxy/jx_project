@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
@@ -38,7 +37,7 @@ import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.LevelDialog;
-import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
+import yy.doctor.dialog.LevelDialog.OnLevelCheckChangeListener;
 import yy.doctor.dialog.LocateErrDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -51,8 +50,8 @@ import yy.doctor.model.hospital.HospitalTitle.TText;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
-import yy.doctor.util.Util;
 import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
+import yy.doctor.util.Util;
 
 /**
  * @auther WangLan
@@ -60,7 +59,7 @@ import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
  */
 
 public class HospitalActivity extends BaseHospitalActivity
-        implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener {
+        implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckChangeListener {
 
     private int KIdHospital = 0;
     private int KIdSave = 1;
@@ -71,16 +70,16 @@ public class HospitalActivity extends BaseHospitalActivity
 
     private LatLng mLatLng;
     private PoiSearch mSearch;
+
     private LocateErrDialog mDialog;
+    private LevelDialog mLevelDialog;
 
     private LinearLayout mHospitalSearch;
 
-    private boolean mIsFirst = true;
-    private boolean mFirstToast = true;
-
-    private LevelDialog mLevelDialog;
     private IHospital mCheckItem;
     private HospitalLevel mHospitalLevel;
+
+    private boolean mIsFirst = true;
     private boolean mLocationAgain;
     private boolean mIsShow; // 当前界面( 百度定位的回调会回调到这)
 
@@ -107,12 +106,12 @@ public class HospitalActivity extends BaseHospitalActivity
 
         setOnClickListener(mHospitalSearch);
 
-        //检查有没有定位权限   没有的话直接弹dialog
+        LocationNotifier.inst().add(this);
+        //检查有没有定位权限
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
         }
 
-        LocationNotifier.inst().add(this);
         //POI检索的监听对象
         mSearch.setOnGetPoiSearchResultListener(this);
         setViewState(ViewState.loading);
@@ -122,9 +121,6 @@ public class HospitalActivity extends BaseHospitalActivity
         } else {
             mLocationAgain = true;
         }
-
-//        setRefreshEnabled(false);
-//        setAutoLoadMoreEnabled(true);
     }
 
     @Override
@@ -145,7 +141,6 @@ public class HospitalActivity extends BaseHospitalActivity
     @Override
     public void findViews() {
         super.findViews();
-
         mHospitalSearch = findView(R.id.hospital_search);
     }
 
@@ -159,6 +154,9 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
+    /**
+     * 下拉刷新的动作
+     */
     @Override
     public void onSwipeRefreshAction() {
         mIsFirst = true;
@@ -185,6 +183,9 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
+    /**
+     * 发起附近检索请求
+     */
     private void netWork() {
         //获得Key
         String key = "医院";
@@ -223,29 +224,6 @@ public class HospitalActivity extends BaseHospitalActivity
             }
             break;
         }
-    }
-
-    /**
-     * 计算两点之间真实距离
-     *
-     * @return 米
-     */
-    public static double getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
-        // 维度
-        double lat1 = (Math.PI / 180) * latitude1;
-        double lat2 = (Math.PI / 180) * latitude2;
-
-        // 经度
-        double lon1 = (Math.PI / 180) * longitude1;
-        double lon2 = (Math.PI / 180) * longitude2;
-
-        // 地球半径
-        double R = 6371;
-
-        // 两点间距离 km，如果想要米的话，结果*1000就可以了
-        double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
-
-        return d * 1000;
     }
 
     @Override
@@ -303,50 +281,17 @@ public class HospitalActivity extends BaseHospitalActivity
             r.setMessage("搜索不到你需要的信息");
         }
 
-        onNetworkSuccess(0, r);
+        onNetworkSuccess(KIdHospital, r);
     }
 
     @Override
     public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-        //获得POI的详细检索结果，如果发起的是详细检索，这个方法会得到回调(需要uid)
-        //详细检索一般用于单个地点的搜索，比如搜索一大堆信息后，选择其中一个地点再使用详细检索
-        if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
-
-            showToast("抱歉，未找到结果");
-        } else {
-            // 正常返回结果的时候，此处可以获得很多相关信息
-            showToast(poiDetailResult.getName() + ": " + poiDetailResult.getAddress());
-        }
     }
 
     @Override
     public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
         //获得POI室内检索结果
     }
-
-    /**
-     * 初始化Dialog
-     */
-    private void onLocationError() {
-
-        YSLog.d("Gps", "失败");
-        if (!DeviceUtil.isNetworkEnabled()) {
-            if (mFirstToast) {
-                showToast(R.string.network_disabled);
-                mFirstToast = false;
-            }
-            // setViewState(ViewState.error);
-        } else {
-            //有网但是定位失败  显示dialog
-            if (mDialog == null) {
-                mDialog = new LocateErrDialog(this);
-                mDialog.show();
-            }
-        }
-        simulateSuccess(KIdHospital);
-
-    }
-
 
 
     @Override
@@ -364,31 +309,14 @@ public class HospitalActivity extends BaseHospitalActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mLevelDialog != null) {
-            mLevelDialog.dismiss();
-        }
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
-        LocationNotifier.inst().remove(this);
-        Location.inst().onDestroy();
-    }
-
-
-    @Override
     protected void onResume() {
         super.onResume();
-
         mIsShow = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         mIsShow = false;
     }
 
@@ -399,7 +327,6 @@ public class HospitalActivity extends BaseHospitalActivity
         }
         Location.inst().stop();
         if (isSuccess) {
-            if (DeviceUtil.isNetworkEnabled()) {
                 //定位成功
                 mLocLon = Double.parseDouble(gps.getString(TGps.longitude));
                 mLocLat = Double.parseDouble(gps.getString(TGps.latitude));
@@ -408,12 +335,29 @@ public class HospitalActivity extends BaseHospitalActivity
                 getDataFromNet();
                 YSLog.d(TAG, "onLocationResult:====" + getOffset() + mLocLon);
                 YSLog.d(TAG, "onLocationResult:" + getOffset() + mLocLat);
-            }
         } else {
             //定位失败  显示dialog
             YSLog.d("Gps", "失败");
             onLocationError();
         }
+    }
+
+    /**
+     * 初始化Dialog
+     */
+    private void onLocationError() {
+
+        Location.inst().stop();
+        if (!DeviceUtil.isNetworkEnabled()) {
+            showToast(R.string.network_disabled);
+        } else {
+            //有网但是定位失败  显示dialog
+            if (mDialog == null) {
+                mDialog = new LocateErrDialog(this);
+                mDialog.show();
+            }
+        }
+        simulateSuccess(KIdHospital);
     }
 
     @Override
@@ -434,7 +378,6 @@ public class HospitalActivity extends BaseHospitalActivity
         if (mCheckItem instanceof Hospital) {
             Hospital hospital = (Hospital) mCheckItem;
             mHospitalLevel = h;
-
             if (Profile.inst().isLogin()) {
                 refresh(RefreshWay.dialog);
                 exeNetworkReq(KIdSave, UserAPI.modify()
@@ -479,6 +422,42 @@ public class HospitalActivity extends BaseHospitalActivity
         }
     }
 
+    /**
+     * 计算两点之间真实距离
+     *
+     * @return 米
+     */
+    public static double getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
+        // 维度
+        double lat1 = (Math.PI / 180) * latitude1;
+        double lat2 = (Math.PI / 180) * latitude2;
+
+        // 经度
+        double lon1 = (Math.PI / 180) * longitude1;
+        double lon2 = (Math.PI / 180) * longitude2;
+
+        // 地球半径
+        double R = 6371;
+
+        // 两点间距离 km，如果想要米的话，结果*1000就可以了
+        double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
+
+        return d * 1000;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mLevelDialog != null) {
+            mLevelDialog.dismiss();
+        }
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+        LocationNotifier.inst().remove(this);
+        Location.inst().onDestroy();
+    }
 
     @Override
     public View createEmptyFooterView() {

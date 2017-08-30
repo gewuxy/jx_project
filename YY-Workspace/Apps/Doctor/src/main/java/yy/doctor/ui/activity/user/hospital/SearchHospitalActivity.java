@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.user.hospital;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -44,7 +43,7 @@ import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.LevelDialog;
-import yy.doctor.dialog.LevelDialog.OnLevelCheckListener;
+import yy.doctor.dialog.LevelDialog.OnLevelCheckChangeListener;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.hospital.Hospital;
@@ -64,10 +63,16 @@ import yy.doctor.util.Util;
  * @since 2017/7/20
  */
 public class SearchHospitalActivity extends BaseHospitalActivity
-        implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckListener, OnClickListener {
+        implements OnGetPoiSearchResultListener, OnLocationNotify, OnLevelCheckChangeListener, OnClickListener {
 
     private final int KLimit = 12;
     private final int KIdSave = 10;
+
+    private double mLocLon;
+    private double mLocLat;
+
+    private LatLng mLatLng;
+    private PoiSearch mSearch;
 
     private EditText mEtSearch;
     private TextView mTvSearch;
@@ -75,22 +80,20 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     private HintDialog mDialog;
     private LevelDialog mDialogLevel;
 
-    private PoiSearch mSearch;
-    private double mLocLon;
-    private double mLocLat;
-    private LatLng mLatLng;
     private String mStrSearch;
-    private IHospital mCheckItem; // 点击的医院
+
     private boolean mLocationAgain; // 需要再次定位;
     private boolean mFindHospital = true; //找到医院默默认为true，找不到为false；
+
     private OnClickListener mSearchListener;
     private HospitalLevel mHospitalLevel;
+    private IHospital mCheckItem; // 点击的医院
 
     @Override
     public void initData() {
         mSearch = PoiSearch.newInstance();
         mSearchListener = v -> {
-            // KeyboardUtil.hideFromView(v);
+            KeyboardUtil.hideFromView(v);
             mStrSearch = mEtSearch.getText().toString().trim();
             if (TextUtil.isEmpty(mStrSearch)) {
                 showToast("请输入搜索内容");
@@ -126,7 +129,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         mEtSearch.setHint("搜索医院");
         bar.addViewMid(view, null);
 
-        // KeyboardUtil.hideFromView(v);
         mTvSearch = bar.addTextViewRight("搜索", mSearchListener);
     }
 
@@ -140,7 +142,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         super.setViews();
 
         LocationNotifier.inst().add(this);
-        //检查有没有定位权限   没有的话直接弹dialog
+        //检查有没有定位权限
         if (checkPermission(0, Permission.location)) {
             Location.inst().start();
         }
@@ -222,11 +224,12 @@ public class SearchHospitalActivity extends BaseHospitalActivity
                 r.setData(hospitals);
             }
         } else {
+            //找不到医院，弹出对话框变为默认医院
             if (mDialog == null) {
                 mDialog = new HintDialog(this);
                 mDialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));
-                mDialog.addButton("取消", v -> mDialog.dismiss());
-                mDialog.addButton("确定", v -> {
+                mDialog.addButton(R.string.cancel, v -> mDialog.dismiss());
+                mDialog.addButton(R.string.confirm, v -> {
                     mDialog.dismiss();
                     mDialogLevel = new LevelDialog(this);
                     mDialogLevel.setListener(SearchHospitalActivity.this);

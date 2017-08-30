@@ -3,6 +3,9 @@ package yy.doctor.util.input;
 import android.text.InputFilter;
 import android.text.Spanned;
 
+import static lib.ys.util.TextUtil.KCNRangeMax;
+import static lib.ys.util.TextUtil.KCNRangeMin;
+
 /**
  * 姓名只能输入中文
  *
@@ -15,29 +18,12 @@ public class InputFilterChineseImpl implements InputFilter {
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         for (int i = start; i < end; i++) {
-            if (!isChinese(source.charAt(i))) {
+            int chr1 = source.charAt(i);
+            if (chr1 <= KCNRangeMin || chr1 >= KCNRangeMax) {
+                //不是中文，textUtil类里面
                 return "";
             }
         }
         return null;
-    }
-
-    /**
-     * 判定输入汉字
-     *
-     * @param c
-     * @return
-     */
-    public static boolean isChinese(char c) {
-        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
-        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
-                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
-                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
-                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
-            return true;
-        }
-        return false;
     }
 }

@@ -103,9 +103,9 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
             case KIdGet: {
                 ListResult<Title> r = (ListResult<Title>) result;
                 if (r.isSucceed()) {
-
                     mTitleGrade = r.getData();
                     List<String> titles = new ArrayList<>();
+
                     for (Title title : mTitleGrade) {
                         titles.add(title.getString(TTitle.title));
                     }

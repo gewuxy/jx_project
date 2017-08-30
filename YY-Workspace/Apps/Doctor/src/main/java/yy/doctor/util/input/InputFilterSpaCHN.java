@@ -3,7 +3,8 @@ package yy.doctor.util.input;
 import android.text.InputFilter;
 import android.text.Spanned;
 
-import static yy.doctor.util.input.InputFilterChineseImpl.isChinese;
+import static lib.ys.util.TextUtil.KCNRangeMax;
+import static lib.ys.util.TextUtil.KCNRangeMin;
 
 /**
  * 密码不能输入空格，汉字
@@ -20,7 +21,9 @@ public class InputFilterSpaCHN implements InputFilter {
             return "";
         }
         for (int i = start; i < end; i++) {
-            if (isChinese(source.charAt(i))) {
+            int chr1 = source.charAt(i);
+            if (chr1 >= KCNRangeMin && chr1 <= KCNRangeMax) {
+                //是中文
                 return "";
             }
         }
