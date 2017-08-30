@@ -14,7 +14,6 @@ import java.lang.annotation.RetentionPolicy;
         FormType.text_intent,
         FormType.text_dialog,
         FormType.text_intent_no_name,
-        FormType.modify_intent_skill,
         FormType.text_intent_me,
 
         FormType.divider,
@@ -37,7 +36,6 @@ public @interface FormType {
     int text_intent = 1;
     int text_dialog = 2;
     int text_intent_no_name = 3;
-    int modify_intent_skill = 4; // 学术专长(技能)修改
     int text_intent_me = 5;
 
     int divider = 10;

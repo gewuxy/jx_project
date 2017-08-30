@@ -9,6 +9,8 @@ import yy.doctor.ui.frag.data.ClinicsFragRouter;
 import yy.doctor.util.Util;
 
 /**
+ * 临床指南
+ *
  * @auther Huoxuyu
  * @since 2017/8/3
  */

@@ -22,6 +22,8 @@ import yy.doctor.ui.activity.data.DrugsActivityRouter;
 import yy.doctor.util.UISetter;
 
 /**
+ * 数据中心和收藏的Frag
+ *
  * @auther Huoxuyu
  * @since 2017/8/3
  */

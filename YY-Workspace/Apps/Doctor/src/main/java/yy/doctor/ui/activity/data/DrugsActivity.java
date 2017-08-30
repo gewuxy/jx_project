@@ -9,6 +9,8 @@ import yy.doctor.ui.frag.data.DrugsFragRouter;
 import yy.doctor.util.Util;
 
 /**
+ * 药品目录
+ *
  * @auther Huoxuyu
  * @since 2017/8/3
  */

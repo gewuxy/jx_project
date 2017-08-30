@@ -11,6 +11,8 @@ import yy.doctor.ui.activity.user.ForgetPwdEmailActivity;
 import yy.doctor.ui.activity.user.ForgetPwdPhoneActivity;
 
 /**
+ * 登陆界面-找回密码弹出的Dialog
+ *
  * @auther HuoXuYu
  * @since 2017/7/18
  */
@@ -42,8 +44,8 @@ public class ForgetPwdTooltipDialog extends BaseDialog {
     public void setViews() {
 
         setGravity(Gravity.CENTER_VERTICAL);
-        setOnClickListener(R.id.forget_pwd_ll_tooltip_sms);
-        setOnClickListener(R.id.forget_pwd_ll_tooltip_email);
+        setOnClickListener(R.id.forget_pwd_layout_tooltip_sms);
+        setOnClickListener(R.id.forget_pwd_layout_tooltip_email);
         setOnClickListener(R.id.forget_pwd_iv_close);
     }
 
@@ -52,12 +54,12 @@ public class ForgetPwdTooltipDialog extends BaseDialog {
 
         int id = v.getId();
         switch (id) {
-            case R.id.forget_pwd_ll_tooltip_sms: {
+            case R.id.forget_pwd_layout_tooltip_sms: {
                 startActivity(ForgetPwdPhoneActivity.class);
                 dismiss();
             }
             break;
-            case R.id.forget_pwd_ll_tooltip_email: {
+            case R.id.forget_pwd_layout_tooltip_email: {
                 startActivity(ForgetPwdEmailActivity.class);
                 dismiss();
             }

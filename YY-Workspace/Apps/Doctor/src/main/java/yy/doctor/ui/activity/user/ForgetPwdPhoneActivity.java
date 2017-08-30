@@ -208,10 +208,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             showToast(R.string.input_special_symbol);
             return;
         }
-        if (strPwd.length() < 6 || strPwd.length() > 24) {
-            showToast(R.string.input_right_pwd_num);
-            return;
-        }
         refresh(RefreshWay.dialog);
         exeNetworkReq(KModify, UserAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
     }
@@ -271,11 +267,11 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             finish();
         } else if (type == NotifyType.fetch_message_captcha) {
             form.enable(true);
-            refreshItem(form);
         } else if (type == NotifyType.disable_fetch_message_captcha) {
             form.enable(false);
-            refreshItem(form);
         }
+        refreshItem(form);
+
     }
 
     @Override

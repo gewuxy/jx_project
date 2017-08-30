@@ -212,15 +212,16 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .hint(R.string.user_title));
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.modify_intent_skill)
+        addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.skill)
+                .layout(R.layout.form_text_academic)
                 .observer(this)
                 .name(R.string.medical_skill)
                 .intent(SkillActivityRouter.newIntent(this, TProfile.major, R.string.medical_skill, R.string.user_input_academic))
                 .type(IntentType.skill)
                 .text(Profile.inst().getString(TProfile.major)));
     }
-
+    
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.user_profile, this);
@@ -239,7 +240,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         mIvAvatar = findView(R.id.profile_header_iv_avatar);
         mProgressBar = findView(R.id.profile_pb_progress_bar);
         mTvPercent = findView(R.id.profile_tv_percent);
-        mRlHeader = findView(R.id.profile_rl_header);
+        mRlHeader = findView(R.id.profile_layout_header_integrity);
     }
 
     @Override

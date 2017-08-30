@@ -1,12 +1,12 @@
 package yy.doctor.ui.activity.me.profile;
 
 import android.support.annotation.NonNull;
-import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import inject.annotation.router.Route;
+import lib.ys.util.view.ViewUtil;
 import yy.doctor.Extra;
 import yy.doctor.R;
 
@@ -49,7 +49,8 @@ public class ModifyTextActivity extends BaseModifyActivity {
         setOnClickListener(R.id.academic_iv_clean);
 
         addTextChangedListener(mEtGeneral, mIvClean);
-        mEtGeneral.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mLimit)});
+//        mEtGeneral.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mLimit)});
+        ViewUtil.limitInputCount(mEtGeneral, mLimit);
     }
 
     @Override

@@ -14,7 +14,6 @@ import yy.doctor.model.form.text.TextDialogForm;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.form.text.intent.IntentForm;
 import yy.doctor.model.form.text.intent.IntentNoNameForm;
-import yy.doctor.model.form.text.intent.IntentSkillForm;
 
 /**
  * @author yuansui
@@ -39,10 +38,6 @@ public class Form {
             break;
             case FormType.text_intent_me: {
                 form = new MeForm();
-            }
-            break;
-            case FormType.modify_intent_skill: {
-                form = new IntentSkillForm();
             }
             break;
             case FormType.text_dialog: {

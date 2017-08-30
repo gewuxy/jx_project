@@ -20,6 +20,8 @@ import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
 /**
+ * 我的收藏
+ *
  * @auther yuansui
  * @since 2017/8/9
  */
