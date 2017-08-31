@@ -9,6 +9,7 @@ import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
 import yy.doctor.model.data.DataUnit.TDataUnit;
 import yy.doctor.network.NetworkAPISetter.CollectionAPI;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataFrom;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.UISetter;
 
@@ -38,7 +39,7 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
         super.setViews();
 
         setOnAdapterClickListener((position, v) -> UISetter.onDataUnitClick(getItem(position), mType, getContext()));
-        getAdapter().setDataType(mType);
+        getAdapter().setDataType(mType, DataFrom.collection);
     }
 
     @Override

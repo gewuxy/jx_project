@@ -13,12 +13,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import lib.ys.YSLog;
 import lib.ys.form.OnFormObserver;
 import lib.ys.model.FileSuffix;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.timeTick.TimeInterpolator;
+import lib.ys.timeTick.TimeInterpolator.InterpolatorType;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
 import lib.ys.util.TextUtil;
@@ -285,7 +290,29 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
 
     private void setProgress() {
         mProgressProFile = mStatus.size() * 10;
-        mProgressBar.setProgress(mProgressProFile);
+
+//        mProgressBar.setProgress(mProgressProFile);
+
+        TimeInterpolator interpolator = TimeInterpolator.create(InterpolatorType.accelerate);
+        interpolator.start(TimeUnit.SECONDS.toMillis(2));
+        Flowable.interval(0, 60, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    float i = interpolator.getInterpolation();
+                   int progress =  (int) (interpolator.getInterpolation() * mProgressProFile);
+                    mProgressBar.setProgress(progress);
+                    if (i == 1) {
+                        // stop
+                    }
+                });
+        
+        
+//        Flowable.intervalRange(0, mProgressProFile, 0, 60, TimeUnit.MILLISECONDS)
+//                .map(aLong -> )
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(aLong -> mProgressBar.setProgress(Long.valueOf(aLong).intValue()));
+
+
         mTvPercent.setText(mProgressProFile + "%");
         if (mProgressProFile == 100) {
             mRlHeader.setVisibility(View.GONE);

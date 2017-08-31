@@ -26,7 +26,7 @@ public class ThomsonFrag extends BaseDataUnitsFrag {
     public void setViews() {
         super.setViews();
 
-        getAdapter().setDataType(DataType.thomson);
+        getAdapter().setDataType(DataType.thomson, DataFrom.data);
     }
 
 }

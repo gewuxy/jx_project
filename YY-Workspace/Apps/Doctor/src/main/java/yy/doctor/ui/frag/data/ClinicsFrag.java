@@ -24,6 +24,6 @@ public class ClinicsFrag extends BaseDataUnitsFrag {
     public void setViews() {
         super.setViews();
 
-        getAdapter().setDataType(DataType.clinic);
+        getAdapter().setDataType(DataType.clinic, DataFrom.data);
     }
 }

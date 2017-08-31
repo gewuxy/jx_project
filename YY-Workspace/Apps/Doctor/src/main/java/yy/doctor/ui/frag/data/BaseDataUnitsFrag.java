@@ -7,6 +7,9 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRListFrag;
@@ -37,12 +40,23 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
             DataType.clinic,
             DataType.meeting,
     })
+    @Retention(RetentionPolicy.SOURCE)
     public @interface DataType {
         int un_know = -1; // 未知
         int meeting = 0; // 代表会议
         int thomson = 1; // 汤森
         int drug = 2; // 药品目录
         int clinic = 3; // 代表临床
+    }
+
+    @IntDef({
+            DataFrom.data,
+            DataFrom.collection,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DataFrom {
+        int data = 0;  // 来自数据中心
+        int collection = 1;  // 来自收藏
     }
 
     private TextView mTvSearch;
