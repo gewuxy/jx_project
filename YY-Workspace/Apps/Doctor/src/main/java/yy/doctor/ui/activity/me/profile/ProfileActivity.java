@@ -137,10 +137,10 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
 
         addItem(Form.create(FormType.divider));
         HospitalLevel p = Profile.inst().getEv(TProfile.systemProperties);
-        String string = "";
+        String url = "";
         if (p != null) {
-            string = p.getString(THospitalLevel.picture);
-            YSLog.d(TAG, "initData:" + string);
+            url = p.getString(THospitalLevel.picture);
+            YSLog.d(TAG, "initData:" + url);
         }
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.hospital)
@@ -150,7 +150,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
                 .type(IntentType.hospital)
                 .text(Profile.inst().getString(TProfile.hospital))
-                .url(string)
+                .url(url)
                 .hint(R.string.choose_hospital));
 
         addItem(Form.create(FormType.divider));

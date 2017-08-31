@@ -202,6 +202,11 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             showToast(R.string.input_special_symbol);
             return;
         }
+
+        if (strPwd.length() < 6) {
+            showToast(R.string.input_right_pwd_num);
+            return;
+        }
         refresh(RefreshWay.dialog);
         exeNetworkReq(KModify, UserAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
     }
