@@ -188,7 +188,7 @@ public class HospitalActivity extends BaseHospitalActivity
      */
     private void netWork() {
         //获得Key
-        String key = "医院";
+        String key = getString(R.string.hospital);
         //周边检索
 
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption()
@@ -255,13 +255,13 @@ public class HospitalActivity extends BaseHospitalActivity
                 } else {
                     // 数据展示
                     HospitalTitle title = new HospitalTitle();
-                    title.put(TText.name, "推荐医院");
+                    title.put(TText.name, getString(R.string.recommend_hospital));
                     data.add(title);// position = 0
 
                     data.add(hospitals.get(0)); //第一条数据, position = 1
 
                     title = new HospitalTitle();
-                    title.put(TText.name, "附近医院");
+                    title.put(TText.name, getString(R.string.nearby_hospital));
                     data.add(title);// position = 2
 
                     for (int i = 1; i < hospitals.size(); i++) {

@@ -52,6 +52,9 @@
     <string name="get_captcha_frequently">获取验证码太频繁</string>
     <string name="free_provide">该账号（价值69.9元），由%s为您免费提供</string>
     <string name="you_agree">点击“注册”即表示您同意</string>
+    <string name="recommend_hospital">推荐医院</string>
+    <string name="nearby_hospital">附近医院</string>
+    <string name="search_hospital">搜索医院</string>
 
     <!--hint-->
     <string name="hint_not_fill">未填写</string>

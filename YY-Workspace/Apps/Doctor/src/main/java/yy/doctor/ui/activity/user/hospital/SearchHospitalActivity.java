@@ -77,6 +77,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     private EditText mEtSearch;
     private TextView mTvSearch;
 
+    private HintDialog mDialog;
     private LevelDialog mDialogLevel;
 
     private String mStrSearch;
@@ -95,7 +96,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             KeyboardUtil.hideFromView(v);
             mStrSearch = mEtSearch.getText().toString().trim();
             if (TextUtil.isEmpty(mStrSearch)) {
-                showToast("请输入搜索内容");
+                showToast(getString(R.string.search_hospital));
                 return;
             }
 
@@ -125,10 +126,10 @@ public class SearchHospitalActivity extends BaseHospitalActivity
 
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
-        mEtSearch.setHint("搜索医院");
+        mEtSearch.setHint(R.string.search_hospital);
         bar.addViewMid(view, null);
 
-        mTvSearch = bar.addTextViewRight("搜索", mSearchListener);
+        mTvSearch = bar.addTextViewRight(R.string.search, mSearchListener);
     }
 
     @Override
@@ -164,7 +165,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption()
                 .location(mLatLng)
                 .pageCapacity(KLimit)    //每页条数
-                .keyword(mStrSearch + "医院")
+                .keyword(mStrSearch + getString(R.string.hospital))
                 .radius(10000)
                 .pageNum(getOffset())
                 .sortType(PoiSortType.distance_from_near_to_far);//由近到远排序
@@ -224,17 +225,17 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             }
         } else {
             //找不到医院，弹出对话框变为默认医院
-            HintDialog d = new HintDialog(this);
-
-            d.addHintView(inflate(R.layout.dialog_find_hospital_fail));
-            d.addBlueButton(R.string.cancel);
-            d.addBlueButton(R.string.confirm, v -> {
-                mDialogLevel = new LevelDialog(this);
-                mDialogLevel.setListener(SearchHospitalActivity.this);
-                mDialogLevel.show();
-            });
-
-            d.show();
+            if (mDialog == null) {
+                mDialog = new HintDialog(this);
+                mDialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));
+                mDialog.addBlueButton(R.string.cancel, v -> mDialog.dismiss());
+                mDialog.addBlueButton(R.string.confirm, v -> {
+                    mDialogLevel = new LevelDialog(this);
+                    mDialogLevel.setListener(SearchHospitalActivity.this);
+                    mDialogLevel.show();
+                });
+            }
+            mDialog.show();
 
             // 模拟成功无数据， 显示empty footer view
             r.setCode(ErrorCode.KOk);
@@ -297,6 +298,10 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
 
         if (mDialogLevel != null) {
             mDialogLevel.dismiss();
