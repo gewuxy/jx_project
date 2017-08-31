@@ -4,9 +4,6 @@ import android.content.Intent;
 
 import lib.yy.test.BaseTestActivity;
 import yy.doctor.ui.activity.user.login.LoginActivity;
-import yy.doctor.ui.activity.user.register.RegisterActivity;
-import yy.doctor.util.test.MeetCourseActivity;
-import yy.doctor.util.test.PlayerAct;
 
 /**
  * @auther yuansui
@@ -24,7 +21,6 @@ public class TestActivity extends BaseTestActivity {
         add("我", MainActivityRouter.newIntent(this, MainActivity.KTabMe));
 
         add("登陆", new Intent(this, LoginActivity.class));
-
     }
 
 }
