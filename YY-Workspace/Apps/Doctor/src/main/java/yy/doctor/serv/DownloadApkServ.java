@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
 
 import java.io.File;
 
@@ -25,69 +26,65 @@ import yy.doctor.util.CacheUtil;
 
 public class DownloadApkServ extends ServiceEx {
 
-    private String mUrl;
-
     //定义notification实用的ID
-    private static final int NO_3 = 3;
-    private NotificationCompat.Builder builder;
-    private NotificationManager manager;
-    private Intent mIntent;
+    private final int NO_3 = 3;
+    private final String KFileName = "YaYa医师.apk";
 
-    private String mFileName = "YaYa医师.apk";
+    private String mUrl;
+    private Intent mIntent;
+    private Builder mBuilder;
+    private NotificationManager mManager;
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
         mUrl = intent.getStringExtra(Extra.KData);
+        mBuilder = new Builder(this);
+
         //点击安装
         mIntent = new Intent(Intent.ACTION_VIEW);
-        mIntent.setDataAndType(Uri.fromFile(new File(CacheUtil.getUploadCacheDir() + mFileName)), "application/vnd.android.package-archive");
-
-        builder = new NotificationCompat.Builder(this);
-
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("YaYa医师");
-        builder.setContentText("正在下载");
+        mIntent.setDataAndType(Uri.fromFile(new File(CacheUtil.getUploadCacheDir() + KFileName)), "application/vnd.android.package-archive");
         //利用PendingIntent来包装我们的intent对象,使其延迟跳转
         PendingIntent intentPend = PendingIntent.getActivity(this, 0, mIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        builder.setContentIntent(intentPend);
+        mBuilder.setContentIntent(intentPend);
 
-        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        builder.setProgress(100, 0, false);
-        manager.notify(NO_3, builder.build());
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setContentTitle("YaYa医师");
+        mBuilder.setContentText("正在下载");
+        mBuilder.setProgress(100, 0, false);
 
-        exeNetworkReq(DataAPI.download(CacheUtil.getUploadCacheDir(), mFileName, mUrl).build());
+        mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mManager.notify(NO_3, mBuilder.build());
+
+        exeNetworkReq(DataAPI.download(CacheUtil.getUploadCacheDir(), KFileName, mUrl).build());
     }
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
-
         int percent = (int) progress;
-        builder.setAutoCancel(false);
-        builder.setProgress(100, percent, false);
-        builder.setContentText("已下载" + percent + "%");
-        manager.notify(NO_3, builder.build());
+        mBuilder.setAutoCancel(false);
+        mBuilder.setProgress(100, percent, false);
+        mBuilder.setContentText("已下载" + percent + "%");
+        mManager.notify(NO_3, mBuilder.build());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-
-        builder.setContentText("点击安装");
-        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+        mBuilder.setContentText("点击安装");
+        mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
         //设置进度为不确定，用于模拟安装
-        builder.setProgress(100, 100, true);
-        manager.notify(NO_3, builder.build());
+        mBuilder.setProgress(100, 100, true);
+        mManager.notify(NO_3, mBuilder.build());
     }
 
     @Override
     public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
 
-        builder.setAutoCancel(true);
-        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-        builder.setContentText("下载失败");
-        builder.setProgress(0, 0, true);
-        manager.notify(NO_3, builder.build());
+        mBuilder.setAutoCancel(true);
+        mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+        mBuilder.setContentText("下载失败");
+        mBuilder.setProgress(0, 0, true);
+        mManager.notify(NO_3, mBuilder.build());
     }
 
 }

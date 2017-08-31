@@ -25,12 +25,12 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     public void findViews() {
         super.findViews();
 
-        mTvSet = findView(R.id.activity_tv_set_set);
+        mTvSet = findView(R.id.base_set_tv_set);
     }
 
     @Override
     public final int getContentViewId() {
-        return R.layout.activity_set;
+        return R.layout.activity_base_set;
     }
 
     @Override
@@ -45,7 +45,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
 
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
-        setOnClickListener(R.id.activity_tv_set_set);
+        setOnClickListener(R.id.base_set_tv_set);
     }
 
     @Override
@@ -56,7 +56,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Override
     public final void onClick(View v) {
         switch (v.getId()) {
-            case R.id.activity_tv_set_set: {
+            case R.id.base_set_tv_set: {
                 toSet();
             }
             break;

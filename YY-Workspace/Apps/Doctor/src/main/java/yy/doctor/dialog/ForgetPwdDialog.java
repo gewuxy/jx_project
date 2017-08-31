@@ -16,9 +16,7 @@ import yy.doctor.ui.activity.user.ForgetPwdPhoneActivity;
  * @auther HuoXuYu
  * @since 2017/7/18
  */
-
 public class ForgetPwdDialog extends BaseDialog {
-
 
     public ForgetPwdDialog(Context context) {
         super(context);
@@ -26,7 +24,6 @@ public class ForgetPwdDialog extends BaseDialog {
 
     @Override
     public void initData() {
-
     }
 
     @NonNull
@@ -37,12 +34,10 @@ public class ForgetPwdDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-
     }
 
     @Override
     public void setViews() {
-
         setGravity(Gravity.CENTER_VERTICAL);
         setOnClickListener(R.id.forget_pwd_layout_tooltip_sms);
         setOnClickListener(R.id.forget_pwd_layout_tooltip_email);
@@ -51,23 +46,16 @@ public class ForgetPwdDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-
-        int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
             case R.id.forget_pwd_layout_tooltip_sms: {
                 startActivity(ForgetPwdPhoneActivity.class);
-                dismiss();
             }
             break;
             case R.id.forget_pwd_layout_tooltip_email: {
                 startActivity(ForgetPwdEmailActivity.class);
-                dismiss();
-            }
-            break;
-            case R.id.forget_pwd_iv_close: {
-                dismiss();
             }
             break;
         }
+        dismiss();
     }
 }

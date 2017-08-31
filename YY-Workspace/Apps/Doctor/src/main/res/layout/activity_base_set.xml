@@ -20,7 +20,7 @@
         <include layout="@layout/layout_form_items"/>
 
         <TextView
-            android:id="@+id/activity_tv_set_set"
+            android:id="@+id/base_set_tv_set"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginLeft="0dp"

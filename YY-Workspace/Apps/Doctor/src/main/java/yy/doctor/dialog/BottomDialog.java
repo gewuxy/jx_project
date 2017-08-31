@@ -33,28 +33,12 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 
     public BottomDialog(@NonNull Context context, @Nullable OnDialogItemClickListener l) {
         super(context);
+
         mListener = l;
     }
 
     @Override
     public void initData() {
-    }
-
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.dialog_bottom;
-    }
-
-    @Override
-    public void findViews() {
-
-        mLv = findView(R.id.dialog_bottom_layout_content);
-    }
-
-    @Override
-    public void setViews() {
-
         mAdapter = new AdapterEx<SpannableString, BottomDialogVH>() {
 
             @Override
@@ -67,7 +51,21 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
                 holder.getTv().setText(getItem(position));
             }
         };
+    }
 
+    @NonNull
+    @Override
+    public int getContentViewId() {
+        return R.layout.dialog_bottom;
+    }
+
+    @Override
+    public void findViews() {
+        mLv = findView(R.id.dialog_bottom_layout_content);
+    }
+
+    @Override
+    public void setViews() {
         mLv.setAdapter(mAdapter);
         mLv.setOnItemClickListener(this);
 
@@ -75,18 +73,6 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
     }
 
     public void addItem(String text, @ColorInt int color) {
-//        View v = getLayoutInflater().inflate(R.layout.layout_dialog_bottom_item, null);
-//
-//        TextView tv = (TextView) v.findViewById(R.KId.dialog_bottom_tv);
-//        tv.setText(text);
-//        tv.setTextColor(color);
-//
-//        setOnClickListener(v);
-//
-//        LayoutFitter.fit(v);
-//
-//        mLv.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
-
         SpannableString ss = new SpannableString(text);
         ss.setSpan(new ForegroundColorSpan(color), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mAdapter.add(ss);
@@ -106,7 +92,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
         void onDialogItemClick(int position);
     }
 
-    public static class BottomDialogVH extends ViewHolderEx {
+    public class BottomDialogVH extends ViewHolderEx {
 
         public BottomDialogVH(@NonNull View convertView) {
             super(convertView);

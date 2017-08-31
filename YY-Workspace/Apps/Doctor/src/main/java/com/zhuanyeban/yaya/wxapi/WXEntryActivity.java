@@ -21,6 +21,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Constants;
 import yy.doctor.Constants.WXType;
 import yy.doctor.R;
+import yy.doctor.dialog.ShareDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
@@ -107,6 +108,17 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         } else {
             // 微信分享
+            switch (resp.errCode) {
+                case ErrCode.ERR_OK:
+                    showToast(ShareDialog.KShareSuccess);
+                    break;
+                case ErrCode.ERR_USER_CANCEL:
+                    showToast(ShareDialog.KShareCancel);
+                    break;
+                case ErrCode.ERR_SENT_FAILED:
+                    showToast(ShareDialog.KShareError.concat(resp.errStr));
+                    break;
+            }
             finish();
         }
     }

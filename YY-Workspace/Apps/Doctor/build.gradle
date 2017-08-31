@@ -158,7 +158,7 @@ dependencies {
     /**
      * other
      */
-    compile 'com.mylhyl:zxingscanner:1.2.1'
+    compile 'com.mylhyl:zxingscanner:1.5.1'
     compile 'org.greenrobot:greendao:3.2.2'
     /**
      * leakcanary
