@@ -63,8 +63,6 @@ public class ExamIntroActivity extends BaseActivity {
 
     private boolean mCanStart; // 是否能开始考试
 
-    private HintDialogSec mDialog; // 提示不能考试的原因
-
     @StringDef({
             TimeFormat.simple_ymd,
             TimeFormat.from_y_to_m_24,
@@ -202,11 +200,12 @@ public class ExamIntroActivity extends BaseActivity {
                         showToast(R.string.finish_exam);
                     }
                 } else {
-                    mDialog = new HintDialogSec(ExamIntroActivity.this);
-                    mDialog.addButton(R.string.confirm, v1 -> mDialog.dismiss());
-                    mDialog.setMainHint(R.string.exam_end);
-                    mDialog.setSecHint(R.string.exam_contact);
-                    mDialog.show();
+                    // 提示不能考试的原因
+                    HintDialogSec dialog = new HintDialogSec(ExamIntroActivity.this);
+                    dialog.addBlueButton(R.string.confirm);
+                    dialog.setMainHint(R.string.exam_end);
+                    dialog.setSecHint(R.string.exam_contact);
+                    dialog.show();
                 }
             }
             break;
@@ -221,16 +220,6 @@ public class ExamIntroActivity extends BaseActivity {
         notify(NotifyType.study_end);
         // 停止倒计时
         ExamCount.inst().remove();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // PS: 有可能下一页再统计时间且不停止考试的倒计时
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
     }
 
     /**

@@ -30,7 +30,6 @@ import yy.doctor.view.AutoCompleteEditText;
 public class ForgetPwdEmailActivity extends BaseActivity {
 
     private AutoCompleteEditText mEt;
-    private HintDialogMain mDialog;
     private ImageView mIvCancel;
     private TextView mTvSendEmail;
 
@@ -131,28 +130,15 @@ public class ForgetPwdEmailActivity extends BaseActivity {
 
         Result r = (Result) result;
         if (r.isSucceed()) {
-            if (mDialog == null) {
-                mDialog = new HintDialogMain(ForgetPwdEmailActivity.this);
-                mDialog.setHint(getString(R.string.forget_pwd_success));
-                mDialog.addButton(getString(R.string.know), v -> {
-                    startActivity(LoginActivity.class);
-                    mDialog.dismiss();
-                    finish();
-                });
-            }
-            mDialog.show();
+            HintDialogMain d = new HintDialogMain(ForgetPwdEmailActivity.this);
+            d.setHint(getString(R.string.forget_pwd_success));
+            d.addBlueButton(getString(R.string.know), v -> {
+                startActivity(LoginActivity.class);
+                finish();
+            });
+            d.show();
         } else {
             showToast(r.getMessage());
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mDialog != null) {
-            mDialog.dismiss();
-            mDialog = null;
         }
     }
 

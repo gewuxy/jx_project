@@ -14,7 +14,6 @@ import yy.doctor.R;
  * @author : guoxuan
  * @since : 2017/4/26
  */
-
 public class RecordVH extends ViewHolderEx {
     public RecordVH(@NonNull View convertView) {
         super(convertView);
@@ -40,7 +39,4 @@ public class RecordVH extends ViewHolderEx {
         return getView(R.id.meeting_record_iv_audio);
     }
 
-    public TextView getTvAudio() {
-        return getView(R.id.meeting_record_tv_audio);
-    }
 }

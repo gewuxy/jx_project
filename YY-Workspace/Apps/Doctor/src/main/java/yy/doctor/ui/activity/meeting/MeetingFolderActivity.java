@@ -80,7 +80,6 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
 
         mTvTitle.setText(mTitle);
         mTvNum.setText(String.format("%d个会议", mNum));
-        mTvNum.setCompoundDrawables(null, null, null, null);
         getAdapter().hideUnitNum();
     }
 

@@ -1,7 +1,6 @@
 package yy.doctor.ui.activity.me.set;
 
 import android.support.annotation.CallSuper;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ import yy.doctor.util.Util;
  * @auther : GuoXuan
  * @since : 2017/7/24
  */
-public abstract class BaseSetActivity extends BaseFormActivity implements TextWatcher {
+abstract public class BaseSetActivity extends BaseFormActivity implements TextWatcher {
 
     private TextView mTvSet;
 
@@ -64,25 +63,41 @@ public abstract class BaseSetActivity extends BaseFormActivity implements TextWa
         }
     }
 
+    @Deprecated
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
+    @Deprecated
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-    }
-
+    /**
+     * 设置按钮状态
+     *
+     * @param enabled true可以点击, false不可点击
+     */
     protected final void setChanged(boolean enabled) {
         mTvSet.setEnabled(enabled);
     }
 
+    /**
+     * 获取标题文本
+     *
+     * @return 标题的文本
+     */
     protected abstract CharSequence getNavBarText();
 
+    /**
+     * 获取按钮文本
+     *
+     * @return 按钮的文本
+     */
     protected abstract CharSequence getSetText();
 
+    /**
+     * 点击按钮的操作
+     */
     protected abstract void toSet();
 }

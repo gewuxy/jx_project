@@ -103,17 +103,8 @@ public class HintDialog extends BaseDialog {
     }
 
     /**
-     * 创建16dp的TextView
-     *
-     * @param strRes
-     * @param resId
-     * @param l
-     * @return
+     * 16dp大小的按钮(自带dismiss)
      */
-    public void addButton(@StringRes int strRes, @ColorRes int resId, OnClickListener l) {
-        addButton(getContext().getString(strRes), resId, l);
-    }
-
     public void addButton(String text, @ColorRes int resId, OnClickListener l) {
         TextView tv = new TextView(getContext());
 
@@ -122,16 +113,45 @@ public class HintDialog extends BaseDialog {
         tv.setText(text);
         tv.setTextColor(ResLoader.getColor(resId));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
-        tv.setOnClickListener(l);
+        tv.setOnClickListener(v -> {
+            if (l != null){
+                l.onClick(v);
+            }
+            dismiss();
+        });
 
         addButtons(tv);
     }
 
-    public void addButton(String text, OnClickListener l) {
+    public void addButton(@StringRes int strRes, @ColorRes int resId, OnClickListener l) {
+        addButton(getContext().getString(strRes), resId, l);
+    }
+
+    /**
+     * 按钮颜色为666,且没有点击事件的
+     */
+    public void addGrayButton(@StringRes int strRes) {
+        addButton(getContext().getString(strRes), R.color.text_666, null);
+    }
+
+    /**
+     * 按钮颜色为0682e6
+     */
+    public void addBlueButton(@StringRes int strRes) {
+        addButton(getContext().getString(strRes), R.color.text_0682e6, null);
+    }
+
+    /**
+     * 按钮颜色为0682e6
+     */
+    public void addBlueButton(String text, OnClickListener l) {
         addButton(text, R.color.text_0682e6, l);
     }
 
-    public void addButton(@StringRes int strRes, OnClickListener l) {
-        addButton(getContext().getString(strRes), l);
+    /**
+     * 按钮颜色为0682e6
+     */
+    public void addBlueButton(@StringRes int strRes, OnClickListener l) {
+        addButton(getContext().getString(strRes), R.color.text_0682e6, l);
     }
 }

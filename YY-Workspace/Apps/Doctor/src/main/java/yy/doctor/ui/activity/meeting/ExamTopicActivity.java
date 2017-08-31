@@ -2,10 +2,7 @@ package yy.doctor.ui.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -34,15 +31,11 @@ import yy.doctor.util.Util;
  */
 public class ExamTopicActivity extends BaseTopicActivity implements OnCountListener {
 
-    private static final int KTextSizeDp = 16;
-
     private final long KLastHint = TimeUnit.MINUTES.toSeconds(5); // 剩余多少提示
     private final int KXClose = 2; // X秒后自动关闭
 
     private TextView mTvTime;
 
-    private HintDialogSec mCloseDialog; // 离考试结束的提示框
-    private HintDialogSec mSubmitDialog; // 提交的提示框
     private long mUseTime; // 剩余做题的时间
     private TopicPopup mTopicPopup; // App第一次考试
 
@@ -79,36 +72,22 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         bar.addTextViewMid(R.string.exam);
 
         //默认显示,外加倒计时
-        mTvTime = new TextView(ExamTopicActivity.this);
-        mTvTime.setText(Time.secondFormat(mUseTime, DateUnit.hour));
-        mTvTime.setGravity(Gravity.CENTER);
-        mTvTime.setTextColor(Color.WHITE);
-        mTvTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, KTextSizeDp);
-        mTvTime.setPadding(0, 0, fitDp(12), 0);
-
-        bar.addViewRight(mTvTime, null);
+        mTvTime = bar.addTextViewRight(Time.secondFormat(mUseTime, DateUnit.hour), null);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+        if (SpApp.inst().isFirstExam()) {
+            // 第一次进入考试时提示
+            addOnGlobalLayoutListener(() -> {
+                mTopicPopup = new TopicPopup(ExamTopicActivity.this);
+                mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                SpApp.inst().noFirstExam();
 
-            @Override
-            public boolean onPreDraw() {
-
-                if (SpApp.inst().firstEnterExam()) {
-                    // 第一次进入考试时提示
-                    mTopicPopup = new TopicPopup(ExamTopicActivity.this);
-                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                    SpApp.inst().saveEnterExam();
-                }
-
-                removeOnPreDrawListener(this);
-                return true;
-            }
-        });
+            });
+        }
 
         initFirstGv();
     }
@@ -157,15 +136,12 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             }
         } else {
             // 考试结束强制提交
-            mSubmitDialog = new HintDialogSec(ExamTopicActivity.this);
-            mSubmitDialog.setMainHint(R.string.exam_end);
-            mSubmitDialog.setSecHint(R.string.exam_submit_confirm);
-            mSubmitDialog.setCancelable(false);
-            mSubmitDialog.addButton(R.string.confirm, v -> {
-                mSubmitDialog.dismiss();
-                submit();
-            });
-            mSubmitDialog.show();
+            HintDialogSec d = new HintDialogSec(ExamTopicActivity.this);
+            d.setMainHint(R.string.exam_end);
+            d.setSecHint(R.string.exam_submit_confirm);
+            d.setCancelable(false);
+            d.addBlueButton(R.string.confirm, v -> submit());
+            d.show();
         }
     }
 
@@ -176,13 +152,13 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             // 最少提示一分钟
             last = 1;
         }
-        mCloseDialog = new HintDialogSec(ExamTopicActivity.this);
-        mCloseDialog.setMainHint(String.format(getString(R.string.exam_finish), last));
-        mCloseDialog.setSecHint(KXClose + getString(R.string.exam_xs_close));
-        mCloseDialog.setCountHint(R.string.exam_xs_close);
-        mCloseDialog.addButton(R.string.confirm, v -> mCloseDialog.dismiss());
-        mCloseDialog.start(KXClose);
-        mCloseDialog.show();
+        HintDialogSec d = new HintDialogSec(ExamTopicActivity.this);
+        d.setMainHint(String.format(getString(R.string.exam_finish), last));
+        d.setSecHint(KXClose + getString(R.string.exam_xs_close));
+        d.setCountHint(R.string.exam_xs_close);
+        d.addBlueButton(R.string.confirm);
+        d.start(KXClose);
+        d.show();
     }
 
     @Override
@@ -190,12 +166,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         super.finish();
 
         ExamCount.inst().remove();
-        if (mCloseDialog != null) {
-            mCloseDialog.dismiss();
-        }
-        if (mSubmitDialog != null) {
-            mSubmitDialog.dismiss();
-        }
         if (mTopicPopup != null) {
             mTopicPopup.dismiss();
         }

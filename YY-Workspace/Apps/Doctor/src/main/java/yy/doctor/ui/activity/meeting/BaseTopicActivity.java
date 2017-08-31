@@ -59,9 +59,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     private Animation mBgHide; // 背景消失
     private boolean mIsAnimating; // 是否有动画在执行
 
-    private HintDialogMain mSubDialog; // 提交提示
-    private HintDialogMain mExitDialog; // 退出提示
-
     protected int mCount; // 完成数量
     protected String mMeetId;
     protected String mModuleId;
@@ -268,16 +265,15 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * 退出提示
      */
     private void exit() {
-        mExitDialog = new HintDialogMain(BaseTopicActivity.this);
-        mExitDialog.setHint(getExitHint());
-        mExitDialog.addButton("确认退出", v -> {
+        HintDialogMain d = new HintDialogMain(BaseTopicActivity.this);
+        d.setHint(getExitHint());
+        d.addBlueButton("确认退出", v -> {
             // 退出考试/问卷
             notify(NotifyType.study_end);
             finish();
-            mExitDialog.dismiss();
         });
-        mExitDialog.addButton(R.string.cancel, R.color.text_666, v -> mExitDialog.dismiss());
-        mExitDialog.show();
+        d.addGrayButton(R.string.cancel);
+        d.show();
     }
 
     /**
@@ -346,26 +342,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      */
     protected void toSubmit(int noFinish) {
         // 未答完
-        mSubDialog = new HintDialogMain(BaseTopicActivity.this);
-        mSubDialog.setHint(submitHint(noFinish));
-        mSubDialog.addButton(R.string.confirm, v -> {
-            mSubDialog.dismiss();
-            submit();
-        });
-        mSubDialog.addButton(R.string.cancel, R.color.text_666, v -> mSubDialog.dismiss());
-        mSubDialog.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mSubDialog != null) {
-            mSubDialog.dismiss();
-        }
-        if (mExitDialog != null) {
-            mExitDialog.dismiss();
-        }
+        HintDialogMain d = new HintDialogMain(BaseTopicActivity.this);
+        d.setHint(submitHint(noFinish));
+        d.addBlueButton(R.string.confirm, v -> submit());
+        d.addGrayButton(R.string.cancel);
+        d.show();
     }
 
     /**

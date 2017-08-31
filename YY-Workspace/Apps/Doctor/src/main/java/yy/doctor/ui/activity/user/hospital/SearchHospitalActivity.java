@@ -77,7 +77,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     private EditText mEtSearch;
     private TextView mTvSearch;
 
-    private HintDialog mDialog;
     private LevelDialog mDialogLevel;
 
     private String mStrSearch;
@@ -225,18 +224,17 @@ public class SearchHospitalActivity extends BaseHospitalActivity
             }
         } else {
             //找不到医院，弹出对话框变为默认医院
-            if (mDialog == null) {
-                mDialog = new HintDialog(this);
-                mDialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));
-                mDialog.addButton(R.string.cancel, v -> mDialog.dismiss());
-                mDialog.addButton(R.string.confirm, v -> {
-                    mDialog.dismiss();
-                    mDialogLevel = new LevelDialog(this);
-                    mDialogLevel.setListener(SearchHospitalActivity.this);
-                    mDialogLevel.show();
-                });
-            }
-            mDialog.show();
+            HintDialog d = new HintDialog(this);
+
+            d.addHintView(inflate(R.layout.dialog_find_hospital_fail));
+            d.addBlueButton(R.string.cancel);
+            d.addBlueButton(R.string.confirm, v -> {
+                mDialogLevel = new LevelDialog(this);
+                mDialogLevel.setListener(SearchHospitalActivity.this);
+                mDialogLevel.show();
+            });
+
+            d.show();
 
             // 模拟成功无数据， 显示empty footer view
             r.setCode(ErrorCode.KOk);
@@ -299,10 +297,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
 
         if (mDialogLevel != null) {
             mDialogLevel.dismiss();

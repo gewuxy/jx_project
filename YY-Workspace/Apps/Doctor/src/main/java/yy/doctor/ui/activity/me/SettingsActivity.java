@@ -3,13 +3,13 @@ package yy.doctor.ui.activity.me;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
+import android.support.annotation.StringRes;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,6 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.wx.WXLoginApi;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -71,9 +72,6 @@ public class SettingsActivity extends BaseFormActivity {
     private final int KUnBindWX = 1; // 解绑微信
     private final int KVersion = 2; // 检查版本号
 
-    private String mImgSize;
-    private String mSoundSize;
-
     @IntDef({
             RelatedId.bind_wx,
             RelatedId.bind_phone,
@@ -113,28 +111,31 @@ public class SettingsActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        mImgSize = getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
-        mSoundSize = getFolderSize(CacheUtil.getMeetingSoundCacheDir());
-
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
                 .name(R.string.wx_account)
-                .text(getProfileString(TProfile.wxNickname))
-                .textColor(ResLoader.getColor(R.color.text_b3)));
+                .text(Profile.inst().getString(TProfile.wxNickname))
+                .textColor(ResLoader.getColor(R.color.text_b3))
+                .hint(R.string.no_bind)
+                .hintTextColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.bind_phone)
                 .name(R.string.phone_num_account)
-                .text(getProfileString(TProfile.mobile))
-                .textColor(ResLoader.getColor(R.color.text_b3)));
+                .text(Profile.inst().getString(TProfile.mobile))
+                .textColor(ResLoader.getColor(R.color.text_b3))
+                .hint(R.string.no_bind)
+                .hintTextColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_email)
                 .name(R.string.email_account)
-                .text(getProfileString(TProfile.username))
-                .textColor(ResLoader.getColor(R.color.text_b3)));
+                .text(Profile.inst().getString(TProfile.username))
+                .textColor(ResLoader.getColor(R.color.text_b3))
+                .hint(R.string.no_bind)
+                .hintTextColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent)
@@ -157,14 +158,14 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text)
                 .related(RelatedId.clear_img_cache)
                 .name(R.string.clear_img_cache)
-                .text(mImgSize)
+                .text(getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.clear_sound_cache)
                 .name(R.string.clear_sound_cache)
-                .text(mSoundSize)
+                .text(getFolderSize(CacheUtil.getMeetingSoundCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_b3)));
 
         addItem(Form.create(FormType.divider_large));
@@ -200,7 +201,7 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_wx: {
-                if (checkBind(TProfile.wxNickname)) {
+                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.wxNickname))) {
                     // 未绑定
 
                     if (Util.noNetwork()) {
@@ -215,25 +216,37 @@ public class SettingsActivity extends BaseFormActivity {
                     }
                 } else {
                     // 已绑定
-                    relieveWx();
+                    unBind("是否解除绑定微信号", v1 -> {
+                        if (Util.noNetwork()) {
+                            return;
+                        }
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(KUnBindWX, UserAPI.bindWX().build());
+                    });
                 }
             }
             break;
             case RelatedId.bind_phone: {
-                if (checkBind(TProfile.mobile)) {
+                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.mobile))) {
                     startActivity(BindPhoneActivity.class);
                 } else {
                     // 已绑定
-                    relievePhone();
+                    unBind("是否更换绑定的手机号码？", v1 -> startActivity(BindPhoneActivity.class));
                 }
             }
             break;
             case RelatedId.bind_email: {
-                if (checkBind(TProfile.username)) {
+                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.username))) {
                     startActivity(BindEmailActivity.class);
                 } else {
                     // 已绑定
-                    relieveEmail();
+                    unBind("是否解除绑定邮箱", v1 -> {
+                        if (Util.noNetwork()) {
+                            return;
+                        }
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(KUnBindEmail, UserAPI.unBindEmail().build());
+                    });
                 }
             }
             break;
@@ -246,11 +259,11 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.clear_img_cache: {
-                clearImgCache();
+                clearCache(CacheUtil.getBmpCacheDir(), RelatedId.clear_img_cache, R.string.clear_img_cache);
             }
             break;
             case RelatedId.clear_sound_cache: {
-                showDialogClearSoundCache();
+                clearCache(CacheUtil.getMeetingSoundCacheDir(), RelatedId.clear_sound_cache, R.string.clear_sound_cache);
             }
             break;
         }
@@ -300,7 +313,7 @@ public class SettingsActivity extends BaseFormActivity {
      * @return
      */
     private String getFolderSize(String... path) {
-        long size = 0;
+        float size = 0;
         try {
             for (String s : path) {
                 size += FileUtil.getFolderSize(new File(s));
@@ -308,32 +321,12 @@ public class SettingsActivity extends BaseFormActivity {
         } catch (Exception e) {
             YSLog.e(TAG, "getFolderSize", e);
         }
-        float format = size * 10 / (2<<19) / 10.0f;
+        size /= (2 << 19);
         if (size > 0.1f) {
-            return format + KM;
+            return String.format("%.1f".concat(KM), size);
         } else {
             return 0 + KM;
         }
-    }
-
-    /**
-     * 要绑定的地方获取不到信息是显示未绑定
-     */
-    private String getProfileString(TProfile key) {
-        String string = Profile.inst().getString(key);
-        if (TextUtil.isEmpty(string)) {
-            return getString(R.string.no_bind);
-        } else {
-            return string;
-        }
-    }
-
-    /**
-     * 检查是否绑定
-     */
-    private boolean checkBind(TProfile key) {
-        String string = Profile.inst().getString(key);
-        return getString(R.string.no_bind).equals(string) || TextUtil.isEmpty(string);
     }
 
     /**
@@ -342,10 +335,9 @@ public class SettingsActivity extends BaseFormActivity {
     private void unBindUpdate(Result r, @RelatedId int id, TProfile key) {
         if (r.isSucceed()) {
             showToast("解绑成功");
-            String bind = getString(R.string.no_bind);
-            getRelatedItem(id).save(bind, bind);
+            getRelatedItem(id).save(ConstantsEx.KEmptyValue, ConstantsEx.KEmptyValue);
             refreshRelatedItem(id);
-            Profile.inst().put(key, bind);
+            Profile.inst().put(key, ConstantsEx.KEmptyValue);
             Profile.inst().saveToSp();
         } else {
             showToast(r.getMessage());
@@ -356,126 +348,55 @@ public class SettingsActivity extends BaseFormActivity {
      * 没有安装微信
      */
     private void notInstallWx() {
-        HintDialogSec dialogWx = new HintDialogSec(SettingsActivity.this);
-        dialogWx.setMainHint(R.string.wx_accredit_error);
-        dialogWx.setSecHint(R.string.wx_check_normal);
-        dialogWx.addButton(R.string.affirm, v1 -> dialogWx.dismiss());
-        dialogWx.show();
-    }
-
-    /**
-     * 解绑微信
-     */
-    private void relieveWx() {
-        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
-        relieveDialog.setHint("是否解除绑定微信号");
-        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-            if (Util.noNetwork()) {
-                return;
-            }
-            refresh(RefreshWay.dialog);
-            exeNetworkReq(KUnBindWX, UserAPI.bindWX().build());
-            relieveDialog.dismiss();
-        });
-        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
-        relieveDialog.show();
-    }
-
-    /**
-     * 更换手机
-     */
-    private void relievePhone() {
-        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
-        relieveDialog.setHint("是否更换绑定的手机号码？");
-        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-            startActivity(BindPhoneActivity.class);
-            relieveDialog.dismiss();
-        });
-        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
-        relieveDialog.show();
-    }
-
-    /**
-     * 解绑邮箱
-     */
-    private void relieveEmail() {
-        HintDialogMain relieveDialog = new HintDialogMain(SettingsActivity.this);
-        relieveDialog.setHint("是否解除绑定邮箱");
-        relieveDialog.addButton(R.string.affirm, R.color.text_666, v1 -> {
-            if (Util.noNetwork()) {
-                return;
-            }
-            refresh(RefreshWay.dialog);
-            exeNetworkReq(KUnBindEmail, UserAPI.unBindEmail().build());
-            relieveDialog.dismiss();
-        });
-        relieveDialog.addButton(R.string.cancel, R.color.text_666, v1 -> relieveDialog.dismiss());
-        relieveDialog.show();
-    }
-
-    /**
-     * 清除图片缓存
-     */
-    private void clearImgCache() {
-        BottomDialog dialog = new BottomDialog(this, position -> {
-
-            if (position == 0) {
-
-                Observable.fromCallable(() -> FileUtil.delFolder(CacheUtil.getBmpCacheDir()))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(aBoolean -> {
-                            if (aBoolean) {
-                                getRelatedItem(RelatedId.clear_img_cache).text("0M");
-                                refreshRelatedItem(RelatedId.clear_img_cache);
-                            }
-                        });
-            }
-        });
-        dialog.addItem(getString(R.string.clear_img_cache), KColorNormal);
-        dialog.addItem(getString(R.string.cancel), KColorCancel);
-
+        HintDialogSec dialog = new HintDialogSec(SettingsActivity.this);
+        dialog.setMainHint(R.string.wx_accredit_error);
+        dialog.setSecHint(R.string.wx_check_normal);
+        dialog.addBlueButton(R.string.affirm);
         dialog.show();
     }
 
     /**
-     * 清除声音缓存
+     * 解绑 / 换绑
      */
-    private void showDialogClearSoundCache() {
-        final List<String> data = new ArrayList<>();
-        data.add(getString(R.string.clear_sound_cache));
-        data.add(getString(R.string.cancel));
+    private void unBind(CharSequence hint, OnClickListener l) {
+        HintDialogMain d = new HintDialogMain(SettingsActivity.this);
+        d.setHint(hint);
+        d.addButton(R.string.affirm, R.color.text_666, l);
+        d.addGrayButton(R.string.cancel);
+        d.show();
+    }
 
-        BottomDialog dialog = new BottomDialog(this, position -> {
+    /**
+     * 清除缓存
+     */
+    private void clearCache(String folderPath, @RelatedId int related, @StringRes int resId) {
+        BottomDialog d = new BottomDialog(this, position -> {
 
             if (position == 0) {
-
-                Observable.fromCallable(() -> FileUtil.delFolder(CacheUtil.getMeetingSoundCacheDir()))
+                Observable.fromCallable(() -> FileUtil.delFolder(folderPath))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {
-                            if (aBoolean) {
-                                getRelatedItem(RelatedId.clear_sound_cache).text("0M");
-                                refreshRelatedItem(RelatedId.clear_sound_cache);
+                            if (aBoolean && !isFinishing()) {
+                                getRelatedItem(related).text("0M");
+                                refreshRelatedItem(related);
                             }
                         });
             }
-        });
-        dialog.addItem(getString(R.string.clear_sound_cache), KColorNormal);
-        dialog.addItem(getString(R.string.cancel), KColorCancel);
 
-        dialog.show();
+        });
+        d.addItem(getString(resId), KColorNormal);
+        d.addItem(getString(R.string.cancel), KColorCancel);
+        d.show();
     }
 
     /**
      * 退出账号
      */
     private void userExit() {
-        HintDialogMain dialog = new HintDialogMain(this);
-        dialog.setHint("确定要退出当前登录账号吗?");
-        dialog.addButton("退出", v1 -> {
-            dialog.dismiss();
-
+        HintDialogMain d = new HintDialogMain(this);
+        d.setHint("确定要退出当前登录账号吗?");
+        d.addBlueButton("退出", v -> {
             CommonServRouter.create()
                     .type(ReqType.logout)
                     .token(Profile.inst().getString(TProfile.token))
@@ -491,8 +412,8 @@ public class SettingsActivity extends BaseFormActivity {
             startActivity(LoginActivity.class);
             finish();
         });
-        dialog.addButton("取消", v1 -> dialog.dismiss());
-        dialog.show();
+        d.addBlueButton(R.string.cancel);
+        d.show();
     }
 
     @Override
@@ -505,9 +426,9 @@ public class SettingsActivity extends BaseFormActivity {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.bind_wx) {
-            bindSuccess((String) data, TProfile.wxNickname, RelatedId.bind_wx);
+            bindSuccess((String) data, RelatedId.bind_wx);
         } else if (type == NotifyType.bind_phone) {
-            bindSuccess((String) data, TProfile.mobile, RelatedId.bind_phone);
+            bindSuccess((String) data, RelatedId.bind_phone);
         } else if (type == NotifyType.bind_email) {
             String email = Profile.inst().getString(TProfile.username);
             getRelatedItem(RelatedId.bind_email).save(email, email);
@@ -515,9 +436,7 @@ public class SettingsActivity extends BaseFormActivity {
         }
     }
 
-    private void bindSuccess(String data, TProfile key, @RelatedId int id) {
-        Profile.inst().put(key, data);
-        Profile.inst().saveToSp();
+    private void bindSuccess(String data, @RelatedId int id) {
         getRelatedItem(id).save(data, data);
         refreshRelatedItem(id);
         showToast("绑定成功");

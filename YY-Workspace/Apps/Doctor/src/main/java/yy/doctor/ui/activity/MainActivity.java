@@ -244,12 +244,8 @@ public class MainActivity extends BaseVPActivity {
     private void showBind() {
         HintDialog bindDialog = new HintDialog(this);
         bindDialog.addHintView(inflate(R.layout.dialog_binding_phone_or_wx));
-        bindDialog.addButton(R.string.cancel, v -> bindDialog.dismiss());
-        bindDialog.addButton(R.string.go_binding, v -> {
-            //跳转到设置页面
-            startActivity(SettingsActivity.class);
-            bindDialog.dismiss();
-        });
+        bindDialog.addBlueButton(R.string.cancel);
+        bindDialog.addBlueButton(R.string.go_binding, v -> startActivity(SettingsActivity.class)); // 跳转到设置页面
         bindDialog.show();
     }
 

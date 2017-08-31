@@ -3,8 +3,6 @@ package yy.doctor.ui.activity.user.register;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.InputFilter.LengthFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -194,7 +192,8 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .related(RelatedId.name)
                 .layout(R.layout.form_edit_no_text)
-                .input(new InputFilter[]{new InputFilterChineseImpl(), new LengthFilter(18)})
+                .input(new InputFilterChineseImpl())
+                .limit(18)
                 .hint(R.string.real_name));
 
         addItem(Form.create(FormType.divider_margin));
@@ -227,7 +226,8 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .related(RelatedId.department)
                 .layout(R.layout.form_edit_no_text)
-                .input(new InputFilter[]{new InputFilterSpace(), new LengthFilter(24)})
+                .input(new InputFilterSpace())
+                .limit(24)
                 .hint(yy.doctor.R.string.department));
 
         addItem(Form.create(FormType.divider_margin));
@@ -412,10 +412,8 @@ public class RegisterActivity extends BaseFormActivity
                     tv.setText(mPhone);
 
                     dialog.addHintView(view);
-                    dialog.addButton(R.string.cancel, v1 -> {
-                        dialog.dismiss();
-                    });
-                    dialog.addButton(R.string.well, v1 -> {
+                    dialog.addBlueButton(R.string.cancel);
+                    dialog.addBlueButton(R.string.well, v1 -> {
                         mCount++;
                         if (mCount == 1) {
                             mStartTime = System.currentTimeMillis();
@@ -430,7 +428,6 @@ public class RegisterActivity extends BaseFormActivity
                             }
                         }
                         exeNetworkReq(KIdCaptcha, RegisterAPI.captcha(getPhone(), CaptchaType.fetch).build());
-                        dialog.dismiss();
                     });
                     dialog.show();
                 }
@@ -531,16 +528,11 @@ public class RegisterActivity extends BaseFormActivity
             //注册
             Result r = (Result) result;
             if (r.getCode() == 101 || r.getCode() == 102) {
-                HintDialogMain dialog = new HintDialogMain(this);
-                dialog.setHint(getString(R.string.phone_have_been_register));
-                dialog.addButton(R.string.cancel, v -> dialog.dismiss());
-                dialog.addButton(R.string.immediately_register, v -> {
-                    //跳转到设置页面
-                    startActivity(LoginActivity.class);
-                    dialog.dismiss();
-                });
-                dialog.show();
-                finish();
+                HintDialogMain d = new HintDialogMain(this);
+                d.setHint(getString(R.string.phone_have_been_register));
+                d.addBlueButton(R.string.cancel);
+                d.addBlueButton(R.string.immediately_register, v -> finish());
+                d.show();
             }
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh

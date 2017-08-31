@@ -66,15 +66,15 @@ public class CommonServ extends ServiceEx {
     protected void onHandleIntent(@Nullable Intent intent) {
         switch (mType) {
             case ReqType.logout: {
-                exeNetworkReq(ReqType.logout, UserAPI.logout(mToken).build());
+                exeNetworkReq(mType, UserAPI.logout(mToken).build());
             }
             break;
             case ReqType.j_push: {
-                exeNetworkReq(ReqType.j_push, UserAPI.bindJPush(mJPushRegisterId).build());
+                exeNetworkReq(mType, UserAPI.bindJPush(mJPushRegisterId).build());
             }
             break;
             case ReqType.video: {
-                exeNetworkReq(ReqType.video, MeetAPI.submitVideo()
+                exeNetworkReq(mType, MeetAPI.submitVideo()
                         .meetId(mSubmit.getString(TSubmit.meetId))
                         .moduleId(mSubmit.getString(TSubmit.moduleId))
                         .courseId(mSubmit.getString(TSubmit.courseId))
@@ -91,11 +91,11 @@ public class CommonServ extends ServiceEx {
                         .courseId(mSubmit.getString(TSubmit.courseId))
                         .details(mSubmit.getString(TSubmit.times))
                         .build();
-                exeNetworkReq(ReqType.course, r);
+                exeNetworkReq(mType, r);
             }
             break;
             case ReqType.meet: {
-                exeNetworkReq(ReqType.meet, MeetAPI.submitMeet(mMeetId, mMeetTime).build());
+                exeNetworkReq(mType, MeetAPI.submitMeet(mMeetId, mMeetTime).build());
             }
             break;
         }
@@ -119,7 +119,6 @@ public class CommonServ extends ServiceEx {
                 } else {
                     retryNetworkRequest(id);
                     YSLog.d(TAG, "退出账号失败");
-                    return;
                 }
             }
             break;
@@ -133,7 +132,6 @@ public class CommonServ extends ServiceEx {
                     YSLog.d(TAG, "极光推送绑定失败");
                     retryNetworkRequest(id);
                     SpJPush.inst().jPushIsRegister(false);
-                    return;
                 }
             }
             break;

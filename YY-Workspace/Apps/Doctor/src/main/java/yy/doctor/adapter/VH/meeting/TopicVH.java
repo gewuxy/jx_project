@@ -13,8 +13,8 @@ import yy.doctor.R;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-
 public class TopicVH extends ViewHolderEx {
+
     public TopicVH(@NonNull View convertView) {
         super(convertView);
     }
@@ -25,10 +25,6 @@ public class TopicVH extends ViewHolderEx {
 
     public ImageView getIvAnswer() {
         return getView(R.id.exam_topic_iv_answer);
-    }
-
-    public LinearLayout getLayoutAnswer() {
-        return getView(R.id.topic_item_layout);
     }
 
 }

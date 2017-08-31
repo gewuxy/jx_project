@@ -57,7 +57,6 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
         void onFuncLoading();
 
         void onFuncNormal();
-
     }
 
     public BaseFunc(Context context, MeetDetail detail, OnFuncListener l) {
@@ -178,8 +177,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     private void attention() {
         mDialogAttention = new HintDialogMain(getContext());
         mDialogAttention.setHint("请先关注会议");
-        mDialogAttention.addButton("确认关注", v1 -> {
-            mDialogAttention.dismiss();
+        mDialogAttention.addBlueButton("确认关注", v1 -> {
             if (Util.noNetwork()) {
                 return;
             }
@@ -191,7 +189,7 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
                     new AttentionUnitNum(id, Attention.yes));
             getNetwork().exeNetworkReq(KIdAttention, UnitNumAPI.attention(id, Attention.yes).build());
         });
-        mDialogAttention.addButton(R.string.cancel, R.color.text_666, v1 -> mDialogAttention.dismiss());
+        mDialogAttention.addGrayButton(R.string.cancel);
         mDialogAttention.show();
     }
 
@@ -201,17 +199,13 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     private void cmeNotFinish() {
         mDialogCme = new HintDialogMain(getContext());
         mDialogCme.setHint("填写CME卡号才能获得学分");
-        mDialogCme.addButton("完善资料", R.color.text_666, v -> {
-            mDialogCme.dismiss();
-
-            ModifyTextActivityRouter.create(
-                    TProfile.cmeId,
-                    R.string.user_CME_number,
-                    R.string.user_input_CME_number
-            ).route(getContext());
-
-        });
-        mDialogCme.addButton(R.string.cancel, R.color.text_666, v -> mDialogCme.dismiss());
+        mDialogCme.addButton("完善资料", R.color.text_666, v ->
+                ModifyTextActivityRouter.create(
+                        TProfile.cmeId,
+                        R.string.user_CME_number,
+                        R.string.user_input_CME_number
+                ).route(getContext()));
+        mDialogCme.addGrayButton(R.string.cancel);
         mDialogCme.show();
     }
 
@@ -221,11 +215,8 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     private void epnNotEnough() {
         mDialogEpnNotEnough = new HintDialogMain(getContext());
         mDialogEpnNotEnough.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
-        mDialogEpnNotEnough.addButton("充值象数", v1 -> {
-            mDialogEpnNotEnough.dismiss();
-            LaunchUtil.startActivity(getContext(), EpnRechargeActivity.class);
-        });
-        mDialogEpnNotEnough.addButton(R.string.cancel, R.color.text_666, v1 -> mDialogEpnNotEnough.dismiss());
+        mDialogEpnNotEnough.addBlueButton("充值象数", v1 -> LaunchUtil.startActivity(getContext(), EpnRechargeActivity.class));
+        mDialogEpnNotEnough.addGrayButton(R.string.cancel);
         mDialogEpnNotEnough.show();
     }
 
@@ -235,12 +226,11 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     private void payEpn() {
         mDialogPayEpn = new HintDialogMain(getContext());
         mDialogPayEpn.setHint(String.format(getContext().getString(R.string.need_pay), getDetail().getInt(TMeetDetail.xsCredits)));
-        mDialogPayEpn.addButton("确认支付", v1 -> {
-            mDialogPayEpn.dismiss();
+        mDialogPayEpn.addBlueButton("确认支付", v1 -> {
             getDetail().put(TMeetDetail.attended, true);
             attend();
         });
-        mDialogPayEpn.addButton(R.string.cancel, R.color.text_666, v1 -> mDialogPayEpn.dismiss());
+        mDialogPayEpn.addGrayButton(R.string.cancel);
         mDialogPayEpn.show();
     }
 

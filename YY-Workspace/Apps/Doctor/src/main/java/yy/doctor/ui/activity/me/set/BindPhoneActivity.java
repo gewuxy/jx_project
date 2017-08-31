@@ -26,12 +26,14 @@ import yy.doctor.network.NetworkAPISetter.UserAPI;
 import yy.doctor.util.Util;
 
 /**
+ * 绑定手机号
  * @auther : GuoXuan
  * @since : 2017/7/24
  */
 public class BindPhoneActivity extends BaseSetActivity {
 
     private final int KCaptcha = 0;
+
     private EditText mEtCaptcha;
     private EditText mEtPhone;
 
@@ -105,6 +107,7 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
+        // 是手机号且验证码长度为6
         setChanged(Util.isMobileCN(getPhone()) && TextUtil.isNotEmpty(getCaptcha()) && getCaptcha().length() == 6);
     }
 
@@ -117,7 +120,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                         showToast("该手机号已绑定");
                         return;
                     }
-                    // 获取验证码
+                    // 获取验证码(有倒计时,不用loading)
                     exeNetworkReq(KCaptcha, RegisterAPI.captcha(getPhone(), CaptchaType.fetch).build());
                 }
             }
@@ -136,6 +139,8 @@ public class BindPhoneActivity extends BaseSetActivity {
                 item.start();
             } else {
                 notify(NotifyType.bind_phone, getPhone());
+                Profile.inst().put(TProfile.mobile, getPhone());
+                Profile.inst().saveToSp();
                 finish();
             }
         } else {
@@ -148,10 +153,9 @@ public class BindPhoneActivity extends BaseSetActivity {
         BaseForm form = getRelatedItem(RelatedId.captcha);
         if (type == NotifyType.fetch_message_captcha) {
             form.enable(true);
-            refreshItem(form);
         } else if (type == NotifyType.disable_fetch_message_captcha) {
             form.enable(false);
-            refreshItem(form);
         }
+        refreshItem(form);
     }
 }

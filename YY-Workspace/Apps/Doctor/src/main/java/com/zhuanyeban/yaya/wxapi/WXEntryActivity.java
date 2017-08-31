@@ -122,7 +122,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         if (id == KLogin) {
             if (r.isSucceed()) {
                 Profile login = r.getData();
-                String openid = login.getString(TProfile.openid, "");
+                String openid = login.getString(TProfile.openid);
                 if (TextUtil.isNotEmpty(openid)) {
                     // 没有绑定过微信, 绑定
                     WXLoginActivity.nav(WXEntryActivity.this, openid);
@@ -141,8 +141,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 Profile profile = r.getData();
                 if (profile == null) {
                     showToast("绑定失败");
+                } else {
+                    notify(NotifyType.bind_wx, profile.getString(TProfile.wxNickname));
+                    Profile.inst().update(profile);
                 }
-                notify(NotifyType.bind_wx, profile.getString(TProfile.wxNickname));
             } else {
                 onNetworkError(id, r.getError());
             }

@@ -32,7 +32,6 @@
             android:id="@+id/meeting_folder_header_tv_meeting_num"
             style="@style/tv"
             android:gravity="center"
-            android:drawableRight="@mipmap/meeting_ic_unit_num_folder_arrow"
             android:drawablePadding="3dp"
             android:textColor="@color/text_888"
             android:textSize="13dp"/>

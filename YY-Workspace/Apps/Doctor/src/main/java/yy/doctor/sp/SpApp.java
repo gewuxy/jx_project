@@ -85,22 +85,22 @@ public class SpApp extends SpBase {
     /**
      * 判断是否是第一次进入考试界面
      */
-    public Boolean firstEnterExam() {
+    public Boolean isFirstExam() {
         return getBoolean(SpAppKey.KFirstEnterExam, true);
     }
 
-    public void saveEnterExam() {
+    public void noFirstExam() {
         save(SpAppKey.KFirstEnterExam, false);
     }
 
     /**
      * 判断是否是第一次进入问卷界面
      */
-    public Boolean firstEnterQue() {
+    public Boolean isFirstQue() {
         return getBoolean(SpAppKey.KFirstEnterQue, true);
     }
 
-    public void saveEnterQue() {
+    public void noFirstQue() {
         save(SpAppKey.KFirstEnterQue, false);
     }
 

@@ -33,7 +33,7 @@ public class HintDialogMain extends HintDialog {
         mTvHint = findView(R.id.dialog_main_tv_hint);
     }
 
-    public void setHint(String hint) {
+    public void setHint(CharSequence hint) {
         mTvHint.setText(hint);
     }
 

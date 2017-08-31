@@ -19,8 +19,8 @@ import yy.doctor.util.UISetter;
  */
 public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
-    private boolean mShowUnitNum = true;
-    private boolean mShowZeroFolder = true;
+    private boolean mShowUnitNum = true; // 是否显示单位号信息
+    private boolean mShowZeroFolder = true; // 会议数是0的文件夹是否显示
 
     public void hideUnitNum() {
         mShowUnitNum = false;
@@ -47,10 +47,11 @@ public class MeetingAdapter extends MultiAdapterEx<Meeting, MeetingVH> {
 
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position).getInt(TMeeting.type) == MeetType.meet) {
+        if (getItem(position).getInt(TMeeting.type) == MeetType.folder) {
+            return MeetType.folder;
+        } else {
             return MeetType.meet;
         }
-        return MeetType.folder;
     }
 
     @Override

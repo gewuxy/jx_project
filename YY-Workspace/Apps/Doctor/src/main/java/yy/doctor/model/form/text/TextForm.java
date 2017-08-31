@@ -50,6 +50,11 @@ public class TextForm extends BaseForm {
         }
 
         TextView tvText = holder.getTvText();
+        if (getHintTextColor() != null) {
+            tvText.setHintTextColor(getHintTextColor());
+        }
+        tvText.setHint(getHint());
+
         if (getTextColor() != null) {
             tvText.setTextColor(getTextColor());
         }

@@ -67,15 +67,27 @@ public class EditForm extends BaseForm implements TextWatcher {
             }
         }
 
-        //限制长度
+        // 限制长度
         if (getLimit() != Constants.KInvalidValue) {
             ViewUtil.limitInputCount(holder.getEt(), getLimit());
         }
 
-        //限制输入的类型，比如只能输入中文等，此方法覆盖限制长度的方法，目前暂时不共存
+        // 限制输入的类型，比如只能输入中文等
         InputFilter[] inputFilter = getInputFilter();
         if (inputFilter != null && inputFilter.length > 0) {
-            et.setFilters(inputFilter);
+            // 会覆盖限制长度的方法,要添加限制长度
+            if (getLimit() != Constants.KInvalidValue) {
+                // FIXME: 写法??
+                InputFilter[] newInputFilter = new InputFilter[inputFilter.length + 1];
+                for (int i = 0; i < inputFilter.length; i++) {
+                    newInputFilter[i] = inputFilter[i];
+                }
+                newInputFilter[inputFilter.length] = new InputFilter.LengthFilter(getLimit());
+
+                et.setFilters(newInputFilter);
+            } else {
+                et.setFilters(inputFilter);
+            }
         }
     }
 
@@ -93,7 +105,7 @@ public class EditForm extends BaseForm implements TextWatcher {
         }
 
         EditText et = holder.getEt();
-      //  et.setEnabled(isEnabled());
+        //  et.setEnabled(isEnabled());
         et.setText(getText());
         et.setHint(getHint());
     }

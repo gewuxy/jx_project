@@ -1,6 +1,7 @@
 package lib.yy.model.form;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -39,6 +40,8 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     private InputFilter[] mInputFilter;
 
+    private ColorStateList mHintTextColor;
+
     public <T extends BaseForm> T paddingLeft(int padding) {
         mPaddingLeft = padding;
         return (T) this;
@@ -58,8 +61,18 @@ abstract public class BaseForm extends FormEx<FormVH> {
         mUrl = url;
         return (T) this;
     }
-    public <T extends BaseForm> T input(InputFilter[] inputFilter) {
+    public <T extends BaseForm> T input(InputFilter...inputFilter) {
         mInputFilter = inputFilter;
+        return (T) this;
+    }
+
+    public <T extends BaseForm> T hintTextColorRes(@ColorRes int id) {
+        mHintTextColor = ResLoader.getColorStateList(id);
+        return (T) this;
+    }
+
+    public <T extends BaseForm> T hintTextColor(@ColorInt int color) {
+        mHintTextColor = ColorStateList.valueOf(color);
         return (T) this;
     }
 
@@ -81,6 +94,10 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     public InputFilter[] getInputFilter() {
         return mInputFilter;
+    }
+
+    public ColorStateList getHintTextColor() {
+        return mHintTextColor;
     }
 
     @Override

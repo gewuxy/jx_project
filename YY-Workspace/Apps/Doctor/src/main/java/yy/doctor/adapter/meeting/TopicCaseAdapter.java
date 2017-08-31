@@ -24,10 +24,9 @@ public class TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
 
     @Override
     protected void refreshView(int position, TopicCaseVH holder) {
-        Topic item = getItem(position);
-        TextView tv = holder.getText();
-        tv.setText(String.valueOf(position + 1));
-        tv.setSelected(item.getBoolean(TTopic.finish));
+        TextView tv = holder.getTvNumber();
+        tv.setText(String.valueOf(position + 1)); // 题号
+        tv.setSelected(getItem(position).getBoolean(TTopic.finish)); // 完成(选中)情况
     }
 
 }

@@ -18,10 +18,7 @@ public class LocateErrDialog extends HintDialog {
         super(context);
 
         addHintView(LayoutInflater.from(context).inflate(R.layout.dialog_locate_fail, null));
-        addButton("取消", v -> dismiss());
-        addButton("去设置", v -> {
-            IntentAction.appSetup().launch();
-            dismiss();
-        });
+        addBlueButton(R.string.cancel);
+        addBlueButton("去设置", v -> IntentAction.appSetup().launch());
     }
 }

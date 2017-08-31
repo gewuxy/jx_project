@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Style;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
@@ -40,12 +41,12 @@ public class HistogramView extends View {
     private final String KMonth = "MM月dd日";
     private final String KDay = "dd日";
 
-    private final int KLineWidth = DpFitter.dp(4);
+    private final int KLineWidth = DpFitter.dp(4); // 线宽
     private final int KLineMarginTop = DpFitter.dp(40); // 柱状的上边距(相对应父控件)
     private final int KLineMarginBottom = DpFitter.dp(33); // 柱状的底边距(相对应父控件)
     private final int KDividerMargin = DpFitter.dp(12); // 分割线上下的外边距
     private final int KTextMarginBottom = DpFitter.dp(16); // 文本的底边距(显示数量的)
-    private final int KTextSize = DpFitter.dp(9);
+    private final int KTextSize = DpFitter.dp(9); // 字体大小
 
     private final int KRecColor = R.color.text_0882e7;
     private final int KDividerColor = R.color.divider;
@@ -57,17 +58,14 @@ public class HistogramView extends View {
     private int mMaxMeetNum; // 最大会议数
     private int mCheckPosition; // 点击的position
 
-    private boolean mComputeAgain; // 重新计算
-
     private List<StatsPerDay> mPerDays; // 日期和会议数量
-    private List<Float> mHeights; // 柱状高度
-    private List<Float> mMiddles; // 柱状中心
+    private List<Point> mMids; // 柱状最高的中心点
 
     private Paint mPaintRec; // 柱状图的画笔
     private Paint mPaintText; // 文字的画笔
     private Paint mPaintDivider; // 分割线的画笔
 
-    private GestureDetector mGestureDetector;
+    private GestureDetector mGestureDetector; // 手势监听
 
     public void setRecColor(@ColorRes int recColor) {
         mPaintRec.setColor(ResLoader.getColor(recColor));
@@ -84,9 +82,7 @@ public class HistogramView extends View {
      */
     private void init() {
         mCheckPosition = Integer.MIN_VALUE; // 非法值
-        mComputeAgain = false; // 没有数据不计算
-        mHeights = new ArrayList<>();
-        mMiddles = new ArrayList<>();
+        mMids = new ArrayList<>();
 
         mGestureDetector = new GestureDetector(getContext(), new SimpleOnGestureListener() {
 
@@ -141,14 +137,12 @@ public class HistogramView extends View {
 
         mLayoutWidth = getMeasuredWidth();
         mLayoutHeight = getMeasuredHeight();
+
+        compute();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mComputeAgain) {
-            compute();
-        }
-
         if (mPerDays != null) {
             drawRec(canvas);
             drawText(canvas);
@@ -167,23 +161,24 @@ public class HistogramView extends View {
     private void compute() {
         int day = mPerDays.size(); // 数量
         int width = mLayoutWidth / day; // 单个的宽度
-        float maxHeight = mLayoutHeight - KLineMarginBottom - KLineMarginTop; // 单个最高的高度
+        int maxHeight = mLayoutHeight - KLineMarginBottom - KLineMarginTop; // 单个最高的高度
 
         int num; // 数量(一天的会议数)
-        float posX;
-        float posY;
+        Point p;
         int bottom = mLayoutHeight - KLineMarginBottom; // 柱状的底(部)点
         for (int i = 0; i < day; i++) {
             num = mPerDays.get(i).getInt(TStatsPerDay.count, 0);
-            posX = width * i + width / 2; // 单个的中心
-            mMiddles.add(posX);
-            posY = bottom;
-            if (mMaxMeetNum != 0) {
-                posY = bottom - num * maxHeight / mMaxMeetNum;
+
+            p = new Point();
+            p.x = width * i + width / 2; // 单个的中心
+            if (mMaxMeetNum == 0) {
+                p.y = bottom;
+            } else {
+                p.y = bottom - num * maxHeight / mMaxMeetNum;
             }
-            mHeights.add(posY);
+
+            mMids.add(p);
         }
-        mComputeAgain = false;
     }
 
     /**
@@ -191,11 +186,13 @@ public class HistogramView extends View {
      */
     private void drawRec(Canvas canvas) {
         int num; // 数量(一天的会议数)
+        Point p;
         int bottom = mLayoutHeight - KLineMarginBottom; // 柱状的底(部)点
         for (int i = 0; i < mPerDays.size(); i++) {
             num = mPerDays.get(i).getInt(TStatsPerDay.count, 0);
             if (num > 0) {
-                canvas.drawLine(mMiddles.get(i), bottom, mMiddles.get(i), mHeights.get(i), mPaintRec);
+                p = mMids.get(i);
+                canvas.drawLine(p.x, bottom, p.x, p.y, mPaintRec);
             }
         }
     }
@@ -205,16 +202,18 @@ public class HistogramView extends View {
      */
     private void drawText(Canvas canvas) {
         StatsPerDay statsPerDay;
+        Point p;
         int posY = mLayoutHeight - KTextSize - DpFitter.dp(2); // 高度不是字体大少
         for (int i = 0; i < mPerDays.size(); i++) {
             statsPerDay = mPerDays.get(i);
+            p = mMids.get(i);
             // 日期
-            DrawUtil.drawTextByAlignX(canvas, getData(statsPerDay, i), mMiddles.get(i), posY, mPaintText, Align.CENTER);
+            DrawUtil.drawTextByAlignX(canvas, getData(statsPerDay, i), p.x, posY, mPaintText, Align.CENTER);
             // 数量
             if (mCheckPosition == i) {
                 // 点击 在柱状图上画
-                float pos = mHeights.get(i) - KTextSize - KTextMarginBottom;
-                DrawUtil.drawTextByAlignX(canvas, String.valueOf(statsPerDay.getInt(TStatsPerDay.count, 0)), mMiddles.get(i), pos, mPaintText, Align.CENTER);
+                float pos = p.y - KTextSize - KTextMarginBottom;
+                DrawUtil.drawTextByAlignX(canvas, String.valueOf(statsPerDay.getInt(TStatsPerDay.count, 0)), p.x, pos, mPaintText, Align.CENTER);
             }
         }
     }
@@ -223,21 +222,17 @@ public class HistogramView extends View {
      * 格式化时间
      */
     private String getData(StatsPerDay statsPerDay, int i) {
-        String format = KMonth;
-        if (i != 0) {
-            // 非第一天(显示的一周中)
-            format = KDay;
-        }
         long time = statsPerDay.getLong(TStatsPerDay.attendTime);
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(time);
 
         int day = c.get(Calendar.DAY_OF_MONTH);
-        if (day == 1) {
-            // 每个月的1号
+        if (day == 1 || i == 0) {
+            // 每个月的1号或非第一天(显示的一周中)
             return TimeUtil.formatMilli(time, KMonth);
+        } else {
+            return TimeUtil.formatMilli(time, KDay);
         }
-        return TimeUtil.formatMilli(time, format);
     }
 
     /**
@@ -258,12 +253,8 @@ public class HistogramView extends View {
         // 重置数据
         mPerDays = week;
         mCheckPosition = Integer.MIN_VALUE;
-        mComputeAgain = true; // 设置数据就重新计算
-        if (mHeights != null) {
-            mHeights.clear();
-        }
-        if (mMiddles != null) {
-            mMiddles.clear();
+        if (mMids != null) {
+            mMids.clear();
         }
         // 求最大值
         mMaxMeetNum = Integer.MIN_VALUE;

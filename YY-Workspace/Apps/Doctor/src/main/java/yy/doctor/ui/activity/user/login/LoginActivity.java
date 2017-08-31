@@ -34,7 +34,6 @@ public class LoginActivity extends BaseLoginActivity {
 
     private ForgetPwdDialog mDialogForgetPwd;
     private String mRequest; // 判断桌面快捷方式进来
-    private HintDialogSec mDialogWX; // 提示未安装微信
 
     private int mCount = 0;
 
@@ -95,11 +94,11 @@ public class LoginActivity extends BaseLoginActivity {
                     WXLoginApi.sendReq(WXType.login);
                 } else {
                     // 未安装微信
-                    mDialogWX = new HintDialogSec(LoginActivity.this);
-                    mDialogWX.setMainHint(R.string.wx_accredit_error);
-                    mDialogWX.setSecHint(R.string.wx_check_normal);
-                    mDialogWX.addButton(R.string.affirm, v1 -> mDialogWX.dismiss());
-                    mDialogWX.show();
+                    HintDialogSec d = new HintDialogSec(LoginActivity.this);
+                    d.setMainHint(R.string.wx_accredit_error);
+                    d.setSecHint(R.string.wx_check_normal);
+                    d.addBlueButton(R.string.affirm);
+                    d.show();
                 }
             }
             break;
@@ -140,17 +139,14 @@ public class LoginActivity extends BaseLoginActivity {
             mCount++;
             YSLog.d("lol", mCount + "次.....");
             if (mCount > 5 && mCount < 8) {
-                HintDialogMain dialog = new HintDialogMain(this);
-                dialog.setHint("密码错误");
-                dialog.addButton("取消", v1 -> {
-                    dialog.dismiss();
-                });
-                dialog.addButton("找回密码", v1 -> {
-                    dialog.dismiss();
+                HintDialogMain d = new HintDialogMain(this);
+                d.setHint("密码错误");
+                d.addGrayButton(R.string.cancel);
+                d.addBlueButton("找回密码", v1 -> {
                     mDialogForgetPwd = new ForgetPwdDialog(LoginActivity.this);
                     mDialogForgetPwd.show();
                 });
-                dialog.show();
+                d.show();
             }
 
             if (mCount == 8) {
@@ -164,9 +160,6 @@ public class LoginActivity extends BaseLoginActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mDialogWX != null) {
-            mDialogWX.dismiss();
-        }
         WXLoginApi.detach();
     }
 

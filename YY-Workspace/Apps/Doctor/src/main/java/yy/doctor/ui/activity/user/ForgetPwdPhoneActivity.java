@@ -48,7 +48,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
-    private HintDialog mDialog;
     private long mStartTime; // 开始计算10分钟间隔的时间
     private int mCount;//计算点击多少次
 
@@ -149,16 +148,15 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                         return;
                     }
 
-                    mDialog = new HintDialog(this);
+                    HintDialog dialog = new HintDialog(this);
+
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
                     tv.setText(mPhone);
 
-                    mDialog.addHintView(view);
-                    mDialog.addButton("取消", v1 -> {
-                        mDialog.dismiss();
-                    });
-                    mDialog.addButton("好", v1 -> {
+                    dialog.addHintView(view);
+                    dialog.addBlueButton(R.string.cancel);
+                    dialog.addBlueButton("好", v1 -> {
                         if (mCount == 0) {
                             mStartTime = System.currentTimeMillis();
                         }
@@ -167,17 +165,13 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                             long duration = System.currentTimeMillis() - mStartTime;
                             if (duration <= KCaptchaDuration) {
                                 showToast("获取验证码太频繁");
-                                mDialog.dismiss();
                                 return;
                             } else {
                                 mCount = 1;
                             }
                         }
-                        // exeNetworkReq(KCaptcha, NetFactory.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch));
                         exeNetworkReq(KCaptcha, RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
-                        mDialog.dismiss();
                     });
-                    mDialog.show();
                 }
             }
             break;
@@ -299,15 +293,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         } else {
             // 按钮不能点击
             mTv.setEnabled(false);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mDialog != null) {
-            mDialog.dismiss();
         }
     }
 }
