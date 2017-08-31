@@ -260,14 +260,6 @@
             android:name=".ui.activity.me.MyCollectionActivity"
             android:screenOrientation="portrait"/>
 
-        <!-- test -->
-        <activity
-            android:name=".util.test.PlayerAct"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".util.test.MeetCourseActivity"
-            android:screenOrientation="portrait"/>
-
 
         <!-- service -->
         <service android:name=".serv.CommonServ"/>

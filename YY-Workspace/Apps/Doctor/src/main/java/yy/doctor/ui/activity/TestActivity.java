@@ -23,10 +23,8 @@ public class TestActivity extends BaseTestActivity {
         add("数据", MainActivityRouter.newIntent(this, MainActivity.KTabData));
         add("我", MainActivityRouter.newIntent(this, MainActivity.KTabMe));
 
-        add("注册", new Intent(this, RegisterActivity.class));
         add("登陆", new Intent(this, LoginActivity.class));
 
-        add("播放", v -> MeetCourseActivity.nav(this, "17060312172856248750", "33"));
     }
 
 }
