@@ -4,6 +4,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -27,6 +28,7 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -63,7 +65,7 @@ import yy.doctor.util.Util;
 abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital, HospitalAdapter> implements
         OnLocationNotify,
         OnGetPoiSearchResultListener,
-        OnLevelCheckChangeListener {
+        OnLevelCheckChangeListener, OnAdapterClickListener {
 
     protected final String KHospital = ResLoader.getString(R.string.hospital);
 
@@ -77,6 +79,8 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     private int mFromType; // 从哪里来
     private PoiSearch mSearch; // 搜索
+
+    protected TextView mTvEmpty;
 
     @IntDef({
             FromType.register,
@@ -101,6 +105,13 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         return inflate(R.layout.layout_empty_footer_locate_err);
     }
 
+    @Override
+    public void findViews() {
+        super.findViews();
+
+        mTvEmpty = findView(R.id.hospital_empty_tv);
+    }
+
     @CallSuper
     @Override
     public void setViews() {
@@ -111,6 +122,8 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
         // POI检索的监听对象
         mSearch.setOnGetPoiSearchResultListener(this);
+
+        getAdapter().setOnAdapterClickListener(this);
     }
 
     @Override
@@ -186,7 +199,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     }
 
     @Override
-    public final void onItemClick(View v, int position) {
+    public void onAdapterClick(int position, View v) {
         IHospital item = getItem(position);
         if (item.getType() == HospitalType.hospital_data) {
             chooseLevel(((Hospital) item).getString(THospital.name));
@@ -220,6 +233,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KIdSave) {
+            stopRefresh();
             Result r = (Result) result;
             if (r.isSucceed()) {
 

@@ -132,6 +132,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
         r.setCode(ErrorCode.KOk);
         List<IHospital> hospitals = new ArrayList<>();
         r.setData(hospitals);
+        goneView(mTvEmpty);
+
     }
 
     @Override
