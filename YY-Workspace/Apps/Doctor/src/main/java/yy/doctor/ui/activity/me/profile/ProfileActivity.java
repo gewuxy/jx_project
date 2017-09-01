@@ -221,6 +221,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .name(R.string.medical_skill)
                 .intent(SkillActivityRouter.newIntent(this, TProfile.major, R.string.medical_skill, R.string.user_input_academic))
                 .type(IntentType.skill)
+                .hint(R.string.user_input_academic)
                 .text(Profile.inst().getString(TProfile.major)));
     }
     
