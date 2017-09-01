@@ -1,59 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/hospital_tv_location"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin"
-        android:text="@string/hospital_location_default"
-        android:textColor="@color/text_888"
-        android:textSize="12dp"/>
+    <include layout="@layout/activity_hospital_header"/>
 
-    <TextView
-        android:id="@+id/hospital_tv_change"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin"
-        android:gravity="center_vertical"
-        android:text="@string/change"
-        android:textColor="@color/text_0882e7"
-        android:textSize="12dp"/>
+    <include layout="@layout/layout_sr_list"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/hospital_tv_location"
-        android:orientation="vertical">
-
-        <include layout="@layout/layout_sr_group_list"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/group_index_tv_letter"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/hospital_tv_bg"
-        android:gravity="center"
-        android:text="A"
-        android:textColor="@color/white"
-        android:textSize="40dp"
-        android:visibility="gone"/>
-
-    <lib.ys.view.SideBar
-        android:id="@+id/group_index_layout_side_bar"
-        android:layout_width="12dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@color/white"/>
-
-</RelativeLayout>
+</LinearLayout>

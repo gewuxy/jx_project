@@ -9,7 +9,6 @@ import com.baidu.mapapi.search.core.PoiInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
@@ -32,7 +31,6 @@ import yy.doctor.util.Util;
 public class SearchHospitalActivity extends BaseHospitalActivity {
 
     private EditText mEtSearch;
-
     private OnClickListener mSearchListener;
 
     @Override
@@ -44,18 +42,15 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
                 showToast(getString(R.string.search_hospital));
                 return;
             }
-
             if (Util.noNetwork()) {
                 return;
             }
-
             if (mLatLng == null) {
                 // 定位失败
                 noLocationPermission();
-                showToast("无法获取您的位置信息");
+                onGetPoiResult(null); // 模拟搜索不到结果
             } else {
                 refresh(RefreshWay.embed);
-                YSLog.d(TAG, "offset = " + getOffset());
             }
         };
     }
@@ -84,8 +79,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
     public void getDataFromNet() {
         searchHospital(Util.getEtString(mEtSearch).concat(KHospital));
     }
-
-
 
     @Override
     protected void locationSuccess() {

@@ -14,6 +14,7 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
+import lib.ys.action.IntentAction;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
@@ -50,6 +51,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private static final String KLocating = "定位中...";
     private static final String KLocateError = "无法获取您的位置信息";
 
+    private boolean mIsFromSet = false;  // 是否从设置页面返回的
     private ProgressView mIvProgress;
     private TextView mTvLocation;
 
@@ -64,9 +66,6 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     String mPreId; // 上一级选中的id
 
     private Place mRetPlace;
-
-    private LocateErrDialog mDialog;
-
 
     @Override
     public void initData() {
@@ -256,16 +255,21 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     }
 
     private void showLocateErrDialog() {
-        if (mDialog == null) {
-            mDialog = new LocateErrDialog(this);
-        }
-        mDialog.show();
+        LocateErrDialog dialog = new LocateErrDialog(this, v -> {
+                mIsFromSet = true;
+                IntentAction.appSetup().launch();
+            });
+        dialog.show();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        startLocation();
+
+        if (mIsFromSet) {
+            mIsFromSet = false;
+            startLocation();
+        }
     }
 
     @Override
@@ -310,10 +314,6 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
         
         if (mSelects != null) {
             mSelects.clear();

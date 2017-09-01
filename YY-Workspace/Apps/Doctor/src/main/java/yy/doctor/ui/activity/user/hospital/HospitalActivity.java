@@ -1,7 +1,6 @@
 package yy.doctor.ui.activity.user.hospital;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -10,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.bd.location.Location;
+import lib.ys.action.IntentAction;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
@@ -30,16 +31,12 @@ import yy.doctor.util.Util;
 public class HospitalActivity extends BaseHospitalActivity {
 
     private boolean mIsFirst = true;
+    private boolean mIsShowLocationDialog = false; // 是否需要弹对话框
+    private boolean mIsFromSet;  // 是否从设置页面返回的
 
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.hospital, this);
-    }
-
-    @Nullable
-    @Override
-    public View createHeaderView() {
-        return inflate(R.layout.activity_hospital_header);
     }
 
     @Override
@@ -50,8 +47,24 @@ public class HospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_hospital;
+    }
+
+    @Override
     public void swipeRefresh() {
-        Location.inst().start();
+        startLocation();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (mIsFromSet) {
+            mIsFromSet= false;
+            refresh(RefreshWay.embed);
+            startLocation();
+        }
     }
 
     @Override
@@ -87,9 +100,15 @@ public class HospitalActivity extends BaseHospitalActivity {
         if (!DeviceUtil.isNetworkEnabled()) {
             showToast(R.string.network_disabled);
         } else {
-            //有网但是定位失败  显示dialog
-            LocateErrDialog dialog = new LocateErrDialog(this);
-            dialog.show();
+            //有网但是定位失败  显示dialog  只显示一次
+            if (!mIsShowLocationDialog) {
+                LocateErrDialog dialog = new LocateErrDialog(this, v -> {
+                    mIsFromSet = true;
+                    IntentAction.appSetup().launch();
+                });
+                dialog.show();
+                mIsShowLocationDialog = true;
+            }
         }
         simulateSuccess(KIdHospital);
     }
@@ -125,7 +144,6 @@ public class HospitalActivity extends BaseHospitalActivity {
             for (int i = 1; i < info.size(); i++) {
                 data.add(convertToHospital(info.get(i)));
             }
-
             mIsFirst = false;
         } else {
             // 解析需要的数据

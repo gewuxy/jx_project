@@ -2,8 +2,8 @@ package yy.doctor.dialog;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View.OnClickListener;
 
-import lib.ys.action.IntentAction;
 import yy.doctor.R;
 
 /**
@@ -14,11 +14,12 @@ import yy.doctor.R;
  */
 public class LocateErrDialog extends HintDialog {
 
-    public LocateErrDialog(Context context) {
+    public LocateErrDialog(Context context, OnClickListener l) {
         super(context);
 
         addHintView(LayoutInflater.from(context).inflate(R.layout.dialog_locate_fail, null));
         addBlueButton(R.string.cancel);
-        addBlueButton("去设置", v -> IntentAction.appSetup().launch());
+        addBlueButton("去设置", l);
     }
+
 }

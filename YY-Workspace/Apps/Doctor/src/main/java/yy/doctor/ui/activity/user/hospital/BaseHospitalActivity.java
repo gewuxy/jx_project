@@ -28,6 +28,7 @@ import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.DeviceUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
@@ -52,6 +53,7 @@ import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter;
+import yy.doctor.util.Util;
 
 /**
  * 医院基类
@@ -68,13 +70,15 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     protected final int KIdSave = 1;
     protected final String KHospital = ResLoader.getString(R.string.hospital);
 
-    private final int KLimit = 12;
-
-    private int mFromType; // 从哪里来
+    private final int KDistance = 10000; // 搜索距离
+    private final int KLimit = 12; // 每页展示的数据
 
     protected HospitalName mHospitalName; // 点击的dialog的Item(包括医院名字)
     protected LatLng mLatLng; // 定位信息
+
+    private int mFromType; // 从哪里来
     private PoiSearch mSearch; // 搜索
+    private boolean mLocationAgain; // 是否需要重新定位
 
     @IntDef({
             FromType.register,
@@ -89,6 +93,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     @CallSuper
     @Override
     public void initData() {
+        mLocationAgain = !DeviceUtil.isNetworkEnabled(); // 有网不需要重新定位, 无网需要重新定位
         mSearch = PoiSearch.newInstance();
         mFromType = getIntent().getIntExtra(Extra.KData, FromType.register);
     }
@@ -99,10 +104,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         super.setViews();
 
         LocationNotifier.inst().add(this);
-        // 检查有没有定位权限
-        if (checkPermission(0, Permission.location)) {
-            Location.inst().start();
-        }
+        startLocation();
 
         // POI检索的监听对象
         mSearch.setOnGetPoiSearchResultListener(this);
@@ -117,7 +119,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
             case PermissionResult.granted: {
-                Location.inst().start();
+                startLocation();
             }
             break;
             case PermissionResult.denied:
@@ -168,7 +170,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
             searchError(r);
         }
 
-        super.onNetworkSuccess(KIdHospital, r);
+        onNetworkSuccess(KIdHospital, r);
     }
 
     @Override
@@ -215,7 +217,6 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KIdSave) {
-//            stopRefresh();
             Result r = (Result) result;
             if (r.isSucceed()) {
 
@@ -251,6 +252,26 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         return inflate(R.layout.layout_empty_footer_locate_err);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LocationNotifier.inst().remove(this);
+        Location.inst().onDestroy();
+    }
+
+    /**
+     * 检查有没有定位权限
+     */
+    protected void startLocation() {
+        if (checkPermission(0, Permission.location)) {
+            if (Util.noNetwork()) {
+                return;
+            }
+            Location.inst().start();
+        }
+    }
+
     /**
      * 发起附近检索请求
      */
@@ -260,7 +281,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
                 .location(mLatLng)
                 .pageCapacity(getLimit())    //每页条数
                 .keyword(key)
-                .radius(10000)// 检索半径，单位是米
+                .radius(KDistance)// 检索半径，单位是米
                 .pageNum(getOffset())
                 .sortType(PoiSortType.distance_from_near_to_far);//由近到远排序
         mSearch.searchNearby(option);// 发起附近检索请求
@@ -319,14 +340,6 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         LevelDialog dialog = new LevelDialog(this);
         dialog.setListener(this);
         dialog.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        LocationNotifier.inst().remove(this);
-        Location.inst().onDestroy();
     }
 
     /**

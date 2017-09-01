@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/hospital_baidu_item_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/text_fff"
         android:orientation="vertical">
 
@@ -16,8 +16,10 @@
             android:id="@+id/hospital_name"
             style="@style/tv"
             android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:lineSpacingExtra="6dp"
             android:layout_marginTop="14dp"
-            android:text="广州市第一人民医院"
+            android:text="广州市第一人民医院士大夫似的士大夫个大撒地方大师傅但是"
             android:textColor="@color/text_333"
             android:textSize="15dp"/>
 
@@ -38,6 +40,7 @@
             style="@style/tv"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
+            android:lineSpacingExtra="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="14dp"
             android:text="广东省广州市天河区猎德珠江新城人民路125号"

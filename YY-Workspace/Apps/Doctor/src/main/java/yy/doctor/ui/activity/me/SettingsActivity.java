@@ -322,7 +322,7 @@ public class SettingsActivity extends BaseFormActivity {
             YSLog.e(TAG, "getFolderSize", e);
         }
         size /= (2 << 19);
-        if (size > 0.1f) {
+        if (size >= 0.1f) {
             return String.format("%.1f".concat(KM), size);
         } else {
             return 0 + KM;
