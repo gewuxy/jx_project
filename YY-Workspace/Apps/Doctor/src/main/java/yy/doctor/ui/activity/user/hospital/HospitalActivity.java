@@ -30,9 +30,18 @@ import yy.doctor.util.Util;
  */
 public class HospitalActivity extends BaseHospitalActivity {
 
-    private boolean mIsFirst = true;
-    private boolean mIsShowLocationDialog = false; // 是否需要弹对话框
+    private boolean mIsFirstLoad; // 是否下拉或第一次加载
+    private boolean mShouldShowDialog; // 是否需要弹对话框
     private boolean mIsFromSet;  // 是否从设置页面返回的
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        mIsFirstLoad = true;
+        mShouldShowDialog = true;
+        mIsFromSet = false;
+    }
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -53,7 +62,12 @@ public class HospitalActivity extends BaseHospitalActivity {
 
     @Override
     public void swipeRefresh() {
-        startLocation();
+        if (mLocationAgain) {
+            startLocation();
+        } else {
+            refresh(RefreshWay.swipe);
+//            searchHospital(KHospital);
+        }
     }
 
     @Override
@@ -61,7 +75,7 @@ public class HospitalActivity extends BaseHospitalActivity {
         super.onRestart();
 
         if (mIsFromSet) {
-            mIsFromSet= false;
+            mIsFromSet = false;
             refresh(RefreshWay.embed);
             startLocation();
         }
@@ -82,14 +96,14 @@ public class HospitalActivity extends BaseHospitalActivity {
      */
     @Override
     public void onSwipeRefreshAction() {
-        mIsFirst = true;
+        mIsFirstLoad = true;
     }
 
     @Override
     public void getDataFromNet() {
         if (mLatLng == null) {
-            // 定位失败(之前无网)
-            Location.inst().start();
+            // 定位失败
+            onGetPoiResult(null);
         } else {
             searchHospital(KHospital);
         }
@@ -101,13 +115,13 @@ public class HospitalActivity extends BaseHospitalActivity {
             showToast(R.string.network_disabled);
         } else {
             //有网但是定位失败  显示dialog  只显示一次
-            if (!mIsShowLocationDialog) {
+            if (!mShouldShowDialog) {
                 LocateErrDialog dialog = new LocateErrDialog(this, v -> {
                     mIsFromSet = true;
                     IntentAction.appSetup().launch();
                 });
                 dialog.show();
-                mIsShowLocationDialog = true;
+                mShouldShowDialog = true;
             }
         }
         simulateSuccess(KIdHospital);
@@ -129,7 +143,7 @@ public class HospitalActivity extends BaseHospitalActivity {
     protected void searchSuccess(List<PoiInfo> info, ListResult<IHospital> r) {
         List<IHospital> data = new ArrayList<>();
         r.setCode(ErrorCode.KOk);
-        if (mIsFirst) {
+        if (mIsFirstLoad) {
             // 数据拼接
             HospitalTitle title = new HospitalTitle();
             title.put(TText.name, getString(R.string.recommend_hospital));
@@ -144,7 +158,7 @@ public class HospitalActivity extends BaseHospitalActivity {
             for (int i = 1; i < info.size(); i++) {
                 data.add(convertToHospital(info.get(i)));
             }
-            mIsFirst = false;
+            mIsFirstLoad = false;
         } else {
             // 解析需要的数据
             for (PoiInfo poiInfo : info) {

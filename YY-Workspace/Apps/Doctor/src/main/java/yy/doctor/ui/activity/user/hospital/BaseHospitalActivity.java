@@ -75,10 +75,10 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     protected HospitalName mHospitalName; // 点击的dialog的Item(包括医院名字)
     protected LatLng mLatLng; // 定位信息
+    protected boolean mLocationAgain; // 是否需要重新定位
 
     private int mFromType; // 从哪里来
     private PoiSearch mSearch; // 搜索
-    private boolean mLocationAgain; // 是否需要重新定位
 
     @IntDef({
             FromType.register,
