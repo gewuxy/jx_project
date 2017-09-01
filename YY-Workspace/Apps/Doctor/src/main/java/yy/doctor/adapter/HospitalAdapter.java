@@ -31,6 +31,7 @@ public class HospitalAdapter extends MultiAdapterEx<IHospital, HospitalBaiDuVH> 
                 holder.getTvHospitalName().setText(hospital.getString(THospital.name));
                 holder.getTvHospitalAddress().setText(hospital.getString(THospital.address));
                 holder.getTvHospitalDistance().setText(hospital.getString(THospital.distance)+"m");
+                setOnViewClickListener(position, holder.getItemLayout());
             }
             break;
         }
