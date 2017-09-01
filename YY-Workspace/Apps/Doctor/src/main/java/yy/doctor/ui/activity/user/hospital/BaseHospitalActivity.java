@@ -28,7 +28,6 @@ import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
@@ -66,16 +65,16 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         OnGetPoiSearchResultListener,
         OnLevelCheckChangeListener {
 
-    protected final int KIdHospital = 0;
-    protected final int KIdSave = 1;
     protected final String KHospital = ResLoader.getString(R.string.hospital);
 
+    private final int KIdHospital = 0;
+    private final int KIdSave = 1;
     private final int KDistance = 10000; // 搜索距离
     private final int KLimit = 12; // 每页展示的数据
 
     protected HospitalName mHospitalName; // 点击的dialog的Item(包括医院名字)
     protected LatLng mLatLng; // 定位信息
-    protected boolean mLocationAgain; // 是否需要重新定位
+    protected boolean mFirstAction; // 第一次需要的操作
 
     private int mFromType; // 从哪里来
     private PoiSearch mSearch; // 搜索
@@ -93,9 +92,14 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     @CallSuper
     @Override
     public void initData() {
-        mLocationAgain = !DeviceUtil.isNetworkEnabled(); // 有网不需要重新定位, 无网需要重新定位
-        mSearch = PoiSearch.newInstance();
         mFromType = getIntent().getIntExtra(Extra.KData, FromType.register);
+        mFirstAction = true;
+        mSearch = PoiSearch.newInstance();
+    }
+
+    @Override
+    public View createEmptyFooterView() {
+        return inflate(R.layout.layout_empty_footer_locate_err);
     }
 
     @CallSuper
@@ -220,11 +224,9 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
             Result r = (Result) result;
             if (r.isSucceed()) {
 
-                if (mFromType == FromType.profile) {
-                    Profile.inst().put(TProfile.hospital, mHospitalName.getString(THospitalName.name));
-                    Profile.inst().put(TProfile.systemProperties, mHospitalName.getEv(THospitalName.level));
-                    Profile.inst().saveToSp();
-                }
+                Profile.inst().put(TProfile.hospital, mHospitalName.getString(THospitalName.name));
+                Profile.inst().put(TProfile.systemProperties, mHospitalName.getEv(THospitalName.level));
+                Profile.inst().saveToSp();
 
                 returnResult();
                 showToast(R.string.user_save_success);
@@ -245,11 +247,6 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     @Override
     public int getInitOffset() {
         return 0;
-    }
-
-    @Override
-    public View createEmptyFooterView() {
-        return inflate(R.layout.layout_empty_footer_locate_err);
     }
 
     @Override
@@ -289,15 +286,13 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     /**
      * 模拟网络成功, 显示empty footer view
-     *
-     * @param reqId
      */
-    protected void simulateSuccess(int reqId) {
+    protected void simulateSuccess() {
         ListResult<IHospital> r = new ListResult<>();
         r.setCode(ErrorCode.KOk);
         List<IHospital> hospitals = new ArrayList<>();
         r.setData(hospitals);
-        onNetworkSuccess(reqId, r);
+        onNetworkSuccess(KIdHospital, r);
     }
 
     /**
@@ -307,7 +302,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         Hospital hospital = new Hospital();
         hospital.put(THospital.name, info.name);
         hospital.put(THospital.address, info.address);
-        hospital.put(THospital.distance, getDistance(mLatLng.longitude, mLatLng.latitude, info.location.longitude, info.location.latitude));
+        hospital.put(THospital.distance, getDistance(info.location));
         return hospital;
     }
 
@@ -316,15 +311,16 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
      *
      * @return 米
      */
-    protected int getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
+    protected int getDistance(LatLng latLng) {
+        double p = Math.PI / 180;
         // 维度
-        double lat1 = (Math.PI / 180) * latitude1;
-        double lat2 = (Math.PI / 180) * latitude2;
+        double lat1 = p * mLatLng.latitude;
+        double lat2 = p * latLng.latitude;
         // 经度
-        double lon1 = (Math.PI / 180) * longitude1;
-        double lon2 = (Math.PI / 180) * longitude2;
+        double lon1 = p * mLatLng.longitude;
+        double lon2 = p * latLng.longitude;
         // 地球半径
-        double R = 6371;
+        int R = 6371;
         // 两点间距离 km，如果想要米的话，结果*1000就可以了
         double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
 

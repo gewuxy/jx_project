@@ -2,6 +2,7 @@ package yy.doctor.ui.activity.user.hospital;
 
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.EditText;
 
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -36,19 +37,22 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
     @Override
     public void initData() {
         super.initData();
+
         mSearchListener = v -> {
-            KeyboardUtil.hideFromView(v);
             if (TextUtil.isEmpty(Util.getEtString(mEtSearch))) {
-                showToast(getString(R.string.search_hospital));
+                showToast(getString(R.string.please_input_search_content));
                 return;
+            }
+            if (KeyboardUtil.isActive()) {
+                // 键盘显示就隐藏
+                KeyboardUtil.hideFromView(mEtSearch);
             }
             if (Util.noNetwork()) {
                 return;
             }
             if (mLatLng == null) {
                 // 定位失败
-                noLocationPermission();
-                onGetPoiResult(null); // 模拟搜索不到结果
+                startLocation();
             } else {
                 refresh(RefreshWay.embed);
             }
@@ -73,6 +77,14 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
 
         setRefreshEnabled(false);
         setViewState(ViewState.normal);
+
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                KeyboardUtil.showFromView(mEtSearch);
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
@@ -87,7 +99,11 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
 
     @Override
     protected void noLocationPermission() {
-        simulateSuccess(KIdHospital);
+        if (mFirstAction) {
+            mFirstAction = false;
+        } else {
+            simulateSuccess();
+        }
     }
 
     @Override

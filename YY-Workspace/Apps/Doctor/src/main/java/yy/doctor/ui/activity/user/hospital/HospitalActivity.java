@@ -8,7 +8,6 @@ import com.baidu.mapapi.search.core.PoiInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.bd.location.Location;
 import lib.ys.action.IntentAction;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -31,7 +30,6 @@ import yy.doctor.util.Util;
 public class HospitalActivity extends BaseHospitalActivity {
 
     private boolean mIsFirstLoad; // 是否下拉或第一次加载
-    private boolean mShouldShowDialog; // 是否需要弹对话框
     private boolean mIsFromSet;  // 是否从设置页面返回的
 
     @Override
@@ -39,8 +37,12 @@ public class HospitalActivity extends BaseHospitalActivity {
         super.initData();
 
         mIsFirstLoad = true;
-        mShouldShowDialog = true;
         mIsFromSet = false;
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_hospital;
     }
 
     @Override
@@ -52,22 +54,10 @@ public class HospitalActivity extends BaseHospitalActivity {
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.hospital_search);
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_hospital;
-    }
-
-    @Override
-    public void swipeRefresh() {
-        if (mLocationAgain) {
-            startLocation();
-        } else {
-            refresh(RefreshWay.swipe);
-//            searchHospital(KHospital);
+        if (!DeviceUtil.isNetworkEnabled()) {
+            simulateSuccess();
         }
+        setOnClickListener(R.id.hospital_search);
     }
 
     @Override
@@ -91,12 +81,20 @@ public class HospitalActivity extends BaseHospitalActivity {
         }
     }
 
+    @Override
+    public boolean useErrorView() {
+        return false;
+    }
+
     /**
      * 下拉刷新的动作
      */
     @Override
     public void onSwipeRefreshAction() {
         mIsFirstLoad = true;
+        if (mLatLng == null) {
+            startLocation();
+        }
     }
 
     @Override
@@ -110,33 +108,26 @@ public class HospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
+    protected void locationSuccess() {
+        getDataFromNet();
+    }
+
+    @Override
     protected void noLocationPermission() {
         if (!DeviceUtil.isNetworkEnabled()) {
             showToast(R.string.network_disabled);
         } else {
             //有网但是定位失败  显示dialog  只显示一次
-            if (!mShouldShowDialog) {
+            if (mFirstAction) {
                 LocateErrDialog dialog = new LocateErrDialog(this, v -> {
                     mIsFromSet = true;
                     IntentAction.appSetup().launch();
                 });
                 dialog.show();
-                mShouldShowDialog = true;
+                mFirstAction = false;
             }
         }
-        simulateSuccess(KIdHospital);
-    }
-
-    @Override
-    protected void returnResult() {
-        Intent intent = new Intent()
-                .putExtra(Extra.KData, mHospitalName);
-        setResult(RESULT_OK, intent);
-    }
-
-    @Override
-    protected void locationSuccess() {
-        getDataFromNet();
+        simulateSuccess();
     }
 
     @Override
@@ -175,14 +166,16 @@ public class HospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
+    protected void returnResult() {
+        Intent intent = new Intent()
+                .putExtra(Extra.KData, mHospitalName);
+        setResult(RESULT_OK, intent);
+    }
+
+    @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.hospital_finish) {
             finish();
         }
-    }
-
-    @Override
-    public boolean useErrorView() {
-        return false;
     }
 }
