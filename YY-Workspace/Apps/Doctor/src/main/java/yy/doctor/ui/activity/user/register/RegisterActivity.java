@@ -57,6 +57,8 @@ import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
+import yy.doctor.model.hospital.HospitalName;
+import yy.doctor.model.hospital.HospitalName.THospitalName;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
@@ -68,8 +70,8 @@ import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;
+import yy.doctor.ui.activity.user.hospital.BaseHospitalActivity.FromType;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
-import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
@@ -210,14 +212,14 @@ public class RegisterActivity extends BaseFormActivity
                 .observer(this)
                 .related(RelatedId.hospital)
                 .hint(R.string.choose_hospital)
-                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
+                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, FromType.register))
                 .type(IntentType.hospital));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
                 .related(RelatedId.special)
                 .observer(this)
-                .intent(new Intent(this, SectionActivity.class).putExtra(Extra.KData, IntentType.medicine))
+                .intent(new Intent(this, SectionActivity.class))
                 .type(IntentType.medicine))
                 .save(getString(R.string.special), getString(R.string.special));
 
@@ -333,7 +335,6 @@ public class RegisterActivity extends BaseFormActivity
             showToast(R.string.not_phone_number);
             return;
         }
-
 
 
         // 密码
@@ -452,15 +453,13 @@ public class RegisterActivity extends BaseFormActivity
             form.enable(false);
             refreshItem(form);
         } else if (type == NotifyType.hospital_finish) {
-            if (data instanceof Hos) {
-                Hos level = (Hos) data;
-                String hospital = level.mName;
-                HospitalLevel hospitalLevel = level.mHospitalLevel;
-                String url = hospitalLevel.getString(THospitalLevel.picture);
-                YSLog.d("asdad", "onActivityResult:" + url);
+            if (data instanceof HospitalName) {
+                HospitalName h = (HospitalName) data;
+                HospitalLevel l = h.getEv(THospitalName.level);
+                String hospital = h.getString(THospitalName.name);
                 getRelatedItem(RelatedId.hospital).save(hospital, hospital);
-                getRelatedItem(RelatedId.hospital).url(hospitalLevel.getString(THospitalLevel.picture));
-                mHospitalLevel = hospitalLevel.getInt(THospitalLevel.id);
+                getRelatedItem(RelatedId.hospital).url(l.getString(THospitalLevel.picture));
+                mHospitalLevel = l.getInt(THospitalLevel.id);
             }
             refreshRelatedItem(RelatedId.hospital);
         }

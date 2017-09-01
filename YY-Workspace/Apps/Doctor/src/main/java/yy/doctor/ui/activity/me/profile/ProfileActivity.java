@@ -13,17 +13,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import lib.ys.YSLog;
 import lib.ys.form.OnFormObserver;
 import lib.ys.model.FileSuffix;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.timeTick.TimeInterpolator;
-import lib.ys.timeTick.TimeInterpolator.InterpolatorType;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
 import lib.ys.util.TextUtil;
@@ -45,9 +40,11 @@ import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.text.intent.IntentForm.IntentType;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
+import yy.doctor.model.hospital.HospitalName;
+import yy.doctor.model.hospital.HospitalName.THospitalName;
 import yy.doctor.ui.activity.user.PcdActivity;
+import yy.doctor.ui.activity.user.hospital.BaseHospitalActivity.FromType;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
-import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -147,7 +144,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .observer(this)
                 .layout(R.layout.form_text_hospital)
                 .name(R.string.user_hospital)
-                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, IntentType.hospital))
+                .intent(new Intent(this, HospitalActivity.class).putExtra(Extra.KData, FromType.profile))
                 .type(IntentType.hospital)
                 .text(Profile.inst().getString(TProfile.hospital))
                 .url(url)
@@ -291,27 +288,25 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     private void setProgress() {
         mProgressProFile = mStatus.size() * 10;
 
-//        mProgressBar.setProgress(mProgressProFile);
+        mProgressBar.setProgress(mProgressProFile);
 
-        TimeInterpolator interpolator = TimeInterpolator.create(InterpolatorType.accelerate);
-        interpolator.start(TimeUnit.SECONDS.toMillis(2));
-        Flowable.interval(0, 60, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                    float i = interpolator.getInterpolation();
-                   int progress =  (int) (interpolator.getInterpolation() * mProgressProFile);
-                    mProgressBar.setProgress(progress);
-                    if (i == 1) {
-                        // stop
-                    }
-                });
-        
+//        TimeInterpolator interpolator = TimeInterpolator.create(InterpolatorType.accelerate);
+//        interpolator.start(TimeUnit.SECONDS.toMillis(2));
+//        Flowable.interval(0, 60, TimeUnit.MILLISECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(aLong -> {
+//                    float i = interpolator.getInterpolation();
+//                   int progress =  (int) (interpolator.getInterpolation() * mProgressProFile);
+//                    mProgressBar.setProgress(progress);
+//                    if (i == 1) {
+//                        // stop
+//                    }
+//                });
         
 //        Flowable.intervalRange(0, mProgressProFile, 0, 60, TimeUnit.MILLISECONDS)
 //                .map(aLong -> )
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(aLong -> mProgressBar.setProgress(Long.valueOf(aLong).intValue()));
-
 
         mTvPercent.setText(mProgressProFile + "%");
         if (mProgressProFile == 100) {
@@ -457,13 +452,11 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             getRelatedItem(RelatedId.address).save(text, text);
             refreshRelatedItem(RelatedId.address);
         } else if(type == NotifyType.hospital_finish) {
-            if (data instanceof Hos) {
-                Hos level = (Hos) data;
-                String hospital = level.mName;
-                String url = level.mHospitalLevel.getString(THospitalLevel.picture);
-                YSLog.d("asdad", "onActivityResult:" + url);
+            if (data instanceof HospitalName) {
+                HospitalName h = (HospitalName) data;
+                String hospital = h.getString(THospitalName.name);
                 getRelatedItem(RelatedId.hospital).save(hospital, hospital);
-                getRelatedItem(RelatedId.hospital).url(level.mHospitalLevel.getString(THospitalLevel.picture));
+                getRelatedItem(RelatedId.hospital).url(h.getEv(THospitalName.level).getString(THospitalLevel.picture));
             }
             refreshRelatedItem(RelatedId.hospital);
         }

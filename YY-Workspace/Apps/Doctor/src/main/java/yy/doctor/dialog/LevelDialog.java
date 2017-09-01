@@ -81,5 +81,6 @@ public class LevelDialog extends BaseDialog {
             HospitalLevel h = (HospitalLevel) v.getTag();
             mListener.onLevelChecked(h);
         }
+        dismiss();
     }
 }

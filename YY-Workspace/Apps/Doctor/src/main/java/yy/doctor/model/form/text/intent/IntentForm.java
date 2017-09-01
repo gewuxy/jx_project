@@ -7,15 +7,13 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.YSLog;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.Extra;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.text.TextForm;
 import yy.doctor.model.hospital.HospitalLevel;
 import yy.doctor.model.hospital.HospitalLevel.THospitalLevel;
-import yy.doctor.ui.activity.user.hospital.SearchHospitalActivity.Hos;
+import yy.doctor.model.hospital.HospitalName;
+import yy.doctor.model.hospital.HospitalName.THospitalName;
 
 /**
  * @author CaiXiang
@@ -79,15 +77,15 @@ public class IntentForm extends TextForm {
     protected void onActivityResult(int position, Intent data) {
         switch (mCurrType) {
             case IntentType.hospital: {
-                Hos hos = (Hos) data.getSerializableExtra(Extra.KData);
-                if (hos != null) {
-                    String hospital = hos.mName;
-                    String url = hos.mHospitalLevel.getString(THospitalLevel.picture);
-                    YSLog.d("asdad", "onActivityResult:" + url);
+                HospitalName h = (HospitalName) data.getSerializableExtra(Extra.KData);
+                if (h != null) {
+                    String hospital = h.getString(THospitalName.name);
+                    HospitalLevel l = h.getEv(THospitalName.level);
+                    String url = l.getString(THospitalLevel.picture);
                     save(hospital, hospital);
-                    data(hos.mHospitalLevel.getInt(THospitalLevel.id))
-                            .url(url)
-                            .refresh();
+                    data(l.getInt(THospitalLevel.id));
+                    url(url);
+                    refresh();
                 }
             }
             break;
