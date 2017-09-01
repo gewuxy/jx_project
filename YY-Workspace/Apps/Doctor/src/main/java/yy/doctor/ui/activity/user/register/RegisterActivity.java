@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -386,14 +387,16 @@ public class RegisterActivity extends BaseFormActivity implements
             return;
         }
 
-        //定位成功
-        Place place = new Place(gps);
-        YSLog.d(TAG, place.getDesc());
-
-        addOnGlobalLayoutListener(() -> {
-            TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
-            locationText.setText(place.getDesc());
-            getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
+        addOnPreDrawListener(new OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                String place = new Place(gps).getDesc();
+                YSLog.d(TAG, place);
+                getRelatedItem(RelatedId.location).save(place, place);
+                refreshRelatedItem(RelatedId.location);
+                removeOnPreDrawListener(this);
+                return true;
+            }
         });
     }
 

@@ -3,14 +3,11 @@ package yy.doctor.ui.activity.search;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import java.util.List;
 
 import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
-import lib.ys.view.FlowLayout;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.util.Util;
@@ -48,6 +45,10 @@ public class SearchActivity extends BaseActivity {
             if (TextUtil.isEmpty(search)) {
                 showToast(R.string.please_input_search_content);
                 return;
+            }
+            if (KeyboardUtil.isActive()) {
+                // 键盘显示就隐藏
+                KeyboardUtil.hideFromView(mEtSearch);
             }
             SearchResultActivityRouter.create().searchContent(search).route(this);
         });

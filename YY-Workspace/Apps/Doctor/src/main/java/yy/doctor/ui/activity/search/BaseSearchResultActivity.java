@@ -62,6 +62,10 @@ abstract public class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
                 showToast(R.string.please_input_search_content);
                 return;
             }
+            if (KeyboardUtil.isActive()) {
+                // 键盘显示就隐藏
+                KeyboardUtil.hideFromView(mEtSearch);
+            }
             refresh(RefreshWay.embed);
         });
     }

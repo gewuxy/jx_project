@@ -252,6 +252,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     protected void onDestroy() {
         super.onDestroy();
 
+        mSearch.destroy();
         LocationNotifier.inst().remove(this);
         Location.inst().onDestroy();
     }
