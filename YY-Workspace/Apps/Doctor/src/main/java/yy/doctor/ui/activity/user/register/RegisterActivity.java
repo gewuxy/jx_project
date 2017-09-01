@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,32 +76,29 @@ import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
 import yy.doctor.util.input.InputFilterSpace;
 
-import static cn.jiguang.analytics.android.api.JAnalyticsInterface.mContext;
-
 /**
  * 注册界面  7.1
  * <p>
  * 日期 : 2017/4/19
  * 创建人 : guoxuan
  */
-public class RegisterActivity extends BaseFormActivity
-        implements OnEditorActionListener, OnLocationNotify, OnFormObserver, TextWatcher {
+public class RegisterActivity extends BaseFormActivity implements
+        OnEditorActionListener,
+        OnLocationNotify,
+        OnFormObserver,
+        TextWatcher {
 
     private final int KIdRegister = 0;
     private final int KIdLogin = 1;
     private final int KIdCaptcha = 2;
 
-    private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
     private final int KActivateCodeCheckStatus = 100;
 
-    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
+    private final int KMaxCount = 3; // 最多获取3次验证码
+    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
 
-    private EditText mEtActivatedCode;      //填写激活码
-
-    //免责声明  服务协议
-    private String mUrlDisclaimer = UrlUtil.getHostName() + "api/register/get_protocol";
-    private String mUrlActivityCode = UrlUtil.getHostName() + "api/register/get_invite_code";
-    private int mHospitalLevel;
+    private final String KUrlDisclaimer = UrlUtil.getHostName() + "api/register/get_protocol"; // 免责声明
+    private final String KUrlActivityCode = UrlUtil.getHostName() + "api/register/get_invite_code"; // 服务协议
 
     @IntDef({
             RelatedId.phone_number,
@@ -117,7 +113,6 @@ public class RegisterActivity extends BaseFormActivity
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
-
         int phone_number = 1;
         int captcha = 2;
         int pwd = 3;
@@ -129,35 +124,22 @@ public class RegisterActivity extends BaseFormActivity
         int title = 9;
     }
 
-    private TextView mTvAgree;       //注册按钮的下一行字
-    private TextView mTvActivatedCode;   //获取激活码
-    private TextView mTvProtocol; //协议
-
+    private View mLayoutCaptcha; // 激活码这个Item
+    private View mTvReg; // 注册按钮
+    private TextView mTvHeader; // 提示语
+    private TextView mTvAgree; // 注册按钮的下一行字
+    private EditText mEtActivatedCode; // 激活码
     private ImageView mIvCancel; // 激活码的“×”图标
+
+    private int mHospitalLevel; // 医院等级id
+
+    private int mCount; // 计算点击多少次
     private long mStartTime; // 开始计算10分钟间隔的时间
 
-    private int mCount;//计算点击多少次
+    private String mMasId; // 二维码返回的id
 
-    private View mTvReg;
-
-    private String mPhone;
-    private TextView mTvHeader;
-    private View mLayoutCaptcha;
-
-    private String mMasId;
-
-    private int mEnableSize;
-    private Set<Integer> mStatus;
-
-    @Override
-    public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.register, this);
-        bar.addViewRight(R.mipmap.register_scan, v -> {
-            if (checkPermission(0, Permission.camera)) {
-                startActivityForResult(ScanActivity.class, 0);
-            }
-        });
-    }
+    private int mEnableSize; // 完成个数
+    private Set<Integer> mStatus; // 记录要完成的内容
 
     @Override
     public void initData() {
@@ -244,13 +226,13 @@ public class RegisterActivity extends BaseFormActivity
     }
 
     @Override
-    protected View createHeaderView() {
-        return inflate(R.layout.layout_register_header);
-    }
-
-    @Override
-    protected View createFooterView() {
-        return inflate(R.layout.layout_register_footer);
+    public void initNavBar(NavBar bar) {
+        Util.addBackIcon(bar, R.string.register, this);
+        bar.addViewRight(R.mipmap.register_scan, v -> {
+            if (checkPermission(0, Permission.camera)) {
+                startActivityForResult(ScanActivity.class, 0);
+            }
+        });
     }
 
     @Override
@@ -259,30 +241,29 @@ public class RegisterActivity extends BaseFormActivity
 
         mTvReg = findView(R.id.register);
         mEtActivatedCode = findView(R.id.register_et_captcha);
-        mTvActivatedCode = findView(R.id.register_tv_activated_code);
         mIvCancel = findView(R.id.iv_activated_cancel);
         mTvAgree = findView(R.id.register_tv_agree);
         mTvHeader = findView(R.id.register_header);
         mLayoutCaptcha = findView(R.id.register_layout_captcha);
-        mTvProtocol = findView(R.id.help_and_feedback_footer_tv_agreement);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(mTvReg);
-        setOnClickListener(mTvActivatedCode);
+        setOnClickListener(R.id.register_tv_activated_code);
+        setOnClickListener(R.id.help_and_feedback_footer_tv_agreement);
         setOnClickListener(mIvCancel);
-        setOnClickListener(mTvProtocol);
+        setOnClickListener(mTvReg);
 
         mTvReg.setEnabled(false);
+
         SpannableString s = new SpannableString(getString(R.string.you_agree));
         s.setSpan(new ForegroundColorSpan(ResLoader.getColor(R.color.text_888)), 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mTvAgree.setText(s);
 
         // 静默检查定位权限
-        if (PermissionChecker.allow(mContext, Permission.location)) {
+        if (PermissionChecker.allow(RegisterActivity.this, Permission.location)) {
             startLocation();
         }
 
@@ -293,10 +274,20 @@ public class RegisterActivity extends BaseFormActivity
     }
 
     @Override
+    protected View createHeaderView() {
+        return inflate(R.layout.layout_register_header);
+    }
+
+    @Override
+    protected View createFooterView() {
+        return inflate(R.layout.layout_register_footer);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_tv_activated_code: {
-                CommonWebViewActivityRouter.create(getString(R.string.title_fetch_captcha), mUrlActivityCode)
+                CommonWebViewActivityRouter.create(getString(R.string.title_fetch_captcha), KUrlActivityCode)
                         .route(this);
             }
             break;
@@ -309,109 +300,24 @@ public class RegisterActivity extends BaseFormActivity
             }
             break;
             case R.id.help_and_feedback_footer_tv_agreement: {
-                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), mUrlDisclaimer)
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), KUrlDisclaimer)
                         .route(this);
             }
         }
     }
 
-    //对键盘的处理
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_GO) {
-            register();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 注册操作
-     */
-    private void register() {
-        mPhone = getRelatedItem(RelatedId.phone_number).getVal();
-
-        if (!Util.isMobileCN(mPhone)) {
-            showToast(R.string.not_phone_number);
-            return;
-        }
-
-
-        // 密码
-        String strPwd = getItemStr(RelatedId.pwd);
-
-        if (!strPwd.matches(Util.symbol())) {
-            showToast(R.string.input_special_symbol);
-            return;
-        }
-
-        if (strPwd.length() < 6) {
-            showToast(R.string.input_right_pwd_num);
-            return;
-        }
-
-        // 省市区
-        String addresses = getItemStr(RelatedId.location);
-        Place place = new Place(addresses);
-
-        //专科,按照空格来分
-        String special = getItemStr(RelatedId.special);
-        String[] s = special.split(" ");
-        String category = s[0];
-        String name = s[1];
-
-        mHospitalLevel = getRelatedItem(RelatedId.hospital).getData();
-
-        // 激活码
-        String code = mEtActivatedCode.getText().toString().trim();
-
-        //注册
-        refresh(RefreshWay.dialog);
-        NetworkReq r = RegisterAPI.reg()
-                .mobile(getPhone())
-                .captcha(getItemStr(RelatedId.captcha))
-                .password(getItemStr(RelatedId.pwd))
-                .linkman(getItemStr(RelatedId.name))
-                .province(place.getString(TPlace.province))
-                .city(place.getString(TPlace.city))
-                .zone(place.getString(TPlace.district))
-                .hospital(getItemStr(RelatedId.hospital))
-                .hospitalLevel(mHospitalLevel)//医院级别
-                .category(category)//专科一级名称，要分开
-                .name(name)//专科二级名称
-                .department(getItemStr(RelatedId.department))//科室名称
-                .title(getItemStr(RelatedId.title))//职称
-                .invite(code)
-                .masterId(mMasId)
-                .build();
-        exeNetworkReq(KIdRegister, r);
-
-    }
-
-    private String getPhone() {
-        return mPhone.toString().replace(" ", "");
-    }
-
-    /**
-     * 获取Item的文本信息
-     */
-    private String getItemStr(@RelatedId int relatedId) {
-        return getRelatedItem(relatedId).getVal();
-    }
-
     @Override
     protected void onFormViewClick(View v, int position, Object related) {
-
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-                    mPhone = getItemStr(RelatedId.phone_number);
-                    HintDialog dialog = new HintDialog(this);
 
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
-                    tv.setText(mPhone);
+                    String phone = getItemStr(RelatedId.phone_number);
+                    tv.setText(phone);
 
+                    HintDialog dialog = new HintDialog(this);
                     dialog.addHintView(view);
                     dialog.addBlueButton(R.string.cancel);
                     dialog.addBlueButton(R.string.well, v1 -> {
@@ -438,37 +344,45 @@ public class RegisterActivity extends BaseFormActivity
     }
 
     @Override
-    public void onNotify(@NotifyType int type, Object data) {
-        BaseForm form = getRelatedItem(RelatedId.captcha);
-        if (type == NotifyType.pcd_selected) {
-            Place place = (Place) data;
-            String text = place.getDesc();
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-            getRelatedItem(RelatedId.location).save(text, text);
-            refreshRelatedItem(RelatedId.location);
-        } else if (type == NotifyType.fetch_message_captcha) {
-            form.enable(true);
-            refreshItem(form);
-        } else if (type == NotifyType.disable_fetch_message_captcha) {
-            form.enable(false);
-            refreshItem(form);
-        } else if (type == NotifyType.hospital_finish) {
-            if (data instanceof HospitalName) {
-                HospitalName h = (HospitalName) data;
-                HospitalLevel l = h.getEv(THospitalName.level);
-                String hospital = h.getString(THospitalName.name);
-                getRelatedItem(RelatedId.hospital).save(hospital, hospital);
-                getRelatedItem(RelatedId.hospital).url(l.getString(THospitalLevel.picture));
-                mHospitalLevel = l.getInt(THospitalLevel.id);
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (TextUtil.isEmpty(s)) {
+            mStatus.remove(KActivateCodeCheckStatus);
+            goneView(mIvCancel);
+        } else {
+            mStatus.add(KActivateCodeCheckStatus);
+            showView(mIvCancel);
+        }
+
+        setBtnStatus();
+    }
+
+    @Override
+    public void onPermissionResult(int code, @PermissionResult int result) {
+        switch (result) {
+            case PermissionResult.granted: {
+                startActivityForResult(ScanActivity.class, 0);
             }
-            refreshRelatedItem(RelatedId.hospital);
+            break;
+            case PermissionResult.denied:
+            case PermissionResult.never_ask: {
+                showToast(getString(R.string.user_photo_permission));
+            }
+            break;
         }
     }
 
     @Override
     public void onLocationResult(boolean isSuccess, Gps gps) {
+        stopLocation();
         if (!isSuccess) {
-            stopLocation();
             return;
         }
 
@@ -476,17 +390,11 @@ public class RegisterActivity extends BaseFormActivity
         Place place = new Place(gps);
         YSLog.d(TAG, place.getDesc());
 
-        addOnPreDrawListener(new OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
-                locationText.setText(place.getDesc());
-                getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
-                removeOnPreDrawListener(this);
-                return true;
-            }
+        addOnGlobalLayoutListener(() -> {
+            TextView locationText = getRelatedItem(RelatedId.location).getHolder().getTvText();
+            locationText.setText(place.getDesc());
+            getRelatedItem(RelatedId.location).save(locationText.getText().toString(), locationText.getText().toString());
         });
-        stopLocation();
     }
 
     @Override
@@ -544,6 +452,87 @@ public class RegisterActivity extends BaseFormActivity
         }
     }
 
+    /**
+     * 对键盘的处理
+     */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            register();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 注册操作
+     */
+    private void register() {
+        String phone = getItemStr(RelatedId.phone_number);
+        if (!Util.isMobileCN(phone)) {
+            showToast(R.string.not_phone_number);
+            return;
+        }
+
+        // 密码
+        String strPwd = getItemStr(RelatedId.pwd);
+        if (!strPwd.matches(Util.symbol())) {
+            showToast(R.string.input_special_symbol);
+            return;
+        }
+        if (strPwd.length() < 6) {
+            showToast(R.string.input_right_pwd_num);
+            return;
+        }
+
+        // 省市区
+        String addresses = getItemStr(RelatedId.location);
+        Place place = new Place(addresses);
+
+        //专科,按照空格来分
+        String special = getItemStr(RelatedId.special);
+        String[] s = special.split(" ");
+        String category = s[0];
+        String name = s[1];
+
+        mHospitalLevel = getRelatedItem(RelatedId.hospital).getData();
+
+        // 激活码
+        String code = mEtActivatedCode.getText().toString().trim();
+
+        //注册
+        refresh(RefreshWay.dialog);
+        NetworkReq r = RegisterAPI.reg()
+                .mobile(getPhone())
+                .captcha(getItemStr(RelatedId.captcha))
+                .password(getItemStr(RelatedId.pwd))
+                .linkman(getItemStr(RelatedId.name))
+                .province(place.getString(TPlace.province))
+                .city(place.getString(TPlace.city))
+                .zone(place.getString(TPlace.district))
+                .hospital(getItemStr(RelatedId.hospital))
+                .hospitalLevel(mHospitalLevel) // 医院级别
+                .category(category) // 专科一级名称，要分开
+                .name(name) // 专科二级名称
+                .department(getItemStr(RelatedId.department)) // 科室名称
+                .title(getItemStr(RelatedId.title)) // 职称
+                .invite(code)
+                .masterId(mMasId)
+                .build();
+        exeNetworkReq(KIdRegister, r);
+
+    }
+
+    private String getPhone() {
+        return getItemStr(RelatedId.phone_number).replace(" ", "");
+    }
+
+    /**
+     * 获取Item的文本信息
+     */
+    private String getItemStr(@RelatedId int relatedId) {
+        return getRelatedItem(relatedId).getVal();
+    }
 
     private void startLocation() {
         LocationNotifier.inst().add(this);
@@ -553,6 +542,45 @@ public class RegisterActivity extends BaseFormActivity
     private void stopLocation() {
         LocationNotifier.inst().remove(this);
         Location.inst().stop();
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        switch (type) {
+            case NotifyType.pcd_selected: {
+                if (data instanceof Place) {
+                    Place place = (Place) data;
+                    String text = place.getDesc();
+                    getRelatedItem(RelatedId.location).save(text, text);
+                }
+                refreshRelatedItem(RelatedId.location);
+            }
+            break;
+            case NotifyType.fetch_message_captcha: {
+                BaseForm form = getRelatedItem(RelatedId.captcha);
+                form.enable(true);
+                refreshItem(form);
+            }
+            break;
+            case NotifyType.disable_fetch_message_captcha: {
+                BaseForm form = getRelatedItem(RelatedId.captcha);
+                form.enable(false);
+                refreshItem(form);
+            }
+            break;
+            case NotifyType.hospital_finish: {
+                if (data instanceof HospitalName) {
+                    HospitalName h = (HospitalName) data;
+                    HospitalLevel l = h.getEv(THospitalName.level);
+                    String hospital = h.getString(THospitalName.name);
+                    getRelatedItem(RelatedId.hospital).save(hospital, hospital);
+                    getRelatedItem(RelatedId.hospital).url(l.getString(THospitalLevel.picture));
+                    mHospitalLevel = l.getInt(THospitalLevel.id);
+                }
+                refreshRelatedItem(RelatedId.hospital);
+            }
+            break;
+        }
     }
 
     @Override
@@ -606,46 +634,6 @@ public class RegisterActivity extends BaseFormActivity
         } else {
             // 按钮不能点击
             mTvReg.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (TextUtil.isEmpty(s)) {
-            mStatus.remove(KActivateCodeCheckStatus);
-        } else {
-            mStatus.add(KActivateCodeCheckStatus);
-        }
-
-        setBtnStatus();
-
-        if (TextUtil.isNotEmpty(s)) {
-            ViewUtil.showView(mIvCancel);
-        } else {
-            ViewUtil.goneView(mIvCancel);
-        }
-    }
-
-    @Override
-    public void onPermissionResult(int code, @PermissionResult int result) {
-        switch (result) {
-            case PermissionResult.granted: {
-                startActivityForResult(ScanActivity.class, 0);
-            }
-            break;
-            case PermissionResult.denied:
-            case PermissionResult.never_ask: {
-                showToast(getString(R.string.user_photo_permission));
-            }
-            break;
         }
     }
 }

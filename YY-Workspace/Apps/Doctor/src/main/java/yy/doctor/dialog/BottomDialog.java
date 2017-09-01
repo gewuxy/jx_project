@@ -18,6 +18,8 @@ import lib.ys.adapter.AdapterEx;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
+import yy.doctor.adapter.BottomAdapter;
+import yy.doctor.adapter.VH.BottomVH;
 
 /**
  * 在底部的dialog
@@ -29,7 +31,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 
     private ListView mLv;
     private OnDialogItemClickListener mListener;
-    private AdapterEx<SpannableString, BottomDialogVH> mAdapter;
+    private AdapterEx<SpannableString, BottomVH> mAdapter;
 
     public BottomDialog(@NonNull Context context, @Nullable OnDialogItemClickListener l) {
         super(context);
@@ -39,18 +41,6 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 
     @Override
     public void initData() {
-        mAdapter = new AdapterEx<SpannableString, BottomDialogVH>() {
-
-            @Override
-            public int getConvertViewResId() {
-                return R.layout.layout_dialog_bottom_item;
-            }
-
-            @Override
-            protected void refreshView(int position, BottomDialogVH holder) {
-                holder.getTv().setText(getItem(position));
-            }
-        };
     }
 
     @NonNull
@@ -66,6 +56,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 
     @Override
     public void setViews() {
+        mAdapter = new BottomAdapter();
         mLv.setAdapter(mAdapter);
         mLv.setOnItemClickListener(this);
 
@@ -73,9 +64,9 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
     }
 
     public void addItem(String text, @ColorInt int color) {
-        SpannableString ss = new SpannableString(text);
-        ss.setSpan(new ForegroundColorSpan(color), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mAdapter.add(ss);
+        SpannableString s = new SpannableString(text);
+        s.setSpan(new ForegroundColorSpan(color), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mAdapter.add(s);
 
         mAdapter.notifyDataSetChanged();
     }
@@ -90,17 +81,6 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
 
     public interface OnDialogItemClickListener {
         void onDialogItemClick(int position);
-    }
-
-    public class BottomDialogVH extends ViewHolderEx {
-
-        public BottomDialogVH(@NonNull View convertView) {
-            super(convertView);
-        }
-
-        public TextView getTv() {
-            return getView(R.id.dialog_bottom_tv);
-        }
     }
 
 }
