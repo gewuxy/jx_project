@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import inject.annotation.router.Arg;
 import lib.network.model.NetworkError;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
@@ -28,12 +29,12 @@ import yy.doctor.util.Util;
  * @auther : GuoXuan
  * @since : 2017/8/4
  */
-public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
+abstract public class BaseSearchResultActivity extends BaseSRListActivity<IRec, RecAdapter> {
 
     @Arg(opt = true)
     String mSearchContent; // 搜索内容
 
-    private EditText mEtSearch;
+    private EditText mEtSearch; // 搜索的输入框
 
     public EditText getSearchView() {
         return mEtSearch;
@@ -48,23 +49,20 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
 
+        // 搜索的布局
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         mEtSearch.setText(mSearchContent);
         mEtSearch.setHint(getSearchHint());
         bar.addViewMid(view, null);
 
-        bar.addTextViewRight("搜索", v -> {
-            mSearchContent = mEtSearch.getText().toString().trim();
+        bar.addTextViewRight(R.string.search, v -> {
+            mSearchContent = Util.getEtString(mEtSearch);
             if (TextUtil.isEmpty(mSearchContent)) {
-                showToast("请输入搜索内容");
+                showToast(R.string.please_input_search_content);
                 return;
             }
-            // 键盘显示就隐藏
-            if (KeyboardUtil.isActive()) {
-                KeyboardUtil.hideFromView(mEtSearch);
-            }
-            refresh();
+            refresh(RefreshWay.embed);
         });
     }
 
@@ -83,18 +81,15 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
         setViewState(ViewState.error);
     }
 
-    protected abstract CharSequence getSearchHint();
-
     @Override
     public void onItemClick(View v, int position) {
-        int type = getAdapter().getItemViewType(position);
+        int type = getAdapter().getItemViewType(position); // Item类型
         switch (type) {
             case RecType.unit_num: {
                 UnitNum item = (UnitNum) getItem(position);
                 UnitNumDetailActivity.nav(this, item.getInt(TUnitNum.id));
             }
             break;
-
             case RecType.meeting: {
                 Meeting item = (Meeting) getItem(position);
                 MeetingDetailsActivityRouter.create(
@@ -102,7 +97,6 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
                 ).route(this);
             }
             break;
-
             case RecType.meet_folder: {
                 Meeting item = (Meeting) getItem(position);
                 MeetingFolderActivityRouter.create(item.getString(TMeeting.id))
@@ -111,9 +105,11 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
                         .route(this);
             }
             break;
-
             case RecType.more: {
-                if (getAdapter().getItemViewType(position - 1) == IRec.RecType.unit_num) {
+                if (position - 1 < 0) {
+                    return;
+                }
+                if (getAdapter().getItemViewType(position - 1) == RecType.unit_num) {
                     UnitNumResultActivityRouter.create()
                             .searchContent(mSearchContent)
                             .route(this);
@@ -126,4 +122,9 @@ public abstract class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
             break;
         }
     }
+
+    /**
+     * 搜索框的提示语
+     */
+    abstract protected CharSequence getSearchHint();
 }

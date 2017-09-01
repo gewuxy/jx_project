@@ -88,8 +88,8 @@ public class SearchResultActivity extends BaseSearchResultActivity {
         }
 
         if (mMeetReqIsOK && mUnitNumReqIsOK) {
-            boolean haveUnitNum = mUnitNums != null && mUnitNums.size() > 0;
-            boolean haveMeet = mMeets != null && mMeets.size() > 0;
+            boolean haveUnitNum = mUnitNums != null && mUnitNums.size() > 0;  // 单位号有数据
+            boolean haveMeet = mMeets != null && mMeets.size() > 0; // 会议有数据
 
             ListResult<IRec> listResult = new ListResult<>();
             List<IRec> data = new ArrayList<>();
@@ -117,9 +117,9 @@ public class SearchResultActivity extends BaseSearchResultActivity {
     /**
      * 拼接结果
      *
-     * @param result
-     * @param data
-     * @param num
+     * @param result 接收
+     * @param data 提供
+     * @param num 需要的展示的数据数量
      */
     private void toggleResult(List<IRec> result, List<IRec> data, int num) {
         if (data.size() > num) {

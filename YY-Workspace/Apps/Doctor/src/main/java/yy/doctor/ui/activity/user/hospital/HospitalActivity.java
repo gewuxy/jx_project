@@ -131,6 +131,11 @@ public class HospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
+    protected int getDistance() {
+        return 10000;
+    }
+
+    @Override
     protected void searchSuccess(List<PoiInfo> info, ListResult<IHospital> r) {
         List<IHospital> data = new ArrayList<>();
         r.setCode(ErrorCode.KOk);

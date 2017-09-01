@@ -26,16 +26,16 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
     @Override
     protected void refreshView(int position, RecVH holder, int itemType) {
         switch (itemType) {
-            // 搜索会议
             case RecType.meet_folder:
             case RecType.meeting: {
+                // 搜索会议
                 MeetingVH meetingVH = holder.getMeetingVH();
 
                 UISetter.meetingHolderSet(meetingVH, (Meeting) getItem(position), true);
             }
             break;
-            // 搜索单位号
             case RecType.unit_num: {
+                // 搜索单位号
                 UnitNum unitNum = (UnitNum) getItem(position);
                 UnitNumVH unitNumVH = holder.getUnitNumVH();
 
@@ -46,12 +46,13 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 unitNumVH.getTvChild().setText(unitNum.getString(TUnitNum.nickname));
             }
             break;
-
             case RecType.more: {
+                // 有搜索更多
                 TextView tvMore = holder.getTvMore();
                 if (position - 1 < 0) {
                     return;
                 }
+                // 前面的Item类型
                 if (getItemViewType(position - 1) == RecType.unit_num) {
                     tvMore.setText("查看更多单位号");
                 } else {

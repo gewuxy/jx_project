@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:flowLayout="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -51,24 +50,5 @@
             android:textColor="@color/text_006ebd"
             android:textSize="12dp"/>
     </RelativeLayout>
-
-    <View
-        android:visibility="gone"
-        style="@style/divider"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:scrollbars="none"
-        android:visibility="gone">
-
-        <lib.ys.view.FlowLayout
-            android:id="@+id/meeting_search_flowlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            flowLayout:vg_horSpacing="10dp"
-            flowLayout:vg_verSpacing="12dp"/>
-    </ScrollView>
 
 </LinearLayout>

@@ -23,7 +23,6 @@ import yy.doctor.util.Util;
  */
 public class SearchActivity extends BaseActivity {
 
-    private FlowLayout mFlowLayout;//底部科室列表
     private EditText mEtSearch;
 
     @NonNull
@@ -44,10 +43,10 @@ public class SearchActivity extends BaseActivity {
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
         bar.addViewMid(view, null);
 
-        bar.addTextViewRight("搜索", v -> {
+        bar.addTextViewRight(R.string.search, v -> {
             String search = mEtSearch.getText().toString().trim();
             if (TextUtil.isEmpty(search)) {
-                showToast("请输入搜索内容");
+                showToast(R.string.please_input_search_content);
                 return;
             }
             SearchResultActivityRouter.create().searchContent(search).route(this);
@@ -56,37 +55,12 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mFlowLayout = findView(R.id.meeting_search_flowlayout);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.meeting_search_tv_unit_num);
         setOnClickListener(R.id.meeting_search_tv_meeting);
-
-        setLayout();
-    }
-
-    /**
-     * FlowLayout的设置
-     */
-    private void setLayout() {
-        List<String> mNames = Util.getSections(); // 全部科室
-        TextView tvSection;
-        View view;
-        for (int i = 0; i < mNames.size(); i++) {
-            String name = mNames.get(i);
-            view = inflate(R.layout.layout_meeting_search_section);
-            tvSection = (TextView) view.findViewById(R.id.meeting_search_tv_section);
-            tvSection.setText(name);
-            view.setOnClickListener(v ->
-                    MeetingResultActivityRouter
-                            .create()
-                            .searchContent(name)
-                            .route(SearchActivity.this));
-            fit(view);
-            mFlowLayout.addView(view);
-        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.search;
 
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.util.List;
 
@@ -42,12 +43,16 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
         super.setViews();
 
         if (TextUtil.isEmpty(mSearchContent)) {
-            runOnUIThread(() -> {
-                getSearchView().requestFocus();
-                KeyboardUtil.showFromView(getSearchView());
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    getSearchView().requestFocus();
+                    KeyboardUtil.showFromView(getSearchView());
+                    removeOnGlobalLayoutListener(this);
+                }
+
             });
-        } else {
-            showView(mLayoutEmpty);
         }
     }
 

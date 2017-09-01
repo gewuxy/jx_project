@@ -43,10 +43,6 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
                 showToast(getString(R.string.please_input_search_content));
                 return;
             }
-            if (KeyboardUtil.isActive()) {
-                // 键盘显示就隐藏
-                KeyboardUtil.hideFromView(mEtSearch);
-            }
             if (Util.noNetwork()) {
                 return;
             }
@@ -104,6 +100,11 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
         } else {
             simulateSuccess();
         }
+    }
+
+    @Override
+    protected int getDistance() {
+        return Integer.MAX_VALUE;
     }
 
     @Override

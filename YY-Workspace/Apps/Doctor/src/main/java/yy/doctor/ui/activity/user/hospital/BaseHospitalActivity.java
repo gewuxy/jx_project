@@ -69,7 +69,6 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     private final int KIdHospital = 0;
     private final int KIdSave = 1;
-    private final int KDistance = 10000; // 搜索距离
     private final int KLimit = 12; // 每页展示的数据
 
     protected HospitalName mHospitalName; // 点击的dialog的Item(包括医院名字)
@@ -261,10 +260,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
      * 检查有没有定位权限
      */
     protected void startLocation() {
-        if (checkPermission(0, Permission.location)) {
-            if (Util.noNetwork()) {
-                return;
-            }
+        if (checkPermission(0, Permission.location) && !Util.noNetwork()) {
             Location.inst().start();
         }
     }
@@ -278,7 +274,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
                 .location(mLatLng)
                 .pageCapacity(getLimit())    //每页条数
                 .keyword(key)
-                .radius(KDistance)// 检索半径，单位是米
+                .radius(getDistance())// 检索半径，单位是米
                 .pageNum(getOffset())
                 .sortType(PoiSortType.distance_from_near_to_far);//由近到远排序
         mSearch.searchNearby(option);// 发起附近检索请求
@@ -347,6 +343,11 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
      * 没有定位权限时
      */
     abstract protected void noLocationPermission();
+
+    /**
+     * 获取搜索范围
+     */
+    abstract protected int getDistance();
 
     /**
      * 搜索到结果
