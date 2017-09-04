@@ -15,6 +15,7 @@ import android.widget.TextView;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -174,7 +175,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.login_tv_login: {
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(UserAPI.login(getUserName(), Util.getEtString(mEtPwd), getOpenId()).build());
+                exeNetworkReq(UserAPI.login(getUserName(), Util.getEtString(mEtPwd), getOpenId(), PackageUtil.getMetaValue("MASTER_ID")).build());
             }
             break;
             case R.id.login_iv_cancel: {

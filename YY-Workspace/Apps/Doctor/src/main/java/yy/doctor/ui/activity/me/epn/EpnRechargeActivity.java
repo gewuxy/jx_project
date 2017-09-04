@@ -155,11 +155,11 @@ public class EpnRechargeActivity extends BaseActivity {
         switch (id) {
             case R.id.recharge_tv_pay: {
                 String str = mEtRechargeNum.getText().toString().trim();
-                mRechargeSum = Integer.valueOf(str);
                 if (TextUtil.isEmpty(str) || mRechargeSum == 0) {
                     showToast(R.string.input_recharge_money);
                     return;
                 }
+                mRechargeSum = Integer.valueOf(str);
 
                 exeNetworkReq(NetworkAPISetter.CommonAPI.epnRecharge(getString(R.string.epn_recharge), mRechargeSum).build());
             }

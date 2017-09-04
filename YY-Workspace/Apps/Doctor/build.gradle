@@ -10,8 +10,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 7130
-        versionName "7.1.3"
+        versionCode 7131
+        versionName "7.1.31"
 
         multiDexEnabled true
 
@@ -97,16 +97,30 @@ android {
         flavors_debug {
             manifestPlaceholders = [
                     app_name: "YaYa医师(B)",
+                    app_icon: "ic_launcher",
+                    master_id: "123",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
                     app_name: "YaYa医师(A)",
+                    app_icon: "ic_launcher",
+                    master_id: 456,
             ]
         }
         flavors_release {
             manifestPlaceholders = [
                     app_name: "YaYa医师",
+                    app_icon: "ic_launcher",
+                    master_id: 789,
+            ]
+        }
+        c_mairui {
+//            applicationIdSuffix "mairui"
+            manifestPlaceholders = [
+                    app_name: "麦瑞",
+                    app_icon: "ic_launcher_mairui",
+                    master_id: 957425,
             ]
         }
     }
@@ -117,7 +131,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 前段
-                def fileName = outputFile.name.replace("Doctor", "YaYa医师")
+                def fileName = outputFile.name.replace("Doctor", "${productFlavors.manifestPlaceholders.app_name}")
                 // 中段
                 fileName = fileName.replace("-flavors_debug", "")
                 fileName = fileName.replace("-debug", "(test)")
@@ -135,6 +149,7 @@ android {
 
     sourceSets {
         main.res.srcDirs += 'src/main/res-form'
+        main.res.srcDirs += 'src/main/res-custom'
     }
 
     lintOptions {

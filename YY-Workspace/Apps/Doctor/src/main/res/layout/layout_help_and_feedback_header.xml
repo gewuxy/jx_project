@@ -6,11 +6,11 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <ImageView
+    <lib.ys.network.image.NetworkImageView
+        android:id="@+id/help_and_feedback_iv"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginTop="32dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_marginTop="32dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,19 +21,19 @@
         android:gravity="center_horizontal">
 
         <TextView
+            android:id="@+id/help_and_feedback_tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13dp"
-            android:textColor="@color/text_666"
-            android:text="@string/company_name"/>
+            android:textColor="@color/text_666"/>
 
         <TextView
-            android:id="@+id/help_and_feedback_header_tv"
+            android:id="@+id/help_and_feedback_tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:textColor="@color/text_666"
-            android:textSize="13dp"
-            android:text="6.5.20"/>
+            android:textSize="13dp"/>
 
     </LinearLayout>
 

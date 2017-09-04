@@ -258,8 +258,8 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
 
         for (int i = 0; i < getCount(); ++i) {
             BaseForm item = getItem(i);
-            if (TextUtil.isNotEmpty(item.getText())
-                    || TextUtil.isNotEmpty(item.getVal())) { // 头像是使用的是val
+            if (TextUtil.isNotEmpty(item.getText()) || TextUtil.isNotEmpty(item.getVal())) {
+                // 头像是使用的是val
                 mStatus.add(item.getRelated());
             }
         }

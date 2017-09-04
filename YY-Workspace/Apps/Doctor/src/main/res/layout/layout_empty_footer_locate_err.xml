@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/hospital_empty_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
         android:drawableLeft="@mipmap/pcd_ic_locate_err"
         android:drawablePadding="8dp"
         android:text="无法获取您的位置信息"

@@ -18,8 +18,8 @@ public class UrlUtil {
             // 测试线
             mBaseHost = "59.111.90.245:8083/v7/";
 //            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
-//            mBaseHost = "10.0.0.250:8081/"; // 轩哥电脑
-//            mBaseHost = "10.0.0.252:8082/"; // 长玲电脑
+//            mBaseHost = "10.0.0.250:8081/api/"; // 轩哥电脑
+//            mBaseHost = "10.0.0.252:8082/api/"; // 长玲电脑
             mHostName = "http://" + mBaseHost;
         } else {
             // 正式线

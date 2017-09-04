@@ -13,6 +13,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.PackageUtil;
 import lib.yy.model.form.BaseForm;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -252,7 +253,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             if (r.isSucceed()) {
                 showToast("修改成功");
                 //注册成功后登录,登录有结果才stopRefresh
-                exeNetworkReq(KLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null).build());
+                exeNetworkReq(KLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null, PackageUtil.getMetaValue("MASTER_ID")).build());
             } else {
                 stopRefresh();
                 showToast(r.getMessage());

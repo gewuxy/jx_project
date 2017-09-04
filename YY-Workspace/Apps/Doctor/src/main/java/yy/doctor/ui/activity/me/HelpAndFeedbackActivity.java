@@ -8,8 +8,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.action.IntentAction;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.PackageUtil;
+import lib.ys.util.res.ResLoader;
+import lib.ys.util.res.ResUtil.ResDefType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.model.form.Form;
@@ -53,7 +57,9 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         int feedback = 5;
     }
 
+    private TextView mTvAppName;
     private TextView mTvVersion;
+    private NetworkImageView mIv;
     private String mVersion;
 
     @Override
@@ -106,14 +112,18 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     public void findViews() {
         super.findViews();
 
-        mTvVersion = findView(R.id.help_and_feedback_header_tv);
+        mTvAppName = findView(R.id.help_and_feedback_tv_app_name);
+        mTvVersion = findView(R.id.help_and_feedback_tv_version);
+        mIv = findView(R.id.help_and_feedback_iv);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mTvVersion.setText(mVersion);
+        mIv.res(ResLoader.getIdentifier(PackageUtil.getMetaValue("APP_ICON"), ResDefType.mipmap)).load();
+        mTvAppName.setText(PackageUtil.getMetaValue("APP_NAME"));
+        mTvVersion.setText("V" + mVersion);
         setOnClickListener(R.id.help_and_feedback_footer_tv_agreement);
     }
 

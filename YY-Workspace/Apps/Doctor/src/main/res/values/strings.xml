@@ -1,7 +1,4 @@
 <resources>
-    <string name="app_name">YaYa新医师</string>
-
-    <string name="company_name">YaYa医师 V</string>
 
     <!--通用-->
     <string name="affirm">确认</string>

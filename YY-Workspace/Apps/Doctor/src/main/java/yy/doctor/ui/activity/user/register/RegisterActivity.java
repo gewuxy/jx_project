@@ -33,12 +33,12 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.ys.util.view.ViewUtil;
 import lib.yy.model.form.BaseForm;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -448,7 +448,7 @@ public class RegisterActivity extends BaseFormActivity implements
                 //注册成功后登录,登录有结果才stopRefresh
                 //保存用户名
                 SpApp.inst().saveUserName(getPhone());
-                exeNetworkReq(KIdLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null).build());
+                exeNetworkReq(KIdLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null, PackageUtil.getMetaValue("MASTER_ID")).build());
             } else {
                 onNetworkError(id, r.getError());
             }

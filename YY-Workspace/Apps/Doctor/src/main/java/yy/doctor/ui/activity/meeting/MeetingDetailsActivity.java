@@ -124,7 +124,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private ShareDialog mShareDialog; // 分享
     private BaseFunc mCourseFunc;
 
-
     @NonNull
     @Override
     public int getContentViewId() {
