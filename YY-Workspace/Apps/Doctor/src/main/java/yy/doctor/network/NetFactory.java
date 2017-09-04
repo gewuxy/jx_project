@@ -7,6 +7,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.PackageUtil;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil.UrlMeet;
@@ -96,7 +97,7 @@ public class NetFactory {
 
         ps.add(newPair(BaseParam.KDevice, "android"));
         ps.add(newPair(BaseParam.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(BaseParam.KAppVersion, DeviceUtil.getAppVersion()));
+        ps.add(newPair(BaseParam.KAppVersion, PackageUtil.getAppVersion()));
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));

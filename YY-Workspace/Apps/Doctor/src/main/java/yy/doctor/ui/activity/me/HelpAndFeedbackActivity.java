@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
 import lib.ys.action.IntentAction;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.res.ResUtil.ResDefType;
@@ -105,7 +104,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                 .related(RelatedId.feedback)
                 .name(R.string.opinion_feedback));
 
-        mVersion = DeviceUtil.getAppVersionName();
+        mVersion = PackageUtil.getAppVersionName();
     }
 
     @Override

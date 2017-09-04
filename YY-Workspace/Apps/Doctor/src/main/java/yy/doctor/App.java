@@ -23,6 +23,7 @@ import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.PackageUtil;
 import lib.yy.BaseApp;
 import yy.doctor.Constants.PageConstants;
 import yy.doctor.model.Profile;
@@ -80,7 +81,7 @@ public class App extends BaseApp {
 
                     ps.add(new CommonPair(NetworkParam.KDevice, "android"));
                     ps.add(new CommonPair(NetworkParam.KOSVersion, DeviceUtil.getSystemVersion()));
-                    ps.add(new CommonPair(NetworkParam.KAppVersion, DeviceUtil.getAppVersion()));
+                    ps.add(new CommonPair(NetworkParam.KAppVersion, PackageUtil.getAppVersion()));
                     if (Profile.inst().isLogin()) {
                         ps.add(new CommonPair(NetworkParam.KToken, Profile.inst().getString(TProfile.token)));
                     }
