@@ -10,6 +10,7 @@ import android.widget.EditText;
 import lib.ys.ConstantsEx;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
+import yy.doctor.util.UISetter;
 import yy.doctor.util.input.InputFilterSpaCHN;
 
 /**
@@ -32,7 +33,7 @@ public class EditPwdForm extends EditForm {
     protected void init(FormVH holder) {
         super.init(holder);
         // 设置输入digits
-        // UISetter.setPwdRange(holder.getEt());
+        UISetter.setPwdRange(getHolder().getEt());
 
         holder.getIv().setSelected(true);
         setOnClickListener(holder.getIv());

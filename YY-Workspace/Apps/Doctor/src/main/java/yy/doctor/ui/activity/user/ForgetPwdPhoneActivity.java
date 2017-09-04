@@ -41,10 +41,10 @@ import yy.doctor.util.Util;
 
 public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormObserver {
 
-    private final int KLogin = 1;
-    private final int KCaptcha = 2;
-    private final int KModify = 3;
-    private final int KMaxCount = 4; // 10分钟内最多获取3次验证码
+    private final int KLogin = 0;
+    private final int KCaptcha = 1;
+    private final int KModify = 2;
+    private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
 
@@ -156,15 +156,15 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
                     dialog.addHintView(view);
                     dialog.addBlueButton(R.string.cancel);
-                    dialog.addBlueButton("好", v1 -> {
-                        if (mCount == 0) {
+                    dialog.addBlueButton(R.string.well, v1 -> {
+                        mCount++;
+                        if (mCount == 1) {
                             mStartTime = System.currentTimeMillis();
                         }
-                        mCount++;
                         if (mCount > KMaxCount) {
                             long duration = System.currentTimeMillis() - mStartTime;
                             if (duration <= KCaptchaDuration) {
-                                showToast("获取验证码太频繁");
+                                showToast(R.string.get_captcha_frequently);
                                 return;
                             } else {
                                 mCount = 1;
@@ -172,6 +172,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                         }
                         exeNetworkReq(KCaptcha, RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
                     });
+                    dialog.show();
                 }
             }
             break;
