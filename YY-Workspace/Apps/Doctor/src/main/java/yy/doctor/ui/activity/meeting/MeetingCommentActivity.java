@@ -101,12 +101,12 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
         setOnClickListener(mTvSend);
 
+        refresh(RefreshWay.embed);
         getDataFromNet();
     }
 
     @Override
     public void getDataFromNet() {
-        refresh(RefreshWay.embed);
         /**
          * @deprecated 这版本没有下拉加载以前数据
          */
@@ -172,6 +172,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
             getDataFromNet();
         }
         return true;

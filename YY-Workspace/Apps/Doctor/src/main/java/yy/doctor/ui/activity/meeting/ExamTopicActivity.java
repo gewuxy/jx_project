@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.meeting;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -81,11 +82,14 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
 
         if (SpApp.inst().isFirstExam()) {
             // 第一次进入考试时提示
-            addOnGlobalLayoutListener(() -> {
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
                 mTopicPopup = new TopicPopup(ExamTopicActivity.this);
                 mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
                 SpApp.inst().noFirstExam();
-
+                removeOnGlobalLayoutListener(this);
+                }
             });
         }
 

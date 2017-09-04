@@ -69,7 +69,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     protected final String KHospital = ResLoader.getString(R.string.hospital);
 
-    private final int KIdHospital = 0;
+    protected final int KIdHospital = 0;
     private final int KIdSave = 1;
     private final int KLimit = 12; // 每页展示的数据
 
@@ -77,7 +77,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     protected LatLng mLatLng; // 定位信息
     protected boolean mFirstAction; // 第一次需要的操作
 
-    private int mFromType; // 从哪里来
+    int mFromType; // 从哪里来
     private PoiSearch mSearch; // 搜索
 
     protected TextView mTvEmpty;
@@ -210,7 +210,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     public final void onLevelChecked(HospitalLevel h) {
         mHospitalName.put(THospitalName.level, h);
         if (mFromType == FromType.profile) {
-            refresh(RefreshWay.dialog);
+            showLoadingDialog();
             exeNetworkReq(KIdSave, NetworkAPISetter.UserAPI.modify()
                     .hospital(mHospitalName.getString(THospitalName.name))
                     .hospitalLevel(h.getString(THospitalLevel.id))
@@ -233,7 +233,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     @Override
     public void onNetworkSuccess(int id, Object result) {
         if (id == KIdSave) {
-            stopRefresh();
+            stopDialogRefresh();
             Result r = (Result) result;
             if (r.isSucceed()) {
 

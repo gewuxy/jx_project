@@ -75,7 +75,7 @@ public class HospitalActivity extends BaseHospitalActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.hospital_search: {
-                startActivity(SearchHospitalActivity.class);
+                startActivity(new Intent(this, SearchHospitalActivity.class).putExtra(Extra.KData, mFromType));
             }
             break;
         }

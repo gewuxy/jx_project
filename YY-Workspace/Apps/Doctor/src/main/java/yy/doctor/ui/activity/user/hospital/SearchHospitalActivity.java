@@ -81,6 +81,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                mEtSearch.requestFocus();
                 KeyboardUtil.showFromView(mEtSearch);
                 removeOnGlobalLayoutListener(this);
             }
@@ -102,7 +103,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
         if (mFirstAction) {
             mFirstAction = false;
         } else {
-            simulateSuccess();
+            // 模拟搜索不到内容
+            onGetPoiResult(null);
         }
     }
 

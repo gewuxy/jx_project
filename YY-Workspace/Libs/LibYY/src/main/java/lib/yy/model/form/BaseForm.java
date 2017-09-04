@@ -42,6 +42,8 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     private ColorStateList mHintTextColor;
 
+    private boolean mIllegality = false; // 是否能输入非法字符(注册可以输入)
+
     public <T extends BaseForm> T paddingLeft(int padding) {
         mPaddingLeft = padding;
         return (T) this;
@@ -76,6 +78,11 @@ abstract public class BaseForm extends FormEx<FormVH> {
         return (T) this;
     }
 
+    public <T extends BaseForm> T illegality(boolean illegality) {
+        mIllegality = illegality;
+        return (T) this;
+    }
+
     public int getPaddingLeft() {
         return mPaddingLeft;
     }
@@ -98,6 +105,10 @@ abstract public class BaseForm extends FormEx<FormVH> {
 
     public ColorStateList getHintTextColor() {
         return mHintTextColor;
+    }
+
+    public boolean getIllegality() {
+        return mIllegality;
     }
 
     @Override

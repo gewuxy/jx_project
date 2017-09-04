@@ -41,8 +41,7 @@ import yy.doctor.ui.frag.meeting.exam.TopicFragRouter;
  */
 public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopicListener, OnPageChangeListener, OnItemClickListener {
 
-    private static final int KVpSize = 3;
-
+    private final int KVpSize = 3;
     private final int KDuration = 300; // 动画时长
 
     private TopicCaseAdapter mTopicCaseAdapter; // 考题情况的Adapter
@@ -287,9 +286,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         int size = mTopics.size();
         for (int i = 0; i < size; i++) {
             //最后一题
-            boolean isLast = false;
+            boolean isLast;
             if (i == size - 1) {
                 isLast = true;
+            } else {
+                isLast = false;
             }
             topicFrag = TopicFragRouter.create()
                     .listId(i)

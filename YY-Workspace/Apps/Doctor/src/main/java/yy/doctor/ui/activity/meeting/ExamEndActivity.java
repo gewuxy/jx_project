@@ -89,11 +89,11 @@ public class ExamEndActivity extends BaseActivity {
         mTvCount.setText(String.valueOf(mCount));
         mTvPass.setText(String.valueOf(mPass));
 
+        refresh(RefreshWay.embed);
         getDataFromNet();
     }
 
     private void getDataFromNet() {
-        refresh(RefreshWay.embed);
         NetworkReq r = MeetAPI.submitExam()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
@@ -134,6 +134,7 @@ public class ExamEndActivity extends BaseActivity {
     @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
             getDataFromNet();
         }
         return true;

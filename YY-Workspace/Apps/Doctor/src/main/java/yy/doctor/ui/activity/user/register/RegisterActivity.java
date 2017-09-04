@@ -170,7 +170,8 @@ public class RegisterActivity extends BaseFormActivity implements
                 .observer(this)
                 .related(RelatedId.pwd)
                 .hint(R.string.pwd)
-                .drawable(R.drawable.register_pwd_selector));
+                .drawable(R.drawable.register_pwd_selector)
+                .illegality(true));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et)

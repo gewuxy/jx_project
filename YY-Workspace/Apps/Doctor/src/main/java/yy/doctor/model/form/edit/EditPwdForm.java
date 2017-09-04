@@ -1,7 +1,5 @@
 package yy.doctor.model.form.edit;
 
-import android.text.InputFilter;
-import android.text.InputFilter.LengthFilter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -18,6 +16,7 @@ import yy.doctor.util.input.InputFilterSpaCHN;
  * @since 2017/6/8
  */
 public class EditPwdForm extends EditForm {
+
     private boolean mFlag = true;//密码是否可见
 
     @Override
@@ -31,14 +30,18 @@ public class EditPwdForm extends EditForm {
 
     @Override
     protected void init(FormVH holder) {
+        input(new InputFilterSpaCHN());
+        limit(24);
+
         super.init(holder);
+
         // 设置输入digits
-        UISetter.setPwdRange(getHolder().getEt());
+        if (!getIllegality()) {
+            UISetter.setPwdRange(getHolder().getEt());
+        }
 
         holder.getIv().setSelected(true);
         setOnClickListener(holder.getIv());
-
-        holder.getEt().setFilters(new InputFilter[]{new InputFilterSpaCHN(), new LengthFilter(24)});
 
         getHolder().getIv().setSelected(mFlag);
     }

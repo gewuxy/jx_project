@@ -460,6 +460,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 getRelatedItem(RelatedId.hospital).url(h.getEv(THospitalName.level).getString(THospitalLevel.picture));
             }
             refreshRelatedItem(RelatedId.hospital);
+            notify(NotifyType.profile_change); // 引起我的界面的刷新
         }
     }
 
