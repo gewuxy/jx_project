@@ -425,7 +425,6 @@ public class RegisterActivity extends BaseFormActivity implements
                 finish();
             } else {
                 onNetworkError(id, r.getError());
-                startActivity(LoginActivity.class);
                 finish();
             }
         } else if (id == KIdCaptcha) {
@@ -440,11 +439,13 @@ public class RegisterActivity extends BaseFormActivity implements
             //注册
             Result r = (Result) result;
             if (r.getCode() == 101 || r.getCode() == 102) {
+                stopRefresh();
                 HintDialogMain d = new HintDialogMain(this);
                 d.setHint(getString(R.string.phone_have_been_register));
                 d.addBlueButton(R.string.cancel);
                 d.addBlueButton(R.string.immediately_register, v -> finish());
                 d.show();
+                return;
             }
             if (r.isSucceed()) {
                 //注册成功后登录,登录有结果才stopRefresh
@@ -578,9 +579,10 @@ public class RegisterActivity extends BaseFormActivity implements
                     HospitalName h = (HospitalName) data;
                     HospitalLevel l = h.getEv(THospitalName.level);
                     String hospital = h.getString(THospitalName.name);
-                    getRelatedItem(RelatedId.hospital).save(hospital, hospital);
-                    getRelatedItem(RelatedId.hospital).url(l.getString(THospitalLevel.picture));
-                    mHospitalLevel = l.getInt(THospitalLevel.id);
+                    BaseForm item = getRelatedItem(RelatedId.hospital);
+                    item.save(hospital, hospital);
+                    item.url(l.getString(THospitalLevel.picture));
+                    item.data(l.getInt(THospitalLevel.id));
                 }
                 refreshRelatedItem(RelatedId.hospital);
             }
