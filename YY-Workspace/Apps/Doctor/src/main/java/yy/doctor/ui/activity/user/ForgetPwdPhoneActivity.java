@@ -42,9 +42,10 @@ import yy.doctor.util.Util;
 
 public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormObserver {
 
-    private final int KLogin = 0;
-    private final int KCaptcha = 1;
-    private final int KModify = 2;
+    private final int KIdLogin = 0;
+    private final int KIdCaptcha = 1;
+    private final int KIdModify = 2;
+
     private final int KMaxCount = 3; // 10分钟内最多获取3次验证码
 
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10);
@@ -171,7 +172,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KCaptcha, RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
+                        exeNetworkReq(KIdCaptcha, RegisterAPI.captcha(mPhone.replace(" ", ""), CaptchaType.re_fetch).build());
                     });
                     dialog.show();
                 }
@@ -210,7 +211,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             return;
         }
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KModify, UserAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
+        exeNetworkReq(KIdModify, UserAPI.phone(getPhone(), getItemStr(RelatedId.captcha), getItemStr(RelatedId.pwd)).build());
     }
 
     private String getPhone() {
@@ -219,7 +220,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KLogin) {
+        if (id == KIdLogin) {
             return JsonParser.ev(r.getText(), Profile.class);
         } else {
             return JsonParser.error(r.getText());
@@ -228,7 +229,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        if (id == KLogin) { //登陆
+        if (id == KIdLogin) { //登陆
             stopRefresh();
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
@@ -240,7 +241,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 stopRefresh();
                 showToast(r.getMessage());
             }
-        } else if (id == KCaptcha) {//验证码
+        } else if (id == KIdCaptcha) {//验证码
             Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
@@ -248,12 +249,12 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             } else {
                 showToast(r.getMessage());
             }
-        } else if (id == KModify) {//修改并设置新密码
+        } else if (id == KIdModify) {//修改并设置新密码
             Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast("修改成功");
                 //注册成功后登录,登录有结果才stopRefresh
-                exeNetworkReq(KLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null, PackageUtil.getMetaValue("MASTER_ID")).build());
+                exeNetworkReq(KIdLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null, PackageUtil.getMetaValue("MASTER_ID")).build());
             } else {
                 stopRefresh();
                 showToast(r.getMessage());

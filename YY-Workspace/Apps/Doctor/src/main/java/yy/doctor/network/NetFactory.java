@@ -19,13 +19,6 @@ import yy.doctor.network.UrlUtil.UrlUser;
  */
 public class NetFactory {
 
-    private static final String TAG = NetFactory.class.getSimpleName();
-
-
-    /*********************************
-     * 以下是工具
-     */
-
     /**
      * 获取post请求
      *
@@ -38,66 +31,12 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
-    public static Builder newPost(String url, int pageNum, int pageSize) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .post()
-                .param(CommonParam.KPageNum, pageNum)
-                .param(CommonParam.KPageSize, pageSize)
-                .header(getBaseHeader());
-    }
-
-    /**
-     * 获取get请求
-     *
-     * @param url
-     * @return
-     */
-    public static Builder newGet(String url) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .get()
-                .header(getBaseHeader());
-    }
-
-    public static Builder newGet(String url, int pageNum, int pageSize) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .get()
-                .param(CommonParam.KPageNum, pageNum)
-                .param(CommonParam.KPageSize, pageSize)
-                .header(getBaseHeader());
-    }
-
-    /**
-     * 获取upload请求
-     *
-     * @param url
-     * @return
-     */
-    public static Builder newUpload(String url) {
-        return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
-                .upload()
-                .header(getBaseHeader());
-    }
-
-    /**
-     * 获取download请求
-     *
-     * @param url
-     * @param filePath
-     * @param fileName
-     * @return
-     */
-    public static Builder newDownload(String url, String filePath, String fileName) {
-        return NetworkReq.newBuilder(url)
-                .download(filePath, fileName)
-                .header(getBaseHeader());
-    }
-
-    private static List<CommonPair> getBaseHeader() {
+    public static List<CommonPair> getBaseHeader() {
         List<CommonPair> ps = new ArrayList<>();
 
-        ps.add(newPair(BaseParam.KDevice, "android"));
-        ps.add(newPair(BaseParam.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(BaseParam.KAppVersion, PackageUtil.getAppVersion()));
+        ps.add(newPair(CommonParam.KDevice, "android"));
+        ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
+        ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersion()));
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
@@ -109,16 +48,11 @@ public class NetFactory {
         return new CommonPair(key, value);
     }
 
-    public interface BaseParam {
+    public interface CommonParam {
         String KOSVersion = "os_version";
         String KDevice = "os_type";
         String KAppVersion = "app_version";
-    }
-
-    public interface CommonParam {
         String KToken = "token";
-        String KPageNum = "pageNum";
-        String KPageSize = "pageSize";
     }
 
     public interface MeetParam {
@@ -126,7 +60,7 @@ public class NetFactory {
         String KDetailId = "detailId";//微课明细
         String KQuestionId = "questionId";//试题
         String KAnswer = "answer";//答案
-        String KItemJson = "itemJson";//答案列表
+        //        String KItemJson = "itemJson";//答案列表
         String KUseTime = "usedtime";//微课用时  秒
         String KFinish = "finished"; //  是否完成
     }

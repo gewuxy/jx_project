@@ -130,7 +130,7 @@ public class Util extends BaseUtil {
                     o.put(MeetParam.KQuestionId, topic.getString(TTopic.id));
                     o.put(MeetParam.KAnswer, answer);
                 } catch (JSONException e) {
-                    YSLog.e("toJson", MeetParam.KItemJson, e);
+                    YSLog.e("toJson", "chooseToJson", e);
                 }
                 arr.put(o);
             }

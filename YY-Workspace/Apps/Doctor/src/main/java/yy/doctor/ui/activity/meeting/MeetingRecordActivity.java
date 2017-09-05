@@ -33,7 +33,7 @@ import yy.doctor.model.meet.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.PPT;
 import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CommonAPI;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -185,7 +185,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             File file = CacheUtil.getMeetingCacheFile(mMeetId, fileName);
             if (!file.exists()) {
                 // 不存在下载
-                exeNetworkReq(position, NetFactory.newDownload(audioUrl, filePath, fileName).build());
+                exeNetworkReq(position, CommonAPI.download(filePath, fileName, audioUrl).build());
             } else {
                 // 存在播放
                 mPlayer.reset();

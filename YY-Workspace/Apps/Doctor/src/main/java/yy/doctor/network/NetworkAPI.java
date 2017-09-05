@@ -440,7 +440,7 @@ public class NetworkAPI {
          */
         @GET("recommend/meet/folder")
         void recommendMeeting(int pageNum, int pageSize);
-        
+
         /**
          * @param meetId     会议id
          * @param moduleId   模块id
@@ -649,5 +649,8 @@ public class NetworkAPI {
          */
         @POST("alipay/recharge")
         void epnRecharge(String subject, int totalAmount);
+
+        @DOWNLOAD_FILE
+        void download(@Url String url);
     }
 }

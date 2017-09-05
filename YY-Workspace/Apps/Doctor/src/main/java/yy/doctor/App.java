@@ -7,13 +7,9 @@ import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.network.NetworkConfig;
-import lib.network.model.param.CommonPair;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -22,12 +18,9 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
-import lib.ys.util.DeviceUtil;
-import lib.ys.util.PackageUtil;
 import lib.yy.BaseApp;
 import yy.doctor.Constants.PageConstants;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkAPISetter;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;
@@ -76,18 +69,7 @@ public class App extends BaseApp {
                 .connectTimeout(KTimeout)
                 .readTimeout(KTimeout)
                 .writeTimeout(KTimeout)
-                .headersMaker(() -> {
-                    List<CommonPair> ps = new ArrayList<>();
-
-                    ps.add(new CommonPair(NetworkParam.KDevice, "android"));
-                    ps.add(new CommonPair(NetworkParam.KOSVersion, DeviceUtil.getSystemVersion()));
-                    ps.add(new CommonPair(NetworkParam.KAppVersion, PackageUtil.getAppVersion()));
-                    if (Profile.inst().isLogin()) {
-                        ps.add(new CommonPair(NetworkParam.KToken, Profile.inst().getString(TProfile.token)));
-                    }
-
-                    return ps;
-                })
+                .headersMaker(() -> NetFactory.getBaseHeader())
                 .timeoutToast(getString(R.string.connect_timeout))
                 .disconnectToast(getString(R.string.network_disabled))
                 .cacheDir(CacheUtil.getUploadCacheDir())
