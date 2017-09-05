@@ -65,7 +65,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
 
         View view = inflate(R.layout.layout_meeting_nav_bar_search);
         mEtSearch = (EditText) view.findViewById(R.id.meeting_search_nav_bar_et);
-        mEtSearch.setHint(R.string.search_hospital);
+        mEtSearch.setHint(R.string.please_input_hospital_name);
         bar.addViewMid(view, null);
 
         bar.addTextViewRight(R.string.search, mSearchListener);
@@ -110,7 +110,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
 
     @Override
     protected int getDistance() {
-        return Integer.MAX_VALUE / 2;
+        return 10000;
+       // return Integer.MAX_VALUE;
     }
 
     @Override

@@ -72,7 +72,6 @@ import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;
 import yy.doctor.ui.activity.user.hospital.BaseHospitalActivity.FromType;
 import yy.doctor.ui.activity.user.hospital.HospitalActivity;
-import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.util.input.InputFilterChineseImpl;
 import yy.doctor.util.input.InputFilterSpace;
@@ -92,6 +91,8 @@ public class RegisterActivity extends BaseFormActivity implements
     private final int KIdRegister = 0;
     private final int KIdLogin = 1;
     private final int KIdCaptcha = 2;
+    private final int KReturnCode = 101;
+    private final int KReturnCode2 = 102;
 
     private final int KActivateCodeCheckStatus = 100;
 
@@ -438,7 +439,7 @@ public class RegisterActivity extends BaseFormActivity implements
         } else {
             //注册
             Result r = (Result) result;
-            if (r.getCode() == 101 || r.getCode() == 102) {
+            if (r.getCode() == KReturnCode || r.getCode() == KReturnCode2) {
                 stopRefresh();
                 HintDialogMain d = new HintDialogMain(this);
                 d.setHint(getString(R.string.phone_have_been_register));
@@ -585,7 +586,7 @@ public class RegisterActivity extends BaseFormActivity implements
                     item.data(l.getInt(THospitalLevel.id));
                 }
                 refreshRelatedItem(RelatedId.hospital);
-            }
+        }
             break;
         }
     }
@@ -594,7 +595,7 @@ public class RegisterActivity extends BaseFormActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //resultCode == RESULT_FIRST_USER只是一个区别于之前的ESULT_OK
+        //resultCode == RESULT_FIRST_USER只是一个区别于之前的RESULT_OK
         if (resultCode == RESULT_FIRST_USER && data != null) {
             String name = data.getStringExtra(Extra.KData);
             mMasId = data.getStringExtra(Extra.KId);

@@ -54,6 +54,7 @@
     <string name="recommend_hospital">推荐医院</string>
     <string name="nearby_hospital">附近医院</string>
     <string name="search_hospital">搜索医院</string>
+    <string name="please_input_hospital_name">请输入医院名称</string>
 
     <!--hint-->
     <string name="hint_not_fill">未填写</string>

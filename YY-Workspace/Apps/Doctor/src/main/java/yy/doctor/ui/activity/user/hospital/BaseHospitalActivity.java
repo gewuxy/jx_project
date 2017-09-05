@@ -371,7 +371,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     /**
      * 没搜索到结果
      */
-    protected abstract void searchError(ListResult<IHospital> r);
+    abstract protected  void searchError(ListResult<IHospital> r);
 
     /**
      * 选择医院返回结果
