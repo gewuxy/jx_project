@@ -87,12 +87,17 @@ public class SurveyTopicActivity extends BaseTopicActivity {
 
             // 第一次进入问卷时提示
             if (SpApp.inst().isFirstQue()) {
-                addOnGlobalLayoutListener(() -> {
-                    mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
-                    mTopicPopup.setCheck(R.mipmap.que_popup_check);
-                    mTopicPopup.setSlide(R.mipmap.que_popup_slide);
-                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                    SpApp.inst().noFirstQue();
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+                        mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
+                        mTopicPopup.setCheck(R.mipmap.que_popup_check);
+                        mTopicPopup.setSlide(R.mipmap.que_popup_slide);
+                        mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                        SpApp.inst().noFirstQue();
+                        removeOnGlobalLayoutListener(this);
+                    }
                 });
             }
 
