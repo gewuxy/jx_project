@@ -432,6 +432,7 @@ public class RegisterActivity extends BaseFormActivity implements
             Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                showToast(R.string.send_captcha);
             } else {
                 onNetworkError(id, r.getError());
             }

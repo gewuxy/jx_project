@@ -52,7 +52,7 @@ public class ChangePwdActivity extends BaseSetActivity {
 
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_new)
-                .hint("输入6～24位密码")
+                .hint(R.string.pwd)
                 .limit(KLengthMax)
                 .drawable(R.drawable.register_pwd_selector));
 
@@ -84,12 +84,12 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     @Override
     public CharSequence getNavBarText() {
-        return "修改密码";
+        return getString(R.string.change_pwd);
     }
 
     @Override
     public CharSequence getSetText() {
-        return "确认修改";
+        return getString(R.string.confirm_change);
     }
 
     @Override

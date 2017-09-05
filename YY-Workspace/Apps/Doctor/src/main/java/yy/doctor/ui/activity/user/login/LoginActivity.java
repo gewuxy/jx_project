@@ -140,7 +140,7 @@ public class LoginActivity extends BaseLoginActivity {
             YSLog.d("lol", mCount + "次.....");
             if (mCount > 5 && mCount < 8) {
                 HintDialogMain d = new HintDialogMain(this);
-                d.setHint("密码错误");
+                d.setHint(getString(R.string.pwd_error));
                 d.addGrayButton(R.string.cancel);
                 d.addBlueButton("找回密码", v1 -> {
                     mDialogForgetPwd = new ForgetPwdDialog(LoginActivity.this);

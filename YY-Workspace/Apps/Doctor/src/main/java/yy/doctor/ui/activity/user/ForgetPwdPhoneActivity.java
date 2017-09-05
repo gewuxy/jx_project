@@ -80,9 +80,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
         mStatus = new HashSet<>();
         mEnableSize = RelatedId.class.getDeclaredFields().length;
 
-        int paddingLeft = fitDp(10);
-        int paddingRight = fitDp(10);
-
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_forget_phone_number)
@@ -245,14 +242,14 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
             Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
-                showToast("已发送验证码");
+                showToast(R.string.send_captcha);
             } else {
                 showToast(r.getMessage());
             }
         } else if (id == KIdModify) {//修改并设置新密码
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("修改成功");
+                showToast(R.string.pwd_change_success);
                 //注册成功后登录,登录有结果才stopRefresh
                 exeNetworkReq(KIdLogin, UserAPI.login(getPhone(), getItemStr(RelatedId.pwd), null, PackageUtil.getMetaValue("MASTER_ID")).build());
             } else {
