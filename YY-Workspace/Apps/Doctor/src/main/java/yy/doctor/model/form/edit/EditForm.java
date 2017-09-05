@@ -4,10 +4,15 @@ import android.os.Build.VERSION_CODES;
 import android.support.annotation.CallSuper;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputFilter.LengthFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import lib.ys.ConstantsEx;
 import lib.ys.util.DeviceUtil;
@@ -41,8 +46,6 @@ public class EditForm extends BaseForm implements TextWatcher {
 
     @Override
     protected void init(FormVH holder) {
-        super.init(holder);
-
         EditText et = holder.getEt();
         et.addTextChangedListener(this);
         // 设置
@@ -72,22 +75,31 @@ public class EditForm extends BaseForm implements TextWatcher {
             ViewUtil.limitInputCount(holder.getEt(), getLimit());
         }
 
-        // 限制输入的类型，比如只能输入中文等
+        // 限制输入的类型
         InputFilter[] inputFilter = getInputFilter();
         if (inputFilter != null && inputFilter.length > 0) {
-            // 会覆盖限制长度的方法,要添加限制长度
+
+            // 会覆盖getLimit()用法,要添加到输入类型中
             if (getLimit() != Constants.KInvalidValue) {
-                // FIXME: 写法??
-                InputFilter[] newInputFilter = new InputFilter[inputFilter.length + 1];
+
+                // 不能直接添加否则UnsupportedOperationException
+                List<InputFilter> newFilters = Arrays.asList(inputFilter);
+
+                List<InputFilter> f = new ArrayList(newFilters);
+                f.add(new LengthFilter(getLimit()));
+
+                InputFilter[] newInputFilter = f.toArray(new InputFilter[f.size()]);
+                /*InputFilter[] newInputFilter = new InputFilter[inputFilter.length + 1];
                 for (int i = 0; i < inputFilter.length; i++) {
                     newInputFilter[i] = inputFilter[i];
                 }
-                newInputFilter[inputFilter.length] = new InputFilter.LengthFilter(getLimit());
+                newInputFilter[inputFilter.length] = new LengthFilter(getLimit());*/
 
                 et.setFilters(newInputFilter);
             } else {
                 et.setFilters(inputFilter);
             }
+
         }
     }
 
