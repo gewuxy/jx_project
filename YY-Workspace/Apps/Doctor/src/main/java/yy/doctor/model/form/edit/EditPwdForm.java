@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import lib.ys.ConstantsEx;
+import lib.ys.network.image.NetworkImageView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
 import yy.doctor.util.UISetter;
@@ -30,6 +31,7 @@ public class EditPwdForm extends EditForm {
 
     @Override
     protected void init(FormVH holder) {
+        // 实现的方法在 super.init()里,所以提前设置
         input(new InputFilterSpaCHN());
         limit(24);
 
@@ -40,10 +42,9 @@ public class EditPwdForm extends EditForm {
             UISetter.setPwdRange(getHolder().getEt());
         }
 
-        holder.getIv().setSelected(true);
-        setOnClickListener(holder.getIv());
-
-        getHolder().getIv().setSelected(mFlag);
+        NetworkImageView iv = holder.getIv();
+        iv.setSelected(mFlag);
+        setOnClickListener(iv);
     }
 
     @Override
@@ -54,10 +55,10 @@ public class EditPwdForm extends EditForm {
                 getHolder().getIv().setSelected(mFlag);
                 EditText et = getHolder().getEt();
                 String content = et.getText().toString();
-                if (!mFlag) {
-                    et.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                } else {
+                if (mFlag) {
                     et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    et.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 et.setSelection(content.length());//光标移到最后
             }
