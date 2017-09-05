@@ -29,7 +29,6 @@ import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;

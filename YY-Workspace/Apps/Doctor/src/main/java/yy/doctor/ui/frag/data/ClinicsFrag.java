@@ -19,11 +19,4 @@ public class ClinicsFrag extends BaseDataUnitsFrag {
     protected int getSearchId() {
         return R.string.clinical_guide_search_hint;
     }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        getAdapter().setDataType(DataType.clinic, DataFrom.data);
-    }
 }

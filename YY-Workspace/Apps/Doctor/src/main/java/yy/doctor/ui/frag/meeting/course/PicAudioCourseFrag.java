@@ -19,7 +19,7 @@ import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.R;
 import yy.doctor.model.meet.Course.TCourse;
-import yy.doctor.network.NetFactory;
+import yy.doctor.network.NetworkAPISetter.CommonAPI;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 import yy.doctor.view.RootLayout;
@@ -128,7 +128,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements
             }
         } else {
             // 不存在下载
-            exeNetworkReq(NetFactory.newDownload(audioUrl, filePath, fileName).build());
+            exeNetworkReq(CommonAPI.download(filePath, filePath, audioUrl).build());
         }
     }
 

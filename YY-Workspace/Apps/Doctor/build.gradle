@@ -10,8 +10,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 7131
-        versionName "7.1.31"
+        versionCode 7132
+        versionName "7.1.32"
 
         multiDexEnabled true
 
@@ -98,21 +98,21 @@ android {
             manifestPlaceholders = [
                     app_name: "YaYa医师(B)",
                     app_icon: "ic_launcher",
-                    master_id: "123",
+                    master_id: "",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
                     app_name: "YaYa医师(A)",
                     app_icon: "ic_launcher",
-                    master_id: 456,
+                    master_id: "",
             ]
         }
         flavors_release {
             manifestPlaceholders = [
                     app_name: "YaYa医师",
                     app_icon: "ic_launcher",
-                    master_id: 789,
+                    master_id: "",
             ]
         }
         c_mairui {
@@ -120,7 +120,7 @@ android {
             manifestPlaceholders = [
                     app_name: "麦瑞",
                     app_icon: "ic_launcher_mairui",
-                    master_id: 957425,
+                    master_id: "957425",
             ]
         }
     }

@@ -144,6 +144,8 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
                 UISetter.onDataUnitClick(item, getDataType(), getContext());
             }
         });
+
+        getAdapter().setDataType(getDataType(), DataFrom.data);
     }
 
     @Override
