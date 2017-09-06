@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.profile;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -88,6 +89,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     private int mProgressProFile = 0;
 
     private Set<Integer> mStatus;
+    private float mProgress;
 
     @IntDef({
             RelatedId.name,
@@ -224,7 +226,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .hint(R.string.user_input_academic)
                 .text(Profile.inst().getString(TProfile.major)));
     }
-    
+
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.user_profile, this);
@@ -287,36 +289,50 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     }
 
     private void setProgress() {
+        mProgressBar.setProgress(0);
         mProgressProFile = mStatus.size() * 10;
-
-        mProgressBar.setProgress(mProgressProFile);
-
-//        TimeInterpolator interpolator = TimeInterpolator.create(InterpolatorType.accelerate);
-//        interpolator.start(TimeUnit.SECONDS.toMillis(2));
-//        Flowable.interval(0, 60, TimeUnit.MILLISECONDS)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(aLong -> {
-//                    float i = interpolator.getInterpolation();
-//                   int progress =  (int) (interpolator.getInterpolation() * mProgressProFile);
-//                    mProgressBar.setProgress(progress);
-//                    if (i == 1) {
-//                        // stop
-//                    }
-//                });
-        
-//        Flowable.intervalRange(0, mProgressProFile, 0, 60, TimeUnit.MILLISECONDS)
-//                .map(aLong -> )
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(aLong -> mProgressBar.setProgress(Long.valueOf(aLong).intValue()));
-
-        mTvPercent.setText(mProgressProFile + "%");
-        if (mProgressProFile == 100) {
-            mRlHeader.setVisibility(View.GONE);
-        } else {
-            mRlHeader.setVisibility(View.VISIBLE);
-        }
         Profile.inst().put(TProfile.integrity, mProgressProFile);
         Profile.inst().saveToSp();
+        if (mProgressProFile == 100) {
+            goneView(mRlHeader);
+        } else {
+            showView(mRlHeader);
+            mTvPercent.setText(mProgressProFile + "%");
+
+            //普通效果
+            //mProgressBar.setProgress(mProgressProFile);
+
+            //rx—java实现动画
+//            mProgress = 0;
+//            DisposableSubscriber<Long> consumer = new DisposableSubscriber<Long>() {
+//                @Override
+//                public void onNext(Long aLong) {
+//                    mProgress += mProgressProFile / 10.0f;
+//                    YSLog.d(TAG, "" + mProgress);
+//                    mProgressBar.setProgress((int) mProgress);
+//                }
+//
+//                @Override
+//                public void onError(Throwable throwable) {
+//                }
+//
+//                @Override
+//                public void onComplete() {
+//                    this.dispose();
+//                }
+//            };
+//            Flowable.interval(0, 100, TimeUnit.MILLISECONDS)
+//                    .take(10)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(consumer);
+
+            //属性动画  添加了背景颜色
+            int width = getWindowManager().getDefaultDisplay().getWidth();
+            float process = width * mProgressProFile / 100.0f;
+            ObjectAnimator animator = ObjectAnimator.ofFloat(mProgressBar, "translationX", 0f, process);
+            animator.setDuration(2000);
+            animator.start();
+        }
     }
 
     @Override
@@ -452,7 +468,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             String text = place.getDesc();
             getRelatedItem(RelatedId.address).save(text, text);
             refreshRelatedItem(RelatedId.address);
-        } else if(type == NotifyType.hospital_finish) {
+        } else if (type == NotifyType.hospital_finish) {
             if (data instanceof HospitalName) {
                 HospitalName h = (HospitalName) data;
                 String hospital = h.getString(THospitalName.name);

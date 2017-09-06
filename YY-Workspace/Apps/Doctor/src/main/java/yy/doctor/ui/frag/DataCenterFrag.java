@@ -55,7 +55,6 @@ public class DataCenterFrag extends BaseVPFrag {
 
     @Override
     public void initData() {
-
         add(new ThomsonFrag());
         add(new DrugsFrag());
         add(new ClinicsFrag());
@@ -68,7 +67,6 @@ public class DataCenterFrag extends BaseVPFrag {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         bar.addTextViewMid(R.string.data_center);
         bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
     }
@@ -103,7 +101,6 @@ public class DataCenterFrag extends BaseVPFrag {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
     }
 
     @Override
@@ -115,7 +112,6 @@ public class DataCenterFrag extends BaseVPFrag {
     }
 
     private void addTabs() {
-
         addTab(PageType.thomson, R.string.thomson);
         addTab(PageType.drug_list, R.string.drug_list);
         addTab(PageType.clinical_guide, R.string.clinical_guide);
@@ -124,9 +120,7 @@ public class DataCenterFrag extends BaseVPFrag {
     }
 
     private void addTab(final int index, @StringRes int id) {
-
         View v = inflate(R.layout.layout_meeting_tab);
-
         TextView tv = (TextView) v.findViewById(R.id.meeting_tab_tv);
         tv.setText(getString(id));
         v.setTag(index);

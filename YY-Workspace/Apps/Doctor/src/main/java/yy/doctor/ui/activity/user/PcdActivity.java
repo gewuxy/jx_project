@@ -164,7 +164,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
         if (KIdCommit == id) {
             return JsonParser.error(r.getText());
         } else {
-            return super.onNetworkResponse(id, r);
+            return  JsonParser.evs(r.getText(), Pcd.class);
         }
     }
 

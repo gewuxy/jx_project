@@ -43,6 +43,7 @@ public class EpnRechargeActivity extends BaseActivity {
     private TextView mTvEpn;
     private TextView mTvEpnRechargeNum;
     private EditText mEtRechargeNum;
+    private TextView mTvRecharge;
 
     private int mRechargeSum;
 
@@ -103,11 +104,13 @@ public class EpnRechargeActivity extends BaseActivity {
         mTvEpn = findView(R.id.recharge_tv_remain_epn);
         mTvEpnRechargeNum = findView(R.id.recharge_tv_total);
         mEtRechargeNum = findView(R.id.recharge_et_num);
+        mTvRecharge = findView(R.id.recharge_tv_pay);
     }
 
     @Override
     public void setViews() {
 
+        mTvRecharge.setEnabled(false);
         setOnClickListener(R.id.recharge_tv_pay);
         mTvEpn.setText(Profile.inst().getString(TProfile.credits));
 
@@ -143,6 +146,12 @@ public class EpnRechargeActivity extends BaseActivity {
                 mTvEpnRechargeNum.setText(epnNum);
                 // 恢复监听
                 mEtRechargeNum.addTextChangedListener(this);
+
+                if (TextUtil.isNotEmpty(editStr)) {
+                    mTvRecharge.setEnabled(true);
+                } else {
+                    mTvRecharge.setEnabled(false);
+                }
             }
         });
     }
@@ -155,7 +164,7 @@ public class EpnRechargeActivity extends BaseActivity {
         switch (id) {
             case R.id.recharge_tv_pay: {
                 String str = mEtRechargeNum.getText().toString().trim();
-                if (TextUtil.isEmpty(str) || mRechargeSum == 0) {
+                if (mRechargeSum == 0) {
                     showToast(R.string.input_recharge_money);
                     return;
                 }

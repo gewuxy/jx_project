@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity;
 
+import android.content.Intent;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -16,7 +17,6 @@ import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.UtilEx;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.network.Result;
@@ -91,8 +91,6 @@ public class MainActivity extends BaseVPActivity {
     @Override
     public void setViews() {
         super.setViews();
-
-        YSLog.d(TAG, "wucaixiang@medcn.cn md5 =  " + UtilEx.md5("wucaixiang@medcn.cn"));
 
         //检查有没有定位权限
         checkPermission(KPermissionCodeLocation, Permission.location);
@@ -252,10 +250,13 @@ public class MainActivity extends BaseVPActivity {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
 
-        if (type == NotifyType.logout || type == NotifyType.exit) {
+        if (type == NotifyType.logout) {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
-            startActivity(LoginActivity.class);
+            //清除栈里的activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
     }

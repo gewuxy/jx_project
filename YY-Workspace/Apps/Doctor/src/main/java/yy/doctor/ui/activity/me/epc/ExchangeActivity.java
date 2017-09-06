@@ -6,12 +6,15 @@ import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.HashSet;
+import java.util.Set;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.form.OnFormObserver;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
@@ -34,7 +37,7 @@ import yy.doctor.util.Util;
  * @since 2017/4/26
  */
 @Route
-public class ExchangeActivity extends BaseFormActivity {
+public class ExchangeActivity extends BaseFormActivity implements OnFormObserver {
 
     @Arg(opt = true)
     int mGoodId;
@@ -49,6 +52,7 @@ public class ExchangeActivity extends BaseFormActivity {
     private TextView mTvName;
     private TextView mTvEpn;
     private TextView mTvPayEpn;
+    private TextView mTvExchange;
 
     @IntDef({
             RelatedId.receiver,
@@ -64,6 +68,9 @@ public class ExchangeActivity extends BaseFormActivity {
         int address = 3;
     }
 
+    private Set<Integer> mStatus;
+    private int mEnableSize;
+
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.exchange, this);
@@ -73,16 +80,20 @@ public class ExchangeActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        addItem(Form.create(FormType.divider_large));
+        mStatus = new HashSet<>();
+        mEnableSize = RelatedId.class.getDeclaredFields().length;
 
+        addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et)
                 .related(RelatedId.receiver)
                 .layout(R.layout.form_edit_no_text)
+                .observer(this)
                 .hint(R.string.receiver));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.mobile)
+                .observer(this)
                 .hint(R.string.phone_num));
 
         addItem(Form.create(FormType.divider_large));
@@ -90,12 +101,14 @@ public class ExchangeActivity extends BaseFormActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.province_city)
                 .layout(R.layout.form_edit_no_text)
+                .observer(this)
                 .hint(R.string.province_city));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.et)
                 .related(RelatedId.address)
                 .layout(R.layout.form_edit_no_text)
+                .observer(this)
                 .hint(R.string.address));
     }
 
@@ -117,6 +130,7 @@ public class ExchangeActivity extends BaseFormActivity {
         mTvName = findView(R.id.epc_item_tv_name);
         mTvEpn = findView(R.id.epc_item_tv_epn);
         mTvPayEpn = findView(R.id.exchange_tv);
+        mTvExchange = findView(R.id.exchange_tv_btn);
     }
 
     @Override
@@ -193,6 +207,38 @@ public class ExchangeActivity extends BaseFormActivity {
             finish();
         } else {
             onNetworkError(id, r.getError());
+        }
+    }
+
+    @Override
+    public void callback(Object... params) {
+        int related = (int) params[0];
+        boolean valid = (boolean) params[1];
+
+        if (valid) {
+            if (!mStatus.contains(related)) {
+                mStatus.add(related);
+            }
+        } else {
+            mStatus.remove(related);
+        }
+
+        setBtnStatus();
+    }
+
+    /**
+     * 根据填写的资料完成度设置兑换按钮是否可以点击
+     */
+    private void setBtnStatus() {
+        if (mTvExchange == null) {
+            return;
+        }
+        if (mStatus.size() == mEnableSize) {
+            // 按钮可以点击
+            mTvExchange.setEnabled(true);
+        } else {
+            // 按钮不能点击
+            mTvExchange.setEnabled(false);
         }
     }
 

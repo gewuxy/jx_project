@@ -64,7 +64,6 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private static final int KReqIdAttention = 1;
     private static final int KReqIdCancelAttention = 2;
 
-
     private SwipeZoomListView mZoomView;
     private NetworkImageView mIvZoom;
     private NetworkImageView mIvAvatar;
@@ -215,6 +214,8 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             if (mUnitNumId == unitNumId) {
                 //改变状态
                 UISetter.setAttention(mTvAttention, attention);
+                //数据源也要改变
+                mUnitNumDetail.put(TUnitNumDetail.attention, attention);
             }
         }
 

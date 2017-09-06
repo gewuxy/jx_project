@@ -39,7 +39,6 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.collection_cancel_clinic,
             NotifyType.collection_cancel_thomson,
 
-            NotifyType.exit,
             NotifyType.pcd_selected,
             NotifyType.fetch_message_captcha,
             NotifyType.disable_fetch_message_captcha,
@@ -119,11 +118,6 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 数据中心页面结束
          */
         int data_finish = 12;
-
-        /**
-         * 退出app
-         */
-        int exit = 13;
 
         /**
          * 结束省份页面

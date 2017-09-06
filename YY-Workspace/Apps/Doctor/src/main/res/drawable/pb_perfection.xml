@@ -12,7 +12,6 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-
                 <gradient
                     android:angle="0"
                     android:endColor="@color/text_97cbf2"
