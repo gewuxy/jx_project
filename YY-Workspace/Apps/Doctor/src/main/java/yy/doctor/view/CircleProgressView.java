@@ -58,8 +58,8 @@ public class CircleProgressView extends View {
         int min = Math.min(getMeasuredWidth(), getMeasuredHeight());
 
         // 位置
-        mRectF.left = mLineW / 2; // 左上角x
-        mRectF.top = mLineW / 2; // 左上角y
+        mRectF.left = mLineW / 2f; // 左上角x
+        mRectF.top = mLineW / 2f; // 左上角y
         mRectF.right = min - mLineW / 2; // 左下角x
         mRectF.bottom = min - mLineW / 2; // 右下角y
     }

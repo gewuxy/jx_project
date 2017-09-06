@@ -164,7 +164,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
         if (KIdCommit == id) {
             return JsonParser.error(r.getText());
         } else {
-            return  JsonParser.evs(r.getText(), Pcd.class);
+            return JsonParser.evs(r.getText(), Pcd.class);
         }
     }
 
@@ -256,9 +256,9 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
 
     private void showLocateErrDialog() {
         LocateErrDialog dialog = new LocateErrDialog(this, v -> {
-                mIsFromSet = true;
-                IntentAction.appSetup().launch();
-            });
+            mIsFromSet = true;
+            IntentAction.appSetup().launch();
+        });
         dialog.show();
     }
 
@@ -314,7 +314,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
         if (mSelects != null) {
             mSelects.clear();
         }

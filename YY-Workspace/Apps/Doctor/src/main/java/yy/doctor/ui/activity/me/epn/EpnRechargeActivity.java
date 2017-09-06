@@ -158,22 +158,15 @@ public class EpnRechargeActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
-
-        int id = v.getId();
-        switch (id) {
-            case R.id.recharge_tv_pay: {
-                String str = mEtRechargeNum.getText().toString().trim();
-                if (mRechargeSum == 0) {
-                    showToast(R.string.input_recharge_money);
-                    return;
-                }
-                mRechargeSum = Integer.valueOf(str);
-
-                exeNetworkReq(NetworkAPISetter.CommonAPI.epnRecharge(getString(R.string.epn_recharge), mRechargeSum).build());
-            }
-            break;
+        // 没有其他点击事件
+        String str = mEtRechargeNum.getText().toString().trim();
+        if (mRechargeSum == 0) {
+            showToast(R.string.input_recharge_money);
+            return;
         }
+        mRechargeSum = Integer.valueOf(str);
+
+        exeNetworkReq(NetworkAPISetter.CommonAPI.epnRecharge(getString(R.string.epn_recharge), mRechargeSum).build());
     }
 
     @Override

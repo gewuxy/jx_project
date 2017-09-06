@@ -49,8 +49,8 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetFactory.MeetParam;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
 import yy.doctor.ui.frag.meeting.course.AudioCourseFragRouter;
@@ -390,6 +390,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
             CourseInfo courseInfo = mPPT.getEv(TPPT.course);
             if (courseInfo != null) {
                 mCourses = courseInfo.getList(TCourseInfo.details);
+                // FIXME: mCourses有可能为空
                 mTvAll.setText(String.valueOf(mCourses.size()));
                 if (mCourses != null && mCourses.size() > 0) {
                     switch (mCourses.get(0).getType()) {

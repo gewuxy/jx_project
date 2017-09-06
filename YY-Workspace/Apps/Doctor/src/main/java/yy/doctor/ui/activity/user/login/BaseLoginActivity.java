@@ -119,6 +119,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
 
     private void buttonChanged(EditText et, ImageView iv) {
         et.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -127,14 +128,13 @@ public abstract class BaseLoginActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().contains(" ")) {
                     String[] str = s.toString().split(" ");
-                    String str1 = "";
+                    StringBuffer buffer = new StringBuffer();
                     for (int i = 0; i < str.length; i++) {
-                        str1 += str[i];
+                        buffer.append(str[i]);
                     }
-                    et.setText(str1);
+                    et.setText(buffer.toString());
                     et.setSelection(start);
                 }
-
             }
 
             @Override

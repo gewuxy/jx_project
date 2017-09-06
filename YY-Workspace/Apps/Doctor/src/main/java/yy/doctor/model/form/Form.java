@@ -94,7 +94,9 @@ public class Form {
             break;
         }
 
-        form.enable(true);
+        if (form != null) {
+            form.enable(true);
+        }
 
         return form;
     }

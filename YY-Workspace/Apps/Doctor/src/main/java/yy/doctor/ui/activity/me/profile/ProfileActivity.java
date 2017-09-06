@@ -299,33 +299,6 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             showView(mRlHeader);
             mTvPercent.setText(mProgressProFile + "%");
 
-            //普通效果
-            //mProgressBar.setProgress(mProgressProFile);
-
-            //rx—java实现动画
-//            mProgress = 0;
-//            DisposableSubscriber<Long> consumer = new DisposableSubscriber<Long>() {
-//                @Override
-//                public void onNext(Long aLong) {
-//                    mProgress += mProgressProFile / 10.0f;
-//                    YSLog.d(TAG, "" + mProgress);
-//                    mProgressBar.setProgress((int) mProgress);
-//                }
-//
-//                @Override
-//                public void onError(Throwable throwable) {
-//                }
-//
-//                @Override
-//                public void onComplete() {
-//                    this.dispose();
-//                }
-//            };
-//            Flowable.interval(0, 100, TimeUnit.MILLISECONDS)
-//                    .take(10)
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(consumer);
-
             //属性动画  添加了背景颜色
             int width = getWindowManager().getDefaultDisplay().getWidth();
             float process = width * mProgressProFile / 100.0f;

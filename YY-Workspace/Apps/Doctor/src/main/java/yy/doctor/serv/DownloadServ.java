@@ -71,7 +71,7 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
         DownloadNotifier.inst().notify(type, data);
     }
 
-    public class Download {
+    public static class Download {
         private long mTotalSize;
         private float mProgress;
 

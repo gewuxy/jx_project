@@ -9,7 +9,7 @@ public class UrlUtil {
     private static String mHostName = null;
     private static String mBaseHost = null;
 
-    protected static String mBase = null;
+    private static String mBase = null;
 
     private static boolean mIsDebug = true;
 
