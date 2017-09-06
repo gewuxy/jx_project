@@ -602,6 +602,10 @@ public class RegisterActivity extends BaseFormActivity implements
             mTvHeader.setText(String.format(getString(R.string.free_provide), name));
             goneView(mLayoutCaptcha);
             mStatus.add(KActivateCodeCheckStatus);
+        }else if (resultCode == RESULT_FIRST_USER && data == null) {
+            mTvHeader.setText("请填写以下信息");
+            showView(mLayoutCaptcha);
+            mStatus.remove(KActivateCodeCheckStatus);
         }
     }
 

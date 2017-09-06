@@ -123,14 +123,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 String url = parsedResult.toString();
                 if (url.contains("masterId")) {
                     //http://10.0.0.234/api/api/register/scan_register?masterId=8,14
-                    // showToast("有id");
                     String[] s = url.split("=");
                     String masterId = s[1];
                     exeNetworkReq(KScanId, RegisterAPI.scan().masterId(masterId).build());
-                } else {
+                } else if(url.contains("scan_register") && !url.contains("?")){
                     //http://10.0.0.234/api/api/register/scan_register
-                    exeNetworkReq(KScanId, RegisterAPI.scan().build());
-                    // showToast("没有Id");
+                    exeNetworkReq(KScan, RegisterAPI.scan().build());
+                }else {
+                    showToast("无法识别此二维码");
                 }
                 break;
             }
@@ -173,7 +173,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         } else if (id == KScan) {
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("成功");
                 setResult(RESULT_FIRST_USER);
             } else {
                 showToast(r.getMessage());
