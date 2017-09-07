@@ -23,6 +23,8 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
+import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.model.Scan;
@@ -36,10 +38,11 @@ import yy.doctor.util.Util;
  * @since 2017/7/24
  */
 
-public class ScanActivity extends BaseActivity implements OnScannerCompletionListener {
+public class ScanActivity extends BaseActivity implements OnScannerCompletionListener,OnCountDownListener {
 
     private final int KFrameSize = 248;
     private final int KTopMargin = 96;
+    private final int KDelayTime = 30; // 单位是秒
 
     private final int KScanId = 0;
     private final int KScan = 1;
@@ -48,9 +51,11 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private ScannerView mScannerView;
 
     private boolean mFlag;//图片更换
+    private CountDown mCountDown; // 倒计时
 
     @Override
     public void initData() {
+       start(KDelayTime);
     }
 
     @NonNull
@@ -100,10 +105,27 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         });
     }
 
+    public void start(long time) {
+        mCountDown = new CountDown(time);
+        mCountDown.setListener(this);
+        mCountDown.start();
+    }
+
+    @Override
+    public void onCountDown(long remainCount) {
+        if (remainCount == 0) {
+             showToast("无法识别此二维码");
+        }
+    }
+
+    @Override
+    public void onCountDownErr() {
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
         mScannerView.onResume();
     }
 
@@ -113,8 +135,18 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         mScannerView.onPause();
     }
 
+    /**
+     * 扫描成功后回调
+     * @param result 扫描结果
+     * @param parsedResult 结果类型
+     * @param bitmap 扫描后的图像
+     */
     @Override
     public void OnScannerCompletion(com.google.zxing.Result result, ParsedResult parsedResult, Bitmap bitmap) {
+        if (mCountDown != null) {
+            mCountDown.stop();
+        }
+
         ParsedResultType type = parsedResult.getType();
         switch (type) {
             case ADDRESSBOOK:
@@ -126,16 +158,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                     String[] s = url.split("=");
                     String masterId = s[1];
                     exeNetworkReq(KScanId, RegisterAPI.scan().masterId(masterId).build());
-                } else if(url.contains("scan_register") && !url.contains("?")){
+                } else if (url.contains("scan_register") && !url.contains("?")) {
                     //http://10.0.0.234/api/api/register/scan_register
                     exeNetworkReq(KScan, RegisterAPI.scan().build());
-                }else {
+                } else {
                     showToast("无法识别此二维码");
                 }
                 break;
             }
-
-
         }
     }
 
@@ -158,12 +188,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 }
                 sbId.deleteCharAt(sbId.length() - 1);
                 YSLog.d(TAG, sbId + "");
+
                 List<String> name = data.getList(TScan.name);
                 StringBuilder sb = new StringBuilder();
                 for (String s : name) {
                     sb.append(s + " ");
                 }
                 YSLog.d(TAG, sb.toString());
+
                 Intent i = new Intent().putExtra(Extra.KData, sb.toString())
                         .putExtra(Extra.KId, sbId.toString());
                 setResult(RESULT_FIRST_USER, i);
@@ -180,5 +212,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         }
         finish();
     }
+
 
 }
