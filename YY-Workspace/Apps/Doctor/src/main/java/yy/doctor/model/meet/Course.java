@@ -55,9 +55,8 @@ public class Course extends EVal<TCourse> {
     private int mType = CourseType.un_know;
 
     /**
-     * 获取课件类型
-     *
-     * @return
+     * 获取课件类型, 根据url确定类型
+     * 优先判断video
      */
     public int getType() {
         if (mType == CourseType.un_know) {
@@ -83,5 +82,20 @@ public class Course extends EVal<TCourse> {
             }
         }
         return mType;
+    }
+
+    /**
+     * 是否有音/视频
+     */
+    public boolean haveMedia() {
+        switch (getType()) {
+            // 不加break 因为都有多媒体
+            case CourseType.pic_audio:
+            case CourseType.video:
+            case CourseType.audio: {
+                return true;
+            }
+        }
+        return false;
     }
 }

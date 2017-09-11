@@ -6,6 +6,8 @@ import inject.annotation.router.Route;
 import yy.doctor.R;
 
 /**
+ * PPT音频
+ *
  * @auther yuansui
  * @since 2017/6/7
  */
@@ -15,8 +17,7 @@ public class AudioCourseFrag extends PicAudioCourseFrag {
     @Override
     public void setViews() {
         getIvHolder().setImageResource(R.drawable.meeting_record_audio_bg);
-        setAudio();
-        mLayout.setOnRootTouchListener(this);
+        getLayout().setOnRootTouchListener(this);
         setBackgroundColor(Color.TRANSPARENT);
     }
 }

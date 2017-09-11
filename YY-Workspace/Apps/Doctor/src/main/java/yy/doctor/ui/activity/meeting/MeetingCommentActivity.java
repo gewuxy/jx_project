@@ -270,10 +270,8 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     protected void onDestroy() {
         super.onDestroy();
 
-        setResult(RESULT_OK);
         if (mWebSocket != null) {
             mWebSocket.close(KCloseNormal, "close");
-            mWebSocket = null;
         }
     }
 

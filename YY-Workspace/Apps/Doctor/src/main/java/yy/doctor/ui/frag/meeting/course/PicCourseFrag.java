@@ -3,6 +3,8 @@ package yy.doctor.ui.frag.meeting.course;
 import android.graphics.Color;
 
 import inject.annotation.router.Route;
+import lib.ys.ConstantsEx;
+import yy.doctor.model.meet.Submit.TSubmit;
 
 /**
  * PPT图片
@@ -16,12 +18,19 @@ public class PicCourseFrag extends PicAudioCourseFrag {
     @Override
     public void setViews() {
         setPic();
-        mLayout.setOnRootTouchListener(this);
+
         setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
-    public boolean isFinish() {
-        return true;
+    protected void loadFinish() {
+        super.loadFinish();
+
+        getSubmit().put(TSubmit.finished, true); // 图片加载完成就算完成
+    }
+
+    @Override
+    public String getUrl() {
+        return ConstantsEx.KEmptyValue;
     }
 }

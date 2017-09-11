@@ -55,7 +55,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public void initData() {
-       start(KDelayTime);
     }
 
     @NonNull
@@ -105,12 +104,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         });
     }
 
-    public void start(long time) {
-        mCountDown = new CountDown(time);
-        mCountDown.setListener(this);
-        mCountDown.start();
-    }
-
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
@@ -120,18 +113,25 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public void onCountDownErr() {
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
+        mCountDown.start(KDelayTime);
         mScannerView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        if (mCountDown != null) {
+            mCountDown.stop();
+        }
         mScannerView.onPause();
     }
 
@@ -212,6 +212,5 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         }
         finish();
     }
-
 
 }

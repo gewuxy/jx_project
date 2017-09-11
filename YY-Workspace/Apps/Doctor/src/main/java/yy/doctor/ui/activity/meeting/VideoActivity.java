@@ -59,6 +59,7 @@ public class VideoActivity extends BaseActivity implements
         VideoViewListener,
         OnCompletionListener,
         OnCountDownListener {
+    // FIXME: 用NetPlayer
 
     private static final int KVideoHDp = 204; // 视频高度
     private static final int KVanishTime = 3; // 自动隐藏功能栏时间
@@ -114,7 +115,7 @@ public class VideoActivity extends BaseActivity implements
                 goneView(mViewFunction);
                 finish();
             } else {
-                toPortrait();
+                Util.changeOrientation(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 切换为竖屏
             }
         });
     }
@@ -178,17 +179,6 @@ public class VideoActivity extends BaseActivity implements
                 return true;
             }
         });
-    }
-
-    /**
-     * 切换为竖屏
-     */
-    private void toPortrait() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Observable.just((Runnable) () ->
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)) // 设置回默认值
-                .delay(1000, TimeUnit.MILLISECONDS)
-                .subscribe(Runnable::run);
     }
 
     /**
@@ -345,7 +335,7 @@ public class VideoActivity extends BaseActivity implements
         mVideo.setVideoPath(mUriString);
         mVideo.recycle();
         mVideo.prepared(mAllTime);
-        mIvControl.setSelected(true);
+        mIvControl.setSelected(false);
         goneView(mViewLoad);
         mFirst = false;
     }
@@ -355,7 +345,7 @@ public class VideoActivity extends BaseActivity implements
         goneView(mLayoutVideo);
         goneView(mViewFunction);
         if (!mIsPortrait) {
-            toPortrait();
+            Util.changeOrientation(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 切换为竖屏
         }
         super.onBackPressed();
     }

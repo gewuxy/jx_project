@@ -1,6 +1,7 @@
 package yy.doctor.util;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -13,7 +14,9 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import lib.network.Network;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -47,16 +50,6 @@ public class Util extends BaseUtil {
     public static void addBackIcon(NavBar n, @StringRes int id, final Activity act) {
         n.addTextViewMid(id);
         n.addBackIcon(R.drawable.nav_bar_ic_back, act);
-    }
-
-    /**
-     * 获取会议科室列表
-     *
-     * @return
-     */
-    public static List<String> getSections() {
-        String[] sectionNames = ResLoader.getStringArray(R.array.sections);
-        return Arrays.asList(sectionNames);
     }
 
     public static String convertUrl(String url) {
@@ -136,5 +129,19 @@ public class Util extends BaseUtil {
             }
         }
         return arr.toString();
+    }
+
+    /**
+     * 切换屏幕方向(1秒后设置回默认值)
+     *
+     * @param act
+     * @param orientation
+     */
+    public static void changeOrientation(Activity act, int orientation) {
+        act.setRequestedOrientation(orientation);
+        Observable.just((Runnable) () ->
+                act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)) // 设置回默认值
+                .delay(1000, TimeUnit.MILLISECONDS)
+                .subscribe(Runnable::run);
     }
 }

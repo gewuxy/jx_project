@@ -28,7 +28,7 @@
                 android:background="@drawable/meeting_record_image_bg"/>
 
             <ImageView
-                android:id="@+id/meeting_record_pic_iv_audio"
+                android:id="@+id/meeting_record_iv_audio"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="26dp"

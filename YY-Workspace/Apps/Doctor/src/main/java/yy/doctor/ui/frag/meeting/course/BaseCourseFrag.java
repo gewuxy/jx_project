@@ -1,15 +1,20 @@
 package yy.doctor.ui.frag.meeting.course;
 
+import android.support.annotation.NonNull;
+
 import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
 import yy.doctor.model.meet.Course;
+import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.Submit;
+import yy.doctor.model.meet.Submit.TSubmit;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/6/5
  */
-public abstract class BaseCourseFrag extends BaseFrag {
+abstract public class BaseCourseFrag extends BaseFrag {
 
     @Arg
     Course mCourse;
@@ -17,15 +22,15 @@ public abstract class BaseCourseFrag extends BaseFrag {
     @Arg
     String mMeetId;
 
-    private OnCourseListener mListener;
+    private Submit mSubmit;
+    private OnFragClickListener mListener;
 
-    @Override
-    public void initData() {
+    public interface OnFragClickListener {
+        void onClick();
     }
 
-    @Override
-    public void initNavBar(NavBar bar) {
-        // no nav bar
+    public void setListener(OnFragClickListener listener) {
+        mListener = listener;
     }
 
     protected Course getCourse() {
@@ -36,90 +41,30 @@ public abstract class BaseCourseFrag extends BaseFrag {
         return mMeetId;
     }
 
-    abstract public void toggle();
-
-    public interface OnCourseListener {
-        /**
-         * 准备工作
-         *
-         * @param allMilliseconds 播放总进度(毫秒)
-         */
-        void onPrepare(long allMilliseconds);
-
-        void onPlay(boolean enablePlay, long allMilliseconds);
-
-        /**
-         * 播放中
-         *
-         * @param currMilliseconds 当前播放进度(毫秒)
-         */
-        void onProgress(long currMilliseconds);
-
-        void onStop();
-
-        void onClick();
-
-        void end();
-    }
-
-    public void setOnPPTListener(OnCourseListener l) {
-        mListener = l;
-    }
-
-    protected void onPrepared(long allMilliseconds) {
-        if (mListener != null) {
-            mListener.onPrepare(allMilliseconds);
+    @NonNull
+    public Submit getSubmit() {
+        if (mSubmit == null) {
+            mSubmit = new Submit();
+            mSubmit.put(TSubmit.detailId, getCourse().getLong(TCourse.id));
         }
+        return mSubmit;
     }
 
-    protected void onPlay(boolean enablePlay, long allMilliseconds) {
-        if (mListener != null) {
-            mListener.onPlay(enablePlay, allMilliseconds);
-        }
+    @Override
+    public void initData() {
     }
 
-    protected void onProgress(long currMilliseconds) {
-        if (mListener != null) {
-            mListener.onProgress(currMilliseconds);
-        }
+    @Override
+    public void initNavBar(NavBar bar) {
+        // no nav bar
     }
 
-    protected void onPlayStop() {
-        if (mListener != null) {
-            mListener.onStop();
-        }
-    }
-
-    protected void onCourseClick() {
+    protected void clickFrag() {
         if (mListener != null) {
             mListener.onClick();
         }
     }
 
-    protected void end() {
-        if (mListener != null) {
-            mListener.end();
-        }
-    }
+    abstract public String getUrl();
 
-    public boolean preparePlay() {
-        return false;
-    }
-
-    public void setRemainTime(int remainTime) {
-    }
-
-    public void pause() {
-    }
-
-    public void start() {
-    }
-
-    public void stop() {
-    }
-
-    public void seekTo(int msec) {
-    }
-
-    public abstract boolean isFinish();
 }

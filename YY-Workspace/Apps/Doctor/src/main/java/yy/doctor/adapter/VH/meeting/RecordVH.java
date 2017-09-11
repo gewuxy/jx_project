@@ -27,10 +27,6 @@ public class RecordVH extends ViewHolderEx {
         return getView(R.id.meeting_record_video_iv);
     }
 
-    public ImageView getIvPicAudio() {
-        return getView(R.id.meeting_record_pic_iv_audio);
-    }
-
     public LinearLayout getLayoutAudio() {
         return getView(R.id.meeting_record_layout_audio);
     }

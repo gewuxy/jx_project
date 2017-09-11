@@ -46,10 +46,6 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     }
 
     @Override
-    protected void initView(int position, RecordVH holder, int itemType) {
-    }
-
-    @Override
     protected void refreshView(int position, RecordVH holder, int itemType) {
         switch (itemType) {
             case CourseType.video: {
@@ -63,13 +59,13 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
             }
             break;
             case CourseType.pic_audio: {
-                // 区别于纯图片的功能
-                ImageView iv = holder.getIvPicAudio();
+                // 图片+音频
+                ImageView iv = holder.getIvAudio();
                 setOnViewClickListener(position, iv);
                 animation(position, iv);
-            }
+            }// 不加break,包含图片的功能
             case CourseType.pic: {
-                // 图片,图片+音频共有的功能
+                // 图片
                 NetworkImageView iv = holder.getIvPic();
                 iv.placeHolder(R.drawable.ic_default_meeting_content_detail)
                         .resize(mImgWidth, mImgHeight)
@@ -89,6 +85,17 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     @Override
     public int getViewTypeCount() {
         return CourseType.class.getDeclaredFields().length;
+    }
+
+    @Override
+    protected void refreshItem(int position, RecordVH recordVH, int itemViewType) {
+        switch (itemViewType) {
+            case CourseType.audio: // 有音频的都需要刷新故不加break
+            case CourseType.pic_audio: {
+                animation(position, recordVH.getIvAudio());
+            }
+            break;
+        }
     }
 
     private void animation(int position, ImageView iv) {
