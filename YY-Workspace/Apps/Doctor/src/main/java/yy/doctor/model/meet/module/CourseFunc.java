@@ -85,7 +85,6 @@ public class CourseFunc extends BaseFunc {
                 App.showToast(R.string.course_no);
             } else {
                 MeetingCourseActivity.nav(getContext(), getMeetId(), getModuleId());
-
             }
         } else {
             App.showToast(r.getMessage());

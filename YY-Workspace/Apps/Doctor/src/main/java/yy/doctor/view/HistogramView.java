@@ -174,7 +174,7 @@ public class HistogramView extends View {
             if (mMaxMeetNum == 0) {
                 p.y = bottom;
             } else {
-                p.y = bottom - num * maxHeight / mMaxMeetNum;
+                p.y = bottom - num * (maxHeight / mMaxMeetNum);
             }
 
             mMids.add(p);

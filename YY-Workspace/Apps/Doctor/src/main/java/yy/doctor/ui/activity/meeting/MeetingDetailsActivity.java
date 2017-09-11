@@ -121,7 +121,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     @DataType
     private int mType = DataType.meeting;
 
-    private ShareDialog mShareDialog; // 分享
     private BaseFunc mCourseFunc;
 
     @NonNull
@@ -169,8 +168,8 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             if (Util.noNetwork()){
                 return;
             }
-            mShareDialog = new ShareDialog(MeetingDetailsActivity.this, UrlUtil.getBaseUrl() + UrlMeet.KMeetShare + mMeetId, mMeetName);
-            mShareDialog.show();
+            ShareDialog dialog = new ShareDialog(MeetingDetailsActivity.this, UrlUtil.getBaseUrl() + UrlMeet.KMeetShare + mMeetId, mMeetName);
+            dialog.show();
         });
     }
 

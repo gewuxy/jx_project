@@ -28,7 +28,7 @@ import yy.doctor.view.HistogramView;
  * @since : 2017/8/2
  */
 
-public abstract class BaseHistogramFrag extends BaseFrag {
+abstract public class BaseHistogramFrag extends BaseFrag {
 
     private HistogramView mLayoutHistogram;
     private OnStatsChangeListener mListener;
@@ -45,9 +45,6 @@ public abstract class BaseHistogramFrag extends BaseFrag {
     }
 
     public Stats getStats() {
-        if (mStats == null) {
-            return null;
-        }
         return mStats.get(mIndex);
     }
 
@@ -132,13 +129,11 @@ public abstract class BaseHistogramFrag extends BaseFrag {
     }
 
     public int getOffset() {
-        if (mStats == null) {
-            return 0;
-        }
         return mStats.size() - mIndex - 1;
     }
 
     public String getCount() {
+        //网络数据还没有返回时
         if (getStats() == null) {
             return "0";
         }
@@ -146,8 +141,8 @@ public abstract class BaseHistogramFrag extends BaseFrag {
     }
 
     @ColorRes
-    protected abstract int getColor();
+    abstract protected int getColor();
 
-    protected abstract NetworkReq getNetReq();
+    abstract protected NetworkReq  getNetReq();
 
 }

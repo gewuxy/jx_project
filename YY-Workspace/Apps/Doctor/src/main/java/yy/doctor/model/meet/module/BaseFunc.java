@@ -48,10 +48,10 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     private String mId; // 模块id
     private MeetDetail mDetail; // 会议详情信息
 
-    private HintDialogMain mDialogAttention; // 关注
-    private HintDialogMain mDialogCme; // 学分
-    private HintDialogMain mDialogEpnNotEnough; // 象数不足
-    private HintDialogMain mDialogPayEpn; // 支付象数
+//    private HintDialogMain mDialogAttention; // 关注
+//    private HintDialogMain mDialogCme; // 学分
+//    private HintDialogMain mDialogEpnNotEnough; // 象数不足
+//    private HintDialogMain mDialogPayEpn; // 支付象数
 
     public interface OnFuncListener {
         void onFuncLoading();
@@ -175,9 +175,9 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
      * 诱导关注
      */
     private void attention() {
-        mDialogAttention = new HintDialogMain(getContext());
-        mDialogAttention.setHint("请先关注会议");
-        mDialogAttention.addBlueButton("确认关注", v1 -> {
+        HintDialogMain dialog = new HintDialogMain(getContext());
+        dialog.setHint("请先关注会议");
+        dialog.addBlueButton("确认关注", v1 -> {
             if (Util.noNetwork()) {
                 return;
             }
@@ -189,49 +189,49 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
                     new AttentionUnitNum(id, Attention.yes));
             getNetwork().exeNetworkReq(KIdAttention, UnitNumAPI.attention(id, Attention.yes).build());
         });
-        mDialogAttention.addGrayButton(R.string.cancel);
-        mDialogAttention.show();
+        dialog.addGrayButton(R.string.cancel);
+        dialog.show();
     }
 
     /**
      * 未填写cme卡号
      */
     private void cmeNotFinish() {
-        mDialogCme = new HintDialogMain(getContext());
-        mDialogCme.setHint("填写CME卡号才能获得学分");
-        mDialogCme.addButton("完善资料", R.color.text_666, v ->
+        HintDialogMain dialog = new HintDialogMain(getContext());
+        dialog.setHint("填写CME卡号才能获得学分");
+        dialog.addButton("完善资料", R.color.text_666, v ->
                 ModifyTextActivityRouter.create(
                         TProfile.cmeId,
                         R.string.user_CME_number,
                         R.string.user_input_CME_number
                 ).route(getContext()));
-        mDialogCme.addGrayButton(R.string.cancel);
-        mDialogCme.show();
+        dialog.addGrayButton(R.string.cancel);
+        dialog.show();
     }
 
     /**
      * 象数不足
      */
     private void epnNotEnough() {
-        mDialogEpnNotEnough = new HintDialogMain(getContext());
-        mDialogEpnNotEnough.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
-        mDialogEpnNotEnough.addBlueButton("充值象数", v1 -> LaunchUtil.startActivity(getContext(), EpnRechargeActivity.class));
-        mDialogEpnNotEnough.addGrayButton(R.string.cancel);
-        mDialogEpnNotEnough.show();
+        HintDialogMain dialog = new HintDialogMain(getContext());
+        dialog.setHint("您的剩余象数不足所需象数值, 请充值象数后继续");
+        dialog.addBlueButton("充值象数", v1 -> LaunchUtil.startActivity(getContext(), EpnRechargeActivity.class));
+        dialog.addGrayButton(R.string.cancel);
+        dialog.show();
     }
 
     /**
      * 提醒支付
      */
     private void payEpn() {
-        mDialogPayEpn = new HintDialogMain(getContext());
-        mDialogPayEpn.setHint(String.format(getContext().getString(R.string.need_pay), getDetail().getInt(TMeetDetail.xsCredits)));
-        mDialogPayEpn.addBlueButton("确认支付", v1 -> {
+        HintDialogMain dialog = new HintDialogMain(getContext());
+        dialog.setHint(String.format(getContext().getString(R.string.need_pay), getDetail().getInt(TMeetDetail.xsCredits)));
+        dialog.addBlueButton("确认支付", v1 -> {
             getDetail().put(TMeetDetail.attended, true);
             attend();
         });
-        mDialogPayEpn.addGrayButton(R.string.cancel);
-        mDialogPayEpn.show();
+        dialog.addGrayButton(R.string.cancel);
+        dialog.show();
     }
 
     /**
@@ -290,18 +290,4 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
         }
     }
 
-    public void onDestroy() {
-        if (mDialogPayEpn != null) {
-            mDialogPayEpn.dismiss();
-        }
-        if (mDialogAttention != null) {
-            mDialogAttention.dismiss();
-        }
-        if (mDialogEpnNotEnough != null) {
-            mDialogEpnNotEnough.dismiss();
-        }
-        if (mDialogCme != null) {
-            mDialogCme.dismiss();
-        }
-    }
 }

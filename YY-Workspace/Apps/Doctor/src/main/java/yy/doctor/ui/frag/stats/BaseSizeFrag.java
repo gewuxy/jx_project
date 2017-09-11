@@ -38,6 +38,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
             mStatses.add(stats);
 
             Bundle b = new Bundle();
+
             b.putSerializable(Extra.KData, mStatses);
             b.putSerializable(Extra.KId, i);
 
@@ -61,7 +62,6 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
     public void findViews() {
         super.findViews();
 
-        setOnPageChangeListener(this);
         mTvTitle = findView(R.id.statistics_meet_tv_title);
         mTvWeek = findView(R.id.statistics_meet_tv_num_week);
         mTvAll = findView(R.id.statistics_meet_tv_num_all);
@@ -76,6 +76,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
         mTvAll.setTextColor(ResLoader.getColor(getTextColor()));
         setCurrentItem(KSize);
         setOffscreenPageLimit(3);
+        setOnPageChangeListener(this);
     }
 
     @Override
@@ -108,10 +109,10 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
         }
     }
 
-    protected abstract String getTitle();
+    abstract protected String getTitle();
 
-    protected abstract BaseHistogramFrag getFragment();
+    abstract protected BaseHistogramFrag getFragment();
 
     @ColorRes
-    protected abstract int getTextColor();
+    abstract protected int getTextColor();
 }

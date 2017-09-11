@@ -35,7 +35,6 @@ public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocati
 
     private PermissionOpt mPermission;
     private Gps mGps;
-    private SignErrDialog mSignErrDialog;
 
     public SignFunc(Context context, MeetDetail detail, OnFuncListener l) {
         super(context, detail, l);
@@ -125,9 +124,9 @@ public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocati
      * 获取定位信息失败
      */
     private void locationError() {
-        mSignErrDialog = new SignErrDialog(getContext());
-        mSignErrDialog.setLocationListener(v -> attend());
-        mSignErrDialog.show();
+        SignErrDialog dialog = new SignErrDialog(getContext());
+        dialog.setLocationListener(v -> attend());
+        dialog.show();
     }
 
     @Override
@@ -150,12 +149,4 @@ public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocati
         }, ResLoader.getInteger(R.integer.anim_default_duration));
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (mSignErrDialog != null) {
-            mSignErrDialog.dismiss();
-        }
-    }
 }

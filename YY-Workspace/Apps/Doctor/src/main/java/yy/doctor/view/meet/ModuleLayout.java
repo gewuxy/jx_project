@@ -96,14 +96,4 @@ public class ModuleLayout extends LinearLayout {
         }
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
-        if (mFuncs != null) {
-            for (BaseFunc func : mFuncs) {
-                func.onDestroy();
-            }
-        }
-    }
 }

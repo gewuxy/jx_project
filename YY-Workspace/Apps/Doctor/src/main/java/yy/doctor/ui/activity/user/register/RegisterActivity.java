@@ -191,7 +191,6 @@ public class RegisterActivity extends BaseFormActivity implements
                 .intent(new Intent(this, PcdActivity.class))
                 .type(IntentType.location));
 
-
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_no_name)
                 .observer(this)
