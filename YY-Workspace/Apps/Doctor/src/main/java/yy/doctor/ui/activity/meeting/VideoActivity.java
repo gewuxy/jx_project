@@ -108,7 +108,7 @@ public class VideoActivity extends BaseActivity implements
     @Override
     public void initNavBar(NavBar bar) {
         bar.setBackgroundColor(Color.TRANSPARENT);
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> {
             if (mIsPortrait) {
                 goneView(mLayoutVideo);
                 goneView(mViewFunction);

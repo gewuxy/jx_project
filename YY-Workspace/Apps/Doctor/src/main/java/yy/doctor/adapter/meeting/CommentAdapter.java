@@ -25,7 +25,7 @@ public class CommentAdapter extends AdapterEx<Comment, CommentVH> {
     @Override
     protected void refreshView(int position, CommentVH holder) {
         holder.getIv()
-                .placeHolder(R.mipmap.ic_default_meeting_comment)
+                .placeHolder(R.drawable.ic_default_meeting_comment)
                 .url(getItem(position).getString(TComment.headimg))
                 .load();
         holder.getTvName().setText(getItem(position).getString(TComment.sender));

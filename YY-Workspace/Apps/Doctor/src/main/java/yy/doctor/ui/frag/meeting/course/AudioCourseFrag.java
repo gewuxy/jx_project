@@ -14,7 +14,7 @@ public class AudioCourseFrag extends PicAudioCourseFrag {
 
     @Override
     public void setViews() {
-        getIvHolder().setImageResource(R.mipmap.meeting_record_audio_bg);
+        getIvHolder().setImageResource(R.drawable.meeting_record_audio_bg);
         setAudio();
         mLayout.setOnRootTouchListener(this);
         setBackgroundColor(Color.TRANSPARENT);

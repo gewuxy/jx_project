@@ -148,10 +148,10 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                     return;
                 }
                 if (mIsDownload) {
-                    mIvDownload.setImageResource(R.mipmap.download_ic_start);
+                    mIvDownload.setImageResource(R.drawable.download_ic_start);
                     mTvStatus.setText(R.string.download_pause);
                 } else {
-                    mIvDownload.setImageResource(R.mipmap.download_ic_pause);
+                    mIvDownload.setImageResource(R.drawable.download_ic_pause);
                     mTvStatus.setText(R.string.download_ing);
                     DownloadServRouter.create(mUrl, mFilePath, mFileSuffix).route(this);
                     //现在不提供断点下载 点击下载按钮后就不能点击暂停

@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:src="@mipmap/nav_bar_ic_search_gray"/>
+            android:src="@drawable/nav_bar_ic_search_gray"/>
 
         <TextView
             android:id="@+id/hospital_search_tv"

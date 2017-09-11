@@ -201,7 +201,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
     public void initNavBar(NavBar bar) {
         bar.setBackgroundColor(Color.TRANSPARENT);
 
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> {
             if (mIsPortrait) {
                 finish();
             } else {
@@ -218,7 +218,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements OnCountDown
         mTvAll = (TextView) mLayoutBarMid.findViewById(R.id.meeting_nav_bar_all);
         bar.addViewMid(mLayoutBarMid);
 
-        mLayoutBarRight = bar.addViewRight(R.mipmap.meeting_ppt_ic_record, v -> {
+        mLayoutBarRight = bar.addViewRight(R.drawable.meeting_ppt_ic_record, v -> {
             statsStudy();
             MeetingRecordActivity.nav(MeetingCourseActivity.this, mPPT, getCurrentItem());
         });

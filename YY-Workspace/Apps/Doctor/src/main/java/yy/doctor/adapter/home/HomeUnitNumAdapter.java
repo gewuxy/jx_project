@@ -35,7 +35,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
         RecUnitNum item = getItem(position);
 
         holder.getTvName().setText(item.getString(TRecUnitNum.nickname));
-        holder.getIv().placeHolder(R.mipmap.ic_default_home_unit_num)
+        holder.getIv().placeHolder(R.drawable.ic_default_home_unit_num)
                 .renderer(new CircleRenderer())
                 .url(item.getString(TRecUnitNum.headimg))
                 .load();

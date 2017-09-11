@@ -86,7 +86,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     public void setViews() {
 
         if (mFileSuffix.equals(FileSuffix.pdf)) {
-            mIv.setImageResource(R.mipmap.open_data_ic_pdf);
+            mIv.setImageResource(R.drawable.open_data_ic_pdf);
             PDFActivityRouter.create(
                     mFilePath,
                     mFileNameEncryption,
@@ -96,9 +96,9 @@ public class LaunchDownloadDataActivity extends BaseActivity {
             ).route(this);
             finish();
         } else if (mFileSuffix.equals(FileSuffix.ppt) || mFileSuffix.equals(FileSuffix.pptx)) {
-            mIv.setImageResource(R.mipmap.open_data_ic_ppt);
+            mIv.setImageResource(R.drawable.open_data_ic_ppt);
         } else {
-            mIv.setImageResource(R.mipmap.open_data_ic_word);
+            mIv.setImageResource(R.drawable.open_data_ic_word);
         }
         mTvName.setText(mFileName);
         mTvSize.setText(mSize);

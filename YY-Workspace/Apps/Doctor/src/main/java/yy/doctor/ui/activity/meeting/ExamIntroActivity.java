@@ -88,7 +88,7 @@ public class ExamIntroActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> {
             // 没有进入考试
             // 记录模块时间
             notify(NotifyType.study_end);

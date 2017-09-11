@@ -67,7 +67,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> {
             if (TextUtil.isEmpty(mPreId)) {
                 notify(NotifyType.study_end);
             }

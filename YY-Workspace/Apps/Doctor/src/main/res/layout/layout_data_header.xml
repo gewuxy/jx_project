@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#f5f5f5"
-        android:drawableLeft="@mipmap/data_ic_search"
+        android:drawableLeft="@drawable/data_ic_search"
         android:drawablePadding="12dp"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"

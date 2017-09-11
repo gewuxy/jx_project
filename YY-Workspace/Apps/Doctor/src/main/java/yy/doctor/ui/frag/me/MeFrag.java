@@ -72,7 +72,7 @@ public class MeFrag extends BaseFormFrag {
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
-                .drawable(R.mipmap.form_ic_meeting_statistics)
+                .drawable(R.drawable.form_ic_meeting_statistics)
                 .name(R.string.attend_meeting_statistics)
                 .related(RelatedId.meeting_statistics));
 
@@ -81,7 +81,7 @@ public class MeFrag extends BaseFormFrag {
                 .paddingRight(paddingRight));
 
         addItem(Form.create(FormType.text_intent_me)
-                .drawable(R.mipmap.form_ic_my_attention_unit_num)
+                .drawable(R.drawable.form_ic_my_attention_unit_num)
                 .name(R.string.my_attention)
                 .related(RelatedId.my_attention));
 
@@ -90,7 +90,7 @@ public class MeFrag extends BaseFormFrag {
                 .paddingRight(paddingRight));
 
         addItem(Form.create(FormType.text_intent_me)
-                .drawable(R.mipmap.form_ic_my_collection)
+                .drawable(R.drawable.form_ic_my_collection)
                 .name(R.string.my_collection)
                 .related(RelatedId.my_collection));
 
@@ -100,7 +100,7 @@ public class MeFrag extends BaseFormFrag {
                 .paddingRight(paddingRight));
 
         addItem(Form.create(FormType.text_intent_me)
-                .drawable(R.mipmap.form_ic_my_epn)
+                .drawable(R.drawable.form_ic_my_epn)
                 .name(R.string.epn)
                 .text(String.format(getString(R.string.num_epn), Profile.inst().getInt(TProfile.credits)))
                 .related(RelatedId.my_epn));
@@ -108,7 +108,7 @@ public class MeFrag extends BaseFormFrag {
         addItem(Form.create(FormType.divider_large));
 
         addItem(Form.create(FormType.text_intent_me)
-                .drawable(R.mipmap.form_ic_settings)
+                .drawable(R.drawable.form_ic_settings)
                 .name(R.string.settings)
                 .related(RelatedId.settings));
 
@@ -117,7 +117,7 @@ public class MeFrag extends BaseFormFrag {
                 .paddingRight(paddingRight));
 
         addItem(Form.create(FormType.text_intent_me)
-                .drawable(R.mipmap.form_ic_help_and_feedback)
+                .drawable(R.drawable.form_ic_help_and_feedback)
                 .name(R.string.held_and_feedback)
                 .related(RelatedId.help_and_feedback));
     }
@@ -160,7 +160,7 @@ public class MeFrag extends BaseFormFrag {
         }
 
         setOnClickListener(R.id.layout_me_header);
-        mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
+        mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
                 .url(Profile.inst().getString(TProfile.headimg))
                 .load();
@@ -219,7 +219,7 @@ public class MeFrag extends BaseFormFrag {
     public void onNotify(@NotifyType int type, Object data) {
         //修改个人资料
         if (type == NotifyType.profile_change) {
-            mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
+            mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                     .renderer(new CircleRenderer())
                     .url(Profile.inst().getString(TProfile.headimg))
                     //.renderer(new CornerRenderer(fitDp(15)))  圆角

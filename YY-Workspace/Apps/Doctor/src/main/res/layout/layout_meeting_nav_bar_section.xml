@@ -10,7 +10,7 @@
         android:id="@+id/meeting_nav_bar_mid_iv"
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:src="@mipmap/meeting_ic_select_section"/>
+        android:src="@drawable/meeting_ic_select_section"/>
 
     <TextView
         android:id="@+id/meeting_nav_bar_mid_tv"

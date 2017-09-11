@@ -76,7 +76,7 @@
                 android:maxHeight="3dp"
                 android:minHeight="3dp"
                 android:progressDrawable="@drawable/meeting_ppt_seekbar_progress"
-                android:thumb="@mipmap/meeting_ppt_ic_progress"
+                android:thumb="@drawable/meeting_ppt_ic_progress"
                 android:thumbOffset="0dp"/>
         </LinearLayout>
     </RelativeLayout>

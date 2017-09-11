@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
-        android:drawableLeft="@mipmap/pcd_ic_locate_err"
+        android:drawableLeft="@drawable/pcd_ic_locate_err"
         android:drawablePadding="8dp"
         android:text="无法获取您的位置信息"
         android:textColor="@color/text_888"

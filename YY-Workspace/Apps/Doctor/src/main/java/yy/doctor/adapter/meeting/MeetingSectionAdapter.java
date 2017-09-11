@@ -24,7 +24,7 @@ public class MeetingSectionAdapter extends AdapterEx<MeetingDepartment, SectionF
             goneView(holder.getDivider());
         }
         MeetingDepartment item = getItem(position);
-        holder.getImageView().placeHolder(R.mipmap.ic_section_default)
+        holder.getImageView().placeHolder(R.drawable.ic_section_default)
                 .url(item.getString(TMeetingDepartment.icon))
                 .load();
         holder.getTvName().setText(item.getString(TMeetingDepartment.name));

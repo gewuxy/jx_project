@@ -36,17 +36,17 @@ import yy.doctor.network.NetFactory.MeetParam;
 public class Util extends BaseUtil {
 
     public static void addBackIcon(NavBar n, final Activity act) {
-        n.addBackIcon(R.mipmap.nav_bar_ic_back, act);
+        n.addBackIcon(R.drawable.nav_bar_ic_back, act);
     }
 
     public static void addBackIcon(NavBar n, CharSequence text, final Activity act) {
         n.addTextViewMid(text);
-        n.addBackIcon(R.mipmap.nav_bar_ic_back, act);
+        n.addBackIcon(R.drawable.nav_bar_ic_back, act);
     }
 
     public static void addBackIcon(NavBar n, @StringRes int id, final Activity act) {
         n.addTextViewMid(id);
-        n.addBackIcon(R.mipmap.nav_bar_ic_back, act);
+        n.addBackIcon(R.drawable.nav_bar_ic_back, act);
     }
 
     /**

@@ -14,7 +14,7 @@
         android:layout_marginLeft="44dp"
         android:layout_marginRight="56dp"
         android:background="@drawable/bg_nav_bar_search"
-        android:drawableLeft="@mipmap/nav_bar_ic_search"
+        android:drawableLeft="@drawable/nav_bar_ic_search"
         android:drawablePadding="8dp"
         android:hint="搜索单位号或会议"
         android:paddingLeft="6dp"

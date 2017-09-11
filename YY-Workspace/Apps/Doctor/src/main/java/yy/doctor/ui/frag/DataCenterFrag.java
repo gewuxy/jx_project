@@ -68,7 +68,7 @@ public class DataCenterFrag extends BaseVPFrag {
     @Override
     public void initNavBar(NavBar bar) {
         bar.addTextViewMid(R.string.data_center);
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
+        bar.addViewRight(R.drawable.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
     }
 
     @Override

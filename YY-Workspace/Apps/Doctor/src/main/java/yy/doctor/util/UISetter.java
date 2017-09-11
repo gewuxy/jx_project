@@ -209,24 +209,24 @@ public class UISetter {
             return;
         }
 
-        @DrawableRes int resMeet = R.mipmap.meeting_ic_file_state_under_way;
-        @DrawableRes int resFolder = R.mipmap.meeting_ic_folder_unit_num;
+        @DrawableRes int resMeet = R.drawable.meeting_ic_file_state_under_way;
+        @DrawableRes int resFolder = R.drawable.meeting_ic_folder_unit_num;
         @MeetState int state = meeting.getInt(TMeeting.state);
 
         switch (state) {
             case MeetState.not_started: {
-                resMeet = R.mipmap.meeting_ic_file_state_no_start;
-                resFolder = R.mipmap.meeting_ic_folder_state_not_start;
+                resMeet = R.drawable.meeting_ic_file_state_no_start;
+                resFolder = R.drawable.meeting_ic_folder_state_not_start;
             }
             break;
             case MeetState.under_way: {
-                resMeet = R.mipmap.meeting_ic_file_state_under_way;
-                resFolder = R.mipmap.meeting_ic_folder_state_under_way;
+                resMeet = R.drawable.meeting_ic_file_state_under_way;
+                resFolder = R.drawable.meeting_ic_folder_state_under_way;
             }
             break;
             case MeetState.retrospect: {
-                resMeet = R.mipmap.meeting_ic_file_state_retrospect;
-                resFolder = R.mipmap.meeting_ic_folder_state_retrospect;
+                resMeet = R.drawable.meeting_ic_file_state_retrospect;
+                resFolder = R.drawable.meeting_ic_folder_state_retrospect;
             }
             break;
         }
@@ -346,7 +346,7 @@ public class UISetter {
      * @param act
      */
     public static void setNavBarMidText(NavBar bar, String fileName, Activity act) {
-        bar.addBackIcon(R.mipmap.nav_bar_ic_back, act);
+        bar.addBackIcon(R.drawable.nav_bar_ic_back, act);
         View v = View.inflate(act, R.layout.layout_nav_bar_mid_text, null);
         TextView tv = (TextView) v.findViewById(R.id.nav_bar_mid_tv);
         tv.setText(fileName);

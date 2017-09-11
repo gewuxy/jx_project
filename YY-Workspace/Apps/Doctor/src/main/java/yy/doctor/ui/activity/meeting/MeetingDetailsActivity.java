@@ -164,7 +164,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         });
         mIvCollection = Util.getBarView(group, ImageView.class);
         // 分享
-        bar.addViewRight(R.mipmap.nav_bar_ic_share, v -> {
+        bar.addViewRight(R.drawable.nav_bar_ic_share, v -> {
             if (Util.noNetwork()){
                 return;
             }
@@ -283,7 +283,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private void refreshViews(MeetDetail detail) {
         mIvCollection.setSelected(detail.getBoolean(TMeetDetail.stored));
 
-        mIvPlay.placeHolder(R.mipmap.ic_default_meeting_content_detail)
+        mIvPlay.placeHolder(R.drawable.ic_default_meeting_content_detail)
                 .url(detail.getString(TMeetDetail.coverUrl))
                 .load();
 
@@ -348,7 +348,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         }
 
         // 单位号
-        mIvNumber.placeHolder(R.mipmap.ic_default_unit_num_large)
+        mIvNumber.placeHolder(R.drawable.ic_default_unit_num_large)
                 .url(detail.getString(TMeetDetail.headimg))
                 .renderer(new CircleRenderer())
                 .load();
@@ -375,7 +375,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
         // 主讲者
         mTvGN.setText(detail.getString(TMeetDetail.lecturer));
-        mIvGP.placeHolder(R.mipmap.ic_default_meeting_guest)
+        mIvGP.placeHolder(R.drawable.ic_default_meeting_guest)
                 .url(detail.getString(TMeetDetail.lecturerHead))
                 .load();
         // 职责和医院没有的话就隐藏

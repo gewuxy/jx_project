@@ -26,7 +26,7 @@ public class SplashActivity extends SimpleSplashActivityEx {
 
     @Override
     protected int getSplashImageResId() {
-        return R.mipmap.splash_bg;
+        return R.drawable.splash_bg;
     }
 
     @Override

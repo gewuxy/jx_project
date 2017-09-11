@@ -23,7 +23,7 @@
             android:layout_height="25dp"
             android:layout_marginBottom="44dp"
             android:layout_marginTop="64dp"
-            android:src="@mipmap/ic_launcher_login"/>
+            android:src="@drawable/ic_launcher_login"/>
 
         <include layout="@layout/layout_login_name_pwd"/>
 

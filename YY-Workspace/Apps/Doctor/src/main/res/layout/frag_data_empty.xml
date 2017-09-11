@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="58dp"
         android:layout_height="81dp"
-        android:src="@mipmap/data_ic_empty"/>
+        android:src="@drawable/data_ic_empty"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -29,7 +29,7 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
     protected void refreshView(int position, BannerVH holder) {
 
         Banner item = getItem(position);
-        holder.getIv().placeHolder(R.mipmap.ic_default_banner)
+        holder.getIv().placeHolder(R.drawable.ic_default_banner)
                 .url(item.getString(TBanner.pageUrl))
                 .load();
 

@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/meeting_course_video_iv"
-        android:src="@mipmap/ic_default_ppt"
+        android:src="@drawable/ic_default_ppt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

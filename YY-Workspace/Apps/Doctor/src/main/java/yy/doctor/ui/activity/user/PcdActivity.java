@@ -247,7 +247,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
         mTvLocation.setText(KLocateError);
 
         mIvProgress.stop();
-        mIvProgress.setImageResource(R.mipmap.pcd_ic_locate_err);
+        mIvProgress.setImageResource(R.drawable.pcd_ic_locate_err);
 
         if (mPreId == null) {
             showLocateErrDialog();

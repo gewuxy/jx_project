@@ -10,7 +10,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:background="@drawable/meet_detail_see_bg_selector"
-        android:drawableLeft="@mipmap/meeting_ic_see"
+        android:drawableLeft="@drawable/meeting_ic_see"
         android:drawablePadding="4dp"
         android:gravity="center"
         android:paddingLeft="@dimen/margin_large"

@@ -35,7 +35,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, R.string.order, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_i, v -> {
+        bar.addViewRight(R.drawable.nav_bar_ic_i, v -> {
             if (isTvShow) {
                 mTv.setVisibility(View.GONE);
             } else {

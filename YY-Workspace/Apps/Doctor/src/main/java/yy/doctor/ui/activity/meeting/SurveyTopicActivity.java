@@ -92,8 +92,8 @@ public class SurveyTopicActivity extends BaseTopicActivity {
                     @Override
                     public void onGlobalLayout() {
                         mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
-                        mTopicPopup.setCheck(R.mipmap.que_popup_check);
-                        mTopicPopup.setSlide(R.mipmap.que_popup_slide);
+                        mTopicPopup.setCheck(R.drawable.que_popup_check);
+                        mTopicPopup.setSlide(R.drawable.que_popup_slide);
                         mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
                         SpApp.inst().noFirstQue();
                         removeOnGlobalLayoutListener(this);

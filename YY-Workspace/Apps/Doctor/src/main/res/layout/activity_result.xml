@@ -31,7 +31,7 @@
             android:layout_width="58dp"
             android:layout_height="58dp"
             android:layout_marginTop="32dp"
-            android:src="@mipmap/result_ic_success"/>
+            android:src="@drawable/result_ic_success"/>
 
         <TextView
             android:id="@+id/result_tv_result"

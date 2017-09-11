@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="178dp"
-                android:src="@mipmap/dialog_ic_update_notice"/>
+                android:src="@drawable/dialog_ic_update_notice"/>
 
             <TextView
                 android:layout_width="wrap_content"

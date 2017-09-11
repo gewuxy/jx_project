@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginBottom="28dp"
-        android:drawableLeft="@mipmap/ic_arrow_down"
+        android:drawableLeft="@drawable/ic_arrow_down"
         android:drawablePadding="3dp"
         android:text="滑动查看更多会议"
         android:textSize="10dp"

@@ -61,7 +61,7 @@
                     android:layout_height="10dp"
                     android:layout_marginLeft="@dimen/margin"
                     android:layout_marginRight="@dimen/margin"
-                    android:src="@mipmap/unit_num_detail_ic_arrow"
+                    android:src="@drawable/unit_num_detail_ic_arrow"
                     android:visibility="gone"/>
 
             </LinearLayout>

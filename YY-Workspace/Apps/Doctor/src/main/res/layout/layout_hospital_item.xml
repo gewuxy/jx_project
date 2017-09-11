@@ -28,7 +28,7 @@
             style="@style/tv"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginTop="8dp"
-            android:drawableLeft="@mipmap/hospital_ic_bai_du_location"
+            android:drawableLeft="@drawable/hospital_ic_bai_du_location"
             android:drawablePadding="4dp"
             android:gravity="center"
             android:text="12m"

@@ -80,6 +80,6 @@
         android:layout_height="68dp"
         android:layout_marginTop="70dp"
         android:clickable="true"
-        android:src="@mipmap/download_ic_start"/>
+        android:src="@drawable/download_ic_start"/>
 
 </LinearLayout>

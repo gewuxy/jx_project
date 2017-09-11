@@ -29,7 +29,7 @@
                 android:id="@+id/meeting_item_iv_state"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:src="@mipmap/meeting_ic_file_state_no_start"/>
+                android:src="@drawable/meeting_ic_file_state_no_start"/>
 
             <TextView
                 android:id="@+id/meeting_item_tv_title"
@@ -70,7 +70,7 @@
                     android:layout_width="22dp"
                     android:layout_height="13dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@mipmap/meeting_detail_ic_cme"
+                    android:src="@drawable/meeting_detail_ic_cme"
                     android:visibility="gone"/>
 
                 <ImageView

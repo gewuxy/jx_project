@@ -20,7 +20,7 @@ public class ClinicsActivity extends BaseDataUnitsActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.clinical_guide, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> this.notify(NotifyType.data_finish));
+        bar.addViewRight(R.drawable.nav_bar_ic_data, v -> this.notify(NotifyType.data_finish));
     }
 
     @Override

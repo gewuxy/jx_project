@@ -53,7 +53,7 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
     protected void refreshView(int position, RecordVH holder, int itemType) {
         switch (itemType) {
             case CourseType.video: {
-                holder.getIvVideo().res(R.mipmap.meeting_record_ic_video).load();
+                holder.getIvVideo().res(R.drawable.meeting_record_ic_video).load();
                 setOnViewClickListener(position, holder.getIvVideo());
             }
             break;
@@ -71,7 +71,7 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
             case CourseType.pic: {
                 // 图片,图片+音频共有的功能
                 NetworkImageView iv = holder.getIvPic();
-                iv.placeHolder(R.mipmap.ic_default_meeting_content_detail)
+                iv.placeHolder(R.drawable.ic_default_meeting_content_detail)
                         .resize(mImgWidth, mImgHeight)
                         .url(getItem(position).getString(TCourse.imgUrl))
                         .load();

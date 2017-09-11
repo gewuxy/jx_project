@@ -25,7 +25,7 @@
             <ImageView
                 android:layout_width="21dp"
                 android:layout_height="15dp"
-                android:src="@mipmap/meeting_ic_exam_end"/>
+                android:src="@drawable/meeting_ic_exam_end"/>
 
             <TextView
                 android:layout_width="wrap_content"

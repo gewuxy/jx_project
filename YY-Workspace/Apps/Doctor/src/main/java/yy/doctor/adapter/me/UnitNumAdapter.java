@@ -40,7 +40,7 @@ public class UnitNumAdapter extends GroupAdapterEx<GroupUnitNum, UnitNum, UnitNu
     public void refreshChildView(int groupPosition, int childPosition, boolean isLastChild, UnitNumVH holder) {
         UnitNum item = getChild(groupPosition, childPosition);
 
-        holder.getIvChild().placeHolder(R.mipmap.ic_default_unit_num)
+        holder.getIvChild().placeHolder(R.drawable.ic_default_unit_num)
                 .renderer(new CircleRenderer())
                 .url(item.getString(TUnitNum.headimg))
                 .load();

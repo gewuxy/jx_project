@@ -113,8 +113,8 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
         Util.addBackIcon(bar, this);
         changeAlphaByScroll(fitDp(219), bar);
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
-        bar.addViewRight(R.mipmap.nav_bar_ic_more, v -> showDialogCancelAttention());
+        bar.addViewRight(R.drawable.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
+        bar.addViewRight(R.drawable.nav_bar_ic_more, v -> showDialogCancelAttention());
     }
 
     @Override
@@ -292,7 +292,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
             mUnitNumDetail = r.getData();
 
-            mIvAvatar.placeHolder(R.mipmap.ic_default_unit_num)
+            mIvAvatar.placeHolder(R.drawable.ic_default_unit_num)
                     .url(mUnitNumDetail.getString(TUnitNumDetail.headimg))
                     .renderer(new CircleRenderer())
                     .load();

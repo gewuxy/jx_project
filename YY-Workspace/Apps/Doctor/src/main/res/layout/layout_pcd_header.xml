@@ -25,7 +25,7 @@
             android:id="@+id/pcd_header_iv_progress"
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:src="@mipmap/pcd_ic_loading"/>
+            android:src="@drawable/pcd_ic_loading"/>
 
         <TextView
             android:id="@+id/pcd_header_tv_location"

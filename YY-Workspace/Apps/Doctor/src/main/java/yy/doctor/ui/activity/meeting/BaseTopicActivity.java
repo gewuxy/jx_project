@@ -83,7 +83,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> exit());
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> exit());
     }
 
     @CallSuper

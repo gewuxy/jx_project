@@ -12,7 +12,7 @@
         android:layout_height="39dp"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin_large"
-        android:src="@mipmap/meeting_ic_folder_head"/>
+        android:src="@drawable/meeting_ic_folder_head"/>
 
     <LinearLayout
         android:layout_width="match_parent"

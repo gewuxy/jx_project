@@ -47,7 +47,7 @@
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@mipmap/topic_case_ic_all_blue"/>
+                android:src="@drawable/topic_case_ic_all_blue"/>
 
             <TextView
                 android:id="@+id/topic_case_all_tv_all"

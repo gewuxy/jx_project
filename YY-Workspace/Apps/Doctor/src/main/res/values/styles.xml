@@ -83,7 +83,7 @@
         <item name="android:layout_marginLeft">@dimen/margin</item>
         <item name="android:layout_marginRight">6dp</item>
         <item name="android:layout_marginTop">4dp</item>
-        <item name="android:src">@mipmap/meeting_record_ic_symbol</item>
+        <item name="android:src">@drawable/meeting_record_ic_symbol</item>
     </style>
 
     <style name="tv.exam.end">
@@ -126,7 +126,7 @@
     <style name="iv.data">
         <item name="android:layout_width">27dp</item>
         <item name="android:layout_height">27dp</item>
-        <item name="android:src">@mipmap/unit_num_detail_ic_file</item>
+        <item name="android:src">@drawable/unit_num_detail_ic_file</item>
     </style>
 
     <style name="tv.data">

@@ -39,7 +39,7 @@ public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
                 UnitNum unitNum = (UnitNum) getItem(position);
                 UnitNumVH unitNumVH = holder.getUnitNumVH();
 
-                unitNumVH.getIvChild().placeHolder(R.mipmap.ic_default_epc)
+                unitNumVH.getIvChild().placeHolder(R.drawable.ic_default_epc)
                         .renderer(new CircleRenderer())
                         .url(unitNum.getString(TUnitNum.headimg))
                         .load();

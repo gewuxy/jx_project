@@ -26,7 +26,7 @@
 
             <ImageView
                 android:id="@+id/meeting_item_iv_state"
-                android:src="@mipmap/meeting_ic_folder_unit_num"
+                android:src="@drawable/meeting_ic_folder_unit_num"
                 android:layout_width="11dp"
                 android:layout_height="11dp"/>
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:drawableRight="@mipmap/home_ic_meeting_folder_arrow"
+                android:drawableRight="@drawable/home_ic_meeting_folder_arrow"
                 android:drawablePadding="4dp"
                 android:singleLine="true"
                 android:text="48个会议"
@@ -83,6 +83,6 @@
         android:layout_width="10dp"
         android:layout_height="16dp"
         android:layout_marginRight="12dp"
-        android:src="@mipmap/form_ic_arrow_right"/>
+        android:src="@drawable/form_ic_arrow_right"/>
 
 </LinearLayout>

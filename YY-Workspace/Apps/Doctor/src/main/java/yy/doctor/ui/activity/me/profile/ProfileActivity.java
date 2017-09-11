@@ -253,7 +253,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
         super.setViews();
 
         mLayoutProfileHeader.setOnClickListener(this);
-        mIvAvatar.placeHolder(R.mipmap.ic_default_user_header)
+        mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .url(mAvatarUrl)
                 .renderer(new CircleRenderer())
                 .load();

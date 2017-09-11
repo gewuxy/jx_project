@@ -32,7 +32,7 @@ public class EpcAdapter extends AdapterEx<Epc, EpcVH> {
         holder.getTvName().setText(item.getString(TEpc.name));
         holder.getTvEpn().setText(item.getString(TEpc.price) + getString(R.string.epn));
         holder.getIv()
-                .placeHolder(R.mipmap.ic_default_epc)
+                .placeHolder(R.drawable.ic_default_epc)
                 .renderer(new CornerRenderer(fitDp(3)))
                 .url(item.getString(TEpc.picture))
                 .load();

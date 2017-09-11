@@ -24,7 +24,7 @@
                 android:id="@+id/dialog_share_iv_wechat_friend_cicle"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@mipmap/share_ic_wechat_friend_circle"/>
+                android:src="@drawable/share_ic_wechat_friend_circle"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:id="@+id/dialog_share_iv_wechat_friends"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@mipmap/share_ic_wechat_friends"/>
+                android:src="@drawable/share_ic_wechat_friends"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:id="@+id/dialog_share_iv_sina"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@mipmap/share_ic_sina"/>
+                android:src="@drawable/share_ic_sina"/>
 
             <TextView
                 android:layout_width="wrap_content"

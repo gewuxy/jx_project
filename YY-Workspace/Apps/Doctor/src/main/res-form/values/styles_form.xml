@@ -25,7 +25,7 @@
         <item name="android:id">@id/form_iv_arrow</item>
         <item name="android:layout_width">10dp</item>
         <item name="android:layout_height">16dp</item>
-        <item name="android:src">@mipmap/form_ic_arrow_right</item>
+        <item name="android:src">@drawable/form_ic_arrow_right</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
@@ -44,7 +44,7 @@
         <item name="android:layout_height">24dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:visibility">gone</item>
-        <item name="android:src">@mipmap/login_ic_clean</item>
+        <item name="android:src">@drawable/login_ic_clean</item>
     </style>
 
     <style name="iv.form.clean.right">

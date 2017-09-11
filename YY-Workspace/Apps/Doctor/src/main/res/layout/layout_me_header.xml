@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="@dimen/margin_large"
-            android:src="@mipmap/form_ic_arrow_right"/>
+            android:src="@drawable/form_ic_arrow_right"/>
 
     </LinearLayout>
 

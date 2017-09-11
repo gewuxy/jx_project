@@ -115,7 +115,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
             mPopup.showAsDropDown(bar);
         });
 
-        bar.addViewRight(R.mipmap.nav_bar_ic_search, v1 -> startActivity(SearchActivity.class));
+        bar.addViewRight(R.drawable.nav_bar_ic_search, v1 -> startActivity(SearchActivity.class));
     }
 
     @Override

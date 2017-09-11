@@ -78,7 +78,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     @Override
     public void initNavBar(NavBar bar) {
         bar.addViewMid(inflate(R.layout.layout_home_nav_bar_search), v -> startActivity(SearchActivity.class));
-        mViewNotice = bar.addViewRight(R.mipmap.nav_bar_ic_notice, v -> startActivity(NoticeActivity.class));
+        mViewNotice = bar.addViewRight(R.drawable.nav_bar_ic_notice, v -> startActivity(NoticeActivity.class));
     }
 
     @Override

@@ -21,7 +21,7 @@ public class DrugsActivity extends BaseDataUnitsActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.drug_list, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_data, v -> this.notify(NotifyType.data_finish));
+        bar.addViewRight(R.drawable.nav_bar_ic_data, v -> this.notify(NotifyType.data_finish));
     }
 
     @Override

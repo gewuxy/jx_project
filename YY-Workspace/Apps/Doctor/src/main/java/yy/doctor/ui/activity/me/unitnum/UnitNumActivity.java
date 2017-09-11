@@ -31,7 +31,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.unit_num, this);
-        bar.addViewRight(R.mipmap.nav_bar_ic_add, v -> startActivity(SearchActivity.class));
+        bar.addViewRight(R.drawable.nav_bar_ic_add, v -> startActivity(SearchActivity.class));
     }
 
     @Override

@@ -70,7 +70,7 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                 UISetter.setHomeMeetingState(state, homeVH.getTvStatus());
 
                 homeVH.getIvSpeaker()
-                        .placeHolder(R.mipmap.ic_default_home_meeting_speaker)
+                        .placeHolder(R.drawable.ic_default_home_meeting_speaker)
                         .url(item.getString(TMeeting.lecturerHead))
                         .load();
 

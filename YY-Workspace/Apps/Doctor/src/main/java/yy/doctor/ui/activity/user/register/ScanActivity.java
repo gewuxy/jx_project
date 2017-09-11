@@ -84,7 +84,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         mScannerView.setLaserFrameSize(KFrameSize, KFrameSize);
         mScannerView.setLaserFrameTopMargin(KTopMargin);
         mScannerView.setLaserColor(ResLoader.getColor(R.color.btn_bg_blue));
-        mScannerView.setLaserLineResId(R.mipmap.scan_ic_laser_line);
+        mScannerView.setLaserLineResId(R.drawable.scan_ic_laser_line);
 
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 

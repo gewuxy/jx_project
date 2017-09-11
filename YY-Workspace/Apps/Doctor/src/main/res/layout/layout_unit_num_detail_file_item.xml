@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="27dp"
             android:layout_height="27dp"
-            android:src="@mipmap/unit_num_detail_ic_file"/>
+            android:src="@drawable/unit_num_detail_ic_file"/>
 
         <TextView
             android:id="@+id/unit_num_detail_file_item_tv_name"

@@ -82,7 +82,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.mipmap.nav_bar_ic_back, v -> {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> {
             // 把前面的页面关了
             notify(NotifyType.meeting_finish);
             setResult(RESULT_OK);
@@ -92,8 +92,8 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         String title = TextUtil.cutString(mCourseInfo.getString(TCourseInfo.title), fitDp(NavBarVal.KLeftTextSizeDp), fitDp(200), "...");
         bar.addTextViewMid(title);
 
-        bar.addViewRight(R.mipmap.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
-        bar.addViewRight(R.mipmap.nav_bar_ic_course, v -> finish());
+        bar.addViewRight(R.drawable.nav_bar_ic_comment, v -> MeetingCommentActivity.nav(MeetingRecordActivity.this, mMeetId));
+        bar.addViewRight(R.drawable.nav_bar_ic_course, v -> finish());
     }
 
     @Override

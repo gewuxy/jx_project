@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:src="@mipmap/notice_ic_dot"/>
+                android:src="@drawable/notice_ic_dot"/>
 
             <TextView
                 android:id="@+id/notice_item_tv_unit"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/form_ic_arrow_right"/>
+            android:src="@drawable/form_ic_arrow_right"/>
 
     </RelativeLayout>
 

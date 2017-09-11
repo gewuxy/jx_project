@@ -230,7 +230,7 @@ public class RegisterActivity extends BaseFormActivity implements
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.register, this);
-        bar.addViewRight(R.mipmap.register_scan, v -> {
+        bar.addViewRight(R.drawable.register_scan, v -> {
             if (checkPermission(0, Permission.camera)) {
                 startActivityForResult(ScanActivity.class, 0);
             }
