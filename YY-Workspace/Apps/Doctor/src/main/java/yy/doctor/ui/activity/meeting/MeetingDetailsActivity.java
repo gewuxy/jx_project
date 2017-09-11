@@ -215,7 +215,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     @Override
     public void setViews() {
-        setOnClickListener(mIvPlay);
+        setOnClickListener(R.id.meeting_detail_player_layout);
 
         getDataFromNet();
     }
@@ -223,7 +223,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meeting_detail_iv_play: {
+            case R.id.meeting_detail_player_layout: {
                 mCourseFunc.onClick(v);
             }
             break;
