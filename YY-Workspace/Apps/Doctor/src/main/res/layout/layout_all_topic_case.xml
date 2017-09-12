@@ -35,7 +35,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/topic_case_all_layout_all"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

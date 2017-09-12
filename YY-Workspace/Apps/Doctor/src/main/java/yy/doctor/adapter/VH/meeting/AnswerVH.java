@@ -2,8 +2,8 @@ package yy.doctor.adapter.VH.meeting;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import lib.ys.adapter.VH.ViewHolderEx;
@@ -13,18 +13,22 @@ import yy.doctor.R;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public class TopicVH extends ViewHolderEx {
+public class AnswerVH extends ViewHolderEx {
 
-    public TopicVH(@NonNull View convertView) {
+    public AnswerVH(@NonNull View convertView) {
         super(convertView);
     }
 
     public TextView getTvAnswer() {
-        return getView(R.id.exam_topic_tv_answer);
+        return getView(R.id.answer_tv);
     }
 
     public ImageView getIvAnswer() {
-        return getView(R.id.exam_topic_iv_answer);
+        return getView(R.id.answer_iv);
+    }
+
+    public EditText getEtAnswer() {
+        return getView(R.id.answer_et);
     }
 
 }

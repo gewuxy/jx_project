@@ -9,8 +9,13 @@ import yy.doctor.model.meet.exam.Choice.TChoice;
  * @author : GuoXuan
  * @since : 2017/5/8
  */
+public class Choice extends EVal<TChoice> implements IAnswer {
 
-public class Choice extends EVal<TChoice> {
+    @Override
+    public int getType() {
+        return AnswerType.choice;
+    }
+
     public enum TChoice {
         key, // 选项
         value, // 选项内容

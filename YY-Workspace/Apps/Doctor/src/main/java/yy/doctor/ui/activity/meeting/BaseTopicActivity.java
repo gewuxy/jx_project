@@ -28,10 +28,13 @@ import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.exam.Topic.TopicType;
 import yy.doctor.model.meet.exam.Topic.TTopic;
-import yy.doctor.ui.frag.meeting.exam.TopicFrag;
-import yy.doctor.ui.frag.meeting.exam.TopicFrag.OnTopicListener;
-import yy.doctor.ui.frag.meeting.exam.TopicFragRouter;
+import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag;
+import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag.OnTopicListener;
+import yy.doctor.ui.frag.meeting.topic.ChoiceMultipleTopicFragRouter;
+import yy.doctor.ui.frag.meeting.topic.ChoiceSingleTopicFragRouter;
+import yy.doctor.ui.frag.meeting.topic.FillTopicFragRouter;
 
 /**
  * 考试(问卷)题目界面
@@ -106,7 +109,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         super.setViews();
 
         setOnClickListener(R.id.topic_case_layout_progress);
-        setOnClickListener(R.id.topic_case_all_layout_all);
         setOnClickListener(R.id.topic_case_all_layout_progress);
 
         setOffscreenPageLimit(KVpSize);
@@ -163,15 +165,14 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
             setAnimation(mBgHide);
         }
         switch (v.getId()) {
-            case R.id.topic_case_layout_progress:
+            case R.id.topic_case_layout_progress: {
                 topicCaseVisibility(true);
-                break;
-            case R.id.topic_case_all_layout_all:
+            }
+            break;
+            case R.id.topic_case_all_layout_progress: {
                 topicCaseVisibility(false);
-                break;
-            case R.id.topic_case_all_layout_progress:
-                topicCaseVisibility(false);
-                break;
+            }
+            break;
         }
     }
 
@@ -182,7 +183,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
     }
 
     @Override
-    public void topicFinish(int listId, int titleId, String answer) {
+    public void toFinish(int listId, int titleId, String answer) {
         Topic checkTopic = mTopics.get(listId);
         if (answer.length() > 0) {
             // 选择了答案
@@ -282,23 +283,36 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         mPaper = mIntro.getEv(TIntro.paper);
         mTopics = mPaper.getList(TPaper.questions);
 
-        TopicFrag topicFrag = null;
+        Topic e = new Topic();
+        e.put(TTopic.qtype, 2);
+        e.put(TTopic.title, "test");
+        mTopics.add(e);
+
         int size = mTopics.size();
         for (int i = 0; i < size; i++) {
-            //最后一题
-            boolean isLast;
-            if (i == size - 1) {
-                isLast = true;
-            } else {
-                isLast = false;
+            // 是否为最后一题
+            boolean isLast = i == size - 1;
+            BaseTopicFrag frag = null;
+            Topic topic = mTopics.get(i);
+            switch (topic.getInt(TTopic.qtype)) {
+                case TopicType.choice_single: {
+                    frag = ChoiceSingleTopicFragRouter.create(topic).lastTopic(isLast).sort(i).route();
+                }
+                break;
+                case TopicType.choice_multiple: {
+                    frag = ChoiceMultipleTopicFragRouter.create(topic).lastTopic(isLast).sort(i).route();
+                }
+                break;
+                case TopicType.fill: {
+                    frag = FillTopicFragRouter.create(topic).lastTopic(isLast).sort(i).route();
+                }
+                break;
             }
-            topicFrag = TopicFragRouter.create()
-                    .listId(i)
-                    .last(isLast)
-                    .topic(mTopics.get(i))
-                    .route();
-            topicFrag.setOnTopicListener(this);
-            add(topicFrag);
+
+            if (frag != null) {
+                frag.setTopicListener(this);
+                add(frag);
+            }
         }
     }
 

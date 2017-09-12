@@ -612,33 +612,13 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         super.onDestroy();
 
         // 拼接需要的数据
-        /*JSONArray ja = new JSONArray();
+        JSONArray ja = new JSONArray();
         long studyTime;
         for (Integer key : mSubmits.keySet()) {
             Submit submit = mSubmits.get(key);
             studyTime = submit.getLong(TSubmit.usedtime, 0) / TimeUnit.SECONDS.toMillis(1);
             submit.put(TSubmit.usedtime, studyTime == 0 ? 1 : studyTime); // 至少传1秒
-
             ja.put(submit.toJsonObject());
-        }*/
-
-        // FIXME: 后台不接受value含""
-        JSONArray ja = new JSONArray();
-        try {
-            JSONObject jsonObject;
-            long studyTime;
-            Submit submit;
-            for (Integer key : mSubmits.keySet()) {
-                jsonObject = new JSONObject();
-                submit = mSubmits.get(key);
-                jsonObject.put(MeetParam.KDetailId, submit.getLong(TSubmit.detailId));
-                studyTime = submit.getLong(TSubmit.usedtime, 0) / TimeUnit.SECONDS.toMillis(1);
-                jsonObject.put(MeetParam.KUseTime, studyTime == 0 ? 1 : studyTime); // 至少传1秒
-                jsonObject.put(MeetParam.KFinish, submit.getBoolean(TSubmit.finished));
-                ja.put(jsonObject);
-            }
-        } catch (JSONException e) {
-            YSLog.d(TAG, "onDestroy:" + e.toString());
         }
 
         Submit submit = new Submit();

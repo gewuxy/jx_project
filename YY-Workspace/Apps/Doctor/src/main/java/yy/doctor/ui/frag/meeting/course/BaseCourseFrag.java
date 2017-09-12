@@ -46,6 +46,7 @@ abstract public class BaseCourseFrag extends BaseFrag {
         if (mSubmit == null) {
             mSubmit = new Submit();
             mSubmit.put(TSubmit.detailId, getCourse().getLong(TCourse.id));
+            mSubmit.put(TSubmit.finished, false);
         }
         return mSubmit;
     }

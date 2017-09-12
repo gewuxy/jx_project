@@ -20,11 +20,13 @@ public class Topic extends EVal<TTopic> {
     @IntDef({
             TopicType.choice_single,
             TopicType.choice_multiple,
+            TopicType.fill,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface TopicType {
         int choice_single = 0; // 单选
         int choice_multiple = 1; // 多选
+        int fill = 2; // 填空
     }
 
     public enum TTopic {
