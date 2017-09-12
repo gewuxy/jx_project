@@ -46,13 +46,6 @@ public class App extends BaseApp {
         int KRightTextSizeDp = 14;
     }
 
-    private interface NetworkParam {
-        String KOSVersion = "os_version";
-        String KDevice = "os_type";
-        String KAppVersion = "app_version";
-        String KToken = "token";
-    }
-
     @Override
     protected AppConfig configureApp() {
         return AppConfig.newBuilder()

@@ -87,17 +87,6 @@ public class RecordAdapter extends MultiAdapterEx<Course, RecordVH> {
         return CourseType.class.getDeclaredFields().length;
     }
 
-    @Override
-    protected void refreshItem(int position, RecordVH recordVH, int itemViewType) {
-        switch (itemViewType) {
-            case CourseType.audio: // 有音频的都需要刷新故不加break
-            case CourseType.pic_audio: {
-                animation(position, recordVH.getIvAudio());
-            }
-            break;
-        }
-    }
-
     private void animation(int position, ImageView iv) {
         AnimationDrawable animation = (AnimationDrawable) iv.getDrawable();
         if (getItem(position).getBoolean(TCourse.play)) {
