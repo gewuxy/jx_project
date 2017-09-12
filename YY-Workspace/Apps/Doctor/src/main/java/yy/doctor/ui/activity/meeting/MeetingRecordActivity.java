@@ -99,7 +99,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         mNeedPlay = true;
         int itemType = getAdapter().getItemViewType(position);
         switch (itemType) {
-            case CourseType.video: // 视频是跳转播放(跟图片效果一样),故不加break
+            case CourseType.video:
             case CourseType.pic: {
                 pic(position);
             }
@@ -143,10 +143,10 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             // 停止之前的动画启动当前动画
             if (mLastPosition != ConstantsEx.KInvalidValue) {
                 getItem(mLastPosition).put(TCourse.play, false);
-                refreshItem(mLastPosition);
+                invalidate(mLastPosition);
             }
             getItem(position).put(TCourse.play, true);
-            refreshItem(position);
+            invalidate(position);
         } else {
             // 相同的条目
 
@@ -158,7 +158,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             } else {
                 NetPlayer.inst().pause();
             }
-            refreshItem(position);
+            invalidate(position);
         }
 
         mLastPosition = position;
@@ -194,7 +194,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     @Override
     public void onCompletion() {
         getItem(mLastPosition).put(TCourse.play, false);
-        refreshItem(mLastPosition);
+        invalidate(mLastPosition);
         mNeedPlay = false;
     }
 
@@ -205,7 +205,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         // 停止之前的动画
         if (mLastPosition != ConstantsEx.KInvalidValue) {
             getItem(mLastPosition).put(TCourse.play, false);
-            refreshItem(mLastPosition);
+            invalidate(mLastPosition);
         }
         NetPlayer.inst().pause();
         NetPlayer.inst().removeListener();

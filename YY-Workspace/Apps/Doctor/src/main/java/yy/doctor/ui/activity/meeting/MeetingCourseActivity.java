@@ -608,6 +608,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
         notify(NotifyType.study_end);
 
+        // 保持调用顺序
         super.onDestroy();
 
         // 拼接需要的数据
