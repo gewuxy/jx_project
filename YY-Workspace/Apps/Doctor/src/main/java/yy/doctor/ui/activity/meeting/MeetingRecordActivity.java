@@ -48,8 +48,6 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     private int mLastPosition;
 
-    private boolean mNeedPlay; // 是否需要播放
-
     @Override
     public void initData() {
         mCourses = mPPT.getEv(TPPT.course).getList(TCourseInfo.details);
@@ -96,7 +94,6 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void onAdapterClick(int position, View v) {
-        mNeedPlay = true;
         int itemType = getAdapter().getItemViewType(position);
         switch (itemType) {
             case CourseType.video:
@@ -171,9 +168,6 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void onPreparedSuccess(long allMilliseconds) {
-        if (mNeedPlay) {
-            NetPlayer.inst().play();
-        }
     }
 
     @Override
@@ -195,7 +189,6 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
     public void onCompletion() {
         getItem(mLastPosition).put(TCourse.play, false);
         invalidate(mLastPosition);
-        mNeedPlay = false;
     }
 
     @Override
@@ -208,13 +201,12 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
             invalidate(mLastPosition);
         }
         NetPlayer.inst().pause();
-        NetPlayer.inst().removeListener();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onDestroy() {
+        super.onDestroy();
 
-        NetPlayer.inst().setListener(this);
+        NetPlayer.inst().removeListener();
     }
 }

@@ -92,7 +92,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     @Arg
     String mModuleId; // 模块ID
 
-    private boolean mAutoPlay; // 不同PPT之间自动播放
     private long mAllMilliseconds; // 当前播放音频的总时长 (毫秒)
     private CountDown mCountDown; // 倒计时
     private PPT mPPT; // PPT
@@ -130,7 +129,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     public void initData() {
         notify(NotifyType.study_start);
 
-        mAutoPlay = true;
         mLastPosition = 0;
         mSubmits = new HashMap<>();
     }
@@ -198,6 +196,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         mIvControlL.setOnTouchListener(new TouchCancelListener());
         mLayoutProgressL.setOnSeekBarChangeListener(this);
 
+        NetPlayer.inst().setListener(this);
+
         setOnClickListener(R.id.meeting_ppt_iv_left);
         setOnClickListener(R.id.meeting_ppt_iv_right);
         setOnClickListener(R.id.meeting_ppt_iv_control_p);
@@ -226,17 +226,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
         onProgress(0, 0);
 
-        NetPlayer.inst().stop();
-        if (mCourses.get(position).getType() == CourseType.video) {
-            VideoCourseFrag item = (VideoCourseFrag) getItem(position);
-            NetPlayer.inst().setVideo(item.getTextureView());
-        } else {
-            NetPlayer.inst().setAudio();
-        }
-        NetPlayer.inst().prepare(mMeetId, getItem(position).getUrl());
-
         NetworkImageView.clearMemoryCache(MeetingCourseActivity.this);
-        mAutoPlay = true;
     }
 
     @Override
@@ -274,6 +264,15 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         }
         mTvSelect.setText(String.valueOf(position + 1));
         mStartTime = System.currentTimeMillis();
+
+        NetPlayer.inst().stop();
+        if (mCourses.get(position).getType() == CourseType.video) {
+            VideoCourseFrag item = (VideoCourseFrag) getItem(position);
+            NetPlayer.inst().setVideo(item.getTextureView());
+        } else {
+            NetPlayer.inst().setAudio();
+        }
+        NetPlayer.inst().prepare(mMeetId, getItem(position).getUrl());
     }
 
     @Override
@@ -384,10 +383,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
                 return;
             }
 
-            // 初始显示
-            mTvAll.setText(String.valueOf(mCourses.size()));
-            setStatus(0);
-
             // 逐个添加Frag
             for (Course course : mCourses) {
                 addPPTFrag(course);
@@ -396,13 +391,10 @@ public class MeetingCourseActivity extends BaseVPActivity implements
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    if (mCourses.get(0).getType() == CourseType.video) {
-                        VideoCourseFrag item = (VideoCourseFrag) getItem(0);
-                        NetPlayer.inst().setVideo(item.getTextureView());
-                    } else {
-                        NetPlayer.inst().setAudio();
-                    }
-                    NetPlayer.inst().prepare(mMeetId, getItem(0).getUrl());
+                    // 初始显示
+                    mStartTime = System.currentTimeMillis();
+                    mTvAll.setText(String.valueOf(mCourses.size()));
+                    setStatus(0);
                     removeOnGlobalLayoutListener(this);
                 }
             });
@@ -469,7 +461,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
                 }
             }
             break;
-            case R.id.meeting_ppt_iv_control_p: // 横竖屏控制按钮操作一样(不加break)
+            case R.id.meeting_ppt_iv_control_p:
             case R.id.meeting_ppt_iv_control_l: {
                 // 控制
                 NetPlayer.inst().toggle();
@@ -510,10 +502,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     @Override
     public void onPreparedSuccess(long allMilliseconds) {
         mAllMilliseconds = allMilliseconds;
-        if (mAutoPlay) {
-            NetPlayer.inst().play();
-            mAutoPlay = false;
-        }
     }
 
     @Override
@@ -590,7 +578,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
         saveStudyTime();
         NetPlayer.inst().pause();
-        NetPlayer.inst().removeListener();
     }
 
     @Override
@@ -598,7 +585,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         super.onResume();
 
         mStartTime = System.currentTimeMillis(); // 下一页的开始时间
-        NetPlayer.inst().setListener(this);
     }
 
     @Override

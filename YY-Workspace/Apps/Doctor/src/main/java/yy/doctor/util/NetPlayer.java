@@ -66,6 +66,7 @@ public class NetPlayer implements
 
     @PlayType
     private int mType;
+    private boolean mAutoPlay;
 
     public interface OnPlayerListener {
 
@@ -165,6 +166,9 @@ public class NetPlayer implements
     public void onPrepared(MediaPlayer mp) {
         mAllTime = mAudioPlay.getDuration();
 
+        if (mAutoPlay) {
+            play();
+        }
         if (mListener != null) {
             mListener.onPreparedSuccess(mAllTime);
         }
@@ -172,6 +176,7 @@ public class NetPlayer implements
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        mAutoPlay = false;
         preparePlay(mPaths.getByKey(mPlayCode));
         mCountDown.stop();
         if (mListener != null) {
@@ -186,6 +191,9 @@ public class NetPlayer implements
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         mAllTime = mVideoPlay.getDuration();
 
+        if (mAutoPlay) {
+            play();
+        }
         if (mListener != null) {
             mListener.onPreparedSuccess(mAllTime);
         }
@@ -194,6 +202,7 @@ public class NetPlayer implements
 
     @Override
     public void onCompletion(PLMediaPlayer plMediaPlayer) {
+        mAutoPlay = false;
         preparePlay(mPaths.getByKey(mPlayCode));
         mCountDown.stop();
         if (mListener != null) {
@@ -218,6 +227,7 @@ public class NetPlayer implements
         if (TextUtil.isEmpty(meetId) || TextUtil.isEmpty(url)) {
             return;
         }
+        mAutoPlay = true;
 
         // 转化文件名
         String type = url.substring(url.lastIndexOf(".") + 1); // 文件类型
@@ -305,6 +315,7 @@ public class NetPlayer implements
      * 暂停
      */
     public void pause() {
+        mAutoPlay = false;
         mCountDown.stop();
         if (mType == PlayType.audio) {
             if (mAudioPlay.isPlaying()) {
@@ -357,6 +368,7 @@ public class NetPlayer implements
      * 停止
      */
     public void stop() {
+        mAutoPlay = false;
         mCountDown.stop();
         if (mType == PlayType.audio) {
             if (mAudioPlay.isPlaying()) {
@@ -391,6 +403,10 @@ public class NetPlayer implements
         }
         mAudioPlay.release();
         mAudioPlay = null;
+
+        if (mVideoPlay != null && mVideoPlay.isPlaying()) {
+            mVideoPlay.stopPlayback();
+        }
 
         mCountDown.recycle();
         mCountDown = null;
