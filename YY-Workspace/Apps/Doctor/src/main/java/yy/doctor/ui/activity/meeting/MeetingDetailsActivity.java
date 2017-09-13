@@ -37,19 +37,19 @@ import yy.doctor.model.meet.module.BaseFunc;
 import yy.doctor.model.meet.module.BaseFunc.OnFuncListener;
 import yy.doctor.model.meet.module.CourseFunc;
 import yy.doctor.model.meet.module.ExamFunc;
-import yy.doctor.model.meet.module.SurveyFunc;
 import yy.doctor.model.meet.module.SignFunc;
+import yy.doctor.model.meet.module.SurveyFunc;
 import yy.doctor.model.meet.module.VideoFunc;
-import yy.doctor.model.unitnum.FileData;
+import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.NetworkAPISetter.CollectionAPI;
+import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
-import yy.doctor.ui.activity.me.unitnum.FilesActivityRouter;
+import yy.doctor.ui.activity.me.unitnum.FileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
@@ -360,11 +360,11 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             showView(mIvFileArrow);
             mTvFileNum.setText(String.format(getString(R.string.meeting_file_more), fileNum));
             mLayoutData.setOnClickListener(v ->
-                    FilesActivityRouter.create(mMeetId, FileFrom.meeting).route(this)
+                    FileActivityRouter.create(mMeetId, FileFrom.meeting).route(this)
             );
 
         }
-        List<FileData> materials = detail.getList(TMeetDetail.materials);
+        List<File> materials = detail.getList(TMeetDetail.materials);
         if (materials == null || materials.size() == 0) {
             goneView(mDivider);
             goneView(mLayoutData);

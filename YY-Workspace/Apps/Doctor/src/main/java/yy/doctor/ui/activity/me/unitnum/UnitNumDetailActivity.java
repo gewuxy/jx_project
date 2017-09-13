@@ -38,7 +38,7 @@ import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.unitnum.FileData;
+import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.network.JsonParser;
@@ -339,7 +339,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
 
             // FIXME: 2017/8/7
-            List<FileData> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialList);
+            List<File> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialList);
             if (listFile == null || listFile.size() == 0) {
                 goneView(mDivider);
                 goneView(mLayoutFile);
@@ -354,7 +354,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 mTvFileNum.setText(dataNum);
                 showView(mIvArrows);
                 mLayoutFile.setOnClickListener(v ->
-                        FilesActivityRouter.create(mUnitNumDetail.getString(TUnitNumDetail.id),
+                        FileActivityRouter.create(mUnitNumDetail.getString(TUnitNumDetail.id),
                                 FileFrom.unit_num)
                                 .route(this)
                 );

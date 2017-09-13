@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/title_frag_grade"
-        android:name="yy.doctor.ui.frag.TitleGradeFrag"
+        android:name="yy.doctor.ui.frag.user.TitleGradeFrag"
         android:layout_width="152dp"
         android:layout_height="match_parent"
         android:layout_weight="0"
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/title_frag_category"
-        android:name="yy.doctor.ui.frag.TitleCategoryFrag"
+        android:name="yy.doctor.ui.frag.user.TitleCategoryFrag"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"

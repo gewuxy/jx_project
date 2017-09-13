@@ -24,7 +24,7 @@ public class UnitNumDetail extends EVal<TUnitNumDetail> {
         materialNum,  //资料总数量
 
         //单位号资料
-        @Bind(asList = FileData.class)
+        @Bind(asList = File.class)
         materialList,
 
         //会议

@@ -1,4 +1,4 @@
-package yy.doctor.ui.frag;
+package yy.doctor.ui.frag.user;
 
 import android.view.View;
 

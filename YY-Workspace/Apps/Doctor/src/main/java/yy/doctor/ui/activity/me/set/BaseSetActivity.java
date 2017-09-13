@@ -87,17 +87,17 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
      *
      * @return 标题的文本
      */
-    protected abstract CharSequence getNavBarText();
+    abstract protected CharSequence getNavBarText();
 
     /**
      * 获取按钮文本
      *
      * @return 按钮的文本
      */
-    protected abstract CharSequence getSetText();
+    abstract protected CharSequence getSetText();
 
     /**
      * 点击按钮的操作
      */
-    protected abstract void toSet();
+    abstract protected void toSet();
 }

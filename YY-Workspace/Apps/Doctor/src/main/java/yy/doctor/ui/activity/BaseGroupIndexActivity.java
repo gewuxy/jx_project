@@ -29,6 +29,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     private static final int KLetterColorFocus = Color.parseColor("#0882e7");
 
     private int mLetterSize;
+    private int mSingleLetterHight;
 
     private SideBar mSideBar;
     private TextView mTvLetter;
@@ -38,6 +39,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     @Override
     public void initData() {
         mLetterSize = fitDp(10);
+        mSingleLetterHight = fitDp(15);
     }
 
     @Override
@@ -52,7 +54,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
         mSideBar = findView(R.id.group_index_layout_side_bar);
         mTvLetter = findView(R.id.group_index_tv_letter);
 
-        initSideBar();
+
     }
 
     @Override
@@ -62,9 +64,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
         setRefreshEnabled(false);
         setAutoLoadMoreEnabled(false);
 
-        mSideBar.setTextSize(fitDp(10));
-        mSideBar.setSingleHeight(fitDp(15));
-        mSideBar.setGravity(Gravity.CENTER);
+        initSideBar();
     }
 
     /**
@@ -73,6 +73,8 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     private void initSideBar() {
 
         mSideBar.setTextSize(mLetterSize);
+        mSideBar.setSingleHeight(mSingleLetterHight);
+        mSideBar.setGravity(Gravity.CENTER);
         mSideBar.setColor(KLetterColorNormal);
         mSideBar.setColorFocus(KLetterColorFocus);
         mSideBar.setOnTouchLetterChangeListener((index, s, isFocus) -> {

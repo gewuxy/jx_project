@@ -231,7 +231,7 @@
             android:name=".ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.unitnum.FilesActivity"
+            android:name=".ui.activity.me.unitnum.FileActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.data.DownloadFileActivity"

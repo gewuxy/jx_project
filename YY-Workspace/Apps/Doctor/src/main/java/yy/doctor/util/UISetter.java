@@ -36,8 +36,8 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.model.unitnum.FileData;
-import yy.doctor.model.unitnum.FileData.TFileData;
+import yy.doctor.model.unitnum.File;
+import yy.doctor.model.unitnum.File.TFile;
 import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
@@ -89,23 +89,23 @@ public class UISetter {
      * @param listFile
      * @param id
      */
-    public static void setFileData(LinearLayout layout, List<FileData> listFile, int id) {
+    public static void setFileData(LinearLayout layout, List<File> listFile, int id) {
         String fileName;
         String fileUrl;
         String fileType;
         for (int i = 0; i < listFile.size(); i++) {
-            FileData fileItem = listFile.get(i);
+            File fileItem = listFile.get(i);
 
-            long fileSize = fileItem.getLong(TFileData.fileSize);
-            fileName = fileItem.getString(TFileData.materialName);
-            String fileId = fileItem.getString(TFileData.id);
+            long fileSize = fileItem.getLong(TFile.fileSize);
+            fileName = fileItem.getString(TFile.materialName);
+            String fileId = fileItem.getString(TFile.id);
             if (TextUtil.isEmpty(fileName)) {
-                fileName = fileItem.getString(TFileData.name);
-                fileUrl = fileItem.getString(TFileData.fileUrl);
-                fileType = fileItem.getString(TFileData.fileType);
+                fileName = fileItem.getString(TFile.name);
+                fileUrl = fileItem.getString(TFile.fileUrl);
+                fileType = fileItem.getString(TFile.fileType);
             } else {
-                fileUrl = fileItem.getString(TFileData.materialUrl);
-                fileType = fileItem.getString(TFileData.materialType);
+                fileUrl = fileItem.getString(TFile.materialUrl);
+                fileType = fileItem.getString(TFile.materialType);
             }
 
             String finalFileName = fileName;
