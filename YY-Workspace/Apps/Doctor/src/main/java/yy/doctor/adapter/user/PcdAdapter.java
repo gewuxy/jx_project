@@ -1,8 +1,8 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.user;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.PcdVH;
+import yy.doctor.adapter.VH.user.PcdVH;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;
 

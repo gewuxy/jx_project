@@ -1,8 +1,8 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.user;
 
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.SectionDetailVH;
+import yy.doctor.adapter.VH.user.SectionDetailVH;
 
 /**
  * 职称的adapter（二级）

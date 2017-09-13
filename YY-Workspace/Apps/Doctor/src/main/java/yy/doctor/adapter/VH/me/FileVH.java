@@ -1,4 +1,4 @@
-package yy.doctor.adapter.VH;
+package yy.doctor.adapter.VH.me;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -11,9 +11,9 @@ import yy.doctor.R;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class FileDataVH extends RecyclerViewHolderEx {
+public class FileVH extends RecyclerViewHolderEx {
 
-    public FileDataVH(@NonNull View convertView) {
+    public FileVH(@NonNull View convertView) {
         super(convertView);
     }
 

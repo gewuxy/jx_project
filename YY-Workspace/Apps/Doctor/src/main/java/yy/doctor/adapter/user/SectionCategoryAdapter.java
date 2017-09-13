@@ -1,9 +1,9 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.user;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.SectionVH;
+import yy.doctor.adapter.VH.user.SectionVH;
 import yy.doctor.model.me.Section;
 import yy.doctor.model.me.Section.TSection;
 

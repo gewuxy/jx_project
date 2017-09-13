@@ -1,8 +1,8 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.user;
 
 import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.HospitalBaiDuVH;
+import yy.doctor.adapter.VH.user.HospitalBaiDuVH;
 import yy.doctor.model.hospital.Hospital;
 import yy.doctor.model.hospital.Hospital.THospital;
 import yy.doctor.model.hospital.HospitalTitle;
