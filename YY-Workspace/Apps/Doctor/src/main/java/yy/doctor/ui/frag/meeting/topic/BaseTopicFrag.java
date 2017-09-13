@@ -9,7 +9,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.ui.frag.base.BaseFrag;

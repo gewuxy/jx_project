@@ -202,8 +202,9 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         }
         checkTopic.put(TTopic.choice, answer);
 
-        mTvFinish.setText(String.valueOf(mCount));
-        mTvAllFinish.setText(String.valueOf(mCount));
+        String text = String.valueOf(mCount);
+        mTvFinish.setText(text);
+        mTvAllFinish.setText(text);
     }
 
     @Override
@@ -334,9 +335,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
     /**
      * 获取当前题目占总题目的百分比
-     *
-     * @param position
-     * @return
      */
     protected CharSequence getProgress(int position) {
         return new StringBuffer()
@@ -347,8 +345,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
     /**
      * 点击提交
-     *
-     * @param noFinish
      */
     protected void toSubmit(int noFinish) {
         // 未答完

@@ -1,7 +1,6 @@
 package yy.doctor.ui.frag.meeting.topic;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -31,7 +30,7 @@ abstract public class BaseChoiceTopicFrag extends BaseTopicFrag implements OnIte
 
     @NonNull
     @Override
-    public int getContentId() {
+    public final int getContentId() {
         return R.layout.layout_topic_choice;
     }
 

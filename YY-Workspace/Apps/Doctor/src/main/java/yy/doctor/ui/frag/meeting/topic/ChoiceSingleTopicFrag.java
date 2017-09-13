@@ -3,13 +3,10 @@ package yy.doctor.ui.frag.meeting.topic;
 import android.view.View;
 import android.widget.AdapterView;
 
-import java.util.List;
-
 import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
 import yy.doctor.model.meet.exam.Choice;
 import yy.doctor.model.meet.exam.Choice.TChoice;
-import yy.doctor.model.meet.exam.Topic.TTopic;
 
 /**
  * 单选题
