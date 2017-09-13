@@ -1,7 +1,5 @@
 package yy.doctor.ui.activity.meeting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,13 +11,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.network.Result;
@@ -28,7 +27,6 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.CommentAdapter;
 import yy.doctor.model.meet.Comment;
@@ -46,6 +44,7 @@ import yy.doctor.util.Util;
  * @author : GuoXuan
  * @since : 2017/5/2
  */
+@Route
 public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
     private static final int KCloseNormal = 1000; //  1000表示正常关闭,意思是建议的连接已经完成了
@@ -54,22 +53,18 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     private static final String KSendTime = "sendTime"; // 发送时间
     private static final String KHeadImg = "headimg"; // 发送人头像
 
+    @Arg
+    String mMeetId;
+
     private TextView mTvSend;
     private EditText mEtSend;
-    private String mMeetId;
     private WebSocket mWebSocket;
     private boolean mSuccess; // WebSocket连接成功
 
-    public static void nav(Context context, String meetId) {
-        Intent i = new Intent(context, MeetingCommentActivity.class)
-                .putExtra(Extra.KMeetId, meetId);
-        LaunchUtil.startActivityForResult(context, i, 0);
-    }
 
     @Override
     public void initData() {
         mSuccess = false; // 没连接默认失败
-        mMeetId = getIntent().getStringExtra(Extra.KMeetId);
     }
 
     @Override

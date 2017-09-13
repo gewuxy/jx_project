@@ -1,4 +1,4 @@
-package yy.doctor.ui.frag.me;
+package yy.doctor.ui.frag;
 
 import android.support.annotation.IntDef;
 import android.view.View;

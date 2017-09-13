@@ -24,10 +24,10 @@ import yy.doctor.model.me.Section.TSection;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.RegisterAPI;
 import yy.doctor.network.NetworkAPISetter.UserAPI;
-import yy.doctor.ui.frag.SectionCategoryFrag;
-import yy.doctor.ui.frag.SectionCategoryFrag.OnCategoryListener;
-import yy.doctor.ui.frag.SectionNameFrag;
-import yy.doctor.ui.frag.SectionNameFrag.OnSectionListener;
+import yy.doctor.ui.frag.user.SectionCategoryFrag;
+import yy.doctor.ui.frag.user.SectionCategoryFrag.OnCategoryListener;
+import yy.doctor.ui.frag.user.SectionNameFrag;
+import yy.doctor.ui.frag.user.SectionNameFrag.OnSectionListener;
 import yy.doctor.util.Util;
 
 /**

@@ -1,15 +1,15 @@
 package yy.doctor.model.unitnum;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.unitnum.FileData.TFileData;
+import yy.doctor.model.unitnum.File.TFile;
 
 /**
  * Created by CaiXiang on 2017/5/11.
  */
 
-public class FileData extends EVal<TFileData> {
+public class File extends EVal<TFile> {
 
-    public enum TFileData {
+    public enum TFile {
 
         id,  //资料id
         fileSize, // 文件大小, 单位: byte

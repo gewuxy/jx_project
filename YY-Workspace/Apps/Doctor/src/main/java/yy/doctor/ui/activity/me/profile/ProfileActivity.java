@@ -21,6 +21,7 @@ import lib.ys.model.FileSuffix;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.AnimateUtil;
 import lib.ys.util.PhotoUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.bmp.BmpUtil;
@@ -62,6 +63,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
 
     private final int KColorNormal = Color.parseColor("#666666");
     private final int KColorCancel = Color.parseColor("#01b557");
+    private final long KAnimatorTime = 2000;
 
     private final int KBaseCode = 1000;
     private final int KCodeAlbum = KBaseCode + 1;
@@ -302,8 +304,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
             //属性动画  添加了背景颜色
             int width = getWindowManager().getDefaultDisplay().getWidth();
             float process = width * mProgressProFile / 100.0f;
-            ObjectAnimator animator = ObjectAnimator.ofFloat(mProgressBar, "translationX", 0f, process);
-            animator.setDuration(2000);
+            ObjectAnimator animator = AnimateUtil.ofFloatX(mProgressBar, 0f, process, KAnimatorTime);
             animator.start();
         }
     }

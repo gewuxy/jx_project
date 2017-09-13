@@ -22,7 +22,6 @@ import lib.ys.util.view.LayoutUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVPActivity;
-import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
@@ -42,7 +41,7 @@ import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.ui.frag.DataCenterFrag;
 import yy.doctor.ui.frag.HomeFrag;
 import yy.doctor.ui.frag.MeetingFrag;
-import yy.doctor.ui.frag.me.MeFrag;
+import yy.doctor.ui.frag.MeFrag;
 
 
 @Route
@@ -102,28 +101,15 @@ public class MainActivity extends BaseVPActivity {
 
         setCurrentItem(mCurrPage);
 
-        if (BuildConfig.TEST) {
-            // 判断是否已经绑定极光推送
-            YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
-            YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
-            if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-                CommonServRouter.create()
-                        .type(ReqType.j_push)
-                        .jPushRegisterId(SpJPush.inst().registerId())
-                        .route(this);
-                YSLog.d(TAG, "启动绑定极光服务");
-            }
-        } else {
-            // 判断是否已经绑定极光推送
-            YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
-            YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
-            if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-                CommonServRouter.create()
-                        .type(ReqType.j_push)
-                        .jPushRegisterId(SpJPush.inst().registerId())
-                        .route(this);
-                YSLog.d(TAG, "启动绑定极光服务");
-            }
+        // 判断是否已经绑定极光推送
+        YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
+        YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
+        if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
+            CommonServRouter.create()
+                    .type(ReqType.j_push)
+                    .jPushRegisterId(SpJPush.inst().registerId())
+                    .route(this);
+            YSLog.d(TAG, "启动绑定极光服务");
         }
 
         //判断是否需要弹绑定的dialog

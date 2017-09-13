@@ -156,7 +156,6 @@ public class NetPlayer implements
         }
     }
 
-
     @Override
     public void onCountDownErr() {
         // do nothing

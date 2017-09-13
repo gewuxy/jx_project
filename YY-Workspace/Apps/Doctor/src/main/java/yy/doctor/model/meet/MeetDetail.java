@@ -9,7 +9,7 @@ import lib.ys.model.EVal;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.module.Module;
-import yy.doctor.model.unitnum.FileData;
+import yy.doctor.model.unitnum.File;
 
 /**
  * 会议详情
@@ -79,7 +79,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
 
         materialCount,  //  资料数
 
-        @Bind(asList = FileData.class)
+        @Bind(asList = File.class)
         materials, // 资料
 
         @Bind(asList = Module.class)

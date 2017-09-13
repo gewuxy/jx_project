@@ -1,22 +1,22 @@
-package yy.doctor.ui.frag;
+package yy.doctor.ui.frag.user;
 
 import android.graphics.Color;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
-import yy.doctor.adapter.TitleGradeAdapter;
+import yy.doctor.adapter.TitleCategoryAdapter;
 
 /**
- * 医生职称级别
+ * 医生的类别
  *
  * @author CaiXiang
  * @since 2017/5/24
  */
 
-public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
+public class TitleCategoryFrag extends BaseListFrag<String, TitleCategoryAdapter> {
 
-    private OnGradeListener mListener;
+    private OnCategoryListener mListener;
 
     @Override
     public void initData() {
@@ -30,22 +30,22 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     public void setViews() {
         super.setViews();
         setDividerHeight(fitDp(0));
-        setBackgroundColor(Color.parseColor("#eaeaea"));
+        setBackgroundColor(Color.parseColor("#f0f0f0"));
     }
 
     @Override
     public void onItemClick(View v, int position) {
         if (mListener != null) {
-            mListener.onGradeSelected(position, getItem(position));
+            mListener.onCategorySelected(position, getItem(position));
         }
-        getAdapter().setSelectItem(position);
     }
 
-    public interface OnGradeListener {
-        void onGradeSelected(int position, String grade);
+    public interface OnCategoryListener {
+        void onCategorySelected(int position, String name);
     }
 
-    public void setGradeListener(OnGradeListener l) {
+    public void setCategoryListener(OnCategoryListener l) {
         mListener = l;
     }
+
 }

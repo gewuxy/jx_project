@@ -32,7 +32,7 @@ import yy.doctor.view.AutoCompleteEditText;
  * @auther : GuoXuan
  * @since : 2017/7/18
  */
-public abstract class BaseLoginActivity extends BaseActivity {
+abstract public class BaseLoginActivity extends BaseActivity {
 
     private AutoCompleteEditText mEtName; // 用户名输入框
     private EditText mEtPwd; // 密码输入框
@@ -127,12 +127,7 @@ public abstract class BaseLoginActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().contains(" ")) {
-                    String[] str = s.toString().split(" ");
-                    StringBuffer buffer = new StringBuffer();
-                    for (int i = 0; i < str.length; i++) {
-                        buffer.append(str[i]);
-                    }
-                    et.setText(buffer.toString());
+                    et.setText(s.toString().replaceAll(" ", ""));
                     et.setSelection(start);
                 }
             }
@@ -195,9 +190,9 @@ public abstract class BaseLoginActivity extends BaseActivity {
         return JsonParser.ev(r.getText(), Profile.class);
     }
 
-    protected abstract CharSequence getBtnText();
+    abstract protected CharSequence getBtnText();
 
     @NonNull
-    protected abstract String getOpenId();
+    abstract protected String getOpenId();
 
 }
