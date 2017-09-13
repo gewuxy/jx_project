@@ -16,8 +16,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -31,8 +29,8 @@ import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -51,7 +49,6 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
@@ -62,10 +59,10 @@ import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.PicCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFragRouter;
-import yy.doctor.util.Time;
-import yy.doctor.util.Util;
 import yy.doctor.util.NetPlayer;
 import yy.doctor.util.NetPlayer.OnPlayerListener;
+import yy.doctor.util.Time;
+import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
 
 /**
@@ -482,7 +479,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
             break;
             case R.id.meeting_ppt_iv_comment: {
                 // 评论
-                MeetingCommentActivity.nav(MeetingCourseActivity.this, mMeetId);
+                MeetingCommentActivityRouter.create(mMeetId).route(this);
             }
             break;
         }

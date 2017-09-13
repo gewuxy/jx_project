@@ -74,7 +74,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         bar.addTextViewMid(fitTitle);
 
         bar.addViewRight(R.drawable.nav_bar_ic_comment, v ->
-                MeetingCommentActivity.nav(MeetingRecordActivity.this, mPPT.getString(TPPT.meetId)));
+                MeetingCommentActivityRouter.create(mPPT.getString(TPPT.meetId)).route(this));
         bar.addViewRight(R.drawable.nav_bar_ic_course, v -> finish());
     }
 
