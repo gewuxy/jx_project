@@ -38,7 +38,7 @@ import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.HospitalAdapter;
+import yy.doctor.adapter.user.HospitalAdapter;
 import yy.doctor.dialog.LevelDialog;
 import yy.doctor.dialog.LevelDialog.OnLevelCheckChangeListener;
 import yy.doctor.model.Profile;

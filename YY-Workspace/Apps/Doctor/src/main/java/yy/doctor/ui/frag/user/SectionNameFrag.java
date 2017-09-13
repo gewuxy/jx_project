@@ -6,7 +6,7 @@ import java.util.List;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
-import yy.doctor.adapter.SectionNameAdapter;
+import yy.doctor.adapter.user.SectionNameAdapter;
 
 /**
  * 科室名字(二级)

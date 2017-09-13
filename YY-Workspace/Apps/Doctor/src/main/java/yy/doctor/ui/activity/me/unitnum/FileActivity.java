@@ -9,7 +9,7 @@ import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseSRRecyclerActivity;
 import yy.doctor.Extra.FileFrom;
 import yy.doctor.R;
-import yy.doctor.adapter.FileAdapter;
+import yy.doctor.adapter.me.FileAdapter;
 import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.File.TFile;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;

@@ -5,7 +5,7 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
-import yy.doctor.adapter.TitleGradeAdapter;
+import yy.doctor.adapter.user.TitleGradeAdapter;
 
 /**
  * 医生职称级别

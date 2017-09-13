@@ -24,7 +24,7 @@ import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
-import yy.doctor.adapter.PcdAdapter;
+import yy.doctor.adapter.user.PcdAdapter;
 import yy.doctor.dialog.LocateErrDialog;
 import yy.doctor.model.Pcd;
 import yy.doctor.model.Pcd.TPcd;

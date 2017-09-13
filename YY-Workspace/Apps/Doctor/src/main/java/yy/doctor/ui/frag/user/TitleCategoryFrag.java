@@ -5,7 +5,7 @@ import android.view.View;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
-import yy.doctor.adapter.TitleCategoryAdapter;
+import yy.doctor.adapter.user.TitleCategoryAdapter;
 
 /**
  * 医生的类别

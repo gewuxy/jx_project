@@ -1,9 +1,9 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.me;
 
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.util.TextUtil;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.FileDataVH;
+import yy.doctor.adapter.VH.me.FileVH;
 import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.File.TFile;
 
@@ -13,7 +13,7 @@ import yy.doctor.model.unitnum.File.TFile;
  * @author CaiXiang
  * @since 2017/5/3
  */
-public class FileAdapter extends RecyclerAdapterEx<File, FileDataVH> {
+public class FileAdapter extends RecyclerAdapterEx<File, FileVH> {
 
     @Override
     public int getConvertViewResId() {
@@ -21,7 +21,7 @@ public class FileAdapter extends RecyclerAdapterEx<File, FileDataVH> {
     }
 
     @Override
-    protected void refreshView(int position, FileDataVH holder) {
+    protected void refreshView(int position, FileVH holder) {
 
         if (!TextUtil.isEmpty(getItem(position).getString(TFile.materialName))) {
             holder.getTv().setText(getItem(position).getString(TFile.materialName));
