@@ -33,7 +33,7 @@ public class TopicPopup extends PopupWindowEx {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_exam_popup;
+        return R.layout.layout_topic_popup;
     }
 
     @Override

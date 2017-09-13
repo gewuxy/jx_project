@@ -1,15 +1,19 @@
 package yy.doctor.ui.frag.meeting.topic;
 
+import android.graphics.Color;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseListFrag;
+import lib.ys.util.view.LayoutUtil;
+import lib.yy.ui.frag.base.BaseFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.AnswerAdapter;
-import yy.doctor.model.meet.exam.IAnswer;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 
@@ -17,7 +21,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @auther : GuoXuan
  * @since : 2017/9/12
  */
-abstract public class BaseTopicFrag extends BaseListFrag<IAnswer, AnswerAdapter> {
+abstract public class BaseTopicFrag extends BaseFrag {
 
     public interface OnTopicListener {
 
@@ -49,6 +53,7 @@ abstract public class BaseTopicFrag extends BaseListFrag<IAnswer, AnswerAdapter>
     boolean mLastTopic; // 最后一题
 
     private TextView mTvTitle; // 题目
+    private LinearLayout mLayout; // 答题
     private TextView mTvNext; // 下一题(提交)按钮
 
     public void setTopicListener(OnTopicListener listener) {
@@ -69,30 +74,24 @@ abstract public class BaseTopicFrag extends BaseListFrag<IAnswer, AnswerAdapter>
     @CallSuper
     @Override
     public void findViews() {
-        super.findViews();
+        mTvTitle = findView(R.id.topic_tv_title);
+        mLayout = findView(R.id.topic_layout);
+        mTvNext = findView(R.id.topic_tv_btn);
 
-        mTvTitle = findView(R.id.exam_topic_tv_question);
-        mTvNext = findView(R.id.exam_topic_footer_tv_btn);
+        LayoutParams params = LayoutUtil.getLinearParams(MATCH_PARENT, WRAP_CONTENT);
+        mLayout.addView(inflate(getContentId()), params);
     }
 
+    @NonNull
     @Override
-    public View createHeaderView() {
-        return inflate(R.layout.layout_topic_header);
-    }
-
-    @Override
-    public View createFooterView() {
-        return inflate(R.layout.layout_topic_footer);
+    public int getContentViewId() {
+        return R.layout.layout_topic;
     }
 
     @CallSuper
     @Override
     public void setViews() {
-        super.setViews();
-
-        setDividerHeight(0);
-        setBackgroundResource(R.color.white);
-
+        setBackgroundColor(Color.WHITE);
         mTvTitle.setText(String.format("%d. (%s)%s", mSort + 1, getTitleType(), mTopic.getString(TTopic.title))); // 设置题目
 
         setContent(); // 设置内容
@@ -128,6 +127,8 @@ abstract public class BaseTopicFrag extends BaseListFrag<IAnswer, AnswerAdapter>
         }
     }
 
+    abstract protected int getContentId();
+
     /**
      * 题目
      */
@@ -141,6 +142,6 @@ abstract public class BaseTopicFrag extends BaseListFrag<IAnswer, AnswerAdapter>
     /**
      * 确定按钮是否显示
      */
-    protected abstract boolean getButtonVisible();
+    abstract protected boolean getButtonVisible();
 
 }

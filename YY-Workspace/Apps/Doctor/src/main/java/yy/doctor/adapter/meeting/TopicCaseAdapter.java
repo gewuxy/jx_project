@@ -19,7 +19,7 @@ public class TopicCaseAdapter extends AdapterEx<Topic, TopicCaseVH> {
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.layout_exam_topic_case_item;
+        return R.layout.layout_topic_case_item;
     }
 
     @Override

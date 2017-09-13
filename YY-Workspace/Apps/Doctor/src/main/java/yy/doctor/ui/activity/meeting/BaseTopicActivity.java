@@ -122,8 +122,9 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
 
     @Override
     public void onPageSelected(int position) {
-        mTvCase.setText(getProgress(position));
-        mTvAllCase.setText(getProgress(position));
+        CharSequence progress = getProgress(position);
+        mTvCase.setText(progress);
+        mTvAllCase.setText(progress);
     }
 
     @Override
@@ -283,11 +284,6 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
         mPaper = mIntro.getEv(TIntro.paper);
         mTopics = mPaper.getList(TPaper.questions);
 
-        Topic e = new Topic();
-        e.put(TTopic.qtype, 2);
-        e.put(TTopic.title, "test");
-        mTopics.add(e);
-
         int size = mTopics.size();
         for (int i = 0; i < size; i++) {
             // 是否为最后一题
@@ -321,11 +317,13 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * Adapter{@link TopicCaseAdapter}
      */
     protected void initFirstGv() {
-        if (mTopics.size() > 0) {
-            //第一题
-            mTvCase.setText(getProgress(0));
-            mTvAllCase.setText(getProgress(0));
+        if (mTopics == null) {
+            return;
         }
+        //第一题
+        CharSequence progress = getProgress(0);
+        mTvCase.setText(progress);
+        mTvAllCase.setText(progress);
 
         mTopicCaseAdapter = new TopicCaseAdapter();
         mTopicCaseAdapter.addAll(mTopics);
@@ -340,14 +338,11 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * @param position
      * @return
      */
-    protected String getProgress(int position) {
-        StringBuffer sb = new StringBuffer();
-        if (mTopics != null && mTopics.size() > 0) {
-            sb.append(position + 1)
-                    .append("/")
-                    .append(mTopics.size());
-        }
-        return sb.toString();
+    protected CharSequence getProgress(int position) {
+        return new StringBuffer()
+                .append(position + 1)
+                .append("/")
+                .append(mTopics.size());
     }
 
     /**

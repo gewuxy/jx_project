@@ -13,9 +13,9 @@ import yy.doctor.R;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public class AnswerVH extends ViewHolderEx {
+public class ChoiceVH extends ViewHolderEx {
 
-    public AnswerVH(@NonNull View convertView) {
+    public ChoiceVH(@NonNull View convertView) {
         super(convertView);
     }
 

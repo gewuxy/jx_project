@@ -1,6 +1,9 @@
 package yy.doctor.ui.frag.meeting.topic;
 
 import android.view.View;
+import android.widget.AdapterView;
+
+import java.util.List;
 
 import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
@@ -15,7 +18,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @since : 2017/4/28
  */
 @Route
-public class ChoiceSingleTopicFrag extends BaseTopicFrag {
+public class ChoiceSingleTopicFrag extends BaseChoiceTopicFrag {
 
     private int mLastPosition; // 记录单选的上一个选择
 
@@ -25,16 +28,26 @@ public class ChoiceSingleTopicFrag extends BaseTopicFrag {
     }
 
     @Override
-    public void onItemClick(View v, int position) {
+    protected CharSequence getTitleType() {
+        return "单选";
+    }
+
+    @Override
+    protected boolean getButtonVisible() {
+        return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mLastPosition != position) {
             if (mLastPosition != ConstantsEx.KInvalidValue) {
                 // 取消之前的选择
-                Choice item = (Choice) getItem(mLastPosition);
+                Choice item = getItem(mLastPosition);
                 item.put(TChoice.check, false);
                 invalidate(mLastPosition);
             }
             // 选择其他选项
-            Choice item = (Choice) getItem(position);
+            Choice item = getItem(position);
             item.put(TChoice.check, true);
             invalidate(position);
 
@@ -45,21 +58,6 @@ public class ChoiceSingleTopicFrag extends BaseTopicFrag {
         if (!mLastTopic) {
             nextTopic();
         }
-    }
-
-    @Override
-    protected CharSequence getTitleType() {
-        return "单选";
-    }
-
-    @Override
-    protected void setContent() {
-        setData(mTopic.getList(TTopic.options));
-    }
-
-    @Override
-    protected boolean getButtonVisible() {
-        return false;
     }
 
 }

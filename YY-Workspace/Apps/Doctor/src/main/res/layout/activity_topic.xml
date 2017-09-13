@@ -15,8 +15,8 @@
         <include layout="@layout/layout_topic_case"/>
     </LinearLayout>
 
-    <include layout="@layout/layout_all_topic_case_bg"/>
+    <include layout="@layout/layout_topic_all_case_bg"/>
 
-    <include layout="@layout/layout_all_topic_case"/>
+    <include layout="@layout/layout_topic_all_case"/>
 
 </RelativeLayout>
