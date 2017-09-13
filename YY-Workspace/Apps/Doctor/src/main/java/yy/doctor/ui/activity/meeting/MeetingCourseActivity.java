@@ -278,7 +278,12 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (mCourses.get(getCurrentItem()).haveMedia()) {
-            onProgress(getCurrMilliseconds(), progress);
+            float seconds = (float) getCurrMilliseconds() / TimeUnit.SECONDS.toMillis(1);
+            BigDecimal scale = new BigDecimal(String.format("%.1f", seconds)).setScale(0, BigDecimal.ROUND_HALF_UP);
+            String text = Time.secondFormat(scale.longValue(), DateUnit.minute);
+            YSLog.d(TAG, "onProgress:" + text);
+            mTvTimeL.setText(text);
+            mTvTimeP.setText(text);
         }
     }
 
@@ -511,12 +516,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
     @Override
     public void onProgress(long currMilliseconds, int progress) {
-        float seconds = (float) currMilliseconds / TimeUnit.SECONDS.toMillis(1);
-        BigDecimal scale = new BigDecimal(String.format("%.1f", seconds)).setScale(0, BigDecimal.ROUND_HALF_UP);
-        String text = Time.secondFormat(scale.longValue(), DateUnit.minute);
-        YSLog.d(TAG, "onProgress:" + text);
-        mTvTimeL.setText(text);
-        mTvTimeP.setText(text);
         mLayoutProgressL.setProgress(progress);
         mLayoutProgressP.setProgress(progress);
     }
