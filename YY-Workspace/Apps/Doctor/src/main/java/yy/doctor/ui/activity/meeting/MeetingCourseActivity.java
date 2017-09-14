@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
@@ -117,6 +118,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     private long mStartTime; // 开始时间
     private int mLastPosition; // 上一次的position
 
+    private int mProgress; // 跳转到会议列表页面时的进度(可能播放了其他音频导致不一样所以要记录)
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_meeting_ppt;
@@ -126,6 +129,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     public void initData() {
         notify(NotifyType.study_start);
 
+        mProgress = ConstantsEx.KInvalidValue;
         mLastPosition = 0;
         mSubmits = new HashMap<>();
     }
@@ -149,8 +153,13 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         mTvAll = (TextView) mLayoutBarMid.findViewById(R.id.meeting_nav_bar_all);
         bar.addViewMid(mLayoutBarMid);
 
-        mLayoutBarRight = bar.addViewRight(R.drawable.meeting_ppt_ic_record,
-                v -> MeetingRecordActivityRouter.create(getCurrentItem(), mPPT).route(MeetingCourseActivity.this, 0));
+        mLayoutBarRight = bar.addViewRight(R.drawable.meeting_ppt_ic_record, v -> {
+            if (mPPT == null) {
+                return;
+            }
+            mProgress = mLayoutProgressL.getProgress();
+            MeetingRecordActivityRouter.create(getCurrentItem(), mPPT).route(MeetingCourseActivity.this, 0);
+        });
     }
 
     /**
@@ -193,8 +202,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         mIvControlL.setOnTouchListener(new TouchCancelListener());
         mLayoutProgressL.setOnSeekBarChangeListener(this);
 
-        NetPlayer.inst().setListener(this);
-
         setOnClickListener(R.id.meeting_ppt_iv_left);
         setOnClickListener(R.id.meeting_ppt_iv_right);
         setOnClickListener(R.id.meeting_ppt_iv_control_p);
@@ -218,7 +225,9 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
         saveStudyTime();
 
-        setStatus(position);
+        if (mCourses != null) {
+            setStatus(position);
+        }
         mLastPosition = position;
 
         onProgress(0, 0);
@@ -261,15 +270,26 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         }
         mTvSelect.setText(String.valueOf(position + 1));
         mStartTime = System.currentTimeMillis();
+        mProgress = ConstantsEx.KInvalidValue;
 
         NetPlayer.inst().stop();
+        setPlayerType(position);
+        NetPlayer.inst().prepare(mMeetId, getItem(position).getUrl());
+    }
+
+    /**
+     * 设置播放器播放类型
+     */
+    private void setPlayerType(int position) {
+        if (mCourses == null) {
+            return;
+        }
         if (mCourses.get(position).getType() == CourseType.video) {
             VideoCourseFrag item = (VideoCourseFrag) getItem(position);
             NetPlayer.inst().setVideo(item.getTextureView());
         } else {
             NetPlayer.inst().setAudio();
         }
-        NetPlayer.inst().prepare(mMeetId, getItem(position).getUrl());
     }
 
     @Override
@@ -297,8 +317,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (mCourses.get(getCurrentItem()).haveMedia()) {
-            NetPlayer.inst().seekTo((int) (getCurrMilliseconds()));
-            NetPlayer.inst().play();
+            NetPlayer.inst().play(getItem(getCurrentItem()).getUrl(), mLayoutProgressL.getProgress());
         }
 
         countDown(true);
@@ -466,7 +485,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements
             case R.id.meeting_ppt_iv_control_p:
             case R.id.meeting_ppt_iv_control_l: {
                 // 控制
-                NetPlayer.inst().toggle();
+                // FIXME:
+                NetPlayer.inst().toggle(getItem(getCurrentItem()).getUrl(), mProgress);
             }
             break;
             case R.id.meeting_ppt_iv_first: {
@@ -580,7 +600,8 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     protected void onResume() {
         super.onResume();
 
-        mStartTime = System.currentTimeMillis(); // 下一页的开始时间
+        mStartTime = System.currentTimeMillis(); // 第一次无效(页面展示时会重新记录),从其他页面回来是有效记录
+        NetPlayer.inst().setListener(this); // fixme: MeetingRecordActivity回来需要重新设置(setResult??)
     }
 
     @Override

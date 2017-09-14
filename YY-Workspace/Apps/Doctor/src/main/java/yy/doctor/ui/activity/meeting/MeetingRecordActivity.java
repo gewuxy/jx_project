@@ -18,7 +18,7 @@ import lib.yy.ui.activity.base.BaseListActivity;
 import yy.doctor.App.NavBarVal;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.adapter.RecordAdapter;
+import yy.doctor.adapter.meeting.RecordAdapter;
 import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.Course.TCourse;
@@ -68,7 +68,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
         });
 
         String title = mPPT.getEv(TPPT.course).getString(TCourseInfo.title); // 原始的标题
-        String fitTitle = TextUtil.cutString(title, fitDp(NavBarVal.KLeftTextSizeDp), fitDp(200), "..."); // 修正后标题
+        String fitTitle = TextUtil.cutString(title, fitDp(NavBarVal.KLeftTextSizeDp), fitDp(180), "..."); // 修正后标题
         bar.addTextViewMid(fitTitle);
 
         bar.addViewRight(R.drawable.nav_bar_ic_comment, v ->
@@ -130,35 +130,39 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
      * 点击播放音乐
      */
     private void audio(int position) {
+        String audioUrl = Util.convertUrl(mCourses.get(position).getString(TCourse.audioUrl));
+
+        NetPlayer.inst().setAudio();
         if (mLastPosition != position) {
             // 不同的条目
 
             // 播放音乐
-            String audioUrl = Util.convertUrl(mCourses.get(position).getString(TCourse.audioUrl));
             NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), audioUrl);
 
             // 停止之前的动画启动当前动画
             if (mLastPosition != ConstantsEx.KInvalidValue) {
-                getItem(mLastPosition).put(TCourse.play, false);
-                invalidate(mLastPosition);
+                invalidate(mLastPosition, false);
             }
-            getItem(position).put(TCourse.play, true);
-            invalidate(position);
+            invalidate(position, true);
         } else {
             // 相同的条目
 
             // 当前状态取反
             boolean state = !getItem(position).getBoolean(TCourse.play);
-            getItem(position).put(TCourse.play, state);
+            invalidate(position, state);
             if (state) {
-                NetPlayer.inst().play();
+                NetPlayer.inst().play(audioUrl);
             } else {
                 NetPlayer.inst().pause();
             }
-            invalidate(position);
         }
 
         mLastPosition = position;
+    }
+
+    private void invalidate(int position, boolean state) {
+        getItem(position).put(TCourse.play, state);
+        invalidate(position);
     }
 
     @Override
@@ -168,6 +172,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void onPreparedSuccess(long allMilliseconds) {
+        // do nothing
     }
 
     @Override
@@ -187,8 +192,7 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
     @Override
     public void onCompletion() {
-        getItem(mLastPosition).put(TCourse.play, false);
-        invalidate(mLastPosition);
+        invalidate(mLastPosition, false);
     }
 
     @Override
@@ -197,16 +201,9 @@ public class MeetingRecordActivity extends BaseListActivity<Course, RecordAdapte
 
         // 停止之前的动画
         if (mLastPosition != ConstantsEx.KInvalidValue) {
-            getItem(mLastPosition).put(TCourse.play, false);
-            invalidate(mLastPosition);
+            invalidate(mLastPosition, false);
         }
         NetPlayer.inst().pause();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        NetPlayer.inst().removeListener();
-    }
 }

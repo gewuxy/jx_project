@@ -4,7 +4,7 @@ import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.CommentVH;
+import yy.doctor.adapter.VH.meeting.CommentVH;
 import yy.doctor.model.meet.Comment;
 import yy.doctor.model.meet.Comment.TComment;
 

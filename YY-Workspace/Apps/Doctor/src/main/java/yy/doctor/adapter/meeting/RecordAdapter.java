@@ -1,4 +1,4 @@
-package yy.doctor.adapter;
+package yy.doctor.adapter.meeting;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.widget.ImageView;

@@ -15,6 +15,7 @@ import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.OnNetworkListener;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
@@ -65,8 +66,11 @@ public class NetPlayer implements
     private long mAllTime;
 
     @PlayType
-    private int mType;
-    private boolean mAutoPlay;
+    private int mType; // 播放类型
+    private boolean mAutoPlay; // 准备完了是否播放
+
+    private String mMeetId;
+    private int mProgress; // 进度
 
     public interface OnPlayerListener {
 
@@ -126,6 +130,10 @@ public class NetPlayer implements
         mType = PlayType.audio;
     }
 
+    public void setListener(OnPlayerListener listener) {
+        mListener = listener;
+    }
+
     private NetPlayer() {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
@@ -133,6 +141,7 @@ public class NetPlayer implements
         mAudioPlay = new MediaPlayer();
         mAudioPlay.setOnPreparedListener(this);
         mAudioPlay.setOnCompletionListener(this);
+        mProgress = ConstantsEx.KInvalidValue;
     }
 
     @Override
@@ -166,7 +175,7 @@ public class NetPlayer implements
         mAllTime = mAudioPlay.getDuration();
 
         if (mAutoPlay) {
-            play();
+            nativePlay();
         }
         if (mListener != null) {
             mListener.onPreparedSuccess(mAllTime);
@@ -191,7 +200,7 @@ public class NetPlayer implements
         mAllTime = mVideoPlay.getDuration();
 
         if (mAutoPlay) {
-            play();
+            nativePlay();
         }
         if (mListener != null) {
             mListener.onPreparedSuccess(mAllTime);
@@ -212,8 +221,14 @@ public class NetPlayer implements
         }
     }
 
-    public void setListener(OnPlayerListener listener) {
-        mListener = listener;
+    /**
+     * 播放准备(准备完成自动播放)
+     *
+     * @param meetId 会议Id
+     * @param url    播放Url
+     */
+    public void prepare(String meetId, String url) {
+        prepare(meetId, url, true);
     }
 
     /**
@@ -222,24 +237,33 @@ public class NetPlayer implements
      * @param meetId 会议Id
      * @param url    播放Url
      */
-    public void prepare(String meetId, String url) {
+    public void prepare(String meetId, String url, boolean play) {
         if (TextUtil.isEmpty(meetId) || TextUtil.isEmpty(url)) {
             return;
         }
-        mAutoPlay = true;
+
+        if (TextUtil.isNotEmpty(mMeetId)) {
+            // 同一个会议只要赋值一次(NetPlayer只会存在一个会议中)
+            mMeetId = meetId;
+        }
+
+        int code = url.hashCode();
+        if (mPlayCode == code) {
+            // 不用重复准备
+            return;
+        }
+        mPlayCode = code;
+
+        mAutoPlay = play;
+
+        String filePath = CacheUtil.getMeetingCacheDir(meetId); // 文件夹名字 (meetId)
 
         // 转化文件名
         String type = url.substring(url.lastIndexOf(".") + 1); // 文件类型
-        String fileName = String.valueOf(url.hashCode()).concat(".").concat(type); // 转化后的文件名
-
-        // 文件夹名字 (meetId)
-        String filePath = CacheUtil.getMeetingCacheDir(meetId);
+        String fileName = String.valueOf(mPlayCode).concat(".").concat(type); // 转化后的文件名
 
         // 全路径 (文件路径)
         String pathLocal = filePath.concat(fileName);
-
-        mPlayCode = pathLocal.hashCode();
-        YSLog.d(TAG, "prepare:mPlayCode" + mPlayCode);
 
         // (读内存)
         String pathMemory = mPaths.getByKey(Integer.valueOf(mPlayCode));
@@ -264,7 +288,6 @@ public class NetPlayer implements
 
         // 添加到内存中
         mPaths.add(Integer.valueOf(mPlayCode), pathLocal); // 不等下载成功添加(多个同时成功)
-
     }
 
     /**
@@ -296,9 +319,13 @@ public class NetPlayer implements
     }
 
     /**
-     * 播放
+     * 内部播放
      */
-    public void play() {
+    private void nativePlay() {
+        if (mProgress != ConstantsEx.KInvalidValue) {
+            seekTo((int) (mProgress * mAllTime / NetPlayer.KMaxProgress));
+            mProgress = ConstantsEx.KInvalidValue;
+        }
         mCountDown.start(KTime);
         if (mType == PlayType.audio) {
             mAudioPlay.start();
@@ -308,6 +335,29 @@ public class NetPlayer implements
         if (mListener != null) {
             mListener.onPlayState(true);
         }
+    }
+
+    /**
+     * 播放
+     */
+    public void play(String url) {
+        if (TextUtil.isEmpty(url)) {
+            return;
+        }
+        int code = url.hashCode();
+        if (code == mPlayCode) {
+            nativePlay();
+        } else {
+            prepare(mMeetId, url);
+        }
+    }
+
+    /**
+     * 播放
+     */
+    public void play(String url, int progress) {
+        mProgress = progress;
+        play(url);
     }
 
     /**
@@ -330,20 +380,17 @@ public class NetPlayer implements
         }
     }
 
-    public void toggle() {
-        if (mType == PlayType.audio) {
-            if (mAudioPlay.isPlaying()) {
-                pause();
-            } else {
-                play();
-            }
+    public void toggle(String url) {
+        if (mAudioPlay.isPlaying() || (mVideoPlay != null && mVideoPlay.isPlaying())) {
+            pause();
         } else {
-            if (mVideoPlay.isPlaying()) {
-                pause();
-            } else {
-                play();
-            }
+            play(url);
         }
+    }
+
+    public void toggle(String url, int progress) {
+        mProgress = progress;
+        toggle(url);
     }
 
     /**
@@ -352,7 +399,7 @@ public class NetPlayer implements
      * @param msec 毫秒
      */
     public void seekTo(int msec) {
-        if (msec < 0) {
+        if (msec < 0 || msec > mAllTime) {
             return;
         }
         mCountDown.start(KTime);
