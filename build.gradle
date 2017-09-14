@@ -7,16 +7,18 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.3'
 
         /**
-         * 在要统计的module里加上
-         * apply plugin: 'com.getkeepsafe.dexcount'
-         * 输出位置: {buildDir}/outputs/dexcount/${variant}* 可配置项请查阅 https://github.com/KeepSafe/dexcount-gradle-plugin
+         * 查看方法数
+         * github: https://github.com/KeepSafe/dexcount-gradle-plugin
+         * 输出位置: {buildDir}/outputs/dexcount/${variant}* 可配置项请查阅
          */
-//        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
+//        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3'
 
         /**
          * dex分包工具
+         * github: https://github.com/ceabie/DexKnifePlugin
+         * 版本: 1.6.1: 兼容 Android gradle plugin 2.3.0，在 ART-Runtime编译模式下自动禁用，增加相关提示
          */
-//        classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.5.2'
+//        classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.6.1'
 
         /**
          * 能在lib里面使用butterknife
@@ -27,8 +29,9 @@ buildscript {
 
         /**
          * 使用lambda表达式
+         * github: https://github.com/evant/gradle-retrolambda
          */
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
     }
 }
 
@@ -52,7 +55,15 @@ allprojects { project ->
 //            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 //        }
 //    }
+
+    // lambda表达式
     apply plugin: 'me.tatarka.retrolambda'
+
+    // dex分包工具
+//    apply plugin: 'com.ceabie.dexnkife'
+
+    // 查看方法数
+//    apply plugin: 'com.getkeepsafe.dexcount'
 }
 
 task clean(type: Delete) {
@@ -81,9 +92,6 @@ ext.plugs = [
 ]
 
 ext.deps = [
-        android    : [
-                runtime: 'com.google.android:android:4.1.1.4', // 在java项目里调用安卓编译环境
-        ],
         support    : [
                 compat      : "com.android.support:support-compat:${versions.supportLibrary}",
                 annotations : "com.android.support:support-annotations:${versions.supportLibrary}",
@@ -95,39 +103,57 @@ ext.deps = [
                 ],
                 dex         : 'com.android.support:multidex:1.0.1',
         ],
-        auto       : [
-                service: 'com.google.auto.service:auto-service:1.0-rc3', // 自动构建Processor等服务环境
-                common : 'com.google.auto:auto-common:0.8',
-        ],
-        java       : [
-                poet: 'com.squareup:javapoet:1.9.0', // 以优雅的方式自动生成java代码
-        ],
         rx         : [
                 java   : 'io.reactivex.rxjava2:rxjava:2.1+',
-                android: 'io.reactivex.rxjava2:rxandroid:2+'
+                android: 'io.reactivex.rxjava2:rxandroid:2+',
+                binding: 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
         ],
-        network    : [
-                ok: 'com.squareup.okhttp3:okhttp:3.8.0',
-        ],
-        debug      : [
-                leakcanary: 'com.squareup.leakcanary:leakcanary-android:1.5.1' // 内存泄漏检查工具
-        ],
-        release    : [
-                leakcanary: 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1' // 内存泄漏检查工具
-        ],
-        lottie     : 'com.airbnb.android:lottie:2.2.0', // 加载AE制作出来的json直接展示效果的库
+        lottie     : 'com.airbnb.android:lottie:2.2.1', // 加载AE制作出来的json直接展示效果的库
         fresco     : 'com.facebook.fresco:fresco:1.5.0',
         butterknife: [
                 core    : 'com.jakewharton:butterknife:8.8.1',
                 compiler: 'com.jakewharton:butterknife-compiler:8.8.1'
         ],
+        square     : [
+                /**
+                 * android
+                 */
+                ok        : 'com.squareup.okhttp3:okhttp:3.8.0',
+                retrofit  : 'com.squareup.retrofit2:retrofit:2.3.0',
+                leakcanary: [
+                        // 内存泄漏检查工具
+                        debug  : 'com.squareup.leakcanary:leakcanary-android:1.5.1',
+                        release: 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+                ],
+                /**
+                 * java
+                 */
+                poet      : 'com.squareup:javapoet:1.9.0', // 以优雅的方式自动生成java代码
+        ],
+        google     : [
+                /**
+                 * android
+                 */
+                gson   : 'com.google.code.gson:gson:2.8.1',
+                dagger : [
+                        core    : 'com.google.dagger:dagger:2.+',
+                        compiler: 'com.google.dagger:dagger-compiler:2.+'
+                ],
+                /**
+                 * java
+                 */
+                runtime: 'com.google.android:android:4.1.1.4', // 在java项目里调用安卓编译环境
+                auto   : [
+                        service: 'com.google.auto.service:auto-service:1.0-rc3', // 自动构建Processor等服务环境
+                        common : 'com.google.auto:auto-common:0.8',
+                ],
+        ],
         ys         : [
                 core    : ':Android:Libs:LibYS_Rx',
                 network : ':Android:Libs:LibNetwork_Rx',
                 compiler: ':Android:DI-compiler',
-                // 以下两个看情况增加
                 baidu   : ':Android:Libs:LibBD',
-//                um     : ':Android:Libs:LibUM',
+                um      : ':Android:Libs:LibUM',
         ],
 ]
 
