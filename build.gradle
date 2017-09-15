@@ -149,11 +149,12 @@ ext.deps = [
                 ],
         ],
         ys         : [
-                core    : ':Android:Libs:LibYS_Rx',
-                network : ':Android:Libs:LibNetwork_Rx',
-                compiler: ':Android:DI-compiler',
-                baidu   : ':Android:Libs:LibBD',
-                um      : ':Android:Libs:LibUM',
+                core      : ':Android:Libs:LibYS_Rx',
+                network   : ':Android:Libs:LibNetwork_Rx',
+                annotation: ':Android:DI-annotation',
+                compiler  : ':Android:DI-compiler',
+                baidu     : ':Android:Libs:LibBD',
+                um        : ':Android:Libs:LibUM',
         ],
 ]
 
