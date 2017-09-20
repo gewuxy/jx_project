@@ -48,13 +48,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Optional 微信分享回调,wxapi必须在包名路径下，否则回调不成功-->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true" />
-
-
-
         <!-- 推送 -->
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->

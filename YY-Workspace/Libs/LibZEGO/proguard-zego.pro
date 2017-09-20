@@ -1,0 +1,2 @@
+-keep class com.zego.**{*;}
+-keep class com.google.**{*;}

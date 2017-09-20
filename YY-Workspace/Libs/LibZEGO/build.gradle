@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' , 'armeabi-v7a', 'arm64-v8a', 'x86'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility versions.java
+        targetCompatibility versions.java
+    }
+    buildTypes {
+        alpha {
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

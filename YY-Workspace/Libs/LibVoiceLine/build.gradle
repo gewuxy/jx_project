@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
+    }
+
+    buildTypes {
+        alpha {
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

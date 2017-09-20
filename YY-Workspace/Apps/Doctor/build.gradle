@@ -37,6 +37,7 @@ android {
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',
                 '../../Libs/LibWX/proguard-wx.pro',
+                '../../Libs/LibWX/proguard-zego.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -178,6 +179,7 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibJG')
     implementation project(':YY-Workspace:Libs:LibWX')
     implementation project(':YY-Workspace:Libs:LibPDF')
+    implementation project(':YY-Workspace:Libs:LibVoiceLine')
     /**
      * other
      */
@@ -186,11 +188,9 @@ dependencies {
     /**
      * leakcanary
      */
-//    debugCompile deps.debug.leakcanary
-//    releaseCompile deps.release.leakcanary
-
+    //    debugCompile deps.debug.leakcanary
+    //    releaseCompile deps.release.leakcanary
     implementation deps.support.dex
-
     annotationProcessor project(deps.ys.compiler)
 }
 
