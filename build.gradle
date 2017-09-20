@@ -10,6 +10,8 @@ buildscript {
             compileSdk    : 24,
             buildTools    : '26.0.0',
 
+            androidPlugin : '3.0.0-beta6',
+
             versionCode   : 100,
             versionName   : '1.0',
 
@@ -30,7 +32,7 @@ buildscript {
     ]
 
     ext.deps = [
-            support    : [
+            support     : [
                     compat      : "com.android.support:support-compat:${versions.supportLibrary}",
                     annotations : "com.android.support:support-annotations:${versions.supportLibrary}",
                     v4          : "com.android.support:support-v4:${versions.supportLibrary}",
@@ -41,18 +43,18 @@ buildscript {
                     ],
                     dex         : 'com.android.support:multidex:1.0.1',
             ],
-            rx         : [
+            rx          : [
                     java   : 'io.reactivex.rxjava2:rxjava:2.1+',
                     android: 'io.reactivex.rxjava2:rxandroid:2+',
                     binding: 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
             ],
-            lottie     : 'com.airbnb.android:lottie:2.2.1', // 加载AE制作出来的json直接展示效果的库
-            fresco     : 'com.facebook.fresco:fresco:1.5.0',
-            butterknife: [
-                    core    : 'com.jakewharton:butterknife:8.8.1',
-                    compiler: 'com.jakewharton:butterknife-compiler:8.8.1'
+            lottie      : 'com.airbnb.android:lottie:2.2.1', // 加载AE制作出来的json直接展示效果的库
+            fresco      : 'com.facebook.fresco:fresco:1.5.0',
+            butterknife : [
+                    core    : 'com.jakewharton:butterknife:8.5.1',
+                    compiler: 'com.jakewharton:butterknife-compiler:8.5.1'
             ],
-            square     : [
+            square      : [
                     /**
                      * android
                      */
@@ -68,7 +70,7 @@ buildscript {
                      */
                     poet      : 'com.squareup:javapoet:1.9.0', // 以优雅的方式自动生成java代码
             ],
-            google     : [
+            google      : [
                     /**
                      * android
                      */
@@ -86,14 +88,17 @@ buildscript {
                             common : 'com.google.auto:auto-common:0.8',
                     ],
             ],
-            'kotlin'   : [
+            kotlin      : [
                     'stdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
             ],
-            ys         : [
+            javaParser  : 'com.github.javaparser:javaparser-core:3.3.5',
+            gradlePlugin: "com.android.tools.build:gradle:${versions.androidPlugin}",
+            ys          : [
                     core      : ':Android:Libs:LibYS_Rx',
                     network   : ':Android:Libs:LibNetwork_Rx',
-                    annotation: ':Android:DI-annotation',
-                    compiler  : ':Android:DI-compiler',
+                    annotation: ':Android:Di:Annotation',
+                    compiler  : ':Android:Di:Compiler',
+//                    plugin    : ':Android:Di:Plugin',
                     baidu     : ':Android:Libs:LibBD',
                     um        : ':Android:Libs:LibUM',
             ],
@@ -102,7 +107,7 @@ buildscript {
     ext.kotlin_version = versions.kotlin
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta6'
+        classpath deps.gradlePlugin
 
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
 
@@ -124,7 +129,7 @@ buildscript {
          * 能在lib里面使用butterknife的R2
          * apply plugin: plugs.butterknife 之后编译无法通过. 暂时放弃
          */
-//        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
     }
 }
 
@@ -134,6 +139,10 @@ allprojects { project ->
      * apply plugin: 'com.android.library'
      * 暂时使用工程名开头为判断
      */
+    project.plugins.all { plugin ->
+//        if (plugin.is(GradleBuildProject.PluginType.LIBRARY)) {
+//        }
+    }
 //    if (project.name.toLowerCase().startsWith('lib')) {
 //        apply plugin: plugs.butterknife
 //    }
