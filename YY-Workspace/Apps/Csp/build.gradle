@@ -170,4 +170,5 @@ dependencies {
     //    debugCompile deps.debug.leakcanary
     //    releaseCompile deps.release.leakcanary
     annotationProcessor project(deps.ys.compiler)
+    implementation project(':YY-Workspace:Libs:LibZEGO')
 }

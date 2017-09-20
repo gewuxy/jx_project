@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zego.livedemo5.ui.widgets.ViewLive
+        android:id="@+id/live_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/live_iv_back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/live_ic_back"/>
+
+    <TextView
+        android:id="@+id/live_tv_time"
+        android:layout_width="70dp"
+        android:layout_height="32dp"
+        android:layout_toRightOf="@+id/live_iv_back"
+        android:layout_alignTop="@+id/live_iv_back"
+        android:layout_marginLeft="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:gravity="center"
+        android:text="70'00"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
+        android:background="@drawable/bg_tv_live"/>
+
+    <ImageView
+        android:id="@+id/live_iv_silence"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/live_iv_back"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/live_silence_selector"/>
+
+    <ImageView
+        android:id="@+id/live_iv_switch_camera"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/live_ic_switch_camera"/>
+
+    <RelativeLayout
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/live_iv_switch_camera"
+        android:layout_toRightOf="@+id/live_iv_switch_camera"
+        android:background="@drawable/bg_tv_live"
+        android:layout_marginLeft="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/live_tv_online_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5462"
+            android:textColor="#fff"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/live_tv_online_num"
+            android:layout_alignBottom="@+id/live_tv_online_num"
+            android:layout_marginBottom="2dp"
+            android:text="在线"
+            android:textColor="#fff"
+            android:textSize="8dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="66dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/live_iv_switch_camera"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_tv_live"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/live_iv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/live_iv_state"
+            android:text="直播中"
+            android:textColor="#fff"
+            android:textSize="12dp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/live_iv_live"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/live_state_selector"/>
+
+</RelativeLayout>
