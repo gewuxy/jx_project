@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -10,6 +9,12 @@ android {
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
         versionName versions.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     compileOptions {
@@ -17,8 +22,13 @@ android {
         targetCompatibility versions.java
     }
 
+    buildTypes {
+        alpha {
+        }
+    }
+
 }
 
 dependencies {
-    compile 'com.github.barteksc:android-pdf-viewer:2.7.0-beta.1'
+    api 'com.github.barteksc:android-pdf-viewer:2.7.0-beta.1'
 }

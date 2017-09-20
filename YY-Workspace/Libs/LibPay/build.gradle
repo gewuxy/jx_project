@@ -9,15 +9,26 @@ android {
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
         versionName versions.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     compileOptions {
         sourceCompatibility versions.java
         targetCompatibility versions.java
     }
+
+    buildTypes {
+        alpha {
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    provided project(deps.ys.core)
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly project(deps.ys.core)
 }

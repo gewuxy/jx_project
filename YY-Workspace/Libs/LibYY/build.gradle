@@ -9,15 +9,26 @@ android {
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
         versionName versions.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     compileOptions {
         sourceCompatibility versions.java
         targetCompatibility versions.java
     }
+
+    buildTypes {
+        alpha {
+        }
+    }
 }
 
 dependencies {
-    compile project(deps.ys.core)
-    compile project(deps.ys.baidu)
+    api project(deps.ys.core)
+    api project(deps.ys.baidu)
 }

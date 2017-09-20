@@ -15,6 +15,14 @@ android {
 
         multiDexEnabled true
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+
+        flavorDimensions configs.dimension
+
         proguardFiles getDefaultProguardFile('proguard-android.txt'),
                 // LibYS里的混淆, 相对路径为3级
                 '../../../Android/Libs/LibYS_Rx/proguard-ys.pro',
@@ -96,30 +104,30 @@ android {
     productFlavors {
         flavors_debug {
             manifestPlaceholders = [
-                    app_name: "YaYa医师(B)",
-                    app_icon: "ic_launcher",
+                    app_name : "YaYa医师(B)",
+                    app_icon : "ic_launcher",
                     master_id: "",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
-                    app_name: "YaYa医师(A)",
-                    app_icon: "ic_launcher",
+                    app_name : "YaYa医师(A)",
+                    app_icon : "ic_launcher",
                     master_id: "",
             ]
         }
         flavors_release {
             manifestPlaceholders = [
-                    app_name: "YaYa医师",
-                    app_icon: "ic_launcher",
+                    app_name : "YaYa医师",
+                    app_icon : "ic_launcher",
                     master_id: "",
             ]
         }
         c_mairui {
 //            applicationIdSuffix "mairui"
             manifestPlaceholders = [
-                    app_name: "麦瑞",
-                    app_icon: "ic_launcher_mairui",
+                    app_name : "麦瑞",
+                    app_icon : "ic_launcher_mairui",
                     master_id: "957425",
             ]
         }
@@ -142,7 +150,7 @@ android {
                 // 尾端
                 fileName = fileName.replace(".apk", "_v${defaultConfig.versionName}.apk")
 
-                output.outputFile = new File(outputFile.parent, fileName)
+//                output.outputFile = new File(outputFile.parent, fileName)
             }
         }
     }
@@ -164,24 +172,24 @@ android {
 }
 
 dependencies {
-    compile project(':YY-Workspace:Libs:LibYY')
-    compile project(':YY-Workspace:Libs:LibPay')
-    compile project(':YY-Workspace:Libs:LibPlayer')
-    compile project(':YY-Workspace:Libs:LibJG')
-    compile project(':YY-Workspace:Libs:LibWX')
-    compile project(':YY-Workspace:Libs:LibPDF')
+    implementation project(':YY-Workspace:Libs:LibYY')
+    implementation project(':YY-Workspace:Libs:LibPay')
+    implementation project(':YY-Workspace:Libs:LibPlayer')
+    implementation project(':YY-Workspace:Libs:LibJG')
+    implementation project(':YY-Workspace:Libs:LibWX')
+    implementation project(':YY-Workspace:Libs:LibPDF')
     /**
      * other
      */
-    compile 'com.mylhyl:zxingscanner:1.5.1'
-    compile 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.mylhyl:zxingscanner:1.5.1'
+    implementation 'org.greenrobot:greendao:3.2.2'
     /**
      * leakcanary
      */
 //    debugCompile deps.debug.leakcanary
 //    releaseCompile deps.release.leakcanary
 
-    compile deps.support.dex
+    implementation deps.support.dex
 
     annotationProcessor project(deps.ys.compiler)
 }
@@ -211,3 +219,7 @@ greendao {
 //    generateTests
 }
 
+
+repositories {
+    google()
+}

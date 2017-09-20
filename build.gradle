@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta5'
 
         /**
          * 查看方法数
@@ -31,7 +32,7 @@ buildscript {
          * 使用lambda表达式
          * github: https://github.com/evant/gradle-retrolambda
          */
-        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
+//        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
     }
 }
 
@@ -57,7 +58,7 @@ allprojects { project ->
 //    }
 
     // lambda表达式
-    apply plugin: 'me.tatarka.retrolambda'
+//    apply plugin: 'me.tatarka.retrolambda'
 
     // dex分包工具
 //    apply plugin: 'com.ceabie.dexnkife'

@@ -9,16 +9,27 @@ android {
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
         versionName versions.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     compileOptions {
         sourceCompatibility versions.java
         targetCompatibility versions.java
     }
+
+    buildTypes {
+        alpha {
+        }
+    }
 }
 
 dependencies {
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.3.4'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.3.4'
 
-    provided project(':YY-Workspace:Libs:LibYY')
+    compileOnly project(':YY-Workspace:Libs:LibYY')
 }
