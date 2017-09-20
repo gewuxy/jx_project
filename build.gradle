@@ -155,6 +155,8 @@ allprojects { project ->
 
     repositories {
         jcenter()
+        mavenCentral()
+        google()
     }
 
     // 检查过时的一些方法, 有时间的话可以打开来一个个修改

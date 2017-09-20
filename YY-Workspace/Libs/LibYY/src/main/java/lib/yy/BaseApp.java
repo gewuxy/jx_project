@@ -7,4 +7,5 @@ import lib.ys.AppEx;
  * @since 2017/4/5
  */
 abstract public class BaseApp extends AppEx {
+    protected static final int KTimeout = 15;
 }

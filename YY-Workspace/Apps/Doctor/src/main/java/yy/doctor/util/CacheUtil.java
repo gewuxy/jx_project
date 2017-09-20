@@ -9,7 +9,7 @@ import lib.ys.util.CacheUtilEx;
  */
 public class CacheUtil extends CacheUtilEx {
 
-    private static final String KHomeDir = "/yaya/";
+    private static final String KHomeDir = "/yaya/doctor/";
 
     private static final String KBmpCacheDef = KHomeDir + "cache/bmp/";
 

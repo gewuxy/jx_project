@@ -1,11 +1,4 @@
-package yy.doctor;
-
-import android.content.Context;
-import android.os.Build;
-import android.os.StrictMode;
-import android.support.multidex.MultiDex;
-
-import com.baidu.mapapi.SDKInitializer;
+package yaya.csp;
 
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
@@ -19,16 +12,13 @@ import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.yy.BaseApp;
-import yy.doctor.Constants.PageConstants;
-import yy.doctor.network.NetFactory;
-import yy.doctor.network.NetworkAPISetter;
-import yy.doctor.network.UrlUtil;
-import yy.doctor.util.CacheUtil;
+import yaya.csp.util.CacheUtil;
 
 /**
- * @author yuansui
- * @since 2017/4/5
+ * @auther yuansui
+ * @since 2017/9/20
  */
+
 public class App extends BaseApp {
 
     /**
@@ -47,7 +37,7 @@ public class App extends BaseApp {
     @Override
     protected AppConfig configureApp() {
         return AppConfig.newBuilder()
-                .bgColorRes(R.color.app_bg)
+//                .bgColorRes(R.color.app_bg)
                 .enableFlatBar(false)
                 .initRefreshWay(RefreshWay.embed)
                 .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
@@ -60,10 +50,10 @@ public class App extends BaseApp {
                 .connectTimeout(KTimeout)
                 .readTimeout(KTimeout)
                 .writeTimeout(KTimeout)
-                .headersMaker(() -> NetFactory.getBaseHeader())
-                .timeoutToast(getString(R.string.connect_timeout))
-                .disconnectToast(getString(R.string.network_disabled))
-                .cacheDir(CacheUtil.getUploadCacheDir())
+//                .headersMaker(() -> NetFactory.getBaseHeader())
+//                .timeoutToast(getString(R.string.connect_timeout))
+//                .disconnectToast(getString(R.string.network_disabled))
+//                .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();
     }
 
@@ -71,15 +61,15 @@ public class App extends BaseApp {
     protected NavBarConfig configureNavBar() {
         return NavBarConfig.newBuilder()
                 .heightDp(NavBarVal.KHeightDp)
-                .bgColorRes(R.color.app_nav_bar_bg)
+//                .bgColorRes(R.color.app_nav_bar_bg)
                 .iconPaddingHorizontalDp(NavBarVal.KIconPaddingHorizontalDp)
                 .iconSizeDp(NavBarVal.KIconSizeDp)
-                .textColorRes(R.color.nav_bar_text_selector)
+//                .textColorRes(R.color.nav_bar_text_selector)
                 .textMarginHorizontalDp(NavBarVal.KTextMarginHorizontalDp)
                 .textSizeLeftDp(NavBarVal.KLeftTextSizeDp)
                 .textSizeMidDp(NavBarVal.KMidTextSizeDp)
                 .textSizeRightDp(NavBarVal.KRightTextSizeDp)
-                .focusBgDrawableRes(R.drawable.nav_bar_selector)
+//                .focusBgDrawableRes(R.drawable.nav_bar_selector)
                 .build();
     }
 
@@ -87,8 +77,8 @@ public class App extends BaseApp {
     protected ListConfig configureList() {
         return ListConfigBuilder.create()
                 .type(PageDownType.page)
-                .initOffset(PageConstants.KPage)
-                .limit(PageConstants.KPageSize)
+//                .initOffset(PageConstants.KPage)
+//                .limit(PageConstants.KPageSize)
                 .build();
     }
 
@@ -97,24 +87,11 @@ public class App extends BaseApp {
         // log
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
-        UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
-        NetworkAPISetter.setDebuggable(BuildConfig.DEBUG_NETWORK);
-
-        //百度地图
-        SDKInitializer.initialize(this);
-
-        // 临时的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
-        }
+//        UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
+//        NetworkAPISetter.setDebuggable(BuildConfig.DEBUG_NETWORK);
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
-
-        if (BuildConfig.DEBUG_LOG) {
-//            LeakCanary.install(this);
-        }
     }
 
     @Override
@@ -122,9 +99,4 @@ public class App extends BaseApp {
         return CacheUtil.getBmpCacheDir();
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
 }
