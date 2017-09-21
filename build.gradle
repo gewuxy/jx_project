@@ -28,7 +28,7 @@ buildscript {
 
     ext.plugs = [
             kotlin     : 'kotlin-android',
-            butterknife: 'com.jakewharton.butterknife',
+//            butterknife: 'com.jakewharton.butterknife',
     ]
 
     ext.deps = [
@@ -50,10 +50,10 @@ buildscript {
             ],
             lottie      : 'com.airbnb.android:lottie:2.2.1', // 加载AE制作出来的json直接展示效果的库
             fresco      : 'com.facebook.fresco:fresco:1.5.0',
-            butterknife : [
-                    core    : 'com.jakewharton:butterknife:8.5.1',
-                    compiler: 'com.jakewharton:butterknife-compiler:8.5.1'
-            ],
+//            butterknife : [
+//                    core    : 'com.jakewharton:butterknife:8.5.1',
+//                    compiler: 'com.jakewharton:butterknife-compiler:8.5.1'
+//            ],
             square      : [
                     /**
                      * android
@@ -129,7 +129,7 @@ buildscript {
          * 能在lib里面使用butterknife的R2
          * apply plugin: plugs.butterknife 之后编译无法通过. 暂时放弃
          */
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
+//        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
     }
 }
 

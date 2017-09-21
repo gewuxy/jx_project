@@ -3,7 +3,6 @@ package yy.doctor.ui.activity.meeting;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.Html;
-import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,7 +51,6 @@ import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
 import yy.doctor.ui.activity.me.unitnum.FileActivityRouter;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
@@ -395,7 +393,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         // 职责和医院没有的话就隐藏
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerTitle), mTvGP); // 职责
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerHos), mTvGH); // 医院
-        UISetter.viewVisibility(getText(Html.fromHtml(detail.getString(TMeetDetail.introduction)).toString()), mTvIntro);
+        UISetter.viewVisibility(formatIntro(Html.fromHtml(detail.getString(TMeetDetail.introduction)).toString()), mTvIntro);
         // FIXME: 转载
         String from = detail.getString(TMeetDetail.lecturerTitle);
         if (TextUtil.isNotEmpty(from)) {
@@ -428,11 +426,14 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                 .load();
     }
 
-    private CharSequence getText(String text) {
-        while (text.startsWith("/n")) {
+    /**
+     * 去掉头尾的空行
+     */
+    private CharSequence formatIntro(String text) {
+        while (text.startsWith("\n")) {
             text = text.substring(1);
         }
-        while (text.endsWith("/n")) {
+        while (text.endsWith("\n")) {
             text = text.substring(0, text.length() - 1);
         }
         return text;
