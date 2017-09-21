@@ -168,7 +168,7 @@ public class UISetter {
      * @param text
      * @param textView
      */
-    public static void viewVisibility(String text, TextView textView) {
+    public static void viewVisibility(CharSequence text, TextView textView) {
         if (TextUtil.isEmpty(text)) {
             ViewUtil.goneView(textView);
         } else {

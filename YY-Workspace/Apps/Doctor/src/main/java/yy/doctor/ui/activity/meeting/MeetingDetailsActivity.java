@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.meeting;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
@@ -50,6 +52,7 @@ import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
 import yy.doctor.ui.activity.me.unitnum.FileActivityRouter;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
@@ -81,6 +84,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     // 会议介绍
     private TextView mTvTitle; // 会议名称
     private TextView mTvSection; // 会议科室
+    private TextView mTvMeetType; // 会议科室
     private TextView mTvEpn; // 象数相关
     private ImageView mIvEpn;
     private TextView mTvCme;// 学分相关
@@ -105,6 +109,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private TextView mTvGH; // 医院
 
     private TextView mTvIntro; // 会议简介
+    private TextView mTvFrom; // 会议简介
 
     private MapList<Integer, BaseFunc> mFuncs; // 记录模块ID
     private ModuleLayout mModuleLayout; // 模块
@@ -165,7 +170,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         mIvCollection = Util.getBarView(group, ImageView.class);
         // 分享
         bar.addViewRight(R.drawable.nav_bar_ic_share, v -> {
-            if (Util.noNetwork()){
+            if (Util.noNetwork()) {
                 return;
             }
             ShareDialog dialog = new ShareDialog(MeetingDetailsActivity.this, UrlUtil.getBaseUrl() + UrlMeet.KMeetShare + mMeetId, mMeetName);
@@ -185,6 +190,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         // 会议相关
         mTvTitle = findView(R.id.meeting_detail_tv_title);
         mTvSection = findView(R.id.meeting_detail_tv_section);
+        mTvMeetType = findView(R.id.meeting_detail_tv_meet_type);
         mTvEpn = findView(R.id.meeting_detail_tv_epn);
         mIvEpn = findView(R.id.meeting_detail_iv_epn);
         mTvCme = findView(R.id.meeting_detail_tv_cmd);
@@ -209,6 +215,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         mIvGP = findView(R.id.meeting_iv_guest_portrait);
 
         mTvIntro = findView(R.id.meeting_detail_tv_intro);
+        mTvFrom = findView(R.id.meeting_detail_tv_from);
 
         mModuleLayout = findView(R.id.meeting_detail_modules);
     }
@@ -216,6 +223,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     @Override
     public void setViews() {
         setOnClickListener(R.id.meeting_detail_player_layout);
+        setOnClickListener(R.id.meeting_detail_layout_unit_num);
 
         getDataFromNet();
     }
@@ -227,6 +235,10 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                 mCourseFunc.onClick(v);
             }
             break;
+            case R.id.meeting_detail_layout_unit_num: {
+                // FIXME: 7.1.6 UnitNumId
+//                UnitNumDetailActivityRouter.create().route(MeetingDetailsActivity.this);
+            }
         }
     }
 
@@ -334,6 +346,8 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             YSLog.d(TAG, "refreshViews:有学分" + costEpn);
         }
         mTvSection.setText(detail.getString(TMeetDetail.meetType));
+        // FIXME: 7.1.6 会议类型
+        mTvMeetType.setText(detail.getString(TMeetDetail.meetType));
 
         // 学习进度
         int progress = detail.getInt(TMeetDetail.completeProgress);
@@ -381,8 +395,13 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         // 职责和医院没有的话就隐藏
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerTitle), mTvGP); // 职责
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerHos), mTvGH); // 医院
-
-        mTvIntro.setText(Html.fromHtml(detail.getString(TMeetDetail.introduction)));
+        UISetter.viewVisibility(getText(Html.fromHtml(detail.getString(TMeetDetail.introduction)).toString()), mTvIntro);
+        // FIXME: 转载
+        String from = detail.getString(TMeetDetail.lecturerTitle);
+        if (TextUtil.isNotEmpty(from)) {
+            showView(mTvFrom);
+            mTvFrom.setText(String.format("本会议转载自%s", from));
+        }
 
         mFuncs = new MapList<>();
         BaseFunc func = null;
@@ -407,6 +426,16 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                 .setFuncs(mFuncs)
                 .setModules(detail)
                 .load();
+    }
+
+    private CharSequence getText(String text) {
+        while (text.startsWith("/n")) {
+            text = text.substring(1);
+        }
+        while (text.endsWith("/n")) {
+            text = text.substring(0, text.length() - 1);
+        }
+        return text;
     }
 
     @Override

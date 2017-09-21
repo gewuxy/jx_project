@@ -10,7 +10,7 @@ import yy.doctor.adapter.VH.home.HomeUnitNumVH;
 import yy.doctor.model.home.RecUnitNum;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.home.RecUnitNum.TRecUnitNum;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 
@@ -55,7 +55,7 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
         RecUnitNum item = getItem(position);
         switch (id) {
             case R.id.home_unit_num_layout: {
-                UnitNumDetailActivity.nav(getContext(), item.getInt(TRecUnitNum.id));
+                UnitNumDetailActivityRouter.create(item.getInt(TRecUnitNum.id)).route(getContext());
             }
             break;
             case R.id.home_unit_num_item_tv_attention: {

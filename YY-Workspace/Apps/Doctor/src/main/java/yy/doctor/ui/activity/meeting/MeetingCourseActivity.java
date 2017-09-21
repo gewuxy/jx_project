@@ -74,14 +74,9 @@ import yy.doctor.view.CircleProgressView;
  */
 @Route
 public class MeetingCourseActivity extends BaseVPActivity implements
-        OnCountDownListener,
-        OnSeekBarChangeListener,
-        OnPageChangeListener,
-        OnPlayerListener,
-        OnFragClickListener {
+        OnPageChangeListener, OnFragClickListener {
 
     private final int KVpSize = 3; // Vp缓存的数量
-    private final int KViewPagerHDp = 270; // 每张PPT的高度
     private final int KVanishTime = 3; // 横屏显示时间
 
     @Arg
@@ -90,35 +85,12 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     @Arg
     String mModuleId; // 模块ID
 
-    private long mAllMilliseconds; // 当前播放音频的总时长 (毫秒)
-    private CountDown mCountDown; // 倒计时
-    private PPT mPPT; // PPT
-    private List<Course> mCourses; // PPT的内容
-    private Map<Integer, Submit> mSubmits; // 学习时间
-
-    private ViewGroup.LayoutParams mParams; // PPT 的布局参数
-
-    private ImageView mIvControlP; // 控制按钮(竖屏)
-    private ImageView mIvControlL; // 控制按钮(横屏)
-    private TextView mTvTimeP; // 音频/视频播放的时间(竖屏)
-    private TextView mTvTimeL; // 音频/视频播放的时间(横屏)
-    private CircleProgressView mLayoutProgressP; // 进度(竖屏)
-    private SeekBar mLayoutProgressL; // 进度(横屏)
-
-    private TextView mTvSelect; // 当前页
-    private TextView mTvAll; // 总页数
-
-    private View mLayoutBar; // 占位图(NavBar)
-    private View mLayoutBarMid; // NavBar中间
-    private View mLayoutBarRight; // NavBar右间的按钮
-    private View mLayoutControl; // 进度+控制按钮
-    private View mLayoutP; // 竖屏布局
-    private View mLayoutL; // 横屏布局
 
     private long mStartTime; // 开始时间
+    private PPT mPPT;
+    private List<Course> mCourses;
     private int mLastPosition; // 上一次的position
-
-    private int mProgress; // 跳转到会议列表页面时的进度(可能播放了其他音频导致不一样所以要记录)
+    private Map<Integer, Submit> mSubmits; // 学习时间
 
     @Override
     public int getContentViewId() {
@@ -129,37 +101,13 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     public void initData() {
         notify(NotifyType.study_start);
 
-        mProgress = ConstantsEx.KInvalidValue;
         mLastPosition = 0;
         mSubmits = new HashMap<>();
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundColor(Color.TRANSPARENT);
 
-        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> {
-            if (getOrientation()) {
-                // 横屏
-                Util.changeOrientation(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 切换为竖屏
-            } else {
-                // 竖屏
-                finish();
-            }
-        });
-
-        mLayoutBarMid = inflate(R.layout.layout_meeting_nav_bar_course);
-        mTvSelect = (TextView) mLayoutBarMid.findViewById(R.id.meeting_nav_bar_select);
-        mTvAll = (TextView) mLayoutBarMid.findViewById(R.id.meeting_nav_bar_all);
-        bar.addViewMid(mLayoutBarMid);
-
-        mLayoutBarRight = bar.addViewRight(R.drawable.meeting_ppt_ic_record, v -> {
-            if (mPPT == null) {
-                return;
-            }
-            mProgress = mLayoutProgressL.getProgress();
-            MeetingRecordActivityRouter.create(getCurrentItem(), mPPT).route(MeetingCourseActivity.this, 0);
-        });
     }
 
     /**
@@ -175,40 +123,15 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     public void findViews() {
         super.findViews();
 
-        mLayoutBar = findView(R.id.meeting_ppt_view);
 
-        mLayoutP = findView(R.id.meeting_ppt_layout_p);
-        mIvControlP = findView(R.id.meeting_ppt_iv_control_p);
-        mTvTimeP = findView(R.id.meeting_ppt_tv_time_p);
-        mLayoutProgressP = findView(R.id.meeting_ppt_layout_progress);
-
-        mLayoutL = findView(R.id.meeting_ppt_layout_l);
-        mLayoutControl = findView(R.id.meeting_ppt_layout_control);
-        mIvControlL = findView(R.id.meeting_ppt_iv_control_l);
-        mTvTimeL = findView(R.id.meeting_ppt_tv_time_l);
-        mLayoutProgressL = findView(R.id.meeting_ppt_sb_progress);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mParams = getViewPager().getLayoutParams(); // viewPager的布局参数
         setOffscreenPageLimit(KVpSize);
         setOnPageChangeListener(this);
-
-        mLayoutL.setOnTouchListener(new TouchCancelListener());
-        mTvTimeL.setOnTouchListener(new TouchCancelListener());
-        mIvControlL.setOnTouchListener(new TouchCancelListener());
-        mLayoutProgressL.setOnSeekBarChangeListener(this);
-
-        setOnClickListener(R.id.meeting_ppt_iv_left);
-        setOnClickListener(R.id.meeting_ppt_iv_right);
-        setOnClickListener(R.id.meeting_ppt_iv_control_p);
-        setOnClickListener(R.id.meeting_ppt_iv_control_l);
-        setOnClickListener(R.id.meeting_ppt_iv_first);
-        setOnClickListener(R.id.meeting_ppt_iv_comment);
-        setOnClickListener(R.id.meeting_ppt_layout_control);
 
         refresh(RefreshWay.embed);
         getDataFromNet();
@@ -225,13 +148,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
         saveStudyTime();
 
-        if (mCourses != null) {
-            setStatus(position);
-        }
         mLastPosition = position;
-
-        onProgress(0, 0);
-
         NetworkImageView.clearMemoryCache(MeetingCourseActivity.this);
     }
 
@@ -250,125 +167,14 @@ public class MeetingCourseActivity extends BaseVPActivity implements
         // 加上原来记录
         curTime += studyTime - mStartTime;
         submit.put(TSubmit.usedtime, curTime);
-        mSubmits.put(mLastPosition, submit);
 
-        YSLog.d(TAG, "saveStudyTime:" + mLastPosition + "------" + curTime);
     }
 
     /**
      * 切换PPT是页面重置
      */
     private void setStatus(int position) {
-        if (mCourses.get(position).haveMedia()) {
-            // 有音频的时候
-            showView(mLayoutControl);
-            showView(mTvTimeP);
-        } else {
-            // 没有音频的时候
-            hideView(mLayoutControl);
-            hideView(mTvTimeP);
-        }
-        mTvSelect.setText(String.valueOf(position + 1));
         mStartTime = System.currentTimeMillis();
-        mProgress = ConstantsEx.KInvalidValue;
-
-        NetPlayer.inst().stop();
-        setPlayerType(position);
-        NetPlayer.inst().prepare(mMeetId, getItem(position).getUrl());
-    }
-
-    /**
-     * 设置播放器播放类型
-     */
-    private void setPlayerType(int position) {
-        if (mCourses == null) {
-            return;
-        }
-        if (mCourses.get(position).getType() == CourseType.video) {
-            VideoCourseFrag item = (VideoCourseFrag) getItem(position);
-            NetPlayer.inst().setVideo(item.getTextureView());
-        } else {
-            NetPlayer.inst().setAudio();
-        }
-    }
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (mCourses.get(getCurrentItem()).haveMedia()) {
-            float seconds = (float) getCurrMilliseconds() / TimeUnit.SECONDS.toMillis(1);
-            BigDecimal scale = new BigDecimal(String.format("%.1f", seconds)).setScale(0, BigDecimal.ROUND_HALF_UP);
-            String text = Time.secondFormat(scale.longValue(), DateUnit.minute);
-            YSLog.d(TAG, "onProgress:" + text);
-            mTvTimeL.setText(text);
-            mTvTimeP.setText(text);
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        if (mCourses.get(getCurrentItem()).haveMedia()) {
-            NetPlayer.inst().pause();
-        }
-
-        countDown(false);
-        landscapeVisibility(true);
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        if (mCourses.get(getCurrentItem()).haveMedia()) {
-            NetPlayer.inst().play(getItem(getCurrentItem()).getUrl(), mLayoutProgressL.getProgress());
-        }
-
-        countDown(true);
-    }
-
-    private long getCurrMilliseconds() {
-        return mLayoutProgressL.getProgress() * mAllMilliseconds / NetPlayer.KMaxProgress;
-    }
-
-    /**
-     * 倒计时
-     *
-     * @param state true 开始, false 结束
-     */
-    private void countDown(boolean state) {
-        if (mCountDown == null) {
-            mCountDown = new CountDown();
-            mCountDown.setListener(MeetingCourseActivity.this);
-        }
-        if (state && getOrientation()) {
-            mCountDown.start(KVanishTime);
-        } else {
-            mCountDown.stop();
-        }
-    }
-
-    @Override
-    public void onCountDown(long remainCount) {
-        if (remainCount == 0) {
-            landscapeVisibility(false);
-        }
-    }
-
-    @Override
-    public void onCountDownErr() {
-        // do nothing
-    }
-
-    /**
-     * 横屏的控件显示隐藏
-     *
-     * @param visibility true 显示, false 隐藏
-     */
-    private void landscapeVisibility(boolean visibility) {
-        if (visibility && getOrientation()) {
-            showView(getNavBar());
-            showView(mLayoutL);
-        } else {
-            goneView(getNavBar());
-            goneView(mLayoutL);
-        }
     }
 
     private void getDataFromNet() {
@@ -414,7 +220,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
                 public void onGlobalLayout() {
                     // 初始显示
                     mStartTime = System.currentTimeMillis();
-                    mTvAll.setText(String.valueOf(mCourses.size()));
                     setStatus(0);
                     removeOnGlobalLayoutListener(this);
                 }
@@ -461,45 +266,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.meeting_ppt_iv_left: {
-                // 上一页
-                int preItem = getCurrentItem() - 1;
-                if (preItem >= 0) {
-                    setCurrentItem(preItem);
-                } else {
-                    showToast("这是第一页喔");
-                }
-            }
-            break;
-            case R.id.meeting_ppt_iv_right: {
-                // 下一页
-                int currNext = getCurrentItem() + 1;
-                if (currNext < mCourses.size()) {
-                    setCurrentItem(currNext);
-                } else {
-                    showToast("已是最后一页");
-                }
-            }
-            break;
-            case R.id.meeting_ppt_iv_control_p:
-            case R.id.meeting_ppt_iv_control_l: {
-                // 控制
-                // FIXME:
-                NetPlayer.inst().toggle(getItem(getCurrentItem()).getUrl(), mProgress);
-            }
-            break;
-            case R.id.meeting_ppt_iv_first: {
-                // 切换到第一页
-                setCurrentItem(0);
-            }
-            break;
-            case R.id.meeting_ppt_iv_comment: {
-                // 评论
-                MeetingCommentActivityRouter.create(mMeetId).route(this);
-            }
-            break;
-        }
+
     }
 
     @Override
@@ -517,45 +284,7 @@ public class MeetingCourseActivity extends BaseVPActivity implements
     }
 
     @Override
-    public void onDownProgress(int progress) {
-        // 下载进度(预留)
-    }
-
-    @Override
-    public void onPreparedSuccess(long allMilliseconds) {
-        mAllMilliseconds = allMilliseconds;
-    }
-
-    @Override
-    public void onPreparedError() {
-        // 准备失败
-    }
-
-    @Override
-    public void onProgress(long currMilliseconds, int progress) {
-        mLayoutProgressL.setProgress(progress);
-        mLayoutProgressP.setProgress(progress);
-    }
-
-    @Override
-    public void onPlayState(boolean state) {
-        mIvControlL.setSelected(state);
-        mIvControlP.setSelected(state);
-    }
-
-    @Override
-    public void onCompletion() {
-        getItem(mLastPosition).getSubmit().put(TSubmit.finished, true);
-        mIvControlL.setSelected(false);
-        mIvControlP.setSelected(false);
-    }
-
-    @Override
     public void onClick() {
-        if (getOrientation()) {
-            countDown(true);
-            landscapeVisibility(true);
-        }
     }
 
     @Override
@@ -564,50 +293,16 @@ public class MeetingCourseActivity extends BaseVPActivity implements
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
-            mParams.height = fitDp(KViewPagerHDp);
-            getViewPager().setLayoutParams(mParams);
-            countDown(false);
-            landscapeVisibility(false);
 
-            showView(mLayoutP);
-            showView(mLayoutBar);
-            showView(mLayoutBarMid);
-            showView(mLayoutBarRight);
-            showView(getNavBar());
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
-            mParams.height = MATCH_PARENT;
-            getViewPager().setLayoutParams(mParams);
-            countDown(true);
-            landscapeVisibility(true);
 
-            goneView(mLayoutP);
-            goneView(mLayoutBar);
-            goneView(mLayoutBarMid);
-            goneView(mLayoutBarRight);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        saveStudyTime();
-        NetPlayer.inst().pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        mStartTime = System.currentTimeMillis(); // 第一次无效(页面展示时会重新记录),从其他页面回来是有效记录
-        NetPlayer.inst().setListener(this); // fixme: MeetingRecordActivity回来需要重新设置(setResult??)
     }
 
     @Override
     protected void onDestroy() {
         saveStudyTime();
-        countDown(false);
 
         notify(NotifyType.study_end);
 
@@ -637,52 +332,6 @@ public class MeetingCourseActivity extends BaseVPActivity implements
                 .route(this);
 
         NetPlayer.inst().recycle();
-    }
-
-    @Override
-    public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.meeting_finish) {
-            finish();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode != RESULT_OK || data == null) {
-            return;
-        }
-
-        int currId = data.getIntExtra(Extra.KId, 0);
-        if (currId != mLastPosition) {
-            setCurrentItem(currId);
-        }
-    }
-
-    /**
-     * 按下取消倒计时
-     */
-    private class TouchCancelListener implements OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                case MotionEvent.ACTION_MOVE: {
-                    countDown(false);
-                    landscapeVisibility(true);
-                }
-                break;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL: {
-                    countDown(true);
-                }
-                break;
-            }
-            return false;
-        }
-
     }
 
 }

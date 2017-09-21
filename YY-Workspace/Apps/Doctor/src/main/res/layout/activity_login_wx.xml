@@ -19,5 +19,16 @@
         android:paddingRight="40dp">
 
         <include layout="@layout/layout_login_name_pwd"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:gravity="center"
+            android:textColor="@color/text_b3"
+            android:text="如果无法绑定登录，请返回首页找回密码或注册账号"
+            android:textSize="12dp"/>
+
     </LinearLayout>
+
 </LinearLayout>

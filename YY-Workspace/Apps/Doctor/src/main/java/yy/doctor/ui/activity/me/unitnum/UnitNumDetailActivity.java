@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
@@ -21,7 +23,6 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
@@ -55,6 +56,7 @@ import yy.doctor.util.Util;
  * @auther yuansui
  * @since 2017/4/25
  */
+@Route
 public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 
     private static final int KColorNoAttention = Color.parseColor("#d14b4b");
@@ -84,18 +86,13 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
 
     private UnitNumDetail mUnitNumDetail;
 
-    private int mUnitNumId;
-    private String mUnitNumName;
+    @Arg
+    int mUnitNumId;
 
-    public static void nav(Context context, int unitUnmId) {
-        Intent i = new Intent(context, UnitNumDetailActivity.class)
-                .putExtra(Extra.KData, unitUnmId);
-        LaunchUtil.startActivity(context, i);
-    }
+    private String mUnitNumName;
 
     @Override
     public void initData() {
-        mUnitNumId = getIntent().getIntExtra(Extra.KData, 10);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class Notifier extends NotifierEx<OnNotify> {
 
             NotifyType.login,
             NotifyType.logout,
-            NotifyType.meeting_finish,
+
             NotifyType.section_change,
             NotifyType.profile_change,
             NotifyType.unit_num_attention_change,
@@ -66,10 +66,7 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 登出
          */
         int logout = 1;
-        /**
-         * 关闭其他页面
-         */
-        int meeting_finish = 2;
+
         /**
          * 科室改变
          */

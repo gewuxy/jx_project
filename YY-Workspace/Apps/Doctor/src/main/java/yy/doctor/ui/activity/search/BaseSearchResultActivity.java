@@ -20,7 +20,7 @@ import yy.doctor.model.search.IRec;
 import yy.doctor.model.search.IRec.RecType;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.model.unitnum.UnitNum.TUnitNum;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.ui.activity.meeting.MeetingDetailsActivityRouter;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivityRouter;
 import yy.doctor.util.Util;
@@ -91,7 +91,7 @@ abstract public class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
         switch (type) {
             case RecType.unit_num: {
                 UnitNum item = (UnitNum) getItem(position);
-                UnitNumDetailActivity.nav(this, item.getInt(TUnitNum.id));
+                UnitNumDetailActivityRouter.create(item.getInt(TUnitNum.id)).route(this);
             }
             break;
             case RecType.meeting: {

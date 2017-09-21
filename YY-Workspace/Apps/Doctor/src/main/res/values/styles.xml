@@ -75,17 +75,6 @@
         <item name="android:layout_width">16dp</item>
     </style>
 
-    <style name="iv.meeting.record"/>
-
-    <style name="iv.meeting.record.symbol">
-        <item name="android:layout_width">16dp</item>
-        <item name="android:layout_height">15dp</item>
-        <item name="android:layout_marginLeft">@dimen/margin</item>
-        <item name="android:layout_marginRight">6dp</item>
-        <item name="android:layout_marginTop">4dp</item>
-        <item name="android:src">@drawable/meeting_record_ic_symbol</item>
-    </style>
-
     <style name="tv.exam.end">
         <item name="android:textSize">13dp</item>
         <item name="android:textColor">@color/text_888</item>
@@ -100,11 +89,6 @@
     <style name="divider.meeting.bottom">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
-    </style>
-
-    <style name="divider.record">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:layout_height">18dp</item>
     </style>
 
     <style name="tv.exam">

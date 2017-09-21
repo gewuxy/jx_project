@@ -25,8 +25,28 @@
 
         <TextView
             android:id="@+id/meeting_detail_tv_section"
-            style="@style/tv.meeting"
-            android:text="内科"/>
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:background="@drawable/text_bg_section"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="神经科"
+            android:textColor="@color/text_fff"
+            android:textSize="8dp"/>
+
+        <TextView
+            android:id="@+id/meeting_detail_tv_meet_type"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/text_bg_meet_type"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="内科"
+            android:textColor="@color/text_fff"
+            android:textSize="8dp"/>
 
         <ImageView
             android:id="@+id/meeting_detail_iv_cmd"

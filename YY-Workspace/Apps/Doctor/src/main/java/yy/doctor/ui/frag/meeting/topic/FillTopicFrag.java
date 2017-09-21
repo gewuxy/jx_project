@@ -2,9 +2,12 @@ package yy.doctor.ui.frag.meeting.topic;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 
 import inject.annotation.router.Route;
+import lib.ys.util.KeyboardUtil;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 
@@ -15,7 +18,7 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @since : 2017/9/12
  */
 @Route
-public class FillTopicFrag extends BaseTopicFrag implements TextWatcher {
+public class FillTopicFrag extends BaseTopicFrag implements TextWatcher, OnFocusChangeListener {
 
     private EditText mEtAnswer;
 
@@ -31,6 +34,7 @@ public class FillTopicFrag extends BaseTopicFrag implements TextWatcher {
         super.setViews();
 
         mEtAnswer.addTextChangedListener(this);
+        mEtAnswer.setOnFocusChangeListener(this);
     }
 
     @Override
@@ -66,5 +70,12 @@ public class FillTopicFrag extends BaseTopicFrag implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         topicFinish(s.toString());
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus && KeyboardUtil.isActive()) {
+            KeyboardUtil.hideFromView(v);
+        }
     }
 }

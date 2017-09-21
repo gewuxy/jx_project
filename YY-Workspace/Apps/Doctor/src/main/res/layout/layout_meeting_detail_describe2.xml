@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meeting_detail_layout_unit_num"
     android:layout_width="match_parent"
     android:layout_height="62dp"
+    android:background="@drawable/item_selector"
     android:gravity="center_vertical">
 
     <lib.ys.network.image.NetworkImageView
@@ -21,11 +23,11 @@
         <TextView
             android:id="@+id/meeting_detail_tv_unit_num"
             style="@style/tv"
-            android:textSize="16dp"
-            android:textColor="@color/text_666"
             android:ellipsize="middle"
             android:singleLine="true"
-            android:text="河北省医学会神经病分会"/>
+            android:text="河北省医学会神经病分会"
+            android:textColor="@color/text_666"
+            android:textSize="16dp"/>
 
         <TextView
             style="@style/tv.meeting"

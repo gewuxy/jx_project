@@ -9,7 +9,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 
 /**
@@ -55,7 +55,7 @@ public class LaunchTmpActivity extends BaseActivity {
                 startActivityForResult(intent, KRequestCode);
             } else {
                 //跳转
-                UnitNumDetailActivity.nav(LaunchTmpActivity.this, mUnitNumId);
+                UnitNumDetailActivityRouter.create(mUnitNumId).route(LaunchTmpActivity.this);
                 finish();
             }
         }, 200);
@@ -67,7 +67,7 @@ public class LaunchTmpActivity extends BaseActivity {
 
         if (resultCode == RESULT_OK) {
             //跳转
-            UnitNumDetailActivity.nav(this, mUnitNumId);
+            UnitNumDetailActivityRouter.create(mUnitNumId).route(LaunchTmpActivity.this);
             finish();
         }
     }

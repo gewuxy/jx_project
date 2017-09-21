@@ -98,7 +98,6 @@
                 android:id="@+id/meeting_detail_tv_intro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
                 android:layout_marginLeft="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
                 android:layout_marginTop="14dp"
@@ -107,7 +106,24 @@
                 android:textColor="@color/text_333"
                 android:textSize="14dp"/>
 
+            <TextView
+                android:id="@+id/meeting_detail_tv_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_marginTop="10dp"
+                android:text="本会议转载自"
+                android:textColor="@color/text_888"
+                android:textSize="10dp"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
         </LinearLayout>
+
     </ScrollView>
     <!-- 底部按钮 -->
     <yy.doctor.view.meet.ModuleLayout
