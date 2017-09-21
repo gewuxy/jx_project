@@ -2,7 +2,5 @@
 <resources>
 
     <!--text-->
-    <color name="text_fff">#ffffff</color>
-    <!--Edit-->
-    <color name="edit_4D0">#4D000000</color>
+    <color name="text_fff">#fff</color>
 </resources>

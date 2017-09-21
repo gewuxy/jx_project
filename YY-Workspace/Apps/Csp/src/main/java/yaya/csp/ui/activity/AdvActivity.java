@@ -2,8 +2,8 @@ package yaya.csp.ui.activity;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
@@ -14,15 +14,14 @@ import yaya.csp.R;
 
 /**
  * 广告页
+ *
  * @auther WangLan
  * @since 2017/9/20
  */
 
-public class AdvActivity extends ActivityEx implements View.OnClickListener,OnCountDownListener{
+public class AdvActivity extends ActivityEx implements View.OnClickListener, OnCountDownListener {
     private final int KDelayTime = 3; // 3秒跳转
 
-    private ImageView mAdvIv;
-    private EditText mAdvEdit;
     private CountDown mCountDown;
 
     @Override
@@ -41,14 +40,14 @@ public class AdvActivity extends ActivityEx implements View.OnClickListener,OnCo
 
     @Override
     public void findViews() {
-        mAdvIv = findView(R.id.adv_iv);
-        mAdvEdit = findView(R.id.adv_skip);
+        ImageView mAdvIv = findView(R.id.adv_iv);
+        TextView mAdvEdit = findView(R.id.adv_skip);
     }
 
     @Override
     public void setViews() {
-        mAdvIv.setOnClickListener(this);
-        mAdvEdit.setOnClickListener(this);
+        setOnClickListener(R.id.adv_iv);
+        setOnClickListener(R.id.adv_skip);
     }
 
     @Override
@@ -66,16 +65,17 @@ public class AdvActivity extends ActivityEx implements View.OnClickListener,OnCo
             mCountDown.stop();
             finish();
         }
-        switch (v.getId()){
-            case R.id.adv_iv:{
+        switch (v.getId()) {
+            case R.id.adv_iv: {
                 //点击广告跳到h5页面
+                //Fixme:现在只是假设跳到TestActivity。
                 startActivity(TestActivity.class);
-                break;
             }
-            case R.id.adv_skip:{
+            break;
+            case R.id.adv_skip: {
                 startActivity(TestActivity.class);
-                break;
             }
+            break;
         }
     }
 
