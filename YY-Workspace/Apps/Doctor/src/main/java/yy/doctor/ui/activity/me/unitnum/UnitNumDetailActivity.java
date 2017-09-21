@@ -1,14 +1,11 @@
 package yy.doctor.ui.activity.me.unitnum;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,7 +21,6 @@ import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.ListResult;
@@ -49,6 +45,7 @@ import yy.doctor.ui.activity.me.LaunchTmpActivity;
 import yy.doctor.ui.activity.search.SearchActivity;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
+import yy.doctor.view.meet.MaterialView;
 
 /**
  * 单位号详情
@@ -75,14 +72,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private TextView mTvAttention;
     private TextView mTvAddress;
     private TextView mTvIntroduction;
-    private TextView mTvFileNum;
 
     private View mLayoutIntro;
-    private View mLayoutFile;
-    private ImageView mIvArrows;
-    private LinearLayout mLayoutFileItem;
-    private View mLargeDivider;
-    private View mDivider;
+    private MaterialView mMaterialView;
 
     private UnitNumDetail mUnitNumDetail;
 
@@ -129,12 +121,8 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         mTvIntroduction = findView(R.id.unit_num_detail_tv_introduction);
 
         mLayoutIntro = findView(R.id.unit_num_detail_intro_layout);
-        mTvFileNum = findView(R.id.unit_num_detail_tv_file_num);
-        mLayoutFile = findView(R.id.unit_num_detail_layout_file);
-        mIvArrows = findView(R.id.unit_num_detail_iv_arrow);
-        mLayoutFileItem = findView(R.id.unit_num_detail_file_layout_content);
-        mLargeDivider = findView(R.id.unit_num_detail_large_divider);
-        mDivider = findView(R.id.unit_num_detail_divider);
+
+        mMaterialView = findView(R.id.unit_num_detail_layout_material);
     }
 
     @Override
@@ -146,7 +134,6 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         setRefreshEnabled(false);
         mZoomView.setZoomEnabled(true);
 
-        setOnClickListener(R.id.unit_num_detail_layout_file);
         setOnClickListener(R.id.unit_num_detail_tv_attention);
     }
 
@@ -335,27 +322,13 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 mTvAttention.setClickable(false);
             }
 
-            // FIXME: 2017/8/7
-            List<File> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialList);
-            if (listFile == null || listFile.size() == 0) {
-                goneView(mDivider);
-                goneView(mLayoutFile);
-                goneView(mLargeDivider);
-            } else {
-                UISetter.setFileData(mLayoutFileItem, listFile, mUnitNumId);
-            }
-
             int fileNum = mUnitNumDetail.getInt(TUnitNumDetail.materialNum);
-            if (fileNum > UnitNumDetail.KFileLimit) {
-                String dataNum = String.format(ResLoader.getString(R.string.check_all), fileNum);
-                mTvFileNum.setText(dataNum);
-                showView(mIvArrows);
-                mLayoutFile.setOnClickListener(v ->
-                        FileActivityRouter.create(mUnitNumDetail.getString(TUnitNumDetail.id),
-                                FileFrom.unit_num)
-                                .route(this)
-                );
-            }
+            List<File> listFile = mUnitNumDetail.getList(TUnitNumDetail.materialList);
+            mMaterialView.setFileId(mUnitNumDetail.getString(TUnitNumDetail.id))
+                    .setFileType(FileFrom.unit_num)
+                    .setFiles(listFile)
+                    .setNum(fileNum)
+                    .load();
 
             ListResult<Meeting> meetingResult = new ListResult<>();
             meetingResult.setCode(ErrorCode.KOk);

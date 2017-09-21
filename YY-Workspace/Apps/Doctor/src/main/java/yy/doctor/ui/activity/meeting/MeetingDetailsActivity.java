@@ -6,7 +6,6 @@ import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -42,7 +41,6 @@ import yy.doctor.model.meet.module.SignFunc;
 import yy.doctor.model.meet.module.SurveyFunc;
 import yy.doctor.model.meet.module.VideoFunc;
 import yy.doctor.model.unitnum.File;
-import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.CollectionAPI;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
@@ -50,12 +48,12 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
-import yy.doctor.ui.activity.me.unitnum.FileActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;
 import yy.doctor.view.CircleProgressView;
+import yy.doctor.view.meet.MaterialView;
 import yy.doctor.view.meet.ModuleLayout;
 
 /**
@@ -92,13 +90,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private NetworkImageView mIvNumber; // 单位号图标
     private TextView mTvUnitNum; // 单位号
 
-    //资料
-    private View mLayoutData; // 查看资料
-    private TextView mTvFileNum; // 文件个数
-    private ImageView mIvFileArrow; // 箭头
-    private LinearLayout mLayoutFile; // 文件布局
-    private View mDividerFile; // 分割线(大)
-    private View mDivider; // 分割线
 
     // 主讲者
     private NetworkImageView mIvGP; // 头像
@@ -125,6 +116,8 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     private int mType = DataType.meeting;
 
     private BaseFunc mCourseFunc;
+    //资料
+    private MaterialView mMaterialView;
 
     @NonNull
     @Override
@@ -199,12 +192,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         mTvUnitNum = findView(R.id.meeting_detail_tv_unit_num);
 
         // 文件
-        mLayoutData = findView(R.id.meeting_detail_layout_data);
-        mLayoutFile = findView(R.id.meeting_detail_layout_file);
-        mTvFileNum = findView(R.id.meeting_detail_tv_data);
-        mIvFileArrow = findView(R.id.meeting_detail_iv_data);
-        mDividerFile = findView(R.id.meeting_detail_view_divider);
-        mDivider = findView(R.id.meeting_detail_divider);
+        mMaterialView = findView(R.id.layout_meeting_detail_material);
 
         // 主讲者相关
         mTvGN = findView(R.id.meeting_tv_guest_name);
@@ -368,22 +356,12 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
         // 资料
         int fileNum = detail.getInt(TMeetDetail.materialCount);
-        if (fileNum > UnitNumDetail.KFileLimit) {
-            showView(mIvFileArrow);
-            mTvFileNum.setText(String.format(getString(R.string.meeting_file_more), fileNum));
-            mLayoutData.setOnClickListener(v ->
-                    FileActivityRouter.create(mMeetId, FileFrom.meeting).route(this)
-            );
-
-        }
         List<File> materials = detail.getList(TMeetDetail.materials);
-        if (materials == null || materials.size() == 0) {
-            goneView(mDivider);
-            goneView(mLayoutData);
-            goneView(mDividerFile);
-        } else {
-            UISetter.setFileData(mLayoutFile, materials, detail.getInt(TMeetDetail.pubUserId));
-        }
+        mMaterialView.setFileId(mMeetId)
+                .setFiles(materials)
+                .setFileType(FileFrom.meeting)
+                .setNum(fileNum)
+                .load();
 
         // 主讲者
         mTvGN.setText(detail.getString(TMeetDetail.lecturer));
