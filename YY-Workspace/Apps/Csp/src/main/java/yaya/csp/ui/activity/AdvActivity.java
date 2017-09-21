@@ -2,8 +2,8 @@ package yaya.csp.ui.activity;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
@@ -11,21 +11,22 @@ import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yaya.csp.R;
 
-
 /**
  * 广告页
  *
  * @auther WangLan
  * @since 2017/9/20
  */
+public class AdvActivity extends ActivityEx implements OnClickListener, OnCountDownListener {
 
-public class AdvActivity extends ActivityEx implements View.OnClickListener, OnCountDownListener {
     private final int KDelayTime = 3; // 3秒跳转
 
     private CountDown mCountDown;
 
     @Override
     public void initData() {
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
     }
 
     @NonNull
@@ -40,31 +41,25 @@ public class AdvActivity extends ActivityEx implements View.OnClickListener, OnC
 
     @Override
     public void findViews() {
-        ImageView mAdvIv = findView(R.id.adv_iv);
-        TextView mAdvEdit = findView(R.id.adv_skip);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.adv_iv);
         setOnClickListener(R.id.adv_skip);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mCountDown = new CountDown();
-        mCountDown.setListener(this);
-        mCountDown.start(KDelayTime);
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mCountDown.start(KDelayTime);
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
-        if (mCountDown != null) {
-            mCountDown.stop();
-            finish();
-        }
+        finish();
         switch (v.getId()) {
             case R.id.adv_iv: {
                 //点击广告跳到h5页面
@@ -94,8 +89,8 @@ public class AdvActivity extends ActivityEx implements View.OnClickListener, OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
+
+        mCountDown.stop();
+        mCountDown.recycle();
     }
 }
