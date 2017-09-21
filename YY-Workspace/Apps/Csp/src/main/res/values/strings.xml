@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Csp</string>
+
+    <!-- 直播 -->
+    <string name="online">在线</string>
+    <string name="live">直播中</string>
+    <string name="no_start">未开始</string>
+    <string name="click_start_live">请点击开始直播</string>
+    <string name="no_camera_permission">摄像头未开启\n请确认是否授权成功</string>
+    <string name="live_stop_remind">还有%d分钟，直播将自动关闭</string>
+
+    <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
 </resources>
