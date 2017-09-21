@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--text-->
+    <color name="text_fff">#ffffff</color>
+    <!--Edit-->
+    <color name="edit_4D0">#4D000000</color>
 </resources>
