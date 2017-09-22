@@ -33,6 +33,7 @@ import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.File.TFile;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
+import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
@@ -100,9 +101,10 @@ public class Util extends BaseUtil {
 
     /**
      * 密码允许输入的特殊符
+     *
      * @return
      */
-    public static String symbol(){
+    public static String symbol() {
         String character = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
         return character;
     }
@@ -181,10 +183,10 @@ public class Util extends BaseUtil {
                     .route(App.getContext());
         } else {
             // FIXME: html5
-//            CommonWebViewActivityRouter.create(file.getString(TDataUnit.title), file.getString(TDataUnit.htmlPath))
-//                    .id(file.getString(TDataUnit.id))
-//                    .fromType(fromType)
-//                    .route(v.getContext());
+            CommonWebViewActivityRouter.create(file.getString(TFile.materialName), file.getString(TFile.materialUrl))
+                    .fileId(id)
+                    .type(fromType)
+                    .route(App.getContext());
         }
     }
 }

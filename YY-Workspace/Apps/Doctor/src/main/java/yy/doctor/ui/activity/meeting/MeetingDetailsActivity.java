@@ -48,6 +48,7 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
+import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
 import yy.doctor.util.UISetter;
@@ -223,8 +224,9 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             break;
             case R.id.meeting_detail_layout_unit_num: {
                 // FIXME: 7.1.6 UnitNumId
-//                UnitNumDetailActivityRouter.create().route(MeetingDetailsActivity.this);
+                UnitNumDetailActivityRouter.create(mMeetDetail.getInt(TMeetDetail.pubUserId)).route(MeetingDetailsActivity.this);
             }
+            break;
         }
     }
 
@@ -333,7 +335,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         }
         mTvSection.setText(detail.getString(TMeetDetail.meetType));
         // FIXME: 7.1.6 会议类型
-        mTvMeetType.setText(detail.getString(TMeetDetail.meetType));
+        mTvMeetType.setText(detail.getBroadcastType());
 
         // 学习进度
         int progress = detail.getInt(TMeetDetail.completeProgress);
@@ -373,7 +375,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerHos), mTvGH); // 医院
         UISetter.viewVisibility(formatIntro(Html.fromHtml(detail.getString(TMeetDetail.introduction)).toString()), mTvIntro);
         // FIXME: 转载
-        String from = detail.getString(TMeetDetail.lecturerTitle);
+        String from = detail.getString(TMeetDetail.reprintFromUnitUser);
         if (TextUtil.isNotEmpty(from)) {
             showView(mTvFrom);
             mTvFrom.setText(String.format("本会议转载自%s", from));

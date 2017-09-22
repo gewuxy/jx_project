@@ -24,7 +24,9 @@ public class File extends EVal<TFile> {
         fileType, //  文件类型
         fileSizeStr, //  文件大小
         meetId, // 会议id
-        userId, //  ？
+        userId, //  单位号id
+
+        htmlUrl, //  会议资料html路径
     }
 
 }

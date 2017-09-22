@@ -30,6 +30,16 @@ public class MeetDetail extends EVal<TMeetDetail> {
         int collect = 1; // 没有收藏
     }
 
+    @IntDef({
+            BroadcastType.REB, 
+            BroadcastType.live,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface BroadcastType {
+        int REB = 0; // 录播
+        int live = 1; // 直播
+    }
+
     public enum TMeetDetail {
         id,
 
@@ -63,6 +73,11 @@ public class MeetDetail extends EVal<TMeetDetail> {
         attended, // 参加过(支付过)
         attendAble, // 能否参加会议
 
+        /**
+         * {@link BroadcastType}
+         */
+        meetKind, // 会议直播类型
+
         requiredXs, // 是否奖励象数  true表示奖励；当为false表示支付(且xsCredits大于0时)
         xsCredits, // 奖励/支付象数
         remainAwardXsCount, // 剩余奖励象数人数
@@ -87,10 +102,21 @@ public class MeetDetail extends EVal<TMeetDetail> {
 
         introduction, // 简介
 
+        reprintFromUnitUser, // 会议转载来自哪个单位号
+
         /**
          * 无用
          */
         awardLimit,     // 奖励象数限制人数
         awardCreditLimit, // 奖励学分限制人数
+    }
+
+    public String getBroadcastType() {
+        if (getInt(TMeetDetail.meetKind) == BroadcastType.REB) {
+            return "录播";
+        } else {
+            return "直播";
+        }
+
     }
 }
