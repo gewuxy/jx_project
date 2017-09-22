@@ -13,6 +13,9 @@
 
     <color name="csp_divider">#f1f2f6</color>
 
+    <!--mask模糊-->
+    <color name="mask_bg">#4d000000</color>
+
     <!-- 直播状态的颜色 -->
     <color name="live_circle_blue">#167afe</color>
     <color name="live_circle_red">#d0011b</color>

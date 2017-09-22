@@ -11,16 +11,17 @@
 
     <style name="divider.form">
         <item name="android:id">@id/form_divider</item>
-        <item name="android:background">@color/csp_divider</item>
-    </style>
-
-    <style name="divider.form.margin">
-        <item name="android:layout_marginRight">@dimen/share</item>
-        <item name="android:layout_marginLeft">@dimen/share</item>
     </style>
 
     <style name="divider.form.large">
+        <item name="android:background">@color/csp_divider</item>
         <item name="android:layout_height">@dimen/margin_large</item>
+    </style>
+
+    <style name="divider.form.match">
+        <item name="android:background">@color/csp_divider</item>
+        <item name="android:layout_marginRight">@dimen/share</item>
+        <item name="android:layout_marginLeft">@dimen/share</item>
     </style>
 
     <style name="iv.arrow">

@@ -40,6 +40,12 @@ public class IntentForm extends TextForm {
     }
 
     @Override
+    protected void refresh(FormVH holder) {
+        super.refresh(holder);
+        holder.getTvText().setText(getText());
+    }
+
+    @Override
     public boolean onItemClick(Object host, View v) {
         if (mCurrType == IntentType.un_know) {
             // 不处理

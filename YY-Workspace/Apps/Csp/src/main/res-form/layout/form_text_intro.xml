@@ -12,9 +12,10 @@
             style="@style/tv.form.name"/>
     </RelativeLayout>
 
-    <View style="@style/divider.form.margin"/>
+    <View style="@style/divider.form.match"/>
 
     <TextView
+        android:id="@id/form_tv_text"
         style="@style/tv.form.text"
         android:layout_marginBottom="70dp"
         android:gravity="top"

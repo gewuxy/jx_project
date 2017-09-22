@@ -1,8 +1,9 @@
 package yaya.csp.model.form;
 
 import lib.yy.model.form.BaseForm;
-import yaya.csp.model.form.divider.DividerMarginForm;
+import yaya.csp.model.form.divider.DividerForm;
 import yaya.csp.model.form.divider.DividerLargeForm;
+import yaya.csp.model.form.divider.DividerMarginForm;
 import yaya.csp.model.form.text.IntentForm;
 import yaya.csp.model.form.text.MeForm;
 import yaya.csp.model.form.text.TextForm;
@@ -31,6 +32,10 @@ public class Form {
             break;
             case FormType.text_intent_me: {
                 form = new MeForm();
+            }
+            break;
+            case FormType.divider: {
+                form = new DividerForm();
             }
             break;
             case FormType.divider_margin: {

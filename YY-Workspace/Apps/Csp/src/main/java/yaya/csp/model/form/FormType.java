@@ -13,8 +13,10 @@ import java.lang.annotation.RetentionPolicy;
         FormType.text,
         FormType.text_intent,
 
+
         FormType.divider_margin,
         FormType.divider_large,
+        FormType.divider,
 
         FormType.et,
         FormType.et_intent,
@@ -27,6 +29,7 @@ public @interface FormType {
 
     int divider_margin = 10;
     int divider_large = 11;
+    int divider = 12;
 
     int et = 20;
     int et_intent = 21;

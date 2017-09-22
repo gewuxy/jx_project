@@ -12,6 +12,9 @@ import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.yy.BaseApp;
+import yaya.csp.network.NetFactory;
+import yaya.csp.network.NetworkAPISetter;
+import yaya.csp.network.UrlUtil;
 import yaya.csp.util.CacheUtil;
 
 /**
@@ -50,10 +53,10 @@ public class App extends BaseApp {
                 .connectTimeout(KTimeout)
                 .readTimeout(KTimeout)
                 .writeTimeout(KTimeout)
-//                .headersMaker(() -> NetFactory.getBaseHeader())
-//                .timeoutToast(getString(R.string.connect_timeout))
-//                .disconnectToast(getString(R.string.network_disabled))
-//                .cacheDir(CacheUtil.getUploadCacheDir())
+                .headersMaker(() -> NetFactory.getBaseHeader())
+                .timeoutToast(getString(R.string.connect_timeout))
+                .disconnectToast(getString(R.string.network_disabled))
+                .cacheDir(CacheUtil.getUploadCacheDir())
                 .build();
     }
 
@@ -87,8 +90,8 @@ public class App extends BaseApp {
         // log
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
-//        UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
-//        NetworkAPISetter.setDebuggable(BuildConfig.DEBUG_NETWORK);
+        UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
+        NetworkAPISetter.setDebuggable(BuildConfig.DEBUG_NETWORK);
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);

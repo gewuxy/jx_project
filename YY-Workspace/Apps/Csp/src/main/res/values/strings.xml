@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Csp</string>
 
+
+    <!-- 通用 -->
+    <string name="connect_timeout">超时，请检查当前网络</string>
+    <string name="network_disabled">当前网络不可用，请检查网络配置</string>
+
     <!-- 直播 -->
     <string name="online">在线</string>
     <string name="live">直播中</string>
@@ -28,4 +33,10 @@
     <string name="help_and_feedback">帮助与反馈</string>
     <string name="save">保存</string>
     <string name="save_success">保存成功</string>
+    <string name="user_photo_permission">请开启拍照权限</string>
+    <string name="user_album_permission">请开启查看相册权限</string>
+    <string name="take_photo">拍照</string>
+    <string name="from_album_select">从相册选择</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
 </resources>

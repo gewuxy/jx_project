@@ -16,18 +16,17 @@
         android:textColor="@color/text_888"
         android:textSize="16dp"/>
 
-    <View
-        style="@style/divider.form.margin"/>
+    <View style="@style/divider.form.match"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:background="@color/white">
+        android:layout_height="260dp">
 
         <EditText
             android:id="@+id/intro_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:padding="@dimen/share"
             android:gravity="top"
             android:hint="@string/person_intro"

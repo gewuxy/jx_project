@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yaya.csp.R;
 import yaya.csp.model.Profile;
@@ -107,6 +108,7 @@ public class MeActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
+        mTvName.setText(Profile.inst().getString(TProfile.user_name));
         setOnClickListener(R.id.layout_me_header);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
@@ -153,5 +155,15 @@ public class MeActivity extends BaseFormActivity {
 
     @Override
     public void onNotify(int type, Object data) {
+        //修改个人资料
+        if (type == NotifyType.profile_change) {
+            mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
+                    .renderer(new CircleRenderer())
+                    .url(Profile.inst().getString(TProfile.avatar))
+                    .load();
+
+            mTvName.setText(Profile.inst().getString(TProfile.user_name));
+            mTvEmail.setText(Profile.inst().getString(TProfile.email));
+        }
     }
 }
