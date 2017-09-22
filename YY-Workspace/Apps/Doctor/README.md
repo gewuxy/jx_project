@@ -13,3 +13,6 @@
     c = city
     d = district
 
+#### REB 录播
+    re = recoder
+    b = broadcast
