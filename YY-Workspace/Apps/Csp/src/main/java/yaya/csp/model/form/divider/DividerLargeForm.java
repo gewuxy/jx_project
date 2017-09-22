@@ -8,7 +8,7 @@ import yaya.csp.R;
  * @since 2017/7/25
  */
 
-public class DividerLargeForm extends DividerForm {
+public class DividerLargeForm extends DividerMarginForm {
 
     @Override
     public int getContentViewResId() {

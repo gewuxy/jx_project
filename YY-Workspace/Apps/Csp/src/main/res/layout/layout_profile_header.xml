@@ -5,9 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        style="@style/divider.form.match"
-        android:layout_height="18dp"/>
+    <View style="@style/divider.form.large"/>
 
     <RelativeLayout
         android:id="@+id/layout_profile_header"
@@ -19,10 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin"
-            android:text="头像"
+            android:layout_marginLeft="@dimen/share"
+            android:text="@string/avatar"
             android:textColor="@color/text_888"
-            android:textSize="@dimen/margin"/>
+            android:textSize="@dimen/share"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@+id/profile_header_iv_avatar"

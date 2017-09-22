@@ -60,11 +60,17 @@ public class IntentForm extends TextForm {
     protected void onActivityResult(int position, Intent data) {
         switch (mCurrType) {
             case IntentType.name: {
-
+                String name = data.getStringExtra(Extra.KData);
+                save(name, name);
             }
             break;
             case IntentType.intro: {
-
+                String intro = data.getStringExtra(Extra.KData);
+                save(intro, intro);
+            }
+            break;
+            default: {
+                // location不处理
             }
             break;
         }

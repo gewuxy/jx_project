@@ -16,15 +16,13 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/form_tv_name"
             android:gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/margin_large"
             android:orientation="horizontal">
 
             <TextView
                 style="@style/tv.form.text"
                 android:gravity="center|right"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginRight="@dimen/margin"/>
+                android:layout_weight="1"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

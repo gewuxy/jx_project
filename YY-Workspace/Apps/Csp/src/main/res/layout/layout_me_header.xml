@@ -6,8 +6,7 @@
     android:orientation="vertical">
 
     <View
-        style="@style/divider.form.match"
-        android:layout_height="18dp"/>
+        style="@style/divider.form.large"/>
 
     <LinearLayout
         android:id="@+id/layout_me_header"
@@ -20,13 +19,13 @@
             android:id="@+id/me_header_iv"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            android:layout_marginLeft="@dimen/margin"/>
+            android:layout_marginLeft="@dimen/share"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginLeft="@dimen/share"
             android:layout_marginRight="12dp"
             android:orientation="vertical">
 

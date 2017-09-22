@@ -1,14 +1,14 @@
 package yaya.csp.model.form.divider;
 
 import lib.yy.adapter.VH.FormVH;
+import lib.yy.model.form.BaseForm;
 import yaya.csp.R;
 
 /**
- * @auther yuansui
- * @since 2017/7/25
+ * @author CaiXiang
+ * @since 2017/4/7
  */
-
-public class DividerMarginForm extends DividerForm {
+public class DividerMarginForm extends BaseForm {
 
     @Override
     public int getContentViewResId() {
@@ -16,9 +16,21 @@ public class DividerMarginForm extends DividerForm {
     }
 
     @Override
-    protected void init(FormVH holder) {
-        super.init(holder);
-
-        holder.getDividerLayout().setPadding(getPaddingLeft(), 0, getPaddingRight(), 0);
+    public boolean check() {
+        return true;
     }
+
+    @Override
+    protected void init(FormVH holder) {
+        holder.getConvertView().setEnabled(false);
+    }
+
+    @Override
+    protected void refresh(FormVH holder) {
+        int background = getBgColor();
+        if (background >= 0) {
+            holder.getDivider().setBackgroundColor(background);
+        }
+    }
+
 }

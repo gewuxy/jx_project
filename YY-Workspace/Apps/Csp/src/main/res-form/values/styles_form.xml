@@ -9,16 +9,18 @@
         <item name="android:background">@drawable/item_csp_selector</item>
     </style>
 
-    <style name="divider.main">
-        <item name="android:background">@color/csp_divider</item>
-    </style>
-
     <style name="divider.form">
         <item name="android:id">@id/form_divider</item>
+        <item name="android:background">@color/csp_divider</item>
     </style>
 
-    <style name="divider.form.match">
-        <item name="android:background">@color/csp_divider</item>
+    <style name="divider.form.margin">
+        <item name="android:layout_marginRight">@dimen/share</item>
+        <item name="android:layout_marginLeft">@dimen/share</item>
+    </style>
+
+    <style name="divider.form.large">
+        <item name="android:layout_height">@dimen/margin_large</item>
     </style>
 
     <style name="iv.arrow">
@@ -33,21 +35,7 @@
     <style name="iv.arrow.align_right">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_gravity">right|center_vertical</item>
-        <item name="android:layout_marginRight">@dimen/margin</item>
-    </style>
-
-    <style name="iv.form"></style>
-
-    <style name="iv.form.clean">
-        <item name="android:id">@id/form_iv_clean</item>
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">24dp</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
-    <style name="iv.form.clean.right">
-        <item name="android:layout_marginRight">@dimen/margin</item>
+        <item name="android:layout_marginRight">@dimen/share</item>
     </style>
 
     <style name="tv.form">
@@ -55,14 +43,15 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/margin</item>
+        <item name="android:textSize">@dimen/share</item>
         <item name="android:textColor">@color/text_333</item>
+        <item name="android:layout_marginRight">@dimen/share</item>
+        <item name="android:layout_marginLeft">@dimen/share</item>
     </style>
 
     <style name="tv.form.name">
         <item name="android:id">@id/form_tv_name</item>
         <item name="android:textColor">@color/text_888</item>
-        <item name="android:layout_marginLeft">@dimen/margin</item>
         <item name="android:layout_weight">0</item>
     </style>
 

@@ -15,16 +15,14 @@ public class UrlUtil {
 
     private static void init() {
         if (mIsDebug) {
-
-            mBaseHost = "59.111.90.245:8084/api/";//礼平电脑
-            mHostName = "http://" + mBaseHost;
+            mHostName = "http://59.111.90.245:8084/api/";
         } else {
             // 正式线
             mBaseHost = "app.medyaya.cn/";
             mHostName = "https://" + mBaseHost;
         }
 
-        mBase = mHostName + "api/";
+        mBase = mHostName;
         mBaseHost += "api/";
     }
 
@@ -33,16 +31,8 @@ public class UrlUtil {
         init();
     }
 
-    public static String getHostName() {
-        return mHostName;
-    }
-
     public static String getBaseUrl() {
         return mBase;
-    }
-
-    public static String getBaseHost() {
-        return mBaseHost;
     }
 
     public interface UrlUser {

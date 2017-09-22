@@ -24,7 +24,7 @@
                 android:gravity="center|right"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_marginRight="@dimen/margin"/>
+                android:layout_marginRight="@dimen/share"/>
 
             <ImageView
                 style="@style/iv.arrow.align_right"/>

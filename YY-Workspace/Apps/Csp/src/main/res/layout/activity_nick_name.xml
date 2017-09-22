@@ -6,9 +6,7 @@
     android:orientation="vertical"
     android:background="@color/app_bg">
 
-    <View
-        style="@style/divider.form.match"
-        android:layout_height="18dp"/>
+    <View style="@style/divider.form.large"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/form_ic_account"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
+            android:layout_marginLeft="@dimen/share"
+            android:layout_marginRight="@dimen/share"
             android:layout_gravity="center"/>
         
         <EditText
@@ -31,7 +29,7 @@
             android:text=""
             android:textSize="16dp"
             android:textColor="@color/text_333"
-            android:hint="输入昵称"
+            android:hint="@string/input_nick_name"
             android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

@@ -5,23 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        style="@style/divider.form.match"
-        android:layout_height="18dp"/>
+    <View style="@style/divider.form.large"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin"
+        android:padding="@dimen/share"
         android:background="@color/white"
-        android:text="简介"
+        android:text="@string/intro"
         android:textColor="@color/text_888"
         android:textSize="16dp"/>
 
     <View
-        style="@style/divider.form.match"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"/>
+        style="@style/divider.form.margin"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,10 +27,10 @@
         <EditText
             android:id="@+id/intro_et"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin"
+            android:layout_height="match_parent"
+            android:padding="@dimen/share"
             android:gravity="top"
-            android:hint="个人简介"
+            android:hint="@string/person_intro"
             android:maxLength="600"
             android:scrollbars="vertical"
             android:textColor="@color/text_333"
@@ -52,11 +48,11 @@
             android:id="@+id/intro_tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:text="600"
+            android:layout_marginBottom="@dimen/share"
+            android:layout_marginRight="@dimen/share"
+            android:text="@string/intro_unit"
             android:textColor="@color/text_AF"
-            android:textSize="@dimen/margin"/>
+            android:textSize="@dimen/share"/>
     </LinearLayout>
 
 

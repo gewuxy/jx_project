@@ -11,4 +11,21 @@
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
+    
+    <!-- 个人中心 -->
+    <string name="my_message">我的信息</string>
+    <string name="person_center">个人中心</string>
+    <string name="intro">简介</string>
+    <string name="person_intro">个人简介</string>
+    <string name="intro_unit">%1$d</string>
+    <string name="nick_name">昵称</string>
+    <string name="input_nick_name">输入昵称</string>
+    <string name="avatar">头像</string>
+    <string name="history">投稿历史</string>
+    <string name="flow_manage">流量管理</string>
+    <string name="account_manage">账号管理</string>
+    <string name="setting">设置</string>
+    <string name="help_and_feedback">帮助与反馈</string>
+    <string name="save">保存</string>
+    <string name="save_success">保存成功</string>
 </resources>

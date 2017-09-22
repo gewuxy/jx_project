@@ -53,47 +53,40 @@ public class MeActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        int paddingLeft = fitDp(16);
-        int paddingRight = fitDp(16);
-
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_history)
-                .name("投稿历史")
+                .name(R.string.history)
                 .related(RelatedId.history));
 
-        addItem(Form.create(FormType.divider)
-                .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_flow)
-                .name("流量管理")
+                .name(R.string.flow_manage)
                 .related(RelatedId.flow));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_account)
-                .name("账号管理")
+                .name(R.string.account_manage)
                 .related(RelatedId.account));
 
-        addItem(Form.create(FormType.divider_margin)
-                .paddingLeft(paddingLeft)
-                .paddingRight(paddingRight));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_setting)
-                .name("设置")
+                .name(R.string.setting)
                 .related(RelatedId.setting));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_help_and_feedback)
-                .name("帮助与反馈")
+                .name(R.string.help_and_feedback)
                 .related(RelatedId.help_and_feedback));
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "个人中心", this);
+        Util.addBackIcon(bar, R.string.person_center, this);
     }
 
     @Override
@@ -123,7 +116,6 @@ public class MeActivity extends BaseFormActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.layout_me_header: {
                 startActivity(ProfileActivity.class);
@@ -134,7 +126,6 @@ public class MeActivity extends BaseFormActivity {
 
     @Override
     protected void onFormItemClick(View v, int position) {
-        super.onFormItemClick(v, position);
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.history: {
@@ -162,6 +153,5 @@ public class MeActivity extends BaseFormActivity {
 
     @Override
     public void onNotify(int type, Object data) {
-        super.onNotify(type, data);
     }
 }

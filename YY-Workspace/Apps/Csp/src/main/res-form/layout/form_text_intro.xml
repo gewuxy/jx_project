@@ -12,20 +12,16 @@
             style="@style/tv.form.name"/>
     </RelativeLayout>
 
-    <View style="@style/divider.form.match"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginLeft="@dimen/margin"/>
+    <View style="@style/divider.form.margin"/>
 
     <TextView
         style="@style/tv.form.text"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
+        android:layout_marginBottom="70dp"
         android:gravity="top"
         android:singleLine="false"
         android:ellipsize="none"
         android:hint="个人简介"
-        android:paddingTop="@dimen/margin"/>
+        android:paddingTop="@dimen/share"/>
 
 
 </LinearLayout>
