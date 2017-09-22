@@ -2,12 +2,16 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
-    <com.zego.livedemo5.ui.widgets.ViewLive
+    <TextureView
         android:id="@+id/live_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@+id/live_iv_live"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/live_iv_live"/>
 
     <ImageView
         android:id="@+id/live_iv_back"
@@ -27,10 +31,25 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:gravity="center"
-        android:text="70'00"
+        android:text="70'00''"
         android:textColor="#FFFFFF"
         android:textSize="14dp"
         android:background="@drawable/bg_tv_live"/>
+
+    <TextView
+        android:layout_width="204dp"
+        android:layout_height="26dp"
+        android:layout_toRightOf="@+id/live_tv_time"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
+        android:drawableLeft="@drawable/ic_default_i"
+        android:drawablePadding="6dp"
+        android:paddingLeft="12dp"
+        android:background="@drawable/bg_tv_live_time_remind"
+        android:gravity="center_vertical"
+        android:text="@string/live_stop_remind"
+        android:textSize="12dp"
+        android:textColor="@color/white"/>
 
     <ImageView
         android:id="@+id/live_iv_silence"
@@ -39,7 +58,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/live_iv_back"
         android:layout_marginRight="8dp"
-        android:background="@drawable/live_silence_selector"/>
+        android:background="@drawable/selector_live_silence"/>
 
     <ImageView
         android:id="@+id/live_iv_switch_camera"
@@ -73,7 +92,7 @@
             android:layout_toRightOf="@+id/live_tv_online_num"
             android:layout_alignBottom="@+id/live_tv_online_num"
             android:layout_marginBottom="2dp"
-            android:text="在线"
+            android:text="@string/online"
             android:textColor="#fff"
             android:textSize="8dp"/>
 
@@ -81,22 +100,27 @@
 
     <RelativeLayout
         android:layout_width="66dp"
-        android:layout_height="32dp"
-        android:layout_alignTop="@+id/live_iv_switch_camera"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bg_tv_live"
-        android:gravity="center">
+        android:background="@drawable/bg_tv_live">
 
         <ImageView
             android:id="@+id/live_iv_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_live_state_dot"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/live_iv_state"
-            android:text="直播中"
+            android:layout_marginLeft="3dp"
+            android:layout_centerVertical="true"
+            android:text="@string/no_start"
             android:textColor="#fff"
             android:textSize="12dp"/>
 
@@ -110,6 +134,33 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="9dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/live_state_selector"/>
+        android:background="@drawable/selector_live_state"/>
+
+    <TextView
+        android:id="@+id/live_tv_start"
+        android:layout_width="90dp"
+        android:layout_height="86dp"
+        android:background="@color/white_diaphaneity_sixty"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:drawableTop="@drawable/live_ic_start_live"
+        android:paddingTop="25dp"
+        android:text="@string/click_start_live"
+        android:textSize="10dp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/live_tv_no_camera_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@drawable/live_ic_no_camera_permission"
+        android:drawablePadding="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/no_camera_permission"
+        android:textSize="12dp"
+        android:textColor="@color/text_9b"
+        android:lineSpacingExtra="6dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

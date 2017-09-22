@@ -1,16 +1,16 @@
-package lib.voiceline;
+package yaya.csp.util;
 
 import java.math.BigDecimal;
 
 /**
  * Created by carlos on 2016/4/5.
  */
-public class Arith{
+public class ArithUtil {
 
     //默认除法运算精度
     private static final int DEF_DIV_SCALE = 10;
     //这个类不能实例化
-    private Arith(){
+    private ArithUtil(){
     }
 
     /**

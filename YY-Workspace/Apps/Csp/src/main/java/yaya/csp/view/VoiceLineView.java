@@ -1,4 +1,4 @@
-package lib.voiceline;
+package yaya.csp.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,6 +13,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import yaya.csp.R;
 
 /**
  * Created by carlos on 2016/1/29.

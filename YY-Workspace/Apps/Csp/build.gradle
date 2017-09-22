@@ -104,19 +104,16 @@ android {
         flavors_debug {
             manifestPlaceholders = [
                     app_name: "CSP(B)",
-                    app_icon: "ic_launcher",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
                     app_name: "CSP(A)",
-                    app_icon: "ic_launcher",
             ]
         }
         flavors_release {
             manifestPlaceholders = [
                     app_name: "CSP",
-                    app_icon: "ic_launcher",
             ]
         }
     }
@@ -159,7 +156,7 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibPay')
     implementation project(':YY-Workspace:Libs:LibJG')
     implementation project(':YY-Workspace:Libs:LibWX')
-    implementation project(':YY-Workspace:Libs:LibVoiceLine')
+    implementation project(':YY-Workspace:Libs:LibZEGO')
     /**
      * other
      */
@@ -170,5 +167,4 @@ dependencies {
     //    debugCompile deps.debug.leakcanary
     //    releaseCompile deps.release.leakcanary
     annotationProcessor project(deps.ys.compiler)
-    implementation project(':YY-Workspace:Libs:LibZEGO')
 }

@@ -5,23 +5,16 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.text.InputType;
 import android.text.method.NumberKeyListener;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
-import lib.ys.fitter.LayoutFitter;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeUtil;
 import lib.ys.util.res.ResLoader;
-import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.Constants.MeetStateText;
 import yy.doctor.R;
@@ -36,8 +29,6 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.model.unitnum.File;
-import yy.doctor.model.unitnum.File.TFile;
 import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
 import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
@@ -80,67 +71,6 @@ public class UISetter {
 
         tv.setText(text);
         tv.setTextColor(ResLoader.getColor(color));
-    }
-
-    /**
-     * 设置资料
-     *
-     * @param layout
-     * @param listFile
-     * @param id
-     */
-    public static void setFileData(LinearLayout layout, List<File> listFile, int id) {
-        String fileName;
-        String fileUrl;
-        String fileType;
-        for (int i = 0; i < listFile.size(); i++) {
-            File fileItem = listFile.get(i);
-
-            long fileSize = fileItem.getLong(TFile.fileSize);
-            fileName = fileItem.getString(TFile.materialName);
-            String fileId = fileItem.getString(TFile.id);
-            if (TextUtil.isEmpty(fileName)) {
-                fileName = fileItem.getString(TFile.name);
-                fileUrl = fileItem.getString(TFile.fileUrl);
-                fileType = fileItem.getString(TFile.fileType);
-            } else {
-                fileUrl = fileItem.getString(TFile.materialUrl);
-                fileType = fileItem.getString(TFile.materialType);
-            }
-
-            String finalFileName = fileName;
-            String finalFileUrl = fileUrl;
-            String finalFileSuffix = fileType;
-
-            addFileItem(layout, fileName, v ->
-                    DownloadFileActivityRouter.create()
-                            .filePath(CacheUtil.getUnitNumCacheDir(String.valueOf(id)))
-                            .fileName(finalFileName)
-                            .url(finalFileUrl)
-                            .fileSuffix(finalFileSuffix)
-                            .dataType(DataType.un_know)
-                            .fileSize(fileSize)
-                            .dataFileId(fileId)
-                            .route(v.getContext()));
-        }
-
-    }
-
-    /**
-     * 添加文件item
-     *
-     * @param text
-     * @param l
-     */
-    public static void addFileItem(LinearLayout layout, CharSequence text, OnClickListener l) {
-
-        View v = LayoutInflater.from(layout.getContext()).inflate(R.layout.layout_unit_num_detail_file_item, null);
-        TextView tv = (TextView) v.findViewById(R.id.unit_num_detail_file_item_tv_name);
-        tv.setText(text);
-        v.setOnClickListener(l);
-
-        LayoutFitter.fit(v);
-        layout.addView(v, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
     }
 
     /**
@@ -341,6 +271,7 @@ public class UISetter {
 
     /**
      * NavBar中间文字设置 文字太长时的设置方法
+     *
      * @param bar
      * @param fileName
      * @param act

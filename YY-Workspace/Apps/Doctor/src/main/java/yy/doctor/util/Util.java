@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,13 +23,17 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectionUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
 import lib.yy.util.BaseUtil;
 import yy.doctor.App;
+import yy.doctor.Extra.FileFrom;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.model.unitnum.File;
+import yy.doctor.model.unitnum.File.TFile;
 import yy.doctor.network.NetFactory.MeetParam;
+import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
+import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
  * @author CaiXiang
@@ -143,5 +146,45 @@ public class Util extends BaseUtil {
                 act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)) // 设置回默认值
                 .delay(1000, TimeUnit.MILLISECONDS)
                 .subscribe(Runnable::run);
+    }
+
+    /**
+     * 打开文件
+     */
+    public static void openFile(File file, @FileFrom int fromType, String cacheName) {
+        long size = file.getLong(TFile.fileSize);
+        String id = file.getString(TFile.id);
+        String name;
+        String url;
+        String path;
+        String fileType;
+        if (fromType == FileFrom.unit_num) {
+            path = CacheUtil.getUnitNumCacheDir(cacheName);
+            name = file.getString(TFile.materialName);
+            url = file.getString(TFile.materialUrl);
+            fileType = file.getString(TFile.materialType);
+        } else {
+            path = CacheUtil.getMeetingCacheDir(cacheName);
+            name = file.getString(TFile.name);
+            url = file.getString(TFile.fileUrl);
+            fileType = file.getString(TFile.fileType);
+        }
+        if (true) {
+            DownloadFileActivityRouter.create()
+                    .filePath(path)
+                    .fileName(name)
+                    .url(url)
+                    .fileSuffix(fileType)
+                    .fileSize(size)
+                    .dataFileId(id)
+                    .dataType(DataType.un_know)
+                    .route(App.getContext());
+        } else {
+            // FIXME: html5
+//            CommonWebViewActivityRouter.create(file.getString(TDataUnit.title), file.getString(TDataUnit.htmlPath))
+//                    .id(file.getString(TDataUnit.id))
+//                    .fromType(fromType)
+//                    .route(v.getContext());
+        }
     }
 }
