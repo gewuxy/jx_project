@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="v.form">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/form_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/item_csp_selector</item>
+    </style>
+
+    <style name="divider.main">
+        <item name="android:background">@color/csp_divider</item>
+    </style>
+
+    <style name="divider.form">
+        <item name="android:id">@id/form_divider</item>
+    </style>
+
+    <style name="divider.form.match">
+        <item name="android:background">@color/csp_divider</item>
+    </style>
+
+    <style name="iv.arrow">
+        <item name="android:id">@id/form_iv_arrow</item>
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:src">@drawable/form_ic_arrow_right</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="iv.arrow.align_right">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+    </style>
+
+    <style name="iv.form"></style>
+
+    <style name="iv.form.clean">
+        <item name="android:id">@id/form_iv_clean</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="iv.form.clean.right">
+        <item name="android:layout_marginRight">@dimen/margin</item>
+    </style>
+
+    <style name="tv.form">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/margin</item>
+        <item name="android:textColor">@color/text_333</item>
+    </style>
+
+    <style name="tv.form.name">
+        <item name="android:id">@id/form_tv_name</item>
+        <item name="android:textColor">@color/text_888</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_weight">0</item>
+    </style>
+
+    <style name="tv.form.text">
+        <item name="android:id">@id/form_tv_text</item>
+        <item name="android:textColorHint">@color/text_b3</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+</resources>

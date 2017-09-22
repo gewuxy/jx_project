@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin">16dp</dimen>
+    <dimen name="margin_large">18dp</dimen>
+    <dimen name="radius">3dp</dimen>
+
+    <dimen name="form_height">52dp</dimen>
+
+</resources>

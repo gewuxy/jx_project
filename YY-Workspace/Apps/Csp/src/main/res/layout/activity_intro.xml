@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        style="@style/divider.form.match"
+        android:layout_height="18dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin"
+        android:background="@color/white"
+        android:text="简介"
+        android:textColor="@color/text_888"
+        android:textSize="16dp"/>
+
+    <View
+        style="@style/divider.form.match"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/intro_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin"
+            android:gravity="top"
+            android:hint="个人简介"
+            android:maxLength="600"
+            android:scrollbars="vertical"
+            android:textColor="@color/text_333"
+            android:textSize="16dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/intro_tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:text="600"
+            android:textColor="@color/text_AF"
+            android:textSize="@dimen/margin"/>
+    </LinearLayout>
+
+
+</LinearLayout>

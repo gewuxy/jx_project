@@ -37,7 +37,7 @@ public class App extends BaseApp {
     @Override
     protected AppConfig configureApp() {
         return AppConfig.newBuilder()
-//                .bgColorRes(R.color.app_bg)
+                .bgColorRes(R.color.app_bg)
                 .enableFlatBar(false)
                 .initRefreshWay(RefreshWay.embed)
                 .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
@@ -61,15 +61,15 @@ public class App extends BaseApp {
     protected NavBarConfig configureNavBar() {
         return NavBarConfig.newBuilder()
                 .heightDp(NavBarVal.KHeightDp)
-//                .bgColorRes(R.color.app_nav_bar_bg)
+                .bgColorRes(R.color.app_nav_bar_bg)
                 .iconPaddingHorizontalDp(NavBarVal.KIconPaddingHorizontalDp)
                 .iconSizeDp(NavBarVal.KIconSizeDp)
-//                .textColorRes(R.color.nav_bar_text_selector)
+                .textColorRes(R.color.nav_bar_text_selector)
                 .textMarginHorizontalDp(NavBarVal.KTextMarginHorizontalDp)
                 .textSizeLeftDp(NavBarVal.KLeftTextSizeDp)
                 .textSizeMidDp(NavBarVal.KMidTextSizeDp)
                 .textSizeRightDp(NavBarVal.KRightTextSizeDp)
-//                .focusBgDrawableRes(R.drawable.nav_bar_selector)
+                .focusBgDrawableRes(R.drawable.nav_bar_selector)
                 .build();
     }
 

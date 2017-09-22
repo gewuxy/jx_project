@@ -140,6 +140,10 @@ android {
         }
     }
 
+    sourceSets {
+        main.res.srcDirs += 'src/main/res-form'
+    }
+
     lintOptions {
         abortOnError configs.abortOnError
     }

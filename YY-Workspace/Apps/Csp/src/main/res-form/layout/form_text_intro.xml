@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_csp_selector"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        style="@style/v.form">
+        <TextView
+            style="@style/tv.form.name"/>
+    </RelativeLayout>
+
+    <View style="@style/divider.form.match"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginLeft="@dimen/margin"/>
+
+    <TextView
+        style="@style/tv.form.text"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:gravity="top"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:hint="个人简介"
+        android:paddingTop="@dimen/margin"/>
+
+
+</LinearLayout>
