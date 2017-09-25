@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/v.form"
+        android:background="@drawable/white">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@id/form_iv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="@dimen/share"
+            android:layout_marginRight="@dimen/share"/>
+
+        <EditText
+            style="@style/et.common"
+            android:id="@id/form_et"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:singleLine="true"/>
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@id/form_iv"
+            android:padding="9dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/share"/>
+
+    </LinearLayout>
+
+</LinearLayout>

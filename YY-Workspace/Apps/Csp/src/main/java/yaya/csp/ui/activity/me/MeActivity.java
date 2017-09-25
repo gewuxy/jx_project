@@ -143,7 +143,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.setting: {
-
+                startActivity(SettingsActivity.class);
             }
             break;
             case RelatedId.help_and_feedback: {

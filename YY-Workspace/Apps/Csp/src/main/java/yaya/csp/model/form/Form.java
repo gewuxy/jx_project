@@ -4,6 +4,8 @@ import lib.yy.model.form.BaseForm;
 import yaya.csp.model.form.divider.DividerForm;
 import yaya.csp.model.form.divider.DividerLargeForm;
 import yaya.csp.model.form.divider.DividerMarginForm;
+import yaya.csp.model.form.edit.EditForm;
+import yaya.csp.model.form.edit.EditPwdForm;
 import yaya.csp.model.form.text.IntentForm;
 import yaya.csp.model.form.text.MeForm;
 import yaya.csp.model.form.text.TextForm;
@@ -44,6 +46,14 @@ public class Form {
             break;
             case FormType.divider_large: {
                 form = new DividerLargeForm();
+            }
+            break;
+            case FormType.et: {
+                form = new EditForm();
+            }
+            break;
+            case FormType.et_pwd: {
+                form = new EditPwdForm();
             }
             break;
         }

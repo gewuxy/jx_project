@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <include layout="@layout/layout_form_items"/>
+
+        <TextView
+            android:id="@+id/base_set_tv_set"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/form_height_common"
+            android:layout_marginLeft="@dimen/form_margin_left"
+            android:layout_marginRight="@dimen/form_margin_right"
+            android:layout_marginTop="@dimen/form_height_common"
+            android:background="@drawable/btn_selector_blue"
+            android:gravity="center"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
+</LinearLayout>

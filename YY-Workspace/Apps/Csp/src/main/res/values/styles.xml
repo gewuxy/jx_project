@@ -1,3 +1,24 @@
 <resources>
 
+    <!-- 普通按钮样式 -->
+    <style name="tv.common">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/form_height_common</item>
+        <item name="android:background">@drawable/btn_selector_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- 普通输入框样式 -->
+    <style name="et.common">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/form_height_common</item>
+        <item name="android:paddingLeft">@dimen/share</item>
+        <item name="android:background">@drawable/white</item>
+        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColorHint">@color/text_AF</item>
+    </style>
+
 </resources>

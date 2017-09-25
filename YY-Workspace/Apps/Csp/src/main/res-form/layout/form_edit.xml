@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/v.form">
+
+        <TextView
+            style="@style/tv.form.name"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                style="@style/et.form"
+                android:layout_marginRight="9dp"
+                android:gravity="right"/>
+
+            <lib.ys.network.image.NetworkImageView
+                android:id="@id/form_iv"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/share"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

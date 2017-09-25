@@ -19,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
         FormType.divider,
 
         FormType.et,
-        FormType.et_intent,
+        FormType.et_pwd,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -32,5 +32,5 @@ public @interface FormType {
     int divider = 12;
 
     int et = 20;
-    int et_intent = 21;
+    int et_pwd = 21;
 }

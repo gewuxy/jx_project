@@ -29,7 +29,6 @@
     <string name="history">投稿历史</string>
     <string name="flow_manage">流量管理</string>
     <string name="account_manage">账号管理</string>
-    <string name="setting">设置</string>
     <string name="help_and_feedback">帮助与反馈</string>
     <string name="save">保存</string>
     <string name="save_success">保存成功</string>
@@ -37,6 +36,17 @@
     <string name="user_album_permission">请开启查看相册权限</string>
     <string name="take_photo">拍照</string>
     <string name="from_album_select">从相册选择</string>
-    <string name="cancel">取消</string>
     <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+
+    <!-- 设置 -->
+    <string name="setting">设置</string>
+    <string name="change_pwd">修改密码</string>
+    <string name="confirm_change">确认修改</string>
+    <string name="old_pwd">输入旧密码</string>
+    <string name="new_pwd">输入新密码</string>
+    <string name="change_pwd_succeed">密码修改成功</string>
+    <string name="clear_img_cache">清理图片缓存</string>
+    <string name="clear_sound_cache">清理音频缓存</string>
+    <string name="exit_account">退出登录</string>
 </resources>

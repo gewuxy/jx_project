@@ -57,7 +57,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
 
     @Override
     public void setViews() {
-        mTV.setTextColor(ResLoader.getColor(R.color.text_167AFE));
+        mTV.setTextColor(ResLoader.getColor(R.color.text_167afe));
         getEt().setText(getVal());
         getEt().setSelection(getEt().getText().length());
     }

@@ -39,6 +39,9 @@
         <activity
             android:name=".ui.activity.me.MeActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.SettingsActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.activity.me.profile.ProfileActivity"

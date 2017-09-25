@@ -11,15 +11,19 @@ public class CacheUtil extends CacheUtilEx {
 
     private static final String KBmpCacheDef = KHomeDir + "cache/bmp/";
     private static final String KUploadCacheDef = KHomeDir + "upload/tmp/";
+    private static final String KDownloadCacheDef = KHomeDir + "cache/download/";
+    private static final String KMeetingCacheDef = KDownloadCacheDef + "meeting/";
 
     private static String mBmpCacheDir;
     private static String mUploadCacheDir;
+    private static String mMeetingCacheDir;
 
     static {
         init(KHomeDir);
 
         mBmpCacheDir = makeDir(KBmpCacheDef);
         mUploadCacheDir = makeDir(KUploadCacheDef);
+        mMeetingCacheDir = makeDir(KMeetingCacheDef);
     }
 
     public static String getBmpCacheDir() {
@@ -29,4 +33,9 @@ public class CacheUtil extends CacheUtilEx {
     public static String getUploadCacheDir() {
         return mUploadCacheDir;
     }
+
+    public static String getMeetingSoundCacheDir() {
+        return mMeetingCacheDir;
+    }
+
 }

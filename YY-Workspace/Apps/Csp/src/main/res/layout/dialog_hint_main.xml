@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="300dp"
+        android:layout_height="146dp"
+        app:corner_radius="3dp"
+        app:corner_useStroke="false">
+
+        <LinearLayout
+            android:id="@+id/dialog_layout_hint"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_main_tv_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/share"
+                android:layout_marginRight="@dimen/share"
+                android:text="确定退出当前账号吗？"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/share"
+                android:textColor="@color/text_333"
+                android:textSize="19dp"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/divider"
+            android:layout_above="@+id/dialog_layout_button"/>
+
+        <LinearLayout
+            android:id="@id/dialog_layout_button"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"/>
+
+    </lib.ys.view.CornerView>
+</LinearLayout>

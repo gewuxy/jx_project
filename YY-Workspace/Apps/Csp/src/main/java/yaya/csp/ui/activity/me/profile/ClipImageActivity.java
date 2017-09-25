@@ -87,7 +87,7 @@ public class ClipImageActivity extends BaseActivity {
     public void setViews() {
         setBackgroundColor(Color.BLACK);
         mPv.storage(mPath).load();
-        mTV.setTextColor(ResLoader.getColor(R.color.text_167AFE));
+        mTV.setTextColor(ResLoader.getColor(R.color.text_167afe));
     }
 
     public static void recycleBmp() {
