@@ -8,10 +8,7 @@
     <TextureView
         android:id="@+id/live_texture_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignEnd="@+id/live_iv_live"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/live_iv_live"/>
+        android:layout_height="match_parent"/>
 
     <ImageView
         android:id="@+id/live_iv_back"
@@ -37,6 +34,7 @@
         android:textSize="14dp"/>
 
     <TextView
+        android:id="@+id/live_tv_remaining_time"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_marginLeft="16dp"
@@ -117,6 +115,7 @@
             android:background="@drawable/selector_live_state_dot"/>
 
         <TextView
+            android:id="@+id/live_tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

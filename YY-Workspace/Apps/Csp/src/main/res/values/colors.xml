@@ -42,4 +42,8 @@
     <color name="text_167afe">#167afe</color>
     <color name="text_66167afe">#66167afe</color>
     <color name="text_0682e6">#0682e6</color>
+
+    <!-- 其他颜色 -->
+    <color name="color_db">#dbdbdb</color>
+
 </resources>
