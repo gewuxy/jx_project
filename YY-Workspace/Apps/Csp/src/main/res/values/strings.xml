@@ -5,6 +5,10 @@
     <!-- 通用 -->
     <string name="connect_timeout">超时，请检查当前网络</string>
     <string name="network_disabled">当前网络不可用，请检查网络配置</string>
+    <string name="user_photo_permission">请开启拍照权限</string>
+    <string name="user_album_permission">请开启查看相册权限</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
 
     <!-- 直播 -->
     <string name="online">在线</string>
@@ -16,37 +20,47 @@
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
-    
+
     <!-- 个人中心 -->
-    <string name="my_message">我的信息</string>
     <string name="person_center">个人中心</string>
-    <string name="intro">简介</string>
-    <string name="person_intro">个人简介</string>
-    <string name="intro_unit">%1$d</string>
-    <string name="nick_name">昵称</string>
-    <string name="input_nick_name">输入昵称</string>
-    <string name="avatar">头像</string>
-    <string name="history">投稿历史</string>
-    <string name="flow_manage">流量管理</string>
-    <string name="account_manage">账号管理</string>
-    <string name="help_and_feedback">帮助与反馈</string>
-    <string name="save">保存</string>
-    <string name="save_success">保存成功</string>
-    <string name="user_photo_permission">请开启拍照权限</string>
-    <string name="user_album_permission">请开启查看相册权限</string>
-    <string name="take_photo">拍照</string>
-    <string name="from_album_select">从相册选择</string>
-    <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
+    <string name="person_center_avatar">头像</string>
+    <string name="person_center_history">投稿历史</string>
+    <string name="person_center_flow_manage">流量管理</string>
+    <string name="person_center_account_manage">账号管理</string>
+    <string name="person_center_help_and_feedback">帮助与反馈</string>
+
+    <!-- 我的信息 -->
+    <string name="my_message">我的信息</string>
+    <string name="my_message_intro">简介</string>
+    <string name="my_message_person_intro">个人简介</string>
+    <string name="my_message_intro_unit">%1$d</string>
+    <string name="my_message_nick_name">昵称</string>
+    <string name="my_message_input_nick_name">输入昵称</string>
+    <string name="my_message_save">保存</string>
+    <string name="my_message_save_success">保存成功</string>
+    <string name="my_message_take_photo">拍照</string>
+    <string name="my_message_from_album_select">从相册选择</string>
 
     <!-- 设置 -->
     <string name="setting">设置</string>
-    <string name="change_pwd">修改密码</string>
-    <string name="confirm_change">确认修改</string>
-    <string name="old_pwd">输入旧密码</string>
-    <string name="new_pwd">输入新密码</string>
-    <string name="change_pwd_succeed">密码修改成功</string>
-    <string name="clear_img_cache">清理图片缓存</string>
-    <string name="clear_sound_cache">清理音频缓存</string>
-    <string name="exit_account">退出登录</string>
+    <string name="setting_clear_img_cache">清理图片缓存</string>
+    <string name="setting_clear_sound_cache">清理音频缓存</string>
+    <string name="setting_clear">清除</string>
+    <string name="setting_exit_current_account">确定退出当前账号</string>
+    <string name="setting_exit_account">退出登录</string>
+    <string name="setting_exit">退出</string>
+    <!-- 设置 修改密码-->
+    <string name="setting_change_pwd">修改密码</string>
+    <string name="setting_confirm_change">确认修改</string>
+    <string name="setting_old_pwd">输入旧密码</string>
+    <string name="setting_new_pwd">输入新密码</string>
+    <string name="setting_change_pwd_succeed">密码修改成功</string>
+    <!-- 设置 绑定邮箱-->
+    <string name="setting_bind_email">绑定邮箱</string>
+    <string name="setting_input_email_address">输入邮箱地址</string>
+    <string name="setting_change_email_address">更换邮箱地址</string>
+    <string name="setting_certification_email">认证邮箱</string>
+    <string name="setting_bind_email_succeed">发送成功</string>
+    <string name="setting_bind_text">修改密码需绑定邮箱后才能继续操作</string>
+    <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
 </resources>

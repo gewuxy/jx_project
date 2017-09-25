@@ -9,6 +9,8 @@ import yaya.csp.Extra;
 import yaya.csp.R;
 
 /**
+ * 昵称
+ *
  * @auther Huoxuyu
  * @since 2017/9/21
  */

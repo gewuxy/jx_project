@@ -11,6 +11,8 @@ import lib.ys.util.TextUtil;
 import yaya.csp.R;
 
 /**
+ * 个人简介
+ *
  * @auther Huoxuyu
  * @since 2017/9/21
  */
@@ -34,7 +36,6 @@ public class IntroActivity extends BaseMyMessageActivity{
 
     @Override
     public void findViews() {
-        super.findViews();
         mEt = findView(R.id.intro_et);
         mTv = findView(R.id.intro_tv_num);
     }
@@ -72,7 +73,7 @@ public class IntroActivity extends BaseMyMessageActivity{
         if (length > KTextLength) {
             length = 0;
         }
-        mTv.setText(String.format(getString(R.string.intro_unit), length));
+        mTv.setText(String.format(getString(R.string.my_message_intro_unit), length));
     }
 
     @Override

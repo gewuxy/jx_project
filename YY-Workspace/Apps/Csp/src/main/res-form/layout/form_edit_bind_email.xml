@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/v.form"
+        android:background="@drawable/white">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/text_af"
+            android:src="@drawable/form_ic_bind_email"
+            android:layout_marginLeft="@dimen/share"
+            android:layout_marginRight="@dimen/share"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <yaya.csp.view.AutoCompleteEditText
+                android:id="@id/form_et"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/share"
+                android:textColor="@color/text_333"
+                android:textColorHint="@color/text_af"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

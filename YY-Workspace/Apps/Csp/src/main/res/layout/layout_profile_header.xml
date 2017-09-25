@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/share"
-            android:text="@string/avatar"
+            android:text="@string/person_center_avatar"
             android:textColor="@color/text_888"
             android:textSize="@dimen/share"/>
 

@@ -30,7 +30,7 @@
             android:text=""
             android:textSize="16dp"
             android:textColor="@color/text_333"
-            android:hint="@string/input_nick_name"
+            android:hint="@string/my_message_input_nick_name"
             android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

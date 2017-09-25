@@ -123,16 +123,16 @@ public class HintDialog extends BaseDialog {
     }
 
     /**
-     * 按钮颜色为0682e6
+     * 按钮颜色为167afe
      */
     public void addBlueButton(@StringRes int strRes) {
         addButton(getContext().getString(strRes), R.color.text_167afe, null);
     }
 
     /**
-     * 按钮颜色为0682e6
+     * 按钮颜色为333333
      */
-    public void addBlueButton(String text, OnClickListener l) {
+    public void addBlackButton(String text, OnClickListener l) {
         addButton(text, R.color.text_333, l);
     }
 

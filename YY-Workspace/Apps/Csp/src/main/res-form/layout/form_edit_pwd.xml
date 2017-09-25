@@ -8,13 +8,6 @@
         style="@style/v.form"
         android:background="@drawable/white">
 
-        <lib.ys.network.image.NetworkImageView
-            android:id="@id/form_iv"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="@dimen/share"
-            android:layout_marginRight="@dimen/share"/>
-
         <EditText
             style="@style/et.common"
             android:id="@id/form_et"

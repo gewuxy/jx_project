@@ -22,6 +22,8 @@ import yaya.csp.model.Profile.TProfile;
 import yaya.csp.util.Util;
 
 /**
+ * 个人中心基类
+ *
  * @auther HuoXuYu
  * @since 2017/9/21
  */
@@ -31,7 +33,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
     @Arg
     TProfile mAttr;
 
-    private TextView mTV;
+    private TextView mTv;
 
     @NonNull
     @Override
@@ -43,7 +45,8 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.my_message, this);
-        mTV = bar.addTextViewRight(R.string.save, v -> {
+        mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
+            // FIXME: 2017/9/25 个人信息接口
 //            refresh(RefreshWay.dialog);
 //            exeNetworkReq(NetFactory.modifyProfile(mAttr.name(), getEt().getText().toString()));
             onModifySuccess();
@@ -51,13 +54,8 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
     }
 
     @Override
-    public void findViews() {
-
-    }
-
-    @Override
     public void setViews() {
-        mTV.setTextColor(ResLoader.getColor(R.color.text_167afe));
+        mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
         getEt().setText(getVal());
         getEt().setSelection(getEt().getText().length());
     }
@@ -100,7 +98,6 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
         IResult r = (IResult) result;
         if (r.isSucceed()) {
             stopRefresh();
@@ -118,7 +115,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
         Intent i = new Intent().putExtra(Extra.KData, text);
         setResult(RESULT_OK, i);
         finish();
-        showToast(R.string.save_success);
+        showToast(R.string.my_message_save_success);
     }
 
     abstract protected EditText getEt();

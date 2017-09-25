@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/share"
         android:background="@color/white"
-        android:text="@string/intro"
+        android:text="@string/my_message_intro"
         android:textColor="@color/text_888"
         android:textSize="16dp"/>
 
@@ -29,7 +29,7 @@
             android:background="@color/white"
             android:padding="@dimen/share"
             android:gravity="top"
-            android:hint="@string/person_intro"
+            android:hint="@string/my_message_person_intro"
             android:maxLength="600"
             android:scrollbars="vertical"
             android:textColor="@color/text_333"
@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/share"
             android:layout_marginRight="@dimen/share"
-            android:text="@string/intro_unit"
-            android:textColor="@color/text_AF"
+            android:text="@string/my_message_intro_unit"
+            android:textColor="@color/text_af"
             android:textSize="@dimen/share"/>
     </LinearLayout>
 

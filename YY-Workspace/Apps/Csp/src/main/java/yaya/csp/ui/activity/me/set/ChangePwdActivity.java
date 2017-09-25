@@ -7,13 +7,11 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import yaya.csp.R;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
-import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
 /**
@@ -48,14 +46,14 @@ public class ChangePwdActivity extends BaseSetActivity{
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_old)
-                .hint(R.string.old_pwd)
+                .hint(R.string.setting_old_pwd)
                 .drawable(R.drawable.login_pwd_selector)
                 .limit(KLengthMax));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_new)
-                .hint(R.string.new_pwd)
+                .hint(R.string.setting_new_pwd)
                 .drawable(R.drawable.login_pwd_selector)
                 .limit(KLengthMax));
     }
@@ -76,7 +74,7 @@ public class ChangePwdActivity extends BaseSetActivity{
         stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
-            showToast(R.string.change_pwd_succeed);
+            showToast(R.string.setting_change_pwd_succeed);
             finish();
         }else {
             showToast(r.getMessage());
@@ -85,20 +83,21 @@ public class ChangePwdActivity extends BaseSetActivity{
 
     @Override
     protected CharSequence getNavBarText() {
-        return getString(R.string.change_pwd);
+        return getString(R.string.setting_change_pwd);
     }
 
     @Override
     protected CharSequence getSetText() {
-        return getString(R.string.confirm_change);
+        return getString(R.string.setting_confirm_change);
     }
 
     @Override
     protected void toSet() {
         String oldPwd = Util.getEtString(mEtPwdOld);
         String newPwd = Util.getEtString(mEtPwdNew);
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.changePwd(oldPwd, newPwd).build());
+        // FIXME: 2017/9/25 修改密码接口
+//        refresh(RefreshWay.dialog);
+//        exeNetworkReq(UserAPI.changePwd(oldPwd, newPwd).build());
     }
 
     @Override

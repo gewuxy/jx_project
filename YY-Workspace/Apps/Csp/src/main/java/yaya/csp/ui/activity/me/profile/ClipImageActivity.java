@@ -8,7 +8,6 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
@@ -21,7 +20,6 @@ import yaya.csp.model.Profile;
 import yaya.csp.model.Profile.TProfile;
 import yaya.csp.model.me.UpHeadImage;
 import yaya.csp.model.me.UpHeadImage.TUpHeadImage;
-import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
 /**
@@ -57,7 +55,7 @@ public class ClipImageActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         bar.setBackgroundResource(R.color.black);
-        Util.addBackIcon(bar, R.string.avatar, this);
+        Util.addBackIcon(bar, R.string.person_center_avatar, this);
         mTV = bar.addTextViewRight(R.string.confirm, v -> {
 
             int screenW = mPv.getWidth();
@@ -71,8 +69,9 @@ public class ClipImageActivity extends BaseActivity {
             if (bmp != null) {
                 mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
                 // 网络上传图片
-                refresh(RefreshWay.dialog);
-                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
+                // FIXME: 2017/9/25 头像接口
+//                refresh(RefreshWay.dialog);
+//                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
             }
             mPv.destroyDrawingCache();
         });
@@ -112,7 +111,7 @@ public class ClipImageActivity extends BaseActivity {
 
             setResult(RESULT_OK, getIntent());
             finish();
-            showToast(R.string.save_success);
+            showToast(R.string.my_message_save_success);
         } else {
             onNetworkError(id, r.getError());
         }

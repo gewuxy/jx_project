@@ -24,6 +24,8 @@
         <item name="android:layout_marginLeft">@dimen/share</item>
     </style>
 
+    <style name="iv.form"></style>
+
     <style name="iv.arrow">
         <item name="android:id">@id/form_iv_arrow</item>
         <item name="android:layout_width">10dp</item>
@@ -58,7 +60,7 @@
 
     <style name="tv.form.text">
         <item name="android:id">@id/form_tv_text</item>
-        <item name="android:textColorHint">@color/text_AF</item>
+        <item name="android:textColorHint">@color/text_af</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -71,7 +73,7 @@
         <item name="android:background">@drawable/transparent</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/text_333</item>
-        <item name="android:textColorHint">@color/text_AF</item>
+        <item name="android:textColorHint">@color/text_af</item>
         <item name="android:textSize">16dp</item>
     </style>
 

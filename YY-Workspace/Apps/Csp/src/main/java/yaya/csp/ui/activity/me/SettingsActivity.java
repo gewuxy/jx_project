@@ -1,6 +1,5 @@
 package yaya.csp.ui.activity.me;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
@@ -25,9 +24,8 @@ import yaya.csp.dialog.HintDialogMain;
 import yaya.csp.model.Profile;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
-import yaya.csp.model.form.text.IntentForm.IntentType;
 import yaya.csp.sp.SpUser;
-import yaya.csp.ui.activity.me.set.ChangePwdActivity;
+import yaya.csp.ui.activity.me.set.BindEmailJumpActivity;
 import yaya.csp.util.CacheUtil;
 import yaya.csp.util.Util;
 
@@ -42,7 +40,7 @@ public class SettingsActivity extends BaseFormActivity {
 
     private final String KM = "M";
     private final int KColorNormal = Color.parseColor("#666666");
-    private final int KColorCancel = Color.parseColor("#01b557");
+    private final int KColorCancel = Color.parseColor("#167afe");
 
     @IntDef({
             RelatedId.change_password,
@@ -63,24 +61,24 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .related(RelatedId.change_password)
-                .drawable(R.drawable.form_ic_lock)
-                .name(R.string.change_pwd))
-                .type(IntentType.common)
-                .intent(new Intent(this, ChangePwdActivity.class));
+                .drawable(R.drawable.form_ic_setting_lock)
+                .name(R.string.setting_change_pwd));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.clear_img_cache)
-                .name(R.string.clear_img_cache)
+                .layout(R.layout.form_text_clear_cache)
+                .name(R.string.setting_clear_img_cache)
                 .text(getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
-                .textColor(ResLoader.getColor(R.color.text_AF)));
+                .textColor(ResLoader.getColor(R.color.text_af)));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.clear_sound_cache)
-                .name(R.string.clear_sound_cache)
+                .layout(R.layout.form_text_clear_cache)
+                .name(R.string.setting_clear_sound_cache)
                 .text(getFolderSize(CacheUtil.getMeetingSoundCacheDir()))
-                .textColor(ResLoader.getColor(R.color.text_AF)));
+                .textColor(ResLoader.getColor(R.color.text_af)));
     }
 
     @Override
@@ -101,19 +99,35 @@ public class SettingsActivity extends BaseFormActivity {
 
     @Override
     public void onClick(View v) {
-        userExit();
+        switch (v.getId()) {
+            case R.id.setting_tv_exit_account: {
+                userExit();
+            }
+            break;
+        }
     }
 
     @Override
     protected void onFormItemClick(View v, int position) {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
+            case RelatedId.change_password: {
+                // FIXME: 2017/9/25 修改密码的判断
+//                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
+//                    startActivity(BindEmailJumpActivity.class);
+//                }else {
+//                    //已绑定邮箱,直接跳转到修改页面
+//                    startActivity(ChangePwdActivity.class);
+//                }
+                startActivity(BindEmailJumpActivity.class);
+            }
+            break;
             case RelatedId.clear_img_cache: {
-                clearCache(CacheUtil.getBmpCacheDir(), RelatedId.clear_img_cache, R.string.clear_img_cache);
+                clearCache(CacheUtil.getBmpCacheDir(), RelatedId.clear_img_cache, R.string.setting_clear_img_cache);
             }
             break;
             case RelatedId.clear_sound_cache: {
-                clearCache(CacheUtil.getMeetingSoundCacheDir(), RelatedId.clear_sound_cache, R.string.clear_sound_cache);
+                clearCache(CacheUtil.getMeetingSoundCacheDir(), RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache);
             }
             break;
         }
@@ -170,8 +184,8 @@ public class SettingsActivity extends BaseFormActivity {
      */
     private void userExit() {
         HintDialogMain d = new HintDialogMain(this);
-        d.setHint("确定要退出当前账号吗?");
-        d.addBlueButton("退出", v -> {
+        d.setHint(getString(R.string.setting_exit_current_account));
+        d.addBlackButton(getString(R.string.setting_exit), v -> {
 //            CommonServRouter.create()
 //                    .type(ReqType.logout)
 //                    .token(Profile.inst().getString(TProfile.token))

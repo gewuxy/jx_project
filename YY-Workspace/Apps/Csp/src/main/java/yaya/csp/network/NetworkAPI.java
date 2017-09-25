@@ -40,7 +40,7 @@ public class NetworkAPI {
          *
          * @param email 用户名
          */
-        @POST("user/email")
+        @POST("user/toBind")
         void bindEmail(String email);
 
     }

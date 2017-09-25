@@ -26,7 +26,6 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Override
     public void findViews() {
         super.findViews();
-
         mTvSet = findView(R.id.base_set_tv_set);
     }
 

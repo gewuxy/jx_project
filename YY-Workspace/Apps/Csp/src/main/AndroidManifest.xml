@@ -42,6 +42,18 @@
         <activity
             android:name=".ui.activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.set.ChangePwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.set.BindEmailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.set.BindEmailJumpActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.set.BindChangeEmailActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.activity.me.profile.ProfileActivity"

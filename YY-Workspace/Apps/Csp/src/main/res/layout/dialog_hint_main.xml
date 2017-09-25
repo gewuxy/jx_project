@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/share"
                 android:layout_marginRight="@dimen/share"
-                android:text="确定退出当前账号吗？"
+                android:text="确定退出当前账号"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/share"
                 android:textColor="@color/text_333"
@@ -43,6 +43,7 @@
             android:id="@id/dialog_layout_button"
             android:layout_width="match_parent"
             android:layout_height="46dp"
+            android:background="@color/white"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"/>
 

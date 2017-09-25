@@ -32,6 +32,8 @@ import yaya.csp.util.CacheUtil;
 import yaya.csp.util.Util;
 
 /**
+ * 个人中心
+ *
  * @auther Huoxuyu
  * @since 2017/9/21
  */
@@ -77,7 +79,7 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.name)
                 .layout(R.layout.form_text_nick_name)
-                .name(R.string.nick_name)
+                .name(R.string.my_message_nick_name)
                 .limit(18)
                 .intent(NickNameActivityRouter.newIntent(this, TProfile.user_name))
                 .text(Profile.inst().getString(TProfile.user_name))
@@ -88,11 +90,11 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.intro)
                 .layout(R.layout.form_text_intro)
-                .name(R.string.intro)
+                .name(R.string.my_message_intro)
                 .intent(IntroActivityRouter.newIntent(this, TProfile.info))
                 .text(Profile.inst().getString(TProfile.info))
                 .type(IntentType.intro)
-                .hint(R.string.person_intro));
+                .hint(R.string.my_message_person_intro));
 
     }
 
@@ -126,7 +128,6 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.layout_profile_header: {
                 showDialogSelectPhoto();
@@ -155,8 +156,8 @@ public class ProfileActivity extends BaseFormActivity {
             }
         });
 
-        dialog.addItem(getString(R.string.take_photo), KColorNormal);
-        dialog.addItem(getString(R.string.from_album_select), KColorNormal);
+        dialog.addItem(getString(R.string.my_message_take_photo), KColorNormal);
+        dialog.addItem(getString(R.string.my_message_from_album_select), KColorNormal);
         dialog.addItem(getString(R.string.cancel), KColorCancel);
 
         dialog.show();

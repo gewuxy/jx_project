@@ -9,9 +9,6 @@
         style="@style/tv.common"
         android:id="@+id/setting_tv_exit_account"
         android:layout_marginTop="@dimen/form_height_common"
-        android:layout_marginLeft="@dimen/form_margin_left"
-        android:layout_marginRight="@dimen/form_margin_right"
-        android:text="@string/exit_account"
-        />
+        android:text="@string/setting_exit_account"/>
 
 </LinearLayout>

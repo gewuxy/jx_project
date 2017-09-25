@@ -57,19 +57,19 @@ public class MeActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_history)
-                .name(R.string.history)
+                .name(R.string.person_center_history)
                 .related(RelatedId.history));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_flow)
-                .name(R.string.flow_manage)
+                .name(R.string.person_center_flow_manage)
                 .related(RelatedId.flow));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_account)
-                .name(R.string.account_manage)
+                .name(R.string.person_center_account_manage)
                 .related(RelatedId.account));
 
         addItem(Form.create(FormType.divider_margin));
@@ -81,7 +81,7 @@ public class MeActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
                 .drawable(R.drawable.form_ic_help_and_feedback)
-                .name(R.string.help_and_feedback)
+                .name(R.string.person_center_help_and_feedback)
                 .related(RelatedId.help_and_feedback));
     }
 
