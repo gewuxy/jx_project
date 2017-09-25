@@ -2,8 +2,6 @@ package yaya.csp.network;
 
 import inject.annotation.network.API;
 import inject.annotation.network.APIFactory;
-import inject.annotation.network.Part;
-import inject.annotation.network.method.GET;
 import inject.annotation.network.method.POST;
 import inject.annotation.network.method.UPLOAD;
 
@@ -45,21 +43,6 @@ public class NetworkAPI {
         @POST("user/email")
         void bindEmail(String email);
 
-        /**
-         * 检查是否已被绑定
-         *
-         * @param code 微信授权的code
-         */
-        @POST("check_wx_bind")
-        void checkWxBind(String code);
-
-        /**
-         * 绑定(解绑)微信
-         *
-         * @param code 微信授权的code
-         */
-        @GET("user/set_wx_bind_status")
-        void bindWX(@Part(opt = true) String code);
     }
 
 }
