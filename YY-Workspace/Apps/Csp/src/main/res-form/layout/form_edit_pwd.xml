@@ -8,16 +8,18 @@
         style="@style/v.form"
         android:background="@drawable/white">
 
+        <lib.ys.network.image.NetworkImageView
+           style="@style/networkimageview_login"/>
+
         <EditText
-            style="@style/et.common"
             android:id="@id/form_et"
+            style="@style/et.common"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:singleLine="true"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@id/form_iv"
-            android:padding="9dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/share"/>

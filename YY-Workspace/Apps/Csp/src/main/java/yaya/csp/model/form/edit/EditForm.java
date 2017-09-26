@@ -16,11 +16,13 @@ import java.util.List;
 
 import lib.ys.ConstantsEx;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
-import yaya.csp.Constants;
 import yaya.csp.R;
+import yaya.csp.utils.Util;
+
 
 /**
  * @author CaiXiang
@@ -46,16 +48,30 @@ public class EditForm extends BaseForm implements TextWatcher {
     protected void init(FormVH holder) {
         EditText et = holder.getEt();
         et.addTextChangedListener(this);
+        // 设置
+        View clean = getHolder().getIvClean();
+        if (clean != null) {
+            setOnClickListener(clean);
+
+            et.setOnFocusChangeListener((v, hasFocus) -> {
+                // iv是否显示
+                if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
+                    ViewUtil.showView(clean);
+                } else {
+                    ViewUtil.goneView(clean);
+                }
+            });
+        }
 
         // 5.0以上的版本设置水波纹点击背景
         if (DeviceUtil.getSDKVersion() >= VERSION_CODES.LOLLIPOP) {
             if (holder.getIv() != null) {
-                holder.getIv().setBackgroundResource(R.drawable.item_selector_unbound);
+              //  holder.getIv().setBackgroundResource(R.drawable.item_selector_unbound);
             }
         }
 
         // 限制长度
-        if (getLimit() != Constants.KInvalidValue) {
+        if (getLimit() != ConstantsEx.KInvalidValue) {
             ViewUtil.limitInputCount(holder.getEt(), getLimit());
         }
 
@@ -64,7 +80,7 @@ public class EditForm extends BaseForm implements TextWatcher {
         if (inputFilter != null && inputFilter.length > 0) {
 
             // 会覆盖getLimit()用法,要添加到输入类型中
-            if (getLimit() != Constants.KInvalidValue) {
+            if (getLimit() != ConstantsEx.KInvalidValue) {
 
                 // 不能直接添加否则UnsupportedOperationException
                 List<InputFilter> newFilters = Arrays.asList(inputFilter);
@@ -73,6 +89,11 @@ public class EditForm extends BaseForm implements TextWatcher {
                 f.add(new LengthFilter(getLimit()));
 
                 InputFilter[] newInputFilter = f.toArray(new InputFilter[f.size()]);
+                /*InputFilter[] newInputFilter = new InputFilter[inputFilter.length + 1];
+                for (int i = 0; i < inputFilter.length; i++) {
+                    newInputFilter[i] = inputFilter[i];
+                }
+                newInputFilter[inputFilter.length] = new LengthFilter(getLimit());*/
 
                 et.setFilters(newInputFilter);
             } else {
@@ -89,7 +110,7 @@ public class EditForm extends BaseForm implements TextWatcher {
         int d = getDrawable();
         ImageView iv = holder.getIv();
         if (iv != null) {
-            if (d != Constants.KInvalidValue) {
+            if (d != ConstantsEx.KInvalidValue) {
                 iv.setOnClickListener(this);
             }
             setIvIfValid(iv, d);
@@ -123,5 +144,14 @@ public class EditForm extends BaseForm implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         save(s.toString(), s.toString());
+
+        View clean = getHolder().getIvClean();
+        if (clean != null) {
+            if (TextUtil.isNotEmpty(s)) {
+                ViewUtil.showView(clean);
+            } else {
+                ViewUtil.goneView(clean);
+            }
+        }
     }
 }

@@ -38,6 +38,20 @@
         <activity android:name=".ui.activity.TestRecoderActivity"
                   android:screenOrientation="portrait"/>
 
+        <!--登录-->
+        <activity
+            android:name=".ui.activity.login.ThirdPartyLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.login.EmailLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.login.CaptchaLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.login.FindPwdActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.activity.me.MeActivity"
             android:screenOrientation="portrait"/>

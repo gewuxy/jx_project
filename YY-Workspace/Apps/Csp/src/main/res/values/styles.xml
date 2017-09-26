@@ -1,5 +1,67 @@
 <resources>
+    <!--登录-->
+    <style name="tv.third_part_login">
+        <item name="android:layout_width">284dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_ff167</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:background">@drawable/bg_third_part_login_authorize</item>
+    </style>
 
+    <style name="tv.third_part_login_type">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:drawablePadding">9dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_ff83</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="divider.third_part_login">
+        <item name="android:layout_width">102dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">68dp</item>
+    </style>
+
+    <style name="networkimageview_login">
+        i<item name="android:id">@id/form_iv</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">46dp</item>
+    </style>
+
+    <style name="tv.login"/>
+    <style name="tv.login.bottom">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">#FF888888</item>
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="tv.agree_login">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name= "android:layout_gravity">center</item>
+        <item name="android:text">@string/agree_login</item>
+        <item name="android:textColor">@color/text_ff333</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <!-- 普通输入框样式 -->
+    <style name="et.common">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:background">@drawable/white</item>
+        <item name="android:textColor">@color/text_666</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColorHint">@color/text_b3</item>
+    </style>
     <!-- 普通按钮样式 -->
     <style name="tv.common">
         <item name="android:layout_width">match_parent</item>
@@ -12,15 +74,5 @@
         <item name="android:layout_marginRight">@dimen/form_margin_left_and_right</item>
     </style>
 
-    <!-- 普通输入框样式 -->
-    <style name="et.common">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/form_height_common</item>
-        <item name="android:paddingLeft">@dimen/share</item>
-        <item name="android:background">@drawable/white</item>
-        <item name="android:textColor">@color/text_333</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textColorHint">@color/text_af</item>
-    </style>
 
 </resources>

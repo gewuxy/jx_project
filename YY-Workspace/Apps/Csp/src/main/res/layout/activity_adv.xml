@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="16dp"
         android:layout_marginTop="28dp"
-        android:background="@drawable/adv_skip_bg"
+        android:background="@drawable/bg_adv_skip"
         android:gravity="center"
         android:text= "@string/adv_skip"
         android:textColor="@color/white"/>

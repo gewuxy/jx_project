@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -158,9 +159,13 @@ android {
 dependencies {
     implementation project(':YY-Workspace:Libs:LibYY')
     implementation project(':YY-Workspace:Libs:LibPay')
-    implementation project(':YY-Workspace:Libs:LibJG')
+    implementation (project(':YY-Workspace:Libs:LibJG')) {
+//        exclude
+//        exclude(group: 'jshare-sina-android-v1.0.0', module: 'com.sina')
+    }
     implementation project(':YY-Workspace:Libs:LibWX')
     implementation project(':YY-Workspace:Libs:LibZEGO')
+    implementation project(':YY-Workspace:Libs:LibMob')
     /**
      * other
      */

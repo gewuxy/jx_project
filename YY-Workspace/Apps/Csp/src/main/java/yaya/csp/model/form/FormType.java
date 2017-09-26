@@ -16,10 +16,12 @@ import java.lang.annotation.RetentionPolicy;
 
         FormType.divider_margin,
         FormType.divider_large,
-        FormType.divider,
 
         FormType.et,
+        FormType.et_intent,
         FormType.et_pwd,
+        FormType.et_phone_number,
+        FormType.et_captcha,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface FormType {
@@ -32,5 +34,8 @@ public @interface FormType {
     int divider = 12;
 
     int et = 20;
-    int et_pwd = 21;
+    int et_intent = 21;
+    int et_pwd = 22;
+    int et_phone_number = 23;
+    int et_captcha = 24;
 }

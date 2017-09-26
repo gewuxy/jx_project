@@ -4,7 +4,9 @@ import lib.yy.model.form.BaseForm;
 import yaya.csp.model.form.divider.DividerForm;
 import yaya.csp.model.form.divider.DividerLargeForm;
 import yaya.csp.model.form.divider.DividerMarginForm;
+import yaya.csp.model.form.edit.EditCaptchaForm;
 import yaya.csp.model.form.edit.EditForm;
+import yaya.csp.model.form.edit.EditPhoneNumberForm;
 import yaya.csp.model.form.edit.EditPwdForm;
 import yaya.csp.model.form.text.IntentForm;
 import yaya.csp.model.form.text.MeForm;
@@ -40,20 +42,30 @@ public class Form {
                 form = new DividerForm();
             }
             break;
-            case FormType.divider_margin: {
-                form = new DividerMarginForm();
-            }
-            break;
-            case FormType.divider_large: {
-                form = new DividerLargeForm();
-            }
-            break;
+
             case FormType.et: {
                 form = new EditForm();
             }
             break;
             case FormType.et_pwd: {
                 form = new EditPwdForm();
+            }
+            break;
+            case FormType.et_phone_number: {
+                form = new EditPhoneNumberForm();
+            }
+            break;
+            case FormType.et_captcha: {
+                form = new EditCaptchaForm();
+            }
+            break;
+
+            case FormType.divider_margin: {
+                form = new DividerMarginForm();
+            }
+            break;
+            case FormType.divider_large: {
+                form = new DividerLargeForm();
             }
             break;
         }

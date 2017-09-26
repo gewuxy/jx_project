@@ -10,7 +10,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.yy.adapter.VH.FormVH;
 import yy.doctor.R;
 import yy.doctor.util.UISetter;
-import yy.doctor.util.input.InputFilterSpaCHN;
+import yy.doctor.util.input.InputFilterSpaCN;
 
 /**
  * @author GuoXuan
@@ -32,7 +32,7 @@ public class EditPwdForm extends EditForm {
     @Override
     protected void init(FormVH holder) {
         // 实现的方法在 super.init()里,所以提前设置
-        input(new InputFilterSpaCHN());
+        input(new InputFilterSpaCN());
         limit(24);
 
         super.init(holder);
