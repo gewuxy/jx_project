@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <TextureView
+        android:id="@+id/live_texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/live_iv_back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/live_ic_back"/>
+
+    <TextView
+        android:id="@+id/live_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/live_iv_back"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/live_iv_back"
+        android:background="@drawable/bg_tv_live"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="00'00''"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"/>
+
+    <TextView
+        android:id="@+id/live_tv_remaining_time"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/live_tv_time"
+        android:background="@drawable/bg_tv_live_time_remind"
+        android:drawableLeft="@drawable/ic_default_i"
+        android:drawablePadding="6dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/live_stop_remind"
+        android:textColor="@color/white"
+        android:textSize="12dp"/>
+
+    <ImageView
+        android:id="@+id/live_iv_silence"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/live_iv_back"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/selector_live_silence"/>
+
+    <ImageView
+        android:id="@+id/live_iv_switch_camera"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="17dp"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/live_ic_switch_camera"/>
+
+    <RelativeLayout
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/live_iv_switch_camera"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/live_iv_switch_camera"
+        android:background="@drawable/bg_tv_live"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/live_tv_online_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#fff"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/live_tv_online_num"
+            android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/live_tv_online_num"
+            android:text="@string/online"
+            android:textColor="#fff"
+            android:textSize="8dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:background="@drawable/bg_tv_live"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <ImageView
+            android:id="@+id/live_iv_state"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_live_state_dot"/>
+
+        <TextView
+            android:id="@+id/live_tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@+id/live_iv_state"
+            android:text="@string/no_start"
+            android:textColor="#fff"
+            android:textSize="12dp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/live_iv_live"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="9dp"
+        android:background="@drawable/selector_live_state"/>
+
+    <TextView
+        android:id="@+id/live_tv_start"
+        android:layout_width="wrap_content"
+        android:layout_height="86dp"
+        android:layout_centerInParent="true"
+        android:background="@color/white_diaphaneity_sixty"
+        android:drawableTop="@drawable/live_ic_start_live"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="25dp"
+        android:text="@string/click_start_live"
+        android:textColor="@color/white"
+        android:textSize="10dp"/>
+
+    <TextView
+        android:id="@+id/live_tv_no_camera_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawablePadding="8dp"
+        android:drawableTop="@drawable/live_ic_no_camera_permission"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="6dp"
+        android:text="@string/no_camera_permission"
+        android:textColor="@color/text_9b"
+        android:textSize="12dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="yaya.csp">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
@@ -32,9 +32,11 @@
             android:name=".ui.activity.AdvActivity"
             android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".ui.activity.LiveActivity"
+        <activity android:name=".ui.activity.liveroom.LiveRoomActivity"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".ui.activity.TestRecoderActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.activity.me.MeActivity"

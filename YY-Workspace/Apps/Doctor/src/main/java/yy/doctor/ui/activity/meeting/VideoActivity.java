@@ -23,14 +23,13 @@ import com.pili.pldroid.player.PLMediaPlayer.OnPreparedListener;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import lib.player.NetVideoView;
-import lib.player.NetVideoView.VideoViewListener;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.view.LayoutUtil;
+import lib.yy.player.NetVideoView;
+import lib.yy.player.NetVideoView.VideoViewListener;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
