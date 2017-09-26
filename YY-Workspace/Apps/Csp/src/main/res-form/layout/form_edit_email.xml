@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/iv.form"
+        android:layout_width="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginTop="75dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <lib.ys.network.image.NetworkImageView
+                style="@style/networkimageview_login"/>
+
+            <yaya.csp.view.AutoCompleteEditText
+                android:id="@id/form_et"
+                style="@style/et.form.bind"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="28dp"/>
+        </LinearLayout>
+
+        <ImageView
+            style="@style/iv.form.clean.right"
+            android:layout_marginTop="95dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

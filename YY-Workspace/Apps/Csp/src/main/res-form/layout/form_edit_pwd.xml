@@ -9,25 +9,27 @@
         android:background="@drawable/white">
 
         <lib.ys.network.image.NetworkImageView
-            android:id="@id/form_iv"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="@dimen/share"
-            android:layout_marginRight="@dimen/share"/>
+           style="@style/networkimageview_login"/>
 
         <EditText
-            style="@style/et.common"
             android:id="@id/form_et"
+            style="@style/et.common"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_ffa"
+            android:textSize="15dp"/>
+
+        <ImageView
+            style="@style/iv.form.clean.right"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@id/form_iv"
-            android:padding="9dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/share"/>
+            android:layout_marginRight="12dp"
+            android:padding="9dp"/>
 
     </LinearLayout>
 

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/bg_third_part_login_cn"
+            android:gravity="center"
+            android:text="@string/language_transform"
+            android:textColor="@color/text_ffa"
+            android:textSize="12dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="168dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="42dp"
+        android:gravity="center"
+        android:text="csp"
+        android:textColor="@color/text_ff167"
+        android:textSize="50dp"/>
+
+    <TextView
+        android:id="@+id/login_wechat"
+        style="@style/tv.third_part_login"
+        android:layout_marginTop="62dp"
+        android:text="@string/login_wechat"/>
+
+    <TextView
+        android:id="@+id/login_sina"
+        style="@style/tv.third_part_login"
+        android:layout_marginTop="29dp"
+        android:text="@string/login_sina"/>
+
+    <TextView
+        android:id="@+id/login_yaya"
+        style="@style/tv.third_part_login"
+        android:layout_marginTop="29dp"
+        android:text="@string/login_yaya"/>
+
+    <TextView
+        style="@style/tv.agree_login"
+        android:id="@+id/agree_login"
+        android:layout_marginTop="29dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            style="@style/divider.third_part_login"
+            android:layout_marginLeft="25dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="60dp"
+            android:text="其他登录方式"/>
+
+        <View
+            style="@style/divider.third_part_login"
+            android:layout_marginRight="24dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/tv.third_part_login_type"
+            android:id="@+id/login_phone"
+            android:layout_marginLeft="60dp"
+            android:drawableTop="@drawable/third_party_login_ic_phone"
+            android:text="@string/mobilephone"/>
+
+        <TextView
+            style="@style/tv.third_part_login_type"
+            android:id="@+id/login_email"
+            android:drawableTop="@drawable/third_party_login_ic_email"
+            android:text="@string/email"/>
+
+        <TextView
+            style="@style/tv.third_part_login_type"
+            android:id="@+id/login_facebook"
+            android:drawableTop="@drawable/third_party_login_ic_facebook"
+            android:text="@string/facebook"/>
+
+        <TextView
+            style="@style/tv.third_part_login_type"
+            android:id="@+id/login_twitter"
+            android:layout_marginRight="60dp"
+            android:drawableTop="@drawable/third_party_login_ic_twitter"
+            android:text="@string/twitter"/>
+    </LinearLayout>
+
+
+</LinearLayout>

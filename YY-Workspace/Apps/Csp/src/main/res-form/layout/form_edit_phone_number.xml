@@ -6,14 +6,17 @@
 
     <LinearLayout
         style="@style/v.form"
-        android:background="@drawable/white">
+        android:background="@drawable/white"
+        android:layout_marginTop="90dp">
 
         <lib.ys.network.image.NetworkImageView
-            style="@style/networkimageview_login"/>
+          style="@style/networkimageview_login"/>
 
         <EditText
             android:id="@id/form_et"
             style="@style/et.common"
+            android:inputType="number"
+            android:maxLength="13"
             android:singleLine="true"
             android:textColor="@color/text_333"
             android:textColorHint="@color/text_888"
@@ -21,7 +24,6 @@
 
         <ImageView
             style="@style/iv.form.clean.right"/>
-
     </LinearLayout>
 
 </LinearLayout>

@@ -29,6 +29,22 @@ public class Util extends BaseUtil {
     }
 
     /**
+     * 登录页面左上角的X
+     * @param n
+     * @param id
+     * @param act
+     */
+    public static void addCloseIcon(NavBar n, @StringRes int id, final Activity act) {
+        n.addTextViewMid(id);
+        n.addBackIcon(R.drawable.login_ic_close, act);
+    }
+
+    public static void addCloseIcon(NavBar n, CharSequence text, final Activity act) {
+        n.addTextViewMid(text);
+        n.addBackIcon(R.drawable.login_ic_close, act);
+    }
+
+    /**
      * 获取输入框的文本
      *
      * @param et
