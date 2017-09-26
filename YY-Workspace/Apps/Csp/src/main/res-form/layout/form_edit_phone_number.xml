@@ -16,8 +16,7 @@
             android:id="@id/form_et"
             style="@style/et.common"
             android:inputType="number"
-            android:maxLength="13"
-            android:singleLine="true"/>
+            android:maxLength="13"/>
 
         <ImageView
             style="@style/iv.form.clean"/>

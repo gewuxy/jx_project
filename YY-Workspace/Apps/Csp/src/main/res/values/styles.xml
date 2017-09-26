@@ -60,6 +60,7 @@
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">@dimen/share</item>
         <item name="android:textColorHint">@color/text_af</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <!-- 普通按钮样式 -->

@@ -24,12 +24,7 @@
 
             <yaya.csp.view.AutoCompleteEditText
                 android:id="@id/form_et"
-                android:background="@color/white"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="@dimen/share"
-                android:textColor="@color/text_333"
-                android:textColorHint="@color/text_af"/>
+                style="@style/et.common"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

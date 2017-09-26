@@ -16,10 +16,7 @@
 
         <EditText
             android:id="@id/form_et"
-            style="@style/et.common"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:singleLine="true"/>
+            style="@style/et.common"/>
 
         <ImageView style="@style/iv.form.clean"/>
 

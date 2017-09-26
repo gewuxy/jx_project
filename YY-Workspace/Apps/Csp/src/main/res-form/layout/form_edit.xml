@@ -14,10 +14,7 @@
         <EditText
             android:id="@id/form_et"
             style="@style/et.common"
-            android:singleLine="true"
-            android:textColor="@color/text_333"
-            android:textColorHint="@color/text_888"
-            android:textSize="15dp"/>
+            android:singleLine="true"/>
 
         <ImageView
             style="@style/iv.form.clean"/>
