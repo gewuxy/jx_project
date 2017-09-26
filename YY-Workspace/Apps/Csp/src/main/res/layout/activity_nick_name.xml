@@ -24,12 +24,7 @@
         
         <EditText
             android:id="@+id/profile_et_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:text=""
-            android:textSize="16dp"
-            android:textColor="@color/text_333"
+            style="@style/et.common"
             android:hint="@string/my_message_input_nick_name"
             android:layout_gravity="center"/>
     </LinearLayout>

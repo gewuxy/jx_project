@@ -47,7 +47,14 @@ public class Form {
                 form = new DividerForm();
             }
             break;
-
+            case FormType.divider_margin: {
+                form = new DividerMarginForm();
+            }
+            break;
+            case FormType.divider_large: {
+                form = new DividerLargeForm();
+            }
+            break;
             case FormType.et: {
                 form = new EditForm();
             }
@@ -65,14 +72,6 @@ public class Form {
             }
             break;
 
-            case FormType.divider_margin: {
-                form = new DividerMarginForm();
-            }
-            break;
-            case FormType.divider_large: {
-                form = new DividerLargeForm();
-            }
-            break;
         }
 
         if (form != null) {

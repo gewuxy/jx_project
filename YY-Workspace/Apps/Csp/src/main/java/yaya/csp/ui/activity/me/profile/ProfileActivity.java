@@ -2,7 +2,6 @@ package yaya.csp.ui.activity.me.profile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -40,14 +39,12 @@ import yaya.csp.util.Util;
 
 public class ProfileActivity extends BaseFormActivity {
 
+    private final int KColorNormal = R.color.text_666;
+    private final int KColorCancel = R.color.text_01b557;
 
-    private final int KColorNormal = Color.parseColor("#666666");
-    private final int KColorCancel = Color.parseColor("#01b557");
-
-    private final int KBaseCode = 1000;
-    private final int KCodeAlbum = KBaseCode + 1;
-    private final int KCodePhotograph = KBaseCode + 2;
-    private final int KCodeClipImage = KBaseCode + 3;
+    private final int KCodeAlbum = 1001;
+    private final int KCodePhotograph = 1002;
+    private final int KCodeClipImage = 1003;
 
     private final int KPermissionCodePhoto = 0;
     private final int KPermissionCodeAlbum = 1;
@@ -141,13 +138,13 @@ public class ProfileActivity extends BaseFormActivity {
         final BottomDialog dialog = new BottomDialog(this, position -> {
 
             switch (position) {
-                case 0: {
+                case KPermissionCodePhoto: {
                     if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
                         getPhotoFromCamera();
                     }
                 }
                 break;
-                case 1: {
+                case KPermissionCodeAlbum: {
                     if (checkPermission(KPermissionCodeAlbum, Permission.storage)) {
                         getPhotoFromAlbum();
                     }
@@ -156,9 +153,9 @@ public class ProfileActivity extends BaseFormActivity {
             }
         });
 
-        dialog.addItem(getString(R.string.my_message_take_photo), KColorNormal);
-        dialog.addItem(getString(R.string.my_message_from_album_select), KColorNormal);
-        dialog.addItem(getString(R.string.cancel), KColorCancel);
+        dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(KColorNormal));
+        dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(KColorNormal));
+        dialog.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
 
         dialog.show();
     }

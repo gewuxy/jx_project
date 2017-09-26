@@ -14,33 +14,20 @@
         <EditText
             android:id="@+id/form_et"
             style="@style/et.common"
-            android:layout_width="0dp"
-            android:layout_height="52dip"
-            android:layout_weight="1"
             android:inputType="number"
-            android:singleLine="true"
-            android:textColor="@color/text_333"
-            android:textColorHint="@color/text_888"
-            android:textSize="15dp"/>
+            android:singleLine="true"/>
 
-        <ImageView
-            style="@style/iv.form.clean.right"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/divider"/>
+        <ImageView style="@style/iv.form.clean"/>
 
         <lib.ys.view.CaptchaView
             android:id="@+id/form_tv_text"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="@dimen/share"
             android:clickable="false"
             android:gravity="center"
             android:text="@string/get_captcha"
-            android:textColor="@color/text_888"
+            android:textColor="@color/text_af"
             android:textSize="15dp"/>
 
     </LinearLayout>

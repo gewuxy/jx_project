@@ -13,7 +13,7 @@ import inject.annotation.network.method.UPLOAD;
  */
 @APIFactory(
         host = "https://app.medyaya.cn/api/",
-        hostDebuggable = "http://59.111.90.245:8084/v7/api/"
+        hostDebuggable = "http://59.111.90.245:8084/api/"
 )
 public class NetworkAPI {
 

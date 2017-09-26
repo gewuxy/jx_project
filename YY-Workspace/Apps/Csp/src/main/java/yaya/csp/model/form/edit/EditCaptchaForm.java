@@ -18,6 +18,7 @@ public class EditCaptchaForm extends EditForm {
     @Override
     protected void init(FormVH holder) {
         super.init(holder);
+        holder.getIv().setPadding(getPaddingLeft(), 0, getPaddingRight(), 0);
     }
 
     @Override

@@ -24,16 +24,14 @@
 
         <EditText
             android:id="@+id/intro_et"
+            style="@style/et.common"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:padding="@dimen/share"
             android:gravity="top"
             android:hint="@string/my_message_person_intro"
             android:maxLength="600"
-            android:scrollbars="vertical"
-            android:textColor="@color/text_333"
-            android:textSize="16dp"/>
+            android:scrollbars="vertical"/>
     </RelativeLayout>
 
     <LinearLayout

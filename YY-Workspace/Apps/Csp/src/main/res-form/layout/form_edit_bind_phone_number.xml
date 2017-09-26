@@ -2,15 +2,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         style="@style/v.form"
-        android:background="@drawable/white"
-        android:layout_marginTop="90dp">
+        android:background="@drawable/white">
 
-        <lib.ys.network.image.NetworkImageView
-          style="@style/networkimageview_login"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/share"
+            android:src="@drawable/login_ic_phone"/>
 
         <EditText
             android:id="@id/form_et"
@@ -19,8 +22,7 @@
             android:maxLength="13"
             android:singleLine="true"/>
 
-        <ImageView
-            style="@style/iv.form.clean"/>
+        <ImageView style="@style/iv.form.clean"/>
     </LinearLayout>
 
 </LinearLayout>

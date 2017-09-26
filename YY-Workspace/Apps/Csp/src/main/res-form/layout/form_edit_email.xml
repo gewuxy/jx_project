@@ -27,7 +27,7 @@
         </LinearLayout>
 
         <ImageView
-            style="@style/iv.form.clean.right"
+            style="@style/iv.form.clean"
             android:layout_marginTop="95dp"/>
 
     </LinearLayout>

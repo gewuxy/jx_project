@@ -8,8 +8,11 @@
         style="@style/v.form"
         android:background="@drawable/white">
 
-        <lib.ys.network.image.NetworkImageView
-           style="@style/networkimageview_login"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_ic_pwd"
+            android:layout_marginLeft="@dimen/share"/>
 
         <EditText
             android:id="@id/form_et"
@@ -17,6 +20,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:singleLine="true"/>
+
+        <ImageView style="@style/iv.form.clean"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@id/form_iv"

@@ -49,13 +49,21 @@ public class BindPhoneActivity extends BaseSetActivity {
     public void initData() {
         super.initData();
 
-        addItem(Form.create(FormType.et)
-                .related(RelatedId.phone_number));
+        int paddingLeft = fitDp(16);
 
-        addItem(Form.create(FormType.et)
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.et_phone_number)
+                .related(RelatedId.phone_number)
+                .layout(R.layout.form_edit_bind_phone_number)
+                .hint(R.string.input_phone_number));
+
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
+                .drawable(R.drawable.login_ic_pwd)
+                .paddingLeft(paddingLeft)
+                .hint(R.string.input_captcha)
                 .enable(false));
-
     }
 
     @Override

@@ -9,6 +9,7 @@ import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.yy.adapter.VH.FormVH;
 import yaya.csp.R;
+import yaya.csp.util.UISetter;
 import yaya.csp.util.input.InputFilterSpaCN;
 
 /**
@@ -38,7 +39,7 @@ public class EditPwdForm extends EditForm {
 
         // 设置输入digits
         if (!getIllegality()) {
-           // UISetter.setPwdRange(getHolder().getEt());
+            UISetter.setPwdRange(getHolder().getEt());
         }
 
         NetworkImageView iv = holder.getIv();

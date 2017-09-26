@@ -66,7 +66,7 @@ public class EditForm extends BaseForm implements TextWatcher {
         // 5.0以上的版本设置水波纹点击背景
         if (DeviceUtil.getSDKVersion() >= VERSION_CODES.LOLLIPOP) {
             if (holder.getIv() != null) {
-              //  holder.getIv().setBackgroundResource(R.drawable.item_selector_unbound);
+                holder.getIv().setBackgroundResource(R.drawable.item_selector_unbound);
             }
         }
 
@@ -89,11 +89,6 @@ public class EditForm extends BaseForm implements TextWatcher {
                 f.add(new LengthFilter(getLimit()));
 
                 InputFilter[] newInputFilter = f.toArray(new InputFilter[f.size()]);
-                /*InputFilter[] newInputFilter = new InputFilter[inputFilter.length + 1];
-                for (int i = 0; i < inputFilter.length; i++) {
-                    newInputFilter[i] = inputFilter[i];
-                }
-                newInputFilter[inputFilter.length] = new LengthFilter(getLimit());*/
 
                 et.setFilters(newInputFilter);
             } else {

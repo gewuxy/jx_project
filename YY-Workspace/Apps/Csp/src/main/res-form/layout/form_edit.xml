@@ -20,7 +20,7 @@
             android:textSize="15dp"/>
 
         <ImageView
-            style="@style/iv.form.clean.right"/>
+            style="@style/iv.form.clean"/>
 
     </LinearLayout>
 

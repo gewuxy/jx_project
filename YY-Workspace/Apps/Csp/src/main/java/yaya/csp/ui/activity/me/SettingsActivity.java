@@ -1,6 +1,5 @@
 package yaya.csp.ui.activity.me;
 
-import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -41,8 +40,8 @@ import yaya.csp.util.Util;
 public class SettingsActivity extends BaseFormActivity {
 
     private final String KM = "M";
-    private final int KColorNormal = Color.parseColor("#666666");
-    private final int KColorCancel = Color.parseColor("#167afe");
+    private final int KColorNormal = R.color.text_666;
+    private final int KColorCancel = R.color.text_167afe;
 
     @IntDef({
             RelatedId.change_password,
@@ -175,8 +174,8 @@ public class SettingsActivity extends BaseFormActivity {
                         });
             }
         });
-        d.addItem(getString(resId), KColorNormal);
-        d.addItem(getString(R.string.cancel), KColorCancel);
+        d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
+        d.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
         d.show();
     }
 

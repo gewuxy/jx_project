@@ -29,7 +29,6 @@
         i<item name="android:id">@id/form_iv</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">46dp</item>
     </style>
 
     <style name="tv.login"/>
