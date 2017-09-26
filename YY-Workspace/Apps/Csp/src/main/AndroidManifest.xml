@@ -70,6 +70,9 @@
         <activity
             android:name=".ui.activity.me.set.BindChangeEmailActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.set.AccountManageActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.activity.me.profile.ProfileActivity"

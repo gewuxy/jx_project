@@ -27,7 +27,7 @@
     <style name="iv.arrow">
         <item name="android:id">@id/form_iv_arrow</item>
         <item name="android:layout_width">10dp</item>
-        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_height">@dimen/share</item>
         <item name="android:src">@drawable/form_ic_arrow_right</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -87,7 +87,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textColorHint">@color/text_af</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">@dimen/share</item>
     </style>
 
     <style name="et.form.bind">

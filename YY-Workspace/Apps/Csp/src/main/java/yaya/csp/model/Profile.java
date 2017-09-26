@@ -19,8 +19,14 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         id,
         avatar,     //头像
         user_name,  //姓名
-        email,      //邮箱
         info,       //个人简介
+        email,      //邮箱
+        phone,      //手机
+        wx,         //微信
+        sina,       //新浪
+        facebook,
+        twitter,
+        yaya,       //yaya医师
     }
 
     private static Profile mInst = null;

@@ -94,4 +94,34 @@
     <string name="setting_bind_email_succeed">发送成功</string>
     <string name="setting_bind_text">修改密码需绑定邮箱后才能继续操作</string>
     <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
+    
+    <!-- 账号管理 -->
+    <string name="account_manage">账号管理</string>
+    <string name="account_not_bind">未绑定</string>
+    <string name="account_confirm_bind">确认绑定</string>
+    <string name="account_bind_phone">绑定手机号</string>
+
+    <string name="account_phone">手机</string>
+    <string name="account_email">邮箱</string>
+    <string name="account_wx">微信</string>
+    <string name="account_sina">新浪微博</string>
+    <string name="account_facebook">Facebook</string>
+    <string name="account_twitter">Twitter</string>
+    <string name="account_yaya">YaYa医师</string>
+    <string name="account_accredit_error">授权失败</string>
+    <string name="account_wx_check_normal">检查“微信”是否正常启动</string>
+
+    <string name="account_unbind_succeed">解绑成功</string>
+    <string name="account_unbind_email">是否解除绑定邮箱</string>
+    <string name="account_unbind_phone">是否更换绑定的手机号码</string>
+    <string name="account_unbind_wx">是否解除绑定微信号</string>
+    <string name="account_unbind_sina">是否解除绑定新浪微博</string>
+    <string name="account_unbind_facebook">是否解除绑定Facebook</string>
+    <string name="account_unbind_twitter">是否解除绑定Twitter</string>
+    <string name="account_unbind_yaya">是否解除绑定YaYa医师</string>
+    
+    <!-- 投稿历史 -->
+    <string name="contribute_history">投稿历史</string>
+
+
 </resources>

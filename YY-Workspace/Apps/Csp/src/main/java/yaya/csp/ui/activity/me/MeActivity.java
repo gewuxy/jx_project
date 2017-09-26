@@ -17,6 +17,8 @@ import yaya.csp.model.Profile;
 import yaya.csp.model.Profile.TProfile;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
+import yaya.csp.ui.activity.me.set.AccountManageActivity;
+import yaya.csp.ui.activity.me.profile.ProfileActivity;
 import yaya.csp.util.Util;
 
 /**
@@ -119,7 +121,7 @@ public class MeActivity extends BaseFormActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_me_header: {
-               // startActivity(ProfileActivity.class);
+                startActivity(ProfileActivity.class);
             }
             break;
         }
@@ -138,7 +140,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.account: {
-
+                startActivity(AccountManageActivity.class);
             }
             break;
             case RelatedId.setting: {

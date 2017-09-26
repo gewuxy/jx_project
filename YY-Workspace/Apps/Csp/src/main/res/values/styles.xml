@@ -58,10 +58,11 @@
         <item name="android:layout_weight">1</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:background">@drawable/white</item>
-        <item name="android:textColor">@color/text_666</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:textColorHint">@color/text_b3</item>
+        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textSize">@dimen/share</item>
+        <item name="android:textColorHint">@color/text_af</item>
     </style>
+
     <!-- 普通按钮样式 -->
     <style name="tv.common">
         <item name="android:layout_width">match_parent</item>

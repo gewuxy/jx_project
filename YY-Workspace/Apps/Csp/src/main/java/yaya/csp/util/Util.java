@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.support.annotation.StringRes;
 import android.widget.EditText;
 
+import lib.network.Network;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.DeviceUtil;
+import lib.ys.util.RegexUtil;
 import lib.yy.util.BaseUtil;
+import yaya.csp.App;
 import yaya.csp.R;
 
 /**
@@ -52,6 +56,21 @@ public class Util extends BaseUtil {
      */
     public static String getEtString(EditText et) {
         return et.getText().toString().trim();
+    }
+
+    public static boolean noNetwork() {
+        boolean b = !DeviceUtil.isNetworkEnabled();
+        if (b) {
+            App.showToast(Network.getConfig().getDisconnectToast());
+        }
+        return b;
+    }
+
+    /**
+     * 检验是否是电话号码
+     */
+    public static boolean isMobileCN(CharSequence phone) {
+        return RegexUtil.isMobileCN(phone.toString().replace(" ", ""));
     }
 
 }

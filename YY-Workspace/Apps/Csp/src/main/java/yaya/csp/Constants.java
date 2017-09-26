@@ -1,5 +1,6 @@
 package yaya.csp;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
@@ -23,5 +24,15 @@ public interface Constants extends BaseConstants {
     @interface WXType {
         String login = "login";
         String bind = "bind";
+    }
+
+    @IntDef({
+            CaptchaType.fetch,
+            CaptchaType.re_fetch,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface CaptchaType {
+        int fetch = 0;
+        int re_fetch = 1;
     }
 }

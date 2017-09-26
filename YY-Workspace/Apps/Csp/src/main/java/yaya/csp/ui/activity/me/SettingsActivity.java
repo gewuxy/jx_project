@@ -17,15 +17,17 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.util.res.ResLoader;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yaya.csp.R;
 import yaya.csp.dialog.BottomDialog;
 import yaya.csp.dialog.HintDialogMain;
 import yaya.csp.model.Profile;
+import yaya.csp.model.Profile.TProfile;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
 import yaya.csp.sp.SpUser;
-import yaya.csp.ui.activity.me.set.BindEmailJumpActivity;
+import yaya.csp.ui.activity.me.set.ChangePwdActivity;
 import yaya.csp.util.CacheUtil;
 import yaya.csp.util.Util;
 
@@ -117,9 +119,8 @@ public class SettingsActivity extends BaseFormActivity {
 //                    startActivity(BindEmailJumpActivity.class);
 //                }else {
 //                    //已绑定邮箱,直接跳转到修改页面
-//                    startActivity(ChangePwdActivity.class);
+                    startActivity(ChangePwdActivity.class);
 //                }
-                startActivity(BindEmailJumpActivity.class);
             }
             break;
             case RelatedId.clear_img_cache: {
@@ -198,10 +199,18 @@ public class SettingsActivity extends BaseFormActivity {
             SpJPush.inst().jPushIsRegister(false);
             Profile.inst().clear();
 
-//            startActivity(LoginActivity.class);
             finish();
         });
         d.addBlueButton(R.string.cancel);
         d.show();
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.bind_email) {
+            String email = Profile.inst().getString(TProfile.user_name);
+            getRelatedItem(RelatedId.change_password).save(email, email);
+            refreshRelatedItem(RelatedId.change_password);
+        }
     }
 }

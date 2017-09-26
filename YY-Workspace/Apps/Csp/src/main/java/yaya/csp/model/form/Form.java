@@ -8,6 +8,7 @@ import yaya.csp.model.form.edit.EditCaptchaForm;
 import yaya.csp.model.form.edit.EditForm;
 import yaya.csp.model.form.edit.EditPhoneNumberForm;
 import yaya.csp.model.form.edit.EditPwdForm;
+import yaya.csp.model.form.text.BindForm;
 import yaya.csp.model.form.text.IntentForm;
 import yaya.csp.model.form.text.MeForm;
 import yaya.csp.model.form.text.TextForm;
@@ -36,6 +37,10 @@ public class Form {
             break;
             case FormType.text_intent_me: {
                 form = new MeForm();
+            }
+            break;
+            case FormType.text_intent_bind: {
+                form = new BindForm();
             }
             break;
             case FormType.divider: {
