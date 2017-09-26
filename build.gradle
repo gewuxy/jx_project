@@ -116,7 +116,7 @@ buildscript {
          * github: https://github.com/KeepSafe/dexcount-gradle-plugin
          * 输出位置: {buildDir}/outputs/dexcount/${variant}* 可配置项请查阅
          */
-//        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3'
 
         /**
          * dex分包工具
