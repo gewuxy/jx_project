@@ -15,6 +15,7 @@
 
     <!-- 录音 -->
     <string name="record_live_start">开始直播</string>
+    <string name="live_ing">直播中</string>
     <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>
 
     <!-- 广告页 -->

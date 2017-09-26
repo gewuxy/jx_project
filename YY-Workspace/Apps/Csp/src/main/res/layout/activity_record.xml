@@ -6,12 +6,30 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="252dp"
-        android:layout_marginTop="14dp"/>
+        android:layout_height="wrap_content">
 
-    <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="252dp"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_default_i"
+            android:background="@color/pink_diaphaneity_sixty"
+            android:paddingLeft="16dp"
+            android:drawablePadding="6dp"
+            android:text="@string/live_stop_remind"
+            android:textSize="12dp"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="21dp"
         android:orientation="horizontal"
@@ -21,27 +39,30 @@
         <ImageView
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="103dp"
             android:src="@drawable/audio_ic_arrow_left"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:text="15"
+            android:layout_toLeftOf="@+id/horizontal_divider"
+            android:layout_marginRight="12dp"
+            android:text="10"
             android:textSize="16dp"
             android:textColor="@color/text_167afe"/>
 
         <View
+            android:id="@+id/horizontal_divider"
             android:layout_width="1px"
             android:layout_height="14dp"
-            android:layout_marginLeft="12dp"
-            android:layout_gravity="center_vertical"
+            android:layout_centerInParent="true"
             android:background="@color/color_db"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/horizontal_divider"
             android:layout_marginLeft="12dp"
             android:text="30"
             android:textSize="16dp"
@@ -51,12 +72,13 @@
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:layout_marginLeft="21dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="103dp"
             android:src="@drawable/audio_ic_arrow_right"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="74dp"
         android:layout_marginTop="68dp"
@@ -66,26 +88,32 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="62dp"
             android:src="@drawable/selector_record_permission_state"/>
 
         <ImageView
             android:layout_width="74dp"
             android:layout_height="74dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="65dp"
+            android:layout_centerInParent="true"
             android:src="@drawable/selector_record_state"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="49dp"
             android:gravity="center_vertical"
-            android:layout_marginLeft="60dp">
+            android:layout_marginLeft="59dp">
 
             <TextView
                 android:id="@+id/record_tv_online_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="10"
                 android:textSize="20dp"
                 android:textColor="@color/text_888"/>
 
@@ -102,7 +130,7 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"

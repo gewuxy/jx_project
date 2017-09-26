@@ -175,10 +175,8 @@ android {
 dependencies {
     implementation project(':YY-Workspace:Libs:LibYY')
     implementation project(':YY-Workspace:Libs:LibPay')
-    implementation project(':YY-Workspace:Libs:LibPlayer')
     implementation project(':YY-Workspace:Libs:LibJG')
     implementation project(':YY-Workspace:Libs:LibWX')
-    implementation project(':YY-Workspace:Libs:LibPDF')
     implementation project(':YY-Workspace:Libs:LibZEGO')
     /**
      * other

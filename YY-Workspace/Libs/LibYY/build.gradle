@@ -26,9 +26,18 @@ android {
         alpha {
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
     api project(deps.ys.core)
     api project(deps.ys.baidu)
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.qiniu:happy-dns:0.2.+'
+    api 'com.github.barteksc:android-pdf-viewer:2.7.0-beta.1'
 }
