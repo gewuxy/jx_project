@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.BaseJsonParser;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yaya.csp.R;
+import yaya.csp.network.JsonParser;
 import yaya.csp.util.Util;
 
 /**
@@ -51,7 +51,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return BaseJsonParser.error(r.getText());
+        return JsonParser.error(r.getText());
     }
 
     @Override

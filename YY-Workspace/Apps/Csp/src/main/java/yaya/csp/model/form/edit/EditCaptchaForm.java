@@ -13,7 +13,7 @@ import yaya.csp.R;
  */
 
 public class EditCaptchaForm extends EditForm {
-    private final int KCountDown = 60;
+    private final int KCountDown = 5;
 
     @Override
     protected void init(FormVH holder) {

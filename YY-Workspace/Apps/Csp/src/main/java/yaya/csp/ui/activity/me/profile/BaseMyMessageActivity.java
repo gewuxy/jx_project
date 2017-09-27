@@ -11,14 +11,16 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.BaseJsonParser;
 import lib.yy.ui.activity.base.BaseActivity;
 import yaya.csp.Extra;
 import yaya.csp.R;
 import yaya.csp.model.Profile;
 import yaya.csp.model.Profile.TProfile;
+import yaya.csp.network.JsonParser;
+import yaya.csp.network.NetFactory;
 import yaya.csp.util.Util;
 
 /**
@@ -46,10 +48,8 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.my_message, this);
         mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
-            // FIXME: 2017/9/25 个人信息接口
-//            refresh(RefreshWay.dialog);
-//            exeNetworkReq(NetFactory.modifyProfile(mAttr.name(), getEt().getText().toString()));
-            onModifySuccess();
+            refresh(RefreshWay.dialog);
+            exeNetworkReq(NetFactory.modifyProfile(mAttr.name(), getEt().getText().toString()));
         });
     }
 
@@ -93,7 +93,8 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return BaseJsonParser.error(r.getText());
+
+        return JsonParser.error(r.getText());
     }
 
     @Override

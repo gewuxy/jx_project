@@ -4,25 +4,29 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.mob.MobSDK;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.network.model.NetworkResp;
-import lib.wx.WXLoginApi;
 import lib.ys.ConstantsEx;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.network.BaseJsonParser;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import yaya.csp.Constants;
-import yaya.csp.Constants.WXType;
 import yaya.csp.R;
 import yaya.csp.dialog.HintDialogMain;
+import yaya.csp.dialog.HintDialogSec;
 import yaya.csp.model.Profile;
 import yaya.csp.model.Profile.TProfile;
+import yaya.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
+import yaya.csp.network.JsonParser;
+import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
 /**
@@ -33,6 +37,10 @@ import yaya.csp.util.Util;
  */
 public class AccountManageActivity extends BaseFormActivity {
 
+    private final int KTypeEmail = 0;
+    private final int KTypePhone = 1;
+    private PlatformAuthorizeUserInfoManager mPlatAuth;
+
     @IntDef({
             RelatedId.bind_wx,
             RelatedId.bind_sina,
@@ -40,7 +48,7 @@ public class AccountManageActivity extends BaseFormActivity {
             RelatedId.bind_twitter,
             RelatedId.bind_yaya,
             RelatedId.bind_phone,
-            RelatedId.bind_email
+            RelatedId.bind_email,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
@@ -51,12 +59,13 @@ public class AccountManageActivity extends BaseFormActivity {
         int bind_yaya = 5;
         int bind_phone = 6;
         int bind_email = 7;
-
     }
 
     @Override
     public void initData() {
         super.initData();
+        MobSDK.init(this, "20363f4ed7f9e", "38d54e92bac9c9367d249186c53ad89c");
+        mPlatAuth = new PlatformAuthorizeUserInfoManager(this);
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text_intent_bind)
@@ -64,14 +73,6 @@ public class AccountManageActivity extends BaseFormActivity {
                 .name(R.string.account_phone)
                 .drawable(R.drawable.form_ic_account_phone)
                 .text(Profile.inst().getString(TProfile.phone))
-                .hint(R.string.account_not_bind));
-
-        addItem(Form.create(FormType.divider));
-        addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_email)
-                .name(R.string.account_email)
-                .drawable(R.drawable.form_ic_account_email)
-                .text(Profile.inst().getString(TProfile.email))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider));
@@ -88,6 +89,14 @@ public class AccountManageActivity extends BaseFormActivity {
                 .name(R.string.account_sina)
                 .drawable(R.drawable.form_ic_account_sina)
                 .text(Profile.inst().getString(TProfile.sina))
+                .hint(R.string.account_not_bind));
+
+        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.text_intent_bind)
+                .related(RelatedId.bind_email)
+                .name(R.string.account_email)
+                .drawable(R.drawable.form_ic_account_email)
+                .text(Profile.inst().getString(TProfile.email))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider));
@@ -130,7 +139,16 @@ public class AccountManageActivity extends BaseFormActivity {
                     startActivity(BindPhoneActivity.class);
                 } else {
                     // 已绑定
-                    unBind(getString(R.string.account_unbind_phone), v1 -> startActivity(BindPhoneActivity.class));
+                    unBind(getString(R.string.account_unbind_phone), v1 -> {
+                        if (Util.noNetwork()) {
+                            return;
+                        }
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(UserAPI.unBindEmailOrPhone()
+                                .mobile(Profile.inst().getString(TProfile.phone))
+                                .token("d48f972107584add99e48adc510fdb35")
+                                .build());
+                    });
                 }
             }
             break;
@@ -143,10 +161,12 @@ public class AccountManageActivity extends BaseFormActivity {
                         if (Util.noNetwork()) {
                             return;
                         }
-//                        refresh(RefreshWay.dialog);
-//                        exeNetworkReq(UserAPI.unBindEmailOrPhone()
-//                                .email(Profile.inst().getString(TProfile.email))
-//                                .build());
+                        // FIXME: 2017/9/27 解绑邮箱接口
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(UserAPI.unBindEmailOrPhone()
+                                .email(Profile.inst().getString(TProfile.email))
+                                .token("d48f972107584add99e48adc510fdb35")
+                                .build());
                     });
                 }
             }
@@ -159,22 +179,22 @@ public class AccountManageActivity extends BaseFormActivity {
                         return;
                     }
 
-                    WXLoginApi.create(AccountManageActivity.this, Constants.KAppId);
-                    if (WXLoginApi.isWXAppInstalled()) {
-                        WXLoginApi.sendReq(WXType.bind);
-                    } else {
-                        notInstallWx();
-                    }
+//                    WXLoginApi.create(AccountManageActivity.this, Constants.KAppId);
+//                    if (WXLoginApi.isWXAppInstalled()) {
+//                        WXLoginApi.sendReq(WXType.bind);
+//                    } else {
+//                        notInstallWx();
+//                    }
                 } else {
                     // 已绑定
                     unBind(getString(R.string.account_unbind_wx), v1 -> {
                         if (Util.noNetwork()) {
                             return;
                         }
-//                        refresh(RefreshWay.dialog);
-//                        exeNetworkReq(UserAPI.bindAccountStatus()
-//                                .third_party_id(RelatedId.bind_wx)
-//                                .build());
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(UserAPI.bindAccountStatus()
+                                .thirdPartyId(RelatedId.bind_wx)
+                                .build());
                     });
                 }
             }
@@ -186,6 +206,19 @@ public class AccountManageActivity extends BaseFormActivity {
                     if (Util.noNetwork()) {
                         return;
                     }
+                    mPlatAuth.sinaAuthorize();
+//                    mPlatAuth.doUserInfo(SinaWeibo.NAME, );
+
+                } else {
+                    unBind(getString(R.string.account_unbind_sina), v1 -> {
+                        if (Util.noNetwork()) {
+                            return;
+                        }
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(UserAPI.bindAccountStatus()
+                                .thirdPartyId(RelatedId.bind_sina)
+                                .build());
+                    });
                 }
             }
             break;
@@ -224,7 +257,7 @@ public class AccountManageActivity extends BaseFormActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-            return BaseJsonParser.error(r.getText());
+        return JsonParser.error(r.getText());
     }
 
     @Override
@@ -232,7 +265,8 @@ public class AccountManageActivity extends BaseFormActivity {
         stopRefresh();
         // 绑定的
         Result r = (Result) result;
-        switch (id) {
+        @RelatedId int relateId = id;
+        switch (relateId) {
             case RelatedId.bind_wx: {
                 unBindUpdate(r, RelatedId.bind_wx, TProfile.wx);
             }
@@ -249,12 +283,12 @@ public class AccountManageActivity extends BaseFormActivity {
                 unBindUpdate(r, RelatedId.bind_twitter, TProfile.twitter);
             }
             break;
-            case RelatedId.bind_phone: {
-                unBindUpdate(r, RelatedId.bind_phone, TProfile.phone);
-            }
-            break;
             case RelatedId.bind_email: {
                 unBindUpdate(r, RelatedId.bind_email, TProfile.email);
+            }
+            break;
+            case RelatedId.bind_phone: {
+                unBindUpdate(r, RelatedId.bind_phone, TProfile.phone);
             }
             break;
         }
@@ -292,10 +326,29 @@ public class AccountManageActivity extends BaseFormActivity {
      * 没有安装微信
      */
     private void notInstallWx() {
-//        HintDialogSec dialog = new HintDialogSec(AccountManageActivity.this);
-//        dialog.setMainHint(R.string.wx_accredit_error);
-//        dialog.setSecHint(R.string.wx_check_normal);
-//        dialog.addBlueButton(R.string.affirm);
-//        dialog.show();
+        HintDialogSec dialog = new HintDialogSec(AccountManageActivity.this);
+        dialog.setMainHint(R.string.account_accredit_error);
+        dialog.setSecHint(R.string.account_wx_check_normal);
+        dialog.addBlueButton(R.string.confirm);
+        dialog.show();
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        if (type == NotifyType.bind_wx) {
+            bindSuccess((String) data, RelatedId.bind_wx);
+        } else if (type == NotifyType.bind_phone) {
+            bindSuccess((String) data, RelatedId.bind_phone);
+        } else if (type == NotifyType.bind_email) {
+            String email = Profile.inst().getString(TProfile.email);
+            getRelatedItem(RelatedId.bind_email).save(email, email);
+            refreshRelatedItem(RelatedId.bind_email);
+        }
+    }
+
+    private void bindSuccess(String data, @RelatedId int id) {
+        getRelatedItem(id).save(data, data);
+        refreshRelatedItem(id);
+        showToast(R.string.account_bind_succeed);
     }
 }

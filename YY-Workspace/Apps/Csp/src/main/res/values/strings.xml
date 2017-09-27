@@ -99,7 +99,6 @@
     <string name="account_manage">账号管理</string>
     <string name="account_not_bind">未绑定</string>
     <string name="account_confirm_bind">确认绑定</string>
-    <string name="account_bind_phone">绑定手机</string>
 
     <string name="account_phone">手机</string>
     <string name="account_email">邮箱</string>
@@ -111,9 +110,13 @@
     <string name="account_accredit_error">授权失败</string>
     <string name="account_wx_check_normal">检查“微信”是否正常启动</string>
 
+    <string name="account_bind_succeed">绑定成功</string>
     <string name="account_unbind_succeed">解绑成功</string>
     <string name="account_unbind_email">是否解除绑定邮箱</string>
+    <string name="account_bind_phone">绑定手机</string>
     <string name="account_unbind_phone">是否更换绑定的手机号码</string>
+    <string name="account_is_bind">该手机号已绑定</string>
+    <string name="account_send_captcha">已发送验证码</string>
     <string name="account_unbind_wx">是否解除绑定微信号</string>
     <string name="account_unbind_sina">是否解除绑定新浪微博</string>
     <string name="account_unbind_facebook">是否解除绑定Facebook</string>

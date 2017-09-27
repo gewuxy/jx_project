@@ -19,6 +19,7 @@ import yaya.csp.model.Profile;
 import yaya.csp.model.Profile.TProfile;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
+import yaya.csp.model.form.edit.EditCaptchaForm;
 import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
@@ -62,8 +63,9 @@ public class BindPhoneActivity extends BaseSetActivity {
                 .related(RelatedId.captcha)
                 .drawable(R.drawable.login_ic_pwd)
                 .paddingLeft(paddingLeft)
-                .hint(R.string.input_captcha)
-                .enable(false));
+                .textColorRes(R.color.bind_captcha_text_selector)
+                .enable(false)
+                .hint(R.string.input_captcha));
     }
 
     @Override
@@ -100,7 +102,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.bindPhone(getPhone(), getCaptcha()).build());
+        exeNetworkReq(UserAPI.bindPhone(getPhone(), getCaptcha(), "d48f972107584add99e48adc510fdb35").build());
     }
 
     @Override
@@ -115,11 +117,11 @@ public class BindPhoneActivity extends BaseSetActivity {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
                     if (getPhone().equals(Profile.inst().getString(TProfile.phone))) {
-                        showToast("该手机号已绑定");
+                        showToast(R.string.account_is_bind);
                         return;
                     }
                     // 获取验证码(有倒计时,不用loading)
-//                    exeNetworkReq(KCaptcha, RegisterAPI.captcha(getPhone(), CaptchaType.re_fetch).build());
+                    exeNetworkReq(KCaptcha, UserAPI.sendCaptcha(getPhone(), KCaptcha + "","d48f972107584add99e48adc510fdb35").build());
                 }
             }
             break;
@@ -133,12 +135,15 @@ public class BindPhoneActivity extends BaseSetActivity {
         if (r.isSucceed()) {
             if (id == KCaptcha) {
                 // 获取验证码
-//                EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
-//                item.start();
+                EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
+                item.start();
+                showToast(R.string.account_send_captcha);
             } else {
-                notify(NotifyType.bind_phone, getPhone());
+                // FIXME: 2017/9/27 手机号未成功显示在界面但保存了数据
                 Profile.inst().put(TProfile.phone, getPhone());
                 Profile.inst().saveToSp();
+
+                notify(NotifyType.bind_phone, getPhone());
                 finish();
             }
         } else {

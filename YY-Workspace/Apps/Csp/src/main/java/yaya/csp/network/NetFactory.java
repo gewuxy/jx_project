@@ -8,8 +8,6 @@ import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
-import yaya.csp.model.Profile;
-import yaya.csp.model.Profile.TProfile;
 import yaya.csp.network.UrlUtil.UrlUser;
 
 /**
@@ -37,9 +35,10 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersion()));
 
-        if (Profile.inst().isLogin()) {
-            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
-        }
+        ps.add(newPair(CommonParam.KToken, "d48f972107584add99e48adc510fdb35"));
+//        if (Profile.inst().isLogin()) {
+//            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
+//        }
         return ps;
     }
 

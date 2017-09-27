@@ -8,11 +8,11 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.network.BaseJsonParser;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yaya.csp.R;
@@ -20,6 +20,8 @@ import yaya.csp.model.Profile;
 import yaya.csp.model.Profile.TProfile;
 import yaya.csp.model.me.UpHeadImage;
 import yaya.csp.model.me.UpHeadImage.TUpHeadImage;
+import yaya.csp.network.JsonParser;
+import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
 /**
@@ -70,8 +72,10 @@ public class ClipImageActivity extends BaseActivity {
                 mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
                 // 网络上传图片
                 // FIXME: 2017/9/25 头像接口
-//                refresh(RefreshWay.dialog);
-//                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
+                refresh(RefreshWay.dialog);
+                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp), "d48f972107584add99e48adc510fdb35").build());
+            }else {
+                showToast("未知错误");
             }
             mPv.destroyDrawingCache();
         });
@@ -95,7 +99,7 @@ public class ClipImageActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return BaseJsonParser.ev(r.getText(), UpHeadImage.class);
+        return JsonParser.ev(r.getText(), UpHeadImage.class);
     }
 
     @Override
@@ -106,7 +110,7 @@ public class ClipImageActivity extends BaseActivity {
 
             UpHeadImage upHeadImage = r.getData();
             //头像路径保存到本地
-            Profile.inst().update(Profile.inst().put(TProfile.avatar, upHeadImage.getString(TUpHeadImage.data)));
+            Profile.inst().update(Profile.inst().put(TProfile.avatar, upHeadImage.getString(TUpHeadImage.url)));
             Profile.inst().saveToSp();
 
             setResult(RESULT_OK, getIntent());

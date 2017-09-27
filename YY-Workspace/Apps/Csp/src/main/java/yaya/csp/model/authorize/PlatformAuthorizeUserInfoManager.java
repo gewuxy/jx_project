@@ -138,24 +138,14 @@ public class PlatformAuthorizeUserInfoManager {
     class MyPlatformActionListener implements PlatformActionListener {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(MobSDK.getContext(), "Authorize Complete.", Toast.LENGTH_SHORT).show();
-                }
-            });
+            mActivity.runOnUiThread(() -> Toast.makeText(MobSDK.getContext(), "Authorize Complete.", Toast.LENGTH_SHORT).show());
         }
 
         @Override
         public void onError(Platform platform, int i, Throwable throwable) {
             throwable.printStackTrace();
             System.out.println("======Authorize Failure=======" + ((platform != null) ? platform.getName() : " ") + ":" + throwable.toString());
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(MobSDK.getContext(), "Authorize Failure", Toast.LENGTH_SHORT).show();
-                }
-            });
+            mActivity.runOnUiThread(() -> Toast.makeText(MobSDK.getContext(), "Authorize Failure", Toast.LENGTH_SHORT).show());
         }
 
         @Override

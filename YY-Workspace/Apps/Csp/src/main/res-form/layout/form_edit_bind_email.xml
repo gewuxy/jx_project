@@ -24,7 +24,10 @@
 
             <yaya.csp.view.AutoCompleteEditText
                 android:id="@id/form_et"
-                style="@style/et.common"/>
+                style="@style/et.common"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="0dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

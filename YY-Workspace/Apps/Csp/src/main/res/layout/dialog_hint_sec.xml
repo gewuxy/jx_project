@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="300dp"
+        android:layout_height="146dp"
+        app:corner_radius="3dp"
+        app:corner_useStroke="false">
+
+        <LinearLayout
+            android:id="@+id/dialog_layout_hint"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_sec_tv_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/share"
+                android:layout_marginRight="@dimen/share"
+                android:text="获取地理位置失败"
+                android:textColor="@color/text_333"
+                android:textSize="19dp"/>
+
+            <TextView
+                android:id="@+id/dialog_sec_tv_sec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/share"
+                android:layout_marginRight="@dimen/share"
+                android:layout_marginTop="12dp"
+                android:text="并检查地理位置权限是否已打开"
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/divider"
+            android:layout_above="@+id/dialog_layout_button"/>
+
+        <LinearLayout
+            android:id="@id/dialog_layout_button"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"/>
+
+    </lib.ys.view.CornerView>
+</LinearLayout>

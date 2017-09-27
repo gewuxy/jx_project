@@ -7,11 +7,13 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import yaya.csp.R;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
+import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
 /**
@@ -93,11 +95,8 @@ public class ChangePwdActivity extends BaseSetActivity{
 
     @Override
     protected void toSet() {
-        String oldPwd = Util.getEtString(mEtPwdOld);
-        String newPwd = Util.getEtString(mEtPwdNew);
-        // FIXME: 2017/9/25 修改密码接口
-//        refresh(RefreshWay.dialog);
-//        exeNetworkReq(UserAPI.changePwd(oldPwd, newPwd).build());
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(UserAPI.changePwd(Util.getEtString(mEtPwdOld), Util.getEtString(mEtPwdNew), "d48f972107584add99e48adc510fdb35").build());
     }
 
     @Override

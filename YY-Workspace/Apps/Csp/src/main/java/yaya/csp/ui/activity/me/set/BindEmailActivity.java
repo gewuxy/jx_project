@@ -7,11 +7,13 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.yy.network.Result;
 import yaya.csp.R;
 import yaya.csp.model.form.Form;
 import yaya.csp.model.form.FormType;
+import yaya.csp.network.NetworkAPISetter.UserAPI;
 import yaya.csp.util.Util;
 
 /**
@@ -59,6 +61,7 @@ public class BindEmailActivity extends BaseSetActivity{
         Result r = (Result) result;
         if (r.isSucceed()) {
             showToast(R.string.setting_bind_email_succeed);
+            startActivity(BindChangeEmailActivity.class);
             finish();
         }else {
             showToast(r.getMessage());
@@ -77,11 +80,8 @@ public class BindEmailActivity extends BaseSetActivity{
 
     @Override
     protected void toSet() {
-        // FIXME: 2017/9/25 邮箱接口
-//        refresh(RefreshWay.dialog);
-//        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEt)).build());
-        startActivity(BindChangeEmailActivity.class);
-        finish();
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEt), "d48f972107584add99e48adc510fdb35").build());
     }
 
     @Override
