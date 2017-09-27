@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meet_play_nav_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="27dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        style="@style/v.meeting.play">
+
+        <ImageView
+            android:id="@+id/meet_play_nav_iv_back"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:padding="5dp"
+            android:src="@drawable/meet_play_ic_back"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/v.meeting.play">
+
+        <TextView
+            android:id="@+id/meet_play_nav_tv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:drawableLeft="@drawable/meet_play_ic_comment"
+            android:drawablePadding="4dp"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:padding="5dp"
+            android:text="211"
+            android:textColor="@color/text_666"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/v.meeting.play">
+
+        <ImageView
+            android:id="@+id/meet_play_nav_iv_play"
+            android:layout_width="22dp"
+            android:layout_height="26dp"
+            android:padding="5dp"
+            android:src="@drawable/meet_play_ic_play"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/v.meeting.play">
+
+        <TextView
+            android:id="@+id/meet_play_nav_tv_online_num"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:drawableLeft="@drawable/meet_play_ic_online_num"
+            android:drawablePadding="4dp"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:padding="5dp"
+            android:text="211"
+            android:textColor="@color/text_666"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/v.meeting.play">
+
+        <ImageView
+            android:id="@+id/meet_play_nav_iv_landscape"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:padding="5dp"
+            android:src="@drawable/meet_play_ic_to_landscape"/>
+    </LinearLayout>
+
+</LinearLayout>

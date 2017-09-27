@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.meeting;
+package yy.doctor.ui.activity.meeting.play;
 
 import android.view.View;
 import android.widget.EditText;

@@ -31,12 +31,12 @@ public class MeetDetail extends EVal<TMeetDetail> {
     }
 
     @IntDef({
-            BroadcastType.REB, 
+            BroadcastType.REP,
             BroadcastType.live,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface BroadcastType {
-        int REB = 0; // 录播
+        int REP = 0; // 录播
         int live = 1; // 直播
     }
 
@@ -112,7 +112,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
     }
 
     public String getBroadcastType() {
-        if (getInt(TMeetDetail.meetKind) == BroadcastType.REB) {
+        if (getInt(TMeetDetail.meetKind) == BroadcastType.REP) {
             return "录播";
         } else {
             return "直播";

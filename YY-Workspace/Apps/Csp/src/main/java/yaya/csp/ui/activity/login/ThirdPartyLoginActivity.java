@@ -59,7 +59,7 @@ public class ThirdPartyLoginActivity extends BaseActivity implements OnClickList
         setOnClickListener(R.id.login_twitter);
 
         SpannableString s = new SpannableString(getString(R.string.agree_login));
-        s.setSpan(new ForegroundColorSpan(ResLoader.getColor(R.color.text_ff167)), 9,s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(ResLoader.getColor(R.color.text_167afe)), 9,s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mAgreeLogin.setText(s);
     }
 

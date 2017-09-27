@@ -5,8 +5,8 @@
 
     <color name="app_nav_bar_bg">#ffffff</color>
 
-    <drawable name="nav_bar_bg_focus">#64000000</drawable>
     <color name="nav_bar_text_focus">#64000000</color>
+    <drawable name="nav_bar_bg_focus">#64000000</drawable>
 
     <color name="csp_item_focus">#e8e8e8</color>
     <drawable name="csp_item_focus">#e8e8e8</drawable>
@@ -28,8 +28,6 @@
     <color name="white_diaphaneity_sixty">#99000000</color>
     <color name="pink_diaphaneity_sixty">#99e43939</color>
 
-
-
     <!-- 字体颜色 -->
     <color name="text_9b">#9b9b9b</color>
     <color name="text_333">#333</color>
@@ -48,8 +46,6 @@
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>
 
-    <color name="text_167AFE">#167afe</color>
-
     <!--分割线-->
     <color name="short_divider">#f1f1f1</color>
 
@@ -57,6 +53,5 @@
     <color name="btn_bg_blue">#0882e7</color>
     <color name="btn_bg_blue_focus">#0674cf</color>
     <color name="btn_bg_blue_disabled">#97cbf2</color>
-
 
 </resources>

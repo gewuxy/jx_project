@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.meeting;
+package yy.doctor.ui.activity.meeting.topic;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,7 @@ import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.ui.activity.meeting.BaseResultActivity;
 import yy.doctor.util.Util;
 
 /**

@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.meeting;
+package yy.doctor.ui.activity.meeting.topic;
 
 import android.content.Context;
 import android.content.Intent;

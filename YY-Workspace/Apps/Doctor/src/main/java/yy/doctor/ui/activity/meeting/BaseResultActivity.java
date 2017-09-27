@@ -29,9 +29,9 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     private static final int KReturnTime = 3; // 关闭倒计时
 
     @Arg
-    protected String mMeetId; // 会议id
+    public String mMeetId; // 会议id
     @Arg
-    protected String mModuleId; // 模块id
+    public String mModuleId; // 模块id
 
     protected TextView mTvWelcome; // 欢迎
     protected TextView mTvResult; // 结果

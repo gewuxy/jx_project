@@ -19,7 +19,7 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.ui.activity.meeting.MeetingCourseActivityRouter;
+import yy.doctor.ui.activity.meeting.play.MeetingREPActivityRouter;
 
 /**
  * 微课模块
@@ -84,7 +84,7 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
-                MeetingCourseActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                MeetingREPActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
             }
         } else {
             App.showToast(r.getMessage());

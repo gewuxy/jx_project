@@ -12,7 +12,7 @@ import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.ui.activity.meeting.ExamIntroActivityRouter;
+import yy.doctor.ui.activity.meeting.topic.ExamIntroActivityRouter;
 
 /**
  * 考试模块

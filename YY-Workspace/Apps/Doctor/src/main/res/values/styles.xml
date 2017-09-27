@@ -12,27 +12,55 @@
         <item name="android:layout_marginRight">@dimen/margin</item>
     </style>
 
-    <!-- 普通输入框样式 -->
-    <style name="et.common">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/edit_height</item>
-        <item name="android:paddingLeft">@dimen/margin</item>
-        <item name="android:background">@drawable/white</item>
-        <item name="android:textColor">@color/text_666</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:textColorHint">@color/text_b3</item>
+    <style name="tv.exam">
+        <item name="android:textSize">12dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="et.login">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/edit_height</item>
-        <item name="android:layout_marginLeft">28dp</item>
-        <item name="android:layout_marginRight">28dp</item>
-        <item name="android:background">@null</item>
-        <item name="android:textColor">@color/text_666</item>
-        <item name="android:textColorHint">@color/text_b3</item>
-        <item name="android:textSize">15dp</item>
-        <item name="android:layout_centerVertical">true</item>
+    <style name="tv.exam.end">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/text_888</item>
+    </style>
+
+    <style name="tv.data">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">21dp</item>
+        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="tv.login"/>
+
+    <style name="tv.login.bottom">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/text_848a8d</item>
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="tv.home"/>
+
+    <style name="tv.home.meet">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/text_888</item>
+    </style>
+
+    <style name="tv.home.speaker">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="tv.home.speaker.title">
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textSize">9dp</item>
     </style>
 
     <style name="tv.dialog">
@@ -62,63 +90,36 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- 普通输入框样式 -->
+    <style name="et.common">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/edit_height</item>
+        <item name="android:paddingLeft">@dimen/margin</item>
+        <item name="android:background">@drawable/white</item>
+        <item name="android:textColor">@color/text_666</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColorHint">@color/text_b3</item>
+    </style>
+
+    <style name="et.login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/edit_height</item>
+        <item name="android:layout_marginLeft">28dp</item>
+        <item name="android:layout_marginRight">28dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/text_666</item>
+        <item name="android:textColorHint">@color/text_b3</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
     <style name="v.meeting"/>
+
     <!-- meeting 底部的分割线 -->
     <style name="v.meeting.divider">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">16dp</item>
         <item name="android:background">@drawable/divider</item>
-    </style>
-
-    <style name="iv.meeting">
-        <item name="android:layout_height">16dp</item>
-        <item name="android:layout_width">16dp</item>
-    </style>
-
-    <style name="tv.exam.end">
-        <item name="android:textSize">13dp</item>
-        <item name="android:textColor">@color/text_888</item>
-    </style>
-
-    <style name="divider.meeting">
-        <item name="android:background">@color/divider</item>
-        <item name="android:layout_width">1dp</item>
-        <item name="android:layout_height">16dp</item>
-    </style>
-
-    <style name="divider.meeting.bottom">
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_centerVertical">true</item>
-    </style>
-
-    <style name="tv.exam">
-        <item name="android:textSize">12dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <!-- 资料部分 -->
-    <style name="v.data">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">42dp</item>
-        <item name="android:background">@drawable/item_selector</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:paddingLeft">@dimen/margin</item>
-    </style>
-
-    <style name="iv.data">
-        <item name="android:layout_width">27dp</item>
-        <item name="android:layout_height">27dp</item>
-        <item name="android:src">@drawable/unit_num_detail_ic_file</item>
-    </style>
-
-    <style name="tv.data">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">21dp</item>
-        <item name="android:textColor">@color/text_333</item>
-        <item name="android:textSize">10dp</item>
     </style>
 
     <style name="v.meeting.module">
@@ -130,15 +131,23 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="tv.login"/>
-
-    <style name="tv.login.bottom">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <!-- meeting PPT 底部 -->
+    <style name="v.meeting.play">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:textColor">@color/text_848a8d</item>
-        <item name="android:textSize">13dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- 资料部分 -->
+    <style name="v.data">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/item_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">@dimen/margin</item>
     </style>
 
     <!-- 首页会议文件夹 -->
@@ -160,25 +169,26 @@
         <item name="android:paddingLeft">10dp</item>
     </style>
 
-    <style name="tv.home"/>
-
-    <style name="tv.home.meet">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">12dp</item>
-        <item name="android:textColor">@color/text_888</item>
+    <style name="divider.meeting">
+        <item name="android:background">@color/divider</item>
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">16dp</item>
     </style>
 
-    <style name="tv.home.speaker">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">13dp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="divider.meeting.bottom">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="tv.home.speaker.title">
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:textSize">9dp</item>
+    <style name="iv.meeting">
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_width">16dp</item>
+    </style>
+
+    <style name="iv.data">
+        <item name="android:layout_width">27dp</item>
+        <item name="android:layout_height">27dp</item>
+        <item name="android:src">@drawable/unit_num_detail_ic_file</item>
     </style>
 
 </resources>

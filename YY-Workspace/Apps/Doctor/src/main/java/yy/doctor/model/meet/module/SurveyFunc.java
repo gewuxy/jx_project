@@ -11,7 +11,7 @@ import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.ui.activity.meeting.SurveyTopicActivity;
+import yy.doctor.ui.activity.meeting.topic.SurveyTopicActivity;
 
 /**
  * 问卷模块
