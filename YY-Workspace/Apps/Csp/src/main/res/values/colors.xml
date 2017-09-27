@@ -27,12 +27,8 @@
     <color name="white_diaphaneity_fifty">#80000000</color>
     <color name="white_diaphaneity_sixty">#99000000</color>
     <color name="pink_diaphaneity_sixty">#99e43939</color>
-    <color name="text_4d0">#4d000000</color>
-    <color name="text_ffa">#ffAfafaf</color>
-    <color name="text_ff167">#ff167afe</color>
-    <color name="text_ff333">#ff333333</color>
-    <color name="text_ff0a">#ff0a0000</color>
-    <color name="text_ff83">#ff838e9c</color>
+
+
 
     <!-- 字体颜色 -->
     <color name="text_9b">#9b9b9b</color>
@@ -44,6 +40,9 @@
     <color name="text_167afe">#167afe</color>
     <color name="text_66167afe">#66167afe</color>
     <color name="text_0682e6">#0682e6</color>
+    <color name="text_0a0000">#0a0000</color>
+    <color name="text_838e9c">#838e9c</color>
+    <color name="text_4d000000">#4d000000</color>
     <color name="text_01b557">#01b557</color>
 
     <!-- 其他颜色 -->
