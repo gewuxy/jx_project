@@ -19,7 +19,7 @@
             <lib.ys.network.image.NetworkImageView
                 style="@style/networkimageview_login"/>
 
-            <yaya.csp.view.AutoCompleteEditText
+            <jx.csp.view.AutoCompleteEditText
                 android:id="@id/form_et"
                 style="@style/et.form.bind"
                 android:layout_height="wrap_content"

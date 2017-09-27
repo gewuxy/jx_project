@@ -6,7 +6,7 @@ android {
     buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "yaya.csp.app"
+        applicationId "jx.csp.app"
 
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk

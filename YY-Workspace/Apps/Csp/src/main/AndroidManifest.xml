@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="yaya.csp">
+          package="jx.csp">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:name=".App"
+        android:name="jx.csp.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${app_name}"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme_SwipeBack">
 
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name="jx.csp.ui.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -24,81 +24,81 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.TestActivity"
+            android:name="jx.csp.ui.activity.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
         <activity
-            android:name=".ui.activity.AdvActivity"
+            android:name="jx.csp.ui.activity.AdvActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.activity.liveroom.LiveRoomActivity"
+        <activity android:name="jx.csp.ui.activity.liveroom.LiveRoomActivity"
             android:screenOrientation="landscape"/>
 
-        <activity android:name=".ui.activity.TestRecoderActivity"
+        <activity android:name="jx.csp.ui.activity.TestRecoderActivity"
                   android:screenOrientation="portrait"/>
 
 
         <activity
-            android:name=".ui.activity.CommonWebViewActivity"
+            android:name="jx.csp.ui.activity.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
         <!--登录-->
         <activity
             android:name=".ui.activity.login.ThirdpartyLoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.login.EmailLoginActivity"
+            android:name="jx.csp.ui.activity.login.EmailLoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.login.CaptchaLoginActivity"
+            android:name="jx.csp.ui.activity.login.CaptchaLoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".ui.activity.login.FindPwdActivity"
+            android:name="jx.csp.ui.activity.login.FindPwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.login.RegisterActivity"
+            android:name="jx.csp.ui.activity.login.RegisterActivity"
             android:screenOrientation="portrait"/>
 
         <!--个人中心-->
         <activity
-            android:name=".ui.activity.me.MeActivity"
+            android:name="jx.csp.ui.activity.me.MeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.SettingsActivity"
+            android:name="jx.csp.ui.activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.set.ChangePwdActivity"
+            android:name="jx.csp.ui.activity.me.set.ChangePwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.set.BindEmailActivity"
+            android:name="jx.csp.ui.activity.me.set.BindEmailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.set.BindEmailJumpActivity"
+            android:name="jx.csp.ui.activity.me.set.BindEmailJumpActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.set.BindChangeEmailActivity"
+            android:name="jx.csp.ui.activity.me.set.BindChangeEmailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.set.BindPhoneActivity"
+            android:name="jx.csp.ui.activity.me.set.BindPhoneActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.set.AccountManageActivity"
+            android:name="jx.csp.ui.activity.me.set.AccountManageActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.activity.me.profile.ProfileActivity"
+            android:name="jx.csp.ui.activity.me.profile.ProfileActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.profile.IntroActivity"
+            android:name="jx.csp.ui.activity.me.profile.IntroActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".ui.activity.me.profile.NickNameActivity"
+            android:name="jx.csp.ui.activity.me.profile.NickNameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".ui.activity.me.profile.ClipImageActivity"
+            android:name="jx.csp.ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
 
