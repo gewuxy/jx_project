@@ -1,5 +1,7 @@
 package yaya.csp;
 
+import com.mob.MobSDK;
+
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.network.NetworkConfig;
@@ -95,6 +97,7 @@ public class App extends BaseApp {
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
+        MobSDK.init(this,"20363f4ed7f9e","38d54e92bac9c9367d249186c53ad89c");
     }
 
     @Override

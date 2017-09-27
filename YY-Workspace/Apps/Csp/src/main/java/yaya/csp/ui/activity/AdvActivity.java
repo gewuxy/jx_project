@@ -5,11 +5,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import lib.network.model.NetworkResp;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yaya.csp.R;
+import yaya.csp.model.login.Advert;
+import yaya.csp.model.login.Advert.TAdvert;
+import yaya.csp.network.JsonParser;
+import yaya.csp.network.NetworkAPISetter.AdvertAPI;
 
 /**
  * 广告页
@@ -22,6 +29,8 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
     private final int KDelayTime = 3; // 3秒跳转
 
     private CountDown mCountDown;
+    private NetworkImageView mIv;
+    private String mPageUrl;
 
     @Override
     public void initData() {
@@ -41,6 +50,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
 
     @Override
     public void findViews() {
+        mIv = findView(R.id.adv_iv);
     }
 
     @Override
@@ -55,6 +65,8 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
                 removeOnGlobalLayoutListener(this);
             }
         });
+        exeNetworkReq(AdvertAPI.advert().build());
+
     }
 
     @Override
@@ -63,14 +75,30 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
         switch (v.getId()) {
             case R.id.adv_iv: {
                 //点击广告跳到h5页面
-                //Fixme:现在只是假设跳到TestActivity。
-                startActivity(TestActivity.class);
+                CommonWebViewActivityRouter.create("...",mPageUrl).route(this);
             }
             break;
             case R.id.adv_skip: {
                 startActivity(TestActivity.class);
             }
             break;
+        }
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), Advert.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        Result<Advert> r = (Result<Advert>) result;
+        if (r.isSucceed()) {
+            Advert adv = r.getData();
+            mIv.url(adv.getString(TAdvert.imgUrl)).load();
+            mPageUrl = adv.getString(TAdvert.pageUrl);
+        }else {
+            onNetworkError(id, r.getError());
         }
     }
 
@@ -89,7 +117,6 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mCountDown.stop();
         mCountDown.recycle();
     }

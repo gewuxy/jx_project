@@ -18,6 +18,10 @@ public class SpUser extends SpBase {
 
     private static SpUser mInst = null;
 
+    public interface SpUserKey {
+        String KProfileUpdateTime = "update_time";
+    }
+
     private SpUser(Context context, String fileName) {
         super(context, fileName);
     }
@@ -32,6 +36,13 @@ public class SpUser extends SpBase {
     @Override
     public void update(Observable o, Object arg) {
         mInst = null;
+    }
+
+    /**
+     * 保存个人数据刷新时间
+     */
+    public void updateProfileRefreshTime() {
+        save(SpUserKey.KProfileUpdateTime, System.currentTimeMillis());
     }
 
 }

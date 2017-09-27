@@ -57,6 +57,18 @@ public class HintDialog extends BaseDialog {
     }
 
     /**
+     * 提示的布局
+     *
+     * @param hintView
+     */
+    public void addHintView(View hintView) {
+        LayoutParams params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
+        params.gravity = Gravity.CENTER;
+        LayoutFitter.fit(hintView);
+        mLayoutHint.addView(hintView, params);
+    }
+
+    /**
      * 按钮的布局
      *
      * @param view
@@ -128,6 +140,14 @@ public class HintDialog extends BaseDialog {
     public void addBlueButton(@StringRes int strRes) {
         addButton(getContext().getString(strRes), R.color.text_167afe, null);
     }
+
+    /**
+     * 按钮颜色为0682e6
+     */
+    public void addBlueButton(String text, OnClickListener l) {
+        addButton(text, R.color.text_0682e6, l);
+    }
+
 
     /**
      * 按钮颜色为333333

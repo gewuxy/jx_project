@@ -8,6 +8,7 @@
     <string name="user_album_permission">请开启查看相册权限</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="well">好</string>
 
     <!-- 直播间 -->
     <string name="online">在线</string>
@@ -51,6 +52,10 @@
     <string name="find_pwd">找回密码</string>
     <string name="send_email">发送验证邮箱</string>
     <string name="input_register_email">输入注册时的邮箱地址</string>
+    <string name="register">注册</string>
+    <string name="immediately_register">立即注册</string>
+    <string name="pwd_err">密码错误</string>
+    <string name="get_captcha_frequently">获取验证码太频繁</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

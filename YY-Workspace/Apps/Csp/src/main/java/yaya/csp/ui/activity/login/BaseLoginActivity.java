@@ -11,6 +11,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yaya.csp.R;
+import yaya.csp.network.JsonParser;
 import yaya.csp.util.Util;
 
 /**
@@ -39,6 +40,9 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
 
         mTvSet = findView(R.id.base_set_tv_set);
         mLinerLayout = findView(R.id.linear_layout_login);
+        if (getFooterResId() != 0) {
+            mLinerLayout.addView(inflate(getFooterResId()));
+        }
     }
 
     @CallSuper
@@ -49,20 +53,15 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
         setOnClickListener(R.id.base_set_tv_set);
-
-        if (getFooterResId() != 0) {
-            mLinerLayout.addView(inflate(getFooterResId()));
-        }
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return null;
-       // return JsonParser.error(r.getText());
+        return JsonParser.error(r.getText());
     }
 
     @Override
-    public final void onClick(View v) {
+    public  void onClick(View v) {
         switch (v.getId()) {
             case R.id.base_set_tv_set: {
                 toSet();

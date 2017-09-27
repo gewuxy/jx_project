@@ -14,8 +14,8 @@ import lib.yy.network.ListResult;
 import yaya.csp.model.BaseGroup;
 
 /**
- * @auther HuoXuYu
- * @since 2017/9/21
+ * @author CaiXiang
+ * @since 2017/4/10
  */
 public class JsonParser extends BaseJsonParser {
 

@@ -18,7 +18,7 @@
             android:background="@drawable/bg_third_part_login_cn"
             android:gravity="center"
             android:text="@string/language_transform"
-            android:textColor="@color/white"
+            android:textColor="@color/text_af"
             android:textSize="12dp"/>
     </RelativeLayout>
 
@@ -52,7 +52,7 @@
 
     <TextView
         style="@style/tv.agree_login"
-        android:id="@+id/agree_login"
+        android:id="@+id/agree_protocol"
         android:layout_marginTop="29dp"/>
 
     <LinearLayout

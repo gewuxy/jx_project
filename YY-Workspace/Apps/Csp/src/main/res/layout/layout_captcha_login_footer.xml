@@ -6,6 +6,6 @@
 
     <TextView
         style="@style/tv.agree_login"
-        android:id="@+id/agree_login"
+        android:id="@+id/phone_agree_protocol"
         android:layout_marginTop="175dp"/>
 </LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="300dp"
+        android:layout_height="146dp"
+        app:corner_radius="@dimen/radius"
+        app:corner_useStroke="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请确认手机号码"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_333"
+                android:textSize="19dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="我们将发送短信验证码到这个号码"
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/captcha_tv_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:text="135 6001 4782"
+                android:textColor="@color/text_0682e6"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+    </lib.ys.view.CornerView>
+</LinearLayout>

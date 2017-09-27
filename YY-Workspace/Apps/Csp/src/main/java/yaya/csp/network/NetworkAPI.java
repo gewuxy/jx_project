@@ -92,7 +92,55 @@ public class NetworkAPI {
         void history(@Part(opt = true) int pageNum,
                      @Part(opt = true) int pageSize);
 
-        @POST("user/sendCaptcha")
+
+    }
+
+    /**
+     * 广告页
+     */
+    @API("advert")
+    interface Advert{
+        @POST("advert")
+        void advert();
+    }
+
+    /**
+     * 登录
+     */
+    @API("user")
+    interface Login{
+        /**
+         * 登录，包括所有的登录
+         * @param thirdPartyId 第三方登录id 1=微信 2=微博 3=Facebook 4=Twitter 5=YaYa医师 6=手机 7=邮箱
+         * @param email
+         * @param password
+         * @param mobile
+         * @param captcha
+         * @param nickName
+         * @param uniqueId 第三方平台唯一的Id
+         * @param gender 性别
+         * @param country 国家
+         * @param province 省份
+         * @param city 城市
+         * @param district 地区
+         * @param avatar 头像
+         */
+        @POST("login")
+        void login(int thirdPartyId,
+                   @Part(opt = true)String email,
+                   @Part(opt = true)String password,
+                   @Part(opt = true)String mobile,
+                   @Part(opt = true)String captcha,
+                   @Part(opt = true)String nickName,
+                   @Part(opt = true)String uniqueId,
+                   @Part(opt = true)String gender,
+                   @Part(opt = true)String country,
+                   @Part(opt = true)String province,
+                   @Part(opt = true)String city,
+                   @Part(opt = true)String district,
+                   @Part(opt = true)String avatar);
+
+        @POST("sendCaptcha")
         void sendCaptcha(String mobile, String type, String token);
     }
 

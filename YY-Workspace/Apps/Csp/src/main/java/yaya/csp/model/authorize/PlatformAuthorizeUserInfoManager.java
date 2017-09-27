@@ -1,6 +1,5 @@
 package yaya.csp.model.authorize;
 
-import android.app.Activity;
 import android.widget.Toast;
 
 import com.mob.MobSDK;
@@ -16,6 +15,7 @@ import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import yaya.csp.App;
 
 /**
  * @auther WangLan
@@ -23,11 +23,9 @@ import cn.sharesdk.wechat.moments.WechatMoments;
  */
 
 public class PlatformAuthorizeUserInfoManager {
-    private Activity mActivity;
     private MyPlatformActionListener myPlatformActionListener = null;
 
-    public PlatformAuthorizeUserInfoManager(Activity mACt) {
-        this.mActivity = mACt;
+    public PlatformAuthorizeUserInfoManager() {
         this.myPlatformActionListener = new MyPlatformActionListener();
     }
 
@@ -138,14 +136,25 @@ public class PlatformAuthorizeUserInfoManager {
     class MyPlatformActionListener implements PlatformActionListener {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-            mActivity.runOnUiThread(() -> Toast.makeText(MobSDK.getContext(), "Authorize Complete.", Toast.LENGTH_SHORT).show());
+            App.showToast("Authorize Complete.");
+            /*mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MobSDK.getContext(), "Authorize Complete.", Toast.LENGTH_SHORT).show();
+                }
+            });*/
         }
 
         @Override
         public void onError(Platform platform, int i, Throwable throwable) {
             throwable.printStackTrace();
-            System.out.println("======Authorize Failure=======" + ((platform != null) ? platform.getName() : " ") + ":" + throwable.toString());
-            mActivity.runOnUiThread(() -> Toast.makeText(MobSDK.getContext(), "Authorize Failure", Toast.LENGTH_SHORT).show());
+            App.showToast("Authorize Failure");
+           /* mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MobSDK.getContext(), "Authorize Failure", Toast.LENGTH_SHORT).show();
+                }
+            });*/
         }
 
         @Override

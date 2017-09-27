@@ -42,9 +42,9 @@
             android:screenOrientation="portrait" />
 
 
-        <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+       <!-- &lt;!&ndash; 填写您从Mob开发者后台中得到的Appkey和AppSecret &ndash;&gt;
         <meta-data android:name="Mob-AppKey" android:value="20363f4ed7f9e"/>
-        <meta-data android:name="Mob-AppSecret" android:value="38d54e92bac9c9367d249186c53ad89c"/>
+        <meta-data android:name="Mob-AppSecret" android:value="38d54e92bac9c9367d249186c53ad89c"/>-->
 
     </application>
 </manifest>

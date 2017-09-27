@@ -4,8 +4,8 @@ import lib.ys.model.group.GroupEx;
 
 
 /**
- * @auther HuoXuYu
- * @since 2017/9/21
+ * @author : GuoXuan
+ * @since : 2017/4/29
  */
 
 public class BaseGroup<CHILD> extends GroupEx<CHILD> {

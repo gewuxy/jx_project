@@ -21,7 +21,7 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
 import yaya.csp.R;
-import yaya.csp.utils.Util;
+import yaya.csp.util.Util;
 
 
 /**

@@ -9,7 +9,7 @@ import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import yaya.csp.R;
-import yaya.csp.utils.Util;
+import yaya.csp.util.Util;
 
 /**
  * FIXME: 逻辑待调整. 有问题
