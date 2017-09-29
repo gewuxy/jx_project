@@ -166,7 +166,7 @@ public class HospitalActivity extends BaseHospitalActivity {
 
     @Override
     protected void searchError(ListResult<IHospital> r) {
-        r.setCode(ErrorCode.KUnKnow);
+        r.setCode(ErrorCode.KUnknown);
         r.setMessage("搜索不到你需要的信息");
     }
 

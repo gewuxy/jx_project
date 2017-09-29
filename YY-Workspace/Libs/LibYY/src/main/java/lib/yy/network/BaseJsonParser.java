@@ -26,7 +26,7 @@ public class BaseJsonParser extends JsonParserEx {
     public interface ErrorCode {
         int KOk = 0;
         int KTokenExpired = 100;  //用户未认证
-        int KUnKnow = -1000;
+        int KUnknown = -1000;
         int KServerErr = -999;
         int KPwdErr = -2;
     }
@@ -47,7 +47,7 @@ public class BaseJsonParser extends JsonParserEx {
             if (object.has(CommonTag.KErrCode)) {
                 code = getInt(object, CommonTag.KErrCode);
             } else {
-                code = ErrorCode.KUnKnow;
+                code = ErrorCode.KUnknown;
             }
             errorStr = getString(object, CommonTag.KMsg);
 

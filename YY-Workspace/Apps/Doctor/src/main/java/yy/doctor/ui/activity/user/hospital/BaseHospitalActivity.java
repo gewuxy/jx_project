@@ -175,7 +175,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
             if (info == null || info.size() == 0) {
                 // 没有结果
-                r.setCode(ErrorCode.KUnKnow);
+                r.setCode(ErrorCode.KUnknown);
                 r.setMessage("搜索不到你需要的信息");
             } else {
                 // 有结果
