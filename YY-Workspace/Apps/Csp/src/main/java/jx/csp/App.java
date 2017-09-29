@@ -2,6 +2,10 @@ package jx.csp;
 
 import com.mob.MobSDK;
 
+import jx.csp.network.NetFactory;
+import jx.csp.network.NetworkAPISetter;
+import jx.csp.network.UrlUtil;
+import jx.csp.util.CacheUtil;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.network.NetworkConfig;
@@ -14,11 +18,6 @@ import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.yy.BaseApp;
-import jx.csp.network.NetFactory;
-import jx.csp.network.NetworkAPISetter;
-import jx.csp.network.UrlUtil;
-import jx.csp.ui.activity.liveroom.ZegoApiManager;
-import jx.csp.util.CacheUtil;
 
 /**
  * @auther yuansui
@@ -99,7 +98,6 @@ public class App extends BaseApp {
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
         MobSDK.init(this,"20363f4ed7f9e","38d54e92bac9c9367d249186c53ad89c");
-        ZegoApiManager.getInstance().init();
     }
 
     @Override
