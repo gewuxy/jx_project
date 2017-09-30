@@ -15,7 +15,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  * @since 2017/9/27
  */
 
-public class ThirdpartyLoginActivity extends BaseActivity {
+public class ThirdPartyLoginActivity extends BaseActivity {
 
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 

@@ -43,7 +43,7 @@
             android:screenOrientation="portrait"/>
         <!--登录-->
         <activity
-            android:name="jx.csp.ui.activity.login.ThirdpartyLoginActivity"
+            android:name="jx.csp.ui.activity.login.ThirdPartyLoginActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.login.EmailLoginActivity"
@@ -67,9 +67,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.login.YaYaAuthorizeLoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="jx.csp.ui.activity.login.BaseYaYaLoginActivity"
             android:screenOrientation="portrait"/>
 
         <!--个人中心-->
