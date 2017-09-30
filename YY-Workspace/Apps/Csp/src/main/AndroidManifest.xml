@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name="jx.csp.ui.activity.TestActivity"
+            android:name=".ui.activity.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
@@ -43,7 +43,7 @@
             android:screenOrientation="portrait"/>
         <!--登录-->
         <activity
-            android:name=".ui.activity.login.ThirdpartyLoginActivity"
+            android:name="jx.csp.ui.activity.login.ThirdpartyLoginActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.login.EmailLoginActivity"
@@ -53,10 +53,23 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name="jx.csp.ui.activity.login.FindPwdActivity"
+            android:name="jx.csp.ui.activity.login.ForgetPwdActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.login.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="jx.csp.ui.activity.login.ForgetPwdSkipActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.login.CaptchaLoginNicknameActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.login.YaYaAuthorizeLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.login.BaseYaYaLoginActivity"
             android:screenOrientation="portrait"/>
 
         <!--个人中心-->

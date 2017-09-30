@@ -5,6 +5,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import jx.csp.R;
+import jx.csp.model.login.Advert;
+import jx.csp.model.login.Advert.TAdvert;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkAPISetter.AdvertAPI;
 import lib.network.model.NetworkResp;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.activity.ActivityEx;
@@ -12,11 +17,6 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import jx.csp.R;
-import jx.csp.model.login.Advert;
-import jx.csp.model.login.Advert.TAdvert;
-import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPISetter.AdvertAPI;
 
 /**
  * 广告页

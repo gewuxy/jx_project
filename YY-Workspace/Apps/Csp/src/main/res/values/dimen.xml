@@ -10,5 +10,6 @@
     <dimen name="form_margin_left_and_right">38dp</dimen>
 
     <dimen name="radius">33dp</dimen>
+    <dimen name="radius_small">3dp</dimen>
 
 </resources>

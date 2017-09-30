@@ -27,6 +27,9 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         facebook,
         twitter,
         yaya,       //yaya医师
+        nickName,    //昵称
+        //Fixme:到底是phone还是mobile
+        mobile       //手机
     }
 
     private static Profile mInst = null;

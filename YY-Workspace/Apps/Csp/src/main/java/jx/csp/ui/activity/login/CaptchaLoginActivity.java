@@ -10,21 +10,28 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.dialog.HintDialog;
 import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
+import jx.csp.model.form.edit.EditCaptchaForm;
+import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
-import jx.csp.util.UISetter;
 import jx.csp.util.Util;
+import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.TextUtil;
+import lib.yy.model.form.BaseForm;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
+
 
 /**
  * @auther WangLan
@@ -45,15 +52,19 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         int nickname = 2;
     }
 
+    private final String KCaptcha = "0";
+    private final int KIdLogin = 1;
+    private final int KIdCaptcha = 2;
+    private final int KMaxCount = 3; // 最多获取3次验证码
+    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
+
     private EditText mEtPhoneNumber;
     private EditText mEtCaptcha;
-    private EditText mEtNickName;
-    private TextView mAgreeProtocol;
+    private TextView mProtocol;
     private String mRequest; // 判断桌面快捷方式进来
     private int mCount; // 计算点击多少次
     private long mStartTime; // 开始计算10分钟间隔的时间
-    private final int KMaxCount = 3; // 最多获取3次验证码
-    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
+
 
     @Override
     public void initData() {
@@ -74,18 +85,12 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 .drawable(R.drawable.login_ic_pwd)
                 .enable(false);
         addItem(Form.create(FormType.divider_margin));
-
-        addItem(Form.create(FormType.et)
-                .related(RelatedId.nickname)
-                .hint(R.string.input_nickname)
-                .drawable(R.drawable.login_ic_nickname));
-        addItem(Form.create(FormType.divider_margin));
     }
 
     @Override
     public void findViews() {
         super.findViews();
-        mAgreeProtocol = findView(R.id.phone_agree_protocol);
+        mProtocol = findView(R.id.protocol);
     }
 
     @Override
@@ -98,10 +103,12 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         mEtPhoneNumber.addTextChangedListener(this);
         mEtCaptcha = getRelatedItem(RelatedId.captcha).getHolder().getEt();
         mEtCaptcha.addTextChangedListener(this);
-        mEtNickName = getRelatedItem(RelatedId.nickname).getHolder().getEt();
-        mEtNickName.addTextChangedListener(this);
 
-        mAgreeProtocol.setText( UISetter.setLoginProtocol(getString(R.string.agree_login)));
+        setOnClickListener(R.id.protocol);
+
+//        mEtPhoneNumber.setText(SpApp.inst().getUserName());
+        mEtPhoneNumber.setText(SpApp.inst().getUserMobile());
+        mEtPhoneNumber.setSelection(getPhone().length());
     }
 
     @Override
@@ -115,64 +122,107 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected void onFormViewClick(View v, int position, Object related) {
-        switch ((int)related){
-            case RelatedId.captcha:{
-                View view = inflate(R.layout.dialog_captcha);
-                TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
-                String phone = getItemStr(RelatedId.phone_number);
-                tv.setText(phone);
-
-                HintDialog dialog = new HintDialog(this);
-                dialog.addHintView(view);
-                dialog.addBlueButton(R.string.cancel);
-                dialog.addBlueButton(getString(R.string.well), v1 -> {
-                    mCount++;
-                    if (mCount == 1) {
-                        mStartTime = System.currentTimeMillis();
-                    }
-                    if (mCount > KMaxCount) {
-                        long duration = System.currentTimeMillis() - mStartTime;
-                        if (duration <= KCaptchaDuration) {
-                            showToast(R.string.get_captcha_frequently);
-                            return;
-                        } else {
-                            mCount = 1;
-                        }
-                    }
-                   // exeNetworkReq(KIdCaptcha, RegisterAPI.captcha(getPhone(), CaptchaType.fetch).build());
-                });
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.protocol: {
+                //Fixme:跳转到h5页面，现在还没有文案
+                startActivity(TestActivity.class);
             }
+            break;
+        }
+    }
+
+    @Override
+    protected void onFormViewClick(View v, int position, Object related) {
+        switch ((int) related) {
+            case RelatedId.captcha: {
+                if (v.getId() == R.id.form_tv_text) {
+
+                    View view = inflate(R.layout.dialog_captcha);
+                    TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
+                    String phone = getItemStr(RelatedId.phone_number);
+                    tv.setText(phone);
+
+                    HintDialog dialog = new HintDialog(this);
+                    dialog.addHintView(view);
+                    dialog.addBlueButton(R.string.cancel);
+                    dialog.addBlueButton(getString(R.string.well), v1 -> {
+                        mCount++;
+                        YSLog.d("mCount:",mCount+"");
+                        if (mCount == 1) {
+                            mStartTime = System.currentTimeMillis();
+                        }
+                        if (mCount > KMaxCount) {
+                            long duration = System.currentTimeMillis() - mStartTime;
+                            if (duration <= KCaptchaDuration) {
+                                showToast(R.string.get_captcha_frequently);
+                                return;
+                            } else {
+                                mCount = 1;
+                            }
+                        }
+                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha , "d48f972107584add99e48adc510fdb35").build());
+                    });
+                    dialog.show();
+                }
+            }
+            break;
         }
     }
 
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(LoginAPI.login(6).mobile(getPhone()).captcha(getCaptcha()).nickName(getNickName()).build());
+        exeNetworkReq(KIdLogin,LoginAPI.login(6).mobile(getPhone()).captcha(getCaptcha()).build());
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Result<Profile> r = (Result<Profile>) result;
-        if (r.isSucceed()) {
-            //保存用户名,验证码登录的用户名是昵称
-            SpApp.inst().saveUserName(getNickName());
-            Profile.inst().update(r.getData());
-            SpUser.inst().updateProfileRefreshTime();
+        if (id == KIdLogin) {
+            Result<Profile> r = (Result<Profile>) result;
+            if (r.isSucceed()) {
+                //Fixme:保存用户名,验证码登录的用户名是昵称,那此时保存什么鬼,暂且保存手机号
+                // SpApp.inst().saveUserName(getNickName());
+//                SpApp.inst().saveUserName(getPhone());
+                SpApp.inst().saveUserMobile(getPhone());
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+                Profile data = r.getData();
 
-            //判断跳转到哪里
-            if (TextUtil.isEmpty(mRequest)) {
-                //Fixme:跳转到首页，目前暂时没有
-                startActivity(TestActivity.class);
+
+                //如果有nickname这个字段
+                if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
+                    //判断跳转到哪里
+                    if (TextUtil.isEmpty(mRequest)) {
+                        //Fixme:跳转到首页，目前暂时没有
+                        startActivity(TestActivity.class);
+                    } else {
+                        setResult(RESULT_OK);
+                    }
+                } else {
+                    startActivity(CaptchaLoginNicknameActivity.class);
+                }
+                stopRefresh();
+                finish();
             } else {
-                setResult(RESULT_OK);
+                onNetworkError(id, r.getError());
             }
-            stopRefresh();
-            finish();
-        } else {
-            onNetworkError(id, r.getError());
+        } else if (id == KIdCaptcha) {
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
+                showToast(R.string.send_captcha);
+            } else {
+                onNetworkError(id, r.getError());
+            }
         }
+
     }
 
     @Override
@@ -182,15 +232,14 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(Util.isMobileCN(Util.getEtString(mEtPhoneNumber)) && TextUtil.isNotEmpty(Util.getEtString(mEtCaptcha))
-                && TextUtil.isNotEmpty(Util.getEtString(mEtNickName)));
+        setChanged(Util.isMobileCN(Util.getEtString(mEtPhoneNumber)) && TextUtil.isNotEmpty(Util.getEtString(mEtCaptcha)));
     }
 
     public String getPhone() {
         if (mEtPhoneNumber == null) {
             return "";
         }
-        return Util.getEtString(mEtPhoneNumber);
+        return Util.getEtString(mEtPhoneNumber).replace(" ", "");
     }
 
     public String getCaptcha() {
@@ -200,18 +249,22 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         return Util.getEtString(mEtCaptcha);
     }
 
-    public String getNickName() {
-        if (mEtNickName == null) {
-            return "";
-        }
-        return Util.getEtString(mEtNickName);
-    }
-
     /**
      * 获取Item的文本信息
      */
     private String getItemStr(@RelatedId int relatedId) {
         return getRelatedItem(relatedId).getVal();
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+        BaseForm form = getRelatedItem(RelatedId.captcha);
+        if (type == NotifyType.fetch_message_captcha) {
+            form.enable(true);
+        } else if (type == NotifyType.disable_fetch_message_captcha) {
+            form.enable(false);
+        }
+        refreshItem(form);
     }
 
 }

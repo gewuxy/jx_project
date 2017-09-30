@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <TextView
+        android:layout_width="258dp"
+        android:layout_height="44dp"
+        android:text="@string/reset_pwd_to_email"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="57dp"/>
+    <TextView
+        android:id="@+id/tv_back_login"
+        android:layout_width="283dp"
+        android:layout_height="42dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/btn_selector_blue"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:text="5s返回登录"/>
+
+</LinearLayout>

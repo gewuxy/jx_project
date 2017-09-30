@@ -29,6 +29,7 @@
         i<item name="android:id">@id/form_iv</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/share</item>
     </style>
 
     <style name="tv.login"/>
@@ -41,11 +42,11 @@
         <item name="android:textSize">13dp</item>
     </style>
 
-    <style name="tv.agree_login">
+    <style name="tv.agree_protocol">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name= "android:layout_gravity">center</item>
-        <item name="android:text">@string/agree_login</item>
+        <item name="android:text">@string/have_agree_to</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">10dp</item>
     </style>

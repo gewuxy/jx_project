@@ -14,6 +14,8 @@ import inject.annotation.network.method.UPLOAD;
 @APIFactory(
         host = "https://app.medyaya.cn/api/",
         hostDebuggable = "http://59.111.90.245:8084/api/"
+//        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
+
 )
 public class NetworkAPI {
 
@@ -107,7 +109,7 @@ public class NetworkAPI {
     /**
      * 登录
      */
-    @API("user")
+    @API()
     interface Login{
         /**
          * 登录，包括所有的登录
@@ -125,7 +127,7 @@ public class NetworkAPI {
          * @param district 地区
          * @param avatar 头像
          */
-        @POST("login")
+        @POST("user/login")
         void login(int thirdPartyId,
                    @Part(opt = true)String email,
                    @Part(opt = true)String password,
@@ -140,8 +142,39 @@ public class NetworkAPI {
                    @Part(opt = true)String district,
                    @Part(opt = true)String avatar);
 
-        @POST("sendCaptcha")
+        /**
+         * 获取验证码
+         * @param mobile 手机号码
+         * @param type 验证码模板类型 0=登录 1=绑定
+         * @param token 没有登录的时候需要token值，只是测试时候，实际文档没有
+         */
+        @POST("user/sendCaptcha")
         void sendCaptcha(String mobile, String type, String token);
+
+        /**
+         * 邮箱注册
+         * @param email 邮箱
+         * @param password 密码
+         * @param nickName 昵称
+         */
+        @POST("user/register")
+        void register(String email,String password,String nickName);
+
+        /**
+         * 忘记密码
+         * @param email 邮箱
+         */
+        @POST("email/findPwd")
+        void findPwd(String email);
+    }
+
+    /**
+     * yaya医师授权登录，url也不一样
+     */
+    @API()
+    interface YaYaAuthorizeLogin{
+        @POST("oauth/app/authorize")
+        void yayaLogin(String username,String password);
     }
 
 }

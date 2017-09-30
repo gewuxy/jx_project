@@ -11,23 +11,27 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="52dp"
-            android:layout_weight="1"
             android:layout_marginTop="75dp"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <lib.ys.network.image.NetworkImageView
-                style="@style/networkimageview_login"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/share"
+                android:src="@drawable/login_ic_email"/>
 
             <jx.csp.view.AutoCompleteEditText
                 android:id="@id/form_et"
                 style="@style/et.form.bind"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="28dp"/>
+
+            <ImageView
+                style="@style/iv.form.clean"/>
         </LinearLayout>
 
-        <ImageView
-            style="@style/iv.form.clean"/>
 
     </LinearLayout>
 

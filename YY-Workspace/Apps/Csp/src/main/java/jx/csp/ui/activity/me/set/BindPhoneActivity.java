@@ -9,6 +9,7 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.network.NetworkAPISetter.LoginAPI;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
@@ -121,7 +122,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                         return;
                     }
                     // 获取验证码(有倒计时,不用loading)
-//                    exeNetworkReq(KCaptcha, UserAPI.sendCaptcha(getPhone(), KCaptcha + "","d48f972107584add99e48adc510fdb35").build());
+                   exeNetworkReq(KCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha + "","d48f972107584add99e48adc510fdb35").build());
                 }
             }
             break;

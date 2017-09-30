@@ -27,6 +27,7 @@
     <color name="white_diaphaneity_fifty">#80000000</color>
     <color name="white_diaphaneity_sixty">#99000000</color>
     <color name="pink_diaphaneity_sixty">#99e43939</color>
+    <color name="blue_diaphaneity_forty">#663fa9f5</color>
 
     <!-- 字体颜色 -->
     <color name="text_9b">#9b9b9b</color>
@@ -54,5 +55,12 @@
     <color name="btn_bg_blue">#0882e7</color>
     <color name="btn_bg_blue_focus">#0674cf</color>
     <color name="btn_bg_blue_disabled">#97cbf2</color>
+
+    <!--edt填充色-->
+    <color name="edt_f3f6f8">#f3f6f8</color>
+
+    <!--yaya授权登录按钮效果-->
+    <color name="text_3fa9f5">#3fa9f5</color>
+    <color name="text_focus">#3998db</color>
 
 </resources>

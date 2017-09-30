@@ -35,6 +35,8 @@ public class SpApp extends SpBase {
         String KAppUpdateTime = "app_update_time";
         String KFirstEnterExam = "first_enter_exam";
         String KFirstEnterQue = "first_enter_que";
+        String KUserEmail = "email";
+        String KUserMobile = "mobile";
     }
 
     @Override
@@ -58,6 +60,42 @@ public class SpApp extends SpBase {
      */
     public String getUserName() {
         return getString(SpAppKey.KUserName);
+    }
+
+    /**
+     * 保存用户的邮箱
+     *
+     * @param userEmail
+     */
+    public void saveUserEmail(String userEmail) {
+        save(SpAppKey.KUserEmail, userEmail);
+    }
+
+    /**
+     * 获取用户名
+     *
+     * @return
+     */
+    public String getUserEmail() {
+        return getString(SpAppKey.KUserEmail);
+    }
+
+    /**
+     * 保存用户名
+     *
+     * @param userMobile
+     */
+    public void saveUserMobile(String userMobile) {
+        save(SpAppKey.KUserMobile, userMobile);
+    }
+
+    /**
+     * 获取用户名
+     *
+     * @return
+     */
+    public String getUserMobile() {
+        return getString(SpAppKey.KUserMobile);
     }
 
     /**

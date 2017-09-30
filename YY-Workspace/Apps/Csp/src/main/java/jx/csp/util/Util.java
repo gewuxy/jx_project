@@ -73,4 +73,13 @@ public class Util extends BaseUtil {
         return RegexUtil.isMobileCN(phone.toString().replace(" ", ""));
     }
 
+    /**
+     * 密码允许输入的特殊符
+     *
+     * @return
+     */
+    public static String symbol() {
+        String character = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
+        return character;
+    }
 }

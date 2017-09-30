@@ -4,32 +4,34 @@ import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.RegexUtil;
-import lib.ys.util.TextUtil;
-import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.Result;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.model.login.login;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
-import jx.csp.util.UISetter;
 import jx.csp.util.Util;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.RegexUtil;
+import lib.ys.util.TextUtil;
+import lib.yy.network.BaseJsonParser.ErrorCode;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
+
+//import jx.csp.model.login.login;
+;
 
 /**
  * @auther WangLan
@@ -48,10 +50,11 @@ public class EmailLoginActivity extends BaseLoginActivity {
         int pwd = 1;
     }
 
+    private final int KTypeId = 7; // 第三方登录平台id,7代表邮箱
+
     private EditText mEtEmail;
     private EditText mEtPwd;
     private String mRequest; // 判断桌面快捷方式进来
-    private TextView mAgreeProtocol;
     private int mCount = 0;
 
     @Override
@@ -63,7 +66,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 .related(RelatedId.email)
                 .hint(R.string.email_address)
                 .layout(R.layout.form_edit_email))
-                .drawable(R.drawable.login_ic_email)
                 .paddingLeft(46);
         addItem(Form.create(FormType.divider_margin));
 
@@ -72,12 +74,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 .hint(R.string.input_pwd)
                 .drawable(R.drawable.login_pwd_selector);
         addItem(Form.create(FormType.divider_margin));
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-        mAgreeProtocol = findView(R.id.email_agree_protocol);
     }
 
     @Override
@@ -93,11 +89,11 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
+        setOnClickListener(R.id.protocol);
 
-        mEtEmail.setText(SpApp.inst().getUserName());
-        mEtEmail.setSelection(getUserName().length());
-
-        mAgreeProtocol.setText(UISetter.setLoginProtocol(getString(R.string.agree_login)));
+//        mEtEmail.setText(SpApp.inst().getUserName());
+        mEtEmail.setText(SpApp.inst().getUserEmail());
+        mEtEmail.setSelection(getEmail().length());
     }
 
     @Override
@@ -119,7 +115,12 @@ public class EmailLoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.login_tv_forget_pwd: {
-                startActivity(FindPwdActivity.class);
+                startActivity(ForgetPwdActivity.class);
+            }
+            break;
+            case R.id.protocol:{
+                //Fixme:跳转到h5页面，现在还没有文案
+                startActivity(TestActivity.class);
             }
             break;
         }
@@ -127,13 +128,23 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
     @Override
     protected void toSet() {
+        if (!getUserPwd().matches(Util.symbol())) {
+            showToast(R.string.input_special_symbol);
+            return;
+        }
+        if (getUserPwd().length() < 6) {
+            showToast(R.string.input_right_pwd_num);
+            return;
+        }
+
         refresh(RefreshWay.dialog);
-        exeNetworkReq(LoginAPI.login(7).email(getUserName()).password(getUserPwd()).build());
+        //Fixme:原来登录请求还有个packageUtil,什么鬼
+        exeNetworkReq(LoginAPI.login(KTypeId).email(getEmail()).password(getUserPwd()).build());
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), login.class);
+        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
@@ -141,7 +152,10 @@ public class EmailLoginActivity extends BaseLoginActivity {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             //保存用户名，邮箱用户名是昵称？？？
-            SpApp.inst().saveUserName(getUserName());
+           // SpApp.inst().saveUserName(getEmail());
+            String email = getEmail();
+            YSLog.d("email:",email);
+            SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
 
@@ -169,7 +183,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 dialog.setHint(getString(R.string.pwd_err));
                 dialog.addGrayButton(R.string.cancel);
                 dialog.addBlueButton(getString(R.string.find_pwd), v1 -> {
-                    startActivity(FindPwdActivity.class);
+                    startActivity(ForgetPwdActivity.class);
                 });
                 dialog.show();
             }
@@ -186,7 +200,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
         setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)) && TextUtil.isNotEmpty(Util.getEtString(mEtPwd)));
     }
 
-    public String getUserName() {
+    public String getEmail() {
         if (mEtEmail == null) {
             return "";
         }
@@ -198,5 +212,12 @@ public class EmailLoginActivity extends BaseLoginActivity {
             return "";
         }
         return Util.getEtString(mEtPwd);
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.login) {
+            finish();
+        }
     }
 }

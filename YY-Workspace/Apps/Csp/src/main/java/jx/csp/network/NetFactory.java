@@ -3,12 +3,14 @@ package jx.csp.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
+import jx.csp.network.UrlUtil.UrlUser;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
-import jx.csp.network.UrlUtil.UrlUser;
 
 /**
  * @author CaiXiang
@@ -35,10 +37,10 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersion()));
 
-        ps.add(newPair(CommonParam.KToken, "d48f972107584add99e48adc510fdb35"));
-//        if (Profile.inst().isLogin()) {
-//            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
-//        }
+//        ps.add(newPair(CommonParam.KToken, "d48f972107584add99e48adc510fdb35"));
+        if (Profile.inst().isLogin()) {
+            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
+        }
         return ps;
     }
 
