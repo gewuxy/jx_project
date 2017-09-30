@@ -12,6 +12,7 @@ import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
@@ -67,7 +68,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 .related(RelatedId.email)
                 .hint(R.string.email_address)
                 .layout(R.layout.form_edit_email))
-                .paddingLeft(46);
+                /*.paddingLeft(46)*/;
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et_pwd))
@@ -159,6 +160,10 @@ public class EmailLoginActivity extends BaseLoginActivity {
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
+
+            //保存到本地
+            Profile.inst().put(TProfile.email,getEmail());
+            Profile.inst().saveToSp();
 
             //判断跳转到哪里
             if (TextUtil.isEmpty(mRequest)) {
