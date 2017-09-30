@@ -18,7 +18,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         token,      // 会话令牌
         id,
         avatar,     //头像
-        user_name,  //姓名
+        userName,  //姓名
         gender,     //性别
         info,       //个人简介
         email,      //邮箱
@@ -29,8 +29,6 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         twitter,
         yaya,       //yaya医师
         nickName,    //昵称
-        //Fixme:到底是phone还是mobile
-        mobile       //手机
     }
 
     private static Profile mInst = null;

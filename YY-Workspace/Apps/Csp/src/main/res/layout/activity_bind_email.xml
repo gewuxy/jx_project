@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
-        android:src="@drawable/ic_default_change_bind_email"/>
+        android:src="@drawable/ic_default_change_pwd_bind_email"/>
 
     <TextView
         android:layout_width="wrap_content"

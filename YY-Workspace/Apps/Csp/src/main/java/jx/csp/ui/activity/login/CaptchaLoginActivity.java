@@ -23,6 +23,7 @@ import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -146,7 +147,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
                     HintDialog dialog = new HintDialog(this);
                     dialog.addHintView(view);
-                    dialog.addBlueButton(R.string.cancel);
+                    dialog.addGrayButton(R.string.cancel);
                     dialog.addBlueButton(getString(R.string.well), v1 -> {
                         mCount++;
                         YSLog.d("mCount:",mCount+"");
@@ -162,7 +163,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha , "d48f972107584add99e48adc510fdb35").build());
+                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha).build());
                     });
                     dialog.show();
                 }
@@ -192,6 +193,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 //                SpApp.inst().saveUserName(getPhone());
                 SpApp.inst().saveUserMobile(getPhone());
                 Profile.inst().update(r.getData());
+                Profile.inst().put(TProfile.phone, getPhone());
+                Profile.inst().saveToSp();
                 SpUser.inst().updateProfileRefreshTime();
                 Profile data = r.getData();
 
@@ -201,7 +204,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                     //判断跳转到哪里
                     if (TextUtil.isEmpty(mRequest)) {
                         //Fixme:跳转到首页，目前暂时没有
-                        startActivity(TestActivity.class);
+                        startActivity(MeActivity.class);
                     } else {
                         setResult(RESULT_OK);
                     }

@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
+import jx.csp.dialog.HintDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -18,6 +21,7 @@ import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.network.NetworkAPISetter.UserAPI;
 import jx.csp.util.Util;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
@@ -32,7 +36,13 @@ import lib.yy.notify.Notifier.NotifyType;
  */
 public class BindPhoneActivity extends BaseSetActivity {
 
-    private final int KCaptcha = 1;
+    private final String KCaptcha = "1";
+    private final int KIdCaptcha = 0;
+    private final int KMaxCount = 3; // 最多获取3次验证码
+    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
+
+    private int mCount; // 计算点击多少次
+    private long mStartTime; // 开始计算10分钟间隔的时间
 
     private EditText mEtCaptcha;
     private EditText mEtPhone;
@@ -50,8 +60,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     @Override
     public void initData() {
         super.initData();
-
-        int paddingLeft = fitDp(16);
+        mCount = 0;
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et_phone_number)
@@ -63,7 +72,6 @@ public class BindPhoneActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.captcha)
                 .drawable(R.drawable.login_ic_pwd)
-                .paddingLeft(paddingLeft)
                 .textColorRes(R.color.bind_captcha_text_selector)
                 .enable(false)
                 .hint(R.string.input_captcha));
@@ -103,7 +111,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.bindPhone(getPhone(), getCaptcha(), "d48f972107584add99e48adc510fdb35").build());
+        exeNetworkReq(UserAPI.bindPhone(getPhone(), getCaptcha()).build());
     }
 
     @Override
@@ -121,12 +129,43 @@ public class BindPhoneActivity extends BaseSetActivity {
                         showToast(R.string.account_is_bind);
                         return;
                     }
-                    // 获取验证码(有倒计时,不用loading)
-                    exeNetworkReq(KCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha + "", "d48f972107584add99e48adc510fdb35").build());
+                    View view = inflate(R.layout.dialog_captcha);
+                    TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
+                    String phone = getItemStr(RelatedId.phone_number);
+                    tv.setText(phone);
+
+                    HintDialog dialog = new HintDialog(this);
+                    dialog.addHintView(view);
+                    dialog.addGrayButton(R.string.cancel);
+                    dialog.addBlueButton(getString(R.string.well), v1 -> {
+                        mCount++;
+                        YSLog.d("mCount:",mCount+"");
+                        if (mCount == 1) {
+                            mStartTime = System.currentTimeMillis();
+                        }
+                        if (mCount > KMaxCount) {
+                            long duration = System.currentTimeMillis() - mStartTime;
+                            if (duration <= KCaptchaDuration) {
+                                showToast(R.string.get_captcha_frequently);
+                                return;
+                            } else {
+                                mCount = 1;
+                            }
+                        }
+                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha).build());
+                    });
+                    dialog.show();
                 }
             }
             break;
         }
+    }
+
+    /**
+     * 获取Item的文本信息
+     */
+    private String getItemStr(@RelatedId int relatedId) {
+        return getRelatedItem(relatedId).getVal();
     }
 
     @Override
@@ -134,7 +173,7 @@ public class BindPhoneActivity extends BaseSetActivity {
         stopRefresh();
         Result r = (Result) result;
         if (r.isSucceed()) {
-            if (id == KCaptcha) {
+            if (id == KIdCaptcha) {
                 // 获取验证码
                 EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.captcha);
                 item.start();

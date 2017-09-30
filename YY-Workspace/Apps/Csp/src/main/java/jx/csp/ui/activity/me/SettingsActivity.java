@@ -207,7 +207,7 @@ public class SettingsActivity extends BaseFormActivity {
     @Override
     public void onNotify(int type, Object data) {
         if (type == NotifyType.bind_email) {
-            String email = Profile.inst().getString(TProfile.user_name);
+            String email = Profile.inst().getString(TProfile.userName);
             getRelatedItem(RelatedId.change_password).save(email, email);
             refreshRelatedItem(RelatedId.change_password);
         }

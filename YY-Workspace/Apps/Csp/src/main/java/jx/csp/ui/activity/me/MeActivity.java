@@ -108,7 +108,7 @@ public class MeActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
 
-        mTvName.setText(Profile.inst().getString(TProfile.user_name));
+        mTvName.setText(Profile.inst().getString(TProfile.userName));
         setOnClickListener(R.id.layout_me_header);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
@@ -162,7 +162,7 @@ public class MeActivity extends BaseFormActivity {
                     .url(Profile.inst().getString(TProfile.avatar))
                     .load();
 
-            mTvName.setText(Profile.inst().getString(TProfile.user_name));
+            mTvName.setText(Profile.inst().getString(TProfile.userName));
             mTvEmail.setText(Profile.inst().getString(TProfile.email));
         }
     }

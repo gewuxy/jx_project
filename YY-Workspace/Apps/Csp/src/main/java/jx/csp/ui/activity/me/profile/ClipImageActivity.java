@@ -7,14 +7,6 @@ import android.widget.TextView;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.network.model.NetworkResp;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.bmp.BmpUtil;
-import lib.ys.util.res.ResLoader;
-import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.network.Result;
-import lib.yy.ui.activity.base.BaseActivity;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
@@ -23,6 +15,14 @@ import jx.csp.model.me.UpHeadImage.TUpHeadImage;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkAPISetter.UserAPI;
 import jx.csp.util.Util;
+import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.bmp.BmpUtil;
+import lib.ys.util.res.ResLoader;
+import lib.ys.view.photoViewer.NetworkPhotoView;
+import lib.yy.network.Result;
+import lib.yy.ui.activity.base.BaseActivity;
 
 /**
  * 裁剪图片
@@ -41,7 +41,6 @@ public class ClipImageActivity extends BaseActivity {
     String mPath;
 
     private TextView mTV;
-    private UpHeadImage mUpHeadImage;
 
     @Override
     public void initData() {
@@ -56,7 +55,7 @@ public class ClipImageActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundResource(R.color.black);
+        bar.setBackgroundResource(R.color.white);
         Util.addBackIcon(bar, R.string.person_center_avatar, this);
         mTV = bar.addTextViewRight(R.string.confirm, v -> {
 
@@ -73,7 +72,7 @@ public class ClipImageActivity extends BaseActivity {
                 // 网络上传图片
                 // FIXME: 2017/9/25 头像接口
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp), "d48f972107584add99e48adc510fdb35").build());
+                exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
             }else {
                 showToast("未知错误");
             }
@@ -110,7 +109,7 @@ public class ClipImageActivity extends BaseActivity {
 
             UpHeadImage upHeadImage = r.getData();
             //头像路径保存到本地
-            Profile.inst().update(Profile.inst().put(TProfile.avatar, upHeadImage.getString(TUpHeadImage.url)));
+            Profile.inst().update(Profile.inst().put(TProfile.avatar, upHeadImage.getString(TUpHeadImage.data)));
             Profile.inst().saveToSp();
 
             setResult(RESULT_OK, getIntent());

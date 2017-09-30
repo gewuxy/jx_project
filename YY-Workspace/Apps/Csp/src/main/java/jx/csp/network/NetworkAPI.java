@@ -28,7 +28,7 @@ public class NetworkAPI {
          * @param file
          */
         @UPLOAD("user/updateAvatar")
-        void upload(byte[] file, String token);
+        void upload(byte[] file);
 
         /**
          * 修改密码
@@ -37,7 +37,7 @@ public class NetworkAPI {
          * @param new_pwd 新密码
          */
         @POST("user/resetPwd")
-        void changePwd(String old_pwd, String new_pwd, String token);
+        void changePwd(String old_pwd, String new_pwd);
 
         /**
          * 绑定邮箱
@@ -54,7 +54,7 @@ public class NetworkAPI {
          * @param captcha  验证码
          */
         @POST("user/bindMobile")
-        void bindPhone(String mobile, String captcha, String token);
+        void bindPhone(String mobile, String captcha);
 
         /**
          * 解绑邮箱或手机
@@ -166,7 +166,7 @@ public class NetworkAPI {
          * @param token 没有登录的时候需要token值，只是测试时候，实际文档没有
          */
         @POST("user/sendCaptcha")
-        void sendCaptcha(String mobile, String type, String token);
+        void sendCaptcha(String mobile, String type);
 
         /**
          * 邮箱注册

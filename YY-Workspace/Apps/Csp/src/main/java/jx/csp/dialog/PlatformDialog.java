@@ -3,6 +3,7 @@ package jx.csp.dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
+import android.widget.LinearLayout;
 
 import jx.csp.R;
 import lib.yy.dialog.BaseDialog;
@@ -13,6 +14,8 @@ import lib.yy.dialog.BaseDialog;
  */
 
 public class PlatformDialog extends BaseDialog{
+
+    private LinearLayout mLayout;
 
     public PlatformDialog(Context context) {
         super(context);
@@ -30,10 +33,12 @@ public class PlatformDialog extends BaseDialog{
 
     @Override
     public void findViews() {
+        mLayout = findView(R.id.dialog_layout_platform);
     }
 
     @Override
     public void setViews() {
         setGravity(Gravity.TOP);
+        mLayout.getBackground().setAlpha(100);
     }
 }

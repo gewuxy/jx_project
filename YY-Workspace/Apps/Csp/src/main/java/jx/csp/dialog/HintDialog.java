@@ -131,7 +131,7 @@ public class HintDialog extends BaseDialog {
      * 按钮颜色为666,且没有点击事件的
      */
     public void addGrayButton(@StringRes int strRes) {
-        addButton(getContext().getString(strRes), R.color.text_666, null);
+        addButton(getContext().getString(strRes), R.color.text_333, null);
     }
 
     /**
@@ -142,10 +142,10 @@ public class HintDialog extends BaseDialog {
     }
 
     /**
-     * 按钮颜色为0682e6
+     * 按钮颜色为167afe
      */
     public void addBlueButton(String text, OnClickListener l) {
-        addButton(text, R.color.text_0682e6, l);
+        addButton(text, R.color.text_167afe, l);
     }
 
 

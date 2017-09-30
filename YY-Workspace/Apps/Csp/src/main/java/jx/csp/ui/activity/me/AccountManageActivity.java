@@ -228,7 +228,7 @@ public class AccountManageActivity extends BaseFormActivity{
 //                    exeNetworkReq(UserAPI.bindAccountStatus()
 //                            .thirdPartyId(RelatedId.bind_facebook)
 //                            .uniqueId(Profile.inst().getString(TProfile.id))
-//                            .nickName(Profile.inst().getString(TProfile.user_name))
+//                            .nickName(Profile.inst().getString(TProfile.userName))
 //                            .avatar(Profile.inst().getString(TProfile.avatar))
 //                            .gender(Profile.inst().getString(TProfile.gender))
 //                            .build());

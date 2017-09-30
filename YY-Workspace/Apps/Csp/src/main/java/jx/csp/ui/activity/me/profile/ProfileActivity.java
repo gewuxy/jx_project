@@ -54,6 +54,7 @@ public class ProfileActivity extends BaseFormActivity {
     private NetworkImageView mIvAvatar;
     private RelativeLayout mLayoutHeader;
 
+    private String mAvatarUrl;
     private String mStrPhotoPath;
     private Bitmap mBmp;
     private Bitmap mCircleBmp;
@@ -72,14 +73,16 @@ public class ProfileActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
+        mAvatarUrl = Profile.inst().getString(TProfile.avatar);
+
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.name)
                 .layout(R.layout.form_text_nick_name)
                 .name(R.string.my_message_nick_name)
                 .limit(18)
-                .intent(NickNameActivityRouter.newIntent(this, TProfile.user_name))
-                .text(Profile.inst().getString(TProfile.user_name))
+                .intent(NickNameActivityRouter.newIntent(this, TProfile.userName))
+                .text(Profile.inst().getString(TProfile.userName))
                 .hint("未输入")
                 .type(IntentType.name));
 
@@ -119,7 +122,7 @@ public class ProfileActivity extends BaseFormActivity {
         mLayoutHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
-                .url(Profile.inst().getString(TProfile.avatar))
+                .url(mAvatarUrl)
                 .load();
     }
 

@@ -19,6 +19,7 @@ import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -162,7 +163,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
             //判断跳转到哪里
             if (TextUtil.isEmpty(mRequest)) {
                 //Fixme:跳转到首页，目前暂时没有
-                startActivity(TestActivity.class);
+                startActivity(MeActivity.class);
             } else {
                 setResult(RESULT_OK);
             }

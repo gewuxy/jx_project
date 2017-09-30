@@ -11,6 +11,6 @@ public class UpHeadImage extends EVal<TUpHeadImage> {
 
     public enum TUpHeadImage {
 
-        url   //头像地址
+        data   //头像地址
     }
 }
