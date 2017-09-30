@@ -17,10 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/share"
+            android:layout_marginLeft="@dimen/margin"
             android:text="@string/person_center_avatar"
             android:textColor="@color/text_888"
-            android:textSize="@dimen/share"/>
+            android:textSize="@dimen/margin"/>
 
         <lib.ys.network.image.NetworkImageView
             android:id="@+id/profile_header_iv_avatar"

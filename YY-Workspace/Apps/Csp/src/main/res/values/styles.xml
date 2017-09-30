@@ -29,7 +29,7 @@
         i<item name="android:id">@id/form_iv</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/share</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
 
     <style name="tv.login"/>
@@ -59,7 +59,7 @@
         <item name="android:paddingLeft">12dp</item>
         <item name="android:background">@drawable/white</item>
         <item name="android:textColor">@color/text_333</item>
-        <item name="android:textSize">@dimen/share</item>
+        <item name="android:textSize">@dimen/margin</item>
         <item name="android:textColorHint">@color/text_af</item>
         <item name="android:singleLine">true</item>
     </style>
@@ -72,9 +72,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">15dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginLeft">@dimen/form_margin_left_and_right</item>
-        <item name="android:layout_marginRight">@dimen/form_margin_left_and_right</item>
+        <item name="android:layout_marginLeft">@dimen/form_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/form_margin_right</item>
     </style>
-
-
 </resources>

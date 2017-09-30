@@ -19,7 +19,7 @@
         android:layout_marginTop="77dp"
         android:text="@string/setting_bind_text"
         android:textColor="@color/text_888"
-        android:textSize="@dimen/share"/>
+        android:textSize="@dimen/margin"/>
 
     <TextView
         style="@style/tv.common"

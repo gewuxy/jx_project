@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/share"
+        android:padding="@dimen/margin"
         android:background="@color/white"
         android:text="@string/my_message_intro"
         android:textColor="@color/text_888"
@@ -27,7 +27,7 @@
             style="@style/et.common"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/share"
+            android:padding="@dimen/margin"
             android:gravity="top"
             android:hint="@string/my_message_person_intro"
             android:maxLength="600"
@@ -45,11 +45,11 @@
             android:id="@+id/intro_tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/share"
-            android:layout_marginRight="@dimen/share"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
             android:text="@string/my_message_intro_unit"
             android:textColor="@color/text_af"
-            android:textSize="@dimen/share"/>
+            android:textSize="@dimen/margin"/>
     </LinearLayout>
 
 

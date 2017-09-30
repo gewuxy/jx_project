@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/form_ic_account"
-            android:layout_marginLeft="@dimen/share"
-            android:layout_marginRight="@dimen/share"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
             android:layout_gravity="center"/>
         
         <EditText

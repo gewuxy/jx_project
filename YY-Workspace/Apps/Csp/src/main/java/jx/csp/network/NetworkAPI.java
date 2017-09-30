@@ -94,6 +94,23 @@ public class NetworkAPI {
         void history(@Part(opt = true) int pageNum,
                      @Part(opt = true) int pageSize);
 
+        /**
+         * 投稿
+         *
+         * @param acceptIds
+         * @param courseId
+         */
+        @POST("delivery/push")
+        void unitNum(String acceptIds, int courseId);
+
+        /**
+         * 可投稿的单位号
+         * @param pageNum
+         * @param pageSize
+         */
+        @GET("delivery/acceptors")
+        void contribute();
+
 
     }
 

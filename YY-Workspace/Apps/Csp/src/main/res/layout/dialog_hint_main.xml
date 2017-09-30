@@ -25,11 +25,11 @@
                 android:id="@+id/dialog_main_tv_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/share"
-                android:layout_marginRight="@dimen/share"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
                 android:text="确定退出当前账号"
                 android:gravity="center"
-                android:lineSpacingExtra="@dimen/share"
+                android:lineSpacingExtra="@dimen/margin"
                 android:textColor="@color/text_333"
                 android:textSize="19dp"/>
 

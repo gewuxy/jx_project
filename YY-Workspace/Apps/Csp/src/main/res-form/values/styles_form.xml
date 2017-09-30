@@ -20,14 +20,14 @@
 
     <style name="divider.form.match">
         <item name="android:background">@color/csp_divider</item>
-        <item name="android:layout_marginRight">@dimen/share</item>
-        <item name="android:layout_marginLeft">@dimen/share</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
 
     <style name="iv.arrow">
         <item name="android:id">@id/form_iv_arrow</item>
         <item name="android:layout_width">10dp</item>
-        <item name="android:layout_height">@dimen/share</item>
+        <item name="android:layout_height">@dimen/margin</item>
         <item name="android:src">@drawable/form_ic_arrow_right</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -36,7 +36,7 @@
     <style name="iv.arrow.align_right">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_gravity">right|center_vertical</item>
-        <item name="android:layout_marginRight">@dimen/share</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
     </style>
 
     <style name="tv.form">
@@ -44,10 +44,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/share</item>
+        <item name="android:textSize">@dimen/margin</item>
         <item name="android:textColor">@color/text_333</item>
-        <item name="android:layout_marginRight">@dimen/share</item>
-        <item name="android:layout_marginLeft">@dimen/share</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
 
     <style name="tv.form.name">
@@ -72,7 +72,7 @@
         <item name="android:padding">8dp</item>
         <item name="android:visibility">gone</item>
         <item name="android:src">@drawable/ic_default_cloce</item>
-        <item name="android:layout_marginRight">@dimen/share</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
     </style>
 
     <style name="et.form">
@@ -84,7 +84,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textColorHint">@color/text_af</item>
-        <item name="android:textSize">@dimen/share</item>
+        <item name="android:textSize">@dimen/margin</item>
     </style>
 
     <style name="et.form.bind">

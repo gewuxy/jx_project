@@ -22,7 +22,7 @@
         android:singleLine="false"
         android:ellipsize="none"
         android:hint="个人简介"
-        android:paddingTop="@dimen/share"/>
+        android:paddingTop="@dimen/margin"/>
 
 
 </LinearLayout>

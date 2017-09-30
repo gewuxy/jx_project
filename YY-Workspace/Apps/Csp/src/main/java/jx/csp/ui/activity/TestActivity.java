@@ -2,9 +2,10 @@ package jx.csp.ui.activity;
 
 import android.content.Intent;
 
-import lib.yy.test.BaseTestActivity;
-import jx.csp.ui.activity.liveroom.LiveRoomActivity;
+import jx.csp.ui.activity.login.EmailLoginActivity;
+import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.MeActivity;
+import lib.yy.test.BaseTestActivity;
 
 /**
  * @auther yuansui
@@ -17,6 +18,7 @@ public class TestActivity extends BaseTestActivity {
     public void initData() {
 
         add("个人中心", new Intent(this, MeActivity.class));
-        add("live", new Intent(this, LiveRoomActivity.class));
+        add("邮箱登录", new Intent(this, EmailLoginActivity.class));
+        add("登录", new Intent(this, ThirdPartyLoginActivity.class));
     }
 }

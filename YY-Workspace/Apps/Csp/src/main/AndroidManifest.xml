@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.TestActivity"
+            android:name="jx.csp.ui.activity.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
@@ -77,6 +77,14 @@
             android:name="jx.csp.ui.activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name="jx.csp.ui.activity.me.AccountManageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.me.ContributePlatformActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 设置 -->
+        <activity
             android:name="jx.csp.ui.activity.me.set.ChangePwdActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -91,10 +99,8 @@
         <activity
             android:name="jx.csp.ui.activity.me.set.BindPhoneActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name="jx.csp.ui.activity.me.set.AccountManageActivity"
-            android:screenOrientation="portrait"/>
 
+        <!-- 我的信息 -->
         <activity
             android:name="jx.csp.ui.activity.me.profile.ProfileActivity"
             android:screenOrientation="portrait"/>

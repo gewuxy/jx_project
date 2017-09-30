@@ -19,13 +19,13 @@
             android:id="@+id/me_header_iv"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            android:layout_marginLeft="@dimen/share"/>
+            android:layout_marginLeft="@dimen/margin"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/share"
+            android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="12dp"
             android:orientation="vertical">
 

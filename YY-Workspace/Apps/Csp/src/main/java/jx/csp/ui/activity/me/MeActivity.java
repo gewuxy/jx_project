@@ -17,7 +17,6 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.ui.activity.me.set.AccountManageActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.util.Util;
 
@@ -132,7 +131,7 @@ public class MeActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.history: {
-
+                startActivity(ContributePlatformActivity.class);
             }
             break;
             case RelatedId.flow: {

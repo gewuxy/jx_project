@@ -9,20 +9,20 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import jx.csp.network.NetworkAPISetter.LoginAPI;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.TextUtil;
-import lib.yy.model.form.BaseForm;
-import lib.yy.network.Result;
-import lib.yy.notify.Notifier.NotifyType;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.model.form.edit.EditCaptchaForm;
+import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.network.NetworkAPISetter.UserAPI;
 import jx.csp.util.Util;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.TextUtil;
+import lib.yy.model.form.BaseForm;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 绑定手机号
@@ -122,7 +122,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                         return;
                     }
                     // 获取验证码(有倒计时,不用loading)
-                   exeNetworkReq(KCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha + "","d48f972107584add99e48adc510fdb35").build());
+                    exeNetworkReq(KCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha + "", "d48f972107584add99e48adc510fdb35").build());
                 }
             }
             break;

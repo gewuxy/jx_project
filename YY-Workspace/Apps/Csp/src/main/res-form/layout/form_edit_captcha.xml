@@ -23,7 +23,7 @@
             android:id="@+id/form_tv_text"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/share"
+            android:layout_marginRight="@dimen/margin"
             android:clickable="false"
             android:gravity="center"
             android:text="@string/get_captcha"

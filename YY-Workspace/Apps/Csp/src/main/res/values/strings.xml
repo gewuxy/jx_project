@@ -115,7 +115,7 @@
     <string name="setting_bind_email_succeed">发送成功</string>
     <string name="setting_bind_text">修改密码需绑定邮箱后才能继续操作</string>
     <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
-    
+
     <!-- 账号管理 -->
     <string name="account_manage">账号管理</string>
     <string name="account_not_bind">未绑定</string>
@@ -143,9 +143,13 @@
     <string name="account_unbind_facebook">是否解除绑定Facebook</string>
     <string name="account_unbind_twitter">是否解除绑定Twitter</string>
     <string name="account_unbind_yaya">是否解除绑定YaYa医师</string>
-    
-    <!-- 投稿历史 -->
-    <string name="contribute_history">投稿历史</string>
 
+    <!-- 投稿 -->
+    <string name="contribute_platform">投稿平台</string>
+    <string name="contribute_history">投稿历史</string>
+    <string name="contribute_not_submit_records">无投稿记录</string>
+    <string name="contribute_platform_hint_text">单位号需在“资源平台”打开\n“投稿箱”功能才能接受投稿</string>
+    <string name="contribute_confirm">确认投稿</string>
+    <string name="contribute_platform_succeed">投稿成功</string>
 
 </resources>

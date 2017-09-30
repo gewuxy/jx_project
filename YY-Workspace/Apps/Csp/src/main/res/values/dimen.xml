@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="share">16dp</dimen>
+    <dimen name="margin">16dp</dimen>
     <dimen name="margin_large">18dp</dimen>
 
     <dimen name="form_height">52dp</dimen>
     <dimen name="form_height_common">43dp</dimen>
 
-    <dimen name="form_margin_left_and_right">38dp</dimen>
+    <dimen name="form_margin_left">38dp</dimen>
+    <dimen name="form_margin_right">38dp</dimen>
 
     <dimen name="radius">33dp</dimen>
     <dimen name="radius_small">3dp</dimen>
