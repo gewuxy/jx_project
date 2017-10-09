@@ -107,9 +107,11 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
         setOnClickListener(R.id.protocol);
 
-//        mEtPhoneNumber.setText(SpApp.inst().getUserName());
         mEtPhoneNumber.setText(SpApp.inst().getUserMobile());
         mEtPhoneNumber.setSelection(getPhone().length());
+
+        getRelatedItem(RelatedId.captcha).enable(true);
+        refreshItem(getRelatedItem(RelatedId.captcha));
     }
 
     @Override
@@ -191,11 +193,16 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 //Fixme:保存用户名,验证码登录的用户名是昵称,那此时保存什么鬼,暂且保存手机号
                 // SpApp.inst().saveUserName(getNickName());
 //                SpApp.inst().saveUserName(getPhone());
-                SpApp.inst().saveUserMobile(getPhone());
+                SpApp.inst().saveUserMobile(Util.getEtString(mEtPhoneNumber));
                 Profile.inst().update(r.getData());
                 Profile.inst().put(TProfile.phone, getPhone());
                 Profile.inst().saveToSp();
                 SpUser.inst().updateProfileRefreshTime();
+
+                //保存到本地
+                Profile.inst().put(TProfile.phone,getPhone());
+                Profile.inst().saveToSp();
+
                 Profile data = r.getData();
 
 

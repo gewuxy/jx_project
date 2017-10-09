@@ -11,6 +11,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.NetFactory;
@@ -106,6 +108,9 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         Result r = (Result) result;
         if (r.isSucceed()) {
             stopRefresh();
+            //保存到本地
+            Profile.inst().put(TProfile.nickName,getNickName());
+            Profile.inst().saveToSp();
             //Fixme:跳到首页，目前还没有
             startActivity(TestActivity.class);
         }else {
