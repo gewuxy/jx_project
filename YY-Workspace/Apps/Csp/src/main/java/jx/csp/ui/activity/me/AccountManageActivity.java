@@ -142,7 +142,6 @@ public class AccountManageActivity extends BaseFormActivity{
                         refresh(RefreshWay.dialog);
                         exeNetworkReq(UserAPI.unBindEmailOrPhone()
                                 .mobile(Profile.inst().getString(TProfile.phone))
-                                .token("d48f972107584add99e48adc510fdb35")
                                 .build());
                     });
                 }
@@ -161,7 +160,6 @@ public class AccountManageActivity extends BaseFormActivity{
                         refresh(RefreshWay.dialog);
                         exeNetworkReq(UserAPI.unBindEmailOrPhone()
                                 .email(Profile.inst().getString(TProfile.email))
-                                .token("d48f972107584add99e48adc510fdb35")
                                 .build());
                     });
                 }

@@ -91,7 +91,6 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     private int mProgressProFile = 0;
 
     private Set<Integer> mStatus;
-    private float mProgress;
 
     @IntDef({
             RelatedId.name,
@@ -395,7 +394,6 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 notify(NotifyType.profile_change);
             }
         }
-
     }
 
     //页面跳转

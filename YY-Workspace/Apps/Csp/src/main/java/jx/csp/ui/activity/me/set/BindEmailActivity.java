@@ -81,7 +81,7 @@ public class BindEmailActivity extends BaseSetActivity{
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEt), "d48f972107584add99e48adc510fdb35").build());
+        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEt)).build());
     }
 
     @Override

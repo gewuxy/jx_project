@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/margin"
+    android:paddingRight="@dimen/margin"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,16 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="34dp"
-            android:text="剩余流量"
-            android:textColor="#888888"/>
+            android:text="@string/flow_rate_surplus"
+            android:textColor="@color/text_888"/>
 
         <TextView
-            android:id="@+id/manage_tv_surplus_flow_rate"
+            android:id="@+id/flow_rate_tv_surplus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="808G"
-            android:textColor="#333333"
+            android:text="0G"
+            android:textColor="@color/text_333"
             android:textSize="32dp"/>
 
         <RelativeLayout
@@ -35,20 +36,23 @@
             android:layout_marginTop="41dp">
 
             <EditText
-                android:id="@+id/manage_et_recharge_flow_rate"
+                style="@style/et.common"
+                android:id="@+id/flow_rate_et_recharge"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="#EDF1F8"
-                android:hint="充值流量"
+                android:background="@color/text_edf1f8"
+                android:hint="@string/flow_rate_recharge"
                 android:paddingLeft="@dimen/margin"/>
 
             <TextView
+                android:id="@+id/flow_rate_tv_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/manage_et_recharge_flow_rate"
+                android:layout_alignBaseline="@+id/flow_rate_et_recharge"
                 android:layout_alignParentRight="true"
+                android:visibility="visible"
                 android:text="G"
-                android:textSize="16dp"
+                android:textSize="@dimen/margin"
                 android:textColor="@color/text_af"
                 android:layout_marginRight="@dimen/margin"/>
 
@@ -59,38 +63,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="34dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="实际支付"
-            android:textColor="#888888"
+            android:text="@string/flow_rate_actual_pay"
+            android:textColor="@color/text_888"
             android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/personal_money"
+            android:id="@+id/flow_rate_tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="21dp"
             android:text="0"
-            android:textColor="#167AFE"
+            android:textColor="@color/text_167afe"
             android:textSize="28sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="元"
-            android:textColor="#3A3A3A"
+            android:text="@string/flow_rate_unit"
+            android:textColor="@color/text_3a"
             android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="33dp"
-            android:text="1G流量 = 2元"
-            android:textColor="#888888"
+            android:text="@string/flow_rate_payment_proportion"
+            android:textColor="@color/text_888"
             android:textSize="12sp"/>
     </LinearLayout>
 
@@ -100,46 +105,44 @@
         android:layout_marginTop="51dp">
 
         <ImageView
-            android:id="@+id/personal_alipay"
+            android:id="@+id/flow_rate_iv_alipay"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:scaleType="center"
-            android:src="@drawable/pay1"/>
+            android:src="@drawable/selector_flow_rate_alipay"/>
 
         <ImageView
-            android:id="@+id/personal_wechat"
+            android:id="@+id/flow_rate_iv_wechat"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_toRightOf="@id/personal_alipay"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/flow_rate_iv_alipay"
+            android:layout_toRightOf="@+id/flow_rate_iv_alipay"
             android:scaleType="center"
-            android:src="@drawable/pay2"/>
+            android:src="@drawable/selector_flow_rate_wechat"/>
 
         <ImageView
-            android:id="@+id/personal_unionpay"
+            android:id="@+id/flow_rate_iv_unionpay"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_toRightOf="@id/personal_wechat"
+            android:layout_toRightOf="@id/flow_rate_iv_wechat"
             android:scaleType="center"
-            android:src="@drawable/pay3"/>
+            android:src="@drawable/selector_flow_rate_unionpay"/>
 
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/personal_paypal"
+        android:id="@+id/flow_rate_iv_paypal"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="23dp"
         android:scaleType="center"
-        android:src="@drawable/pay4"/>
+        android:src="@drawable/selector_flow_rate_paypal"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
+        style="@style/tv.common"
+        android:id="@+id/flow_rate_tv_pay"
         android:layout_marginTop="60dp"
-        android:background="#66167AFE"
-        android:gravity="center"
-        android:text="确认支付"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"/>
+        android:text="@string/flow_rate_pay"/>
 
 </LinearLayout>

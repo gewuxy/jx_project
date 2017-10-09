@@ -29,6 +29,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         twitter,
         yaya,       //yaya医师
         nickName,    //昵称
+
+        flowrate,    //流量
     }
 
     private static Profile mInst = null;

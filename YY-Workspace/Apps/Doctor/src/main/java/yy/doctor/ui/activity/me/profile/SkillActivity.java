@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import inject.annotation.router.Route;
@@ -23,7 +22,6 @@ public class SkillActivity extends BaseModifyActivity {
 
     private EditText mEt;
     private TextView mTv;
-    private ImageView mIvCancel;
 
 
     @Override
@@ -40,7 +38,6 @@ public class SkillActivity extends BaseModifyActivity {
     public void findViews() {
         mEt = findView(R.id.academic_et);
         mTv = findView(R.id.academic_tv);
-        mIvCancel = findView(R.id.academic_iv_clean);
     }
 
     @Override

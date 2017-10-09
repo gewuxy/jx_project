@@ -45,7 +45,7 @@ public class NetworkAPI {
          * @param email 用户名
          */
         @POST("user/toBind/")
-        void bindEmail(String email, String token);
+        void bindEmail(String email);
 
         /**
          * 绑定手机
@@ -64,8 +64,7 @@ public class NetworkAPI {
          */
         @POST("user/unbindEmailOrMobile")
         void unBindEmailOrPhone(@Part(opt = true) String mobile,
-                                @Part(opt = true) String email,
-                                @Part(opt = true) String token);
+                                @Part(opt = true) String email);
 
         /**
          * 绑定或解绑第三方账号
@@ -81,8 +80,7 @@ public class NetworkAPI {
                                @Part(opt = true) int thirdPartyId,
                                @Part(opt = true) String nickName,
                                @Part(opt = true) String gender,
-                               @Part(opt = true) String avatar,
-                               @Part(opt = true) String token);
+                               @Part(opt = true) String avatar);
 
         /**
          * 投稿历史

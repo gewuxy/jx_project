@@ -41,6 +41,7 @@
         <activity
             android:name="jx.csp.ui.activity.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
+
         <!--登录-->
         <activity
             android:name="jx.csp.ui.activity.login.ThirdPartyLoginActivity"
@@ -81,6 +82,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.me.ContributePlatformActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.me.FlowRateManageActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 设置 -->

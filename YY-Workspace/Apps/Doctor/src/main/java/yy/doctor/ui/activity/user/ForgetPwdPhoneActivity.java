@@ -143,7 +143,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 if (v.getId() == R.id.form_tv_text) {
                     mPhone = getRelatedItem(RelatedId.phone_number).getVal();
                     if (!Util.isMobileCN(mPhone)) {
-                        showToast("该号码不是电话号，请输入正确的电话号码");
+                        showToast(R.string.not_phone_number);
                         return;
                     }
 

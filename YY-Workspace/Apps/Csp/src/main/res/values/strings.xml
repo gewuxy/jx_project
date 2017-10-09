@@ -152,4 +152,15 @@
     <string name="contribute_confirm">确认投稿</string>
     <string name="contribute_platform_succeed">投稿成功</string>
 
+    <!-- 流量支付 -->
+    <string name="flow_rate_manage">流量管理</string>
+    <string name="flow_rate_pay">确认支付</string>
+    <string name="flow_rate_payment_proportion">1G流量 = 2元</string>
+    <string name="flow_rate_surplus">剩余流量</string>
+    <string name="flow_rate_recharge">充值流量</string>
+    <string name="flow_rate_actual_pay">实际支付</string>
+    <string name="flow_rate_amount">%d</string>
+    <string name="flow_rate_unit">元</string>
+    <string name="flow_rate_input_top_up">请输入充值流量</string>
+
 </resources>
