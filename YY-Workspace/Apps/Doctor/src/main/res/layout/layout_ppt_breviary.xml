@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.github.rubensousa.viewpagercards.ScaleViewPager
+    <lib.ys.view.pager.ViewPagerEx
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="350dp"

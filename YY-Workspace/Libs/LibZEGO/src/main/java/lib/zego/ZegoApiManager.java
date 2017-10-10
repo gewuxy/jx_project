@@ -7,7 +7,8 @@ import com.zego.zegoliveroom.constants.ZegoAvConfig;
 import com.zego.zegoliveroom.constants.ZegoAvConfig.Level;
 
 /**
- * des: zego api管理器.
+ * @author CaiXiang
+ * @since 2017/9/20
  */
 public class ZegoApiManager {
 

@@ -30,6 +30,7 @@ import lib.zego.ZegoApiManager;
 public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
 
     private final int KPermissionCode = 10;
+    private final int KSixty = 60;
 
     private TextureView mTextureView;
     private TextView mTvLiveTime;
@@ -42,11 +43,13 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
     private TextView mTvNoCameraPermission;
     private TextView mTvStart;
 
+    //测试暂时使用
     private String mRoomId = "789";
     private String mStreamId = "123";
     private String mTitle = "测试";
-    private long mStartTime = System.currentTimeMillis() - 30 * 60 * 1000;
-    private long mStopTime = System.currentTimeMillis() + 16 * 60 * 1000;
+    private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
+    private long mStopTime = System.currentTimeMillis() + 16 *60 * 1000;
+
     private LiveRoomPresenterImpl mLiveRoomPresenterImpl;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
@@ -57,6 +60,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         ZegoApiManager.getInstance().init(this, "888", "敬信测试");
+        mLiveRoomPresenterImpl = new LiveRoomPresenterImpl(this);
     }
 
     @NonNull
@@ -85,16 +89,15 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
 
     @Override
     public void setViews() {
-        mLiveRoomPresenterImpl = new LiveRoomPresenterImpl(this);
         //检查权限
         if (checkPermission(KPermissionCode, Permission.camera, Permission.micro_phone, Permission.phone)) {
             mLiveRoomPresenterImpl.initLiveRoom(mRoomId);
             mLiveRoomPresenterImpl.zegoCallback();
             initPhoneCallingListener();
+            mIvLive.setClickable(true);
         } else {
             hideView(mTvStart);
             showView(mTvNoCameraPermission);
-            mIvSilence.setClickable(false);
             mIvLive.setClickable(false);
         }
 
@@ -214,12 +217,12 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
                     initPhoneCallingListener();
                     hideView(mTvNoCameraPermission);
                     showView(mTvStart);
-                break;
+                    mIvLive.setClickable(true);
+                    break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
                     hideView(mTvStart);
                     showView(mTvNoCameraPermission);
-                    mIvSilence.setClickable(false);
                     mIvLive.setClickable(false);
                 }
                 break;
@@ -242,7 +245,11 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
         if (show) {
             showView(mTvRemainingTime);
         }
-        mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind), i));
+        if (i >= KSixty) {
+            mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_minute), i/KSixty));
+        } else {
+            mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_second), i));
+        }
     }
 
     @Override
@@ -281,6 +288,6 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
 
     @Override
     public void onFinish() {
-        onDestroy();
+        finish();
     }
 }

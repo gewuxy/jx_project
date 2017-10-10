@@ -160,11 +160,11 @@ public class EpnRechargeActivity extends BaseActivity {
     public void onClick(View v) {
         // 没有其他点击事件
         String str = mEtRechargeNum.getText().toString().trim();
+        mRechargeSum = Integer.valueOf(str);
         if (mRechargeSum == 0) {
             showToast(R.string.input_recharge_money);
             return;
         }
-        mRechargeSum = Integer.valueOf(str);
 
         exeNetworkReq(NetworkAPISetter.CommonAPI.epnRecharge(getString(R.string.epn_recharge), mRechargeSum).build());
     }

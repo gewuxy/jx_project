@@ -18,16 +18,21 @@
     <string name="no_start">未开始</string>
     <string name="click_start_live">请点击开始直播</string>
     <string name="no_camera_permission">摄像头未开启\n请确认是否授权成功</string>
-    <string name="live_stop_remind">还有%d分钟，直播将自动关闭</string>
+    <string name="live_stop_remind_minute">还有%d分钟，直播将自动关闭</string>
+    <string name="live_stop_remind_second">还有%d秒，直播将自动关闭</string>
 
     <!-- 录音 -->
+    <string name="first_page">已经是第一页</string>
+    <string name="last_page">已经是最后一页</string>
     <string name="record_live_start">开始直播</string>
-    <string name="live_ing">直播中</string>
+    <string name="meeting_no_start_remain">请在会议时间内进行直播</string>
     <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>
+    <string name="no_record_permission">请检查是否开启语音权限</string>
+    <string name="skip_to_next_page">是否跳到下一页继续录制?</string>
+    <string name="never_remain">不再提示</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
-
 
     <!--登录-->
     <string name="language_transform">CN</string>
@@ -117,7 +122,7 @@
     <string name="setting_bind_email_succeed">发送成功</string>
     <string name="setting_bind_text">修改密码需绑定邮箱后才能继续操作</string>
     <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
-
+    
     <!-- 账号管理 -->
     <string name="account_manage">账号管理</string>
     <string name="account_not_bind">未绑定</string>
