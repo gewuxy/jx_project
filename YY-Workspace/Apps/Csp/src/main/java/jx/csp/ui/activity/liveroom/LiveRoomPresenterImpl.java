@@ -48,8 +48,8 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
     private boolean mShowCountDownRemainTv = false;
 
     private CountDown mCountDown;
-    private long mStartTime = System.currentTimeMillis() - 30 * 60 * 1000;
-    private long mStopTime = System.currentTimeMillis() + 35 * 60 * 1000;
+    private long mStartTime;
+    private long mStopTime;
 
     public LiveRoomPresenterImpl(LiveRoomView liveRoomView) {
         mLiveRoomView = liveRoomView;
@@ -236,7 +236,7 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
                 mShowCountDownRemainTv = !mShowCountDownRemainTv;
                 mLiveRoomView.changeLiveIvRes();
             }
-            mLiveRoomView.setCountDownRemindTv(mShowCountDownRemainTv, (int) (remainCount / KSixty));
+            mLiveRoomView.setCountDownRemindTv(mShowCountDownRemainTv, (int) remainCount);
         }
     }
 

@@ -20,6 +20,7 @@ public class SpUser extends SpBase {
 
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
+        String KIsShowSkipToNextPageDialog = "is_show_skip_to_next_page_dialog";
     }
 
     private SpUser(Context context, String fileName) {
@@ -43,6 +44,22 @@ public class SpUser extends SpBase {
      */
     public void updateProfileRefreshTime() {
         save(SpUserKey.KProfileUpdateTime, System.currentTimeMillis());
+    }
+
+    /**
+     * 判断是否需要显示跳转到下一页继续录制的dialog
+     *
+     * @return
+     */
+    public boolean isShowSkipToNextPageDialog() {
+        return getBoolean(SpUserKey.KIsShowSkipToNextPageDialog, true);
+    }
+
+    /**
+     * 保存状态
+     */
+    public void saveShowSkipToNextPageDialog() {
+        save(SpUserKey.KIsShowSkipToNextPageDialog, false);
     }
 
 }

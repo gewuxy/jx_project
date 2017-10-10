@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white">
 
-    <RelativeLayout
+    <lib.ys.view.pager.ViewPagerEx
+        android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="252dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingLeft="36dp"
+        android:paddingRight="36dp"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="252dp"
-            android:layout_marginTop="14dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_default_i"
-            android:background="@color/pink_diaphaneity_sixty"
-            android:paddingLeft="16dp"
-            android:drawablePadding="6dp"
-            android:text="@string/live_stop_remind"
-            android:textSize="12dp"
-            android:textColor="@color/white"/>
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/record_tv_time_remain"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/pink_diaphaneity_sixty"
+        android:drawableLeft="@drawable/ic_default_i"
+        android:drawablePadding="6dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/live_stop_remind_minute"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:visibility="gone"/>
 
     <RelativeLayout
+        android:id="@+id/record_switch_ppt_layout"
         android:layout_width="match_parent"
-        android:layout_height="21dp"
-        android:orientation="horizontal"
+        android:layout_height="31dp"
+        android:layout_below="@+id/vp"
         android:layout_marginTop="32dp"
-        android:gravity="center">
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="21dp"
-            android:layout_height="21dp"
+            android:id="@+id/record_iv_last"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:padding="5dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="103dp"
-            android:src="@drawable/audio_ic_arrow_left"/>
+            android:src="@drawable/record_ic_arrow_left"/>
 
         <TextView
+            android:id="@+id/record_tv_current_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/horizontal_divider"
+            android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            android:text="10"
-            android:textSize="16dp"
-            android:textColor="@color/text_167afe"/>
+            android:layout_toLeftOf="@+id/horizontal_divider"
+            android:text="1"
+            android:textColor="@color/text_167afe"
+            android:textSize="16dp"/>
 
         <View
             android:id="@+id/horizontal_divider"
@@ -60,32 +67,39 @@
             android:background="@color/color_db"/>
 
         <TextView
+            android:id="@+id/record_tv_total_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/horizontal_divider"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:text="30"
-            android:textSize="16dp"
-            android:textColor="@color/text_333"/>
+            android:layout_toRightOf="@+id/horizontal_divider"
+            android:text="1"
+            android:textColor="@color/text_333"
+            android:textSize="16dp"/>
 
         <ImageView
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_marginLeft="21dp"
+            android:id="@+id/record_iv_next"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:padding="5dp"
             android:layout_alignParentRight="true"
+            android:layout_marginLeft="21dp"
             android:layout_marginRight="103dp"
-            android:src="@drawable/audio_ic_arrow_right"/>
+            android:src="@drawable/record_ic_arrow_right"/>
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/record_state_layout"
         android:layout_width="match_parent"
         android:layout_height="74dp"
+        android:layout_below="@+id/record_switch_ppt_layout"
         android:layout_marginTop="68dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/record_iv_voice_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -94,59 +108,83 @@
             android:src="@drawable/selector_record_permission_state"/>
 
         <ImageView
+            android:id="@+id/record_iv_state"
             android:layout_width="74dp"
             android:layout_height="74dp"
-            android:layout_marginLeft="65dp"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="65dp"
             android:src="@drawable/selector_record_state"/>
 
         <RelativeLayout
+            android:id="@+id/record_online_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="59dp"
             android:layout_marginRight="49dp"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="59dp">
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/record_tv_online_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
-                android:textSize="20dp"
-                android:textColor="@color/text_888"/>
+                android:text="0"
+                android:textColor="@color/text_888"
+                android:textSize="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/record_tv_online_num"
                 android:layout_alignBottom="@+id/record_tv_online_num"
-                android:layout_marginLeft="4dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/record_tv_online_num"
                 android:text="@string/online"
-                android:textSize="8dp"
-                android:textColor="@color/text_888"/>
+                android:textColor="@color/text_888"
+                android:textSize="8dp"/>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/record_tv_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/record_state_layout"
+        android:layout_centerHorizontal="true"
         android:text="@string/record_live_start"
-        android:textSize="12dp"
-        android:textColor="@color/text_167afe"/>
+        android:textColor="@color/text_167afe"
+        android:textSize="12dp"/>
 
     <TextView
+        android:id="@+id/record_tv_start_remain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
         android:text="@string/meeting_start_click_start_live"
+        android:textColor="@color/text_888"
         android:textSize="12dp"
-        android:textColor="@color/text_888"/>
+        android:visibility="gone"/>
 
-</LinearLayout>
+    <jx.csp.view.VoiceLineView
+        android:id="@+id/record_voice_line"
+        android:layout_width="248dp"
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:visibility="gone"
+        app:fineness="two"
+        app:lineSpeed="150"
+        app:maxVolume="20"
+        app:middleLine="@color/white"
+        app:middleLineHeight="1dp"
+        app:sensibility="four"
+        app:viewMode="line"
+        app:voiceLine="@color/text_0882e7"/>
+
+</RelativeLayout>

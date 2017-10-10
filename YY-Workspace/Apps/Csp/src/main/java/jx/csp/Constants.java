@@ -35,4 +35,14 @@ public interface Constants extends BaseConstants {
         int fetch = 0;
         int re_fetch = 1;
     }
+
+    @IntDef({
+            RecordType.live,
+            RecordType.common
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface RecordType {
+        int live = 1;  // 直播
+        int common = 2;  // 普通录制
+    }
 }
