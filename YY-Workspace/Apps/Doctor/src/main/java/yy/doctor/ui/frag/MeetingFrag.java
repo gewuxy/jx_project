@@ -122,7 +122,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
     public void onSectionSelected(String text) {
         mTvSection.setText(text);
         if (KSectionAll.equals(text)) {
-            text = ConstantsEx.KEmptyValue;
+            text = ConstantsEx.KEmpty;
         }
         notify(NotifyType.section_change, text);
     }

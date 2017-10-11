@@ -23,7 +23,7 @@ import java.util.List;
 import lib.ys.YSLog;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.DrawUtil;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import lib.ys.util.res.ResLoader;
 import yy.doctor.R;
 import yy.doctor.model.me.StatsPerDay;
@@ -229,9 +229,9 @@ public class HistogramView extends View {
         int day = c.get(Calendar.DAY_OF_MONTH);
         if (day == 1 || i == 0) {
             // 每个月的1号或非第一天(显示的一周中)
-            return TimeUtil.formatMilli(time, KMonth);
+            return TimeFormatter.milli(time, KMonth);
         } else {
-            return TimeUtil.formatMilli(time, KDay);
+            return TimeFormatter.milli(time, KDay);
         }
     }
 

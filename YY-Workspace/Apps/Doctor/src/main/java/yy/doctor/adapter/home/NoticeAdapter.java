@@ -1,8 +1,8 @@
 package yy.doctor.adapter.home;
 
 import lib.ys.adapter.AdapterEx;
-import lib.ys.util.TimeUtil;
-import lib.ys.util.TimeUtil.TimeFormat;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.home.NoticeVH;
 import yy.doctor.model.notice.Notice;
@@ -27,7 +27,7 @@ public class NoticeAdapter extends AdapterEx<Notice, NoticeVH> {
         Notice item = getItem(position);
         holder.getTvContent().setText(item.getString(TNotice.content));
         holder.getTvUnitUnm().setText(item.getString(TNotice.from));
-        holder.getTvTime().setText(TimeUtil.formatMilli(item.getLong(TNotice.time), TimeFormat.from_y_to_m_24));
+        holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TNotice.time), TimeFormat.from_y_to_m_24));
         //判断是否读过
         if (item.getBoolean(TNotice.is_read)) {
             hideView(holder.getIvDot());

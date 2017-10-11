@@ -1,8 +1,8 @@
 package yy.doctor.adapter.me;
 
 import lib.ys.adapter.AdapterEx;
-import lib.ys.util.TimeUtil;
-import lib.ys.util.TimeUtil.TimeFormat;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.me.OrderVH;
 import yy.doctor.model.me.Order;
@@ -54,7 +54,7 @@ public class OrderAdapter extends AdapterEx<Order, OrderVH> {
         }
         holder.getTvStatus().setText(id);
 
-        String strTime = TimeUtil.formatMilli(item.getLong(TOrder.createTime), TimeFormat.from_y_24);
+        String strTime = TimeFormatter.milli(item.getLong(TOrder.createTime), TimeFormat.from_y_24);
         holder.getTvTime().setText(strTime);
 
         holder.getTvPayEpn().setText(item.getString(TOrder.price) + getString(R.string.epn));

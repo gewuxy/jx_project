@@ -31,6 +31,6 @@ public class PicCourseFrag extends PicAudioCourseFrag {
 
     @Override
     public String getUrl() {
-        return ConstantsEx.KEmptyValue;
+        return ConstantsEx.KEmpty;
     }
 }

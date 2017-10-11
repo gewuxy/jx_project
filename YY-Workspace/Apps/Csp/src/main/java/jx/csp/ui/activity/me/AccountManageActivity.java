@@ -326,10 +326,10 @@ public class AccountManageActivity extends BaseFormActivity{
         if (r.isSucceed()) {
             showToast(R.string.account_unbind_succeed);
 
-            getRelatedItem(id).save(ConstantsEx.KEmptyValue, ConstantsEx.KEmptyValue);
+            getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
             refreshRelatedItem(id);
 
-            Profile.inst().put(key, ConstantsEx.KEmptyValue);
+            Profile.inst().put(key, ConstantsEx.KEmpty);
             Profile.inst().saveToSp();
         } else {
             showToast(r.getMessage());

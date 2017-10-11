@@ -13,7 +13,7 @@ import android.widget.TextView;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.ViewUtil;
 import yy.doctor.Constants.MeetStateText;
@@ -168,7 +168,7 @@ public class UISetter {
         if (meeting.getInt(TMeeting.type) == MeetType.meet) {
 
             holder.getTvSection().setText(meeting.getString(TMeeting.meetType));
-            holder.getTvTime().setText(TimeUtil.formatMilli(meeting.getLong(TMeeting.startTime), "MM/dd HH:mm"));
+            holder.getTvTime().setText(TimeFormatter.milli(meeting.getLong(TMeeting.startTime), "MM/dd HH:mm"));
 
             if (meeting.getBoolean(TMeeting.rewardCredit) && meeting.getInt(TMeeting.eduCredits) > 0) {
                 ViewUtil.showView(holder.getIvCme());

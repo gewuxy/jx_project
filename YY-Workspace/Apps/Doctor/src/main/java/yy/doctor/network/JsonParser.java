@@ -8,7 +8,7 @@ import java.util.List;
 import lib.ys.model.EVal;
 import lib.ys.model.MapList;
 import lib.ys.util.GenericUtil;
-import lib.ys.util.ReflectionUtil;
+import lib.ys.util.ReflectUtil;
 import lib.yy.network.BaseJsonParser;
 import lib.yy.network.ListResult;
 import yy.doctor.model.BaseGroup;
@@ -56,7 +56,7 @@ public class JsonParser extends BaseJsonParser {
             String tag = child.getString(key);
             GROUP g = mapList.getByKey(tag);
             if (g == null) {
-                g = ReflectionUtil.newInst(groupClz);
+                g = ReflectUtil.newInst(groupClz);
                 g.setTag(tag);
                 mapList.add(tag, g);
             }
