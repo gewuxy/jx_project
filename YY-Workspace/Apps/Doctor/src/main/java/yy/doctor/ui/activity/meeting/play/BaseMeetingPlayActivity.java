@@ -78,9 +78,8 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         return TNavBarState.above;
     }
 
-    @CallSuper
     @Override
-    public void onClick(View v) {
+    public final void onClick(View v) {
         switch (v.getId()) {
             case R.id.meet_play_nav_iv_back: {
                 finish();
@@ -104,8 +103,15 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
                 landscape();
             }
             break;
+            default: {
+                onClick(v.getId());
+            }
+            break;
         }
 
+    }
+
+    protected void onClick(int id) {
     }
 
     protected void goneView(@IdRes int resId) {

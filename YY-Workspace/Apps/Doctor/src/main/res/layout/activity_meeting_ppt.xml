@@ -4,6 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/meet_ppt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="237dp"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/meet_ppt_frag_rep"
+            android:name="yy.doctor.ui.frag.meeting.PPTRepFrag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"/>
+    </LinearLayout>
     <!-- 竖屏布局 -->
     <RelativeLayout
         android:id="@+id/meet_ppt_layout_p"
@@ -11,18 +24,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/meet_ppt_frag_rep_p"
-            android:name="yy.doctor.ui.frag.meeting.PPTRepFrag"
-            android:layout_width="match_parent"
-            android:layout_height="237dp"
-            android:layout_weight="0"/>
-
         <yy.doctor.view.discretescrollview.DiscreteScrollView
             android:id="@+id/meet_ppt_rv_p"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:layout_below="@id/meet_ppt_frag_rep_p"/>
+            android:layout_marginTop="237dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,9 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:includeFontPadding="false"
-                android:visibility="invisible"
                 android:text="/"
-                android:textSize="15dp"/>
+                android:textSize="15dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/meet_play_tv_all"
@@ -109,13 +115,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
-
-        <fragment
-            android:id="@+id/meet_ppt_frag_rep_l"
-            android:name="yy.doctor.ui.frag.meeting.PPTRepFrag"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0"/>
 
         <ImageView
             android:id="@+id/meet_play_iv_left_l"

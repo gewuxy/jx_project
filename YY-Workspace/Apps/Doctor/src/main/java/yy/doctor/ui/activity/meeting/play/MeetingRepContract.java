@@ -2,10 +2,10 @@ package yy.doctor.ui.activity.meeting.play;
 
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 
-import java.util.Map;
+import java.util.List;
 
+import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.PPT;
-import yy.doctor.model.meet.Submit;
 
 /**
  * @auther : GuoXuan
@@ -17,12 +17,12 @@ public interface MeetingRepContract {
         /**
          * 初始化竖屏
          */
-        void portraitInit(PPT ppt);
+        void portraitInit(PPT ppt, List<Course> courses);
 
         /**
          * 初始化横屏
          */
-        void landscapeInit(PPT ppt);
+        void landscapeInit(List<Course> courses);
 
         /**
          * 播放状态

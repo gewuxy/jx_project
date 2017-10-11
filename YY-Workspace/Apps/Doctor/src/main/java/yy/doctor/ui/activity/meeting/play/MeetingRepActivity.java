@@ -4,7 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.pili.pldroid.player.widget.PLVideoTextureView;
@@ -17,6 +17,7 @@ import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.util.view.LayoutUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingRepLAdapter;
@@ -34,7 +35,6 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
 
 /**
  * 观看会议(录播)
- * fixme: 2种布局暂时2个ViewPager(横竖屏), ViewPager是否要合一
  *
  * @auther : GuoXuan
  * @since : 2017/4/24
@@ -42,8 +42,8 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
 @Route
 public class MeetingRepActivity extends BaseMeetingPlayActivity implements MeetingRepContract.View {
 
-    private PPTRepFrag mFragRepP;
-    private PPTRepFrag mFragRepL;
+    private View mLayoutFrag;
+    private PPTRepFrag mFragRep;
 
     private DiscreteScrollView mRvP;
     private RecyclerView mRvL;
@@ -55,14 +55,14 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
 
     private MeetingRepContract.Presenter mPresenter;
 
-    private boolean mSwitch; // 是否切换横竖屏
+    private LayoutParams mParamP;
+    private LayoutParams mParamL;
 
     @Override
     public void initData() {
         notify(NotifyType.study_start);
 
         mPresenter = new MeetingRepPresenterImpl(this);
-        mSwitch = false;
     }
 
     @Override
@@ -74,8 +74,8 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
     public void findViews() {
         super.findViews();
 
-        mFragRepP = findFragment(R.id.meet_ppt_frag_rep_p);
-        mFragRepL = findFragment(R.id.meet_ppt_frag_rep_l);
+        mFragRep = findFragment(R.id.meet_ppt_frag_rep);
+        mLayoutFrag = findView(R.id.meet_ppt_layout);
 
         mRvP = findView(R.id.meet_ppt_rv_p);
         mRvL = findView(R.id.meet_ppt_rv_l);
@@ -100,10 +100,40 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         refresh(RefreshWay.embed);
         mPresenter.getDataFromNet(mMeetId, mModuleId);
 
-        mFragRepP.addOnPageChangeListener(new RepPageChangeListener(mRvP));
-        mFragRepL.addOnPageChangeListener(new RepPageChangeListener(mRvL));
+        mFragRep.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-        mFragRepL.setFragClickListener(() -> showLandscapeView());
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // do nothing
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                NetworkImageView.clearMemoryCache(MeetingRepActivity.this);
+
+                mPresenter.playMedia(position);
+
+                if (orientationLandscape()) {
+                    showLandscapeView();
+                    mRvL.smoothScrollToPosition(position);
+                } else {
+                    mTvCurrent.setText(String.valueOf(position + 1));
+                    mRvP.smoothScrollToPosition(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // do nothing
+            }
+
+        });
+
+        mFragRep.setFragClickListener(() -> {
+            if (orientationLandscape()) {
+                showLandscapeView();
+            }
+        });
 
         mRvL.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -120,14 +150,12 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         goneView(R.id.meet_ppt_layout_l);
         showView(R.id.meet_ppt_layout_p);
 
-        int p = mFragRepP.getCurrentItem();
-        int l = mFragRepL.getCurrentItem();
-        if (p != l) {
-            mSwitch = true;
-            mFragRepP.setCurrentItem(l);
+        if (mParamP == null) {
+            mParamP = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, fitDp(237));
         }
+        mLayoutFrag.setLayoutParams(mParamP);
         finishCount();
-        mFragRepL.saveStudyTime();
+        mRvP.smoothScrollToPosition(mFragRep.getCurrentItem());
     }
 
     @Override
@@ -135,16 +163,13 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         goneView(R.id.meet_ppt_layout_p);
         showView(R.id.meet_ppt_layout_l);
 
-        int p = mFragRepP.getCurrentItem();
-        int l = mFragRepL.getCurrentItem();
-        if (p != l) {
-            mSwitch = true;
-            mFragRepL.setCurrentItem(p);
+        if (mParamL == null) {
+            mParamL = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         }
-
-        mPresenter.landscapeScreen();
+        mLayoutFrag.setLayoutParams(mParamL);
         showLandscapeView();
-        mFragRepP.saveStudyTime();
+        mRvL.smoothScrollToPosition(mFragRep.getCurrentItem());
+        mPresenter.landscapeScreen();
     }
 
     @Override
@@ -162,32 +187,22 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(int id) {
+        switch (id) {
             case R.id.meet_play_iv_left_l: {
-                // 横屏上一页
-                setItem(mFragRepL, -1, "这是第一页喔");
                 showLandscapeView();
-            }
-            break;
+            } // 横屏是显示(区别于竖屏)
             case R.id.meet_play_iv_left_p: {
-                // 竖屏上一页
-                setItem(mFragRepP, -1, "这是第一页喔");
+                // 上一页
+                setItem(mFragRep, -1, "这是第一页喔");
             }
             break;
             case R.id.meet_play_iv_right_l: {
-                // 横屏下一页
-                setItem(mFragRepL, +1, "已是最后一页");
                 showLandscapeView();
-            }
-            break;
+            } // 横屏是显示(区别于竖屏)
             case R.id.meet_play_iv_right_p: {
-                // 竖屏下一页
-                setItem(mFragRepP, +1, "已是最后一页");
-            }
-            break;
-            default: {
-                super.onClick(v);
+                // 下一页
+                setItem(mFragRep, +1, "已是最后一页");
             }
             break;
         }
@@ -212,21 +227,19 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
     }
 
     @Override
-    public void portraitInit(PPT ppt) {
+    public void portraitInit(PPT ppt, List<Course> courses) {
         // 初始显示
         setViewState(ViewState.normal);
-        mFragRepP.setPPT(ppt);
+        mFragRep.setPPT(ppt);
         setCommentCount(ppt.getInt(TPPT.count));
 
         MeetingRepPAdapter adapter = new MeetingRepPAdapter();
-        CourseInfo courseInfo = ppt.getEv(TPPT.course);
-        List<Course> courses = courseInfo.getList(TCourseInfo.details);
         adapter.setData(courses);
         adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
             @Override
             public void onItemClick(View v, int position) {
-                mFragRepP.setCurrentItem(position);
+                mFragRep.setCurrentItem(position);
             }
 
         });
@@ -241,28 +254,28 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         mTvAll.setText(String.valueOf(courses.size()));
         mTvCurrent.setText("1");
 
+        CourseInfo courseInfo = ppt.getEv(TPPT.course);
         getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
         goneView(getNavBar());
     }
 
     @Override
-    public void landscapeInit(PPT ppt) {
+    public void landscapeInit(List<Course> courses) {
         // 只有网络成功才会有横屏情况
         if (mRvL.getAdapter() != null) {
             return;
         }
-        mFragRepL.setPPT(ppt);
 
         LinearLayoutManager layout = new LinearLayoutManager(this);
         layout.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvL.setLayoutManager(layout);
         MeetingRepLAdapter adapter = new MeetingRepLAdapter();
-        adapter.setData(ppt.getEv(TPPT.course).getList(TCourseInfo.details));
+        adapter.setData(courses);
         adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
             @Override
             public void onItemClick(View v, int position) {
-                mFragRepL.setCurrentItem(position);
+                mFragRep.setCurrentItem(position);
                 showLandscapeView();
             }
 
@@ -277,12 +290,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
 
     @Override
     public PLVideoTextureView getTextureView() {
-        BaseCourseFrag f;
-        if (orientationLandscape()) {
-            f = mFragRepL.getItem(mFragRepL.getCurrentItem());
-        } else {
-            f = mFragRepP.getItem(mFragRepP.getCurrentItem());
-        }
+        BaseCourseFrag f = mFragRep.getItem(mFragRep.getCurrentItem());
         if (f instanceof VideoCourseFrag) {
             VideoCourseFrag item = (VideoCourseFrag) f;
             return item.getTextureView();
@@ -304,13 +312,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
 
     @Override
     public void setNextItem() {
-        PPTRepFrag frag;
-        if (orientationLandscape()) {
-            frag = mFragRepL;
-        } else {
-            frag = mFragRepP;
-        }
-        setItem(frag, +1, "已是最后一页");
+        setItem(mFragRep, +1, "已是最后一页");
     }
 
     @Override
@@ -344,43 +346,5 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         super.onDestroy();
 
         mPresenter.onDestroy();
-    }
-
-    public class RepPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        private RecyclerView mRv;
-
-        RepPageChangeListener(RecyclerView rv) {
-            mRv = rv;
-        }
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            // do nothing
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            NetworkImageView.clearMemoryCache(MeetingRepActivity.this);
-
-            mRv.smoothScrollToPosition(position);
-
-            if (mSwitch) {
-                mSwitch = false;
-            } else {
-                mPresenter.playMedia(position);
-            }
-
-            if (orientationLandscape()) {
-                showLandscapeView();
-            } else {
-                mTvCurrent.setText(String.valueOf(position + 1));
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            // do nothing
-        }
     }
 }

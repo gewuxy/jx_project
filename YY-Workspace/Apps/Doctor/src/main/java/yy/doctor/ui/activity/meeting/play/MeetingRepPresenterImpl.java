@@ -70,7 +70,7 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
             if (mCourses == null || mCourses.size() == 0) {
                 return;
             }
-            mView.portraitInit(mPpt);
+            mView.portraitInit(mPpt, mCourses);
         } else {
             mView.showToast(r.getMessage());
         }
@@ -78,10 +78,10 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
 
     @Override
     public void landscapeScreen() {
-        if (mPpt == null) {
+        if (mCourses == null) {
             return;
         }
-        mView.landscapeInit(mPpt);
+        mView.landscapeInit(mCourses);
     }
 
     @Override
@@ -152,8 +152,8 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
     }
 
     @Override
-    public void onPreparedSuccess(long allMillisecond, boolean state) {
-        mView.onPlayState(state);
+    public void onPreparedSuccess(long allMillisecond) {
+        mView.onPlayState(true);
     }
 
     @Override

@@ -28,14 +28,12 @@ public class MeetingRepPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
             case CourseType.video: {
                 holder.getIvPPT()
                         .res(R.drawable.ic_default_breviary_video)
-                        .resize(KSize, KSize)
                         .load();
             }
             break;
             case CourseType.audio: {
                 holder.getIvPPT()
                         .res(R.drawable.ic_default_breviary_audio)
-                        .resize(KSize, KSize)
                         .load();
             }
             break;
