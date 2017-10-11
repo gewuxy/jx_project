@@ -11,7 +11,7 @@ import yy.doctor.model.meet.Submit;
  * @auther : GuoXuan
  * @since : 2017/9/26
  */
-public interface MeetingRepContract {
+public interface MeetingREPContract {
 
     interface View extends BaseView {
         /**

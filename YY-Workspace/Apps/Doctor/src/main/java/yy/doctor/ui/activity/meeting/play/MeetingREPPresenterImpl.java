@@ -22,12 +22,12 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/26
  */
 
-public class MeetingRepPresenterImpl extends BasePresenter implements
-        MeetingRepContract.Presenter,
+public class MeetingREPPresenterImpl extends BasePresenter implements
+        MeetingREPContract.Presenter,
         NetPlayer.OnPlayerListener,
         CountDown.OnCountDownListener {
 
-    private MeetingRepContract.View mView;
+    private MeetingREPContract.View mView;
 
     private final int KDuration = 3;
 
@@ -36,7 +36,7 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
     private int mPosition;
     private final CountDown mCountDown;
 
-    public MeetingRepPresenterImpl(MeetingRepContract.View view) {
+    public MeetingREPPresenterImpl(MeetingREPContract.View view) {
         mView = view;
         mCountDown = new CountDown();
         mCountDown.setListener(this);
