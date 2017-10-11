@@ -42,14 +42,15 @@
         style="@style/v.meeting.play">
 
         <ImageView
-            android:id="@+id/meet_play_nav_iv_play"
+            android:id="@+id/meet_play_nav_iv_control"
             android:layout_width="22dp"
             android:layout_height="26dp"
             android:padding="5dp"
-            android:src="@drawable/meet_play_ic_play"/>
+            android:src="@drawable/meet_play_select_control"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/meet_play_layout_online"
         style="@style/v.meeting.play">
 
         <TextView

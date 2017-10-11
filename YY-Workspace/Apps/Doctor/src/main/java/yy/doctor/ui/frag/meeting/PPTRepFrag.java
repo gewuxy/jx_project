@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
-import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
@@ -23,6 +22,8 @@ import yy.doctor.model.meet.Course.CourseType;
 import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
+import yy.doctor.serv.CommonServ;
+import yy.doctor.serv.CommonServRouter;
 import yy.doctor.ui.frag.meeting.course.AudioCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag.OnFragClickListener;
@@ -46,16 +47,21 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     private PPT mPPT;
     private int mLastPosition; // 上一次的position
     private long mStartTime; // 开始时间
-    private Map<Integer, Submit> mSubmits; // 学习时间
+    private HashMap<Integer, Submit> mSubmits; // 学习时间
 
-    private OnPPTChangeListener mListener;
+    private OnFragClickListener mListener;
 
-    public void setListener(OnPPTChangeListener listener) {
+    public void addOnPageChangeListener(OnPageChangeListener listener) {
+        setOnPageChangeListener(listener); // 外部添加
+    }
+
+    public void setFragClickListener(OnFragClickListener listener) {
         mListener = listener;
     }
 
     public void setPPT(PPT ppt) {
-        if (ppt == null) {
+        if (ppt == null || mPPT != null) {
+            // 不重复设置
             return;
         }
         mPPT = ppt;
@@ -120,11 +126,7 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
         mLastPosition = position;
 
-        NetworkImageView.clearMemoryCache(getContext());
-
-        if (mListener != null) {
-            mListener.onPageSelected(position);
-        }
+//        NetworkImageView.clearMemoryCache(getContext());
     }
 
     @Override
@@ -132,27 +134,21 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         // do nothing
     }
 
-    @Override
-    public void onClick() {
-
-    }
-
-    @Override
-    protected BaseCourseFrag getItem(int position) {
-        return (BaseCourseFrag) super.getItem(position);
-    }
-
     /**
      * 记录上一页的学习时间
      */
-    private void saveStudyTime() {
-        long curTime = System.currentTimeMillis();
-        BaseCourseFrag item = getItem(mLastPosition);
-        if (item == null) {
-            return;
+    public void saveStudyTime() {
+        Submit submit = mSubmits.get(mLastPosition);
+        if (submit == null) {
+            if (getItem(mLastPosition) == null) {
+                // (横屏)未初始化
+                return;
+            }
+            submit = getItem(mLastPosition).getSubmit();
+            mSubmits.put(Integer.valueOf(mLastPosition), submit);
         }
-        Submit submit = item.getSubmit();
         long studyTime = submit.getLong(Submit.TSubmit.usedtime, 0);
+        long curTime = System.currentTimeMillis();
         // 加上原来记录
         curTime += studyTime - mStartTime;
         submit.put(Submit.TSubmit.usedtime, curTime);
@@ -160,37 +156,10 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
-    public void onDestroy() {
-        saveStudyTime();
-
-        // 保持调用顺序
-        super.onDestroy();
-    }
-
-    @Nullable
-    public Submit getSubmit() {
-        // 拼接需要的数据
-        JSONArray ja = new JSONArray();
-        if (mSubmits == null) {
-            return null;
+    public void onClick() {
+        if (mListener != null) {
+            mListener.onClick();
         }
-        long studyTime;
-        for (Integer key : mSubmits.keySet()) {
-            Submit submit = mSubmits.get(key);
-            studyTime = submit.getLong(TSubmit.usedtime, 0) / TimeUnit.SECONDS.toMillis(1);
-            submit.put(TSubmit.usedtime, studyTime == 0 ? 1 : studyTime); // 至少传1秒
-            ja.put(submit.toJsonObject());
-        }
-
-        if (mPPT == null) {
-            return null;
-        }
-        Submit submit = new Submit();
-        submit.put(TSubmit.meetId, mPPT.getString(TPPT.meetId));
-        submit.put(TSubmit.moduleId, mPPT.getString(TPPT.moduleId));
-        submit.put(TSubmit.courseId, mPPT.getString(TPPT.courseId));
-        submit.put(TSubmit.times, ja.toString());
-        return submit;
     }
 
     /**
@@ -227,13 +196,60 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
+    public int getCount() {
+        return super.getCount();
+    }
+
+    @Override
+    public BaseCourseFrag getItem(int position) {
+        return (BaseCourseFrag) super.getItem(position);
+    }
+
+    @Override
     public void setCurrentItem(int item) {
         super.setCurrentItem(item);
     }
 
     @Override
-    public int getCount() {
-        return super.getCount();
+    public void onDestroy() {
+        saveStudyTime();
+
+        // 把需要的对象传给服务提交(失败再次提交)
+        CommonServRouter.create()
+                .type(CommonServ.ReqType.course)
+                .submit(getSubmit(mSubmits))
+                .route(getContext());
+
+        // 保持调用顺序
+        super.onDestroy();
     }
 
+    public Submit getSubmit(Map<Integer, Submit> p) {
+        if (mSubmits.isEmpty()) {
+            return null;
+        }
+        Submit submit = null;
+        JSONArray ja = new JSONArray();
+        long studyTime;
+        for (int i = 0; i < p.size(); i++) {
+            Submit s = p.get(i);
+            if (s == null) {
+                continue;
+            }
+            studyTime = s.getLong(TSubmit.usedtime, 0) / TimeUnit.SECONDS.toMillis(1);
+            s.put(TSubmit.usedtime, studyTime == 0 ? 1 : studyTime); // 至少传1秒
+            ja.put(s.toJsonObject());
+            if (submit == null) {
+                submit = new Submit();
+                submit.put(TSubmit.meetId, mPPT.getString(TPPT.meetId));
+                submit.put(TSubmit.moduleId, mPPT.getString(TPPT.moduleId));
+                submit.put(TSubmit.courseId, mPPT.getString(TPPT.courseId));
+            }
+        }
+        if (submit != null) {
+            submit.put(TSubmit.times, ja.toString());
+        }
+
+        return submit;
+    }
 }

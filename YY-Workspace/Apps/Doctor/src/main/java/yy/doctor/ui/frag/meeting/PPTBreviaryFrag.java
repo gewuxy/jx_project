@@ -19,7 +19,7 @@ import yy.doctor.ui.frag.meeting.course.BreviaryFrag;
 import yy.doctor.ui.frag.meeting.course.BreviaryFragRouter;
 
 /**
- * 缩略图部分
+ * 缩略图部分(暂时弃用)
  *
  * @auther : GuoXuan
  * @since : 2017/9/25
@@ -32,12 +32,6 @@ public class PPTBreviaryFrag extends BaseVPFrag implements OnPageChangeListener 
 
     private float mLastOffset;
 
-    private OnPPTChangeListener mListener;
-
-    public void setListener(OnPPTChangeListener listener) {
-        mListener = listener;
-    }
-
     public void setCourses(List<Course> courses) {
         // 逐个添加Frag
         for (Course course : courses) {
@@ -49,8 +43,6 @@ public class PPTBreviaryFrag extends BaseVPFrag implements OnPageChangeListener 
         }
         invalidate();
     }
-
-
 
     @Override
     public void initData() {
@@ -103,13 +95,12 @@ public class PPTBreviaryFrag extends BaseVPFrag implements OnPageChangeListener 
 
     @Override
     public void onPageSelected(int position) {
-        if (mListener != null) {
-            mListener.onPageSelected(position);
-        }
+        // do nothing
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        // do nothing
     }
 
     /**

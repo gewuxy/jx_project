@@ -7,7 +7,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
@@ -23,8 +22,6 @@ import yy.doctor.util.Util;
  */
 
 abstract public class BaseMeetingPlayActivity extends BaseActivity {
-
-    private final int KVanishTime = 3; // 横屏显示时间
 
     @Arg
     String mMeetId; // 会议ID
@@ -48,9 +45,14 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     @Override
     public final void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
-        bar.addViewRight(R.drawable.meet_play_ic_to_portrait, v -> setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
+        bar.addViewRight(R.drawable.meet_play_ic_to_portrait, v -> {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            goneView(getNavBar());
+            portrait();
+        });
 
-        bar.setBackgroundColor(Color.TRANSPARENT);
+        bar.setBackgroundColor(Color.BLACK);
+        bar.setBackgroundAlpha(127);
         goneView(bar);
     }
 
@@ -66,7 +68,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     public void setViews() {
         setOnClickListener(R.id.meet_play_nav_iv_back);
         setOnClickListener(R.id.meet_play_nav_tv_comment);
-        setOnClickListener(R.id.meet_play_nav_iv_play);
+        setOnClickListener(R.id.meet_play_nav_iv_control);
         setOnClickListener(R.id.meet_play_nav_tv_online_num);
         setOnClickListener(R.id.meet_play_nav_iv_landscape);
     }
@@ -88,7 +90,8 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
                 MeetingCommentActivityRouter.create(mMeetId).route(this);
             }
             break;
-            case R.id.meet_play_nav_iv_play: {
+            case R.id.meet_play_nav_iv_control: {
+                toggle();
             }
             break;
             case R.id.meet_play_nav_tv_online_num: {
@@ -97,23 +100,12 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
             case R.id.meet_play_nav_iv_landscape: {
                 // 切换横屏
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                showView(getNavBar());
+                landscape();
             }
             break;
         }
 
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            goneView(getNavBar());
-            portrait();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            showView(getNavBar());
-            landscape();
-        }
     }
 
     public void goneView(@IdRes int resId) {
@@ -127,7 +119,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     /**
      * 屏幕方向是否为横屏
      */
-    private boolean orientationLandscape() {
+    protected boolean orientationLandscape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
@@ -140,5 +132,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
      * 横屏
      */
     abstract protected void landscape();
+
+    abstract protected void toggle();
 
 }

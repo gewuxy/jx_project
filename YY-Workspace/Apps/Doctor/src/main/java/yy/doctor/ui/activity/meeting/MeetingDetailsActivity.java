@@ -223,7 +223,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
             break;
             case R.id.meeting_detail_layout_unit_num: {
-                // FIXME: 7.1.6 UnitNumId
                 UnitNumDetailActivityRouter.create(mMeetDetail.getInt(TMeetDetail.pubUserId)).route(MeetingDetailsActivity.this);
             }
             break;
@@ -334,7 +333,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             YSLog.d(TAG, "refreshViews:有学分" + costEpn);
         }
         mTvSection.setText(detail.getString(TMeetDetail.meetType));
-        // FIXME: 7.1.6 会议类型
         mTvMeetType.setText(detail.getBroadcastType());
 
         // 学习进度
