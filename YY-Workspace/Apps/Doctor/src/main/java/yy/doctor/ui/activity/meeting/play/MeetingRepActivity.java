@@ -40,7 +40,7 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
  * @since : 2017/4/24
  */
 @Route
-public class MeetingREPActivity extends BaseMeetingPlayActivity implements MeetingREPContract.View {
+public class MeetingRepActivity extends BaseMeetingPlayActivity implements MeetingRepContract.View {
 
     private PPTRepFrag mFragRepP;
     private PPTRepFrag mFragRepL;
@@ -53,7 +53,7 @@ public class MeetingREPActivity extends BaseMeetingPlayActivity implements Meeti
 
     private View mIvControl;
 
-    private MeetingREPContract.Presenter mPresenter;
+    private MeetingRepContract.Presenter mPresenter;
 
     private boolean mSwitch; // 是否切换横竖屏
 
@@ -61,7 +61,7 @@ public class MeetingREPActivity extends BaseMeetingPlayActivity implements Meeti
     public void initData() {
         notify(NotifyType.study_start);
 
-        mPresenter = new MeetingREPPresenterImpl(this);
+        mPresenter = new MeetingRepPresenterImpl(this);
         mSwitch = false;
     }
 
@@ -378,7 +378,7 @@ public class MeetingREPActivity extends BaseMeetingPlayActivity implements Meeti
 
         @Override
         public void onPageSelected(int position) {
-            NetworkImageView.clearMemoryCache(MeetingREPActivity.this);
+            NetworkImageView.clearMemoryCache(MeetingRepActivity.this);
 
             mRv.smoothScrollToPosition(position);
 
