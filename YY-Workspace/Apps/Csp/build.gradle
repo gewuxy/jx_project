@@ -14,6 +14,8 @@ android {
         versionCode 1
         versionName "0.1"
 
+        multiDexEnabled true
+
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true
@@ -175,5 +177,6 @@ dependencies {
      */
     //    debugCompile deps.debug.leakcanary
     //    releaseCompile deps.release.leakcanary
+    implementation deps.support.dex
     annotationProcessor project(deps.ys.compiler)
 }

@@ -1,5 +1,8 @@
 package jx.csp;
 
+import android.content.Context;
+import android.support.multidex.MultiDex;
+
 import com.mob.MobSDK;
 
 import jx.csp.network.NetFactory;
@@ -105,4 +108,9 @@ public class App extends BaseApp {
         return CacheUtil.getBmpCacheDir();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }
