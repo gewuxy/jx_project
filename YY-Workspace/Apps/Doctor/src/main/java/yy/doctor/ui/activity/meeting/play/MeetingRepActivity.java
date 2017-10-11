@@ -220,46 +220,36 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
 
     @Override
     public void portraitInit(PPT ppt) {
+        // 初始显示
         setViewState(ViewState.normal);
+        mFragRepP.setPPT(ppt);
+        setCommentCount(ppt.getInt(TPPT.count));
 
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+        MeetingRepPAdapter adapter = new MeetingRepPAdapter();
+        CourseInfo courseInfo = ppt.getEv(TPPT.course);
+        List<Course> courses = courseInfo.getList(TCourseInfo.details);
+        adapter.setData(courses);
+        adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
             @Override
-            public void onGlobalLayout() {
-                // 初始显示
-                mFragRepP.setPPT(ppt);
-
-                MeetingRepPAdapter adapter = new MeetingRepPAdapter();
-                CourseInfo courseInfo = ppt.getEv(TPPT.course);
-                List<Course> courses = courseInfo.getList(TCourseInfo.details);
-                adapter.setData(courses);
-                adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
-
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        mFragRepP.setCurrentItem(position);
-                    }
-
-                });
-                mRvP.setAdapter(adapter);
-                mRvP.setSlideOnFling(true);
-                mRvP.setItemTransitionTimeMillis(150);
-                mRvP.setItemTransformer(new ScaleTransformer.Builder()
-                        .setMinScale(0.8f)
-                        .build());
-
-                mPresenter.playMedia(0);
-                mTvAll.setText(String.valueOf(courses.size()));
-                mTvCurrent.setText("1");
-
-                getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
-                goneView(getNavBar());
-
-                removeOnGlobalLayoutListener(this);
+            public void onItemClick(View v, int position) {
+                mFragRepP.setCurrentItem(position);
             }
 
         });
+        mRvP.setAdapter(adapter);
+        mRvP.setSlideOnFling(true);
+        mRvP.setItemTransitionTimeMillis(150);
+        mRvP.setItemTransformer(new ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build());
 
+        mPresenter.playMedia(0);
+        mTvAll.setText(String.valueOf(courses.size()));
+        mTvCurrent.setText("1");
+
+        getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
+        goneView(getNavBar());
     }
 
     @Override

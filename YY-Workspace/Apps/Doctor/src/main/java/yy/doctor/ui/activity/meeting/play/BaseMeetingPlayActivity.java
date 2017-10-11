@@ -108,12 +108,23 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     }
 
-    public void goneView(@IdRes int resId) {
+    protected void goneView(@IdRes int resId) {
         goneView(findView(resId));
     }
 
-    public void showView(@IdRes int resId) {
+    protected void showView(@IdRes int resId) {
         showView(findView(resId));
+    }
+
+    protected void setCommentCount(int num) {
+        if (mTvComment == null) {
+            return;
+        }
+        if (num <= 0) {
+            mTvComment.setText("评论");
+        } else {
+            mTvComment.setText(String.valueOf(num));
+        }
     }
 
     /**

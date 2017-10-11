@@ -33,7 +33,6 @@
             android:gravity="bottom"
             android:includeFontPadding="false"
             android:padding="5dp"
-            android:text="211"
             android:textColor="@color/text_666"
             android:textSize="10dp"/>
     </LinearLayout>
