@@ -2,7 +2,7 @@ package yy.doctor.adapter.meeting;
 
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.TextUtil;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.CommentVH;
 import yy.doctor.model.meet.Comment;
@@ -29,7 +29,7 @@ public class CommentAdapter extends AdapterEx<Comment, CommentVH> {
                 .url(getItem(position).getString(TComment.headimg))
                 .load();
         holder.getTvName().setText(getItem(position).getString(TComment.sender));
-        holder.getTvDate().setText(TimeUtil.formatMilli(getItem(position).getString(TComment.sendTime), "MM-dd HH:mm"));
+        holder.getTvDate().setText(TimeFormatter.milli(getItem(position).getString(TComment.sendTime), "MM-dd HH:mm"));
         String message = getItem(position).getString(TComment.message);
         if (TextUtil.isNotEmpty(message)) {
             holder.getTvContent().setText(message);

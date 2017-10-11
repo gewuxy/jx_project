@@ -335,9 +335,9 @@ public class SettingsActivity extends BaseFormActivity {
     private void unBindUpdate(Result r, @RelatedId int id, TProfile key) {
         if (r.isSucceed()) {
             showToast("解绑成功");
-            getRelatedItem(id).save(ConstantsEx.KEmptyValue, ConstantsEx.KEmptyValue);
+            getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
             refreshRelatedItem(id);
-            Profile.inst().put(key, ConstantsEx.KEmptyValue);
+            Profile.inst().put(key, ConstantsEx.KEmpty);
             Profile.inst().saveToSp();
         } else {
             showToast(r.getMessage());

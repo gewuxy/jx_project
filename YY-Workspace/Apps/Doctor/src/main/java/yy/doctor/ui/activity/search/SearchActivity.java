@@ -70,14 +70,14 @@ public class SearchActivity extends BaseActivity {
             case R.id.meeting_search_tv_unit_num: {
                 UnitNumResultActivityRouter
                         .create()
-                        .searchContent(ConstantsEx.KEmptyValue)
+                        .searchContent(ConstantsEx.KEmpty)
                         .route(this);
             }
             break;
             case R.id.meeting_search_tv_meeting: {
                 MeetingResultActivityRouter
                         .create()
-                        .searchContent(ConstantsEx.KEmptyValue)
+                        .searchContent(ConstantsEx.KEmpty)
                         .route(this);
             }
             break;

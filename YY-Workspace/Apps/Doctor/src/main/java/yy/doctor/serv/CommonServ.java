@@ -85,6 +85,9 @@ public class CommonServ extends ServiceEx {
             }
             break;
             case ReqType.course: {
+                if (mSubmit == null) {
+                    return;
+                }
                 NetworkReq r = MeetAPI.submitCourse()
                         .meetId(mSubmit.getString(TSubmit.meetId))
                         .moduleId(mSubmit.getString(TSubmit.moduleId))

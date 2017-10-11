@@ -17,7 +17,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -228,21 +228,21 @@ public class ExamIntroActivity extends BaseActivity {
      */
     private String format(long startTime, long endTime) {
         StringBuilder time = null;
-        String startDate = TimeUtil.formatMilli(startTime, TimeFormat.simple_ymd);
-        String endDate = TimeUtil.formatMilli(endTime, TimeFormat.simple_ymd);
+        String startDate = TimeFormatter.milli(startTime, TimeFormat.simple_ymd);
+        String endDate = TimeFormatter.milli(endTime, TimeFormat.simple_ymd);
         if (startDate.equals(endDate)) {
             //同一天
             time = new StringBuilder(startDate)
                     .append(" ")
-                    .append(TimeUtil.formatMilli(startTime, TimeFormat.from_h_to_m_24))
+                    .append(TimeFormatter.milli(startTime, TimeFormat.from_h_to_m_24))
                     .append("~")
-                    .append(TimeUtil.formatMilli(endTime, TimeFormat.from_h_to_m_24));
+                    .append(TimeFormatter.milli(endTime, TimeFormat.from_h_to_m_24));
         } else {
             //不在同一天
             time = new StringBuilder()
-                    .append(TimeUtil.formatMilli(startTime, TimeFormat.from_y_to_m_24))
+                    .append(TimeFormatter.milli(startTime, TimeFormat.from_y_to_m_24))
                     .append("~")
-                    .append(TimeUtil.formatMilli(endTime, TimeFormat.from_y_to_m_24));
+                    .append(TimeFormatter.milli(endTime, TimeFormat.from_y_to_m_24));
         }
         return time.toString();
     }

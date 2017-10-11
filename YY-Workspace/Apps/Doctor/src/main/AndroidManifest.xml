@@ -102,7 +102,7 @@
             android:name=".ui.activity.meeting.MeetingDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.meeting.play.MeetingREPActivity"
+            android:name=".ui.activity.meeting.play.MeetingRepActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>

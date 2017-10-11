@@ -35,7 +35,7 @@ public class NetFactory {
 
         ps.add(newPair(CommonParam.KDevice, "android"));
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersion()));
+        ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
 
 //        ps.add(newPair(CommonParam.KToken, "d48f972107584add99e48adc510fdb35"));
         if (Profile.inst().isLogin()) {

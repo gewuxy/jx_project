@@ -1,7 +1,5 @@
 package yy.doctor.ui.frag.meeting.course;
 
-import android.graphics.Color;
-
 import inject.annotation.router.Route;
 import yy.doctor.R;
 
@@ -18,6 +16,6 @@ public class AudioCourseFrag extends PicAudioCourseFrag {
     public void setViews() {
         getIvHolder().setImageResource(R.drawable.meeting_record_audio_bg);
         getLayout().setOnRootTouchListener(this);
-        setBackgroundColor(Color.TRANSPARENT);
+        setBackgroundResource(R.color.app_nav_bar_bg);
     }
 }

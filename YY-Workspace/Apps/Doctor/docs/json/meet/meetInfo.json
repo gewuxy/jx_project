@@ -2,64 +2,79 @@
   "code": "0",
   "data": {
     "attendAble": true,
+    "attended": true,
     "attention": true,
-    "coverUrl": "http://www.medcn.com:8081/file/course/18/ppt/17060314091841672767.jpg",
-    "eduCredits": 0, // 奖励
-    "endTime": 1498795980000,
-    "headimg": "http://www.medcn.com:8081/file//headimg/1495870906404.png",
-    "id": "17060312172856248750",
-    "introduction": "<p>个人简介: 李昆明，男，博士，教授，主任医师。现任第四军医大学唐都医院神 经外科副主任。长期从事立体定向和功能神经外科工作，积极参与了微电极导 向定向手术治疗帕金森病新技术的引进、创新及推广工作，采用脑深部电刺激技 术（脑起搏器技术）和毁损技术治疗帕金森病、扭转痉挛、原发性震颤、痉挛性 斜颈、舞蹈症患者3000余例，手术疗效明显，并发症发生率低；应用全息、实 时、可视神经导航技术结合微电极导向手术治疗精神病（精神分裂症、躁狂症、 强迫症、抑郁症、焦虑症）、疼痛等取得显著疗效。</p><p>课题：《2型糖尿病的三级预防》</p><p>讲师：孙丰雷，主治医师，山东省中医院老年病科。</p><p>内容简介：</p><p>1.糖尿病的诊断及分型；<br>2.糖尿病的流行病学；<br>3.糖尿病的三级预防。</p><p><br></p>",
-    "lecturer": "王长喜",
-    "lecturerDepart": "泌尿外科",
-    "lecturerHead": "http://www.medcn.com:8081/file/headimg/17060914112759877375.png",
-    "lecturerHos": "广州海印南院",
-    "lecturerTitle": "主任医师",
-    "materials": [],// 资料
-    "meetName": "神经外科测试会议二",
-    "meetType": "神经外科",
+    "awardCreditLimit": 3,
+    "awardLimit": 2,
+    "completeProgress": 50,
+    "coverUrl": "http://59.111.90.245:8083/file/course/51/ppt/17081814225889851607.jpg",
+    "eduCredits": 1,
+    "endTime": 1504160100000,
+    "headimg": "http://59.111.90.245:8083/file/headimg/1503557646365.jpg",
+    "id": "17081814211192640105",
+    "introduction": "<p>我的天呐</p>",
+    "lecturer": "啊啊啊",
+    "lecturerDepart": "超级厉害的科室",
+    "lecturerHead": "http://59.111.90.245:8083/file/others/metting-img-man.jpg",
+    "lecturerHos": "超级厉害的医院",
+    "lecturerTitle": "超级厉害的医生",
+    "materialCount": 1,
+    "materials": [
+      {
+        "createTime": 1503037744000,
+        "fileSize": 913483,
+        "fileSizeStr": "892.1KB",
+        "fileType": "pptx",
+        "fileUrl": "http://59.111.90.245:8083/file/material/17081814211192640105/17081814290442597038.pptx",
+        "id": 23,
+        "meetId": "17081814211192640105",
+        "name": "v1_产品说明文档.pptx",
+        "userId": 1200007
+      }
+    ],
+    "meetName": "这是一个在很厉害文件夹里的厉害的会议",
+    "meetType": "普内科",
     "modules": [
       {
         "active": true,
         "functionId": 1,
-        "id": 33,
+        "id": 1988,
         "mainFlag": true,
-        "meetId": "17060312172856248750",
+        "meetId": "17081814211192640105",
         "moduleName": "微课"
       },
       {
         "active": true,
         "functionId": 3,
-        "id": 34,
-        "meetId": "17060312172856248750",
+        "id": 1989,
+        "meetId": "17081814211192640105",
         "moduleName": "考试"
       },
       {
         "active": true,
         "functionId": 4,
-        "id": 35,
-        "meetId": "17060312172856248750",
+        "id": 1990,
+        "meetId": "17081814211192640105",
         "moduleName": "问卷"
       },
       {
         "active": true,
         "functionId": 5,
-        "id": 36,
-        "meetId": "17060312172856248750",
+        "id": 1991,
+        "meetId": "17081814211192640105",
         "moduleName": "签到"
-      },
-      {
-        "active": true,
-        "functionId": 2,
-        "id": 37,
-        "meetId": "17060312172856248750",
-        "moduleName": "视频"
       }
     ],
-    "organizer": "佛山单位号",
-    "pubUserId": 14, // 单位号Id
-    "requiredXs": false, // 需要
-    "startTime": 1496463180000,
-    "state": 2,
-    "stored": 0
+    "organizer": "YaYa测试",
+    "playType": 0,
+    "pubUserId": 1200007,
+    "remainAwardCreditCount": 3,
+    "remainAwardXsCount": 2,
+    "requiredXs": true,
+    "rewardCredit": true,
+    "startTime": 1502950500000,
+    "state": 3,
+    "stored": 2,
+    "xsCredits": 100
   }
 }

@@ -76,7 +76,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         /**
          * {@link BroadcastType}
          */
-        meetKind, // 会议直播类型
+        playType, // 会议直播类型
 
         requiredXs, // 是否奖励象数  true表示奖励；当为false表示支付(且xsCredits大于0时)
         xsCredits, // 奖励/支付象数
@@ -112,7 +112,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
     }
 
     public String getBroadcastType() {
-        if (getInt(TMeetDetail.meetKind) == BroadcastType.REP) {
+        if (getInt(TMeetDetail.playType, 0) == BroadcastType.REP) {
             return "录播";
         } else {
             return "直播";

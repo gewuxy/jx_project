@@ -5,6 +5,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.ui.interfaces.opt.INetworkOpt;
 
 /**
  * @auther : GuoXuan
@@ -14,6 +15,10 @@ import lib.ys.ui.interfaces.impl.NetworkOpt;
 public class BasePresenter implements OnNetworkListener {
 
     private NetworkOpt mNetworkImpl;
+
+    public void exeNetworkReq(NetworkReq req) {
+        exeNetworkReq(INetworkOpt.KDefaultId, req);
+    }
 
     protected void exeNetworkReq(int id, NetworkReq req) {
         if (mNetworkImpl == null) {
@@ -37,5 +42,10 @@ public class BasePresenter implements OnNetworkListener {
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
+    }
+
+    public void onDestroy() {
+        mNetworkImpl.onDestroy();
+        mNetworkImpl = null;
     }
 }

@@ -20,7 +20,7 @@ import lib.network.Network;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
-import lib.ys.util.ReflectionUtil;
+import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.util.BaseUtil;
@@ -79,7 +79,7 @@ public class Util extends BaseUtil {
                 }
             }
         }
-        return ReflectionUtil.newInst(clz);
+        return ReflectUtil.newInst(clz);
     }
 
     /**

@@ -1,7 +1,7 @@
 package yy.doctor.adapter.me;
 
 import lib.ys.adapter.AdapterEx;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.me.EpnDetailsVH;
 import yy.doctor.model.me.EpnDetails;
@@ -27,7 +27,7 @@ public class EpnDetailsAdapter extends AdapterEx<EpnDetails, EpnDetailsVH> {
     protected void refreshView(int position, EpnDetailsVH holder) {
 
         EpnDetails item = getItem(position);
-        String strTime = TimeUtil.formatMilli(item.getLong(TEpnDetails.costTime), "yyyy/MM/dd HH:mm");
+        String strTime = TimeFormatter.milli(item.getLong(TEpnDetails.costTime), "yyyy/MM/dd HH:mm");
         holder.geTvTime().setText(strTime);
         holder.geTvNum().setText(String.format(getString(R.string.epn_unit), item.getInt(TEpnDetails.cost)));
         holder.geTvContent().setText(item.getString(TEpnDetails.description));

@@ -23,7 +23,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -223,7 +223,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             }
             break;
             case R.id.meeting_detail_layout_unit_num: {
-                // FIXME: 7.1.6 UnitNumId
                 UnitNumDetailActivityRouter.create(mMeetDetail.getInt(TMeetDetail.pubUserId)).route(MeetingDetailsActivity.this);
             }
             break;
@@ -288,7 +287,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
                 .load();
 
         long startTime = detail.getLong(TMeetDetail.startTime); // 开始时间
-        mTvDate.setText(TimeUtil.formatMilli(startTime, "MM月dd日 HH:mm"));
+        mTvDate.setText(TimeFormatter.milli(startTime, "MM月dd日 HH:mm"));
         mTvDuration.setText("时长:" + Time.milliFormat(detail.getLong(TMeetDetail.endTime) - startTime));
 
         // 会议
@@ -334,7 +333,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
             YSLog.d(TAG, "refreshViews:有学分" + costEpn);
         }
         mTvSection.setText(detail.getString(TMeetDetail.meetType));
-        // FIXME: 7.1.6 会议类型
         mTvMeetType.setText(detail.getBroadcastType());
 
         // 学习进度

@@ -16,4 +16,10 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     protected void landscape() {
 
     }
+
+    @Override
+    protected void toggle() {
+
+    }
+
 }

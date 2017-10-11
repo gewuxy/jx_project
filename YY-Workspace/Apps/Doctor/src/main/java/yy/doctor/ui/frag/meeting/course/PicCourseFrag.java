@@ -19,6 +19,7 @@ public class PicCourseFrag extends PicAudioCourseFrag {
     public void setViews() {
         setPic();
 
+        getLayout().setOnRootTouchListener(this);
         setBackgroundColor(Color.TRANSPARENT);
     }
 
@@ -31,6 +32,6 @@ public class PicCourseFrag extends PicAudioCourseFrag {
 
     @Override
     public String getUrl() {
-        return ConstantsEx.KEmptyValue;
+        return ConstantsEx.KEmpty;
     }
 }

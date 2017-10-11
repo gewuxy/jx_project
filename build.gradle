@@ -58,12 +58,12 @@ buildscript {
                     /**
                      * android
                      */
-                    ok        : 'com.squareup.okhttp3:okhttp:3.8.0',
+                    ok        : 'com.squareup.okhttp3:okhttp:3.9.0',
                     retrofit  : 'com.squareup.retrofit2:retrofit:2.3.0',
                     leakcanary: [
                             // 内存泄漏检查工具
-                            debug  : 'com.squareup.leakcanary:leakcanary-android:1.5.1',
-                            release: 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+                            debug  : 'com.squareup.leakcanary:leakcanary-android:1.5.4',
+                            release: 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
                     ],
                     /**
                      * java

@@ -9,7 +9,7 @@ import inject.annotation.router.Arg;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.util.TimeUtil;
+import lib.ys.util.TimeFormatter;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -82,7 +82,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
             // 成功
             successResult();
             long signTime = System.currentTimeMillis();
-            mTvResultMsg.setText("时间 " + TimeUtil.formatMilli(signTime, TimeUtil.TimeFormat.from_h_to_m_24));
+            mTvResultMsg.setText("时间 " + TimeFormatter.milli(signTime, TimeFormatter.TimeFormat.from_h_to_m_24));
         } else {
             // 失败
             errorResult(r.getMessage());

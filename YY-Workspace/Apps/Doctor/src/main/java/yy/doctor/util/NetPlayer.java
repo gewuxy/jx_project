@@ -85,8 +85,9 @@ public class NetPlayer implements
          * 准备成功
          *
          * @param allMilliseconds 音频总时长 (毫秒)
+         * @param state           播放状态
          */
-        void onPreparedSuccess(long allMilliseconds);
+        void onPreparedSuccess(long allMilliseconds, boolean state);
 
         void onPreparedError();
 
@@ -134,6 +135,14 @@ public class NetPlayer implements
         mListener = listener;
     }
 
+    public boolean isPlaying() {
+        if (mType==PlayType.audio) {
+            return mAudioPlay.isPlaying();
+        } else {
+            return mVideoPlay.isPlaying();
+        }
+    }
+
     private NetPlayer() {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
@@ -178,7 +187,7 @@ public class NetPlayer implements
             nativePlay();
         }
         if (mListener != null) {
-            mListener.onPreparedSuccess(mAllTime);
+            mListener.onPreparedSuccess(mAllTime, mAutoPlay);
         }
     }
 
@@ -203,7 +212,7 @@ public class NetPlayer implements
             nativePlay();
         }
         if (mListener != null) {
-            mListener.onPreparedSuccess(mAllTime);
+            mListener.onPreparedSuccess(mAllTime, mAutoPlay);
         }
 
     }
@@ -247,12 +256,7 @@ public class NetPlayer implements
             mMeetId = meetId;
         }
 
-        int code = url.hashCode();
-        if (mPlayCode == code) {
-            // 不用重复准备
-            return;
-        }
-        mPlayCode = code;
+        mPlayCode = url.hashCode();
 
         mAutoPlay = play;
 

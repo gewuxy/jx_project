@@ -15,7 +15,7 @@ import yy.doctor.R;
 import yy.doctor.model.meet.Course.CourseType;
 
 /**
- * 每一张缩略图
+ * 每一张缩略图(暂时弃用)
  *
  * @auther : GuoXuan
  * @since : 2017/9/25
@@ -43,7 +43,7 @@ public class BreviaryFrag extends BaseFrag {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_ppt_breviary_item;
+        return R.layout.layout_ppt_breviary_item_p;
     }
 
     @Override
