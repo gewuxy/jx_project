@@ -104,6 +104,15 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         mFragRepL.addOnPageChangeListener(new RepPageChangeListener(mRvL));
 
         mFragRepL.setFragClickListener(() -> showLandscapeView());
+
+        mRvL.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                showLandscapeView();
+            }
+
+        });
     }
 
     @Override
@@ -115,15 +124,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         int l = mFragRepL.getCurrentItem();
         if (p != l) {
             mSwitch = true;
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    mFragRepP.setCurrentItem(l);
-                    removeOnGlobalLayoutListener(this);
-                }
-
-            });
+            mFragRepP.setCurrentItem(l);
         }
         finishCount();
         mFragRepL.saveStudyTime();
@@ -138,15 +139,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         int l = mFragRepL.getCurrentItem();
         if (p != l) {
             mSwitch = true;
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    mFragRepL.setCurrentItem(p);
-                    removeOnGlobalLayoutListener(this);
-                }
-
-            });
+            mFragRepL.setCurrentItem(p);
         }
 
         mPresenter.landscapeScreen();
