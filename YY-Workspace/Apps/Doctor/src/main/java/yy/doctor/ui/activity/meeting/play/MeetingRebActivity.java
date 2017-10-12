@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,10 +63,19 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     private LayoutParams mParamP;
     private LayoutParams mParamL;
 
+    private Handler mHandler;
+
     @Override
     public void initData() {
         notify(NotifyType.study_start);
 
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                int position = (int) msg.obj;
+                mPresenter.playMedia(position);
+            }
+        };
         mView = new MeetingRebViewImpl();
         mPresenter = new MeetingRebPresenterImpl(mView);
     }
@@ -115,8 +126,11 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
             public void onPageSelected(int position) {
                 NetworkImageView.clearMemoryCache(MeetingRebActivity.this);
 
-                mPresenter.playMedia(position);
-
+                mHandler.removeMessages(0);
+                Message message = new Message();
+                message.obj = position;
+                message.what = 0;
+                mHandler.sendMessageDelayed(message, 500);
                 if (orientationLandscape()) {
                     mRvL.smoothScrollToPosition(position);
                 } else {
