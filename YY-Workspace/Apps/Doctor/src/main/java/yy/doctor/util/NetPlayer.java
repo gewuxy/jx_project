@@ -249,7 +249,11 @@ public class NetPlayer implements
 
         stop();
         UtilEx.runOnUIThread(() -> {
-            mPlayCode = url.hashCode();
+            int code = url.hashCode();
+            if (code == mPlayCode) {
+                return;
+            }
+            mPlayCode = code;
 
             String filePath = CacheUtil.getMeetingCacheDir(meetId); // 文件夹名字 (meetId)
 
