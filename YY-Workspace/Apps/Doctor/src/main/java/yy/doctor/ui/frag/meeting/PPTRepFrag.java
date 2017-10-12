@@ -140,6 +140,9 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     public void saveStudyTime() {
         Submit submit = mSubmits.get(mLastPosition);
         if (submit == null) {
+            if (getItem(mLastPosition) == null) {
+                return; // 未初始化成功
+            }
             submit = getItem(mLastPosition).getSubmit();
             mSubmits.put(Integer.valueOf(mLastPosition), submit);
         }

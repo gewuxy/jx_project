@@ -24,16 +24,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <yy.doctor.view.discretescrollview.DiscreteScrollView
-            android:id="@+id/meet_ppt_rv_p"
+        <LinearLayout
+            android:id="@+id/meet_ppt_rv_layout"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:layout_marginTop="237dp"/>
+            android:layout_marginTop="237dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <yy.doctor.view.discretescrollview.DiscreteScrollView
+                android:id="@+id/meet_ppt_rv_p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/meet_ppt_rv_p">
+            android:layout_below="@id/meet_ppt_rv_layout">
 
             <TextView
                 android:id="@+id/meet_play_tv_current"

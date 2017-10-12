@@ -3,7 +3,9 @@ package yy.doctor.ui.activity.meeting.play;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
+import lib.ys.util.TimeFormatter;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import yy.doctor.model.meet.Course;
@@ -22,21 +24,22 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/26
  */
 
-public class MeetingRepPresenterImpl extends BasePresenter implements
-        MeetingRepContract.Presenter,
+public class MeetingRebPresenterImpl extends BasePresenter implements
+        MeetingRebContract.Presenter,
         NetPlayer.OnPlayerListener,
         CountDown.OnCountDownListener {
 
-    private MeetingRepContract.View mView;
-
     private final int KDuration = 3;
 
+    private int mPosition; // 上一个position
     private PPT mPpt;
     private List<Course> mCourses;
-    private int mPosition;
-    private final CountDown mCountDown;
+    private CountDown mCountDown;
 
-    public MeetingRepPresenterImpl(MeetingRepContract.View view) {
+    private MeetingRebContract.View mView;
+    private long mAllMillisecond;
+
+    public MeetingRebPresenterImpl(MeetingRebContract.View view) {
         mView = view;
         mCountDown = new CountDown();
         mCountDown.setListener(this);
@@ -87,6 +90,7 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
     @Override
     public void playMedia(int position) {
         Course c = mCourses.get(mPosition);
+        c.put(TCourse.time, "音频"); // 清空时间
         c.put(TCourse.select, false); // 上一个取消选择
         c.put(TCourse.play, false); // 上一个取消播放
         mView.invalidate(mPosition);
@@ -113,8 +117,7 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
             break;
         }
 
-        course.put(TCourse.select, true);
-        course.put(TCourse.play, true);
+        course.put(TCourse.select, true); // 选中
         mView.invalidate(mPosition);
     }
 
@@ -146,6 +149,12 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
         mCountDown.start(KDuration);
     }
 
+    private String getTime(long millisecond) {
+        int second = Math.round(millisecond / 1000.0f); // 四舍五入
+        YSLog.d(TAG, "getTime:" + second);
+        return TimeFormatter.second(second, TimeFormatter.TimeFormat.from_m);
+    }
+
     @Override
     public void onDownProgress(int progress) {
 
@@ -153,7 +162,12 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
 
     @Override
     public void onPreparedSuccess(long allMillisecond) {
+        mAllMillisecond = allMillisecond;
         mView.onPlayState(true);
+        Course course = mCourses.get(mPosition);
+        course.put(TCourse.play, true); // 播放
+        course.put(TCourse.time, getTime(mAllMillisecond));
+        mView.invalidate(mPosition);
     }
 
     @Override
@@ -163,7 +177,9 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
 
     @Override
     public void onProgress(long currMilliseconds, int progress) {
-
+        Course course = mCourses.get(mPosition);
+        course.put(TCourse.time, getTime(mAllMillisecond - currMilliseconds));
+        mView.invalidate(mPosition);
     }
 
     @Override

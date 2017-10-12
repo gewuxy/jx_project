@@ -31,6 +31,7 @@ public class Course extends EVal<TCourse> {
 
         play, // 是否在播放
         select, // 是否选中
+        time, // 播放时间
     }
 
     @IntDef({

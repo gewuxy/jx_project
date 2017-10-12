@@ -21,6 +21,7 @@ import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.UtilEx;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import yy.doctor.network.NetworkAPISetter.CommonAPI;
@@ -42,6 +43,7 @@ public class NetPlayer implements
     private static final String TAG = NetPlayer.class.getSimpleName().toString();
 
     private static final int KTime = 3; // 默认数三秒
+    private static final int KWait = 500;
     public static final int KMaxProgress = 100;
 
     private static NetPlayer mPlayer;
@@ -134,7 +136,7 @@ public class NetPlayer implements
     }
 
     public boolean isPlaying() {
-        if (mType==PlayType.audio) {
+        if (mType == PlayType.audio) {
             return mAudioPlay.isPlaying();
         } else {
             return mVideoPlay.isPlaying();
@@ -245,40 +247,43 @@ public class NetPlayer implements
             mMeetId = meetId;
         }
 
-        mPlayCode = url.hashCode();
+        stop();
+        UtilEx.runOnUIThread(() -> {
+            mPlayCode = url.hashCode();
 
-        String filePath = CacheUtil.getMeetingCacheDir(meetId); // 文件夹名字 (meetId)
+            String filePath = CacheUtil.getMeetingCacheDir(meetId); // 文件夹名字 (meetId)
 
-        // 转化文件名
-        String type = url.substring(url.lastIndexOf(".") + 1); // 文件类型
-        String fileName = String.valueOf(mPlayCode).concat(".").concat(type); // 转化后的文件名
+            // 转化文件名
+            String type = url.substring(url.lastIndexOf(".") + 1); // 文件类型
+            String fileName = String.valueOf(mPlayCode).concat(".").concat(type); // 转化后的文件名
 
-        // 全路径 (文件路径)
-        String pathLocal = filePath.concat(fileName);
+            // 全路径 (文件路径)
+            String pathLocal = filePath.concat(fileName);
 
-        // (读内存)
-        String pathMemory = mPaths.getByKey(Integer.valueOf(mPlayCode));
-        if (TextUtil.isNotEmpty(pathMemory)) {
-            // 之前已经下载过
-            preparePlay(pathMemory);
-            YSLog.d(TAG, "prepare:Memory=" + pathLocal);
-            return;
-        }
+            // (读内存)
+            String pathMemory = mPaths.getByKey(Integer.valueOf(mPlayCode));
+            if (TextUtil.isNotEmpty(pathMemory)) {
+                // 之前已经下载过
+                preparePlay(pathMemory);
+                YSLog.d(TAG, "prepare:Memory=" + pathLocal);
+                return;
+            }
 
-        // 读文件是否存在
-        File file = new File(pathLocal);
-        if (file.exists()) {
-            // 存在 准备播放(读磁盘)
-            preparePlay(pathLocal);
-            YSLog.d(TAG, "prepare:Local=" + pathLocal);
-        } else {
-            // 不存在 下载(读网络)
-            exeNetworkReq(mPlayCode, CommonAPI.download(filePath, fileName, url).build());
-            YSLog.d(TAG, "prepare:Net=" + pathLocal);
-        }
+            // 读文件是否存在
+            File file = new File(pathLocal);
+            if (file.exists()) {
+                // 存在 准备播放(读磁盘)
+                preparePlay(pathLocal);
+                YSLog.d(TAG, "prepare:Local=" + pathLocal);
+            } else {
+                // 不存在 下载(读网络)
+                exeNetworkReq(mPlayCode, CommonAPI.download(filePath, fileName, url).build());
+                YSLog.d(TAG, "prepare:Net=" + pathLocal);
+            }
 
-        // 添加到内存中
-        mPaths.add(Integer.valueOf(mPlayCode), pathLocal); // 不等下载成功添加(多个同时成功)
+            // 添加到内存中
+            mPaths.add(Integer.valueOf(mPlayCode), pathLocal); // 不等下载成功添加(多个同时成功)
+        }, KWait);
     }
 
     /**
