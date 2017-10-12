@@ -137,7 +137,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 .enable(false));
 
         addItem(Form.create(FormType.divider));
-        HospitalLevel p = Profile.inst().getEv(TProfile.systemProperties);
+        HospitalLevel p = Profile.inst().get(TProfile.systemProperties);
         String url = "";
         if (p != null) {
             url = p.getString(THospitalLevel.picture);
@@ -447,7 +447,7 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
                 HospitalName h = (HospitalName) data;
                 String hospital = h.getString(THospitalName.name);
                 getRelatedItem(RelatedId.hospital).save(hospital, hospital);
-                getRelatedItem(RelatedId.hospital).url(h.getEv(THospitalName.level).getString(THospitalLevel.picture));
+                getRelatedItem(RelatedId.hospital).url(h.get(THospitalName.level).getString(THospitalLevel.picture));
             }
             refreshRelatedItem(RelatedId.hospital);
             notify(NotifyType.profile_change); // 引起我的界面的刷新

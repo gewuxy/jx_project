@@ -61,7 +61,7 @@ public class MeetingRepPresenterImpl extends BasePresenter implements
             if (mPpt == null) {
                 return;
             }
-            CourseInfo courseInfo = mPpt.getEv(TPPT.course);
+            CourseInfo courseInfo = mPpt.get(TPPT.course);
             if (courseInfo == null) {
                 return;
             }

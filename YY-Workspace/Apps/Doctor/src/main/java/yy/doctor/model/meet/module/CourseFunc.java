@@ -74,7 +74,7 @@ public class CourseFunc extends BaseFunc {
                 return;
             }
 
-            CourseInfo course = ppt.getEv(TPPT.course);
+            CourseInfo course = ppt.get(TPPT.course);
             if (course == null) {
                 App.showToast(R.string.course_no);
                 return;

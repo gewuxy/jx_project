@@ -1,8 +1,10 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import android.content.res.Configuration;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import lib.ys.util.view.LayoutUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingRepLAdapter;
+import yy.doctor.adapter.meeting.MeetingRepPAdapter;
 import yy.doctor.model.meet.Course;
 import yy.doctor.model.meet.CourseInfo;
 import yy.doctor.model.meet.CourseInfo.TCourseInfo;
@@ -29,7 +32,6 @@ import yy.doctor.model.meet.PPT.TPPT;
 import yy.doctor.ui.frag.meeting.PPTRepFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
-import yy.doctor.adapter.meeting.MeetingRepPAdapter;
 import yy.doctor.view.discretescrollview.DiscreteScrollView;
 import yy.doctor.view.discretescrollview.ScaleTransformer;
 
@@ -114,7 +116,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
                 mPresenter.playMedia(position);
 
                 if (orientationLandscape()) {
-                    showLandscapeView();
+//                    showLandscapeView();
                     mRvL.smoothScrollToPosition(position);
                 } else {
                     mTvCurrent.setText(String.valueOf(position + 1));
@@ -131,7 +133,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
 
         mFragRep.setFragClickListener(() -> {
             if (orientationLandscape()) {
-                showLandscapeView();
+//                showLandscapeView();
             }
         });
 
@@ -139,11 +141,12 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                showLandscapeView();
+//                showLandscapeView();
             }
 
         });
     }
+
 
     @Override
     protected void portrait() {
@@ -173,6 +176,13 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+
+    }
+
+    @Override
     protected void toggle() {
         mPresenter.toggle();
     }
@@ -190,7 +200,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
     public void onClick(int id) {
         switch (id) {
             case R.id.meet_play_iv_left_l: {
-                showLandscapeView();
+//                showLandscapeView();
             } // 横屏是显示(区别于竖屏)
             case R.id.meet_play_iv_left_p: {
                 // 上一页
@@ -198,7 +208,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
             }
             break;
             case R.id.meet_play_iv_right_l: {
-                showLandscapeView();
+//                showLandscapeView();
             } // 横屏是显示(区别于竖屏)
             case R.id.meet_play_iv_right_p: {
                 // 下一页
@@ -254,7 +264,7 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
         mTvAll.setText(String.valueOf(courses.size()));
         mTvCurrent.setText("1");
 
-        CourseInfo courseInfo = ppt.getEv(TPPT.course);
+        CourseInfo courseInfo = ppt.get(TPPT.course);
         getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
         goneView(getNavBar());
     }
@@ -276,11 +286,17 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
             @Override
             public void onItemClick(View v, int position) {
                 mFragRep.setCurrentItem(position);
-                showLandscapeView();
+//                showLandscapeView();
             }
 
         });
         mRvL.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        showLandscapeView();
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
@@ -324,6 +340,9 @@ public class MeetingRepActivity extends BaseMeetingPlayActivity implements Meeti
     }
 
     private void showLandscapeView() {
+        if (!orientationLandscape()) {
+            return;
+        }
         mPresenter.starCount();
         showView(getNavBar());
         showView(R.id.meet_play_iv_left_l);

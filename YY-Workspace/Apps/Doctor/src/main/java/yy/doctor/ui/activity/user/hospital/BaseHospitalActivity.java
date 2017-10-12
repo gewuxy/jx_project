@@ -237,7 +237,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
             if (r.isSucceed()) {
 
                 Profile.inst().put(TProfile.hospital, mHospitalName.getString(THospitalName.name));
-                Profile.inst().put(TProfile.systemProperties, mHospitalName.getEv(THospitalName.level));
+                Profile.inst().put(TProfile.systemProperties, mHospitalName.get(THospitalName.level));
                 Profile.inst().saveToSp();
 
                 returnResult();

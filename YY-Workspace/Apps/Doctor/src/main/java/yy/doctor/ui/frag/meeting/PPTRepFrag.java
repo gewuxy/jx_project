@@ -66,7 +66,7 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
         mPPT = ppt;
 
-        CourseInfo courseInfo = mPPT.getEv(TPPT.course);
+        CourseInfo courseInfo = mPPT.get(TPPT.course);
         if (courseInfo == null) {
             return;
         }
