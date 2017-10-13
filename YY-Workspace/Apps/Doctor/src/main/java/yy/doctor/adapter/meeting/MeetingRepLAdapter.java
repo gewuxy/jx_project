@@ -6,6 +6,7 @@ import android.widget.TextView;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.CourseVH;
 import yy.doctor.model.meet.Course.CourseType;
+import yy.doctor.model.meet.Course.TCourse;
 
 /**
  * 录播横屏底部Recycler的Adapter
@@ -20,7 +21,7 @@ public class MeetingRepLAdapter extends MeetingRepPAdapter {
         return R.layout.layout_ppt_breviary_item_l;
     }
 
-    public void setView(int position) {
+    protected void setView(int position) {
         CourseVH holder = getCacheVH(position);
         showView(holder.getLayoutMedia()); // 区别于竖屏有高亮
 
@@ -32,7 +33,7 @@ public class MeetingRepLAdapter extends MeetingRepPAdapter {
             case CourseType.pic_audio: {
                 showView(tv);
                 showView(iv);
-                tv.setText("音频");
+                tv.setText(getItem(position).getString(TCourse.time,"音频"));
                 iv.setImageResource(R.drawable.animation_audio);
             }
             break;
@@ -50,6 +51,14 @@ public class MeetingRepLAdapter extends MeetingRepPAdapter {
             break;
         }
 
+    }
+
+    protected int getW() {
+        return 55;
+    }
+
+    protected int getH() {
+        return 36;
     }
 
 }

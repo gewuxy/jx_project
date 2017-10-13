@@ -147,7 +147,7 @@ public class ExamIntroActivity extends BaseActivity {
 
             mCanStart = mStartTime <= curTime && difEnd > 0; // (mCurTime < mEndTime) 当前能不能考试
 
-            Paper paper = mIntro.getEv(TIntro.paper);
+            Paper paper = mIntro.get(TIntro.paper);
             mTvTitle.setText(paper.getString(TPaper.name));
             mTvHost.setText(getString(R.string.exam_host) + mHost);
             List<Topic> topics = paper.getList(TPaper.questions);

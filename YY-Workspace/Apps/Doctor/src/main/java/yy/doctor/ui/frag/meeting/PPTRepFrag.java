@@ -66,7 +66,7 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
         mPPT = ppt;
 
-        CourseInfo courseInfo = mPPT.getEv(TPPT.course);
+        CourseInfo courseInfo = mPPT.get(TPPT.course);
         if (courseInfo == null) {
             return;
         }
@@ -141,8 +141,7 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         Submit submit = mSubmits.get(mLastPosition);
         if (submit == null) {
             if (getItem(mLastPosition) == null) {
-                // (横屏)未初始化
-                return;
+                return; // 未初始化成功
             }
             submit = getItem(mLastPosition).getSubmit();
             mSubmits.put(Integer.valueOf(mLastPosition), submit);

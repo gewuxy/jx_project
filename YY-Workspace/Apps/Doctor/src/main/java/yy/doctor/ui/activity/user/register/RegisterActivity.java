@@ -577,7 +577,7 @@ public class RegisterActivity extends BaseFormActivity implements
             case NotifyType.hospital_finish: {
                 if (data instanceof HospitalName) {
                     HospitalName h = (HospitalName) data;
-                    HospitalLevel l = h.getEv(THospitalName.level);
+                    HospitalLevel l = h.get(THospitalName.level);
                     String hospital = h.getString(THospitalName.name);
                     BaseForm item = getRelatedItem(RelatedId.hospital);
                     item.save(hospital, hospital);

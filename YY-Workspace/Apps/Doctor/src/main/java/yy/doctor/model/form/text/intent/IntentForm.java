@@ -80,7 +80,7 @@ public class IntentForm extends TextForm {
                 HospitalName h = (HospitalName) data.getSerializableExtra(Extra.KData);
                 if (h != null) {
                     String hospital = h.getString(THospitalName.name);
-                    HospitalLevel l = h.getEv(THospitalName.level);
+                    HospitalLevel l = h.get(THospitalName.level);
                     String url = l.getString(THospitalLevel.picture);
                     save(hospital, hospital);
                     data(l.getInt(THospitalLevel.id));

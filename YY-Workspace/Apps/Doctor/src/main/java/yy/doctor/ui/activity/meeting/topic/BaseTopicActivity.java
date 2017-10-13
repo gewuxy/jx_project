@@ -282,7 +282,7 @@ public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopi
      * 加载TopicFrag
      */
     protected void initFrag() {
-        mPaper = mIntro.getEv(TIntro.paper);
+        mPaper = mIntro.get(TIntro.paper);
         mTopics = mPaper.getList(TPaper.questions);
 
         int size = mTopics.size();

@@ -19,23 +19,18 @@ import yy.doctor.model.meet.Course.TCourse;
  */
 public class MeetingRepPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
 
-    private final static int KSize = DpFitter.dp(20);
-
     @Override
     protected void refreshView(int position, CourseVH holder) {
-//        NetworkImageView.clearMemoryCache(getContext());
         switch (getItem(position).getType()) {
             case CourseType.video: {
                 holder.getIvPPT()
                         .res(R.drawable.ic_default_breviary_video)
-                        .resize(KSize, KSize)
                         .load();
             }
             break;
             case CourseType.audio: {
                 holder.getIvPPT()
                         .res(R.drawable.ic_default_breviary_audio)
-                        .resize(KSize, KSize)
                         .load();
             }
             break;
@@ -44,7 +39,7 @@ public class MeetingRepPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
                 holder.getIvPPT()
                         .res(R.drawable.ic_default_breviary_image)
                         .url(getItem(position).getString(TCourse.imgUrl))
-                        .resize(KSize, KSize)
+                        .resize(DpFitter.dp(getW()), DpFitter.dp(getH()))
                         .load();
             }
             break;
@@ -87,7 +82,7 @@ public class MeetingRepPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
             case CourseType.audio:
             case CourseType.pic_audio: {
                 showView(holder.getLayoutMedia());
-                holder.getTvMedia().setText("音频");
+                holder.getTvMedia().setText(getItem(position).getString(TCourse.time,"音频"));
                 holder.getIvMedia().setImageResource(R.drawable.animation_audio);
             }
             break;
@@ -102,6 +97,14 @@ public class MeetingRepPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
             }
             break;
         }
+    }
+
+    protected int getW() {
+        return 129;
+    }
+
+    protected int getH() {
+        return 96;
     }
 
 }

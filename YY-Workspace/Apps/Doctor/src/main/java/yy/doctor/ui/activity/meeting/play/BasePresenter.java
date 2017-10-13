@@ -14,6 +14,8 @@ import lib.ys.ui.interfaces.opt.INetworkOpt;
 
 public class BasePresenter implements OnNetworkListener {
 
+    protected String TAG = getClass().getSimpleName();
+
     private NetworkOpt mNetworkImpl;
 
     public void exeNetworkReq(NetworkReq req) {

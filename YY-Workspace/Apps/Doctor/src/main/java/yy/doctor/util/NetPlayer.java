@@ -67,7 +67,6 @@ public class NetPlayer implements
 
     @PlayType
     private int mType; // 播放类型
-    private boolean mAutoPlay; // 准备完了是否播放
 
     private String mMeetId;
     private int mProgress; // 进度
@@ -85,9 +84,8 @@ public class NetPlayer implements
          * 准备成功
          *
          * @param allMilliseconds 音频总时长 (毫秒)
-         * @param state           播放状态
          */
-        void onPreparedSuccess(long allMilliseconds, boolean state);
+        void onPreparedSuccess(long allMilliseconds);
 
         void onPreparedError();
 
@@ -183,18 +181,14 @@ public class NetPlayer implements
     public void onPrepared(MediaPlayer mp) {
         mAllTime = mAudioPlay.getDuration();
 
-        if (mAutoPlay) {
-            nativePlay();
-        }
+        nativePlay();
         if (mListener != null) {
-            mListener.onPreparedSuccess(mAllTime, mAutoPlay);
+            mListener.onPreparedSuccess(mAllTime);
         }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        mAutoPlay = false;
-        preparePlay(mPaths.getByKey(mPlayCode));
         mCountDown.stop();
         if (mListener != null) {
             mListener.onCompletion();
@@ -208,19 +202,14 @@ public class NetPlayer implements
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         mAllTime = mVideoPlay.getDuration();
 
-        if (mAutoPlay) {
-            nativePlay();
-        }
+        nativePlay();
         if (mListener != null) {
-            mListener.onPreparedSuccess(mAllTime, mAutoPlay);
+            mListener.onPreparedSuccess(mAllTime);
         }
-
     }
 
     @Override
     public void onCompletion(PLMediaPlayer plMediaPlayer) {
-        mAutoPlay = false;
-        preparePlay(mPaths.getByKey(mPlayCode));
         mCountDown.stop();
         if (mListener != null) {
             mListener.onCompletion();
@@ -257,8 +246,6 @@ public class NetPlayer implements
         }
 
         mPlayCode = url.hashCode();
-
-        mAutoPlay = play;
 
         String filePath = CacheUtil.getMeetingCacheDir(meetId); // 文件夹名字 (meetId)
 
@@ -368,7 +355,6 @@ public class NetPlayer implements
      * 暂停
      */
     public void pause() {
-        mAutoPlay = false;
         mCountDown.stop();
         if (mType == PlayType.audio) {
             if (mAudioPlay.isPlaying()) {
@@ -418,7 +404,6 @@ public class NetPlayer implements
      * 停止
      */
     public void stop() {
-        mAutoPlay = false;
         mCountDown.stop();
         if (mType == PlayType.audio) {
             if (mAudioPlay.isPlaying()) {

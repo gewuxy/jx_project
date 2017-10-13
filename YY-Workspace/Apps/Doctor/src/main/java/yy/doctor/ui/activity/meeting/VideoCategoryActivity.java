@@ -108,7 +108,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
             listResult = new ListResult<>();
             if (result.isSucceed()) {
                 Intro intro = result.getData();
-                Course course = intro.getEv(TIntro.course);
+                Course course = intro.get(TIntro.course);
                 mSubmit.put(TSubmit.courseId, course.getString(TCourse.id));
                 details = course.getList(TCourse.details);
                 listResult.setData(details);
