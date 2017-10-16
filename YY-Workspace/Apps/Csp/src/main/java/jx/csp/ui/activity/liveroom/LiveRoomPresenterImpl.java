@@ -219,13 +219,11 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
             mLiveRoomView.onFinish();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        int h = (int) (time / KSixty / KSixty);
-        int m = (int) (time - h * KSixty * KSixty) / KSixty;
+        int m = (int) time / KSixty;
         int s = (int) (time % KSixty);
-        int mm = h * KSixty + m;
         StringBuffer sb = new StringBuffer()
-                .append(mm <= 9 ? "0" : "")
-                .append(mm)
+                .append(m <= 9 ? "0" : "")
+                .append(m)
                 .append("'")
                 .append(s <= 9 ? "0" : "")
                 .append(s)

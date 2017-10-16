@@ -10,7 +10,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
-import jx.csp.Extra;
+import jx.csp.Constants.CaptchaType;
+import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.dialog.HintDialog;
 import jx.csp.model.Profile;
@@ -23,7 +24,6 @@ import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
-import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -53,7 +53,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         int nickname = 2;
     }
 
-    private final String KCaptcha = "0";
     private final int KIdLogin = 1;
     private final int KIdCaptcha = 2;
     private final int KMaxCount = 3; // 最多获取3次验证码
@@ -62,7 +61,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     private EditText mEtPhoneNumber;
     private EditText mEtCaptcha;
     private TextView mProtocol;
-    private String mRequest; // 判断桌面快捷方式进来
     private int mCount; // 计算点击多少次
     private long mStartTime; // 开始计算10分钟间隔的时间
 
@@ -71,7 +69,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     public void initData() {
         super.initData();
         mCount = 0;
-        mRequest = getIntent().getStringExtra(Extra.KData);
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
@@ -141,7 +138,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-
                     View view = inflate(R.layout.dialog_captcha);
                     TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
                     String phone = getItemStr(RelatedId.phone_number);
@@ -165,7 +161,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha).build());
+                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), CaptchaType.fetch).build());
                     });
                     dialog.show();
                 }
@@ -177,7 +173,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdLogin,LoginAPI.login(6).mobile(getPhone()).captcha(getCaptcha()).build());
+        exeNetworkReq(KIdLogin,LoginAPI.login(LoginType.phone_login).mobile(getPhone()).captcha(getCaptcha()).build());
     }
 
     @Override
@@ -190,10 +186,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         if (id == KIdLogin) {
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
-                //Fixme:保存用户名,验证码登录的用户名是昵称,那此时保存什么鬼,暂且保存手机号
-                // SpApp.inst().saveUserName(getNickName());
-//                SpApp.inst().saveUserName(getPhone());
-                SpApp.inst().saveUserMobile(Util.getEtString(mEtPhoneNumber));
+                SpApp.inst().saveUserMobile(mEtPhoneNumber.getText().toString());
                 Profile.inst().update(r.getData());
                 Profile.inst().put(TProfile.phone, getPhone());
                 Profile.inst().saveToSp();
@@ -205,16 +198,9 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
                 Profile data = r.getData();
 
-
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
-                    //判断跳转到哪里
-                    if (TextUtil.isEmpty(mRequest)) {
-                        //Fixme:跳转到首页，目前暂时没有
-                        startActivity(MeActivity.class);
-                    } else {
                         setResult(RESULT_OK);
-                    }
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);
                 }
@@ -246,16 +232,10 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     }
 
     public String getPhone() {
-        if (mEtPhoneNumber == null) {
-            return "";
-        }
         return Util.getEtString(mEtPhoneNumber).replace(" ", "");
     }
 
     public String getCaptcha() {
-        if (mEtCaptcha == null) {
-            return "";
-        }
         return Util.getEtString(mEtCaptcha);
     }
 

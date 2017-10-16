@@ -2,7 +2,6 @@ package jx.csp.ui.activity.login;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Toast;
 
 import jx.csp.R;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
@@ -18,6 +17,8 @@ import lib.yy.ui.activity.base.BaseActivity;
 public class ThirdPartyLoginActivity extends BaseActivity {
 
     private PlatformAuthorizeUserInfoManager mPlatAuth;
+
+    //private CustomVideoView mCustomVideoView;
 
     @Override
     public void initData() {
@@ -36,6 +37,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     @Override
     public void findViews() {
+      //  mCustomVideoView = findView(R.id.login_videoview);
     }
 
 
@@ -49,13 +51,19 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_facebook);
         setOnClickListener(R.id.login_twitter);
         setOnClickListener(R.id.protocol);
+
+      /*  mCustomVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.media));
+        mCustomVideoView.start();
+        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());*/
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_wechat: {
-                Toast.makeText(this, "点击微信", Toast.LENGTH_SHORT).show();
+                //Fixme:只是提醒，实际需求没有，记得要删
+                showToast("点击微信");
                 mPlatAuth.WeiXinAuthorize();
             }
             break;
@@ -64,7 +72,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             }
             break;
             case R.id.login_yaya: {
-
+                startActivity(YaYaAuthorizeLoginActivity.class);
             }
             break;
             case R.id.login_phone: {
@@ -85,7 +93,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             break;
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-               startActivity(TestActivity.class);
+                startActivity(TestActivity.class);
             }
             break;
         }

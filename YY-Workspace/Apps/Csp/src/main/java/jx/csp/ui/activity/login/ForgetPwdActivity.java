@@ -96,9 +96,6 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     }
 
     public String getEmail() {
-        if (mEtEmail == null) {
-            return "";
-        }
         return Util.getEtString(mEtEmail);
     }
 }

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
@@ -48,7 +49,6 @@ public class RegisterActivity extends BaseLoginActivity {
     private final int KIdRegister = 0;
     private final int KIdLogin = 1;
     private final int KReturnCode = 101;
-    private final int KTypeId = 7; // 第三方登录平台id,7代表邮箱
 
     private EditText mEtEmail;
     private EditText mEtPwd;
@@ -125,7 +125,7 @@ public class RegisterActivity extends BaseLoginActivity {
         }
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdRegister, LoginAPI.register(getEmial(), getUserPwd(), getNickname()).build());
+        exeNetworkReq(KIdRegister, LoginAPI.register(getEmail(), getUserPwd(), getNickname()).build());
     }
 
     @Override
@@ -170,7 +170,7 @@ public class RegisterActivity extends BaseLoginActivity {
             if (r.isSucceed()) {
                 SpApp.inst().saveUserName(getNickname());
                 //Fixme:原来注册还有个请求还有个packageUtil,什么鬼
-                exeNetworkReq(KIdLogin, LoginAPI.login(KTypeId).email(getEmial()).password(getUserPwd()).build());
+                exeNetworkReq(KIdLogin, LoginAPI.login(LoginType.email_login).email(getEmail()).password(getUserPwd()).build());
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -188,24 +188,15 @@ public class RegisterActivity extends BaseLoginActivity {
                 && TextUtil.isNotEmpty(Util.getEtString(mEtNickname)));
     }
 
-    public String getEmial() {
-        if (mEtEmail == null) {
-            return "";
-        }
+    public String getEmail() {
         return Util.getEtString(mEtEmail);
     }
 
     public String getUserPwd() {
-        if (mEtPwd == null) {
-            return "";
-        }
         return Util.getEtString(mEtPwd);
     }
 
     public String getNickname() {
-        if (mEtNickname == null) {
-            return "";
-        }
         return Util.getEtString(mEtNickname);
     }
 }

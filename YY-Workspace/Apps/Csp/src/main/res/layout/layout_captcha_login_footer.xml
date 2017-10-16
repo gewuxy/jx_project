@@ -15,11 +15,11 @@
 
         <TextView
             android:id="@+id/have_agree_to"
-            style="@style/tv.agree_protocol"/>
+            style="@style/tv.agree.protocol"/>
 
         <TextView
             android:id="@+id/proto"
-            style="@style/tv.agree_protocol"
+            style="@style/tv.agree.protocol"
             android:text="@string/protocol"
             android:textColor="@color/text_167afe"/>
     </LinearLayout>

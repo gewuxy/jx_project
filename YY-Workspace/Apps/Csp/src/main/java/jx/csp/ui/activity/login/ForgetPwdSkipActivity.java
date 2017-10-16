@@ -62,7 +62,8 @@ public class ForgetPwdSkipActivity extends BaseActivity implements OnCountDownLi
 
     @Override
     public void onCountDown(long remainCount) {
-        mTvBack.setText(remainCount + getString(R.string.back_to_login));
+        String s = String.format(getString(R.string.back_to_login),remainCount);
+        mTvBack.setText(s);
         if (remainCount == 0) {
             startActivity(EmailLoginActivity.class);
         }

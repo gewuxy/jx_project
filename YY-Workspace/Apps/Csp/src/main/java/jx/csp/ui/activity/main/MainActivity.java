@@ -9,6 +9,7 @@ import lib.yy.ui.activity.base.BaseVPActivity;
  */
 
 public class MainActivity extends BaseVPActivity {
+
     @Override
     public void initData() {
 

@@ -29,7 +29,11 @@
     <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>
     <string name="no_record_permission">请检查是否开启语音权限</string>
     <string name="skip_to_next_page">是否跳到下一页继续录制?</string>
+    <string name="skip_to_last_page">是否跳到上一页继续录制?</string>
+    <string name="record_again">再次录制将会覆盖已有音频</string>
     <string name="never_remain">不再提示</string>
+    <string name="play_fail">播放失败</string>
+    <string name="record_fail">录音失败</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
@@ -71,14 +75,27 @@
     <string name="input_right_pwd_num">请输入6~24位密码</string>
     <string name="reset_pwd_to_email">重置密码链接已发送至您的邮箱，请设置密码后再重新登录</string>
     <string name="five_second_back_to_login">5s返回登录</string>
-    <string name="back_to_login">s返回登录</string>
+    <string name="back_to_login">%ds返回登录</string>
     <string name="visit_csp">使用敬信数字平台账号访问 CSPmeeting</string>
     <string name="username">用户名</string>
     <string name="pwd">密码</string>
     <string name="authorization_login">授权并登录</string>
     <string name="yaya_authorization_login">敬信数字平台授权登录</string>
 
-    <!--首页-->
+    <!--分享-->
+    <string name="wechat">微信好友</string>
+    <string name="moment">微信朋友圈</string>
+    <string name="QQ">QQ</string>
+    <string name="linkedin">领英</string>
+    <string name="weibo">微博</string>
+    <string name="message">短信</string>
+    <string name="copy_link">复制链接</string>
+    <string name="contribute">立即投稿</string>
+    <string name="copy_replica">复制副本</string>
+    <string name="delete_speech">删除演讲稿</string>
+    <string name="share_success">分享成功</string>
+    <string name="share_fail">分享失败</string>
+    <string name="share_cancel">分享取消</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

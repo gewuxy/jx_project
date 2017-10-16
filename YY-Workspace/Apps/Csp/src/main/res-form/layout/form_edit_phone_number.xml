@@ -10,7 +10,7 @@
         android:layout_marginTop="90dp">
 
         <lib.ys.network.image.NetworkImageView
-          style="@style/networkimageview_login"/>
+          style="@style/iv.login"/>
 
         <EditText
             android:id="@id/form_et"

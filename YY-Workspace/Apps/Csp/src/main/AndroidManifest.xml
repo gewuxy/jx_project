@@ -32,8 +32,10 @@
 
         <activity android:name="jx.csp.ui.activity.liveroom.LiveRoomActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ui.activity.record.RecordActivity"
+        <activity android:name=".ui.activity.record.CommonRecordActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.record.LiveRecordActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity android:name="jx.csp.ui.activity.TestRecoderActivity"
                   android:screenOrientation="portrait"/>
@@ -69,6 +71,12 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.login.YaYaAuthorizeLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.ShareTestActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.LoginVideoActivtity"
             android:screenOrientation="portrait"/>
 
         <!--个人中心-->

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/detail_head"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:text="广州市人民医院骨科研讨会"
+                android:textColor="@color/text_333"
+                android:textSize="16dp"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/play_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="录播"
+                    android:textColor="@color/text_167afe"
+                    android:textSize="14dp"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_toRightOf="@+id/play_state"
+                    android:background="@color/color_db"/>
+
+                <TextView
+                    android:id="@+id/play_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/play_state"
+                    android:text="75'15"
+                    android:textColor="@color/text_b3"
+                    android:textSize="14dp"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_toRightOf="@+id/play_time"
+                    android:background="@color/color_db"/>
+
+                <TextView
+                    android:id="@+id/play_paper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/play_time"
+                    android:text="160页"
+                    android:textColor="@color/text_b3"
+                    android:textSize="14dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

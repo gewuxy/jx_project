@@ -141,6 +141,10 @@ public class HintDialog extends BaseDialog {
         addButton(getContext().getString(strRes), R.color.text_167afe, null);
     }
 
+    public void addBlueButton(@StringRes int strRes, OnClickListener l) {
+        addButton(getContext().getString(strRes), R.color.text_167afe, l);
+    }
+
     /**
      * 按钮颜色为167afe
      */

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import jx.csp.R;
+import jx.csp.ui.activity.liveroom.LiveRoomContract.LiveRoomPresenter;
 import jx.csp.ui.activity.liveroom.LiveRoomContract.LiveRoomView;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
@@ -50,7 +51,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
     private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
     private long mStopTime = System.currentTimeMillis() + 16 *60 * 1000;
 
-    private LiveRoomPresenterImpl mLiveRoomPresenterImpl;
+    private LiveRoomPresenter mLiveRoomPresenter;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
@@ -60,7 +61,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         ZegoApiManager.getInstance().init(this, "888", "敬信测试");
-        mLiveRoomPresenterImpl = new LiveRoomPresenterImpl(this);
+        mLiveRoomPresenter = new LiveRoomPresenterImpl(this);
     }
 
     @NonNull
@@ -91,8 +92,8 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
     public void setViews() {
         //检查权限
         if (checkPermission(KPermissionCode, Permission.camera, Permission.micro_phone, Permission.phone)) {
-            mLiveRoomPresenterImpl.initLiveRoom(mRoomId);
-            mLiveRoomPresenterImpl.zegoCallback();
+            mLiveRoomPresenter.initLiveRoom(mRoomId);
+            mLiveRoomPresenter.zegoCallback();
             initPhoneCallingListener();
             mIvLive.setClickable(true);
         } else {
@@ -109,7 +110,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
         //判断是否需要开始倒计时
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mLiveRoomPresenterImpl.startCountDown(mStartTime, mStopTime);
+            mLiveRoomPresenter.startCountDown(mStartTime, mStopTime);
         }
     }
 
@@ -129,7 +130,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
                     case TelephonyManager.CALL_STATE_OFFHOOK:
                         YSLog.d(TAG, "call state off hook " + state);
                         if (mLiveState) {
-                            mLiveRoomPresenterImpl.stopLive();
+                            mLiveRoomPresenter.stopLive();
                         }
                         break;
                 }
@@ -148,11 +149,11 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
             }
             break;
             case R.id.live_iv_silence: {
-                mLiveRoomPresenterImpl.useMic();
+                mLiveRoomPresenter.useMic();
             }
             break;
             case R.id.live_iv_switch_camera: {
-                mLiveRoomPresenterImpl.switchCamera();
+                mLiveRoomPresenter.switchCamera();
             }
             break;
             case R.id.live_tv_start: {
@@ -161,7 +162,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
                 }
                 //判断直播时间是否到
                 if (mBeginCountDown) {
-                    mLiveRoomPresenterImpl.startLive(mStreamId, mTitle);
+                    mLiveRoomPresenter.startLive(mStreamId, mTitle);
                 } else {
                     startCountDownAndLive();
                 }
@@ -174,9 +175,9 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
                 //判断直播时间是否到 mTvStart是否已经隐藏
                 if (mBeginCountDown) {
                     if (mLiveState) {
-                        mLiveRoomPresenterImpl.stopLive();
+                        mLiveRoomPresenter.stopLive();
                     } else {
-                        mLiveRoomPresenterImpl.startLive(mStreamId, mTitle);
+                        mLiveRoomPresenter.startLive(mStreamId, mTitle);
                     }
                 } else {
                     startCountDownAndLive();
@@ -189,8 +190,8 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
     protected void startCountDownAndLive() {
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mLiveRoomPresenterImpl.startCountDown(mStartTime, mStopTime);
-            mLiveRoomPresenterImpl.startLive(mStreamId, mTitle);
+            mLiveRoomPresenter.startCountDown(mStartTime, mStopTime);
+            mLiveRoomPresenter.startLive(mStreamId, mTitle);
         } else {
             showToast(R.string.live_time_no_arrived);
         }
@@ -203,7 +204,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-        mLiveRoomPresenterImpl.onDestroy();
+        mLiveRoomPresenter.onDestroy();
         ZegoApiManager.getInstance().releaseSDK();
     }
 
@@ -212,8 +213,8 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
         if (code == KPermissionCode) {
             switch (result) {
                 case PermissionResult.granted:
-                    mLiveRoomPresenterImpl.initLiveRoom(mRoomId);
-                    mLiveRoomPresenterImpl.zegoCallback();
+                    mLiveRoomPresenter.initLiveRoom(mRoomId);
+                    mLiveRoomPresenter.zegoCallback();
                     initPhoneCallingListener();
                     hideView(mTvNoCameraPermission);
                     showView(mTvStart);
