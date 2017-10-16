@@ -95,6 +95,9 @@
         <activity
             android:name="jx.csp.ui.activity.me.FlowRateManageActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.me.HelpAndFeedbackActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 设置 -->
         <activity

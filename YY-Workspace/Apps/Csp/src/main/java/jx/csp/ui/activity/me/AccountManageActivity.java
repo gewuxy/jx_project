@@ -34,7 +34,7 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  * @auther Huoxuyu
  * @since 2017/9/26
  */
-public class AccountManageActivity extends BaseFormActivity{
+public class AccountManageActivity extends BaseFormActivity {
 
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 
@@ -56,6 +56,16 @@ public class AccountManageActivity extends BaseFormActivity{
         int bind_yaya = 5;
         int bind_phone = 6;
         int bind_email = 7;
+    }
+
+    @IntDef({
+            TypeId.un_bind_email,
+            TypeId.un_bind_phone,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    private @interface TypeId {
+        int un_bind_email = 0;
+        int un_bind_phone = 1;
     }
 
     @Override
@@ -111,13 +121,13 @@ public class AccountManageActivity extends BaseFormActivity{
                 .text(Profile.inst().getString(TProfile.twitter))
                 .hint(R.string.account_not_bind));
 
-        addItem(Form.create(FormType.divider));
-        addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_yaya)
-                .name(R.string.account_yaya)
-                .drawable(R.drawable.form_ic_account_twitter)
-                .text(Profile.inst().getString(TProfile.yaya))
-                .hint(R.string.account_not_bind));
+//        addItem(Form.create(FormType.divider));
+//        addItem(Form.create(FormType.text_intent_bind)
+//                .related(RelatedId.bind_yaya)
+//                .name(R.string.account_yaya)
+//                .drawable(R.drawable.form_ic_account_twitter)
+//                .text(Profile.inst().getString(TProfile.yaya))
+//                .hint(R.string.account_not_bind));
 
     }
 
@@ -140,9 +150,7 @@ public class AccountManageActivity extends BaseFormActivity{
                             return;
                         }
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(UserAPI.unBindEmailOrPhone()
-                                .mobile(Profile.inst().getString(TProfile.phone))
-                                .build());
+                        exeNetworkReq(UserAPI.unBind(TypeId.un_bind_phone).build());
                     });
                 }
             }
@@ -158,9 +166,7 @@ public class AccountManageActivity extends BaseFormActivity{
                         }
                         // FIXME: 2017/9/27 解绑邮箱接口
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(UserAPI.unBindEmailOrPhone()
-                                .email(Profile.inst().getString(TProfile.email))
-                                .build());
+                        exeNetworkReq(UserAPI.unBind(TypeId.un_bind_email).build());
                     });
                 }
             }
@@ -227,10 +233,10 @@ public class AccountManageActivity extends BaseFormActivity{
 //                            .thirdPartyId(RelatedId.bind_facebook)
 //                            .uniqueId(Profile.inst().getString(TProfile.id))
 //                            .nickName(Profile.inst().getString(TProfile.userName))
-//                            .avatar(Profile.inst().getString(TProfile.avatar))
+//                            .headimg(Profile.inst().getString(TProfile.headimg))
 //                            .gender(Profile.inst().getString(TProfile.gender))
 //                            .build());
-                }else {
+                } else {
                     unBind(getString(R.string.account_unbind_facebook), v1 -> {
                         if (Util.noNetwork()) {
                             return;

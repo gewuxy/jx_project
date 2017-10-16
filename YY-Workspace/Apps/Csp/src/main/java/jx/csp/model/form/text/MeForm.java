@@ -3,8 +3,8 @@ package jx.csp.model.form.text;
 import jx.csp.R;
 
 /**
- * @author CaiXiang
- * @since 2017/4/28
+ * @author HuoXuYu
+ * @since 2017/9/25
  */
 public class MeForm extends TextForm {
     @Override

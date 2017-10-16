@@ -10,6 +10,8 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+
 import java.math.BigDecimal;
 
 import lib.network.Network;
@@ -45,6 +47,8 @@ public class PayPalPay {
             .clientId(KConfigClientId);
 
     private static final int KRequestCodePayment = 1;
+
+    private static String mPaymentId;
 
     /**
      * 启动PayPal服务
@@ -86,12 +90,18 @@ public class PayPalPay {
     public static void onResult(int requestCode, int resultCode, Intent data, OnPayListener listener) {
         if (resultCode == Activity.RESULT_OK) {
             PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            try {
+                mPaymentId = confirm.toJSONObject().getJSONObject("response").getString("id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             if (confirm != null) {
                 Network network = new Network("PayPal", null);
                 network.load(0,
                         NetworkReq.newBuilder("http://10.0.0.234:8080/api/charge/paypalCallback")
                                 .post()
-                                .param("paymentId", data.getStringExtra(KExtraPaymentId))
+                                .param("paymentId", mPaymentId)
                                 .param("orderId", data.getStringExtra(KExtraOrderId))
                                 .build(),
                         new OnNetworkListener() {

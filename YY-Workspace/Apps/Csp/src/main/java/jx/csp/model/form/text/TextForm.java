@@ -1,12 +1,12 @@
 package jx.csp.model.form.text;
 
+import jx.csp.R;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
-import jx.csp.R;
 
 /**
  * @auther HuoXuYu

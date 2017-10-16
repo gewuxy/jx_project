@@ -189,4 +189,11 @@
     <string name="flow_rate_unit">元</string>
     <string name="flow_rate_input_top_up">请输入充值流量</string>
 
+    <!-- 帮助与反馈-->
+    <string name="help_and_feedback_update_log">更新日志</string>
+    <string name="help_and_feedback_service_agreement">服务协议</string>
+    <string name="help_and_feedback_help">帮助</string>
+    <string name="help_and_feedback_opinion_feedback">意见反馈</string>
+    <string name="help_and_feedback_about_us">关于我们</string>
+
 </resources>

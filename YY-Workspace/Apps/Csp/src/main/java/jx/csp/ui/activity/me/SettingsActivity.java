@@ -66,17 +66,15 @@ public class SettingsActivity extends BaseFormActivity {
                 .name(R.string.setting_change_pwd));
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text)
+        addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_img_cache)
-                .layout(R.layout.form_text_clear_cache)
                 .name(R.string.setting_clear_img_cache)
                 .text(getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
 
         addItem(Form.create(FormType.divider));
-        addItem(Form.create(FormType.text)
+        addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_sound_cache)
-                .layout(R.layout.form_text_clear_cache)
                 .name(R.string.setting_clear_sound_cache)
                 .text(getFolderSize(CacheUtil.getAudioCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));

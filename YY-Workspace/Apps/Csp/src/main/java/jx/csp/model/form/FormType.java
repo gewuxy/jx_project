@@ -30,6 +30,7 @@ public @interface FormType {
     int text_intent = 1;
     int text_intent_me = 2;
     int text_intent_bind = 3;
+    int text_clear_cache = 4;
 
     int divider_margin = 10;
     int divider_large = 11;

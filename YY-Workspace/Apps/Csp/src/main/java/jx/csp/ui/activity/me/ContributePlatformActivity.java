@@ -12,7 +12,7 @@ import jx.csp.dialog.PlatformDialog;
 import jx.csp.model.contribute.Platform;
 import jx.csp.model.contribute.Platform.TPlatformDetail;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPISetter.UserAPI;
+import jx.csp.network.NetworkAPISetter.DeliveryAPI;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -53,7 +53,7 @@ public class ContributePlatformActivity extends
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(UserAPI.contribute().build());
+        exeNetworkReq(DeliveryAPI.contribute().build());
     }
 
 
@@ -91,7 +91,7 @@ public class ContributePlatformActivity extends
                     }
                 }
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KCodePlatform, UserAPI.unitNum(String.valueOf(buffer), mPlatform.getInt(TPlatformDetail.id)).build());
+                exeNetworkReq(KCodePlatform, DeliveryAPI.unitNum(String.valueOf(buffer), mPlatform.getInt(TPlatformDetail.id)).build());
             }
             break;
         }

@@ -11,6 +11,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
+import jx.csp.Constants.CaptchaType;
 import jx.csp.R;
 import jx.csp.dialog.HintDialog;
 import jx.csp.model.Profile;
@@ -36,7 +37,6 @@ import lib.yy.notify.Notifier.NotifyType;
  */
 public class BindPhoneActivity extends BaseSetActivity {
 
-    private final String KCaptcha = "1";
     private final int KIdCaptcha = 0;
     private final int KMaxCount = 3; // 最多获取3次验证码
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
@@ -152,7 +152,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), KCaptcha).build());
+                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), CaptchaType.re_fetch).build());
                     });
                     dialog.show();
                 }
@@ -179,7 +179,6 @@ public class BindPhoneActivity extends BaseSetActivity {
                 item.start();
                 showToast(R.string.account_send_captcha);
             } else {
-                // FIXME: 2017/9/27 手机号未成功显示在界面但保存了数据
                 Profile.inst().put(TProfile.phone, getPhone());
                 Profile.inst().saveToSp();
 

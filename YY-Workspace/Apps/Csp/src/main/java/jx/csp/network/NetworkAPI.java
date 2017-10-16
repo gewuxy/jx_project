@@ -60,12 +60,10 @@ public class NetworkAPI {
         /**
          * 解绑邮箱或手机
          *
-         * @param mobile 手机号
-         * @param email 邮箱
+         * @param type 0代表邮箱，1代表手机
          */
-        @POST("user/unbindEmailOrMobile")
-        void unBindEmailOrPhone(@Part(opt = true) String mobile,
-                                @Part(opt = true) String email);
+        @POST("user/unbind")
+        void unBind(int type);
 
         /**
          * 绑定或解绑第三方账号
@@ -83,6 +81,10 @@ public class NetworkAPI {
                                @Part(opt = true) String gender,
                                @Part(opt = true) String avatar);
 
+    }
+
+    @API()
+    interface Delivery{
         /**
          * 投稿历史
          *
@@ -107,8 +109,6 @@ public class NetworkAPI {
          */
         @GET("delivery/acceptors")
         void contribute();
-
-
     }
 
     /**

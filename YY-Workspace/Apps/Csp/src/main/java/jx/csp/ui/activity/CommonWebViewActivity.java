@@ -2,6 +2,7 @@ package jx.csp.ui.activity;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import jx.csp.util.UISetter;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 
@@ -26,7 +27,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-//        UISetter.setNavBarMidText(bar, mName, this);
+        UISetter.setNavBarMidText(bar, mName, this);
     }
 
     @Override

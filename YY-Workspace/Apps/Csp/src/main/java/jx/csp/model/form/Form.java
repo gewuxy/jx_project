@@ -1,5 +1,6 @@
 package jx.csp.model.form;
 
+import jx.csp.model.form.text.ClearCacheForm;
 import lib.yy.model.form.BaseForm;
 import jx.csp.model.form.divider.DividerForm;
 import jx.csp.model.form.divider.DividerLargeForm;
@@ -41,6 +42,10 @@ public class Form {
             break;
             case FormType.text_intent_bind: {
                 form = new BindForm();
+            }
+            break;
+            case FormType.text_clear_cache: {
+                form = new ClearCacheForm();
             }
             break;
             case FormType.divider: {

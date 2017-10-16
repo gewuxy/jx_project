@@ -11,8 +11,8 @@ import lib.yy.adapter.VH.FormVH;
 import jx.csp.Extra;
 
 /**
- * @author CaiXiang
- * @since 2017/4/28
+ * @author HuoXuYu
+ * @since 2017/9/25
  */
 public class IntentForm extends TextForm {
 

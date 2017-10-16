@@ -147,7 +147,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.help_and_feedback: {
-
+                startActivity(HelpAndFeedbackActivity.class);
             }
             break;
         }
