@@ -1,13 +1,11 @@
 package jx.csp.ui.activity.login;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import jx.csp.R;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.ui.activity.TestActivity;
-import jx.csp.view.CustomVideoView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 
@@ -20,7 +18,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 
-    private CustomVideoView mCustomVideoView;
+    //private CustomVideoView mCustomVideoView;
 
     @Override
     public void initData() {
@@ -39,7 +37,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mCustomVideoView = findView(R.id.login_videoview);
+      //  mCustomVideoView = findView(R.id.login_videoview);
     }
 
 
@@ -54,9 +52,9 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_twitter);
         setOnClickListener(R.id.protocol);
 
-        mCustomVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.media));
+      /*  mCustomVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.media));
         mCustomVideoView.start();
-        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());*/
     }
 
 
@@ -74,7 +72,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             }
             break;
             case R.id.login_yaya: {
-
+                startActivity(YaYaAuthorizeLoginActivity.class);
             }
             break;
             case R.id.login_phone: {

@@ -13,7 +13,7 @@
         android:paddingTop="25dp">
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_wechat"
@@ -28,7 +28,7 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_moment"
@@ -43,7 +43,7 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_qq"
@@ -58,7 +58,7 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_linkedin"
@@ -82,7 +82,7 @@
         android:paddingTop="32dp">
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_weibo"
@@ -97,7 +97,7 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_message"
@@ -112,7 +112,7 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
 
             <ImageView
                 android:id="@+id/dialog_share_iv_copy_link"
@@ -127,7 +127,7 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/layout.share">
+            style="@style/v.share">
         </LinearLayout>
     </LinearLayout>
 

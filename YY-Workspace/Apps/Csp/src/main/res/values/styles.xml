@@ -27,17 +27,13 @@
         <item name="android:layout_marginTop">68dp</item>
     </style>
 
-    <style name="iv_login">
+    <style name="iv.login">
         i<item name="android:id">@id/form_iv</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
 
     <style name="tv.login"/>
     <style name="tv.login.bottom">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>
         <item name="android:textColor">#FF888888</item>
@@ -46,8 +42,6 @@
 
     <style name="tv.agree"/>
     <style name="tv.agree.protocol">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name= "android:layout_gravity">center</item>
         <item name="android:text">@string/have_agree_to</item>
         <item name="android:textColor">@color/text_333</item>
@@ -80,17 +74,13 @@
     </style>
 
     <!--分享-->
-    <style name="layout.share">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="v.share">
         <item name= "android:layout_weight">1</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="tv.share">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name= "android:layout_marginTop">11dp</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">12dp</item>
