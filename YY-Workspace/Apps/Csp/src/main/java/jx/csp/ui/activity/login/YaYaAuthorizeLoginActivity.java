@@ -1,14 +1,11 @@
 package jx.csp.ui.activity.login;
 
-import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.TestActivity;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 
 /**
@@ -18,11 +15,9 @@ import lib.yy.network.Result;
 
 public class YaYaAuthorizeLoginActivity extends BaseYaYaLoginActivity {
 
-    private String mRequest; // 判断桌面快捷方式进来
 
     @Override
     public void initData() {
-        mRequest = getIntent().getStringExtra(Extra.KData);
     }
 
     @Override
@@ -41,18 +36,10 @@ public class YaYaAuthorizeLoginActivity extends BaseYaYaLoginActivity {
     public void onNetworkSuccess(int id, Object result) {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
-            //保存用户名，邮箱用户名是昵称？？？
             SpApp.inst().saveUserName(getUserName());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
-
-            //判断跳转到哪里
-            if (TextUtil.isEmpty(mRequest)) {
-                //Fixme:跳转到首页，目前暂时没有
-                startActivity(TestActivity.class);
-            } else {
-                setResult(RESULT_OK);
-            }
+            setResult(RESULT_OK);
             stopRefresh();
             finish();
         } else {

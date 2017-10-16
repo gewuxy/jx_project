@@ -70,6 +70,12 @@
         <activity
             android:name="jx.csp.ui.activity.login.YaYaAuthorizeLoginActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.ShareTestActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.LoginVideoActivtity"
+            android:screenOrientation="portrait"/>
 
         <!--个人中心-->
         <activity

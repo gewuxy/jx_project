@@ -9,7 +9,7 @@
         android:background="@drawable/white">
 
         <lib.ys.network.image.NetworkImageView
-            style="@style/networkimageview_login"/>
+            style="@style/iv_login"/>
 
         <EditText
             android:id="@+id/form_et"

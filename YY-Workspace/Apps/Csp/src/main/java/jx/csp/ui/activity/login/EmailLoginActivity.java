@@ -8,7 +8,7 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import jx.csp.Extra;
+import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
@@ -20,11 +20,9 @@ import jx.csp.network.NetworkAPISetter.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
-import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
@@ -52,17 +50,13 @@ public class EmailLoginActivity extends BaseLoginActivity {
         int pwd = 1;
     }
 
-    private final int KTypeId = 7; // 第三方登录平台id,7代表邮箱
-
     private EditText mEtEmail;
     private EditText mEtPwd;
-    private String mRequest; // 判断桌面快捷方式进来
     private int mCount = 0;
 
     @Override
     public void initData() {
         super.initData();
-        mRequest = getIntent().getStringExtra(Extra.KData);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
@@ -93,7 +87,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
         setOnClickListener(R.id.login_tv_forget_pwd);
         setOnClickListener(R.id.protocol);
 
-//        mEtEmail.setText(SpApp.inst().getUserName());
         mEtEmail.setText(SpApp.inst().getUserEmail());
         mEtEmail.setSelection(getEmail().length());
     }
@@ -120,7 +113,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 startActivity(ForgetPwdActivity.class);
             }
             break;
-            case R.id.protocol:{
+            case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
                 startActivity(TestActivity.class);
             }
@@ -130,18 +123,9 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
     @Override
     protected void toSet() {
-        if (!getUserPwd().matches(Util.symbol())) {
-            showToast(R.string.input_special_symbol);
-            return;
-        }
-        if (getUserPwd().length() < 6) {
-            showToast(R.string.input_right_pwd_num);
-            return;
-        }
-
         refresh(RefreshWay.dialog);
         //Fixme:原来登录请求还有个packageUtil,什么鬼
-        exeNetworkReq(LoginAPI.login(KTypeId).email(getEmail()).password(getUserPwd()).build());
+        exeNetworkReq(LoginAPI.login(LoginType.email_login).email(getEmail()).password(getUserPwd()).build());
     }
 
     @Override
@@ -153,25 +137,14 @@ public class EmailLoginActivity extends BaseLoginActivity {
     public void onNetworkSuccess(int id, Object result) {
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
-            //保存用户名，邮箱用户名是昵称？？？
-           // SpApp.inst().saveUserName(getEmail());
-            String email = getEmail();
-            YSLog.d("email:",email);
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
 
             //保存到本地
-            Profile.inst().put(TProfile.email,getEmail());
+            Profile.inst().put(TProfile.email, getEmail());
             Profile.inst().saveToSp();
-
-            //判断跳转到哪里
-            if (TextUtil.isEmpty(mRequest)) {
-                //Fixme:跳转到首页，目前暂时没有
-                startActivity(MeActivity.class);
-            } else {
-                setResult(RESULT_OK);
-            }
+            setResult(RESULT_OK);
             stopRefresh();
             finish();
         } else {
@@ -193,6 +166,9 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 });
                 dialog.show();
             }
+            if (mCount == 8) {
+                mCount = 1;
+            }
         }
     }
 
@@ -207,16 +183,10 @@ public class EmailLoginActivity extends BaseLoginActivity {
     }
 
     public String getEmail() {
-        if (mEtEmail == null) {
-            return "";
-        }
         return Util.getEtString(mEtEmail);
     }
 
     public String getUserPwd() {
-        if (mEtPwd == null) {
-            return "";
-        }
         return Util.getEtString(mEtPwd);
     }
 

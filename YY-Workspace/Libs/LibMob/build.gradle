@@ -28,5 +28,9 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly project(deps.ys.core)
+    implementation files('libs/ShareSDK-Line-3.1.0.jar')
+    implementation files('libs/ShareSDK-Linkedin-3.1.0.jar')
+    implementation files('libs/ShareSDK-QQ-3.1.0.jar')
+    implementation files('libs/ShareSDK-ShortMessage-3.1.0.jar')
+    implementation files('libs/ShareSDK-WhatsApp-3.1.0.jar')
 }

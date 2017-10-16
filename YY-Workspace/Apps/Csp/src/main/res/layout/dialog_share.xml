@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="25dp">
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_wechat"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_wechat"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/wechat"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_moment"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_moment"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/moment"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_qq"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_qq"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/QQ"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_linkedin"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_linkedin"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/linkedin"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="35dp"
+        android:paddingTop="32dp">
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_weibo"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_weibo"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/weibo"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_message"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_message"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/message"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout.share">
+
+            <ImageView
+                android:id="@+id/dialog_share_iv_copy_link"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/share_ic_copy"/>
+
+            <TextView
+                style="@style/tv.share"
+                android:text="@string/copy_link"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout.share">
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/divider"
+        android:background="@color/color_db"/>
+
+    <TextView
+        android:id="@+id/dialog_share_tv_contribute"
+        style="@style/tv.dialog.share"
+        android:text="@string/contribute"/>
+
+    <View
+        style="@style/divider"
+        android:background="@color/color_db"/>
+
+    <TextView
+        android:id="@+id/dialog_share_tv_copy_replica"
+        style="@style/tv.dialog.share"
+        android:text="@string/copy_replica"/>
+
+    <View
+        style="@style/divider"
+        android:background="@color/color_db"/>
+
+    <TextView
+        android:id="@+id/dialog_share_tv_delete"
+        style="@style/tv.dialog.share"
+        android:text="@string/delete_speech"
+        android:textColor="@color/text_e43939"/>
+
+    <View
+        style="@style/divider"
+        android:background="@color/color_db"/>
+
+    <TextView
+        android:id="@+id/dialog_share_tv_cancel"
+        style="@style/tv.dialog.share"
+        android:text="@string/cancel"/>
+
+</LinearLayout>

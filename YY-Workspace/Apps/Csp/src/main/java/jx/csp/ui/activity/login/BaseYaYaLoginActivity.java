@@ -165,21 +165,11 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         return JsonParser.ev(r.getText(), Profile.class);
     }
 
-    public EditText getEtName() {
-        return mEtUsername;
-    }
-
     public String getUserName() {
-        if (mEtUsername == null) {
-            return "";
-        }
         return Util.getEtString(mEtUsername);
     }
 
     public String getPwd() {
-        if (mEtPwd == null) {
-            return "";
-        }
         return Util.getEtString(mEtPwd);
     }
 

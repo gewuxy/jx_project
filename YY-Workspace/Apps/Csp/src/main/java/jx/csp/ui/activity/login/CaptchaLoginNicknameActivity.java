@@ -129,9 +129,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     }
 
     public String getNickName() {
-        if (mEtNickName == null) {
-            return "";
-        }
         return Util.getEtString(mEtNickName);
     }
 }
