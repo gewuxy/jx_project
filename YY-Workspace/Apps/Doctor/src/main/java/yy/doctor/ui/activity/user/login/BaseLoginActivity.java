@@ -48,16 +48,10 @@ abstract public class BaseLoginActivity extends BaseActivity {
     }
 
     public String getUserName() {
-        if (mEtName == null) {
-            return "";
-        }
         return Util.getEtString(mEtName);
     }
 
     public String getPwd() {
-        if (mEtPwd == null) {
-            return "";
-        }
         return Util.getEtString(mEtPwd);
     }
 

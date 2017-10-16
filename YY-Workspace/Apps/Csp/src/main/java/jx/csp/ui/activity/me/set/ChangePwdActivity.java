@@ -7,14 +7,14 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import jx.csp.R;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.NetworkAPISetter.UserAPI;
 import jx.csp.util.Util;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.TextUtil;
+import lib.yy.network.Result;
 
 /**
  * 修改密码

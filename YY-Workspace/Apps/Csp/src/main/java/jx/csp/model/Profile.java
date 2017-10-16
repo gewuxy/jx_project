@@ -17,7 +17,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
     public enum TProfile {
         token,      // 会话令牌
         id,
-        avatar,     //头像
+        headimg,     //头像
         userName,  //姓名
         gender,     //性别
         info,       //个人简介
@@ -30,6 +30,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         yaya,       //yaya医师
         nickName,    //昵称
 
+        @Init(asInt = 0)
         flowrate,    //流量
     }
 

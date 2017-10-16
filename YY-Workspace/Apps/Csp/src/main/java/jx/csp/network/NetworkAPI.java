@@ -14,6 +14,7 @@ import inject.annotation.network.method.UPLOAD;
 @APIFactory(
         host = "https://app.medyaya.cn/api/",
         hostDebuggable = "http://59.111.90.245:8084/api/"
+//        hostDebuggable = "http://10.0.0.234:8080/api/"   //礼平电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 
 )
@@ -103,8 +104,6 @@ public class NetworkAPI {
 
         /**
          * 可投稿的单位号
-         * @param pageNum
-         * @param pageSize
          */
         @GET("delivery/acceptors")
         void contribute();
@@ -161,7 +160,6 @@ public class NetworkAPI {
          * 获取验证码
          * @param mobile 手机号码
          * @param type 验证码模板类型 0=登录 1=绑定
-         * @param token 没有登录的时候需要token值，只是测试时候，实际文档没有
          */
         @POST("user/sendCaptcha")
         void sendCaptcha(String mobile, String type);
@@ -192,4 +190,35 @@ public class NetworkAPI {
         void yayaLogin(String username,String password);
     }
 
+    @API()
+    interface Pay{
+
+        /**
+         * Ping++支付
+         *
+         * @param flux 流量值
+         * @param channel 支付方式,按照ping++文档channel属性值给
+         */
+        @POST("charge/toCharge")
+        void pingPay(int flux, String channel);
+
+        /**
+         * paypal支付
+         *
+         * @param flux 流量值
+         */
+        @POST("charge/createOrder")
+        void paypalPay(int flux);
+
+        /**
+         * paypal支付结果确认
+         *
+         * @param paymentId 流量值
+         * @param orderId 订单id
+         */
+        @POST("charge/paypalCallback")
+        void paypalPayResult(String paymentId, String orderId);
+
+
+    }
 }

@@ -119,7 +119,6 @@ public class ContributePlatformActivity extends
             }
         } else {
             super.onNetworkSuccess(id, result);
-            showToast("获取单位号成功");
         }
     }
 

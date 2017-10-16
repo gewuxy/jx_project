@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/margin"
-    android:paddingRight="@dimen/margin"
-    android:orientation="vertical">
+    android:paddingRight="@dimen/margin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,12 +37,14 @@
             android:layout_marginTop="41dp">
 
             <EditText
-                style="@style/et.common"
                 android:id="@+id/flow_rate_et_recharge"
+                style="@style/et.common"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@color/text_edf1f8"
+                android:background="@drawable/bg_et_flow_rate"
                 android:hint="@string/flow_rate_recharge"
+                android:inputType="number"
+                android:maxLength="5"
                 android:paddingLeft="@dimen/margin"/>
 
             <TextView
@@ -50,11 +53,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/flow_rate_et_recharge"
                 android:layout_alignParentRight="true"
-                android:visibility="visible"
+                android:layout_marginRight="@dimen/margin"
                 android:text="G"
-                android:textSize="@dimen/margin"
                 android:textColor="@color/text_af"
-                android:layout_marginRight="@dimen/margin"/>
+                android:textSize="@dimen/margin"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
@@ -99,50 +102,43 @@
             android:textSize="12sp"/>
     </LinearLayout>
 
-    <RelativeLayout
+
+    <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="51dp">
+        android:layout_marginTop="51dp"
+        app:columnCount="3">
 
         <ImageView
-            android:id="@+id/flow_rate_iv_alipay"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:scaleType="center"
-            android:src="@drawable/selector_flow_rate_alipay"/>
+            android:id="@+id/flow_rate_rl_alipay"
+            style="@style/iv.flow"
+            android:src="@drawable/flow_rate_ic_alipay"
+            app:layout_columnWeight="1"/>
 
         <ImageView
-            android:id="@+id/flow_rate_iv_wechat"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/flow_rate_iv_alipay"
-            android:layout_toRightOf="@+id/flow_rate_iv_alipay"
-            android:scaleType="center"
-            android:src="@drawable/selector_flow_rate_wechat"/>
+            android:id="@+id/flow_rate_rl_wechat"
+            style="@style/iv.flow"
+            android:src="@drawable/flow_rate_ic_wechat"
+            app:layout_columnWeight="1"/>
 
         <ImageView
-            android:id="@+id/flow_rate_iv_unionpay"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@id/flow_rate_iv_wechat"
-            android:scaleType="center"
-            android:src="@drawable/selector_flow_rate_unionpay"/>
+            android:id="@+id/flow_rate_rl_unionpay"
+            style="@style/iv.flow"
+            android:src="@drawable/flow_rate_ic_unionpay"
+            app:layout_columnWeight="1"/>
 
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/flow_rate_iv_paypal"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="23dp"
-        android:scaleType="center"
-        android:src="@drawable/selector_flow_rate_paypal"/>
+        <ImageView
+            android:id="@+id/flow_rate_rl_paypal"
+            style="@style/iv.flow"
+            android:src="@drawable/flow_rate_ic_paypal"
+            app:layout_columnWeight="1"/>
+    </android.support.v7.widget.GridLayout>
 
     <TextView
-        style="@style/tv.common"
         android:id="@+id/flow_rate_tv_pay"
+        style="@style/tv.common"
         android:layout_marginTop="60dp"
+        android:enabled="false"
         android:text="@string/flow_rate_pay"/>
 
 </LinearLayout>

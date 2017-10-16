@@ -179,4 +179,5 @@ dependencies {
     //    releaseCompile deps.release.leakcanary
     implementation deps.support.dex
     annotationProcessor project(deps.ys.compiler)
+    implementation deps.support.gridlayout
 }

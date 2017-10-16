@@ -49,7 +49,7 @@ public class ProfileActivity extends BaseFormActivity {
     private final int KPermissionCodePhoto = 0;
     private final int KPermissionCodeAlbum = 1;
 
-    private final String KPhotoCameraPrefix = "avatar";
+    private final String KPhotoCameraPrefix = "headimg";
 
     private NetworkImageView mIvAvatar;
     private RelativeLayout mLayoutHeader;
@@ -73,7 +73,7 @@ public class ProfileActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
-        mAvatarUrl = Profile.inst().getString(TProfile.avatar);
+        mAvatarUrl = Profile.inst().getString(TProfile.headimg);
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent)

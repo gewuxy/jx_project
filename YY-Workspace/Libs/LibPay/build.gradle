@@ -29,6 +29,11 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.15.1' // PayPal支付
+    implementation 'com.pingxx:pingpp-core:2.1.11' // 必须添加
+//    compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.3.4'
+//    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+' // 使用微信支付时添加,具体版本参考微信官方文档
+    implementation 'com.pingxx:pingpp-alipay:2.1.11' // 使用支付宝时添加
+    implementation 'com.pingxx:pingpp-upacp:2.1.11' // 使用银联支付时添加
     compileOnly project(deps.ys.core)
 }

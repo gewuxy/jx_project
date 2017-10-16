@@ -31,10 +31,8 @@ public class SpApp extends SpBase {
     }
 
     public interface SpAppKey {
-        String KUserName = "userName";
+        String KUserName = "user_name";
         String KAppUpdateTime = "app_update_time";
-        String KFirstEnterExam = "first_enter_exam";
-        String KFirstEnterQue = "first_enter_que";
         String KUserEmail = "email";
         String KUserMobile = "mobile";
     }
