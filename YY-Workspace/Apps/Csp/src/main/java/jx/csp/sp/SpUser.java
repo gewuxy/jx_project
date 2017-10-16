@@ -20,7 +20,8 @@ public class SpUser extends SpBase {
 
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
-        String KIsShowSkipToNextPageDialog = "is_show_skip_to_next_page_dialog";
+        String KIsShowSkipToNextPageDialog = "show_skip_to_next_page_dialog";
+        String KIsShowRecordAgainDialog = "show_record_again_dialog";
     }
 
     private SpUser(Context context, String fileName) {
@@ -47,18 +48,34 @@ public class SpUser extends SpBase {
     }
 
     /**
-     * 判断是否需要显示跳转到下一页继续录制的dialog
+     * 判断是否需要显示跳转到下/上一页继续录制的dialog
      *
      * @return
      */
-    public boolean isShowSkipToNextPageDialog() {
+    public boolean showSkipPageDialog() {
         return getBoolean(SpUserKey.KIsShowSkipToNextPageDialog, true);
     }
 
     /**
      * 保存状态
      */
-    public void saveShowSkipToNextPageDialog() {
+    public void neverShowSkipPageDialog() {
+        save(SpUserKey.KIsShowSkipToNextPageDialog, false);
+    }
+
+    /**
+     * 判断是否需要显示覆盖录制的dialog
+     *
+     * @return
+     */
+    public boolean showRecordAgainDialog() {
+        return getBoolean(SpUserKey.KIsShowSkipToNextPageDialog, true);
+    }
+
+    /**
+     * 保存状态
+     */
+    public void neverShowRecordAgainDialog() {
         save(SpUserKey.KIsShowSkipToNextPageDialog, false);
     }
 

@@ -33,8 +33,10 @@
 
         <activity android:name="jx.csp.ui.activity.liveroom.LiveRoomActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ui.activity.record.RecordActivity"
+        <activity android:name=".ui.activity.record.CommonRecordActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.record.LiveRecordActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity android:name="jx.csp.ui.activity.TestRecoderActivity"
                   android:screenOrientation="portrait"/>

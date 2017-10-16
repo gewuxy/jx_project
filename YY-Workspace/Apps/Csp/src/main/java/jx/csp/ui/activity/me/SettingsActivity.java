@@ -78,7 +78,7 @@ public class SettingsActivity extends BaseFormActivity {
                 .related(RelatedId.clear_sound_cache)
                 .layout(R.layout.form_text_clear_cache)
                 .name(R.string.setting_clear_sound_cache)
-                .text(getFolderSize(CacheUtil.getMeetingSoundCacheDir()))
+                .text(getFolderSize(CacheUtil.getAudioCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
     }
 
@@ -127,7 +127,7 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.clear_sound_cache: {
-                clearCache(CacheUtil.getMeetingSoundCacheDir(), RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache);
+                clearCache(CacheUtil.getAudioCacheDir(), RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache);
             }
             break;
         }

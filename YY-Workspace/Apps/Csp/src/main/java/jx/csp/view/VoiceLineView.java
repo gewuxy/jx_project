@@ -89,8 +89,8 @@ public class VoiceLineView extends View {
             KMiddleLineHeight = typedArray.getDimension(R.styleable.VoiceView_middleLineHeight, 4);
             mLineSpeed = typedArray.getInt(R.styleable.VoiceView_lineSpeed, 90);
             mFineness = typedArray.getInt(R.styleable.VoiceView_fineness, 1);
-            mPaths = new ArrayList<>(10);
-            for (int i = 0; i < 10; i++) {
+            mPaths = new ArrayList<>(5);
+            for (int i = 0; i < 9; i++) {
                 mPaths.add(new Path());
             }
         }
@@ -134,7 +134,7 @@ public class VoiceLineView extends View {
             mPaintVoiceLine.setColor(KVoiceLineColor);
             mPaintVoiceLine.setAntiAlias(true);
             mPaintVoiceLine.setStyle(Paint.Style.STROKE);
-            mPaintVoiceLine.setStrokeWidth(2);
+            mPaintVoiceLine.setStrokeWidth(1.5f);
         }
         canvas.save();
         int moveY = getHeight() / 2;
@@ -145,7 +145,7 @@ public class VoiceLineView extends View {
         for (float i = getWidth() - 1; i >= 0; i -= mFineness) {
             mAmplitude = 4 * mVolume * i / getWidth() - 4 * mVolume * i * i / getWidth() / getWidth();
             for (int n = 1; n <= mPaths.size(); n++) {
-                float sin = mAmplitude * (float) Math.sin((i - Math.pow(1.22, n)) * Math.PI / 180 - mTranslateX);
+                float sin = mAmplitude * (float) Math.sin((i - Math.pow(2.0, n)) * Math.PI / 180 - mTranslateX);
                 mPaths.get(n - 1).lineTo(i, (2 * n * sin / mPaths.size() - 15 * sin / mPaths.size() + moveY));
             }
         }
@@ -163,7 +163,7 @@ public class VoiceLineView extends View {
     }
 
     /**
-     * 画曲线声波
+     * 画矩形声波
      * @param canvas
      */
     private void drawVoiceRect(Canvas canvas) {
@@ -205,11 +205,11 @@ public class VoiceLineView extends View {
     private void lineChange() {
         if (mLastTime == 0) {
             mLastTime = System.currentTimeMillis();
-            mTranslateX += 1.5;
+            mTranslateX += 3;
         } else {
             if (System.currentTimeMillis() - mLastTime > mLineSpeed) {
                 mLastTime = System.currentTimeMillis();
-                mTranslateX += 1.5;
+                mTranslateX += 3;
             } else {
                 return;
             }

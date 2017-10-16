@@ -29,7 +29,11 @@
     <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>
     <string name="no_record_permission">请检查是否开启语音权限</string>
     <string name="skip_to_next_page">是否跳到下一页继续录制?</string>
+    <string name="skip_to_last_page">是否跳到上一页继续录制?</string>
+    <string name="record_again">再次录制将会覆盖已有音频</string>
     <string name="never_remain">不再提示</string>
+    <string name="play_fail">播放失败</string>
+    <string name="record_fail">录音失败</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
