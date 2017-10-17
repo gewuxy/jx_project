@@ -10,9 +10,12 @@ import java.io.File;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseFrag;
 
 /**
@@ -20,7 +23,7 @@ import lib.yy.ui.frag.base.BaseFrag;
  * @since 2017/9/30
  */
 @Route
-public class RecordFrag extends BaseFrag {
+public class RecordImgFrag extends BaseFrag {
 
     private NetworkImageView mIv;
     private ImageView mIvAudio;
@@ -41,7 +44,7 @@ public class RecordFrag extends BaseFrag {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.frag_record;
+        return R.layout.frag_record_img;
     }
 
     @Override
@@ -58,10 +61,12 @@ public class RecordFrag extends BaseFrag {
     @Override
     public void setViews() {
         setOnClickListener(R.id.frag_record_audio_layout);
-        mIv.placeHolder(R.drawable.ic_default_record).load();
+        mIv.placeHolder(R.drawable.ic_default_record)
+                .renderer(new CornerRenderer(fitDp(5)))
+                .load();
         mAnimation = (AnimationDrawable) mIvAudio.getBackground();
         //判断音频文件是否存在
-        if (mAudioFilePath != null) {
+        if (TextUtil.isNotEmpty(mAudioFilePath)) {
             File file = new File(mAudioFilePath);
             YSLog.d(TAG, "exist = "  + mAudioFilePath + "   " + file.exists());
             if (file.exists()) {
@@ -85,6 +90,12 @@ public class RecordFrag extends BaseFrag {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        onInvisible();
+    }
+
+    @Override
     protected void onInvisible() {
         if (mAnimationState) {
             mAnimationState = !mAnimationState;
@@ -105,8 +116,12 @@ public class RecordFrag extends BaseFrag {
         mAnimation.stop();
     }
 
+    public int  getFragType() {
+        return FragType.img;
+    }
+
     public interface onMediaPlayerListener {
-        void startPlay(String filePath, RecordFrag frag);
+        void startPlay(String filePath, RecordImgFrag frag);
         void stopPlay();
     }
 

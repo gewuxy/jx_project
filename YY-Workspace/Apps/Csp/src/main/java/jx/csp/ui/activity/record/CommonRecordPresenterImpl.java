@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.Random;
 
 import jx.csp.R;
-import jx.csp.ui.activity.record.RecordContract.RecordPresenter;
-import jx.csp.ui.activity.record.RecordContract.RecordView;
-import jx.csp.ui.activity.record.RecordFrag.onMediaPlayerListener;
+import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordPresenter;
+import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
+import jx.csp.ui.activity.record.RecordImgFrag.onMediaPlayerListener;
+import jx.csp.util.Util;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
@@ -21,26 +22,22 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/10/9
  */
 
-public class CommonRecordPresenterImpl implements RecordPresenter, onMediaPlayerListener, OnCountDownListener {
+public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMediaPlayerListener, OnCountDownListener {
 
     private final int KSixtySecond = 60;
-    private RecordView mRecordView;
+    private CommonRecordView mRecordView;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
 
     private boolean mPlayState = false; // 是否在播放
-    private int mTotalTime = 0; // 录制的总共时间 单位秒
-    private int mTime; // 录制的时间 单位秒
+    private long mTotalTime = 0; // 录制的总共时间 单位秒
+    private long mTime; // 录制的时间 单位秒
     private CountDown mCountDown;
 
-    public CommonRecordPresenterImpl(RecordView recordView) {
+    public CommonRecordPresenterImpl(CommonRecordView recordView) {
         mRecordView = recordView;
         mMediaRecorder = new MediaRecorder();
         mMediaPlayer = new MediaPlayer();
-    }
-
-    @Override
-    public void startCountDown(long startTime, long stopTime) {
     }
 
     @Override
@@ -69,7 +66,7 @@ public class CommonRecordPresenterImpl implements RecordPresenter, onMediaPlayer
     @Override
     public void stopRecord() {
         mTotalTime  += mTime;
-        mRecordView.setTotalRecordTimeTv(getTimeStr(mTotalTime));
+        mRecordView.setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
         mRecordView.stopRecordState();
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
@@ -90,7 +87,7 @@ public class CommonRecordPresenterImpl implements RecordPresenter, onMediaPlayer
     }
 
     @Override
-    public void startPlay(String filePath, RecordFrag frag) {
+    public void startPlay(String filePath, RecordImgFrag frag) {
         File soundFile = new File(filePath);
         if (!soundFile.exists()) {
             return;
@@ -141,21 +138,9 @@ public class CommonRecordPresenterImpl implements RecordPresenter, onMediaPlayer
             int i = new Random().nextInt(20) + 5;
             mRecordView.setVoiceLineState(i);
         } else {
-            mRecordView.setRecordTimeTv(getTimeStr(++mTime));
+            ++mTime;
+            mRecordView.setRecordTimeTv(Util.getSpecialTimeFormat(mTime));
         }
-    }
-
-    protected String getTimeStr(int time) {
-        int mm = time / 60;
-        int s = time % 60;
-        StringBuffer sb = new StringBuffer()
-                .append(mm <= 9 ? "0" : "")
-                .append(mm)
-                .append("'")
-                .append(s <= 9 ? "0" : "")
-                .append(s)
-                .append("''");
-        return sb.toString();
     }
 
     @Override

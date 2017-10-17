@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.BuildConfig;
 import jx.csp.ui.activity.liveroom.LiveRoomContract.LiveRoomPresenter;
 import jx.csp.ui.activity.liveroom.LiveRoomContract.LiveRoomView;
+import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -37,8 +38,7 @@ import lib.zego.ZegoApiManager;
 public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownListener {
 
     private static final String TAG = "LiveRoomPresenterImpl";
-    private final int KFifteen = 15;
-    private final int KSixty = 60;
+    private final int KFifteen = 15;  // 开始倒计时的分钟数
 
     private LiveRoomView mLiveRoomView;
     private ZegoLiveRoom mZegoLiveRoom;
@@ -75,7 +75,7 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
         mZegoLiveRoom.setFrontCam(mUseFrontCamera);
         mZegoLiveRoom.setPreviewViewMode(ZegoVideoViewMode.ScaleAspectFill);
         mZegoLiveRoom.setAppOrientation(Surface.ROTATION_90);
-        mZegoLiveRoom.setRoomConfig(false, true);
+        mZegoLiveRoom.setRoomConfig(true, true);
         mZegoLiveRoom.setPreviewView(mLiveRoomView.getTextureView());
         mZegoLiveRoom.startPreview();
         mZegoLiveRoom.loginRoom(roomId, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
@@ -219,16 +219,7 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
             mLiveRoomView.onFinish();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        int m = (int) time / KSixty;
-        int s = (int) (time % KSixty);
-        StringBuffer sb = new StringBuffer()
-                .append(m <= 9 ? "0" : "")
-                .append(m)
-                .append("'")
-                .append(s <= 9 ? "0" : "")
-                .append(s)
-                .append("''");
-        mLiveRoomView.setLiveTimeTv(sb.toString());
+        mLiveRoomView.setLiveTimeTv(Util.getSpecialTimeFormat(time));
         if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
             if (!mShowCountDownRemainTv) {
                 mShowCountDownRemainTv = !mShowCountDownRemainTv;

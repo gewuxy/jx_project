@@ -30,15 +30,19 @@
             android:name="jx.csp.ui.activity.AdvActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="jx.csp.ui.activity.liveroom.LiveRoomActivity"
+        <activity
+            android:name="jx.csp.ui.activity.liveroom.LiveRoomActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ui.activity.record.CommonRecordActivity"
+        <activity
+            android:name=".ui.activity.record.CommonRecordActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.record.LiveRecordActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.record.LiveRecordActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name="jx.csp.ui.activity.TestRecoderActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.TestRecoderActivity"
+            android:screenOrientation="portrait"/>
 
 
         <activity

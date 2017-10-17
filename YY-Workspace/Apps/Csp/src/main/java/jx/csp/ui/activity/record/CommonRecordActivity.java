@@ -13,11 +13,11 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.dialog.HintDialog;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.record.RecordContract.RecordView;
-import jx.csp.ui.activity.record.RecordFrag.onMediaPlayerListener;
+import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
+import jx.csp.ui.activity.record.RecordImgFrag.onMediaPlayerListener;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
-import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 
@@ -28,13 +28,14 @@ import lib.ys.util.permission.PermissionResult;
  * @since 2017/10/10
  */
 
-public class CommonRecordActivity extends BaseRecordActivity implements RecordView, onGestureViewListener {
+public class CommonRecordActivity extends BaseRecordActivity implements CommonRecordView, onGestureViewListener {
 
     private boolean mRecordState = false; // 是否在录制中
     private boolean mShowVoiceLine = false; // 声波曲线是否显示
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
+    protected String mMeetingId;  // 会议id
 
     @IntDef({
             ScrollType.last,
@@ -48,22 +49,18 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
 
     @Override
     public void initData() {
-        super.initData();
+        //创建文件夹存放音频
+        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + "/" + mMeetingId);
         mRecordPresenter = new CommonRecordPresenterImpl(this);
         // 测试数据
         for (int i = 0; i < 20; ++i) {
-            RecordFrag frag = RecordFragRouter
+            RecordImgFrag frag = RecordImgFragRouter
                     .create()
                     .audioFilePath(CacheUtil.getAudioCacheDir() + "/" + mMeetingId + "/" + (i + 1) + KAudioSuffix)
                     .route();
             frag.setPlayerListener((onMediaPlayerListener) mRecordPresenter);
             add(frag);
         }
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-        super.initNavBar(bar);
     }
 
     @Override
@@ -93,14 +90,14 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
             } else {
-                String filePath = CacheUtil.getAudioCacheDir() + "/" + mMeetingId + "/" + (mCurrentPage + 1) + KAudioSuffix;
+                String filePath = CacheUtil.getAudioCacheDir() + "/" + mMeetingId + "/" + (getCurrentItem() + 1) + KAudioSuffix;
                 // 判断这页是否已经录制过
                 if ((new File(filePath)).exists() && SpUser.inst().showRecordAgainDialog()) {
                     showRecordAgainDialog(filePath);
                 } else {
                     mRecordPresenter.startRecord(filePath);
                     // 隐藏播放按钮
-                    ((RecordFrag)getItem(getCurrentItem())).goneLayoutAudio();
+                    ((RecordImgFrag)getItem(getCurrentItem())).goneLayoutAudio();
                     goneView(mVoiceLine);
                     changeRecordState(true);
                 }
@@ -127,7 +124,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
             } else {
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
-                setCurrentItem(mCurrentPage - 1);
+                setCurrentItem(getCurrentItem() - 1);
             }
         } else {
             setCurrentItem(getCurrentItem()- 1);
@@ -146,7 +143,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
             } else {
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
-                setCurrentItem(mCurrentPage + 1);
+                setCurrentItem(getCurrentItem() + 1);
             }
         } else {
             setCurrentItem(getCurrentItem()+ 1);
@@ -188,7 +185,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
         mAnimationRecord.stop();
         goneView(mIvVoiceState);
         //对应frag显示播放图标
-        RecordFrag frag = (RecordFrag) getItem(getCurrentItem());
+        RecordImgFrag frag = (RecordImgFrag) getItem(getCurrentItem());
         frag.showLayoutAudio();
         mTvRecordState.setText("");
         getViewPager().setScrollable(true);
@@ -201,12 +198,13 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
     }
 
     @Override
-    public void setTimeRemainTv() {
-    }
-
-    @Override
     public void showToast(int id) {
-        showToast(id);
+        if (mRecordState) {
+            stopRecordState();
+        } else {
+            mRecordPresenter.stopPlay();
+        }
+        super.showToast(id);
     }
 
     @Override
@@ -222,11 +220,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
     public void goneViceLine() {
         mShowVoiceLine = !mShowVoiceLine;
         goneView(mVoiceLine);
-    }
-
-    @Override
-    public void changeRecordIvRes() {
-
     }
 
     @Override
@@ -280,9 +273,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
             mShowSkipPageDialog = false;
             mRecordPresenter.stopRecord();
             if (scrollType == ScrollType.last) {
-                setCurrentItem(mCurrentPage - 1);
+                setCurrentItem(getCurrentItem() - 1);
             } else {
-                setCurrentItem(mCurrentPage + 1);
+                setCurrentItem(getCurrentItem() + 1);
             }
         });
         dialog.addBlueButton(R.string.cancel, v -> {
@@ -307,7 +300,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements RecordVi
             }
             mRecordPresenter.startRecord(filePath);
             // 隐藏播放按钮
-            ((RecordFrag)getItem(getCurrentItem())).goneLayoutAudio();
+            ((RecordImgFrag)getItem(getCurrentItem())).goneLayoutAudio();
             goneView(mVoiceLine);
             changeRecordState(true);
         });

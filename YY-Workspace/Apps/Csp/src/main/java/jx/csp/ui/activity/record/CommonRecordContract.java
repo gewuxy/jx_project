@@ -7,12 +7,12 @@ import android.support.annotation.StringRes;
  * @since 2017/10/9
  */
 
-public interface RecordContract {
+public interface CommonRecordContract {
 
-    interface RecordView {
+    interface CommonRecordView {
 
         /**
-         * 录制/直播的时间
+         * 录制的总时间
          */
         void setTotalRecordTimeTv(String str);
 
@@ -21,27 +21,18 @@ public interface RecordContract {
         void stopRecordState();
 
         /**
-         * 直播状态/录制时间
+         * 录制时间
          */
         void setRecordTimeTv(String str);
-
-        /**
-         * 直播倒计时
-         */
-        void setTimeRemainTv();
 
         void showToast(@StringRes int id);
 
         void setVoiceLineState(int i);
 
         void goneViceLine();
-
-        void changeRecordIvRes();
     }
 
-    interface RecordPresenter {
-
-        void startCountDown(long startTime, long stopTime);
+    interface CommonRecordPresenter {
 
         void startRecord(String filePath);
 

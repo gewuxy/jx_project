@@ -2,6 +2,7 @@ package jx.csp.ui.activity.record;
 
 import android.app.Service;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -10,14 +11,15 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import jx.csp.R;
-import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.FileUtil;
 import lib.yy.ui.activity.base.BaseVPActivity;
 
 /**
@@ -51,15 +53,16 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected GestureView mGestureView;
 
     private float mLastOffset;
-    protected int mCurrentPage;
-
-    protected String mMeetingId = "123456";  // 会议id
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
 
-    @Override
-    public void initData() {
-        //创建文件夹存放音频
-        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + "/" + mMeetingId);
+    @IntDef({
+            FragType.img,
+            FragType.video,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface FragType {
+        int img = 1;  // 图片
+        int video = 2;  // 视频
     }
 
     @Override
@@ -102,7 +105,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     public void setViews() {
         super.setViews();
 
-        mCurrentPage = 0;
         mTvTotalPage.setText("20");
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
@@ -116,19 +118,19 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.record_iv_last: {
-                if (mCurrentPage < KOne) {
+                if (getCurrentItem() < KOne) {
                     showToast(R.string.first_page);
                     return;
                 }
-                setCurrentItem(mCurrentPage - KOne);
+                setCurrentItem(getCurrentItem() - KOne);
             }
             break;
             case R.id.record_iv_next: {
-                if (mCurrentPage >= 19) {
+                if (getCurrentItem() >= 19) {
                     showToast(R.string.last_page);
                     return;
                 }
-                setCurrentItem(mCurrentPage + KOne);
+                setCurrentItem(getCurrentItem() + KOne);
             }
             break;
             default:
@@ -176,8 +178,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
 
     @Override
     public void onPageSelected(int position) {
-        mCurrentPage = position;
-        mTvCurrentPage.setText(String.valueOf(mCurrentPage + KOne));
+        mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
     }
 
     @Override

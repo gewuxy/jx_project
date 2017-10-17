@@ -49,7 +49,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
     private String mStreamId = "123";
     private String mTitle = "测试";
     private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
-    private long mStopTime = System.currentTimeMillis() + 16 *60 * 1000;
+    private long mStopTime = System.currentTimeMillis() + 160 *60 * 1000;
 
     private LiveRoomPresenter mLiveRoomPresenter;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始

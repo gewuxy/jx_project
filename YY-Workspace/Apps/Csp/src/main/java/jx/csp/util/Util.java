@@ -82,4 +82,22 @@ public class Util extends BaseUtil {
         String character = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
         return character;
     }
+
+    /**
+     * 得到12'25" 格式的时间
+     * @param l
+     * @return
+     */
+    public static String getSpecialTimeFormat(long l) {
+        int m = (int) (l / 60);
+        int s = (int) (l % 60);
+        StringBuffer sb = new StringBuffer()
+                .append(m <= 9 ? "0" : "")
+                .append(m)
+                .append("'")
+                .append(s <= 9 ? "0" : "")
+                .append(s)
+                .append("''");
+        return sb.toString();
+    }
 }
