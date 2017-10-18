@@ -15,7 +15,7 @@ import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPISetter.UserAPI;
+import jx.csp.network.NetworkAPIDescriptor.UserAPI;
 import jx.csp.ui.activity.me.set.BindEmailActivity;
 import jx.csp.ui.activity.me.set.BindPhoneActivity;
 import jx.csp.util.Util;

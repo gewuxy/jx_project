@@ -9,7 +9,7 @@ import jx.csp.R;
 import jx.csp.model.login.Advert;
 import jx.csp.model.login.Advert.TAdvert;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPISetter.AdvertAPI;
+import jx.csp.network.NetworkAPIDescriptor.AdvertAPI;
 import lib.network.model.NetworkResp;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.activity.ActivityEx;

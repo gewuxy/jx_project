@@ -20,7 +20,7 @@ import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPISetter.LoginAPI;
+import jx.csp.network.NetworkAPIDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;

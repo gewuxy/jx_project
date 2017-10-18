@@ -13,7 +13,7 @@ import lib.yy.network.Result;
 import jx.csp.R;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.network.NetworkAPISetter.UserAPI;
+import jx.csp.network.NetworkAPIDescriptor.UserAPI;
 import jx.csp.util.Util;
 
 /**

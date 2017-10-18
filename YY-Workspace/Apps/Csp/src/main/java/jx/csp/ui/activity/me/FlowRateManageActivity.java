@@ -21,7 +21,7 @@ import jx.csp.model.pay.PayPalPayRecharge.TPayPalPayRecharge;
 import jx.csp.model.pay.PingPayRecharge;
 import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPISetter.PayAPI;
+import jx.csp.network.NetworkAPIDescriptor.PayAPI;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;

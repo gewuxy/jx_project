@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.network.NetworkAPISetter.UserAPI;
+import jx.csp.network.NetworkAPIDescriptor.UserAPI;
 import jx.csp.util.Util;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
