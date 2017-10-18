@@ -5,6 +5,8 @@ import android.support.multidex.MultiDex;
 
 import com.mob.MobSDK;
 
+import java.util.Locale;
+
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkAPISetter;
 import jx.csp.network.UrlUtil;
@@ -20,6 +22,8 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
+import lib.ys.util.DeviceUtil;
+import lib.ys.util.PackageUtil;
 import lib.yy.BaseApp;
 
 /**
@@ -101,6 +105,13 @@ public class App extends BaseApp {
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
         MobSDK.init(this,"20363f4ed7f9e","38d54e92bac9c9367d249186c53ad89c");
+
+        String language = PackageUtil.getMetaValue("JX_LANGUAGE");
+        if (language.equals("en")) {
+            DeviceUtil.setResLocale(this, Locale.ENGLISH);
+        } else {
+            DeviceUtil.setResLocale(this, Locale.ROOT);
+        }
     }
 
     @Override

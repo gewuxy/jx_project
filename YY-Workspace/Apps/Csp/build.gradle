@@ -107,16 +107,25 @@ android {
         flavors_debug {
             manifestPlaceholders = [
                     app_name: "CSP(B)",
+                    language: "cn",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
                     app_name: "CSP(A)",
+                    language: "cn",
             ]
         }
         flavors_release {
             manifestPlaceholders = [
                     app_name: "CSP",
+                    language: "cn",
+            ]
+        }
+        flavors_release_en {
+            manifestPlaceholders = [
+                    app_name: "CSP(EN)",
+                    language: "en",
             ]
         }
     }
