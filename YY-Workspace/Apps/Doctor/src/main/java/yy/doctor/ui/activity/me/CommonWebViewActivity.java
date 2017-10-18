@@ -10,7 +10,7 @@ import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.DataAPI;
+import yy.doctor.network.NetworkApiDescriptor.DataAPI;
 import yy.doctor.ui.activity.data.CollectionViewImpl;
 import yy.doctor.ui.activity.data.ICollectionView;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;

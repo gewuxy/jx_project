@@ -39,7 +39,7 @@ import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.UnitNumDetail;
 import yy.doctor.model.unitnum.UnitNumDetail.TUnitNumDetail;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
+import yy.doctor.network.NetworkApiDescriptor.UnitNumAPI;
 import yy.doctor.network.image.CutInterceptor;
 import yy.doctor.ui.activity.me.LaunchTmpActivity;
 import yy.doctor.ui.activity.search.SearchActivity;

@@ -10,7 +10,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.Util;
 
 /**

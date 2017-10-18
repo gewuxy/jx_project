@@ -29,7 +29,7 @@ import yy.doctor.model.meet.exam.Paper;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.ExamCount;
 
 /**

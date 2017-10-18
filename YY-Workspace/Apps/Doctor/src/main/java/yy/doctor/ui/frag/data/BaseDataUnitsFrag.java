@@ -17,7 +17,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
 import yy.doctor.model.data.DataUnit.TDataUnit;
-import yy.doctor.network.NetworkAPISetter.DataAPI;
+import yy.doctor.network.NetworkApiDescriptor.DataAPI;
 import yy.doctor.ui.activity.data.BaseDataUnitsActivity;
 import yy.doctor.ui.activity.data.ClinicsActivityRouter;
 import yy.doctor.ui.activity.data.DataUnitsSearchActivityRouter;

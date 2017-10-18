@@ -10,8 +10,8 @@ import yy.doctor.Extra.FileFrom;
 import yy.doctor.R;
 import yy.doctor.adapter.me.FileAdapter;
 import yy.doctor.model.unitnum.File;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.UnitNumAPI;
 import yy.doctor.util.Util;
 
 /**

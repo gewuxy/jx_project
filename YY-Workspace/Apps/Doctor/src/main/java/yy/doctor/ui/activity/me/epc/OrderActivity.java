@@ -8,7 +8,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.me.OrderAdapter;
 import yy.doctor.model.me.Order;
-import yy.doctor.network.NetworkAPISetter.EpcAPI;
+import yy.doctor.network.NetworkApiDescriptor.EpcAPI;
 import yy.doctor.util.Util;
 
 /**

@@ -13,7 +13,7 @@ import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.util.Util;
 
 /**

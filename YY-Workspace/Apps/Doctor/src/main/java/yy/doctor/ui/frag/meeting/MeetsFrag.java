@@ -13,7 +13,7 @@ import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.MeetState;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.Util;
 
 /**

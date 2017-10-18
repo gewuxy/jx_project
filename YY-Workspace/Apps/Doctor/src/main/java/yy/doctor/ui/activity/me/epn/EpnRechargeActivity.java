@@ -28,7 +28,7 @@ import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.me.EpnRecharge;
 import yy.doctor.model.me.EpnRecharge.TEpnRecharge;
-import yy.doctor.network.NetworkAPISetter;
+import yy.doctor.network.NetworkApiDescriptor;
 import yy.doctor.util.Util;
 
 
@@ -166,7 +166,7 @@ public class EpnRechargeActivity extends BaseActivity {
             return;
         }
 
-        exeNetworkReq(NetworkAPISetter.CommonAPI.epnRecharge(getString(R.string.epn_recharge), mRechargeSum).build());
+        exeNetworkReq(NetworkApiDescriptor.CommonAPI.epnRecharge(getString(R.string.epn_recharge), mRechargeSum).build());
     }
 
     @Override

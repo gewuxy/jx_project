@@ -14,7 +14,7 @@ import yy.doctor.R;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.CollectionAPI;
+import yy.doctor.network.NetworkApiDescriptor.CollectionAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;

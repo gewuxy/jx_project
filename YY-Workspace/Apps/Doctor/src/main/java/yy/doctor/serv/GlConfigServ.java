@@ -16,7 +16,7 @@ import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.config.GlConfigInfo;
 import yy.doctor.model.config.GlConfigInfo.TGlConfigInfo;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.RegisterAPI;
+import yy.doctor.network.NetworkApiDescriptor.RegisterAPI;
 import yy.doctor.sp.SpConfig;
 import yy.doctor.sp.SpConfig.SpConfigKey;
 

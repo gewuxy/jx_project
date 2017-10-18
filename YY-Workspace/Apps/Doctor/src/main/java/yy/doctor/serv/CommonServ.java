@@ -20,8 +20,8 @@ import lib.yy.network.Result;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 
 /**
  * 常驻服务

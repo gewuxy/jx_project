@@ -27,7 +27,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.EpcAPI;
+import yy.doctor.network.NetworkApiDescriptor.EpcAPI;
 import yy.doctor.util.Util;
 
 /**

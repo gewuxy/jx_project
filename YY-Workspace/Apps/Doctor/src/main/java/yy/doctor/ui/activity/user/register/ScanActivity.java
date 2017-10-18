@@ -30,7 +30,7 @@ import yy.doctor.R;
 import yy.doctor.model.Scan;
 import yy.doctor.model.Scan.TScan;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.RegisterAPI;
+import yy.doctor.network.NetworkApiDescriptor.RegisterAPI;
 import yy.doctor.util.Util;
 
 /**

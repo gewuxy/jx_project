@@ -12,8 +12,8 @@ import yy.doctor.model.search.Margin;
 import yy.doctor.model.search.More;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
-import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.UnitNumAPI;
 
 /**
  * 单位号和会议的结果

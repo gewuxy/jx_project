@@ -16,7 +16,7 @@ import yy.doctor.R;
 import yy.doctor.model.me.EpcDetail;
 import yy.doctor.model.me.EpcDetail.TEpcDetail;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.EpcAPI;
+import yy.doctor.network.NetworkApiDescriptor.EpcAPI;
 import yy.doctor.util.Util;
 
 /**

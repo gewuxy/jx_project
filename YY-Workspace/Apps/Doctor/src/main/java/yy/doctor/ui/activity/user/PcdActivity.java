@@ -32,8 +32,8 @@ import yy.doctor.model.Place;
 import yy.doctor.model.Place.TPlace;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.RegisterAPI;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.RegisterAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.util.Util;
 
 

@@ -13,7 +13,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.data.DataUnitAdapter;
 import yy.doctor.model.data.DataUnit;
-import yy.doctor.network.NetworkAPISetter.DataAPI;
+import yy.doctor.network.NetworkApiDescriptor.DataAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;

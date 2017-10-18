@@ -25,7 +25,7 @@ import yy.doctor.dialog.ShareDialog;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.user.login.WXLoginActivity;

@@ -11,7 +11,7 @@ import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingAdapter;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.meet.Meeting.TMeeting;
-import yy.doctor.network.NetworkAPISetter.CollectionAPI;
+import yy.doctor.network.NetworkApiDescriptor.CollectionAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**

@@ -18,7 +18,7 @@ import yy.doctor.R;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.popup.TopicPopup;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.Util;

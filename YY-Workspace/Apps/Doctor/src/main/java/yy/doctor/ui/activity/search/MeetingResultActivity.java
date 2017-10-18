@@ -13,7 +13,7 @@ import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 
 /**
  * 搜索会议结果

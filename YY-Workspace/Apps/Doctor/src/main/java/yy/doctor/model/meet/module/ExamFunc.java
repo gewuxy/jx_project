@@ -11,7 +11,7 @@ import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.ui.activity.meeting.topic.ExamIntroActivityRouter;
 
 /**

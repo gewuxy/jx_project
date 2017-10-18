@@ -24,7 +24,7 @@ import yy.doctor.model.meet.Sign;
 import yy.doctor.model.meet.Sign.TSign;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.ui.activity.meeting.SignActivityRouter;
 
 /**

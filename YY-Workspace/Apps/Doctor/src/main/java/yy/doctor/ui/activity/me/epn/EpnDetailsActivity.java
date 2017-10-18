@@ -5,7 +5,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
 import yy.doctor.adapter.me.EpnDetailsAdapter;
 import yy.doctor.model.me.EpnDetails;
-import yy.doctor.network.NetworkAPISetter.EpcAPI;
+import yy.doctor.network.NetworkApiDescriptor.EpcAPI;
 import yy.doctor.util.Util;
 
 /**

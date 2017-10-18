@@ -13,7 +13,7 @@ import yy.doctor.model.search.Hot;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.unitnum.UnitNum;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
+import yy.doctor.network.NetworkApiDescriptor.UnitNumAPI;
 
 /**
  * 搜索单位号的结果

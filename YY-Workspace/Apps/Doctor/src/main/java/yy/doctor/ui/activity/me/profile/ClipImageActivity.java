@@ -19,7 +19,7 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.me.UpHeadImage;
 import yy.doctor.model.me.UpHeadImage.TUpHeadImage;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.util.Util;
 
 /**

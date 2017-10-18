@@ -22,7 +22,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.UISetter;
 import yy.doctor.util.Util;

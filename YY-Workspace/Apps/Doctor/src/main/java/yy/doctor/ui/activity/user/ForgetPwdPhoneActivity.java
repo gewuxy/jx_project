@@ -26,12 +26,12 @@ import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.RegisterAPI;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.RegisterAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.util.Util;
 
-//import yy.doctor.network.NetworkAPISetter.ForgetAPI;
+//import yy.doctor.network.NetworkApiDescriptor.ForgetAPI;
 
 /**
  * 手机短信找回密码

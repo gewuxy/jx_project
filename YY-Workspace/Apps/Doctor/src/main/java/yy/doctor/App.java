@@ -21,7 +21,7 @@ import lib.ys.stats.Stats;
 import lib.yy.BaseApp;
 import yy.doctor.Constants.PageConstants;
 import yy.doctor.network.NetFactory;
-import yy.doctor.network.NetworkAPISetter;
+import yy.doctor.network.NetworkApiDescriptor;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.util.CacheUtil;
 
@@ -98,7 +98,7 @@ public class App extends BaseApp {
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
-        NetworkAPISetter.setDebuggable(BuildConfig.DEBUG_NETWORK);
+        NetworkApiDescriptor.setDebuggable(BuildConfig.DEBUG_NETWORK);
 
         //百度地图
         SDKInitializer.initialize(this);

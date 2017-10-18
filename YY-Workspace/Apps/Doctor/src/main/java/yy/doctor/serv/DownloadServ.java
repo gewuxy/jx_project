@@ -9,7 +9,7 @@ import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;
 import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
 import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
-import yy.doctor.network.NetworkAPISetter.DataAPI;
+import yy.doctor.network.NetworkApiDescriptor.DataAPI;
 
 /**
  * @author CaiXiang

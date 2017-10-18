@@ -52,7 +52,7 @@ import yy.doctor.model.hospital.HospitalName.THospitalName;
 import yy.doctor.model.hospital.IHospital;
 import yy.doctor.model.hospital.IHospital.HospitalType;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter;
+import yy.doctor.network.NetworkApiDescriptor;
 import yy.doctor.util.Util;
 
 /**
@@ -210,7 +210,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
         mHospitalName.put(THospitalName.level, h);
         if (mFromType == FromType.profile) {
             showLoadingDialog();
-            exeNetworkReq(KIdSave, NetworkAPISetter.UserAPI.modify()
+            exeNetworkReq(KIdSave, NetworkApiDescriptor.UserAPI.modify()
                     .hospital(mHospitalName.getString(THospitalName.name))
                     .hospitalLevel(h.getString(THospitalLevel.id))
                     .build());

@@ -20,7 +20,7 @@ import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.model.data.GroupDataUnitDetail;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.DataAPI;
+import yy.doctor.network.NetworkApiDescriptor.DataAPI;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Util;
 

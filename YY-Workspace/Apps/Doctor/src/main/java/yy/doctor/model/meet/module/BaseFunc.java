@@ -24,7 +24,7 @@ import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.module.Module.ModuleType;
-import yy.doctor.network.NetworkAPISetter.UnitNumAPI;
+import yy.doctor.network.NetworkApiDescriptor.UnitNumAPI;
 import yy.doctor.ui.activity.me.epn.EpnRechargeActivity;
 import yy.doctor.ui.activity.me.profile.ModifyTextActivityRouter;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;

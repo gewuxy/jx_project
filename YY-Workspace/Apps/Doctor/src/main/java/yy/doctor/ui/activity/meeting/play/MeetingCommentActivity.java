@@ -35,7 +35,7 @@ import yy.doctor.model.meet.CommentHistories;
 import yy.doctor.model.meet.CommentHistories.TCommentHistories;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.Util;
 
 /**

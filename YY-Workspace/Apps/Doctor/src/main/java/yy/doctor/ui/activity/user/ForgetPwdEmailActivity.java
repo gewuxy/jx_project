@@ -16,7 +16,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogMain;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.util.Util;
 import yy.doctor.view.AutoCompleteEditText;

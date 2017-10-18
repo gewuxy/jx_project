@@ -2,7 +2,7 @@ package yy.doctor.ui.frag.stats;
 
 import lib.network.model.NetworkReq;
 import yy.doctor.R;
-import yy.doctor.network.NetworkAPISetter.MeetAPI;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 
 /**
  * @auther : GuoXuan

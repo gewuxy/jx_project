@@ -21,8 +21,8 @@ import yy.doctor.model.Profile.TProfile;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.model.form.edit.EditCaptchaForm;
-import yy.doctor.network.NetworkAPISetter.RegisterAPI;
-import yy.doctor.network.NetworkAPISetter.UserAPI;
+import yy.doctor.network.NetworkApiDescriptor.RegisterAPI;
+import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.util.Util;
 
 /**

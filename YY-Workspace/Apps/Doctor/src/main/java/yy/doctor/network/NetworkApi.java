@@ -1,14 +1,14 @@
 package yy.doctor.network;
 
-import inject.annotation.network.API;
-import inject.annotation.network.APIFactory;
-import inject.annotation.network.Part;
+import inject.annotation.network.Api;
+import inject.annotation.network.Descriptor;
+import inject.annotation.network.Query;
 import inject.annotation.network.Retry;
 import inject.annotation.network.Url;
-import inject.annotation.network.method.DOWNLOAD_FILE;
-import inject.annotation.network.method.GET;
-import inject.annotation.network.method.POST;
-import inject.annotation.network.method.UPLOAD;
+import inject.annotation.network.method.DownloadFile;
+import inject.annotation.network.method.Get;
+import inject.annotation.network.method.Post;
+import inject.annotation.network.method.Upload;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.ui.activity.meeting.MeetingFolderActivity.ZeroShowType;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
@@ -17,16 +17,16 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
  * @auther yuansui
  * @since 2017/8/16
  */
-@APIFactory(
+@Descriptor(
         host = "https://app.medyaya.cn/api/",
         hostDebuggable = "http://59.111.90.245:8083/v7/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/" // 轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8082/api/" // 长玲电脑
 )
-public class NetworkAPI {
+public class NetworkApi {
 
-    @API
+    @Api
     interface User {
         /**
          * 登录(绑定微信号)
@@ -35,7 +35,7 @@ public class NetworkAPI {
          * @param password
          * @param openid
          */
-        @POST("login")
+        @Post("login")
         void login(String username, String password, String openid, String masterId);
 
         /**
@@ -43,7 +43,7 @@ public class NetworkAPI {
          *
          * @param registionId
          */
-        @GET("bindJpush")
+        @Get("bindJpush")
         @Retry(count = 5, delay = 1000)
         void bindJPush(String registionId);
 
@@ -52,14 +52,14 @@ public class NetworkAPI {
          *
          * @param token
          */
-        @POST("logout")
+        @Post("logout")
         @Retry(count = 5, delay = 1000)
         void logout(String token);
 
         /**
          * 个人信息
          */
-        @GET("user/info")
+        @Get("user/info")
         void profile();
 
         /**
@@ -67,7 +67,7 @@ public class NetworkAPI {
          *
          * @param file
          */
-        @UPLOAD("user/update_avatar")
+        @Upload("user/update_avatar")
         void upload(byte[] file);
 
         /**
@@ -84,24 +84,24 @@ public class NetworkAPI {
          * @param city          城市
          * @param zone          区
          */
-        @POST("user/modify")
-        void modify(@Part(opt = true) String headimg,
-                    @Part(opt = true) String linkman,
-                    @Part(opt = true) String hospital,
-                    @Part(opt = true) String hospitalLevel,
-                    @Part(opt = true) String title,
-                    @Part(opt = true) String category,
-                    @Part(opt = true) String name,
-                    @Part(opt = true) String province,
-                    @Part(opt = true) String city,
-                    @Part(opt = true) String zone);
+        @Post("user/modify")
+        void modify(@Query(opt = true) String headimg,
+                    @Query(opt = true) String linkman,
+                    @Query(opt = true) String hospital,
+                    @Query(opt = true) String hospitalLevel,
+                    @Query(opt = true) String title,
+                    @Query(opt = true) String category,
+                    @Query(opt = true) String name,
+                    @Query(opt = true) String province,
+                    @Query(opt = true) String city,
+                    @Query(opt = true) String zone);
 
         /**
          * 检查是否已被绑定
          *
          * @param code 微信授权的code
          */
-        @POST("check_wx_bind")
+        @Post("check_wx_bind")
         void checkWxBind(String code);
 
         /**
@@ -109,8 +109,8 @@ public class NetworkAPI {
          *
          * @param code 微信授权的code
          */
-        @GET("user/set_wx_bind_status")
-        void bindWX(@Part(opt = true) String code);
+        @Get("user/set_wx_bind_status")
+        void bindWX(@Query(opt = true) String code);
 
         /**
          * 绑定手机号
@@ -118,7 +118,7 @@ public class NetworkAPI {
          * @param mobile  手机号
          * @param captcha 验证码
          */
-        @GET("user/set_bind_mobile")
+        @Get("user/set_bind_mobile")
         void bindMobile(String mobile, String captcha);
 
         /**
@@ -126,13 +126,13 @@ public class NetworkAPI {
          *
          * @param username 用户名
          */
-        @GET("email/send_bind_email")
+        @Get("email/send_bind_email")
         void bindEmail(String username);
 
         /**
          * 解绑邮箱
          */
-        @GET("user/unbind_email")
+        @Get("user/unbind_email")
         void unBindEmail();
 
         /**
@@ -141,7 +141,7 @@ public class NetworkAPI {
          * @param oldPwd 旧密码
          * @param newPwd 新密码
          */
-        @POST("user/resetPwd")
+        @Post("user/resetPwd")
         void changePwd(String oldPwd, String newPwd);
 
         /**
@@ -149,7 +149,7 @@ public class NetworkAPI {
          *
          * @param username
          */
-        @GET("email/pwd/send_reset_mail")
+        @Get("email/pwd/send_reset_mail")
         void email(String username);
 
         /**
@@ -159,13 +159,13 @@ public class NetworkAPI {
          * @param captcha
          * @param password
          */
-        @GET("register/pwd/reset/by_mobile")
+        @Get("register/pwd/reset/by_mobile")
         void phone(String mobile, String captcha, String password);
     }
 
-    @API("data")
+    @Api("data")
     interface Data {
-        @DOWNLOAD_FILE
+        @DownloadFile
         void download(@Url String url);
 
         /**
@@ -178,7 +178,7 @@ public class NetworkAPI {
          * @param pageSize 显示条数
          * @return
          */
-        @GET("data_category")
+        @Get("data_category")
         void units(String preId, int type, boolean leaf, int pageNum, int pageSize);
 
         /**
@@ -186,7 +186,7 @@ public class NetworkAPI {
          *
          * @param dataFileId
          */
-        @GET("data_detail")
+        @Get("data_detail")
         void collectionDetail(String dataFileId);
 
         /**
@@ -197,7 +197,7 @@ public class NetworkAPI {
          * @param pageNum
          * @param pageSize
          */
-        @POST("data_search")
+        @Post("data_search")
         void search(String keyword, int type, int pageNum, int pageSize);
 
         /**
@@ -205,18 +205,18 @@ public class NetworkAPI {
          *
          * @param preId 不传值的时候，返回汤森路透下一层的子栏目，传值的时候返回该preId下面的子栏目
          */
-        @GET("thomson/category")
+        @Get("thomson/category")
         void thomson(String preId);
     }
 
-    @API("publicAccount")
+    @Api("publicAccount")
     interface UnitNum {
         /**
          * 推荐的单位号
          *
          * @return
          */
-        @GET("recommend")
+        @Get("recommend")
         void recommendUnitNum();
 
         /**
@@ -224,14 +224,14 @@ public class NetworkAPI {
          *
          * @param keyword 关键字
          */
-        @POST("search")
+        @Post("search")
         void searchUnitNum(String keyword, int pageNum, int pageSize);
 
 
         /**
          * 关注的单位号
          */
-        @GET("mySubscribe")
+        @Get("mySubscribe")
         void attentionUnitNum();
 
         /**
@@ -241,7 +241,7 @@ public class NetworkAPI {
          * @param pageNum
          * @param pageSize
          */
-        @GET("unitInfo")
+        @Get("unitInfo")
         void unitNumDetail(int id, int pageNum, int pageSize);
 
         /**
@@ -251,7 +251,7 @@ public class NetworkAPI {
          * @param pageNum
          * @param pageSize
          */
-        @GET("materialList")
+        @Get("materialList")
         void unitNumData(String id, int pageNum, int pageSize);
 
         /**
@@ -260,12 +260,12 @@ public class NetworkAPI {
          * @param masterId
          * @param status   0:取消关注 1：关注
          */
-        @GET("subscribe")
+        @Get("subscribe")
         void attention(int masterId, int status);
 
     }
 
-    @API("shop")
+    @Api("shop")
     interface Epc {
 
         /**
@@ -274,7 +274,7 @@ public class NetworkAPI {
          * @param pageNum
          * @param pageSize
          */
-        @GET("goods")
+        @Get("goods")
         void epc(int pageNum, int pageSize);
 
         /**
@@ -282,7 +282,7 @@ public class NetworkAPI {
          *
          * @param id
          */
-        @GET("goodInfo")
+        @Get("goodInfo")
         void epcDetail(int id);
 
         /**
@@ -290,7 +290,7 @@ public class NetworkAPI {
          *
          * @param pageNum
          */
-        @GET("order")
+        @Get("order")
         void order(int pageNum, int pageSize);
 
         /**
@@ -303,22 +303,22 @@ public class NetworkAPI {
          * @param province 省份
          * @param address  地址
          */
-        @POST("buy")
-        void exchange(@Part(opt = true) int goodsId,
-                      @Part(opt = true) int price,
-                      @Part(opt = true) String receiver,
-                      @Part(opt = true) String phone,
-                      @Part(opt = true) String province,
-                      @Part(opt = true) String address);
+        @Post("buy")
+        void exchange(@Query(opt = true) int goodsId,
+                      @Query(opt = true) int price,
+                      @Query(opt = true) String receiver,
+                      @Query(opt = true) String phone,
+                      @Query(opt = true) String province,
+                      @Query(opt = true) String address);
 
         /**
          * 象数明细
          */
-        @GET("tradeInfo")
+        @Get("tradeInfo")
         void epnDetails();
     }
 
-    @API("register")
+    @Api("register")
     interface Register {
         /**
          * @param nickname      用户昵称
@@ -339,28 +339,28 @@ public class NetworkAPI {
          * @param masterId
          */
 
-        @POST("reg")
-        void reg(@Part(opt = true) String nickname,
-                 @Part(opt = true) String linkman,
-                 @Part(opt = true) String mobile,
-                 @Part(opt = true) String captcha,
-                 @Part(opt = true) String password,
-                 @Part(opt = true) String province,
-                 @Part(opt = true) String city,
-                 @Part(opt = true) String zone,
-                 @Part(opt = true) String hospital,
-                 @Part(opt = true) Integer hospitalLevel,
-                 @Part(opt = true) String category,
-                 @Part(opt = true) String name,
-                 @Part(opt = true) String department,
-                 @Part(opt = true) String title,
-                 @Part(opt = true) String invite,
-                 @Part(opt = true) String masterId);
+        @Post("reg")
+        void reg(@Query(opt = true) String nickname,
+                 @Query(opt = true) String linkman,
+                 @Query(opt = true) String mobile,
+                 @Query(opt = true) String captcha,
+                 @Query(opt = true) String password,
+                 @Query(opt = true) String province,
+                 @Query(opt = true) String city,
+                 @Query(opt = true) String zone,
+                 @Query(opt = true) String hospital,
+                 @Query(opt = true) Integer hospitalLevel,
+                 @Query(opt = true) String category,
+                 @Query(opt = true) String name,
+                 @Query(opt = true) String department,
+                 @Query(opt = true) String title,
+                 @Query(opt = true) String invite,
+                 @Query(opt = true) String masterId);
 
         /**
          * 省份
          */
-        @GET("provinces")
+        @Get("provinces")
         void province();
 
         /**
@@ -368,7 +368,7 @@ public class NetworkAPI {
          *
          * @param preId
          */
-        @GET("cities")
+        @Get("cities")
         void city(String preId);
 
         /**
@@ -377,7 +377,7 @@ public class NetworkAPI {
          * @param mobile
          * @param type
          */
-        @GET("get_captcha")
+        @Get("get_captcha")
         void captcha(String mobile, int type);
 
         /**
@@ -385,19 +385,19 @@ public class NetworkAPI {
          *
          * @param masterId
          */
-        @GET("scan_register")
-        void scan(@Part(opt = true) String masterId);
+        @Get("scan_register")
+        void scan(@Query(opt = true) String masterId);
 
         /**
          * 专科
          */
-        @GET("specialty")
+        @Get("specialty")
         void specialty();
 
         /**
          * 职称
          */
-        @GET("title")
+        @Get("title")
         void title();
 
         /**
@@ -405,11 +405,11 @@ public class NetworkAPI {
          *
          * @param version
          */
-        @POST("properties")
+        @Post("properties")
         void config(int version);
     }
 
-    @API
+    @Api
     interface Collection {
 
         /**
@@ -419,7 +419,7 @@ public class NetworkAPI {
          * @param type
          * @return
          */
-        @GET("set_favorite_status")
+        @Get("set_favorite_status")
         void collectionStatus(String resourceId, @DataType int type);
 
         /**
@@ -429,16 +429,16 @@ public class NetworkAPI {
          * @param pageSize
          * @return 该值为空或0时，表示会议类型
          */
-        @GET("my_favorite")
+        @Get("my_favorite")
         void collection(int pageNum, int pageSize, int type);
     }
 
-    @API("meet/")
+    @Api("meet/")
     interface Meet {
         /**
          * 首页推荐会议(含文件夹)
          */
-        @GET("recommend/meet/folder")
+        @Get("recommend/meet/folder")
         void recommendMeeting(int pageNum, int pageSize);
 
         /**
@@ -451,7 +451,7 @@ public class NetworkAPI {
          *
          * @param keyword 关键字
          */
-        @POST("search")
+        @Post("search")
         void searchMeet(String keyword, int pageNum, int pageSize);
 
         /**
@@ -460,11 +460,11 @@ public class NetworkAPI {
          * @param state  {@link MeetState} 会议状态
          * @param depart 科室类型
          */
-        @POST("meets")
-        void meets(@Part(opt = true) int state,
-                   @Part(opt = true) String depart,
-                   @Part(opt = true) int pageNum,
-                   @Part(opt = true) int pageSize);
+        @Post("meets")
+        void meets(@Query(opt = true) int state,
+                   @Query(opt = true) String depart,
+                   @Query(opt = true) int pageNum,
+                   @Query(opt = true) int pageSize);
 
         /**
          * 文件夹
@@ -472,61 +472,61 @@ public class NetworkAPI {
          * @param preId
          * @param showFlag {@link ZeroShowType} 是否显示会议数是0的文件夹
          */
-        @GET("folder/leaf")
+        @Get("folder/leaf")
         void meetFolder(String preId, int showFlag);
 
         /**
          * 会议科室列表
          */
-        @POST("department")
+        @Post("department")
         void meetDepartment();
 
         /**
          * 会议详情
          */
-        @GET("info")
+        @Get("info")
         void meetInfo(String meetId);
 
         /**
          * 会议资料
          */
-        @GET("pageMaterial")
+        @Get("pageMaterial")
         void meetData(String meetId, int pageNum, int pageSize);
 
         /**
          * 考试入口
          */
-        @GET("toexam")
+        @Get("toexam")
         void toExam(String meetId, String moduleId);
 
         /**
          * 问卷入口
          */
-        @GET("tosurvey")
+        @Get("tosurvey")
         void toSurvey(String meetId, String moduleId);
 
         /**
          * 视频入口
          */
-        @GET("tovideo")
+        @Get("tovideo")
         void toVideo(String meetId, String moduleId);
 
         /**
          * 签到入口
          */
-        @GET("tosign")
+        @Get("tosign")
         void toSign(String meetId, String moduleId);
 
         /**
          * 微课(语音+PPT)入口
          */
-        @GET("toppt")
+        @Get("toppt")
         void toCourse(String meetId, String moduleId);
 
         /**
          * 视频子目录
          */
-        @GET("video/sublist")
+        @Get("video/sublist")
         void video(String preId);
 
         /**
@@ -534,22 +534,22 @@ public class NetworkAPI {
          *
          * @param itemJson 题号+选项的json串
          */
-        @POST("submitex")
-        void submitExam(@Part(opt = true) String meetId,
-                        @Part(opt = true) String moduleId,
-                        @Part(opt = true) String paperId,
-                        @Part(opt = true) String itemJson);
+        @Post("submitex")
+        void submitExam(@Query(opt = true) String meetId,
+                        @Query(opt = true) String moduleId,
+                        @Query(opt = true) String paperId,
+                        @Query(opt = true) String itemJson);
 
         /**
          * 提交问卷答案
          *
          * @param itemJson 题号+选项的json串
          */
-        @POST("submitsur")
-        void submitSurvey(@Part(opt = true) String meetId,
-                          @Part(opt = true) String moduleId,
-                          @Part(opt = true) String paperId,
-                          @Part(opt = true) String itemJson);
+        @Post("submitsur")
+        void submitSurvey(@Query(opt = true) String meetId,
+                          @Query(opt = true) String moduleId,
+                          @Query(opt = true) String paperId,
+                          @Query(opt = true) String itemJson);
 
         /**
          * 微课学习时间提交
@@ -557,12 +557,12 @@ public class NetworkAPI {
          * @param courseId 微课ID
          * @param details  学习用时
          */
-        @POST("ppt/record")
+        @Post("ppt/record")
         @Retry(count = 5, delay = 1000)
-        void submitCourse(@Part(opt = true) String meetId,
-                          @Part(opt = true) String moduleId,
-                          @Part(opt = true) String courseId,
-                          @Part(opt = true) String details);
+        void submitCourse(@Query(opt = true) String meetId,
+                          @Query(opt = true) String moduleId,
+                          @Query(opt = true) String courseId,
+                          @Query(opt = true) String details);
 
         /**
          * @param meetId
@@ -572,28 +572,28 @@ public class NetworkAPI {
          * @param finished 是否完成
          * @param usedTime 视频用时
          */
-        @POST("video/record")
+        @Post("video/record")
         @Retry(count = 5, delay = 1000)
-        void submitVideo(@Part(opt = true) String meetId,
-                         @Part(opt = true) String moduleId,
-                         @Part(opt = true) String courseId,
-                         @Part(opt = true) String detailId,
-                         @Part(opt = true) boolean finished,
-                         @Part(opt = true, value = "usedtime") String usedTime);
+        void submitVideo(@Query(opt = true) String meetId,
+                         @Query(opt = true) String moduleId,
+                         @Query(opt = true) String courseId,
+                         @Query(opt = true) String detailId,
+                         @Query(opt = true) boolean finished,
+                         @Query(opt = true, value = "usedtime") String usedTime);
 
         /**
          * 提交会议学习时间
          *
          * @param useTime 会议学习时间
          */
-        @POST("exit")
+        @Post("exit")
         @Retry(count = 5, delay = 1000)
-        void submitMeet(String meetId, @Part(value = "usedtime") long useTime);
+        void submitMeet(String meetId, @Query(value = "usedtime") long useTime);
 
         /**
          * 会议留言记录
          */
-        @GET("message/histories")
+        @Get("message/histories")
         void commentHistories(String meetId, int pageSize, int pageNum);
 
         /**
@@ -603,19 +603,19 @@ public class NetworkAPI {
          * @param signLng    签到经度
          * @param signLat    签到维度
          */
-        @POST("sign")
-        void sign(@Part(opt = true) String meetId,
-                  @Part(opt = true) String moduleId,
-                  @Part(opt = true) String positionId,
-                  @Part(opt = true) String signLng,
-                  @Part(opt = true) String signLat);
+        @Post("sign")
+        void sign(@Query(opt = true) String meetId,
+                  @Query(opt = true) String moduleId,
+                  @Query(opt = true) String positionId,
+                  @Query(opt = true) String signLng,
+                  @Query(opt = true) String signLat);
 
         /**
          * 参会统计(个人参会统计)
          *
          * @param offset 偏移量
          */
-        @POST("attend_stats")
+        @Post("attend_stats")
         void statsMeet(int offset);
 
         /**
@@ -623,22 +623,22 @@ public class NetworkAPI {
          *
          * @param offset 偏移量
          */
-        @POST("publish_stats")
+        @Post("publish_stats")
         void statsUnitNum(int offset);
     }
 
-    @API
+    @Api
     interface Common {
         /**
          * 首页banner
          */
-        @GET("banner")
+        @Get("banner")
         void banner();
 
         /**
          * 检查app版本
          */
-        @GET("version/newly")
+        @Get("version/newly")
         void checkAppVersion();
 
         /**
@@ -647,10 +647,10 @@ public class NetworkAPI {
          * @param subject     商品名称
          * @param totalAmount 商品价格
          */
-        @POST("alipay/recharge")
+        @Post("alipay/recharge")
         void epnRecharge(String subject, int totalAmount);
 
-        @DOWNLOAD_FILE
+        @DownloadFile
         void download(@Url String url);
     }
 }

@@ -23,7 +23,7 @@ import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import yy.doctor.network.NetworkAPISetter.CommonAPI;
+import yy.doctor.network.NetworkApiDescriptor.CommonAPI;
 
 /**
  * 自带下载功能的播放器(音频和视频的多媒体暂时不一样)

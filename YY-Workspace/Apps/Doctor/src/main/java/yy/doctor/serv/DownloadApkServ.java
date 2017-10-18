@@ -14,7 +14,7 @@ import lib.network.model.NetworkError;
 import lib.ys.service.ServiceEx;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.network.NetworkAPISetter.DataAPI;
+import yy.doctor.network.NetworkApiDescriptor.DataAPI;
 import yy.doctor.util.CacheUtil;
 
 /**
