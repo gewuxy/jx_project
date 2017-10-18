@@ -14,7 +14,7 @@ import android.widget.TextView;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPIDescriptor.YaYaAuthorizeLoginAPI;
+import jx.csp.network.NetworkApiDescriptor.YaYaAuthorizeLoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;

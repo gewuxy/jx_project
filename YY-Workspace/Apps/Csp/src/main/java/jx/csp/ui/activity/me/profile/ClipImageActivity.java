@@ -13,7 +13,7 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.model.me.UpHeadImage;
 import jx.csp.model.me.UpHeadImage.TUpHeadImage;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPIDescriptor.UserAPI;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;

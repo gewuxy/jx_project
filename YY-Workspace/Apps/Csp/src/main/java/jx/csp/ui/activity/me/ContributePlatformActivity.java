@@ -12,7 +12,7 @@ import jx.csp.dialog.PlatformDialog;
 import jx.csp.model.contribute.Platform;
 import jx.csp.model.contribute.Platform.TPlatformDetail;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkAPIDescriptor.DeliveryAPI;
+import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;

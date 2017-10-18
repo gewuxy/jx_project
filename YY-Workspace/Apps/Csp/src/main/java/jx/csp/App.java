@@ -8,7 +8,7 @@ import com.mob.MobSDK;
 import java.util.Locale;
 
 import jx.csp.network.NetFactory;
-import jx.csp.network.NetworkAPIDescriptor;
+import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
 import jx.csp.util.CacheUtil;
 import lib.jg.JAnalyticsStats;
@@ -100,7 +100,7 @@ public class App extends BaseApp {
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
-        NetworkAPIDescriptor.setDebuggable(BuildConfig.DEBUG_NETWORK);
+        NetworkApiDescriptor.setDebuggable(BuildConfig.DEBUG_NETWORK);
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
