@@ -68,7 +68,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_phone)
                 .name(R.string.account_phone)
                 .drawable(R.drawable.form_ic_account_phone)
-                .text(Profile.inst().getString(TProfile.phone))
+                .text(Profile.inst().getString(TProfile.mobile))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -131,7 +131,7 @@ public class AccountManageActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_phone: {
-                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.phone))) {
+                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.mobile))) {
                     startActivity(BindPhoneActivity.class);
                 } else {
                     // 已绑定
@@ -278,7 +278,7 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_phone: {
-                unBindUpdate(r, RelatedId.bind_phone, TProfile.phone);
+                unBindUpdate(r, RelatedId.bind_phone, TProfile.mobile);
             }
             break;
             case RelatedId.bind_email: {

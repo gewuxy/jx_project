@@ -2,7 +2,6 @@ package jx.csp.ui.activity.me;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
-import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -23,6 +22,7 @@ import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.EmailLoginActivity;
+import jx.csp.ui.activity.me.set.BindEmailJumpActivity;
 import jx.csp.ui.activity.me.set.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
@@ -30,6 +30,7 @@ import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -64,8 +65,9 @@ public class SettingsActivity extends BaseFormActivity {
         super.initData();
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text_intent_me)
+        addItem(Form.create(FormType.text)
                 .related(RelatedId.change_password)
+                .layout(R.layout.form_text_me)
                 .drawable(R.drawable.form_ic_setting_lock)
                 .name(R.string.setting_change_pwd));
 
@@ -98,7 +100,6 @@ public class SettingsActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
         setOnClickListener(R.id.setting_tv_exit_account);
-        Log.d("token : ", Profile.inst().getString(TProfile.token));
     }
 
     @Override
@@ -116,13 +117,12 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.change_password: {
-                // FIXME: 2017/9/25 修改密码的判断
-//                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
-//                    startActivity(BindEmailJumpActivity.class);
-//                }else {
-//                    //已绑定邮箱,直接跳转到修改页面
+                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
+                    startActivity(BindEmailJumpActivity.class);
+                } else {
+                    //已绑定邮箱,直接跳转到修改页面
                     startActivity(ChangePwdActivity.class);
-//                }
+                }
             }
             break;
             case RelatedId.clear_img_cache: {

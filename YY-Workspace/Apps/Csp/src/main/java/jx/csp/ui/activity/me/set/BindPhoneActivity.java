@@ -123,7 +123,7 @@ public class BindPhoneActivity extends BaseSetActivity {
         switch ((int) related) {
             case RelatedId.captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-                    if (getPhone().equals(Profile.inst().getString(TProfile.phone))) {
+                    if (getPhone().equals(Profile.inst().getString(TProfile.mobile))) {
                         showToast(R.string.account_is_bind);
                         return;
                     }
@@ -178,7 +178,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                 item.start();
                 showToast(R.string.account_send_captcha);
             } else {
-                Profile.inst().put(TProfile.phone, getPhone());
+                Profile.inst().put(TProfile.mobile, getPhone());
                 Profile.inst().saveToSp();
 
                 notify(NotifyType.bind_phone, getPhone());
