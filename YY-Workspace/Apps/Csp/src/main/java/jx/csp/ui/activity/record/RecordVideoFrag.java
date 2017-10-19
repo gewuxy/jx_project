@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
 import lib.ys.ui.other.NavBar;
@@ -16,13 +18,15 @@ import lib.yy.ui.frag.base.BaseFrag;
  * @author CaiXiang
  * @since 2017/10/16
  */
-
+@Route
 public class RecordVideoFrag extends BaseFrag {
 
     private PLVideoTextureView mTextureView;
     private ImageView mIvPlay;
     private ImageView mIvBg;
-    private String mVideoUrl = "http://139.199.170.178/course/14078/video/17062416023914941915.mp4";
+
+    @Arg(opt = true)
+    String mVideoUrl;   // http://139.199.170.178/course/14078/video/17062416023914941915.mp4
 
     @Override
     public void initData() {
@@ -54,6 +58,7 @@ public class RecordVideoFrag extends BaseFrag {
     public void onClick(View v) {
         goneView(mIvPlay);
         goneView(mIvBg);
+        showView(mTextureView);
         AVOptions options = new AVOptions();
         options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
         mTextureView.setAVOptions(options);
@@ -73,6 +78,7 @@ public class RecordVideoFrag extends BaseFrag {
             mTextureView.stopPlayback();
             showView(mIvPlay);
             showView(mIvBg);
+            goneView(mTextureView);
         }
     }
 

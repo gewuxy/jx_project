@@ -15,6 +15,7 @@ import inject.annotation.network.method.Upload;
         host = "https://app.medyaya.cn/api/",
         hostDebuggable = "http://59.111.90.245:8084/api/"
 //        hostDebuggable = "http://10.0.0.234:8080/api/"   //礼平电脑
+//        hostDebuggable = "http://10.0.0.250:8081/api/"   //轩哥电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 
 )
@@ -192,6 +193,46 @@ public class NetworkApi {
     interface YaYaAuthorizeLogin {
         @Post("oauth/app/authorize")
         void yayaLogin(String username, String password);
+    }
+
+    @Api("meeting")
+    interface Meeting {
+
+        /**
+         * 进入会议
+         *
+         * @param courseId
+         */
+        @Get("join")
+        void join(String courseId);
+
+        /**
+         * 同步指令
+         *
+         * @param courseId
+         * @param pageNum
+         * @param audioUrl
+         */
+        @Post("sync")
+        void sync(@Query (opt = true) String courseId,
+                  @Query (opt = true) int pageNum,
+                  @Query (opt = true) String audioUrl);
+
+        /**
+         * 上传音频
+         *
+         * @param courseId
+         * @param detailId
+         * @param playType
+         * @param pageNum
+         * @param file
+         */
+        @Upload("upload")
+        void uploadAudio(@Query (opt = true) String courseId,
+                         @Query (opt = true) String detailId,
+                         @Query (opt = true) int playType,
+                         @Query (opt = true) int pageNum,
+                         @Query (opt = true) byte[] file);
     }
 
     @Api()

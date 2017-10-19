@@ -13,8 +13,10 @@
 
         <com.pili.pldroid.player.widget.PLVideoTextureView
             android:id="@+id/frag_record_video_texture_view"
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/frag_record_video_iv_bg"

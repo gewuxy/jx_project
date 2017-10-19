@@ -11,16 +11,34 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
+import jx.csp.model.meeting.Course;
+import jx.csp.model.meeting.CourseDetail;
+import jx.csp.model.meeting.CourseDetail.TCourseDetail;
+import jx.csp.model.meeting.JoinMeeting;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
+import lib.network.model.NetworkReq;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
 import lib.yy.ui.activity.base.BaseVPActivity;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
 
 /**
  * 录音页面
@@ -31,7 +49,11 @@ import lib.yy.ui.activity.base.BaseVPActivity;
 
 abstract public class BaseRecordActivity extends BaseVPActivity implements OnPageChangeListener {
 
+    protected static final int KWebSocketCloseNormal = 1000; //  1000表示正常关闭
     protected final int KMicroPermissionCode = 10;
+    protected final int KJoinMeetingReqId = 10;
+    protected final int KSyncReqId = 20;
+    protected final int KUploadAudioReqId = 30;
     protected final String KAudioSuffix = ".amr";
     private final int KOne = 1;
     private final int KVpSize = 2; // Vp缓存的数量
@@ -54,6 +76,14 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
 
     private float mLastOffset;
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
+
+    protected JoinMeeting mJoinMeeting; // 全部数据
+    protected Course mCourseMsg;
+    protected ArrayList<CourseDetail> mCourseDetailList;
+
+    protected WebSocket mWebSocket;
+    protected boolean mWsSuccess = false; // WebSocket连接是否成功
+    protected String mWebSocketUrl; // WebSocket地址
 
     @IntDef({
             FragType.img,
@@ -105,7 +135,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     public void setViews() {
         super.setViews();
 
-        mTvTotalPage.setText("20");
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
         getViewPager().setPageMargin(fitDp(27));
@@ -126,7 +155,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
             }
             break;
             case R.id.record_iv_next: {
-                if (getCurrentItem() >= 19) {
+                if (getCurrentItem() >= (mCourseDetailList.size() - KOne)) {
                     showToast(R.string.last_page);
                     return;
                 }
@@ -148,6 +177,9 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        if (mWebSocket != null) {
+            mWebSocket.close(KWebSocketCloseNormal, "close");
+        }
     }
 
     @Override
@@ -155,7 +187,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         int realPosition;
         float realOffset;
         int nextPosition;
-        YSLog.d("www", "positionOffset  = " + positionOffset);
         if (mLastOffset > positionOffset) {
             realPosition = position + KOne;
             nextPosition = position;
@@ -222,6 +253,85 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         float scale = KOne + KVpScale * offset;
         view.setScaleX(scale);
         view.setScaleY(scale);
+    }
+
+    /**
+     * 上传音频文件
+     * @param courseId
+     * @param page
+     * @param type
+     */
+    protected void uploadAudioFile(String courseId, int page, int type) {
+        String audioFilePath = CacheUtil.getAudioCacheDir() + "/" + courseId + "/" + (page + 1) + KAudioSuffix;
+        File file = new File(audioFilePath);
+        if (file.exists()) {
+            byte[] bytes = FileUtil.fileToBytes(audioFilePath);
+            YSLog.d(TAG, "bytes = " + bytes.length);
+            exeNetworkReq(KUploadAudioReqId, MeetingAPI.uploadAudio()
+                    .courseId(courseId)
+                    .detailId(mCourseDetailList.get(page).getString(TCourseDetail.id))
+                    .pageNum(page)
+                    .playType(type)
+                    .file(bytes)
+                    .build());
+        }
+    }
+
+    public class WebSocketLink extends WebSocketListener {
+
+        @Override
+        public void onOpen(WebSocket webSocket, Response response) {
+            YSLog.d(TAG, "onOpen:" + response.message());
+            mWsSuccess = true; // 连接成功
+        }
+
+        @Override
+        public void onMessage(WebSocket webSocket, String text) {
+            YSLog.d(TAG, "onMessage:String" + text);
+            runOnUIThread(() -> {
+                try {
+                    JSONObject ob = new JSONObject(text);
+                    int order = ob.getInt("order");
+                    if (order == 1) {
+                        setCurrentItem(ob.getInt("pageNum"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        @Override
+        public void onMessage(WebSocket webSocket, ByteString bytes) {
+            YSLog.d(TAG, "onMessage:ByteString" + bytes);
+        }
+
+        @Override
+        public void onClosing(WebSocket webSocket, int code, String reason) {
+            YSLog.d(TAG, "onClosing:" + reason);
+        }
+
+        @Override
+        public void onClosed(WebSocket webSocket, int code, String reason) {
+            YSLog.d(TAG, "onClosed:" + reason);
+        }
+
+        @Override
+        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            YSLog.d(TAG, "onFailure:");
+            // 2秒后重连
+            if (isFinishing()) {
+                return;
+            }
+            // 没退出继续发任务
+            runOnUIThread(() -> {
+                if (isFinishing() || Util.noNetwork()) {
+                    return;
+                }
+                // 没退出继续重连
+                mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWebSocketUrl).build(), new WebSocketLink());
+            }, TimeUnit.SECONDS.toMillis(2));
+        }
     }
 
 }

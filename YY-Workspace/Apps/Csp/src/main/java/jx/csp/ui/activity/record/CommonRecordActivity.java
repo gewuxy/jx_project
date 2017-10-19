@@ -9,17 +9,29 @@ import android.widget.TextView;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 
 import jx.csp.R;
 import jx.csp.dialog.HintDialog;
+import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.TCourse;
+import jx.csp.model.meeting.CourseDetail;
+import jx.csp.model.meeting.CourseDetail.TCourseDetail;
+import jx.csp.model.meeting.JoinMeeting;
+import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
-import jx.csp.ui.activity.record.RecordImgFrag.onMediaPlayerListener;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
 import lib.ys.util.FileUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.yy.network.Result;
 
 /**
  * 普通的录制
@@ -35,7 +47,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
-    protected String mMeetingId;  // 会议id
+    protected String mCourseId = "14379";  // 会议id
 
     @IntDef({
             ScrollType.last,
@@ -50,17 +62,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     @Override
     public void initData() {
         //创建文件夹存放音频
-        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + "/" + mMeetingId);
+        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + "/" + mCourseId);
         mRecordPresenter = new CommonRecordPresenterImpl(this);
-        // 测试数据
-        for (int i = 0; i < 20; ++i) {
-            RecordImgFrag frag = RecordImgFragRouter
-                    .create()
-                    .audioFilePath(CacheUtil.getAudioCacheDir() + "/" + mMeetingId + "/" + (i + 1) + KAudioSuffix)
-                    .route();
-            frag.setPlayerListener((onMediaPlayerListener) mRecordPresenter);
-            add(frag);
-        }
     }
 
     @Override
@@ -81,6 +84,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         mAnimationRecord = (AnimationDrawable) mIvVoiceState.getDrawable();
         setOnClickListener(R.id.record_iv_state);
         mGestureView.setGestureViewListener(this);
+
+        //请求网络
+        exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(mCourseId).build());
     }
 
     @Override
@@ -90,7 +96,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
             } else {
-                String filePath = CacheUtil.getAudioCacheDir() + "/" + mMeetingId + "/" + (getCurrentItem() + 1) + KAudioSuffix;
+                String filePath = CacheUtil.getAudioCacheDir() + "/" + mCourseId + "/" + (getCurrentItem() + 1) + KAudioSuffix;
                 // 判断这页是否已经录制过
                 if ((new File(filePath)).exists() && SpUser.inst().showRecordAgainDialog()) {
                     showRecordAgainDialog(filePath);
@@ -110,6 +116,14 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         super.onPageSelected(position);
         //切换页面的时候如果在播放要停止
         mRecordPresenter.stopPlay();
+        // 如果页面是视频页 要录音状态图片要变且不能点击
+        if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
+            mIvRecordState.setImageResource(R.drawable.selector_record_state);
+            mIvRecordState.setClickable(true);
+        } else {
+            mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
+            mIvRecordState.setClickable(false);
+        }
     }
 
     @Override
@@ -167,6 +181,58 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     }
 
     @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        if (id == KJoinMeetingReqId) {
+            return JsonParser.ev(r.getText(), JoinMeeting.class);
+        } else {
+            return super.onNetworkResponse(id, r);
+        }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (id == KJoinMeetingReqId) {
+            Result<JoinMeeting> r = (Result<JoinMeeting>) result;
+            if (r.isSucceed()) {
+                mJoinMeeting = r.getData();
+                mWebSocketUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
+                mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+                mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
+                for (int i = 0; i < mCourseDetailList.size(); ++i) {
+                    CourseDetail courseDetail = mCourseDetailList.get(i);
+                    // 判断是视频还是图片
+                    if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
+                        RecordImgFrag frag = RecordImgFragRouter
+                                .create()
+                                .audioFilePath(CacheUtil.getAudioCacheDir() + "/" + mCourseId + "/" + (i + 1) + KAudioSuffix)
+                                .url(courseDetail.getString(TCourseDetail.imgUrl))
+                                .route();
+                        frag.setPlayerListener(mRecordPresenter);
+                        add(frag);
+                    } else {
+                        add(RecordVideoFragRouter
+                                .create()
+                                .videoUrl(courseDetail.getString(TCourseDetail.videoUrl))
+                                .route());
+                    }
+                }
+                // 判断第一页是不是视频
+                if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
+                    mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
+                    mIvRecordState.setClickable(false);
+                }
+                invalidate();
+                // 链接websocket
+                if (TextUtil.isNotEmpty(mWebSocketUrl)) {
+                    mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWebSocketUrl).build(), new WebSocketLink());
+                }
+            }
+        } else {
+            super.onNetworkSuccess(id, result);
+        }
+    }
+
+    @Override
     public void setTotalRecordTimeTv(String str) {
         mTvNavBar.setText(str);
     }
@@ -190,6 +256,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         mTvRecordState.setText("");
         getViewPager().setScrollable(true);
         goneView(mGestureView);
+        // 停止录音的时候上传音频文件
+        uploadAudioFile(mCourseId, getCurrentItem(), PlayType.reb);
     }
 
     @Override

@@ -33,9 +33,12 @@ public class RecordImgFrag extends BaseFrag {
     private boolean mAnimationState = false; // 动画状态
     private onMediaPlayerListener mListener;
 
-    //用来判断录播时，音频文件是否已经存在
+    // 录播时，判断音频文件是否已经存在
     @Arg(opt = true)
     String mAudioFilePath;
+
+    @Arg(opt = true)
+    String mUrl;
 
     @Override
     public void initData() {
@@ -63,6 +66,7 @@ public class RecordImgFrag extends BaseFrag {
         setOnClickListener(R.id.frag_record_audio_layout);
         mIv.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fitDp(5)))
+                .url(mUrl)
                 .load();
         mAnimation = (AnimationDrawable) mIvAudio.getBackground();
         //判断音频文件是否存在
