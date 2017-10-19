@@ -46,10 +46,9 @@ public class CommonServ extends ServiceEx{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
         switch (mType) {
             case ReqType.logout: {
-                exeNetworkReq(mType, LoginAPI.logOut(mToken).build());
+                exeNetworkReq(mType, LoginAPI.logout().build());
             }
             break;
             case ReqType.j_push: {

@@ -212,7 +212,7 @@ public class AccountManageActivity extends BaseFormActivity {
 //                            .thirdPartyId(RelatedId.bind_facebook)
 //                            .uniqueId(Profile.inst().getString(TProfile.id))
 //                            .nickName(Profile.inst().getString(TProfile.userName))
-//                            .headimg(Profile.inst().getString(TProfile.headimg))
+//                            .avatar(Profile.inst().getString(TProfile.avatar))
 //                            .gender(Profile.inst().getString(TProfile.gender))
 //                            .build());
                 } else {

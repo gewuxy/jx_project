@@ -48,11 +48,11 @@ public class NetworkApi {
         /**
          * 修改密码
          *
-         * @param old_pwd 旧密码
-         * @param new_pwd 新密码
+         * @param oldPwd 旧密码
+         * @param newPwd 新密码
          */
         @Post("user/resetPwd")
-        void changePwd(String old_pwd, String new_pwd);
+        void changePwd(String oldPwd, String newPwd);
 
         /**
          * 绑定邮箱
@@ -74,7 +74,7 @@ public class NetworkApi {
         /**
          * 解绑邮箱或手机
          *
-         * @param type 0代表邮箱，1代表手机
+         * @param type 6代表手机, 7代表邮箱
          */
         @Post("user/unbind")
         void unBind(int type);
@@ -208,10 +208,10 @@ public class NetworkApi {
         /**
          * 退出登录
          *
-         * @param token
          */
         @Post("user/logout")
-        void logOut(String token);
+//        @Retry(count = 5, delay = 1000)
+        void logout();
     }
 
     /**

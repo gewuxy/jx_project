@@ -111,7 +111,7 @@ public class MeActivity extends BaseFormActivity {
 
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
-                .url(Profile.inst().getString(TProfile.headimg))
+                .url(Profile.inst().getString(TProfile.avatar))
                 .load();
         mTvName.setText(Profile.inst().getString(TProfile.nickName));
         mTvEmail.setText(Profile.inst().getString(TProfile.email));
@@ -160,7 +160,7 @@ public class MeActivity extends BaseFormActivity {
         if (type == NotifyType.profile_change) {
             mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                     .renderer(new CircleRenderer())
-                    .url(Profile.inst().getString(TProfile.headimg))
+                    .url(Profile.inst().getString(TProfile.avatar))
                     .load();
 
             mTvName.setText(Profile.inst().getString(TProfile.nickName));

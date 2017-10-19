@@ -108,7 +108,7 @@ public class ClipImageActivity extends BaseActivity {
 
             UpHeadImage upHeadImage = r.getData();
             //头像路径保存到本地
-            Profile.inst().update(Profile.inst().put(TProfile.headimg, upHeadImage.getString(TUpHeadImage.url)));
+            Profile.inst().update(Profile.inst().put(TProfile.avatar, upHeadImage.getString(TUpHeadImage.url)));
             Profile.inst().saveToSp();
 
             setResult(RESULT_OK, getIntent());

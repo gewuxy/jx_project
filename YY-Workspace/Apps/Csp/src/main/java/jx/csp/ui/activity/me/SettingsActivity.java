@@ -2,6 +2,7 @@ package jx.csp.ui.activity.me;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -97,6 +98,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void setViews() {
         super.setViews();
         setOnClickListener(R.id.setting_tv_exit_account);
+        Log.d("token : ", Profile.inst().getString(TProfile.token));
     }
 
     @Override
@@ -189,7 +191,7 @@ public class SettingsActivity extends BaseFormActivity {
         d.addBlackButton(getString(R.string.setting_exit), v -> {
             CommonServRouter.create()
                     .type(ReqType.logout)
-                    .token(Profile.inst().getString(TProfile.token))
+//                    .token(Profile.inst().getString(TProfile.token))
                     .route(this);
 
             notify(NotifyType.logout);

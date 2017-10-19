@@ -119,7 +119,7 @@ public class ProfileActivity extends BaseFormActivity {
         mLayoutHeader.setOnClickListener(this);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
-                .url(Profile.inst().getString(TProfile.headimg))
+                .url(Profile.inst().getString(TProfile.avatar))
                 .load();
     }
 
