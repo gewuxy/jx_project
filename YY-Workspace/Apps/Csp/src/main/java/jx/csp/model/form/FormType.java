@@ -12,7 +12,6 @@ import java.lang.annotation.RetentionPolicy;
 @IntDef({
         FormType.text,
         FormType.text_intent,
-        FormType.text_intent_me,
         FormType.text_intent_bind,
 
         FormType.divider_margin,
@@ -28,7 +27,6 @@ import java.lang.annotation.RetentionPolicy;
 public @interface FormType {
     int text = 0;
     int text_intent = 1;
-    int text_intent_me = 2;
     int text_intent_bind = 3;
     int text_clear_cache = 4;
 

@@ -15,6 +15,8 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
+ * 帮助与反馈
+ *
  * @auther Huoxuyu
  * @since 2017/10/16
  */
@@ -22,7 +24,11 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @IntDef({
-
+            RelatedId.update_log,
+            RelatedId.service_agreement,
+            RelatedId.help,
+            RelatedId.opinion_feedback,
+            RelatedId.about_us,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
@@ -75,7 +81,6 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     @Override
     public void setViews() {
         super.setViews();
-
     }
 
     @Override

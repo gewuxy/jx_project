@@ -169,13 +169,13 @@
     <string name="account_bind_phone">绑定手机</string>
     <string name="account_is_bind">该手机号已绑定</string>
     <string name="account_send_captcha">已发送验证码</string>
-    <string name="account_unbind_email">是否解除绑定邮箱</string>
-    <string name="account_unbind_phone">是否解除手机号码</string>
-    <string name="account_unbind_wx">是否解除绑定微信号</string>
-    <string name="account_unbind_sina">是否解除绑定新浪微博</string>
-    <string name="account_unbind_facebook">是否解除绑定Facebook</string>
-    <string name="account_unbind_twitter">是否解除绑定Twitter</string>
-    <string name="account_unbind_yaya">是否解除绑定YaYa医师</string>
+    <string name="account_unbind_email">是否解绑邮箱</string>
+    <string name="account_unbind_phone">是否解绑手机号</string>
+    <string name="account_unbind_wx">是否解绑微信号</string>
+    <string name="account_unbind_sina">是否解绑新浪微博</string>
+    <string name="account_unbind_facebook">是否解绑Facebook</string>
+    <string name="account_unbind_twitter">是否解绑Twitter</string>
+    <string name="account_unbind_yaya">是否解绑YaYa医师</string>
 
     <!-- 投稿 -->
     <string name="contribute_platform">投稿平台</string>

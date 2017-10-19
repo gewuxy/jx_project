@@ -1,7 +1,5 @@
 package jx.csp.model.form;
 
-import jx.csp.model.form.text.ClearCacheForm;
-import lib.yy.model.form.BaseForm;
 import jx.csp.model.form.divider.DividerForm;
 import jx.csp.model.form.divider.DividerLargeForm;
 import jx.csp.model.form.divider.DividerMarginForm;
@@ -10,9 +8,10 @@ import jx.csp.model.form.edit.EditForm;
 import jx.csp.model.form.edit.EditPhoneNumberForm;
 import jx.csp.model.form.edit.EditPwdForm;
 import jx.csp.model.form.text.BindForm;
+import jx.csp.model.form.text.ClearCacheForm;
 import jx.csp.model.form.text.IntentForm;
-import jx.csp.model.form.text.MeForm;
 import jx.csp.model.form.text.TextForm;
+import lib.yy.model.form.BaseForm;
 
 /**
  * @auther HuoXuYu
@@ -34,10 +33,6 @@ public class Form {
             break;
             case FormType.text_intent: {
                 form = new IntentForm();
-            }
-            break;
-            case FormType.text_intent_me: {
-                form = new MeForm();
             }
             break;
             case FormType.text_intent_bind: {

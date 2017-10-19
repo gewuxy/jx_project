@@ -55,32 +55,37 @@ public class MeActivity extends BaseFormActivity {
         super.initData();
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text_intent_me)
+        addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_history)
+                .layout(R.layout.form_text_me)
                 .name(R.string.person_center_history)
                 .related(RelatedId.history));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_intent_me)
+        addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_flow)
+                .layout(R.layout.form_text_me)
                 .name(R.string.person_center_flow_manage)
                 .related(RelatedId.flow));
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text_intent_me)
+        addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_account)
+                .layout(R.layout.form_text_me)
                 .name(R.string.person_center_account_manage)
                 .related(RelatedId.account));
 
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_intent_me)
+        addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_setting)
+                .layout(R.layout.form_text_me)
                 .name(R.string.setting)
                 .related(RelatedId.setting));
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text_intent_me)
+        addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_help_and_feedback)
+                .layout(R.layout.form_text_me)
                 .name(R.string.person_center_help_and_feedback)
                 .related(RelatedId.help_and_feedback));
     }

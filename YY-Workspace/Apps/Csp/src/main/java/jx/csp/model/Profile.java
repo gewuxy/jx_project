@@ -17,17 +17,17 @@ public class Profile extends EVal<TProfile> implements ISingleton {
     public enum TProfile {
         token,      // 会话令牌
         id,
-        avatar,    //头像
+        avatar,     //头像
         userName,   //姓名
         gender,     //性别
         info,       //个人简介
         email,      //邮箱
-        phone,      //手机
+        mobile,     //手机
         wx,         //微信
         sina,       //新浪
         facebook,
         twitter,
-        jingxin,       //敬信数字平台
+        jingxin,    //敬信数字平台
         nickName,   //昵称
 
         @Init(asInt = 0)
