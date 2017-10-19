@@ -3,7 +3,6 @@ package jx.csp.ui.activity.main;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import jx.csp.R;
 import jx.csp.ui.activity.me.MeActivity;
@@ -19,8 +18,9 @@ import lib.yy.ui.activity.base.BaseVPActivity;
 public class MainActivity extends BaseVPActivity {
 
 
-    private RelativeLayout mRl;
+    private View mLayout;
     private ImageView mIvShift;
+    private ImageView mIvScan;
     private boolean mFlag ;
 
     @Override
@@ -46,10 +46,10 @@ public class MainActivity extends BaseVPActivity {
             mFlag = !mFlag;
             if (mFlag) {
                 setCurrentItem(0);
-                mRl.setVisibility(View.GONE);
+                goneView(mLayout);
             } else {
                 setCurrentItem(1);
-                mRl.setVisibility(View.VISIBLE);
+                showView(mLayout);
             }
         });
         mIvShift = Util.getBarView(group,ImageView.class);
@@ -58,7 +58,8 @@ public class MainActivity extends BaseVPActivity {
     @Override
     public void findViews() {
         super.findViews();
-        mRl = findView(R.id.layout_main_slide);
+        mLayout = findView(R.id.layout_main_slide);
+        mIvScan = findView(R.id.main_scan);
     }
 
     @Override

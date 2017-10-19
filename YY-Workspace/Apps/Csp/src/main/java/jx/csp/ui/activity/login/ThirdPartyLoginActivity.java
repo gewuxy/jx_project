@@ -5,7 +5,6 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
-import jx.csp.ui.activity.TestActivity;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseActivity;
 
@@ -93,9 +92,10 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             break;
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(TestActivity.class);
+                showToast("没有文案，先酱紫，哈哈");
             }
             break;
         }
+        finish();
     }
 }

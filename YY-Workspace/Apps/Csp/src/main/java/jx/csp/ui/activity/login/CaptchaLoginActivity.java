@@ -23,7 +23,6 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.TestActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
@@ -128,7 +127,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         switch (v.getId()) {
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(TestActivity.class);
+                showToast("没有文案，先酱紫，哈哈");
             }
             break;
         }
@@ -190,19 +189,12 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             if (r.isSucceed()) {
                 SpApp.inst().saveUserMobile(mEtPhoneNumber.getText().toString());
                 Profile.inst().update(r.getData());
-                Profile.inst().put(TProfile.phone, getPhone());
-                Profile.inst().saveToSp();
                 SpUser.inst().updateProfileRefreshTime();
-
-                //保存到本地
-                Profile.inst().put(TProfile.phone,getPhone());
-                Profile.inst().saveToSp();
 
                 Profile data = r.getData();
 
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
-                        setResult(RESULT_OK);
                         startActivity(MainActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);

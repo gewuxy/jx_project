@@ -12,14 +12,12 @@ import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.TestActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
@@ -118,7 +116,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
             break;
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(TestActivity.class);
+                showToast("没有文案，先酱紫，哈哈");
             }
             break;
         }
@@ -144,10 +142,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
-
-            //保存到本地
-            Profile.inst().put(TProfile.email, getEmail());
-            Profile.inst().saveToSp();
             startActivity(MainActivity.class);
             finish();
         } else {

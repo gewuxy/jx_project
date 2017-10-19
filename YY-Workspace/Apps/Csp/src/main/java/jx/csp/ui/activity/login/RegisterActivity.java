@@ -17,7 +17,7 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -98,7 +98,7 @@ public class RegisterActivity extends BaseLoginActivity {
         switch (v.getId()) {
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(TestActivity.class);
+                showToast("没有文案，先酱紫，哈哈");
             }
             break;
         }
@@ -140,17 +140,15 @@ public class RegisterActivity extends BaseLoginActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         if (id == KIdLogin) {
             //登录
-            stopRefresh();
-
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
                 SpUser.inst().updateProfileRefreshTime();
                 notify(NotifyType.login);
-                //Fixme:跳到首页，目前还没有
-                startActivity(TestActivity.class);
+                startActivity(MainActivity.class);
                 finish();
             } else {
                 onNetworkError(id, r.getError());
@@ -158,7 +156,6 @@ public class RegisterActivity extends BaseLoginActivity {
             }
         } else if (id == KIdRegister) {
             //注册
-            stopRefresh();
             Result r = (Result) result;
             if (r.getCode() == KReturnCode) {
                 HintDialogMain d = new HintDialogMain(this);

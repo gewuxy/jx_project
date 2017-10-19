@@ -12,11 +12,11 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
 import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
+import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -86,7 +86,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         switch (v.getId()) {
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(TestActivity.class);
+                showToast("没有文案，先酱紫，哈哈");
             }
             break;
         }
@@ -100,19 +100,17 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return super.onNetworkResponse(id, r);
+        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Result r = (Result) result;
+        Result<Profile> r = (Result) result;
         if (r.isSucceed()) {
             stopRefresh();
             //保存到本地
-            Profile.inst().put(TProfile.nickName,getNickName());
-            Profile.inst().saveToSp();
-            //Fixme:跳到首页，目前还没有
-            startActivity(TestActivity.class);
+            Profile.inst().update(r.getData());
+            startActivity(MainActivity.class);
         }else {
             onNetworkError(id,r.getError());
         }
