@@ -14,7 +14,7 @@ import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.LoginAPI;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
@@ -126,7 +126,7 @@ public class RegisterActivity extends BaseLoginActivity {
         }
 
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdRegister, LoginAPI.register(getEmail(), getUserPwd(), getNickname()).build());
+        exeNetworkReq(KIdRegister, UserAPI.register(getEmail(), getUserPwd(), getNickname()).build());
     }
 
     @Override

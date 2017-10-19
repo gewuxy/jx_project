@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.LoginAPI;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -48,7 +48,7 @@ public class CommonServ extends ServiceEx{
     protected void onHandleIntent(@Nullable Intent intent) {
         switch (mType) {
             case ReqType.logout: {
-                exeNetworkReq(mType, LoginAPI.logout().build());
+                exeNetworkReq(mType, UserAPI.logout().build());
             }
             break;
             case ReqType.j_push: {

@@ -29,6 +29,17 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
+    private static CommonPair newPair(String key, Object value) {
+        return new CommonPair(key, value);
+    }
+
+    public interface CommonParam {
+        String KOSVersion = "os_version";
+        String KDevice = "os_type";
+        String KAppVersion = "app_version";
+        String KToken = "token";
+    }
+
     public static List<CommonPair> getBaseHeader() {
         List<CommonPair> ps = new ArrayList<>();
 
@@ -41,30 +52,4 @@ public class NetFactory {
         }
         return ps;
     }
-
-    private static CommonPair newPair(String key, Object value) {
-        return new CommonPair(key, value);
-    }
-
-    public interface CommonParam {
-        String KOSVersion = "os_version";
-        String KDevice = "os_type";
-        String KAppVersion = "app_version";
-        String KToken = "token";
-    }
-
-    public interface LoginParam {
-        String KUseName = "username";
-        String KPwd = "password";
-    }
-
-    public static NetworkReq yayaAuthorize(String username, String password) {
-        return NetworkReq.newBuilder(UrlUtil.getYaYaLogin())
-                .post()
-                .header(getBaseHeader())
-                .param(LoginParam.KUseName, username)
-                .param(LoginParam.KPwd, password)
-                .build();
-    }
-
 }

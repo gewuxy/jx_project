@@ -15,7 +15,7 @@ import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.LoginAPI;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
@@ -126,7 +126,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
     protected void toSet() {
         refresh(RefreshWay.dialog);
         //Fixme:原来登录请求还有个packageUtil,什么鬼
-        exeNetworkReq(LoginAPI.login(LoginType.email_login).email(getEmail()).password(getUserPwd()).build());
+        exeNetworkReq(UserAPI.login(LoginType.email_login).email(getEmail()).password(getUserPwd()).build());
     }
 
     @Override
@@ -166,7 +166,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
             if (mCount == 8) {
                 mCount = 1;
             }
-        }else {
+        } else {
             showToast(error.getMessage());
         }
     }

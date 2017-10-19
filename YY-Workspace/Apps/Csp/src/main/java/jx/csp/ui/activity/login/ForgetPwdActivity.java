@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.network.NetworkApiDescriptor.LoginAPI;
+import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.util.Util;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
@@ -65,7 +65,7 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(LoginAPI.findPwd(getEmail()).build());
+        exeNetworkReq(CommonAPI.findPwd(getEmail()).build());
     }
 
     @Override

@@ -19,7 +19,6 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.model.form.edit.EditCaptchaForm;
-import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -152,7 +151,7 @@ public class BindPhoneActivity extends BaseSetActivity {
 //                                mCount = 1;
 //                            }
 //                        }
-                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), CaptchaType.re_fetch).build());
+                        exeNetworkReq(KIdCaptcha, UserAPI.sendCaptcha(getPhone(), CaptchaType.re_fetch).build());
                     });
                     dialog.show();
                 }

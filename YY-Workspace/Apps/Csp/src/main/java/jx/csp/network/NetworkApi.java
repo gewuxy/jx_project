@@ -2,6 +2,7 @@ package jx.csp.network;
 
 import inject.annotation.network.Api;
 import inject.annotation.network.Descriptor;
+import inject.annotation.network.Host;
 import inject.annotation.network.Query;
 import inject.annotation.network.method.Get;
 import inject.annotation.network.method.Post;
@@ -22,7 +23,7 @@ import inject.annotation.network.method.Upload;
 )
 public class NetworkApi {
 
-    @Api
+    @Api("user")
     interface User {
 
         /**
@@ -30,7 +31,7 @@ public class NetworkApi {
          *
          * @param file
          */
-        @Upload("user/updateAvatar")
+        @Upload("updateAvatar")
         void upload(byte[] file);
 
         /**
@@ -40,7 +41,7 @@ public class NetworkApi {
          * @param info
          * @param nickName
          */
-        @Post("user/updateInfo")
+        @Post("updateInfo")
         void modify(@Query(opt = true) String userName,
                     @Query(opt = true) String info,
                     @Query(opt = true) String nickName);
@@ -51,7 +52,7 @@ public class NetworkApi {
          * @param oldPwd 旧密码
          * @param newPwd 新密码
          */
-        @Post("user/resetPwd")
+        @Post("resetPwd")
         void changePwd(String oldPwd, String newPwd);
 
         /**
@@ -59,7 +60,7 @@ public class NetworkApi {
          *
          * @param email 用户名
          */
-        @Post("user/toBind/")
+        @Post("toBind/")
         void bindEmail(String email);
 
         /**
@@ -68,7 +69,7 @@ public class NetworkApi {
          * @param mobile  手机号
          * @param captcha 验证码
          */
-        @Post("user/bindMobile")
+        @Post("bindMobile")
         void bindPhone(String mobile, String captcha);
 
         /**
@@ -76,7 +77,7 @@ public class NetworkApi {
          *
          * @param type 6代表手机, 7代表邮箱
          */
-        @Post("user/unbind")
+        @Post("unbind")
         void unBind(int type);
 
         /**
@@ -88,64 +89,13 @@ public class NetworkApi {
          * @param gender       性别,解绑时无此参数
          * @param avatar       头像,解绑时无此参数
          */
-        @Post("user/changeBindStatus")
+        @Post("changeBindStatus")
         void bindAccountStatus(@Query(opt = true) String uniqueId,
                                @Query(opt = true) int thirdPartyId,
                                @Query(opt = true) String nickName,
                                @Query(opt = true) String gender,
                                @Query(opt = true) String avatar);
 
-    }
-
-    @Api()
-    interface Delivery {
-        /**
-         * 投稿历史
-         *
-         * @param pageNum
-         * @param pageSize
-         */
-        @Get("delivery/paginate")
-        void history(@Query(opt = true) int pageNum,
-                     @Query(opt = true) int pageSize,String token);
-
-        /**
-         * 投稿历史 指定单位号
-         * @param acceptId 接收者id
-         */
-        @Get("delivery/user/detail")
-        void historyDetail(int acceptId,String token);
-
-        /**
-         * 投稿
-         *
-         * @param acceptIds
-         * @param courseId
-         */
-        @Post("delivery/push")
-        void unitNum(String acceptIds, int courseId);
-
-        /**
-         * 可投稿的单位号
-         */
-        @Get("delivery/acceptors")
-        void contribute();
-    }
-
-    /**
-     * 广告页
-     */
-    @Api("advert")
-    interface Advert {
-        @Post("advert")
-        void advert();
-    }
-
-    /**
-     * 登录
-     */
-    @Api()
-    interface Login {
         /**
          * 登录，包括所有的登录
          *
@@ -163,7 +113,7 @@ public class NetworkApi {
          * @param district     地区
          * @param avatar       头像
          */
-        @Post("user/login")
+        @Post("login")
         void login(int thirdPartyId,
                    @Query(opt = true) String email,
                    @Query(opt = true) String password,
@@ -178,13 +128,17 @@ public class NetworkApi {
                    @Query(opt = true) String district,
                    @Query(opt = true) String avatar);
 
+        @Post("")
+        @Host("https://www.medcn.com/oauth/app/authorize")
+        void yayaLogin(String username, String password);
+
         /**
          * 获取验证码
          *
          * @param mobile 手机号码
          * @param type   验证码模板类型 0=登录 1=绑定
          */
-        @Post("user/sendCaptcha")
+        @Post("sendCaptcha")
         void sendCaptcha(String mobile, String type);
 
         /**
@@ -194,32 +148,69 @@ public class NetworkApi {
          * @param password 密码
          * @param nickName 昵称
          */
-        @Post("user/register")
+        @Post("register")
         void register(String email, String password, String nickName);
 
         /**
-         * 忘记密码
-         *
-         * @param email 邮箱
-         */
-        @Post("email/findPwd")
-        void findPwd(String email);
-
-        /**
          * 退出登录
-         *
          */
-        @Post("user/logout")
+        @Post("logout")
 //        @Retry(count = 5, delay = 1000)
         void logout();
+    }
+
+    @Api("delivery")
+    interface Delivery {
+        /**
+         * 投稿历史
+         *
+         * @param pageNum
+         * @param pageSize
+         */
+        @Get("paginate")
+        void history(@Query(opt = true) int pageNum,
+                     @Query(opt = true) int pageSize, String token);
+
+        /**
+         * 投稿历史 指定单位号
+         *
+         * @param acceptId 接收者id
+         */
+        @Get("user/detail")
+        void historyDetail(int acceptId, String token);
+
+        /**
+         * 投稿
+         *
+         * @param acceptIds
+         * @param courseId
+         */
+        @Post("push")
+        void unitNum(String acceptIds, int courseId);
+
+        /**
+         * 可投稿的单位号
+         */
+        @Get("acceptors")
+        void contribute();
+    }
+
+    /**
+     * 广告页
+     */
+    @Api("advert")
+    interface Advert {
+        @Post("advert")
+        void advert();
     }
 
     /**
      * yaya医师授权登录，url也不一样
      */
-    @Api()
+    @Api
     interface YaYaAuthorizeLogin {
-        @Post("oauth/app/authorize")
+        @Post("")
+        @Host("https://www.medcn.com/oauth/app/authorize")
         void yayaLogin(String username, String password);
     }
 
@@ -242,9 +233,9 @@ public class NetworkApi {
          * @param audioUrl
          */
         @Post("sync")
-        void sync(@Query (opt = true) String courseId,
-                  @Query (opt = true) int pageNum,
-                  @Query (opt = true) String audioUrl);
+        void sync(@Query(opt = true) String courseId,
+                  @Query(opt = true) int pageNum,
+                  @Query(opt = true) String audioUrl);
 
         /**
          * 上传音频
@@ -256,14 +247,14 @@ public class NetworkApi {
          * @param file
          */
         @Upload("upload")
-        void uploadAudio(@Query (opt = true) String courseId,
-                         @Query (opt = true) String detailId,
-                         @Query (opt = true) int playType,
-                         @Query (opt = true) int pageNum,
-                         @Query (opt = true) byte[] file);
+        void uploadAudio(@Query(opt = true) String courseId,
+                         @Query(opt = true) String detailId,
+                         @Query(opt = true) int playType,
+                         @Query(opt = true) int pageNum,
+                         @Query(opt = true) byte[] file);
     }
 
-    @Api()
+    @Api("charge")
     interface Pay {
 
         /**
@@ -272,7 +263,7 @@ public class NetworkApi {
          * @param flux    流量值
          * @param channel 支付方式,按照ping++文档channel属性值给
          */
-        @Post("charge/toCharge")
+        @Post("toCharge")
         void pingPay(int flux, String channel);
 
         /**
@@ -280,7 +271,7 @@ public class NetworkApi {
          *
          * @param flux 流量值
          */
-        @Post("charge/createOrder")
+        @Post("createOrder")
         void paypalPay(int flux);
 
         /**
@@ -289,9 +280,18 @@ public class NetworkApi {
          * @param paymentId 流量值
          * @param orderId   订单id
          */
-        @Post("charge/paypalCallback")
+        @Post("paypalCallback")
         void paypalPayResult(String paymentId, String orderId);
+    }
 
-
+    @Api
+    interface Common {
+        /**
+         * 忘记密码
+         *
+         * @param email 邮箱
+         */
+        @Post("email/findPwd")
+        void findPwd(String email);
     }
 }

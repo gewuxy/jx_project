@@ -20,7 +20,7 @@ import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.LoginAPI;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
@@ -148,7 +148,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                     dialog.addGrayButton(R.string.cancel);
                     dialog.addBlueButton(getString(R.string.well), v1 -> {
                         mCount++;
-                        YSLog.d("mCount:",mCount+"");
+                        YSLog.d("mCount:", mCount + "");
                         if (mCount == 1) {
                             mStartTime = System.currentTimeMillis();
                         }
@@ -161,7 +161,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                                 mCount = 1;
                             }
                         }
-                        exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), CaptchaType.fetch).build());
+                        exeNetworkReq(KIdCaptcha, UserAPI.sendCaptcha(getPhone(), CaptchaType.fetch).build());
                     });
                     dialog.show();
                 }
@@ -173,7 +173,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdLogin,LoginAPI.login(LoginType.phone_login).mobile(getPhone()).captcha(getCaptcha()).build());
+        exeNetworkReq(KIdLogin, UserAPI.login(LoginType.phone_login).mobile(getPhone()).captcha(getCaptcha()).build());
     }
 
     @Override
@@ -195,7 +195,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
-                        startActivity(MainActivity.class);
+                    startActivity(MainActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);
                 }
