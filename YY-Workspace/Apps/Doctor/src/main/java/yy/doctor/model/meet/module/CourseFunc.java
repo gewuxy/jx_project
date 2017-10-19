@@ -11,14 +11,15 @@ import lib.network.model.NetworkResp;
 import lib.yy.network.Result;
 import yy.doctor.App;
 import yy.doctor.R;
-import yy.doctor.model.meet.CourseInfo;
-import yy.doctor.model.meet.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.MeetDetail;
-import yy.doctor.model.meet.PPT;
-import yy.doctor.model.meet.PPT.TPPT;
+import yy.doctor.model.meet.ppt.PPT;
+import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.ui.activity.meeting.play.MeetingLiveActivityRouter;
 import yy.doctor.ui.activity.meeting.play.MeetingRebActivityRouter;
 
 /**

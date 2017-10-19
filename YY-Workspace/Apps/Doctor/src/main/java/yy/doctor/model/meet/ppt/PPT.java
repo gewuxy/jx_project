@@ -1,7 +1,7 @@
-package yy.doctor.model.meet;
+package yy.doctor.model.meet.ppt;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.PPT.TPPT;
+import yy.doctor.model.meet.ppt.PPT.TPPT;
 
 /**
  * 微课信息
@@ -21,5 +21,11 @@ public class PPT extends EVal<TPPT> {
         meetId, // 会议ID
         moduleId, // 模块ID
         count, // 会议评论人数
+
+        socketUrl,
+
+        @Bind(Live.class)
+        videoLive,
+
     }
 }

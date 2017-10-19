@@ -42,10 +42,10 @@
 
         <ImageView
             android:id="@+id/meet_play_nav_iv_control"
-            android:layout_width="22dp"
+            android:layout_width="33dp"
             android:layout_height="26dp"
             android:padding="5dp"
-            android:src="@drawable/meet_play_select_control"/>
+            android:src="@drawable/meet_play_reb_select_control"/>
     </LinearLayout>
 
     <LinearLayout

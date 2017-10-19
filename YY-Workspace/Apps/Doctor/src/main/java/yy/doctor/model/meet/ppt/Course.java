@@ -1,4 +1,4 @@
-package yy.doctor.model.meet;
+package yy.doctor.model.meet.ppt;
 
 import android.support.annotation.IntDef;
 
@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.model.EVal;
 import lib.ys.util.TextUtil;
-import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 
 /**
  * 微课具体明细信息

@@ -4,8 +4,8 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 
 import java.util.List;
 
-import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.PPT;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.PPT;
 
 /**
  * @auther : GuoXuan

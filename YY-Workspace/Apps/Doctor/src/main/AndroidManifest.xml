@@ -107,6 +107,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
+            android:name=".ui.activity.meeting.play.MeetingLiveActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity
             android:name=".ui.activity.search.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity

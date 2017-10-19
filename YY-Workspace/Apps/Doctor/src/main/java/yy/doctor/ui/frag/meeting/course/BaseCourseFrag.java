@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
-import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 

@@ -78,6 +78,17 @@ public class NetFactory {
     }
 
     /**
+     * 会议直播 web socket
+     *
+     * @return
+     */
+    public static NetworkReq webLive(String url) {
+        return NetworkReq.newBuilder(url)
+//                .param(CommonParam.KToken, Profile.inst().getString(TProfile.token))
+                .build();
+    }
+
+    /**
      * 逐项更改用户信息
      *
      * @param key

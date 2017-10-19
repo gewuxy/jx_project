@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.CourseVH;
-import yy.doctor.model.meet.Course.CourseType;
-import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.ppt.Course.CourseType;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 
 /**
  * 录播横屏底部Recycler的Adapter
@@ -14,7 +14,7 @@ import yy.doctor.model.meet.Course.TCourse;
  * @auther : GuoXuan
  * @since : 2017/9/27
  */
-public class MeetingRepLAdapter extends MeetingRepPAdapter {
+public class MeetingRebLAdapter extends MeetingRebPAdapter {
 
     @Override
     protected int getConvertViewResId() {

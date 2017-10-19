@@ -4,9 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
@@ -31,10 +33,9 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     private TextView mTvComment;
     private TextView mTvOnlineNum;
-
-    @Override
-    public void initData() {
-    }
+    private ImageView mIvControl;
+    private TextView mTvAll;
+    private TextView mTvCur;
 
     @NonNull
     @Override
@@ -61,6 +62,11 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     public void findViews() {
         mTvComment = findView(R.id.meet_play_nav_tv_comment);
         mTvOnlineNum = findView(R.id.meet_play_nav_tv_online_num);
+        mIvControl = findView(R.id.meet_play_nav_iv_control);
+
+        mTvCur = findView(R.id.meet_play_tv_current);
+        mTvAll = findView(R.id.meet_play_tv_all);
+
     }
 
     @CallSuper
@@ -71,6 +77,13 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         setOnClickListener(R.id.meet_play_nav_iv_control);
         setOnClickListener(R.id.meet_play_nav_tv_online_num);
         setOnClickListener(R.id.meet_play_nav_iv_landscape);
+
+        setOnClickListener(R.id.meet_play_iv_left);
+        setOnClickListener(R.id.meet_play_iv_right);
+
+        if (mTvComment != null) {
+            mIvControl.setImageResource(getControlResId());
+        }
     }
 
     @Override
@@ -103,6 +116,14 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
                 landscape();
             }
             break;
+            case R.id.meet_play_iv_left: {
+                toLeft();
+            }
+            break;
+            case R.id.meet_play_iv_right: {
+                toRight();
+            }
+            break;
             default: {
                 onClick(v.getId());
             }
@@ -133,12 +154,29 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         }
     }
 
+    protected void setPlayState(boolean state) {
+        if (mTvComment == null) {
+            return;
+        }
+        mIvControl.setSelected(state);
+    }
+
     /**
      * 屏幕方向是否为横屏
      */
     protected boolean orientationLandscape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
+
+    /**
+     * 上一页
+     */
+    abstract protected void toLeft();
+
+    /**
+     * 下一页
+     */
+    abstract protected void toRight();
 
     /**
      * 竖屏
@@ -151,5 +189,8 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     abstract protected void landscape();
 
     abstract protected void toggle();
+
+    @DrawableRes
+    abstract protected int getControlResId();
 
 }

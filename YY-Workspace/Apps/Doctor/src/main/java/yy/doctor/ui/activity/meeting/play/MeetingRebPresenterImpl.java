@@ -2,19 +2,20 @@ package yy.doctor.ui.activity.meeting.play;
 
 import java.util.List;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeFormatter;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
-import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.CourseType;
-import yy.doctor.model.meet.Course.TCourse;
-import yy.doctor.model.meet.CourseInfo;
-import yy.doctor.model.meet.CourseInfo.TCourseInfo;
-import yy.doctor.model.meet.PPT;
-import yy.doctor.model.meet.PPT.TPPT;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.CourseType;
+import yy.doctor.model.meet.ppt.Course.TCourse;
+import yy.doctor.model.meet.ppt.CourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.ppt.PPT;
+import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.NetPlayer;
@@ -24,7 +25,7 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/26
  */
 
-public class MeetingRebPresenterImpl extends BasePresenter implements
+public class MeetingRebPresenterImpl extends BasePresenterImpl implements
         MeetingRebContract.Presenter,
         NetPlayer.OnPlayerListener,
         CountDown.OnCountDownListener {
@@ -75,8 +76,13 @@ public class MeetingRebPresenterImpl extends BasePresenter implements
             }
             mView.portraitInit(mPpt, mCourses);
         } else {
-            mView.showToast(r.getMessage());
+            onNetworkError(id, r.getError());
         }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetworkError error) {
+        mView.showToast(error.getMessage());
     }
 
     @Override

@@ -14,12 +14,12 @@ import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
-import yy.doctor.model.meet.CourseInfo;
-import yy.doctor.model.meet.CourseInfo.TCourseInfo;
-import yy.doctor.model.meet.PPT;
-import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.CourseType;
-import yy.doctor.model.meet.PPT.TPPT;
+import yy.doctor.model.meet.ppt.CourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.ppt.PPT;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.CourseType;
+import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.serv.CommonServ;
@@ -29,7 +29,9 @@ import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag.OnFragClickListener;
 import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.PicCourseFragRouter;
+import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFragRouter;
+import yy.doctor.util.NetPlayer;
 import yy.doctor.util.Util;
 
 /**
@@ -39,7 +41,7 @@ import yy.doctor.util.Util;
  * @since : 2017/9/25
  */
 @Route
-public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFragClickListener {
+public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFragClickListener {
 
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
@@ -48,6 +50,7 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     private int mLastPosition; // 上一次的position
     private long mStartTime; // 开始时间
     private HashMap<Integer, Submit> mSubmits; // 学习时间
+    private List<Course> mCourses;
 
     private OnFragClickListener mListener;
 
@@ -55,38 +58,16 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         setOnPageChangeListener(listener); // 外部添加
     }
 
-    public void setFragClickListener(OnFragClickListener listener) {
-        mListener = listener;
+    public void setFragClickListener(OnFragClickListener onFragClickListener) {
+        mListener = onFragClickListener;
     }
 
     public void setPPT(PPT ppt) {
-        if (ppt == null || mPPT != null) {
-            // 不重复设置
-            return;
-        }
         mPPT = ppt;
-
-        CourseInfo courseInfo = mPPT.get(TPPT.course);
-        if (courseInfo == null) {
-            return;
-        }
-
-        List<Course> courses = courseInfo.getList(TCourseInfo.details);
-        if (courses == null || courses.size() == 0) {
-            return;
-        }
-        // 逐个添加Frag
-        for (Course course : courses) {
-            BaseCourseFrag f = getPPTFrag(course);
-            if (f != null) {
-                f.setListener(this);
-                add(f);
-            }
-        }
-        invalidate();
 
         mStartTime = System.currentTimeMillis();
     }
+
 
     @Override
     public void initData() {
@@ -146,19 +127,12 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             submit = getItem(mLastPosition).getSubmit();
             mSubmits.put(Integer.valueOf(mLastPosition), submit);
         }
-        long studyTime = submit.getLong(Submit.TSubmit.usedtime, 0);
+        long studyTime = submit.getLong(TSubmit.usedtime, 0);
         long curTime = System.currentTimeMillis();
         // 加上原来记录
         curTime += studyTime - mStartTime;
-        submit.put(Submit.TSubmit.usedtime, curTime);
+        submit.put(TSubmit.usedtime, curTime);
         mStartTime = System.currentTimeMillis();
-    }
-
-    @Override
-    public void onClick() {
-        if (mListener != null) {
-            mListener.onClick();
-        }
     }
 
     /**
@@ -187,6 +161,64 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             break;
         }
         return frag;
+    }
+
+    /**
+     * 会议是否有内容
+     */
+    private boolean courseNotExist() {
+        if (mCourses != null) {
+            // 已经获取到数据
+            if (mCourses.size() == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // 初次获取数据
+        if (mPPT == null) {
+            return true;
+        }
+
+        CourseInfo courseInfo = mPPT.get(TPPT.course);
+        if (courseInfo == null) {
+            return true;
+        }
+
+        mCourses = courseInfo.getList(TCourseInfo.details);
+        if (mCourses == null || mCourses.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public void addCourse(int position) {
+        if (courseNotExist() || position > mCourses.size()) {
+            return;
+        }
+
+        BaseCourseFrag f = getPPTFrag(mCourses.get(position));
+        if (f != null) {
+            add(f);
+            f.setListener(this);
+            invalidate();
+        }
+    }
+
+    public void addCourses() {
+        if (courseNotExist()) {
+            return;
+        }
+        // 逐个添加Frag
+        for (Course course : mCourses) {
+            BaseCourseFrag f = getPPTFrag(course);
+            if (f != null) {
+                f.setListener(this);
+                add(f);
+            }
+        }
+        invalidate();
     }
 
     @Override
@@ -250,5 +282,28 @@ public class PPTRepFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
 
         return submit;
+    }
+
+    @Override
+    public void onClick() {
+        if (mListener != null) {
+            mListener.onClick();
+        }
+    }
+
+    public void startPlay() {
+        NetPlayer.inst().stop();
+        BaseCourseFrag frag = getItem(getCurrentItem());
+        if (frag instanceof VideoCourseFrag) {
+            VideoCourseFrag f = (VideoCourseFrag) frag;
+            NetPlayer.inst().setVideo(f.getTextureView());
+        } else {
+            NetPlayer.inst().setAudio();
+        }
+        NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), frag.getUrl());
+    }
+
+    public void stopPlay() {
+        NetPlayer.inst().stop();
     }
 }

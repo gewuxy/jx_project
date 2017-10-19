@@ -10,7 +10,7 @@ import lib.ys.network.image.NetworkImageListener;
 import lib.ys.util.TextUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import yy.doctor.R;
-import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.util.Util;
 import yy.doctor.view.RootLayout;
 import yy.doctor.view.RootLayout.OnRootTouchListener;
@@ -25,7 +25,6 @@ import yy.doctor.view.RootLayout.OnRootTouchListener;
 public class PicAudioCourseFrag extends BaseCourseFrag implements OnRootTouchListener {
 
     private NetworkPhotoView mIvPPT;
-    private String mAudioUrl;
     private ImageView mIvHolder;
     private RootLayout mLayout;
 
@@ -53,8 +52,6 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnRootTouchLis
     @Override
     public void setViews() {
         setPic();
-
-        mAudioUrl = Util.convertUrl(getCourse().getString(TCourse.audioUrl));
 
         mLayout.setOnRootTouchListener(this);
         setBackgroundColor(Color.TRANSPARENT);
@@ -85,7 +82,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnRootTouchLis
 
     @Override
     public String getUrl() {
-        return mAudioUrl;
+        return Util.convertUrl(getCourse().getString(TCourse.audioUrl));
     }
 
     @Override

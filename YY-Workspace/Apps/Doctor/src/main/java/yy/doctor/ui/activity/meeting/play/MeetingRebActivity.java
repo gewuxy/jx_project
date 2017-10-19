@@ -15,23 +15,23 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 import java.util.List;
 
 import inject.annotation.router.Route;
-import lib.ys.AppEx;
 import lib.ys.adapter.recycler.OnRecyclerItemClickListener;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.MeetingRepLAdapter;
-import yy.doctor.adapter.meeting.MeetingRepPAdapter;
-import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.CourseInfo;
-import yy.doctor.model.meet.CourseInfo.TCourseInfo;
-import yy.doctor.model.meet.PPT;
-import yy.doctor.model.meet.PPT.TPPT;
-import yy.doctor.ui.frag.meeting.PPTRepFrag;
+import yy.doctor.adapter.meeting.MeetingRebLAdapter;
+import yy.doctor.adapter.meeting.MeetingRebPAdapter;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.CourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.ppt.PPT;
+import yy.doctor.model.meet.ppt.PPT.TPPT;
+import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
 import yy.doctor.view.discretescrollview.DiscreteScrollView;
@@ -47,15 +47,13 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
 public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
     private View mLayoutFrag;
-    private PPTRepFrag mFragRep;
+    private PPTRebFrag mFragRep;
 
     private DiscreteScrollView mRvP;
     private RecyclerView mRvL;
 
     private TextView mTvCurrent;
     private TextView mTvAll;
-
-    private View mIvControl;
 
     private MeetingRebContract.Presenter mPresenter;
     private MeetingRebContract.View mView;
@@ -97,16 +95,14 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
         mTvCurrent = findView(R.id.meet_play_tv_current);
         mTvAll = findView(R.id.meet_play_tv_all);
-
-        mIvControl = findView(R.id.meet_play_nav_iv_control);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.meet_play_iv_left_p);
-        setOnClickListener(R.id.meet_play_iv_right_p);
+        setOnClickListener(R.id.meet_play_iv_left);
+        setOnClickListener(R.id.meet_play_iv_right);
         setOnClickListener(R.id.meet_play_iv_left_l);
         setOnClickListener(R.id.meet_play_iv_right_l);
 
@@ -127,7 +123,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
                 NetworkImageView.clearMemoryCache(MeetingRebActivity.this);
 
                 mHandler.removeMessages(0);
-                Message message = new Message();
+                Message message = Message.obtain();
                 message.obj = position;
                 message.what = 0;
                 mHandler.sendMessageDelayed(message, 500);
@@ -153,7 +149,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         showView(R.id.meet_ppt_layout_p);
 
         if (mParamP == null) {
-            mParamP = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, fitDp(237));
+            mParamP = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, (int) ResLoader.getDimension(R.dimen.meet_play_ppt));
         }
         mLayoutFrag.setLayoutParams(mParamP);
         mView.finishCount();
@@ -180,6 +176,11 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     }
 
     @Override
+    protected int getControlResId() {
+        return R.drawable.meet_play_reb_select_control;
+    }
+
+    @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
@@ -192,18 +193,28 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     public void onClick(int id) {
         switch (id) {
             case R.id.meet_play_iv_left_l:
-            case R.id.meet_play_iv_left_p: {
+            case R.id.meet_play_iv_left: {
                 // 上一页
                 setItem(mFragRep, -1, "这是第一页喔");
             }
             break;
             case R.id.meet_play_iv_right_l:
-            case R.id.meet_play_iv_right_p: {
+            case R.id.meet_play_iv_right: {
                 // 下一页
                 setItem(mFragRep, +1, "已是最后一页");
             }
             break;
         }
+    }
+
+    @Override
+    protected void toLeft() {
+
+    }
+
+    @Override
+    protected void toRight() {
+
     }
 
     @Override
@@ -231,7 +242,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         mPresenter.onDestroy();
     }
 
-    private void setItem(PPTRepFrag frag, int offset, String content) {
+    private void setItem(PPTRebFrag frag, int offset, String content) {
         int position = frag.getCurrentItem() + offset;
         if (position >= 0 || position <= frag.getCount() - 1) {
             frag.setCurrentItem(position);
@@ -248,7 +259,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         showView(R.id.meet_ppt_rv_l);
     }
 
-    public class MeetingRebViewImpl implements MeetingRebContract.View {
+    private class MeetingRebViewImpl implements MeetingRebContract.View {
 
         @Override
         public void showToast(String content) {
@@ -256,7 +267,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
                 // 网络成功服务器错误回调
                 setViewState(ViewState.normal);
             }
-            AppEx.showToast(content);
+            MeetingRebActivity.this.showToast(content);
         }
 
         @Override
@@ -264,9 +275,10 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
             // 初始显示
             setViewState(ViewState.normal);
             mFragRep.setPPT(ppt);
+            mFragRep.addCourses();
             setCommentCount(ppt.getInt(TPPT.count));
 
-            MeetingRepPAdapter adapter = new MeetingRepPAdapter();
+            MeetingRebPAdapter adapter = new MeetingRebPAdapter();
             adapter.setData(courses);
             adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
@@ -302,7 +314,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
             LinearLayoutManager layout = new LinearLayoutManager(MeetingRebActivity.this);
             layout.setOrientation(LinearLayoutManager.HORIZONTAL);
             mRvL.setLayoutManager(layout);
-            MeetingRepLAdapter adapter = new MeetingRepLAdapter();
+            MeetingRebLAdapter adapter = new MeetingRebLAdapter();
             adapter.setData(courses);
             adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
@@ -317,7 +329,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
         @Override
         public void onPlayState(boolean state) {
-            mIvControl.setSelected(state);
+            setPlayState(state);
         }
 
         @Override

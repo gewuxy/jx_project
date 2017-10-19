@@ -7,9 +7,9 @@ import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.fitter.DpFitter;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.CourseVH;
-import yy.doctor.model.meet.Course;
-import yy.doctor.model.meet.Course.CourseType;
-import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.CourseType;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 
 /**
  * 录播竖屏中部Recycler的Adapter
@@ -17,7 +17,7 @@ import yy.doctor.model.meet.Course.TCourse;
  * @auther : GuoXuan
  * @since : 2017/9/29
  */
-public class MeetingRepPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
+public class MeetingRebPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
 
     @Override
     protected void refreshView(int position, CourseVH holder) {

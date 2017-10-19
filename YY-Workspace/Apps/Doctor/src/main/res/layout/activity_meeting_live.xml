@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/meet_live_layout_ppt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/meet_play_ppt"
+            android:background="@color/btn_bg_red"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/meet_live_frag_ppt"
+                android:name="yy.doctor.ui.frag.meeting.PPTRebFrag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/meet_live_layout_live"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/meet_play_live"
+            android:layout_below="@id/meet_live_layout_ppt"
+            android:layout_marginTop="41dp"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/meet_live_frag_live"
+                android:name="yy.doctor.ui.frag.meeting.PPTLiveFrag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- 竖屏布局 -->
+    <RelativeLayout
+        android:id="@+id/meet_live_layout_p"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/meet_play_ppt">
+
+            <include layout="@layout/layout_meet_play_mid_num"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_meet_play_bottom_nav"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

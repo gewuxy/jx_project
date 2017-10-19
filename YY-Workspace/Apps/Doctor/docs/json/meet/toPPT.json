@@ -1,75 +1,187 @@
 {
   "code": "0",
   "data": {
+    "count": 101,
     "course": {
-      "category": "普外科",
+      "category": "神经外科",
       "details": [
         {
-          "audioUrl": "",
-          "id": 1,
-          "imgUrl": "",
-          "sort": 1
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314094907359429.mp3",
+          "id": 52,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314091841672767.jpg",
+          "sort": 1,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 2,
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314100029056444.mp3",
+          "id": 53,
           "imgUrl": "",
-          "sort": 2
+          "sort": 2,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 3,
-          "imgUrl": "",
-          "sort": 3
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314100880786846.mp3",
+          "id": 54,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314100435595276.jpg",
+          "sort": 3,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 4,
-          "imgUrl": "",
-          "sort": 4
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314101673878405.mp3",
+          "id": 55,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314101273056999.jpg",
+          "sort": 4,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 5,
-          "imgUrl": "",
-          "sort": 5
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314102664149670.mp3",
+          "id": 56,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314102150038617.jpg",
+          "sort": 5,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 6,
-          "imgUrl": "",
-          "sort": 6
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314103460360717.mp3",
+          "id": 57,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314103106345280.jpg",
+          "sort": 6,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 7,
-          "imgUrl": "",
-          "sort": 7
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314104472431620.mp3",
+          "id": 58,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314104074489481.jpg",
+          "sort": 7,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 8,
-          "imgUrl": "",
-          "sort": 8
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314112686842382.mp3",
+          "id": 59,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314112337557613.jpg",
+          "sort": 8,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 9,
-          "imgUrl": "",
-          "sort": 9
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314115833128371.mp3",
+          "id": 60,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314115486411695.jpg",
+          "sort": 9,
+          "videoUrl": ""
         },
         {
-          "audioUrl": "",
-          "id": 10,
-          "imgUrl": "",
-          "sort": 10
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314120830428530.mp3",
+          "id": 61,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314120487721336.jpg",
+          "sort": 10,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314121921474851.mp3",
+          "id": 62,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314121607392408.jpg",
+          "sort": 11,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314123959643035.mp3",
+          "id": 63,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314123590171389.jpg",
+          "sort": 12,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314124865675628.mp3",
+          "id": 64,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314124499355418.jpg",
+          "sort": 13,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314125785719586.mp3",
+          "id": 65,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314125464040607.jpg",
+          "sort": 14,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314130582288776.mp3",
+          "id": 66,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314130278686723.jpg",
+          "sort": 15,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314131398918021.mp3",
+          "id": 67,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314131065332950.jpg",
+          "sort": 16,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314132367232936.mp3",
+          "id": 68,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314132020560050.jpg",
+          "sort": 17,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314133277159434.mp3",
+          "id": 69,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314132932661958.jpg",
+          "sort": 18,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314134307795947.mp3",
+          "id": 70,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314134019238776.jpg",
+          "sort": 19,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314135077960411.mp3",
+          "id": 71,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314134761515010.jpg",
+          "sort": 20,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314140092189998.mp3",
+          "id": 72,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314135795613248.jpg",
+          "sort": 21,
+          "videoUrl": ""
+        },
+        {
+          "audioUrl": "http://59.111.90.245:8083/file/course/18/audio/17060314140936879413.mp3",
+          "id": 73,
+          "imgUrl": "http://59.111.90.245:8083/file/course/18/ppt/17060314140514475720.jpg",
+          "sort": 22,
+          "videoUrl": ""
         }
       ],
-      "title": "普外科综合培训课程一"
+      "title": "神经外科测试会议二"
     },
-    "courseId": 1,
-    "id": 1,
-    "meetId": "17042512131640894904",
-    "moduleId": 7
+    "courseId": 18,
+    "id": 5,
+    "meetId": "17060312172856248750",
+    "moduleId": 33,
+    "socketUrl": "ws://59.111.90.245:8084/live/order?courseId=18",
+    "videoLive": {
+      "courseId": 18,
+      "endTime": 1508235428000,
+      "expireDate": 1508926647000,
+      "hdlUrl": "http://www.baidu.com",
+      "hlsUrl": "https://www.baidu.com",
+      "id": "12",
+      "livePage": 3,
+      "liveState": 0,
+      "onlineCount": 1,
+      "playCount": 2,
+      "replayUrl": "https://www.baidu.com",
+      "rtmpUrl": "rtmp://www.baidu.com",
+      "startTime": 1508149025000,
+      "videoLive": true
+    }
   }
 }

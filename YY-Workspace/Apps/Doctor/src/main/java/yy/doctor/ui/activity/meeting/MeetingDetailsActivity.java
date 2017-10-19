@@ -372,7 +372,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerTitle), mTvGP); // 职责
         UISetter.viewVisibility(detail.getString(TMeetDetail.lecturerHos), mTvGH); // 医院
         UISetter.viewVisibility(formatIntro(Html.fromHtml(detail.getString(TMeetDetail.introduction)).toString()), mTvIntro);
-        // FIXME: 转载
         String from = detail.getString(TMeetDetail.reprintFromUnitUser);
         if (TextUtil.isNotEmpty(from)) {
             showView(mTvFrom);

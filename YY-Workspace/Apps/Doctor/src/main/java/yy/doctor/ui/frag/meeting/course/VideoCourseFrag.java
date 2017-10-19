@@ -8,7 +8,7 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 
 import inject.annotation.router.Route;
 import yy.doctor.R;
-import yy.doctor.model.meet.Course.TCourse;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.util.Util;
 
 /**

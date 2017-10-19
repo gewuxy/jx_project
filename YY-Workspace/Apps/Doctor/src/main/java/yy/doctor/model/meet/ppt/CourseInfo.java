@@ -1,7 +1,7 @@
-package yy.doctor.model.meet;
+package yy.doctor.model.meet.ppt;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 
 /**
  * 微课概要明细信息
