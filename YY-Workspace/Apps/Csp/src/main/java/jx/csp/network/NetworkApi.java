@@ -94,7 +94,14 @@ public class NetworkApi {
          */
         @Get("delivery/paginate")
         void history(@Query(opt = true) int pageNum,
-                     @Query(opt = true) int pageSize);
+                     @Query(opt = true) int pageSize,String token);
+
+        /**
+         * 投稿历史 指定单位号
+         * @param acceptId 接收者id
+         */
+        @Get("delivery/user/detail")
+        void historyDetail(int acceptId,String token);
 
         /**
          * 投稿

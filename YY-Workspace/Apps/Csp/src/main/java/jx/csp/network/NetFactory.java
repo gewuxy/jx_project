@@ -37,7 +37,8 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
 
-//        ps.add(newPair(CommonParam.KToken, "d48f972107584add99e48adc510fdb35"));
+//        ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
+        ps.add(newPair(CommonParam.KToken, "99efb894ecac41ccab822811ffc79276"));
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
         }

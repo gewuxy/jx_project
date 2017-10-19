@@ -201,6 +201,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
                         setResult(RESULT_OK);
+                        //Fixme:跳到首页，暂时还没有
+                        startActivity(TestActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);
                 }

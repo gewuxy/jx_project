@@ -2,15 +2,18 @@ package jx.csp.util;
 
 import android.app.Activity;
 import android.support.annotation.StringRes;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
+import jx.csp.App;
+import jx.csp.R;
 import lib.network.Network;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
 import lib.yy.util.BaseUtil;
-import jx.csp.App;
-import jx.csp.R;
 
 /**
  * @author CaiXiang
@@ -100,4 +103,27 @@ public class Util extends BaseUtil {
                 .append("''");
         return sb.toString();
     }
+
+    /**
+     * 获取NavBar里需要的控件
+     *
+     * @param parent NavBar的控件
+     * @param clz
+     * @param <T>
+     * @return
+     */
+    public static <T extends View> T getBarView(ViewGroup parent, Class<T> clz) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            View childView = parent.getChildAt(i);
+            if (childView instanceof ViewGroup) {
+                getBarView((ViewGroup) childView, clz);
+            } else {
+                if (childView.getClass().isAssignableFrom(clz)) {
+                    return (T) childView;
+                }
+            }
+        }
+        return ReflectUtil.newInst(clz);
+    }
+
 }

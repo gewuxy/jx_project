@@ -50,6 +50,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
         int pwd = 1;
     }
 
+    private final int KUnActiveCode = -1; // 邮箱没有激活后台返回值
+
     private EditText mEtEmail;
     private EditText mEtPwd;
     private int mCount = 0;
@@ -145,6 +147,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             Profile.inst().put(TProfile.email, getEmail());
             Profile.inst().saveToSp();
             setResult(RESULT_OK);
+            //Fixme:跳到首页，暂时还没有
+            startActivity(TestActivity.class);
             stopRefresh();
             finish();
         } else {
@@ -169,6 +173,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             if (mCount == 8) {
                 mCount = 1;
             }
+        }else if (error.getCode() == KUnActiveCode) {
+            showToast("账号未激活");
         }
     }
 

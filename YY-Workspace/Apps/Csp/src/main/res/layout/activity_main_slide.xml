@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_viewpager"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_main_slide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="@color/pink_diaphaneity_sixty">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="9dp"
+                android:src="@drawable/ic_default_i"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/living"
+                android:textColor="@color/white"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:layout_width="44dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="141dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/bg_main_slide_btn"
+                android:gravity="center"
+                android:text="@string/click_continue"
+                android:textColor="@color/white"
+                android:textSize="7dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/frag_current_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="6"
+                android:textColor="@color/text_167afe"
+                android:textSize="14dp"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="11dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/frag_current_page"
+                android:background="@color/color_db"/>
+
+            <TextView
+                android:id="@+id/frag_total_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="16dp"
+                android:text="9"
+                android:textColor="@color/text_7b7a80"
+                android:textSize="14dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <!-- <lib.ys.view.pager.ViewPagerEx
+         android:layout_width="312dp"
+         android:layout_height="486dp"
+         android:layout_centerInParent="true"/>-->
+
+
+    <ImageView
+        android:id="@+id/main_slide_scan"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:src="@drawable/main_ic_scan"/>
+
+
+</RelativeLayout>

@@ -17,7 +17,7 @@
         android:layout_height="356dp"
         android:layout_gravity="center"
         android:layout_marginTop="34dp"
-        android:background="@drawable/bg_yaya_login"
+        android:background="@drawable/bg_yaya_authorize_login"
         android:orientation="vertical">
 
         <TextView
@@ -39,7 +39,7 @@
                 android:id="@+id/yaya_username"
                 android:layout_width="268dp"
                 android:layout_height="42dp"
-                android:background="@drawable/bg_yaya_login_edt"
+                android:background="@drawable/bg_yaya_authorize_login_edt"
                 android:hint="@string/username"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/text_b3"
@@ -64,7 +64,7 @@
                 android:id="@+id/yaya_pwd"
                 android:layout_width="268dp"
                 android:layout_height="42dp"
-                android:background="@drawable/bg_yaya_login_edt"
+                android:background="@drawable/bg_yaya_authorize_login_edt"
                 android:hint="@string/pwd"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/text_b3"

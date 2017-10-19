@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_marginTop="24dp"
-        android:background="@drawable/bg_yaya_login_text"
+        android:background="@drawable/bg_yaya_authorize_login_text"
         android:gravity="center"
         android:layout_width="58dp"
         android:layout_height="58dp">

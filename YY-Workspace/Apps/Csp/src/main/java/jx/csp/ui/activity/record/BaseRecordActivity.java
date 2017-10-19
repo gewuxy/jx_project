@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -99,13 +98,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
         mTvNavBar = bar.addTextViewMid(" ");
-        bar.addViewRight(R.drawable.share_ic_share, new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showToast("share");
-            }
-        });
+        bar.addViewRight(R.drawable.share_ic_share, v -> showToast("share"));
     }
 
     @Override

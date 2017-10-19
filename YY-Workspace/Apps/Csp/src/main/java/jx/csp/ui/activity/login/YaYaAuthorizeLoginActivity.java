@@ -4,6 +4,7 @@ import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.TestActivity;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
@@ -39,6 +40,8 @@ public class YaYaAuthorizeLoginActivity extends BaseYaYaLoginActivity {
             SpApp.inst().saveUserName(getUserName());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
+            //Fixme:跳到首页，暂时还没有
+            startActivity(TestActivity.class);
             setResult(RESULT_OK);
             stopRefresh();
             finish();

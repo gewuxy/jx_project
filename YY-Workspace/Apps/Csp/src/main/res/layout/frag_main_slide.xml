@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
-    <LinearLayout
-        android:layout_width="312dp"
-        android:layout_height="486dp">
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="486dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center">
 
         <LinearLayout
             android:layout_width="300dp"
@@ -31,6 +34,7 @@
                     android:layout_marginLeft="21dp"
                     android:text="脑卒中的神经康复讨论"
                     android:textColor="@color/text_343a4b"
+                    android:layout_marginTop="11dp"
                     android:textSize="18dp"/>
 
                 <ImageView
@@ -38,6 +42,7 @@
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="52dp"
+                    android:layout_marginTop="14dp"
                     android:src="@drawable/main_ic_live"/>
 
                 <ImageView
@@ -45,6 +50,7 @@
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="13dp"
                     android:src="@drawable/main_ic_share"/>
 
             </RelativeLayout>
@@ -106,33 +112,11 @@
             <View
                 android:layout_width="328dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:background="@color/short_divider"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/main_scan"
-                    android:layout_width="74dp"
-                    android:layout_height="74dp"
-                    android:layout_marginLeft="121dp"
-                    android:layout_marginTop="9dp"
-                    android:src="@drawable/main_ic_scan"/>
-
-                <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="16dp"
-                    android:layout_marginLeft="58dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_toRightOf="@+id/main_scan"
-                    android:src="@drawable/main_ic_scan"/>
-            </RelativeLayout>
-
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="@color/white">
     <TextView
+        android:id="@+id/tv_skip"
         android:layout_width="258dp"
         android:layout_height="44dp"
         android:text="@string/reset_pwd_to_email"
