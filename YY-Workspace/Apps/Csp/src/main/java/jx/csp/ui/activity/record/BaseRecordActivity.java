@@ -19,6 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import inject.annotation.router.Arg;
 import jx.csp.R;
 import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.CourseDetail;
@@ -33,6 +34,7 @@ import lib.network.model.NetworkReq;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.ys.view.pager.transformer.ZoomOutTransformer;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -53,7 +55,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected final int KJoinMeetingReqId = 10;
     protected final int KSyncReqId = 20;
     protected final int KUploadAudioReqId = 30;
-    protected final String KAudioSuffix = ".amr";
     private final int KOne = 1;
     private final int KVpSize = 2; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
@@ -84,6 +85,9 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected boolean mWsSuccess = false; // WebSocket连接是否成功
     protected String mWebSocketUrl; // WebSocket地址
 
+    @Arg
+    String mCourseId;  // 课程id
+
     @IntDef({
             FragType.img,
             FragType.video,
@@ -92,6 +96,13 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     @interface FragType {
         int img = 1;  // 图片
         int video = 2;  // 视频
+    }
+
+    @CallSuper
+    @Override
+    public void initData() {
+        //创建文件夹存放音频
+        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + File.separator + mCourseId);
     }
 
     @Override
@@ -134,6 +145,8 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         setOnPageChangeListener(this);
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
+
+        getViewPager().setPageTransformer(false, new ZoomOutTransformer());
     }
 
     @Override
@@ -177,27 +190,27 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        int realPosition;
-        float realOffset;
-        int nextPosition;
-        if (mLastOffset > positionOffset) {
-            realPosition = position + KOne;
-            nextPosition = position;
-            realOffset = KOne - positionOffset;
-        } else {
-            realPosition = position;
-            nextPosition = position + KOne;
-            realOffset = positionOffset;
-        }
-
-        if (nextPosition > getCount() - KOne || realPosition > getCount() - KOne) {
-            return;
-        }
-
-        viewChange(realPosition, KOne - realOffset);
-        viewChange(nextPosition, realOffset);
-
-        mLastOffset = positionOffset;
+//        int realPosition;
+//        float realOffset;
+//        int nextPosition;
+//        if (mLastOffset > positionOffset) {
+//            realPosition = position + KOne;
+//            nextPosition = position;
+//            realOffset = KOne - positionOffset;
+//        } else {
+//            realPosition = position;
+//            nextPosition = position + KOne;
+//            realOffset = positionOffset;
+//        }
+//
+//        if (nextPosition > getCount() - KOne || realPosition > getCount() - KOne) {
+//            return;
+//        }
+//
+//        viewChange(realPosition, KOne - realOffset);
+//        viewChange(nextPosition, realOffset);
+//
+//        mLastOffset = positionOffset;
     }
 
     @Override
@@ -250,12 +263,13 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
 
     /**
      * 上传音频文件
+     *
      * @param courseId
      * @param page
      * @param type
      */
     protected void uploadAudioFile(String courseId, int page, int type) {
-        String audioFilePath = CacheUtil.getAudioCacheDir() + "/" + courseId + "/" + (page + 1) + KAudioSuffix;
+        String audioFilePath = CacheUtil.getAudioPath(courseId, page + 1);
         File file = new File(audioFilePath);
         if (file.exists()) {
             byte[] bytes = FileUtil.fileToBytes(audioFilePath);

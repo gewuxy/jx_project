@@ -27,7 +27,6 @@ import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
-import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -47,7 +46,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
-    protected String mCourseId = "14379";  // 会议id
 
     @IntDef({
             ScrollType.last,
@@ -61,8 +59,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
 
     @Override
     public void initData() {
-        //创建文件夹存放音频
-        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + "/" + mCourseId);
+        mCourseId = "14379";
+        super.initData();
+
         mRecordPresenter = new CommonRecordPresenterImpl(this);
     }
 
@@ -96,7 +95,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
             } else {
-                String filePath = CacheUtil.getAudioCacheDir() + "/" + mCourseId + "/" + (getCurrentItem() + 1) + KAudioSuffix;
+                String filePath = CacheUtil.getAudioPath(mCourseId, getCurrentItem());
                 // 判断这页是否已经录制过
                 if ((new File(filePath)).exists() && SpUser.inst().showRecordAgainDialog()) {
                     showRecordAgainDialog(filePath);
@@ -204,7 +203,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                     if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                         RecordImgFrag frag = RecordImgFragRouter
                                 .create()
-                                .audioFilePath(CacheUtil.getAudioCacheDir() + "/" + mCourseId + "/" + (i + 1) + KAudioSuffix)
+                                .audioFilePath(CacheUtil.getAudioPath(mCourseId, i))
                                 .url(courseDetail.getString(TCourseDetail.imgUrl))
                                 .route();
                         frag.setPlayerListener(mRecordPresenter);

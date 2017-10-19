@@ -18,7 +18,6 @@ import jx.csp.util.Util;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
-import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -46,17 +45,18 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
     private String mTitle = "直播语音 9月30日 14：00";
     private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
     private long mStopTime = System.currentTimeMillis() + 35 * 60 * 1000;
-    private String mCourseId;  // 课程id
+
 
     private Live mLiveMsg;
 
     @Override
     public void initData() {
+        // TODO: test
+        mCourseId = "14379";
+        super.initData();
+
         ZegoApiManager.getInstance().init(this, "666", "人数获取测试");
         mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(this);
-        mCourseId = "14379";
-        //创建文件夹存放音频
-        FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + "/" + mCourseId);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
             return;
         }
         if (id == R.id.record_iv_state) {
-            String filePath = CacheUtil.getAudioCacheDir() + "/" + mCourseId + "/" + (getCurrentItem() + 1) + KAudioSuffix;
+            String filePath = CacheUtil.getAudioPath(mCourseId, getCurrentItem());
             // 判断直播时间是否已经到了
             if (mBeginCountDown) {
                 if (mLiveState) {
@@ -132,7 +132,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
             if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
-                String filePath = CacheUtil.getAudioCacheDir() + "/" + mCourseId + "/" + (position + 1) + KAudioSuffix;
+                String filePath = CacheUtil.getAudioPath(mCourseId, position);
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
                 startRecordState();

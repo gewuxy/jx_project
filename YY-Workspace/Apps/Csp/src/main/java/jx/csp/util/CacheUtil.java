@@ -1,5 +1,8 @@
 package jx.csp.util;
 
+import java.io.File;
+
+import lib.ys.model.FileSuffix;
 import lib.ys.util.CacheUtilEx;
 
 /**
@@ -37,4 +40,8 @@ public class CacheUtil extends CacheUtilEx {
         return mAudioCacheDir;
     }
 
+    public static String getAudioPath(String courseId, int page) {
+        // fixme: 暂时page+1
+        return mAudioCacheDir + File.separator + courseId + File.separator + (page + 1) + FileSuffix.amr;
+    }
 }
