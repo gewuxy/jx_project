@@ -4,6 +4,8 @@ import inject.annotation.network.Api;
 import inject.annotation.network.Descriptor;
 import inject.annotation.network.Host;
 import inject.annotation.network.Query;
+import inject.annotation.network.Url;
+import inject.annotation.network.method.DownloadFile;
 import inject.annotation.network.method.Get;
 import inject.annotation.network.method.Post;
 import inject.annotation.network.method.Upload;
@@ -247,11 +249,19 @@ public class NetworkApi {
          * @param file
          */
         @Upload("upload")
-        void uploadAudio(@Query(opt = true) String courseId,
-                         @Query(opt = true) String detailId,
-                         @Query(opt = true) int playType,
-                         @Query(opt = true) int pageNum,
-                         @Query(opt = true) byte[] file);
+        void uploadAudio(@Query (opt = true) String courseId,
+                         @Query (opt = true) String detailId,
+                         @Query (opt = true) int playType,
+                         @Query (opt = true) int pageNum,
+                         @Query (opt = true) byte[] file);
+
+        /**
+         * 下载音频
+         *
+         * @param url
+         */
+        @DownloadFile()
+        void downloadAudio(@Url String url);
     }
 
     @Api("charge")

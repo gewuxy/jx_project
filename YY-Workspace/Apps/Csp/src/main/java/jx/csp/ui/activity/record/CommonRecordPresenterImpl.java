@@ -14,6 +14,7 @@ import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordPresenter;
 import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
 import jx.csp.ui.activity.record.RecordImgFrag.onMediaPlayerListener;
 import jx.csp.util.Util;
+import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
@@ -51,8 +52,8 @@ public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMedia
         mMediaRecorder.reset();
         mMediaRecorder.setOutputFile(file.getAbsolutePath());
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mMediaRecorder.setOutputFormat(OutputFormat.DEFAULT);
-        mMediaRecorder.setAudioEncoder(AudioEncoder.AAC);
+        mMediaRecorder.setOutputFormat(OutputFormat.AMR_WB);
+        mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_WB);
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
@@ -88,6 +89,7 @@ public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMedia
 
     @Override
     public void startPlay(String filePath, RecordImgFrag frag) {
+        YSLog.d("www", "音频播放地址 = " + filePath);
         File soundFile = new File(filePath);
         if (!soundFile.exists()) {
             return;

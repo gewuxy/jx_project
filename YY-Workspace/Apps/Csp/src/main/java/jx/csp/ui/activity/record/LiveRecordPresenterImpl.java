@@ -93,8 +93,8 @@ public class LiveRecordPresenterImpl implements LiveRecordPresenter, OnCountDown
         mMediaRecorder.reset();
         mMediaRecorder.setOutputFile(file.getAbsolutePath());
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mMediaRecorder.setOutputFormat(OutputFormat.DEFAULT);
-        mMediaRecorder.setAudioEncoder(AudioEncoder.AAC);
+        mMediaRecorder.setOutputFormat(OutputFormat.AMR_WB);
+        mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_WB);
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();

@@ -23,10 +23,13 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
+import jx.csp.ui.activity.record.RecordImgFrag.AudioType;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
+import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -95,10 +98,20 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
             } else {
+                // 在播放的时候点击录制，要先停止播放
+                if (mShowVoiceLine) {
+                    mRecordPresenter.stopPlay();
+                    if (getItem(getCurrentItem()) instanceof RecordImgFrag) {
+                        ((RecordImgFrag) getItem(getCurrentItem())).stopAnimation();
+                    }
+                }
                 String filePath = CacheUtil.getAudioPath(mCourseId, getCurrentItem());
-                // 判断这页是否已经录制过
-                if ((new File(filePath)).exists() && SpUser.inst().showRecordAgainDialog()) {
-                    showRecordAgainDialog(filePath);
+                // 判断这页是否已经录制过 有可能是mp3文件
+                File f = new File(filePath);
+                String mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
+                File f3 = new File(mp3FilePath);
+                if ((f.exists() || f3.exists()) && SpUser.inst().showRecordAgainDialog()) {
+                    showRecordAgainDialog(filePath, mp3FilePath);
                 } else {
                     mRecordPresenter.startRecord(filePath);
                     // 隐藏播放按钮
@@ -202,9 +215,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                     // 判断是视频还是图片
                     if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                         RecordImgFrag frag = RecordImgFragRouter
-                                .create()
+                                .create(courseDetail.getString(TCourseDetail.imgUrl))
                                 .audioFilePath(CacheUtil.getAudioPath(mCourseId, i))
-                                .url(courseDetail.getString(TCourseDetail.imgUrl))
+                                .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
                                 .route();
                         frag.setPlayerListener(mRecordPresenter);
                         add(frag);
@@ -270,6 +283,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
             stopRecordState();
         } else {
             mRecordPresenter.stopPlay();
+            ((RecordImgFrag)getItem(getCurrentItem())).stopAnimation();
         }
         super.showToast(id);
     }
@@ -354,7 +368,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     /**
      * 再次录制时的dialog
      */
-    private void showRecordAgainDialog(String filePath) {
+    private void showRecordAgainDialog(String filePath, String mp3FilePath) {
         HintDialog dialog = new HintDialog(this);
         View view = inflate(R.layout.dialog_record_common);
         dialog.addHintView(view);
@@ -370,6 +384,14 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
             ((RecordImgFrag)getItem(getCurrentItem())).goneLayoutAudio();
             goneView(mVoiceLine);
             changeRecordState(true);
+            // 如果存在MP3文件，重新录制要改变播放文件  要删除MP3文件
+            if ((new File(mp3FilePath)).exists()) {
+                YSLog.d(TAG, "showRecordAgainDialog mp3 file path " + mp3FilePath);
+                if (getItem(getCurrentItem()) instanceof RecordImgFrag) {
+                    ((RecordImgFrag) getItem(getCurrentItem())).setAudioFilePath(filePath);
+                }
+                FileUtil.delFile(new File(mp3FilePath));
+            }
         });
         dialog.addBlueButton(R.string.cancel, v -> {
             changeRecordState(false);

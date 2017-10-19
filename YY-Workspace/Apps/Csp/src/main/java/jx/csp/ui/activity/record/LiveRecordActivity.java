@@ -177,8 +177,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
                     // 判断是视频还是图片
                     if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                         add(RecordImgFragRouter
-                                .create()
-                                .url(courseDetail.getString(TCourseDetail.imgUrl))
+                                .create(courseDetail.getString(TCourseDetail.imgUrl))
                                 .route());
                     } else {
                         add(RecordVideoFragRouter

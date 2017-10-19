@@ -34,7 +34,6 @@ import lib.network.model.NetworkReq;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
-import lib.ys.view.pager.transformer.ZoomOutTransformer;
 import lib.yy.ui.activity.base.BaseVPActivity;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -146,7 +145,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
 
-        getViewPager().setPageTransformer(false, new ZoomOutTransformer());
+        //getViewPager().setPageTransformer(false, new ZoomOutTransformer());
     }
 
     @Override
@@ -176,6 +175,15 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
 
     abstract protected void onClick(int id);
 
+    protected void setNavBarMidText(String str) {
+        if (mTvNavBar == null) {
+            mTvNavBar = getNavBar().addTextViewMid(str);
+        } else {
+            mTvNavBar.setText(str);
+        }
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -190,27 +198,27 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//        int realPosition;
-//        float realOffset;
-//        int nextPosition;
-//        if (mLastOffset > positionOffset) {
-//            realPosition = position + KOne;
-//            nextPosition = position;
-//            realOffset = KOne - positionOffset;
-//        } else {
-//            realPosition = position;
-//            nextPosition = position + KOne;
-//            realOffset = positionOffset;
-//        }
-//
-//        if (nextPosition > getCount() - KOne || realPosition > getCount() - KOne) {
-//            return;
-//        }
-//
-//        viewChange(realPosition, KOne - realOffset);
-//        viewChange(nextPosition, realOffset);
-//
-//        mLastOffset = positionOffset;
+        int realPosition;
+        float realOffset;
+        int nextPosition;
+        if (mLastOffset > positionOffset) {
+            realPosition = position + KOne;
+            nextPosition = position;
+            realOffset = KOne - positionOffset;
+        } else {
+            realPosition = position;
+            nextPosition = position + KOne;
+            realOffset = positionOffset;
+        }
+
+        if (nextPosition > getCount() - KOne || realPosition > getCount() - KOne) {
+            return;
+        }
+
+        viewChange(realPosition, KOne - realOffset);
+        viewChange(nextPosition, realOffset);
+
+        mLastOffset = positionOffset;
     }
 
     @Override
@@ -269,7 +277,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
      * @param type
      */
     protected void uploadAudioFile(String courseId, int page, int type) {
-        String audioFilePath = CacheUtil.getAudioPath(courseId, page + 1);
+        String audioFilePath = CacheUtil.getAudioPath(courseId, page);
         File file = new File(audioFilePath);
         if (file.exists()) {
             byte[] bytes = FileUtil.fileToBytes(audioFilePath);
