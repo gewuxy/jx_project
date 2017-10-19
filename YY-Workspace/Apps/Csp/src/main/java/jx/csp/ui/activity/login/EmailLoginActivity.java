@@ -20,7 +20,7 @@ import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
-import jx.csp.ui.activity.me.MeActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -138,6 +138,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             SpApp.inst().saveUserEmail(getEmail());
@@ -147,9 +148,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
             //保存到本地
             Profile.inst().put(TProfile.email, getEmail());
             Profile.inst().saveToSp();
-            setResult(RESULT_OK);
-            stopRefresh();
-            startActivity(MeActivity.class);
+            startActivity(MainActivity.class);
             finish();
         } else {
             onNetworkError(id, r.getError());
@@ -173,8 +172,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             if (mCount == 8) {
                 mCount = 1;
             }
-        }else if (error.getCode() == KUnActiveCode) {
-            showToast("账号未激活");
+        }else {
+            showToast(error.getMessage());
         }
     }
 

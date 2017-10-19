@@ -4,7 +4,7 @@ import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
@@ -35,15 +35,13 @@ public class YaYaAuthorizeLoginActivity extends BaseYaYaLoginActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
             SpApp.inst().saveUserName(getUserName());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
-            //Fixme:跳到首页，暂时还没有
-            startActivity(TestActivity.class);
-            setResult(RESULT_OK);
-            stopRefresh();
+            startActivity(MainActivity.class);
             finish();
         } else {
             onNetworkError(id, r.getError());

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.network.UrlUtil.UrlUser;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
@@ -53,6 +54,33 @@ public class NetFactory {
         String KDevice = "os_type";
         String KAppVersion = "app_version";
         String KToken = "token";
+    }
+
+    public interface LoginParam {
+        String KUseName = "username";
+        String KPwd = "password";
+    }
+
+    /**
+     * 逐项更改用户信息
+     *
+     * @param key
+     * @param val
+     * @return
+     */
+    public static NetworkReq modifyProfile(String key, String val) {
+        return newPost(UrlUser.KModify)
+                .param(key, val)
+                .build();
+    }
+
+    public static NetworkReq yayaAuthorize(String username, String password) {
+        return NetworkReq.newBuilder(UrlUtil.getYaYaLogin())
+                .post()
+                .header(getBaseHeader())
+                .param(LoginParam.KUseName, username)
+                .param(LoginParam.KPwd, password)
+                .build();
     }
 
 }

@@ -12,6 +12,8 @@ public class UrlUtil {
 
     private static boolean mIsDebug = true;
 
+    private static String mYaYaAuthorize = "https://www.medcn.com/oauth/app/authorize";
+
     private static void init() {
         if (mIsDebug) {
             mHostName = "http://59.111.90.245:8084/" ;
@@ -34,6 +36,14 @@ public class UrlUtil {
 
     public static String getBaseUrl() {
         return mBase;
+    }
+
+    public interface UrlUser {
+        String KModify = "user/updateInfo";
+    }
+
+    public static String getYaYaLogin(){
+        return mYaYaAuthorize;
     }
 
 }

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.YaYaAuthorizeLoginAPI;
+import jx.csp.network.NetFactory;
 import jx.csp.sp.SpApp;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -154,7 +154,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
             break;
             case R.id.yaya_login: {
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(YaYaAuthorizeLoginAPI.yayaLogin(getUserName(), getPwd()).build());
+                exeNetworkReq(NetFactory.yayaAuthorize(getUserName(),getPwd()));
             }
             break;
         }

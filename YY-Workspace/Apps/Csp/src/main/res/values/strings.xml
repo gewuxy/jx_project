@@ -102,6 +102,7 @@
     <!--首页-->
     <string name="living">直播会议正在进行中...</string>
     <string name="click_continue">点击继续</string>
+    <string name="CSPmeeting">CSPmeeting</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>
@@ -184,6 +185,9 @@
     <string name="contribute_confirm">确认投稿</string>
     <string name="contribute_platform_succeed">投稿成功</string>
     <string name="contribute_not_submit_records_footer">- 无投稿记录 -</string>
+    <string name="page_num">%s页</string>
+    <string name="record">录播</string>
+    <string name="solive">直播</string>
 
     <!-- 流量支付 -->
     <string name="flow_rate_manage">流量管理</string>

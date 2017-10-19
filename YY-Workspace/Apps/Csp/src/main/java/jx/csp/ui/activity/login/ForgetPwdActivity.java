@@ -12,7 +12,6 @@ import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.yy.network.Result;
@@ -67,11 +66,6 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     protected void toSet() {
         refresh(RefreshWay.dialog);
         exeNetworkReq(LoginAPI.findPwd(getEmail()).build());
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return super.onNetworkResponse(id, r);
     }
 
     @Override

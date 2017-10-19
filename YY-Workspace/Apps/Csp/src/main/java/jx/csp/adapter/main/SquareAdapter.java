@@ -4,6 +4,7 @@ import jx.csp.R;
 import jx.csp.adapter.VH.main.SquareVH;
 import jx.csp.model.main.Square;
 import jx.csp.model.main.Square.TSquare;
+import jx.csp.model.meeting.Course.PlayType;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
@@ -26,7 +27,7 @@ public class SquareAdapter extends RecyclerAdapterEx<Square, SquareVH> {
                 .load();
         holder.getTvTotalPage().setText(item.getString(TSquare.pageCount));
         holder.getTvTitle().setText(item.getString(TSquare.title));
-        if (item.getString(TSquare.playType) == "0") {
+        if (item.getInt(TSquare.playType) == PlayType.reb) {
             holder.getTvTime().setText(item.getString(TSquare.playTime));
             holder.getTvCurrentPage().setText(item.getString(TSquare.playPage));
 //            holder.getTvPlayState().setText(item.getString(TSquare.playState));

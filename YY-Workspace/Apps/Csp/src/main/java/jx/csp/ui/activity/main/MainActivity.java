@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.main;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -7,7 +8,6 @@ import android.widget.RelativeLayout;
 import jx.csp.R;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseVPActivity;
 
@@ -18,15 +18,16 @@ import lib.yy.ui.activity.base.BaseVPActivity;
 
 public class MainActivity extends BaseVPActivity {
 
-    private boolean mFlag;
+
     private RelativeLayout mRl;
     private ImageView mIvShift;
+    private boolean mFlag ;
 
     @Override
     public void initData() {
         add(new MainSquareFrag());
         add(new MainSlideFrag());
-        mFlag = true;
+        mFlag= true;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class MainActivity extends BaseVPActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addTextViewMid("CSPmeeting");
+        bar.addTextViewMid(getString(R.string.CSPmeeting));
         bar.addViewLeft(R.drawable.ic_default_user_header, v -> {
             startActivity(MeActivity.class);
         });
@@ -45,10 +46,10 @@ public class MainActivity extends BaseVPActivity {
             mFlag = !mFlag;
             if (mFlag) {
                 setCurrentItem(0);
-                YSLog.d("mFlag", mFlag + "");
+                mRl.setVisibility(View.GONE);
             } else {
                 setCurrentItem(1);
-                YSLog.d("mFlag", mFlag + "");
+                mRl.setVisibility(View.VISIBLE);
             }
         });
         mIvShift = Util.getBarView(group,ImageView.class);

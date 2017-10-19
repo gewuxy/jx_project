@@ -4,7 +4,9 @@ import jx.csp.R;
 import jx.csp.adapter.VH.me.HistoryDetailVH;
 import jx.csp.model.me.HistoryDetail;
 import jx.csp.model.me.HistoryDetail.THistoryDetail;
+import jx.csp.model.meeting.Course.PlayType;
 import lib.ys.adapter.AdapterEx;
+import lib.ys.util.res.ResLoader;
 
 /**
  * @auther WangLan
@@ -21,7 +23,7 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail,HistoryDetailV
     protected void refreshView(int position, HistoryDetailVH holder) {
         //总页数
         HistoryDetail item = getItem(position);
-        String s = String.format(item.getString(THistoryDetail.pageCount)+"%s","页");
+        String s = String.format(ResLoader.getString(R.string.page_num),item.getString(THistoryDetail.pageCount));
 
         //录播的总时长
         String duration = item.getString(THistoryDetail.duration);
@@ -31,8 +33,8 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail,HistoryDetailV
         holder.getIvHead().url(item.getString(THistoryDetail.coverUrl)).load();
         holder.getTvTitle().setText(item.getString(THistoryDetail.title));
         holder.getTvPaper().setText(s);
-        if (item.getString(THistoryDetail.playType) == "0") {
-            holder.getTvState().setText("录播");
+        if (item.getInt(THistoryDetail.playType) == PlayType.reb) {
+            holder.getTvState().setText(ResLoader.getString(R.string.record));
 
             if (seconds > 60){
                 long second = seconds % 60;
@@ -41,7 +43,7 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail,HistoryDetailV
             }
             holder.getTvTime().setText(timeStr);
         }else{
-            holder.getTvState().setText("直播");
+            holder.getTvState().setText(ResLoader.getString(R.string.solive));
 
             //直播的开始时间转换
           /*  Date d = new Date(Long.parseLong(item.getString(THistoryDetail.startTime)));

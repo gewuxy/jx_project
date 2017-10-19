@@ -23,7 +23,8 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.me.MeActivity;
+import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -127,7 +128,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         switch (v.getId()) {
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(MeActivity.class);
+                startActivity(TestActivity.class);
             }
             break;
         }
@@ -183,6 +184,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
         if (id == KIdLogin) {
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
@@ -201,12 +203,10 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
                         setResult(RESULT_OK);
-                        //Fixme:跳到首页，暂时还没有
-                        startActivity(MeActivity.class);
+                        startActivity(MainActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);
                 }
-                stopRefresh();
                 finish();
             } else {
                 onNetworkError(id, r.getError());
