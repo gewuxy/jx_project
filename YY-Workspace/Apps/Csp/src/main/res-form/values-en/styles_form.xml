@@ -9,9 +9,8 @@
         <item name="android:background">@drawable/item_csp_selector</item>
     </style>
 
-    <!-- 适配英文版-->
     <style name="v.form.Bind">
-        <item name="android:layout_height">@dimen/form_height</item>
+        <item name="android:layout_height">62dp</item>
     </style>
 
     <style name="divider.form">

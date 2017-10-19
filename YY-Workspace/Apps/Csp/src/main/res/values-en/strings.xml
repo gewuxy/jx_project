@@ -6,8 +6,8 @@
     <string name="network_disabled">当前网络不可用，请检查网络配置</string>
     <string name="user_photo_permission">请开启拍照权限</string>
     <string name="user_album_permission">请开启查看相册权限</string>
-    <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
+    <string name="confirm">Yes</string>
+    <string name="cancel">No</string>
     <string name="well">好</string>
     <string name="affirm">确认</string>
 
@@ -64,19 +64,19 @@
     <string name="get_captcha">获取验证码</string>
     <string name="captcha_login">验证码登录</string>
     <string name="find_pwd">找回密码</string>
-    <string name="send_email">发送验证邮件</string>
+    <string name="send_email">发送验证邮箱</string>
     <string name="input_register_email">输入注册时的邮箱地址</string>
     <string name="register">注册</string>
     <string name="immediately_register">立即注册</string>
     <string name="pwd_err">密码错误</string>
     <string name="get_captcha_frequently">获取验证码太频繁</string>
     <string name="send_captcha">已发送验证码</string>
-    <string name="email_have_been_register">该邮箱已注册，是否立即登录？</string>
+    <string name="phone_have_been_register">该手机已注册，是否立即登录？</string>
     <string name="immediately_login">立即登陆</string>
     <string name="input_special_symbol">请不要输入特殊字符</string>
     <string name="input_right_pwd_num">请输入6~24位密码</string>
     <string name="reset_pwd_to_email">重置密码链接已发送至您的邮箱，请设置密码后再重新登录</string>
-    <string name="active_email">激活账号邮件已发送至您的邮箱，请前往激活完成注册。</string>
+    <string name="five_second_back_to_login">5s返回登录</string>
     <string name="back_to_login">%ds返回登录</string>
     <string name="visit_csp">使用敬信数字平台账号访问 CSPmeeting</string>
     <string name="username">用户名</string>
@@ -99,67 +99,63 @@
     <string name="share_fail">分享失败</string>
     <string name="share_cancel">分享取消</string>
 
-    <!--首页-->
-    <string name="living">直播会议正在进行中...</string>
-    <string name="click_continue">点击继续</string>
-
     <!-- 个人中心 -->
-    <string name="person_center">个人中心</string>
-    <string name="person_center_avatar">头像</string>
-    <string name="person_center_history">投稿历史</string>
-    <string name="person_center_flow_manage">流量管理</string>
-    <string name="person_center_account_manage">账号管理</string>
-    <string name="person_center_help_and_feedback">帮助与反馈</string>
+    <string name="person_center">Profile</string>
+    <string name="person_center_avatar">Head-Portrait</string>
+    <string name="person_center_history">History</string>
+    <string name="person_center_flow_manage">Network Flow</string>
+    <string name="person_center_account_manage">Account</string>
+    <string name="person_center_help_and_feedback">Help &amp; Feedback</string>
 
     <!-- 我的信息 -->
-    <string name="my_message">我的信息</string>
-    <string name="my_message_intro">简介</string>
-    <string name="my_message_person_intro">个人简介</string>
+    <string name="my_message">Me</string>
+    <string name="my_message_intro">Biography</string>
+    <string name="my_message_person_intro">Your Biography</string>
     <string name="my_message_intro_unit">%1$d</string>
-    <string name="my_message_nick_name">昵称</string>
-    <string name="my_message_no_input">未输入</string>
-    <string name="my_message_input_nick_name">输入昵称</string>
-    <string name="my_message_save">保存</string>
-    <string name="my_message_save_success">保存成功</string>
+    <string name="my_message_nick_name">Name</string>
+    <string name="my_message_no_input">No input</string>
+    <string name="my_message_input_nick_name">Your Name</string>
+    <string name="my_message_save">Save</string>
+    <string name="my_message_save_success">Save Success</string>
     <string name="my_message_take_photo">拍照</string>
     <string name="my_message_from_album_select">从相册选择</string>
 
     <!-- 设置 -->
-    <string name="setting">设置</string>
-    <string name="setting_clear_img_cache">清理图片缓存</string>
-    <string name="setting_clear_sound_cache">清理音频缓存</string>
-    <string name="setting_clear">清除</string>
+    <string name="setting">Settings</string>
+    <string name="setting_clear_img_cache">Clear Image Cache</string>
+    <string name="setting_clear_sound_cache">Clear Audio Cache</string>
+    <string name="setting_clear">Clear</string>
     <string name="setting_exit_current_account">确定退出当前账号</string>
-    <string name="setting_exit_account">退出登录</string>
-    <string name="setting_exit">退出</string>
+    <string name="setting_exit_account">Log Out</string>
+    <string name="setting_exit">Yes</string>
     <!-- 设置 修改密码-->
-    <string name="setting_change_pwd">修改密码</string>
-    <string name="setting_confirm_change">确认修改</string>
-    <string name="setting_old_pwd">输入旧密码</string>
-    <string name="setting_new_pwd">输入新密码</string>
+    <string name="setting_change_pwd">Change Password</string>
+    <string name="setting_confirm_change">Confirm New Password</string>
+    <string name="setting_old_pwd">Original password</string>
+    <string name="setting_new_pwd">New password</string>
     <string name="setting_change_pwd_succeed">密码修改成功</string>
     <!-- 设置 绑定邮箱-->
-    <string name="setting_bind_email">绑定邮箱</string>
-    <string name="setting_change_pwd_bind_email">绑定邮箱</string>
-    <string name="setting_input_email_address">输入邮箱地址</string>
-    <string name="setting_change_email_address">更换邮箱地址</string>
-    <string name="setting_certification_email">认证邮箱</string>
+    <string name="setting_bind_email">E-mail Binding</string>
+    <string name="setting_change_pwd_bind_email">Bind E-mail Address</string>
+    <string name="setting_input_email_address">E-mail Address</string>
+    <string name="setting_change_email_address">Change E-mail Address</string>
+    <string name="setting_certification_email">Verify E-mail Address</string>
     <string name="setting_bind_email_succeed">发送成功</string>
-    <string name="setting_bind_text">修改密码需绑定邮箱后才能继续操作</string>
-    <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
+    <string name="setting_bind_text">Please bind your e-mail address before changing the password.</string>
+    <string name="setting_certification_text">Verification link has been sent. \nPlease check your e-mail.</string>
     
     <!-- 账号管理 -->
-    <string name="account_manage">账号管理</string>
-    <string name="account_not_bind">未绑定</string>
+    <string name="account_manage">Account</string>
+    <string name="account_not_bind">Not Bound</string>
     <string name="account_confirm_bind">确认绑定</string>
 
     <string name="account_phone">手机</string>
-    <string name="account_email">邮箱</string>
+    <string name="account_email">E-mail</string>
     <string name="account_wx">微信</string>
     <string name="account_sina">新浪微博</string>
     <string name="account_facebook">Facebook</string>
     <string name="account_twitter">Twitter</string>
-    <string name="account_jingxin">敬信数字平台</string>
+    <string name="account_jingxin">Jingxin Digital Platform</string>
     <string name="account_accredit_error">授权失败</string>
     <string name="account_wx_check_normal">检查“微信”是否正常启动</string>
 
@@ -177,32 +173,34 @@
     <string name="account_unbind_yaya">是否解除绑定YaYa医师</string>
 
     <!-- 投稿 -->
-    <string name="contribute_platform">投稿平台</string>
+    <string name="contribute_platform">Contribute to</string>
     <string name="contribute_history">投稿历史</string>
     <string name="contribute_not_submit_records">无投稿记录</string>
-    <string name="contribute_platform_hint_text">单位号需在“资源平台”打开\n“投稿箱”功能才能接受投稿</string>
-    <string name="contribute_confirm">确认投稿</string>
+    <string name="contribute_platform_hint_text">You can contribute to any
+                                                \ninstitution accounts who
+                                                \nhave turned on "Contribution Box" in
+                                                \n"Resource Platform".</string>
+    <string name="contribute_confirm">Complete Contribution</string>
     <string name="contribute_platform_succeed">投稿成功</string>
-    <string name="contribute_not_submit_records_footer">- 无投稿记录 -</string>
 
     <!-- 流量支付 -->
-    <string name="flow_rate_manage">流量管理</string>
-    <string name="flow_rate_pay">确认支付</string>
+    <string name="flow_rate_manage">Network Flow</string>
+    <string name="flow_rate_pay">Confirm</string>
     <string name="flow_rate_pay_success">支付成功</string>
     <string name="flow_rate_pay_fail">支付失败</string>
-    <string name="flow_rate_payment_proportion">1G流量 = 2元</string>
-    <string name="flow_rate_surplus">剩余流量</string>
-    <string name="flow_rate_recharge">充值流量</string>
-    <string name="flow_rate_actual_pay">实际支付</string>
+    <string name="flow_rate_payment_proportion">1 GB = 2 USD</string>
+    <string name="flow_rate_surplus">Network Flow Balance</string>
+    <string name="flow_rate_recharge">Recharge Network Flow</string>
+    <string name="flow_rate_actual_pay">Payment: </string>
     <string name="flow_rate_amount">%d</string>
-    <string name="flow_rate_unit">元</string>
+    <string name="flow_rate_unit">USD</string>
     <string name="flow_rate_input_top_up">请输入充值流量</string>
 
     <!-- 帮助与反馈-->
-    <string name="help_and_feedback_update_log">更新日志</string>
-    <string name="help_and_feedback_service_agreement">服务协议</string>
-    <string name="help_and_feedback_help">帮助</string>
-    <string name="help_and_feedback_opinion_feedback">意见反馈</string>
-    <string name="help_and_feedback_about_us">关于我们</string>
+    <string name="help_and_feedback_update_log">Update Log</string>
+    <string name="help_and_feedback_service_agreement">Terms of Service</string>
+    <string name="help_and_feedback_help">Help</string>
+    <string name="help_and_feedback_opinion_feedback">Feedback</string>
+    <string name="help_and_feedback_about_us">About Us</string>
 
 </resources>

@@ -106,10 +106,10 @@ public class FlowRateManageActivity extends BaseActivity {
         mTvMoney = findView(R.id.flow_rate_tv_money);
         mTvPay = findView(R.id.flow_rate_tv_pay);
 
-        findChannelView(R.id.flow_rate_rl_alipay);
-        findChannelView(R.id.flow_rate_rl_wechat);
-        findChannelView(R.id.flow_rate_rl_unionpay);
-        findChannelView(R.id.flow_rate_rl_paypal);
+        findChannelView(R.id.flow_rate_iv_alipay);
+        findChannelView(R.id.flow_rate_iv_wechat);
+        findChannelView(R.id.flow_rate_iv_unionpay);
+        findChannelView(R.id.flow_rate_iv_paypal);
     }
 
     @Override
@@ -185,10 +185,10 @@ public class FlowRateManageActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.flow_rate_rl_unionpay:
-            case R.id.flow_rate_rl_paypal:
-            case R.id.flow_rate_rl_wechat:
-            case R.id.flow_rate_rl_alipay: {
+            case R.id.flow_rate_iv_unionpay:
+            case R.id.flow_rate_iv_paypal:
+            case R.id.flow_rate_iv_wechat:
+            case R.id.flow_rate_iv_alipay: {
                 changeChannelFocus(mChannelViews.getByKey(v.getId()));
             }
             break;
@@ -202,22 +202,23 @@ public class FlowRateManageActivity extends BaseActivity {
 
                 // 1) 请求服务器获取charge
                 switch (mPreChannelView.getId()) {
-                    case R.id.flow_rate_rl_alipay: {
+                    case R.id.flow_rate_iv_alipay: {
                         refresh(RefreshWay.dialog);
                         exeNetworkReq(PayAPI.pingPay(mRechargeSum, KChannelAliPay).build());
                     }
                     break;
-                    case R.id.flow_rate_rl_wechat: {
+                    case R.id.flow_rate_iv_wechat: {
+                        // FIXME: 2017/10/16 微信支付未注册
                         startActivity(MeActivity.class);
                         finish();
                     }
                     break;
-                    case R.id.flow_rate_rl_unionpay: {
+                    case R.id.flow_rate_iv_unionpay: {
                         refresh(RefreshWay.dialog);
                         exeNetworkReq(PayAPI.pingPay(mRechargeSum, KChannelUpAcp).build());
                     }
                     break;
-                    case R.id.flow_rate_rl_paypal: {
+                    case R.id.flow_rate_iv_paypal: {
                         refresh(RefreshWay.dialog);
                         exeNetworkReq(KPayPalPayCode, PayAPI.paypalPay(mRechargeSum).build());
                     }

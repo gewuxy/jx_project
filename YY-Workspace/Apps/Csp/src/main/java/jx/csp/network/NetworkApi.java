@@ -16,6 +16,7 @@ import inject.annotation.network.method.Upload;
         hostDebuggable = "http://59.111.90.245:8084/api/"
 //        hostDebuggable = "http://10.0.0.234:8080/api/"   //礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   //轩哥电脑
+//        hostDebuggable = "http://10.0.0.252:8084/api/"   //长玲电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 
 )
@@ -31,6 +32,18 @@ public class NetworkApi {
          */
         @Upload("user/updateAvatar")
         void upload(byte[] file);
+
+        /**
+         * 修改个人资料
+         *
+         * @param userName
+         * @param info
+         * @param nickName
+         */
+        @Post("user/updateInfo")
+        void modify(@Query(opt = true) String userName,
+                    @Query(opt = true) String info,
+                    @Query(opt = true) String nickName);
 
         /**
          * 修改密码
@@ -191,6 +204,14 @@ public class NetworkApi {
          */
         @Post("email/findPwd")
         void findPwd(String email);
+
+        /**
+         * 退出登录
+         *
+         * @param token
+         */
+        @Post("user/logout")
+        void logOut(String token);
     }
 
     /**

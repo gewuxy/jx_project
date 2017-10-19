@@ -19,13 +19,13 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  * @since 2017/10/16
  */
 
-public class HelpAndFeedbackActivity extends BaseFormActivity{
+public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @IntDef({
 
     })
     @Retention(RetentionPolicy.SOURCE)
-    private @interface RelatedId{
+    private @interface RelatedId {
         int update_log = 1;
         int service_agreement = 2;
         int help = 3;

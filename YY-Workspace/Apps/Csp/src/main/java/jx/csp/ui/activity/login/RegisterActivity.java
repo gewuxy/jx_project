@@ -82,8 +82,10 @@ public class RegisterActivity extends BaseLoginActivity {
         super.setViews();
         mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
         mEtEmail.addTextChangedListener(this);
+
         mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
         mEtPwd.addTextChangedListener(this);
+
         mEtNickname = getRelatedItem(RelatedId.nickname).getHolder().getEt();
         mEtNickname.addTextChangedListener(this);
 

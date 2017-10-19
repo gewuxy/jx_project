@@ -15,7 +15,7 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.network.NetFactory;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.ui.activity.TestActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
@@ -95,7 +95,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(NetFactory.modifyProfile("nickName",getNickName()));
+        exeNetworkReq(UserAPI.modify().nickName(getNickName()).build());
     }
 
     @Override

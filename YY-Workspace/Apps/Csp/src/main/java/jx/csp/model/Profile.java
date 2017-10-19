@@ -17,8 +17,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
     public enum TProfile {
         token,      // 会话令牌
         id,
-        headimg,     //头像
-        userName,  //姓名
+        headimg,    //头像
+        userName,   //姓名
         gender,     //性别
         info,       //个人简介
         email,      //邮箱
@@ -27,11 +27,11 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         sina,       //新浪
         facebook,
         twitter,
-        yaya,       //yaya医师
-        nickName,    //昵称
+        jingxin,       //敬信数字平台
+        nickName,   //昵称
 
         @Init(asInt = 0)
-        flowrate,    //流量
+        flowrate,   //流量
     }
 
     private static Profile mInst = null;

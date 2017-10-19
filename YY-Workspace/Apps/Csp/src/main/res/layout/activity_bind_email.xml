@@ -25,6 +25,6 @@
         style="@style/tv.common"
         android:id="@+id/set_tv_bind_email"
         android:layout_marginTop="30dp"
-        android:text="@string/setting_bind_email"/>
+        android:text="@string/setting_change_pwd_bind_email"/>
 
 </LinearLayout>

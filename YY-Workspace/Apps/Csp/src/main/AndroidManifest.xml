@@ -151,6 +151,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
 
+
+        <!-- service -->
+        <service android:name=".serv.CommonServ"/>
         <meta-data
             android:name="JX_LANGUAGE"
             android:value="${language}" />

@@ -28,6 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"/>
+
+            <ImageView
+                style="@style/iv.form.clean"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

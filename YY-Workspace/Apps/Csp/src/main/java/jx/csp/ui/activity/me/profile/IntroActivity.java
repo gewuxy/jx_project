@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import inject.annotation.router.Route;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import jx.csp.R;
 
@@ -45,7 +47,6 @@ public class IntroActivity extends BaseMyMessageActivity{
         super.setViews();
 
         setLength(KTextLength - getVal().length());
-        addTextChangeListener(mEt);
 
         mEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,5 +78,11 @@ public class IntroActivity extends BaseMyMessageActivity{
     @Override
     protected EditText getEt() {
         return mEt;
+    }
+
+    @Override
+    protected void toSet() {
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(UserAPI.modify().info(mEt.getText().toString()).build());
     }
 }

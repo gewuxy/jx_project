@@ -1,10 +1,10 @@
 <manifest
-    package="lib.pay"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="lib.pay">
 
-    <uses-sdk   android:minSdkVersion="16"
-                xmlns:tools="http://schemas.android.com/tools"
-                tools:overrideLibrary="com.paypal.android.sdk.payments"/>
+    <uses-sdk xmlns:tools="http://schemas.android.com/tools"
+              android:minSdkVersion="16"
+              tools:overrideLibrary="com.paypal.android.sdk.payments"/>
 
     <!-- 通用权限 -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -23,7 +23,7 @@
             android:name="com.pingplusplus.android.PaymentActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
         <!--微信支付需要注册-->
@@ -33,23 +33,22 @@
         <!--</font>-->
 
         <!--<activity-alias-->
-        <!--android:name="替换成自己APK的包名.wxapi.WXPayEntryActivity"-->
-        <!--android:exported="true"-->
-        <!--android:targetActivity="com.pingplusplus.android.PaymentActivity" />-->
+            <!--android:name="替换成自己APK的包名.wxapi.WXPayEntryActivity"-->
+            <!--android:exported="true"-->
+            <!--android:targetActivity="com.pingplusplus.android.PaymentActivity"/>-->
 
         <!--支付宝支付需要注册-->
-
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
-            android:screenOrientation="behind" >
+            android:screenOrientation="behind">
         </activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
-            android:screenOrientation="behind" >
+            android:screenOrientation="behind">
         </activity>
 
         <!--银联支付需注册-->

@@ -11,13 +11,6 @@ import java.lang.annotation.RetentionPolicy;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import lib.jg.jpush.SpJPush;
-import lib.ys.YSLog;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.FileUtil;
-import lib.ys.util.res.ResLoader;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseFormActivity;
 import jx.csp.R;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.HintDialogMain;
@@ -25,10 +18,20 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.me.set.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
+import lib.jg.jpush.SpJPush;
+import lib.ys.YSLog;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
+import lib.ys.util.res.ResLoader;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
  * 设置
@@ -184,30 +187,22 @@ public class SettingsActivity extends BaseFormActivity {
         HintDialogMain d = new HintDialogMain(this);
         d.setHint(getString(R.string.setting_exit_current_account));
         d.addBlackButton(getString(R.string.setting_exit), v -> {
-//            CommonServRouter.create()
-//                    .type(ReqType.logout)
-//                    .token(Profile.inst().getString(TProfile.token))
-//                    .route(this);
-//
-//            notify(NotifyType.logout);
+            CommonServRouter.create()
+                    .type(ReqType.logout)
+                    .token(Profile.inst().getString(TProfile.token))
+                    .route(this);
+
+            notify(NotifyType.logout);
 
             //清空个人信息，把极光绑定改为false 登录后需要重新绑定
             SpUser.inst().clear();
             SpJPush.inst().jPushIsRegister(false);
             Profile.inst().clear();
 
+            startActivity(EmailLoginActivity.class);
             finish();
         });
         d.addBlueButton(R.string.cancel);
         d.show();
-    }
-
-    @Override
-    public void onNotify(int type, Object data) {
-        if (type == NotifyType.bind_email) {
-            String email = Profile.inst().getString(TProfile.userName);
-            getRelatedItem(RelatedId.change_password).save(email, email);
-            refreshRelatedItem(RelatedId.change_password);
-        }
     }
 }

@@ -23,7 +23,7 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -127,7 +127,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         switch (v.getId()) {
             case R.id.protocol: {
                 //Fixme:跳转到h5页面，现在还没有文案
-                startActivity(TestActivity.class);
+                startActivity(MeActivity.class);
             }
             break;
         }
@@ -202,7 +202,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
                         setResult(RESULT_OK);
                         //Fixme:跳到首页，暂时还没有
-                        startActivity(TestActivity.class);
+                        startActivity(MeActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);
                 }

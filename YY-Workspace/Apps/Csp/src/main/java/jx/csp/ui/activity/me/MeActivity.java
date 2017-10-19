@@ -107,13 +107,14 @@ public class MeActivity extends BaseFormActivity {
     @Override
     public void setViews() {
         super.setViews();
-
-        mTvName.setText(Profile.inst().getString(TProfile.userName));
         setOnClickListener(R.id.layout_me_header);
+
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .renderer(new CircleRenderer())
                 .url(Profile.inst().getString(TProfile.headimg))
                 .load();
+        mTvName.setText(Profile.inst().getString(TProfile.nickName));
+        mTvEmail.setText(Profile.inst().getString(TProfile.email));
     }
 
     @Override
@@ -162,7 +163,7 @@ public class MeActivity extends BaseFormActivity {
                     .url(Profile.inst().getString(TProfile.headimg))
                     .load();
 
-            mTvName.setText(Profile.inst().getString(TProfile.userName));
+            mTvName.setText(Profile.inst().getString(TProfile.nickName));
             mTvEmail.setText(Profile.inst().getString(TProfile.email));
         }
     }

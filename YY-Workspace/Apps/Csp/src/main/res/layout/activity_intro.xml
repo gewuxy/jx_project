@@ -27,6 +27,7 @@
             style="@style/et.common"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:singleLine="false"
             android:padding="@dimen/margin"
             android:gravity="top"
             android:hint="@string/my_message_person_intro"

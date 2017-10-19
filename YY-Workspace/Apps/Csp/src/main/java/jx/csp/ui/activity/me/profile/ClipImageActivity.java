@@ -70,7 +70,6 @@ public class ClipImageActivity extends BaseActivity {
             if (bmp != null) {
                 mBmp = Bitmap.createBitmap(bmp, startX, startY, KBmpSize, KBmpSize, null, false);
                 // 网络上传图片
-                // FIXME: 2017/9/25 头像接口
                 refresh(RefreshWay.dialog);
                 exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
             }else {

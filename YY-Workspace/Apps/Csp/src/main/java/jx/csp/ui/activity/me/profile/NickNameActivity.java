@@ -1,12 +1,16 @@
 package jx.csp.ui.activity.me.profile;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 
 import inject.annotation.router.Route;
-import lib.ys.util.view.ViewUtil;
 import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.view.ViewUtil;
 
 /**
  * 昵称
@@ -39,12 +43,41 @@ public class NickNameActivity extends BaseMyMessageActivity {
     @Override
     public void setViews() {
         super.setViews();
-        addTextChangeListener(mEt);
+
         ViewUtil.limitInputCount(mEt, mLimit);
+        mEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    mEt.setText(str1);
+                    mEt.setSelection(start);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
     }
 
     @Override
     protected EditText getEt() {
         return mEt;
+    }
+
+    @Override
+    protected void toSet() {
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(UserAPI.modify().nickName(mEt.getText().toString()).build());
     }
 }

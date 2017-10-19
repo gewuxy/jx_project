@@ -36,8 +36,4 @@ public class UrlUtil {
         return mBase;
     }
 
-    public interface UrlUser {
-        String KModify = "user/updateInfo";
-    }
-
 }

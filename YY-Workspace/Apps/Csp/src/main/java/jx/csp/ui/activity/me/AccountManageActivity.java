@@ -43,7 +43,7 @@ public class AccountManageActivity extends BaseFormActivity {
             RelatedId.bind_sina,
             RelatedId.bind_facebook,
             RelatedId.bind_twitter,
-            RelatedId.bind_yaya,
+            RelatedId.bind_jingxin,
             RelatedId.bind_phone,
             RelatedId.bind_email,
     })
@@ -53,19 +53,9 @@ public class AccountManageActivity extends BaseFormActivity {
         int bind_sina = 2;
         int bind_facebook = 3;
         int bind_twitter = 4;
-        int bind_yaya = 5;
+        int bind_jingxin = 5;
         int bind_phone = 6;
         int bind_email = 7;
-    }
-
-    @IntDef({
-            TypeId.un_bind_email,
-            TypeId.un_bind_phone,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    private @interface TypeId {
-        int un_bind_email = 0;
-        int un_bind_phone = 1;
     }
 
     @Override
@@ -73,7 +63,7 @@ public class AccountManageActivity extends BaseFormActivity {
         super.initData();
         mPlatAuth = new PlatformAuthorizeUserInfoManager();
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_phone)
                 .name(R.string.account_phone)
@@ -81,7 +71,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(TProfile.phone))
                 .hint(R.string.account_not_bind));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_wx)
                 .name(R.string.account_wx)
@@ -89,7 +79,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(TProfile.wx))
                 .hint(R.string.account_not_bind));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_sina)
                 .name(R.string.account_sina)
@@ -97,7 +87,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(TProfile.sina))
                 .hint(R.string.account_not_bind));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_email)
                 .name(R.string.account_email)
@@ -105,7 +95,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(TProfile.email))
                 .hint(R.string.account_not_bind));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_facebook)
                 .name(R.string.account_facebook)
@@ -113,7 +103,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(TProfile.facebook))
                 .hint(R.string.account_not_bind));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_twitter)
                 .name(R.string.account_twitter)
@@ -121,13 +111,13 @@ public class AccountManageActivity extends BaseFormActivity {
                 .text(Profile.inst().getString(TProfile.twitter))
                 .hint(R.string.account_not_bind));
 
-//        addItem(Form.create(FormType.divider));
-//        addItem(Form.create(FormType.text_intent_bind)
-//                .related(RelatedId.bind_yaya)
-//                .name(R.string.account_yaya)
-//                .drawable(R.drawable.form_ic_account_twitter)
-//                .text(Profile.inst().getString(TProfile.yaya))
-//                .hint(R.string.account_not_bind));
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text_intent_bind)
+                .related(RelatedId.bind_jingxin)
+                .name(R.string.account_jingxin)
+                .drawable(R.drawable.form_ic_account_jingxin)
+                .text(Profile.inst().getString(TProfile.jingxin))
+                .hint(R.string.account_not_bind));
 
     }
 
@@ -150,12 +140,13 @@ public class AccountManageActivity extends BaseFormActivity {
                             return;
                         }
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(UserAPI.unBind(TypeId.un_bind_phone).build());
+                        exeNetworkReq(RelatedId.bind_phone, UserAPI.unBind(RelatedId.bind_phone).build());
                     });
                 }
             }
             break;
             case RelatedId.bind_email: {
+                // FIXME: 2017/10/16 不知道什么时候认证邮箱，暂时无法绑定，使用邮箱登录可以显示绑定
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
                     startActivity(BindEmailActivity.class);
                 } else {
@@ -164,9 +155,8 @@ public class AccountManageActivity extends BaseFormActivity {
                         if (Util.noNetwork()) {
                             return;
                         }
-                        // FIXME: 2017/9/27 解绑邮箱接口
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(UserAPI.unBind(TypeId.un_bind_email).build());
+                        exeNetworkReq(RelatedId.bind_email, UserAPI.unBind(RelatedId.bind_email).build());
                     });
                 }
             }
@@ -174,7 +164,6 @@ public class AccountManageActivity extends BaseFormActivity {
             case RelatedId.bind_wx: {
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.wx))) {
                     // 未绑定
-
                     if (Util.noNetwork()) {
                         return;
                     }
@@ -202,29 +191,19 @@ public class AccountManageActivity extends BaseFormActivity {
             case RelatedId.bind_sina: {
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.sina))) {
                     // 未绑定
-
                     if (Util.noNetwork()) {
                         return;
                     }
                     mPlatAuth.sinaAuthorize();
 
                 } else {
-                    unBind(getString(R.string.account_unbind_sina), v1 -> {
-                        if (Util.noNetwork()) {
-                            return;
-                        }
-                        refresh(RefreshWay.dialog);
-                        exeNetworkReq(UserAPI.bindAccountStatus()
-                                .thirdPartyId(RelatedId.bind_sina)
-                                .build());
-                    });
+
                 }
             }
             break;
             case RelatedId.bind_facebook: {
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.facebook))) {
                     // 未绑定
-
                     if (Util.noNetwork()) {
                         return;
                     }
@@ -237,36 +216,30 @@ public class AccountManageActivity extends BaseFormActivity {
 //                            .gender(Profile.inst().getString(TProfile.gender))
 //                            .build());
                 } else {
-                    unBind(getString(R.string.account_unbind_facebook), v1 -> {
-                        if (Util.noNetwork()) {
-                            return;
-                        }
-                        refresh(RefreshWay.dialog);
-                        exeNetworkReq(UserAPI.bindAccountStatus()
-                                .thirdPartyId(RelatedId.bind_facebook)
-                                .build());
-                    });
+
                 }
             }
             break;
             case RelatedId.bind_twitter: {
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.twitter))) {
                     // 未绑定
-
                     if (Util.noNetwork()) {
                         return;
                     }
                     mPlatAuth.twitterAuthorize();
+                } else {
+
                 }
             }
             break;
-            case RelatedId.bind_yaya: {
-                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.yaya))) {
+            case RelatedId.bind_jingxin: {
+                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.jingxin))) {
                     // 未绑定
-
                     if (Util.noNetwork()) {
                         return;
                     }
+                }else {
+
                 }
             }
             break;
@@ -283,8 +256,7 @@ public class AccountManageActivity extends BaseFormActivity {
         stopRefresh();
         // 绑定的
         Result r = (Result) result;
-        @RelatedId int relateId = id;
-        switch (relateId) {
+        switch (id) {
             case RelatedId.bind_wx: {
                 unBindUpdate(r, RelatedId.bind_wx, TProfile.wx);
             }
@@ -301,19 +273,38 @@ public class AccountManageActivity extends BaseFormActivity {
                 unBindUpdate(r, RelatedId.bind_twitter, TProfile.twitter);
             }
             break;
-            case RelatedId.bind_email: {
-                unBindUpdate(r, RelatedId.bind_email, TProfile.email);
+            case RelatedId.bind_jingxin: {
+                unBindUpdate(r, RelatedId.bind_twitter, TProfile.twitter);
             }
             break;
             case RelatedId.bind_phone: {
                 unBindUpdate(r, RelatedId.bind_phone, TProfile.phone);
             }
             break;
+            case RelatedId.bind_email: {
+                unBindUpdate(r, RelatedId.bind_email, TProfile.email);
+            }
+            break;
         }
     }
 
     /**
-     * 解绑 / 换绑
+     * 绑定成功
+     *
+     * @param data
+     * @param id
+     */
+    private void bindSuccess(String data, @RelatedId int id) {
+        getRelatedItem(id).save(data, data);
+        refreshRelatedItem(id);
+        showToast(R.string.account_bind_succeed);
+    }
+
+    /**
+     * 确定是否解绑
+     *
+     * @param hint
+     * @param l
      */
     private void unBind(CharSequence hint, OnClickListener l) {
         HintDialogMain d = new HintDialogMain(AccountManageActivity.this);
@@ -325,6 +316,10 @@ public class AccountManageActivity extends BaseFormActivity {
 
     /**
      * 解绑成功
+     *
+     * @param r
+     * @param id
+     * @param key
      */
     private void unBindUpdate(Result r, @RelatedId int id, TProfile key) {
         if (r.isSucceed()) {
@@ -350,7 +345,6 @@ public class AccountManageActivity extends BaseFormActivity {
 //        dialog.addBlueButton(R.string.confirm);
 //        dialog.show();
 //    }
-
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.bind_wx) {
@@ -362,11 +356,5 @@ public class AccountManageActivity extends BaseFormActivity {
             getRelatedItem(RelatedId.bind_email).save(email, email);
             refreshRelatedItem(RelatedId.bind_email);
         }
-    }
-
-    private void bindSuccess(String data, @RelatedId int id) {
-        getRelatedItem(id).save(data, data);
-        refreshRelatedItem(id);
-        showToast(R.string.account_bind_succeed);
     }
 }

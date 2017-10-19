@@ -7,8 +7,8 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.yy.adapter.VH.FormVH;
 import jx.csp.Extra;
+import lib.yy.adapter.VH.FormVH;
 
 /**
  * @author HuoXuYu

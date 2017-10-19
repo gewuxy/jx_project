@@ -22,7 +22,6 @@ import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
-import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
@@ -138,20 +137,21 @@ public class BindPhoneActivity extends BaseSetActivity {
                     dialog.addHintView(view);
                     dialog.addGrayButton(R.string.cancel);
                     dialog.addBlueButton(getString(R.string.well), v1 -> {
-                        mCount++;
-                        YSLog.d("mCount:",mCount+"");
-                        if (mCount == 1) {
-                            mStartTime = System.currentTimeMillis();
-                        }
-                        if (mCount > KMaxCount) {
-                            long duration = System.currentTimeMillis() - mStartTime;
-                            if (duration <= KCaptchaDuration) {
-                                showToast(R.string.get_captcha_frequently);
-                                return;
-                            } else {
-                                mCount = 1;
-                            }
-                        }
+                        // FIXME: 2017/10/17 暂时注释
+//                        mCount++;
+//                        YSLog.d("mCount:",mCount+"");
+//                        if (mCount == 1) {
+//                            mStartTime = System.currentTimeMillis();
+//                        }
+//                        if (mCount > KMaxCount) {
+//                            long duration = System.currentTimeMillis() - mStartTime;
+//                            if (duration <= KCaptchaDuration) {
+//                                showToast(R.string.get_captcha_frequently);
+//                                return;
+//                            } else {
+//                                mCount = 1;
+//                            }
+//                        }
                         exeNetworkReq(KIdCaptcha, LoginAPI.sendCaptcha(getPhone(), CaptchaType.re_fetch).build());
                     });
                     dialog.show();

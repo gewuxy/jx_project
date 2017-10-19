@@ -20,6 +20,7 @@ import jx.csp.network.NetworkApiDescriptor.LoginAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.TestActivity;
+import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -147,9 +148,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             Profile.inst().put(TProfile.email, getEmail());
             Profile.inst().saveToSp();
             setResult(RESULT_OK);
-            //Fixme:跳到首页，暂时还没有
-            startActivity(TestActivity.class);
             stopRefresh();
+            startActivity(MeActivity.class);
             finish();
         } else {
             onNetworkError(id, r.getError());

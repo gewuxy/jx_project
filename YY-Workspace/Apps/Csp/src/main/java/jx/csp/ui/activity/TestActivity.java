@@ -2,6 +2,7 @@ package jx.csp.ui.activity;
 
 import android.content.Intent;
 
+import jx.csp.ui.activity.login.CaptchaLoginActivity;
 import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.MeActivity;
@@ -20,5 +21,6 @@ public class TestActivity extends BaseTestActivity {
         add("个人中心", new Intent(this, MeActivity.class));
         add("邮箱登录", new Intent(this, EmailLoginActivity.class));
         add("登录", new Intent(this, ThirdPartyLoginActivity.class));
+        add("手机登录", new Intent(this, CaptchaLoginActivity.class));
     }
 }
