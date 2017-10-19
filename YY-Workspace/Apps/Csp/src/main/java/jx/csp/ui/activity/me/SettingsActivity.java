@@ -20,13 +20,11 @@ import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
-import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.me.set.BindEmailJumpActivity;
 import jx.csp.ui.activity.me.set.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
-import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
@@ -191,16 +189,9 @@ public class SettingsActivity extends BaseFormActivity {
         d.addBlackButton(getString(R.string.setting_exit), v -> {
             CommonServRouter.create()
                     .type(ReqType.logout)
-//                    .token(Profile.inst().getString(TProfile.token))
                     .route(this);
 
             notify(NotifyType.logout);
-
-            //清空个人信息，把极光绑定改为false 登录后需要重新绑定
-            SpUser.inst().clear();
-            SpJPush.inst().jPushIsRegister(false);
-            Profile.inst().clear();
-
             startActivity(EmailLoginActivity.class);
             finish();
         });

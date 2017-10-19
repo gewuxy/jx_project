@@ -1,5 +1,7 @@
 package jx.csp.model.form.text;
 
+import android.widget.TextView;
+
 import jx.csp.R;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
@@ -49,6 +51,11 @@ public class TextForm extends BaseForm{
         } else {
             iv.url(getUrl()).load();
             ViewUtil.showView(iv);
+        }
+
+        TextView tvName = holder.getTvName();
+        if (getNameColor() != null) {
+            tvName.setTextColor(getNameColor());
         }
     }
 }

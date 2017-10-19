@@ -4,6 +4,7 @@ import inject.annotation.network.Api;
 import inject.annotation.network.Descriptor;
 import inject.annotation.network.Host;
 import inject.annotation.network.Query;
+import inject.annotation.network.Retry;
 import inject.annotation.network.Url;
 import inject.annotation.network.method.DownloadFile;
 import inject.annotation.network.method.Get;
@@ -157,7 +158,7 @@ public class NetworkApi {
          * 退出登录
          */
         @Post("logout")
-//        @Retry(count = 5, delay = 1000)
+        @Retry(count = 5, delay = 1000)
         void logout();
     }
 

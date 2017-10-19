@@ -12,6 +12,7 @@ import jx.csp.model.form.FormType;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.res.ResLoader;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
@@ -55,26 +56,31 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.text)
                 .related(RelatedId.update_log)
+                .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_update_log));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.service_agreement)
+                .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_service_agreement));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.help)
+                .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_help));
 
         addItem(Form.create(FormType.divider));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.opinion_feedback)
+                .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_opinion_feedback));
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.about_us)
+                .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_about_us));
     }
 

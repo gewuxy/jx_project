@@ -11,8 +11,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.sp.SpUser;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -69,6 +71,10 @@ public class CommonServ extends ServiceEx{
         switch (id) {
             case ReqType.logout: {
                 if (r.isSucceed()) {
+                    //清空个人信息，把极光绑定改为false 登录后需要重新绑定
+                    SpUser.inst().clear();
+                    SpJPush.inst().jPushIsRegister(false);
+                    Profile.inst().clear();
                     YSLog.d(TAG, "退出账号成功");
                 } else {
                     retryNetworkRequest(id);

@@ -348,6 +348,11 @@ abstract public class BaseForm extends FormEx<FormVH> {
     }
 
     @Override
+    public BaseForm nameColor(@ColorInt int color) {
+        return super.nameColor(color);
+    }
+
+    @Override
     public BaseForm toast(String toast) {
         return super.toast(toast);
     }

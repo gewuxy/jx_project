@@ -8,14 +8,13 @@
         style="@style/v.form">
 
         <TextView
-            android:id="@id/form_tv_name"
             style="@style/tv.form.name"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/form_tv_name"
             android:gravity="center_horizontal"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/margin_large"
             android:orientation="horizontal">
 
