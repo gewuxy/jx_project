@@ -119,7 +119,7 @@ public class FlowRateManageActivity extends BaseActivity {
         mPreChannelView.setSelected(true);
 
         mTvPay.setEnabled(false);
-        mTvSurplus.setText(Profile.inst().getString(TProfile.flowrate) + KSurplusFlowUnit);
+        mTvSurplus.setText(Profile.inst().getInt(TProfile.flowrate) + KSurplusFlowUnit);
 
         setOnClickListener(R.id.flow_rate_tv_pay);
         for (View v : mChannelViews) {
@@ -251,7 +251,7 @@ public class FlowRateManageActivity extends BaseActivity {
 
                 mReqCode = KPayPalPayCode;
                 mOrderId = r.getData().getString(TPayPalPayRecharge.orderId);
-                PayAction.payPalPay(this, String.valueOf(mRechargeSum * 2));
+                PayAction.payPalPay(this, String.valueOf(mRechargeSum));
 
             } else {
                 onNetworkError(id, r.getError());

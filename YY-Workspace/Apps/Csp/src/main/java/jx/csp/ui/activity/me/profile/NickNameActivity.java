@@ -3,7 +3,9 @@ package jx.csp.ui.activity.me.profile;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import inject.annotation.router.Route;
 import jx.csp.Extra;
@@ -22,6 +24,7 @@ import lib.ys.util.view.ViewUtil;
 public class NickNameActivity extends BaseMyMessageActivity {
 
     private EditText mEt;
+    private ImageView mIv;
     private int mLimit;
 
     @Override
@@ -38,12 +41,15 @@ public class NickNameActivity extends BaseMyMessageActivity {
     @Override
     public void findViews() {
         mEt = findView(R.id.profile_et_name);
+        mIv = findView(R.id.form_iv_clean);
     }
 
     @Override
     public void setViews() {
         super.setViews();
+        setOnClickListener(R.id.form_iv_clean);
 
+        addTextChangedListener(mEt, mIv);
         ViewUtil.limitInputCount(mEt, mLimit);
         mEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,7 +73,11 @@ public class NickNameActivity extends BaseMyMessageActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
 
+    @Override
+    public void onClick(View v) {
+        mEt.setText("");
     }
 
     @Override

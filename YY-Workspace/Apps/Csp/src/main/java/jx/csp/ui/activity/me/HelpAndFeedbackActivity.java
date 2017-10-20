@@ -59,19 +59,19 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
                 .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_update_log));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.service_agreement)
                 .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_service_agreement));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.help)
                 .nameColor(ResLoader.getColor(R.color.text_333))
                 .name(R.string.help_and_feedback_help));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.opinion_feedback)
                 .nameColor(ResLoader.getColor(R.color.text_333))

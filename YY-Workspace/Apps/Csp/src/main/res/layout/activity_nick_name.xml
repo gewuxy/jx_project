@@ -27,5 +27,10 @@
             style="@style/et.common"
             android:hint="@string/my_message_input_nick_name"
             android:layout_gravity="center"/>
+
+
+        <ImageView
+            android:layout_gravity="center"
+            style="@style/iv.form.clean"/>
     </LinearLayout>
 </LinearLayout>

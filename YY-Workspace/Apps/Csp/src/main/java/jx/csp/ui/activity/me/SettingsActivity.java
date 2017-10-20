@@ -76,7 +76,7 @@ public class SettingsActivity extends BaseFormActivity {
                 .text(getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_sound_cache)
                 .name(R.string.setting_clear_sound_cache)

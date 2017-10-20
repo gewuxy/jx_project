@@ -78,7 +78,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .layout(R.layout.form_text_nick_name)
                 .name(R.string.my_message_nick_name)
                 .limit(18)
-                .intent(NickNameActivityRouter.newIntent(this, TProfile.nickName))
+                .intent(NickNameActivityRouter.newIntent(this, TProfile.nickName, false))
                 .text(Profile.inst().getString(TProfile.nickName))
                 .hint(R.string.my_message_no_input)
                 .type(IntentType.name));
@@ -88,7 +88,7 @@ public class ProfileActivity extends BaseFormActivity {
                 .related(RelatedId.intro)
                 .layout(R.layout.form_text_intro)
                 .name(R.string.my_message_intro)
-                .intent(IntroActivityRouter.newIntent(this, TProfile.info))
+                .intent(IntroActivityRouter.newIntent(this, TProfile.info, true))
                 .text(Profile.inst().getString(TProfile.info))
                 .type(IntentType.intro)
                 .hint(R.string.my_message_person_intro));

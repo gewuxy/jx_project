@@ -29,7 +29,6 @@ import lib.network.model.interfaces.OnNetworkListener;
 
 public class PayPalPay {
 
-    public static final String KExtraPaymentId = "payment_id";
     public static final String KExtraOrderId = "order_id";
 
     // PayPal真实环境
