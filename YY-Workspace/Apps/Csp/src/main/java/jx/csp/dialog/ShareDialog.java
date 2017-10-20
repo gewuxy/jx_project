@@ -95,7 +95,7 @@ public class ShareDialog extends BaseDialog {
     @Override
     public void onClick(View v) {
         ShareParams shareParams = new ShareParams();
-
+        shareParams.setTitle(mShareTitle);
         Platform platform;
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat: {
@@ -104,6 +104,7 @@ public class ShareDialog extends BaseDialog {
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 //Fixme:分享内容的图片，还没有,用的丫丫医师
                 shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
+                shareParams.setUrl(mShareUrl);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -114,6 +115,7 @@ public class ShareDialog extends BaseDialog {
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 //Fixme:分享内容的图片，还没有,用的丫丫医师
                 shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
+                shareParams.setUrl(mShareUrl);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -121,14 +123,14 @@ public class ShareDialog extends BaseDialog {
             case R.id.dialog_share_iv_qq: {
                 platform = ShareSDK.getPlatform(QQ.NAME);
                 //这是qq必写的参数，否则发不了，短信只能发文字，链接可以写在文字里面
-                shareParams.setTitleUrl(KQQTitleUrl);
-                shareParams.setTitle(mShareTitle);
+                shareParams.setTitleUrl(mShareUrl);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
             break;
             case R.id.dialog_share_iv_linkedin: {
                 platform = ShareSDK.getPlatform(LinkedIn.NAME);
+                shareParams.setUrl(mShareUrl);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -144,7 +146,7 @@ public class ShareDialog extends BaseDialog {
             case R.id.dialog_share_iv_message: {
                 platform = ShareSDK.getPlatform(ShortMessage.NAME);
                 shareParams.setText(KShareText);
-                shareParams.setTitle(mShareTitle);
+                shareParams.setUrl(mShareUrl);
                // shareParams.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
