@@ -13,10 +13,20 @@ import com.mylhyl.zxing.scanner.OnScannerCompletionListener;
 import com.mylhyl.zxing.scanner.ScannerView;
 import com.mylhyl.zxing.scanner.common.Scanner;
 
+import java.util.ArrayList;
+
 import jx.csp.R;
+import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.TCourse;
+import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
+import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.ui.activity.record.CommonRecordActivity;
+import jx.csp.ui.activity.record.LiveRecordActivity;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
@@ -43,6 +53,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     private boolean mFlag;//图片更换
     private CountDown mCountDown; // 倒计时
+
+    protected ArrayList<CourseDetail> mCourseDetailList;
 
     @Override
     public void initData() {
@@ -147,6 +159,10 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 break;
             case URI: {
                 String url = parsedResult.toString();
+                YSLog.d("urloooo",url);
+                String[] s = url.split("=");
+                String courseId = s[1];
+                exeNetworkReq(MeetingAPI.scan(courseId).build());
                 break;
             }
         }
@@ -160,6 +176,18 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<JoinMeeting> r = (Result<JoinMeeting>) result;
+        if (r.isSucceed()) {
+            JoinMeeting data = r.getData();
+            int type =  data.get(TJoinMeeting.course).getInt(TCourse.playType);
+            if (type == PlayType.reb) {
+                //录播
+               startActivity(CommonRecordActivity.class);
+            }else {
+                startActivity(LiveRecordActivity.class);
+            }
+            finish();
+        }
+
     }
 
 }
