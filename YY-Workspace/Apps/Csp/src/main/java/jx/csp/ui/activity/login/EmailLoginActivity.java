@@ -49,8 +49,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
         int pwd = 1;
     }
 
-    private final int KUnActiveCode = -1; // 邮箱没有激活后台返回值
-
     private EditText mEtEmail;
     private EditText mEtPwd;
     private int mCount = 0;
@@ -141,6 +139,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
         if (r.isSucceed()) {
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
+            Profile data = r.getData();
             SpUser.inst().updateProfileRefreshTime();
             startActivity(MainActivity.class);
             finish();

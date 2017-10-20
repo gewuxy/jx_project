@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.main;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -15,24 +14,23 @@ import lib.yy.ui.activity.base.BaseVPActivity;
  * @since 2017/9/30
  */
 
-public class MainActivity extends BaseVPActivity {
+public class MainActivity extends BaseVPActivity{
 
-
-    private View mLayout;
     private ImageView mIvShift;
     private ImageView mIvScan;
-    private boolean mFlag ;
+
+    private boolean mFlag;
 
     @Override
     public void initData() {
         add(new MainSquareFrag());
         add(new MainSlideFrag());
-        mFlag= true;
+        mFlag = true;
     }
 
     @Override
     public int getContentViewId() {
-            return R.layout.activity_main_slide;
+        return R.layout.activity_main;
     }
 
     @Override
@@ -41,24 +39,22 @@ public class MainActivity extends BaseVPActivity {
         bar.addViewLeft(R.drawable.ic_default_user_header, v -> {
             startActivity(MeActivity.class);
         });
-        ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector,v ->{
+
+        ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
             mIvShift.setSelected(mFlag);
             mFlag = !mFlag;
             if (mFlag) {
                 setCurrentItem(0);
-                goneView(mLayout);
             } else {
                 setCurrentItem(1);
-                showView(mLayout);
             }
         });
-        mIvShift = Util.getBarView(group,ImageView.class);
+        mIvShift = Util.getBarView(group, ImageView.class);
     }
 
     @Override
     public void findViews() {
         super.findViews();
-        mLayout = findView(R.id.layout_main_slide);
         mIvScan = findView(R.id.main_scan);
     }
 
@@ -68,5 +64,7 @@ public class MainActivity extends BaseVPActivity {
         //不能左右滑动
         setScrollable(false);
         setScrollDuration(0);
+
     }
+
 }

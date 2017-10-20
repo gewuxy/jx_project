@@ -103,6 +103,7 @@
     <string name="living">直播会议正在进行中...</string>
     <string name="click_continue">点击继续</string>
     <string name="CSPmeeting">CSPmeeting</string>
+    <string name="scan">扫一扫</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

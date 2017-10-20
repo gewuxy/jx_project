@@ -14,7 +14,6 @@ import lib.yy.ui.frag.base.BaseFrag;
 public class MainMeetingFrag extends BaseFrag {
     @Override
     public void initData() {
-
     }
 
     @NonNull

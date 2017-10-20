@@ -263,6 +263,23 @@ public class NetworkApi {
          */
         @DownloadFile()
         void downloadAudio(@Url String url);
+
+        /**
+         * 会议列表
+         * @param pageNum
+         * @param pageSize
+         */
+        @Post("list")
+        void meetingList(@Query (opt = true) int pageNum,
+                         @Query(opt = true) int pageSize);
+
+        /**
+         * 进入会议
+         *
+         * @param courseId
+         */
+        @Get("scan/callback")
+        void scan(String courseId);
     }
 
     @Api("charge")

@@ -149,11 +149,10 @@ public class RegisterActivity extends BaseLoginActivity {
                 SpUser.inst().updateProfileRefreshTime();
                 notify(NotifyType.login);
                 startActivity(MainActivity.class);
-                finish();
             } else {
                 onNetworkError(id, r.getError());
-                finish();
             }
+            finish();
         } else if (id == KIdRegister) {
             //注册
             Result r = (Result) result;

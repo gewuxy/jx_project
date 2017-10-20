@@ -90,6 +90,9 @@
         <activity
             android:name="jx.csp.ui.activity.main.MainActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="jx.csp.ui.activity.main.ScanActivity"
+            android:screenOrientation="portrait"/>
 
         <!--个人中心-->
         <activity

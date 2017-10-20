@@ -1,22 +1,21 @@
 package jx.csp.ui.activity.main;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 
-import jx.csp.R;
 import jx.csp.adapter.main.SquareAdapter;
 import jx.csp.model.main.Square;
 import jx.csp.model.main.Square.TSquare;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.ys.ui.other.NavBar;
-import lib.ys.view.recycler.WrapRecyclerView;
-import lib.yy.ui.frag.base.BaseRecyclerFrag;
+import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
 
 /**
  * @auther WangLan
  * @since 2017/10/18
  */
 
-public class MainSquareFrag extends BaseRecyclerFrag<Square,SquareAdapter> {
-    private WrapRecyclerView mRecyclerView;
+public class MainSquareFrag extends BaseSRRecyclerFrag<Square,SquareAdapter> {
 
     @Override
     public void initData() {
@@ -28,24 +27,36 @@ public class MainSquareFrag extends BaseRecyclerFrag<Square,SquareAdapter> {
     }
 
     @Override
+    public void initNavBar(NavBar bar) {
+    }
+
+    @Override
     public void findViews() {
         super.findViews();
-        mRecyclerView = findView(R.id.recycler_view);
+    }
+
+    @Override
+    protected LayoutManager initLayoutManager() {
+        return new GridLayoutManager(getContext(),2);
     }
 
     @Override
     public void setViews() {
         super.setViews();
-        GridLayoutManager mgr = new GridLayoutManager(getContext(),2);
-        mRecyclerView.setLayoutManager(mgr);
     }
 
-    @Override
-    public void initNavBar(NavBar bar) {
-    }
 
     @Override
     public void getDataFromNet() {
+        exeNetworkReq(MeetingAPI.meetingList().pageNum(getOffset()).pageSize(getLimit()).build());
+    }
 
+    @Override
+    public void onSwipeRefreshAction() {
+    }
+
+    @Override
+    public int getOffset() {
+        return 1;
     }
 }

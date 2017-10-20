@@ -11,11 +11,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
+import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
@@ -23,6 +27,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
+import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
@@ -31,6 +36,9 @@ import lib.yy.ui.activity.base.BaseActivity;
  */
 
 abstract public class BaseYaYaLoginActivity extends BaseActivity {
+
+    private final int KIdAuthorizeLogin = 0;
+    private final int KIdLogin = 1;
 
     private EditText mEtUsername;
     private EditText mEtPwd;
@@ -71,6 +79,8 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         mTvLogin.setEnabled(false);
 
         setPwdVisible(mEtPwd, mCbVisiblePwd);
+
+        mEtUsername.setText(SpApp.inst().getUserName());
 
         buttonChanged(mEtUsername, mIvUsernameClean);
         buttonChanged(mEtPwd, mIvPwdClean);
@@ -154,7 +164,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
             break;
             case R.id.yaya_login: {
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(UserAPI.yayaLogin(getUserName(), getPwd()).build());
+                exeNetworkReq(KIdAuthorizeLogin,UserAPI.yayaLogin(getUserName(), getPwd()).build());
             }
             break;
         }
@@ -163,6 +173,41 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Profile.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
+        Result<Profile> r = (Result<Profile>) result;
+        if (id == KIdAuthorizeLogin) {
+            if (r.isSucceed()) {
+                SpApp.inst().saveUserName(getUserName());
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+                exeNetworkReq(KIdLogin,UserAPI.login(LoginType.yaya_login)
+                        .uniqueId(Profile.inst().getString(TProfile.uid))
+                        .email(Profile.inst().getString(TProfile.email))
+                        .mobile(Profile.inst().getString(TProfile.mobile))
+                        .nickName(Profile.inst().getString(TProfile.nickName))
+                        .province(Profile.inst().getString(TProfile.province))
+                        .city(Profile.inst().getString(TProfile.city))
+                        .build());
+            } else {
+                onNetworkError(id, r.getError());
+            }
+        }else {
+            if (r.isSucceed()) {
+                if (r.isSucceed()) {
+                    Profile.inst().update(r.getData());
+                    SpUser.inst().updateProfileRefreshTime();
+                    startActivity(MainActivity.class);
+                } else {
+                    onNetworkError(id, r.getError());
+                }
+                finish();
+            }
+        }
+
     }
 
     public String getUserName() {
