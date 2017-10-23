@@ -51,8 +51,6 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
 
     @Override
     public void initData() {
-        // TODO: test
-        mCourseId = "14379";
         super.initData();
 
         ZegoApiManager.getInstance().init(this, "666", "人数获取测试");
@@ -137,11 +135,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
             } else {
                 startRecordState();
             }
-            // 同步指令
-            exeNetworkReq(KSyncReqId, MeetingAPI.sync()
-                    .courseId(mCourseId)
-                    .pageNum(position)
-                    .build());
+            webSocketSendMsg(position);
         }
         // 记录位置
         mLastPage = position;
@@ -159,7 +153,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
         if (id == KJoinMeetingReqId) {
             return JsonParser.ev(r.getText(), JoinMeeting.class);
         } else {
-            return super.onNetworkResponse(id, r);
+            return JsonParser.error(r.getText());
         }
     }
 
@@ -222,7 +216,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
         if (mStopCountDown) {
             mTvRecordState.setText(R.string.record_live_stop);
         } else {
-            mTvRecordState.setText(R.string.record_live_ing);
+            mTvRecordState.setText(R.string.live);
         }
     }
 

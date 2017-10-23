@@ -148,7 +148,7 @@
                 android:layout_toRightOf="@+id/record_tv_online_num"
                 android:text="@string/online"
                 android:textColor="@color/text_888"
-                android:textSize="8dp"/>
+                style="@style/tv.liveRoom.online"/>
 
         </RelativeLayout>
 

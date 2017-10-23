@@ -25,7 +25,6 @@
     <string name="first_page">已经是第一页</string>
     <string name="last_page">已经是最后一页</string>
     <string name="record_live_start">开始直播</string>
-    <string name="record_live_ing">直播中</string>
     <string name="record_live_stop">结束直播</string>
     <string name="meeting_no_start_remain">请在会议时间内进行直播</string>
     <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>

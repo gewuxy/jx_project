@@ -17,6 +17,7 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
@@ -26,6 +27,10 @@ import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
+import jx.csp.model.meeting.WebSocketMsg;
+import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
+import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
+import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
@@ -53,8 +58,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected static final int KWebSocketCloseNormal = 1000; //  1000表示正常关闭
     protected final int KMicroPermissionCode = 10;
     protected final int KJoinMeetingReqId = 10;
-    protected final int KSyncReqId = 20;
-    protected final int KUploadAudioReqId = 30;
+    protected final int KUploadAudioReqId = 20;
     private final int KOne = 1;
     private final int KVpSize = 2; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
@@ -85,7 +89,9 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected boolean mWsSuccess = false; // WebSocket连接是否成功
     protected String mWebSocketUrl; // WebSocket地址
 
-    // FIXME: 2017/10/20 上传音频 要建立队列 一个一个传
+    private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
+    private boolean mUploadState = false; // 是否在上传音频
+    protected int mWsPosition = 0;  // websocket接收到的页数
 
     @Arg
     String mCourseId;  // 课程id
@@ -150,6 +156,8 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         setOnPageChangeListener(this);
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
+
+        mUploadList = new LinkedList<>();
 
         //getViewPager().setPageTransformer(false, new ZoomOutTransformer());
     }
@@ -287,13 +295,38 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         if (file.exists()) {
             byte[] bytes = FileUtil.fileToBytes(audioFilePath);
             YSLog.d(TAG, "bytes = " + bytes.length);
-            exeNetworkReq(KUploadAudioReqId, MeetingAPI.uploadAudio()
+            NetworkReq req = MeetingAPI.uploadAudio()
                     .courseId(courseId)
                     .detailId(mCourseDetailList.get(page).getString(TCourseDetail.id))
                     .pageNum(page)
                     .playType(type)
                     .file(bytes)
-                    .build());
+                    .build();
+            mUploadList.addLast(req);
+            upload();
+        }
+    }
+
+    private void upload() {
+        if (mUploadList.isEmpty()) {
+            YSLog.d(TAG, "上传列表为空");
+            return;
+        }
+        if (!mUploadState) {
+            YSLog.d(TAG, "开始上传任务");
+            exeNetworkReq(KUploadAudioReqId, mUploadList.getFirst());
+            mUploadState = true;
+        }
+    }
+
+    @CallSuper
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (id == KUploadAudioReqId) {
+            YSLog.d(TAG, "移除任务");
+            mUploadList.removeFirst();
+            mUploadState = false;
+            upload();
         }
     }
 
@@ -313,8 +346,9 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
                     JSONObject ob = new JSONObject(text);
                     int order = ob.getInt("order");
                     String from = ob.getString("orderFrom");
-                    if (order == 1 && from.equals("web")) {
-                        setCurrentItem(ob.getInt("pageNum"));
+                    if (order == WsOrderType.sync && from.equals(WsOrderFrom.web)) {
+                        mWsPosition = ob.getInt("pageNum");
+                        setCurrentItem(mWsPosition);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -352,6 +386,22 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
                 // 没退出继续重连
                 mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWebSocketUrl).build(), new WebSocketLink());
             }, TimeUnit.SECONDS.toMillis(2));
+        }
+    }
+
+    /**
+     * 同步指令 如果跟上次websocket发过来的页数一致就不需要发同步指令了
+     *
+     * @param position
+     */
+    protected void webSocketSendMsg(int position) {
+        if (position != mWsPosition) {
+            WebSocketMsg msg = new WebSocketMsg();
+            msg.put(TWebSocketMsg.courseId, mCourseId);
+            msg.put(TWebSocketMsg.order, WsOrderType.sync);
+            msg.put(TWebSocketMsg.orderFrom, WsOrderFrom.app);
+            msg.put(TWebSocketMsg.pageNum, position);
+            mWebSocket.send(msg.toJson());
         }
     }
 

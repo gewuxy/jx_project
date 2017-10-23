@@ -1,5 +1,6 @@
 package jx.csp.model.meeting;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
@@ -20,9 +21,17 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
        WsOrderFrom.web
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface WsOrderFrom {
+    public @interface WsOrderFrom {
         String app = "app";
         String web = "web";
+    }
+
+    @IntDef({
+            WsOrderType.sync
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface WsOrderType {
+        int sync = 1;
     }
 
     public enum TWebSocketMsg {

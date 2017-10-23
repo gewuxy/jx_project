@@ -13,22 +13,21 @@
 
     <!-- 直播间 -->
     <string name="live_time_no_arrived">直播时间未到</string>
-    <string name="online">在线</string>
-    <string name="live">直播中</string>
-    <string name="no_start">未开始</string>
-    <string name="click_start_live">请点击开始直播</string>
-    <string name="no_camera_permission">摄像头未开启\n请确认是否授权成功</string>
-    <string name="live_stop_remind_minute">还有%d分钟，直播将自动关闭</string>
-    <string name="live_stop_remind_second">还有%d秒，直播将自动关闭</string>
+    <string name="online">Audience(s)</string>
+    <string name="live">On Air</string>
+    <string name="no_start">Not Started</string>
+    <string name="click_start_live">The meeting has begun.\nPlease start your live stream.</string>
+    <string name="no_camera_permission">Camera off.\nPlease-check the authorization</string>
+    <string name="live_stop_remind_minute">Live stream will be over in %d minutes</string>
+    <string name="live_stop_remind_second">Live stream will be over in %d seconds</string>
 
     <!-- 录音 -->
     <string name="first_page">已经是第一页</string>
     <string name="last_page">已经是最后一页</string>
-    <string name="record_live_start">开始直播</string>
-    <string name="record_live_ing">直播中</string>
+    <string name="record_live_start">Start Live Stream</string>
     <string name="record_live_stop">结束直播</string>
-    <string name="meeting_no_start_remain">请在会议时间内进行直播</string>
-    <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>
+    <string name="meeting_no_start_remain">Please proceed your live stream within the time set</string>
+    <string name="meeting_start_click_start_live">The meeting has begun. Please start your live.</string>
     <string name="no_record_permission">请检查是否开启语音权限</string>
     <string name="skip_to_next_page">是否跳到下一页继续录制?</string>
     <string name="skip_to_last_page">是否跳到上一页继续录制?</string>

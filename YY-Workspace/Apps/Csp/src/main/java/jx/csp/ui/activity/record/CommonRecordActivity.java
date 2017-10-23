@@ -137,11 +137,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
             mIvRecordState.setClickable(false);
         }
-        // 同步指令
-        exeNetworkReq(KSyncReqId, MeetingAPI.sync()
-                .courseId(mCourseId)
-                .pageNum(position)
-                .build());
+        webSocketSendMsg(position);
     }
 
     @Override
@@ -203,7 +199,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         if (id == KJoinMeetingReqId) {
             return JsonParser.ev(r.getText(), JoinMeeting.class);
         } else {
-            return super.onNetworkResponse(id, r);
+            return JsonParser.error(r.getText());
         }
     }
 
