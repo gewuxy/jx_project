@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import jx.csp.R;
+import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -84,8 +85,11 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected boolean mWsSuccess = false; // WebSocket连接是否成功
     protected String mWebSocketUrl; // WebSocket地址
 
+    // FIXME: 2017/10/20 上传音频 要建立队列 一个一个传
+
     @Arg
     String mCourseId;  // 课程id
+    String mTitle;
 
     @IntDef({
             FragType.img,
@@ -107,8 +111,10 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
-        mTvNavBar = bar.addTextViewMid(" ");
-        bar.addViewRight(R.drawable.share_ic_share, v -> showToast("share"));
+        bar.addViewRight(R.drawable.share_ic_share, v -> {
+            ShareDialog dialog = new ShareDialog(this, mTitle, Integer.valueOf(mCourseId));
+            dialog.show();
+        });
     }
 
     @Override
@@ -182,7 +188,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
             mTvNavBar.setText(str);
         }
     }
-
 
     @Override
     protected void onDestroy() {
@@ -307,7 +312,8 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
                 try {
                     JSONObject ob = new JSONObject(text);
                     int order = ob.getInt("order");
-                    if (order == 1) {
+                    String from = ob.getString("orderFrom");
+                    if (order == 1 && from.equals("web")) {
                         setCurrentItem(ob.getInt("pageNum"));
                     }
                 } catch (JSONException e) {

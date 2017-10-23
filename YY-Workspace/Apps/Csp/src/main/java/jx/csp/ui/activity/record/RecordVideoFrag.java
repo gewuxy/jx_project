@@ -64,6 +64,12 @@ public class RecordVideoFrag extends BaseFrag {
         mTextureView.setAVOptions(options);
         mTextureView.setVideoPath(mVideoUrl);
         mTextureView.start();
+        mTextureView.setOnCompletionListener(plMediaPlayer -> {
+            mTextureView.stopPlayback();
+            showView(mIvPlay);
+            showView(mIvBg);
+            goneView(mTextureView);
+        });
     }
 
     @Override

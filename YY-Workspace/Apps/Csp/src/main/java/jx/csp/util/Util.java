@@ -2,9 +2,17 @@ package jx.csp.util;
 
 import android.app.Activity;
 import android.support.annotation.StringRes;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import java.security.Key;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.IvParameterSpec;
 
 import jx.csp.App;
 import jx.csp.R;
@@ -124,6 +132,39 @@ public class Util extends BaseUtil {
             }
         }
         return ReflectUtil.newInst(clz);
+    }
+
+    /**
+     * DES算法，加密
+     *
+     * @param data 待加密字符串
+     * @param key  加密私钥，长度不能够小于8位
+     * @return 加密后的字节数组，一般结合Base64编码使用
+     */
+    public static String encode(String key, String data) {
+        try {
+            String IVPARAMETERSPEC = "qWeRdFgH"; // 初始化向量参数，AES 为16bytes. DES 为8bytes.
+            Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");  // DES是加密方式 CBC是工作模式 PKCS5Padding是填充模式
+            IvParameterSpec iv = new IvParameterSpec(IVPARAMETERSPEC.getBytes());
+            cipher.init(Cipher.ENCRYPT_MODE, getRawKey(key), iv);
+            byte[] bytes = cipher.doFinal(data.getBytes());
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 对密钥进行处理
+     *
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    private static Key getRawKey(String key) throws Exception {
+        DESKeySpec dks = new DESKeySpec(key.getBytes());
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+        return keyFactory.generateSecret(dks);
     }
 
 }

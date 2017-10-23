@@ -2,6 +2,7 @@ package jx.csp.ui.activity.record;
 
 import java.util.ArrayList;
 
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
@@ -31,7 +32,7 @@ import lib.zego.ZegoApiManager;
  * @author CaiXiang
  * @since 2017/10/10
  */
-
+@Route
 public class LiveRecordActivity extends BaseRecordActivity implements LiveRecordView {
 
     private final int KSixty = 60;
@@ -45,7 +46,6 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
     private String mTitle = "直播语音 9月30日 14：00";
     private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
     private long mStopTime = System.currentTimeMillis() + 35 * 60 * 1000;
-
 
     private Live mLiveMsg;
 
@@ -78,7 +78,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
             mLiveRecordPresenterImpl.startCountDown(mStartTime, mStopTime);
             mTvStartRemain.setText(R.string.meeting_start_click_start_live);
         } else {
-            mTvNavBar.setText(mTitle);
+            setNavBarMidText(mTitle);
             mTvStartRemain.setText(R.string.meeting_no_start_remain);
         }
 
@@ -211,7 +211,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
 
     @Override
     public void setLiveTimeTv(String str) {
-        mTvNavBar.setText(str);
+        setNavBarMidText(str);
     }
 
     @Override

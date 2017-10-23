@@ -11,6 +11,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.dialog.HintDialog;
 import jx.csp.model.meeting.Course.PlayType;
@@ -41,7 +42,7 @@ import lib.yy.network.Result;
  * @author CaiXiang
  * @since 2017/10/10
  */
-
+@Route
 public class CommonRecordActivity extends BaseRecordActivity implements CommonRecordView, onGestureViewListener {
 
     private boolean mRecordState = false; // 是否在录制中
@@ -62,7 +63,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
 
     @Override
     public void initData() {
-        mCourseId = "14379";
+        //mCourseId = "14379";
         super.initData();
 
         mRecordPresenter = new CommonRecordPresenterImpl(this);
@@ -72,7 +73,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     public void setViews() {
         super.setViews();
 
-        mTvNavBar.setText("00'00''");
+        setNavBarMidText("00'00''");
         // 检查录音权限
         if (checkPermission(KMicroPermissionCode, Permission.micro_phone)) {
             havePermissionState();
@@ -115,7 +116,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 } else {
                     mRecordPresenter.startRecord(filePath);
                     // 隐藏播放按钮
-                    ((RecordImgFrag)getItem(getCurrentItem())).goneLayoutAudio();
+                    ((RecordImgFrag) getItem(getCurrentItem())).goneLayoutAudio();
                     goneView(mVoiceLine);
                     changeRecordState(true);
                 }
@@ -136,6 +137,11 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
             mIvRecordState.setClickable(false);
         }
+        // 同步指令
+        exeNetworkReq(KSyncReqId, MeetingAPI.sync()
+                .courseId(mCourseId)
+                .pageNum(position)
+                .build());
     }
 
     @Override
@@ -153,7 +159,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 setCurrentItem(getCurrentItem() - 1);
             }
         } else {
-            setCurrentItem(getCurrentItem()- 1);
+            setCurrentItem(getCurrentItem() - 1);
         }
     }
 
@@ -172,7 +178,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 setCurrentItem(getCurrentItem() + 1);
             }
         } else {
-            setCurrentItem(getCurrentItem()+ 1);
+            setCurrentItem(getCurrentItem() + 1);
         }
     }
 
@@ -209,7 +215,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                 mJoinMeeting = r.getData();
                 mWebSocketUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+                mTitle = mJoinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
                 mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
+
                 for (int i = 0; i < mCourseDetailList.size(); ++i) {
                     CourseDetail courseDetail = mCourseDetailList.get(i);
                     // 判断是视频还是图片
@@ -246,7 +254,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
 
     @Override
     public void setTotalRecordTimeTv(String str) {
-        mTvNavBar.setText(str);
+        setNavBarMidText(str);
     }
 
     @Override
@@ -283,7 +291,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
             stopRecordState();
         } else {
             mRecordPresenter.stopPlay();
-            ((RecordImgFrag)getItem(getCurrentItem())).stopAnimation();
+            ((RecordImgFrag) getItem(getCurrentItem())).stopAnimation();
         }
         super.showToast(id);
     }
@@ -381,7 +389,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
             }
             mRecordPresenter.startRecord(filePath);
             // 隐藏播放按钮
-            ((RecordImgFrag)getItem(getCurrentItem())).goneLayoutAudio();
+            ((RecordImgFrag) getItem(getCurrentItem())).goneLayoutAudio();
             goneView(mVoiceLine);
             changeRecordState(true);
             // 如果存在MP3文件，重新录制要改变播放文件  要删除MP3文件

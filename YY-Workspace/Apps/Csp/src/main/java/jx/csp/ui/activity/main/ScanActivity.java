@@ -13,17 +13,13 @@ import com.mylhyl.zxing.scanner.OnScannerCompletionListener;
 import com.mylhyl.zxing.scanner.ScannerView;
 import com.mylhyl.zxing.scanner.common.Scanner;
 
-import java.util.ArrayList;
-
 import jx.csp.R;
 import jx.csp.model.meeting.Course.PlayType;
-import jx.csp.model.meeting.Course.TCourse;
-import jx.csp.model.meeting.CourseDetail;
-import jx.csp.model.meeting.JoinMeeting;
-import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
+import jx.csp.model.meeting.Scan;
+import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.activity.record.CommonRecordActivity;
+import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivity;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -45,16 +41,11 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private final int KTopMargin = 96;
     private final int KDelayTime = 30; // 单位是秒
 
-    private final int KScanId = 0;
-    private final int KScan = 1;
-
     private ToggleButton mBtn;
     private ScannerView mScannerView;
 
     private boolean mFlag;//图片更换
     private CountDown mCountDown; // 倒计时
-
-    protected ArrayList<CourseDetail> mCourseDetailList;
 
     @Override
     public void initData() {
@@ -170,24 +161,22 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), JoinMeeting.class);
+        return JsonParser.ev(r.getText(), Scan.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        Result<JoinMeeting> r = (Result<JoinMeeting>) result;
+        Result<Scan> r = (Result<Scan>) result;
         if (r.isSucceed()) {
-            JoinMeeting data = r.getData();
-            int type =  data.get(TJoinMeeting.course).getInt(TCourse.playType);
-            if (type == PlayType.reb) {
+            Scan data = r.getData();
+            if (data.getInt(TScan.playType) == PlayType.reb) {
                 //录播
-               startActivity(CommonRecordActivity.class);
-            }else {
+               CommonRecordActivityRouter.create(data.getString(TScan.courseId)).route(this);
+            } else {
                 startActivity(LiveRecordActivity.class);
             }
             finish();
         }
-
     }
 
 }

@@ -274,7 +274,7 @@ public class NetworkApi {
                          @Query(opt = true) int pageSize);
 
         /**
-         * 进入会议
+         * 扫描二维码进入会议
          *
          * @param courseId
          */
