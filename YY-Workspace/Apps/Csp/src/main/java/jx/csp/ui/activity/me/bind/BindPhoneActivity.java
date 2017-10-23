@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me.set;
+package jx.csp.ui.activity.me.bind;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me.set;
+package jx.csp.ui.activity.me.bind;
 
 import android.support.annotation.CallSuper;
 import android.text.TextWatcher;
