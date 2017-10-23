@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me;
+package jx.csp.ui.activity.me.bind;
 
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -16,8 +16,6 @@ import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.ui.activity.me.set.BindEmailActivity;
-import jx.csp.ui.activity.me.set.BindPhoneActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.ConstantsEx;

@@ -119,7 +119,7 @@ public class FlowRateManageActivity extends BaseActivity {
         mPreChannelView.setSelected(true);
 
         mTvPay.setEnabled(false);
-        mTvSurplus.setText(Profile.inst().getInt(TProfile.flowrate) + KSurplusFlowUnit);
+        mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / 1024 + KSurplusFlowUnit);
 
         setOnClickListener(R.id.flow_rate_tv_pay);
         for (View v : mChannelViews) {
@@ -286,9 +286,9 @@ public class FlowRateManageActivity extends BaseActivity {
 
             @Override
             public void onPaySuccess() {
-                int flowRate = Profile.inst().getInt(TProfile.flowrate) + mRechargeSum;
+                int flowRate = Profile.inst().getInt(TProfile.flux) + mRechargeSum;
 
-                Profile.inst().put(TProfile.flowrate, flowRate);
+                Profile.inst().put(TProfile.flux, flowRate);
                 Profile.inst().saveToSp();
 
                 mTvSurplus.setText(flowRate + KSurplusFlowUnit);

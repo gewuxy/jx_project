@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;

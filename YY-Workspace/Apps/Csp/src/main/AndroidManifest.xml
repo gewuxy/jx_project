@@ -102,7 +102,7 @@
             android:name="jx.csp.ui.activity.me.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="jx.csp.ui.activity.me.AccountManageActivity"
+            android:name="jx.csp.ui.activity.me.bind.AccountManageActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name="jx.csp.ui.activity.me.ContributePlatformActivity"
@@ -122,19 +122,19 @@
 
         <!-- 设置 -->
         <activity
-            android:name="jx.csp.ui.activity.me.set.ChangePwdActivity"
+            android:name="jx.csp.ui.activity.me.bind.ChangePwdActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="jx.csp.ui.activity.me.set.BindEmailActivity"
+            android:name="jx.csp.ui.activity.me.bind.BindEmailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="jx.csp.ui.activity.me.set.BindEmailJumpActivity"
+            android:name="jx.csp.ui.activity.me.bind.BindEmailJumpActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="jx.csp.ui.activity.me.set.BindChangeEmailActivity"
+            android:name="jx.csp.ui.activity.me.bind.BindChangeEmailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="jx.csp.ui.activity.me.set.BindPhoneActivity"
+            android:name="jx.csp.ui.activity.me.bind.BindPhoneActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 我的信息 -->

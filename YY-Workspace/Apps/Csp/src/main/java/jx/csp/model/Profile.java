@@ -35,7 +35,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
 
 
         @Init(asInt = 0)
-        flowrate,   //流量
+        flux,       //流量
     }
 
     private static Profile mInst = null;
