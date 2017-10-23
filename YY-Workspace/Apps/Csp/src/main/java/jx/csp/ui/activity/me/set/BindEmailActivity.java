@@ -7,14 +7,15 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.RegexUtil;
-import lib.yy.network.Result;
 import jx.csp.R;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.util.RegexUtil;
+import lib.ys.util.TextUtil;
+import lib.yy.network.Result;
 
 /**
  * 认证邮箱
@@ -25,14 +26,17 @@ import jx.csp.util.Util;
 
 public class BindEmailActivity extends BaseSetActivity{
 
-    private EditText mEt;
+    private EditText mEtEmail;
+    private EditText mEtPwd;
 
     @IntDef({
             RelatedId.email,
+            RelatedId.pwd,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
         int email = 0;
+        int pwd = 1;
     }
 
     @Override
@@ -44,15 +48,23 @@ public class BindEmailActivity extends BaseSetActivity{
                 .related(RelatedId.email)
                 .hint(R.string.setting_input_email_address)
                 .layout(R.layout.form_edit_bind_email));
+
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.et_pwd)
+                .related(RelatedId.pwd)
+                .hint(R.string.input_pwd)
+                .drawable(R.drawable.login_pwd_selector));
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mEt = getRelatedItem(RelatedId.email).getHolder().getEt();
+        mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
+        mEtPwd= getRelatedItem(RelatedId.pwd).getHolder().getEt();
 
-        mEt.addTextChangedListener(this);
+        mEtEmail.addTextChangedListener(this);
+        mEtPwd.addTextChangedListener(this);
     }
 
     @Override
@@ -80,12 +92,28 @@ public class BindEmailActivity extends BaseSetActivity{
 
     @Override
     protected void toSet() {
+        if (!getUserPwd().matches(Util.symbol())) {
+            showToast(R.string.input_special_symbol);
+            return;
+        }
+        if (getUserPwd().length() < 6) {
+            showToast(R.string.input_right_pwd_num);
+            return;
+        }
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEt)).build());
+        exeNetworkReq(UserAPI.bindEmail(getEmail(), getUserPwd()).build());
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEt)));
+        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()));
+    }
+
+    public String getEmail() {
+        return Util.getEtString(mEtEmail);
+    }
+
+    public String getUserPwd() {
+        return Util.getEtString(mEtPwd);
     }
 }

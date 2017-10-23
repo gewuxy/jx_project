@@ -209,8 +209,8 @@ public class FlowRateManageActivity extends BaseActivity {
                     break;
                     case R.id.flow_rate_iv_wechat: {
                         // FIXME: 2017/10/16 微信支付未注册
-                        startActivity(MeActivity.class);
-                        finish();
+                        refresh(RefreshWay.dialog);
+                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, KChannelWx).build());
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {

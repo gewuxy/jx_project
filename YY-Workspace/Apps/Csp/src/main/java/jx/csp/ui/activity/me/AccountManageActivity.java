@@ -146,7 +146,7 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_email: {
-                // FIXME: 2017/10/16 不知道什么时候认证邮箱，暂时无法绑定，使用邮箱登录可以显示绑定
+                // FIXME: 2017/10/23 测试极光推送，接受绑定消息
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
                     startActivity(BindEmailActivity.class);
                 } else {
@@ -330,6 +330,7 @@ public class AccountManageActivity extends BaseFormActivity {
 
             Profile.inst().put(key, ConstantsEx.KEmpty);
             Profile.inst().saveToSp();
+            notify(NotifyType.profile_change);
         } else {
             showToast(r.getMessage());
         }
@@ -355,6 +356,8 @@ public class AccountManageActivity extends BaseFormActivity {
             String email = Profile.inst().getString(TProfile.email);
             getRelatedItem(RelatedId.bind_email).save(email, email);
             refreshRelatedItem(RelatedId.bind_email);
+            showToast(R.string.account_bind_succeed);
+            notify(NotifyType.profile_change);
         }
     }
 }

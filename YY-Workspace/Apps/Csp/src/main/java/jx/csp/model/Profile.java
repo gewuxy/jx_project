@@ -29,9 +29,9 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         twitter,
         jingxin,    //敬信数字平台
         nickName,   //昵称
-        uid, // yaya医师单位号用户id
-        province, // 省份
-        city, // 城市
+        uid,        // yaya医师单位号用户id
+        province,   // 省份
+        city,       // 城市
 
 
         @Init(asInt = 0)

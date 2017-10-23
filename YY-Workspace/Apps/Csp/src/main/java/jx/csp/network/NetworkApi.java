@@ -17,9 +17,9 @@ import inject.annotation.network.method.Upload;
  */
 @Descriptor(
         host = "https://app.medyaya.cn/api/",
-//        hostDebuggable = "http://59.111.90.245:8084/api/"
+        hostDebuggable = "http://59.111.90.245:8084/api/"
 //        hostDebuggable = "http://10.0.0.234:8080/api/"   //礼平电脑
-        hostDebuggable = "http://10.0.0.250:8081/api/"   //轩哥电脑
+//        hostDebuggable = "http://10.0.0.250:8081/api/"   //轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8084/api/"   //长玲电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 
@@ -64,7 +64,7 @@ public class NetworkApi {
          * @param email 用户名
          */
         @Post("toBind/")
-        void bindEmail(String email);
+        void bindEmail(String email, String password);
 
         /**
          * 绑定手机
