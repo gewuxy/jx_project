@@ -27,7 +27,7 @@ buildscript {
     ]
 
     ext.plugs = [
-            kotlin     : 'kotlin-android',
+            kotlin: 'kotlin-android',
 //            butterknife: 'com.jakewharton.butterknife',
     ]
 
@@ -49,7 +49,10 @@ buildscript {
                     binding: 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
             ],
             lottie      : 'com.airbnb.android:lottie:2.2.1', // 加载AE制作出来的json直接展示效果的库
-            fresco      : 'com.facebook.fresco:fresco:1.5.0',
+            fresco      : [
+                    fresco: 'com.facebook.fresco:fresco:1.5.0',
+                    gif   : 'com.facebook.fresco:animated-gif:1.5.0',
+            ],
 //            butterknife : [
 //                    core    : 'com.jakewharton:butterknife:8.5.1',
 //                    compiler: 'com.jakewharton:butterknife-compiler:8.5.1'

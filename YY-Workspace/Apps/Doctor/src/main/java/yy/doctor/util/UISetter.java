@@ -31,7 +31,7 @@ import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
 import yy.doctor.ui.activity.data.DataUnitDetailActivityRouter;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
-import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
+import yy.doctor.ui.activity.CommonWebViewActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**

@@ -11,7 +11,7 @@ import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
 import yy.doctor.network.UrlUtil;
-import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
+import yy.doctor.ui.activity.CommonWebViewActivityRouter;
 import yy.doctor.ui.activity.me.epc.EpcActivity;
 import yy.doctor.util.Util;
 

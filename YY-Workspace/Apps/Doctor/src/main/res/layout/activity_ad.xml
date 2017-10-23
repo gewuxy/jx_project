@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <lib.ys.network.image.NetworkImageView
+        android:id="@+id/ad_iv_ad"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/ad_tv_pass"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/bg_ad_pass"
+        android:gravity="center"
+        android:text="跳过"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

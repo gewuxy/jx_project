@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.me;
+package yy.doctor.ui.activity;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;

@@ -18,6 +18,7 @@ import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.UrlUtil;
+import yy.doctor.ui.activity.CommonWebViewActivityRouter;
 import yy.doctor.util.Util;
 
 /**

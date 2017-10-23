@@ -66,7 +66,7 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
+import yy.doctor.ui.activity.CommonWebViewActivityRouter;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;

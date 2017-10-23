@@ -33,7 +33,7 @@ import yy.doctor.model.unitnum.File;
 import yy.doctor.model.unitnum.File.TFile;
 import yy.doctor.network.NetFactory.MeetParam;
 import yy.doctor.ui.activity.data.DownloadFileActivityRouter;
-import yy.doctor.ui.activity.me.CommonWebViewActivityRouter;
+import yy.doctor.ui.activity.CommonWebViewActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 
 /**
@@ -171,7 +171,8 @@ public class Util extends BaseUtil {
             url = file.getString(TFile.fileUrl);
             fileType = file.getString(TFile.fileType);
         }
-        if (true) {
+        String htmlUrl = file.getString(TFile.htmlUrl);
+        if (TextUtil.isEmpty(htmlUrl)) {
             DownloadFileActivityRouter.create()
                     .filePath(path)
                     .fileName(name)
@@ -182,8 +183,7 @@ public class Util extends BaseUtil {
                     .dataType(DataType.un_know)
                     .route(App.getContext());
         } else {
-            // FIXME: html5
-            CommonWebViewActivityRouter.create(file.getString(TFile.materialName), file.getString(TFile.materialUrl))
+            CommonWebViewActivityRouter.create(file.getString(TFile.materialName), htmlUrl)
                     .fileId(id)
                     .type(fromType)
                     .route(App.getContext());

@@ -12,5 +12,8 @@
     <item
         android:drawable="@drawable/breviary_ic_audio3"
         android:duration="200"/>
+    <item
+        android:drawable="@drawable/breviary_ic_audio4"
+        android:duration="200"/>
 
 </animation-list>

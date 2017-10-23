@@ -36,6 +36,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.activity.AdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.AdWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -256,7 +262,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.CommonWebViewActivity"
+            android:name=".ui.activity.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.data.PDFActivity"
