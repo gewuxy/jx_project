@@ -7,16 +7,16 @@ buildscript {
 
     ext.versions = [
             minSdk        : 15,
-            compileSdk    : 24,
+            compileSdk    : 26,
             buildTools    : '26.0.2',
 
-            androidPlugin : '3.0.0-beta7',
+            androidPlugin : '3.0.0-rc2',
 
             versionCode   : 100,
             versionName   : '1.0',
 
             java          : JavaVersion.VERSION_1_8,
-            supportLibrary: '24+',
+            supportLibrary: '26+',
 
             kotlin        : '1.1.51',
     ]
@@ -27,7 +27,7 @@ buildscript {
     ]
 
     ext.plugs = [
-            kotlin: 'kotlin-android',
+            kotlin: 'kotlin-kapt',
 //            butterknife: 'com.jakewharton.butterknife',
     ]
 
@@ -93,6 +93,15 @@ buildscript {
             ],
             kotlin      : [
                     'stdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
+            ],
+            jsoup       : [
+                    // github: https://github.com/florent37/RxRetroJsoup
+                    rx  : [
+                            retro   : 'com.github.florent37:retrojsoup:1.0.4', // 依赖okhttp
+                            core    : 'com.github.florent37:rxjsoup:1.0.4', // 依赖jsoup
+                            compiler: 'com.github.florent37:retrojsoup-compiler:1.0.4', // 依赖RxJava
+                    ],
+                    core: 'org.jsoup:jsoup:1.10.2',
             ],
             javaParser  : 'com.github.javaparser:javaparser-core:3.3.5',
             gradlePlugin: "com.android.tools.build:gradle:${versions.androidPlugin}",
