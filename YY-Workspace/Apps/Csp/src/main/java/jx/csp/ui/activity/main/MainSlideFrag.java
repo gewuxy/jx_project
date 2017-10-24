@@ -5,7 +5,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
 import jx.csp.R;
+import jx.csp.model.main.Square;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseVPFrag;
@@ -15,7 +18,7 @@ import lib.yy.ui.frag.base.BaseVPFrag;
  * @since 2017/10/17
  */
 
-public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener{
+public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
 
     private final int KOne = 1;
     private final float KVpScale = 0.11f; // vp的缩放比例
@@ -26,10 +29,6 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener{
 
     @Override
     public void initData() {
-        add(new MainMeetingFrag());
-        add(new MainMeetingFrag());
-        add(new MainMeetingFrag());
-        add(new MainMeetingFrag());
     }
 
     @NonNull
@@ -52,6 +51,7 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener{
     public void setViews() {
         super.setViews();
         setOnPageChangeListener(this);
+        getViewPager().setPageMargin(fitDp(27));
     }
 
     @Override
@@ -82,12 +82,12 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener{
     @Override
     public void onPageSelected(int position) {
         mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
-        YSLog.d("position","position");
+        YSLog.d("position", "position");
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        YSLog.d("position","position----");
+        YSLog.d("position", "position----");
     }
 
     /**
@@ -101,5 +101,16 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener{
         float scale = KOne + KVpScale * offset;
         view.setScaleX(scale);
         view.setScaleY(scale);
+    }
+
+    public void setData(List<Square> data) {
+        // 记录当前index
+        int index = getCurrentItem();
+        removeAll();
+        for (Square s : data) {
+            add(MainMeetingFragRouter.create(s).route());
+        }
+        invalidate();
+        setCurrentItem(index);
     }
 }

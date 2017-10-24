@@ -2,6 +2,7 @@ package jx.csp.adapter.VH.main;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import jx.csp.R;
@@ -17,6 +18,10 @@ public class SquareVH extends RecyclerViewHolderEx {
 
     public SquareVH(@NonNull View convertView) {
         super(convertView);
+    }
+
+    public View getItemLayout() {
+        return getView(R.id.main_square_layout);
     }
 
     public NetworkImageView getIvHead() {
@@ -40,6 +45,14 @@ public class SquareVH extends RecyclerViewHolderEx {
     }
 
     public TextView getTvPlayState() {
-        return getView(R.id.play_state);
+        return getView(R.id.current_state);
+    }
+
+    public ImageView getIvLive(){
+        return getView(R.id.iv_square_live);
+    }
+
+    public View getVDivider(){
+        return getView(R.id.square_divider);
     }
 }

@@ -51,6 +51,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
 
+
     @IntDef({
             ScrollType.last,
             ScrollType.next,

@@ -11,20 +11,17 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.sp.SpApp;
-import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
-import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @auther WangLan
@@ -45,8 +42,6 @@ public class RegisterActivity extends BaseLoginActivity {
         int nickname = 2;
     }
 
-    private final int KIdRegister = 0;
-    private final int KIdLogin = 1;
     private final int KReturnCode = 101; // 邮箱已经注册后台返回值
 
     private EditText mEtEmail;
@@ -124,54 +119,36 @@ public class RegisterActivity extends BaseLoginActivity {
             showToast(R.string.input_right_pwd_num);
             return;
         }
-
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdRegister, UserAPI.register(getEmail(), getUserPwd(), getNickname()).build());
+        exeNetworkReq(UserAPI.register(getEmail(), getUserPwd(), getNickname()).build());
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KIdLogin) {
-            return JsonParser.ev(r.getText(), Profile.class);
-        } else {
-            return JsonParser.error(r.getText());
-        }
+        return JsonParser.error(r.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
-        if (id == KIdLogin) {
-            //登录
-            Result<Profile> r = (Result<Profile>) result;
-            if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
-                SpUser.inst().updateProfileRefreshTime();
-                notify(NotifyType.login);
-                startActivity(MainActivity.class);
-            } else {
-                onNetworkError(id, r.getError());
-            }
+        //注册
+        Result r = (Result) result;
+        if (r.getCode() == KReturnCode) {
+            HintDialogMain d = new HintDialogMain(this);
+            d.setHint(getString(R.string.email_have_been_register));
+            d.addBlueButton(R.string.cancel);
+            d.addBlueButton(getString(R.string.immediately_login), v -> finish());
+            d.show();
+            return;
+        }
+        if (r.isSucceed()) {
+            Profile.inst().put(TProfile.nickName, getNickname());
+            Profile.inst().put(TProfile.email, getNickname());
+            Profile.inst().saveToSp();
+            startActivity(RegisterSkipActivity.class);
             finish();
-        } else if (id == KIdRegister) {
-            //注册
-            Result r = (Result) result;
-            if (r.getCode() == KReturnCode) {
-                HintDialogMain d = new HintDialogMain(this);
-                d.setHint(getString(R.string.email_have_been_register));
-                d.addBlueButton(R.string.cancel);
-                d.addBlueButton(getString(R.string.immediately_login), v -> finish());
-                d.show();
-                return;
-            }
-            if (r.isSucceed()) {
-                SpApp.inst().saveUserName(getNickname());
-                //Fixme:原来注册还有个请求还有个packageUtil,什么鬼
-               // exeNetworkReq(KIdLogin, LoginAPI.login(LoginType.email_login).email(getEmail()).password(getUserPwd()).build());
-                startActivity(RegisterSkipActivity.class);
-            } else {
-                onNetworkError(id, r.getError());
-            }
+        } else {
+            onNetworkError(id, r.getError());
         }
     }
 
@@ -182,8 +159,7 @@ public class RegisterActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)) && TextUtil.isNotEmpty(Util.getEtString(mEtPwd))
-                && TextUtil.isNotEmpty(Util.getEtString(mEtNickname)));
+        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()) && TextUtil.isNotEmpty(getNickname()));
     }
 
     public String getEmail() {

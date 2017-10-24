@@ -139,7 +139,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
         if (r.isSucceed()) {
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
-            Profile data = r.getData();
             SpUser.inst().updateProfileRefreshTime();
             startActivity(MainActivity.class);
             finish();

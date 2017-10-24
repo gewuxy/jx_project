@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/main_square_layout"
         android:layout_width="160dp"
         android:layout_height="188dp"
         android:layout_marginLeft="16dp"
@@ -60,6 +61,7 @@
                     android:textSize="16dp"/>
 
                 <View
+                    android:id="@+id/square_divider"
                     android:layout_width="1dp"
                     android:layout_height="9dp"
                     android:layout_alignParentRight="true"
@@ -93,7 +95,7 @@
                     android:textSize="10dp"/>
 
                 <ImageView
-                    android:id="@+id/iv_live"
+                    android:id="@+id/iv_square_live"
                     android:layout_width="18dp"
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"

@@ -37,7 +37,7 @@ public class App extends BaseApp {
      * nav bar定义
      */
     public interface NavBarVal {
-        int KHeightDp = 44;
+        int KHeightDp = 48;
         int KIconSizeDp = 16;
         int KIconPaddingHorizontalDp = 12;
         int KTextMarginHorizontalDp = 12;
@@ -104,7 +104,7 @@ public class App extends BaseApp {
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
-        MobSDK.init(this,"20363f4ed7f9e","38d54e92bac9c9367d249186c53ad89c");
+        MobSDK.init(this,"1f09fd24ab238","270a4584e5f0c1a45e290eae73846535");
 
         String language = PackageUtil.getMetaValue("JX_LANGUAGE");
         if (language.equals("en")) {
