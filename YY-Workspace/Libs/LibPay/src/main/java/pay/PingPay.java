@@ -2,6 +2,7 @@ package pay;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.StringDef;
 
 import com.pingplusplus.android.Pingpp;
 
@@ -17,6 +18,17 @@ import lib.ys.YSLog;
 public class PingPay {
 
     private static final String TAG = PingPay.class.getSimpleName();
+
+    @StringDef({
+            PingPayChannel.alipay,
+            PingPayChannel.wechat,
+            PingPayChannel.upacp,
+    })
+    public @interface PingPayChannel {
+        String alipay = "alipay"; // 支付宝
+        String wechat = "wx"; // 微信
+        String upacp = "upacp"; // 银联
+    }
 
     /**
      * 调用Ping++支付

@@ -8,10 +8,9 @@ import lib.ys.model.EVal;
  * @since 2017/10/11
  */
 
-public class PingPayRecharge extends EVal<TPingPayRecharge>{
+public class PingPayRecharge extends EVal<TPingPayRecharge> {
 
-    public enum TPingPayRecharge{
-        code,
-        data
+    public enum TPingPayRecharge {
+        charge,
     }
 }

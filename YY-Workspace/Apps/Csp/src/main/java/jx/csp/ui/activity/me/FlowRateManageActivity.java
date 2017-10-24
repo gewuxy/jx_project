@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +35,7 @@ import pay.PayAction.PayType;
 import pay.PayPalPay;
 import pay.PayResult;
 import pay.PayResult.TPayResult;
+import pay.PingPay.PingPayChannel;
 
 /**
  * 流量管理
@@ -46,19 +45,6 @@ import pay.PayResult.TPayResult;
  */
 
 public class FlowRateManageActivity extends BaseActivity {
-
-    /**
-     * 银联支付渠道
-     */
-    private static final String KChannelUpAcp = "upacp";
-    /**
-     * 微信支付渠道
-     */
-    private static final String KChannelWx = "wx";
-    /**
-     * 支付宝支付渠道
-     */
-    private static final String KChannelAliPay = "alipay";
 
     private final String KSurplusFlowUnit = "G";
 
@@ -204,18 +190,18 @@ public class FlowRateManageActivity extends BaseActivity {
                 switch (mPreChannelView.getId()) {
                     case R.id.flow_rate_iv_alipay: {
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, KChannelAliPay).build());
+                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, PingPayChannel.alipay).build());
                     }
                     break;
                     case R.id.flow_rate_iv_wechat: {
                         // FIXME: 2017/10/16 微信支付未注册
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, KChannelWx).build());
+                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, PingPayChannel.wechat).build());
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, KChannelUpAcp).build());
+                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, PingPayChannel.upacp).build());
                     }
                     break;
                     case R.id.flow_rate_iv_paypal: {
@@ -234,11 +220,7 @@ public class FlowRateManageActivity extends BaseActivity {
         if (id == KPayPalPayCode) {
             return JsonParser.ev(r.getText(), PayPalPayRecharge.class);
         } else {
-            PingPayRecharge recharge = new PingPayRecharge();
-            JSONObject object = new JSONObject(r.getText());
-            recharge.put(TPingPayRecharge.code, object.getInt("code"));
-            recharge.put(TPingPayRecharge.data, object.getString("data"));
-            return recharge;
+            return JsonParser.ev(r.getText(), PingPayRecharge.class);
         }
     }
 
@@ -257,13 +239,16 @@ public class FlowRateManageActivity extends BaseActivity {
                 onNetworkError(id, r.getError());
             }
         } else {
-            PingPayRecharge r = (PingPayRecharge) result;
-            if (r.getInt(TPingPayRecharge.code) == 0) {
+            Result<PingPayRecharge> r = (Result<PingPayRecharge>) result;
+            if (r.isSucceed()) {
                 stopRefresh();
 
-                String charge = r.getString(TPingPayRecharge.data);
+                PingPayRecharge recharge = r.getData();
+                String charge = recharge.getString(TPingPayRecharge.charge);
                 mReqCode = KPingReqCode;
                 PayAction.pingPay(this, charge);
+            } else {
+                onNetworkError(id, r.getError());
             }
         }
     }

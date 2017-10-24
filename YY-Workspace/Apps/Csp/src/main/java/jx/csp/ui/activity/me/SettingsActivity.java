@@ -8,9 +8,6 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import jx.csp.R;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.HintDialogMain;
@@ -104,7 +101,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_tv_exit_account: {
-                userExit();
+                logout();
             }
             break;
         }
@@ -124,11 +121,11 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.clear_img_cache: {
-                clearCache(CacheUtil.getBmpCacheDir(), RelatedId.clear_img_cache, R.string.setting_clear_img_cache);
+                clearCache(RelatedId.clear_img_cache, R.string.setting_clear_img_cache, CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
             }
             break;
             case RelatedId.clear_sound_cache: {
-                clearCache(CacheUtil.getAudioCacheDir(), RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache);
+                clearCache(RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache, CacheUtil.getAudioCacheDir());
             }
             break;
         }
@@ -160,19 +157,29 @@ public class SettingsActivity extends BaseFormActivity {
     /**
      * 清除缓存
      */
-    private void clearCache(String folderPath, @RelatedId int related, @StringRes int resId) {
+    private void clearCache(@RelatedId int related, @StringRes int resId, String... folderPath) {
         BottomDialog d = new BottomDialog(this, position -> {
 
             if (position == 0) {
-                Observable.fromCallable(() -> FileUtil.delFolder(folderPath))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(aBoolean -> {
-                            if (aBoolean && !isFinishing()) {
-                                getRelatedItem(related).text("0M");
-                                refreshRelatedItem(related);
-                            }
+                Util.runOnSubThread(() -> {
+                    boolean result = true;
+                    for (int i = 0; i < folderPath.length; ++i) {
+                        if (!FileUtil.delFolder(folderPath[i])) {
+                            result = false;
+                            break;
+                        }
+                    }
+
+                    if (result) {
+                        runOnUIThread(() -> {
+                            getRelatedItem(related).text("0M");
+                            refreshRelatedItem(related);
+                            showToast("清理完成");
                         });
+                    } else {
+                        showToast("清理失败");
+                    }
+                });
             }
         });
         d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
@@ -183,7 +190,7 @@ public class SettingsActivity extends BaseFormActivity {
     /**
      * 退出账号
      */
-    private void userExit() {
+    private void logout() {
         HintDialogMain d = new HintDialogMain(this);
         d.setHint(getString(R.string.setting_exit_current_account));
         d.addBlackButton(getString(R.string.setting_exit), v -> {

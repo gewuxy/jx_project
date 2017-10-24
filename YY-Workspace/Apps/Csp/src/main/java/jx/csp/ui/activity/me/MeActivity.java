@@ -43,7 +43,6 @@ public class MeActivity extends BaseFormActivity {
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
-
         int history = 0;
         int flow = 1;
         int account = 2;
