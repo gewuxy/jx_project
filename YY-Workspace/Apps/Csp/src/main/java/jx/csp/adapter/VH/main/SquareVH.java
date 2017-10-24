@@ -52,6 +52,10 @@ public class SquareVH extends RecyclerViewHolderEx {
         return getView(R.id.iv_square_live);
     }
 
+    public ImageView getIvShare(){
+        return getView(R.id.iv_square_share);
+    }
+
     public View getVDivider(){
         return getView(R.id.square_divider);
     }

@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.io.Serializable;
 import java.util.List;
 
 import jx.csp.R;
@@ -82,7 +81,7 @@ public class MainActivity extends BaseVPActivity {
         startActivity(ScanActivity.class);
     }
 
-    public interface OnSquareRefreshListener extends Serializable {
+    public interface OnSquareRefreshListener {
         void onSquareRefresh(List<Square> data);
     }
 

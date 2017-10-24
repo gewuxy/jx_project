@@ -1,7 +1,5 @@
 package jx.csp.adapter.main;
 
-import android.view.View;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,8 +10,6 @@ import jx.csp.model.main.Square.TSquare;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
-import jx.csp.ui.activity.record.CommonRecordActivityRouter;
-import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
@@ -70,16 +66,8 @@ public class SquareAdapter extends RecyclerAdapterEx<Square, SquareVH> {
             SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
             holder.getTvTime().setText(data.format(d));
         }
-        setOnViewClickListener(position, holder.getItemLayout());
-    }
 
-    @Override
-    protected void onViewClick(int position, View v) {
-        String courseId = getItem(position).getString(TSquare.id);
-        if (getItem(position).getInt(TSquare.playType) == PlayType.reb) {
-            CommonRecordActivityRouter.create(courseId).route(getContext());
-        } else {
-            LiveRecordActivityRouter.create(courseId).route(getContext());
-        }
+        setOnViewClickListener(position, holder.getItemLayout());
+        setOnViewClickListener(position, holder.getIvShare());
     }
 }
