@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "jx.csp.app"
-
+//        applicationId "cn.sharesdk.demo"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 

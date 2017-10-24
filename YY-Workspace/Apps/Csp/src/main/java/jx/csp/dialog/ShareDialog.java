@@ -148,6 +148,8 @@ public class ShareDialog extends BaseDialog {
                 //Fixme:分享内容的图片，还没有,用的丫丫医师
                 shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
                 shareParams.setUrl(mShareUrl);
+                shareParams.setTitle(mShareTitle);
+                shareParams.setText("9999");
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -159,6 +161,8 @@ public class ShareDialog extends BaseDialog {
                 //Fixme:分享内容的图片，还没有,用的丫丫医师
                 shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
                 shareParams.setUrl(mShareUrl);
+                shareParams.setTitle(mShareTitle);
+                shareParams.setText("9999");
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }

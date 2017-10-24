@@ -24,4 +24,5 @@ public class Square extends EVal<TSquare> {
         playState, // 录播状态
 
     }
+
 }

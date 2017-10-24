@@ -212,7 +212,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 onNetworkError(id, r.getError());
             }
         }
-
     }
 
     @Override

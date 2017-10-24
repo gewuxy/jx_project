@@ -32,7 +32,7 @@ public class ShareTestActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         //Fixme:传个假的url
-        ShareDialog shareDialog = new ShareDialog(this, "http://wiki.mob.com/%e5%88%86%e4%ba%ab%e5%88%b0%e6%8c%87%e5%ae%9a%e5%b9%b3%e5%8f%b0/", "哈哈");
+        ShareDialog shareDialog = new ShareDialog(this, "http://blog.csdn.net/happy_horse/article/details/51164262", "哈哈");
         shareDialog.show();
     }
 

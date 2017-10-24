@@ -15,6 +15,7 @@ import lib.ys.model.EVal;
 
 public class Course extends EVal<TCourse> {
 
+    //播放类型
     @IntDef({
             PlayType.reb,
             PlayType.live,
@@ -26,6 +27,7 @@ public class Course extends EVal<TCourse> {
         int live = 1; // ppt直播
         int video = 2; // 视频直播
     }
+
 
     public enum TCourse {
         id, // 课件ID
