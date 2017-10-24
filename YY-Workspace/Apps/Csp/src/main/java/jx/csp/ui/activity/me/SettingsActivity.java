@@ -21,7 +21,7 @@ import jx.csp.model.form.FormType;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.login.EmailLoginActivity;
-import jx.csp.ui.activity.me.bind.BindEmailJumpActivity;
+import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
@@ -116,7 +116,7 @@ public class SettingsActivity extends BaseFormActivity {
         switch (relatedId) {
             case RelatedId.change_password: {
                 if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
-                    startActivity(BindEmailJumpActivity.class);
+                    startActivity(BindEmailTipsActivity.class);
                 } else {
                     //已绑定邮箱,直接跳转到修改页面
                     startActivity(ChangePwdActivity.class);

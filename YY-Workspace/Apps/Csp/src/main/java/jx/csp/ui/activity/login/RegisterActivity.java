@@ -116,12 +116,8 @@ public class RegisterActivity extends BaseLoginActivity {
 
     @Override
     protected void toSet() {
-        if (!getUserPwd().matches(Util.symbol())) {
-            showToast(R.string.input_special_symbol);
-            return;
-        }
-        if (getUserPwd().length() < 6) {
-            showToast(R.string.input_right_pwd_num);
+        String pwd = getUserPwd();
+        if (!Util.checkPwd(pwd)) {
             return;
         }
 

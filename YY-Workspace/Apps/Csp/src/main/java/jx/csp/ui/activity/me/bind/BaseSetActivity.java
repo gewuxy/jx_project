@@ -30,11 +30,6 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     }
 
     @Override
-    public final int getContentViewId() {
-        return R.layout.activity_base_set;
-    }
-
-    @Override
     public final void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, getNavBarText(), this);
     }
@@ -58,7 +53,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     public final void onClick(View v) {
         switch (v.getId()) {
             case R.id.base_set_tv_set: {
-                toSet();
+                doSet();
             }
             break;
         }
@@ -72,6 +67,11 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Deprecated
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    protected View createFooterView() {
+        return inflate(R.layout.layout_set_footer);
     }
 
     /**
@@ -100,5 +100,5 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     /**
      * 点击按钮的操作
      */
-    abstract protected void toSet();
+    abstract protected void doSet();
 }

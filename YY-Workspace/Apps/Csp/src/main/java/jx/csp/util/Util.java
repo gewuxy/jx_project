@@ -29,6 +29,8 @@ import lib.yy.util.BaseUtil;
  */
 public class Util extends BaseUtil {
 
+    private final static String KRegexPwd = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
+
     public static void addBackIcon(NavBar n, final Activity act) {
         n.addBackIcon(R.drawable.nav_bar_ic_back, act);
     }
@@ -45,6 +47,7 @@ public class Util extends BaseUtil {
 
     /**
      * 登录页面左上角的X
+     *
      * @param n
      * @param id
      * @param act
@@ -85,17 +88,28 @@ public class Util extends BaseUtil {
     }
 
     /**
-     * 密码允许输入的特殊符
+     * 验证密码规则, 全局统一
      *
+     * @param pwd
      * @return
      */
-    public static String symbol() {
-        String character = "^([A-Za-z_0-9]|-|×|÷|＝|%|√|°|′|″|\\{|\\}|\\(|\\)|\\[|\\]|\\.|\\||\\*|/|#|~|,|:|;|\\?|\"|‖|&|\\*|@|\\|\\^|,|\\$|–|…|'|=|\\+|!|>|<|\\.|-|—|_)+$";
-        return character;
+    public static boolean checkPwd(String pwd) {
+        if (!pwd.matches(KRegexPwd)) {
+            App.showToast(R.string.input_special_symbol);
+            return false;
+        }
+
+        if (pwd.length() < 6) {
+            App.showToast(R.string.input_right_pwd_num);
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * 得到12'25" 格式的时间
+     *
      * @param l
      * @return
      */

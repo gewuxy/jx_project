@@ -34,6 +34,7 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  */
 public class AccountManageActivity extends BaseFormActivity {
 
+    // TODO: 等待王兰完成
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 
     @IntDef({
@@ -236,7 +237,7 @@ public class AccountManageActivity extends BaseFormActivity {
                     if (Util.noNetwork()) {
                         return;
                     }
-                }else {
+                } else {
 
                 }
             }
@@ -351,11 +352,9 @@ public class AccountManageActivity extends BaseFormActivity {
         } else if (type == NotifyType.bind_phone) {
             bindSuccess((String) data, RelatedId.bind_phone);
         } else if (type == NotifyType.bind_email) {
-            String email = Profile.inst().getString(TProfile.email);
-            getRelatedItem(RelatedId.bind_email).save(email, email);
-            refreshRelatedItem(RelatedId.bind_email);
-            showToast(R.string.account_bind_succeed);
-            notify(NotifyType.profile_change);
+            bindSuccess(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
         }
+
+        notify(NotifyType.profile_change);
     }
 }

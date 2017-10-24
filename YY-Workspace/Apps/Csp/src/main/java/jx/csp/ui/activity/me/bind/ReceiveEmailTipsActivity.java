@@ -3,19 +3,19 @@ package jx.csp.ui.activity.me.bind;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseActivity;
 import jx.csp.R;
 import jx.csp.util.Util;
+import lib.ys.ui.other.NavBar;
+import lib.yy.ui.activity.base.BaseActivity;
 
 /**
+ * 提示接收邮件
  *
  * @auther Huoxuyu
  * @since 2017/9/25
  */
 
-public class BindChangeEmailActivity extends BaseActivity{
-
+public class ReceiveEmailTipsActivity extends BaseActivity {
 
     @Override
     public void initData() {
@@ -44,5 +44,6 @@ public class BindChangeEmailActivity extends BaseActivity{
     @Override
     public void onClick(View v) {
         startActivity(BindEmailActivity.class);
+        finish();
     }
 }

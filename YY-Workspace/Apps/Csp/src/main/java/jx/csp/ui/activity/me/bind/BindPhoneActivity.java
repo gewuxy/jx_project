@@ -107,7 +107,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     @Override
-    protected void toSet() {
+    protected void doSet() {
         refresh(RefreshWay.dialog);
         exeNetworkReq(UserAPI.bindPhone(getPhone(), getCaptcha()).build());
     }

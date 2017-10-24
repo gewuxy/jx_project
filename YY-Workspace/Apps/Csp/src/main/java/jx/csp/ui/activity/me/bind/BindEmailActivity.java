@@ -24,7 +24,7 @@ import lib.yy.network.Result;
  * @since 2017/9/25
  */
 
-public class BindEmailActivity extends BaseSetActivity{
+public class BindEmailActivity extends BaseSetActivity {
 
     private EditText mEtEmail;
     private EditText mEtPwd;
@@ -61,7 +61,7 @@ public class BindEmailActivity extends BaseSetActivity{
         super.setViews();
 
         mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
-        mEtPwd= getRelatedItem(RelatedId.pwd).getHolder().getEt();
+        mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
 
         mEtEmail.addTextChangedListener(this);
         mEtPwd.addTextChangedListener(this);
@@ -73,9 +73,9 @@ public class BindEmailActivity extends BaseSetActivity{
         Result r = (Result) result;
         if (r.isSucceed()) {
             showToast(R.string.setting_bind_email_succeed);
-            startActivity(BindChangeEmailActivity.class);
+            startActivity(ReceiveEmailTipsActivity.class);
             finish();
-        }else {
+        } else {
             showToast(r.getMessage());
         }
     }
@@ -91,17 +91,14 @@ public class BindEmailActivity extends BaseSetActivity{
     }
 
     @Override
-    protected void toSet() {
-        if (!getUserPwd().matches(Util.symbol())) {
-            showToast(R.string.input_special_symbol);
+    protected void doSet() {
+        String pwd = getUserPwd();
+        if (!Util.checkPwd(pwd)) {
             return;
         }
-        if (getUserPwd().length() < 6) {
-            showToast(R.string.input_right_pwd_num);
-            return;
-        }
+
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.bindEmail(getEmail(), getUserPwd()).build());
+        exeNetworkReq(UserAPI.bindEmail(getEmail(), pwd).build());
     }
 
     @Override

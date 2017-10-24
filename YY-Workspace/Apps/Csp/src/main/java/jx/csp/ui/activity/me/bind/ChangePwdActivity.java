@@ -94,7 +94,7 @@ public class ChangePwdActivity extends BaseSetActivity{
     }
 
     @Override
-    protected void toSet() {
+    protected void doSet() {
         refresh(RefreshWay.dialog);
         exeNetworkReq(UserAPI.changePwd(Util.getEtString(mEtPwdOld), Util.getEtString(mEtPwdNew)).build());
     }
