@@ -12,7 +12,6 @@
     <string name="affirm">确认</string>
 
     <!-- 直播间 -->
-    <string name="live_time_no_arrived">直播时间未到</string>
     <string name="online">Audience(s)</string>
     <string name="live">On Air</string>
     <string name="no_start">Not Started</string>
@@ -29,12 +28,12 @@
     <string name="meeting_no_start_remain">Please proceed your live stream within the time set</string>
     <string name="meeting_start_click_start_live">The meeting has begun. Please start your live.</string>
     <string name="no_record_permission">请检查是否开启语音权限</string>
-    <string name="skip_to_next_page">是否跳到下一页继续录制?</string>
-    <string name="skip_to_last_page">是否跳到上一页继续录制?</string>
-    <string name="record_again">再次录制将会覆盖已有音频</string>
+    <string name="skip_to_next_page">Move to next page and continue to record?</string>
+    <string name="skip_to_last_page">Move to last page and continue to record?</string>
+    <string name="record_again">Re-recording will replace the existing audio.</string>
     <string name="never_remain">不再提示</string>
-    <string name="play_fail">播放失败</string>
-    <string name="record_fail">录音失败</string>
+    <string name="play_fail">play failed</string>
+    <string name="record_fail">record failed</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>

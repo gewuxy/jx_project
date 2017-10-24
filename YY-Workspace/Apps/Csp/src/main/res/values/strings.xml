@@ -12,7 +12,6 @@
     <string name="affirm">确认</string>
 
     <!-- 直播间 -->
-    <string name="live_time_no_arrived">直播时间未到</string>
     <string name="online">在线</string>
     <string name="live">直播中</string>
     <string name="no_start">未开始</string>

@@ -308,7 +308,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
                 startRecordState();
             }
         } else {
-            showToast(R.string.live_time_no_arrived);
+            showToast(R.string.meeting_no_start_remain);
         }
     }
 

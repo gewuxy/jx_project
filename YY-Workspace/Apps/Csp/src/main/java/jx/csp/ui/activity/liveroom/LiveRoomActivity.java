@@ -193,7 +193,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomView {
             mLiveRoomPresenter.startCountDown(mStartTime, mStopTime);
             mLiveRoomPresenter.startLive(mStreamId, mTitle);
         } else {
-            showToast(R.string.live_time_no_arrived);
+            showToast(R.string.meeting_no_start_remain);
         }
     }
 

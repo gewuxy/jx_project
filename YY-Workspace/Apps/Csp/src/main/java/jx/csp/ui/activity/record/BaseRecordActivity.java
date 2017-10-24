@@ -156,7 +156,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         setOnPageChangeListener(this);
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
-
         mUploadList = new LinkedList<>();
 
         //getViewPager().setPageTransformer(false, new ZoomOutTransformer());
