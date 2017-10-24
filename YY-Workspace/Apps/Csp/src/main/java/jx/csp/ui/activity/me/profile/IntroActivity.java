@@ -7,10 +7,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import inject.annotation.router.Route;
+import jx.csp.R;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
-import jx.csp.R;
 
 /**
  * 个人简介
@@ -19,7 +19,7 @@ import jx.csp.R;
  * @since 2017/9/21
  */
 @Route
-public class IntroActivity extends BaseMyMessageActivity{
+public class IntroActivity extends BaseMyMessageActivity {
 
     private final int KTextLength = 600;
 
@@ -81,7 +81,7 @@ public class IntroActivity extends BaseMyMessageActivity{
     }
 
     @Override
-    protected void toSet() {
+    protected void doSet() {
         refresh(RefreshWay.dialog);
         exeNetworkReq(UserAPI.modify().info(mEt.getText().toString()).build());
     }

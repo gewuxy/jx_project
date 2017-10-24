@@ -27,6 +27,8 @@ public class NickNameActivity extends BaseMyMessageActivity {
     private ImageView mIv;
     private int mLimit;
 
+    private TextWatcher mWatcher;
+
     @Override
     public void initData() {
         mLimit = getIntent().getIntExtra(Extra.KLimit, 18);
@@ -51,28 +53,29 @@ public class NickNameActivity extends BaseMyMessageActivity {
 
         addTextChangedListener(mEt, mIv);
         ViewUtil.limitInputCount(mEt, mLimit);
-        mEt.addTextChangedListener(new TextWatcher() {
+
+        mWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().contains(" ")) {
-                    String[] str = s.toString().split(" ");
-                    String str1 = "";
-                    for (int i = 0; i < str.length; i++) {
-                        str1 += str[i];
-                    }
-                    mEt.setText(str1);
-                    mEt.setSelection(start);
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                String ret = s.toString();
+                ret = ret.replaceAll(" ", "");
+
+                mEt.removeTextChangedListener(mWatcher);
+                mEt.setText(ret);
+                mEt.setSelection(ret.length());
+                mEt.addTextChangedListener(mWatcher);
             }
-        });
+
+        };
+        mEt.addTextChangedListener(mWatcher);
     }
 
     @Override
@@ -86,7 +89,7 @@ public class NickNameActivity extends BaseMyMessageActivity {
     }
 
     @Override
-    protected void toSet() {
+    protected void doSet() {
         refresh(RefreshWay.dialog);
         exeNetworkReq(UserAPI.modify().nickName(mEt.getText().toString()).build());
     }

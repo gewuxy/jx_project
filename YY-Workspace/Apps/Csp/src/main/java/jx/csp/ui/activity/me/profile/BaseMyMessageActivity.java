@@ -31,7 +31,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  * @since 2017/9/21
  */
 
-abstract public class BaseMyMessageActivity extends BaseActivity{
+abstract public class BaseMyMessageActivity extends BaseActivity {
 
     @Arg
     TProfile mAttr;
@@ -51,7 +51,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.my_message, this);
         mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
-            toSet();
+            doSet();
         });
     }
 
@@ -65,12 +65,12 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
             if (TextUtil.isEmpty(getEt().getText())) {
                 mTv.setEnabled(false);
             }
-        }else {
+        } else {
             mTv.setEnabled(true);
         }
     }
 
-    protected void addTextChangedListener(@NonNull EditText et, @Nullable View ivClear){
+    protected void addTextChangedListener(@NonNull EditText et, @Nullable View ivClear) {
         if (et == null) {
             return;
         }
@@ -91,10 +91,10 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
                 if (mFlag == false) {
                     if (TextUtil.isEmpty(getEt().getText())) {
                         mTv.setEnabled(false);
-                    }else {
+                    } else {
                         mTv.setEnabled(true);
                     }
-                }else {
+                } else {
                     mTv.setEnabled(true);
                 }
 
@@ -153,7 +153,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity{
     /**
      * 点击按钮的操作
      */
-    abstract protected void toSet();
+    abstract protected void doSet();
 
     /**
      * 获取Profile里面对应enum的值

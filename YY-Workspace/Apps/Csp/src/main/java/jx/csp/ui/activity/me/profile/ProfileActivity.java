@@ -177,18 +177,16 @@ public class ProfileActivity extends BaseFormActivity {
             return;
         }
 
-        String path = null;
         switch (requestCode) {
             case KCodeAlbum: {
                 // 查看相册获得图片返回
-                path = PhotoUtil.getPath(this, data.getData());
+                String path = PhotoUtil.getPath(this, data.getData());
                 startActForResult(path);
             }
             break;
             case KCodePhotograph: {
                 // 通过照相机拍的图片
-                path = mStrPhotoPath;
-                startActForResult(path);
+                startActForResult(mStrPhotoPath);
             }
             break;
             case KCodeClipImage: {
