@@ -35,7 +35,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
 
 
         @Init(asInt = 0)
-        flux,       //流量
+        flux,       //流量 保存单位是M 显示单位是G
     }
 
     private static Profile mInst = null;

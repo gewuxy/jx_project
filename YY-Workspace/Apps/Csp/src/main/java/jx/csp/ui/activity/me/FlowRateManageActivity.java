@@ -76,6 +76,7 @@ public class FlowRateManageActivity extends BaseActivity {
     private View mPreChannelView;
 
     private String mOrderId;
+    private String mEtText;
     private int mRechargeSum;
     private int mReqCode;//识别号，区分支付方式
 
@@ -152,13 +153,13 @@ public class FlowRateManageActivity extends BaseActivity {
                     editEnd--;
                 }
                 mEtRecharge.setSelection(editStart);
-                String str = mEtRecharge.getText().toString().trim();
-                String num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(str) ? 0 : Integer.valueOf(str) * 2);
+                mEtText = mEtRecharge.getText().toString().trim();
+                String num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mEtText) ? 0 : Integer.valueOf(mEtText) * 2);
 
                 mTvMoney.setText(num);
                 mEtRecharge.addTextChangedListener(this);
 
-                if (TextUtil.isNotEmpty(str)) {
+                if (TextUtil.isNotEmpty(mEtText)) {
                     mTvPay.setEnabled(true);
                     ViewUtil.showView(mTvUnit);
                 } else {
@@ -193,8 +194,7 @@ public class FlowRateManageActivity extends BaseActivity {
             }
             break;
             case R.id.flow_rate_tv_pay: {
-                String num = mEtRecharge.getText().toString().trim();
-                mRechargeSum = Integer.valueOf(num);
+                mRechargeSum = Integer.valueOf(mEtText);
                 if (mRechargeSum == 0) {
                     showToast(R.string.flow_rate_input_top_up);
                     return;
@@ -286,12 +286,12 @@ public class FlowRateManageActivity extends BaseActivity {
 
             @Override
             public void onPaySuccess() {
-                int flowRate = Profile.inst().getInt(TProfile.flux) + mRechargeSum;
+                int flowRate = Profile.inst().getInt(TProfile.flux) + mRechargeSum * 1024;
 
                 Profile.inst().put(TProfile.flux, flowRate);
                 Profile.inst().saveToSp();
 
-                mTvSurplus.setText(flowRate + KSurplusFlowUnit);
+                mTvSurplus.setText(flowRate / 1024 + KSurplusFlowUnit);
                 showToast(R.string.flow_rate_pay_success);
             }
 
