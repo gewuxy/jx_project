@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.liveroom;
+package jx.csp.presenter;
 
 import android.view.Surface;
 
@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.BuildConfig;
-import jx.csp.ui.activity.liveroom.LiveRoomContract.LiveRoomPresenter;
-import jx.csp.ui.activity.liveroom.LiveRoomContract.LiveRoomView;
+import jx.csp.contact.LiveRoomContract;
+import jx.csp.contact.LiveRoomContract.View;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.yy.util.CountDown;
@@ -35,12 +35,12 @@ import lib.zego.ZegoApiManager;
  * @since 2017/9/22
  */
 
-public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownListener {
+public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCountDownListener {
 
     private static final String TAG = "LiveRoomPresenterImpl";
     private final int KFifteen = 15;  // 开始倒计时的分钟数
 
-    private LiveRoomView mLiveRoomView;
+    private View mView;
     private ZegoLiveRoom mZegoLiveRoom;
 
     private boolean mUseFrontCamera = false;
@@ -51,8 +51,8 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
     private long mStartTime;
     private long mStopTime;
 
-    public LiveRoomPresenterImpl(LiveRoomView liveRoomView) {
-        mLiveRoomView = liveRoomView;
+    public LiveRoomPresenterImpl(View view) {
+        mView = view;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
         mZegoLiveRoom.setPreviewViewMode(ZegoVideoViewMode.ScaleAspectFill);
         mZegoLiveRoom.setAppOrientation(Surface.ROTATION_90);
         mZegoLiveRoom.setRoomConfig(true, true);
-        mZegoLiveRoom.setPreviewView(mLiveRoomView.getTextureView());
+        mZegoLiveRoom.setPreviewView(mView.getTextureView());
         mZegoLiveRoom.startPreview();
         mZegoLiveRoom.loginRoom(roomId, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
 
@@ -155,7 +155,7 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
             public void onUserUpdate(ZegoUserState[] zegoUserStates, int i) {
                 //直播间的观众人数获取
                 YSLog.d(TAG, "user state = " + zegoUserStates.length + "   i = " + i);
-                mLiveRoomView.setOnlineNumTv(zegoUserStates.length);
+                mView.setOnlineNumTv(zegoUserStates.length);
             }
 
             @Override
@@ -182,13 +182,13 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
     @Override
     public void startLive(String streamId, String title) {
         mZegoLiveRoom.startPublishing(streamId, title, ZegoConstants.PublishFlag.SingleAnchor);
-        mLiveRoomView.startLiveState();
+        mView.startLiveState();
     }
 
     @Override
     public void stopLive() {
         mZegoLiveRoom.stopPublishing();
-        mLiveRoomView.stopLiveState();
+        mView.stopLiveState();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
 
     @Override
     public void useMic() {
-        mLiveRoomView.setSilenceIvSelected(mUseMic);
+        mView.setSilenceIvSelected(mUseMic);
         mUseMic = !mUseMic;
         mZegoLiveRoom.enableMic(mUseMic);
     }
@@ -216,16 +216,16 @@ public class LiveRoomPresenterImpl implements LiveRoomPresenter, OnCountDownList
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            mLiveRoomView.onFinish();
+            mView.onFinish();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        mLiveRoomView.setLiveTimeTv(Util.getSpecialTimeFormat(time));
+        mView.setLiveTimeTv(Util.getSpecialTimeFormat(time));
         if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
             if (!mShowCountDownRemainTv) {
                 mShowCountDownRemainTv = !mShowCountDownRemainTv;
-                mLiveRoomView.changeLiveIvRes();
+                mView.changeLiveIvRes();
             }
-            mLiveRoomView.setCountDownRemindTv(mShowCountDownRemainTv, (int) remainCount);
+            mView.setCountDownRemindTv(mShowCountDownRemainTv, (int) remainCount);
         }
     }
 

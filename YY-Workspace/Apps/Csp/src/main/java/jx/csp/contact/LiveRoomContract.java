@@ -1,15 +1,17 @@
-package jx.csp.ui.activity.liveroom;
+package jx.csp.contact;
 
 import android.view.TextureView;
+
+import jx.csp.presenter.PresenterEx;
+import jx.csp.ui.ViewEx;
 
 /**
  * @author CaiXiang
  * @since 2017/9/22
  */
-
 public interface LiveRoomContract {
 
-    interface LiveRoomView {
+    interface View extends ViewEx {
 
         TextureView getTextureView();
 
@@ -30,7 +32,7 @@ public interface LiveRoomContract {
         void onFinish();
     }
 
-    interface LiveRoomPresenter {
+    interface Presenter extends PresenterEx<View> {
 
         void initLiveRoom(String roomId);
 

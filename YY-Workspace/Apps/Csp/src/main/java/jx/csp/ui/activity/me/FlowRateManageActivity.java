@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.me;
 
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jx.csp.R;
+import jx.csp.contact.FlowRateContract;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.pay.PayPalPayRecharge;
@@ -20,6 +22,7 @@ import jx.csp.model.pay.PingPayRecharge;
 import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.PayAPI;
+import jx.csp.presenter.FlowRatePresenterImpl;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -51,7 +54,7 @@ public class FlowRateManageActivity extends BaseActivity {
     private final int KPingReqCode = 0;
     private final int KPayPalPayCode = 1;
 
-    private EditText mEtRecharge;
+    private EditText mEtFlowRate;
 
     private TextView mTvSurplus;
     private TextView mTvUnit;
@@ -62,15 +65,22 @@ public class FlowRateManageActivity extends BaseActivity {
     private View mPreChannelView;
 
     private String mOrderId;
-    private String mEtText;
+    private String mFlowRate;
     private int mRechargeSum;
     private int mReqCode;//识别号，区分支付方式
+
+    private FlowRateContract.P mPresenter;
+    private FlowRateContract.V mView;
+
 
     @Override
     public void initData() {
         mChannelViews = new MapList<>();
 
         PayAction.startPayPalService(this);
+
+        mView = new FlowRateViewImpl();
+        mPresenter = new FlowRatePresenterImpl(mView);
     }
 
     @NonNull
@@ -86,7 +96,7 @@ public class FlowRateManageActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mEtRecharge = findView(R.id.flow_rate_et_recharge);
+        mEtFlowRate = findView(R.id.flow_rate_et_recharge);
 
         mTvSurplus = findView(R.id.flow_rate_tv_surplus);
         mTvUnit = findView(R.id.flow_rate_tv_unit);
@@ -101,19 +111,17 @@ public class FlowRateManageActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-        // 初始化高亮第一个
-        mPreChannelView = mChannelViews.get(0);
-        mPreChannelView.setSelected(true);
-
-        mTvPay.setEnabled(false);
-        mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / 1024 + KSurplusFlowUnit);
-
         setOnClickListener(R.id.flow_rate_tv_pay);
         for (View v : mChannelViews) {
             setOnClickListener(v);
         }
 
-        mEtRecharge.addTextChangedListener(new TextWatcher() {
+        // 初始化高亮第一个
+        mView.setHighlight(mChannelViews.get(0).getId());
+        mView.setPayStatus();
+        mView.setSurplus();
+
+        mEtFlowRate.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -125,48 +133,15 @@ public class FlowRateManageActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int editStart = mEtRecharge.getSelectionStart();
-                int editEnd = mEtRecharge.getSelectionEnd();
-
-                mEtRecharge.removeTextChangedListener(this);
-
-                Pattern pattern = Pattern.compile("0[0-9]");
-                Matcher matcher = pattern.matcher(s.toString());
-                // 如果是以0开头截断后面的字符串
-                if (matcher.matches()) {
-                    s.delete(editStart - 1, editEnd);
-                    editStart--;
-                    editEnd--;
-                }
-                mEtRecharge.setSelection(editStart);
-                mEtText = mEtRecharge.getText().toString().trim();
-                String num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mEtText) ? 0 : Integer.valueOf(mEtText) * 2);
-
-                mTvMoney.setText(num);
-                mEtRecharge.addTextChangedListener(this);
-
-                if (TextUtil.isNotEmpty(mEtText)) {
-                    mTvPay.setEnabled(true);
-                    ViewUtil.showView(mTvUnit);
-                } else {
-                    mTvPay.setEnabled(false);
-                    ViewUtil.goneView(mTvUnit);
-                }
+                mView.setInput();
+                mView.setMoney();
+                mView.setPayStatus();
             }
         });
     }
 
     private void findChannelView(int id) {
         mChannelViews.add(Integer.valueOf(id), findView(id));
-    }
-
-    private void changeChannelFocus(View v) {
-        if (mPreChannelView.equals(v)) {
-            return;
-        }
-        mPreChannelView.setSelected(false);
-        v.setSelected(true);
-        mPreChannelView = v;
     }
 
     @Override
@@ -176,11 +151,11 @@ public class FlowRateManageActivity extends BaseActivity {
             case R.id.flow_rate_iv_paypal:
             case R.id.flow_rate_iv_wechat:
             case R.id.flow_rate_iv_alipay: {
-                changeChannelFocus(mChannelViews.getByKey(v.getId()));
+                mView.setHighlight(v.getId());
             }
             break;
             case R.id.flow_rate_tv_pay: {
-                mRechargeSum = Integer.valueOf(mEtText);
+                mRechargeSum = Integer.valueOf(mFlowRate);
                 if (mRechargeSum == 0) {
                     showToast(R.string.flow_rate_input_top_up);
                     return;
@@ -271,12 +246,11 @@ public class FlowRateManageActivity extends BaseActivity {
 
             @Override
             public void onPaySuccess() {
-                int flowRate = Profile.inst().getInt(TProfile.flux) + mRechargeSum * 1024;
-
-                Profile.inst().put(TProfile.flux, flowRate);
+                Profile.inst().increase(TProfile.flux, mRechargeSum * 1024);
                 Profile.inst().saveToSp();
 
-                mTvSurplus.setText(flowRate / 1024 + KSurplusFlowUnit);
+                mView.setSurplus();
+
                 showToast(R.string.flow_rate_pay_success);
             }
 
@@ -292,5 +266,70 @@ public class FlowRateManageActivity extends BaseActivity {
         super.onDestroy();
 
         PayAction.stopPayPalService(this);
+    }
+
+    private class FlowRateViewImpl implements FlowRateContract.V {
+
+        @Override
+        public void setMoney() {
+            mFlowRate = mEtFlowRate.getText().toString().trim();
+            String num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate) * 2);
+            mTvMoney.setText(num);
+        }
+
+        @Override
+        public void setInput() {
+            Editable s = mEtFlowRate.getEditableText();
+
+            int editStart = mEtFlowRate.getSelectionStart();
+            int editEnd = mEtFlowRate.getSelectionEnd();
+
+            Pattern pattern = Pattern.compile("0[0-9]");
+            Matcher matcher = pattern.matcher(s.toString());
+            // 如果是以0开头截断后面的字符串
+            if (matcher.matches()) {
+                s.delete(editStart - 1, editEnd);
+                editStart--;
+                editEnd--;
+            }
+            mEtFlowRate.setSelection(editStart);
+        }
+
+        @Override
+        public void setPayStatus() {
+            if (TextUtil.isNotEmpty(mFlowRate)) {
+                mTvPay.setEnabled(true);
+                ViewUtil.showView(mTvUnit);
+            } else {
+                mTvPay.setEnabled(false);
+                ViewUtil.goneView(mTvUnit);
+            }
+        }
+
+        @Override
+        public void setHighlight(@IdRes int id) {
+            View v = mChannelViews.getByKey(id);
+            if (v == null) {
+                return;
+            }
+
+            if (mPreChannelView == null) {
+                mPreChannelView = v;
+            } else {
+                if (mPreChannelView.equals(v)) {
+                    return;
+                }
+                mPreChannelView.setSelected(false);
+                mPreChannelView = v;
+            }
+
+            v.setSelected(true);
+        }
+
+        @Override
+        public void setSurplus() {
+            mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / 1024 + KSurplusFlowUnit);
+        }
+
     }
 }
