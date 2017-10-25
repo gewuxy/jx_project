@@ -8,4 +8,6 @@ import jx.csp.ui.ViewEx;
  */
 
 public interface PresenterEx<V extends ViewEx> {
+
+    void onDestroy();
 }

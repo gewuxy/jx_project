@@ -16,21 +16,13 @@ import jx.csp.R;
 import jx.csp.contact.FlowRateContract;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.pay.PayPalPayRecharge;
-import jx.csp.model.pay.PayPalPayRecharge.TPayPalPayRecharge;
-import jx.csp.model.pay.PingPayRecharge;
-import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
-import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.PayAPI;
 import jx.csp.presenter.FlowRatePresenterImpl;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import pay.OnPayListener;
 import pay.PayAction;
@@ -50,6 +42,7 @@ import pay.PingPay.PingPayChannel;
 public class FlowRateManageActivity extends BaseActivity {
 
     private final String KSurplusFlowUnit = "G";
+    private final int KFlowConversion = 1024;
 
     private final int KPingReqCode = 0;
     private final int KPayPalPayCode = 1;
@@ -160,28 +153,27 @@ public class FlowRateManageActivity extends BaseActivity {
                     showToast(R.string.flow_rate_input_top_up);
                     return;
                 }
-
                 // 1) 请求服务器获取charge
                 switch (mPreChannelView.getId()) {
                     case R.id.flow_rate_iv_alipay: {
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, PingPayChannel.alipay).build());
+                        mPresenter.getDataFormNet(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
                     }
                     break;
                     case R.id.flow_rate_iv_wechat: {
                         // FIXME: 2017/10/16 微信支付未注册
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, PingPayChannel.wechat).build());
+                        mPresenter.getDataFormNet(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(PayAPI.pingPay(mRechargeSum, PingPayChannel.upacp).build());
+                        mPresenter.getDataFormNet(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
                     }
                     break;
                     case R.id.flow_rate_iv_paypal: {
                         refresh(RefreshWay.dialog);
-                        exeNetworkReq(KPayPalPayCode, PayAPI.paypalPay(mRechargeSum).build());
+                        mPresenter.getDataFormNet(KPayPalPayCode, mRechargeSum, null);
                     }
                     break;
                 }
@@ -191,80 +183,13 @@ public class FlowRateManageActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KPayPalPayCode) {
-            return JsonParser.ev(r.getText(), PayPalPayRecharge.class);
-        } else {
-            return JsonParser.ev(r.getText(), PingPayRecharge.class);
-        }
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        if (id == KPayPalPayCode) {
-            Result<PayPalPayRecharge> r = (Result<PayPalPayRecharge>) result;
-            if (r.isSucceed()) {
-                stopRefresh();
-
-                mReqCode = KPayPalPayCode;
-                mOrderId = r.getData().getString(TPayPalPayRecharge.orderId);
-                PayAction.payPalPay(this, String.valueOf(mRechargeSum));
-
-            } else {
-                onNetworkError(id, r.getError());
-            }
-        } else {
-            Result<PingPayRecharge> r = (Result<PingPayRecharge>) result;
-            if (r.isSucceed()) {
-                stopRefresh();
-
-                PingPayRecharge recharge = r.getData();
-                String charge = recharge.getString(TPingPayRecharge.charge);
-                mReqCode = KPingReqCode;
-                PayAction.pingPay(this, charge);
-            } else {
-                onNetworkError(id, r.getError());
-            }
-        }
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final PayResult payResult = new PayResult();
-
-        if (mReqCode == KPingReqCode) {
-            payResult.put(TPayResult.type, PayType.pingPP);
-        } else if (mReqCode == KPayPalPayCode) {
-            payResult.put(TPayResult.type, PayType.payPal);
-            data.putExtra(PayPalPay.KExtraOrderId, mOrderId);
-        }
-        payResult.put(TPayResult.requestCode, requestCode);
-        payResult.put(TPayResult.resultCode, resultCode);
-        payResult.put(TPayResult.data, data);
-
-        PayAction.onResult(payResult, new OnPayListener() {
-
-            @Override
-            public void onPaySuccess() {
-                Profile.inst().increase(TProfile.flux, mRechargeSum * 1024);
-                Profile.inst().saveToSp();
-
-                mView.setSurplus();
-
-                showToast(R.string.flow_rate_pay_success);
-            }
-
-            @Override
-            public void onPayError(String error) {
-                showToast(R.string.flow_rate_pay_fail);
-            }
-        });
+        mView.setCallBack(requestCode, resultCode, data);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         PayAction.stopPayPalService(this);
     }
 
@@ -322,14 +247,59 @@ public class FlowRateManageActivity extends BaseActivity {
                 mPreChannelView.setSelected(false);
                 mPreChannelView = v;
             }
-
             v.setSelected(true);
         }
 
         @Override
         public void setSurplus() {
-            mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / 1024 + KSurplusFlowUnit);
+            mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / KFlowConversion + KSurplusFlowUnit);
         }
 
+        @Override
+        public void payPalPay(String orderId) {
+            stopRefresh();
+            mReqCode = KPayPalPayCode;
+            mOrderId = orderId;
+            PayAction.payPalPay(FlowRateManageActivity.this, String.valueOf(mRechargeSum));
+        }
+
+        @Override
+        public void pingPay(String info) {
+            stopRefresh();
+            mReqCode = KPingReqCode;
+            PayAction.pingPay(FlowRateManageActivity.this, info);
+        }
+
+        @Override
+        public void setCallBack(int requestCode, int resultCode, Intent data) {
+            final PayResult payResult = new PayResult();
+
+            if (mReqCode == KPingReqCode) {
+                payResult.put(TPayResult.type, PayType.pingPP);
+            } else if (mReqCode == KPayPalPayCode) {
+                payResult.put(TPayResult.type, PayType.payPal);
+                data.putExtra(PayPalPay.KExtraOrderId, mOrderId);
+            }
+            payResult.put(TPayResult.requestCode, requestCode);
+            payResult.put(TPayResult.resultCode, resultCode);
+            payResult.put(TPayResult.data, data);
+
+            PayAction.onResult(payResult, new OnPayListener() {
+
+                @Override
+                public void onPaySuccess() {
+                    Profile.inst().increase(TProfile.flux, mRechargeSum * KFlowConversion);
+                    Profile.inst().saveToSp();
+
+                    mView.setSurplus();
+                    showToast(R.string.flow_rate_pay_success);
+                }
+
+                @Override
+                public void onPayError(String error) {
+                    showToast(R.string.flow_rate_pay_fail);
+                }
+            });
+        }
     }
 }
