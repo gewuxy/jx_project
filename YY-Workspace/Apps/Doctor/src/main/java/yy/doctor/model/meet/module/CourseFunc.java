@@ -85,7 +85,7 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
-                MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
             }
         } else {
             App.showToast(r.getMessage());

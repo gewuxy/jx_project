@@ -173,6 +173,9 @@
 
     <string name="can_not_find_relevant_software">没有安装相应软件</string>
 
+    <string name="course_first">这是第一页喔</string>
+    <string name="course_last">已是最后一页</string>
+
     <!--通知-->
     <string name="notice">通知</string>
 

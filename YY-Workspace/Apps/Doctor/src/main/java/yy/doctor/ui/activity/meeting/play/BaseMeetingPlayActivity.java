@@ -66,7 +66,6 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
         mTvCur = findView(R.id.meet_play_tv_current);
         mTvAll = findView(R.id.meet_play_tv_all);
-
     }
 
     @CallSuper
@@ -81,9 +80,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         setOnClickListener(R.id.meet_play_iv_left);
         setOnClickListener(R.id.meet_play_iv_right);
 
-        if (mTvComment != null) {
-            mIvControl.setImageResource(getControlResId());
-        }
+        mIvControl.setImageResource(getControlResId());
     }
 
     @Override
@@ -143,22 +140,24 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         showView(findView(resId));
     }
 
-    protected void setCommentCount(int num) {
-        if (mTvComment == null) {
-            return;
-        }
-        if (num <= 0) {
-            mTvComment.setText("评论");
-        } else {
-            mTvComment.setText(String.valueOf(num));
-        }
+    protected void setPlayState(boolean state) {
+        mIvControl.setSelected(state);
     }
 
-    protected void setPlayState(boolean state) {
-        if (mTvComment == null) {
-            return;
-        }
-        mIvControl.setSelected(state);
+    protected void setTextComment(int num) {
+        mTvComment.setText(num <= 0 ? "评论" : String.valueOf(num));
+    }
+
+    protected void setTextCur(int position) {
+        mTvCur.setText(String.valueOf(position));
+    }
+
+    protected void setTextAll(int size) {
+        mTvAll.setText(String.valueOf(size));
+    }
+
+    protected void setTextOnline(int people) {
+        mTvOnlineNum.setText(String.valueOf(people));
     }
 
     /**

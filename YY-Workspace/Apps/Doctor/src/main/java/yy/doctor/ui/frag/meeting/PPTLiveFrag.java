@@ -99,10 +99,6 @@ public class PPTLiveFrag extends BaseFrag {
         });
     }
 
-    public boolean isPlaying() {
-        return true;
-    }
-
     public void startAudio() {
         mLive.enableSpeaker(true);
     }

@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 
@@ -47,13 +46,10 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
 public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
     private View mLayoutFrag;
-    private PPTRebFrag mFragRep;
+    private PPTRebFrag mFragReb;
 
     private DiscreteScrollView mRvP;
     private RecyclerView mRvL;
-
-    private TextView mTvCurrent;
-    private TextView mTvAll;
 
     private MeetingRebContract.Presenter mPresenter;
     private MeetingRebContract.View mView;
@@ -87,14 +83,11 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     public void findViews() {
         super.findViews();
 
-        mFragRep = findFragment(R.id.meet_ppt_frag_rep);
+        mFragReb = findFragment(R.id.meet_ppt_frag_rep);
         mLayoutFrag = findView(R.id.meet_ppt_layout);
 
         mRvP = findView(R.id.meet_ppt_rv_p);
         mRvL = findView(R.id.meet_ppt_rv_l);
-
-        mTvCurrent = findView(R.id.meet_play_tv_current);
-        mTvAll = findView(R.id.meet_play_tv_all);
     }
 
     @Override
@@ -111,7 +104,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         refresh(RefreshWay.embed);
         mPresenter.getDataFromNet(mMeetId, mModuleId);
 
-        mFragRep.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mFragReb.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -130,7 +123,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
                 if (orientationLandscape()) {
                     mRvL.smoothScrollToPosition(position);
                 } else {
-                    mTvCurrent.setText(String.valueOf(position + 1));
+                    setTextCur(position + 1);
                     mRvP.smoothScrollToPosition(position);
                 }
             }
@@ -153,7 +146,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         }
         mLayoutFrag.setLayoutParams(mParamP);
         mView.finishCount();
-        mRvP.smoothScrollToPosition(mFragRep.getCurrentItem());
+        mRvP.smoothScrollToPosition(mFragReb.getCurrentItem());
     }
 
     @Override
@@ -166,7 +159,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         }
         mLayoutFrag.setLayoutParams(mParamL);
         showLandscapeView();
-        mRvL.smoothScrollToPosition(mFragRep.getCurrentItem());
+        mRvL.smoothScrollToPosition(mFragReb.getCurrentItem());
         mPresenter.landscapeScreen();
     }
 
@@ -181,27 +174,14 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     }
 
     @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            refresh(RefreshWay.embed);
-            mPresenter.getDataFromNet(mMeetId, mModuleId);
-        }
-        return true;
-    }
-
-    @Override
     public void onClick(int id) {
         switch (id) {
-            case R.id.meet_play_iv_left_l:
-            case R.id.meet_play_iv_left: {
-                // 上一页
-                setItem(mFragRep, -1, "这是第一页喔");
+            case R.id.meet_play_iv_left_l: {
+                toLeft();
             }
             break;
-            case R.id.meet_play_iv_right_l:
-            case R.id.meet_play_iv_right: {
-                // 下一页
-                setItem(mFragRep, +1, "已是最后一页");
+            case R.id.meet_play_iv_right_l: {
+                toRight();
             }
             break;
         }
@@ -209,12 +189,21 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
     @Override
     protected void toLeft() {
-
+        mFragReb.setCurrentItem(-1, getString(R.string.course_first));
     }
 
     @Override
     protected void toRight() {
+        mFragReb.setCurrentItem(1, getString(R.string.course_last));
+    }
 
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
+            mPresenter.getDataFromNet(mMeetId, mModuleId);
+        }
+        return true;
     }
 
     @Override
@@ -242,15 +231,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         mPresenter.onDestroy();
     }
 
-    private void setItem(PPTRebFrag frag, int offset, String content) {
-        int position = frag.getCurrentItem() + offset;
-        if (position >= 0 || position <= frag.getCount() - 1) {
-            frag.setCurrentItem(position);
-        } else {
-            showToast(content);
-        }
-    }
-
     private void showLandscapeView() {
         mPresenter.starCount();
         showView(getNavBar());
@@ -274,9 +254,9 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         public void portraitInit(PPT ppt, List<Course> courses) {
             // 初始显示
             setViewState(ViewState.normal);
-            mFragRep.setPPT(ppt);
-            mFragRep.addCourses();
-            setCommentCount(ppt.getInt(TPPT.count));
+            mFragReb.setPPT(ppt);
+            mFragReb.addCourses();
+            setTextComment(ppt.getInt(TPPT.count));
 
             MeetingRebPAdapter adapter = new MeetingRebPAdapter();
             adapter.setData(courses);
@@ -284,7 +264,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
                 @Override
                 public void onItemClick(View v, int position) {
-                    mFragRep.setCurrentItem(position);
+                    mFragReb.setCurrentItem(position);
                 }
 
             });
@@ -296,8 +276,8 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
                     .build());
 
             mPresenter.playMedia(0);
-            mTvAll.setText(String.valueOf(courses.size()));
-            mTvCurrent.setText("1");
+            setTextAll(courses.size());
+            setTextCur(1);
 
             CourseInfo courseInfo = ppt.get(TPPT.course);
             getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
@@ -320,7 +300,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
                 @Override
                 public void onItemClick(View v, int position) {
-                    mFragRep.setCurrentItem(position);
+                    mFragReb.setCurrentItem(position);
                 }
 
             });
@@ -334,7 +314,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
         @Override
         public PLVideoTextureView getTextureView() {
-            BaseCourseFrag f = mFragRep.getItem(mFragRep.getCurrentItem());
+            BaseCourseFrag f = mFragReb.getItem(mFragReb.getCurrentItem());
             if (f instanceof VideoCourseFrag) {
                 VideoCourseFrag item = (VideoCourseFrag) f;
                 return item.getTextureView();
@@ -356,7 +336,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
         @Override
         public void setNextItem() {
-            setItem(mFragRep, +1, "已是最后一页");
+            toRight();
         }
 
         @Override

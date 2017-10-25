@@ -23,11 +23,12 @@ public class LandscapeSwitch implements View.OnTouchListener {
 
     private final String TAG = getClass().getSimpleName();
 
-    private static final int KSmallW = 146;
-    private static final int KSmallH = 96;
+    private final int KSmallW = 146;
+    private final int KSmallH = 96;
 
     private final int KDistanceX = 20;
     private final int KDistanceY = 20;
+
     private final int KDistance = 200; // 动画时长
 
     private int[] mLocation; // 父控件的位置信息
@@ -52,10 +53,20 @@ public class LandscapeSwitch implements View.OnTouchListener {
     private int mYMax; // y轴最大值
     private int mYMin; // y轴最小值
 
+    private OnLandscapeListener mListener;
+
     public static int[] getLocation(View v) {
         int[] location = new int[2];
         v.getLocationOnScreen(location);
         return location;
+    }
+
+    public interface OnLandscapeListener {
+        void shrink(View v);
+    }
+
+    public void setListener(OnLandscapeListener listener) {
+        mListener = listener;
     }
 
     public void setDistanceXY(int distanceX, int distanceY) {
@@ -211,15 +222,16 @@ public class LandscapeSwitch implements View.OnTouchListener {
         mViewB.bringToFront();
 
         // 交换记录
-        final View view = mViewB;
+        View view = mViewB;
         mViewB = mViewS;
         mViewS = view;
 
         // 获取位置参数
-        final int[] b = new int[2];
+        int[] b = new int[2];
         ViewGroup.LayoutParams paramsB = mViewB.getLayoutParams();
         mViewB.getLocationOnScreen(b);
-        final int[] s = new int[2];
+
+        int[] s = new int[2];
         ViewGroup.LayoutParams paramsS = mViewS.getLayoutParams();
         mViewS.getLocationOnScreen(s);
 
@@ -236,6 +248,10 @@ public class LandscapeSwitch implements View.OnTouchListener {
             }
 
         });
+
+        if (mListener != null) {
+            mListener.shrink(mViewS);
+        }
     }
 
     private void addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener listener) {

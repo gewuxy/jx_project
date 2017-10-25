@@ -29,14 +29,12 @@ public class AdActivity extends BaseActivity {
     private CountDown mCountDown;
 
     public static void afterAd(Context context) {
-        if (BuildConfig.TEST) {
-            LaunchUtil.startActivity(context,TestActivity.class);
-        } else if (Profile.inst().isLogin()) {
+        if (Profile.inst().isLogin()) {
             // 登录有效(登录过且没有退出)
             MainActivityRouter.create().route(context);
         } else {
             // 未登录,退出登录
-            LaunchUtil.startActivity(context,LoginActivity.class);
+            LaunchUtil.startActivity(context, LoginActivity.class);
         }
     }
 
@@ -112,6 +110,10 @@ public class AdActivity extends BaseActivity {
             break;
         }
         finish();
+    }
+
+    @Override
+    protected void startInAnim() {
     }
 
     @Override

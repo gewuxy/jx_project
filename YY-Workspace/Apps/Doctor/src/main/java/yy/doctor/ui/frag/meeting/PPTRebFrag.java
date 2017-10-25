@@ -2,6 +2,8 @@ package yy.doctor.ui.frag.meeting;
 
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
+import android.view.ViewParent;
 
 import org.json.JSONArray;
 
@@ -221,6 +223,10 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         invalidate();
     }
 
+    public void setClickable(boolean clickable) {
+        setScrollable(clickable); // 取消滑动
+    }
+
     @Override
     public int getCurrentItem() {
         return super.getCurrentItem();
@@ -237,8 +243,17 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
-    public void setCurrentItem(int item) {
-        super.setCurrentItem(item);
+    public void setCurrentItem(int position) {
+        super.setCurrentItem(position);
+    }
+
+    public void setCurrentItem(int offset, String content) {
+        int position = getCurrentItem() + offset;
+        if (position >= 0 || position <= getCount() - 1) {
+            setCurrentItem(position);
+        } else {
+            showToast(content);
+        }
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -63,9 +62,6 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     private MeetingLiveContract.Presenter mPresenter;
     private MeetingLiveContract.View mView;
 
-    private TextView mTvAll;
-    private TextView mTvCur;
-
     @PlayType
     private int mPlayType; // 播放ppt还是播放直播
 
@@ -88,8 +84,6 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mViewPpt = findView(R.id.meet_live_layout_ppt);
         mFragPpt = findFragment(R.id.meet_live_frag_ppt);
 
-        mTvCur = findView(R.id.meet_play_tv_current);
-        mTvAll = findView(R.id.meet_play_tv_all);
     }
 
     @Override
@@ -98,11 +92,17 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
         setOnClickListener(mViewLive);
         setOnClickListener(mViewPpt);
-//        mViewLive.setOnLongClickListener(this);
 
         mLandscapeSwitch = new LandscapeSwitch(mViewPpt, mViewLive);
         mViewLive.setOnTouchListener(mLandscapeSwitch);
         mViewPpt.setOnTouchListener(mLandscapeSwitch);
+        mLandscapeSwitch.setListener(v -> {
+            if (v.getId() == R.id.meet_live_layout_ppt) {
+                mFragPpt.setClickable(false);
+            } else {
+                mFragPpt.setClickable(true);
+            }
+        });
 
         mParamPpt = (LayoutParams) mViewPpt.getLayoutParams();
         mParamLive = (LayoutParams) mViewLive.getLayoutParams();
@@ -138,7 +138,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                     // 在播放ppt
                     mFragPpt.startPlay();
                 }
-                mTvCur.setText(String.valueOf(position + 1));
+                setTextCur(position + 1);
             }
 
             @Override
@@ -169,12 +169,12 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
     @Override
     protected void toLeft() {
-
+        mFragPpt.setCurrentItem(-1, getString(R.string.course_first));
     }
 
     @Override
     protected void toRight() {
-
+        mFragPpt.setCurrentItem(1, getString(R.string.course_last));
     }
 
     @NonNull
@@ -193,6 +193,8 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mViewLive.setX(mLocationLive[0]);
         mViewLive.setY(mLocationLive[1]);
 
+        mFragPpt.setClickable(true);
+
         mLandscapeSwitch.setDispatch(false);
         showView(R.id.meet_live_layout_p);
     }
@@ -208,10 +210,12 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             }
 
         });
-        if (mFragLive.isPlaying()) {
+        if (mPlayType == PlayType.live) {
             mLandscapeSwitch.setViewB(mViewLive);
+            mFragPpt.setClickable(true);
         } else {
             mLandscapeSwitch.setViewB(mViewPpt);
+            mFragPpt.setClickable(false);
         }
         mLandscapeSwitch.setDispatch(true);
         goneView(R.id.meet_live_layout_p);
@@ -279,7 +283,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             for (int i = 0; i < page; i++) {
                 mFragPpt.addCourse(i);
             }
-            mTvCur.setText(String.valueOf(page));
+            setTextCur(page);
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -296,7 +300,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             if (courses == null) {
                 return;
             }
-            mTvAll.setText(String.valueOf(courses.size()));
+            setTextAll(courses.size());
         }
 
         @Override

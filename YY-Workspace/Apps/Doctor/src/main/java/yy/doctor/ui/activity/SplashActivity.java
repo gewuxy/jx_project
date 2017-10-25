@@ -3,6 +3,8 @@ package yy.doctor.ui.activity;
 import android.os.Bundle;
 
 import lib.ys.ui.activity.SimpleSplashActivityEx;
+import lib.ys.util.LaunchUtil;
+import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.serv.GlConfigServRouter;
 
@@ -32,7 +34,15 @@ public class SplashActivity extends SimpleSplashActivityEx {
     }
 
     @Override
+    protected void startOutAnim() {
+    }
+
+    @Override
     protected void goPast() {
-        startActivity(AdActivity.class);
+        if (BuildConfig.TEST) {
+            startActivity(TestActivity.class);
+        } else {
+            startActivity(AdActivity.class);
+        }
     }
 }
