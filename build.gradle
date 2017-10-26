@@ -107,7 +107,6 @@ buildscript {
             gradlePlugin: "com.android.tools.build:gradle:${versions.androidPlugin}",
             ys          : [
                     core      : ':Android:Libs:LibYS_Rx',
-                    core_mvp  : ':Android:Libs:LibYS_MVP',
                     network   : ':Android:Libs:LibNetwork_Rx',
                     annotation: ':Android:Di:Annotation',
                     compiler  : ':Android:Di:Compiler',
