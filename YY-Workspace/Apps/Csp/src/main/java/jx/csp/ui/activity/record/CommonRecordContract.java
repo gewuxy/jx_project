@@ -34,6 +34,8 @@ public interface CommonRecordContract {
 
     interface CommonRecordPresenter {
 
+        void setBeforeRecordTime(int t);
+
         void startRecord(String filePath);
 
         void stopRecord();

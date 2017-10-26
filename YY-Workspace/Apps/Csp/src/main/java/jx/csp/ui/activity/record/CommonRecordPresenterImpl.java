@@ -42,6 +42,12 @@ public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMedia
     }
 
     @Override
+    public void setBeforeRecordTime(int t) {
+        mTotalTime = t;
+        mRecordView.setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
+    }
+
+    @Override
     public void startRecord(String filePath) {
         mTime = 0;
         if (mCountDown == null) {
@@ -141,7 +147,7 @@ public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMedia
             mRecordView.setVoiceLineState(i);
         } else {
             ++mTime;
-            mRecordView.setRecordTimeTv(Util.getSpecialTimeFormat(mTime));
+            mRecordView.setRecordTimeTv(Util.getCommonTimeFormat(mTime));
         }
     }
 

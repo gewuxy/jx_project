@@ -7,9 +7,11 @@ import com.mob.MobSDK;
 
 import java.util.Locale;
 
+import jx.csp.Constants.PageConstants;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
+import jx.csp.sp.SpApp;
 import jx.csp.util.CacheUtil;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
@@ -89,8 +91,8 @@ public class App extends BaseApp {
     protected ListConfig configureList() {
         return ListConfigBuilder.create()
                 .type(PageDownType.page)
-//                .initOffset(PageConstants.KPage)
-//                .limit(PageConstants.KPageSize)
+                .initOffset(PageConstants.KPage)
+                .limit(PageConstants.KPageSize)
                 .build();
     }
 
@@ -112,6 +114,10 @@ public class App extends BaseApp {
         } else {
             DeviceUtil.setResLocale(this, Locale.ROOT);
         }
+        // 保存系统语言
+        SpApp.inst().saveSystemLanguage(Locale.getDefault().getLanguage());
+        // 保存国家 为了区分简繁体
+        SpApp.inst().saveCountry(Locale.getDefault().getCountry());
     }
 
     @Override

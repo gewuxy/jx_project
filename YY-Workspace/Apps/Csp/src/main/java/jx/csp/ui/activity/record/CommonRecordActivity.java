@@ -50,7 +50,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
-
+    private int mBeforeRecordTime = 0; // 录制总时间
 
     @IntDef({
             ScrollType.last,
@@ -163,7 +163,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     @Override
     public void moveNext() {
         if (mRecordState) {
-            if (getCurrentItem() == 19) {
+            if (getCurrentItem() == (mCourseDetailList.size()) - KOne) {
                 return;
             }
             if (SpUser.inst().showSkipPageDialog() && !mShowSkipPageDialog) {
@@ -217,7 +217,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
 
                 for (int i = 0; i < mCourseDetailList.size(); ++i) {
                     CourseDetail courseDetail = mCourseDetailList.get(i);
-                    // 判断是视频还是图片
+                    // 判断是视频还是图片 如果是图片的话看有没有以前的录制时间
                     if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                         RecordImgFrag frag = RecordImgFragRouter
                                 .create(courseDetail.getString(TCourseDetail.imgUrl))
@@ -226,6 +226,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                                 .route();
                         frag.setPlayerListener(mRecordPresenter);
                         add(frag);
+                        if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {
+                            mBeforeRecordTime += courseDetail.getInt(TCourseDetail.duration);
+                        }
                     } else {
                         add(RecordVideoFragRouter
                                 .create()
@@ -233,6 +236,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
                                 .route());
                     }
                 }
+                mRecordPresenter.setBeforeRecordTime(mBeforeRecordTime);
                 // 判断第一页是不是视频
                 if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
                     mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
@@ -258,7 +262,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     public void startRecordState() {
         showView(mIvVoiceState);
         mAnimationRecord.start();
-        mTvRecordState.setText("00'00''");
+        mTvRecordState.setText("00:00");
         getViewPager().setScrollable(false);
         showView(mGestureView);
     }
@@ -350,7 +354,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         } else {
             tv.setText(R.string.skip_to_next_page);
         }
-        dialog.addBlackButton(getString(R.string.confirm), v -> {
+        dialog.addBlackButton(getString(R.string.affirm), v -> {
             if (checkBox.isChecked()) {
                 SpUser.inst().neverShowSkipPageDialog();
             }
@@ -380,7 +384,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_record_common_cb);
         TextView tv = (TextView) view.findViewById(R.id.dialog_record_common_tv);
         tv.setText(R.string.record_again);
-        dialog.addBlackButton(getString(R.string.confirm), v -> {
+        dialog.addBlackButton(getString(R.string.affirm), v -> {
             if (checkBox.isChecked()) {
                 SpUser.inst().neverShowRecordAgainDialog();
             }

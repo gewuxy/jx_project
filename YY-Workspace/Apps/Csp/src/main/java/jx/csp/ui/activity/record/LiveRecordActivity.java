@@ -283,21 +283,21 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
         }
     }
 
-    protected void havePermissionState() {
+    private void havePermissionState() {
         initPhoneCallingListener();
         goneView(mTvStartRemain);
         mIvRecordState.setClickable(true);
         mIvVoiceState.setSelected(true);
     }
 
-    protected void noPermissionState() {
+    private void noPermissionState() {
         showView(mTvStartRemain);
         mTvStartRemain.setText(R.string.no_record_permission);
         mIvRecordState.setClickable(false);
         mIvVoiceState.setSelected(false);
     }
 
-    protected void startCountDownAndLive(String filePath) {
+    private void startCountDownAndLive(String filePath) {
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
             mLiveRecordPresenterImpl.startCountDown(mStartTime, mStopTime);

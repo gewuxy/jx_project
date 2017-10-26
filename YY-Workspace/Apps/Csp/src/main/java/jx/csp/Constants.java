@@ -57,4 +57,9 @@ public interface Constants extends BaseConstants {
         int phone_login = 6;
         int email_login = 7;
     }
+
+    interface PageConstants {
+        int KPage = 1;  // 起始页页数
+        int KPageSize = 20;  //分页加载时 每页加载的条目数
+    }
 }

@@ -59,8 +59,8 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected final int KMicroPermissionCode = 10;
     protected final int KJoinMeetingReqId = 10;
     protected final int KUploadAudioReqId = 20;
-    private final int KOne = 1;
-    private final int KVpSize = 2; // Vp缓存的数量
+    protected final int KOne = 1;
+    private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
     private final float KVpScale = 0.11f; // vp的缩放比例
 
@@ -157,8 +157,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
         mUploadList = new LinkedList<>();
-
-        //getViewPager().setPageTransformer(false, new ZoomOutTransformer());
+        //setPageTransformer(false, new ScaleTransformer(KVpScale));
     }
 
     @Override

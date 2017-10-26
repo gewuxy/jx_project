@@ -24,8 +24,10 @@ import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.network.NetworkApi;
+import jx.csp.sp.SpApp;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
@@ -70,12 +72,30 @@ public class ShareDialog extends BaseDialog {
 
     private PlatformActionListener mPlatformActionListener;
 
-    public ShareDialog(Context context, String shareTitle, int id) {
+    public ShareDialog(Context context, String shareTitle, int courseId) {
         super(context);
         mShareTitle = shareTitle;
         // 拼接加密字符串
-        // FIXME: 2017/10/20 参数还没有完善 local abroad
-        String param = "id=" + id + "&_local=en_US" + "&abroad=1";
+        String local; // 系统语言
+        YSLog.d(TAG, "app language = " + SpApp.inst().getSystemLanguage());
+        YSLog.d(TAG, "app country = " + SpApp.inst().getCountry());
+        // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
+        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+            if ("CN".equals(SpApp.inst().getCountry())) {
+                local = LanguageType.China;
+            } else {
+                local = LanguageType.HkMTw;
+            }
+        } else {
+            local = LanguageType.English;
+        }
+        int abroad;  // 国内版 国外版
+        if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
+            abroad = VersionType.inland;
+        } else {
+            abroad = VersionType.overseas;
+        }
+        String param = "id=" + courseId + "&_local=" + local + "&abroad=" + abroad;
         Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
         String http = BuildConfig.TEST ? des.hostDebuggable() : des.host();
         mShareUrl = http + "meeting/share?signature=" + Util.encode(KDesKey, param);

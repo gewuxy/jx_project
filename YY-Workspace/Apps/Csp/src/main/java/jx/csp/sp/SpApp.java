@@ -35,6 +35,8 @@ public class SpApp extends SpBase {
         String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
         String KUserMobile = "mobile";
+        String KSystemLanguage = "language";
+        String KCountry = "country";
     }
 
     @Override
@@ -118,4 +120,39 @@ public class SpApp extends SpBase {
         save(SpAppKey.KAppUpdateTime, System.currentTimeMillis());
     }
 
+    /**
+     * 保存系统语言
+     *
+     * @param s
+     */
+    public void saveSystemLanguage(String s) {
+        save(SpAppKey.KSystemLanguage, s);
+    }
+
+    /**
+     * 获取系统语言
+     *
+     * @return
+     */
+    public String getSystemLanguage() {
+        return getString(SpAppKey.KSystemLanguage, "zh");
+    }
+
+    /**
+     * 保存国家
+     *
+     * @param s
+     */
+    public void saveCountry(String s) {
+        save(SpAppKey.KCountry, s);
+    }
+
+    /**
+     * 获取国家
+     *
+     * @return
+     */
+    public String getCountry() {
+        return getString(SpAppKey.KCountry, "CN");
+    }
 }

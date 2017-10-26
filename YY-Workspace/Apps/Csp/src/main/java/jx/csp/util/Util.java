@@ -127,6 +127,24 @@ public class Util extends BaseUtil {
     }
 
     /**
+     * 得到12:25 格式的时间
+     *
+     * @param l
+     * @return
+     */
+    public static String getCommonTimeFormat(long l) {
+        int m = (int) (l / 60);
+        int s = (int) (l % 60);
+        StringBuffer sb = new StringBuffer()
+                .append(m <= 9 ? "0" : "")
+                .append(m)
+                .append(":")
+                .append(s <= 9 ? "0" : "")
+                .append(s);
+        return sb.toString();
+    }
+
+    /**
      * 获取NavBar里需要的控件
      *
      * @param parent NavBar的控件

@@ -4,7 +4,6 @@ import android.view.Surface;
 
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoLivePublisherCallback;
-import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
@@ -78,12 +77,9 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
         mZegoLiveRoom.setRoomConfig(true, true);
         mZegoLiveRoom.setPreviewView(mView.getTextureView());
         mZegoLiveRoom.startPreview();
-        mZegoLiveRoom.loginRoom(roomId, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
-
-            @Override
-            public void onLoginCompletion(int i, ZegoStreamInfo[] zegoStreamInfos) {
-                YSLog.d(TAG, " onLoginCompletion i = " + i);
-            }
+        mZegoLiveRoom.loginRoom(roomId, ZegoConstants.RoomRole.Anchor, (i, zegoStreamInfos) -> {
+            // i 状态码, 0:成功, 其它:失败
+            YSLog.d(TAG, " onLoginCompletion i = " + i);
         });
     }
 
@@ -127,6 +123,7 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
             @Override
             public void onKickOut(int i, String s) {
                 YSLog.d(TAG, "因为登陆抢占原因等被挤出房间");
+                // FIXME: 2017/10/24
             }
 
             @Override
