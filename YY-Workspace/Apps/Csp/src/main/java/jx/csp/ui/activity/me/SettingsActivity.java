@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.me;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.StringRes;
 import android.view.View;
 
 import java.io.File;
@@ -9,14 +8,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.contact.SettingsContract;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
-import jx.csp.serv.CommonServ.ReqType;
-import jx.csp.serv.CommonServRouter;
+import jx.csp.presenter.SettingsPresenterImpl;
 import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
@@ -43,6 +42,9 @@ public class SettingsActivity extends BaseFormActivity {
     private final int KColorNormal = R.color.text_666;
     private final int KColorCancel = R.color.text_167afe;
 
+    private SettingsContract.P mPresenter;
+    private SettingsContract.V mView;
+
     @IntDef({
             RelatedId.change_password,
             RelatedId.clear_img_cache,
@@ -59,6 +61,9 @@ public class SettingsActivity extends BaseFormActivity {
     public void initData() {
         super.initData();
 
+        mView = new SettingsViewImpl();
+        mPresenter = new SettingsPresenterImpl(mView);
+
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.change_password)
@@ -70,14 +75,14 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_img_cache)
                 .name(R.string.setting_clear_img_cache)
-                .text(getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
+                .text(mView.getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_sound_cache)
                 .name(R.string.setting_clear_sound_cache)
-                .text(getFolderSize(CacheUtil.getAudioCacheDir()))
+                .text(mView.getFolderSize(CacheUtil.getAudioCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
     }
 
@@ -101,7 +106,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_tv_exit_account: {
-                logout();
+                mView.logout();
             }
             break;
         }
@@ -112,97 +117,95 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.change_password: {
-                if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
-                    startActivity(BindEmailTipsActivity.class);
-                } else {
-                    //已绑定邮箱,直接跳转到修改页面
-                    startActivity(ChangePwdActivity.class);
-                }
+                mView.changePassWord();
             }
             break;
             case RelatedId.clear_img_cache: {
-                clearCache(RelatedId.clear_img_cache, R.string.setting_clear_img_cache, CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
+                mView.clearCache(RelatedId.clear_img_cache, R.string.setting_clear_img_cache, CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
             }
             break;
             case RelatedId.clear_sound_cache: {
-                clearCache(RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache, CacheUtil.getAudioCacheDir());
+                mView.clearCache(RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache, CacheUtil.getAudioCacheDir());
             }
             break;
         }
     }
 
-    /**
-     * 获取路径下的文件大小
-     *
-     * @param path
-     * @return
-     */
-    private String getFolderSize(String... path) {
-        float size = 0;
-        try {
-            for (String s : path) {
-                size += FileUtil.getFolderSize(new File(s));
+    private class SettingsViewImpl implements SettingsContract.V {
+
+        @Override
+        public void changePassWord() {
+            if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
+                startActivity(BindEmailTipsActivity.class);
+            } else {
+                //已绑定邮箱,直接跳转到修改页面
+                startActivity(ChangePwdActivity.class);
             }
-        } catch (Exception e) {
-            YSLog.e(TAG, "getFolderSize", e);
         }
-        size /= (2 << 19);
-        if (size >= 0.1f) {
-            return String.format("%.1f".concat(KM), size);
-        } else {
-            return 0 + KM;
+
+        @Override
+        public String getFolderSize(String... path) {
+            float size = 0;
+            try {
+                for (String s : path) {
+                    size += FileUtil.getFolderSize(new File(s));
+                }
+            } catch (Exception e) {
+                YSLog.e(TAG, "getFolderSize", e);
+            }
+            size /= (2 << 19);
+            if (size >= 0.1f) {
+                return String.format("%.1f".concat(KM), size);
+            } else {
+                return 0 + KM;
+            }
         }
-    }
 
-    /**
-     * 清除缓存
-     */
-    private void clearCache(@RelatedId int related, @StringRes int resId, String... folderPath) {
-        BottomDialog d = new BottomDialog(this, position -> {
+        @Override
+        public void clearCache(int related, int resId, String... folderPath) {
+            BottomDialog d = new BottomDialog(SettingsActivity.this, position -> {
 
-            if (position == 0) {
-                Util.runOnSubThread(() -> {
-                    boolean result = true;
-                    for (int i = 0; i < folderPath.length; ++i) {
-                        if (!FileUtil.delFolder(folderPath[i])) {
-                            result = false;
-                            break;
+                if (position == 0) {
+                    Util.runOnSubThread(() -> {
+                        boolean result = true;
+                        for (int i = 0; i < folderPath.length; ++i) {
+                            if (!FileUtil.delFolder(folderPath[i])) {
+                                result = false;
+                                break;
+                            }
                         }
-                    }
 
-                    if (result) {
-                        runOnUIThread(() -> {
-                            getRelatedItem(related).text("0M");
-                            refreshRelatedItem(related);
-                            showToast("清理完成");
-                        });
-                    } else {
-                        showToast("清理失败");
-                    }
-                });
-            }
-        });
-        d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
-        d.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
-        d.show();
-    }
+                        if (result) {
+                            runOnUIThread(() -> {
+                                getRelatedItem(related).text("0M");
+                                refreshRelatedItem(related);
+                                showToast(R.string.setting_clear_succeed);
+                            });
+                        } else {
+                            showToast(R.string.setting_clear_error);
+                        }
+                    });
+                }
+            });
+            d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
+            d.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
+            d.show();
+        }
 
-    /**
-     * 退出账号
-     */
-    private void logout() {
-        HintDialogMain d = new HintDialogMain(this);
-        d.setHint(getString(R.string.setting_exit_current_account));
-        d.addBlackButton(getString(R.string.setting_exit), v -> {
-            CommonServRouter.create()
-                    .type(ReqType.logout)
-                    .route(this);
+        @Override
+        public void logout() {
+            HintDialogMain d = new HintDialogMain(SettingsActivity.this);
+            d.setHint(getString(R.string.setting_exit_current_account));
+            d.addBlackButton(getString(R.string.setting_exit), v -> {
 
-            notify(NotifyType.logout);
-            startActivity(EmailLoginActivity.class);
-            finish();
-        });
-        d.addBlueButton(R.string.cancel);
-        d.show();
+                mPresenter.startLogoutService(SettingsActivity.this);
+
+                SettingsActivity.this.notify(NotifyType.logout);
+                startActivity(EmailLoginActivity.class);
+                finish();
+            });
+            d.addBlueButton(R.string.cancel);
+            d.show();
+        }
     }
 }

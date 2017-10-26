@@ -18,12 +18,12 @@ public interface FlowRateContract {
         /**
          * 设置实际支付金额
          */
-        void setMoney();
+        void setActualPaymentMoney();
 
         /**
          * 设置输入规则
          */
-        void setInput();
+        void setInputRule();
 
         /**
          * 设置按钮的改变
@@ -39,22 +39,30 @@ public interface FlowRateContract {
         /**
          * 设置剩余流量
          */
-        void setSurplus();
+        void setSurplusFlowRate();
 
         /**
-         * 支付调用
+         * 设置支付调用第三方
+         * ping++ or paypal
          */
-        void payPalPay(String orderId);
-        void pingPay(String info);
+        void setPayPalPay(String orderId);
+        void setPingPay(String info);
 
         /**
-         * 回调处理
+         * 设置支付结果回调处理
          */
-        void setCallBack(int requestCode, int resultCode, Intent data);
+        void setResultDeal(int requestCode, int resultCode, Intent data);
     }
 
     interface P extends PresenterEx{
 
-        void getDataFormNet(int id, int flow, String channel);
+        /**
+         * 请求服务器接口
+         *
+         * @param id
+         * @param flow
+         * @param channel
+         */
+        void getNetworkReq(int id, int flow, String channel);
     }
 }

@@ -27,7 +27,7 @@ public class FlowRatePresenterImpl extends PresenterExImpl<FlowRateContract.V> i
     }
 
     @Override
-    public void getDataFormNet(int id, int flow, String channel) {
+    public void getNetworkReq(int id, int flow, String channel) {
         if (id == KPayPalPayCode) {
             exeNetworkReq(KPayPalPayCode, PayAPI.paypalPay(flow).build());
         }else {
@@ -52,7 +52,7 @@ public class FlowRatePresenterImpl extends PresenterExImpl<FlowRateContract.V> i
                 PayPalPayRecharge recharge = r.getData();
                 String orderId = recharge.getString(TPayPalPayRecharge.orderId);
 
-                mView.payPalPay(orderId);
+                mView.setPayPalPay(orderId);
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -62,7 +62,7 @@ public class FlowRatePresenterImpl extends PresenterExImpl<FlowRateContract.V> i
                 PingPayRecharge recharge = r.getData();
                 String charge = recharge.getString(TPingPayRecharge.charge);
 
-                mView.pingPay(charge);
+                mView.setPingPay(charge);
             } else {
                 onNetworkError(id, r.getError());
             }

@@ -133,6 +133,8 @@
     <string name="setting_exit_current_account">确定退出当前账号</string>
     <string name="setting_exit_account">退出登录</string>
     <string name="setting_exit">退出</string>
+    <string name="setting_clear_succeed">清理成功</string>
+    <string name="setting_clear_error">清理失败</string>
     <!-- 设置 修改密码-->
     <string name="setting_change_pwd">修改密码</string>
     <string name="setting_confirm_change">确认修改</string>

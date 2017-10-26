@@ -92,6 +92,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     @Override
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
+        // FIXME: 2017/10/26 暂时没有H5
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {

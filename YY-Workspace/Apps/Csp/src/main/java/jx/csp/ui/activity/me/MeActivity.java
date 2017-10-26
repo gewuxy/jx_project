@@ -137,6 +137,7 @@ public class MeActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.history: {
+                // FIXME: 2017/10/26 暂时是投稿平台
                 startActivity(ContributePlatformActivity.class);
             }
             break;

@@ -112,7 +112,7 @@ public class FlowRateManageActivity extends BaseActivity {
         // 初始化高亮第一个
         mView.setHighlight(mChannelViews.get(0).getId());
         mView.setPayStatus();
-        mView.setSurplus();
+        mView.setSurplusFlowRate();
 
         mEtFlowRate.addTextChangedListener(new TextWatcher() {
 
@@ -126,8 +126,8 @@ public class FlowRateManageActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mView.setInput();
-                mView.setMoney();
+                mView.setInputRule();
+                mView.setActualPaymentMoney();
                 mView.setPayStatus();
             }
         });
@@ -157,23 +157,23 @@ public class FlowRateManageActivity extends BaseActivity {
                 switch (mPreChannelView.getId()) {
                     case R.id.flow_rate_iv_alipay: {
                         refresh(RefreshWay.dialog);
-                        mPresenter.getDataFormNet(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
+                        mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
                     }
                     break;
                     case R.id.flow_rate_iv_wechat: {
                         // FIXME: 2017/10/16 微信支付未注册
                         refresh(RefreshWay.dialog);
-                        mPresenter.getDataFormNet(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
+                        mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {
                         refresh(RefreshWay.dialog);
-                        mPresenter.getDataFormNet(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
+                        mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
                     }
                     break;
                     case R.id.flow_rate_iv_paypal: {
                         refresh(RefreshWay.dialog);
-                        mPresenter.getDataFormNet(KPayPalPayCode, mRechargeSum, null);
+                        mPresenter.getNetworkReq(KPayPalPayCode, mRechargeSum, null);
                     }
                     break;
                 }
@@ -184,7 +184,7 @@ public class FlowRateManageActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mView.setCallBack(requestCode, resultCode, data);
+        mView.setResultDeal(requestCode, resultCode, data);
     }
 
     @Override
@@ -196,14 +196,14 @@ public class FlowRateManageActivity extends BaseActivity {
     private class FlowRateViewImpl implements FlowRateContract.V {
 
         @Override
-        public void setMoney() {
+        public void setActualPaymentMoney() {
             mFlowRate = mEtFlowRate.getText().toString().trim();
             String num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate) * 2);
             mTvMoney.setText(num);
         }
 
         @Override
-        public void setInput() {
+        public void setInputRule() {
             Editable s = mEtFlowRate.getEditableText();
 
             int editStart = mEtFlowRate.getSelectionStart();
@@ -251,12 +251,12 @@ public class FlowRateManageActivity extends BaseActivity {
         }
 
         @Override
-        public void setSurplus() {
+        public void setSurplusFlowRate() {
             mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / KFlowConversion + KSurplusFlowUnit);
         }
 
         @Override
-        public void payPalPay(String orderId) {
+        public void setPayPalPay(String orderId) {
             stopRefresh();
             mReqCode = KPayPalPayCode;
             mOrderId = orderId;
@@ -264,14 +264,14 @@ public class FlowRateManageActivity extends BaseActivity {
         }
 
         @Override
-        public void pingPay(String info) {
+        public void setPingPay(String info) {
             stopRefresh();
             mReqCode = KPingReqCode;
             PayAction.pingPay(FlowRateManageActivity.this, info);
         }
 
         @Override
-        public void setCallBack(int requestCode, int resultCode, Intent data) {
+        public void setResultDeal(int requestCode, int resultCode, Intent data) {
             final PayResult payResult = new PayResult();
 
             if (mReqCode == KPingReqCode) {
@@ -291,7 +291,7 @@ public class FlowRateManageActivity extends BaseActivity {
                     Profile.inst().increase(TProfile.flux, mRechargeSum * KFlowConversion);
                     Profile.inst().saveToSp();
 
-                    mView.setSurplus();
+                    mView.setSurplusFlowRate();
                     showToast(R.string.flow_rate_pay_success);
                 }
 

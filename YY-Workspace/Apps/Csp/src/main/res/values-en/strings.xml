@@ -127,6 +127,8 @@
     <string name="setting_exit_current_account">确定退出当前账号</string>
     <string name="setting_exit_account">Log Out</string>
     <string name="setting_exit">Yes</string>
+    <string name="setting_clear_succeed">清理成功</string>
+    <string name="setting_clear_error">清理失败</string>
     <!-- 设置 修改密码-->
     <string name="setting_change_pwd">Change Password</string>
     <string name="setting_confirm_change">Confirm New Password</string>

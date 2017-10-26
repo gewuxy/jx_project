@@ -8,9 +8,14 @@ import java.util.List;
 
 import jx.csp.R;
 import jx.csp.model.main.Square;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
+import lib.jg.jpush.SpJPush;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseVPActivity;
 
 /**
@@ -74,6 +79,17 @@ public class MainActivity extends BaseVPActivity {
         setScrollable(false);
         setScrollDuration(0);
         setOnClickListener(R.id.main_scan);
+
+        // 判断是否已经绑定极光推送
+        YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
+        YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
+        if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
+            CommonServRouter.create()
+                    .type(ReqType.j_push)
+                    .jPushRegisterId(SpJPush.inst().registerId())
+                    .route(this);
+            YSLog.d(TAG, "启动绑定极光服务");
+        }
     }
 
     @Override

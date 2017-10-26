@@ -8,16 +8,14 @@ import java.util.ArrayList;
 import jx.csp.R;
 import jx.csp.adapter.PlatformAdapter;
 import jx.csp.adapter.PlatformAdapter.OnPlatformCheckedListener;
+import jx.csp.contact.ContributePlatformContract;
 import jx.csp.dialog.PlatformDialog;
 import jx.csp.model.contribute.Platform;
-import jx.csp.model.contribute.Platform.TPlatformDetail;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
+import jx.csp.presenter.ContributePlatformPresenterImpl;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 
 /**
@@ -37,25 +35,27 @@ public class ContributePlatformActivity extends
     private ArrayList<Platform> mSelectedItem;
     private Platform mPlatform;
 
+    private ContributePlatformContract.P mPresenter;
+    private ContributePlatformContract.V mView;
+
     @Override
     public void initData() {
         mSelectedItem = new ArrayList<>();
+
+        mView = new contributePlatformViewImpl();
+        mPresenter = new ContributePlatformPresenterImpl(mView);
     }
 
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.contribute_platform, this);
-        bar.addViewRight(R.drawable.ic_default_hint, v -> {
-            PlatformDialog dialog = new PlatformDialog(this);
-            dialog.show();
-        });
+        mView.showDialog(bar);
     }
 
     @Override
     public void getDataFromNet() {
         exeNetworkReq(DeliveryAPI.contribute().build());
     }
-
 
     @Override
     public int getContentViewId() {
@@ -81,62 +81,53 @@ public class ContributePlatformActivity extends
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
-                StringBuffer buffer = new StringBuffer();
-                int size = mSelectedItem.size();
-                for (int i = 0; i < size; ++i) {
-                    mPlatform = mSelectedItem.get(i);
-                    buffer.append(mPlatform.getString(TPlatformDetail.id));
-                    if (i != size - 1) {
-                        buffer.append(",");
-                    }
-                }
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KCodePlatform, DeliveryAPI.unitNum(String.valueOf(buffer), mPlatform.getInt(TPlatformDetail.id)).build());
+                mPresenter.clickContributeReq(mSelectedItem, mPlatform);
             }
             break;
         }
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KCodePlatform) {
-            return JsonParser.error(r.getText());
-        } else {
-            return super.onNetworkResponse(id, r);
-        }
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        if (id == KCodePlatform) {
-            stopRefresh();
-            Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast(R.string.contribute_platform_succeed);
-                finish();
-            } else {
-                showToast(r.getMessage());
-            }
-        } else {
-            super.onNetworkSuccess(id, result);
-        }
-    }
-
-    @Override
     public void onPlatformChecked(int position, boolean isSelected) {
-        if (isSelected) {
-            mSelectedItem.add(getItem(position));
-        } else {
-            mSelectedItem.remove(getItem(position));
+        mView.getAcceptIdItem(position, isSelected);
+        mView.changeButtonStatus();
+    }
+
+    private class contributePlatformViewImpl implements ContributePlatformContract.V {
+        @Override
+        public void showDialog(NavBar bar) {
+            bar.addViewRight(R.drawable.ic_default_hint, v -> {
+                PlatformDialog dialog = new PlatformDialog(ContributePlatformActivity.this);
+                dialog.show();
+            });
         }
 
-        // 判断确认按钮
-        if (mSelectedItem.isEmpty()) {
-            // 不可点
-            mTv.setEnabled(false);
-        } else {
-            // 可投稿
-            mTv.setEnabled(true);
+        @Override
+        public void getAcceptIdItem(int position, boolean isSelected) {
+            if (isSelected) {
+                mSelectedItem.add(getItem(position));
+            } else {
+                mSelectedItem.remove(getItem(position));
+            }
+        }
+
+        @Override
+        public void changeButtonStatus() {
+            // 判断确认按钮
+            if (mSelectedItem.isEmpty()) {
+                // 不可点
+                mTv.setEnabled(false);
+            } else {
+                // 可投稿
+                mTv.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void stopRefreshItem() {
+            stopRefresh();
+            finish();
         }
     }
 }
