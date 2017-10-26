@@ -43,6 +43,7 @@ public class JPushReceiver extends BaseJPushReceiver {
                 Profile.inst().put(TProfile.email, jPushMsg.getString(TJPushMsg.result));
                 Profile.inst().saveToSp();
                 Notifier.inst().notify(NotifyType.bind_email);
+                Notifier.inst().notify(NotifyType.profile_change);
             }
             break;
         }

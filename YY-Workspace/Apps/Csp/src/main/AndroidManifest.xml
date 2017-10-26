@@ -131,6 +131,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.bind.BindPhoneActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
 
         <!-- 我的信息 -->

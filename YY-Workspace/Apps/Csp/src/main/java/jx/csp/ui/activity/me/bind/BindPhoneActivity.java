@@ -128,7 +128,7 @@ public class BindPhoneActivity extends BaseSetActivity {
                         return;
                     }
                     View view = inflate(R.layout.dialog_captcha);
-                    TextView tv = (TextView) view.findViewById(R.id.captcha_tv_phone_number);
+                    TextView tv = view.findViewById(R.id.captcha_tv_phone_number);
                     String phone = getItemStr(RelatedId.phone_number);
                     tv.setText(phone);
 

@@ -184,8 +184,6 @@ public class AccountManageActivity extends BaseFormActivity {
         } else if (type == NotifyType.bind_email) {
             mView.bindSuccess(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
         }
-
-        notify(NotifyType.profile_change);
     }
 
     private class AccountManageViewImpl implements AccountManageContract.V {
