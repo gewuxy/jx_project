@@ -16,13 +16,14 @@
     <string name="live">直播中</string>
     <string name="no_start">未开始</string>
     <string name="click_start_live">请点击开始直播</string>
+    <string name="live_fail">直播失败</string>
     <string name="no_camera_permission">摄像头未开启\n请确认是否授权成功</string>
     <string name="live_stop_remind_minute">还有%d分钟，直播将自动关闭</string>
     <string name="live_stop_remind_second">还有%d秒，直播将自动关闭</string>
 
     <!-- 录音 -->
-    <string name="first_page">已经是第一页</string>
-    <string name="last_page">已经是最后一页</string>
+    <string name="first_page">已是第一页</string>
+    <string name="last_page">已是最后一页</string>
     <string name="record_live_start">开始直播</string>
     <string name="record_live_stop">结束直播</string>
     <string name="meeting_no_start_remain">请在会议时间内进行直播</string>

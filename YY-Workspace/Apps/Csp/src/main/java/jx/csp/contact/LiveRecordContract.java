@@ -1,6 +1,9 @@
-package jx.csp.ui.activity.record;
+package jx.csp.contact;
 
 import android.support.annotation.StringRes;
+
+import jx.csp.presenter.PresenterEx;
+import jx.csp.ui.ViewEx;
 
 /**
  * @author CaiXiang
@@ -9,7 +12,7 @@ import android.support.annotation.StringRes;
 
 public interface LiveRecordContract {
 
-    interface LiveRecordView {
+    interface View extends ViewEx {
 
         /**
          * 直播的时间
@@ -34,15 +37,13 @@ public interface LiveRecordContract {
         void onFinish();
     }
 
-    interface LiveRecordPresenter {
+    interface Presenter extends PresenterEx<View> {
 
         void startCountDown(long startTime, long stopTime);
 
         void startLiveRecord(String filePath);
 
         void stopLiveRecord();
-
-        void onDestroy();
     }
 
 }

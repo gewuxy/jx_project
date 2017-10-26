@@ -25,6 +25,7 @@ import inject.annotation.router.Arg;
 import jx.csp.R;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Course;
+import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
@@ -103,7 +104,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
             FragType.video,
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface FragType {
+    public @interface FragType {
         int img = 1;  // 图片
         int video = 2;  // 视频
     }
@@ -290,12 +291,13 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
      * @param page
      * @param type
      */
-    protected void uploadAudioFile(String courseId, int page, int type) {
+    protected void uploadAudioFile(String courseId, int page, @PlayType int type) {
         String audioFilePath = CacheUtil.getAudioPath(courseId, page);
         File file = new File(audioFilePath);
         if (file.exists()) {
             byte[] bytes = FileUtil.fileToBytes(audioFilePath);
             YSLog.d(TAG, "bytes = " + bytes.length);
+            // FIXME: 2017/10/26 直播时小于三秒的音频不上传 1s差不多2300 byte
             NetworkReq req = MeetingAPI.uploadAudio()
                     .courseId(courseId)
                     .detailId(mCourseDetailList.get(page).getString(TCourseDetail.id))

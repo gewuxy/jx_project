@@ -16,6 +16,7 @@
     <string name="live">On Air</string>
     <string name="no_start">Not Started</string>
     <string name="click_start_live">The meeting has begun.\nPlease start your live stream.</string>
+    <string name="live_fail">Live Stream Failed</string>
     <string name="no_camera_permission">Camera off.\nPlease-check the authorization</string>
     <string name="live_stop_remind_minute">Live stream will be over in %d minutes</string>
     <string name="live_stop_remind_second">Live stream will be over in %d seconds</string>

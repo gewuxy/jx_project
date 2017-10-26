@@ -95,14 +95,9 @@ public class LiveRoomActivity extends BaseActivity {
     public void setViews() {
         //检查权限
         if (checkPermission(KPermissionCode, Permission.camera, Permission.micro_phone, Permission.phone)) {
-            mPresenter.initLiveRoom(mRoomId);
-            mPresenter.zegoCallback();
-            initPhoneCallingListener();
-            mIvLive.setClickable(true);
+            havePermissionState();
         } else {
-            hideView(mTvStart);
-            showView(mTvNoCameraPermission);
-            mIvLive.setClickable(false);
+            noPermissionState();
         }
 
         setOnClickListener(R.id.live_iv_back);
@@ -225,22 +220,31 @@ public class LiveRoomActivity extends BaseActivity {
         if (code == KPermissionCode) {
             switch (result) {
                 case PermissionResult.granted:
-                    mPresenter.initLiveRoom(mRoomId);
-                    mPresenter.zegoCallback();
-                    initPhoneCallingListener();
-                    hideView(mTvNoCameraPermission);
-                    showView(mTvStart);
-                    mIvLive.setClickable(true);
+                    havePermissionState();
                     break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    hideView(mTvStart);
-                    showView(mTvNoCameraPermission);
-                    mIvLive.setClickable(false);
+                    noPermissionState();
                 }
                 break;
             }
         }
+    }
+
+    private void havePermissionState() {
+        mPresenter.initLiveRoom(mRoomId);
+        mPresenter.zegoCallback();
+        initPhoneCallingListener();
+        hideView(mTvNoCameraPermission);
+        showView(mTvStart);
+        mIvLive.setClickable(true);
+    }
+
+    private void noPermissionState() {
+        hideView(mTvStart);
+        showView(mTvNoCameraPermission);
+        mIvLive.setClickable(false);
+        mTvState.setText(R.string.live_fail);
     }
 
     private class View implements LiveRoomContract.View {

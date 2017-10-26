@@ -18,6 +18,12 @@
             android:layout_height="match_parent"
             android:visibility="gone"/>
 
+        <View
+            android:id="@+id/frag_record_video_stop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
         <ImageView
             android:id="@+id/frag_record_video_iv_bg"
             android:layout_width="match_parent"

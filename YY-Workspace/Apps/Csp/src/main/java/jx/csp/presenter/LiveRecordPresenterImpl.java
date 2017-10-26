@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.record;
+package jx.csp.presenter;
 
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioEncoder;
@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 import jx.csp.BuildConfig;
 import jx.csp.R;
-import jx.csp.ui.activity.record.LiveRecordContract.LiveRecordPresenter;
-import jx.csp.ui.activity.record.LiveRecordContract.LiveRecordView;
+import jx.csp.contact.LiveRecordContract;
+import jx.csp.contact.LiveRecordContract.View;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.yy.util.CountDown;
@@ -32,11 +32,11 @@ import lib.zego.ZegoApiManager;
  * @since 2017/10/11
  */
 
-public class LiveRecordPresenterImpl implements LiveRecordPresenter, OnCountDownListener {
+public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, OnCountDownListener {
 
     private static final String TAG = "LiveRecordPresenterImpl";
     private final int KFifteen = 15; // 开始倒计时的分钟数
-    private LiveRecordView mLiveRecordView;
+    private View mLiveRecordView;
     private MediaRecorder mMediaRecorder;
     private CountDown mCountDown;
     private long mStartTime;
@@ -44,7 +44,7 @@ public class LiveRecordPresenterImpl implements LiveRecordPresenter, OnCountDown
     private boolean mShowCountDownRemainTv = false; // 倒计时的Tv是否显示
     private ZegoLiveRoom mZegoLiveRoom;
 
-    public LiveRecordPresenterImpl(LiveRecordView view) {
+    public LiveRecordPresenterImpl(View view) {
         mLiveRecordView = view;
         mMediaRecorder = new MediaRecorder();
 

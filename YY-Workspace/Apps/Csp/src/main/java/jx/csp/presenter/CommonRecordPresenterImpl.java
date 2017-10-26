@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.record;
+package jx.csp.presenter;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.Random;
 
 import jx.csp.R;
-import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordPresenter;
-import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
-import jx.csp.ui.activity.record.RecordImgFrag.onMediaPlayerListener;
+import jx.csp.contact.CommonRecordContract;
+import jx.csp.contact.CommonRecordContract.View;
+import jx.csp.ui.frag.record.RecordImgFrag;
+import jx.csp.ui.frag.record.RecordImgFrag.onMediaPlayerListener;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.yy.util.CountDown;
@@ -23,10 +24,10 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/10/9
  */
 
-public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMediaPlayerListener, OnCountDownListener {
+public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter, onMediaPlayerListener, OnCountDownListener {
 
     private final int KSixtySecond = 60;
-    private CommonRecordView mRecordView;
+    private View mRecordView;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
 
@@ -35,7 +36,7 @@ public class CommonRecordPresenterImpl implements CommonRecordPresenter, onMedia
     private long mTime; // 录制的时间 单位秒
     private CountDown mCountDown;
 
-    public CommonRecordPresenterImpl(CommonRecordView recordView) {
+    public CommonRecordPresenterImpl(View recordView) {
         mRecordView = recordView;
         mMediaRecorder = new MediaRecorder();
         mMediaPlayer = new MediaPlayer();

@@ -2,7 +2,6 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.contact.CommonRecordContract;
 import jx.csp.dialog.HintDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
@@ -22,9 +22,12 @@ import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.presenter.CommonRecordPresenterImpl;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.record.CommonRecordContract.CommonRecordView;
-import jx.csp.ui.activity.record.RecordImgFrag.AudioType;
+import jx.csp.ui.frag.record.RecordImgFrag;
+import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
+import jx.csp.ui.frag.record.RecordImgFragRouter;
+import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.network.model.NetworkReq;
@@ -43,7 +46,7 @@ import lib.yy.network.Result;
  * @since 2017/10/10
  */
 @Route
-public class CommonRecordActivity extends BaseRecordActivity implements CommonRecordView, onGestureViewListener {
+public class CommonRecordActivity extends BaseRecordActivity implements onGestureViewListener {
 
     private boolean mRecordState = false; // 是否在录制中
     private boolean mShowVoiceLine = false; // 声波曲线是否显示
@@ -67,7 +70,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
         //mCourseId = "14379";
         super.initData();
 
-        mRecordPresenter = new CommonRecordPresenterImpl(this);
+        mRecordPresenter = new CommonRecordPresenterImpl(new View());
     }
 
     @Override
@@ -263,65 +266,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     }
 
     @Override
-    public void setTotalRecordTimeTv(String str) {
-        setNavBarMidText(str);
-    }
-
-    @Override
-    public void startRecordState() {
-        showView(mIvVoiceState);
-        mAnimationRecord.start();
-        mTvRecordState.setText("00:00");
-        getViewPager().setScrollable(false);
-        showView(mGestureView);
-    }
-
-    @Override
-    public void stopRecordState() {
-        mAnimationRecord.stop();
-        goneView(mIvVoiceState);
-        //对应frag显示播放图标
-        RecordImgFrag frag = (RecordImgFrag) getItem(getCurrentItem());
-        frag.showLayoutAudio();
-        mTvRecordState.setText("");
-        getViewPager().setScrollable(true);
-        goneView(mGestureView);
-        // 停止录音的时候上传音频文件
-        uploadAudioFile(mCourseId, getCurrentItem(), PlayType.reb);
-    }
-
-    @Override
-    public void setRecordTimeTv(String str) {
-        mTvRecordState.setText(str);
-    }
-
-    @Override
-    public void showToast(int id) {
-        if (mRecordState) {
-            stopRecordState();
-        } else {
-            mRecordPresenter.stopPlay();
-            ((RecordImgFrag) getItem(getCurrentItem())).stopAnimation();
-        }
-        super.showToast(id);
-    }
-
-    @Override
-    public void setVoiceLineState(int i) {
-        if (!mShowVoiceLine) {
-            showView(mVoiceLine);
-            mShowVoiceLine = !mShowVoiceLine;
-        }
-        mVoiceLine.setVolume(i);
-    }
-
-    @Override
-    public void goneViceLine() {
-        mShowVoiceLine = !mShowVoiceLine;
-        goneView(mVoiceLine);
-    }
-
-    @Override
     public void onPermissionResult(int code, int result) {
         if (code == KMicroPermissionCode) {
             switch (result) {
@@ -354,7 +298,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
      */
     private void showSkipPageDialog(@ScrollType int scrollType) {
         HintDialog dialog = new HintDialog(this);
-        View view = inflate(R.layout.dialog_record_common);
+        android.view.View view = inflate(R.layout.dialog_record_common);
         dialog.addHintView(view);
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_record_common_cb);
         TextView tv = (TextView) view.findViewById(R.id.dialog_record_common_tv);
@@ -388,7 +332,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
      */
     private void showRecordAgainDialog(String filePath, String mp3FilePath) {
         HintDialog dialog = new HintDialog(this);
-        View view = inflate(R.layout.dialog_record_common);
+        android.view.View view = inflate(R.layout.dialog_record_common);
         dialog.addHintView(view);
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_record_common_cb);
         TextView tv = (TextView) view.findViewById(R.id.dialog_record_common_tv);
@@ -420,5 +364,67 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     protected void changeRecordState(boolean b) {
         mRecordState = b;
         mIvRecordState.setSelected(mRecordState);
+    }
+
+    private class View implements CommonRecordContract.View {
+
+        @Override
+        public void setTotalRecordTimeTv(String str) {
+            setNavBarMidText(str);
+        }
+
+        @Override
+        public void startRecordState() {
+            showView(mIvVoiceState);
+            mAnimationRecord.start();
+            mTvRecordState.setText("00:00");
+            getViewPager().setScrollable(false);
+            showView(mGestureView);
+        }
+
+        @Override
+        public void stopRecordState() {
+            mAnimationRecord.stop();
+            goneView(mIvVoiceState);
+            //对应frag显示播放图标
+            RecordImgFrag frag = (RecordImgFrag) getItem(getCurrentItem());
+            frag.showLayoutAudio();
+            mTvRecordState.setText("");
+            getViewPager().setScrollable(true);
+            goneView(mGestureView);
+            // 停止录音的时候上传音频文件
+            uploadAudioFile(mCourseId, getCurrentItem(), PlayType.reb);
+        }
+
+        @Override
+        public void setRecordTimeTv(String str) {
+            mTvRecordState.setText(str);
+        }
+
+        @Override
+        public void showToast(int id) {
+            if (mRecordState) {
+                stopRecordState();
+            } else {
+                mRecordPresenter.stopPlay();
+                ((RecordImgFrag) getItem(getCurrentItem())).stopAnimation();
+            }
+            CommonRecordActivity.this.showToast(id);
+        }
+
+        @Override
+        public void setVoiceLineState(int i) {
+            if (!mShowVoiceLine) {
+                showView(mVoiceLine);
+                mShowVoiceLine = !mShowVoiceLine;
+            }
+            mVoiceLine.setVolume(i);
+        }
+
+        @Override
+        public void goneViceLine() {
+            mShowVoiceLine = !mShowVoiceLine;
+            goneView(mVoiceLine);
+        }
     }
 }

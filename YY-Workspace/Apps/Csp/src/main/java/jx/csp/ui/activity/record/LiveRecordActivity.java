@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.contact.LiveRecordContract;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -13,7 +14,10 @@ import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Live;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.activity.record.LiveRecordContract.LiveRecordView;
+import jx.csp.presenter.LiveRecordPresenterImpl;
+import jx.csp.ui.frag.record.RecordImgFrag;
+import jx.csp.ui.frag.record.RecordImgFragRouter;
+import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.network.model.NetworkReq;
@@ -33,7 +37,7 @@ import lib.zego.ZegoApiManager;
  * @since 2017/10/10
  */
 @Route
-public class LiveRecordActivity extends BaseRecordActivity implements LiveRecordView {
+public class LiveRecordActivity extends BaseRecordActivity {
 
     private final int KSixty = 60;
 
@@ -47,6 +51,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
     private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
     private long mStopTime = System.currentTimeMillis() + 35 * 60 * 1000;
 
+    private View mView;
     private Live mLiveMsg;
 
     @Override
@@ -54,7 +59,8 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
         super.initData();
 
         ZegoApiManager.getInstance().init(this, "666", "人数获取测试");
-        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(this);
+        mView = new View();
+        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView);
     }
 
     @Override
@@ -100,14 +106,14 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
                         mLiveRecordPresenterImpl.stopLiveRecord();
                         uploadAudioFile(mCourseId, getCurrentItem(), PlayType.live);
                     } else {
-                        stopRecordState();
+                        mView.stopRecordState();
                     }
                 } else {
                     // 如果点击开始直播是在视频页，不需要录音，在直播状态
                     if (getItem(getCurrentItem()) instanceof RecordImgFrag && ((RecordImgFrag) getItem(getCurrentItem())).getFragType() == FragType.img) {
                         mLiveRecordPresenterImpl.startLiveRecord(filePath);
                     } else {
-                        startRecordState();
+                        mView.startRecordState();
                     }
                 }
             } else {
@@ -142,7 +148,7 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
                 String filePath = CacheUtil.getAudioPath(mCourseId, position);
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
-                startRecordState();
+                mView.startRecordState();
             }
             webSocketSendMsg(position);
         }
@@ -207,73 +213,9 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
             if (getItem(getCurrentItem()) instanceof RecordImgFrag && ((RecordImgFrag) getItem(getCurrentItem())).getFragType() == FragType.img) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
             } else {
-                stopRecordState();
+                mView.stopRecordState();
             }
         }
-    }
-
-    @Override
-    public void setLiveTimeTv(String str) {
-        setNavBarMidText(str);
-    }
-
-    @Override
-    public void startRecordState() {
-        goneView(mTvStartRemain);
-        mLiveState = true;
-        mIvRecordState.setSelected(true);
-        if (mStopCountDown) {
-            mTvRecordState.setText(R.string.record_live_stop);
-        } else {
-            mTvRecordState.setText(R.string.live);
-        }
-    }
-
-    @Override
-    public void stopRecordState() {
-        showView(mTvStartRemain);
-        mLiveState = false;
-        mIvRecordState.setSelected(false);
-        mTvRecordState.setText(R.string.record_live_start);
-    }
-
-    @Override
-    public void setOnlineTv(String str) {
-        mTvOnlineNum.setText(str);
-    }
-
-    @Override
-    public void setCountDownRemainTv(boolean show, long l) {
-        if (show) {
-            showView(mTvTimeRemain);
-        }
-        if (l >= KSixty) {
-            mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_minute), l / KSixty));
-        } else {
-            mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_second), l));
-        }
-    }
-
-    @Override
-    public void changeRecordIvRes() {
-        mStopCountDown = true;
-        mIvRecordState.setImageResource(R.drawable.selector_record_live_state_warm);
-        mTvRecordState.setTextColor(ResLoader.getColor(R.color.text_d0011b));
-        mTvNavBar.setTextColor(ResLoader.getColor(R.color.text_d0011b));
-        if (mLiveState) {
-            mTvRecordState.setText(R.string.record_live_stop);
-        }
-    }
-
-    @Override
-    public void showToast(int id) {
-        stopRecordState();
-        super.showToast(id);
-    }
-
-    @Override
-    public void onFinish() {
-        finish();
     }
 
     @Override
@@ -314,10 +256,77 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
             if (getItem(getCurrentItem()) instanceof RecordImgFrag && ((RecordImgFrag) getItem(getCurrentItem())).getFragType() == FragType.img) {
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
-                startRecordState();
+                mView.startRecordState();
             }
         } else {
             showToast(R.string.meeting_no_start_remain);
+        }
+    }
+
+    private class View implements LiveRecordContract.View {
+
+        @Override
+        public void setLiveTimeTv(String str) {
+            setNavBarMidText(str);
+        }
+
+        @Override
+        public void startRecordState() {
+            goneView(mTvStartRemain);
+            mLiveState = true;
+            mIvRecordState.setSelected(true);
+            if (mStopCountDown) {
+                mTvRecordState.setText(R.string.record_live_stop);
+            } else {
+                mTvRecordState.setText(R.string.live);
+            }
+        }
+
+        @Override
+        public void stopRecordState() {
+            showView(mTvStartRemain);
+            mLiveState = false;
+            mIvRecordState.setSelected(false);
+            mTvRecordState.setText(R.string.record_live_start);
+        }
+
+        @Override
+        public void setOnlineTv(String str) {
+            mTvOnlineNum.setText(str);
+        }
+
+        @Override
+        public void setCountDownRemainTv(boolean show, long l) {
+            if (show) {
+                showView(mTvTimeRemain);
+            }
+            if (l >= KSixty) {
+                mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_minute), l / KSixty));
+            } else {
+                mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_second), l));
+            }
+        }
+
+        @Override
+        public void changeRecordIvRes() {
+            mStopCountDown = true;
+            mIvRecordState.setImageResource(R.drawable.selector_record_live_state_warm);
+            mTvRecordState.setTextColor(ResLoader.getColor(R.color.text_d0011b));
+            mTvNavBar.setTextColor(ResLoader.getColor(R.color.text_d0011b));
+            if (mLiveState) {
+                mTvRecordState.setText(R.string.record_live_stop);
+            }
+        }
+
+        @Override
+        public void showToast(int id) {
+            stopRecordState();
+            LiveRecordActivity.this.showToast(id);
+        }
+
+        @Override
+        public void onFinish() {
+            finish();
         }
     }
 

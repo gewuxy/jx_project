@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.record;
+package jx.csp.ui.frag.record;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -11,6 +11,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
 
@@ -24,13 +25,13 @@ public class RecordVideoFrag extends BaseFrag {
     private PLVideoTextureView mTextureView;
     private ImageView mIvPlay;
     private ImageView mIvBg;
+    private View mVideoStop;
 
     @Arg(opt = true)
     String mVideoUrl;   // http://139.199.170.178/course/14078/video/17062416023914941915.mp4
 
     @Override
-    public void initData() {
-    }
+    public void initData() {}
 
     @NonNull
     @Override
@@ -39,37 +40,54 @@ public class RecordVideoFrag extends BaseFrag {
     }
 
     @Override
-    public void initNavBar(NavBar bar) {
-    }
+    public void initNavBar(NavBar bar) {}
 
     @Override
     public void findViews() {
         mTextureView = findView(R.id.frag_record_video_texture_view);
         mIvPlay = findView(R.id.frag_record_video_iv_play);
         mIvBg = findView(R.id.frag_record_video_iv_bg);
+        mVideoStop = findView(R.id.frag_record_video_stop);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.frag_record_video_iv_play);
+        setOnClickListener(R.id.frag_record_video_stop);
     }
 
     @Override
     public void onClick(View v) {
-        goneView(mIvPlay);
-        goneView(mIvBg);
-        showView(mTextureView);
-        AVOptions options = new AVOptions();
-        options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
-        mTextureView.setAVOptions(options);
-        mTextureView.setVideoPath(mVideoUrl);
-        mTextureView.start();
-        mTextureView.setOnCompletionListener(plMediaPlayer -> {
-            mTextureView.stopPlayback();
-            showView(mIvPlay);
-            showView(mIvBg);
-            goneView(mTextureView);
-        });
+        switch (v.getId()) {
+            case R.id.frag_record_video_iv_play: {
+                goneView(mIvPlay);
+                goneView(mIvBg);
+                showView(mTextureView);
+                showView(mVideoStop);
+                AVOptions options = new AVOptions();
+                options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
+                mTextureView.setAVOptions(options);
+                mTextureView.setVideoPath(mVideoUrl);
+                mTextureView.start();
+                mTextureView.setOnCompletionListener(plMediaPlayer -> {
+                    mTextureView.stopPlayback();
+                    showView(mIvPlay);
+                    showView(mIvBg);
+                    goneView(mTextureView);
+                });
+            }
+            break;
+            case R.id.frag_record_video_stop: {
+                YSLog.d(TAG, "stopPlay");
+                mTextureView.stopPlayback();
+                showView(mIvPlay);
+                showView(mIvBg);
+                goneView(mTextureView);
+                goneView(mVideoStop);
+            }
+            break;
+        }
+
     }
 
     @Override
@@ -85,6 +103,7 @@ public class RecordVideoFrag extends BaseFrag {
             showView(mIvPlay);
             showView(mIvBg);
             goneView(mTextureView);
+            goneView(mVideoStop);
         }
     }
 

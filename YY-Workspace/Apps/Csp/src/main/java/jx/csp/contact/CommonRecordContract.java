@@ -1,6 +1,9 @@
-package jx.csp.ui.activity.record;
+package jx.csp.contact;
 
 import android.support.annotation.StringRes;
+
+import jx.csp.presenter.PresenterEx;
+import jx.csp.ui.ViewEx;
 
 /**
  * @author CaiXiang
@@ -9,7 +12,7 @@ import android.support.annotation.StringRes;
 
 public interface CommonRecordContract {
 
-    interface CommonRecordView {
+    interface View extends ViewEx {
 
         /**
          * 录制的总时间
@@ -32,15 +35,13 @@ public interface CommonRecordContract {
         void goneViceLine();
     }
 
-    interface CommonRecordPresenter {
+    interface Presenter extends PresenterEx<View> {
 
         void setBeforeRecordTime(int t);
 
         void startRecord(String filePath);
 
         void stopRecord();
-
-        void onDestroy();
     }
 
 }

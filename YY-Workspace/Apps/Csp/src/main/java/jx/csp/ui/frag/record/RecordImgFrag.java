@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.record;
+package jx.csp.ui.frag.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
@@ -34,7 +34,7 @@ public class RecordImgFrag extends BaseFrag {
             AudioType.amr
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface AudioType {
+    public @interface AudioType {
         String mp3 = "mp3";
         String amr = "amr";
     }
