@@ -29,19 +29,6 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
-    /**
-     *  扫描二维码
-     *
-     * @param url
-     * @return
-     */
-    public static NetworkReq scanNetworkReq(String url) {
-        return NetworkReq.newBuilder(url)
-                .get()
-                .header(getBaseHeader())
-                .build();
-    }
-
     private static CommonPair newPair(String key, Object value) {
         return new CommonPair(key, value);
     }

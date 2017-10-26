@@ -10,7 +10,7 @@ buildscript {
             compileSdk    : 26,
             buildTools    : '26.0.2',
 
-            androidPlugin : '3.0.0-rc2',
+            androidPlugin : '3.0.0',
 
             versionCode   : 100,
             versionName   : '1.0',
@@ -107,6 +107,7 @@ buildscript {
             gradlePlugin: "com.android.tools.build:gradle:${versions.androidPlugin}",
             ys          : [
                     core      : ':Android:Libs:LibYS_Rx',
+                    core_mvp  : ':Android:Libs:LibYS_MVP',
                     network   : ':Android:Libs:LibNetwork_Rx',
                     annotation: ':Android:Di:Annotation',
                     compiler  : ':Android:Di:Compiler',

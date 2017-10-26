@@ -250,11 +250,11 @@ public class NetworkApi {
          * @param file
          */
         @Upload("upload")
-        void uploadAudio(@Query (opt = true) String courseId,
-                         @Query (opt = true) String detailId,
-                         @Query (opt = true) int playType,
-                         @Query (opt = true) int pageNum,
-                         @Query (opt = true) byte[] file);
+        void uploadAudio(@Query(opt = true) String courseId,
+                         @Query(opt = true) String detailId,
+                         @Query(opt = true) int playType,
+                         @Query(opt = true) int pageNum,
+                         @Query(opt = true) byte[] file);
 
         /**
          * 下载音频
@@ -266,11 +266,12 @@ public class NetworkApi {
 
         /**
          * 会议列表
+         *
          * @param pageNum
          * @param pageSize
          */
         @Post("list")
-        void meetingList(@Query (opt = true) int pageNum,
+        void meetingList(@Query(opt = true) int pageNum,
                          @Query(opt = true) int pageSize);
 
         /**
@@ -321,5 +322,13 @@ public class NetworkApi {
          */
         @Post("email/findPwd")
         void findPwd(String email);
+
+        /**
+         * 扫描二维码
+         *
+         * @param url
+         */
+        @Get
+        void scanQrCode(@Url String url);
     }
 }

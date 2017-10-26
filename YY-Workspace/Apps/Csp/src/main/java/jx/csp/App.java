@@ -106,13 +106,13 @@ public class App extends BaseApp {
 
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
-        MobSDK.init(this,"1f09fd24ab238","270a4584e5f0c1a45e290eae73846535");
+        MobSDK.init(this, "1f09fd24ab238", "270a4584e5f0c1a45e290eae73846535");
 
         String language = PackageUtil.getMetaValue("JX_LANGUAGE");
         if (language.equals("en")) {
             DeviceUtil.setResLocale(this, Locale.ENGLISH);
         } else {
-            DeviceUtil.setResLocale(this, Locale.ROOT);
+            DeviceUtil.setResLocale(this, Locale.getDefault());
         }
         // 保存系统语言
         SpApp.inst().saveSystemLanguage(Locale.getDefault().getLanguage());
