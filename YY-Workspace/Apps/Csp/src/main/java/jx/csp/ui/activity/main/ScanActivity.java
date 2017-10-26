@@ -18,7 +18,7 @@ import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Scan;
 import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.network.NetFactory;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivity;
 import lib.network.model.NetworkResp;
@@ -151,9 +151,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             case URI: {
                 String url = parsedResult.toString();
                 YSLog.d("urloooo",url);
-                String[] s = url.split("=");
-                String courseId = s[1];
-                exeNetworkReq(MeetingAPI.scan(courseId).build());
+                exeNetworkReq(NetFactory.scanNetworkReq(url));
                 break;
             }
         }

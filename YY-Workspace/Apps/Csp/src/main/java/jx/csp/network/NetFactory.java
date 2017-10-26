@@ -29,6 +29,19 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
+    /**
+     *  扫描二维码
+     *
+     * @param url
+     * @return
+     */
+    public static NetworkReq scanNetworkReq(String url) {
+        return NetworkReq.newBuilder(url)
+                .get()
+                .header(getBaseHeader())
+                .build();
+    }
+
     private static CommonPair newPair(String key, Object value) {
         return new CommonPair(key, value);
     }
@@ -46,7 +59,7 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KDevice, "android"));
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
-//        ps.add(newPair(CommonParam.KToken, "e51a16c8bc9c4dcb9e849d5f78dbf636"));
+
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
         }

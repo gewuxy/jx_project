@@ -187,6 +187,15 @@ public class CommonRecordActivity extends BaseRecordActivity implements CommonRe
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mRecordState) {
+            mRecordPresenter.stopRecord();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mRecordPresenter.onDestroy();

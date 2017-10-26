@@ -117,6 +117,15 @@ public class LiveRecordActivity extends BaseRecordActivity implements LiveRecord
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mLiveState) {
+            mLiveRecordPresenterImpl.stopLiveRecord();
+        }
+    }
+
+    @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
         YSLog.d(TAG, "onPageSelected position = " + position);

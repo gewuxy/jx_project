@@ -98,6 +98,7 @@ public class LiveRecordPresenterImpl implements LiveRecordPresenter, OnCountDown
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
+            YSLog.d(TAG, "startLiveRecord time = " + System.currentTimeMillis());
             mLiveRecordView.startRecordState();
         } catch (IOException e) {
             mLiveRecordView.showToast(R.string.record_fail);
@@ -109,6 +110,7 @@ public class LiveRecordPresenterImpl implements LiveRecordPresenter, OnCountDown
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
             mMediaRecorder.reset();
+            YSLog.d(TAG, "stopLiveRecord time = " + System.currentTimeMillis());
         }
         mLiveRecordView.stopRecordState();
     }

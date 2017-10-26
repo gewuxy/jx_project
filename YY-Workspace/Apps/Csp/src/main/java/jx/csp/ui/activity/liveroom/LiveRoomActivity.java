@@ -190,6 +190,15 @@ public class LiveRoomActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mLiveState) {
+            mPresenter.stopLive();
+        }
+    }
+
     protected void startCountDownAndLive() {
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
@@ -233,7 +242,6 @@ public class LiveRoomActivity extends BaseActivity {
             }
         }
     }
-
 
     private class View implements LiveRoomContract.View {
 
