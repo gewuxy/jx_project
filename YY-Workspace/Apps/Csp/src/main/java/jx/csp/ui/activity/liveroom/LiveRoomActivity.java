@@ -18,7 +18,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.yy.ui.activity.base.BaseActivity;
-import lib.zego.ZegoApiManager;
 
 /**
  * 直播推流界面
@@ -61,8 +60,6 @@ public class LiveRoomActivity extends BaseActivity {
     public void initData() {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        ZegoApiManager.getInstance().init(this, "888", "敬信测试");
-
         mView = new View();
         mPresenter = new LiveRoomPresenterImpl(mView);
     }
@@ -212,7 +209,6 @@ public class LiveRoomActivity extends BaseActivity {
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         mPresenter.onDestroy();
-        ZegoApiManager.getInstance().releaseSDK();
     }
 
     @Override

@@ -4,19 +4,13 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioEncoder;
 import android.media.MediaRecorder.OutputFormat;
 
-import com.zego.zegoliveroom.ZegoLiveRoom;
-import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
-import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants.RoomRole;
-import com.zego.zegoliveroom.entity.ZegoConversationMessage;
-import com.zego.zegoliveroom.entity.ZegoRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamInfo;
-import com.zego.zegoliveroom.entity.ZegoUserState;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import jx.csp.App;
 import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
@@ -25,6 +19,7 @@ import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
+import lib.zego.IZegoCallback;
 import lib.zego.ZegoApiManager;
 
 /**
@@ -42,40 +37,21 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
     private long mStartTime;
     private long mStopTime;
     private boolean mShowCountDownRemainTv = false; // 倒计时的Tv是否显示
-    private ZegoLiveRoom mZegoLiveRoom;
+
+    private ZegoCallbackImpl mZegoCallbackImpl;
 
     public LiveRecordPresenterImpl(View view) {
+
         mLiveRecordView = view;
         mMediaRecorder = new MediaRecorder();
-
-        mZegoLiveRoom = ZegoApiManager.getInstance().getZegoLiveRoom();
+        mZegoCallbackImpl = new ZegoCallbackImpl();
+        ZegoApiManager.getInstance().init(App.getContext(),"666", "人数获取测试");
+        ZegoApiManager.getInstance().getZegoLiveRoom();
         //测试
-        mZegoLiveRoom.setTestEnv(BuildConfig.TEST);
-        mZegoLiveRoom.setRoomConfig(true, true);
-        mZegoLiveRoom.loginRoom("789", RoomRole.Audience, new IZegoLoginCompletionCallback() {
-
-            @Override
-            public void onLoginCompletion(int i, ZegoStreamInfo[] zegoStreamInfos) {
-                YSLog.d(TAG, " onLoginCompletion i = " + i);
-            }
-        });
-        mZegoLiveRoom.setZegoIMCallback(new IZegoIMCallback() {
-
-            @Override
-            public void onUserUpdate(ZegoUserState[] zegoUserStates, int i) {
-                //直播间的观众人数获取
-                YSLog.d(TAG, "user state = " + zegoUserStates.length);
-                mLiveRecordView.setOnlineTv(String.valueOf(zegoUserStates.length));
-            }
-
-            @Override
-            public void onRecvRoomMessage(String s, ZegoRoomMessage[] zegoRoomMessages) {
-            }
-
-            @Override
-            public void onRecvConversationMessage(String s, String s1, ZegoConversationMessage zegoConversationMessage) {
-            }
-        });
+        ZegoApiManager.getInstance().setTestEnv(BuildConfig.TEST);
+        ZegoApiManager.getInstance().setRoomConfig(true, true);
+        ZegoApiManager.getInstance().loginRoom("789", RoomRole.Audience, mZegoCallbackImpl);
+        ZegoApiManager.getInstance().setZegoIMCallback(mZegoCallbackImpl);
     }
 
     @Override
@@ -121,8 +97,7 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
         if (mCountDown != null) {
             mCountDown.recycle();
         }
-        mZegoLiveRoom.setZegoIMCallback(null);
-        mZegoLiveRoom.logoutRoom();
+        ZegoApiManager.getInstance().logoutRoom();
     }
 
     @Override
@@ -143,5 +118,19 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
 
     @Override
     public void onCountDownErr() {
+    }
+
+    private class ZegoCallbackImpl extends IZegoCallback {
+
+        @Override
+        public void onLoginCompletion(int i, String stream) {
+            // i   0:成功, 其它:失败
+            YSLog.d(TAG, "i" + i);
+        }
+
+        @Override
+        public void onUserUpdate(int number) {
+            mLiveRecordView.setOnlineTv(String.valueOf(number));
+        }
     }
 }

@@ -28,7 +28,6 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
-import lib.zego.ZegoApiManager;
 
 /**
  * 直播录制
@@ -58,7 +57,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
     public void initData() {
         super.initData();
 
-        ZegoApiManager.getInstance().init(this, "666", "人数获取测试");
         mView = new View();
         mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView);
     }
@@ -160,7 +158,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
     protected void onDestroy() {
         super.onDestroy();
         mLiveRecordPresenterImpl.onDestroy();
-        ZegoApiManager.getInstance().releaseSDK();
     }
 
     @Override

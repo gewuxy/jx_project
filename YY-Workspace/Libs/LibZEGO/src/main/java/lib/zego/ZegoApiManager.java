@@ -1,16 +1,29 @@
 package lib.zego;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.zego.zegoliveroom.ZegoLiveRoom;
+import com.zego.zegoliveroom.callback.IZegoLivePublisherCallback;
+import com.zego.zegoliveroom.callback.IZegoRoomCallback;
+import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
 import com.zego.zegoliveroom.constants.ZegoAvConfig.Level;
+import com.zego.zegoliveroom.entity.AuxData;
+import com.zego.zegoliveroom.entity.ZegoConversationMessage;
+import com.zego.zegoliveroom.entity.ZegoRoomMessage;
+import com.zego.zegoliveroom.entity.ZegoStreamInfo;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoUserState;
+
+import java.util.HashMap;
 
 /**
  * @author CaiXiang
  * @since 2017/9/20
  */
 public class ZegoApiManager {
+    private final String TAG = getClass().getSimpleName();
 
     // zego公司测试
     private static final long APP_ID = 1739272706L;
@@ -30,10 +43,6 @@ public class ZegoApiManager {
     private ZegoLiveRoom mZegoLiveRoom = null;
     private ZegoAvConfig mZegoAvConfig;
 
-    private boolean mUseHardwareEncode = false;
-    private boolean mUseHardwareDecode = false;
-    private boolean mUseRateControl = false;
-
     private ZegoApiManager() {
         mZegoLiveRoom = new ZegoLiveRoom();
     }
@@ -45,29 +54,16 @@ public class ZegoApiManager {
         return sInstance;
     }
 
-    public void init(Context context, String userId, String userName) {
+    public void init(Context context,String userId, String userName) {
         // 初始化用户信息 必须设置
         ZegoLiveRoom.setUser(userId, userName);
-        // 初始化sdk
+        // 初始化sdk 不传context会出现错误
         boolean ret = mZegoLiveRoom.initSDK(APP_ID, SIGN_KEY, context);
         if (ret) {
             // 初始化设置级别为"Generic"
             mZegoAvConfig = new ZegoAvConfig(Level.Generic);
             mZegoLiveRoom.setAVConfig(mZegoAvConfig);
-            // 开发者根据需求定制
-            // 硬件编码
-            setUseHardwareEncode(mUseHardwareEncode);
-            // 硬件解码
-            setUseHardwareDecode(mUseHardwareDecode);
-            // 码率控制
-            setUseRateControl(mUseRateControl);
         }
-    }
-
-    public void releaseSDK() {
-        // 清空设置
-        ZegoLiveRoom.setTestEnv(false);
-        mZegoLiveRoom.unInitSDK();
     }
 
     public ZegoLiveRoom getZegoLiveRoom() {
@@ -83,33 +79,179 @@ public class ZegoApiManager {
         return mZegoAvConfig;
     }
 
-    public void setUseHardwareEncode(boolean useHardwareEncode) {
-        if (useHardwareEncode) {
-            // 开硬编时, 关闭码率控制
-            if (mUseRateControl) {
-                mUseRateControl = false;
-                mZegoLiveRoom.enableRateControl(false);
-            }
-        }
-        mUseHardwareEncode = useHardwareEncode;
-        ZegoLiveRoom.requireHardwareEncoder(useHardwareEncode);
+    public void setTestEnv(boolean b) {
+        mZegoLiveRoom.setTestEnv(b);
     }
 
-    public void setUseHardwareDecode(boolean useHardwareDecode) {
-        mUseHardwareDecode = useHardwareDecode;
-        ZegoLiveRoom.requireHardwareDecoder(useHardwareDecode);
+    public void enableAEC(boolean b) {
+        mZegoLiveRoom.enableAEC(b);
     }
 
-    public void setUseRateControl(boolean useRateControl) {
-        if (useRateControl) {
-            // 开码率控制时, 关硬编
-            if (mUseHardwareEncode) {
-                mUseHardwareEncode = false;
-                ZegoLiveRoom.requireHardwareEncoder(false);
+    public void enableMic(boolean b) {
+        mZegoLiveRoom.enableMic(b);
+    }
+
+    public void enableCamera(boolean b) {
+        mZegoLiveRoom.enableCamera(b);
+    }
+
+    public void setFrontCam(boolean b) {
+        mZegoLiveRoom.setFrontCam(b);
+    }
+
+    public void setPreviewViewMode(int model) {
+        mZegoLiveRoom.setPreviewViewMode(model);
+    }
+
+    public void setAppOrientation(int orientation) {
+        mZegoLiveRoom.setAppOrientation(orientation);
+    }
+
+    public void setPreviewView(Object view) {
+        mZegoLiveRoom.setPreviewView(view);
+    }
+
+    public void startPreview() {
+        mZegoLiveRoom.startPreview();
+    }
+
+    public void setRoomConfig(boolean audienceCreateRoom, boolean userStateUpdate) {
+        mZegoLiveRoom.setRoomConfig(audienceCreateRoom, userStateUpdate);
+    }
+
+    public void startPublishing(String streamID, String title, int flag) {
+        mZegoLiveRoom.startPublishing(streamID, title, flag);
+    }
+
+    public void stopPublishing() {
+        mZegoLiveRoom.stopPublishing();
+    }
+
+    public void stopPreview() {
+        mZegoLiveRoom.stopPreview();
+    }
+
+    public void enableSpeaker(boolean b) {
+        mZegoLiveRoom.enableSpeaker(b);
+    }
+
+    public void startPlayingStream(String streamID, Object view) {
+        mZegoLiveRoom.startPlayingStream(streamID, view);
+    }
+
+    public void logoutRoom() {
+        mZegoLiveRoom.setZegoLivePublisherCallback(null);
+        mZegoLiveRoom.setZegoRoomCallback(null);
+        mZegoLiveRoom.setZegoIMCallback(null);
+        mZegoLiveRoom.logoutRoom();
+        ZegoLiveRoom.setTestEnv(false);
+        mZegoLiveRoom.unInitSDK();
+    }
+
+    public void loginRoom(String roomID, int role, IZegoCallback callback) {
+        mZegoLiveRoom.loginRoom(roomID, role, (i, zegoStreamInfos) -> {
+            if (callback != null) {
+                String stream;
+                if (zegoStreamInfos != null && zegoStreamInfos.length > 0) {
+                    stream = zegoStreamInfos[0].streamID;
+                } else {
+                    stream = "";
+                }
+                callback.onLoginCompletion(i, stream);
             }
-        }
-        mUseRateControl = useRateControl;
-        mZegoLiveRoom.enableRateControl(useRateControl);
+        });
+    }
+
+    public void setZegoLivePublisherCallback(IZegoCallback callback) {
+        mZegoLiveRoom.setZegoLivePublisherCallback(new IZegoLivePublisherCallback() {
+
+            @Override
+            public void onPublishStateUpdate(int i, String s, HashMap<String, Object> hashMap) {
+                // i   0:成功, 其它:失败
+                Log.d(TAG, "推流状态更新" + i);
+                callback.onPublishStateUpdate(i);
+            }
+
+            @Override
+            public void onJoinLiveRequest(int i, String s, String s1, String s2) {
+                Log.d(TAG, "收到观众的连麦请求");
+            }
+
+            @Override
+            public void onPublishQualityUpdate(String s, ZegoStreamQuality zegoStreamQuality) {
+                Log.d(TAG, "推流质量更新");
+            }
+
+            @Override
+            public AuxData onAuxCallback(int i) {
+                return null;
+            }
+
+            @Override
+            public void onCaptureVideoSizeChangedTo(int i, int i1) {
+                Log.d(TAG, "采集视频的宽度和高度变化通知");
+            }
+
+            @Override
+            public void onMixStreamConfigUpdate(int i, String s, HashMap<String, Object> hashMap) {
+                Log.d(TAG, "混流配置更新");
+            }
+        });
+    }
+
+    public void setZegoRoomCallback(IZegoCallback callback) {
+        mZegoLiveRoom.setZegoRoomCallback(new IZegoRoomCallback() {
+
+            @Override
+            public void onKickOut(int i, String s) {
+                Log.d(TAG, "因为登陆抢占原因等被挤出房间");
+                callback.onKickOut();
+            }
+
+            @Override
+            public void onDisconnect(int i, String s) {
+                Log.d(TAG, "与 server 断开");
+            }
+
+            @Override
+            public void onStreamUpdated(int i, ZegoStreamInfo[] zegoStreamInfos, String s) {
+                Log.d(TAG, "房间流列表更新");
+            }
+
+            @Override
+            public void onStreamExtraInfoUpdated(ZegoStreamInfo[] zegoStreamInfos, String s) {
+                Log.d(TAG, "更新流的额外信息");
+            }
+
+            @Override
+            public void onRecvCustomCommand(String s, String s1, String s2, String s3) {
+                Log.d(TAG, "收到自定义消息");
+            }
+        });
+    }
+
+    public void setZegoIMCallback(IZegoCallback callback) {
+        mZegoLiveRoom.setZegoIMCallback(new IZegoIMCallback() {
+
+            @Override
+            public void onUserUpdate(ZegoUserState[] zegoUserStates, int i) {
+                //直播间的观众人数获取
+                Log.d(TAG, "user state = " + zegoUserStates.length + "   i = " + i);
+                if (zegoUserStates != null) {
+                    callback.onUserUpdate(zegoUserStates.length);
+                }
+            }
+
+            @Override
+            public void onRecvRoomMessage(String s, ZegoRoomMessage[] zegoRoomMessages) {
+
+            }
+
+            @Override
+            public void onRecvConversationMessage(String s, String s1, ZegoConversationMessage zegoConversationMessage) {
+
+            }
+        });
     }
 
 }
