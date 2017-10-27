@@ -1,7 +1,8 @@
+<!--
 
 <?xml version="1.0" encoding="utf-8"?>
 <DevInfor>
-    <!--
+    &lt;!&ndash;
     	说明：
 
     	所有集成到您项目的平台都应该为其在表格中填写相对应的开发者信息，以新浪微博为例：
@@ -47,14 +48,14 @@
 			KakaoTalk      https://developers.kakao.com/
 			KakaoStory     https://developers.kakao.com/
 			Plurk          http://www.plurk.com/API
-    -->
+    &ndash;&gt;
 
-    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false, -->
-	<!-- 1、isNewApi是否使用新街口，true是使用新接口，false为老接口
+    &lt;!&ndash; ShareByAppClient标识是否使用微博客户端分享，默认是false, &ndash;&gt;
+	&lt;!&ndash; 1、isNewApi是否使用新街口，true是使用新接口，false为老接口
 		 2、用户分享到微博的文本内容，必须做URLencode，内容不超过140个汉字，文本中不能包含“#话题词#”，同时文本中必须包含至少一个第三方分享到微博的网页URL，
-		且该URL只能是该第三方（调用方）绑定域下的URL链接，绑定域在“我的应用 － 应用信息 － 基本应用信息编辑 － 安全域名”里设置。-->
-	<!--ShareByAppWeb为调用新浪web方式分享，在ShareByAppClient为false，ShareByWebApi = "true"时，分享会调用Web页面分享{调用web分享，需集成res资源文件，以及libs下的so库}，
-		在ShareByAppClient为false，ShareByWebApi = "false"时，会走API方式分享-->
+		且该URL只能是该第三方（调用方）绑定域下的URL链接，绑定域在“我的应用 － 应用信息 － 基本应用信息编辑 － 安全域名”里设置。&ndash;&gt;
+	&lt;!&ndash;ShareByAppWeb为调用新浪web方式分享，在ShareByAppClient为false，ShareByWebApi = "true"时，分享会调用Web页面分享{调用web分享，需集成res资源文件，以及libs下的so库}，
+		在ShareByAppClient为false，ShareByWebApi = "false"时，会走API方式分享&ndash;&gt;
     <SinaWeibo
         Id="1"
         SortId="1"
@@ -81,7 +82,7 @@
 		BypassApproval="true"
         Enable="true" />
     
-    <!-- 
+    &lt;!&ndash;
     	Wechat微信和WechatMoments微信朋友圈的appid是一样的；
     
                        注意：开发者不能用我们这两个平台的appid,否则分享不了
@@ -92,8 +93,8 @@
 		BypassApproval是绕过审核的标记，设置为true后AppId将被忽略，故不经过
 		审核的应用也可以执行分享，但是仅限于分享文字和图片，不能分享其他类型，
 		默认值为false。此外，微信收藏不支持此字段。wx4868b35061f87885
-	-->
-	<!--要分享微信小应用程序时用userName,path-->
+	&ndash;&gt;
+	&lt;!&ndash;要分享微信小应用程序时用userName,path&ndash;&gt;
     <Wechat
         Id="4"
         SortId="4"
@@ -119,7 +120,7 @@
         AppSecret="64020361b8ec4c99936c0e3999a9f249"
         Enable="true" />
     
-	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+	&lt;!&ndash; ShareByAppClient标识是否使用微博客户端分享，默认是false &ndash;&gt;
 	<QQ
         Id="7"
         SortId="7"
@@ -189,7 +190,7 @@
         RedirectUri="http://www.sharesdk.cn/"
         Enable="true" />
         
-    <!-- 
+    &lt;!&ndash;
     	在中国大陆，印象笔记有两个服务器，一个是沙箱（sandbox），一个是生产服务器（china）。
     	一般你注册应用，它会先让你使用sandbox，当你完成测试以后，可以到
     	http://dev.yinxiang.com/support/上激活你的ConsumerKey，激活成功后，修改HostType
@@ -198,7 +199,7 @@
     	
     	如果目标设备上已经安装了印象笔记客户端，ShareSDK允许应用调用本地API来完成分享，但
     	是需要将应用信息中的“ShareByAppClient”设置为true，此字段默认值为false。
-    -->
+    &ndash;&gt;
     <Evernote
         Id="19"
         SortId="19"
@@ -277,7 +278,7 @@
 		RedirectUri="http://sharesdk.cn"
         Enable="true" />
     
-    <!-- 
+    &lt;!&ndash;
     	Yixin易信和YixinMoments易信朋友圈的appid是一样的；
     
                        注意：开发者不能用我们这两个平台的appid,否则分享不了
@@ -288,7 +289,7 @@
 		BypassApproval是绕过审核的标记，设置为true后AppId将被忽略，故不经过
 		审核的应用也可以执行分享，但是仅限于分享文字或图片，不能分享其他类型，
 		默认值为false。
-	-->
+	&ndash;&gt;
 	<Yixin 
     	Id="29"
         SortId="29"
@@ -395,4 +396,4 @@
 		ShareByAppClient = "true"
 		Enable="true"/>
 	
-</DevInfor>
+</DevInfor>-->

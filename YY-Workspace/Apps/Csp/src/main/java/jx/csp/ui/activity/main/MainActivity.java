@@ -7,11 +7,14 @@ import android.widget.ImageView;
 import java.util.List;
 
 import jx.csp.R;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Square;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.util.Util;
+import lib.ys.network.image.NetworkImageView;
 import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -28,18 +31,20 @@ public class MainActivity extends BaseVPActivity {
     private ImageView mIvShift;
 
     private boolean mFlag;
+    private MainSlideFrag mSlideFrag;
+    private MainSquareFrag mSquareFrag;
 
     @Override
     public void initData() {
         // 列表(空)
-        MainSlideFrag slideFrag = new MainSlideFrag();
+        mSlideFrag = new MainSlideFrag();
         // 网格
-        MainSquareFrag squareFrag = new MainSquareFrag();
+        mSquareFrag = new MainSquareFrag();
 
-        squareFrag.setListener((OnSquareRefreshListener) data -> slideFrag.setData(data));
-        add(squareFrag);
+        mSquareFrag.setListener(data -> mSlideFrag.setData(data));
+        add(mSquareFrag);
 
-        add(slideFrag);
+        add(mSlideFrag);
 
         mFlag = true;
     }
@@ -51,12 +56,13 @@ public class MainActivity extends BaseVPActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-//        NetworkImageView view = new NetworkImageView(this);
-//        view.setLayoutParams(LayoutUtil.getViewGroupParams(fitDp(11),fitDp(11)));
-//        view.placeHolder(R.drawable.ic_default_user_header)
-//                .url(Profile.inst().getString(TProfile.avatar))
-//                .load();
-        bar.addViewLeft(R.drawable.ic_default_user_header, v -> startActivity(MeActivity.class));
+
+        View view = inflate(R.layout.layout_main_user);
+        NetworkImageView iv = view.findViewById(R.id.main_ic_user);
+        iv.placeHolder(R.drawable.ic_default_user_header)
+                .url(Profile.inst().getString(TProfile.avatar))
+                .load();
+        bar.addViewLeft(view, v -> startActivity(MeActivity.class));
 
         bar.addTextViewMid(getString(R.string.CSPmeeting));
 
@@ -64,9 +70,13 @@ public class MainActivity extends BaseVPActivity {
             mIvShift.setSelected(mFlag);
             mFlag = !mFlag;
             if (mFlag) {
+                // 网格
                 setCurrentItem(0);
+                mSquareFrag.smoothScrollToPosition(mSlideFrag.getCurrentItem());
             } else {
+                // 列表
                 setCurrentItem(1);
+                mSlideFrag.setCurrentItem(mSquareFrag.getPosition());
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -100,5 +110,4 @@ public class MainActivity extends BaseVPActivity {
     public interface OnSquareRefreshListener {
         void onSquareRefresh(List<Square> data);
     }
-
 }

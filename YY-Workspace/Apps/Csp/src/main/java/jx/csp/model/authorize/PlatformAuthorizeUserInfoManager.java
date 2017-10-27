@@ -1,16 +1,23 @@
 package jx.csp.model.authorize;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
 import java.util.HashMap;
 
 import cn.sharesdk.facebook.Facebook;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 import jx.csp.App;
+import lib.ys.YSLog;
 
 /**
  * @auther WangLan
@@ -52,6 +59,11 @@ public class PlatformAuthorizeUserInfoManager {
     public void twitterAuthorize() {
         Platform twitterShare = ShareSDK.getPlatform(Twitter.NAME);
         doAuthorize(twitterShare);
+    }
+
+    public void QQAuthorize() {
+        Platform qq = ShareSDK.getPlatform(QQ.NAME);
+        doAuthorize(qq);
     }
 
     /**
@@ -132,6 +144,23 @@ public class PlatformAuthorizeUserInfoManager {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
             App.showToast("Authorize Complete.");
+            if (i == Platform.ACTION_USER_INFOR) {
+                Message msg = new Message();
+                msg.what = 0;
+                msg.obj = platform;
+                new Handler(Looper.getMainLooper(), message -> {
+                    PlatformDb platDB = platform.getDb();
+                    String token = platDB.getToken();
+                    String userGender = platDB.getUserGender();
+                    String icon = platDB.getUserIcon();
+                    String userName = platDB.getUserName();
+                    YSLog.d("infor",token);
+                    YSLog.d("infor",userGender);
+                    YSLog.d("infor",icon);
+                    YSLog.d("infor",userName);
+                    return false;
+                }).sendMessage(msg);
+            }
         }
 
         @Override

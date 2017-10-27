@@ -207,7 +207,7 @@ public class ProfileActivity extends BaseFormActivity {
     //页面跳转
     private void startActForResult(String path) {
         if (path != null) {
-            ClipImageActivityRouter.create(path).route(this, KCodeClipImage);
+            //ClipImageActivityRouter.create(path).route(this, KCodeClipImage);
         }
     }
 

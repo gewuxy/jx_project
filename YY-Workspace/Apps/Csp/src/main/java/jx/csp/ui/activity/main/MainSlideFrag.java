@@ -7,8 +7,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.model.main.Square;
+import jx.csp.ui.activity.main.MainMeetingFrag.StateType;
+import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseVPFrag;
@@ -17,15 +21,27 @@ import lib.yy.ui.frag.base.BaseVPFrag;
  * @auther WangLan
  * @since 2017/10/17
  */
-
+@Route
 public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
 
     private final int KOne = 1;
-    private final float KVpScale = 0.11f; // vp的缩放比例
+    private final float KVpScale = 0.2f; // vp的缩放比例
 
     private float mLastOffset;
 
     private TextView mTvCurrentPage;
+
+    private TextView mTvTotalPage;
+
+    private TextView mTvReminder;
+
+    private View mLayout;
+
+    private View mSlideDataLayout;
+
+    @Arg
+    public String mCourseId;
+
 
     @Override
     public void initData() {
@@ -45,13 +61,26 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
     public void findViews() {
         super.findViews();
         mTvCurrentPage = findView(R.id.frag_current_page);
+        mTvTotalPage = findView(R.id.frag_total_page);
+        mLayout = findView(R.id.live_reminder);
+        mSlideDataLayout = findView(R.id.main_slide_data_layout);
+        mTvReminder = findView(R.id.tv_reminder);
     }
 
     @Override
     public void setViews() {
         super.setViews();
         setOnPageChangeListener(this);
+        setOffscreenPageLimit(3);
+        setScrollDuration(300);
         getViewPager().setPageMargin(fitDp(27));
+        setOnClickListener(R.id.click_continue);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        LiveRecordActivityRouter.create(mCourseId).route(getContext());
     }
 
     @Override
@@ -82,7 +111,16 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
     @Override
     public void onPageSelected(int position) {
         mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
+
         YSLog.d("position", "position");
+        if (getItem(position) instanceof MainMeetingFrag && ((MainMeetingFrag) (getItem(position))).getType() == StateType.living) {
+            showView(mLayout);
+        } else if (getItem(position) instanceof MainMeetingFrag && ((MainMeetingFrag) (getItem(position))).getType() == StateType.playing) {
+            showView(mLayout);
+            mTvReminder.setText(R.string.playing);
+        }else {
+            goneView(mLayout);
+        }
     }
 
     @Override
@@ -106,11 +144,29 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
     public void setData(List<Square> data) {
         // 记录当前index
         int index = getCurrentItem();
-        removeAll();
-        for (Square s : data) {
-            add(MainMeetingFragRouter.create(s).route());
+
+        if (data == null) {
+            goneView(mSlideDataLayout);
+            add(new SlideEmptyDataFrag());
+            invalidate();
+        } else {
+            removeAll();
+            for (Square s : data) {
+                add(MainMeetingFragRouter.create(s).route());
+            }
+            invalidate();
+            setCurrentItem(index);
+            mTvTotalPage.setText(String.valueOf(data.size()));
         }
-        invalidate();
-        setCurrentItem(index);
+    }
+
+    @Override
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item);
+    }
+
+    @Override
+    public int getCurrentItem() {
+        return super.getCurrentItem();
     }
 }

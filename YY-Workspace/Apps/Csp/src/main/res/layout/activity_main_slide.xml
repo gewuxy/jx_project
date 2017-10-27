@@ -5,7 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_viewpager"/>
+    <lib.ys.view.pager.ViewPagerEx
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="474dp"
+        android:layout_marginTop="35dp"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"/>
 
     <RelativeLayout
         android:id="@+id/layout_main_slide"
@@ -29,6 +37,7 @@
                 android:src="@drawable/ic_default_i"/>
 
             <TextView
+                android:id="@+id/tv_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
@@ -51,6 +60,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/main_slide_data_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true">

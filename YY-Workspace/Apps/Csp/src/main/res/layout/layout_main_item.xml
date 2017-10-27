@@ -7,11 +7,12 @@
 
     <LinearLayout
         android:id="@+id/main_square_layout"
-        android:layout_width="160dp"
-        android:layout_height="188dp">
+        android:layout_width="172dp"
+        android:layout_height="188dp"
+        android:layout_marginBottom="12dp">
 
         <LinearLayout
-            android:layout_width="160dp"
+            android:layout_width="172dp"
             android:layout_height="188dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_main_item"
@@ -19,7 +20,7 @@
 
             <lib.ys.network.image.NetworkImageView
                 android:id="@+id/iv_head"
-                android:layout_width="160dp"
+                android:layout_width="172dp"
                 android:layout_height="110dp"/>
 
             <TextView
@@ -36,8 +37,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/main_play_time"
@@ -45,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="00'00"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/text_7b7a80"
                     android:textSize="12dp"/>
 
@@ -53,8 +54,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="37dp"
+                    android:layout_marginRight="35dp"
                     android:text="0"
+                    android:layout_marginTop="1dp"
                     android:textColor="@color/text_167afe"
                     android:textSize="16dp"/>
 
@@ -64,7 +66,8 @@
                     android:layout_height="9dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="33dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="18dp"
                     android:background="@color/color_db"/>
 
                 <TextView
@@ -72,8 +75,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="18dp"
                     android:text="21"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/text_7b7a80"
                     android:textSize="12dp"/>
 
@@ -89,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="录播中"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/text_167afe"
                     android:textSize="10dp"/>
 
@@ -98,6 +103,7 @@
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="49dp"
+                    android:layout_marginTop="7dp"
                     android:src="@drawable/main_ic_live"/>
 
                 <ImageView
@@ -106,6 +112,7 @@
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="16dp"
+                    android:layout_marginTop="7dp"
                     android:src="@drawable/main_ic_share"/>
             </RelativeLayout>
         </LinearLayout>

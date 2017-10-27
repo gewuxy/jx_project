@@ -64,8 +64,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_total_time"
@@ -73,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="17dp"
                     android:text="03'26"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/text_7b7a80"
                     android:textSize="12dp"/>
 
@@ -80,9 +80,10 @@
                     android:id="@+id/tv_current_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
+                    android:layout_marginLeft="34dp"
                     android:layout_toRightOf="@+id/tv_total_time"
                     android:text="5"
+                    android:layout_marginTop="3dp"
                     android:textColor="@color/text_167afe"
                     android:textSize="16dp"/>
 
@@ -92,6 +93,7 @@
                     android:layout_height="9dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="3dp"
+                    android:layout_marginTop="23dp"
                     android:layout_toRightOf="@+id/tv_current_page"
                     android:background="@color/color_db"/>
 
@@ -99,10 +101,10 @@
                     android:id="@+id/tv_total_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/tv_current_page"
                     android:text="21"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="7dp"
                     android:textColor="@color/text_7b7a80"
                     android:textSize="12dp"/>
 
@@ -112,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="13dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="7dp"
                     android:text="直播中"
                     android:textColor="@color/text_167afe"
                     android:textSize="10dp"/>

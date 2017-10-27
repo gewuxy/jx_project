@@ -48,7 +48,8 @@
         <!--登录-->
         <activity
             android:name=".ui.activity.login.ThirdPartyLoginActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
             android:name=".ui.activity.login.EmailLoginActivity"
             android:screenOrientation="portrait"/>
@@ -131,8 +132,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.bind.BindPhoneActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
 
         <!-- 我的信息 -->
         <activity
@@ -182,7 +183,7 @@
             android:value="61f4b84e5c33850ca329d67d"/>
         <meta-data
             android:name="JX_LANGUAGE"
-            android:value="${language}" />
+            android:value="${language}"/>
 
     </application>
 </manifest>

@@ -281,6 +281,9 @@ public class NetworkApi {
          */
         @Get("scan/callback")
         void scan(String courseId);
+
+        @Post("delete")
+        void delete(String id);
     }
 
     @Api("charge")

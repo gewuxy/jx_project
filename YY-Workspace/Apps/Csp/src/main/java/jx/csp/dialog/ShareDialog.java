@@ -1,5 +1,7 @@
 package jx.csp.dialog;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -25,12 +27,16 @@ import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.me.ContributePlatformActivity;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.util.PackageUtil;
-import lib.ys.util.bmp.BmpUtil;
-import lib.ys.util.res.ResLoader;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionChecker;
 import lib.yy.dialog.BaseDialog;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static lib.ys.util.res.ResLoader.getString;
 
 /**
  * @auther WangLan
@@ -62,7 +68,6 @@ public class ShareDialog extends BaseDialog {
     }
 
     private final String KShareText = "CSPmeeting，简单易用的会议录制工具。让你的智慧，被更多人看见！";
-    private final String KQQTitleUrl = "http://wiki.mob.com/%e5%88%86%e4%ba%ab%e5%88%b0%e6%8c%87%e5%ae%9a%e5%b9%b3%e5%8f%b0/";
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
     public static final String KShareError = "分享失败";
@@ -70,7 +75,17 @@ public class ShareDialog extends BaseDialog {
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
 
+    //剪切板管理工具
+    private ClipboardManager mClipboadManager;
+
+
     private PlatformActionListener mPlatformActionListener;
+
+    private OnDeleteListener mDeleteListener;
+
+    public void setDeleteListener(OnDeleteListener listener) {
+        mDeleteListener = listener;
+    }
 
     public ShareDialog(Context context, String shareTitle, int courseId) {
         super(context);
@@ -113,19 +128,23 @@ public class ShareDialog extends BaseDialog {
         mPlatformActionListener = new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                showToast(R.string.share_success);
+//                showToast(R.string.share_success);
+                YSLog.d("onComplete","成功");
             }
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-                showToast(KShareError.concat(throwable.getMessage()));
+//                showToast(KShareError.concat(throwable.getMessage()));
+                YSLog.d("onComplete","失败");
             }
 
             @Override
             public void onCancel(Platform platform, int i) {
-                showToast(R.string.share_cancel);
+//                showToast(R.string.share_cancel);
+                YSLog.d("onComplete","取消");
             }
         };
+        mClipboadManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
     }
 
     @NonNull
@@ -159,30 +178,27 @@ public class ShareDialog extends BaseDialog {
     public void onClick(View v) {
         ShareParams shareParams = new ShareParams();
         shareParams.setTitle(mShareTitle);
+        shareParams.setText(KShareText);
+        shareParams.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
         Platform platform;
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat: {
                 platform = ShareSDK.getPlatform(Wechat.NAME);
                 //微信的字段
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                //Fixme:分享内容的图片，还没有,用的丫丫医师
-                shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
+                //Fixme:分享内容的图片，还没有,用的丫丫医师,图片不能放资源文件，放mipmap，url或者本地图片转
                 shareParams.setUrl(mShareUrl);
-                shareParams.setTitle(mShareTitle);
-                shareParams.setText("9999");
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
             break;
             case R.id.dialog_share_iv_moment: {
+                //微信朋友圈的分享text是不显示的，问了客服
                 platform = ShareSDK.getPlatform(WechatMoments.NAME);
                 //微信的字段
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 //Fixme:分享内容的图片，还没有,用的丫丫医师
-                shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
                 shareParams.setUrl(mShareUrl);
-                shareParams.setTitle(mShareTitle);
-                shareParams.setText("9999");
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -211,29 +227,39 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_iv_message: {
-                platform = ShareSDK.getPlatform(ShortMessage.NAME);
-                shareParams.setText(KShareText);
-                shareParams.setUrl(mShareUrl);
-               // shareParams.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
-                platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);
+                if (PermissionChecker.allow(getContext(), Permission.sms) && PermissionChecker.allow(getContext(), Permission.storage)) {
+                    platform = ShareSDK.getPlatform(ShortMessage.NAME);
+//                    shareParams.setUrl(mShareUrl);
+                    shareParams.setText(mShareUrl);
+                    platform.setPlatformActionListener(mPlatformActionListener);
+                    platform.share(shareParams);
+                } else {
+                    showToast(getString(R.string.user_message_permission));
+                }
             }
             break;
             case R.id.dialog_share_iv_copy_link: {
-                //Fixme:提示，实际需求没有，一下皆同，记得删
-                showToast("复制链接");
+                //创建一个新的文本clip对象
+                ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
+                //把clip对象放在剪切板中
+                mClipboadManager.setPrimaryClip(clipData);
+                showToast(R.string.copy_success);
             }
             break;
             case R.id.dialog_share_tv_contribute: {
-                showToast("复制链接");
+                startActivity(ContributePlatformActivity.class);
             }
             break;
             case R.id.dialog_share_tv_copy_replica: {
-                showToast("复制链接");
+                //Fixme:提示，实际需求没有，一下皆同，记得删
+                showToast("复制副本");
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                showToast("复制链接");
+                if (mDeleteListener !=null) {
+                    mDeleteListener.delete();
+                }
+                showToast("删除成功");
             }
             break;
             case R.id.dialog_share_tv_cancel: {
@@ -243,5 +269,9 @@ public class ShareDialog extends BaseDialog {
             break;
         }
         dismiss();
+    }
+
+    public interface OnDeleteListener{
+        void delete();
     }
 }

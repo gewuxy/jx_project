@@ -2,13 +2,13 @@
     <!--登录-->
     <style name="tv.third"/>
     <style name="tv.third.login">
-        <item name="android:layout_width">284dp</item>
+        <item name="android:layout_width">280dp</item>
         <item name="android:layout_height">44dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/text_167afe</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:background">@drawable/bg_third_part_login_authorize</item>
+        <item name="android:textColor">@color/text_7a8b9f</item>
+        <item name="android:textSize">16dp</item>
+
     </style>
 
     <style name="tv.third.type">
@@ -22,9 +22,9 @@
 
     <style name="divider.third"/>
     <style name="divider.third.login">
-        <item name="android:layout_width">102dp</item>
+        <item name="android:layout_width">78dp</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginTop">68dp</item>
+        <item name="android:layout_marginTop">44dp</item>
     </style>
 
     <style name="iv.login">
@@ -47,6 +47,15 @@
         <item name="android:text">@string/have_agree_to</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="v.login">
+        <item name="android:layout_width">280dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_third_part_login_authorize</item>
+
     </style>
 
     <!-- 普通输入框样式 -->

@@ -205,9 +205,10 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                     onNetworkError(id, r.getError());
                 }
                 finish();
+            }else {
+                onNetworkError(id, r.getError());
             }
         }
-
     }
 
     public String getUserName() {

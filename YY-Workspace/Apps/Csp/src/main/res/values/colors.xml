@@ -28,6 +28,7 @@
     <color name="white_diaphaneity_sixty">#99000000</color>
     <color name="pink_diaphaneity_sixty">#99e43939</color>
     <color name="blue_diaphaneity_forty">#663fa9f5</color>
+    <color name="video_3b3a34_eighty">#cc3b3a34</color>
 
     <!-- 字体颜色 -->
     <color name="text_9b">#9b9b9b</color>
@@ -42,12 +43,17 @@
     <color name="text_01b557">#01b557</color>
     <color name="text_0882e7">#0882e7</color>
     <color name="text_7b7a80">#7b7a80</color>
+    <color name="text_7a8b9f">#7a8b9f</color>
     <color name="text_edf1f8">#edf1f8</color>
     <color name="text_3a">#3a3a3a</color>
     <color name="text_e43939">#e43939</color>
     <color name="text_343a4b">#343a4b</color>
     <color name="text_a4b3c6">#a4b3c6</color>
     <color name="text_d0011b">#d0011b</color>
+    <color name="text_3fa9f5">#3fa9f5</color>
+    <color name="text_focus">#3998db</color>
+    <color name="text_dce3ea">#dce3ea</color>
+    <color name="text_b4b9c0">#b4b9c0</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>
@@ -62,9 +68,5 @@
 
     <!--edt填充色-->
     <color name="edt_f3f6f8">#f3f6f8</color>
-
-    <!--yaya授权登录按钮效果-->
-    <color name="text_3fa9f5">#3fa9f5</color>
-    <color name="text_focus">#3998db</color>
 
 </resources>

@@ -41,6 +41,7 @@ public class SquareAdapter extends RecyclerAdapterEx<Square, SquareVH> {
                 holder.getTvPlayState().setText(R.string.record);
             } else if (mItem.getInt(TSquare.playState) == PlayState.record) {
                 holder.getTvPlayState().setText("录播中");
+
             } else {
                 goneView(holder.getTvCurrentPage());
                 goneView(holder.getVDivider());
@@ -52,22 +53,27 @@ public class SquareAdapter extends RecyclerAdapterEx<Square, SquareVH> {
 
             if (mItem.getInt(TSquare.liveState) == LiveState.un_start) {
                 holder.getTvPlayState().setText(R.string.solive);
+
+                //直播未开始状态的开始时间转换
+                Date d = new Date(Long.parseLong(mItem.getString(TSquare.startTime)));
+                SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
+                holder.getTvTime().setText(data.format(d));
             } else if (mItem.getInt(TSquare.liveState) == LiveState.live) {
                 holder.getTvPlayState().setText(R.string.live);
+                holder.getTvTime().setText(mItem.getString(TSquare.playTime));
             } else {
                 goneView(holder.getTvCurrentPage());
                 goneView(holder.getVDivider());
                 goneView(holder.getTvPlayState());
                 goneView(holder.getIvLive());
+                holder.getTvTime().setText(mItem.getString(TSquare.playTime));
             }
 
-            //直播的开始时间转换
-            Date d = new Date(Long.parseLong(mItem.getString(TSquare.startTime)));
-            SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
-            holder.getTvTime().setText(data.format(d));
+
         }
 
         setOnViewClickListener(position, holder.getItemLayout());
         setOnViewClickListener(position, holder.getIvShare());
+        setOnViewClickListener(position, holder.getIvLive());
     }
 }

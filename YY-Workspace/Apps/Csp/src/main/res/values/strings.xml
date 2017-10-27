@@ -6,6 +6,7 @@
     <string name="network_disabled">当前网络不可用，请检查网络配置</string>
     <string name="user_photo_permission">请开启拍照权限</string>
     <string name="user_album_permission">请开启查看相册权限</string>
+    <string name="user_message_permission">请开启短信及存储权限</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="well">好</string>
@@ -40,13 +41,14 @@
     <string name="adv_skip">跳过</string>
 
     <!--登录-->
-    <string name="language_transform">CN</string>
+    <string name="language_transform">中文</string>
     <string name="login_title">CSP</string>
-    <string name="login_wechat">微信授权登录</string>
-    <string name="login_sina">微博授权登录</string>
-    <string name="login_yaya">YaYa数字平台授权登录</string>
+    <string name="login_wechat">微信登录</string>
+    <string name="login_sina">微博登录</string>
+    <string name="login_jx">敬信数字平台登录</string>
     <string name="have_agree_to">登录即表示您已同意</string>
     <string name="protocol">《CSPmeeting服务协议》</string>
+    <string name="other_login_type">其他登录方式</string>
     <string name="mobilephone">手机</string>
     <string name="email">邮箱</string>
     <string name="facebook">Facebook</string>
@@ -100,9 +102,21 @@
 
     <!--首页-->
     <string name="living">直播会议正在进行中...</string>
+    <string name="playing">录播会议正在进行中...</string>
     <string name="click_continue">点击继续</string>
     <string name="CSPmeeting">CSPmeeting</string>
     <string name="scan">扫一扫</string>
+    <string name="ready">Ready！</string>
+    <string name="copy_success">复制成功</string>
+    <string name="main_record_dialog">会议正在录播中，确定继续将中断其他客户端的进度</string>
+    <string name="confirm_continue">确定继续</string>
+    <string name="choice_contents">请选择您要进行的内容</string>
+    <string name="explain_meeting">讲解会议</string>
+    <string name="live_video">视频直播</string>
+    <string name="live_not_start">直播还没开始，请稍等</string>
+    <string name="live_have_end">直播已结束</string>
+    <string name="on_solive">直播中</string>
+    <string name="on_record">录播</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>
