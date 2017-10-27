@@ -51,6 +51,10 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.bind_wx,
             NotifyType.bind_phone,
             NotifyType.bind_email,
+            NotifyType.bind_yaya,
+            NotifyType.bind_fackbook,
+            NotifyType.bind_sina,
+            NotifyType.bind_twitter,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -162,6 +166,10 @@ public class Notifier extends NotifierEx<OnNotify> {
         int bind_wx = 22;
         int bind_phone = 23;
         int bind_email = 24;
+        int bind_yaya = 25;
+        int bind_sina = 26;
+        int bind_fackbook = 27;
+        int bind_twitter = 28;
 
 
         /**

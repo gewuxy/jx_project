@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.util.TextUtil;
 
 /**
  * 个人简介
@@ -21,13 +18,12 @@ import lib.ys.util.TextUtil;
 @Route
 public class IntroActivity extends BaseMyMessageActivity {
 
-    private final int KTextLength = 600;
-
     private EditText mEt;
     private TextView mTv;
 
     @Override
     public void initData() {
+        super.initData();
     }
 
     @NonNull
@@ -46,7 +42,7 @@ public class IntroActivity extends BaseMyMessageActivity {
     public void setViews() {
         super.setViews();
 
-        setLength(KTextLength - getVal().length());
+        mView.setIntroTextLength(KTextLength - getVal().length(), mTv);
 
         mEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,21 +55,11 @@ public class IntroActivity extends BaseMyMessageActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtil.isEmpty(s)) {
-                    setLength(KTextLength);
-                } else {
-                    setLength(KTextLength - s.length());
-                }
+                mView.setIntroChangedTextLength(s, mTv);
             }
         });
     }
 
-    private void setLength(int length) {
-        if (length > KTextLength) {
-            length = 0;
-        }
-        mTv.setText(String.format(getString(R.string.my_message_intro_unit), length));
-    }
 
     @Override
     protected EditText getEt() {
@@ -82,7 +68,6 @@ public class IntroActivity extends BaseMyMessageActivity {
 
     @Override
     protected void doSet() {
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.modify().info(mEt.getText().toString()).build());
+        mPresenter.getModifyReq(KInfoCode, mEt.getText().toString());
     }
 }

@@ -181,6 +181,7 @@
     <string name="account_wx_check_normal">检查“微信”是否正常启动</string>
 
     <string name="account_bind_succeed">绑定成功</string>
+    <string name="account_bind_error">绑定失败</string>
     <string name="account_unbind_succeed">解绑成功</string>
     <string name="account_bind_phone">绑定手机</string>
     <string name="account_is_bind">该手机号已绑定</string>

@@ -5,12 +5,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.network.model.NetworkResp;
-import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseFormActivity;
 import jx.csp.R;
 import jx.csp.network.JsonParser;
 import jx.csp.util.Util;
+import lib.network.model.NetworkResp;
+import lib.ys.ui.other.NavBar;
+import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
  * 修改与绑定的基类
@@ -38,7 +38,6 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Override
     public void setViews() {
         super.setViews();
-
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
         setOnClickListener(R.id.base_set_tv_set);

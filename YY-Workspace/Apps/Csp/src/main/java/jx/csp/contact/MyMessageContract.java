@@ -1,0 +1,88 @@
+package jx.csp.contact;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import jx.csp.presenter.PresenterEx;
+import jx.csp.ui.ViewEx;
+import lib.ys.ui.other.NavBar;
+
+/**
+ * @auther Huoxuyu
+ * @since 2017/10/27
+ */
+
+public interface MyMessageContract {
+    interface V extends ViewEx{
+
+        /**
+         * 设置头部
+         * @param bar
+         */
+        void setNavBar(NavBar bar);
+        void setNavBarTextColor();
+
+        /**
+         * 设置头部文本状态
+         */
+        void setTextButtonStatus();
+
+        /**
+         * 保存数据
+         */
+        void saveModifySuccess();
+
+        /**
+         * 获取输入框数据
+         */
+        void getEtData();
+
+        /**
+         * 基类输入框的监听
+         * @param et
+         * @param ivClear
+         */
+        void onTextChangedListener(@NonNull EditText et, @Nullable View ivClear);
+
+        /**
+         * 昵称输入框的规则
+         * @param s
+         * @param et
+         * @param watcher
+         */
+        void setNickNameTextListener(Editable s, EditText et, TextWatcher watcher);
+
+        /**
+         * 设置昵称的清除
+         * @param et
+         */
+        void setClear(EditText et);
+
+        /**
+         * 设置简介的文本长度
+         * @param length
+         */
+        void setIntroTextLength(int length, TextView tv);
+
+        /**
+         * 改变简介文本的长度
+         * @param s
+         */
+        void setIntroChangedTextLength(Editable s, TextView tv);
+    }
+
+    interface P extends PresenterEx{
+
+        /**
+         * 个人信息的网络请求
+         * @param id
+         * @param text
+         */
+        void getModifyReq(int id, String text);
+    }
+}

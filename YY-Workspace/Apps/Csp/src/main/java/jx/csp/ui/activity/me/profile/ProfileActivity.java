@@ -9,6 +9,17 @@ import android.widget.RelativeLayout;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.R;
+import jx.csp.contact.ProfileContract;
+import jx.csp.dialog.BottomDialog;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
+import jx.csp.model.form.Form;
+import jx.csp.model.form.FormType;
+import jx.csp.model.form.text.IntentForm.IntentType;
+import jx.csp.presenter.ProfilePresenterImpl;
+import jx.csp.util.CacheUtil;
+import jx.csp.util.Util;
 import lib.ys.model.FileSuffix;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -20,15 +31,6 @@ import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import jx.csp.R;
-import jx.csp.dialog.BottomDialog;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
-import jx.csp.model.form.Form;
-import jx.csp.model.form.FormType;
-import jx.csp.model.form.text.IntentForm.IntentType;
-import jx.csp.util.CacheUtil;
-import jx.csp.util.Util;
 
 /**
  * 个人中心
@@ -58,6 +60,9 @@ public class ProfileActivity extends BaseFormActivity {
     private Bitmap mBmp;
     private Bitmap mCircleBmp;
 
+    private ProfileContract.P mPresenter;
+    private ProfileContract.V mView;
+
     @IntDef({
             RelatedId.name,
             RelatedId.intro,
@@ -71,6 +76,9 @@ public class ProfileActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
+
+        mView = new ProfileViewImpl();
+        mPresenter = new ProfilePresenterImpl(mView);
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent)
@@ -117,134 +125,158 @@ public class ProfileActivity extends BaseFormActivity {
         super.setViews();
 
         mLayoutHeader.setOnClickListener(this);
-        mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
-                .renderer(new CircleRenderer())
-                .url(Profile.inst().getString(TProfile.avatar))
-                .load();
+        mView.setAvatar();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_profile_header: {
-                showDialogSelectPhoto();
+                mView.showDialogSelectPhoto();
             }
             break;
         }
-    }
-
-    private void showDialogSelectPhoto() {
-
-        final BottomDialog dialog = new BottomDialog(this, position -> {
-
-            switch (position) {
-                case KPermissionCodePhoto: {
-                    if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
-                        getPhotoFromCamera();
-                    }
-                }
-                break;
-                case KPermissionCodeAlbum: {
-                    if (checkPermission(KPermissionCodeAlbum, Permission.storage)) {
-                        getPhotoFromAlbum();
-                    }
-                }
-                break;
-            }
-        });
-
-        dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(KColorNormal));
-        dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(KColorNormal));
-        dialog.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
-
-        dialog.show();
-    }
-
-    private void getPhotoFromAlbum() {
-        PhotoUtil.fromAlbum(this, KCodeAlbum);
-    }
-
-    private void getPhotoFromCamera() {
-        mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.jpg;
-        PhotoUtil.fromCamera(this, mStrPhotoPath, KCodePhotograph);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-
-        switch (requestCode) {
-            case KCodeAlbum: {
-                // 查看相册获得图片返回
-                String path = PhotoUtil.getPath(this, data.getData());
-                startActForResult(path);
-            }
-            break;
-            case KCodePhotograph: {
-                // 通过照相机拍的图片
-                startActForResult(mStrPhotoPath);
-            }
-            break;
-            case KCodeClipImage: {
-                mBmp = ClipImageActivity.mBmp;
-                mCircleBmp = BmpUtil.toCircle(mBmp);
-                mIvAvatar.setImageBitmap(mCircleBmp);
-
-                notify(NotifyType.profile_change);
-            }
-            break;
-            default: {
-                // 其他的操作都是來自form
-                notify(NotifyType.profile_change);
-            }
-        }
-    }
-
-    //页面跳转
-    private void startActForResult(String path) {
-        if (path != null) {
-            //ClipImageActivityRouter.create(path).route(this, KCodeClipImage);
-        }
+        mView.getActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
-        if (code == KPermissionCodePhoto) {
-            switch (result) {
-                case PermissionResult.granted: {
-                    getPhotoFromCamera();
-                }
-                break;
-                case PermissionResult.denied:
-                case PermissionResult.never_ask: {
-                    showToast(getString(R.string.user_photo_permission));
-                }
-                break;
-            }
-        } else if (code == KPermissionCodeAlbum) {
-            switch (result) {
-                case PermissionResult.granted: {
-                    getPhotoFromAlbum();
-                }
-                break;
-                case PermissionResult.denied:
-                case PermissionResult.never_ask: {
-                    showToast(ResLoader.getString(R.string.user_album_permission));
-                }
-                break;
-            }
-        }
+        mView.getPermissionResult(code, result);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //回收bitmap
-        ClipImageActivity.recycleBmp();
-        BmpUtil.recycle(mCircleBmp);
+        mView.onDestroy();
+    }
+
+    private class ProfileViewImpl implements ProfileContract.V {
+        @Override
+        public void setAvatar() {
+            mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
+                    .renderer(new CircleRenderer())
+                    .url(Profile.inst().getString(TProfile.avatar))
+                    .load();
+        }
+
+        @Override
+        public void showDialogSelectPhoto() {
+            final BottomDialog dialog = new BottomDialog(ProfileActivity.this, position -> {
+
+                switch (position) {
+                    case KPermissionCodePhoto: {
+                        if (checkPermission(KPermissionCodePhoto, Permission.camera)) {
+                            getPhotoFromCamera();
+                        }
+                    }
+                    break;
+                    case KPermissionCodeAlbum: {
+                        if (checkPermission(KPermissionCodeAlbum, Permission.storage)) {
+                            getPhotoFromAlbum();
+                        }
+                    }
+                    break;
+                }
+            });
+
+            dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(KColorNormal));
+            dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(KColorNormal));
+            dialog.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
+            dialog.show();
+        }
+
+        @Override
+        public void getPhotoFromAlbum() {
+            PhotoUtil.fromAlbum(ProfileActivity.this, KCodeAlbum);
+
+        }
+
+        @Override
+        public void getPhotoFromCamera() {
+            mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.jpg;
+            PhotoUtil.fromCamera(ProfileActivity.this, mStrPhotoPath, KCodePhotograph);
+        }
+
+        @Override
+        public void getPermissionResult(int code, @PermissionResult int result) {
+            if (code == KPermissionCodePhoto) {
+                switch (result) {
+                    case PermissionResult.granted: {
+                        getPhotoFromCamera();
+                    }
+                    break;
+                    case PermissionResult.denied:
+                    case PermissionResult.never_ask: {
+                        showToast(getString(R.string.user_photo_permission));
+                    }
+                    break;
+                }
+            } else if (code == KPermissionCodeAlbum) {
+                switch (result) {
+                    case PermissionResult.granted: {
+                        getPhotoFromAlbum();
+                    }
+                    break;
+                    case PermissionResult.denied:
+                    case PermissionResult.never_ask: {
+                        showToast(ResLoader.getString(R.string.user_album_permission));
+                    }
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void getActivityResult(int requestCode, int resultCode, Intent data) {
+            if (resultCode != RESULT_OK) {
+                return;
+            }
+
+            switch (requestCode) {
+                case KCodeAlbum: {
+                    // 查看相册获得图片返回
+                    String path = PhotoUtil.getPath(ProfileActivity.this, data.getData());
+                    startActForResult(path);
+                }
+                break;
+                case KCodePhotograph: {
+                    // 通过照相机拍的图片
+                    startActForResult(mStrPhotoPath);
+                }
+                break;
+                case KCodeClipImage: {
+                    mBmp = ClipImageActivity.mBmp;
+                    mCircleBmp = BmpUtil.toCircle(mBmp);
+                    mIvAvatar.setImageBitmap(mCircleBmp);
+
+                    ProfileActivity.this.notify(NotifyType.profile_change);
+                }
+                break;
+                default: {
+                    // 其他的操作都是來自form
+                    ProfileActivity.this.notify(NotifyType.profile_change);
+                }
+            }
+        }
+
+        @Override
+        public void startActForResult(String path) {
+            if (path != null) {
+                ClipImageActivityRouter.create(path).route(ProfileActivity.this, KCodeClipImage);
+            }
+        }
+
+        @Override
+        public void onDestroy() {
+            //回收bitmap
+            ClipImageActivity.recycleBmp();
+            BmpUtil.recycle(mCircleBmp);
+        }
     }
 }

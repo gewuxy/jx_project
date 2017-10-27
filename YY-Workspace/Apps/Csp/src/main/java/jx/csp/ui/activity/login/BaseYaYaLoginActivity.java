@@ -28,6 +28,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
@@ -39,6 +40,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
     private final int KIdAuthorizeLogin = 0;
     private final int KIdLogin = 1;
+    private final int KIdBind = 2;
 
     private EditText mEtUsername;
     private EditText mEtPwd;
@@ -164,7 +166,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
             break;
             case R.id.yaya_login: {
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KIdAuthorizeLogin,UserAPI.yayaLogin(getUserName(), getPwd()).build());
+                exeNetworkReq(KIdAuthorizeLogin, UserAPI.yayaLogin(getUserName(), getPwd()).build());
             }
             break;
         }
@@ -184,7 +186,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                 SpApp.inst().saveUserName(getUserName());
                 Profile.inst().update(r.getData());
                 SpUser.inst().updateProfileRefreshTime();
-                exeNetworkReq(KIdLogin,UserAPI.login(LoginType.yaya_login)
+                exeNetworkReq(KIdLogin, UserAPI.login(LoginType.yaya_login)
                         .uniqueId(Profile.inst().getString(TProfile.uid))
                         .email(Profile.inst().getString(TProfile.email))
                         .mobile(Profile.inst().getString(TProfile.mobile))
@@ -195,16 +197,34 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
             } else {
                 onNetworkError(id, r.getError());
             }
-        }else {
+        } else if (id == KIdLogin) {
             if (r.isSucceed()) {
-                if (r.isSucceed()) {
-                    Profile.inst().update(r.getData());
-                    SpUser.inst().updateProfileRefreshTime();
-                    startActivity(MainActivity.class);
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+                if (Profile.inst().isLogin()) {
+                    exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
+                            .thirdPartyId(LoginType.yaya_login)
+                            .uniqueId(Profile.inst().getString(TProfile.uid))
+                            .nickName(Profile.inst().getString(TProfile.nickName))
+                            .gender(Profile.inst().getString(TProfile.gender))
+                            .avatar(Profile.inst().getString(TProfile.avatar))
+                            .build());
                 } else {
-                    onNetworkError(id, r.getError());
+                    startActivity(MainActivity.class);
                 }
-                finish();
+            } else {
+                onNetworkError(id, r.getError());
+            }
+            finish();
+        }if (id == KIdBind) {
+            if (r.isSucceed()) {
+                Profile profile = r.getData();
+                if (profile == null) {
+                    showToast(R.string.account_bind_error);
+                } else {
+                    notify(NotifyType.bind_yaya, profile.getString(TProfile.jingxin));
+                    Profile.inst().update(profile);
+                }
             }else {
                 onNetworkError(id, r.getError());
             }

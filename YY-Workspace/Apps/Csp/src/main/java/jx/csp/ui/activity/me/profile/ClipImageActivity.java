@@ -4,19 +4,12 @@ import android.widget.TextView;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
-import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.contact.ClipImageContract;
+import jx.csp.presenter.ClipImagePresenterImpl;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.model.Avatar;
-import lib.yy.model.Avatar.TAvatar;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.BaseClipImageActivity;
 
 /**
@@ -28,53 +21,54 @@ import lib.yy.ui.activity.BaseClipImageActivity;
 @Route
 public class ClipImageActivity extends BaseClipImageActivity {
 
-    private TextView mTv;
+    private ClipImageContract.P mPresenter;
+    private ClipImageContract.V mView;
 
     @Override
     public void initData() {
+        mView = new ClipImageViewImpl();
+        mPresenter = new ClipImagePresenterImpl(mView);
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundResource(R.color.white);
-        Util.addBackIcon(bar, R.string.person_center_avatar, this);
-        mTv = bar.addTextViewRight(R.string.confirm, v -> clip());
+        mView.setNavBar(bar);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
+        mView.setNavBarTextColor();
     }
 
     @Override
     protected void afterClip() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(mBmp)).build());
+        mPresenter.getupLoadAvatar(mBmp);
     }
 
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Avatar.class);
-    }
+    private class ClipImageViewImpl implements ClipImageContract.V {
 
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Avatar> r = (Result<Avatar>) result;
-        if (r.isSucceed()) {
+        private TextView mTv;
+
+        @Override
+        public void setNavBar(NavBar bar) {
+            bar.setBackgroundResource(R.color.white);
+            Util.addBackIcon(bar, R.string.person_center_avatar, ClipImageActivity.this);
+            mTv = bar.addTextViewRight(R.string.confirm, v -> clip());
+        }
+
+        @Override
+        public void setNavBarTextColor() {
+            mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
+        }
+
+        @Override
+        public void setSuccessProcessed() {
             stopRefresh();
-
-            Avatar avatar = r.getData();
-            //头像路径保存到本地
-            Profile.inst().update(Profile.inst().put(TProfile.avatar, avatar.getString(TAvatar.url)));
-            Profile.inst().saveToSp();
-
             setResult(RESULT_OK, getIntent());
             finish();
-            showToast(R.string.my_message_save_success);
-        } else {
-            onNetworkError(id, r.getError());
         }
     }
 }

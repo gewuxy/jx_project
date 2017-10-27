@@ -28,7 +28,11 @@ public class AccountManagePresenterImpl extends PresenterExImpl<AccountManageCon
 
     @Override
     public void unBindMobileAndEmail(int id, int type) {
-        exeNetworkReq(id, UserAPI.unBind(type).build());
+        if (id == RelatedId.bind_jingxin) {
+            exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(type).build());
+        }else {
+            exeNetworkReq(id, UserAPI.unBind(type).build());
+        }
     }
 
     // TODO: 2017/10/26 未完成, 等王兰完成

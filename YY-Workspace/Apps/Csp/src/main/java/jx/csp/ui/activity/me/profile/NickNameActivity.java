@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
-import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.view.ViewUtil;
 
 /**
@@ -31,6 +29,7 @@ public class NickNameActivity extends BaseMyMessageActivity {
 
     @Override
     public void initData() {
+        super.initData();
         mLimit = getIntent().getIntExtra(Extra.KLimit, 18);
     }
 
@@ -65,22 +64,15 @@ public class NickNameActivity extends BaseMyMessageActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String ret = s.toString();
-                ret = ret.replaceAll(" ", "");
-
-                mEt.removeTextChangedListener(mWatcher);
-                mEt.setText(ret);
-                mEt.setSelection(ret.length());
-                mEt.addTextChangedListener(mWatcher);
+                mView.setNickNameTextListener(s, mEt, mWatcher);
             }
-
         };
         mEt.addTextChangedListener(mWatcher);
     }
 
     @Override
     public void onClick(View v) {
-        mEt.setText("");
+        mView.setClear(mEt);
     }
 
     @Override
@@ -90,7 +82,6 @@ public class NickNameActivity extends BaseMyMessageActivity {
 
     @Override
     protected void doSet() {
-        refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.modify().nickName(mEt.getText().toString()).build());
+        mPresenter.getModifyReq(KNickNameCode, mEt.getText().toString());
     }
 }

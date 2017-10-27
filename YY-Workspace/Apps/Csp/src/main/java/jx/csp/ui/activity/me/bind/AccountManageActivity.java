@@ -16,6 +16,7 @@ import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.presenter.AccountManagePresenterImpl;
+import jx.csp.ui.activity.login.BaseYaYaLoginActivity;
 import jx.csp.util.Util;
 import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -168,7 +169,7 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_jingxin: {
-
+                mView.judgeBindStatus(RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya), TProfile.jingxin);
             }
             break;
         }
@@ -177,7 +178,9 @@ public class AccountManageActivity extends BaseFormActivity {
     // TODO: 2017/10/26 未完成, 差账号授权
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.bind_wx) {
+        if (type == NotifyType.bind_yaya) {
+            mView.bindSuccess((String) data, RelatedId.bind_jingxin);
+        } else if (type == NotifyType.bind_wx) {
             mView.bindSuccess((String) data, RelatedId.bind_wx);
         } else if (type == NotifyType.bind_phone) {
             mView.bindSuccess((String) data, RelatedId.bind_phone);
@@ -198,6 +201,10 @@ public class AccountManageActivity extends BaseFormActivity {
                     break;
                     case RelatedId.bind_email: {
                         startActivity(BindEmailActivity.class);
+                    }
+                    break;
+                    case RelatedId.bind_jingxin: {
+                        startActivity(BaseYaYaLoginActivity.class);
                     }
                     break;
                 }

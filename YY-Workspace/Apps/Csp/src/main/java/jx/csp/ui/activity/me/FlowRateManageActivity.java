@@ -154,25 +154,22 @@ public class FlowRateManageActivity extends BaseActivity {
                     return;
                 }
                 // 1) 请求服务器获取charge
+                refresh(RefreshWay.dialog);
                 switch (mPreChannelView.getId()) {
                     case R.id.flow_rate_iv_alipay: {
-                        refresh(RefreshWay.dialog);
                         mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
                     }
                     break;
                     case R.id.flow_rate_iv_wechat: {
                         // FIXME: 2017/10/16 微信支付未注册
-                        refresh(RefreshWay.dialog);
                         mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {
-                        refresh(RefreshWay.dialog);
                         mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
                     }
                     break;
                     case R.id.flow_rate_iv_paypal: {
-                        refresh(RefreshWay.dialog);
                         mPresenter.getNetworkReq(KPayPalPayCode, mRechargeSum, null);
                     }
                     break;
