@@ -2,11 +2,11 @@ package yy.doctor.ui.frag.meeting;
 
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.View;
-import android.view.ViewParent;
+import android.view.MotionEvent;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +53,10 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     private long mStartTime; // 开始时间
     private HashMap<Integer, Submit> mSubmits; // 学习时间
     private List<Course> mCourses;
+    private List<Course> mRealCourses;
 
     private OnFragClickListener mListener;
+    private boolean mDispatch;
 
     public void addOnPageChangeListener(OnPageChangeListener listener) {
         setOnPageChangeListener(listener); // 外部添加
@@ -74,7 +76,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     @Override
     public void initData() {
         mLastPosition = 0;
+        mDispatch = false;
         mSubmits = new HashMap<>();
+        mRealCourses = new ArrayList<>();
     }
 
     @Override
@@ -200,7 +204,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             return;
         }
 
-        BaseCourseFrag f = getPPTFrag(mCourses.get(position));
+        Course course = mCourses.get(position);
+        BaseCourseFrag f = getPPTFrag(course);
+        mRealCourses.add(course);
         if (f != null) {
             add(f);
             f.setListener(this);
@@ -215,16 +221,13 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         // 逐个添加Frag
         for (Course course : mCourses) {
             BaseCourseFrag f = getPPTFrag(course);
+            mRealCourses.add(course);
             if (f != null) {
                 f.setListener(this);
                 add(f);
             }
         }
         invalidate();
-    }
-
-    public void setClickable(boolean clickable) {
-        setScrollable(clickable); // 取消滑动
     }
 
     @Override
@@ -320,5 +323,18 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
     public void stopPlay() {
         NetPlayer.inst().stop();
+    }
+
+    public void setDispatch(boolean dispatch) {
+        mDispatch = dispatch;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (mDispatch) {
+            return true;
+        } else {
+            return super.onInterceptTouchEvent(ev);
+        }
     }
 }

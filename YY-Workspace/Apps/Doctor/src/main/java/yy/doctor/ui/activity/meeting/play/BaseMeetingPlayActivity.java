@@ -14,9 +14,9 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
-import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -37,6 +37,12 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     private TextView mTvAll;
     private TextView mTvCur;
 
+    @CallSuper
+    @Override
+    public void initData() {
+        notify(NotifyType.study_start);
+    }
+
     @NonNull
     @Override
     public int getContentViewId() {
@@ -45,12 +51,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     @Override
     public final void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, this);
-        bar.addViewRight(R.drawable.meet_play_ic_to_portrait, v -> {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            goneView(getNavBar());
-            portrait();
-        });
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> nativePortrait());
 
         bar.setBackgroundColor(Color.BLACK);
         bar.setBackgroundAlpha(127);
@@ -127,6 +128,29 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
             break;
         }
 
+    }
+
+    private void nativePortrait() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        goneView(getNavBar());
+        portrait();
+    }
+
+    @Override
+    public final void onBackPressed() {
+        if (orientationLandscape()) {
+            nativePortrait();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        notify(NotifyType.study_end);
+
+        // 保持调用顺序
+        super.onDestroy();
     }
 
     protected void onClick(int id) {

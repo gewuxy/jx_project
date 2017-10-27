@@ -3,14 +3,13 @@ package yy.doctor.ui.frag.meeting;
 import android.support.annotation.NonNull;
 import android.view.TextureView;
 
-import com.zego.zegoliveroom.ZegoLiveRoom;
-import com.zego.zegoliveroom.callback.IZegoLivePlayerCallback;
-import com.zego.zegoliveroom.constants.ZegoConstants;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
-
 import inject.annotation.router.Route;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseFrag;
+import lib.zego.IZegoCallback;
+import lib.zego.IZegoCallback.UserType;
 import lib.zego.ZegoApiManager;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
@@ -27,10 +26,11 @@ import yy.doctor.model.Profile.TProfile;
 public class PPTLiveFrag extends BaseFrag {
 
     private TextureView mViewLive;
-    private ZegoLiveRoom mLive;
+    private ZegoCallbackImpl mZegoCallbackImpl;
 
     @Override
     public void initData() {
+        mZegoCallbackImpl = new ZegoCallbackImpl();
     }
 
     @NonNull
@@ -56,62 +56,61 @@ public class PPTLiveFrag extends BaseFrag {
 
     public void loginRoom(String roomId) {
         ZegoApiManager.getInstance().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
-        mLive = ZegoApiManager.getInstance().getZegoLiveRoom();
         if (BuildConfig.TEST) {
-            mLive.setTestEnv(true);
+            ZegoApiManager.getInstance().setTestEnv(true);
             roomId = "789";
         }
-        mLive.loginRoom(roomId, ZegoConstants.RoomRole.Audience, (i, zegoStreamInfos) -> {
-            if (i == 0 && zegoStreamInfos.length > 0) {
-                mLive.startPlayingStream(zegoStreamInfos[0].streamID, mViewLive);
-            } else {
-                // 登录失败(还是直播未开始)
-            }
-        });
-        mLive.setZegoLivePlayerCallback(new IZegoLivePlayerCallback() {
-
-            @Override
-            public void onPlayStateUpdate(int i, String s) {
-                // 拉流状态更新
-                mLive.startPlayingStream(s, mViewLive);
-            }
-
-            @Override
-            public void onPlayQualityUpdate(String s, ZegoStreamQuality zegoStreamQuality) {
-
-            }
-
-            @Override
-            public void onInviteJoinLiveRequest(int i, String s, String s1, String s2) {
-
-            }
-
-            @Override
-            public void onRecvEndJoinLiveCommand(String s, String s1, String s2) {
-
-            }
-
-            @Override
-            public void onVideoSizeChangedTo(String s, int i, int i1) {
-
-            }
-
-        });
+        ZegoApiManager.getInstance().loginRoom(roomId, UserType.audience, mZegoCallbackImpl);
+        ZegoApiManager.getInstance().setZegoRoomCallback(mZegoCallbackImpl);
     }
 
     public void startAudio() {
-        mLive.enableSpeaker(true);
+        ZegoApiManager.getInstance().enableSpeaker(true);
     }
 
     public void stopAudio() {
-        mLive.enableSpeaker(false);
+        ZegoApiManager.getInstance().enableSpeaker(false);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mLive.logoutRoom();
-        ZegoApiManager.getInstance().releaseSDK();
+        ZegoApiManager.getInstance().logoutRoom();
+    }
+
+    private class ZegoCallbackImpl extends IZegoCallback {
+
+        @Override
+        public void onLoginCompletion(int i, String stream) {
+            if (i == 0 && TextUtil.isNotEmpty(stream)) {
+                YSLog.d(TAG, "loginRoom:success");
+                ZegoApiManager.getInstance().startPlayingStream(stream, mViewLive);
+            } else {
+                // 登录失败(还是直播未开始)
+                YSLog.d(TAG, "loginRoom:error ");
+            }
+        }
+
+        @Override
+        public void onUserUpdate(int number) {
+
+        }
+
+        @Override
+        public void onStreamUpdated(int i, String stream) {
+            if (i == IZegoCallback.Constants.KStreamAdd) {
+                YSLog.d(TAG, "onStreamUpdated:play");
+                if (TextUtil.isNotEmpty(stream)) {
+                    ZegoApiManager.getInstance().startPlayingStream(stream, mViewLive);
+                }
+            } else if (i == IZegoCallback.Constants.KStreamDel) {
+                YSLog.d(TAG, "onStreamUpdated:stop");
+                if (TextUtil.isNotEmpty(stream)) {
+                    ZegoApiManager.getInstance().stopPlayingStream(stream);
+                }
+            }
+
+        }
     }
 }

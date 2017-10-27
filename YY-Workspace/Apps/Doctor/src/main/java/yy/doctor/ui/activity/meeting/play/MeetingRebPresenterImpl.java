@@ -86,14 +86,6 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
     }
 
     @Override
-    public void landscapeScreen() {
-        if (mCourses == null) {
-            return;
-        }
-        mView.landscapeInit(mCourses);
-    }
-
-    @Override
     public void playMedia(int position) {
         Course c = mCourses.get(mPosition);
         c.put(TCourse.time, "音频"); // 清空时间

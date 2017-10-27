@@ -92,8 +92,10 @@ public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocati
 
     @Override
     protected void attend() {
-        if (mPermission.checkPermission(0, Permission.location, Permission.phone, Permission.storage)) {
+        if (mPermission.checkPermission(0, Permission.location)) {
             location();
+        } else {
+
         }
     }
 

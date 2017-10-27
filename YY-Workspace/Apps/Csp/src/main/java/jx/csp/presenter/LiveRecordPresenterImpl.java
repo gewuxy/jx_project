@@ -4,8 +4,6 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioEncoder;
 import android.media.MediaRecorder.OutputFormat;
 
-import com.zego.zegoliveroom.constants.ZegoConstants.RoomRole;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +18,7 @@ import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import lib.zego.IZegoCallback;
+import lib.zego.IZegoCallback.UserType;
 import lib.zego.ZegoApiManager;
 
 /**
@@ -46,11 +45,10 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
         mMediaRecorder = new MediaRecorder();
         mZegoCallbackImpl = new ZegoCallbackImpl();
         ZegoApiManager.getInstance().init(App.getContext(),"666", "人数获取测试");
-        ZegoApiManager.getInstance().getZegoLiveRoom();
         //测试
         ZegoApiManager.getInstance().setTestEnv(BuildConfig.TEST);
         ZegoApiManager.getInstance().setRoomConfig(true, true);
-        ZegoApiManager.getInstance().loginRoom("789", RoomRole.Audience, mZegoCallbackImpl);
+        ZegoApiManager.getInstance().loginRoom("789", UserType.audience, mZegoCallbackImpl);
         ZegoApiManager.getInstance().setZegoIMCallback(mZegoCallbackImpl);
     }
 

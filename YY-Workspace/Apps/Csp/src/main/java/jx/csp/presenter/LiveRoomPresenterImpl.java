@@ -2,10 +2,6 @@ package jx.csp.presenter;
 
 import android.view.Surface;
 
-import com.zego.zegoliveroom.constants.ZegoAvConfig;
-import com.zego.zegoliveroom.constants.ZegoConstants;
-import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
-
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
@@ -17,8 +13,8 @@ import lib.ys.YSLog;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import lib.zego.IZegoCallback;
+import lib.zego.IZegoCallback.UserType;
 import lib.zego.ZegoApiManager;
-
 
 /**
  * @author CaiXiang
@@ -50,12 +46,7 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
 
     @Override
     public void initLiveRoom(String roomId) {
-        ZegoAvConfig avConfig = ZegoApiManager.getInstance().getZegoAvConfig();
-        int w = avConfig.getVideoCaptureResolutionWidth();
-        int h = avConfig.getVideoCaptureResolutionHeight();
-        avConfig.setVideoEncodeResolution(h, w);
-        avConfig.setVideoCaptureResolution(h, w);
-        ZegoApiManager.getInstance().setZegoConfig(avConfig);
+        ZegoApiManager.getInstance().toggleAVConfig();
 
         //测试
         ZegoApiManager.getInstance().setTestEnv(BuildConfig.TEST);
@@ -65,12 +56,12 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
         ZegoApiManager.getInstance().enableCamera(true);
         //是否使用前置摄像头
         ZegoApiManager.getInstance().setFrontCam(mUseFrontCamera);
-        ZegoApiManager.getInstance().setPreviewViewMode(ZegoVideoViewMode.ScaleAspectFill);
+        ZegoApiManager.getInstance().setPreviewViewMode(IZegoCallback.Constants.KAspectFill);
         ZegoApiManager.getInstance().setAppOrientation(Surface.ROTATION_90);
         ZegoApiManager.getInstance().setRoomConfig(true, true);
         ZegoApiManager.getInstance().setPreviewView(mView.getTextureView());
         ZegoApiManager.getInstance().startPreview();
-        ZegoApiManager.getInstance().loginRoom(roomId, ZegoConstants.RoomRole.Anchor, mZegoCallbackImpl);
+        ZegoApiManager.getInstance().loginRoom(roomId, UserType.anchor, mZegoCallbackImpl);
     }
 
     @Override
@@ -91,7 +82,7 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
 
     @Override
     public void startLive(String streamId, String title) {
-        ZegoApiManager.getInstance().startPublishing(streamId, title, ZegoConstants.PublishFlag.SingleAnchor);
+        ZegoApiManager.getInstance().startPublishing(streamId, title, IZegoCallback.Constants.KSingleAnchor);
         mView.startLiveState();
     }
 

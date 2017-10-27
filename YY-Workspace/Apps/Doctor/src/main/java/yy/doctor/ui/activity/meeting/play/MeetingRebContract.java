@@ -20,11 +20,6 @@ public interface MeetingRebContract {
         void portraitInit(PPT ppt, List<Course> courses);
 
         /**
-         * 初始化横屏
-         */
-        void landscapeInit(List<Course> courses);
-
-        /**
          * 播放状态
          */
         void onPlayState(boolean state);
@@ -55,11 +50,6 @@ public interface MeetingRebContract {
          * 获取网络数据
          */
         void getDataFromNet(String meetId, String moduleId);
-
-        /**
-         * 横屏(获取数据)
-         */
-        void landscapeScreen();
 
         /**
          * 播放

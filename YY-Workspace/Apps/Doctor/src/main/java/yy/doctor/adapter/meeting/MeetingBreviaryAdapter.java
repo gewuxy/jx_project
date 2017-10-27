@@ -12,12 +12,15 @@ import yy.doctor.model.meet.ppt.Course.CourseType;
 import yy.doctor.model.meet.ppt.Course.TCourse;
 
 /**
- * 录播竖屏中部Recycler的Adapter
+ * 录播ppt缩略图的Apadter
  *
  * @auther : GuoXuan
  * @since : 2017/9/29
  */
-public class MeetingRebPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
+public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> {
+
+    private final int KW = 129;
+    private final int KH = 96;
 
     @Override
     protected void refreshView(int position, CourseVH holder) {
@@ -39,7 +42,7 @@ public class MeetingRebPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
                 holder.getIvPPT()
                         .res(R.drawable.ic_default_breviary_image)
                         .url(getItem(position).getString(TCourse.imgUrl))
-                        .resize(DpFitter.dp(getW()), DpFitter.dp(getH()))
+                        .resize(DpFitter.dp(KW), DpFitter.dp(KH))
                         .load();
             }
             break;
@@ -60,7 +63,7 @@ public class MeetingRebPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
 
     @Override
     protected int getConvertViewResId() {
-        return R.layout.layout_ppt_breviary_item_p;
+        return R.layout.layout_ppt_breviary_item;
     }
 
     private void nativeAnimation(CourseVH holder, boolean state) {
@@ -82,7 +85,7 @@ public class MeetingRebPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
             case CourseType.audio:
             case CourseType.pic_audio: {
                 showView(holder.getLayoutMedia());
-                holder.getTvMedia().setText(getItem(position).getString(TCourse.time,"音频"));
+                holder.getTvMedia().setText(getItem(position).getString(TCourse.time, "音频"));
                 holder.getIvMedia().setImageResource(R.drawable.animation_audio);
             }
             break;
@@ -97,14 +100,6 @@ public class MeetingRebPAdapter extends RecyclerAdapterEx<Course, CourseVH> {
             }
             break;
         }
-    }
-
-    protected int getW() {
-        return 129;
-    }
-
-    protected int getH() {
-        return 96;
     }
 
 }

@@ -1,6 +1,5 @@
 package yy.doctor.ui.activity.meeting.play;
 
-import android.content.pm.ActivityInfo;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -69,6 +68,8 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
     @Override
     public void initData() {
+        super.initData();
+
         mView = new MeetingLiveViewImpl();
         mPresenter = new MeetingLivePresenterImpl(mView);
 
@@ -98,9 +99,10 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mViewPpt.setOnTouchListener(mLandscapeSwitch);
         mLandscapeSwitch.setListener(v -> {
             if (v.getId() == R.id.meet_live_layout_ppt) {
-                mFragPpt.setClickable(false);
+                mFragPpt.setDispatch(true);
             } else {
-                mFragPpt.setClickable(true);
+                mFragPpt.setDispatch(false);
+                playPpt();
             }
         });
 
@@ -113,17 +115,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         refresh(RefreshWay.embed);
         mPresenter.getDataFromNet(mMeetId, mModuleId);
 
-        mFragPpt.setFragClickListener(() -> {
-            if (mPlayType == PlayType.ppt || !mPlay) {
-                // 播放ppt状态
-                return;
-            }
-            mPlayType = PlayType.ppt;
-            // 停掉直播
-            mFragLive.stopAudio();
-            // 播放ppt
-            mFragPpt.startPlay();
-        });
+        mFragPpt.setFragClickListener(() -> playPpt());
 
         mFragPpt.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -149,6 +141,24 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         });
     }
 
+    /**
+     * 播放ppt
+     */
+    private void playPpt() {
+        if (mPlayType == PlayType.ppt || !mPlay) {
+            // 播放ppt状态
+            return;
+        }
+        mPlayType = PlayType.ppt;
+        // 停掉直播
+        mFragLive.stopAudio();
+        // 播放ppt
+        mFragPpt.startPlay();
+    }
+
+    /**
+     * 播放直播
+     */
     @Override
     protected void onClick(int id) {
         switch (id) {
@@ -192,8 +202,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mViewPpt.setY(mLocationPpt[1]);
         mViewLive.setX(mLocationLive[0]);
         mViewLive.setY(mLocationLive[1]);
-
-        mFragPpt.setClickable(true);
+        mFragPpt.setDispatch(false);
 
         mLandscapeSwitch.setDispatch(false);
         showView(R.id.meet_live_layout_p);
@@ -212,10 +221,10 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         });
         if (mPlayType == PlayType.live) {
             mLandscapeSwitch.setViewB(mViewLive);
-            mFragPpt.setClickable(true);
+            mFragPpt.setDispatch(true);
         } else {
             mLandscapeSwitch.setViewB(mViewPpt);
-            mFragPpt.setClickable(false);
+            mFragPpt.setDispatch(false);
         }
         mLandscapeSwitch.setDispatch(true);
         goneView(R.id.meet_live_layout_p);
@@ -242,14 +251,6 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     @Override
     protected int getControlResId() {
         return R.drawable.meet_play_live_select_control;
-    }
-
-    @Override
-    public void onBackPressed() {
-        // fixme: 测试方便(需求不需要)
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        goneView(getNavBar());
-        portrait();
     }
 
     private class MeetingLiveViewImpl implements MeetingLiveContract.View {

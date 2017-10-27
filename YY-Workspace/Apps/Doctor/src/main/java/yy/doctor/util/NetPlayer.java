@@ -39,9 +39,11 @@ public class NetPlayer implements
         PLMediaPlayer.OnPreparedListener,
         PLMediaPlayer.OnCompletionListener {
 
-    private static final String TAG = NetPlayer.class.getSimpleName().toString();
+    private final String TAG = getClass().getSimpleName().toString();
 
-    private static final int KTime = 3; // 默认数三秒
+    private final String KTemp = ".temp";
+    private final int KTime = 3; // 默认数三秒
+
     public static final int KMaxProgress = 100;
 
     private static NetPlayer mPlayer;
@@ -134,7 +136,7 @@ public class NetPlayer implements
     }
 
     public boolean isPlaying() {
-        if (mType==PlayType.audio) {
+        if (mType == PlayType.audio) {
             return mAudioPlay.isPlaying();
         } else {
             return mVideoPlay.isPlaying();
@@ -273,7 +275,7 @@ public class NetPlayer implements
             YSLog.d(TAG, "prepare:Local=" + pathLocal);
         } else {
             // 不存在 下载(读网络)
-            exeNetworkReq(mPlayCode, CommonAPI.download(filePath, fileName, url).build());
+            exeNetworkReq(mPlayCode, CommonAPI.download(filePath, fileName.concat(KTemp), url).build());
             YSLog.d(TAG, "prepare:Net=" + pathLocal);
         }
 
@@ -298,7 +300,6 @@ public class NetPlayer implements
                 if (mListener != null) {
                     mListener.onPreparedError();
                 }
-
                 YSLog.e(TAG, "preparePlay:", e);
             }
         } else {
@@ -476,9 +477,12 @@ public class NetPlayer implements
     @Override
     public void onNetworkSuccess(int id, Object result) {
         YSLog.d(TAG, "onNetworkSuccess:" + id);
+        String path = mPaths.getByKey(id);
+        File fileTemp = new File(path.concat(KTemp));
+        fileTemp.renameTo(new File(path));
         if (id == mPlayCode) {
             // 准备当前选中
-            preparePlay(mPaths.getByKey(id));
+            preparePlay(path);
             if (mListener != null) {
                 mListener.onDownProgress(KMaxProgress);
             }
@@ -505,6 +509,9 @@ public class NetPlayer implements
     public void onNetworkProgress(int id, float progress, long totalSize) {
         if (id == mPlayCode && mListener != null) {
             mListener.onDownProgress((int) progress);
+        }
+        if (progress == 50) {
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 }

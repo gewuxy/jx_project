@@ -3,8 +3,6 @@ package yy.doctor.ui.activity.meeting.play;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout.LayoutParams;
@@ -21,10 +19,8 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
-import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.MeetingRebLAdapter;
-import yy.doctor.adapter.meeting.MeetingRebPAdapter;
+import yy.doctor.adapter.meeting.MeetingBreviaryAdapter;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
@@ -49,7 +45,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     private PPTRebFrag mFragReb;
 
     private DiscreteScrollView mRvP;
-    private RecyclerView mRvL;
 
     private MeetingRebContract.Presenter mPresenter;
     private MeetingRebContract.View mView;
@@ -61,7 +56,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
     @Override
     public void initData() {
-        notify(NotifyType.study_start);
+        super.initData();
 
         mHandler = new Handler() {
             @Override
@@ -87,7 +82,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         mLayoutFrag = findView(R.id.meet_ppt_layout);
 
         mRvP = findView(R.id.meet_ppt_rv_p);
-        mRvL = findView(R.id.meet_ppt_rv_l);
     }
 
     @Override
@@ -120,12 +114,8 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
                 message.obj = position;
                 message.what = 0;
                 mHandler.sendMessageDelayed(message, 500);
-                if (orientationLandscape()) {
-                    mRvL.smoothScrollToPosition(position);
-                } else {
-                    setTextCur(position + 1);
-                    mRvP.smoothScrollToPosition(position);
-                }
+                setTextCur(position + 1);
+                mRvP.smoothScrollToPosition(position);
             }
 
             @Override
@@ -146,7 +136,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         }
         mLayoutFrag.setLayoutParams(mParamP);
         mView.finishCount();
-        mRvP.smoothScrollToPosition(mFragReb.getCurrentItem());
     }
 
     @Override
@@ -159,8 +148,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         }
         mLayoutFrag.setLayoutParams(mParamL);
         showLandscapeView();
-        mRvL.smoothScrollToPosition(mFragReb.getCurrentItem());
-        mPresenter.landscapeScreen();
     }
 
     @Override
@@ -223,9 +210,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
     @Override
     protected void onDestroy() {
-        notify(NotifyType.study_end);
-
-        // 保持调用顺序
         super.onDestroy();
 
         mPresenter.onDestroy();
@@ -236,7 +220,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         showView(getNavBar());
         showView(R.id.meet_play_iv_left_l);
         showView(R.id.meet_play_iv_right_l);
-        showView(R.id.meet_ppt_rv_l);
     }
 
     private class MeetingRebViewImpl implements MeetingRebContract.View {
@@ -258,7 +241,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
             mFragReb.addCourses();
             setTextComment(ppt.getInt(TPPT.count));
 
-            MeetingRebPAdapter adapter = new MeetingRebPAdapter();
+            MeetingBreviaryAdapter adapter = new MeetingBreviaryAdapter();
             adapter.setData(courses);
             adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
@@ -285,29 +268,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         }
 
         @Override
-        public void landscapeInit(List<Course> courses) {
-            // 只有网络成功才会有横屏情况
-            if (mRvL.getAdapter() != null) {
-                return;
-            }
-
-            LinearLayoutManager layout = new LinearLayoutManager(MeetingRebActivity.this);
-            layout.setOrientation(LinearLayoutManager.HORIZONTAL);
-            mRvL.setLayoutManager(layout);
-            MeetingRebLAdapter adapter = new MeetingRebLAdapter();
-            adapter.setData(courses);
-            adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
-
-                @Override
-                public void onItemClick(View v, int position) {
-                    mFragReb.setCurrentItem(position);
-                }
-
-            });
-            mRvL.setAdapter(adapter);
-        }
-
-        @Override
         public void onPlayState(boolean state) {
             setPlayState(state);
         }
@@ -325,13 +285,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         @Override
         public void invalidate(int position) {
             RecyclerAdapterEx p = (RecyclerAdapterEx) mRvP.getAdapter();
-            if (p != null) {
-                p.invalidate(position);
-            }
-            RecyclerAdapterEx l = (RecyclerAdapterEx) mRvL.getAdapter();
-            if (l != null) {
-                l.invalidate(position);
-            }
+            p.invalidate(position);
         }
 
         @Override
@@ -344,7 +298,6 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
             goneView(getNavBar());
             goneView(R.id.meet_play_iv_left_l);
             goneView(R.id.meet_play_iv_right_l);
-            goneView(R.id.meet_ppt_rv_l);
         }
 
     }

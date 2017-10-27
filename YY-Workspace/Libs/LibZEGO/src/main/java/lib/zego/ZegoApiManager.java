@@ -23,6 +23,7 @@ import java.util.HashMap;
  * @since 2017/9/20
  */
 public class ZegoApiManager {
+
     private final String TAG = getClass().getSimpleName();
 
     // zego公司测试
@@ -54,7 +55,7 @@ public class ZegoApiManager {
         return sInstance;
     }
 
-    public void init(Context context,String userId, String userName) {
+    public void init(Context context, String userId, String userName) {
         // 初始化用户信息 必须设置
         ZegoLiveRoom.setUser(userId, userName);
         // 初始化sdk 不传context会出现错误
@@ -66,17 +67,12 @@ public class ZegoApiManager {
         }
     }
 
-    public ZegoLiveRoom getZegoLiveRoom() {
-        return mZegoLiveRoom;
-    }
-
-    public void setZegoConfig(ZegoAvConfig config) {
-        mZegoAvConfig = config;
-        mZegoLiveRoom.setAVConfig(config);
-    }
-
-    public ZegoAvConfig getZegoAvConfig() {
-        return mZegoAvConfig;
+    public void toggleAVConfig() {
+        int w = mZegoAvConfig.getVideoCaptureResolutionWidth();
+        int h = mZegoAvConfig.getVideoCaptureResolutionHeight();
+        mZegoAvConfig.setVideoEncodeResolution(h, w);
+        mZegoAvConfig.setVideoCaptureResolution(h, w);
+        mZegoLiveRoom.setAVConfig(mZegoAvConfig);
     }
 
     public void setTestEnv(boolean b) {
@@ -139,11 +135,16 @@ public class ZegoApiManager {
         mZegoLiveRoom.startPlayingStream(streamID, view);
     }
 
+    public void stopPlayingStream(String streamID) {
+        mZegoLiveRoom.stopPlayingStream(streamID);
+    }
+
     public void logoutRoom() {
         mZegoLiveRoom.setZegoLivePublisherCallback(null);
         mZegoLiveRoom.setZegoRoomCallback(null);
         mZegoLiveRoom.setZegoIMCallback(null);
         mZegoLiveRoom.logoutRoom();
+        //fixme:
         ZegoLiveRoom.setTestEnv(false);
         mZegoLiveRoom.unInitSDK();
     }
@@ -151,13 +152,7 @@ public class ZegoApiManager {
     public void loginRoom(String roomID, int role, IZegoCallback callback) {
         mZegoLiveRoom.loginRoom(roomID, role, (i, zegoStreamInfos) -> {
             if (callback != null) {
-                String stream;
-                if (zegoStreamInfos != null && zegoStreamInfos.length > 0) {
-                    stream = zegoStreamInfos[0].streamID;
-                } else {
-                    stream = "";
-                }
-                callback.onLoginCompletion(i, stream);
+                callback.onLoginCompletion(i, getStream(zegoStreamInfos));
             }
         });
     }
@@ -169,7 +164,9 @@ public class ZegoApiManager {
             public void onPublishStateUpdate(int i, String s, HashMap<String, Object> hashMap) {
                 // i   0:成功, 其它:失败
                 Log.d(TAG, "推流状态更新" + i);
-                callback.onPublishStateUpdate(i);
+                if (callback != null) {
+                    callback.onPublishStateUpdate(i);
+                }
             }
 
             @Override
@@ -205,7 +202,9 @@ public class ZegoApiManager {
             @Override
             public void onKickOut(int i, String s) {
                 Log.d(TAG, "因为登陆抢占原因等被挤出房间");
-                callback.onKickOut();
+                if (callback != null) {
+                    callback.onKickOut();
+                }
             }
 
             @Override
@@ -216,6 +215,9 @@ public class ZegoApiManager {
             @Override
             public void onStreamUpdated(int i, ZegoStreamInfo[] zegoStreamInfos, String s) {
                 Log.d(TAG, "房间流列表更新");
+                if (callback != null) {
+                    callback.onStreamUpdated(i, getStream(zegoStreamInfos));
+                }
             }
 
             @Override
@@ -236,9 +238,9 @@ public class ZegoApiManager {
             @Override
             public void onUserUpdate(ZegoUserState[] zegoUserStates, int i) {
                 //直播间的观众人数获取
-                Log.d(TAG, "user state = " + zegoUserStates.length + "   i = " + i);
-                if (zegoUserStates != null) {
+                if (zegoUserStates != null && callback != null) {
                     callback.onUserUpdate(zegoUserStates.length);
+                    Log.d(TAG, "user state = " + zegoUserStates.length + "   i = " + i);
                 }
             }
 
@@ -252,6 +254,14 @@ public class ZegoApiManager {
 
             }
         });
+    }
+
+    private String getStream(ZegoStreamInfo[] zegoStreamInfos) {
+        if (zegoStreamInfos != null && zegoStreamInfos.length > 0) {
+            return zegoStreamInfos[0].streamID;
+        } else {
+            return "";
+        }
     }
 
 }
