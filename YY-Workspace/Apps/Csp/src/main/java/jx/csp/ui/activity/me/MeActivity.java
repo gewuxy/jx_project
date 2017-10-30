@@ -11,6 +11,7 @@ import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import jx.csp.R;
@@ -32,7 +33,7 @@ public class MeActivity extends BaseFormActivity {
 
     private NetworkImageView mIvAvatar;
     private TextView mTvName;
-    private TextView mTvEmail;
+    private TextView mTvUserName;
 
     @IntDef({
             RelatedId.history,
@@ -106,7 +107,7 @@ public class MeActivity extends BaseFormActivity {
 
         mIvAvatar = findView(R.id.me_header_iv);
         mTvName = findView(R.id.me_header_tv_name);
-        mTvEmail = findView(R.id.me_header_tv_email);
+        mTvUserName = findView(R.id.me_header_tv_email);
     }
 
     @Override
@@ -114,12 +115,7 @@ public class MeActivity extends BaseFormActivity {
         super.setViews();
         setOnClickListener(R.id.layout_me_header);
 
-        mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
-                .renderer(new CircleRenderer())
-                .url(Profile.inst().getString(TProfile.avatar))
-                .load();
-        mTvName.setText(Profile.inst().getString(TProfile.nickName));
-        mTvEmail.setText(Profile.inst().getString(TProfile.email));
+        changeUserName();
     }
 
     @Override
@@ -164,13 +160,29 @@ public class MeActivity extends BaseFormActivity {
     public void onNotify(int type, Object data) {
         //修改个人资料
         if (type == NotifyType.profile_change) {
-            mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
-                    .renderer(new CircleRenderer())
-                    .url(Profile.inst().getString(TProfile.avatar))
-                    .load();
+            changeUserName();
+        }
+    }
 
-            mTvName.setText(Profile.inst().getString(TProfile.nickName));
-            mTvEmail.setText(Profile.inst().getString(TProfile.email));
+    private void changeUserName() {
+        mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
+                .renderer(new CircleRenderer())
+                .url(Profile.inst().getString(TProfile.avatar))
+                .load();
+        mTvName.setText(Profile.inst().getString(TProfile.nickName));
+
+        if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.mobile))) {
+            mTvUserName.setText(Profile.inst().getString(TProfile.mobile));
+        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.wx))) {
+            mTvUserName.setText(Profile.inst().getString(TProfile.wx));
+        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.sina))) {
+            mTvUserName.setText(Profile.inst().getString(TProfile.sina));
+        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.email))) {
+            mTvUserName.setText(Profile.inst().getString(TProfile.email));
+        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.twitter))) {
+            mTvUserName.setText(Profile.inst().getString(TProfile.twitter));
+        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.jingxin))) {
+            mTvUserName.setText(Profile.inst().getString(TProfile.jingxin));
         }
     }
 }

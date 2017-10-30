@@ -5,13 +5,13 @@ import android.graphics.Bitmap;
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.ClipImageContract;
-import jx.csp.contact.ClipImageContract.V;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.network.model.NetworkResp;
 import lib.ys.util.bmp.BmpUtil;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.model.Avatar;
 import lib.yy.model.Avatar.TAvatar;
 import lib.yy.network.Result;
@@ -21,13 +21,10 @@ import lib.yy.network.Result;
  * @since 2017/10/27
  */
 
-public class ClipImagePresenterImpl extends PresenterExImpl<ClipImageContract.V> implements ClipImageContract.P{
+public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.V> implements ClipImageContract.P{
 
-    private ClipImageContract.V mView;
-
-    public ClipImagePresenterImpl(V v) {
+    public ClipImagePresenterImpl(ClipImageContract.V v) {
         super(v);
-        mView = v;
     }
 
     @Override
@@ -45,7 +42,7 @@ public class ClipImagePresenterImpl extends PresenterExImpl<ClipImageContract.V>
             Profile.inst().update(Profile.inst().put(TProfile.avatar, avatar.getString(TAvatar.url)));
             Profile.inst().saveToSp();
 
-            mView.setSuccessProcessed();
+            getView().setSuccessProcessed();
             App.showToast(R.string.my_message_save_success);
         } else {
             onNetworkError(id, r.getError());

@@ -16,7 +16,6 @@ import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
 import jx.csp.presenter.AccountManagePresenterImpl;
-import jx.csp.ui.activity.login.BaseYaYaLoginActivity;
 import jx.csp.util.Util;
 import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -102,14 +101,6 @@ public class AccountManageActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_facebook)
-                .name(R.string.account_facebook)
-                .drawable(R.drawable.form_ic_account_facebook)
-                .text(Profile.inst().getString(TProfile.facebook))
-                .hint(R.string.account_not_bind));
-
-        addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_intent_bind)
                 .related(RelatedId.bind_twitter)
                 .name(R.string.account_twitter)
                 .drawable(R.drawable.form_ic_account_twitter)
@@ -152,10 +143,6 @@ public class AccountManageActivity extends BaseFormActivity {
 
             }
             break;
-            case RelatedId.bind_facebook: {
-
-            }
-            break;
             case RelatedId.bind_twitter: {
                 refresh(RefreshWay.dialog);
                 mPresenter.changeThirdPartyBindStatus(RelatedId.bind_twitter,
@@ -178,14 +165,23 @@ public class AccountManageActivity extends BaseFormActivity {
     // TODO: 2017/10/26 未完成, 差账号授权
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.bind_yaya) {
-            mView.bindSuccess((String) data, RelatedId.bind_jingxin);
-        } else if (type == NotifyType.bind_wx) {
-            mView.bindSuccess((String) data, RelatedId.bind_wx);
-        } else if (type == NotifyType.bind_phone) {
-            mView.bindSuccess((String) data, RelatedId.bind_phone);
-        } else if (type == NotifyType.bind_email) {
-            mView.bindSuccess(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
+        switch (type) {
+            case NotifyType.bind_phone: {
+                mView.bindSuccess((String) data, RelatedId.bind_phone);
+            }
+            break;
+            case NotifyType.bind_wx: {
+                mView.bindSuccess((String) data, RelatedId.bind_wx);
+            }
+            break;
+            case NotifyType.bind_email: {
+                mView.bindSuccess(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
+            }
+            break;
+            case NotifyType.bind_yaya: {
+                mView.bindSuccess((String) data, RelatedId.bind_jingxin);
+            }
+            break;
         }
     }
 
@@ -204,7 +200,7 @@ public class AccountManageActivity extends BaseFormActivity {
                     }
                     break;
                     case RelatedId.bind_jingxin: {
-                        startActivity(BaseYaYaLoginActivity.class);
+                        startActivity(YaYaAuthorizeBindActivity.class);
                     }
                     break;
                 }
@@ -229,8 +225,8 @@ public class AccountManageActivity extends BaseFormActivity {
 
         @Override
         public void unBindSuccess(Result r, int id, TProfile key) {
+            stopRefresh();
             if (r.isSucceed()) {
-                stopRefresh();
                 showToast(R.string.account_unbind_succeed);
 
                 getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);

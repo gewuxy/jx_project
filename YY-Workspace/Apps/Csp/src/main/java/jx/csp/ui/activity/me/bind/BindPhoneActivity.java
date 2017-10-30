@@ -180,7 +180,7 @@ public class BindPhoneActivity extends BaseSetActivity {
             } else {
                 Profile.inst().put(TProfile.mobile, getPhone());
                 Profile.inst().saveToSp();
-
+                notify(NotifyType.profile_change, getPhone());
                 notify(NotifyType.bind_phone, getPhone());
                 finish();
             }

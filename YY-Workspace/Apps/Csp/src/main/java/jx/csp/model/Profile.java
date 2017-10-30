@@ -30,6 +30,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         jingxin,    //敬信数字平台
         nickName,   //昵称
         uid,        // yaya医师单位号用户id
+        country,    //国家
         province,   // 省份
         city,       // 城市
 

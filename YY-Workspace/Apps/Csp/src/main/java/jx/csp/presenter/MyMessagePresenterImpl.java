@@ -1,10 +1,10 @@
 package jx.csp.presenter;
 
 import jx.csp.contact.MyMessageContract;
-import jx.csp.contact.MyMessageContract.V;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.network.model.NetworkResp;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
 
 /**
@@ -12,16 +12,13 @@ import lib.yy.network.Result;
  * @since 2017/10/27
  */
 
-public class MyMessagePresenterImpl extends PresenterExImpl<MyMessageContract.V> implements MyMessageContract.P{
-
-    private MyMessageContract.V mView;
+public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.V> implements MyMessageContract.P{
 
     private final int KNickNameCode = 0;
     private final int KInfoCode = 1;
 
-    public MyMessagePresenterImpl(V v) {
+    public MyMessagePresenterImpl(MyMessageContract.V v) {
         super(v);
-        mView = v;
     }
 
     @Override
@@ -33,7 +30,7 @@ public class MyMessagePresenterImpl extends PresenterExImpl<MyMessageContract.V>
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
         if (r.isSucceed()) {
-            mView.saveModifySuccess();
+            getView().saveModifySuccess();
         } else {
             onNetworkError(id, r.getError());
         }

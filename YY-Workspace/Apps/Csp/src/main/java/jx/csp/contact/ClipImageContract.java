@@ -2,9 +2,10 @@ package jx.csp.contact;
 
 import android.graphics.Bitmap;
 
-import jx.csp.presenter.PresenterEx;
 import jx.csp.ui.ViewEx;
 import lib.ys.ui.other.NavBar;
+import lib.yy.contract.BaseContract;
+import lib.yy.contract.BaseContract.BaseView;
 
 /**
  * @auther Huoxuyu
@@ -12,7 +13,7 @@ import lib.ys.ui.other.NavBar;
  */
 
 public interface ClipImageContract {
-    interface V extends ViewEx{
+    interface V extends ViewEx, BaseView {
 
         /**
          * 头部的设置
@@ -28,7 +29,7 @@ public interface ClipImageContract {
         void setSuccessProcessed();
     }
 
-    interface P extends PresenterEx{
+    interface P extends BaseContract.BasePresenter{
 
         void getupLoadAvatar(Bitmap bitmap);
     }

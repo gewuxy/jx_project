@@ -86,7 +86,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             }
             break;
             case RelatedId.bind_jingxin: {
-                getView().unBindSuccess(r, id, TProfile.twitter);
+                getView().unBindSuccess(r, id, TProfile.jingxin);
             }
             break;
             case RelatedId.bind_phone: {

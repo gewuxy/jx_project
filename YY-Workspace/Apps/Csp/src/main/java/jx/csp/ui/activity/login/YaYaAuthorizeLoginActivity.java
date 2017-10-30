@@ -2,8 +2,7 @@ package jx.csp.ui.activity.login;
 
 import jx.csp.R;
 import jx.csp.model.Profile;
-import jx.csp.util.Util;
-import lib.ys.ui.other.NavBar;
+import jx.csp.sp.SpApp;
 
 /**
  * @auther WangLan
@@ -12,22 +11,16 @@ import lib.ys.ui.other.NavBar;
 
 public class YaYaAuthorizeLoginActivity extends BaseYaYaLoginActivity {
 
-
-    @Override
-    public void initData() {
-    }
-
     @Override
     public void setViews() {
         super.setViews();
+        mEtUsername.setText(SpApp.inst().getUserName());
         // 清空用户信息
         Profile.inst().clear();
     }
 
     @Override
-    public void initNavBar(NavBar bar) {
-        Util.addCloseIcon(bar, getString(R.string.yaya_authorization_login), this);
+    protected CharSequence getSetText() {
+        return getString(R.string.authorization_login);
     }
-
-
 }

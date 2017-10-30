@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.ContributePlatformContract;
-import jx.csp.contact.ContributePlatformContract.V;
 import jx.csp.model.contribute.Platform;
 import jx.csp.model.contribute.Platform.TPlatformDetail;
 import jx.csp.network.JsonParser;
@@ -25,7 +24,7 @@ public class ContributePlatformPresenterImpl
         extends BasePresenterImpl<ContributePlatformContract.V>
         implements ContributePlatformContract.P {
 
-    public ContributePlatformPresenterImpl(V v) {
+    public ContributePlatformPresenterImpl(ContributePlatformContract.V v) {
         super(v);
     }
 

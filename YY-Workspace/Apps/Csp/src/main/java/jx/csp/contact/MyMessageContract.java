@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import jx.csp.presenter.PresenterEx;
 import jx.csp.ui.ViewEx;
 import lib.ys.ui.other.NavBar;
+import lib.yy.contract.BaseContract;
+import lib.yy.contract.BaseContract.BaseView;
 
 /**
  * @auther Huoxuyu
@@ -18,7 +19,7 @@ import lib.ys.ui.other.NavBar;
  */
 
 public interface MyMessageContract {
-    interface V extends ViewEx{
+    interface V extends ViewEx, BaseView {
 
         /**
          * 设置头部
@@ -76,7 +77,7 @@ public interface MyMessageContract {
         void setIntroChangedTextLength(Editable s, TextView tv);
     }
 
-    interface P extends PresenterEx{
+    interface P extends BaseContract.BasePresenter{
 
         /**
          * 个人信息的网络请求

@@ -42,7 +42,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     private final int KIdLogin = 1;
     private final int KIdBind = 2;
 
-    private EditText mEtUsername;
+    public EditText mEtUsername;
     private EditText mEtPwd;
     private CheckBox mCbVisiblePwd;
 
@@ -63,6 +63,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
+        Util.addCloseIcon(bar, getString(R.string.yaya_authorization_login), this);
     }
 
     @Override
@@ -79,10 +80,9 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     @Override
     public void setViews() {
         mTvLogin.setEnabled(false);
+        mTvLogin.setText(getSetText());
 
         setPwdVisible(mEtPwd, mCbVisiblePwd);
-
-        mEtUsername.setText(SpApp.inst().getUserName());
 
         buttonChanged(mEtUsername, mIvUsernameClean);
         buttonChanged(mEtPwd, mIvPwdClean);
@@ -174,61 +174,70 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
+        if (id == KIdBind) {
+            return JsonParser.error(r.getText());
+        } else {
+            return JsonParser.ev(r.getText(), Profile.class);
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
+        Profile profile = r.getData();
         if (id == KIdAuthorizeLogin) {
             if (r.isSucceed()) {
                 SpApp.inst().saveUserName(getUserName());
-                Profile.inst().update(r.getData());
-                SpUser.inst().updateProfileRefreshTime();
-                exeNetworkReq(KIdLogin, UserAPI.login(LoginType.yaya_login)
-                        .uniqueId(Profile.inst().getString(TProfile.uid))
-                        .email(Profile.inst().getString(TProfile.email))
-                        .mobile(Profile.inst().getString(TProfile.mobile))
-                        .nickName(Profile.inst().getString(TProfile.nickName))
-                        .province(Profile.inst().getString(TProfile.province))
-                        .city(Profile.inst().getString(TProfile.city))
-                        .build());
+                if (Profile.inst().isLogin()) {
+                    exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
+                            .thirdPartyId(LoginType.yaya_login)
+                            .uniqueId(profile.getString(TProfile.uid))
+                            .nickName(profile.getString(TProfile.nickName))
+                            .gender(profile.getString(TProfile.gender))
+                            .avatar(profile.getString(TProfile.avatar))
+                            .build());
+                } else {
+                    exeNetworkReq(KIdLogin, UserAPI.login(LoginType.yaya_login)
+                            .uniqueId(profile.getString(TProfile.uid))
+                            .email(profile.getString(TProfile.email))
+                            .mobile(profile.getString(TProfile.mobile))
+                            .nickName(profile.getString(TProfile.nickName))
+                            .country(profile.getString(TProfile.country))
+                            .province(profile.getString(TProfile.province))
+                            .city(profile.getString(TProfile.city))
+                            .build());
+                }
             } else {
                 onNetworkError(id, r.getError());
             }
         } else if (id == KIdLogin) {
             if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
-                SpUser.inst().updateProfileRefreshTime();
-                if (Profile.inst().isLogin()) {
-                    exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
-                            .thirdPartyId(LoginType.yaya_login)
-                            .uniqueId(Profile.inst().getString(TProfile.uid))
-                            .nickName(Profile.inst().getString(TProfile.nickName))
-                            .gender(Profile.inst().getString(TProfile.gender))
-                            .avatar(Profile.inst().getString(TProfile.avatar))
-                            .build());
-                } else {
-                    startActivity(MainActivity.class);
-                }
+                // FIXME: 2017/10/30 不能全部按字段名保存
+                Profile.inst().put(TProfile.nickName, profile.getString(TProfile.nickName));
+                Profile.inst().put(TProfile.avatar, profile.getString(TProfile.avatar));
+                updateBindYaYa();
+                startActivity(MainActivity.class);
             } else {
                 onNetworkError(id, r.getError());
             }
             finish();
-        }if (id == KIdBind) {
+        } else if (id == KIdBind) {
             if (r.isSucceed()) {
-                Profile profile = r.getData();
-                if (profile == null) {
-                    showToast(R.string.account_bind_error);
-                } else {
-                    notify(NotifyType.bind_yaya, profile.getString(TProfile.jingxin));
-                    Profile.inst().update(profile);
-                }
-            }else {
+                updateBindYaYa();
+            } else {
                 onNetworkError(id, r.getError());
             }
+            finish();
         }
+    }
+
+    private void updateBindYaYa() {
+        Profile.inst().put(TProfile.jingxin, getUserName());
+        Profile.inst().saveToSp();
+        SpUser.inst().updateProfileRefreshTime();
+        notify(NotifyType.profile_change, getUserName());
+        notify(NotifyType.bind_yaya, getUserName());
     }
 
     public String getUserName() {
@@ -238,5 +247,12 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     public String getPwd() {
         return Util.getEtString(mEtPwd);
     }
+
+    /**
+     * 获取按钮文本
+     *
+     * @return 按钮的文本
+     */
+    abstract protected CharSequence getSetText();
 
 }

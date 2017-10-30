@@ -2,9 +2,10 @@ package jx.csp.contact;
 
 import android.content.Intent;
 
-import jx.csp.presenter.PresenterEx;
 import jx.csp.ui.ViewEx;
 import lib.ys.util.permission.PermissionResult;
+import lib.yy.contract.BaseContract;
+import lib.yy.contract.BaseContract.BaseView;
 
 /**
  * @auther Huoxuyu
@@ -12,7 +13,7 @@ import lib.ys.util.permission.PermissionResult;
  */
 
 public interface ProfileContract {
-    interface V extends ViewEx{
+    interface V extends ViewEx, BaseView {
 
         /**
          * 初始化头像
@@ -52,7 +53,7 @@ public interface ProfileContract {
 
     }
 
-    interface P extends PresenterEx{
+    interface P extends BaseContract.BasePresenter{
 
     }
 }
