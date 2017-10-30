@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.App;
 import jx.csp.BuildConfig;
 import jx.csp.contact.LiveRoomContract;
-import jx.csp.contact.LiveRoomContract.View;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import lib.zego.IZegoCallback;
@@ -21,12 +21,10 @@ import lib.zego.ZegoApiManager;
  * @since 2017/9/22
  */
 
-public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCountDownListener {
+public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.View> implements LiveRoomContract.Presenter, OnCountDownListener {
 
     private static final String TAG = "LiveRoomPresenterImpl";
     private final int KFifteen = 15;  // 开始倒计时的分钟数
-
-    private View mView;
 
     private boolean mUseFrontCamera = false;
     private boolean mUseMic = true;
@@ -38,9 +36,10 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
 
     private ZegoCallbackImpl mZegoCallbackImpl;
 
-    public LiveRoomPresenterImpl(View view) {
+    public LiveRoomPresenterImpl(LiveRoomContract.View view) {
+        super(view);
+        
         ZegoApiManager.getInstance().init(App.getContext(),"888", "敬信测试");
-        mView = view;
         mZegoCallbackImpl = new ZegoCallbackImpl();
     }
 
@@ -59,7 +58,7 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
         ZegoApiManager.getInstance().setPreviewViewMode(IZegoCallback.Constants.KAspectFill);
         ZegoApiManager.getInstance().setAppOrientation(Surface.ROTATION_90);
         ZegoApiManager.getInstance().setRoomConfig(true, true);
-        ZegoApiManager.getInstance().setPreviewView(mView.getTextureView());
+        ZegoApiManager.getInstance().setPreviewView(getView().getTextureView());
         ZegoApiManager.getInstance().startPreview();
         ZegoApiManager.getInstance().loginRoom(roomId, UserType.anchor, mZegoCallbackImpl);
     }
@@ -83,13 +82,13 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
     @Override
     public void startLive(String streamId, String title) {
         ZegoApiManager.getInstance().startPublishing(streamId, title, IZegoCallback.Constants.KSingleAnchor);
-        mView.startLiveState();
+        getView().startLiveState();
     }
 
     @Override
     public void stopLive() {
         ZegoApiManager.getInstance().stopPublishing();
-        mView.stopLiveState();
+        getView().stopLiveState();
     }
 
     @Override
@@ -100,7 +99,7 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
 
     @Override
     public void useMic() {
-        mView.setSilenceIvSelected(mUseMic);
+        getView().setSilenceIvSelected(mUseMic);
         mUseMic = !mUseMic;
         ZegoApiManager.getInstance().enableMic(mUseMic);
     }
@@ -114,16 +113,16 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            mView.onFinish();
+            getView().onFinish();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        mView.setLiveTimeTv(Util.getSpecialTimeFormat(time));
+        getView().setLiveTimeTv(Util.getSpecialTimeFormat(time));
         if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
             if (!mShowCountDownRemainTv) {
                 mShowCountDownRemainTv = !mShowCountDownRemainTv;
-                mView.changeLiveIvRes();
+                getView().changeLiveIvRes();
             }
-            mView.setCountDownRemindTv(mShowCountDownRemainTv, (int) remainCount);
+            getView().setCountDownRemindTv(mShowCountDownRemainTv, (int) remainCount);
         }
     }
 
@@ -146,7 +145,7 @@ public class LiveRoomPresenterImpl implements LiveRoomContract.Presenter, OnCoun
 
         @Override
         public void onUserUpdate(int number) {
-            mView.setOnlineNumTv(number);
+            getView().setOnlineNumTv(number);
         }
     }
 }

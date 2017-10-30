@@ -11,23 +11,23 @@ import java.util.Random;
 
 import jx.csp.R;
 import jx.csp.contact.CommonRecordContract;
-import jx.csp.contact.CommonRecordContract.View;
 import jx.csp.ui.frag.record.RecordImgFrag;
-import jx.csp.ui.frag.record.RecordImgFrag.onMediaPlayerListener;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * @author CaiXiang
  * @since 2017/10/9
  */
 
-public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter, onMediaPlayerListener, OnCountDownListener {
+public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordContract.View> implements
+        CommonRecordContract.Presenter,
+        RecordImgFrag.onMediaPlayerListener,
+        CountDown.OnCountDownListener {
 
     private final int KSixtySecond = 60;
-    private View mRecordView;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
 
@@ -36,8 +36,9 @@ public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter
     private long mTime; // 录制的时间 单位秒
     private CountDown mCountDown;
 
-    public CommonRecordPresenterImpl(View recordView) {
-        mRecordView = recordView;
+    public CommonRecordPresenterImpl(CommonRecordContract.View view) {
+        super(view);
+        
         mMediaRecorder = new MediaRecorder();
         mMediaPlayer = new MediaPlayer();
     }
@@ -45,7 +46,7 @@ public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter
     @Override
     public void setBeforeRecordTime(int t) {
         mTotalTime = t;
-        mRecordView.setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
+        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
     }
 
     @Override
@@ -65,17 +66,17 @@ public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter
             mMediaRecorder.prepare();
             mMediaRecorder.start();
             mCountDown.start(KSixtySecond);
-            mRecordView.startRecordState();
+            getView().startRecordState();
         } catch (IOException e) {
-            mRecordView.showToast(R.string.record_fail);
+            getView().showToast(R.string.record_fail);
         }
     }
 
     @Override
     public void stopRecord() {
         mTotalTime  += mTime;
-        mRecordView.setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
-        mRecordView.stopRecordState();
+        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
+        getView().stopRecordState();
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
             mMediaRecorder.reset();
@@ -118,7 +119,7 @@ public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter
             });
             mPlayState = true;
         } catch (IOException e) {
-            mRecordView.showToast(R.string.play_fail);
+            getView().showToast(R.string.play_fail);
         }
     }
 
@@ -127,7 +128,7 @@ public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter
         if (mMediaPlayer != null) {
             if (mPlayState) {
                 mMediaPlayer.stop();
-                mRecordView.goneViceLine();
+                getView().goneViceLine();
             }
             mMediaPlayer.reset();
         }
@@ -145,10 +146,10 @@ public class CommonRecordPresenterImpl implements CommonRecordContract.Presenter
         // 录制跟播放有不同的操作
         if (mPlayState) {
             int i = new Random().nextInt(20) + 5;
-            mRecordView.setVoiceLineState(i);
+            getView().setVoiceLineState(i);
         } else {
             ++mTime;
-            mRecordView.setRecordTimeTv(Util.getCommonTimeFormat(mTime));
+            getView().setRecordTimeTv(Util.getCommonTimeFormat(mTime));
         }
     }
 

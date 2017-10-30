@@ -2,8 +2,7 @@ package jx.csp.contact;
 
 import android.support.annotation.StringRes;
 
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
+import lib.yy.contract.BaseContract;
 
 /**
  * @author CaiXiang
@@ -12,7 +11,7 @@ import jx.csp.ui.ViewEx;
 
 public interface CommonRecordContract {
 
-    interface View extends ViewEx {
+    interface View extends BaseContract.BaseView {
 
         /**
          * 录制的总时间
@@ -35,7 +34,7 @@ public interface CommonRecordContract {
         void goneViceLine();
     }
 
-    interface Presenter extends PresenterEx<View> {
+    interface Presenter extends BaseContract.BasePresenter {
 
         void setBeforeRecordTime(int t);
 

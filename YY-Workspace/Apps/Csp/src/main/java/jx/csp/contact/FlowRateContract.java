@@ -3,8 +3,7 @@ package jx.csp.contact;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
+import lib.yy.contract.BaseContract;
 
 /**
  * 流量管理
@@ -14,7 +13,7 @@ import jx.csp.ui.ViewEx;
  */
 public interface FlowRateContract {
 
-    interface V extends ViewEx {
+    interface V extends BaseContract.BaseView {
         /**
          * 设置实际支付金额
          */
@@ -54,7 +53,7 @@ public interface FlowRateContract {
         void setResultDeal(int requestCode, int resultCode, Intent data);
     }
 
-    interface P extends PresenterEx{
+    interface P extends BaseContract.BasePresenter{
 
         /**
          * 请求服务器接口

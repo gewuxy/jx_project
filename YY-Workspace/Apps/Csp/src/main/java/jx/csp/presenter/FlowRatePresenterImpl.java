@@ -8,6 +8,7 @@ import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.PayAPI;
 import lib.network.model.NetworkResp;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
 
 /**
@@ -15,15 +16,12 @@ import lib.yy.network.Result;
  * @since 2017/10/24
  */
 
-public class FlowRatePresenterImpl extends PresenterExImpl<FlowRateContract.V> implements FlowRateContract.P{
+public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V> implements FlowRateContract.P{
 
     private final int KPayPalPayCode = 1;
 
-    private FlowRateContract.V mView;
-
     public FlowRatePresenterImpl(FlowRateContract.V v) {
         super(v);
-        mView = v;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class FlowRatePresenterImpl extends PresenterExImpl<FlowRateContract.V> i
                 PayPalPayRecharge recharge = r.getData();
                 String orderId = recharge.getString(TPayPalPayRecharge.orderId);
 
-                mView.setPayPalPay(orderId);
+                getView().setPayPalPay(orderId);
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -62,7 +60,7 @@ public class FlowRatePresenterImpl extends PresenterExImpl<FlowRateContract.V> i
                 PingPayRecharge recharge = r.getData();
                 String charge = recharge.getString(TPingPayRecharge.charge);
 
-                mView.setPingPay(charge);
+                getView().setPingPay(charge);
             } else {
                 onNetworkError(id, r.getError());
             }

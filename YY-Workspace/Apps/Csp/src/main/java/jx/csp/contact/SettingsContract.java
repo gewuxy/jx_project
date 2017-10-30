@@ -3,8 +3,7 @@ package jx.csp.contact;
 import android.content.Context;
 import android.support.annotation.StringRes;
 
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
+import lib.yy.contract.BaseContract;
 
 /**
  * @auther Huoxuyu
@@ -13,7 +12,7 @@ import jx.csp.ui.ViewEx;
 
 public interface SettingsContract {
 
-    interface V extends ViewEx{
+    interface V extends BaseContract.BaseView{
 
         /**
          * 修改密码
@@ -38,7 +37,7 @@ public interface SettingsContract {
         void logout();
     }
 
-    interface P extends PresenterEx{
+    interface P extends BaseContract.BasePresenter{
 
         /**
          * 启动登出服务

@@ -2,8 +2,7 @@ package jx.csp.contact;
 
 import android.support.annotation.StringRes;
 
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
+import lib.yy.contract.BaseContract;
 
 /**
  * @author CaiXiang
@@ -12,7 +11,7 @@ import jx.csp.ui.ViewEx;
 
 public interface LiveRecordContract {
 
-    interface View extends ViewEx {
+    interface View extends BaseContract.BaseView {
 
         /**
          * 直播的时间
@@ -37,7 +36,7 @@ public interface LiveRecordContract {
         void onFinish();
     }
 
-    interface Presenter extends PresenterEx<View> {
+    interface Presenter extends BaseContract.BasePresenter {
 
         void startCountDown(long startTime, long stopTime);
 

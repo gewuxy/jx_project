@@ -12,9 +12,9 @@ import jx.csp.App;
 import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
-import jx.csp.contact.LiveRecordContract.View;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 import lib.zego.IZegoCallback;
@@ -26,11 +26,10 @@ import lib.zego.ZegoApiManager;
  * @since 2017/10/11
  */
 
-public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, OnCountDownListener {
+public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContract.View> implements LiveRecordContract.Presenter, OnCountDownListener {
 
     private static final String TAG = "LiveRecordPresenterImpl";
     private final int KFifteen = 15; // 开始倒计时的分钟数
-    private View mLiveRecordView;
     private MediaRecorder mMediaRecorder;
     private CountDown mCountDown;
     private long mStartTime;
@@ -39,9 +38,9 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
 
     private ZegoCallbackImpl mZegoCallbackImpl;
 
-    public LiveRecordPresenterImpl(View view) {
+    public LiveRecordPresenterImpl(LiveRecordContract.View view) {
+        super(view);
 
-        mLiveRecordView = view;
         mMediaRecorder = new MediaRecorder();
         mZegoCallbackImpl = new ZegoCallbackImpl();
         ZegoApiManager.getInstance().init(App.getContext(),"666", "人数获取测试");
@@ -73,9 +72,9 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
             mMediaRecorder.prepare();
             mMediaRecorder.start();
             YSLog.d(TAG, "startLiveRecord time = " + System.currentTimeMillis());
-            mLiveRecordView.startRecordState();
+            getView().startRecordState();
         } catch (IOException e) {
-            mLiveRecordView.showToast(R.string.record_fail);
+            getView().showToast(R.string.record_fail);
         }
     }
 
@@ -86,7 +85,7 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
             mMediaRecorder.reset();
             YSLog.d(TAG, "stopLiveRecord time = " + System.currentTimeMillis());
         }
-        mLiveRecordView.stopRecordState();
+        getView().stopRecordState();
     }
 
     @Override
@@ -101,16 +100,16 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            mLiveRecordView.onFinish();
+            getView().onFinish();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        mLiveRecordView.setLiveTimeTv(Util.getSpecialTimeFormat(time));
+        getView().setLiveTimeTv(Util.getSpecialTimeFormat(time));
         if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
             if (!mShowCountDownRemainTv) {
                 mShowCountDownRemainTv = !mShowCountDownRemainTv;
-                mLiveRecordView.changeRecordIvRes();
+                getView().changeRecordIvRes();
             }
-            mLiveRecordView.setCountDownRemainTv(mShowCountDownRemainTv, remainCount);
+            getView().setCountDownRemainTv(mShowCountDownRemainTv, remainCount);
         }
     }
 
@@ -128,7 +127,7 @@ public class LiveRecordPresenterImpl implements LiveRecordContract.Presenter, On
 
         @Override
         public void onUserUpdate(int number) {
-            mLiveRecordView.setOnlineTv(String.valueOf(number));
+            getView().setOnlineTv(String.valueOf(number));
         }
     }
 }

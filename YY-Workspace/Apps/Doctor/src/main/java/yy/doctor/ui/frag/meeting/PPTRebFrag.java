@@ -53,10 +53,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     private long mStartTime; // 开始时间
     private HashMap<Integer, Submit> mSubmits; // 学习时间
     private List<Course> mCourses;
-    private List<Course> mRealCourses;
 
     private OnFragClickListener mListener;
-    private boolean mDispatch;
+    private boolean mDispatch; // 是否处理触摸事件
 
     public void addOnPageChangeListener(OnPageChangeListener listener) {
         setOnPageChangeListener(listener); // 外部添加
@@ -72,13 +71,11 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         mStartTime = System.currentTimeMillis();
     }
 
-
     @Override
     public void initData() {
         mLastPosition = 0;
         mDispatch = false;
         mSubmits = new HashMap<>();
-        mRealCourses = new ArrayList<>();
     }
 
     @Override
@@ -169,59 +166,33 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         return frag;
     }
 
-    /**
-     * 会议是否有内容
-     */
-    private boolean courseNotExist() {
-        if (mCourses != null) {
-            // 已经获取到数据
-            if (mCourses.size() == 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        // 初次获取数据
-        if (mPPT == null) {
-            return true;
-        }
-
-        CourseInfo courseInfo = mPPT.get(TPPT.course);
-        if (courseInfo == null) {
-            return true;
-        }
-
-        mCourses = courseInfo.getList(TCourseInfo.details);
-        if (mCourses == null || mCourses.size() == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    public void addCourse(int position) {
-        if (courseNotExist() || position > mCourses.size()) {
-            return;
-        }
-
-        Course course = mCourses.get(position);
+    public void addCourse(Course course) {
         BaseCourseFrag f = getPPTFrag(course);
-        mRealCourses.add(course);
+        mCourses.add(course);
         if (f != null) {
-            add(f);
             f.setListener(this);
+            add(f);
             invalidate();
         }
     }
 
     public void addCourses() {
-        if (courseNotExist()) {
+        if (mPPT == null) {
+            return;
+        }
+
+        CourseInfo courseInfo = mPPT.get(TPPT.course);
+        if (courseInfo == null) {
+            return;
+        }
+
+        mCourses = courseInfo.getList(TCourseInfo.details);
+        if (mCourses == null || mCourses.size() == 0) {
             return;
         }
         // 逐个添加Frag
         for (Course course : mCourses) {
             BaseCourseFrag f = getPPTFrag(course);
-            mRealCourses.add(course);
             if (f != null) {
                 f.setListener(this);
                 add(f);
@@ -243,6 +214,12 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     @Override
     public BaseCourseFrag getItem(int position) {
         return (BaseCourseFrag) super.getItem(position);
+    }
+
+    public void setCurrentItem() {
+        if (mCourses != null) {
+            setCurrentItem(mCourses.size());
+        }
     }
 
     @Override

@@ -1,5 +1,8 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.yy.contract.BaseContract;
+import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.PPT;
 
 /**
@@ -8,13 +11,14 @@ import yy.doctor.model.meet.ppt.PPT;
  */
 public class MeetingLiveContract {
 
-    interface View extends BaseView {
+    interface View extends BaseContract.BaseView,ICommonOpt {
+
         void initView(PPT ppt);
 
-        void addCourse(int position);
+        void addCourse(Course course);
     }
 
-    interface Presenter {
+    interface Presenter extends BaseContract.BasePresenter{
         /**
          * 获取网络数据
          */

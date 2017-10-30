@@ -3,9 +3,8 @@ package jx.csp.contact;
 import java.util.ArrayList;
 
 import jx.csp.model.contribute.Platform;
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
 import lib.ys.ui.other.NavBar;
+import lib.yy.contract.BaseContract;
 
 /**
  * @auther Huoxuyu
@@ -13,7 +12,8 @@ import lib.ys.ui.other.NavBar;
  */
 
 public interface ContributePlatformContract {
-    interface V extends ViewEx{
+
+    interface V extends BaseContract.BaseView{
 
         /**
          * 点击图标, 提示文字
@@ -36,7 +36,7 @@ public interface ContributePlatformContract {
         void stopRefreshItem();
     }
 
-    interface P extends PresenterEx {
+    interface P extends BaseContract.BasePresenter {
 
         /**
          * 投稿的服务器请求
