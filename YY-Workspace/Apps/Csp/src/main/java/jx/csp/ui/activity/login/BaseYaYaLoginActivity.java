@@ -196,7 +196,6 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                 onNetworkError(id, r.getError());
             }
         }else {
-            if (r.isSucceed()) {
                 if (r.isSucceed()) {
                     Profile.inst().update(r.getData());
                     SpUser.inst().updateProfileRefreshTime();
@@ -205,10 +204,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                     onNetworkError(id, r.getError());
                 }
                 finish();
-            }else {
-                onNetworkError(id, r.getError());
             }
-        }
     }
 
     public String getUserName() {

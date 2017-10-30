@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_wechat"
+                android:textColor="@color/text_7a8b9f"
                 android:textSize="16dp"/>
         </LinearLayout>
 
@@ -71,6 +72,7 @@
                 android:id="@+id/login_sina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_7a8b9f"
                 android:text="@string/login_sina"
                 android:textSize="16dp"/>
         </LinearLayout>
@@ -91,6 +93,7 @@
                 android:id="@+id/login_jx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_7a8b9f"
                 android:text="@string/login_jx"
                 android:textSize="16dp"/>
         </LinearLayout>

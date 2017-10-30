@@ -1,8 +1,6 @@
 package jx.csp.model.authorize;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.app.Activity;
 
 import java.util.HashMap;
 
@@ -16,19 +14,25 @@ import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.App;
+import jx.csp.ui.activity.login.ThirdPartyLoginActivityRouter;
 import lib.ys.YSLog;
 
 /**
  * @auther WangLan
  * @since 2017/9/26
  */
-
+@Route
 public class PlatformAuthorizeUserInfoManager {
     private MyPlatformActionListener myPlatformActionListener = null;
 
+    @Arg
+    Activity mActivity;
+
     public PlatformAuthorizeUserInfoManager() {
-        this.myPlatformActionListener = new MyPlatformActionListener();
+        myPlatformActionListener = new MyPlatformActionListener();
     }
 
     public void WeiXinAuthorize() {
@@ -144,23 +148,20 @@ public class PlatformAuthorizeUserInfoManager {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
             App.showToast("Authorize Complete.");
-            if (i == Platform.ACTION_USER_INFOR) {
-                Message msg = new Message();
-                msg.what = 0;
-                msg.obj = platform;
-                new Handler(Looper.getMainLooper(), message -> {
-                    PlatformDb platDB = platform.getDb();
-                    String token = platDB.getToken();
-                    String userGender = platDB.getUserGender();
-                    String icon = platDB.getUserIcon();
-                    String userName = platDB.getUserName();
-                    YSLog.d("infor",token);
-                    YSLog.d("infor",userGender);
-                    YSLog.d("infor",icon);
-                    YSLog.d("infor",userName);
-                    return false;
-                }).sendMessage(msg);
-            }
+            PlatformDb platDB = platform.getDb();
+            String token = platDB.getToken();
+            String userGender = platDB.getUserGender();
+            String icon = platDB.getUserIcon();
+            String userName = platDB.getUserName();
+            String userId = platDB.getUserId();
+
+            ThirdPartyLoginActivityRouter.create(token,userGender,icon,userName,userId).route(mActivity);
+
+            YSLog.d("infor", token);
+            YSLog.d("infor", userGender);
+            YSLog.d("infor", icon);
+            YSLog.d("infor", userName);
+            YSLog.d("infor", userId);
         }
 
         @Override

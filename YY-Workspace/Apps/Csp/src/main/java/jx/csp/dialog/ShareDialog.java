@@ -128,20 +128,20 @@ public class ShareDialog extends BaseDialog {
         mPlatformActionListener = new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-//                showToast(R.string.share_success);
-                YSLog.d("onComplete","成功");
+                showToast(R.string.share_success);
+//                YSLog.d("onComplete","成功");
             }
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-//                showToast(KShareError.concat(throwable.getMessage()));
-                YSLog.d("onComplete","失败");
+                showToast(KShareError.concat(throwable.getMessage()));
+//                YSLog.d("onComplete","失败");
             }
 
             @Override
             public void onCancel(Platform platform, int i) {
-//                showToast(R.string.share_cancel);
-                YSLog.d("onComplete","取消");
+                showToast(R.string.share_cancel);
+//                YSLog.d("onComplete","取消");
             }
         };
         mClipboadManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
