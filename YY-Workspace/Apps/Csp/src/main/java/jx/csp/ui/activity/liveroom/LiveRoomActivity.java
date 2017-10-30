@@ -234,7 +234,6 @@ public class LiveRoomActivity extends BaseActivity {
 
     private void havePermissionState() {
         mPresenter.initLiveRoom(mRoomId);
-        mPresenter.zegoCallback();
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);

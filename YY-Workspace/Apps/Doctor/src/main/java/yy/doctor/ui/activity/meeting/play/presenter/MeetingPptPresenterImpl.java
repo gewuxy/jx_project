@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.meeting.play;
+package yy.doctor.ui.activity.meeting.play.presenter;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
 import yy.doctor.util.NetPlayer;
 
 /**
@@ -26,8 +26,8 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/26
  */
 
-public class MeetingRebPresenterImpl extends BasePresenterImpl<MeetingRebContract.View> implements
-        MeetingRebContract.Presenter,
+public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContract.View> implements
+        MeetingPptContract.Presenter,
         NetPlayer.OnPlayerListener,
         CountDown.OnCountDownListener {
 
@@ -40,7 +40,7 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl<MeetingRebContrac
 
     private long mAllMillisecond;
 
-    public MeetingRebPresenterImpl(MeetingRebContract.View view) {
+    public MeetingPptPresenterImpl(MeetingPptContract.View view) {
         super(view);
         mCountDown = new CountDown();
         mCountDown.setListener(this);

@@ -1,14 +1,12 @@
-package yy.doctor.ui.activity.meeting.play;
+package yy.doctor.ui.activity.meeting.play.presenter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
-import lib.ys.util.JsonUtil;
 import lib.ys.util.UtilEx;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
@@ -16,17 +14,12 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import yy.doctor.model.meet.ppt.Course;
-import yy.doctor.model.meet.ppt.Course.TCourse;
-import yy.doctor.model.meet.ppt.CourseInfo;
-import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
-import yy.doctor.model.meet.ppt.LiveOrder;
-import yy.doctor.model.meet.ppt.LiveOrder.TLiveOrder;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
 import yy.doctor.util.Util;
 
 /**

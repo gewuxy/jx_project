@@ -1,4 +1,4 @@
-package lib.zego;
+package lib.live;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,7 +22,7 @@ import java.util.HashMap;
  * @author CaiXiang
  * @since 2017/9/20
  */
-public class ZegoApiManager {
+public class LiveApi {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -40,30 +40,30 @@ public class ZegoApiManager {
 //            (byte) 0x10, (byte) 0x42, (byte) 0x0b, (byte) 0x89, (byte) 0xd3, (byte) 0x9d, (byte) 0x7d, (byte) 0xa6, (byte) 0x04, (byte) 0x2f,
 //            (byte) 0x7a, (byte) 0xda, (byte) 0xed, (byte) 0x75, (byte) 0x19};
 
-    private static ZegoApiManager sInstance = null;
-    private ZegoLiveRoom mZegoLiveRoom = null;
+    private static LiveApi mInst = null;
+    private ZegoLiveRoom mZegoLive = null;
     private ZegoAvConfig mZegoAvConfig;
 
-    private ZegoApiManager() {
-        mZegoLiveRoom = new ZegoLiveRoom();
+    private LiveApi() {
+        mZegoLive = new ZegoLiveRoom();
     }
 
-    public synchronized static ZegoApiManager getInstance() {
-        if (sInstance == null) {
-            sInstance = new ZegoApiManager();
+    public synchronized static LiveApi getInst() {
+        if (mInst == null) {
+            mInst = new LiveApi();
         }
-        return sInstance;
+        return mInst;
     }
 
     public void init(Context context, String userId, String userName) {
         // 初始化用户信息 必须设置
         ZegoLiveRoom.setUser(userId, userName);
         // 初始化sdk 不传context会出现错误
-        boolean ret = mZegoLiveRoom.initSDK(APP_ID, SIGN_KEY, context);
+        boolean ret = mZegoLive.initSDK(APP_ID, SIGN_KEY, context);
         if (ret) {
             // 初始化设置级别为"Generic"
             mZegoAvConfig = new ZegoAvConfig(Level.Generic);
-            mZegoLiveRoom.setAVConfig(mZegoAvConfig);
+            mZegoLive.setAVConfig(mZegoAvConfig);
         }
     }
 
@@ -72,93 +72,94 @@ public class ZegoApiManager {
         int h = mZegoAvConfig.getVideoCaptureResolutionHeight();
         mZegoAvConfig.setVideoEncodeResolution(h, w);
         mZegoAvConfig.setVideoCaptureResolution(h, w);
-        mZegoLiveRoom.setAVConfig(mZegoAvConfig);
+        mZegoLive.setAVConfig(mZegoAvConfig);
     }
 
-    public void setTestEnv(boolean b) {
-        mZegoLiveRoom.setTestEnv(b);
+    public LiveApi setTest(boolean b) {
+        mZegoLive.setTestEnv(b);
+        return this;
     }
 
-    public void enableAEC(boolean b) {
-        mZegoLiveRoom.enableAEC(b);
+    public LiveApi enableAEC(boolean b) {
+        mZegoLive.enableAEC(b);
+        return this;
     }
 
-    public void enableMic(boolean b) {
-        mZegoLiveRoom.enableMic(b);
+    public LiveApi enableMic(boolean b) {
+        mZegoLive.enableMic(b);
+        return this;
     }
 
-    public void enableCamera(boolean b) {
-        mZegoLiveRoom.enableCamera(b);
+    public LiveApi enableCamera(boolean b) {
+        mZegoLive.enableCamera(b);
+        return this;
     }
 
-    public void setFrontCam(boolean b) {
-        mZegoLiveRoom.setFrontCam(b);
+    public LiveApi setFrontCam(boolean b) {
+        mZegoLive.setFrontCam(b);
+        return this;
     }
 
-    public void setPreviewViewMode(int model) {
-        mZegoLiveRoom.setPreviewViewMode(model);
+    public LiveApi setPreviewViewMode(int model) {
+        mZegoLive.setPreviewViewMode(model);
+        return this;
     }
 
-    public void setAppOrientation(int orientation) {
-        mZegoLiveRoom.setAppOrientation(orientation);
+    public LiveApi setAppOrientation(int orientation) {
+        mZegoLive.setAppOrientation(orientation);
+        return this;
     }
 
-    public void setPreviewView(Object view) {
-        mZegoLiveRoom.setPreviewView(view);
+    public LiveApi setPreviewView(Object view) {
+        mZegoLive.setPreviewView(view);
+        mZegoLive.startPreview();
+        return this;
     }
 
-    public void startPreview() {
-        mZegoLiveRoom.startPreview();
-    }
-
-    public void setRoomConfig(boolean audienceCreateRoom, boolean userStateUpdate) {
-        mZegoLiveRoom.setRoomConfig(audienceCreateRoom, userStateUpdate);
+    public LiveApi setRoomConfig(boolean audienceCreateRoom, boolean userStateUpdate) {
+        mZegoLive.setRoomConfig(audienceCreateRoom, userStateUpdate);
+        return this;
     }
 
     public void startPublishing(String streamID, String title, int flag) {
-        mZegoLiveRoom.startPublishing(streamID, title, flag);
+        mZegoLive.startPublishing(streamID, title, flag);
     }
 
     public void stopPublishing() {
-        mZegoLiveRoom.stopPublishing();
+        mZegoLive.stopPublishing();
     }
 
     public void stopPreview() {
-        mZegoLiveRoom.stopPreview();
+        mZegoLive.stopPreview();
     }
 
-    public void enableSpeaker(boolean b) {
-        mZegoLiveRoom.enableSpeaker(b);
+    public void audio(boolean b) {
+        mZegoLive.enableSpeaker(b);
     }
 
-    public void startPlayingStream(String streamID, Object view) {
-        mZegoLiveRoom.startPlayingStream(streamID, view);
+    public void startPullStream(String streamID, Object view) {
+        mZegoLive.startPlayingStream(streamID, view);
     }
 
-    public void stopPlayingStream(String streamID) {
-        mZegoLiveRoom.stopPlayingStream(streamID);
+    public void stopPullStream(String streamID) {
+        mZegoLive.stopPlayingStream(streamID);
     }
 
     public void logoutRoom() {
-        mZegoLiveRoom.setZegoLivePublisherCallback(null);
-        mZegoLiveRoom.setZegoRoomCallback(null);
-        mZegoLiveRoom.setZegoIMCallback(null);
-        mZegoLiveRoom.logoutRoom();
-        //fixme:
-        ZegoLiveRoom.setTestEnv(false);
-        mZegoLiveRoom.unInitSDK();
+        mZegoLive.setZegoLivePublisherCallback(null);
+        mZegoLive.setZegoRoomCallback(null);
+        mZegoLive.setZegoIMCallback(null);
+        mZegoLive.logoutRoom();
+        mZegoLive.unInitSDK();
     }
 
-    public void loginRoom(String roomID, int role, IZegoCallback callback) {
-        mZegoLiveRoom.loginRoom(roomID, role, (i, zegoStreamInfos) -> {
+    public LiveApi setCallback(String roomID, int role, ILiveCallback callback) {
+        mZegoLive.loginRoom(roomID, role, (i, zegoStreamInfos) -> {
             if (callback != null) {
                 callback.onLoginCompletion(i, getStream(zegoStreamInfos));
             }
         });
-    }
-
-    public void setZegoLivePublisherCallback(IZegoCallback callback) {
-        mZegoLiveRoom.setZegoLivePublisherCallback(new IZegoLivePublisherCallback() {
+        mZegoLive.setZegoLivePublisherCallback(new IZegoLivePublisherCallback() {
 
             @Override
             public void onPublishStateUpdate(int i, String s, HashMap<String, Object> hashMap) {
@@ -194,10 +195,7 @@ public class ZegoApiManager {
                 Log.d(TAG, "混流配置更新");
             }
         });
-    }
-
-    public void setZegoRoomCallback(IZegoCallback callback) {
-        mZegoLiveRoom.setZegoRoomCallback(new IZegoRoomCallback() {
+        mZegoLive.setZegoRoomCallback(new IZegoRoomCallback() {
 
             @Override
             public void onKickOut(int i, String s) {
@@ -230,10 +228,7 @@ public class ZegoApiManager {
                 Log.d(TAG, "收到自定义消息");
             }
         });
-    }
-
-    public void setZegoIMCallback(IZegoCallback callback) {
-        mZegoLiveRoom.setZegoIMCallback(new IZegoIMCallback() {
+        mZegoLive.setZegoIMCallback(new IZegoIMCallback() {
 
             @Override
             public void onUserUpdate(ZegoUserState[] zegoUserStates, int i) {
@@ -254,6 +249,7 @@ public class ZegoApiManager {
 
             }
         });
+        return this;
     }
 
     private String getStream(ZegoStreamInfo[] zegoStreamInfos) {

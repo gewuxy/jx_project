@@ -37,7 +37,7 @@ android {
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',
                 '../../Libs/LibWX/proguard-wx.pro',
-                '../../Libs/LibZEGO/proguard-zego.pro',
+                '../../Libs/LibLive/proguard-live.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -176,8 +176,8 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibPay')
     implementation project(':YY-Workspace:Libs:LibJG')
     implementation project(':YY-Workspace:Libs:LibWX')
-    implementation project(':YY-Workspace:Libs:LibZEGO')
     implementation project(':YY-Workspace:Libs:LibMob')
+    implementation project(':YY-Workspace:Libs:LibLive')
     /**
      * other
      */

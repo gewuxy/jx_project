@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.meeting.play;
+package yy.doctor.ui.activity.meeting.play.contract;
 
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.yy.contract.BaseContract;
@@ -9,7 +9,7 @@ import yy.doctor.model.meet.ppt.PPT;
  * @auther : GuoXuan
  * @since : 2017/10/16
  */
-public class MeetingLiveContract {
+public interface MeetingLiveContract {
 
     interface View extends BaseContract.BaseView,ICommonOpt {
 
