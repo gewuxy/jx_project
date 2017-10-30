@@ -18,6 +18,7 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseVPFrag;
 
 /**
+ * 首页左右滑动的列表的frag
  * @auther WangLan
  * @since 2017/10/17
  */

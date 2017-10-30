@@ -443,7 +443,7 @@ public class RegisterActivity extends BaseFormActivity implements
                 HintDialogMain d = new HintDialogMain(this);
                 d.setHint(getString(R.string.phone_have_been_register));
                 d.addBlueButton(R.string.cancel);
-                d.addBlueButton(R.string.immediately_register, v -> finish());
+                d.addBlueButton(R.string.immediately_login, v -> finish());
                 d.show();
                 return;
             }

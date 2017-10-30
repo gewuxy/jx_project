@@ -35,8 +35,6 @@ public interface LiveRoomContract {
 
         void initLiveRoom(String roomId);
 
-        void zegoCallback();
-
         void startCountDown(long startTime, long stopTime);
 
         void startLive(String streamId, String title);

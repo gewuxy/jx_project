@@ -18,6 +18,7 @@ import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.linkedin.LinkedIn;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.system.text.ShortMessage;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
@@ -219,10 +220,9 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_iv_weibo: {
-                //微博包冲突
-               /* platform = ShareSDK.getPlatform(SinaWeibo.NAME);
+                platform = ShareSDK.getPlatform(SinaWeibo.NAME);
                 platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);*/
+                platform.share(shareParams);
                 showToast("微博分享");
             }
             break;
@@ -259,12 +259,11 @@ public class ShareDialog extends BaseDialog {
                 if (mDeleteListener !=null) {
                     mDeleteListener.delete();
                 }
-                showToast("删除成功");
+                showToast(getString(R.string.delete_success));
             }
             break;
             case R.id.dialog_share_tv_cancel: {
                 //不做处理
-                showToast("复制链接");
             }
             break;
         }

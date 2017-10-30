@@ -12,9 +12,9 @@ import lib.ys.YSLog;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import lib.zego.IZegoCallback;
-import lib.zego.IZegoCallback.UserType;
-import lib.zego.ZegoApiManager;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 
 /**
  * @author CaiXiang
@@ -34,40 +34,29 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
     private long mStartTime;
     private long mStopTime;
 
-    private ZegoCallbackImpl mZegoCallbackImpl;
+    private LiveCallbackImpl mZegoCallbackImpl;
 
     public LiveRoomPresenterImpl(LiveRoomContract.View view) {
         super(view);
-        
-        ZegoApiManager.getInstance().init(App.getContext(),"888", "敬信测试");
-        mZegoCallbackImpl = new ZegoCallbackImpl();
+
+        LiveApi.getInst().init(App.getContext(), "888", "敬信测试");
+        mZegoCallbackImpl = new LiveCallbackImpl();
     }
 
     @Override
     public void initLiveRoom(String roomId) {
-        ZegoApiManager.getInstance().toggleAVConfig();
-
-        //测试
-        ZegoApiManager.getInstance().setTestEnv(BuildConfig.TEST);
-        //回声消除
-        ZegoApiManager.getInstance().enableAEC(true);
-        ZegoApiManager.getInstance().enableMic(mUseMic);
-        ZegoApiManager.getInstance().enableCamera(true);
-        //是否使用前置摄像头
-        ZegoApiManager.getInstance().setFrontCam(mUseFrontCamera);
-        ZegoApiManager.getInstance().setPreviewViewMode(IZegoCallback.Constants.KAspectFill);
-        ZegoApiManager.getInstance().setAppOrientation(Surface.ROTATION_90);
-        ZegoApiManager.getInstance().setRoomConfig(true, true);
-        ZegoApiManager.getInstance().setPreviewView(getView().getTextureView());
-        ZegoApiManager.getInstance().startPreview();
-        ZegoApiManager.getInstance().loginRoom(roomId, UserType.anchor, mZegoCallbackImpl);
-    }
-
-    @Override
-    public void zegoCallback() {
-        ZegoApiManager.getInstance().setZegoLivePublisherCallback(mZegoCallbackImpl);
-        ZegoApiManager.getInstance().setZegoRoomCallback(mZegoCallbackImpl);
-        ZegoApiManager.getInstance().setZegoIMCallback(mZegoCallbackImpl);
+        LiveApi.getInst()
+                .setTest(BuildConfig.TEST) //测试
+                .toggleAVConfig()
+                .enableAEC(true) //回声消除
+                .enableMic(mUseMic)
+                .enableCamera(true)
+                .setFrontCam(mUseFrontCamera)//是否使用前置摄像头
+                .setPreviewViewMode(ILiveCallback.Constants.KAspectFill)
+                .setAppOrientation(Surface.ROTATION_90)
+                .setRoomConfig(true, true)
+                .setPreviewView(getView().getTextureView())
+                .setCallback(roomId, UserType.anchor, mZegoCallbackImpl);
     }
 
     @Override
@@ -81,33 +70,33 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
 
     @Override
     public void startLive(String streamId, String title) {
-        ZegoApiManager.getInstance().startPublishing(streamId, title, IZegoCallback.Constants.KSingleAnchor);
+        LiveApi.getInst().startPublishing(streamId, title, ILiveCallback.Constants.KSingleAnchor);
         getView().startLiveState();
     }
 
     @Override
     public void stopLive() {
-        ZegoApiManager.getInstance().stopPublishing();
+        LiveApi.getInst().stopPublishing();
         getView().stopLiveState();
     }
 
     @Override
     public void switchCamera() {
         mUseFrontCamera = !mUseFrontCamera;
-        ZegoApiManager.getInstance().setFrontCam(mUseFrontCamera);
+        LiveApi.getInst().setFrontCam(mUseFrontCamera);
     }
 
     @Override
     public void useMic() {
         getView().setSilenceIvSelected(mUseMic);
         mUseMic = !mUseMic;
-        ZegoApiManager.getInstance().enableMic(mUseMic);
+        LiveApi.getInst().enableMic(mUseMic);
     }
 
     @Override
     public void onDestroy() {
-        ZegoApiManager.getInstance().stopPreview();
-        ZegoApiManager.getInstance().logoutRoom();
+        LiveApi.getInst().stopPreview();
+        LiveApi.getInst().logoutRoom();
     }
 
     @Override
@@ -130,7 +119,7 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
     public void onCountDownErr() {
     }
 
-    private class ZegoCallbackImpl extends IZegoCallback {
+    private class LiveCallbackImpl extends ILiveCallback {
 
         @Override
         public void onLoginCompletion(int i, String stream) {

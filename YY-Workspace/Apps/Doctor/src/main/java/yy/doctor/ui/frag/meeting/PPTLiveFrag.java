@@ -8,9 +8,9 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseFrag;
-import lib.zego.IZegoCallback;
-import lib.zego.IZegoCallback.UserType;
-import lib.zego.ZegoApiManager;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -26,11 +26,11 @@ import yy.doctor.model.Profile.TProfile;
 public class PPTLiveFrag extends BaseFrag {
 
     private TextureView mViewLive;
-    private ZegoCallbackImpl mZegoCallbackImpl;
+    private LiveCallbackImpl mZegoCallbackImpl;
 
     @Override
     public void initData() {
-        mZegoCallbackImpl = new ZegoCallbackImpl();
+        mZegoCallbackImpl = new LiveCallbackImpl();
     }
 
     @NonNull
@@ -55,37 +55,36 @@ public class PPTLiveFrag extends BaseFrag {
     }
 
     public void loginRoom(String roomId) {
-        ZegoApiManager.getInstance().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
+        LiveApi.getInst().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
         if (BuildConfig.TEST) {
-            ZegoApiManager.getInstance().setTestEnv(true);
+            LiveApi.getInst().setTest(true);
             roomId = "789";
         }
-        ZegoApiManager.getInstance().loginRoom(roomId, UserType.audience, mZegoCallbackImpl);
-        ZegoApiManager.getInstance().setZegoRoomCallback(mZegoCallbackImpl);
+        LiveApi.getInst().setCallback(roomId, UserType.audience, mZegoCallbackImpl);
     }
 
     public void startAudio() {
-        ZegoApiManager.getInstance().enableSpeaker(true);
+        LiveApi.getInst().audio(true);
     }
 
     public void stopAudio() {
-        ZegoApiManager.getInstance().enableSpeaker(false);
+        LiveApi.getInst().audio(false);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        ZegoApiManager.getInstance().logoutRoom();
+        LiveApi.getInst().logoutRoom();
     }
 
-    private class ZegoCallbackImpl extends IZegoCallback {
+    private class LiveCallbackImpl extends ILiveCallback {
 
         @Override
         public void onLoginCompletion(int i, String stream) {
             if (i == 0 && TextUtil.isNotEmpty(stream)) {
                 YSLog.d(TAG, "loginRoom:success");
-                ZegoApiManager.getInstance().startPlayingStream(stream, mViewLive);
+                LiveApi.getInst().startPullStream(stream, mViewLive);
             } else {
                 // 登录失败(还是直播未开始)
                 YSLog.d(TAG, "loginRoom:error ");
@@ -99,15 +98,15 @@ public class PPTLiveFrag extends BaseFrag {
 
         @Override
         public void onStreamUpdated(int i, String stream) {
-            if (i == IZegoCallback.Constants.KStreamAdd) {
+            if (i == ILiveCallback.Constants.KStreamAdd) {
                 YSLog.d(TAG, "onStreamUpdated:play");
                 if (TextUtil.isNotEmpty(stream)) {
-                    ZegoApiManager.getInstance().startPlayingStream(stream, mViewLive);
+                    LiveApi.getInst().startPullStream(stream, mViewLive);
                 }
-            } else if (i == IZegoCallback.Constants.KStreamDel) {
+            } else if (i == ILiveCallback.Constants.KStreamDel) {
                 YSLog.d(TAG, "onStreamUpdated:stop");
                 if (TextUtil.isNotEmpty(stream)) {
-                    ZegoApiManager.getInstance().stopPlayingStream(stream);
+                    LiveApi.getInst().stopPullStream(stream);
                 }
             }
 

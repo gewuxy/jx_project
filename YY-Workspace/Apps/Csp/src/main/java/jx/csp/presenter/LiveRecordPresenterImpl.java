@@ -17,9 +17,9 @@ import lib.ys.YSLog;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import lib.zego.IZegoCallback;
-import lib.zego.IZegoCallback.UserType;
-import lib.zego.ZegoApiManager;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 
 /**
  * @author CaiXiang
@@ -36,19 +36,18 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private long mStopTime;
     private boolean mShowCountDownRemainTv = false; // 倒计时的Tv是否显示
 
-    private ZegoCallbackImpl mZegoCallbackImpl;
+    private LiveCallbackImpl mZegoCallbackImpl;
 
     public LiveRecordPresenterImpl(LiveRecordContract.View view) {
         super(view);
 
         mMediaRecorder = new MediaRecorder();
-        mZegoCallbackImpl = new ZegoCallbackImpl();
-        ZegoApiManager.getInstance().init(App.getContext(),"666", "人数获取测试");
+        mZegoCallbackImpl = new LiveCallbackImpl();
+        LiveApi.getInst().init(App.getContext(),"666", "人数获取测试");
         //测试
-        ZegoApiManager.getInstance().setTestEnv(BuildConfig.TEST);
-        ZegoApiManager.getInstance().setRoomConfig(true, true);
-        ZegoApiManager.getInstance().loginRoom("789", UserType.audience, mZegoCallbackImpl);
-        ZegoApiManager.getInstance().setZegoIMCallback(mZegoCallbackImpl);
+        LiveApi.getInst().setTest(BuildConfig.TEST);
+        LiveApi.getInst().setRoomConfig(true, true);
+        LiveApi.getInst().setCallback("789", UserType.audience, mZegoCallbackImpl);
     }
 
     @Override
@@ -94,7 +93,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         if (mCountDown != null) {
             mCountDown.recycle();
         }
-        ZegoApiManager.getInstance().logoutRoom();
+        LiveApi.getInst().logoutRoom();
     }
 
     @Override
@@ -117,7 +116,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     public void onCountDownErr() {
     }
 
-    private class ZegoCallbackImpl extends IZegoCallback {
+    private class LiveCallbackImpl extends ILiveCallback {
 
         @Override
         public void onLoginCompletion(int i, String stream) {

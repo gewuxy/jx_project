@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRoomContract;
 import jx.csp.presenter.LiveRoomPresenterImpl;
@@ -25,7 +27,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  * @author CaiXiang
  * @since 2017/9/20
  */
-
+@Route
 public class LiveRoomActivity extends BaseActivity {
 
     private final int KPermissionCode = 10;
@@ -55,6 +57,9 @@ public class LiveRoomActivity extends BaseActivity {
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
+
+    @Arg
+    public String mCourseId;
 
     @Override
     public void initData() {
@@ -229,7 +234,6 @@ public class LiveRoomActivity extends BaseActivity {
 
     private void havePermissionState() {
         mPresenter.initLiveRoom(mRoomId);
-        mPresenter.zegoCallback();
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);

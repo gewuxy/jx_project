@@ -1,4 +1,4 @@
-package yy.doctor.ui.activity.meeting.play;
+package yy.doctor.ui.activity.meeting.play.contract;
 
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 
@@ -13,7 +13,7 @@ import yy.doctor.model.meet.ppt.PPT;
  * @auther : GuoXuan
  * @since : 2017/9/26
  */
-public interface MeetingRebContract {
+public interface MeetingPptContract {
 
     interface View extends BaseContract.BaseView,ICommonOpt {
         /**

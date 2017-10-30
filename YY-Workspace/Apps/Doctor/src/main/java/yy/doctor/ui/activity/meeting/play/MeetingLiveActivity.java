@@ -19,6 +19,8 @@ import yy.doctor.model.meet.ppt.Live;
 import yy.doctor.model.meet.ppt.Live.TLive;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
+import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
+import yy.doctor.ui.activity.meeting.play.presenter.MeetingLivePresenterImpl;
 import yy.doctor.ui.frag.meeting.PPTLiveFrag;
 import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.util.LandscapeSwitch;

@@ -37,7 +37,7 @@ android {
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',
                 '../../Libs/LibWX/proguard-wx.pro',
-                '../../Libs/LibZEGO/proguard-zego.pro',
+                '../../Libs/LibZEGO/proguard-live.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -174,7 +174,7 @@ dependencies {
 //        exclude(group: 'jshare-sina-android-v1.0.0', module: 'com.sina')
     }
     implementation project(':YY-Workspace:Libs:LibWX')
-    implementation project(':YY-Workspace:Libs:LibZEGO')
+    implementation project(':YY-Workspace:Libs:LibLive')
     implementation project(':YY-Workspace:Libs:LibMob')
     /**
      * other

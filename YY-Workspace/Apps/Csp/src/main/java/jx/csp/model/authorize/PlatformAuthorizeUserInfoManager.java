@@ -9,6 +9,7 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
@@ -41,8 +42,8 @@ public class PlatformAuthorizeUserInfoManager {
     }
 
     public void sinaAuthorize() {
-       /* Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
-        doAuthorize(sina);*/
+        Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
+        doAuthorize(sina);
     }
 
     public void whatMomentsAuthorize() {

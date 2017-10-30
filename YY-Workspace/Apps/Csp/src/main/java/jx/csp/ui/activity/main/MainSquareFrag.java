@@ -1,9 +1,11 @@
 package jx.csp.ui.activity.main;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
+import android.widget.TextView;
 
 import jx.csp.App;
 import jx.csp.R;
@@ -17,16 +19,20 @@ import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.activity.liveroom.LiveRoomActivity;
+import jx.csp.ui.activity.liveroom.LiveRoomActivityRouter;
 import jx.csp.ui.activity.main.MainActivity.OnSquareRefreshListener;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
-import jx.csp.ui.activity.record.LiveRecordActivity;
+import jx.csp.ui.activity.record.LiveRecordActivityRouter;
+import jx.csp.view.CircleProgressView;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
+import lib.yy.dialog.BaseDialog;
 import lib.yy.network.Result;
 import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
 
 /**
+ * 首页九宫格的frag
+ *
  * @auther WangLan
  * @since 2017/10/18
  */
@@ -36,6 +42,8 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
     private final int KIdGetData = 0;
     private final int KIdDelete = 1;
 
+    private CircleProgressView mProgressBar;
+    private TextView mTvFiveSecond;
     private OnSquareRefreshListener mListener;
     private String mCourseId;
 
@@ -61,13 +69,6 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
         GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
         return l.findFirstVisibleItemPosition();
     }
-
-
-    /*public void smoothScrollToPosition(int position) {
-        super.smoothScrollToPosition();
-        RecyclerView rv = (RecyclerView) getScrollableView();
-        getScrollable().smoothScrollToPosition(position);
-    }*/
 
     @Override
     protected LayoutManager initLayoutManager() {
@@ -106,17 +107,24 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
                 mCourseId = getItem(position).getString(TSquare.id);
                 if (getItem(position).getInt(TSquare.playType) == PlayType.reb) {
                     if (getItem(position).getInt(TSquare.playState) == PlayState.record) {
-                        // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号
-                        HintDialogMain d = new HintDialogMain(getContext());
-                        d.setHint(getString(R.string.main_record_dialog));
-                        // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示五秒倒计时，应该是一个请求,请求成功弹框
-                        d.addBlueButton(R.string.confirm_continue, view -> finish());
-                        d.addBlueButton(R.string.cancel);
-                        d.show();
+//                        CommonRecordActivityRouter.create(mCourseId).route(getContext());
+                        // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
+                        showHintDialog(getString(R.string.main_record_dialog));
                     } else {
                         CommonRecordActivityRouter.create(mCourseId).route(getContext());
                     }
-                } else {
+                } else if (getItem(position).getInt(TSquare.playType) == PlayType.live) {
+                    if (getItem(position).getInt(TSquare.liveState) == LiveState.un_start) {
+                        App.showToast(R.string.live_not_start);
+                    }else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
+//                        LiveRecordActivityRouter.create(mCourseId).route(getContext());
+                        // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
+                        showHintDialog(getString(R.string.main_live_dialog));
+                    }else {
+                        App.showToast(R.string.live_have_end);
+                        LiveRecordActivityRouter.create(mCourseId).route(getContext());
+                    }
+                }else {
                     if (getItem(position).getInt(TSquare.liveState) == LiveState.un_start) {
                         App.showToast(R.string.live_not_start);
                     } else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
@@ -124,14 +132,20 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
                         HintDialogMain d = new HintDialogMain(getContext());
                         d.setHint(getString(R.string.choice_contents));
                         // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示五秒倒计时，应该是一个请求,请求成功弹框
-                        d.addBlueButton(R.string.explain_meeting, view -> startActivity(LiveRecordActivity.class));
-                        d.addBlueButton(R.string.live_video, view -> startActivity(LiveRoomActivity.class));
+                        d.addGrayButton(R.string.explain_meeting, view -> {
+//                            LiveRecordActivityRouter.create(mCourseId).route(getContext());
+                            // FIXME: 2017/10/30 两个设备分别选择，执行上，选择同一个，执行下
+                            showHintDialog(getString(R.string.main_live_dialog));
+                        });
+                        d.addBlueButton(R.string.live_video, view ->{
+//                            LiveRoomActivityRouter.create(mCourseId).route(getContext());
+                            // FIXME: 2017/10/30 两个设备分别选择，执行上，选择同一个，执行下
+                            showHintDialog(getString(R.string.main_live_dialog));
+                        });
                         d.show();
                     } else {
                         App.showToast(R.string.live_have_end);
                     }
-
-//                    LiveRecordActivityRouter.create(mCourseId).route(getContext());
                 }
             }
             break;
@@ -143,7 +157,7 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
             }
             break;
             case R.id.iv_square_live: {
-                startActivity(LiveRoomActivity.class);
+                LiveRoomActivityRouter.create(mCourseId).route(getContext());
             }
             break;
         }
@@ -169,7 +183,7 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
         if (id == KIdDelete) {
             Result r = (Result) result;
             if (r.isSucceed()) {
-                showToast("删除成功");
+                showToast(R.string.delete_success);
                 //Fixme:还要通知列表删除？
             } else {
                 onNetworkError(id, r.getError());
@@ -178,6 +192,41 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
             super.onNetworkSuccess(id, result);
         }
 
+    }
+
+    public void showHintDialog(String hint){
+        HintDialogMain d = new HintDialogMain(getContext());
+        d.setHint(hint);
+        d.addGrayButton(R.string.confirm_continue, view -> {
+            BaseDialog dialog = new BaseDialog(getContext()) {
+
+                @Override
+                public void initData() {
+                }
+
+                @NonNull
+                @Override
+                public int getContentViewId() {
+                    return R.layout.dialog_main_five_second;
+                }
+
+                @Override
+                public void findViews() {
+                    mProgressBar = findView(R.id.v_meeting_detail_progress);
+                    mTvFiveSecond = findView(R.id.tv_five_second);
+                }
+
+                @Override
+                public void setViews() {
+                    mProgressBar.setProgress(0);
+                    // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示TV五秒倒计时，websocket,如果a拒绝，则提示进入失败
+//                  showView(mTvFiveSecond);
+                }
+            };
+            dialog.show();
+        });
+        d.addBlueButton(R.string.cancel);
+        d.show();
     }
 
 }

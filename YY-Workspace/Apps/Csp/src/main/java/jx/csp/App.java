@@ -8,14 +8,15 @@ import com.mob.MobSDK;
 import java.util.HashMap;
 import java.util.Locale;
 
-import jx.csp.Constants.PageConstants;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.line.Line;
 import cn.sharesdk.linkedin.LinkedIn;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import jx.csp.Constants.PageConstants;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
@@ -126,7 +127,7 @@ public class App extends BaseApp {
         SpApp.inst().saveSystemLanguage(Locale.getDefault().getLanguage());
         // 保存国家 为了区分简繁体
         SpApp.inst().saveCountry(Locale.getDefault().getCountry());
-//        setMobWeibo();
+        setMobWeibo();
         setMobWeChat();
         setMobQQ();
         setMobTwitter();
@@ -147,8 +148,7 @@ public class App extends BaseApp {
         MultiDex.install(this);
     }
 
-    //微博的Mob还没集成进来
-   /* protected void setMobWeibo(){
+    protected void setMobWeibo(){
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","1");
         hashMap.put("SortId","1");
@@ -158,8 +158,8 @@ public class App extends BaseApp {
         hashMap.put("ShareByAppClient","true");
         hashMap.put("Enable","true");
         hashMap.put("ShareByWebApi","false");
-        ShareSDK.setPlatformDevInfo(SinaWeibo.Name,hashMap);
-    }*/
+        ShareSDK.setPlatformDevInfo(SinaWeibo.NAME,hashMap);
+    }
 
     protected void setMobQQ(){
         HashMap<String,Object> hashMap = new HashMap<String, Object>();

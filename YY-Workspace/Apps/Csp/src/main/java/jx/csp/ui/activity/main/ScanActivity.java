@@ -31,6 +31,7 @@ import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
+ * 扫一扫
  * @auther WangLan
  * @since 2017/7/24
  */

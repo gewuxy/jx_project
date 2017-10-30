@@ -6,7 +6,14 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.mob.MobSDK;
 
+import java.util.HashMap;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.network.NetworkConfig;
@@ -103,6 +110,8 @@ public class App extends BaseApp {
         //百度地图
         SDKInitializer.initialize(this);
 
+        MobSDK.init(this,"21454499cef00","da83f1b9d28a32e0d57004d58e1eb318");
+
         // 临时的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -115,6 +124,10 @@ public class App extends BaseApp {
         if (BuildConfig.DEBUG_LOG) {
 //            LeakCanary.install(this);
         }
+
+        setMobWeChat();
+        setMobWeChatMoments();
+        setMobWeibo();
     }
 
     @Override
@@ -126,5 +139,40 @@ public class App extends BaseApp {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    protected void setMobWeibo(){
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("Id","1");
+        hashMap.put("SortId","1");
+        hashMap.put("AppKey","2989630614");
+        hashMap.put("AppSecret","e3aab4c005032d74fe76b5ab3d4effb8");
+        hashMap.put("RedirectUrl","http://www.sharesdk.cn");
+        hashMap.put("ShareByAppClient","true");
+        hashMap.put("Enable","true");
+        hashMap.put("ShareByWebApi","false");
+        ShareSDK.setPlatformDevInfo(SinaWeibo.NAME,hashMap);
+    }
+
+    protected void setMobWeChat(){
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("Id","3");
+        hashMap.put("SortId","3");
+        hashMap.put("AppId","wx142cb3956210ccd3");
+        hashMap.put("AppSecret","bc67cd82b0656e85f9a924f7679d75f7");
+        hashMap.put("BypassApproval","false");
+        hashMap.put("Enable","true");
+        ShareSDK.setPlatformDevInfo(Wechat.NAME,hashMap);
+    }
+
+    protected void setMobWeChatMoments(){
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("Id","7");
+        hashMap.put("SortId","7");
+        hashMap.put("AppId","wx142cb3956210ccd3");
+        hashMap.put("AppSecret","bc67cd82b0656e85f9a924f7679d75f7");
+        hashMap.put("BypassApproval","false");
+        hashMap.put("Enable","true");
+        ShareSDK.setPlatformDevInfo(WechatMoments.NAME,hashMap);
     }
 }
