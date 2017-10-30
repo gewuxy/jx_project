@@ -2,8 +2,7 @@ package jx.csp.contact;
 
 import android.view.TextureView;
 
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
+import lib.yy.contract.BaseContract;
 
 /**
  * @author CaiXiang
@@ -11,7 +10,7 @@ import jx.csp.ui.ViewEx;
  */
 public interface LiveRoomContract {
 
-    interface View extends ViewEx {
+    interface View extends BaseContract.BaseView {
 
         TextureView getTextureView();
 
@@ -32,7 +31,7 @@ public interface LiveRoomContract {
         void onFinish();
     }
 
-    interface Presenter extends PresenterEx<View> {
+    interface Presenter extends BaseContract.BasePresenter{
 
         void initLiveRoom(String roomId);
 
@@ -47,8 +46,6 @@ public interface LiveRoomContract {
         void switchCamera();
 
         void useMic();
-
-        void onDestroy();
     }
 
 }

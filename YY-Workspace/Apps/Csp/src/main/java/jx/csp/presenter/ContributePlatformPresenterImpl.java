@@ -13,6 +13,7 @@ import jx.csp.model.contribute.Platform.TPlatformDetail;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import lib.network.model.NetworkResp;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
 
 /**
@@ -21,14 +22,11 @@ import lib.yy.network.Result;
  */
 
 public class ContributePlatformPresenterImpl
-        extends PresenterExImpl<ContributePlatformContract.V>
+        extends BasePresenterImpl<ContributePlatformContract.V>
         implements ContributePlatformContract.P {
-
-    private ContributePlatformContract.V mView;
 
     public ContributePlatformPresenterImpl(V v) {
         super(v);
-        mView = v;
     }
 
     @Override
@@ -55,7 +53,7 @@ public class ContributePlatformPresenterImpl
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
         if (r.isSucceed()) {
-            mView.stopRefreshItem();
+            getView().stopRefreshItem();
             App.showToast(R.string.contribute_platform_succeed);
         } else {
             onNetworkError(id, r.getError());

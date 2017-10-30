@@ -10,6 +10,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.util.JsonUtil;
 import lib.ys.util.UtilEx;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -33,19 +34,12 @@ import yy.doctor.util.Util;
  * @since : 2017/10/16
  */
 
-public class MeetingLivePresenterImpl extends BasePresenterImpl implements MeetingLiveContract.Presenter {
+public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContract.View> implements MeetingLiveContract.Presenter {
 
-    private MeetingLiveContract.View mView;
-
-    private WebSocket mWebSocket;
-
-    private boolean mSuccess; // WebSocket连接成功
     private PPT mPpt;
 
     public MeetingLivePresenterImpl(MeetingLiveContract.View view) {
-        mView = view;
-
-        mSuccess = false;
+        super(view);
     }
 
     @Override
@@ -63,11 +57,11 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl implements Meeti
         Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
             mPpt = r.getData();
-            mView.initView(mPpt);
+            getView().initView(mPpt);
             if (mPpt != null) {
                 String url = mPpt.getString(TPPT.socketUrl);
                 url = "ws://10.0.0.250:8081/live/order?courseId=14379";
-                mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
+                exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
             }
         } else {
             onNetworkError(id, r.getError());
@@ -79,7 +73,6 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl implements Meeti
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
             YSLog.d(TAG, "onOpen:" + response.message());
-            mSuccess = true; // 连接成功
         }
 
         @Override
@@ -93,7 +86,7 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl implements Meeti
                     int order = object.optInt("order");
                     if (order == 0) {
                         // 直播
-                        CourseInfo courseInfo = mPpt.get(TPPT.course);
+                        /*CourseInfo courseInfo = mPpt.get(TPPT.course);
                         if (courseInfo == null) {
                             return;
                         }
@@ -101,10 +94,10 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl implements Meeti
                         if (courses == null) {
                             return;
                         }
-                        courses.get(position).put(TCourse.audioUrl, object.optString("audioUrl"));
+                        courses.get(position).put(TCourse.audioUrl, object.optString("audioUrl"));*/
                     } else {
                         // 同步
-                        mView.addCourse(position);
+//                        mView.addCourse(position);
                     }
                     // FIXME:先不考虑2
                 } catch (JSONException e) {
@@ -140,7 +133,7 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl implements Meeti
                 // 重连
                 if (mPpt != null) {
                     String url = mPpt.getString(TPPT.socketUrl);
-                    mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
+                    exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
                 }
             }, TimeUnit.SECONDS.toMillis(2));
 

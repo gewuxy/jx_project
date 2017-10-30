@@ -3,18 +3,18 @@ package jx.csp.presenter;
 import android.content.Context;
 
 import jx.csp.contact.SettingsContract;
-import jx.csp.contact.SettingsContract.V;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
+import lib.yy.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu
  * @since 2017/10/26
  */
 
-public class SettingsPresenterImpl extends PresenterExImpl<SettingsContract.V> implements SettingsContract.P{
+public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V> implements SettingsContract.P{
 
-    public SettingsPresenterImpl(V v) {
+    public SettingsPresenterImpl(SettingsContract.V v) {
         super(v);
     }
 

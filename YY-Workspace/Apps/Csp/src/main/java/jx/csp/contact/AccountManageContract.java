@@ -3,8 +3,7 @@ package jx.csp.contact;
 import android.view.View.OnClickListener;
 
 import jx.csp.model.Profile.TProfile;
-import jx.csp.presenter.PresenterEx;
-import jx.csp.ui.ViewEx;
+import lib.yy.contract.BaseContract;
 import lib.yy.network.Result;
 
 /**
@@ -14,7 +13,7 @@ import lib.yy.network.Result;
 
 public interface AccountManageContract {
     
-    interface V extends ViewEx{
+    interface V extends BaseContract.BaseView{
 
         /**
          * 判断绑定状态
@@ -48,7 +47,7 @@ public interface AccountManageContract {
         
     }
     
-    interface P extends PresenterEx{
+    interface P extends BaseContract.BasePresenter{
 
         /**
          * 解绑邮箱, 手机号

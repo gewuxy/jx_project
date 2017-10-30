@@ -19,6 +19,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
+import lib.yy.contract.BaseContract;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingBreviaryAdapter;
 import yy.doctor.model.meet.ppt.Course;
@@ -26,6 +27,7 @@ import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
+import yy.doctor.network.NetworkApiDescriptor;
 import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
@@ -93,10 +95,10 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         setOnClickListener(R.id.meet_play_iv_left_l);
         setOnClickListener(R.id.meet_play_iv_right_l);
 
-        goneView(R.id.meet_play_layout_online);
+        set();
 
         refresh(RefreshWay.embed);
-        mPresenter.getDataFromNet(mMeetId, mModuleId);
+        mPresenter.exeNetworkReq(NetworkApiDescriptor.MeetAPI.toCourse(mMeetId, mModuleId).build());
 
         mFragReb.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -188,7 +190,8 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
-            mPresenter.getDataFromNet(mMeetId, mModuleId);
+            mPresenter.exeNetworkReq(NetworkApiDescriptor.MeetAPI.toCourse(mMeetId, mModuleId).build());
+            ;
         }
         return true;
     }
@@ -222,7 +225,14 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
         showView(R.id.meet_play_iv_right_l);
     }
 
-    private class MeetingRebViewImpl implements MeetingRebContract.View {
+    /**
+     * 设置
+     */
+    protected void set() {
+        goneView(R.id.meet_play_layout_online);
+    }
+
+    private class MeetingRebViewImpl extends BaseViewImpl implements MeetingRebContract.View {
 
         @Override
         public void showToast(String content) {
@@ -230,7 +240,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
                 // 网络成功服务器错误回调
                 setViewState(ViewState.normal);
             }
-            MeetingRebActivity.this.showToast(content);
+            super.showToast(content);
         }
 
         @Override
@@ -264,7 +274,7 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
             CourseInfo courseInfo = ppt.get(TPPT.course);
             getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
-            goneView(getNavBar());
+            MeetingRebActivity.this.goneView(getNavBar());
         }
 
         @Override
@@ -295,9 +305,9 @@ public class MeetingRebActivity extends BaseMeetingPlayActivity {
 
         @Override
         public void finishCount() {
-            goneView(getNavBar());
-            goneView(R.id.meet_play_iv_left_l);
-            goneView(R.id.meet_play_iv_right_l);
+            MeetingRebActivity.this.goneView(getNavBar());
+            MeetingRebActivity.this.goneView(R.id.meet_play_iv_left_l);
+            MeetingRebActivity.this.goneView(R.id.meet_play_iv_right_l);
         }
 
     }

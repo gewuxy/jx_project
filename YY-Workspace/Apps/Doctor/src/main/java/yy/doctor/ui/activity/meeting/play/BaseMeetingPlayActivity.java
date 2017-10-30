@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 
 import inject.annotation.router.Arg;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.other.NavBar;
+import lib.yy.contract.BaseContract;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -215,5 +218,51 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     @DrawableRes
     abstract protected int getControlResId();
+
+    /**
+     * BaseView暂时没有extends ICommonOpt(项目框架)
+     */
+    protected class BaseViewImpl implements BaseContract.BaseView,ICommonOpt {
+
+        @Deprecated
+        @Override
+        public void showView(View v) {
+        }
+
+        @Deprecated
+        @Override
+        public void hideView(View v) {
+        }
+
+        @Deprecated
+        @Override
+        public void goneView(View v) {
+        }
+
+        @Override
+        public void startActivity(Class<?> clz) {
+            BaseMeetingPlayActivity.this.startActivity(clz);
+        }
+
+        @Override
+        public void startActivity(Intent intent) {
+            BaseMeetingPlayActivity.this.startActivity(intent);
+        }
+
+        @Override
+        public void startActivityForResult(Class<?> clz, int requestCode) {
+            BaseMeetingPlayActivity.this.startActivityForResult(clz, requestCode);
+        }
+
+        @Override
+        public void showToast(String content) {
+            BaseMeetingPlayActivity.this.showToast(content);
+        }
+
+        @Override
+        public void showToast(int... resId) {
+            BaseMeetingPlayActivity.this.showToast(resId);
+        }
+    }
 
 }

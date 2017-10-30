@@ -4,6 +4,8 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 
 import java.util.List;
 
+import lib.ys.ui.interfaces.opt.ICommonOpt;
+import lib.yy.contract.BaseContract;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.PPT;
 
@@ -13,7 +15,7 @@ import yy.doctor.model.meet.ppt.PPT;
  */
 public interface MeetingRebContract {
 
-    interface View extends BaseView {
+    interface View extends BaseContract.BaseView,ICommonOpt {
         /**
          * 初始化竖屏
          */
@@ -45,11 +47,7 @@ public interface MeetingRebContract {
         void finishCount();
     }
 
-    interface Presenter {
-        /**
-         * 获取网络数据
-         */
-        void getDataFromNet(String meetId, String moduleId);
+    interface Presenter extends BaseContract.BasePresenter {
 
         /**
          * 播放
@@ -70,7 +68,5 @@ public interface MeetingRebContract {
          * 开始计时
          */
         void starCount();
-
-        void onDestroy();
     }
 }

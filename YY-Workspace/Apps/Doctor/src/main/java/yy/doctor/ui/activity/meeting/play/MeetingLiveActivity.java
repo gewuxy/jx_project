@@ -9,14 +9,12 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.List;
 
 import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import yy.doctor.R;
-import yy.doctor.model.meet.ppt.CourseInfo;
-import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
+import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.Live;
 import yy.doctor.model.meet.ppt.Live.TLive;
 import yy.doctor.model.meet.ppt.PPT;
@@ -26,7 +24,7 @@ import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.util.LandscapeSwitch;
 
 /**
- * 直播
+ * ppt直播(有视频)
  *
  * @auther : GuoXuan
  * @since : 2017/9/25
@@ -253,12 +251,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         return R.drawable.meet_play_live_select_control;
     }
 
-    private class MeetingLiveViewImpl implements MeetingLiveContract.View {
-
-        @Override
-        public void showToast(String content) {
-            MeetingLiveActivity.this.showToast(content);
-        }
+    private class MeetingLiveViewImpl extends BaseViewImpl implements MeetingLiveContract.View {
 
         @Override
         public void initView(PPT ppt) {
@@ -275,16 +268,15 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             setPlayState(mPlay);
 
             mFragPpt.setPPT(ppt);
+            mFragPpt.addCourses();
 
             Live live = ppt.get(TPPT.videoLive);
             if (live == null) {
                 return;
             }
             int page = live.getInt(TLive.livePage, 1);
-            for (int i = 0; i < page; i++) {
-                mFragPpt.addCourse(i);
-            }
             setTextCur(page);
+            setTextAll(page);
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -292,30 +284,17 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                     removeOnGlobalLayoutListener(this);
                 }
             });
-
-            CourseInfo courseInfo = ppt.get(TPPT.course);
-            if (courseInfo == null) {
-                return;
-            }
-            List courses = courseInfo.getList(TCourseInfo.details);
-            if (courses == null) {
-                return;
-            }
-            setTextAll(courses.size());
         }
 
         @Override
-        public void addCourse(int position) {
-            if (position < mFragPpt.getCount()) {
-                return;
-            }
-            mFragPpt.addCourse(position);
+        public void addCourse(Course course) {
+            mFragPpt.addCourse(course);
             if (mPlayType == PlayType.live) {
                 addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                     @Override
                     public void onGlobalLayout() {
-                        mFragPpt.setCurrentItem(position);
+                        mFragPpt.setCurrentItem();
                         removeOnGlobalLayoutListener(this);
                     }
 

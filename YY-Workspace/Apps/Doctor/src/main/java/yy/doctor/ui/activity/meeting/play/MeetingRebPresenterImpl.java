@@ -7,6 +7,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeFormatter;
+import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import yy.doctor.model.meet.ppt.Course;
@@ -25,7 +26,7 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/26
  */
 
-public class MeetingRebPresenterImpl extends BasePresenterImpl implements
+public class MeetingRebPresenterImpl extends BasePresenterImpl<MeetingRebContract.View> implements
         MeetingRebContract.Presenter,
         NetPlayer.OnPlayerListener,
         CountDown.OnCountDownListener {
@@ -37,19 +38,13 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
     private List<Course> mCourses;
     private CountDown mCountDown;
 
-    private MeetingRebContract.View mView;
     private long mAllMillisecond;
 
     public MeetingRebPresenterImpl(MeetingRebContract.View view) {
-        mView = view;
+        super(view);
         mCountDown = new CountDown();
         mCountDown.setListener(this);
         NetPlayer.inst().setListener(this);
-    }
-
-    @Override
-    public void getDataFromNet(String meetId, String moduleId) {
-        exeNetworkReq(MeetAPI.toCourse(meetId, moduleId).build());
     }
 
     @Override
@@ -74,7 +69,7 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
             if (mCourses == null || mCourses.size() == 0) {
                 return;
             }
-            mView.portraitInit(mPpt, mCourses);
+            getView().portraitInit(mPpt, mCourses);
         } else {
             onNetworkError(id, r.getError());
         }
@@ -82,7 +77,7 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
 
     @Override
     public void onNetworkError(int id, NetworkError error) {
-        mView.showToast(error.getMessage());
+        getView().showToast(error.getMessage());
     }
 
     @Override
@@ -91,7 +86,7 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
         c.put(TCourse.time, "音频"); // 清空时间
         c.put(TCourse.select, false); // 上一个取消选择
         c.put(TCourse.play, false); // 上一个取消播放
-        mView.invalidate(mPosition);
+        getView().invalidate(mPosition);
 
         mPosition = position;
         NetPlayer.inst().stop();
@@ -109,21 +104,21 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
             break;
             case CourseType.video: {
                 String url = course.getString(TCourse.videoUrl);
-                NetPlayer.inst().setVideo(mView.getTextureView());
+                NetPlayer.inst().setVideo(getView().getTextureView());
                 NetPlayer.inst().prepare(mPpt.getString(TPPT.meetId), url);
             }
             break;
         }
 
         course.put(TCourse.select, true); // 选中
-        mView.invalidate(mPosition);
+        getView().invalidate(mPosition);
     }
 
     @Override
     public void stopMedia() {
         NetPlayer.inst().stop();
         mCourses.get(mPosition).put(TCourse.play, false);
-        mView.invalidate(mPosition);
+        getView().invalidate(mPosition);
     }
 
     @Override
@@ -139,7 +134,7 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
             mCourses.get(mPosition).put(TCourse.play, true);
         }
         NetPlayer.inst().toggle(url);
-        mView.invalidate(mPosition);
+        getView().invalidate(mPosition);
     }
 
     @Override
@@ -161,11 +156,11 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
     @Override
     public void onPreparedSuccess(long allMillisecond) {
         mAllMillisecond = allMillisecond;
-        mView.onPlayState(true);
+        getView().onPlayState(true);
         Course course = mCourses.get(mPosition);
         course.put(TCourse.play, true); // 播放
         course.put(TCourse.time, getTime(mAllMillisecond));
-        mView.invalidate(mPosition);
+        getView().invalidate(mPosition);
     }
 
     @Override
@@ -177,25 +172,25 @@ public class MeetingRebPresenterImpl extends BasePresenterImpl implements
     public void onProgress(long currMilliseconds, int progress) {
         Course course = mCourses.get(mPosition);
         course.put(TCourse.time, getTime(mAllMillisecond - currMilliseconds));
-        mView.invalidate(mPosition);
+        getView().invalidate(mPosition);
     }
 
     @Override
     public void onPlayState(boolean state) {
-        mView.onPlayState(state);
+        getView().onPlayState(state);
     }
 
     @Override
     public void onCompletion() {
         mCourses.get(mPosition).put(TCourse.play, false);
-        mView.invalidate(mPosition);
-        mView.setNextItem();
+        getView().invalidate(mPosition);
+        getView().setNextItem();
     }
 
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            mView.finishCount();
+            getView().finishCount();
         }
     }
 

@@ -14,6 +14,8 @@ import yy.doctor.R;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.MeetDetail;
+import yy.doctor.model.meet.MeetDetail.BroadcastType;
+import yy.doctor.model.meet.MeetDetail.TMeetDetail;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.model.meet.module.Module.ModuleType;
@@ -85,7 +87,20 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
-                MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                switch (getDetail().getInt(TMeetDetail.playType, 0)) {
+                    case BroadcastType.reb: {
+                        ;
+                    }
+                    break;
+                    case BroadcastType.live_ppt: {
+                        MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                    }
+                    break;
+                    case BroadcastType.live: {
+                        MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                    }
+                    break;
+                }
             }
         } else {
             App.showToast(r.getMessage());
