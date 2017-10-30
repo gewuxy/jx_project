@@ -46,17 +46,17 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
     @Override
     public void initLiveRoom(String roomId) {
         LiveApi.getInst()
+                .setTest(BuildConfig.TEST) //测试
+                .toggleAVConfig()
                 .enableAEC(true) //回声消除
                 .enableMic(mUseMic)
                 .enableCamera(true)
-                .setTest(BuildConfig.TEST) //测试
                 .setFrontCam(mUseFrontCamera)//是否使用前置摄像头
                 .setPreviewViewMode(ILiveCallback.Constants.KAspectFill)
                 .setAppOrientation(Surface.ROTATION_90)
                 .setRoomConfig(true, true)
                 .setPreviewView(getView().getTextureView())
-                .setCallback(roomId, UserType.anchor, mZegoCallbackImpl)
-                .toggleAVConfig();
+                .setCallback(roomId, UserType.anchor, mZegoCallbackImpl);
     }
 
     @Override

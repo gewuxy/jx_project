@@ -67,12 +67,13 @@ public class LiveApi {
         }
     }
 
-    public void toggleAVConfig() {
+    public LiveApi toggleAVConfig() {
         int w = mZegoAvConfig.getVideoCaptureResolutionWidth();
         int h = mZegoAvConfig.getVideoCaptureResolutionHeight();
         mZegoAvConfig.setVideoEncodeResolution(h, w);
         mZegoAvConfig.setVideoCaptureResolution(h, w);
         mZegoLive.setAVConfig(mZegoAvConfig);
+        return this;
     }
 
     public LiveApi setTest(boolean b) {
