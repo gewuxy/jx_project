@@ -207,16 +207,6 @@ public class NetworkApi {
         void advert();
     }
 
-    /**
-     * yaya医师授权登录，url也不一样
-     */
-    @Api
-    interface YaYaAuthorizeLogin {
-        @Post("")
-        @Host("https://www.medcn.com/oauth/app/authorize")
-        void yayaLogin(String username, String password);
-    }
-
     @Api("meeting")
     interface Meeting {
 

@@ -4,26 +4,56 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
+import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.model.Profile;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
+import jx.csp.model.authorize.PlatformAuthorizeUserInfoManagerRouter;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.view.CustomVideoView;
+import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
  * @auther WangLan
  * @since 2017/9/27
  */
-
+@Route
 public class ThirdPartyLoginActivity extends BaseActivity {
+
+    private final int  KWechatLogin = 1;
+    private final int  KWeiboLogin = 2;
 
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 
     private CustomVideoView mCustomVideoView;
+    @Arg
+    public String mToken;
+
+    @Arg
+    public String mUserGender;
+
+    @Arg
+    public String mIcon;
+
+    @Arg
+    public String mUserName;
+
+    @Arg
+    public String mUserId;
+
 
     @Override
     public void initData() {
         mPlatAuth = new PlatformAuthorizeUserInfoManager();
+        PlatformAuthorizeUserInfoManagerRouter.create(this);
     }
 
     @NonNull
@@ -38,7 +68,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-          mCustomVideoView = findView(R.id.login_videoview);
+        mCustomVideoView = findView(R.id.login_videoview);
     }
 
 
@@ -62,12 +92,17 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.layout_login_wechat: {
                 //Fixme:只是提醒，实际需求没有，记得要删
-                showToast("点击微信");
                 mPlatAuth.WeiXinAuthorize();
+                exeNetworkReq(KWechatLogin,UserAPI.login(LoginType.wechat_login).uniqueId(mUserId).nickName(mUserName).gender(mUserGender)
+                        .avatar(mIcon).build());
             }
             break;
             case R.id.layout_login_sina: {
+//                mPlatAuth.sinaAuthorize();
+                //暂时用qq的
                 mPlatAuth.QQAuthorize();
+                exeNetworkReq(KWeiboLogin,UserAPI.login(LoginType.weibo_login).uniqueId(mUserId).nickName(mUserName).gender(mUserGender)
+                        .avatar(mIcon).build());
             }
             break;
             case R.id.layout_login_jx: {
@@ -88,6 +123,24 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             }
             break;
         }
-        finish();
+    }
+
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        return JsonParser.ev(r.getText(), Profile.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        stopRefresh();
+        Result<Profile> r = (Result<Profile>) result;
+        if (r.isSucceed()) {
+            Profile.inst().update(r.getData());
+            SpUser.inst().updateProfileRefreshTime();
+            startActivity(MainActivity.class);
+            finish();
+        } else {
+            onNetworkError(id, r.getError());
+        }
     }
 }
