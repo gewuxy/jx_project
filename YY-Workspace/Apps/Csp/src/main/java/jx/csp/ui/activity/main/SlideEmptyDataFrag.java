@@ -7,6 +7,7 @@ import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
 
 /**
+ * 首页左右滑动列表没有数据时的frag
  * @auther WangLan
  * @since 2017/10/25
  */

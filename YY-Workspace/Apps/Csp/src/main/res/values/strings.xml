@@ -109,6 +109,7 @@
     <string name="ready">Ready！</string>
     <string name="copy_success">复制成功</string>
     <string name="main_record_dialog">会议正在录播中，确定继续将中断其他客户端的进度</string>
+    <string name="main_live_dialog">会议正在直播中，确定继续将中断其他客户端的进度</string>
     <string name="confirm_continue">确定继续</string>
     <string name="choice_contents">请选择您要进行的内容</string>
     <string name="explain_meeting">讲解会议</string>
@@ -117,6 +118,7 @@
     <string name="live_have_end">直播已结束</string>
     <string name="on_solive">直播中</string>
     <string name="on_record">录播</string>
+    <string name="delete_success">删除成功</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

@@ -22,6 +22,7 @@ import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseVPActivity;
 
 /**
+ * 首页
  * @auther WangLan
  * @since 2017/9/30
  */

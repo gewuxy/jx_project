@@ -26,7 +26,6 @@ public class ShareTestActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
     }
 
     @Override
@@ -38,7 +37,6 @@ public class ShareTestActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-
     }
 
     @Override
