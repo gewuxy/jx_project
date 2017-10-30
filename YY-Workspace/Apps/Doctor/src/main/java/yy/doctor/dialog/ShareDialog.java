@@ -7,12 +7,13 @@ import android.view.View;
 
 import java.util.HashMap;
 
-import cn.jiguang.share.android.api.JShareInterface;
-import cn.jiguang.share.android.api.PlatActionListener;
-import cn.jiguang.share.android.api.Platform;
-import cn.jiguang.share.android.api.ShareParams;
-import lib.ys.util.bmp.BmpUtil;
-import lib.ys.util.res.ResLoader;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.Platform.ShareParams;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 
@@ -40,7 +41,9 @@ public class ShareDialog extends BaseDialog {
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
 
-    private PlatActionListener mPlatActionListener;
+//    private PlatActionListener mPlatActionListener;
+    private PlatformActionListener mPlatFormActionListener;
+
 
     public ShareDialog(Context context, String shareUrl, String shareTitle) {
         super(context);
@@ -51,7 +54,23 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void initData() {
-        mPlatActionListener = new PlatActionListener() {
+        mPlatFormActionListener = new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                showToast(KShareSuccess);
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                showToast(KShareError.concat(throwable.getMessage()));
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                showToast(KShareCancel);
+            }
+        };
+       /* mPlatActionListener = new PlatActionListener() {
 
             @Override
             public void onComplete(Platform platform, int action, HashMap<String, Object> data) {
@@ -67,7 +86,7 @@ public class ShareDialog extends BaseDialog {
             public void onCancel(Platform platform, int action) {
                 showToast(KShareCancel);
             }
-        };
+        };*/
     }
 
     @NonNull
@@ -92,28 +111,46 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-        ShareParams shareParams = new ShareParams();
+      /*  ShareParams shareParams = new ShareParams();
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
         shareParams.setTitle(mShareTitle);
         shareParams.setText(KShareText);
+        shareParams.setUrl(mShareUrl);*/
+        ShareParams shareParams = new ShareParams();
+        shareParams.setShareType(Platform.SHARE_WEBPAGE);
+        shareParams.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+        shareParams.setTitle(mShareTitle);
+        shareParams.setText(KShareText);
         shareParams.setUrl(mShareUrl);
+        Platform platform;
 
-        String platName;
+//        String platName;
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat_friend_cicle: {
-                platName = JShareInterface.getPlatformList().get(KIdWeChatMoments);
-                JShareInterface.share(platName, shareParams, mPlatActionListener);
+                platform = ShareSDK.getPlatform(Wechat.NAME);
+                shareParams.setShareType(Platform.SHARE_WEBPAGE);
+                platform.setPlatformActionListener(mPlatFormActionListener);
+                platform.share(shareParams);
+              /*  platName = JShareInterface.getPlatformList().get(KIdWeChatMoments);
+                JShareInterface.share(platName, shareParams, mPlatActionListener);*/
             }
             break;
             case R.id.dialog_share_iv_wechat_friends: {
-                platName = JShareInterface.getPlatformList().get(KIdWeChat);
-                JShareInterface.share(platName, shareParams, mPlatActionListener);
+                platform = ShareSDK.getPlatform(WechatMoments.NAME);
+                shareParams.setShareType(Platform.SHARE_WEBPAGE);
+                platform.setPlatformActionListener(mPlatFormActionListener);
+                platform.share(shareParams);
+               /* platName = JShareInterface.getPlatformList().get(KIdWeChat);
+                JShareInterface.share(platName, shareParams, mPlatActionListener);*/
             }
             break;
             case R.id.dialog_share_iv_sina: {
-                platName = JShareInterface.getPlatformList().get(KIdSinaWeiBo);
-                JShareInterface.share(platName, shareParams, mPlatActionListener);
+                platform = ShareSDK.getPlatform(SinaWeibo.NAME);
+                platform.setPlatformActionListener(mPlatFormActionListener);
+                platform.share(shareParams);
+                /*platName = JShareInterface.getPlatformList().get(KIdSinaWeiBo);
+                JShareInterface.share(platName, shareParams, mPlatActionListener);*/
             }
             break;
             case R.id.dialog_share_tv_cancel: {

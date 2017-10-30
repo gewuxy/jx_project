@@ -177,6 +177,7 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibJG')
     implementation project(':YY-Workspace:Libs:LibWX')
     implementation project(':YY-Workspace:Libs:LibZEGO')
+    implementation project(':YY-Workspace:Libs:LibMob')
     /**
      * other
      */
