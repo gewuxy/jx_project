@@ -1,10 +1,13 @@
 package jx.csp.ui.activity.record;
 
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
+import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -12,15 +15,16 @@ import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Live;
+import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.LiveRecordPresenterImpl;
+import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
-import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
@@ -28,6 +32,9 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
+import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * 直播录制
@@ -52,6 +59,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
     private View mView;
     private Live mLiveMsg;
+    private String mFilePath; // 正在录制的音频文件名字
 
     @Override
     public void initData() {
@@ -102,7 +110,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     // 如果停止的时候是在音频页面要上传音频
                     if (getItem(getCurrentItem()) instanceof RecordImgFrag && ((RecordImgFrag) getItem(getCurrentItem())).getFragType() == FragType.img) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
-                        uploadAudioFile(mCourseId, getCurrentItem(), PlayType.live);
+                        uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
                     } else {
                         mView.stopRecordState();
                     }
@@ -139,7 +147,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             if (getItem(mLastPage) instanceof RecordImgFrag && ((RecordImgFrag) getItem(mLastPage)).getFragType() == FragType.img) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 // 上传上一页的音频 确保存在
-                uploadAudioFile(mCourseId, mLastPage, PlayType.live);
+                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
             if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
@@ -148,7 +156,9 @@ public class LiveRecordActivity extends BaseRecordActivity {
             } else {
                 mView.startRecordState();
             }
-            webSocketSendMsg(position);
+            if (position != mWsPosition) {
+                notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
+            }
         }
         // 记录位置
         mLastPage = position;
@@ -175,7 +185,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             Result<JoinMeeting> r = (Result<JoinMeeting>) result;
             if (r.isSucceed()) {
                 mJoinMeeting = r.getData();
-                mWebSocketUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
+                String wsUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
                 mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
                 for (int i = 0; i < mCourseDetailList.size(); ++i) {
@@ -194,8 +204,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 }
                 invalidate();
                 // 链接websocket
-                if (TextUtil.isNotEmpty(mWebSocketUrl)) {
-                    mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWebSocketUrl).build(), new WebSocketLink());
+                if (TextUtil.isNotEmpty(wsUrl)) {
+                    WebSocketServRouter.create(wsUrl).route(this);
                 }
             }
         } else {
@@ -204,14 +214,76 @@ public class LiveRecordActivity extends BaseRecordActivity {
     }
 
     @Override
+    protected void switchDevice() {
+        YSLog.d(TAG, "是否切换直播设备");
+        HintDialogMain dialog = new HintDialogMain(this);
+        dialog.setHint(R.string.switch_live_record_device);
+        dialog.addBlackButton(R.string.continue_host, view -> {
+            // do nothing
+            notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+        });
+        TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
+            // 如果在直播要先暂停录音，然后上传音频，再退出页面
+            if (mLiveState) {
+                mLiveRecordPresenterImpl.stopLiveRecord();
+                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
+            }
+            notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+            finish();
+        });
+        CountDown countDown = new CountDown();
+        countDown.start(5);
+        countDown.setListener(new OnCountDownListener() {
+
+            @Override
+            public void onCountDown(long remainCount) {
+                if (remainCount == 0) {
+                    if (mLiveState) {
+                        mLiveRecordPresenterImpl.stopLiveRecord();
+                        uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
+                    }
+                    notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+                    finish();
+                    dialog.dismiss();
+                    return;
+                }
+                tv.setText(String.format(getString(R.string.affirm_exit), remainCount));
+            }
+
+            @Override
+            public void onCountDownErr() {
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
     protected void onCallOffHooK() {
         if (mLiveState) {
             // 判断当前页是不是视频
             if (getItem(getCurrentItem()) instanceof RecordImgFrag && ((RecordImgFrag) getItem(getCurrentItem())).getFragType() == FragType.img) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
+                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             } else {
                 mView.stopRecordState();
             }
+        }
+    }
+
+    // 接收websocket的指令
+    @Override
+    public void onLiveNotify(int type, Object data) {
+        switch (type) {
+            case LiveNotifyType.sync: {
+                int page = (int) data;
+                mWsPosition = page;
+                setCurrentItem(page);
+            }
+            break;
+            case LiveNotifyType.inquired: {
+                switchDevice();
+            }
+            break;
         }
     }
 
@@ -302,6 +374,16 @@ public class LiveRecordActivity extends BaseRecordActivity {
             } else {
                 mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_second), l));
             }
+        }
+
+        @Override
+        public void upload(int type, String audioFilePath) {
+            uploadAudioFile(mCourseId, getCurrentItem(), PlayType.live, audioFilePath);
+        }
+
+        @Override
+        public void setAudioFilePath(String filePath) {
+            mFilePath = filePath;
         }
 
         @Override

@@ -27,17 +27,28 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
     }
 
     @IntDef({
-            WsOrderType.sync
+            WsOrderType.live,
+            WsOrderType.sync,
+            WsOrderType.inquire,
+            WsOrderType.reject,
+            WsOrderType.accept,
+            WsOrderType.repeat_login
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface WsOrderType {
+        int live = 0;
         int sync = 1;
+        int inquire = 2;
+        int reject = 3;
+        int accept = 4;
+        int repeat_login = 5;
     }
 
     public enum TWebSocketMsg {
         courseId,  // 课程id
-        order,    // 1 同步指令
+        order,    //  0表示直播指令 1同步指令 2表示踢人指令 3表示拒绝被 4接受被踢 5存在重复登录
         orderFrom,  // app  web
         pageNum,  // 页面下标 0开始
+        sid, // 会话ID
     }
 }

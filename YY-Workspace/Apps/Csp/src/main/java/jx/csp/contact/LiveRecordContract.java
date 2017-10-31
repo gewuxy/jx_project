@@ -2,6 +2,7 @@ package jx.csp.contact;
 
 import android.support.annotation.StringRes;
 
+import jx.csp.model.meeting.Course.PlayType;
 import lib.yy.contract.BaseContract;
 
 /**
@@ -28,6 +29,18 @@ public interface LiveRecordContract {
          * 直播倒计时
          */
         void setCountDownRemainTv(boolean show, long l);
+
+        /**
+         * 一页录音的时间超过15分钟时，先上传15分钟的音频
+         */
+        void upload(@PlayType int type, String audioFilePath);
+
+        /**
+         * 设置正在录制音频文件的路径
+         *
+         * @param filePath
+         */
+        void setAudioFilePath(String filePath);
 
         void changeRecordIvRes();
 

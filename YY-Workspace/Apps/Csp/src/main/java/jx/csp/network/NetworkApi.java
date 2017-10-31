@@ -255,6 +255,16 @@ public class NetworkApi {
         void downloadAudio(@Url String url);
 
         /**
+         * 退出录播页面
+         *
+         * @param courseId
+         * @param pageNum
+         * @param over
+         */
+        @Get("record/exit")
+        void exitRecord(String courseId, int  pageNum, int over);
+
+        /**
          * 会议列表
          *
          * @param pageNum

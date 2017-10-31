@@ -16,16 +16,22 @@ import com.mylhyl.zxing.scanner.common.Scanner;
 import jx.csp.R;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Scan;
+import jx.csp.model.meeting.Scan.DuplicateType;
 import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
+import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivity;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
+import lib.yy.notify.LiveNotifier;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
+import lib.yy.notify.LiveNotifier.OnLiveNotify;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -36,7 +42,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/7/24
  */
 
-public class ScanActivity extends BaseActivity implements OnScannerCompletionListener,OnCountDownListener {
+public class ScanActivity extends BaseActivity implements OnScannerCompletionListener, OnCountDownListener, OnLiveNotify {
 
     private final int KFrameSize = 248;
     private final int KTopMargin = 96;
@@ -47,9 +53,11 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     private boolean mFlag;//图片更换
     private CountDown mCountDown; // 倒计时
+    private Scan mScan;
 
     @Override
     public void initData() {
+        LiveNotifier.inst().add(this);
     }
 
     @NonNull
@@ -133,6 +141,12 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         mScannerView.onPause();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LiveNotifier.inst().remove(this);
+    }
+
     /**
      * 扫描成功后回调
      * @param result 扫描结果
@@ -167,14 +181,42 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     public void onNetworkSuccess(int id, Object result) {
         Result<Scan> r = (Result<Scan>) result;
         if (r.isSucceed()) {
-            Scan data = r.getData();
-            if (data.getInt(TScan.playType) == PlayType.reb) {
-                //录播
-               CommonRecordActivityRouter.create(data.getString(TScan.courseId)).route(this);
+            mScan = r.getData();
+            // 先判断是否有其他人已经进入会议
+            if (mScan.getInt(TScan.duplicate) == DuplicateType.no) {
+                if (mScan.getInt(TScan.playType) == PlayType.reb) {
+                    //录播
+                    CommonRecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
+                } else {
+                    startActivity(LiveRecordActivity.class);
+                }
+                finish();
             } else {
-                startActivity(LiveRecordActivity.class);
+                String wsUrl = mScan.getString(TScan.wsUrl);
+                if (TextUtil.isNotEmpty(wsUrl)) {
+                    WebSocketServRouter.create(wsUrl).route(this);
+                }
             }
-            finish();
+        }
+    }
+
+    @Override
+    public void onLiveNotify(int type, Object data) {
+        switch (type) {
+            case LiveNotifyType.accept: {
+                if (mScan.getInt(TScan.playType) == PlayType.reb) {
+                    //录播
+                    CommonRecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
+                } else {
+                    startActivity(LiveRecordActivity.class);
+                }
+                finish();
+            }
+            break;
+            case LiveNotifyType.reject: {
+                showToast(R.string.join_fail);
+            }
+            break;
         }
     }
 

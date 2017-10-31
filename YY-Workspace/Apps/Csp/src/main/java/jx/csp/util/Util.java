@@ -108,39 +108,23 @@ public class Util extends BaseUtil {
     }
 
     /**
-     * 得到12'25" 格式的时间
+     * 得到指定格式的时间字符串
      *
      * @param l
+     * @param mFormat  分后面的字符
+     * @param sFormat  秒后面的字符
      * @return
      */
-    public static String getSpecialTimeFormat(long l) {
+    public static String getSpecialTimeFormat(long l, String mFormat, String sFormat) {
         int m = (int) (l / 60);
         int s = (int) (l % 60);
         StringBuffer sb = new StringBuffer()
                 .append(m <= 9 ? "0" : "")
                 .append(m)
-                .append("'")
+                .append(mFormat)
                 .append(s <= 9 ? "0" : "")
                 .append(s)
-                .append("''");
-        return sb.toString();
-    }
-
-    /**
-     * 得到12:25 格式的时间
-     *
-     * @param l
-     * @return
-     */
-    public static String getCommonTimeFormat(long l) {
-        int m = (int) (l / 60);
-        int s = (int) (l % 60);
-        StringBuffer sb = new StringBuffer()
-                .append(m <= 9 ? "0" : "")
-                .append(m)
-                .append(":")
-                .append(s <= 9 ? "0" : "")
-                .append(s);
+                .append(sFormat);
         return sb.toString();
     }
 

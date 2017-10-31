@@ -13,6 +13,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpUser;
 import lib.jg.jpush.SpJPush;
@@ -35,15 +36,23 @@ public class CommonServ extends ServiceEx{
     String mToken;
     @Arg(opt = true)
     String mJPushRegisterId;
+    @Arg(opt = true)
+    String mCourseId;
+    @Arg(opt = true)
+    int mPageNum;
+    @Arg(opt = true )
+    int mOverType;
 
     @IntDef({
             ReqType.logout,
             ReqType.j_push,
+            ReqType.exit_record,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
         int logout = 1;
         int j_push = 2;
+        int exit_record = 3;
     }
 
     @Override
@@ -55,6 +64,10 @@ public class CommonServ extends ServiceEx{
             break;
             case ReqType.j_push: {
 
+            }
+            break;
+            case ReqType.exit_record: {
+                exeNetworkReq(MeetingAPI.exitRecord(mCourseId, mPageNum, mOverType).build());
             }
             break;
         }

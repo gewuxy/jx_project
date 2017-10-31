@@ -44,9 +44,7 @@ public class MainActivity extends BaseVPActivity {
 
         mSquareFrag.setListener(data -> mSlideFrag.setData(data));
         add(mSquareFrag);
-
         add(mSlideFrag);
-
         mFlag = true;
     }
 

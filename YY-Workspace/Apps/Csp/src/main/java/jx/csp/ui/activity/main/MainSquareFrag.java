@@ -115,18 +115,18 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
                     }
                 } else if (getItem(position).getInt(TSquare.playType) == PlayType.live) {
                     if (getItem(position).getInt(TSquare.liveState) == LiveState.un_start) {
-                        App.showToast(R.string.live_not_start);
-                    }else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
+                        showToast(R.string.live_not_start);
+                    } else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
 //                        LiveRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
                         showHintDialog(getString(R.string.main_live_dialog));
-                    }else {
-                        App.showToast(R.string.live_have_end);
+                    } else {
+                        showToast(R.string.live_have_end);
                         LiveRecordActivityRouter.create(mCourseId).route(getContext());
                     }
-                }else {
+                } else {
                     if (getItem(position).getInt(TSquare.liveState) == LiveState.un_start) {
-                        App.showToast(R.string.live_not_start);
+                        showToast(R.string.live_not_start);
                     } else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号
                         HintDialogMain d = new HintDialogMain(getContext());
@@ -137,7 +137,7 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
                             // FIXME: 2017/10/30 两个设备分别选择，执行上，选择同一个，执行下
                             showHintDialog(getString(R.string.main_live_dialog));
                         });
-                        d.addBlueButton(R.string.live_video, view ->{
+                        d.addBlueButton(R.string.live_video, view -> {
 //                            LiveRoomActivityRouter.create(mCourseId).route(getContext());
                             // FIXME: 2017/10/30 两个设备分别选择，执行上，选择同一个，执行下
                             showHintDialog(getString(R.string.main_live_dialog));
@@ -194,7 +194,7 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
 
     }
 
-    public void showHintDialog(String hint){
+    public void showHintDialog(String hint) {
         HintDialogMain d = new HintDialogMain(getContext());
         d.setHint(hint);
         d.addGrayButton(R.string.confirm_continue, view -> {
