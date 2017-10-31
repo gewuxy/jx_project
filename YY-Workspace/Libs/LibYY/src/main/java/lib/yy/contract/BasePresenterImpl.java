@@ -15,8 +15,8 @@ import okhttp3.WebSocketListener;
  * @auther : GuoXuan
  * @since : 2017/9/27
  */
-abstract public class BasePresenterImpl<V extends BaseContract.BaseView> implements
-        BaseContract.BasePresenter,
+abstract public class BasePresenterImpl<V extends IContract.View> implements
+        IContract.Presenter<V>,
         OnNetworkListener {
 
     protected final String TAG = getClass().getSimpleName();
@@ -29,7 +29,8 @@ abstract public class BasePresenterImpl<V extends BaseContract.BaseView> impleme
         mV = v;
     }
 
-    protected V getView() {
+    @Override
+    public V getView() {
         return mV;
     }
 

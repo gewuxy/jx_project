@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import android.view.TextureView;
 
-import lib.yy.contract.BaseContract;
+import lib.yy.contract.IContract;
 
 /**
  * @author CaiXiang
@@ -10,7 +10,7 @@ import lib.yy.contract.BaseContract;
  */
 public interface LiveRoomContract {
 
-    interface View extends BaseContract.BaseView {
+    interface View extends IContract.View {
 
         TextureView getTextureView();
 
@@ -31,7 +31,7 @@ public interface LiveRoomContract {
         void onFinish();
     }
 
-    interface Presenter extends BaseContract.BasePresenter{
+    interface Presenter extends IContract.Presenter<View> {
 
         void initLiveRoom(String roomId);
 

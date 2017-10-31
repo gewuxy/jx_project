@@ -2,10 +2,8 @@ package jx.csp.contact;
 
 import android.graphics.Bitmap;
 
-import jx.csp.ui.ViewEx;
 import lib.ys.ui.other.NavBar;
-import lib.yy.contract.BaseContract;
-import lib.yy.contract.BaseContract.BaseView;
+import lib.yy.contract.IContract;
 
 /**
  * @auther Huoxuyu
@@ -13,7 +11,7 @@ import lib.yy.contract.BaseContract.BaseView;
  */
 
 public interface ClipImageContract {
-    interface V extends ViewEx, BaseView {
+    interface V extends IContract.View {
 
         /**
          * 头部的设置
@@ -29,7 +27,7 @@ public interface ClipImageContract {
         void setSuccessProcessed();
     }
 
-    interface P extends BaseContract.BasePresenter{
+    interface P extends IContract.Presenter<V> {
 
         void getupLoadAvatar(Bitmap bitmap);
     }

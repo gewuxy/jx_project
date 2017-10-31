@@ -20,8 +20,7 @@ import lib.yy.network.Result;
  * @since 2017/10/26
  */
 
-public class ContributePlatformPresenterImpl
-        extends BasePresenterImpl<ContributePlatformContract.V>
+public class ContributePlatformPresenterImpl extends BasePresenterImpl<ContributePlatformContract.V>
         implements ContributePlatformContract.P {
 
     public ContributePlatformPresenterImpl(ContributePlatformContract.V v) {

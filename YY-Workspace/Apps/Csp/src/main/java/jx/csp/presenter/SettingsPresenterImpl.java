@@ -12,7 +12,8 @@ import lib.yy.contract.BasePresenterImpl;
  * @since 2017/10/26
  */
 
-public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V> implements SettingsContract.P{
+public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V>
+        implements SettingsContract.P {
 
     public SettingsPresenterImpl(SettingsContract.V v) {
         super(v);

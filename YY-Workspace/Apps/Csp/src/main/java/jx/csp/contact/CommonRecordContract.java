@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import android.support.annotation.StringRes;
 
-import lib.yy.contract.BaseContract;
+import lib.yy.contract.IContract;
 
 /**
  * @author CaiXiang
@@ -11,7 +11,7 @@ import lib.yy.contract.BaseContract;
 
 public interface CommonRecordContract {
 
-    interface View extends BaseContract.BaseView {
+    interface View extends IContract.View {
 
         /**
          * 录制的总时间
@@ -34,7 +34,7 @@ public interface CommonRecordContract {
         void goneViceLine();
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
+    interface Presenter extends IContract.Presenter<View> {
 
         void setBeforeRecordTime(int t);
 

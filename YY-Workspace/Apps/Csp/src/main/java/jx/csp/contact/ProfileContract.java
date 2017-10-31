@@ -2,10 +2,8 @@ package jx.csp.contact;
 
 import android.content.Intent;
 
-import jx.csp.ui.ViewEx;
 import lib.ys.util.permission.PermissionResult;
-import lib.yy.contract.BaseContract;
-import lib.yy.contract.BaseContract.BaseView;
+import lib.yy.contract.IContract;
 
 /**
  * @auther Huoxuyu
@@ -13,7 +11,7 @@ import lib.yy.contract.BaseContract.BaseView;
  */
 
 public interface ProfileContract {
-    interface V extends ViewEx, BaseView {
+    interface V extends IContract.View {
 
         /**
          * 初始化头像
@@ -42,6 +40,7 @@ public interface ProfileContract {
 
         /**
          * 获取图片, 进行裁剪后返回
+         *
          * @param path
          */
         void startActForResult(String path);
@@ -53,7 +52,6 @@ public interface ProfileContract {
 
     }
 
-    interface P extends BaseContract.BasePresenter{
-
+    interface P extends IContract.Presenter<V> {
     }
 }

@@ -16,7 +16,7 @@ import lib.yy.network.Result;
  * @since 2017/10/24
  */
 
-public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V> implements FlowRateContract.P{
+public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V> implements FlowRateContract.P {
 
     private final int KPayPalPayCode = 1;
 
@@ -28,7 +28,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
     public void getNetworkReq(int id, int flow, String channel) {
         if (id == KPayPalPayCode) {
             exeNetworkReq(KPayPalPayCode, PayAPI.paypalPay(flow).build());
-        }else {
+        } else {
             exeNetworkReq(PayAPI.pingPay(flow, channel).build());
         }
     }

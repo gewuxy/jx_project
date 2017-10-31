@@ -4,14 +4,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import jx.csp.ui.ViewEx;
 import lib.ys.ui.other.NavBar;
-import lib.yy.contract.BaseContract;
-import lib.yy.contract.BaseContract.BaseView;
+import lib.yy.contract.IContract;
 
 /**
  * @auther Huoxuyu
@@ -19,7 +16,7 @@ import lib.yy.contract.BaseContract.BaseView;
  */
 
 public interface MyMessageContract {
-    interface V extends ViewEx, BaseView {
+    interface V extends IContract.View {
 
         /**
          * 设置头部
@@ -48,7 +45,7 @@ public interface MyMessageContract {
          * @param et
          * @param ivClear
          */
-        void onTextChangedListener(@NonNull EditText et, @Nullable View ivClear);
+        void onTextChangedListener(@NonNull EditText et, @Nullable android.view.View ivClear);
 
         /**
          * 昵称输入框的规则
@@ -77,7 +74,7 @@ public interface MyMessageContract {
         void setIntroChangedTextLength(Editable s, TextView tv);
     }
 
-    interface P extends BaseContract.BasePresenter{
+    interface P extends IContract.Presenter<V> {
 
         /**
          * 个人信息的网络请求

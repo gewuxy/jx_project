@@ -8,7 +8,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +15,7 @@ import inject.annotation.router.Arg;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.other.NavBar;
-import lib.yy.contract.BaseContract;
+import lib.yy.contract.IContract.View;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -93,7 +92,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     }
 
     @Override
-    public final void onClick(View v) {
+    public final void onClick(android.view.View v) {
         switch (v.getId()) {
             case R.id.meet_play_nav_iv_back: {
                 finish();
@@ -222,21 +221,21 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     /**
      * BaseView暂时没有extends ICommonOpt(项目框架)
      */
-    protected class BaseViewImpl implements BaseContract.BaseView,ICommonOpt {
+    protected class BaseViewImpl implements View,ICommonOpt {
 
         @Deprecated
         @Override
-        public void showView(View v) {
+        public void showView(android.view.View v) {
         }
 
         @Deprecated
         @Override
-        public void hideView(View v) {
+        public void hideView(android.view.View v) {
         }
 
         @Deprecated
         @Override
-        public void goneView(View v) {
+        public void goneView(android.view.View v) {
         }
 
         @Override

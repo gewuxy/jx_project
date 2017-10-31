@@ -15,7 +15,7 @@ import lib.ys.network.image.renderer.CircleRenderer;
  * @since 2017/9/28
  */
 
-public class PlatformAdapter extends AdapterEx<Platform, PlatformVH>{
+public class PlatformAdapter extends AdapterEx<Platform, PlatformVH> {
 
     private OnPlatformCheckedListener mListener;
 

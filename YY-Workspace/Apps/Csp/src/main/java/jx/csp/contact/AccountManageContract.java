@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.view.View.OnClickListener;
 
 import jx.csp.model.Profile.TProfile;
-import lib.yy.contract.BaseContract;
+import lib.yy.contract.IContract;
 import lib.yy.network.Result;
 
 /**
@@ -13,7 +13,7 @@ import lib.yy.network.Result;
 
 public interface AccountManageContract {
     
-    interface V extends BaseContract.BaseView{
+    interface V extends IContract.View {
 
         /**
          * 判断绑定状态
@@ -47,7 +47,7 @@ public interface AccountManageContract {
         
     }
     
-    interface P extends BaseContract.BasePresenter{
+    interface P extends IContract.Presenter<V> {
 
         /**
          * 解绑邮箱, 手机号

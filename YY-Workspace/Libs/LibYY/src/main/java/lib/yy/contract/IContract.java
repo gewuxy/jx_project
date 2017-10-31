@@ -8,12 +8,14 @@ import okhttp3.WebSocketListener;
  * @auther : GuoXuan
  * @since : 2017/10/30
  */
-public interface BaseContract {
+public interface IContract {
 
-    interface BaseView {
+    interface View {
     }
 
-    interface BasePresenter {
+    interface Presenter<V extends View> {
+
+        V getView();
 
         void exeNetworkReq(NetworkReq req);
 

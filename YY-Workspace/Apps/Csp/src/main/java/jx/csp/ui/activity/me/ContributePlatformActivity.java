@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me;
 
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import jx.csp.R;
 import jx.csp.adapter.PlatformAdapter;
 import jx.csp.adapter.PlatformAdapter.OnPlatformCheckedListener;
 import jx.csp.contact.ContributePlatformContract;
+import jx.csp.contact.ContributePlatformContract.P;
 import jx.csp.dialog.PlatformDialog;
 import jx.csp.model.contribute.Platform;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
@@ -25,8 +25,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
  * @since 2017/9/28
  */
 
-public class ContributePlatformActivity extends
-        BaseSRListActivity<Platform, PlatformAdapter>
+public class ContributePlatformActivity extends BaseSRListActivity<Platform, PlatformAdapter>
         implements OnPlatformCheckedListener {
 
     private final int KCodePlatform = 1;
@@ -35,14 +34,14 @@ public class ContributePlatformActivity extends
     private ArrayList<Platform> mSelectedItem;
     private Platform mPlatform;
 
-    private ContributePlatformContract.P mPresenter;
+    private P mPresenter;
     private ContributePlatformContract.V mView;
 
     @Override
     public void initData() {
         mSelectedItem = new ArrayList<>();
 
-        mView = new contributePlatformViewImpl();
+        mView = new ContributePlatformViewImpl();
         mPresenter = new ContributePlatformPresenterImpl(mView);
     }
 
@@ -78,7 +77,7 @@ public class ContributePlatformActivity extends
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(android.view.View v) {
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
@@ -94,7 +93,8 @@ public class ContributePlatformActivity extends
         mView.changeButtonStatus();
     }
 
-    private class contributePlatformViewImpl implements ContributePlatformContract.V {
+    private class ContributePlatformViewImpl implements ContributePlatformContract.V {
+
         @Override
         public void showDialog(NavBar bar) {
             bar.addViewRight(R.drawable.ic_default_hint, v -> {

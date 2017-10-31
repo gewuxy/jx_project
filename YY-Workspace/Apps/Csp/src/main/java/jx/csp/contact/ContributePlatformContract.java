@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import jx.csp.model.contribute.Platform;
 import lib.ys.ui.other.NavBar;
-import lib.yy.contract.BaseContract;
+import lib.yy.contract.IContract;
 
 /**
  * @auther Huoxuyu
@@ -13,7 +13,7 @@ import lib.yy.contract.BaseContract;
 
 public interface ContributePlatformContract {
 
-    interface V extends BaseContract.BaseView{
+    interface V extends IContract.View {
 
         /**
          * 点击图标, 提示文字
@@ -36,7 +36,7 @@ public interface ContributePlatformContract {
         void stopRefreshItem();
     }
 
-    interface P extends BaseContract.BasePresenter {
+    interface P extends IContract.Presenter<V> {
 
         /**
          * 投稿的服务器请求
