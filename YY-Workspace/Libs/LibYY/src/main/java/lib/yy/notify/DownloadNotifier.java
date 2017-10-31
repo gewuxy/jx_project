@@ -11,7 +11,7 @@ import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
 /**
  * 下载的通知
  *
- * @author yuansui
+ * @author caixiang
  */
 
 public class DownloadNotifier extends NotifierEx<OnDownloadNotify> {

@@ -2,6 +2,7 @@ package jx.csp.dialog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.widget.TextView;
 
 import jx.csp.R;
@@ -36,6 +37,10 @@ public class HintDialogMain extends HintDialog {
 
     public void setHint(CharSequence hint) {
         mTvHint.setText(hint);
+    }
+
+    public void setHint(@StringRes int id) {
+        mTvHint.setText(id);
     }
 
 }

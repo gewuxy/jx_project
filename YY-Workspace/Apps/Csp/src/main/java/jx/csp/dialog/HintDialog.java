@@ -105,7 +105,7 @@ public class HintDialog extends BaseDialog {
     /**
      * 16dp大小的按钮(自带dismiss)
      */
-    public void addButton(String text, @ColorRes int resId, OnClickListener l) {
+    public TextView addButton(String text, @ColorRes int resId, OnClickListener l) {
         TextView tv = new TextView(getContext());
 
         tv.setBackgroundResource(R.drawable.item_selector);
@@ -121,6 +121,7 @@ public class HintDialog extends BaseDialog {
         });
 
         addButtons(tv);
+        return tv;
     }
 
     public void addButton(@StringRes int strRes, @ColorRes int resId, OnClickListener l) {
@@ -148,8 +149,8 @@ public class HintDialog extends BaseDialog {
         addButton(getContext().getString(strRes), R.color.text_167afe, null);
     }
 
-    public void addBlueButton(@StringRes int strRes, OnClickListener l) {
-        addButton(getContext().getString(strRes), R.color.text_167afe, l);
+    public TextView addBlueButton(@StringRes int strRes, OnClickListener l) {
+        return addButton(getContext().getString(strRes), R.color.text_167afe, l);
     }
 
     /**
@@ -165,6 +166,13 @@ public class HintDialog extends BaseDialog {
      */
     public void addBlackButton(String text, OnClickListener l) {
         addButton(text, R.color.text_333, l);
+    }
+
+    /**
+     * 按钮颜色为333333
+     */
+    public void addBlackButton(@StringRes int id, OnClickListener l) {
+        addButton(getContext().getString(id), R.color.text_333, l);
     }
 
 }

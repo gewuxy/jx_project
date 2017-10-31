@@ -36,6 +36,12 @@
     <string name="never_remain">不再提示</string>
     <string name="play_fail">播放失败</string>
     <string name="record_fail">录音失败</string>
+    <string name="switch_live_record_device">有另一台设备尝试主持直播!</string>
+    <string name="switch_common_record_device">有另一台设备尝试主持录播!</string>
+    <string name="continue_host">继续主持</string>
+    <string name="continue_record">继续录播</string>
+    <string name="affirm_exit">确认退出(%ds)</string>
+    <string name="join_fail">进入失败</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>

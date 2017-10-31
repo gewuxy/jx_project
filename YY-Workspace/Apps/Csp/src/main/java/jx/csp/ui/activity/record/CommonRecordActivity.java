@@ -2,6 +2,8 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
+import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -14,15 +16,23 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.CommonRecordContract;
 import jx.csp.dialog.HintDialog;
+import jx.csp.dialog.HintDialogMain;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
+import jx.csp.model.meeting.Record;
+import jx.csp.model.meeting.Record.PlayState;
+import jx.csp.model.meeting.Record.TRecord;
+import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.CommonRecordPresenterImpl;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
+import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
@@ -30,7 +40,6 @@ import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
-import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.util.FileUtil;
@@ -38,6 +47,9 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.yy.network.Result;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
+import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * 普通的录制
@@ -48,6 +60,7 @@ import lib.yy.network.Result;
 @Route
 public class CommonRecordActivity extends BaseRecordActivity implements onGestureViewListener {
 
+    private final int KExitReqId = 50;
     private boolean mRecordState = false; // 是否在录制中
     private boolean mShowVoiceLine = false; // 声波曲线是否显示
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
@@ -63,6 +76,16 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     @interface ScrollType {
         int last = 1;  // 上一页
         int next = 2;  // 下一页
+    }
+
+    @IntDef({
+            OverType.no,
+            OverType.over
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface OverType {
+        int no = 0; // 没有结束
+        int over = 1; // 结束
     }
 
     @Override
@@ -141,7 +164,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
             mIvRecordState.setClickable(false);
         }
-        webSocketSendMsg(position);
+        if (position != mWsPosition) {
+            notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
+        }
     }
 
     @Override
@@ -201,6 +226,18 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        int overType;
+        if (mCourseDetailList != null &&getCurrentItem() == (mCourseDetailList.size() - KOne)) {
+            overType = OverType.over;
+        } else {
+            overType = OverType.no;
+        }
+        CommonServRouter.create()
+                .type(ReqType.exit_record)
+                .courseId(mCourseId)
+                .pageNum(getCurrentItem())
+                .overType(overType)
+                .route(this);
         mRecordPresenter.onDestroy();
         if (mAnimationRecord.isRunning()) {
             mAnimationRecord.stop();
@@ -222,7 +259,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             Result<JoinMeeting> r = (Result<JoinMeeting>) result;
             if (r.isSucceed()) {
                 mJoinMeeting = r.getData();
-                mWebSocketUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
+                String wsUrl= mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
                 mTitle = mJoinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
                 mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
@@ -254,14 +291,90 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                     mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
                     mIvRecordState.setClickable(false);
                 }
+                // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
+                Record record = (Record) mJoinMeeting.getObject(TJoinMeeting.record);
+                YSLog.d(TAG, "playState = " + record.getInt(TRecord.playState));
+                YSLog.d(TAG, "playPage = " + record.getString(TRecord.playPage));
+                if (record.getInt(TRecord.playState) == PlayState.record && record.getInt(TRecord.playPage) != 0) {
+                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                        @Override
+                        public void onGlobalLayout() {
+                            setCurrentItem(record.getInt(TRecord.playPage));
+                            removeOnGlobalLayoutListener(this);
+                        }
+                    });
+                }
                 invalidate();
                 // 链接websocket
-                if (TextUtil.isNotEmpty(mWebSocketUrl)) {
-                    mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWebSocketUrl).build(), new WebSocketLink());
+                if (TextUtil.isNotEmpty(wsUrl)) {
+                    WebSocketServRouter.create(wsUrl).route(this);
                 }
             }
         } else {
             super.onNetworkSuccess(id, result);
+        }
+    }
+
+    @Override
+    protected void switchDevice() {
+        HintDialogMain dialog = new HintDialogMain(this);
+        dialog.setHint(R.string.switch_live_record_device);
+        dialog.addBlackButton(R.string.continue_record, view -> {
+            // do nothing
+            notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+        });
+        TextView tv = dialog.addBlueButton(R.string.affirm_exit, new OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                // 如果在直播要先暂停录音，然后上传音频，再退出页面
+                if (mRecordState) {
+                    mRecordPresenter.stopRecord();
+                }
+                notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+                finish();
+            }
+        });
+        CountDown countDown = new CountDown();
+        countDown.start(5);
+        countDown.setListener(new OnCountDownListener() {
+
+            @Override
+            public void onCountDown(long remainCount) {
+                if (remainCount == 0) {
+                    if (mRecordState) {
+                        mRecordPresenter.stopRecord();
+                    }
+                    notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+                    finish();
+                    dialog.dismiss();
+                    return;
+                }
+                tv.setText(String.format(getString(R.string.affirm_exit), remainCount));
+            }
+
+            @Override
+            public void onCountDownErr() {
+            }
+        });
+        dialog.show();
+    }
+
+    // 接收websocket的指令
+    @Override
+    public void onLiveNotify(int type, Object data) {
+        switch (type) {
+            case LiveNotifyType.sync: {
+                int page = (int) data;
+                mWsPosition = page;
+                setCurrentItem(page);
+            }
+            break;
+            case LiveNotifyType.inquired: {
+                switchDevice();
+            }
+            break;
         }
     }
 

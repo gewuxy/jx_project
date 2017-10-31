@@ -46,7 +46,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
     @Override
     public void setBeforeRecordTime(int t) {
         mTotalTime = t;
-        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
+        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
     @Override
     public void stopRecord() {
         mTotalTime  += mTime;
-        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime));
+        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
         getView().stopRecordState();
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
@@ -149,7 +149,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
             getView().setVoiceLineState(i);
         } else {
             ++mTime;
-            getView().setRecordTimeTv(Util.getCommonTimeFormat(mTime));
+            getView().setRecordTimeTv(Util.getSpecialTimeFormat(mTime, ":", ""));
         }
     }
 

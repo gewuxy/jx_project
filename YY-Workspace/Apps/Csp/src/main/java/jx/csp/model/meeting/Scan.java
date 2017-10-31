@@ -1,5 +1,10 @@
 package jx.csp.model.meeting;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import jx.csp.model.meeting.Scan.TScan;
 import lib.ys.model.EVal;
 
@@ -10,12 +15,24 @@ import lib.ys.model.EVal;
 
 public class Scan extends EVal<TScan> {
 
+    @IntDef({
+            DuplicateType.no,
+            DuplicateType.yes,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DuplicateType {
+        int no = 0;
+        int yes = 1;
+    }
+
     public enum TScan {
         courseId,
 
         /**
          * {@link Course.PlayType}
          */
-        playType
+        playType,
+        duplicate,  // 	是否有重复登录  0表示没有 1表示有
+        wsUrl, //  websocket地址 duplicate=1时才有
     }
 }

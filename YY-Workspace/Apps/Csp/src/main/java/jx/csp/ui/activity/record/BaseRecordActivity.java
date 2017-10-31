@@ -11,15 +11,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import jx.csp.R;
@@ -42,11 +38,10 @@ import lib.network.model.NetworkReq;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.yy.notify.LiveNotifier;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
+import lib.yy.notify.LiveNotifier.OnLiveNotify;
 import lib.yy.ui.activity.base.BaseVPActivity;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import okio.ByteString;
 
 /**
  * 录音页面
@@ -55,9 +50,8 @@ import okio.ByteString;
  * @since 2017/9/30
  */
 
-abstract public class BaseRecordActivity extends BaseVPActivity implements OnPageChangeListener {
+abstract public class BaseRecordActivity extends BaseVPActivity implements OnPageChangeListener, OnLiveNotify {
 
-    protected static final int KWebSocketCloseNormal = 1000; //  1000表示正常关闭
     protected final int KMicroPermissionCode = 10;
     protected final int KJoinMeetingReqId = 10;
     protected final int KUploadAudioReqId = 20;
@@ -87,10 +81,6 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
     protected Course mCourseMsg;
     protected ArrayList<CourseDetail> mCourseDetailList;
 
-    protected WebSocket mWebSocket;
-    protected boolean mWsSuccess = false; // WebSocket连接是否成功
-    protected String mWebSocketUrl; // WebSocket地址
-
     private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
     private boolean mUploadState = false; // 是否在上传音频
     protected int mWsPosition = 0;  // websocket接收到的页数
@@ -116,6 +106,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //创建文件夹存放音频
         FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + File.separator + mCourseId);
+        LiveNotifier.inst().add(this);
     }
 
     @Override
@@ -199,6 +190,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         }
     }
 
+    @CallSuper
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -206,9 +198,7 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-        if (mWebSocket != null) {
-            mWebSocket.close(KWebSocketCloseNormal, "close");
-        }
+        LiveNotifier.inst().remove(this);
     }
 
     @Override
@@ -293,11 +283,21 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
      */
     protected void uploadAudioFile(String courseId, int page, @PlayType int type) {
         String audioFilePath = CacheUtil.getAudioPath(courseId, page);
+        uploadAudioFile(courseId, page, type, audioFilePath);
+    }
+
+    protected void uploadAudioFile(String courseId, int page, @PlayType int type, String audioFilePath) {
         File file = new File(audioFilePath);
         if (file.exists()) {
             byte[] bytes = FileUtil.fileToBytes(audioFilePath);
+            YSLog.d(TAG, "upload audioFilePath = " + audioFilePath);
             YSLog.d(TAG, "bytes = " + bytes.length);
-            // FIXME: 2017/10/26 直播时小于三秒的音频不上传 1s差不多2300 byte
+            // 直播时小于三秒的音频不上传并且删除文件 1s差不多1500 byte
+            if (type == PlayType.live && bytes.length < 4500) {
+                YSLog.d(TAG, "直播时小于三秒的音频不上传");
+                FileUtil.delFile(file);
+                return;
+            }
             NetworkReq req = MeetingAPI.uploadAudio()
                     .courseId(courseId)
                     .detailId(mCourseDetailList.get(page).getString(TCourseDetail.id))
@@ -333,79 +333,26 @@ abstract public class BaseRecordActivity extends BaseVPActivity implements OnPag
         }
     }
 
-    public class WebSocketLink extends WebSocketListener {
+    abstract protected void switchDevice();
 
-        @Override
-        public void onOpen(WebSocket webSocket, Response response) {
-            YSLog.d(TAG, "onOpen:" + response.message());
-            mWsSuccess = true; // 连接成功
-        }
-
-        @Override
-        public void onMessage(WebSocket webSocket, String text) {
-            YSLog.d(TAG, "onMessage:String" + text);
-            runOnUIThread(() -> {
-                try {
-                    JSONObject ob = new JSONObject(text);
-                    int order = ob.getInt("order");
-                    String from = ob.getString("orderFrom");
-                    if (order == WsOrderType.sync && from.equals(WsOrderFrom.web)) {
-                        mWsPosition = ob.getInt("pageNum");
-                        setCurrentItem(mWsPosition);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-
-        @Override
-        public void onMessage(WebSocket webSocket, ByteString bytes) {
-            YSLog.d(TAG, "onMessage:ByteString" + bytes);
-        }
-
-        @Override
-        public void onClosing(WebSocket webSocket, int code, String reason) {
-            YSLog.d(TAG, "onClosing:" + reason);
-        }
-
-        @Override
-        public void onClosed(WebSocket webSocket, int code, String reason) {
-            YSLog.d(TAG, "onClosed:" + reason);
-        }
-
-        @Override
-        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            YSLog.d(TAG, "onFailure:");
-            // 2秒后重连
-            if (isFinishing()) {
-                return;
-            }
-            // 没退出继续发任务
-            runOnUIThread(() -> {
-                if (isFinishing() || Util.noNetwork()) {
-                    return;
-                }
-                // 没退出继续重连
-                mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWebSocketUrl).build(), new WebSocketLink());
-            }, TimeUnit.SECONDS.toMillis(2));
-        }
+    protected void notifyServ(@LiveNotifyType int type, @WsOrderType int orderType) {
+        notifyServ(type, 0, orderType);
     }
 
     /**
-     * 同步指令 如果跟上次websocket发过来的页数一致就不需要发同步指令了
+     * 发送通知
      *
+     * @param type
      * @param position
+     * @param orderType
      */
-    protected void webSocketSendMsg(int position) {
-        if (position != mWsPosition) {
-            WebSocketMsg msg = new WebSocketMsg();
-            msg.put(TWebSocketMsg.courseId, mCourseId);
-            msg.put(TWebSocketMsg.order, WsOrderType.sync);
-            msg.put(TWebSocketMsg.orderFrom, WsOrderFrom.app);
-            msg.put(TWebSocketMsg.pageNum, position);
-            mWebSocket.send(msg.toJson());
-        }
+    protected void notifyServ(@LiveNotifyType int type, int position, @WsOrderType int orderType) {
+        WebSocketMsg msg = new WebSocketMsg();
+        msg.put(TWebSocketMsg.courseId, mCourseId);
+        msg.put(TWebSocketMsg.order, orderType);
+        msg.put(TWebSocketMsg.orderFrom, WsOrderFrom.app);
+        msg.put(TWebSocketMsg.pageNum, position);
+        LiveNotifier.inst().notify(type, msg.toJson());
     }
 
 }

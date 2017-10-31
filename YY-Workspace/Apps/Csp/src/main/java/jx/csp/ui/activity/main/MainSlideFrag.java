@@ -31,18 +31,13 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
     private float mLastOffset;
 
     private TextView mTvCurrentPage;
-
     private TextView mTvTotalPage;
-
     private TextView mTvReminder;
-
     private View mLayout;
-
     private View mSlideDataLayout;
 
     @Arg
     public String mCourseId;
-
 
     @Override
     public void initData() {

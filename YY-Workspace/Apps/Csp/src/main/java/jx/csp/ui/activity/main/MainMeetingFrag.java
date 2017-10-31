@@ -168,21 +168,21 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
                     if (mSquare.getInt(TSquare.playState) == PlayState.record) {
                         // CommonRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
-                       showHintDialog(getString(R.string.main_record_dialog));
+                        showHintDialog(getString(R.string.main_record_dialog));
                     } else {
                         CommonRecordActivityRouter.create(mCourseId).route(getContext());
                     }
                 } else if (mSquare.getInt(TSquare.playType) == PlayType.live) {
                     if (mSquare.getInt(TSquare.liveState) == LiveState.un_start) {
                         App.showToast(R.string.live_not_start);
-                    }else if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
+                    } else if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
                         LiveRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
                         showHintDialog(getString(R.string.main_live_dialog));
-                    }else {
+                    } else {
                         App.showToast(R.string.live_have_end);
                     }
-                }else {
+                } else {
                     if (mSquare.getInt(TSquare.liveState) == LiveState.un_start) {
                         App.showToast(R.string.live_not_start);
                     } else if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
@@ -190,7 +190,7 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
                         HintDialogMain d = new HintDialogMain(getContext());
                         d.setHint(getString(R.string.choice_contents));
                         // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示五秒倒计时，应该是一个请求,请求成功弹框
-                        d.addBlueButton(R.string.explain_meeting, view ->{
+                        d.addBlueButton(R.string.explain_meeting, view -> {
 //                            LiveRecordActivityRouter.create(mCourseId).route(getContext());
                             // FIXME: 2017/10/30 两个设备分别选择，执行上，选择同一个，执行下,怎么判断是分别选择还是选择同一个
                             showHintDialog(getString(R.string.main_live_dialog));
@@ -229,8 +229,8 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
             onNetworkError(id, r.getError());
         }
     }
-    
-    public void showHintDialog(String hint){
+
+    public void showHintDialog(String hint) {
         HintDialogMain d = new HintDialogMain(getContext());
         d.setHint(hint);
         d.addGrayButton(R.string.confirm_continue, view -> {

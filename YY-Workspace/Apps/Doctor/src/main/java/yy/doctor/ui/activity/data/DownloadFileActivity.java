@@ -197,23 +197,6 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
                     .dataFileId(mDataFileId)
                     .route(this);
             finish();
-
-//            if (mType.equals(FileTypeConstants.KPdf)) {
-//                // 下载完成先加密  加密完成跳转
-//                Observable.fromCallable(() -> FileCipherUtil.encrypt(mFilePath + mFileNameEncryption, FileCipherUtil.KEncrypt))
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(aBoolean -> {
-//                            if (aBoolean) {
-//                                LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName);
-//                                finish();
-//                            }
-//                        });
-//            } else {
-//                //加载完成跳转
-//                LaunchDownloadDataActivity.nav(this, mFilePath, mFileNameEncryption, mType, mTvTotal.getText().toString(), mFileName);
-//                finish();
-//            }
         }
     }
 
