@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
 import jx.csp.contact.AccountManageContract;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
@@ -242,7 +242,7 @@ public class AccountManageActivity extends BaseFormActivity {
 
         @Override
         public void confirmUnBindDialog(CharSequence hint, OnClickListener l) {
-            HintDialogMain d = new HintDialogMain(AccountManageActivity.this);
+            CommonDialog2 d = new CommonDialog2(AccountManageActivity.this);
             d.setHint(hint);
             d.addButton(R.string.confirm, R.color.text_333, l);
             d.addBlueButton(R.string.cancel);

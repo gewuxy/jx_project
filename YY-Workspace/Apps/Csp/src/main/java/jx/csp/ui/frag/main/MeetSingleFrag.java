@@ -15,7 +15,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.App;
 import jx.csp.R;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.dialog.ShareDialog.OnDeleteListener;
 import jx.csp.model.main.Meet;
@@ -79,7 +79,7 @@ public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.frag_main_slide;
+        return R.layout.frag_main_meet_single;
     }
 
     @Override
@@ -187,7 +187,7 @@ public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
                         App.showToast(R.string.live_not_start);
                     } else if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号
-                        HintDialogMain d = new HintDialogMain(getContext());
+                        CommonDialog2 d = new CommonDialog2(getContext());
                         d.setHint(getString(R.string.choice_contents));
                         // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示五秒倒计时，应该是一个请求,请求成功弹框
                         d.addBlueButton(R.string.explain_meeting, view -> {
@@ -231,7 +231,7 @@ public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
     }
 
     public void showHintDialog(String hint) {
-        HintDialogMain d = new HintDialogMain(getContext());
+        CommonDialog2 d = new CommonDialog2(getContext());
         d.setHint(hint);
         d.addGrayButton(R.string.confirm_continue, view -> {
             BaseDialog dialog = new BaseDialog(getContext()) {

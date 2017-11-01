@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.FormType;
@@ -153,7 +153,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
         if (error.getCode() == ErrorCode.KPwdErr) {
             mCount++;
             if (mCount > 5 && mCount < 8) {
-                HintDialogMain dialog = new HintDialogMain(this);
+                CommonDialog2 dialog = new CommonDialog2(this);
                 dialog.setHint(getString(R.string.pwd_err));
                 dialog.addGrayButton(R.string.cancel);
                 dialog.addBlueButton(getString(R.string.find_pwd), v1 -> {

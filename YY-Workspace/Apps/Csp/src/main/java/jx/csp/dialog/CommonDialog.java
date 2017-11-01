@@ -13,12 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import jx.csp.R;
 import lib.ys.fitter.DpFitter;
 import lib.ys.fitter.LayoutFitter;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.dialog.BaseDialog;
-import jx.csp.R;
 
 /**
  * 可变的对话框
@@ -26,12 +26,12 @@ import jx.csp.R;
  * @author : GuoXuan
  * @since : 2017/5/23
  */
-public class HintDialog extends BaseDialog {
+public class CommonDialog extends BaseDialog {
 
     private LinearLayout mLayoutHint; // 提示语
     private LinearLayout mLayoutButton; // 底部按钮的容器
 
-    public HintDialog(Context context) {
+    public CommonDialog(Context context) {
         super(context);
     }
 
@@ -42,7 +42,7 @@ public class HintDialog extends BaseDialog {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.dialog_base_hint;
+        return R.layout.dialog_base;
     }
 
     @CallSuper
@@ -114,7 +114,7 @@ public class HintDialog extends BaseDialog {
         tv.setTextColor(ResLoader.getColor(resId));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
         tv.setOnClickListener(v -> {
-            if (l != null){
+            if (l != null) {
                 l.onClick(v);
             }
             dismiss();
@@ -138,8 +138,8 @@ public class HintDialog extends BaseDialog {
     /**
      * 按钮颜色为666,有点击事件
      */
-    public void addGrayButton(@StringRes int strRes,OnClickListener l) {
-        addButton(getContext().getString(strRes), R.color.text_333,l);
+    public void addGrayButton(@StringRes int strRes, OnClickListener l) {
+        addButton(getContext().getString(strRes), R.color.text_333, l);
     }
 
     /**

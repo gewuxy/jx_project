@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -130,7 +130,7 @@ public class RegisterActivity extends BaseLoginActivity {
         //注册
         Result r = (Result) result;
         if (r.getCode() == KReturnCode) {
-            HintDialogMain d = new HintDialogMain(this);
+            CommonDialog2 d = new CommonDialog2(this);
             d.setHint(getString(R.string.email_have_been_register));
             d.addBlueButton(R.string.cancel);
             d.addBlueButton(getString(R.string.immediately_login), v -> finish());

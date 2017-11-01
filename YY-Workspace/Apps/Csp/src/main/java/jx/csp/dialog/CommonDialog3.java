@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.widget.TextView;
 
+import jx.csp.R;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import jx.csp.R;
 
 /**
  * 带计时双提示的提示框
@@ -15,14 +15,14 @@ import jx.csp.R;
  * @author : GuoXuan
  * @since : 2017/5/22
  */
-public class HintDialogSec extends HintDialog implements OnCountDownListener {
+public class CommonDialog3 extends CommonDialog implements OnCountDownListener {
 
     private TextView mTvMainHint; // 主提示
     private TextView mTvSecHint; // 副提示
     private CountDown mCountDown; // 倒计时
     private String mCountHint; // 倒计时的提示语
 
-    public HintDialogSec(Context context) {
+    public CommonDialog3(Context context) {
         super(context);
     }
 

@@ -15,11 +15,11 @@ import jx.csp.R;
  * @author : GuoXuan
  * @since : 2017/5/23
  */
-public class HintDialogMain extends HintDialog {
+public class CommonDialog2 extends CommonDialog {
 
     private TextView mTvHint; // 提示语
 
-    public HintDialogMain(Context context) {
+    public CommonDialog2(Context context) {
         super(context);
     }
 

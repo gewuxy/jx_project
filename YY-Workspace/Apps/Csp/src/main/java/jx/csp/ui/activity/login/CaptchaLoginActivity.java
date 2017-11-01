@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.Constants.CaptchaType;
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
-import jx.csp.dialog.HintDialog;
+import jx.csp.dialog.CommonDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -143,7 +143,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                     String phone = getItemStr(RelatedId.phone_number);
                     tv.setText(phone);
 
-                    HintDialog dialog = new HintDialog(this);
+                    CommonDialog dialog = new CommonDialog(this);
                     dialog.addHintView(view);
                     dialog.addGrayButton(R.string.cancel);
                     dialog.addBlueButton(getString(R.string.well), v1 -> {

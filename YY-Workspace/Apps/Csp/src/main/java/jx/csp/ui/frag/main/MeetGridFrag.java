@@ -10,7 +10,7 @@ import android.widget.TextView;
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.dialog.ShareDialog.OnDeleteListener;
 import jx.csp.model.main.Meet;
@@ -20,7 +20,7 @@ import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.activity.liveroom.LiveRoomActivityRouter;
-import jx.csp.ui.activity.main.MainActivity.OnSquareRefreshListener;
+import jx.csp.ui.activity.main.MainActivity.OnMeetGridListener;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import jx.csp.view.CircleProgressView;
@@ -44,12 +44,9 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
 
     private CircleProgressView mProgressBar;
     private TextView mTvFiveSecond;
-    private OnSquareRefreshListener mListener;
+    private OnMeetGridListener mListener;
     private String mCourseId;
 
-    public void setListener(OnSquareRefreshListener listener) {
-        mListener = listener;
-    }
 
     @Override
     public void initData() {
@@ -61,13 +58,14 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
 
     @Override
     public int getContentViewId() {
-        return R.layout.layout_main_recycler;
+        return R.layout.frag_main_grid;
     }
 
-    public int getPosition() {
-        RecyclerView rv = (RecyclerView) getScrollableView();
-        GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
-        return l.findFirstVisibleItemPosition();
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        setOnAdapterClickListener(this);
     }
 
     @Override
@@ -85,19 +83,8 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         super.onNetRefreshSuccess();
 
         if (mListener != null) {
-            mListener.onSquareRefresh(getData());
+            mListener.onMeetRefresh(getData());
         }
-
-        getAdapter().setOnAdapterClickListener(this);
-    }
-
-    @Override
-    public void onSwipeRefreshAction() {
-    }
-
-    @Override
-    public int getOffset() {
-        return 1;
     }
 
     @Override
@@ -129,7 +116,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
                         showToast(R.string.live_not_start);
                     } else if (getItem(position).getInt(TMeet.liveState) == LiveState.live) {
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号
-                        HintDialogMain d = new HintDialogMain(getContext());
+                        CommonDialog2 d = new CommonDialog2(getContext());
                         d.setHint(getString(R.string.choice_contents));
                         // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示五秒倒计时，应该是一个请求,请求成功弹框
                         d.addGrayButton(R.string.explain_meeting, view -> {
@@ -168,6 +155,12 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         return inflate(R.layout.layout_empty_main_footer);
     }
 
+    public int getPosition() {
+        RecyclerView rv = (RecyclerView) getScrollableView();
+        GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
+        return l.findFirstVisibleItemPosition();
+    }
+
     @Override
     protected String getEmptyText() {
         return getString(R.string.ready);
@@ -195,7 +188,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
     }
 
     public void showHintDialog(String hint) {
-        HintDialogMain d = new HintDialogMain(getContext());
+        CommonDialog2 d = new CommonDialog2(getContext());
         d.setHint(hint);
         d.addGrayButton(R.string.confirm_continue, view -> {
             BaseDialog dialog = new BaseDialog(getContext()) {
@@ -227,6 +220,10 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         });
         d.addBlueButton(R.string.cancel);
         d.show();
+    }
+
+    public void setListener(OnMeetGridListener listener) {
+        mListener = listener;
     }
 
 }

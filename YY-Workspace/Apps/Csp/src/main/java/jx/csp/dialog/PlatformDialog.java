@@ -13,7 +13,7 @@ import lib.yy.dialog.BaseDialog;
  * @since 2017/9/28
  */
 
-public class PlatformDialog extends BaseDialog{
+public class PlatformDialog extends BaseDialog {
 
     private LinearLayout mLayout;
 

@@ -256,7 +256,7 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                if (mDeleteListener !=null) {
+                if (mDeleteListener != null) {
                     mDeleteListener.delete();
                 }
                 showToast(getString(R.string.delete_success));
@@ -270,7 +270,7 @@ public class ShareDialog extends BaseDialog {
         dismiss();
     }
 
-    public interface OnDeleteListener{
+    public interface OnDeleteListener {
         void delete();
     }
 }

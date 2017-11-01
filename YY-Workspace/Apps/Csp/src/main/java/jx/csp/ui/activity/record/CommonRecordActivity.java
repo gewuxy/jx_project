@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.CommonRecordContract;
-import jx.csp.dialog.HintDialog;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -318,7 +318,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
 
     @Override
     protected void switchDevice() {
-        HintDialogMain dialog = new HintDialogMain(this);
+        CommonDialog2 dialog = new CommonDialog2(this);
         dialog.setHint(R.string.switch_live_record_device);
         dialog.addBlackButton(R.string.continue_record, view -> {
             // do nothing
@@ -410,7 +410,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
      * 在录制中滑动，提示的dialog
      */
     private void showSkipPageDialog(@ScrollType int scrollType) {
-        HintDialog dialog = new HintDialog(this);
+        CommonDialog dialog = new CommonDialog(this);
         android.view.View view = inflate(R.layout.dialog_record_common);
         dialog.addHintView(view);
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_record_common_cb);
@@ -444,7 +444,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
      * 再次录制时的dialog
      */
     private void showRecordAgainDialog(String filePath, String mp3FilePath) {
-        HintDialog dialog = new HintDialog(this);
+        CommonDialog dialog = new CommonDialog(this);
         android.view.View view = inflate(R.layout.dialog_record_common);
         dialog.addHintView(view);
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_record_common_cb);

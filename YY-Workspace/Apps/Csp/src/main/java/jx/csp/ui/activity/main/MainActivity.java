@@ -108,7 +108,7 @@ public class MainActivity extends BaseVPActivity {
         startActivity(ScanActivity.class);
     }
 
-    public interface OnSquareRefreshListener {
-        void onSquareRefresh(List<Meet> data);
+    public interface OnMeetGridListener {
+        void onMeetRefresh(List<Meet> data);
     }
 }

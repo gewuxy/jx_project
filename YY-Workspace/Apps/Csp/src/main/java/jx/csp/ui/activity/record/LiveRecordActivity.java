@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -216,7 +216,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     protected void switchDevice() {
         YSLog.d(TAG, "是否切换直播设备");
-        HintDialogMain dialog = new HintDialogMain(this);
+        CommonDialog2 dialog = new CommonDialog2(this);
         dialog.setHint(R.string.switch_live_record_device);
         dialog.addBlackButton(R.string.continue_host, view -> {
             // do nothing

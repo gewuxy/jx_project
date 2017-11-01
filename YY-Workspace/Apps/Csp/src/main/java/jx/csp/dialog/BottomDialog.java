@@ -13,11 +13,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import lib.ys.adapter.AdapterEx;
-import lib.yy.dialog.BaseDialog;
 import jx.csp.R;
 import jx.csp.adapter.BottomAdapter;
 import jx.csp.adapter.VH.BottomVH;
+import lib.ys.adapter.AdapterEx;
+import lib.yy.dialog.BaseDialog;
 
 /**
  * 在底部的dialog

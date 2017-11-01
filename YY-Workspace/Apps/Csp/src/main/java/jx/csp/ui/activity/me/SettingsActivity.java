@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.contact.SettingsContract;
 import jx.csp.dialog.BottomDialog;
-import jx.csp.dialog.HintDialogMain;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -194,7 +194,7 @@ public class SettingsActivity extends BaseFormActivity {
 
         @Override
         public void logout() {
-            HintDialogMain d = new HintDialogMain(SettingsActivity.this);
+            CommonDialog2 d = new CommonDialog2(SettingsActivity.this);
             d.setHint(getString(R.string.setting_exit_current_account));
             d.addBlackButton(getString(R.string.setting_exit), v -> {
 
