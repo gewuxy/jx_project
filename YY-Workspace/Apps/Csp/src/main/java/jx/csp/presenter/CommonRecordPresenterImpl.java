@@ -38,7 +38,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
 
     public CommonRecordPresenterImpl(CommonRecordContract.View view) {
         super(view);
-        
+
         mMediaRecorder = new MediaRecorder();
         mMediaPlayer = new MediaPlayer();
     }
@@ -74,7 +74,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
 
     @Override
     public void stopRecord() {
-        mTotalTime  += mTime;
+        mTotalTime += mTime;
         getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
         getView().stopRecordState();
         if (mMediaRecorder != null) {

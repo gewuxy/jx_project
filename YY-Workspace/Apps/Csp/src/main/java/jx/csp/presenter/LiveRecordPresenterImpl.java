@@ -18,13 +18,13 @@ import jx.csp.contact.LiveRecordContract;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.util.Util;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 import lib.ys.YSLog;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
-import lib.live.ILiveCallback;
-import lib.live.ILiveCallback.UserType;
-import lib.live.LiveApi;
 
 /**
  * @author CaiXiang
@@ -82,7 +82,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
 
         mMediaRecorder = new MediaRecorder();
         mLiveCallbackImpl = new LiveCallbackImpl();
-        LiveApi.getInst().init(App.getContext(),"666", "人数获取测试");
+        LiveApi.getInst().init(App.getContext(), "666", "人数获取测试");
         //测试
         LiveApi.getInst().setTest(BuildConfig.TEST);
         LiveApi.getInst().setRoomConfig(true, true);

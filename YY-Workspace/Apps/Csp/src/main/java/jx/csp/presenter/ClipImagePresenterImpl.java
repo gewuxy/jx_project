@@ -21,7 +21,7 @@ import lib.yy.network.Result;
  * @since 2017/10/27
  */
 
-public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.V> implements ClipImageContract.P{
+public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.V> implements ClipImageContract.P {
 
     public ClipImagePresenterImpl(ClipImageContract.V v) {
         super(v);

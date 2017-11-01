@@ -12,7 +12,7 @@ import lib.yy.network.Result;
  * @since 2017/10/27
  */
 
-public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.V> implements MyMessageContract.P{
+public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.V> implements MyMessageContract.P {
 
     private final int KNickNameCode = 0;
     private final int KInfoCode = 1;
