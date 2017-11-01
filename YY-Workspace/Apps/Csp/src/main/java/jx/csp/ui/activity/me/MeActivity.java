@@ -18,7 +18,7 @@ import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
-import jx.csp.model.form.FormType;
+import jx.csp.model.def.FormType;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.util.Util;
 

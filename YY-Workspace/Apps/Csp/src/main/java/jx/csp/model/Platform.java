@@ -1,13 +1,14 @@
-package jx.csp.model.contribute;
+package jx.csp.model;
 
-import jx.csp.model.contribute.Platform.TPlatformDetail;
+import jx.csp.model.Platform.TPlatformDetail;
 import lib.ys.model.EVal;
 
 /**
+ * 投稿平台
+ *
  * @auther Huoxuyu
  * @since 2017/9/28
  */
-
 public class Platform extends EVal<TPlatformDetail> {
 
     public enum TPlatformDetail {

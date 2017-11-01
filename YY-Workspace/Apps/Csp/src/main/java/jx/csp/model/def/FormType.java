@@ -1,4 +1,4 @@
-package jx.csp.model.form;
+package jx.csp.model.def;
 
 import android.support.annotation.IntDef;
 

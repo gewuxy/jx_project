@@ -1,6 +1,5 @@
 package jx.csp.ui.frag.main;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -11,6 +10,7 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.dialog.CommonDialog2;
+import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.dialog.ShareDialog.OnDeleteListener;
 import jx.csp.model.main.Meet;
@@ -26,7 +26,6 @@ import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import jx.csp.view.CircleProgressView;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
-import lib.yy.dialog.BaseDialog;
 import lib.yy.network.Result;
 import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
 
@@ -152,7 +151,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
 
     @Override
     public View createEmptyFooterView() {
-        return inflate(R.layout.layout_empty_main_footer);
+        return inflate(R.layout.layout_main_empty_footer);
     }
 
     public int getPosition() {
@@ -190,34 +189,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
     public void showHintDialog(String hint) {
         CommonDialog2 d = new CommonDialog2(getContext());
         d.setHint(hint);
-        d.addGrayButton(R.string.confirm_continue, view -> {
-            BaseDialog dialog = new BaseDialog(getContext()) {
-
-                @Override
-                public void initData() {
-                }
-
-                @NonNull
-                @Override
-                public int getContentViewId() {
-                    return R.layout.dialog_main_five_second;
-                }
-
-                @Override
-                public void findViews() {
-                    mProgressBar = findView(R.id.v_meeting_detail_progress);
-                    mTvFiveSecond = findView(R.id.tv_five_second);
-                }
-
-                @Override
-                public void setViews() {
-                    mProgressBar.setProgress(0);
-                    // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示TV五秒倒计时，websocket,如果a拒绝，则提示进入失败
-//                  showView(mTvFiveSecond);
-                }
-            };
-            dialog.show();
-        });
+        d.addGrayButton(R.string.confirm_continue, view -> new CountdownDialog(getContext()).show());
         d.addBlueButton(R.string.cancel);
         d.show();
     }

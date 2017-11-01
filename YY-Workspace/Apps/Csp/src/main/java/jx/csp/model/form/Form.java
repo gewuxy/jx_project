@@ -1,5 +1,6 @@
 package jx.csp.model.form;
 
+import jx.csp.model.def.FormType;
 import jx.csp.model.form.divider.DividerForm;
 import jx.csp.model.form.divider.DividerLargeForm;
 import jx.csp.model.form.divider.DividerMarginForm;

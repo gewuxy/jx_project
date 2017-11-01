@@ -14,7 +14,7 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.model.form.Form;
-import jx.csp.model.form.FormType;
+import jx.csp.model.def.FormType;
 import jx.csp.presenter.AccountManagePresenterImpl;
 import jx.csp.util.Util;
 import lib.ys.ConstantsEx;

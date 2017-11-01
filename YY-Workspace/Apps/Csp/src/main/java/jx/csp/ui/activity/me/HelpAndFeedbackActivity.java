@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
 import jx.csp.model.form.Form;
-import jx.csp.model.form.FormType;
+import jx.csp.model.def.FormType;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;

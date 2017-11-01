@@ -10,7 +10,7 @@ import jx.csp.adapter.PlatformAdapter.OnPlatformCheckedListener;
 import jx.csp.contact.ContributePlatformContract;
 import jx.csp.contact.ContributePlatformContract.P;
 import jx.csp.dialog.PlatformDialog;
-import jx.csp.model.contribute.Platform;
+import jx.csp.model.Platform;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.presenter.ContributePlatformPresenterImpl;
 import jx.csp.util.Util;

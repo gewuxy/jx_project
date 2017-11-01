@@ -1,13 +1,10 @@
 package jx.csp.ui.frag.main;
 
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,6 +15,7 @@ import jx.csp.R;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.dialog.ShareDialog.OnDeleteListener;
+import jx.csp.model.def.MeetState;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
@@ -58,19 +56,6 @@ public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
     @Arg
     Meet mMeet;
     private String mCourseId;
-
-    @IntDef({
-            StateType.otherState,
-            StateType.living,
-            StateType.playing,
-
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface StateType {
-        int otherState = 0; // 其他状态
-        int living = 1; // 直播中
-        int playing = 2; // 录播中
-    }
 
     @Override
     public void initData() {
@@ -144,11 +129,11 @@ public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
 
     public int getType() {
         if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
-            return StateType.living;
+            return MeetState.living;
         } else if (mMeet.getInt(TMeet.playState) == PlayState.record) {
-            return StateType.playing;
+            return MeetState.playing;
         } else {
-            return StateType.otherState;
+            return MeetState.other;
         }
     }
 
@@ -243,7 +228,7 @@ public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
                 @NonNull
                 @Override
                 public int getContentViewId() {
-                    return R.layout.dialog_main_five_second;
+                    return R.layout.dialog_count_down;
                 }
 
                 @Override

@@ -14,7 +14,7 @@ import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
-import jx.csp.model.form.FormType;
+import jx.csp.model.def.FormType;
 import jx.csp.presenter.SettingsPresenterImpl;
 import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;

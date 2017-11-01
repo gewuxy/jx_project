@@ -5,8 +5,8 @@ import android.widget.ImageView;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.PlatformVH;
-import jx.csp.model.contribute.Platform;
-import jx.csp.model.contribute.Platform.TPlatformDetail;
+import jx.csp.model.Platform;
+import jx.csp.model.Platform.TPlatformDetail;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.renderer.CircleRenderer;
 

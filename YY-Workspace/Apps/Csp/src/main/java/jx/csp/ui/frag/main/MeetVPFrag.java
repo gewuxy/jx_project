@@ -10,8 +10,8 @@ import java.util.List;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.model.def.MeetState;
 import jx.csp.model.main.Meet;
-import jx.csp.ui.frag.main.MeetSingleFrag.StateType;
 import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -109,9 +109,9 @@ public class MeetVPFrag extends BaseVPFrag implements OnPageChangeListener {
         mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
 
         YSLog.d("position", "position");
-        if (getItem(position) instanceof MeetSingleFrag && ((MeetSingleFrag) (getItem(position))).getType() == StateType.living) {
+        if (getItem(position) instanceof MeetSingleFrag && ((MeetSingleFrag) (getItem(position))).getType() == MeetState.living) {
             showView(mLayout);
-        } else if (getItem(position) instanceof MeetSingleFrag && ((MeetSingleFrag) (getItem(position))).getType() == StateType.playing) {
+        } else if (getItem(position) instanceof MeetSingleFrag && ((MeetSingleFrag) (getItem(position))).getType() == MeetState.playing) {
             showView(mLayout);
             mTvReminder.setText(R.string.playing);
         }else {

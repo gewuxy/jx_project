@@ -2,11 +2,11 @@ package jx.csp.receiver;
 
 import android.content.Context;
 
+import jx.csp.model.JPushMsg;
+import jx.csp.model.JPushMsg.TJPushMsg;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.jpush.JPushMsg;
-import jx.csp.model.jpush.JPushMsg.MsgType;
-import jx.csp.model.jpush.JPushMsg.TJPushMsg;
+import jx.csp.model.def.MsgType;
 import lib.jg.jpush.BaseJPushReceiver;
 import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;

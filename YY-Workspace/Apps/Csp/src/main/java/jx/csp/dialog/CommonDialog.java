@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -105,7 +106,7 @@ public class CommonDialog extends BaseDialog {
     /**
      * 16dp大小的按钮(自带dismiss)
      */
-    public TextView addButton(String text, @ColorRes int resId, OnClickListener l) {
+    public TextView addButton(String text, @ColorRes int resId, @Nullable OnClickListener l) {
         TextView tv = new TextView(getContext());
 
         tv.setBackgroundResource(R.drawable.item_selector);
@@ -124,7 +125,7 @@ public class CommonDialog extends BaseDialog {
         return tv;
     }
 
-    public void addButton(@StringRes int strRes, @ColorRes int resId, OnClickListener l) {
+    public void addButton(@StringRes int strRes, @ColorRes int resId, @Nullable OnClickListener l) {
         addButton(getContext().getString(strRes), resId, l);
     }
 
@@ -132,14 +133,14 @@ public class CommonDialog extends BaseDialog {
      * 按钮颜色为666,且没有点击事件的
      */
     public void addGrayButton(@StringRes int strRes) {
-        addButton(getContext().getString(strRes), R.color.text_333, null);
+        addButton(getContext().getString(strRes), R.color.text_666, null);
     }
 
     /**
      * 按钮颜色为666,有点击事件
      */
-    public void addGrayButton(@StringRes int strRes, OnClickListener l) {
-        addButton(getContext().getString(strRes), R.color.text_333, l);
+    public void addGrayButton(@StringRes int strRes, @Nullable OnClickListener l) {
+        addButton(getContext().getString(strRes), R.color.text_666, l);
     }
 
     /**
@@ -149,14 +150,14 @@ public class CommonDialog extends BaseDialog {
         addButton(getContext().getString(strRes), R.color.text_167afe, null);
     }
 
-    public TextView addBlueButton(@StringRes int strRes, OnClickListener l) {
+    public TextView addBlueButton(@StringRes int strRes, @Nullable OnClickListener l) {
         return addButton(getContext().getString(strRes), R.color.text_167afe, l);
     }
 
     /**
      * 按钮颜色为167afe
      */
-    public void addBlueButton(String text, OnClickListener l) {
+    public void addBlueButton(String text, @Nullable OnClickListener l) {
         addButton(text, R.color.text_167afe, l);
     }
 
@@ -164,14 +165,14 @@ public class CommonDialog extends BaseDialog {
     /**
      * 按钮颜色为333333
      */
-    public void addBlackButton(String text, OnClickListener l) {
+    public void addBlackButton(String text, @Nullable OnClickListener l) {
         addButton(text, R.color.text_333, l);
     }
 
     /**
      * 按钮颜色为333333
      */
-    public void addBlackButton(@StringRes int id, OnClickListener l) {
+    public void addBlackButton(@StringRes int id, @Nullable OnClickListener l) {
         addButton(getContext().getString(id), R.color.text_333, l);
     }
 

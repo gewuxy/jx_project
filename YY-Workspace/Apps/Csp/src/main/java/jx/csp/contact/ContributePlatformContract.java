@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import java.util.ArrayList;
 
-import jx.csp.model.contribute.Platform;
+import jx.csp.model.Platform;
 import lib.ys.ui.other.NavBar;
 import lib.yy.contract.IContract;
 
