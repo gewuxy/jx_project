@@ -47,7 +47,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
 
     @Override
     public void initData() {
-        mEffectPresenter = new VPEffectPresenterImpl(this);
+        mEffectPresenter = new VPEffectPresenterImpl(this, KVpScale);
     }
 
     @NonNull

@@ -18,11 +18,9 @@ public class VPEffectPresenterImpl extends BasePresenterImpl<VPEffectContract.V>
     private float mLastOffset;
     private float mScale;
 
-    public VPEffectPresenterImpl(V v) {
+    public VPEffectPresenterImpl(V v, float scale) {
         super(v);
-    }
 
-    public void setScale(float scale) {
         mScale = scale;
     }
 
