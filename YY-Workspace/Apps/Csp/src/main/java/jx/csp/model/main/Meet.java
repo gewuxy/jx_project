@@ -1,15 +1,17 @@
 package jx.csp.model.main;
 
-import jx.csp.model.main.Square.TSquare;
+import jx.csp.model.main.Meet.TMeet;
 import lib.ys.model.EVal;
 
 /**
+ * 首页会议
+ *
  * @auther WangLan
  * @since 2017/10/18
  */
+public class Meet extends EVal<TMeet> {
 
-public class Square extends EVal<TSquare> {
-    public enum TSquare{
+    public enum TMeet {
         coverUrl, // 封面地址
         id, // 会议id
         livePage, // 直播，当前ppt页码
@@ -22,7 +24,6 @@ public class Square extends EVal<TSquare> {
         title, // 会议标题
         playPage, // 录播，当前ppt页码
         playState, // 录播状态
-
     }
 
 }

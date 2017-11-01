@@ -14,9 +14,9 @@ import lib.ys.network.image.NetworkImageView;
  * @since 2017/10/18
  */
 
-public class SquareVH extends RecyclerViewHolderEx {
+public class MeetGridVH extends RecyclerViewHolderEx {
 
-    public SquareVH(@NonNull View convertView) {
+    public MeetGridVH(@NonNull View convertView) {
         super(convertView);
     }
 

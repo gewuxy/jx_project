@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.frag.main;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -18,8 +18,8 @@ import jx.csp.R;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.dialog.ShareDialog.OnDeleteListener;
-import jx.csp.model.main.Square;
-import jx.csp.model.main.Square.TSquare;
+import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
@@ -41,7 +41,7 @@ import lib.yy.ui.frag.base.BaseFrag;
  * @since 2017/10/18
  */
 @Route
-public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
+public class MeetSingleFrag extends BaseFrag implements OnDeleteListener {
 
     private NetworkImageView mIvCover;
     private ImageView mIvLive;
@@ -56,7 +56,7 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
     private TextView mTvFiveSecond;
 
     @Arg
-    Square mSquare;
+    Meet mMeet;
     private String mCourseId;
 
     @IntDef({
@@ -101,39 +101,39 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
     @Override
     public void setViews() {
         mIvCover.placeHolder(R.drawable.ic_default_record)
-                .url(mSquare.getString(TSquare.coverUrl))
+                .url(mMeet.getString(TMeet.coverUrl))
                 .load();
-        mTvTitle.setText(mSquare.getString(TSquare.title));
-        mTvTotalPage.setText(mSquare.getString(TSquare.pageCount));
+        mTvTitle.setText(mMeet.getString(TMeet.title));
+        mTvTotalPage.setText(mMeet.getString(TMeet.pageCount));
 
-        if (mSquare.getInt(TSquare.playType) == PlayType.reb) {
-            mTvTime.setText(mSquare.getString(TSquare.playTime));
-            mTvCurrentPage.setText(mSquare.getString(TSquare.playPage));
+        if (mMeet.getInt(TMeet.playType) == PlayType.reb) {
+            mTvTime.setText(mMeet.getString(TMeet.playTime));
+            mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
 
-            if (mSquare.getInt(TSquare.playState) == PlayState.un_start) {
+            if (mMeet.getInt(TMeet.playState) == PlayState.un_start) {
                 mTvState.setText(R.string.record);
-            } else if (mSquare.getInt(TSquare.playState) == PlayState.record) {
+            } else if (mMeet.getInt(TMeet.playState) == PlayState.record) {
                 mTvState.setText(R.string.on_record);
             } else {
                 goneView(mTvState);
             }
             goneView(mIvLive);
         } else {
-            mTvCurrentPage.setText(mSquare.getString(TSquare.livePage));
+            mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
 
-            if (mSquare.getInt(TSquare.liveState) == LiveState.un_start) {
+            if (mMeet.getInt(TMeet.liveState) == LiveState.un_start) {
                 mTvState.setText(R.string.solive);
 
                 //直播的开始时间转换
-                Date d = new Date(Long.parseLong(mSquare.getString(TSquare.startTime)));
+                Date d = new Date(Long.parseLong(mMeet.getString(TMeet.startTime)));
                 SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
                 mTvTime.setText(data.format(d));
-            } else if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
+            } else if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
                 mTvState.setText(R.string.on_solive);
-                mTvTime.setText(mSquare.getString(TSquare.playTime));
+                mTvTime.setText(mMeet.getString(TMeet.playTime));
             } else {
                 mTvState.setText(R.string.on_solive);
-                mTvTime.setText(mSquare.getString(TSquare.playTime));
+                mTvTime.setText(mMeet.getString(TMeet.playTime));
             }
         }
 
@@ -143,9 +143,9 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
     }
 
     public int getType() {
-        if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
+        if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
             return StateType.living;
-        } else if (mSquare.getInt(TSquare.playState) == PlayState.record) {
+        } else if (mMeet.getInt(TMeet.playState) == PlayState.record) {
             return StateType.playing;
         } else {
             return StateType.otherState;
@@ -163,19 +163,19 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
             }
             break;
             case R.id.main_slide_layout: {
-                mCourseId = mSquare.getString(TSquare.id);
-                if (mSquare.getInt(TSquare.playType) == PlayType.reb) {
-                    if (mSquare.getInt(TSquare.playState) == PlayState.record) {
+                mCourseId = mMeet.getString(TMeet.id);
+                if (mMeet.getInt(TMeet.playType) == PlayType.reb) {
+                    if (mMeet.getInt(TMeet.playState) == PlayState.record) {
                         // CommonRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
                         showHintDialog(getString(R.string.main_record_dialog));
                     } else {
                         CommonRecordActivityRouter.create(mCourseId).route(getContext());
                     }
-                } else if (mSquare.getInt(TSquare.playType) == PlayType.live) {
-                    if (mSquare.getInt(TSquare.liveState) == LiveState.un_start) {
+                } else if (mMeet.getInt(TMeet.playType) == PlayType.live) {
+                    if (mMeet.getInt(TMeet.liveState) == LiveState.un_start) {
                         App.showToast(R.string.live_not_start);
-                    } else if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
+                    } else if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
                         LiveRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
                         showHintDialog(getString(R.string.main_live_dialog));
@@ -183,9 +183,9 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
                         App.showToast(R.string.live_have_end);
                     }
                 } else {
-                    if (mSquare.getInt(TSquare.liveState) == LiveState.un_start) {
+                    if (mMeet.getInt(TMeet.liveState) == LiveState.un_start) {
                         App.showToast(R.string.live_not_start);
-                    } else if (mSquare.getInt(TSquare.liveState) == LiveState.live) {
+                    } else if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号
                         HintDialogMain d = new HintDialogMain(getContext());
                         d.setHint(getString(R.string.choice_contents));
@@ -204,7 +204,7 @@ public class MainMeetingFrag extends BaseFrag implements OnDeleteListener {
                     } else {
                         App.showToast(R.string.live_have_end);
                     }
-                    MainSlideFragRouter.create(mCourseId).route();
+                    MeetVPFragRouter.create(mCourseId).route();
                 }
             }
             break;

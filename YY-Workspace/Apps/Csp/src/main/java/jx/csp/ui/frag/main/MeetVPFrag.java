@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.frag.main;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -10,8 +10,8 @@ import java.util.List;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.model.main.Square;
-import jx.csp.ui.activity.main.MainMeetingFrag.StateType;
+import jx.csp.model.main.Meet;
+import jx.csp.ui.frag.main.MeetSingleFrag.StateType;
 import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -23,7 +23,7 @@ import lib.yy.ui.frag.base.BaseVPFrag;
  * @since 2017/10/17
  */
 @Route
-public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
+public class MeetVPFrag extends BaseVPFrag implements OnPageChangeListener {
 
     private final int KOne = 1;
     private final float KVpScale = 0.2f; // vp的缩放比例
@@ -109,9 +109,9 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
         mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
 
         YSLog.d("position", "position");
-        if (getItem(position) instanceof MainMeetingFrag && ((MainMeetingFrag) (getItem(position))).getType() == StateType.living) {
+        if (getItem(position) instanceof MeetSingleFrag && ((MeetSingleFrag) (getItem(position))).getType() == StateType.living) {
             showView(mLayout);
-        } else if (getItem(position) instanceof MainMeetingFrag && ((MainMeetingFrag) (getItem(position))).getType() == StateType.playing) {
+        } else if (getItem(position) instanceof MeetSingleFrag && ((MeetSingleFrag) (getItem(position))).getType() == StateType.playing) {
             showView(mLayout);
             mTvReminder.setText(R.string.playing);
         }else {
@@ -137,18 +137,18 @@ public class MainSlideFrag extends BaseVPFrag implements OnPageChangeListener {
         view.setScaleY(scale);
     }
 
-    public void setData(List<Square> data) {
+    public void setData(List<Meet> data) {
         // 记录当前index
         int index = getCurrentItem();
 
         if (data == null) {
             goneView(mSlideDataLayout);
-            add(new SlideEmptyDataFrag());
+            add(new EmptyFrag());
             invalidate();
         } else {
             removeAll();
-            for (Square s : data) {
-                add(MainMeetingFragRouter.create(s).route());
+            for (Meet s : data) {
+                add(MeetSingleFragRouter.create(s).route());
             }
             invalidate();
             setCurrentItem(index);

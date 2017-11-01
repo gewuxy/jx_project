@@ -9,10 +9,12 @@ import java.util.List;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.main.Square;
+import jx.csp.model.main.Meet;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.me.MeActivity;
+import jx.csp.ui.frag.main.MeetVPFrag;
+import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.util.Util;
 import lib.ys.network.image.NetworkImageView;
 import lib.jg.jpush.SpJPush;
@@ -32,15 +34,15 @@ public class MainActivity extends BaseVPActivity {
     private ImageView mIvShift;
 
     private boolean mFlag;
-    private MainSlideFrag mSlideFrag;
-    private MainSquareFrag mSquareFrag;
+    private MeetVPFrag mSlideFrag;
+    private MeetGridFrag mSquareFrag;
 
     @Override
     public void initData() {
         // 列表(空)
-        mSlideFrag = new MainSlideFrag();
+        mSlideFrag = new MeetVPFrag();
         // 网格
-        mSquareFrag = new MainSquareFrag();
+        mSquareFrag = new MeetGridFrag();
 
         mSquareFrag.setListener(data -> mSlideFrag.setData(data));
         add(mSquareFrag);
@@ -107,6 +109,6 @@ public class MainActivity extends BaseVPActivity {
     }
 
     public interface OnSquareRefreshListener {
-        void onSquareRefresh(List<Square> data);
+        void onSquareRefresh(List<Meet> data);
     }
 }

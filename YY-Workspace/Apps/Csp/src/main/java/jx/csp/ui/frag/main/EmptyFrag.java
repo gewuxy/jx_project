@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.frag.main;
 
 import android.support.annotation.NonNull;
 
@@ -12,7 +12,7 @@ import lib.yy.ui.frag.base.BaseFrag;
  * @since 2017/10/25
  */
 
-public class SlideEmptyDataFrag extends BaseFrag {
+public class EmptyFrag extends BaseFrag {
     @Override
     public void initData() {
     }

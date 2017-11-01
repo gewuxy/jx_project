@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.frag.main;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import jx.csp.App;
 import jx.csp.R;
-import jx.csp.adapter.main.SquareAdapter;
+import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.dialog.HintDialogMain;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.dialog.ShareDialog.OnDeleteListener;
-import jx.csp.model.main.Square;
-import jx.csp.model.main.Square.TSquare;
+import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
@@ -36,7 +36,7 @@ import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
  * @auther WangLan
  * @since 2017/10/18
  */
-public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
+public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         implements OnAdapterClickListener, OnDeleteListener {
 
     private final int KIdGetData = 0;
@@ -104,19 +104,19 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
     public void onAdapterClick(int position, View v) {
         switch (v.getId()) {
             case R.id.main_square_layout: {
-                mCourseId = getItem(position).getString(TSquare.id);
-                if (getItem(position).getInt(TSquare.playType) == PlayType.reb) {
-                    if (getItem(position).getInt(TSquare.playState) == PlayState.record) {
+                mCourseId = getItem(position).getString(TMeet.id);
+                if (getItem(position).getInt(TMeet.playType) == PlayType.reb) {
+                    if (getItem(position).getInt(TMeet.playState) == PlayState.record) {
 //                        CommonRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
                         showHintDialog(getString(R.string.main_record_dialog));
                     } else {
                         CommonRecordActivityRouter.create(mCourseId).route(getContext());
                     }
-                } else if (getItem(position).getInt(TSquare.playType) == PlayType.live) {
-                    if (getItem(position).getInt(TSquare.liveState) == LiveState.un_start) {
+                } else if (getItem(position).getInt(TMeet.playType) == PlayType.live) {
+                    if (getItem(position).getInt(TMeet.liveState) == LiveState.un_start) {
                         showToast(R.string.live_not_start);
-                    } else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
+                    } else if (getItem(position).getInt(TMeet.liveState) == LiveState.live) {
 //                        LiveRecordActivityRouter.create(mCourseId).route(getContext());
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号,等后台返回，如果是两个设备，执行下，如果不是，则执行上
                         showHintDialog(getString(R.string.main_live_dialog));
@@ -125,9 +125,9 @@ public class MainSquareFrag extends BaseSRRecyclerFrag<Square, SquareAdapter>
                         LiveRecordActivityRouter.create(mCourseId).route(getContext());
                     }
                 } else {
-                    if (getItem(position).getInt(TSquare.liveState) == LiveState.un_start) {
+                    if (getItem(position).getInt(TMeet.liveState) == LiveState.un_start) {
                         showToast(R.string.live_not_start);
-                    } else if (getItem(position).getInt(TSquare.liveState) == LiveState.live) {
+                    } else if (getItem(position).getInt(TMeet.liveState) == LiveState.live) {
                         // FIXME: 2017/10/26 还要判断两个设备，登录同一个账号
                         HintDialogMain d = new HintDialogMain(getContext());
                         d.setHint(getString(R.string.choice_contents));
