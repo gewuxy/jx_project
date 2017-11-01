@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVpActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
@@ -42,7 +42,7 @@ import yy.doctor.ui.frag.meeting.topic.FillTopicFragRouter;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public abstract class BaseTopicActivity extends BaseVPActivity implements OnTopicListener, OnPageChangeListener, OnItemClickListener {
+public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopicListener, OnPageChangeListener, OnItemClickListener {
 
     private final int KVpSize = 3;
     private final int KDuration = 300; // 动画时长

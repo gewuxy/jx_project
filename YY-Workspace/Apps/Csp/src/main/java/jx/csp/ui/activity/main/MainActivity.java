@@ -13,7 +13,7 @@ import jx.csp.model.main.Meet;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.me.MeActivity;
-import jx.csp.ui.frag.main.MeetVPFrag;
+import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.util.Util;
 import lib.ys.network.image.NetworkImageView;
@@ -21,7 +21,7 @@ import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVpActivity;
 
 /**
  * 首页
@@ -29,24 +29,27 @@ import lib.yy.ui.activity.base.BaseVPActivity;
  * @since 2017/9/30
  */
 
-public class MainActivity extends BaseVPActivity {
+public class MainActivity extends BaseVpActivity {
+
+    private final int KPageGrid = 0;
+    private final int KPageVp = 1;
 
     private ImageView mIvShift;
 
     private boolean mFlag;
-    private MeetVPFrag mSlideFrag;
-    private MeetGridFrag mSquareFrag;
+    private MeetVpFrag mVpFrag;
+    private MeetGridFrag mGridFrag;
 
     @Override
     public void initData() {
         // 列表(空)
-        mSlideFrag = new MeetVPFrag();
+        mVpFrag = new MeetVpFrag();
         // 网格
-        mSquareFrag = new MeetGridFrag();
+        mGridFrag = new MeetGridFrag();
 
-        mSquareFrag.setListener(data -> mSlideFrag.setData(data));
-        add(mSquareFrag);
-        add(mSlideFrag);
+        mGridFrag.setListener(data -> mVpFrag.setData(data));
+        add(mGridFrag);
+        add(mVpFrag);
         mFlag = true;
     }
 
@@ -72,12 +75,12 @@ public class MainActivity extends BaseVPActivity {
             mFlag = !mFlag;
             if (mFlag) {
                 // 网格
-                setCurrentItem(0);
-                mSquareFrag.smoothScrollToPosition(mSlideFrag.getCurrentItem());
+                setCurrentItem(KPageGrid);
+                mGridFrag.setPosition(mVpFrag.getPosition());
             } else {
                 // 列表
-                setCurrentItem(1);
-                mSlideFrag.setCurrentItem(mSquareFrag.getPosition());
+                setCurrentItem(KPageVp);
+                mVpFrag.setPosition(mGridFrag.getPosition());
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -86,10 +89,11 @@ public class MainActivity extends BaseVPActivity {
     @Override
     public void setViews() {
         super.setViews();
+
+        setOnClickListener(R.id.main_scan);
+
         //不能左右滑动
         setScrollable(false);
-        setScrollDuration(0);
-        setOnClickListener(R.id.main_scan);
 
         // 判断是否已经绑定极光推送
         YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());

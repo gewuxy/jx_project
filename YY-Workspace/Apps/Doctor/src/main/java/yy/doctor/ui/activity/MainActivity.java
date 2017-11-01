@@ -21,7 +21,7 @@ import lib.ys.util.permission.Permission;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVpActivity;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
 import yy.doctor.dialog.UpdateNoticeDialog;
@@ -45,7 +45,7 @@ import yy.doctor.ui.frag.MeFrag;
 
 
 @Route
-public class MainActivity extends BaseVPActivity {
+public class MainActivity extends BaseVpActivity {
 
     public static final int KTabHome = 0;
     public static final int KTabMeeting = 1;

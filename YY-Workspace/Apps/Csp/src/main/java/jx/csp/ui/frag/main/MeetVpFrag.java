@@ -26,7 +26,7 @@ import lib.yy.ui.frag.base.BaseVPFrag;
  * @since 2017/10/17
  */
 @Route
-public class MeetVPFrag extends BaseVPFrag implements VPEffectContract.V {
+public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract.V {
 
     private final int KOne = 1;
     private final float KVpScale = 0.2f; // vp的缩放比例
@@ -114,33 +114,39 @@ public class MeetVPFrag extends BaseVPFrag implements VPEffectContract.V {
         LiveRecordActivityRouter.create(mCourseId).route(getContext());
     }
 
-
     public void setData(List<Meet> data) {
         // 记录当前index
         int index = getCurrentItem();
 
+        removeAll();
         if (data == null) {
             goneView(mSlideDataLayout);
             add(new EmptyFrag());
             invalidate();
         } else {
-            removeAll();
-            for (Meet s : data) {
-                add(MeetSingleFragRouter.create(s).route());
+            int size = data.size();
+            for (int i = 0; i < size; ++i) {
+                add(MeetSingleFragRouter.create(data.get(i)).route());
+
             }
             invalidate();
+
+            if (index > size) {
+                index = 0;
+            }
             setCurrentItem(index);
+
             mTvTotalPage.setText(String.valueOf(data.size()));
         }
     }
 
     @Override
-    public void setCurrentItem(int item) {
-        super.setCurrentItem(item);
+    public void setPosition(int position) {
+        setCurrentItem(position);
     }
 
     @Override
-    public int getCurrentItem() {
-        return super.getCurrentItem();
+    public int getPosition() {
+        return getCurrentItem();
     }
 }

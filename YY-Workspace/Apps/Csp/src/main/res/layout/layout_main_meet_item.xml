@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/main_square_layout"
+        android:id="@+id/main_meet_layout"
         android:layout_width="172dp"
         android:layout_height="188dp"
         android:layout_marginBottom="12dp">
@@ -98,7 +98,7 @@
                     android:textSize="10dp"/>
 
                 <ImageView
-                    android:id="@+id/iv_square_live"
+                    android:id="@+id/main_meet_iv_live"
                     android:layout_width="18dp"
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
@@ -107,7 +107,7 @@
                     android:src="@drawable/main_ic_live"/>
 
                 <ImageView
-                    android:id="@+id/iv_square_share"
+                    android:id="@+id/main_meet_iv_share"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"

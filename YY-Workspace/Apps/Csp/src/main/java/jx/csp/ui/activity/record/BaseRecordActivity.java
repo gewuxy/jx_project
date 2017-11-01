@@ -41,7 +41,7 @@ import lib.ys.util.FileUtil;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
-import lib.yy.ui.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVpActivity;
 
 /**
  * 录音页面
@@ -50,7 +50,7 @@ import lib.yy.ui.activity.base.BaseVPActivity;
  * @since 2017/9/30
  */
 
-abstract public class BaseRecordActivity extends BaseVPActivity implements OnPageChangeListener, OnLiveNotify {
+abstract public class BaseRecordActivity extends BaseVpActivity implements OnPageChangeListener, OnLiveNotify {
 
     protected final int KMicroPermissionCode = 10;
     protected final int KJoinMeetingReqId = 10;

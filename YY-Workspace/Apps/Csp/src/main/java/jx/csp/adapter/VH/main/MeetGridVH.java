@@ -21,7 +21,7 @@ public class MeetGridVH extends RecyclerViewHolderEx {
     }
 
     public View getItemLayout() {
-        return getView(R.id.main_square_layout);
+        return getView(R.id.main_meet_layout);
     }
 
     public NetworkImageView getIvHead() {
@@ -49,11 +49,11 @@ public class MeetGridVH extends RecyclerViewHolderEx {
     }
 
     public ImageView getIvLive(){
-        return getView(R.id.iv_square_live);
+        return getView(R.id.main_meet_iv_live);
     }
 
     public ImageView getIvShare(){
-        return getView(R.id.iv_square_share);
+        return getView(R.id.main_meet_iv_share);
     }
 
     public View getVDivider(){

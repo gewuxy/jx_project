@@ -17,7 +17,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.view.pager.indicator.PageIndicator;
 import lib.ys.view.pager.indicator.UnderlinePageIndicator;
-import lib.yy.ui.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVpActivity;
 import yy.doctor.R;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.ui.frag.me.CollectionFragRouter;
@@ -29,7 +29,7 @@ import yy.doctor.util.Util;
  * @since 2017/7/29
  */
 
-public class MyCollectionActivity extends BaseVPActivity {
+public class MyCollectionActivity extends BaseVpActivity {
     private static final int KIndicatorColor = Color.parseColor("#006ebd");
     private static final int KIndicatorWidth = 53;
 

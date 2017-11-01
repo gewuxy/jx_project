@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import inject.annotation.router.Arg;
 import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVPActivity;
+import lib.yy.ui.activity.base.BaseVpActivity;
 import yy.doctor.R;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag;
 
@@ -17,7 +17,7 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag;
  * @auther Huoxuyu
  * @since 2017/8/2
  */
-abstract public class BaseDataUnitsActivity extends BaseVPActivity {
+abstract public class BaseDataUnitsActivity extends BaseVpActivity {
 
     private static final String KSeparate = " > ";
 

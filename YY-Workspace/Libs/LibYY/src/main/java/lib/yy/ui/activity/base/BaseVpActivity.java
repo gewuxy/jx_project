@@ -11,7 +11,7 @@ import lib.yy.notify.Notifier.OnNotify;
  * @author CaiXiang
  * @since 2017/4/5
  */
-abstract public class BaseVPActivity extends ViewPagerActivityEx implements OnNotify {
+abstract public class BaseVpActivity extends ViewPagerActivityEx implements OnNotify {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
