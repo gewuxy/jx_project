@@ -27,7 +27,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     public void unBindMobileAndEmail(int id, int type) {
         if (id == RelatedId.bind_jingxin) {
             exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(type).build());
-        }else {
+        } else {
             exeNetworkReq(id, UserAPI.unBind(type).build());
         }
     }
@@ -48,7 +48,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                     .gender(gender)
                     .avatar(avatar)
                     .build());
-        }else {
+        } else {
             //已绑定, 解绑请求
             getView().confirmUnBindDialog(tips, v -> {
                 if (Util.noNetwork()) {
