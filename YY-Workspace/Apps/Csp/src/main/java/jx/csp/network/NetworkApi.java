@@ -2,7 +2,6 @@ package jx.csp.network;
 
 import inject.annotation.network.Api;
 import inject.annotation.network.Descriptor;
-import inject.annotation.network.Host;
 import inject.annotation.network.Query;
 import inject.annotation.network.Retry;
 import inject.annotation.network.Url;
@@ -131,8 +130,8 @@ public class NetworkApi {
                    @Query(opt = true) String district,
                    @Query(opt = true) String avatar);
 
-        @Post("")
-        @Host("https://www.medcn.com/oauth/app/authorize")
+        @Post
+        @Url(assign = "https://www.medcn.com/oauth/app/authorize")
         void yayaLogin(String username, String password);
 
         /**
@@ -248,11 +247,10 @@ public class NetworkApi {
 
         /**
          * 下载音频
-         *
-         * @param url
          */
-        @DownloadFile()
-        void downloadAudio(@Url String url);
+        @DownloadFile
+        @Url
+        void downloadAudio();
 
         /**
          * 退出录播页面
@@ -262,7 +260,7 @@ public class NetworkApi {
          * @param over
          */
         @Get("record/exit")
-        void exitRecord(String courseId, int  pageNum, int over);
+        void exitRecord(String courseId, int pageNum, int over);
 
         /**
          * 会议列表
@@ -328,10 +326,9 @@ public class NetworkApi {
 
         /**
          * 扫描二维码
-         *
-         * @param url
          */
         @Get
-        void scanQrCode(@Url String url);
+        @Url
+        void scanQrCode();
     }
 }
