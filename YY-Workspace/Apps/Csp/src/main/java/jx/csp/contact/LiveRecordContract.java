@@ -2,7 +2,8 @@ package jx.csp.contact;
 
 import android.support.annotation.StringRes;
 
-import lib.yy.contract.BaseContract;
+import jx.csp.model.meeting.Course.PlayType;
+import lib.yy.contract.IContract;
 
 /**
  * @author CaiXiang
@@ -11,7 +12,7 @@ import lib.yy.contract.BaseContract;
 
 public interface LiveRecordContract {
 
-    interface View extends BaseContract.BaseView {
+    interface V extends IContract.View {
 
         /**
          * 直播的时间
@@ -48,7 +49,7 @@ public interface LiveRecordContract {
         void onFinish();
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
+    interface P extends IContract.Presenter<V> {
 
         void startCountDown(long startTime, long stopTime);
 

@@ -332,7 +332,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
     }
 
-    private class View implements LiveRecordContract.View {
+    private class View implements LiveRecordContract.V {
 
         @Override
         public void setLiveTimeTv(String str) {

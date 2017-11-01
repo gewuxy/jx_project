@@ -31,7 +31,7 @@ import lib.live.LiveApi;
  * @since 2017/10/11
  */
 
-public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContract.View> implements LiveRecordContract.Presenter, OnCountDownListener {
+public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContract.V> implements LiveRecordContract.P, OnCountDownListener {
 
     private final String TAG = getClass().getSimpleName();
     private final int KFifteen = 15; // 开始倒计时的分钟数
@@ -77,7 +77,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         }
     };
 
-    public LiveRecordPresenterImpl(LiveRecordContract.View view) {
+    public LiveRecordPresenterImpl(LiveRecordContract.V view) {
         super(view);
 
         mMediaRecorder = new MediaRecorder();
