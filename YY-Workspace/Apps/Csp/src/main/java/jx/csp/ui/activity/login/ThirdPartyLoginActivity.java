@@ -90,11 +90,15 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
 
-        if (Util.noNetwork()) {
-            //第一次登录没有就是空，非第一次，从本地获取
 
+            // 从本地获取 null
 
-        }
+            //从本地获取视频,读文件是否存在
+            File file = new File(mLocatePath);
+            if (file.exists()) {
+                startPlay();
+            }
+
     }
 
 
@@ -179,7 +183,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             if (r.isSucceed()) {
                 LoginVideo data = r.getData();
                 int version = data.getInt(TLoginVideo.version);
-                int location = 0;
+                int location = 0; // 本地
 
                 if (version > location) {
                     String url = data.getString(TLoginVideo.videoUrl);
@@ -187,20 +191,10 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
                     mLocatePath = CacheUtil.getAudioCacheDir();
                     String fileName = "login_background_video.mp4";
+
                     exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(mLocatePath, fileName, url).build());
 
                     YSLog.d("url", url);
-                }
-                if (TextUtil.isNotEmpty(mPath)) {
-                   startPlay();
-                } else {
-                    //从本地获取视频,读文件是否存在
-                    File file = new File(mLocatePath);
-                    if (file.exists()) {
-                        startPlay();
-                    }else {
-
-                    }
                 }
             }
         } else if (id == KWeiboLogin || id == KWechatLogin) {
@@ -231,8 +225,14 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     }
 
     public void startPlay(){
-        mCustomVideoView.setVideoURI(Uri.parse(mPath));
+        mCustomVideoView.setVideoPath(mPath);
         mCustomVideoView.start();
         mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        mCustomVideoView.
     }
 }
