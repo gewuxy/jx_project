@@ -35,4 +35,8 @@ public class CourseVH extends RecyclerViewHolderEx {
         return getView(R.id.breviary_tv_media);
     }
 
+    public ImageView getIvVideo() {
+        return getView(R.id.breviary_iv_video);
+    }
+
 }

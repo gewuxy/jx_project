@@ -80,6 +80,10 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnRootTouchLis
         goneView(mIvHolder);
     }
 
+    public void setScale() {
+        mIvPPT.setScale(1, false);
+    }
+
     @Override
     public String getUrl() {
         return Util.convertUrl(getCourse().getString(TCourse.audioUrl));

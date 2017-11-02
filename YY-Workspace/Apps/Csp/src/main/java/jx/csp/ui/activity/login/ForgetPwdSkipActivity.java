@@ -3,6 +3,7 @@ package jx.csp.ui.activity.login;
 import jx.csp.R;
 
 /**
+ * 忘记密码的跳转界面
  * @auther WangLan
  * @since 2017/9/28
  */

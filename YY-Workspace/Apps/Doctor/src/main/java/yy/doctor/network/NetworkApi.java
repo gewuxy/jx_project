@@ -19,9 +19,9 @@ import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
  */
 @Descriptor(
         host = "https://app.medyaya.cn/api/",
-        hostDebuggable = "http://59.111.90.245:8083/v7/api/"
+//        hostDebuggable = "http://59.111.90.245:8083/v7/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
-//        hostDebuggable = "http://10.0.0.250:8081/api/" // 轩哥电脑
+        hostDebuggable = "http://10.0.0.250:8083/api/" // 轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8082/api/" // 长玲电脑
 )
 public class NetworkApi {
@@ -166,7 +166,8 @@ public class NetworkApi {
     @Api("data")
     interface Data {
         @DownloadFile
-        void download(@Url String url);
+        @Url
+        void download();
 
         /**
          * 药品目录文件或文件夹列表
@@ -651,6 +652,7 @@ public class NetworkApi {
         void epnRecharge(String subject, int totalAmount);
 
         @DownloadFile
-        void download(@Url String url);
+        @Url
+        void download();
     }
 }

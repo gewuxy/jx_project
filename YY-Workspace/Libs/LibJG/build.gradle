@@ -35,6 +35,6 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly project(deps.ys.core)
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(path: ':Android:Libs:LibYS_Rx')
 }

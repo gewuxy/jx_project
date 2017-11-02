@@ -3,6 +3,8 @@ package yy.doctor.ui.frag.meeting;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
@@ -29,6 +32,7 @@ import yy.doctor.serv.CommonServRouter;
 import yy.doctor.ui.frag.meeting.course.AudioCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag.OnFragClickListener;
+import yy.doctor.ui.frag.meeting.course.PicAudioCourseFrag;
 import yy.doctor.ui.frag.meeting.course.PicAudioCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.PicCourseFragRouter;
 import yy.doctor.ui.frag.meeting.course.VideoCourseFrag;
@@ -56,6 +60,8 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
     private OnFragClickListener mListener;
     private boolean mDispatch; // 是否处理触摸事件
+    private View mLayoutNew;
+    private TextView mTvNew;
 
     public void addOnPageChangeListener(OnPageChangeListener listener) {
         setOnPageChangeListener(listener); // 外部添加
@@ -89,12 +95,21 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
+    public void findViews() {
+        super.findViews();
+
+        mLayoutNew = findView(R.id.ppt_layout);
+        mTvNew = findView(R.id.ppt_tv_num);
+    }
+
+    @Override
     public void setViews() {
         super.setViews();
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
         setOnPageChangeListener(this);
+        setOnClickListener(R.id.ppt_layout);
     }
 
     @Override
@@ -166,6 +181,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         return frag;
     }
 
+    /**
+     * 追加新的ppt
+     */
     public void addCourse(Course course) {
         BaseCourseFrag f = getPPTFrag(course);
         mCourses.add(course);
@@ -176,6 +194,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
     }
 
+    /**
+     * 添加原有ppt
+     */
     public void addCourses() {
         if (mPPT == null) {
             return;
@@ -236,6 +257,18 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
     }
 
+    public void setTextNew(CharSequence c) {
+        mTvNew.setText(c);
+    }
+
+    public void newVisibility(boolean visibility) {
+        if (visibility) {
+            showView(mLayoutNew);
+        } else {
+            goneView(mLayoutNew);
+        }
+    }
+
     @Override
     public void onDestroy() {
         saveStudyTime();
@@ -286,6 +319,20 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ppt_layout: {
+                setCurrentItem();
+                newVisibility(false);
+            }
+            break;
+        }
+    }
+
+    /**
+     * 开始播放
+     */
     public void startPlay() {
         NetPlayer.inst().stop();
         BaseCourseFrag frag = getItem(getCurrentItem());
@@ -298,10 +345,16 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), frag.getUrl());
     }
 
+    /**
+     * 停止播放
+     */
     public void stopPlay() {
         NetPlayer.inst().stop();
     }
 
+    /**
+     * 是否拦截触摸事件
+     */
     public void setDispatch(boolean dispatch) {
         mDispatch = dispatch;
     }
@@ -312,6 +365,17 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             return true;
         } else {
             return super.onInterceptTouchEvent(ev);
+        }
+    }
+
+    /**
+     * 当前ppt缩放至原来
+     */
+    public void refreshCurrentItem() {
+        BaseCourseFrag item = getItem(getCurrentItem());
+        if (item instanceof PicAudioCourseFrag) {
+            PicAudioCourseFrag f = (PicAudioCourseFrag) item;
+            f.setScale();
         }
     }
 }

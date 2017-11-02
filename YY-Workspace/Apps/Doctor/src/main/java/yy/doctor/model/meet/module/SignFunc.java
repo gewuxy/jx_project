@@ -95,7 +95,7 @@ public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocati
         if (mPermission.checkPermission(0, Permission.location)) {
             location();
         } else {
-
+            locationError();
         }
     }
 

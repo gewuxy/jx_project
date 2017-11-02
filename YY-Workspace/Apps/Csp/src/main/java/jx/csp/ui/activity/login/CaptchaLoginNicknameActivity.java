@@ -25,6 +25,7 @@ import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
 /**
+ * 手机登录之后没有昵称的跳出的输入昵称
  * @auther WangLan
  * @since 2017/9/28
  */

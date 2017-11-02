@@ -35,6 +35,7 @@ import lib.yy.notify.Notifier.NotifyType;
 
 
 /**
+ * 验证码登录，又称手机登录
  * @auther WangLan
  * @since 2017/9/25
  */

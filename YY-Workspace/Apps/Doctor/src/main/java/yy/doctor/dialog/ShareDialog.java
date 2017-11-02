@@ -14,6 +14,8 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import lib.ys.util.bmp.BmpUtil;
+import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
 
@@ -30,18 +32,11 @@ public class ShareDialog extends BaseDialog {
     public static final String KShareSuccess = "分享成功";
     public static final String KShareError = "分享失败";
     public static final String KShareCancel = "分享取消";
-
-    /**
-     * 数值不能更改
-     */
-    private final int KIdWeChat = 0;
-    private final int KIdWeChatMoments = 1;
-    private final int KIdSinaWeiBo = 3;
+    
 
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
 
-//    private PlatActionListener mPlatActionListener;
     private PlatformActionListener mPlatFormActionListener;
 
 
@@ -70,23 +65,6 @@ public class ShareDialog extends BaseDialog {
                 showToast(KShareCancel);
             }
         };
-       /* mPlatActionListener = new PlatActionListener() {
-
-            @Override
-            public void onComplete(Platform platform, int action, HashMap<String, Object> data) {
-                showToast(KShareSuccess);
-            }
-
-            @Override
-            public void onError(Platform platform, int action, int errorCode, Throwable error) {
-                showToast(KShareError.concat(error.getMessage()));
-            }
-
-            @Override
-            public void onCancel(Platform platform, int action) {
-                showToast(KShareCancel);
-            }
-        };*/
     }
 
     @NonNull
@@ -111,29 +89,20 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-      /*  ShareParams shareParams = new ShareParams();
-        shareParams.setShareType(Platform.SHARE_WEBPAGE);
-        shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
-        shareParams.setTitle(mShareTitle);
-        shareParams.setText(KShareText);
-        shareParams.setUrl(mShareUrl);*/
         ShareParams shareParams = new ShareParams();
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
-        shareParams.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+        shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.ic_launcher)));
         shareParams.setTitle(mShareTitle);
         shareParams.setText(KShareText);
         shareParams.setUrl(mShareUrl);
         Platform platform;
 
-//        String platName;
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat_friend_cicle: {
                 platform = ShareSDK.getPlatform(Wechat.NAME);
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 platform.setPlatformActionListener(mPlatFormActionListener);
                 platform.share(shareParams);
-              /*  platName = JShareInterface.getPlatformList().get(KIdWeChatMoments);
-                JShareInterface.share(platName, shareParams, mPlatActionListener);*/
             }
             break;
             case R.id.dialog_share_iv_wechat_friends: {
@@ -141,16 +110,12 @@ public class ShareDialog extends BaseDialog {
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 platform.setPlatformActionListener(mPlatFormActionListener);
                 platform.share(shareParams);
-               /* platName = JShareInterface.getPlatformList().get(KIdWeChat);
-                JShareInterface.share(platName, shareParams, mPlatActionListener);*/
             }
             break;
             case R.id.dialog_share_iv_sina: {
                 platform = ShareSDK.getPlatform(SinaWeibo.NAME);
                 platform.setPlatformActionListener(mPlatFormActionListener);
                 platform.share(shareParams);
-                /*platName = JShareInterface.getPlatformList().get(KIdSinaWeiBo);
-                JShareInterface.share(platName, shareParams, mPlatActionListener);*/
             }
             break;
             case R.id.dialog_share_tv_cancel: {

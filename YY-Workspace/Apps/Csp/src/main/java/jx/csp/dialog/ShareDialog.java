@@ -32,8 +32,10 @@ import jx.csp.ui.activity.me.ContributePlatformActivity;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.util.PackageUtil;
+import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
+import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
@@ -79,9 +81,8 @@ public class ShareDialog extends BaseDialog {
     //剪切板管理工具
     private ClipboardManager mClipboadManager;
 
-
+    //    private ShareResult mShareResult;
     private PlatformActionListener mPlatformActionListener;
-
     private OnDeleteListener mDeleteListener;
 
     public void setDeleteListener(OnDeleteListener listener) {
@@ -126,25 +127,24 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void initData() {
+//        mShareResult = new ShareResult();
         mPlatformActionListener = new PlatformActionListener() {
             @Override
-            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+            public void onComplete(cn.sharesdk.framework.Platform platform, int i, HashMap<String, Object> hashMap) {
                 showToast(R.string.share_success);
-//                YSLog.d("onComplete","成功");
             }
 
             @Override
-            public void onError(Platform platform, int i, Throwable throwable) {
+            public void onError(cn.sharesdk.framework.Platform platform, int i, Throwable throwable) {
                 showToast(KShareError.concat(throwable.getMessage()));
-//                YSLog.d("onComplete","失败");
             }
 
             @Override
-            public void onCancel(Platform platform, int i) {
+            public void onCancel(cn.sharesdk.framework.Platform platform, int i) {
                 showToast(R.string.share_cancel);
-//                YSLog.d("onComplete","取消");
             }
         };
+
         mClipboadManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
     }
 
@@ -180,15 +180,16 @@ public class ShareDialog extends BaseDialog {
         ShareParams shareParams = new ShareParams();
         shareParams.setTitle(mShareTitle);
         shareParams.setText(KShareText);
-        shareParams.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+        shareParams.setUrl(mShareUrl);
+
         Platform platform;
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat: {
+//                Share.share();
                 platform = ShareSDK.getPlatform(Wechat.NAME);
                 //微信的字段
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                //Fixme:分享内容的图片，还没有,用的丫丫医师,图片不能放资源文件，放mipmap，url或者本地图片转
-                shareParams.setUrl(mShareUrl);
+                shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.share_csp_logo)));
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -198,8 +199,7 @@ public class ShareDialog extends BaseDialog {
                 platform = ShareSDK.getPlatform(WechatMoments.NAME);
                 //微信的字段
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                //Fixme:分享内容的图片，还没有,用的丫丫医师
-                shareParams.setUrl(mShareUrl);
+                shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.share_csp_logo)));
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -207,6 +207,7 @@ public class ShareDialog extends BaseDialog {
             case R.id.dialog_share_iv_qq: {
                 platform = ShareSDK.getPlatform(QQ.NAME);
                 //这是qq必写的参数，否则发不了，短信只能发文字，链接可以写在文字里面
+                // FIXME: 2017/11/1 除了微信的图片有字段，其他的平台还没字段，图片传的是ppt第一页的图片
                 shareParams.setTitleUrl(mShareUrl);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
@@ -223,7 +224,6 @@ public class ShareDialog extends BaseDialog {
                 platform = ShareSDK.getPlatform(SinaWeibo.NAME);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
-                showToast("微博分享");
             }
             break;
             case R.id.dialog_share_iv_message: {
@@ -273,4 +273,22 @@ public class ShareDialog extends BaseDialog {
     public interface OnDeleteListener {
         void delete();
     }
+
+   /* private class ShareResult extends ShareCallback {
+
+        @Override
+        public void shareComplete() {
+
+        }
+
+        @Override
+        public void shareError() {
+
+        }
+
+        @Override
+        public void shareCancel() {
+
+        }
+    }*/
 }

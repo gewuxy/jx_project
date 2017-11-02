@@ -18,7 +18,7 @@ public interface MeetingLiveContract {
         void addCourse(Course course);
     }
 
-    interface Presenter extends IContract.Presenter {
+    interface Presenter extends IContract.Presenter<View> {
         /**
          * 获取网络数据
          */

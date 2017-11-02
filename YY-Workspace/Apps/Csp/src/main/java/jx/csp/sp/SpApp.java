@@ -16,6 +16,7 @@ import jx.csp.App;
 public class SpApp extends SpBase {
 
     private static final String KFileName = "sp_app";
+    public static final int KDefaultVersion = 0;
 
     private static SpApp mInst = null;
 
@@ -37,6 +38,7 @@ public class SpApp extends SpBase {
         String KUserMobile = "mobile";
         String KSystemLanguage = "language";
         String KCountry = "country";
+        String KLoginVideoVersion = "version";
     }
 
     @Override
@@ -98,6 +100,21 @@ public class SpApp extends SpBase {
         return getString(SpAppKey.KUserMobile);
     }
 
+    /**
+     * 保存登录视频的版本
+      * @param version
+     */
+    public void saveLoginVideoVersion(int version){
+        save(SpAppKey.KLoginVideoVersion,version);
+    }
+
+    /**
+     * 获取版本
+     * @return
+     */
+    public int getLoginVideoVersion() {
+        return getInt(SpAppKey.KLoginVideoVersion,KDefaultVersion);
+    }
     /**
      * 是否需要检查app有没有更新, 暂定间隔为2天
      *

@@ -162,6 +162,13 @@ public class NetworkApi {
         @Post("logout")
         @Retry(count = 5, delay = 1000)
         void logout();
+
+        @Post("login/video")
+        void loginVideo(int version);
+
+        @DownloadFile
+        @Url
+        void downLoad();
     }
 
     @Api("delivery")

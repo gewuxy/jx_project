@@ -25,6 +25,7 @@ import jx.csp.util.CacheUtil;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.network.NetworkConfig;
+import lib.share.Share;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -135,6 +136,18 @@ public class App extends BaseApp {
         setMobLine();
         setMobWeChatMoments();
         setMobQZone();
+    /*    Share.setQQ();
+//        Share.setWX();
+        setMobWeChat();
+//        Share.setWeiBo();
+        setMobWeibo();
+        Share.setTwitter();
+        Share.setLinkedIn();
+        Share.setLine();
+//        Share.setWeChatMoments();
+        setMobWeChatMoments();
+        Share.setQZone();*/
+
     }
 
     @Override
@@ -154,7 +167,7 @@ public class App extends BaseApp {
         hashMap.put("SortId","1");
         hashMap.put("AppKey","2989630614");
         hashMap.put("AppSecret","e3aab4c005032d74fe76b5ab3d4effb8");
-        hashMap.put("RedirectUrl","http://www.sharesdk.cn");
+        hashMap.put("RedirectUrl","http://medcn.synology.me:8889/mgr/oauth/callback?thirdPartyId=2");
         hashMap.put("ShareByAppClient","true");
         hashMap.put("Enable","true");
         hashMap.put("ShareByWebApi","false");
@@ -162,11 +175,12 @@ public class App extends BaseApp {
     }
 
     protected void setMobQQ(){
+        Share.setQQ();
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","2");
         hashMap.put("SortId","2");
-        hashMap.put("AppKey","96ivtWERQz1SZ8QB");
-        hashMap.put("AppId","1106485170");
+        hashMap.put("AppKey",PackageUtil.getMetaValue("QQ_SECRET"));
+        hashMap.put("AppId",PackageUtil.getMetaValue("QQ_ID"));
         hashMap.put("BypassApproval","false");
         hashMap.put("ShareByAppClient","true");
         hashMap.put("Enable","true");
@@ -174,6 +188,7 @@ public class App extends BaseApp {
     }
 
     protected void setMobWeChat(){
+//        Share.setWX();
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","3");
         hashMap.put("SortId","3");
@@ -188,8 +203,8 @@ public class App extends BaseApp {
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","4");
         hashMap.put("SortId","4");
-        hashMap.put("ConsumerKey","hqhT16vzm2ZJxJary0WOULGfv");
-        hashMap.put("ConsumerSecret","apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk");
+        hashMap.put("ConsumerKey",PackageUtil.getMetaValue("TWITTER_KEY"));
+        hashMap.put("ConsumerSecret",PackageUtil.getMetaValue("TWITTER_SECRET"));
         hashMap.put("CallbackUrl","http://mob.com");
         hashMap.put("Enable","true");
         ShareSDK.setPlatformDevInfo(Twitter.NAME,hashMap);
@@ -199,8 +214,8 @@ public class App extends BaseApp {
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","5");
         hashMap.put("SortId","5");
-        hashMap.put("ApiKey","81143jcz89ac7k");
-        hashMap.put("SecretKey","Xs3H202AB9tyJpu5");
+        hashMap.put("ApiKey",PackageUtil.getMetaValue("LINKIN_APIKEY"));
+        hashMap.put("SecretKey",PackageUtil.getMetaValue("LINKIN_SECRETKEY"));
         hashMap.put("RedirectUrl","http://sharesdk.cn");
         hashMap.put("ShareByAppClient","true");
         hashMap.put("Enable","true");
@@ -211,8 +226,8 @@ public class App extends BaseApp {
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","6");
         hashMap.put("SortId","6");
-        hashMap.put("ChannelID","1541221136");
-        hashMap.put("ChannelSecret","8ae3221a628add950f2422dd8e76f0a9");
+        hashMap.put("ChannelID",PackageUtil.getMetaValue("LINE_ID"));
+        hashMap.put("ChannelSecret",PackageUtil.getMetaValue("LINE_SECRET"));
         hashMap.put("Enable","true");
         ShareSDK.setPlatformDevInfo(Line.NAME,hashMap);
     }
@@ -221,8 +236,8 @@ public class App extends BaseApp {
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","7");
         hashMap.put("SortId","7");
-        hashMap.put("AppId","wx142cb3956210ccd3");
-        hashMap.put("AppSecret","bc67cd82b0656e85f9a924f7679d75f7");
+        hashMap.put("AppId",PackageUtil.getMetaValue("WX_ID"));
+        hashMap.put("AppSecret",PackageUtil.getMetaValue("WX_SECRET"));
         hashMap.put("BypassApproval","false");
         hashMap.put("Enable","true");
         ShareSDK.setPlatformDevInfo(WechatMoments.NAME,hashMap);
@@ -232,11 +247,10 @@ public class App extends BaseApp {
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","8");
         hashMap.put("SortId","8");
-        hashMap.put("AppKey","96ivtWERQz1SZ8QB");
-        hashMap.put("AppId","1106485170");
+        hashMap.put("AppKey",PackageUtil.getMetaValue("QQ_SECRET"));
+        hashMap.put("AppId",PackageUtil.getMetaValue("QQ_ID"));
         hashMap.put("BypassApproval","false");
         hashMap.put("Enable","true");
         ShareSDK.setPlatformDevInfo(QQ.NAME,hashMap);
     }
-
 }

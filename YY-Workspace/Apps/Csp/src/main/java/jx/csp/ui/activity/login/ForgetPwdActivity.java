@@ -17,6 +17,7 @@ import lib.ys.util.RegexUtil;
 import lib.yy.network.Result;
 
 /**
+ * 忘记密码
  * @auther WangLan
  * @since 2017/9/25
  */

@@ -83,9 +83,6 @@
         <activity
             android:name=".ui.activity.ShareTestActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.LoginVideoActivtity"
-            android:screenOrientation="portrait"/>
 
         <!--首页-->
         <activity
@@ -162,6 +159,13 @@
             android:name=".ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name="jx.csp.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
 
         <!-- service -->
         <service android:name=".serv.CommonServ"/>
@@ -195,6 +199,42 @@
         <meta-data
             android:name="JX_LANGUAGE"
             android:value="${language}"/>
+        <meta-data
+            android:name="WX_ID"
+            android:value="${wx_id}"/>
+        <meta-data
+            android:name="WX_SECRET"
+            android:value="${wx_secret}"/>
+        <meta-data
+            android:name="SINA_KEY"
+            android:value="${sina_appkey}"/>
+        <meta-data
+            android:name="SINA_SECRET"
+            android:value="${sina_appsecret}"/>
+        <meta-data
+            android:name="QQ_ID"
+            android:value="${qq_id}"/>
+        <meta-data
+            android:name="QQ_SECRET"
+            android:value="${qq_key}"/>
+        <meta-data
+            android:name="TWITTER_KEY"
+            android:value="${twitter_key}"/>
+        <meta-data
+            android:name="TWITTER_SECRET"
+            android:value="${twitter_secret}"/>
+        <meta-data
+            android:name="LINKIN_APIKEY"
+            android:value="${linkedin_apikey}"/>
+        <meta-data
+            android:name="LINKIN_SECRETKEY"
+            android:value="${linkedin_secretkey}"/>
+        <meta-data
+            android:name="LINE_ID"
+            android:value="${line_id}"/>
+        <meta-data
+            android:name="LINE_SECRET"
+            android:value="${line_secret}"/>
 
     </application>
 </manifest>

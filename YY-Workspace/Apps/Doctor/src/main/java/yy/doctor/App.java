@@ -25,6 +25,7 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
+import lib.ys.util.PackageUtil;
 import lib.yy.BaseApp;
 import yy.doctor.Constants.PageConstants;
 import yy.doctor.network.NetFactory;
@@ -145,8 +146,8 @@ public class App extends BaseApp {
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
         hashMap.put("Id","1");
         hashMap.put("SortId","1");
-        hashMap.put("AppKey","2989630614");
-        hashMap.put("AppSecret","e3aab4c005032d74fe76b5ab3d4effb8");
+        hashMap.put("AppKey", PackageUtil.getMetaValue("SINA_KEY"));
+        hashMap.put("AppSecret",PackageUtil.getMetaValue("SINA_SECRET"));
         hashMap.put("RedirectUrl","http://www.sharesdk.cn");
         hashMap.put("ShareByAppClient","true");
         hashMap.put("Enable","true");
@@ -156,10 +157,10 @@ public class App extends BaseApp {
 
     protected void setMobWeChat(){
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("Id","3");
-        hashMap.put("SortId","3");
-        hashMap.put("AppId","wx142cb3956210ccd3");
-        hashMap.put("AppSecret","bc67cd82b0656e85f9a924f7679d75f7");
+        hashMap.put("Id","2");
+        hashMap.put("SortId","2");
+        hashMap.put("AppId",PackageUtil.getMetaValue("WX_ID"));
+        hashMap.put("AppSecret",PackageUtil.getMetaValue("WX_SECRET"));
         hashMap.put("BypassApproval","false");
         hashMap.put("Enable","true");
         ShareSDK.setPlatformDevInfo(Wechat.NAME,hashMap);
@@ -167,10 +168,10 @@ public class App extends BaseApp {
 
     protected void setMobWeChatMoments(){
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("Id","7");
-        hashMap.put("SortId","7");
-        hashMap.put("AppId","wx142cb3956210ccd3");
-        hashMap.put("AppSecret","bc67cd82b0656e85f9a924f7679d75f7");
+        hashMap.put("Id","3");
+        hashMap.put("SortId","");
+        hashMap.put("AppId",PackageUtil.getMetaValue("WX_ID"));
+        hashMap.put("AppSecret",PackageUtil.getMetaValue("WX_SECRET"));
         hashMap.put("BypassApproval","false");
         hashMap.put("Enable","true");
         ShareSDK.setPlatformDevInfo(WechatMoments.NAME,hashMap);

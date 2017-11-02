@@ -510,8 +510,5 @@ public class NetPlayer implements
         if (id == mPlayCode && mListener != null) {
             mListener.onDownProgress((int) progress);
         }
-        if (progress == 50) {
-            android.os.Process.killProcess(android.os.Process.myPid());
-        }
     }
 }

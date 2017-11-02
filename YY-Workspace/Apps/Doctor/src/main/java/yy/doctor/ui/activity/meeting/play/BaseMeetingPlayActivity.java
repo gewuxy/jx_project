@@ -8,6 +8,8 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +17,11 @@ import inject.annotation.router.Arg;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.other.NavBar;
-import lib.yy.contract.IContract.View;
+import lib.yy.contract.IContract;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -26,6 +29,10 @@ import yy.doctor.R;
  */
 
 abstract public class BaseMeetingPlayActivity extends BaseActivity {
+
+    public interface OnLiveListener {
+        void online(int num);
+    }
 
     @Arg
     String mMeetId; // 会议ID
@@ -35,7 +42,8 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     private TextView mTvComment;
     private TextView mTvOnlineNum;
-    private ImageView mIvControl;
+    private ImageView mIvControlP;
+    private ImageView mIvControlL;
     private TextView mTvAll;
     private TextView mTvCur;
 
@@ -55,6 +63,10 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     public final void initNavBar(NavBar bar) {
         bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> nativePortrait());
 
+        ViewGroup view = bar.addViewRight(R.drawable.meet_play_audio_selector, v -> mIvControlP.performClick());
+
+        mIvControlL = Util.getBarView(view, ImageView.class);
+
         bar.setBackgroundColor(Color.BLACK);
         bar.setBackgroundAlpha(127);
         goneView(bar);
@@ -65,7 +77,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     public void findViews() {
         mTvComment = findView(R.id.meet_play_nav_tv_comment);
         mTvOnlineNum = findView(R.id.meet_play_nav_tv_online_num);
-        mIvControl = findView(R.id.meet_play_nav_iv_control);
+        mIvControlP = findView(R.id.meet_play_nav_iv_control);
 
         mTvCur = findView(R.id.meet_play_tv_current);
         mTvAll = findView(R.id.meet_play_tv_all);
@@ -83,7 +95,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         setOnClickListener(R.id.meet_play_iv_left);
         setOnClickListener(R.id.meet_play_iv_right);
 
-        mIvControl.setImageResource(getControlResId());
+        mIvControlP.setImageResource(getControlResId());
     }
 
     @Override
@@ -92,7 +104,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     }
 
     @Override
-    public final void onClick(android.view.View v) {
+    public final void onClick(View v) {
         switch (v.getId()) {
             case R.id.meet_play_nav_iv_back: {
                 finish();
@@ -167,7 +179,8 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     }
 
     protected void setPlayState(boolean state) {
-        mIvControl.setSelected(state);
+        mIvControlP.setSelected(state);
+        mIvControlL.setSelected(state);
     }
 
     protected void setTextComment(int num) {
@@ -184,6 +197,11 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     protected void setTextOnline(int people) {
         mTvOnlineNum.setText(String.valueOf(people));
+    }
+
+    protected void setTextTitle(CharSequence s) {
+        getNavBar().addTextViewMid(s);
+        goneView(getNavBar());
     }
 
     /**
@@ -221,21 +239,21 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     /**
      * BaseView暂时没有extends ICommonOpt(项目框架)
      */
-    protected class BaseViewImpl implements View,ICommonOpt {
+    protected class BaseViewImpl implements IContract.View, ICommonOpt {
 
         @Deprecated
         @Override
-        public void showView(android.view.View v) {
+        public void showView(View v) {
         }
 
         @Deprecated
         @Override
-        public void hideView(android.view.View v) {
+        public void hideView(View v) {
         }
 
         @Deprecated
         @Override
-        public void goneView(android.view.View v) {
+        public void goneView(View v) {
         }
 
         @Override

@@ -4,25 +4,23 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import lib.network.model.NetworkError;
-import lib.wx.WXLoginApi;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
-import yy.doctor.Constants;
-import yy.doctor.Constants.WXType;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.ForgetPwdDialog;
 import yy.doctor.dialog.HintDialogMain;
-import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.user.register.RegisterActivity;
+
+//import lib.wx.WXLoginApi;
 
 /**
  * 登录
@@ -89,7 +87,7 @@ public class LoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.login_layout_wechat: {
-                WXLoginApi.create(LoginActivity.this, Constants.KAppId);
+                /*WXLoginApi.create(LoginActivity.this, Constants.KAppId);
                 if (WXLoginApi.isWXAppInstalled()) {
                     WXLoginApi.sendReq(WXType.login);
                 } else {
@@ -99,7 +97,7 @@ public class LoginActivity extends BaseLoginActivity {
                     d.setSecHint(R.string.wx_check_normal);
                     d.addBlueButton(R.string.affirm);
                     d.show();
-                }
+                }*/
             }
             break;
             default: {
@@ -160,7 +158,7 @@ public class LoginActivity extends BaseLoginActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        WXLoginApi.detach();
+//        WXLoginApi.detach();
     }
 
     @Override

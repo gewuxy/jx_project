@@ -1,41 +1,36 @@
 package com.zhuanyeban.yaya.wxapi;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.widget.Toast;
 
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.modelbase.BaseResp.ErrCode;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
-
-import lib.network.model.NetworkResp;
-import lib.wx.WXLoginApi;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Constants;
-import yy.doctor.Constants.WXType;
-import yy.doctor.R;
-import yy.doctor.dialog.ShareDialog;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkApiDescriptor.UserAPI;
-import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.user.login.WXLoginActivity;
+import cn.sharesdk.wechat.utils.WXAppExtendObject;
+import cn.sharesdk.wechat.utils.WXMediaMessage;
+import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 
 /**
  * 微信的回调, (根据applicationId回调)
  */
-public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WechatHandlerActivity {
 
-    private static final String TAG = WXEntryActivity.class.getSimpleName().toString();
+    @Override
+    public void onGetMessageFromWXReq(WXMediaMessage msg) {
+        if (msg != null) {
+            Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            startActivity(iLaunchMyself);
+        }
+    }
+
+    @Override
+    public void onShowMessageFromWXReq(WXMediaMessage msg) {
+        if (msg != null && msg.mediaObject != null
+                && (msg.mediaObject instanceof WXAppExtendObject)) {
+            WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
+            Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /*private static final String TAG = WXEntryActivity.class.getSimpleName().toString();
     private final int KLogin = 0;
     private final int KBind = 1;
 
@@ -43,7 +38,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void initData() {
-        mApi = WXLoginApi.create(this, Constants.KAppId);
+//        mApi = WXLoginApi.create(this, Constants.KAppId);
 
         try {
             mApi.handleIntent(getIntent(), this);
@@ -162,6 +157,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         }
         finish();
-    }
+    }*/
 
 }
