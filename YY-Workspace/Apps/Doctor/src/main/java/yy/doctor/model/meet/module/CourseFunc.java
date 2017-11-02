@@ -22,6 +22,7 @@ import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.ui.activity.meeting.play.MeetingLiveActivityRouter;
+import yy.doctor.ui.activity.meeting.play.MeetingPptLiveActivityRouter;
 import yy.doctor.ui.activity.meeting.play.MeetingRebActivityRouter;
 
 /**
@@ -89,15 +90,15 @@ public class CourseFunc extends BaseFunc {
             } else {
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
-                        ;
+                        MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                     }
                     break;
                     case BroadcastType.live_ppt: {
-                        MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        MeetingPptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                     }
                     break;
                     case BroadcastType.live: {
-                        MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                     }
                     break;
                 }

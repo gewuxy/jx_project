@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.pili.pldroid.player.widget.PLVideoTextureView;
@@ -54,6 +55,10 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     private LayoutParams mParamL;
 
     private Handler mHandler;
+
+    public PPTRebFrag getFragPpt() {
+        return mFragReb;
+    }
 
     @Override
     public void initData() {
@@ -249,7 +254,10 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
             setViewState(ViewState.normal);
             mFragReb.setPPT(ppt);
             mFragReb.addCourses();
+
             setTextComment(ppt.getInt(TPPT.count));
+            CourseInfo courseInfo = ppt.get(TPPT.course);
+            setTextTitle(courseInfo.getString(TCourseInfo.title));
 
             MeetingBreviaryAdapter adapter = new MeetingBreviaryAdapter();
             adapter.setData(courses);
@@ -268,13 +276,17 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
                     .setMinScale(0.8f)
                     .build());
 
-            mPresenter.playMedia(0);
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    mPresenter.playMedia(0);
+                    removeOnGlobalLayoutListener(this);
+                }
+
+            });
             setTextAll(courses.size());
             setTextCur(1);
-
-            CourseInfo courseInfo = ppt.get(TPPT.course);
-            getNavBar().addTextViewMid(courseInfo.getString(TCourseInfo.title));
-            BaseMeetingPptActivity.this.goneView(getNavBar());
         }
 
         @Override

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.util.TextUtil;
 import lib.ys.util.UtilEx;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
@@ -51,11 +52,14 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
         if (r.isSucceed()) {
             mPpt = r.getData();
             getView().initView(mPpt);
-            if (mPpt != null) {
-                String url = mPpt.getString(TPPT.socketUrl);
-                url = "ws://10.0.0.250:8081/live/order?courseId=14379";
-                exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
+            if (mPpt == null) {
+                return;
             }
+            String url = mPpt.getString(TPPT.socketUrl);
+            if (TextUtil.isEmpty(url)) {
+                return;
+            }
+            exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
         } else {
             onNetworkError(id, r.getError());
         }

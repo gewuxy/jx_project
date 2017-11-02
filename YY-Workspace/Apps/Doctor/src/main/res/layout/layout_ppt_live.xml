@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ppt_live_layout_default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -20,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:text="视频直播未开始"
             android:textColor="@color/text_888"
             android:textSize="14dp"/>
@@ -31,5 +32,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ppt_live_layout_live_break"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1e000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="27dp"
+            android:src="@drawable/meet_play_ic_live_break"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="视频直播设备已断开"
+            android:textColor="@color/text_fff"
+            android:textSize="14dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ppt_live_layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1e000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:progressDrawable="@drawable/white"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

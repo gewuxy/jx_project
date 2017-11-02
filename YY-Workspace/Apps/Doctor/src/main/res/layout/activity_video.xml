@@ -41,6 +41,7 @@
             android:id="@+id/video_layout_function"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_alignBottom="@id/video_layout_video"
             android:background="#33000000"
             android:gravity="center_vertical"
             android:orientation="horizontal"

@@ -12,9 +12,12 @@ import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import yy.doctor.R;
 import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.CourseInfo;
+import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.Live;
 import yy.doctor.model.meet.ppt.Live.TLive;
 import yy.doctor.model.meet.ppt.PPT;
@@ -100,6 +103,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mLandscapeSwitch.setListener(v -> {
             if (v.getId() == R.id.meet_live_layout_ppt) {
                 mFragPpt.setDispatch(true);
+                mFragPpt.refreshCurrentItem();
             } else {
                 mFragPpt.setDispatch(false);
                 playPpt();
@@ -116,6 +120,8 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mPresenter.getDataFromNet(mMeetId, mModuleId);
 
         mFragPpt.setFragClickListener(() -> playPpt());
+
+        mFragLive.setListener(num -> setTextOnline(num));
 
         mFragPpt.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -261,6 +267,10 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                 return;
             }
             setViewState(ViewState.normal);
+
+            setTextComment(ppt.getInt(TPPT.count));
+            CourseInfo courseInfo = ppt.get(TPPT.course);
+            setTextTitle(courseInfo.getString(TCourseInfo.title));
 
             String roomId = ppt.getString(TPPT.courseId);
             mFragLive.loginRoom(roomId);

@@ -47,7 +47,7 @@ public interface MeetingPptContract {
         void finishCount();
     }
 
-    interface Presenter extends IContract.Presenter {
+    interface Presenter extends IContract.Presenter<View> {
 
         /**
          * 播放

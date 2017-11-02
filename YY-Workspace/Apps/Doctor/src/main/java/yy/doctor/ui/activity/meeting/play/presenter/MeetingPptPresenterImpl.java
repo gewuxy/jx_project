@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.meeting.play.presenter;
 
+import android.support.annotation.CallSuper;
+
 import java.util.List;
 
 import lib.network.model.NetworkError;
@@ -34,8 +36,8 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     private final int KDuration = 3;
 
     private int mPosition; // 上一个position
-    private PPT mPpt;
-    private List<Course> mCourses;
+    protected PPT mPpt;
+    protected List<Course> mCourses;
     private CountDown mCountDown;
 
     private long mAllMillisecond;
@@ -52,6 +54,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         return JsonParser.ev(r.getText(), PPT.class);
     }
 
+    @CallSuper
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<PPT> r = (Result<PPT>) result;
