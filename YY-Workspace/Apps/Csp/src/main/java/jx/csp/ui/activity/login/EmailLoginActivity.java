@@ -33,6 +33,7 @@ import lib.yy.notify.Notifier.NotifyType;
 ;
 
 /**
+ * 邮箱登录
  * @auther WangLan
  * @since 2017/9/22
  */

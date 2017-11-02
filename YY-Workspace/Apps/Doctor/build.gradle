@@ -36,8 +36,9 @@ android {
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',
-                '../../Libs/LibWX/proguard-wx.pro',
+//                '../../Libs/LibWX/proguard-wx.pro',
                 '../../Libs/LibLive/proguard-live.pro',
+                '../../Libs/LibShare/proguard-share.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -105,31 +106,47 @@ android {
     productFlavors {
         flavors_debug {
             manifestPlaceholders = [
-                    app_name : "YaYa医师(B)",
-                    app_icon : "ic_launcher",
-                    master_id: "",
+                    app_name      : "YaYa医师(B)",
+                    app_icon      : "ic_launcher",
+                    master_id     : "",
+                    wx_id         : "wx83d3ea20a714b660",
+                    wx_secret     : "b02f7292152660b7b551a70dced8feec",
+                    sina_appkey   : "506754622",
+                    sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
-                    app_name : "YaYa医师(A)",
-                    app_icon : "ic_launcher",
-                    master_id: "",
+                    app_name      : "YaYa医师(A)",
+                    app_icon      : "ic_launcher",
+                    master_id     : "",
+                    wx_id         : "wx83d3ea20a714b660",
+                    wx_secret     : "b02f7292152660b7b551a70dced8feec",
+                    sina_appkey   : "506754622",
+                    sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
             ]
         }
         flavors_release {
             manifestPlaceholders = [
-                    app_name : "YaYa医师",
-                    app_icon : "ic_launcher",
-                    master_id: "",
+                    app_name      : "YaYa医师",
+                    app_icon      : "ic_launcher",
+                    master_id     : "",
+                    wx_id         : "wx83d3ea20a714b660",
+                    wx_secret     : "b02f7292152660b7b551a70dced8feec",
+                    sina_appkey   : "506754622",
+                    sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
             ]
         }
         c_mairui {
 //            applicationIdSuffix "mairui"
             manifestPlaceholders = [
-                    app_name : "麦瑞",
-                    app_icon : "ic_launcher_mairui",
-                    master_id: "957425",
+                    app_name      : "麦瑞",
+                    app_icon      : "ic_launcher_mairui",
+                    master_id     : "957425",
+                    wx_id         : "",
+                    wx_secret     : "",
+                    sina_appkey   : "",
+                    sina_appsecret: "",
             ]
         }
     }
@@ -175,8 +192,8 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibYY')
     implementation project(':YY-Workspace:Libs:LibPay')
     implementation project(':YY-Workspace:Libs:LibJG')
-    implementation project(':YY-Workspace:Libs:LibWX')
-    implementation project(':YY-Workspace:Libs:LibMob')
+    //    implementation project(':YY-Workspace:Libs:LibWX')
+    implementation project(':YY-Workspace:Libs:LibShare')
     implementation project(':YY-Workspace:Libs:LibLive')
     /**
      * other
@@ -190,6 +207,7 @@ dependencies {
     //    releaseCompile deps.release.leakcanary
     implementation deps.support.dex
     annotationProcessor project(deps.ys.compiler)
+    implementation project(':Android:Libs:LibBD')
 }
 
 /**

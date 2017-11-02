@@ -112,6 +112,8 @@
     <string name="click_continue">点击继续</string>
     <string name="CSPmeeting">CSPmeeting</string>
     <string name="scan">扫一扫</string>
+    <string name="aim_at_the_code">请对准二维码，耐心等待</string>
+    <string name="fail_to_identify">无法识别此二维码</string>
     <string name="ready">Ready！</string>
     <string name="copy_success">复制成功</string>
     <string name="main_record_dialog">会议正在录播中，确定继续将中断其他客户端的进度</string>

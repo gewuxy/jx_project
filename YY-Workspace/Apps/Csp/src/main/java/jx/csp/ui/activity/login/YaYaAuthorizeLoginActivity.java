@@ -5,6 +5,7 @@ import jx.csp.model.Profile;
 import jx.csp.sp.SpApp;
 
 /**
+ * 丫丫医师授权登录
  * @auther WangLan
  * @since 2017/9/29
  */

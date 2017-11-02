@@ -4,56 +4,60 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import inject.annotation.router.Arg;
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import inject.annotation.router.Route;
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
-import jx.csp.model.authorize.PlatformAuthorizeUserInfoManagerRouter;
+import jx.csp.model.login.LoginVideo;
+import jx.csp.model.login.LoginVideo.TLoginVideo;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.util.CacheUtil;
+import jx.csp.util.Util;
 import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
+ * 第三方登录
  * @auther WangLan
  * @since 2017/9/27
  */
 @Route
 public class ThirdPartyLoginActivity extends BaseActivity {
 
-    private final int  KWechatLogin = 1;
-    private final int  KWeiboLogin = 2;
+    private final int KWechatLogin = 1;
+    private final int KWeiboLogin = 2;
+    private final int KLoginVideo = 3;
+    private final int KDownLoadVideo = 4;
+
+    private final int KInitVersion = 0; // 首次访问此接口，version= 0
+
 
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 
     private CustomVideoView mCustomVideoView;
-    @Arg
-    public String mToken;
-
-    @Arg
-    public String mUserGender;
-
-    @Arg
-    public String mIcon;
-
-    @Arg
-    public String mUserName;
-
-    @Arg
-    public String mUserId;
+    private String mPath;
 
 
     @Override
     public void initData() {
-        mPlatAuth = new PlatformAuthorizeUserInfoManager();
-        PlatformAuthorizeUserInfoManagerRouter.create(this);
+        mPlatAuth = new PlatformAuthorizeUserInfoManager(this);
+        mPath = "";
     }
 
     @NonNull
@@ -81,9 +85,12 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.protocol);
 
-        mCustomVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.media));
-        mCustomVideoView.start();
-        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+        exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
+
+        if (Util.noNetwork()) {
+            //第一次登录，非第一次，从本地获取
+
+        }
     }
 
 
@@ -91,18 +98,40 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_login_wechat: {
-                //Fixme:只是提醒，实际需求没有，记得要删
-                mPlatAuth.WeiXinAuthorize();
-                exeNetworkReq(KWechatLogin,UserAPI.login(LoginType.wechat_login).uniqueId(mUserId).nickName(mUserName).gender(mUserGender)
-                        .avatar(mIcon).build());
+              /*  mPlatAuth.WeiXinAuthorize();
+                exeNetworkReq(KWechatLogin, UserAPI.login(LoginType.wechat_login).uniqueId(mUserId).nickName(mUserName).gender(mUserGender)
+                        .avatar(mIcon).build());*/
             }
             break;
             case R.id.layout_login_sina: {
-//                mPlatAuth.sinaAuthorize();
-                //暂时用qq的
-                mPlatAuth.QQAuthorize();
-                exeNetworkReq(KWeiboLogin,UserAPI.login(LoginType.weibo_login).uniqueId(mUserId).nickName(mUserName).gender(mUserGender)
-                        .avatar(mIcon).build());
+                Platform sina = ShareSDK.getPlatform
+                        (SinaWeibo.NAME);
+                sina.setPlatformActionListener(new PlatformActionListener() {
+                    @Override
+                    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                        showToast("授权成功");
+                        PlatformDb platDB = platform.getDb();
+                        String userGender = platDB.getUserGender();
+                        String icon = platDB.getUserIcon();
+                        String userName = platDB.getUserName();
+                        String userId = platDB.getUserId();
+                        exeNetworkReq(KWeiboLogin, UserAPI.login(LoginType.weibo_login).uniqueId(userId).nickName(userName).gender(userGender)
+                                .avatar(icon).build());
+                    }
+
+                    @Override
+                    public void onError(Platform platform, int i, Throwable throwable) {
+                        showToast("失败");
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform, int i) {
+                        showToast("取消");
+                    }
+                });
+                sina.SSOSetting(false);
+                sina.authorize();
+
             }
             break;
             case R.id.layout_login_jx: {
@@ -127,20 +156,70 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        if (id == KLoginVideo) {
+            return JsonParser.ev(r.getText(), LoginVideo.class);
+        }
         return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
         stopRefresh();
-        Result<Profile> r = (Result<Profile>) result;
-        if (r.isSucceed()) {
-            Profile.inst().update(r.getData());
-            SpUser.inst().updateProfileRefreshTime();
-            startActivity(MainActivity.class);
-            finish();
-        } else {
-            onNetworkError(id, r.getError());
+        if (id == KLoginVideo) {
+            Result<LoginVideo> r = (Result<LoginVideo>) result;
+            if (r.isSucceed()) {
+                LoginVideo data = r.getData();
+                int version = data.getInt(TLoginVideo.version);
+                int location = 0;
+
+                if (version > location) {
+                    String url = data.getString(TLoginVideo.videoUrl);
+                    mPath = data.getString(TLoginVideo.videoUrl);
+
+                    String locatePath = CacheUtil.getAudioCacheDir();
+                    String fileName = "login_background_video.mp4";
+                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(locatePath, fileName, url).build());
+
+//                    SpApp.inst().saveLoginVideoVersion(version);
+                    YSLog.d("url", url);
+                }
+                if (TextUtil.isNotEmpty(mPath)) {
+                    mCustomVideoView.setVideoURI(Uri.parse(mPath));
+                    YSLog.d("path", mPath);
+                    mCustomVideoView.start();
+                    mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+                } else {
+                    //从本地获取视频
+                }
+            }
+        } else if (id == KWeiboLogin || id == KWechatLogin) {
+            Result<Profile> r = (Result<Profile>) result;
+            if (r.isSucceed()) {
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+                startActivity(MainActivity.class);
+                finish();
+            } else {
+                onNetworkError(id, r.getError());
+            }
         }
+    }
+
+    //返回重新加载
+    @Override
+    protected void onRestart() {
+        // FIXME: 2017/10/31 没写完
+        super.onRestart();
+        mCustomVideoView.setVideoURI(Uri.parse(mPath));
+        YSLog.d("path",mPath);
+        mCustomVideoView.start();
+        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+    }
+
+    //防止锁屏或者切出的时候，视频在播放
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mCustomVideoView.stopPlayback();
     }
 }

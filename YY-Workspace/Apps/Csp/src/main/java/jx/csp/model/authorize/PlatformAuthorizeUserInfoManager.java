@@ -1,6 +1,6 @@
 package jx.csp.model.authorize;
 
-import android.app.Activity;
+import android.content.Context;
 
 import java.util.HashMap;
 
@@ -15,25 +15,21 @@ import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
-import inject.annotation.router.Arg;
-import inject.annotation.router.Route;
 import jx.csp.App;
-import jx.csp.ui.activity.login.ThirdPartyLoginActivityRouter;
 import lib.ys.YSLog;
 
 /**
  * @auther WangLan
  * @since 2017/9/26
  */
-@Route
+
 public class PlatformAuthorizeUserInfoManager {
     private MyPlatformActionListener myPlatformActionListener = null;
+    private Context mContext;
 
-    @Arg
-    Activity mActivity;
-
-    public PlatformAuthorizeUserInfoManager() {
+    public PlatformAuthorizeUserInfoManager(Context context) {
         myPlatformActionListener = new MyPlatformActionListener();
+        mContext = context;
     }
 
     public void WeiXinAuthorize() {
@@ -148,17 +144,15 @@ public class PlatformAuthorizeUserInfoManager {
     class MyPlatformActionListener implements PlatformActionListener {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+
             App.showToast("Authorize Complete.");
             PlatformDb platDB = platform.getDb();
-            String token = platDB.getToken();
             String userGender = platDB.getUserGender();
             String icon = platDB.getUserIcon();
             String userName = platDB.getUserName();
             String userId = platDB.getUserId();
 
-            ThirdPartyLoginActivityRouter.create(token,userGender,icon,userName,userId).route(mActivity);
 
-            YSLog.d("infor", token);
             YSLog.d("infor", userGender);
             YSLog.d("infor", icon);
             YSLog.d("infor", userName);

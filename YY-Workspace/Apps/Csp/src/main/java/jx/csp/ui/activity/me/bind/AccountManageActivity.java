@@ -62,7 +62,7 @@ public class AccountManageActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
-        mPlatAuth = new PlatformAuthorizeUserInfoManager();
+        mPlatAuth = new PlatformAuthorizeUserInfoManager(this);
 
         mView = new AccountManageViewImpl();
         mPresenter = new AccountManagePresenterImpl(mView);

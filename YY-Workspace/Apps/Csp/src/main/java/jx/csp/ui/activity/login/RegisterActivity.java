@@ -24,6 +24,7 @@ import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 
 /**
+ * 注册
  * @auther WangLan
  * @since 2017/9/26
  */

@@ -14,7 +14,7 @@ import lib.yy.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
-    String KAppId = "wx83d3ea20a714b660";
+//    String KAppId = "wx83d3ea20a714b660";
 
     @StringDef({
             MeetStateText.under_way,

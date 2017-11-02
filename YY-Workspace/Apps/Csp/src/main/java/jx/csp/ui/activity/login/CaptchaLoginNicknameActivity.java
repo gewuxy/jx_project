@@ -24,6 +24,7 @@ import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 
 /**
+ * 手机登录之后没有昵称的跳出的输入昵称
  * @auther WangLan
  * @since 2017/9/28
  */

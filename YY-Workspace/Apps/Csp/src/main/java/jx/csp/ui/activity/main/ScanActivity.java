@@ -24,7 +24,6 @@ import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivity;
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
@@ -85,7 +84,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     public void setViews() {
         mScannerView.setOnScannerCompletionListener(this);
         mScannerView.setLaserFrameBoundColor(ResLoader.getColor(R.color.btn_bg_blue));
-        mScannerView.setDrawText("请对准二维码，耐心等待", 12, Color.WHITE, true, 20);
+        mScannerView.setDrawText(getString(R.string.aim_at_the_code), 12, Color.WHITE, true, 20);
         mScannerView.setLaserFrameSize(KFrameSize, KFrameSize);
         mScannerView.setLaserFrameTopMargin(KTopMargin);
         mScannerView.setLaserColor(ResLoader.getColor(R.color.btn_bg_blue));
@@ -113,7 +112,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-             showToast("无法识别此二维码");
+             showToast(R.string.fail_to_identify);
         }
     }
 
@@ -165,7 +164,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 break;
             case URI: {
                 String url = parsedResult.toString();
-                YSLog.d("urloooo",url);
                 exeNetworkReq(CommonAPI.scanQrCode(url).build());
                 break;
             }
