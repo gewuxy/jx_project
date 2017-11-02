@@ -35,9 +35,6 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    implementation files('libs/janalytics-android-1.1.2.jar')
-    implementation files('libs/jcore-android-1.1.7.jar')
-    implementation files('libs/jpush-android-3.0.9.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     compile project(path: ':Android:Libs:LibYS_Rx')
 }
