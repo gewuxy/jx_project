@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import java.io.File;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -53,6 +54,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     private CustomVideoView mCustomVideoView;
     private String mPath;
+    private String mLocatePath;
 
 
     @Override
@@ -89,7 +91,8 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
 
         if (Util.noNetwork()) {
-            //第一次登录，非第一次，从本地获取
+            //第一次登录没有就是空，非第一次，从本地获取
+
 
         }
     }
@@ -182,20 +185,22 @@ public class ThirdPartyLoginActivity extends BaseActivity {
                     String url = data.getString(TLoginVideo.videoUrl);
                     mPath = data.getString(TLoginVideo.videoUrl);
 
-                    String locatePath = CacheUtil.getAudioCacheDir();
+                    mLocatePath = CacheUtil.getAudioCacheDir();
                     String fileName = "login_background_video.mp4";
-                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(locatePath, fileName, url).build());
+                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(mLocatePath, fileName, url).build());
 
-//                    SpApp.inst().saveLoginVideoVersion(version);
                     YSLog.d("url", url);
                 }
                 if (TextUtil.isNotEmpty(mPath)) {
-                    mCustomVideoView.setVideoURI(Uri.parse(mPath));
-                    YSLog.d("path", mPath);
-                    mCustomVideoView.start();
-                    mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+                   startPlay();
                 } else {
-                    //从本地获取视频
+                    //从本地获取视频,读文件是否存在
+                    File file = new File(mLocatePath);
+                    if (file.exists()) {
+                        startPlay();
+                    }else {
+
+                    }
                 }
             }
         } else if (id == KWeiboLogin || id == KWechatLogin) {
@@ -214,12 +219,8 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     //返回重新加载
     @Override
     protected void onRestart() {
-        // FIXME: 2017/10/31 没写完
         super.onRestart();
-        mCustomVideoView.setVideoURI(Uri.parse(mPath));
-        YSLog.d("path", mPath);
-        mCustomVideoView.start();
-        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+        startPlay();
     }
 
     //防止锁屏或者切出的时候，视频在播放
@@ -227,5 +228,11 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         mCustomVideoView.stopPlayback();
+    }
+
+    public void startPlay(){
+        mCustomVideoView.setVideoURI(Uri.parse(mPath));
+        mCustomVideoView.start();
+        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
     }
 }

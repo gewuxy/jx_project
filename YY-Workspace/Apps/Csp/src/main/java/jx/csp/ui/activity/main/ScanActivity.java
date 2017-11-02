@@ -195,6 +195,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                     WebSocketServRouter.create(wsUrl).route(this);
                 }
             }
+        }else {
+            onNetworkError(id, r.getError());
         }
     }
 

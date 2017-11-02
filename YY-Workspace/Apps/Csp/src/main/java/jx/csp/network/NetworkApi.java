@@ -131,7 +131,7 @@ public class NetworkApi {
                    @Query(opt = true) String avatar);
 
         @Post
-        @Url(assign = "https://www.medcn.com/oauth/app/authorize")
+        @Url(value = "https://www.medcn.com/oauth/app/authorize")
         void yayaLogin(String username, String password);
 
         /**
