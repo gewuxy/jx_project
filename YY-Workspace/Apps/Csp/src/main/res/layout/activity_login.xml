@@ -1,201 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <jx.csp.view.CustomVideoView
-        android:id="@+id/login_videoview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="245dp"
-        android:background="@color/video_3b3a34_eighty"/>
+        android:layout_height="245dp">
+
+        <jx.csp.view.CustomVideoView
+            android:id="@+id/login_videoview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/video_3b3a34_eighty"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_third_part_login_cn"
+                android:gravity="center"
+                android:text="@string/language_transform"
+                android:textColor="@color/white"
+                android:textSize="10dp"/>
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/login_csp_logo"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_login_wechat"
+        style="@style/v.login"
+        android:layout_marginTop="35dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/login_wechat"
+            android:src="@drawable/login_ic_wechat"/>
+
+        <TextView
+            android:id="@+id/login_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_wechat"
+            android:textColor="@color/text_7a8b9f"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_login_sina"
+        style="@style/v.login"
+        android:layout_marginTop="24dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/login_sina"
+            android:src="@drawable/login_ic_weibo"/>
+
+        <TextView
+            android:id="@+id/login_sina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_sina"
+            android:textColor="@color/text_7a8b9f"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_login_jx"
+        style="@style/v.login"
+        android:layout_marginTop="24dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/login_jx"
+            android:src="@drawable/login_ic_jx"/>
+
+        <TextView
+            android:id="@+id/login_jx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_jx"
+            android:textColor="@color/text_7a8b9f"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            style="@style/divider.third.login"
+            android:layout_marginLeft="47dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="37dp"
+            android:text="@string/other_login_type"
+            android:textColor="@color/text_b4b9c0"
+            android:textSize="12dp"/>
+
+        <View
+            style="@style/divider.third.login"
+            android:layout_marginRight="47dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="23dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/login_mobile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/login_ic_mobile"/>
+
+        <ImageView
+            android:id="@+id/login_mail"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/login_ic_mail"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/have_agree_to"
+            style="@style/tv.agree.protocol"/>
+
+        <TextView
+            android:id="@+id/protocol"
+            style="@style/tv.agree.protocol"
+            android:text="@string/protocol"
+            android:textColor="@color/text_167afe"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="30dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_third_part_login_cn"
-            android:gravity="center"
-            android:text="@string/language_transform"
-            android:textColor="@color/white"
-            android:textSize="10dp"/>
+            android:id="@+id/login_phone"
+            style="@style/tv.third.type"
+            android:layout_marginLeft="60dp"
+            android:drawableTop="@drawable/third_party_login_ic_phone"
+            android:text="@string/mobilephone"/>
 
-        <ImageView
-            android:layout_width="180dp"
-            android:layout_height="42dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="57dp"
-            android:src="@drawable/login_csp_logo"/>
+        <TextView
+            android:id="@+id/login_email"
+            style="@style/tv.third.type"
+            android:drawableTop="@drawable/third_party_login_ic_email"
+            android:text="@string/email"/>
 
-        <LinearLayout
-            android:id="@+id/layout_login_wechat"
-            style="@style/v.login"
-            android:layout_marginTop="141dp">
+        <TextView
+            android:id="@+id/login_facebook"
+            style="@style/tv.third.type"
+            android:drawableTop="@drawable/third_party_login_ic_facebook"
+            android:text="@string/facebook"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@+id/login_wechat"
-                android:src="@drawable/login_ic_wechat"/>
-
-            <TextView
-                android:id="@+id/login_wechat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_wechat"
-                android:textColor="@color/text_7a8b9f"
-                android:textSize="16dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_login_sina"
-            style="@style/v.login"
-            android:layout_marginTop="24dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@+id/login_sina"
-                android:src="@drawable/login_ic_weibo"/>
-
-            <TextView
-                android:id="@+id/login_sina"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_7a8b9f"
-                android:text="@string/login_sina"
-                android:textSize="16dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_login_jx"
-            style="@style/v.login"
-            android:layout_marginTop="24dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@+id/login_jx"
-                android:src="@drawable/login_ic_jx"/>
-
-            <TextView
-                android:id="@+id/login_jx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_7a8b9f"
-                android:text="@string/login_jx"
-                android:textSize="16dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <View
-                style="@style/divider.third.login"
-                android:layout_marginLeft="47dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginTop="37dp"
-                android:text="@string/other_login_type"
-                android:textColor="@color/text_b4b9c0"
-                android:textSize="12dp"/>
-
-            <View
-                style="@style/divider.third.login"
-                android:layout_marginRight="47dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="23dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/login_mobile"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/login_ic_mobile"/>
-
-            <ImageView
-                android:id="@+id/login_mail"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="50dp"
-                android:src="@drawable/login_ic_mail"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/have_agree_to"
-                style="@style/tv.agree.protocol"/>
-
-            <TextView
-                android:id="@+id/protocol"
-                style="@style/tv.agree.protocol"
-                android:text="@string/protocol"
-                android:textColor="@color/text_167afe"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/login_phone"
-                style="@style/tv.third.type"
-                android:layout_marginLeft="60dp"
-                android:drawableTop="@drawable/third_party_login_ic_phone"
-                android:text="@string/mobilephone"/>
-
-            <TextView
-                android:id="@+id/login_email"
-                style="@style/tv.third.type"
-                android:drawableTop="@drawable/third_party_login_ic_email"
-                android:text="@string/email"/>
-
-            <TextView
-                android:id="@+id/login_facebook"
-                style="@style/tv.third.type"
-                android:drawableTop="@drawable/third_party_login_ic_facebook"
-                android:text="@string/facebook"/>
-
-            <TextView
-                android:id="@+id/login_twitter"
-                style="@style/tv.third.type"
-                android:layout_marginRight="60dp"
-                android:drawableTop="@drawable/third_party_login_ic_twitter"
-                android:text="@string/twitter"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/login_twitter"
+            style="@style/tv.third.type"
+            android:layout_marginRight="60dp"
+            android:drawableTop="@drawable/third_party_login_ic_twitter"
+            android:text="@string/twitter"/>
     </LinearLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

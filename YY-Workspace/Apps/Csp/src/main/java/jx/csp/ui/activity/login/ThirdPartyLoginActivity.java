@@ -34,6 +34,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 
 /**
  * 第三方登录
+ *
  * @auther WangLan
  * @since 2017/9/27
  */
@@ -104,9 +105,9 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             }
             break;
             case R.id.layout_login_sina: {
-                Platform sina = ShareSDK.getPlatform
-                        (SinaWeibo.NAME);
+                Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
                 sina.setPlatformActionListener(new PlatformActionListener() {
+
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                         showToast("授权成功");
@@ -115,8 +116,13 @@ public class ThirdPartyLoginActivity extends BaseActivity {
                         String icon = platDB.getUserIcon();
                         String userName = platDB.getUserName();
                         String userId = platDB.getUserId();
-                        exeNetworkReq(KWeiboLogin, UserAPI.login(LoginType.weibo_login).uniqueId(userId).nickName(userName).gender(userGender)
-                                .avatar(icon).build());
+                        exeNetworkReq(KWeiboLogin,
+                                UserAPI.login(LoginType.weibo_login)
+                                        .uniqueId(userId)
+                                        .nickName(userName)
+                                        .gender(userGender)
+                                        .avatar(icon)
+                                        .build());
                     }
 
                     @Override
@@ -211,7 +217,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         // FIXME: 2017/10/31 没写完
         super.onRestart();
         mCustomVideoView.setVideoURI(Uri.parse(mPath));
-        YSLog.d("path",mPath);
+        YSLog.d("path", mPath);
         mCustomVideoView.start();
         mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
     }
