@@ -321,6 +321,18 @@
         <meta-data
             android:name="MASTER_ID"
             android:value="${master_id}"/>
+        <meta-data
+            android:name="WX_ID"
+            android:value="${wx_id}"/>
+        <meta-data
+            android:name="WX_SECRET"
+            android:value="${wx_secret}"/>
+        <meta-data
+            android:name="SINA_KEY"
+            android:value="${sina_appkey}"/>
+        <meta-data
+            android:name="SINA_SECRET"
+            android:value="${sina_appsecret}"/>
 
     </application>
 

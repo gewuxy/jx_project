@@ -16,7 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
-import lib.wx.WXLoginApi;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -27,8 +26,6 @@ import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import yy.doctor.Constants;
-import yy.doctor.Constants.WXType;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.HintDialogMain;
@@ -208,12 +205,12 @@ public class SettingsActivity extends BaseFormActivity {
                         return;
                     }
 
-                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
+                    /*WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
                     if (WXLoginApi.isWXAppInstalled()) {
                         WXLoginApi.sendReq(WXType.bind);
                     } else {
                         notInstallWx();
-                    }
+                    }*/
                 } else {
                     // 已绑定
                     unBind("是否解除绑定微信号", v1 -> {
@@ -420,7 +417,7 @@ public class SettingsActivity extends BaseFormActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        WXLoginApi.detach();
+//        WXLoginApi.detach();
     }
 
     @Override
