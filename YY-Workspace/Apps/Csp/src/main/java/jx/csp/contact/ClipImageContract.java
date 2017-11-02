@@ -29,6 +29,11 @@ public interface ClipImageContract {
 
     interface P extends IContract.Presenter<V> {
 
-        void getupLoadAvatar(Bitmap bitmap);
+        /**
+         * 上传头像
+         *
+         * @param bitmap
+         */
+        void upLoadAvatarNetworkReq(Bitmap bitmap);
     }
 }

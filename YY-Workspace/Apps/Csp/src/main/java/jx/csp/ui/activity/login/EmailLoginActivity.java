@@ -140,6 +140,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update(r.getData());
             SpUser.inst().updateProfileRefreshTime();
+
+            notify(NotifyType.login);
             startActivity(MainActivity.class);
             finish();
         } else {
@@ -187,10 +189,4 @@ public class EmailLoginActivity extends BaseLoginActivity {
         return Util.getEtString(mEtPwd);
     }
 
-    @Override
-    public void onNotify(int type, Object data) {
-        if (type == NotifyType.login) {
-            finish();
-        }
-    }
 }

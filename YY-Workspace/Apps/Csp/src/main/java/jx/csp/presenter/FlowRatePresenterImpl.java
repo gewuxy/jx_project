@@ -25,7 +25,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
     }
 
     @Override
-    public void getNetworkReq(int id, int flow, String channel) {
+    public void confirmPayNetworkReq(int id, int flow, String channel) {
         if (id == KPayPalPayCode) {
             exeNetworkReq(KPayPalPayCode, PayAPI.paypalPay(flow).build());
         } else {
@@ -44,6 +44,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        getView().onStopRefresh();
         if (id == KPayPalPayCode) {
             Result<PayPalPayRecharge> r = (Result<PayPalPayRecharge>) result;
             if (r.isSucceed()) {

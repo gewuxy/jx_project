@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.main;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,16 +13,19 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Meet;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
+import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.util.Util;
-import lib.ys.network.image.NetworkImageView;
 import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
+import lib.ys.impl.SingletonImpl;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseVpActivity;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 首页
@@ -114,5 +118,35 @@ public class MainActivity extends BaseVpActivity {
 
     public interface OnMeetGridListener {
         void onMeetRefresh(List<Meet> data);
+    }
+
+    @Override
+    public void onNotify(@NotifyType int type, Object data) {
+
+        if (type == NotifyType.logout) {
+            finish();
+        } else if (type == NotifyType.token_out_of_date) {
+            //清除栈里的activity
+            Intent intent = new Intent(this, ThirdPartyLoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SingletonImpl.inst().freeAll();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (enableExit()) {
+            super.onBackPressed();
+        } else {
+            showToast("再按一次退出");
+        }
     }
 }

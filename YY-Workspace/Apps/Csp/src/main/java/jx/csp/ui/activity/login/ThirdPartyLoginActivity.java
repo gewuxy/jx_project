@@ -19,9 +19,12 @@ import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
+ * 统一账号登录
+ *
  * @auther WangLan
  * @since 2017/9/27
  */
@@ -141,6 +144,13 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             finish();
         } else {
             onNetworkError(id, r.getError());
+        }
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.login) {
+            finish();
         }
     }
 }

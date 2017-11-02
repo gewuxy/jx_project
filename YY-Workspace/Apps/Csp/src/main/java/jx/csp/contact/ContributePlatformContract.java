@@ -33,15 +33,18 @@ public interface ContributePlatformContract {
          */
         void changeButtonStatus();
 
-        void stopRefreshItem();
+        void onFinish();
     }
 
     interface P extends IContract.Presenter<V> {
 
         /**
-         * 投稿的服务器请求
+         * 单位号投稿
+         *
+         * @param platformArrayList
+         * @param platform
          */
-        void clickContributeReq(ArrayList<Platform> platformArrayList, Platform platform);
+        void clickContributeNetworkReq(ArrayList<Platform> platformArrayList, Platform platform);
 
     }
 }

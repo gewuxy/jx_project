@@ -68,6 +68,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     public void onNetworkSuccess(int id, Object result) {
         // 绑定的
         Result r = (Result) result;
+        getView().onStopRefresh();
         switch (id) {
             case RelatedId.bind_wx: {
                 getView().unBindSuccess(r, id, TProfile.wx);
@@ -86,7 +87,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             }
             break;
             case RelatedId.bind_jingxin: {
-                getView().unBindSuccess(r, id, TProfile.jingxin);
+                getView().unBindSuccess(r, id, TProfile.bindInfoList);
             }
             break;
             case RelatedId.bind_phone: {

@@ -11,6 +11,10 @@ import okhttp3.WebSocketListener;
 public interface IContract {
 
     interface View {
+        /**
+         * 停止网络刷新
+         */
+        void onStopRefresh();
     }
 
     interface Presenter<V extends View> {

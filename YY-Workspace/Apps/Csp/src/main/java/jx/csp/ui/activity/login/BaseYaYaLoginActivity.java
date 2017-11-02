@@ -11,14 +11,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.model.BindInfoList;
+import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
-import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -186,6 +190,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
         Profile profile = r.getData();
+        String nickName = profile.getString(TProfile.nickName);
         if (id == KIdAuthorizeLogin) {
             if (r.isSucceed()) {
                 SpApp.inst().saveUserName(getUserName());
@@ -193,7 +198,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                     exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
                             .thirdPartyId(LoginType.yaya_login)
                             .uniqueId(profile.getString(TProfile.uid))
-                            .nickName(profile.getString(TProfile.nickName))
+                            .nickName(nickName)
                             .gender(profile.getString(TProfile.gender))
                             .avatar(profile.getString(TProfile.avatar))
                             .build());
@@ -202,7 +207,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                             .uniqueId(profile.getString(TProfile.uid))
                             .email(profile.getString(TProfile.email))
                             .mobile(profile.getString(TProfile.mobile))
-                            .nickName(profile.getString(TProfile.nickName))
+                            .nickName(nickName)
                             .country(profile.getString(TProfile.country))
                             .province(profile.getString(TProfile.province))
                             .city(profile.getString(TProfile.city))
@@ -211,20 +216,21 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
             } else {
                 onNetworkError(id, r.getError());
             }
+
         } else if (id == KIdLogin) {
             if (r.isSucceed()) {
-                // FIXME: 2017/10/30 不能全部按字段名保存
-                Profile.inst().put(TProfile.nickName, profile.getString(TProfile.nickName));
-                Profile.inst().put(TProfile.avatar, profile.getString(TProfile.avatar));
-                updateBindYaYa();
+                getBindNickName(nickName);
+                Profile.inst().update(profile);
+                notify(NotifyType.login);
                 startActivity(MainActivity.class);
             } else {
                 onNetworkError(id, r.getError());
             }
             finish();
+
         } else if (id == KIdBind) {
             if (r.isSucceed()) {
-                updateBindYaYa();
+                getBindNickName(nickName);
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -232,12 +238,27 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         }
     }
 
-    private void updateBindYaYa() {
-        Profile.inst().put(TProfile.jingxin, getUserName());
+    private void getBindNickName(String nickName) {
+        List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+        if (infoList == null) {
+            infoList = new ArrayList<>();
+        }
+        boolean flag = true;
+        for (BindInfoList list : infoList) {
+            if (list.getInt(TBindInfo.thirdPartyId) == LoginType.yaya_login) {
+                list.put(TBindInfo.nickName, nickName);
+                flag = false;
+            }
+        }
+        if (flag) {
+            BindInfoList bindInfoList = new BindInfoList();
+            bindInfoList.put(TBindInfo.thirdPartyId, LoginType.yaya_login);
+            bindInfoList.put(TBindInfo.nickName, nickName);
+            infoList.add(bindInfoList);
+        }
+        Profile.inst().put(TProfile.bindInfoList, infoList);
         Profile.inst().saveToSp();
-        SpUser.inst().updateProfileRefreshTime();
-        notify(NotifyType.profile_change, getUserName());
-        notify(NotifyType.bind_yaya, getUserName());
+        notify(NotifyType.bind_yaya, Profile.inst().getBindNickName(LoginType.yaya_login));
     }
 
     public String getUserName() {

@@ -262,6 +262,11 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         public void showToast(int... resId) {
             BaseMeetingPlayActivity.this.showToast(resId);
         }
+
+        @Override
+        public void onStopRefresh() {
+
+        }
     }
 
 }

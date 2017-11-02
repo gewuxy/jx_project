@@ -22,6 +22,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @auther WangLan
@@ -110,6 +111,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
             stopRefresh();
             //保存到本地
             Profile.inst().update(r.getData());
+            notify(NotifyType.login);
             startActivity(MainActivity.class);
         }else {
             onNetworkError(id,r.getError());

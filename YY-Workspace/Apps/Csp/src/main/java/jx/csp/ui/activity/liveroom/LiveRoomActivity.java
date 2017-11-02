@@ -309,5 +309,10 @@ public class LiveRoomActivity extends BaseActivity {
         public void onFinish() {
             finish();
         }
+
+        @Override
+        public void onStopRefresh() {
+
+        }
     }
 }

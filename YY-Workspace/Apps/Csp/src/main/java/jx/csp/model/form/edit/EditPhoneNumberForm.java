@@ -3,13 +3,13 @@ package jx.csp.model.form.edit;
 import android.text.Editable;
 import android.widget.EditText;
 
+import jx.csp.R;
+import jx.csp.util.Util;
 import lib.ys.ConstantsEx;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
-import jx.csp.R;
-import jx.csp.util.Util;
 
 /**
  * FIXME: 逻辑待调整. 有问题
@@ -66,7 +66,6 @@ public class EditPhoneNumberForm extends EditForm {
                 et.setText(str1);
                 et.setSelection(str1.length());
             } else if (length == 13 && Util.isMobileCN(str)) {
-                //KeyboardUtil.hideFromView(editText);
                 Notifier.inst().notify(NotifyType.fetch_message_captcha);
             }
         } else {

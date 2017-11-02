@@ -81,7 +81,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
-                mPresenter.clickContributeReq(mSelectedItem, mPlatform);
+                mPresenter.clickContributeNetworkReq(mSelectedItem, mPlatform);
             }
             break;
         }
@@ -125,9 +125,13 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         }
 
         @Override
-        public void stopRefreshItem() {
-            stopRefresh();
+        public void onFinish() {
             finish();
+        }
+
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
         }
     }
 }

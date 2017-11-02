@@ -1,12 +1,16 @@
 package jx.csp.model;
 
+import java.util.List;
 import java.util.Observable;
 
+import jx.csp.Constants.LoginType;
+import jx.csp.model.BindInfoList.TBindInfo;
+import jx.csp.model.Profile.TProfile;
+import jx.csp.sp.SpUser;
+import lib.ys.ConstantsEx;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.model.EVal;
 import lib.ys.ui.interfaces.ISingleton;
-import jx.csp.model.Profile.TProfile;
-import jx.csp.sp.SpUser;
 
 /**
  * @author CaiXiang
@@ -23,20 +27,21 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         info,       //个人简介
         email,      //邮箱
         mobile,     //手机
-        wx,         //微信
-        sina,       //新浪
-        facebook,
-        twitter,
-        jingxin,    //敬信数字平台
         nickName,   //昵称
         uid,        // yaya医师单位号用户id
         country,    //国家
         province,   // 省份
         city,       // 城市
-
+        wx,         //微信
+        sina,       //新浪
+        facebook,
+        twitter,
 
         @Init(asInt = 0)
         flux,       //流量 保存单位是M 显示单位是G
+
+        @Bind(asList = BindInfoList.class)
+        bindInfoList,
     }
 
     private static Profile mInst = null;
@@ -75,4 +80,15 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         mInst = null;
     }
 
+    public String getBindNickName(@LoginType int id) {
+        List<BindInfoList> list =  getList(TProfile.bindInfoList);
+        if (list != null) {
+            for (BindInfoList bindInfo : list) {
+                if (bindInfo.getInt(TBindInfo.thirdPartyId) == id) {
+                    return bindInfo.getString(TBindInfo.nickName);
+                }
+            }
+        }
+        return ConstantsEx.KEmpty;
+    }
 }

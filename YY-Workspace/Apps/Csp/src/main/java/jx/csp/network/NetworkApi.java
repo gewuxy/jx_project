@@ -28,6 +28,9 @@ public class NetworkApi {
     @Api("user")
     interface User {
 
+        @Post("bindJPush")
+        void bindJPush(String registrationId);
+
         /**
          * 头像上传
          *

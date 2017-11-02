@@ -28,7 +28,7 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     }
 
     @Override
-    public void clickContributeReq(ArrayList<Platform> platformArrayList, Platform platform) {
+    public void clickContributeNetworkReq(ArrayList<Platform> platformArrayList, Platform platform) {
         StringBuffer buffer = new StringBuffer();
         int size = platformArrayList.size();
         for (int i = 0; i < size; ++i) {
@@ -50,8 +50,9 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
+        getView().onStopRefresh();
         if (r.isSucceed()) {
-            getView().stopRefreshItem();
+            getView().onFinish();
             App.showToast(R.string.contribute_platform_succeed);
         } else {
             onNetworkError(id, r.getError());

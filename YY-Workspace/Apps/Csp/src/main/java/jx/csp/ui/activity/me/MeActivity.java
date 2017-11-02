@@ -173,16 +173,8 @@ public class MeActivity extends BaseFormActivity {
 
         if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.mobile))) {
             mTvUserName.setText(Profile.inst().getString(TProfile.mobile));
-        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.wx))) {
-            mTvUserName.setText(Profile.inst().getString(TProfile.wx));
-        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.sina))) {
-            mTvUserName.setText(Profile.inst().getString(TProfile.sina));
-        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.email))) {
+        } else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.email))) {
             mTvUserName.setText(Profile.inst().getString(TProfile.email));
-        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.twitter))) {
-            mTvUserName.setText(Profile.inst().getString(TProfile.twitter));
-        }else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.jingxin))) {
-            mTvUserName.setText(Profile.inst().getString(TProfile.jingxin));
         }
     }
 }

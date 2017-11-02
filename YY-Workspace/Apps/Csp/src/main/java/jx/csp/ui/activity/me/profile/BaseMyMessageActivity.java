@@ -101,8 +101,6 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
     protected class MyMessageViewImpl implements MyMessageContract.V {
 
-
-
         @Override
         public void setNavBar(NavBar bar) {
             Util.addBackIcon(bar, R.string.my_message, BaseMyMessageActivity.this);
@@ -132,7 +130,6 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
         @Override
         public void saveModifySuccess() {
-            stopRefresh();
             String text = Util.getEtString(getEt());
             Profile.inst().put(mAttr, text);
             Profile.inst().saveToSp();
@@ -219,6 +216,9 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
             }
         }
 
-
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
+        }
     }
 }

@@ -16,7 +16,7 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
 import jx.csp.presenter.SettingsPresenterImpl;
-import jx.csp.ui.activity.login.EmailLoginActivity;
+import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
@@ -201,11 +201,16 @@ public class SettingsActivity extends BaseFormActivity {
                 mPresenter.startLogoutService(SettingsActivity.this);
 
                 SettingsActivity.this.notify(NotifyType.logout);
-                startActivity(EmailLoginActivity.class);
+                startActivity(ThirdPartyLoginActivity.class);
                 finish();
             });
             d.addBlueButton(R.string.cancel);
             d.show();
+        }
+
+        @Override
+        public void onStopRefresh() {
+
         }
     }
 }

@@ -539,5 +539,10 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             mShowVoiceLine = !mShowVoiceLine;
             goneView(mVoiceLine);
         }
+
+        @Override
+        public void onStopRefresh() {
+
+        }
     }
 }

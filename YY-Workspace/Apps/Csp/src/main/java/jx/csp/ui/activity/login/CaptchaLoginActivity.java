@@ -95,14 +95,14 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     public void setViews() {
         super.setViews();
 
+        setOnClickListener(R.id.protocol);
         //清空用户信息
         Profile.inst().clear();
         mEtPhoneNumber = getRelatedItem(RelatedId.phone_number).getHolder().getEt();
         mEtPhoneNumber.addTextChangedListener(this);
+
         mEtCaptcha = getRelatedItem(RelatedId.captcha).getHolder().getEt();
         mEtCaptcha.addTextChangedListener(this);
-
-        setOnClickListener(R.id.protocol);
 
         mEtPhoneNumber.setText(SpApp.inst().getUserMobile());
         mEtPhoneNumber.setSelection(getPhone().length());
@@ -195,6 +195,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
+                    notify(NotifyType.login);
                     startActivity(MainActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);

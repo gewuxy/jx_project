@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.dialog.CommonDialog2;
@@ -112,9 +113,8 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_jingxin)
                 .name(R.string.account_jingxin)
                 .drawable(R.drawable.form_ic_account_jingxin)
-                .text(Profile.inst().getString(TProfile.jingxin))
+                .text(Profile.inst().getBindNickName(LoginType.yaya_login))
                 .hint(R.string.account_not_bind));
-
     }
 
     @Override
@@ -156,7 +156,7 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_jingxin: {
-                mView.judgeBindStatus(RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya), TProfile.jingxin);
+                mView.judgeBindStatus(RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya), TProfile.bindInfoList);
             }
             break;
         }
@@ -225,7 +225,6 @@ public class AccountManageActivity extends BaseFormActivity {
 
         @Override
         public void unBindSuccess(Result r, int id, TProfile key) {
-            stopRefresh();
             if (r.isSucceed()) {
                 showToast(R.string.account_unbind_succeed);
 
@@ -247,6 +246,11 @@ public class AccountManageActivity extends BaseFormActivity {
             d.addButton(R.string.confirm, R.color.text_333, l);
             d.addBlueButton(R.string.cancel);
             d.show();
+        }
+
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
         }
     }
 }

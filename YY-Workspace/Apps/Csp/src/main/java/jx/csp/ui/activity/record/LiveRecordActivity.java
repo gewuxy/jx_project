@@ -407,6 +407,11 @@ public class LiveRecordActivity extends BaseRecordActivity {
         public void onFinish() {
             finish();
         }
+
+        @Override
+        public void onStopRefresh() {
+
+        }
     }
 
 }

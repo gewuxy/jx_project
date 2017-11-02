@@ -157,20 +157,20 @@ public class FlowRateManageActivity extends BaseActivity {
                 refresh(RefreshWay.dialog);
                 switch (mPreChannelView.getId()) {
                     case R.id.flow_rate_iv_alipay: {
-                        mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
+                        mPresenter.confirmPayNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
                     }
                     break;
                     case R.id.flow_rate_iv_wechat: {
                         // FIXME: 2017/10/16 微信支付未注册
-                        mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
+                        mPresenter.confirmPayNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {
-                        mPresenter.getNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
+                        mPresenter.confirmPayNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
                     }
                     break;
                     case R.id.flow_rate_iv_paypal: {
-                        mPresenter.getNetworkReq(KPayPalPayCode, mRechargeSum, null);
+                        mPresenter.confirmPayNetworkReq(KPayPalPayCode, mRechargeSum, null);
                     }
                     break;
                 }
@@ -254,7 +254,6 @@ public class FlowRateManageActivity extends BaseActivity {
 
         @Override
         public void setPayPalPay(String orderId) {
-            stopRefresh();
             mReqCode = KPayPalPayCode;
             mOrderId = orderId;
             PayAction.payPalPay(FlowRateManageActivity.this, String.valueOf(mRechargeSum));
@@ -262,7 +261,6 @@ public class FlowRateManageActivity extends BaseActivity {
 
         @Override
         public void setPingPay(String info) {
-            stopRefresh();
             mReqCode = KPingReqCode;
             PayAction.pingPay(FlowRateManageActivity.this, info);
         }
@@ -297,6 +295,11 @@ public class FlowRateManageActivity extends BaseActivity {
                     showToast(R.string.flow_rate_pay_fail);
                 }
             });
+        }
+
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
         }
     }
 }

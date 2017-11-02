@@ -23,8 +23,14 @@ public interface ProfileContract {
          */
         void showDialogSelectPhoto();
 
+        /**
+         * 查看手机相册
+         */
         void getPhotoFromAlbum();
 
+        /**
+         * 获取手机拍照
+         */
         void getPhotoFromCamera();
 
         void getPermissionResult(int code, @PermissionResult int result);

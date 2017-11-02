@@ -278,5 +278,10 @@ public class ProfileActivity extends BaseFormActivity {
             ClipImageActivity.recycleBmp();
             BmpUtil.recycle(mCircleBmp);
         }
+
+        @Override
+        public void onStopRefresh() {
+
+        }
     }
 }

@@ -1,15 +1,29 @@
 package jx.csp.ui.activity.me.bind;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.IntDef;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.concurrent.TimeUnit;
+
+import jx.csp.Constants.CaptchaType;
 import jx.csp.R;
-import jx.csp.network.JsonParser;
+import jx.csp.contact.SetBindContract;
+import jx.csp.dialog.CommonDialog;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
+import jx.csp.model.form.edit.EditCaptchaForm;
+import jx.csp.presenter.SetBindPresenterImpl;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
@@ -21,6 +35,46 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 abstract public class BaseSetActivity extends BaseFormActivity implements TextWatcher {
 
     private TextView mTvSet;
+
+    private final int KMaxCount = 3; // 最多获取3次验证码
+    private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
+
+    private int mCount; // 计算点击多少次
+    private long mStartTime; // 开始计算10分钟间隔的时间
+
+    public SetBindContract.P mPresenter;
+    public SetBindContract.V mView;
+
+    @IntDef({
+            RelatedId.bind_email,
+            RelatedId.pwd,
+
+            RelatedId.bind_phone_number,
+            RelatedId.bind_captcha,
+
+            RelatedId.change_old_pwd,
+            RelatedId.change_new_pwd,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface RelatedId {
+        int bind_email = 0; //绑定邮箱id
+        int pwd = 2;
+
+        int bind_phone_number = 1; //绑定手机号id
+        int bind_captcha = 3;
+
+        int change_old_pwd = 4; //更改密码id
+        int change_new_pwd = 5;
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        mCount = 0;
+
+        mView = new baseSetBindViewImpl();
+        mPresenter = new SetBindPresenterImpl(mView);
+    }
 
     @CallSuper
     @Override
@@ -38,20 +92,15 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Override
     public void setViews() {
         super.setViews();
-        mTvSet.setEnabled(false);
-        mTvSet.setText(getSetText());
+        mView.initButtonStatus();
         setOnClickListener(R.id.base_set_tv_set);
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
     }
 
     @Override
     public final void onClick(View v) {
         switch (v.getId()) {
             case R.id.base_set_tv_set: {
+                refresh(RefreshWay.dialog);
                 doSet();
             }
             break;
@@ -74,15 +123,6 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     }
 
     /**
-     * 设置按钮状态
-     *
-     * @param enabled true可以点击, false不可点击
-     */
-    protected final void setChanged(boolean enabled) {
-        mTvSet.setEnabled(enabled);
-    }
-
-    /**
      * 获取标题文本
      *
      * @return 标题的文本
@@ -100,4 +140,102 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
      * 点击按钮的操作
      */
     abstract protected void doSet();
+
+    private class baseSetBindViewImpl implements SetBindContract.V {
+
+        private View mView;
+
+        @Override
+        public void setChanged(boolean enabled) {
+            mTvSet.setEnabled(enabled);
+        }
+
+        @Override
+        public void checkPwd(EditText et) {
+            if (!Util.checkPwd(Util.getEtString(et))) {
+                return;
+            }
+        }
+
+        @Override
+        public void initButtonStatus() {
+            mTvSet.setEnabled(false);
+            mTvSet.setText(getSetText());
+        }
+
+        @Override
+        public void bindPhoneResult() {
+            Profile.inst().put(TProfile.mobile, BindPhoneActivity.getPhone());
+            Profile.inst().saveToSp();
+            BaseSetActivity.this.notify(NotifyType.profile_change, BindPhoneActivity.getPhone());
+            BaseSetActivity.this.notify(NotifyType.bind_phone, BindPhoneActivity.getPhone());
+        }
+
+        @Override
+        public void bindEmailResult() {
+            startActivity(ReceiveEmailTipsActivity.class);
+        }
+
+        @Override
+        public void equalsMobile() {
+            if (BindPhoneActivity.getPhone().equals(Profile.inst().getString(TProfile.mobile))) {
+                showToast(R.string.account_is_bind);
+                return;
+            }
+        }
+
+        @Override
+        public void addItemView() {
+            mView = inflate(R.layout.dialog_captcha);
+            TextView tv = mView.findViewById(R.id.captcha_tv_phone_number);
+            String phone = getItemText(RelatedId.bind_phone_number);
+            tv.setText(phone);
+        }
+
+        @Override
+        public void showCaptchaDialog() {
+            CommonDialog dialog = new CommonDialog(BaseSetActivity.this);
+            dialog.addHintView(mView);
+            dialog.addGrayButton(R.string.cancel);
+            dialog.addBlueButton(getString(R.string.well), v1 -> {
+                mCount++;
+                YSLog.d("mCount:", mCount + "");
+                if (mCount == 1) {
+                    mStartTime = System.currentTimeMillis();
+                }
+                if (mCount > KMaxCount) {
+                    long duration = System.currentTimeMillis() - mStartTime;
+                    if (duration <= KCaptchaDuration) {
+                        showToast(R.string.get_captcha_frequently);
+                        return;
+                    } else {
+                        mCount = 1;
+                    }
+                }
+                mPresenter.getCaptchaNetworkReq(RelatedId.bind_captcha, BindPhoneActivity.getPhone(), CaptchaType.re_fetch);
+            });
+            dialog.show();
+        }
+
+        @Override
+        public String getItemText(int relatedId) {
+            return getRelatedItem(relatedId).getVal();
+        }
+
+        @Override
+        public void getCaptcha() {
+            EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.bind_captcha);
+            item.start();
+        }
+
+        @Override
+        public void onFinish() {
+            finish();
+        }
+
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
+        }
+    }
 }

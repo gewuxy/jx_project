@@ -29,6 +29,7 @@ public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
+        getView().onStopRefresh();
         if (r.isSucceed()) {
             getView().saveModifySuccess();
         } else {
@@ -37,7 +38,7 @@ public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.
     }
 
     @Override
-    public void getModifyReq(int id, String text) {
+    public void saveModifyNetworkReq(int id, String text) {
         switch (id) {
             case KNickNameCode: {
                 exeNetworkReq(id, UserAPI.modify().nickName(text).build());

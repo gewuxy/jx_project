@@ -77,10 +77,10 @@ public interface MyMessageContract {
     interface P extends IContract.Presenter<V> {
 
         /**
-         * 个人信息的网络请求
+         * 保存个人信息的网络请求
          * @param id
          * @param text
          */
-        void getModifyReq(int id, String text);
+        void saveModifyNetworkReq(int id, String text);
     }
 }

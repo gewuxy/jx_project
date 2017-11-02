@@ -63,7 +63,7 @@ public class CommonServ extends ServiceEx{
             }
             break;
             case ReqType.j_push: {
-
+                exeNetworkReq(mType, UserAPI.bindJPush(mJPushRegisterId).build());
             }
             break;
             case ReqType.exit_record: {

@@ -56,12 +56,12 @@ public interface FlowRateContract {
     interface P extends IContract.Presenter<V> {
 
         /**
-         * 请求服务器接口
+         * 确认付款
          *
          * @param id
          * @param flow
          * @param channel
          */
-        void getNetworkReq(int id, int flow, String channel);
+        void confirmPayNetworkReq(int id, int flow, String channel);
     }
 }

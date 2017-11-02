@@ -16,7 +16,9 @@
 
         <EditText
             android:id="@id/form_et"
-            style="@style/et.common"/>
+            style="@style/et.common"
+            android:paddingLeft="0dp"
+            android:layout_marginLeft="16dp"/>
 
         <ImageView style="@style/iv.form.clean"/>
 
