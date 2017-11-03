@@ -149,4 +149,9 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     public int getPosition() {
         return getCurrentItem();
     }
+
+    @Override
+    public void onStopRefresh() {
+
+    }
 }

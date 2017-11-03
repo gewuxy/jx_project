@@ -13,8 +13,8 @@ import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
 import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
@@ -26,7 +26,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
@@ -197,10 +196,8 @@ public class SettingsActivity extends BaseFormActivity {
             CommonDialog2 d = new CommonDialog2(SettingsActivity.this);
             d.setHint(getString(R.string.setting_exit_current_account));
             d.addBlackButton(getString(R.string.setting_exit), v -> {
-
                 mPresenter.startLogoutService(SettingsActivity.this);
 
-                SettingsActivity.this.notify(NotifyType.logout);
                 startActivity(ThirdPartyLoginActivity.class);
                 finish();
             });

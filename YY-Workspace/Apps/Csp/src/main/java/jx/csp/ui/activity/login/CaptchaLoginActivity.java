@@ -248,7 +248,9 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         BaseForm form = getRelatedItem(RelatedId.captcha);
-        if (type == NotifyType.fetch_message_captcha) {
+        if (type == NotifyType.logout) {
+            finish();
+        } else if (type == NotifyType.fetch_message_captcha) {
             form.enable(true);
         } else if (type == NotifyType.disable_fetch_message_captcha) {
             form.enable(false);

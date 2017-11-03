@@ -133,8 +133,7 @@ public class MeActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.history: {
-                // FIXME: 2017/10/26 暂时是投稿平台
-                startActivity(ContributePlatformActivity.class);
+                startActivity(ContributeHistoryActivity.class);
             }
             break;
             case RelatedId.flow: {
@@ -161,6 +160,8 @@ public class MeActivity extends BaseFormActivity {
         //修改个人资料
         if (type == NotifyType.profile_change) {
             changeUserName();
+        } else if (type == NotifyType.logout) {
+            finish();
         }
     }
 
@@ -173,7 +174,7 @@ public class MeActivity extends BaseFormActivity {
 
         if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.mobile))) {
             mTvUserName.setText(Profile.inst().getString(TProfile.mobile));
-        } else if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.email))) {
+        } else {
             mTvUserName.setText(Profile.inst().getString(TProfile.email));
         }
     }

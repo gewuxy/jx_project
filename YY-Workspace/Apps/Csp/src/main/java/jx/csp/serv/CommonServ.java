@@ -21,6 +21,8 @@ import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu
@@ -88,6 +90,8 @@ public class CommonServ extends ServiceEx{
                     SpUser.inst().clear();
                     SpJPush.inst().jPushIsRegister(false);
                     Profile.inst().clear();
+
+                    Notifier.inst().notify(NotifyType.logout);
                     YSLog.d(TAG, "退出账号成功");
                 } else {
                     retryNetworkRequest(id);

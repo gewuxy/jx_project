@@ -54,6 +54,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     private ImageView mIvPwdClean;
 
     private TextView mTvLogin;
+    private String mNickName;
 
     @Override
     public void initData() {
@@ -178,11 +179,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KIdBind) {
-            return JsonParser.error(r.getText());
-        } else {
-            return JsonParser.ev(r.getText(), Profile.class);
-        }
+        return JsonParser.ev(r.getText(), Profile.class);
     }
 
     @Override
@@ -190,15 +187,15 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         stopRefresh();
         Result<Profile> r = (Result<Profile>) result;
         Profile profile = r.getData();
-        String nickName = profile.getString(TProfile.nickName);
         if (id == KIdAuthorizeLogin) {
             if (r.isSucceed()) {
+                mNickName = profile.getString(TProfile.nickName);
                 SpApp.inst().saveUserName(getUserName());
                 if (Profile.inst().isLogin()) {
                     exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
                             .thirdPartyId(LoginType.yaya_login)
                             .uniqueId(profile.getString(TProfile.uid))
-                            .nickName(nickName)
+                            .nickName(mNickName)
                             .gender(profile.getString(TProfile.gender))
                             .avatar(profile.getString(TProfile.avatar))
                             .build());
@@ -207,7 +204,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                             .uniqueId(profile.getString(TProfile.uid))
                             .email(profile.getString(TProfile.email))
                             .mobile(profile.getString(TProfile.mobile))
-                            .nickName(nickName)
+                            .nickName(mNickName)
                             .country(profile.getString(TProfile.country))
                             .province(profile.getString(TProfile.province))
                             .city(profile.getString(TProfile.city))
@@ -219,7 +216,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
         } else if (id == KIdLogin) {
             if (r.isSucceed()) {
-                getBindNickName(nickName);
+                getBindNickName(mNickName);
                 Profile.inst().update(profile);
                 notify(NotifyType.login);
                 startActivity(MainActivity.class);
@@ -230,7 +227,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
         } else if (id == KIdBind) {
             if (r.isSucceed()) {
-                getBindNickName(nickName);
+                getBindNickName(mNickName);
             } else {
                 onNetworkError(id, r.getError());
             }

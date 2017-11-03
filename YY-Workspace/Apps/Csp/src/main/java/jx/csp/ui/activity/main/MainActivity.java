@@ -15,17 +15,16 @@ import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.MeActivity;
-import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.ui.frag.main.MeetGridFrag;
+import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
-import lib.ys.impl.SingletonImpl;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseVpActivity;
 import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.ui.activity.base.BaseVpActivity;
 
 /**
  * 首页
@@ -134,19 +133,19 @@ public class MainActivity extends BaseVpActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        SingletonImpl.inst().freeAll();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (enableExit()) {
-            super.onBackPressed();
-        } else {
-            showToast("再按一次退出");
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//
+//        SingletonImpl.inst().freeAll();
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (enableExit()) {
+//            super.onBackPressed();
+//        } else {
+//            showToast("再按一次退出");
+//        }
+//    }
 }

@@ -35,7 +35,6 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         wx,         //微信
         sina,       //新浪
         facebook,
-        twitter,
 
         @Init(asInt = 0)
         flux,       //流量 保存单位是M 显示单位是G

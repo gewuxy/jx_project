@@ -6,16 +6,21 @@ import android.view.View.OnClickListener;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
 
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.dialog.CommonDialog2;
+import jx.csp.model.BindInfoList;
+import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
-import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.presenter.AccountManagePresenterImpl;
 import jx.csp.util.Util;
 import lib.ys.ConstantsEx;
@@ -81,7 +86,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_wx)
                 .name(R.string.account_wx)
                 .drawable(R.drawable.form_ic_account_wx)
-                .text(Profile.inst().getString(TProfile.wx))
+                .text(Profile.inst().getBindNickName(LoginType.wechat_login))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -89,7 +94,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_sina)
                 .name(R.string.account_sina)
                 .drawable(R.drawable.form_ic_account_sina)
-                .text(Profile.inst().getString(TProfile.sina))
+                .text(Profile.inst().getBindNickName(LoginType.weibo_login))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -98,14 +103,6 @@ public class AccountManageActivity extends BaseFormActivity {
                 .name(R.string.account_email)
                 .drawable(R.drawable.form_ic_account_email)
                 .text(Profile.inst().getString(TProfile.email))
-                .hint(R.string.account_not_bind));
-
-        addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_twitter)
-                .name(R.string.account_twitter)
-                .drawable(R.drawable.form_ic_account_twitter)
-                .text(Profile.inst().getString(TProfile.twitter))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -136,33 +133,29 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_wx: {
-
+                // FIXME: 2017/11/2 微信未审核完
             }
             break;
             case RelatedId.bind_sina: {
-
-            }
-            break;
-            case RelatedId.bind_twitter: {
-                refresh(RefreshWay.dialog);
-                mPresenter.changeThirdPartyBindStatus(RelatedId.bind_twitter,
-                        RelatedId.bind_twitter,
-                        Profile.inst().getString(TProfile.id),
-                        Profile.inst().getString(TProfile.nickName),
-                        Profile.inst().getString(TProfile.gender),
-                        Profile.inst().getString(TProfile.avatar),
-                        TProfile.twitter,
-                        getString(R.string.account_unbind_twitter));
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.weibo_login))) {
+                    refresh(RefreshWay.dialog);
+                    mPresenter.getPlatformAction(SinaWeibo.NAME);
+                } else {
+                    mPresenter.unBindThirdParty(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
+                }
             }
             break;
             case RelatedId.bind_jingxin: {
-                mView.judgeBindStatus(RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya), TProfile.bindInfoList);
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.yaya_login))) {
+                    startActivity(YaYaAuthorizeBindActivity.class);
+                } else {
+                    mPresenter.unBindThirdParty(RelatedId.bind_jingxin, RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya));
+                }
             }
             break;
         }
     }
 
-    // TODO: 2017/10/26 未完成, 差账号授权
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         switch (type) {
@@ -172,6 +165,10 @@ public class AccountManageActivity extends BaseFormActivity {
             break;
             case NotifyType.bind_wx: {
                 mView.bindSuccess((String) data, RelatedId.bind_wx);
+            }
+            break;
+            case NotifyType.bind_sina: {
+                mView.bindSuccess((String) data, RelatedId.bind_sina);
             }
             break;
             case NotifyType.bind_email: {
@@ -199,10 +196,6 @@ public class AccountManageActivity extends BaseFormActivity {
                         startActivity(BindEmailActivity.class);
                     }
                     break;
-                    case RelatedId.bind_jingxin: {
-                        startActivity(YaYaAuthorizeBindActivity.class);
-                    }
-                    break;
                 }
             } else {
                 // 已绑定
@@ -224,7 +217,35 @@ public class AccountManageActivity extends BaseFormActivity {
         }
 
         @Override
-        public void unBindSuccess(Result r, int id, TProfile key) {
+        public void bindPlatformNameSuccess(Result r, int id, String nickName, @LoginType int bindType) {
+            List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+            if (infoList == null) {
+                infoList = new ArrayList<>();
+            }
+            boolean flag = true;
+            for (BindInfoList list : infoList) {
+                if (list.getInt(TBindInfo.thirdPartyId) == bindType) {
+                    list.put(TBindInfo.nickName, nickName);
+                    flag = false;
+                }
+            }
+            if (flag) {
+                BindInfoList bindInfoList = new BindInfoList();
+                bindInfoList.put(TBindInfo.thirdPartyId, bindType);
+                bindInfoList.put(TBindInfo.nickName, nickName);
+                infoList.add(bindInfoList);
+            }
+            Profile.inst().put(TProfile.bindInfoList, infoList);
+            Profile.inst().saveToSp();
+            if (bindType == LoginType.weibo_login) {
+                AccountManageActivity.this.notify(NotifyType.bind_sina, Profile.inst().getBindNickName(LoginType.weibo_login));
+            } else {
+                AccountManageActivity.this.notify(NotifyType.bind_wx, Profile.inst().getBindNickName(LoginType.wechat_login));
+            }
+        }
+
+        @Override
+        public void unBind(Result r, int id, TProfile key) {
             if (r.isSucceed()) {
                 showToast(R.string.account_unbind_succeed);
 
@@ -234,6 +255,36 @@ public class AccountManageActivity extends BaseFormActivity {
                 Profile.inst().put(key, ConstantsEx.KEmpty);
                 Profile.inst().saveToSp();
                 AccountManageActivity.this.notify(NotifyType.profile_change);
+            } else {
+                showToast(r.getMessage());
+            }
+        }
+
+        @Override
+        public void unBindThirdParty(Result r, int id) {
+            if (r.isSucceed()) {
+                showToast(R.string.account_unbind_succeed);
+
+                List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+                boolean flag = true;
+                for (BindInfoList list : infoList) {
+                    if (list.getInt(TBindInfo.thirdPartyId) == id) {
+                        list.clear();
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    BindInfoList bindInfoList = new BindInfoList();
+                    bindInfoList.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
+                    bindInfoList.put(TBindInfo.nickName, ConstantsEx.KEmpty);
+                    infoList.add(bindInfoList);
+                }
+
+                getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
+                refreshRelatedItem(id);
+
+                Profile.inst().put(TProfile.bindInfoList, infoList);
+                Profile.inst().saveToSp();
             } else {
                 showToast(r.getMessage());
             }

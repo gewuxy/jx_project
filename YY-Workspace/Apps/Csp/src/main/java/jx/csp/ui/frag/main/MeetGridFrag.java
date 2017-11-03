@@ -118,4 +118,8 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         return l.findFirstVisibleItemPosition();
     }
 
+    @Override
+    public void onStopRefresh() {
+
+    }
 }

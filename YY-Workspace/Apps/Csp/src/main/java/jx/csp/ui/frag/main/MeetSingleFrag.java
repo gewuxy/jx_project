@@ -147,4 +147,9 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
             break;
         }
     }
+
+    @Override
+    public void onStopRefresh() {
+
+    }
 }

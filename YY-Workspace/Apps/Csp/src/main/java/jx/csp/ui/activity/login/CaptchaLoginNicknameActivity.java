@@ -114,6 +114,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
             Profile.inst().update(r.getData());
             notify(NotifyType.login);
             startActivity(MainActivity.class);
+            finish();
         }else {
             onNetworkError(id,r.getError());
         }

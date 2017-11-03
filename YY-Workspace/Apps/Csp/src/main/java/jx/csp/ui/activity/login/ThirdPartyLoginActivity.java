@@ -1,10 +1,8 @@
 package jx.csp.ui.activity.login;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import java.io.File;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -24,13 +22,12 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.CacheUtil;
-import jx.csp.util.Util;
 import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
@@ -91,13 +88,13 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
 
 
-            // 从本地获取 null
+        // 从本地获取 null
 
-            //从本地获取视频,读文件是否存在
-            File file = new File(mLocatePath);
-            if (file.exists()) {
-                startPlay();
-            }
+        //从本地获取视频,读文件是否存在
+//        File file = new File(mLocatePath);
+//        if (file.exists()) {
+//            startPlay();
+//        }
 
     }
 
@@ -224,7 +221,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         mCustomVideoView.stopPlayback();
     }
 
-    public void startPlay(){
+    public void startPlay() {
         mCustomVideoView.setVideoPath(mPath);
         mCustomVideoView.start();
         mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
@@ -234,5 +231,12 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        mCustomVideoView.
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.login) {
+            finish();
+        }
     }
 }
