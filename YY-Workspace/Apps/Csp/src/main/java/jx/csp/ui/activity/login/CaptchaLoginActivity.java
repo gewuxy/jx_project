@@ -108,7 +108,11 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         mEtPhoneNumber.setText(SpApp.inst().getUserMobile());
         mEtPhoneNumber.setSelection(getPhone().length());
 
-        getRelatedItem(RelatedId.captcha).enable(true);
+        if (TextUtil.isNotEmpty(mEtCaptcha.getText())) {
+            getRelatedItem(RelatedId.captcha).enable(false);
+        }else {
+            getRelatedItem(RelatedId.captcha).enable(true);
+        }
         refreshItem(getRelatedItem(RelatedId.captcha));
     }
 

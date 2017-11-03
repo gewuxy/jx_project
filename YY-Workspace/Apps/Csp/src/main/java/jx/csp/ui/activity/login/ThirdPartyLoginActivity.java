@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import java.io.File;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -34,6 +35,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 
 /**
  * 第三方登录
+ *
  * @auther WangLan
  * @since 2017/9/27
  */
@@ -52,6 +54,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
     private CustomVideoView mCustomVideoView;
     private String mPath;
+    private String mLocatePath;
 
 
     @Override
@@ -87,10 +90,15 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
 
-        if (Util.noNetwork()) {
-            //第一次登录，非第一次，从本地获取
 
-        }
+            // 从本地获取 null
+
+            //从本地获取视频,读文件是否存在
+            File file = new File(mLocatePath);
+            if (file.exists()) {
+                startPlay();
+            }
+
     }
 
 
@@ -104,9 +112,9 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             }
             break;
             case R.id.layout_login_sina: {
-                Platform sina = ShareSDK.getPlatform
-                        (SinaWeibo.NAME);
+                Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
                 sina.setPlatformActionListener(new PlatformActionListener() {
+
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                         showToast("授权成功");
@@ -115,8 +123,13 @@ public class ThirdPartyLoginActivity extends BaseActivity {
                         String icon = platDB.getUserIcon();
                         String userName = platDB.getUserName();
                         String userId = platDB.getUserId();
-                        exeNetworkReq(KWeiboLogin, UserAPI.login(LoginType.weibo_login).uniqueId(userId).nickName(userName).gender(userGender)
-                                .avatar(icon).build());
+                        exeNetworkReq(KWeiboLogin,
+                                UserAPI.login(LoginType.weibo_login)
+                                        .uniqueId(userId)
+                                        .nickName(userName)
+                                        .gender(userGender)
+                                        .avatar(icon)
+                                        .build());
                     }
 
                     @Override
@@ -170,26 +183,18 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             if (r.isSucceed()) {
                 LoginVideo data = r.getData();
                 int version = data.getInt(TLoginVideo.version);
-                int location = 0;
+                int location = 0; // 本地
 
                 if (version > location) {
                     String url = data.getString(TLoginVideo.videoUrl);
                     mPath = data.getString(TLoginVideo.videoUrl);
 
-                    String locatePath = CacheUtil.getAudioCacheDir();
+                    mLocatePath = CacheUtil.getAudioCacheDir();
                     String fileName = "login_background_video.mp4";
-                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(locatePath, fileName, url).build());
 
-//                    SpApp.inst().saveLoginVideoVersion(version);
+                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(mLocatePath, fileName, url).build());
+
                     YSLog.d("url", url);
-                }
-                if (TextUtil.isNotEmpty(mPath)) {
-                    mCustomVideoView.setVideoURI(Uri.parse(mPath));
-                    YSLog.d("path", mPath);
-                    mCustomVideoView.start();
-                    mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
-                } else {
-                    //从本地获取视频
                 }
             }
         } else if (id == KWeiboLogin || id == KWechatLogin) {
@@ -208,12 +213,8 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     //返回重新加载
     @Override
     protected void onRestart() {
-        // FIXME: 2017/10/31 没写完
         super.onRestart();
-        mCustomVideoView.setVideoURI(Uri.parse(mPath));
-        YSLog.d("path",mPath);
-        mCustomVideoView.start();
-        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+        startPlay();
     }
 
     //防止锁屏或者切出的时候，视频在播放
@@ -221,5 +222,17 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         mCustomVideoView.stopPlayback();
+    }
+
+    public void startPlay(){
+        mCustomVideoView.setVideoPath(mPath);
+        mCustomVideoView.start();
+        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        mCustomVideoView.
     }
 }
