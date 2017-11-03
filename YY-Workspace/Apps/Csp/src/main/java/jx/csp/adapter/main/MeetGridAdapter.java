@@ -68,8 +68,6 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 goneView(holder.getIvLive());
                 holder.getTvTime().setText(mItem.getString(TMeet.playTime));
             }
-
-
         }
 
         setOnViewClickListener(position, holder.getItemLayout());

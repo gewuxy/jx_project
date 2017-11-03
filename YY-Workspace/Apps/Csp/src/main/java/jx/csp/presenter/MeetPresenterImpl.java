@@ -19,9 +19,12 @@ import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.activity.liveroom.LiveRoomActivityRouter;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivityRouter;
+import lib.ys.YSLog;
 import lib.ys.util.res.ResLoader;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @auther yuansui
@@ -31,6 +34,8 @@ import lib.yy.network.Result;
 public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> implements MeetContract.P {
 
     private Context mContext;
+
+    private String mId;
 
     public MeetPresenterImpl(V v, Context context) {
         super(v);
@@ -84,9 +89,14 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void onShareClick(Meet item) {
+        mId = item.getString(TMeet.id);
         //Fixme:传个假的url
         ShareDialog shareDialog = new ShareDialog(mContext, "http://blog.csdn.net/happy_horse/article/details/51164262", "哈哈");
-        shareDialog.setDeleteListener(() -> exeNetworkReq(MeetingAPI.delete(item.getString(TMeet.id)).build()));
+        shareDialog.setDeleteListener(() -> exeNetworkReq(MeetingAPI.delete(mId).build()));
+        shareDialog.setCopyListener(() -> {
+            Notifier.inst().notify(NotifyType.copy_duplicate, mId);
+            YSLog.d("ooooooooooo", mId + "dddd");
+        });
         shareDialog.show();
     }
 
@@ -101,6 +111,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         if (r.isSucceed()) {
             showToast(R.string.delete_success);
             //Fixme:还要通知列表删除？
+            Notifier.inst().notify(NotifyType.delete_meeting, mId);
         } else {
             onNetworkError(id, r.getError());
         }

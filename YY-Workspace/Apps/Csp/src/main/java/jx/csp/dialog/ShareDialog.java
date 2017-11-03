@@ -84,9 +84,14 @@ public class ShareDialog extends BaseDialog {
     //    private ShareResult mShareResult;
     private PlatformActionListener mPlatformActionListener;
     private OnDeleteListener mDeleteListener;
+    private OnCopyDuplicateListener mCopyListener;
 
     public void setDeleteListener(OnDeleteListener listener) {
         mDeleteListener = listener;
+    }
+
+    public void setCopyListener(OnCopyDuplicateListener l){
+        mCopyListener = l;
     }
 
     public ShareDialog(Context context, String shareTitle, int courseId) {
@@ -252,6 +257,9 @@ public class ShareDialog extends BaseDialog {
             break;
             case R.id.dialog_share_tv_copy_replica: {
                 //Fixme:提示，实际需求没有，一下皆同，记得删
+                if (mCopyListener != null) {
+                    mCopyListener.copy();
+                }
                 showToast("复制副本");
             }
             break;
@@ -259,7 +267,6 @@ public class ShareDialog extends BaseDialog {
                 if (mDeleteListener != null) {
                     mDeleteListener.delete();
                 }
-                showToast(getString(R.string.delete_success));
             }
             break;
             case R.id.dialog_share_tv_cancel: {
@@ -272,6 +279,10 @@ public class ShareDialog extends BaseDialog {
 
     public interface OnDeleteListener {
         void delete();
+    }
+
+    public interface OnCopyDuplicateListener{
+        void copy();
     }
 
    /* private class ShareResult extends ShareCallback {

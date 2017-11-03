@@ -160,7 +160,7 @@
             style="@style/tv.agree.protocol"/>
 
         <TextView
-            android:id="@+id/protocol"
+            android:id="@+id/login_protocol"
             style="@style/tv.agree.protocol"
             android:text="@string/protocol"
             android:textColor="@color/text_167afe"/>

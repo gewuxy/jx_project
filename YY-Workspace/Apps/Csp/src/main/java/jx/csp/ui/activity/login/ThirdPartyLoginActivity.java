@@ -3,6 +3,7 @@ package jx.csp.ui.activity.login;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import java.io.File;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -19,13 +20,17 @@ import jx.csp.model.login.LoginVideo;
 import jx.csp.model.login.LoginVideo.TLoginVideo;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.network.UrlUtil;
+import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.CacheUtil;
+import jx.csp.util.Util;
 import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
@@ -50,14 +55,16 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     private PlatformAuthorizeUserInfoManager mPlatAuth;
 
     private CustomVideoView mCustomVideoView;
-    private String mPath;
+    private String mUrl;
     private String mLocatePath;
+    private String mFileName;
 
 
     @Override
     public void initData() {
         mPlatAuth = new PlatformAuthorizeUserInfoManager(this);
-        mPath = "";
+        mFileName = "login_background_video.mp4";
+        mLocatePath = CacheUtil.getAudioCacheDir() + File.separator  + mFileName;
     }
 
     @NonNull
@@ -83,19 +90,21 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         setOnClickListener(R.id.layout_login_jx);
         setOnClickListener(R.id.login_mobile);
         setOnClickListener(R.id.login_mail);
-        setOnClickListener(R.id.protocol);
+        setOnClickListener(R.id.login_protocol);
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
 
-
-        // 从本地获取 null
-
-        //从本地获取视频,读文件是否存在
-//        File file = new File(mLocatePath);
-//        if (file.exists()) {
-//            startPlay();
-//        }
-
+        if (Util.noNetwork()) {
+            //没网的时候，从本地获取视频,读文件是否存在，不存在则空，存在则播放
+            try {
+                File file = new File(mLocatePath);
+                if (file.exists()) {
+                    startPlay();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -156,9 +165,9 @@ public class ThirdPartyLoginActivity extends BaseActivity {
                 startActivity(EmailLoginActivity.class);
             }
             break;
-            case R.id.protocol: {
-                //Fixme:跳转到h5页面，现在还没有文案
-                showToast("没有文案，先酱紫，哈哈");
+            case R.id.login_protocol: {
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                        .route(this);
             }
             break;
         }
@@ -179,20 +188,32 @@ public class ThirdPartyLoginActivity extends BaseActivity {
             Result<LoginVideo> r = (Result<LoginVideo>) result;
             if (r.isSucceed()) {
                 LoginVideo data = r.getData();
-                int version = data.getInt(TLoginVideo.version);
-                int location = 0; // 本地
+                int newVersion = data.getInt(TLoginVideo.version);
+                int oldVersion = SpApp.inst().getLoginVideoVersion(); // 保存本地
+                mUrl = data.getString(TLoginVideo.videoUrl);
 
-                if (version > location) {
-                    String url = data.getString(TLoginVideo.videoUrl);
-                    mPath = data.getString(TLoginVideo.videoUrl);
+                //当有视频跟新的时候，url和version都有值，此时新版本肯定比旧版本大，如果没有更新，没有返回数据
+                if (TextUtil.isNotEmpty(mUrl)&&newVersion > oldVersion) {
+//                    startPlay();
+                    mCustomVideoView.setVideoPath(mUrl);
+                    mCustomVideoView.start();
+                    mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
 
-                    mLocatePath = CacheUtil.getAudioCacheDir();
-                    String fileName = "login_background_video.mp4";
-
-                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(mLocatePath, fileName, url).build());
-
-                    YSLog.d("url", url);
+                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(mLocatePath, mFileName, mUrl).build());
+                    SpApp.inst().saveLoginVideoVersion(newVersion);
+                } else {
+                    //从本地获取视频,读文件是否存在
+                    try {
+                        File file = new File(mLocatePath);
+                        if (file.exists()) {
+                            startPlay();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+            }else {
+                onNetworkError(id, r.getError());
             }
         } else if (id == KWeiboLogin || id == KWechatLogin) {
             Result<Profile> r = (Result<Profile>) result;
@@ -221,16 +242,22 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         mCustomVideoView.stopPlayback();
     }
 
-    public void startPlay() {
-        mCustomVideoView.setVideoPath(mPath);
-        mCustomVideoView.start();
-        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+    public void startPlay(){
+        if (mLocatePath != null) {
+            mCustomVideoView.setVideoPath(mLocatePath);
+            mCustomVideoView.start();
+            mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mCustomVideoView.
+        if (mCustomVideoView != null) {
+            //百度的两个释放的方法，也不知道哪个
+            mCustomVideoView.suspend();
+            mCustomVideoView.stopPlayback();
+        }
     }
 
     @Override

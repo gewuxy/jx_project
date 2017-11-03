@@ -16,13 +16,15 @@ import jx.csp.R;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
@@ -61,7 +63,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     private EditText mEtPhoneNumber;
     private EditText mEtCaptcha;
-    private TextView mProtocol;
     private int mCount; // 计算点击多少次
     private long mStartTime; // 开始计算10分钟间隔的时间
 
@@ -87,12 +88,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void findViews() {
-        super.findViews();
-        mProtocol = findView(R.id.protocol);
-    }
-
-    @Override
     public void setViews() {
         super.setViews();
 
@@ -109,11 +104,13 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         mEtPhoneNumber.setSelection(getPhone().length());
 
         if (TextUtil.isNotEmpty(mEtCaptcha.getText())) {
-            getRelatedItem(RelatedId.captcha).enable(false);
-        }else {
             getRelatedItem(RelatedId.captcha).enable(true);
+        }else {
+            getRelatedItem(RelatedId.captcha).enable(false);
         }
         refreshItem(getRelatedItem(RelatedId.captcha));
+
+        setOnClickListener(R.id.service_agreement);
     }
 
     @Override
@@ -130,9 +127,9 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.protocol: {
-                //Fixme:跳转到h5页面，现在还没有文案
-                showToast("没有文案，先酱紫，哈哈");
+            case R.id.service_agreement: {
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                        .route(this);
             }
             break;
         }
@@ -225,6 +222,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         return R.layout.layout_captcha_login_footer;
     }
 
+
     @Override
     public void afterTextChanged(Editable s) {
         setChanged(Util.isMobileCN(Util.getEtString(mEtPhoneNumber)) && TextUtil.isNotEmpty(Util.getEtString(mEtCaptcha)));
@@ -252,8 +250,10 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             finish();
         } else if (type == NotifyType.fetch_message_captcha) {
             form.enable(true);
+            refreshItem(form);
         } else if (type == NotifyType.disable_fetch_message_captcha) {
             form.enable(false);
+            refreshItem(form);
         }
         refreshItem(form);
     }

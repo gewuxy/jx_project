@@ -12,10 +12,12 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
 import jx.csp.model.Profile;
-import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.network.UrlUtil;
+import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
@@ -65,7 +67,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         mEtNickName = getRelatedItem(RelatedId.nickname).getHolder().getEt();
         mEtNickName.addTextChangedListener(this);
 
-        setOnClickListener(R.id.protocol);
+        setOnClickListener(R.id.service_agreement);
         //Fixme:没见到效果，什么鬼
         LinearLayout.LayoutParams lp = (LayoutParams) mLinearLayoutProtocol.getLayoutParams();
         lp.setMargins(75,331,75,27);
@@ -86,9 +88,9 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.protocol: {
-                //Fixme:跳转到h5页面，现在还没有文案
-                showToast("没有文案，先酱紫，哈哈");
+            case R.id.service_agreement: {
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                        .route(this);
             }
             break;
         }

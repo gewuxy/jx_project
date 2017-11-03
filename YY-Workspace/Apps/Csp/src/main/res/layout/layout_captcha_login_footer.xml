@@ -18,7 +18,7 @@
             style="@style/tv.agree.protocol"/>
 
         <TextView
-            android:id="@+id/proto"
+            android:id="@+id/service_agreement"
             style="@style/tv.agree.protocol"
             android:text="@string/protocol"
             android:textColor="@color/text_167afe"/>

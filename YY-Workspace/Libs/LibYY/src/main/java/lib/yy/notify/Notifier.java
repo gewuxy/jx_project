@@ -55,6 +55,10 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.bind_fackbook,
             NotifyType.bind_sina,
             NotifyType.bind_twitter,
+            NotifyType.delete_meeting,
+            NotifyType.vp_frag_delete_meeting,
+            NotifyType.copy_duplicate,
+            NotifyType.vp_frag_copy_duplicate,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -188,6 +192,27 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 取消汤森路透收藏
          */
         int collection_cancel_thomson = 33;
+
+        /**
+         * 首页九宫格页面分享中的删除会议
+         */
+        int delete_meeting = 34;
+
+        /**
+         * 首页viewpager页面分享中的删除会议
+         */
+        int vp_frag_delete_meeting = 35;
+
+        /**
+         * 首页九宫格页面分享中的复制副本
+         */
+        int copy_duplicate = 36;
+
+        /**
+         * 首页viewpager页面分享中的复制副本
+         */
+        int vp_frag_copy_duplicate = 37;
+
     }
 
     public interface OnNotify {

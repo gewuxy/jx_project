@@ -9,11 +9,15 @@ import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
 import jx.csp.ui.activity.main.MainActivity.OnMeetGridListener;
+import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
 
 /**
@@ -116,6 +120,32 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         RecyclerView rv = getScrollableView();
         GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
         return l.findFirstVisibleItemPosition();
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.delete_meeting) {
+            String id= (String) data;
+                for (Meet meet:getData()) {
+                    if (id == meet.getString(TMeet.id)) {
+                        getData().remove(meet);
+                        invalidate();
+                        Notifier.inst().notify(NotifyType.vp_frag_delete_meeting);
+                        break;
+                    }
+            }
+        }else if (type == NotifyType.copy_duplicate) {
+            String id = (String) data;
+            YSLog.d("ooooooooooo",id);
+            for (Meet m:getData()){
+                if (id == m.getString(TMeet.id)) {
+                    getData().add(m);
+                    invalidate();
+                    Notifier.inst().notify(NotifyType.vp_frag_copy_duplicate);
+                    break;
+                }
+            }
+        }
     }
 
     @Override

@@ -12,12 +12,14 @@ import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
-import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
@@ -34,6 +36,7 @@ import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 邮箱登录
+ *
  * @auther WangLan
  * @since 2017/9/22
  */
@@ -114,8 +117,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.protocol: {
-                //Fixme:跳转到h5页面，现在还没有文案
-                showToast("没有文案，先酱紫，哈哈");
+                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                        .route(this);
             }
             break;
         }
