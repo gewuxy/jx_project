@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="138dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:src="@drawable/login_ic_yaya"/>
@@ -30,19 +30,20 @@
             android:textSize="13dp"/>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="268dp"
+            android:layout_height="42dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="37dp">
 
             <jx.csp.view.AutoCompleteEditText
                 android:id="@+id/yaya_username"
-                android:layout_width="268dp"
-                android:layout_height="42dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/bg_yaya_authorize_login_edt"
                 android:hint="@string/username"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/text_b3"
+                android:textColor="@color/text_666"
                 android:textSize="16dp"/>
 
             <ImageView
@@ -54,20 +55,21 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="268dp"
+            android:layout_height="42dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="27dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/yaya_pwd"
-                android:layout_width="268dp"
-                android:layout_height="42dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/bg_yaya_authorize_login_edt"
                 android:hint="@string/pwd"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/text_b3"
+                android:textColor="@color/text_666"
                 android:textSize="16dp"/>
 
             <CheckBox
@@ -95,7 +97,6 @@
             android:layout_marginTop="27dp"
             android:background="@drawable/yaya_login_btn_selector_blue"
             android:gravity="center"
-            android:text="@string/authorization_login"
             android:textColor="@color/white"
             android:textSize="16dp"/>
     </LinearLayout>
