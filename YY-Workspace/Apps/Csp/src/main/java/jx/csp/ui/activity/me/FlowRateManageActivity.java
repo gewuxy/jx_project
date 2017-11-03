@@ -273,7 +273,11 @@ public class FlowRateManageActivity extends BaseActivity {
                 payResult.put(TPayResult.type, PayType.pingPP);
             } else if (mReqCode == KPayPalPayCode) {
                 payResult.put(TPayResult.type, PayType.payPal);
-                data.putExtra(PayPalPay.KExtraOrderId, mOrderId);
+                if (data != null) {
+                    data.putExtra(PayPalPay.KExtraOrderId, mOrderId);
+                } else {
+                    return;
+                }
             }
             payResult.put(TPayResult.requestCode, requestCode);
             payResult.put(TPayResult.resultCode, resultCode);
