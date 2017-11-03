@@ -79,8 +79,8 @@ buildscript {
                      */
                     gson   : 'com.google.code.gson:gson:2.8.1',
                     dagger : [
-                            core    : 'com.google.dagger:dagger:2.+',
-                            compiler: 'com.google.dagger:dagger-compiler:2.+'
+                            core    : 'com.google.dagger:dagger:2.12',
+                            compiler: 'com.google.dagger:dagger-compiler:2.12'
                     ],
                     /**
                      * java
