@@ -28,15 +28,6 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 
 public class HelpAndFeedbackActivity extends BaseFormActivity {
 
-    //更新日志
-    private String mUrlUpdateLog = UrlUtil.getBaseUrl() + "/view/17110216044331146598";
-    //免责声明  服务协议
-    private String mUrlDisclaimer = UrlUtil.getBaseUrl() + "/view/17110215475385132976";
-    //帮助
-    private String mUrlHelp = UrlUtil.getBaseUrl() + "/view/17110216023876150654";
-    //关于我们
-    private String mUrlAboutUs = UrlUtil.getBaseUrl() + "/view/17110216051754139182";
-
     @IntDef({
             RelatedId.update_log,
             RelatedId.service_agreement,
@@ -119,23 +110,21 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     @Override
     protected void onFormItemClick(View v, int position) {
         super.onFormItemClick(v, position);
-        // FIXME: 2017/10/26 暂时没有H5
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_update_log), mUrlUpdateLog).route(this);
+                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_update_log), UrlUtil.getUrlUpdateLog()).route(this);
             }
             break;
             case RelatedId.service_agreement: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_service_agreement), mUrlDisclaimer).route(this);
+                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_service_agreement), UrlUtil.getUrlDisclaimer()).route(this);
             }
             break;
             case RelatedId.help: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_help), mUrlHelp).route(this);
+                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_help), UrlUtil.getUrlHelp()).route(this);
             }
             break;
             case RelatedId.opinion_feedback: {
-//                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_opinion_feedback), null).route(this);
                 IntentAction.mail()
                         .address("app@medcn.cn")
                         .subject(R.string.help_and_feedback_email_subject)
@@ -144,7 +133,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.about_us: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_about_us), mUrlAboutUs).route(this);
+                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_about_us), UrlUtil.getUrlAboutUs()).route(this);
             }
             break;
         }
