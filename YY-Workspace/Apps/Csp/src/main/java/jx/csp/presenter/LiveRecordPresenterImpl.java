@@ -15,6 +15,8 @@ import jx.csp.App;
 import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.util.Util;
@@ -82,7 +84,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
 
         mMediaRecorder = new MediaRecorder();
         mLiveCallbackImpl = new LiveCallbackImpl();
-        LiveApi.getInst().init(App.getContext(), "666", "人数获取测试");
+        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.id) + "666", Profile.inst().getString(TProfile.userName));
         //测试
         LiveApi.getInst().setTest(BuildConfig.TEST);
         LiveApi.getInst().setRoomConfig(true, true);
@@ -147,6 +149,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         if (mCountDown != null) {
             mCountDown.recycle();
         }
+        mHandler.removeCallbacksAndMessages(null);
         LiveApi.getInst().logoutRoom();
     }
 

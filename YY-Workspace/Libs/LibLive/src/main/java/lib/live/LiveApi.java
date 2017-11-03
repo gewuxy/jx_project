@@ -18,6 +18,8 @@ import com.zego.zegoliveroom.entity.ZegoUserState;
 
 import java.util.HashMap;
 
+import lib.ys.YSLog;
+
 /**
  * @author CaiXiang
  * @since 2017/9/20
@@ -43,6 +45,9 @@ public class LiveApi {
     private static LiveApi mInst = null;
     private ZegoLiveRoom mZegoLive = null;
     private ZegoAvConfig mZegoAvConfig;
+    private boolean mUseHardwareEncode = false;
+    private boolean mUseHardwareDecode = false;
+    private boolean mUseRateControl = false;
 
     private LiveApi() {
         mZegoLive = new ZegoLiveRoom();
@@ -64,7 +69,43 @@ public class LiveApi {
             // 初始化设置级别为"Generic"
             mZegoAvConfig = new ZegoAvConfig(Level.Generic);
             mZegoLive.setAVConfig(mZegoAvConfig);
+            // 开发者根据需求定制
+            // 硬件编码
+            setUseHardwareEncode(mUseHardwareEncode);
+            // 硬件解码
+            setUseHardwareDecode(mUseHardwareDecode);
+            // 码率控制
+            setUseRateControl(mUseRateControl);
         }
+    }
+
+    public void setUseHardwareEncode(boolean useHardwareEncode) {
+        if(useHardwareEncode){
+            // 开硬编时, 关闭码率控制
+            if(mUseRateControl){
+                mUseRateControl = false;
+                mZegoLive.enableRateControl(false);
+            }
+        }
+        mUseHardwareEncode = useHardwareEncode;
+        ZegoLiveRoom.requireHardwareEncoder(useHardwareEncode);
+    }
+
+    public void setUseHardwareDecode(boolean useHardwareDecode) {
+        mUseHardwareDecode = useHardwareDecode;
+        ZegoLiveRoom.requireHardwareDecoder(useHardwareDecode);
+    }
+
+    public void setUseRateControl(boolean useRateControl) {
+        if(useRateControl){
+            // 开码率控制时, 关硬编
+            if(mUseHardwareEncode){
+                mUseHardwareEncode = false;
+                ZegoLiveRoom.requireHardwareEncoder(false);
+            }
+        }
+        mUseRateControl = useRateControl;
+        mZegoLive.enableRateControl(useRateControl);
     }
 
     public LiveApi toggleAVConfig() {
@@ -166,6 +207,7 @@ public class LiveApi {
             public void onPublishStateUpdate(int i, String s, HashMap<String, Object> hashMap) {
                 // i   0:成功, 其它:失败
                 Log.d(TAG, "推流状态更新" + i);
+                YSLog.d(TAG, "login time = " + System.currentTimeMillis());
                 if (callback != null) {
                     callback.onPublishStateUpdate(i);
                 }

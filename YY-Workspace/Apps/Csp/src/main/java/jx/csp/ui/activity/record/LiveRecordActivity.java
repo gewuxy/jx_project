@@ -2,8 +2,10 @@ package jx.csp.ui.activity.record;
 
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
@@ -27,6 +29,7 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -53,9 +56,13 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private boolean mStopCountDown = false; // 是否开始进行结束倒计时
     private int mLastPage = 0; // 上一页的位置
 
-    private String mTitle = "直播语音 9月30日 14：00";
-    private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
-    private long mStopTime = System.currentTimeMillis() + 35 * 60 * 1000;
+    @Arg(opt = true)
+    String mTitle;
+    @Arg(opt = true)
+    long mStartTime;
+    @Arg(opt = true)
+    long mStopTime;
+    long mRealStopTime;
 
     private View mView;
     private Live mLiveMsg;
@@ -64,7 +71,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     public void initData() {
         super.initData();
-
+        mRealStopTime = mStopTime + 15 * 60 * 1000;
         mView = new View();
         mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView);
     }
@@ -140,14 +147,30 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
-        YSLog.d(TAG, "onPageSelected position = " + position);
         // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音
         if (mLiveState) {
-            // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法
+            // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
+            // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法 要告诉服务器是翻的视频页
             if (getItem(mLastPage) instanceof RecordImgFrag && ((RecordImgFrag) getItem(mLastPage)).getFragType() == FragType.img) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
+                if (mFilePath != null && (new File(mFilePath)).exists()) {
+                    byte[] bytes = FileUtil.fileToBytes(mFilePath);
+                    // 音频小于三秒的不发同步指令 1s差不多1500 byte
+                    if (bytes.length < 4500) {
+                        YSLog.d(TAG, "翻页时时间间隔小于3秒，不发同步指令");
+                    } else {
+                        if (position != mWsPosition) {
+                            YSLog.d(TAG, "上一页是录音  发同步指令 pos = " + position);
+                            notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
+                        }
+                    }
+                }
                 // 上传上一页的音频 确保存在
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
+            } else {
+                YSLog.d(TAG, "上一页是视频  发同步指令 pos = " + position);
+                notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
+                exeNetworkReq(KUploadVideoPage, MeetingAPI.videoNext(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id)).build());
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
             if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
@@ -155,9 +178,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
                 mView.startRecordState();
-            }
-            if (position != mWsPosition) {
-                notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
             }
         }
         // 记录位置
@@ -205,7 +225,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {
-                    WebSocketServRouter.create(wsUrl).route(this);
+                     mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
+                     mWebSocketServRouter.route(this);
                 }
             }
         } else {
@@ -218,9 +239,12 @@ public class LiveRecordActivity extends BaseRecordActivity {
         YSLog.d(TAG, "是否切换直播设备");
         CommonDialog2 dialog = new CommonDialog2(this);
         dialog.setHint(R.string.switch_live_record_device);
+        CountDown countDown = new CountDown();
+        countDown.start(5);
         dialog.addBlackButton(R.string.continue_host, view -> {
             // do nothing
             notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+            countDown.stop();
         });
         TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
             // 如果在直播要先暂停录音，然后上传音频，再退出页面
@@ -231,8 +255,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
             finish();
         });
-        CountDown countDown = new CountDown();
-        countDown.start(5);
         countDown.setListener(new OnCountDownListener() {
 
             @Override
@@ -243,8 +265,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                         uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
-                    finish();
                     dialog.dismiss();
+                    finish();
                     return;
                 }
                 tv.setText(String.format(getString(R.string.affirm_exit), remainCount));
@@ -413,5 +435,4 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
         }
     }
-
 }

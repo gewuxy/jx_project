@@ -19,5 +19,9 @@ public interface MeetContract {
         void onShareClick(Meet item);
 
         void onLiveClick(Meet item);
+
+        void allowJoin();
+
+        void disagreeJoin();
     }
 }

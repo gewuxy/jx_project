@@ -17,9 +17,9 @@ import inject.annotation.network.method.Upload;
 @Descriptor(
         host = "https://app.medyaya.cn/api/",
         hostDebuggable = "http://59.111.90.245:8084/api/"
-//        hostDebuggable = "http://10.0.0.234:8080/api/"   //礼平电脑
-//        hostDebuggable = "http://10.0.0.250:8081/api/"   //轩哥电脑
-//        hostDebuggable = "http://10.0.0.252:8084/api/"   //长玲电脑
+//        hostDebuggable = "http://10.0.0.234:8080/api/"   // 礼平电脑
+//        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
+//        hostDebuggable = "http://10.0.0.252:8084/api/"   // 长玲电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 
 )
@@ -283,6 +283,15 @@ public class NetworkApi {
                          @Query(opt = true) int pageSize);
 
         /**
+         * 直播PPT中包含视频 视频页翻页时调用
+         *
+         * @param courseId
+         * @param detailId
+         */
+        @Get("video/next")
+        void videoNext(String courseId, String detailId);
+
+        /**
          * 扫描二维码进入会议
          *
          * @param courseId
@@ -292,6 +301,14 @@ public class NetworkApi {
 
         @Post("delete")
         void delete(String id);
+
+        /**
+         * 进入会议检测
+         *
+         * @param courseId
+         */
+        @Get("join/check")
+        void joinCheck(String courseId);
     }
 
     @Api("charge")

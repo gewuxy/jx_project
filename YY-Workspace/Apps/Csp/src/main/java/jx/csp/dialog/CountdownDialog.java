@@ -2,24 +2,30 @@ package jx.csp.dialog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.widget.TextView;
 
 import jx.csp.R;
-import jx.csp.view.CircleProgressView;
+import lib.ys.view.ProgressView;
 import lib.yy.dialog.BaseDialog;
+import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * @auther yuansui
  * @since 2017/11/1
  */
 
-public class CountdownDialog extends BaseDialog {
+public class CountdownDialog extends BaseDialog implements OnCountDownListener {
 
-    private CircleProgressView mProgressBar;
-    private TextView mTvFiveSecond;
+    private TextView mTvSecond;
+    private ProgressView mProgressView;
+    private CountDown mCountDown;
+    private int mCountDownNum;
 
-    public CountdownDialog(Context context) {
+    public CountdownDialog(Context context, int num) {
         super(context);
+        mCountDownNum = num;
     }
 
     @Override
@@ -34,14 +40,42 @@ public class CountdownDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-        mProgressBar = findView(R.id.v_meeting_detail_progress);
-        mTvFiveSecond = findView(R.id.tv_five_second);
+        mTvSecond = findView(R.id.dialog_count_down_tv_second);
+        mProgressView = findView(R.id.dialog_count_down_progress_bar);
     }
 
     @Override
     public void setViews() {
-        mProgressBar.setProgress(0);
-        // FIXME: 2017/10/26 当另外一个设备收到提示框后，才显示TV五秒倒计时，websocket,如果a拒绝，则提示进入失败
-//                  showView(mTvFiveSecond);
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
+        setGravity(Gravity.CENTER);
+    }
+
+    @Override
+    public void onCountDown(long remainCount) {
+        if (remainCount == 0) {
+            dismiss();
+        }
+        mTvSecond.setText(remainCount + "s");
+    }
+
+    @Override
+    public void onCountDownErr() {
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        mCountDown.start(mCountDownNum);
+        mProgressView.start();
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+
+        mProgressView.stop();
+        mCountDown.stop();
     }
 }

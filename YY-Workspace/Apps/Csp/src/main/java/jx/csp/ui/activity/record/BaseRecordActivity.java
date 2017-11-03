@@ -30,6 +30,7 @@ import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.serv.WebSocketServRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
@@ -53,8 +54,9 @@ import lib.yy.ui.activity.base.BaseVpActivity;
 abstract public class BaseRecordActivity extends BaseVpActivity implements OnPageChangeListener, OnLiveNotify {
 
     protected final int KMicroPermissionCode = 10;
-    protected final int KJoinMeetingReqId = 10;
-    protected final int KUploadAudioReqId = 20;
+    protected final int KJoinMeetingReqId = 20;
+    protected final int KUploadAudioReqId = 30;
+    protected final int KUploadVideoPage = 40;  // 视频页翻页时调用的
     protected final int KOne = 1;
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
@@ -84,6 +86,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
     private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
     private boolean mUploadState = false; // 是否在上传音频
     protected int mWsPosition = 0;  // websocket接收到的页数
+    protected WebSocketServRouter mWebSocketServRouter;
 
     @Arg
     String mCourseId;  // 课程id
@@ -157,6 +160,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
 
     @Override
     public void onClick(View v) {
+        if (getCount() == 0) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.record_iv_last: {
                 if (getCurrentItem() < KOne) {
@@ -199,6 +205,10 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         LiveNotifier.inst().remove(this);
+        if (mWebSocketServRouter != null) {
+            mWebSocketServRouter.stop(this);
+            YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
+        }
     }
 
     @Override
@@ -352,6 +362,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
         msg.put(TWebSocketMsg.order, orderType);
         msg.put(TWebSocketMsg.orderFrom, WsOrderFrom.app);
         msg.put(TWebSocketMsg.pageNum, position);
+        msg.put(TWebSocketMsg.detailId, mCourseDetailList.get(position).getString(TCourseDetail.id));
+        msg.put(TWebSocketMsg.imgUrl, mCourseDetailList.get(position).getString(TCourseDetail.imgUrl));
+        msg.put(TWebSocketMsg.videoUrl, mCourseDetailList.get(position).getString(TCourseDetail.videoUrl));
         LiveNotifier.inst().notify(type, msg.toJson());
     }
 

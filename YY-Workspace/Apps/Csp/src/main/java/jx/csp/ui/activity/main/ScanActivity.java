@@ -22,8 +22,9 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
-import jx.csp.ui.activity.record.LiveRecordActivity;
+import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
@@ -37,6 +38,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * 扫一扫
+ *
  * @auther WangLan
  * @since 2017/7/24
  */
@@ -53,6 +55,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private boolean mFlag;//图片更换
     private CountDown mCountDown; // 倒计时
     private Scan mScan;
+    private WebSocketServRouter mWebSocketServRouter;
 
     @Override
     public void initData() {
@@ -71,7 +74,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         bar.addViewLeft(R.drawable.scan_ic_back, v -> {
             finish();
         });
-        bar.addTextViewMid(getString(R.string.scan),R.color.white);
+        bar.addTextViewMid(getString(R.string.scan), R.color.white);
     }
 
     @Override
@@ -112,7 +115,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-             showToast(R.string.fail_to_identify);
+            showToast(R.string.fail_to_identify);
         }
     }
 
@@ -144,13 +147,18 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     protected void onDestroy() {
         super.onDestroy();
         LiveNotifier.inst().remove(this);
+        if (mWebSocketServRouter != null) {
+            mWebSocketServRouter.stop(this);
+            YSLog.d(TAG, "scan activity WebSocketServRouter.stop");
+        }
     }
 
     /**
      * 扫描成功后回调
-     * @param result 扫描结果
+     *
+     * @param result       扫描结果
      * @param parsedResult 结果类型
-     * @param bitmap 扫描后的图像
+     * @param bitmap       扫描后的图像
      */
     @Override
     public void OnScannerCompletion(com.google.zxing.Result result, ParsedResult parsedResult, Bitmap bitmap) {
@@ -182,20 +190,15 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             mScan = r.getData();
             // 先判断是否有其他人已经进入会议
             if (mScan.getInt(TScan.duplicate) == DuplicateType.no) {
-                if (mScan.getInt(TScan.playType) == PlayType.reb) {
-                    //录播
-                    CommonRecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
-                } else {
-                    startActivity(LiveRecordActivity.class);
-                }
-                finish();
+                joinRecord();
             } else {
                 String wsUrl = mScan.getString(TScan.wsUrl);
                 if (TextUtil.isNotEmpty(wsUrl)) {
-                    WebSocketServRouter.create(wsUrl).route(this);
+                    mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
+                    mWebSocketServRouter.route(this);
                 }
             }
-        }else {
+        } else {
             onNetworkError(id, r.getError());
         }
     }
@@ -204,13 +207,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     public void onLiveNotify(int type, Object data) {
         switch (type) {
             case LiveNotifyType.accept: {
-                if (mScan.getInt(TScan.playType) == PlayType.reb) {
-                    //录播
-                    CommonRecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
-                } else {
-                    startActivity(LiveRecordActivity.class);
-                }
-                finish();
+                joinRecord();
             }
             break;
             case LiveNotifyType.reject: {
@@ -220,4 +217,17 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         }
     }
 
+    protected void joinRecord() {
+        if (mScan.getInt(TScan.playType) == PlayType.reb) {
+            //录播
+            CommonRecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
+        } else {
+            LiveRecordActivityRouter.create(mScan.getString(TScan.courseId))
+                    .title(mScan.getString(TScan.title))
+                    .startTime(mScan.getLong(TScan.startTime))
+                    .stopTime(mScan.getLong(TScan.endTime))
+                    .route(this);
+        }
+        finish();
+    }
 }

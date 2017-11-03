@@ -12,6 +12,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.MeetContract;
+import jx.csp.contact.MeetContract.P;
 import jx.csp.model.def.MeetState;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
@@ -39,13 +40,19 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     private TextView mTvCurrentPage;
     private TextView mTvTotalPage;
     private TextView mTvState;
-    private View mVDivider;
 
     @Arg
     Meet mMeet;
 
+    public Meet getMeet() {
+        return mMeet;
+    }
+
     private MeetContract.P mPresenter;
 
+    public P getPresenter() {
+        return mPresenter;
+    }
 
     @Override
     public void initData() {
@@ -71,7 +78,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mTvCurrentPage = findView(R.id.tv_current_page);
         mTvTotalPage = findView(R.id.tv_total_page);
         mTvState = findView(R.id.tv_state);
-        mVDivider = findView(R.id.slide_divider);
     }
 
     @Override
@@ -85,7 +91,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 .load();
 
         mTvTitle.setText(mMeet.getString(TMeet.title));
-
         mTvTotalPage.setText(mMeet.getString(TMeet.pageCount));
 
         if (mMeet.getInt(TMeet.playType) == PlayType.reb) {

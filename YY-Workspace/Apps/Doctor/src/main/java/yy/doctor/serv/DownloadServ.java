@@ -31,8 +31,14 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
     private String mFileNameEncryption;
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onCreate() {
+        super.onCreate();
+
         DownloadNotifier.inst().add(this);
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
 
         mFileNameHashCode = String.valueOf(mUrl.hashCode()) + mType;
         YSLog.d(TAG, " download FileNameHashCode = " + mFileNameHashCode);
@@ -49,7 +55,6 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
         YSLog.d(TAG, " download FileNameEncryption = " + mFileNameEncryption);
 
         exeNetworkReq(DataAPI.download(mFilePath, mFileNameEncryption, mUrl).build());
-
     }
 
     @Override

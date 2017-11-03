@@ -16,13 +16,18 @@ import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.MeetGridFrag;
+import jx.csp.ui.frag.main.MeetSingleFrag;
 import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
+import lib.ys.impl.SingletonImpl;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.yy.notify.LiveNotifier;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
+import lib.yy.notify.LiveNotifier.OnLiveNotify;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVpActivity;
 
@@ -32,7 +37,7 @@ import lib.yy.ui.activity.base.BaseVpActivity;
  * @since 2017/9/30
  */
 
-public class MainActivity extends BaseVpActivity {
+public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
@@ -45,6 +50,7 @@ public class MainActivity extends BaseVpActivity {
 
     @Override
     public void initData() {
+        LiveNotifier.inst().add(this);
         // 列表(空)
         mVpFrag = new MeetVpFrag();
         // 网格
@@ -115,13 +121,45 @@ public class MainActivity extends BaseVpActivity {
         startActivity(ScanActivity.class);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LiveNotifier.inst().remove(this);
+        SingletonImpl.inst().freeAll();
+    }
+
+    @Override
+    public void onLiveNotify(@LiveNotifyType int type, Object data) {
+        switch (type) {
+            case LiveNotifyType.accept: {
+                if (getItem(getCurrentItem()) instanceof MeetGridFrag) {
+                    ((MeetGridFrag) getItem(getCurrentItem())).getPresenter().allowJoin();
+                } else if (getItem(getCurrentItem()) instanceof MeetVpFrag) {
+                    MeetVpFrag frag = (MeetVpFrag) getItem(getCurrentItem());
+                    MeetSingleFrag f = (MeetSingleFrag) frag.getItem();
+                    f.getPresenter().allowJoin();
+                }
+            }
+            break;
+            case LiveNotifyType.reject: {
+                if (getItem(getCurrentItem()) instanceof MeetGridFrag) {
+                    ((MeetGridFrag) getItem(getCurrentItem())).getPresenter().disagreeJoin();
+                } else if (getItem(getCurrentItem()) instanceof MeetVpFrag) {
+                    MeetVpFrag frag = (MeetVpFrag) getItem(getCurrentItem());
+                    MeetSingleFrag f = (MeetSingleFrag) frag.getItem();
+                    f.getPresenter().disagreeJoin();
+                }
+            }
+            break;
+        }
+    }
+
     public interface OnMeetGridListener {
         void onMeetRefresh(List<Meet> data);
     }
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-
         if (type == NotifyType.logout) {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
@@ -133,19 +171,12 @@ public class MainActivity extends BaseVpActivity {
         }
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//
-//        SingletonImpl.inst().freeAll();
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        if (enableExit()) {
-//            super.onBackPressed();
-//        } else {
-//            showToast("再按一次退出");
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        if (enableExit()) {
+            super.onBackPressed();
+        } else {
+            showToast("再按一次退出");
+        }
+    }
 }

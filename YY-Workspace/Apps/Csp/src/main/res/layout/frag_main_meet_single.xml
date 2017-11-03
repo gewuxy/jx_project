@@ -5,130 +5,128 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/main_meet_single_layout"
         android:layout_width="242dp"
         android:layout_height="382dp"
         android:layout_centerInParent="true"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@drawable/bg_main_item"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/iv_main_cover"
             android:layout_width="242dp"
-            android:layout_height="382dp"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_main_item"
-            android:orientation="vertical">
+            android:layout_height="248dp"
+            android:src="@drawable/login_ic_pwd"/>
 
-            <lib.ys.network.image.NetworkImageView
-                android:id="@+id/iv_main_cover"
-                android:layout_width="242dp"
-                android:layout_height="256dp"
-                android:src="@drawable/login_ic_pwd"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="168dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="17dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="脑卒中的神经康复讨论"
+                android:textColor="@color/text_343a4b"
+                android:textSize="14dp"/>
+
+            <ImageView
+                android:id="@+id/main_meet_single_iv_live"
+                android:layout_width="14dp"
+                android:layout_height="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="41dp"
+                android:src="@drawable/main_ic_live"/>
+
+            <ImageView
+                android:id="@+id/main_meet_single_iv_share"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/main_ic_share"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tv_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:text="03'26"
+                android:textColor="@color/text_7b7a80"
+                android:textSize="12dp"/>
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="168dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="17dp"
-                    android:text="脑卒中的神经康复讨论"
-                    android:textColor="@color/text_343a4b"
-                    android:layout_marginTop="11dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textSize="14dp"/>
-
-                <ImageView
-                    android:id="@+id/main_meet_single_iv_live"
-                    android:layout_width="14dp"
-                    android:layout_height="10dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="42dp"
-                    android:layout_marginTop="14dp"
-                    android:src="@drawable/main_ic_live"/>
-
-                <ImageView
-                    android:id="@+id/main_meet_single_iv_share"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="13dp"
-                    android:src="@drawable/main_ic_share"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <TextView
+                android:id="@+id/tv_current_page"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_total_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:text="03'26"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/text_7b7a80"
-                    android:textSize="12dp"/>
-
-                <TextView
-                    android:id="@+id/tv_current_page"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
-                    android:layout_toRightOf="@+id/tv_total_time"
-                    android:text="5"
-                    android:layout_marginTop="3dp"
-                    android:textColor="@color/text_167afe"
-                    android:textSize="16dp"/>
-
-                <View
-                    android:id="@+id/slide_divider"
-                    android:layout_width="1dp"
-                    android:layout_height="9dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="23dp"
-                    android:layout_toRightOf="@+id/tv_current_page"
-                    android:background="@color/color_db"/>
-
-                <TextView
-                    android:id="@+id/tv_total_page"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@+id/tv_current_page"
-                    android:text="21"
-                    android:layout_marginTop="7dp"
-                    android:textColor="@color/text_7b7a80"
-                    android:textSize="12dp"/>
-
-                <TextView
-                    android:id="@+id/tv_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="13dp"
-                    android:layout_marginTop="7dp"
-                    android:text="直播中"
-                    android:textColor="@color/text_167afe"
-                    android:textSize="10dp"/>
-
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:layout_toRightOf="@+id/tv_total_time"
+                android:layout_centerVertical="true"
+                android:includeFontPadding="false"
+                android:text="5"
+                android:textColor="@color/text_167afe"
+                android:textSize="16dp"/>
 
             <View
-                android:layout_width="328dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/short_divider"/>
+                android:id="@+id/slide_divider"
+                android:layout_width="1dp"
+                android:layout_height="9dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_toRightOf="@id/tv_current_page"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_db"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tv_total_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/slide_divider"
+                android:layout_alignParentBottom="true"
+                android:text="21"
+                android:includeFontPadding="false"
+                android:textColor="@color/text_7b7a80"
+                android:textSize="12dp"/>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_alignBottom="@+id/tv_total_time"
+                android:layout_marginRight="13dp"
+                android:text="直播中"
+                android:textColor="@color/text_167afe"
+                android:textSize="10dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/short_divider"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

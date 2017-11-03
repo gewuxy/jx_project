@@ -28,7 +28,6 @@ public class Course extends EVal<TCourse> {
         int video = 2; // 视频直播
     }
 
-
     public enum TCourse {
         id, // 课件ID
         title, // 课件标题

@@ -46,9 +46,15 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
 
     public enum TWebSocketMsg {
         courseId,  // 课程id
+        /**
+         * {@link WsOrderType}
+         */
         order,    //  0表示直播指令 1同步指令 2表示踢人指令 3表示拒绝被 4接受被踢 5存在重复登录
         orderFrom,  // app  web
         pageNum,  // 页面下标 0开始
         sid, // 会话ID
+        imgUrl, // 图片地址
+        videoUrl, // 视频地址
+        detailId, // 资料id
     }
 }

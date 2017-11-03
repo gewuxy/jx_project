@@ -9,8 +9,10 @@ import android.support.annotation.StringDef;
 import android.view.Gravity;
 import android.view.View;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -120,8 +122,12 @@ public class ShareDialog extends BaseDialog {
         String param = "id=" + courseId + "&_local=" + local + "&abroad=" + abroad;
         Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
         String http = BuildConfig.TEST ? des.hostDebuggable() : des.host();
-        mShareUrl = http + "meeting/share?signature=" + Util.encode(KDesKey, param);
-        YSLog.d(TAG, "ShareUrl = " + mShareUrl);
+        try {
+            mShareUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, param), "utf-8");
+            YSLog.d(TAG, "ShareUrl = " + mShareUrl);
+        } catch (UnsupportedEncodingException e) {
+            YSLog.d(TAG, "Share error = " + e.getMessage());
+        }
     }
 
     public ShareDialog(Context context, String shareUrl, String shareTitle) {

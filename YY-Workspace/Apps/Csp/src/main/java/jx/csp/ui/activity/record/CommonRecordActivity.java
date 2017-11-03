@@ -2,7 +2,6 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
-import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -308,7 +307,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {
-                    WebSocketServRouter.create(wsUrl).route(this);
+                    mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
+                    mWebSocketServRouter.route(this);
                 }
             }
         } else {
@@ -319,25 +319,23 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     @Override
     protected void switchDevice() {
         CommonDialog2 dialog = new CommonDialog2(this);
-        dialog.setHint(R.string.switch_live_record_device);
+        dialog.setHint(R.string.switch_common_record_device);
+        CountDown countDown = new CountDown();
+        countDown.start(5);
         dialog.addBlackButton(R.string.continue_record, view -> {
             // do nothing
             notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+            countDown.stop();
         });
-        TextView tv = dialog.addBlueButton(R.string.affirm_exit, new OnClickListener() {
-
-            @Override
-            public void onClick(android.view.View view) {
-                // 如果在直播要先暂停录音，然后上传音频，再退出页面
-                if (mRecordState) {
-                    mRecordPresenter.stopRecord();
-                }
-                notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
-                finish();
+        TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
+            // 如果在直播要先暂停录音，然后上传音频，再退出页面
+            if (mRecordState) {
+                mRecordPresenter.stopRecord();
             }
+            notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+            countDown.stop();
+            finish();
         });
-        CountDown countDown = new CountDown();
-        countDown.start(5);
         countDown.setListener(new OnCountDownListener() {
 
             @Override
@@ -347,8 +345,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                         mRecordPresenter.stopRecord();
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
-                    finish();
                     dialog.dismiss();
+                    finish();
                     return;
                 }
                 tv.setText(String.format(getString(R.string.affirm_exit), remainCount));

@@ -34,5 +34,8 @@ public class Scan extends EVal<TScan> {
         playType,
         duplicate,  // 	是否有重复登录  0表示没有 1表示有
         wsUrl, //  websocket地址 duplicate=1时才有
+        startTime, // 开始时间
+        endTime, // 结束时间
+        title, // 会议标题
     }
 }

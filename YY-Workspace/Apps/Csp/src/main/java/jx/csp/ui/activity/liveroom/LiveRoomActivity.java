@@ -13,13 +13,24 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRoomContract;
+import jx.csp.dialog.CommonDialog2;
+import jx.csp.model.meeting.WebSocketMsg;
+import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
+import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
+import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.LiveRoomPresenterImpl;
+import jx.csp.serv.WebSocketServRouter;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.yy.notify.LiveNotifier;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
+import lib.yy.notify.LiveNotifier.OnLiveNotify;
 import lib.yy.ui.activity.base.BaseActivity;
+import lib.yy.util.CountDown;
+import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * 直播推流界面
@@ -28,7 +39,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  * @since 2017/9/20
  */
 @Route
-public class LiveRoomActivity extends BaseActivity {
+public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
 
     private final int KPermissionCode = 10;
     private final int KSixty = 60;
@@ -44,12 +55,22 @@ public class LiveRoomActivity extends BaseActivity {
     private TextView mTvNoCameraPermission;
     private TextView mTvStart;
 
-    //测试暂时使用
-    private String mRoomId = "789";
-    private String mStreamId = "123";
-    private String mTitle = "测试";
-    private long mStartTime = System.currentTimeMillis() - 10 * 60 * 1000;
-    private long mStopTime = System.currentTimeMillis() + 160 * 60 * 1000;
+    @Arg(opt = true)
+    String mCourseId;  // 房间号
+    @Arg(opt = true)
+    String mStreamId;
+    @Arg(opt = true)
+    String mTitle;
+    @Arg(opt = true)
+    long mStartTime;
+    @Arg(opt = true)
+    long mStopTime;
+    // 实际结束时间比结束时间多15分钟
+    private long mRealStopTime;
+
+    // FIXME: 2017/11/3 地址还没有给
+    String mWsUrl;
+    private WebSocketServRouter mWebSocketServRouter;
 
     private LiveRoomContract.Presenter mPresenter;
     private LiveRoomContract.View mView;
@@ -58,15 +79,13 @@ public class LiveRoomActivity extends BaseActivity {
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
 
-    @Arg
-    public String mCourseId;
-
     @Override
     public void initData() {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mView = new View();
         mPresenter = new LiveRoomPresenterImpl(mView);
+        mRealStopTime = mStopTime + 15 * 60 * 1000;
     }
 
     @NonNull
@@ -110,7 +129,7 @@ public class LiveRoomActivity extends BaseActivity {
         //判断是否需要开始倒计时
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mPresenter.startCountDown(mStartTime, mStopTime);
+            mPresenter.startCountDown(mStartTime, mRealStopTime);
         }
     }
 
@@ -199,7 +218,7 @@ public class LiveRoomActivity extends BaseActivity {
     protected void startCountDownAndLive() {
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mPresenter.startCountDown(mStartTime, mStopTime);
+            mPresenter.startCountDown(mStartTime, mRealStopTime);
             mPresenter.startLive(mStreamId, mTitle);
         } else {
             showToast(R.string.meeting_no_start_remain);
@@ -232,8 +251,15 @@ public class LiveRoomActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onLiveNotify(int type, Object data) {
+        if (type == LiveNotifyType.inquired) {
+            switchLiveDevice();
+        }
+    }
+
     private void havePermissionState() {
-        mPresenter.initLiveRoom(mRoomId);
+        mPresenter.initLiveRoom(mCourseId);
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);
@@ -245,6 +271,55 @@ public class LiveRoomActivity extends BaseActivity {
         showView(mTvNoCameraPermission);
         mIvLive.setClickable(false);
         mTvState.setText(R.string.live_fail);
+    }
+
+    private void switchLiveDevice() {
+        YSLog.d(TAG, "直播间是否切换直播设备");
+        CommonDialog2 dialog = new CommonDialog2(this);
+        dialog.setHint(R.string.switch_live_record_device);
+        CountDown countDown = new CountDown();
+        countDown.start(5);
+        dialog.addBlackButton(R.string.continue_host, view -> {
+            sendWsMsg(WsOrderType.reject);
+            countDown.stop();
+        });
+        TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
+            // 如果在直播要先暂停，再退出页面
+            if (mLiveState) {
+                mPresenter.stopLive();
+            }
+            sendWsMsg(WsOrderType.accept);
+            finish();
+        });
+        countDown.setListener(new OnCountDownListener() {
+
+            @Override
+            public void onCountDown(long remainCount) {
+                if (remainCount == 0) {
+                    if (mLiveState) {
+                        mPresenter.stopLive();
+                    }
+                    sendWsMsg(WsOrderType.accept);
+                    dialog.dismiss();
+                    finish();
+                    return;
+                }
+                tv.setText(String.format(getString(R.string.affirm_exit), remainCount));
+            }
+
+            @Override
+            public void onCountDownErr() {
+            }
+        });
+        dialog.show();
+    }
+
+    private void sendWsMsg(@WsOrderType int type) {
+        WebSocketMsg msg = new WebSocketMsg();
+        msg.put(TWebSocketMsg.courseId, mCourseId);
+        msg.put(TWebSocketMsg.order, type);
+        msg.put(TWebSocketMsg.orderFrom, WsOrderFrom.app);
+        LiveNotifier.inst().notify(LiveNotifyType.send_msg, msg.toJson());
     }
 
     private class View implements LiveRoomContract.View {

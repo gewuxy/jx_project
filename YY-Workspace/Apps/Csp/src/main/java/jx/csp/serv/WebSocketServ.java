@@ -34,6 +34,8 @@ import static lib.ys.util.UtilEx.runOnUIThread;
 @Route
 public class WebSocketServ extends ServiceEx implements OnLiveNotify{
 
+    private static final int KWebSocketCloseNormal = 1000; //  1000表示正常关闭
+
     @Arg
     String mWsUrl;
 
@@ -41,9 +43,13 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify{
     private boolean mWsSuccess = false; // WebSocket连接是否成功
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onCreate() {
+        super.onCreate();
         LiveNotifier.inst().add(this);
+    }
 
+    @Override
+    protected void onHandleIntent(Intent intent) {
         mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWsUrl).build(), new WebSocketLink());
     }
 
@@ -52,7 +58,9 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify{
     public void onLiveNotify(@LiveNotifyType int type, Object data) {
         switch (type) {
             case LiveNotifyType.send_msg: {
-                mWebSocket.send((String) data);
+                boolean b = mWebSocket.send((String) data);
+                YSLog.d(TAG, "WebSocket.send msg = " + data);
+                YSLog.d(TAG, "WebSocket.send state " + b);
             }
             break;
         }
@@ -64,6 +72,16 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify{
 
     public void notify(@LiveNotifyType int type) {
         LiveNotifier.inst().notify(type);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mWebSocket != null) {
+            mWebSocket.close(KWebSocketCloseNormal, "close");
+            YSLog.d(TAG, "close WebSocket");
+        }
+        LiveNotifier.inst().remove(this);
+        super.onDestroy();
     }
 
     public class WebSocketLink extends WebSocketListener {
@@ -80,7 +98,7 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify{
             runOnUIThread(() -> {
                 try {
                     JSONObject ob = new JSONObject(text);
-                    int order = ob.getInt("order");
+                    int order = ob.optInt("order");
                     switch (order) {
                         case WsOrderType.sync: {
                             String from = ob.getString("orderFrom");

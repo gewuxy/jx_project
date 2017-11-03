@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.App;
 import jx.csp.BuildConfig;
 import jx.csp.contact.LiveRoomContract;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
 import jx.csp.util.Util;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
@@ -39,19 +41,20 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
     public LiveRoomPresenterImpl(LiveRoomContract.View view) {
         super(view);
 
-        LiveApi.getInst().init(App.getContext(), "888", "敬信测试");
+        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.userName));
         mZegoCallbackImpl = new LiveCallbackImpl();
     }
 
     @Override
     public void initLiveRoom(String roomId) {
+        YSLog.d(TAG, "init time = " + System.currentTimeMillis());
         LiveApi.getInst()
-                .setTest(BuildConfig.TEST) //测试
+                .setTest(BuildConfig.TEST)  // 测试
                 .toggleAVConfig()
-                .enableAEC(true) //回声消除
+                .enableAEC(true)  // 回声消除
                 .enableMic(mUseMic)
                 .enableCamera(true)
-                .setFrontCam(mUseFrontCamera)//是否使用前置摄像头
+                .setFrontCam(mUseFrontCamera)  // 是否使用前置摄像头
                 .setPreviewViewMode(ILiveCallback.Constants.KAspectFill)
                 .setAppOrientation(Surface.ROTATION_90)
                 .setRoomConfig(true, true)
