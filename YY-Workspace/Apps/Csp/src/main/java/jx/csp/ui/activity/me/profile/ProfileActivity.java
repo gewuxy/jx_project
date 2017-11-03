@@ -14,8 +14,8 @@ import jx.csp.contact.ProfileContract;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.form.Form;
 import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.model.form.text.IntentForm.IntentType;
 import jx.csp.presenter.ProfilePresenterImpl;
 import jx.csp.util.CacheUtil;
@@ -147,7 +147,7 @@ public class ProfileActivity extends BaseFormActivity {
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
-        mView.getPermissionResult(code, result);
+        mPresenter.checkPhonePermission(code, result);
     }
 
     @Override
@@ -193,43 +193,14 @@ public class ProfileActivity extends BaseFormActivity {
 
         @Override
         public void getPhotoFromAlbum() {
-            PhotoUtil.fromAlbum(ProfileActivity.this, KCodeAlbum);
+            PhotoUtil.fromAlbum(ProfileActivity.class, KCodeAlbum);
 
         }
 
         @Override
         public void getPhotoFromCamera() {
             mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.jpg;
-            PhotoUtil.fromCamera(ProfileActivity.this, mStrPhotoPath, KCodePhotograph);
-        }
-
-        @Override
-        public void getPermissionResult(int code, @PermissionResult int result) {
-            if (code == KPermissionCodePhoto) {
-                switch (result) {
-                    case PermissionResult.granted: {
-                        getPhotoFromCamera();
-                    }
-                    break;
-                    case PermissionResult.denied:
-                    case PermissionResult.never_ask: {
-                        showToast(getString(R.string.user_photo_permission));
-                    }
-                    break;
-                }
-            } else if (code == KPermissionCodeAlbum) {
-                switch (result) {
-                    case PermissionResult.granted: {
-                        getPhotoFromAlbum();
-                    }
-                    break;
-                    case PermissionResult.denied:
-                    case PermissionResult.never_ask: {
-                        showToast(ResLoader.getString(R.string.user_album_permission));
-                    }
-                    break;
-                }
-            }
+            PhotoUtil.fromCamera(ProfileActivity.class, mStrPhotoPath, KCodePhotograph);
         }
 
         @Override

@@ -77,7 +77,7 @@ public interface MyMessageContract {
     interface P extends IContract.Presenter<V> {
 
         /**
-         * 保存个人信息的网络请求
+         * 保存个人信息
          * @param id
          * @param text
          */

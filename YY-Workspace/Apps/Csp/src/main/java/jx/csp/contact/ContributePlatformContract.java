@@ -22,11 +22,11 @@ public interface ContributePlatformContract {
         void showDialog(NavBar bar);
 
         /**
-         * 获取单位号条目
+         * 设置单位号条目
          * @param position
          * @param isSelected
          */
-        void getAcceptIdItem(int position, boolean isSelected);
+        void setListIdItem(int position, boolean isSelected);
 
         /**
          * 改变按钮状态

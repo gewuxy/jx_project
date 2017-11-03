@@ -20,32 +20,20 @@ public interface SetBindContract {
          */
         void setChanged(boolean enabled);
 
-        void checkPwd(EditText et);
-
         /**
          * 初始化按钮的状态
          */
         void initButtonStatus();
 
         /**
-         * 绑定手机号成功
-         */
-        void bindPhoneResult();
-
-        /**
          * 绑定邮箱成功后跳转
          */
-        void bindEmailResult();
-
-        /**
-         * 校对是否有手机号
-         */
-        void equalsMobile();
+        void setBindEmailSuccessJump();
 
         /**
          * 添加item里的view
          */
-        void addItemView();
+        void addItemCaptchaView();
 
         /**
          * 展示验证码dialog
@@ -67,6 +55,12 @@ public interface SetBindContract {
     }
 
     interface P extends IContract.Presenter<V>{
+
+        /**
+         * 检查密码规则
+         * @param et
+         */
+        void checkPwd(EditText et);
 
         /**
          * 确认绑定
@@ -91,6 +85,16 @@ public interface SetBindContract {
          * @param newPwd
          */
         void changePwdNetworkReq(int id, String oldPwd, String newPwd);
+
+        /**
+         * 绑定手机号成功
+         */
+        void setSaveBindPhone();
+
+        /**
+         * 校对是否有手机号
+         */
+        void equalsMobile();
 
     }
 }

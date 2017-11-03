@@ -20,13 +20,6 @@ public interface SettingsContract {
         void changePassWord();
 
         /**
-         * 获取路径下的文件大小
-         *
-         * @param path
-         */
-        String getFolderSize(String... path);
-
-        /**
          * 清除缓存
          */
         void clearCache(int related, @StringRes int resId, String... folderPath);
@@ -38,6 +31,13 @@ public interface SettingsContract {
     }
 
     interface P extends IContract.Presenter<V> {
+
+        /**
+         * 获取路径下的文件大小
+         *
+         * @param path
+         */
+        String getFolderSize(String... path);
 
         /**
          * 启动登出服务

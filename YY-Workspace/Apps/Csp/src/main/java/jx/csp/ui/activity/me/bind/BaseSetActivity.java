@@ -4,7 +4,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.annotation.Retention;
@@ -15,15 +14,12 @@ import jx.csp.Constants.CaptchaType;
 import jx.csp.R;
 import jx.csp.contact.SetBindContract;
 import jx.csp.dialog.CommonDialog;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.presenter.SetBindPresenterImpl;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
@@ -151,41 +147,18 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
         }
 
         @Override
-        public void checkPwd(EditText et) {
-            if (!Util.checkPwd(Util.getEtString(et))) {
-                return;
-            }
-        }
-
-        @Override
         public void initButtonStatus() {
             mTvSet.setEnabled(false);
             mTvSet.setText(getSetText());
         }
 
         @Override
-        public void bindPhoneResult() {
-            Profile.inst().put(TProfile.mobile, BindPhoneActivity.getPhone());
-            Profile.inst().saveToSp();
-            BaseSetActivity.this.notify(NotifyType.profile_change, BindPhoneActivity.getPhone());
-            BaseSetActivity.this.notify(NotifyType.bind_phone, BindPhoneActivity.getPhone());
-        }
-
-        @Override
-        public void bindEmailResult() {
+        public void setBindEmailSuccessJump() {
             startActivity(ReceiveEmailTipsActivity.class);
         }
 
         @Override
-        public void equalsMobile() {
-            if (BindPhoneActivity.getPhone().equals(Profile.inst().getString(TProfile.mobile))) {
-                showToast(R.string.account_is_bind);
-                return;
-            }
-        }
-
-        @Override
-        public void addItemView() {
+        public void addItemCaptchaView() {
             mView = inflate(R.layout.dialog_captcha);
             TextView tv = mView.findViewById(R.id.captcha_tv_phone_number);
             String phone = getItemText(RelatedId.bind_phone_number);

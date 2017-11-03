@@ -65,7 +65,7 @@ public class ChangePwdActivity extends BaseSetActivity{
 
     @Override
     protected void doSet() {
-        mView.checkPwd(mEtPwdNew);
+        mPresenter.checkPwd(mEtPwdNew);
         mPresenter.changePwdNetworkReq(RelatedId.change_old_pwd, Util.getEtString(mEtPwdOld), Util.getEtString(mEtPwdNew));
     }
 

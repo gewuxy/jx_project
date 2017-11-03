@@ -89,7 +89,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     @Override
     public void onPlatformChecked(int position, boolean isSelected) {
-        mView.getAcceptIdItem(position, isSelected);
+        mView.setListIdItem(position, isSelected);
         mView.changeButtonStatus();
     }
 
@@ -104,7 +104,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         }
 
         @Override
-        public void getAcceptIdItem(int position, boolean isSelected) {
+        public void setListIdItem(int position, boolean isSelected) {
             if (isSelected) {
                 mSelectedItem.add(getItem(position));
             } else {

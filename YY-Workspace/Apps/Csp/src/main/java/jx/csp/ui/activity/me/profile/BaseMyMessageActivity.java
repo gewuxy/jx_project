@@ -163,7 +163,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    mView.setTextButtonStatus();
+                    setTextButtonStatus();
 
                     if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
                         showView(ivClear);

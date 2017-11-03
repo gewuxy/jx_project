@@ -1,6 +1,8 @@
 package jx.csp.presenter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -9,6 +11,8 @@ import cn.sharesdk.framework.ShareSDK;
 import jx.csp.App;
 import jx.csp.Constants.LoginType;
 import jx.csp.contact.AccountManageContract;
+import jx.csp.model.BindInfoList;
+import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
@@ -20,6 +24,8 @@ import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu
@@ -102,6 +108,38 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
+    public void setSaveThirdPartyNickName(Result r, int id, String nickName, int bindType) {
+        List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+        if (infoList == null) {
+            infoList = new ArrayList<>();
+        }
+
+        boolean flag = true;
+        for (BindInfoList list : infoList) {
+            if (list.getInt(TBindInfo.thirdPartyId) == bindType) {
+                list.put(TBindInfo.nickName, nickName);
+                flag = false;
+            }
+        }
+
+        if (flag) {
+            BindInfoList bindInfoList = new BindInfoList();
+            bindInfoList.put(TBindInfo.thirdPartyId, bindType);
+            bindInfoList.put(TBindInfo.nickName, nickName);
+            infoList.add(bindInfoList);
+        }
+
+        Profile.inst().put(TProfile.bindInfoList, infoList);
+        Profile.inst().saveToSp();
+
+        if (bindType == LoginType.weibo_login) {
+            Notifier.inst().notify(NotifyType.bind_sina, Profile.inst().getBindNickName(LoginType.weibo_login));
+        } else {
+            Notifier.inst().notify(NotifyType.bind_wx, Profile.inst().getBindNickName(LoginType.wechat_login));
+        }
+    }
+
+    @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.error(r.getText());
     }
@@ -119,8 +157,8 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             case RelatedId.bind_sina: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.weibo_login))) {
                     if (r.isSucceed()) {
-                        getView().bindPlatformNameSuccess(r, id, mNickName, LoginType.weibo_login);
-                    }else {
+                        setSaveThirdPartyNickName(r, id, mNickName, LoginType.weibo_login);
+                    } else {
                         onNetworkError(id, r.getError());
                     }
                 } else {

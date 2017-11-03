@@ -33,10 +33,8 @@ public interface ProfileContract {
          */
         void getPhotoFromCamera();
 
-        void getPermissionResult(int code, @PermissionResult int result);
-
         /**
-         * 处理获取的图片结果
+         * 处理获取的图片
          *
          * @param requestCode
          * @param resultCode
@@ -59,5 +57,12 @@ public interface ProfileContract {
     }
 
     interface P extends IContract.Presenter<V> {
+        /**
+         * 检查手机的权限
+         *
+         * @param code
+         * @param result
+         */
+        void checkPhonePermission(int code, @PermissionResult int result);
     }
 }

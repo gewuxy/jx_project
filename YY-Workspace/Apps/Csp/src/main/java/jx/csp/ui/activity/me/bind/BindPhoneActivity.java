@@ -89,8 +89,8 @@ public class BindPhoneActivity extends BaseSetActivity {
         switch ((int) related) {
             case RelatedId.bind_captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-                    mView.equalsMobile();
-                    mView.addItemView();
+                    mPresenter.equalsMobile();
+                    mView.addItemCaptchaView();
 
                     mView.showCaptchaDialog();
                 }

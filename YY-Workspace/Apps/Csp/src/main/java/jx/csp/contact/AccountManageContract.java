@@ -33,8 +33,6 @@ public interface AccountManageContract {
          */
         void bindSuccess(String data, int id);
 
-        void bindPlatformNameSuccess(Result r, int id, String nickName, @LoginType int bindType);
-
         /**
          * 解绑成功
          *
@@ -92,6 +90,21 @@ public interface AccountManageContract {
          */
         void unBindThirdParty(int id, int thirdPartyId, String tips);
 
+        /**
+         * 获取第三方授权
+         *
+         * @param platformName
+         */
         void getPlatformAction(String platformName);
+
+        /**
+         * 保存第三方昵称
+         *
+         * @param r
+         * @param id
+         * @param nickName
+         * @param bindType
+         */
+        void setSaveThirdPartyNickName(Result r, int id, String nickName, @LoginType int bindType);
     }
 }

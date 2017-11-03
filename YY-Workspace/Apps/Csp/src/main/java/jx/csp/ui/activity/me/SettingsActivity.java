@@ -3,7 +3,6 @@ package jx.csp.ui.activity.me;
 import android.support.annotation.IntDef;
 import android.view.View;
 
-import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -21,7 +20,6 @@ import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
@@ -74,14 +72,14 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_img_cache)
                 .name(R.string.setting_clear_img_cache)
-                .text(mView.getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
+                .text(mPresenter.getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_clear_cache)
                 .related(RelatedId.clear_sound_cache)
                 .name(R.string.setting_clear_sound_cache)
-                .text(mView.getFolderSize(CacheUtil.getAudioCacheDir()))
+                .text(mPresenter.getFolderSize(CacheUtil.getAudioCacheDir()))
                 .textColor(ResLoader.getColor(R.color.text_af)));
     }
 
@@ -139,24 +137,6 @@ public class SettingsActivity extends BaseFormActivity {
             } else {
                 //已绑定邮箱,直接跳转到修改页面
                 startActivity(ChangePwdActivity.class);
-            }
-        }
-
-        @Override
-        public String getFolderSize(String... path) {
-            float size = 0;
-            try {
-                for (String s : path) {
-                    size += FileUtil.getFolderSize(new File(s));
-                }
-            } catch (Exception e) {
-                YSLog.e(TAG, "getFolderSize", e);
-            }
-            size /= (2 << 19);
-            if (size >= 0.1f) {
-                return String.format("%.1f".concat(KM), size);
-            } else {
-                return 0 + KM;
             }
         }
 
