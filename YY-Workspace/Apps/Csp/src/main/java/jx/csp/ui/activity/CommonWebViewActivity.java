@@ -2,6 +2,7 @@ package jx.csp.ui.activity;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import jx.csp.R;
 import jx.csp.util.UISetter;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
@@ -15,10 +16,10 @@ import lib.yy.ui.activity.base.BaseWebViewActivity;
 @Route
 public class CommonWebViewActivity extends BaseWebViewActivity {
 
-    @Arg()
+    @Arg(opt = true)
     String mName;
 
-    @Arg()
+    @Arg
     String mUrl;
 
     @Override
@@ -27,12 +28,10 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        UISetter.setNavBarMidText(bar, mName, this);
-    }
+        bar.addBackIcon(R.drawable.nav_bar_ic_back, this);
 
-    @Override
-    public void setViews() {
-        super.setViews();
+        UISetter.setNavBarMidText(bar, mName, this);
+
     }
 
     @Override

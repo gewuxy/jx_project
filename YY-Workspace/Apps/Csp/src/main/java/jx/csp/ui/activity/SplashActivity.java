@@ -1,5 +1,6 @@
 package jx.csp.ui.activity;
 
+import jx.csp.BuildConfig;
 import lib.ys.ui.activity.SplashActivityEx;
 import jx.csp.R;
 
@@ -27,6 +28,10 @@ public class SplashActivity extends SplashActivityEx {
 
     @Override
     protected void goPast() {
-        startActivity(TestActivity.class);
+        if (BuildConfig.TEST) {
+            startActivity(TestActivity.class);
+        } else {
+            startActivity(AdvActivity.class);
+        }
     }
 }

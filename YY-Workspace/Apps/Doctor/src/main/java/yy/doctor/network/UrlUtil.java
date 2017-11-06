@@ -1,5 +1,7 @@
 package yy.doctor.network;
 
+import lib.ys.util.PackageUtil;
+
 /**
  * @author CaiXiang
  * @since 2017/4/10
@@ -55,7 +57,7 @@ public class UrlUtil {
     public interface UrlMeet {
         String KMeetBase = "meet/";
         String KMeetShare = KMeetBase + "share?meetId=";
-        String KWs = "wss://";
+        String KWs = PackageUtil.getMetaValue("COMMENT_SOCKET");
         String KIm = "/im";
     }
 

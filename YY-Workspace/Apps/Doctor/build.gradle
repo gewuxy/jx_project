@@ -113,6 +113,7 @@ android {
                     wx_secret     : "b02f7292152660b7b551a70dced8feec",
                     sina_appkey   : "506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
+                    comment_socket: "ws://",
             ]
         }
         flavors_alpha {
@@ -124,6 +125,7 @@ android {
                     wx_secret     : "b02f7292152660b7b551a70dced8feec",
                     sina_appkey   : "506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
+                    comment_socket: "ws://",
             ]
         }
         flavors_release {
@@ -135,6 +137,7 @@ android {
                     wx_secret     : "b02f7292152660b7b551a70dced8feec",
                     sina_appkey   : "506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
+                    comment_socket: "wss://",
             ]
         }
         c_mairui {
@@ -147,6 +150,7 @@ android {
                     wx_secret     : "",
                     sina_appkey   : "",
                     sina_appsecret: "",
+                    comment_socket: "wss://",
             ]
         }
     }

@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.main;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -126,39 +127,35 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LiveNotifier.inst().remove(this);
-        SingletonImpl.inst().freeAll();
-    }
-
-    @Override
     public void onLiveNotify(@LiveNotifyType int type, Object data) {
+        int position = getCurrentItem();
+        Fragment f = getItem(position);
         switch (type) {
             case LiveNotifyType.accept: {
-                if (getItem(getCurrentItem()) instanceof MeetGridFrag) {
-                    ((MeetGridFrag) getItem(getCurrentItem())).enter();
-                } else if (getItem(getCurrentItem()) instanceof MeetVpFrag) {
-                    MeetVpFrag frag = (MeetVpFrag) getItem(getCurrentItem());
-                    ((MeetSingleFrag) frag.getItem()).enter();
+                if (f instanceof MeetGridFrag) {
+                    MeetGridFrag frag = (MeetGridFrag) f;
+                    frag.enter();
+                } else if (f instanceof MeetVpFrag) {
+                    MeetVpFrag frag = (MeetVpFrag) f;
+                    MeetSingleFrag item = (MeetSingleFrag) frag.getItem();
+                    item.enter();
                 }
             }
             break;
             case LiveNotifyType.reject: {
-                if (getItem(getCurrentItem()) instanceof MeetGridFrag) {
-                    ((MeetGridFrag) getItem(getCurrentItem())).noEnter();
-                } else if (getItem(getCurrentItem()) instanceof MeetVpFrag) {
-                    MeetVpFrag frag = (MeetVpFrag) getItem(getCurrentItem());
-                    ((MeetSingleFrag) frag.getItem()).noEnter();
+                if (f instanceof MeetGridFrag) {
+                    MeetGridFrag frag = (MeetGridFrag) f;
+                    frag.noEnter();
+                } else if (f instanceof MeetVpFrag) {
+                    MeetVpFrag frag = (MeetVpFrag) f;
+                    MeetSingleFrag item = (MeetSingleFrag) frag.getItem();
+                    item.noEnter();
                 }
             }
             break;
         }
     }
 
-    public interface OnMeetGridListener {
-        void onMeetRefresh(List<Meet> data);
-    }
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
@@ -201,5 +198,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         } else {
             showToast(R.string.click_again_exit);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LiveNotifier.inst().remove(this);
+        SingletonImpl.inst().freeAll();
     }
 }

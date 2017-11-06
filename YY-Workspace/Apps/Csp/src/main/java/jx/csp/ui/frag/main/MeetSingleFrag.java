@@ -19,6 +19,7 @@ import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
+import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
@@ -99,11 +100,10 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 goneView(mIvLive);
             }
             break;
-            case PlayType.live:
+            case PlayType.live: {
+                goneView(mIvLive);
+            }
             case PlayType.video: {
-                if (mMeet.getInt(TMeet.playType) == PlayType.live) {
-                    goneView(mIvLive);
-                }
                 mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                 if (startTime > currentTime) {
                     mTvState.setText(R.string.solive);
@@ -115,7 +115,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                     mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                 } else {
-                    mTvState.setText(R.string.on_solive);
+                    mTvState.setText(ConstantsEx.KEmpty);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                 }
             }

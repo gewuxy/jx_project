@@ -333,6 +333,9 @@
         <meta-data
             android:name="SINA_SECRET"
             android:value="${sina_appsecret}"/>
+        <meta-data
+            android:name="COMMENT_SOCKET"
+            android:value="${comment_socket}"/>
 
     </application>
 

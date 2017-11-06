@@ -30,7 +30,7 @@ public class AdActivity extends BaseActivity {
     public static void afterAd(Context context) {
         if (Profile.inst().isLogin()) {
             // 登录有效(登录过且没有退出)
-            MainActivityRouter.create().route(context);
+            LaunchUtil.startActivity(context, MainActivity.class);
         } else {
             // 未登录,退出登录
             LaunchUtil.startActivity(context, LoginActivity.class);

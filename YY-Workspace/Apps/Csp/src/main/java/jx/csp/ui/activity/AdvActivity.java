@@ -1,19 +1,24 @@
 package jx.csp.ui.activity;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import jx.csp.R;
+import jx.csp.model.Profile;
 import jx.csp.model.login.Advert;
 import jx.csp.model.login.Advert.TAdvert;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.AdvertAPI;
+import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.NetworkResp;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -25,6 +30,16 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/9/20
  */
 public class AdvActivity extends ActivityEx implements OnClickListener, OnCountDownListener {
+
+    public static void afterAd(Context context) {
+        if (Profile.inst().isLogin()) {
+            // 登录有效(登录过且没有退出)
+            LaunchUtil.startActivity(context, MainActivity.class);
+        } else {
+            // 未登录,退出登录
+            LaunchUtil.startActivity(context, ThirdPartyLoginActivity.class);
+        }
+    }
 
     private final int KDelayTime = 3; // 3秒跳转
 
@@ -75,11 +90,11 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
         switch (v.getId()) {
             case R.id.adv_iv: {
                 //点击广告跳到h5页面
-                CommonWebViewActivityRouter.create("...",mPageUrl).route(this);
+                AdWebViewActivityRouter.create("...", mPageUrl).route(this);
             }
             break;
             case R.id.adv_skip: {
-                startActivity(TestActivity.class);
+                afterAd(this);
             }
             break;
         }
@@ -97,7 +112,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
             Advert adv = r.getData();
             mIv.url(adv.getString(TAdvert.imgUrl)).load();
             mPageUrl = adv.getString(TAdvert.pageUrl);
-        }else {
+        } else {
             onNetworkError(id, r.getError());
         }
     }
@@ -105,7 +120,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            startActivity(TestActivity.class);
+            afterAd(this);
             finish();
         }
     }
@@ -117,7 +132,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mCountDown.stop();
+
         mCountDown.recycle();
     }
 }

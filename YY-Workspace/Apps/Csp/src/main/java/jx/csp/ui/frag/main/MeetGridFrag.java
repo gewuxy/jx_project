@@ -5,13 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
 
+import java.util.List;
+
 import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
-import jx.csp.ui.activity.main.MainActivity.OnMeetGridListener;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
@@ -22,14 +23,18 @@ import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
  * @auther WangLan
  * @since 2017/10/18
  */
-public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
-        implements IMeetOpt,
+public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> implements
+        IMeetOpt,
         MeetContract.V,
         OnAdapterClickListener {
 
     private OnMeetGridListener mListener;
 
     private MeetContract.P mPresenter;
+
+    public interface OnMeetGridListener {
+        void onMeetRefresh(List<Meet> data);
+    }
 
     @Override
     public void initData() {
@@ -113,8 +118,11 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
     @Override
     public int getPosition() {
         RecyclerView rv = getScrollableView();
-        GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
-        return l.findFirstVisibleItemPosition();
+        if (rv != null && rv.getLayoutManager() instanceof GridLayoutManager) {
+            GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
+            return l.findFirstVisibleItemPosition();
+        }
+        return 0;
     }
 
     @Override
