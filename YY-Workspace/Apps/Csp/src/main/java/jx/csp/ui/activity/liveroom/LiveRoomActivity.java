@@ -39,7 +39,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/9/20
  */
 @Route
-public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
+public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
 
     private final int KPermissionCode = 10;
     private final int KSixty = 60;
@@ -65,12 +65,12 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
     long mStartTime;
     @Arg(opt = true)
     long mStopTime;
+    @Arg(opt = true)
+    String mWsUrl;
+
+    private WebSocketServRouter mWebSocketServRouter;
     // 实际结束时间比结束时间多15分钟
     private long mRealStopTime;
-
-    // FIXME: 2017/11/3 地址还没有给
-    String mWsUrl;
-    private WebSocketServRouter mWebSocketServRouter;
 
     private LiveRoomContract.Presenter mPresenter;
     private LiveRoomContract.View mView;
@@ -81,6 +81,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
 
     @Override
     public void initData() {
+        LiveNotifier.inst().add(this);
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mView = new View();
@@ -114,7 +115,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
 
     @Override
     public void setViews() {
-        //检查权限
+        // 检查权限
         if (checkPermission(KPermissionCode, Permission.camera, Permission.micro_phone, Permission.phone)) {
             havePermissionState();
         } else {
@@ -131,6 +132,9 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
             mBeginCountDown = true;
             mPresenter.startCountDown(mStartTime, mRealStopTime);
         }
+        // 连接websocket
+        mWebSocketServRouter = WebSocketServRouter.create(mWsUrl);
+        mWebSocketServRouter.route(this);
     }
 
     public void initPhoneCallingListener() {
@@ -231,11 +235,16 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LiveNotifier.inst().remove(this);
         // 注销电话监听
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         mPresenter.onDestroy();
+        if (mWebSocketServRouter != null) {
+            YSLog.d(TAG, "liveroomactivity WebSocketServRouter.stop");
+            mWebSocketServRouter.stop(this);
+        }
     }
 
     @Override

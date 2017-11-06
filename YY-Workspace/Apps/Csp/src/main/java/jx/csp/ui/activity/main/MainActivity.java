@@ -134,21 +134,19 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         switch (type) {
             case LiveNotifyType.accept: {
                 if (getItem(getCurrentItem()) instanceof MeetGridFrag) {
-                    ((MeetGridFrag) getItem(getCurrentItem())).getPresenter().allowJoin();
+                    ((MeetGridFrag) getItem(getCurrentItem())).enter();
                 } else if (getItem(getCurrentItem()) instanceof MeetVpFrag) {
                     MeetVpFrag frag = (MeetVpFrag) getItem(getCurrentItem());
-                    MeetSingleFrag f = (MeetSingleFrag) frag.getItem();
-                    f.getPresenter().allowJoin();
+                    ((MeetSingleFrag) frag.getItem()).enter();
                 }
             }
             break;
             case LiveNotifyType.reject: {
                 if (getItem(getCurrentItem()) instanceof MeetGridFrag) {
-                    ((MeetGridFrag) getItem(getCurrentItem())).getPresenter().disagreeJoin();
+                    ((MeetGridFrag) getItem(getCurrentItem())).noEnter();
                 } else if (getItem(getCurrentItem()) instanceof MeetVpFrag) {
                     MeetVpFrag frag = (MeetVpFrag) getItem(getCurrentItem());
-                    MeetSingleFrag f = (MeetSingleFrag) frag.getItem();
-                    f.getPresenter().disagreeJoin();
+                    ((MeetSingleFrag) frag.getItem()).noEnter();
                 }
             }
             break;

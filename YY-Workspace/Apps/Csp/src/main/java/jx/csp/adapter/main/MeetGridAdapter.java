@@ -37,16 +37,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
             case PlayType.reb: {
                 holder.getTvTime().setText(item.getString(TMeet.playTime));
                 holder.getTvCurrentPage().setText(item.getString(TMeet.playPage));
-
-                if (startTime > System.currentTimeMillis()) {
-                    holder.getTvPlayState().setText(R.string.record);
-                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
-                    holder.getTvPlayState().setText("录播中");
-                } else {
-                    goneView(holder.getTvCurrentPage());
-                    goneView(holder.getVDivider());
-                    goneView(holder.getTvPlayState());
-                }
+                holder.getTvPlayState().setText(R.string.on_record);
                 goneView(holder.getIvLive());
             }
             break;

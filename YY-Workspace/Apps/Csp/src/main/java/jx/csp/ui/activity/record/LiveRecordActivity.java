@@ -126,6 +126,9 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     } else {
                         mView.startRecordState();
                     }
+                    // 点击开始直播的时候要发同步指令
+                    notifyServ(LiveNotifyType.send_msg, getCurrentItem(), WsOrderType.sync);
+                    YSLog.d(TAG, "点击开始直播,发同步指令 pos = " + getCurrentItem());
                 }
             } else {
                 startCountDownAndLive(filePath);

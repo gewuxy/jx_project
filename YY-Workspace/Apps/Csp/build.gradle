@@ -35,9 +35,9 @@ android {
 
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
-                '../../Libs/LibPlayer/proguard-player.pro',
-                '../../Libs/LibWX/proguard-wx.pro',
+                '../../Libs/LibWX/proguard-share.pro',
                 '../../Libs/LibZEGO/proguard-live.pro',
+                '../../Libs/LibZEGO/proguard-pay.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }

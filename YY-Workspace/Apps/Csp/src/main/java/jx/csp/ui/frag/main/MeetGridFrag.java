@@ -8,7 +8,6 @@ import android.view.View;
 import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.contact.MeetContract;
-import jx.csp.contact.MeetContract.P;
 import jx.csp.model.main.Meet;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
@@ -31,10 +30,6 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
     private OnMeetGridListener mListener;
 
     private MeetContract.P mPresenter;
-
-    public P getPresenter() {
-        return mPresenter;
-    }
 
     @Override
     public void initData() {
@@ -124,6 +119,20 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
 
     @Override
     public void onStopRefresh() {
+    }
+
+    public void enter() {
+        if (mPresenter == null) {
+            return;
+        }
+        mPresenter.allowJoin();
+    }
+
+    public void noEnter() {
+        if (mPresenter == null) {
+            return;
+        }
+        mPresenter.disagreeJoin();
     }
 
     /*@Override

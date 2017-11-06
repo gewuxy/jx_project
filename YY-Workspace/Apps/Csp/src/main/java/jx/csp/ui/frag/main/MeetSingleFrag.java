@@ -12,7 +12,6 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.MeetContract;
-import jx.csp.contact.MeetContract.P;
 import jx.csp.model.def.MeetState;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
@@ -49,10 +48,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     }
 
     private MeetContract.P mPresenter;
-
-    public P getPresenter() {
-        return mPresenter;
-    }
 
     @Override
     public void initData() {
@@ -95,18 +90,12 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
         long startTime = mMeet.getLong(TMeet.startTime);
         long stopTime = mMeet.getLong(TMeet.endTime);
+        long currentTime = System.currentTimeMillis();
         switch (mMeet.getInt(TMeet.playType)) {
             case PlayType.reb: {
                 mTvTime.setText(mMeet.getString(TMeet.playTime));
                 mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
-
-                if (startTime > System.currentTimeMillis()) {
-                    mTvState.setText(R.string.record);
-                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
-                    mTvState.setText(R.string.on_record);
-                } else {
-                    goneView(mTvState);
-                }
+                mTvState.setText(R.string.on_record);
                 goneView(mIvLive);
             }
             break;
@@ -116,13 +105,13 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                     goneView(mIvLive);
                 }
                 mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
-                if (startTime > System.currentTimeMillis()) {
+                if (startTime > currentTime) {
                     mTvState.setText(R.string.solive);
                     //直播的开始时间转换
                     Date d = new Date(Long.parseLong(mMeet.getString(TMeet.startTime)));
                     SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
                     mTvTime.setText(data.format(d));
-                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
+                } else if (startTime < currentTime && stopTime > currentTime) {
                     mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                 } else {
@@ -165,5 +154,23 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     @Override
     public void onStopRefresh() {
 
+    }
+
+    public void enter() {
+        if (mPresenter == null) {
+            return;
+        }
+        mPresenter.allowJoin();
+    }
+
+    public void noEnter() {
+        if (mPresenter == null) {
+            return;
+        }
+        mPresenter.disagreeJoin();
+    }
+
+    public void onMeetClick() {
+        mPresenter.onMeetClick(mMeet);
     }
 }

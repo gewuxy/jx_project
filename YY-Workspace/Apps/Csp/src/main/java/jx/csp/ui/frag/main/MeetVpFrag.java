@@ -10,7 +10,6 @@ import java.util.List;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.contact.MeetContract;
 import jx.csp.contact.VPEffectContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
@@ -39,8 +38,6 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     private View mSlideDataLayout;
 
     private VPEffectContract.P mEffectPresenter;
-    // 单页的p层
-    private MeetContract.P mSingleFragPresenter;
     private Meet mMeet;
 
     @Override
@@ -92,8 +89,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
                 if (getItem(position) instanceof MeetSingleFrag) {
                     // 在进行中要有提示 通过时间判断
                     mMeet = ((MeetSingleFrag) (getItem(position))).getMeet();
-                    mSingleFragPresenter = ((MeetSingleFrag) (getItem(position))).getPresenter();
-                    if (mMeet == null || mSingleFragPresenter == null) {
+                    if (mMeet == null) {
                         goneView(mLayout);
                         return;
                     }
@@ -127,7 +123,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
 
     @Override
     public void onClick(View v) {
-        mSingleFragPresenter.onMeetClick(mMeet);
+        ((MeetSingleFrag) (getItem(getCurrentItem()))).onMeetClick();
     }
 
     public void setData(List<Meet> data) {
