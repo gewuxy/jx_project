@@ -24,7 +24,6 @@ import lib.platform.listener.OnAuthListener;
 import lib.platform.listener.OnShareListener;
 import lib.platform.model.AuthParams;
 import lib.platform.model.ShareParams;
-import lib.ys.YSLog;
 import lib.ys.util.PackageUtil;
 
 /**
@@ -50,9 +49,6 @@ public class MobProvider implements Provider {
 
     @Override
     public void init(Type p, String key, String secret) {
-        YSLog.d("www", "init: " + p.name());
-        YSLog.d("www", "init: key = " + key);
-        YSLog.d("www", "init: s = " + secret);
         HashMap<String, Object> hashMap = new HashMap<>();
 
         String id = null;

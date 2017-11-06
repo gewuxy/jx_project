@@ -48,6 +48,8 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
+
         switch (v.getId()) {
             case R.id.login_facebook: {
                 Platform.auth(Type.facebook, newListener(KIdFaceBook, LoginType.facebook_login));
