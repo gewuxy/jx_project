@@ -130,7 +130,7 @@
     <string name="setting_clear_img_cache">Clear Image Cache</string>
     <string name="setting_clear_sound_cache">Clear Audio Cache</string>
     <string name="setting_clear">Clear</string>
-    <string name="setting_exit_current_account">确定退出当前账号</string>
+    <string name="setting_exit_current_account">Log out?</string>
     <string name="setting_exit_account">Log Out</string>
     <string name="setting_exit">Yes</string>
     <string name="setting_clear_succeed">清理成功</string>
@@ -182,8 +182,8 @@
 
     <!-- 投稿 -->
     <string name="contribute_platform">Contribute to</string>
-    <string name="contribute_history">投稿历史</string>
-    <string name="contribute_not_submit_records">无投稿记录</string>
+    <string name="contribute_history">history</string>
+    <string name="contribute_not_submit_records">- No Record -</string>
     <string name="contribute_platform_hint_text">You can contribute to any
                                                 \ninstitution accounts who
                                                 \nhave turned on "Contribution Box" in
@@ -210,5 +210,6 @@
     <string name="help_and_feedback_help">Help</string>
     <string name="help_and_feedback_opinion_feedback">Feedback</string>
     <string name="help_and_feedback_about_us">About Us</string>
+    <string name="help_and_feedback_email_subject">CSPMeeting--意见反馈</string>
 
 </resources>
