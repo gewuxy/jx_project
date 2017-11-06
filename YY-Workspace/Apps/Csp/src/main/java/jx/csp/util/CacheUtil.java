@@ -41,7 +41,6 @@ public class CacheUtil extends CacheUtilEx {
     }
 
     public static String getAudioPath(String courseId, int page) {
-        // fixme: 暂时page+1
         return mAudioCacheDir + courseId + File.separator + (page + 1) + FileSuffix.amr;
     }
 }
