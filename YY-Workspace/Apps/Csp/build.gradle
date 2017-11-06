@@ -105,75 +105,76 @@ android {
     productFlavors {
         flavors_debug {
             manifestPlaceholders = [
-                    app_name: "CSP(B)",
-                    language: "cn",
-                    wx_id:"wx142cb3956210ccd3",
-                    wx_secret:"bc67cd82b0656e85f9a924f7679d75f7",
-                    sina_appkey:"2989630614",
-                    sina_appsecret:"e3aab4c005032d74fe76b5ab3d4effb8",
-                    qq_id:"1106485170",
-                    qq_key:"96ivtWERQz1SZ8QB",
-                    twitter_key:"hqhT16vzm2ZJxJary0WOULGfv",
-                    twitter_secret:"apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
-                    linkedin_apikey:"81143jcz89ac7k",
-                    linkedin_secretkey:"Xs3H202AB9tyJpu5",
-                    line_id:"1541221136",
-                    line_secret:"8ae3221a628add950f2422dd8e76f0a9",
+                    app_name          : "CSP(B)",
+                    language          : "cn",
+                    wx_id             : "wx142cb3956210ccd3",
+                    wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
+                    sina_appkey       : "\\2989630614",
+                    sina_appsecret    : "e3aab4c005032d74fe76b5ab3d4effb8",
+                    qq_id             : "\\1106485170",
+                    qq_key            : "96ivtWERQz1SZ8QB",
+                    twitter_key       : "hqhT16vzm2ZJxJary0WOULGfv",
+                    twitter_secret    : "apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
+                    linkedin_apikey   : "81143jcz89ac7k",
+                    linkedin_secretkey: "Xs3H202AB9tyJpu5",
+                    line_id           : "\\1541221136",
+                    line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
             ]
         }
         flavors_alpha {
             manifestPlaceholders = [
-                    app_name: "CSP(A)",
-                    language: "cn",
-                    wx_id:"wx142cb3956210ccd3",
-                    wx_secret:"bc67cd82b0656e85f9a924f7679d75f7",
-                    sina_appkey:"2989630614",
-                    sina_appsecret:"e3aab4c005032d74fe76b5ab3d4effb8",
-                    qq_id:"1106485170",
-                    qq_key:"96ivtWERQz1SZ8QB",
-                    twitter_key:"hqhT16vzm2ZJxJary0WOULGfv",
-                    twitter_secret:"apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
-                    linkedin_apikey:"81143jcz89ac7k",
-                    linkedin_secretkey:"Xs3H202AB9tyJpu5",
-                    line_id:"1541221136",
-                    line_secret:"8ae3221a628add950f2422dd8e76f0a9",
+                    app_name          : "CSP(A)",
+                    language          : "cn",
+                    wx_id             : "wx142cb3956210ccd3",
+                    wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
+                    sina_appkey       : "\\2989630614",
+                    sina_appsecret    : "e3aab4c005032d74fe76b5ab3d4effb8",
+                    qq_id             : "\\1106485170",
+                    qq_key            : "96ivtWERQz1SZ8QB",
+                    twitter_key       : "hqhT16vzm2ZJxJary0WOULGfv",
+                    twitter_secret    : "apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
+                    linkedin_apikey   : "81143jcz89ac7k",
+                    linkedin_secretkey: "Xs3H202AB9tyJpu5",
+                    line_id           : "\\1541221136",
+                    line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
             ]
         }
         flavors_release {
             manifestPlaceholders = [
-                    app_name: "CSP",
-                    language: "cn",
-                    wx_id:"wx142cb3956210ccd3",
-                    wx_secret:"bc67cd82b0656e85f9a924f7679d75f7",
-                    sina_appkey:"2989630614",
-                    sina_appsecret:"e3aab4c005032d74fe76b5ab3d4effb8",
-                    qq_id:"1106485170",
-                    qq_key:"96ivtWERQz1SZ8QB",
-                    twitter_key:"hqhT16vzm2ZJxJary0WOULGfv",
-                    twitter_secret:"apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
-                    linkedin_apikey:"81143jcz89ac7k",
-                    linkedin_secretkey:"Xs3H202AB9tyJpu5",
-                    line_id:"1541221136",
-                    line_secret:"8ae3221a628add950f2422dd8e76f0a9",
+                    app_name          : "CSP",
+                    language          : "cn",
+                    wx_id             : "wx142cb3956210ccd3",
+                    wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
+                    sina_appkey       : "\\2989630614",
+                    sina_appsecret    : "e3aab4c005032d74fe76b5ab3d4effb8",
+                    qq_id             : "\\1106485170",
+                    qq_key            : "96ivtWERQz1SZ8QB",
+                    twitter_key       : "hqhT16vzm2ZJxJary0WOULGfv",
+                    twitter_secret    : "apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
+                    linkedin_apikey   : "81143jcz89ac7k",
+                    linkedin_secretkey: "Xs3H202AB9tyJpu5",
+                    line_id           : "\\1541221136",
+                    line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
             ]
         }
         flavors_release_en {
             manifestPlaceholders = [
-                    app_name: "CSP(EN)",
-                    language: "en",
-                    wx_id:"wx142cb3956210ccd3",
-                    wx_secret:"bc67cd82b0656e85f9a924f7679d75f7",
-                    sina_appkey:"2989630614",
-                    sina_appsecret:"e3aab4c005032d74fe76b5ab3d4effb8",
-                    qq_id:"1106485170",
-                    qq_key:"96ivtWERQz1SZ8QB",
-                    twitter_key:"hqhT16vzm2ZJxJary0WOULGfv",
-                    twitter_secret:"apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
-                    linkedin_apikey:"81143jcz89ac7k",
-                    linkedin_secretkey:"Xs3H202AB9tyJpu5",
-                    line_id:"1541221136",
-                    line_secret:"8ae3221a628add950f2422dd8e76f0a9",
+                    app_name          : "CSP(EN)",
+                    language          : "en",
+                    wx_id             : "wx142cb3956210ccd3",
+                    wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
+                    sina_appkey       : "\\2989630614",
+                    sina_appsecret    : "e3aab4c005032d74fe76b5ab3d4effb8",
+                    qq_id             : "\\1106485170",
+                    qq_key            : "96ivtWERQz1SZ8QB",
+                    twitter_key       : "hqhT16vzm2ZJxJary0WOULGfv",
+                    twitter_secret    : "apMjl5Y1c3PxlyEsa4wJNcqNem7Yl5xtjv2TIb3WjBotUpB1Fk",
+                    linkedin_apikey   : "81143jcz89ac7k",
+                    linkedin_secretkey: "Xs3H202AB9tyJpu5",
+                    line_id           : "\\1541221136",
+                    line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
             ]
+            applicationIdSuffix ".en"
         }
     }
 
@@ -217,13 +218,9 @@ android {
 dependencies {
     implementation project(':YY-Workspace:Libs:LibYY')
     implementation project(':YY-Workspace:Libs:LibPay')
-    implementation(project(':YY-Workspace:Libs:LibJG')) {
-//        exclude
-//        exclude(group: 'jshare-sina-android-v1.0.0', module: 'com.sina')
-    }
-    //    implementation project(':YY-Workspace:Libs:LibWX')
-    //    implementation project(':YY-Workspace:Libs:LibLive')
-    implementation project(':YY-Workspace:Libs:LibShare')
+    implementation(project(':YY-Workspace:Libs:LibJG'))
+    implementation project(':YY-Workspace:Libs:LibPlatform')
+    implementation project(':YY-Workspace:Libs:LibLive')
     /**
      * other
      */
@@ -232,9 +229,15 @@ dependencies {
      * leakcanary
      */
     //    debugCompile deps.debug.leakcanary
-    implementation project(':YY-Workspace:Libs:LibLive')
     //    releaseCompile deps.release.leakcanary
+    /**
+     * dex
+     */
     implementation deps.support.dex
-    annotationProcessor project(deps.ys.compiler)
+
     implementation deps.support.gridlayout
+    /**
+     * processor
+     */
+    annotationProcessor project(deps.ys.compiler)
 }

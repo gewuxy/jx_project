@@ -3,28 +3,19 @@ package jx.csp.dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URLEncoder;
-import java.util.HashMap;
 
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.Platform.ShareParams;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.linkedin.LinkedIn;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.system.text.ShortMessage;
-import cn.sharesdk.tencent.qq.QQ;
-import cn.sharesdk.wechat.friends.Wechat;
-import cn.sharesdk.wechat.moments.WechatMoments;
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
@@ -32,6 +23,10 @@ import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.ContributePlatformActivity;
 import jx.csp.util.Util;
+import lib.platform.Platform;
+import lib.platform.Platform.Type;
+import lib.platform.listener.OnShareListener;
+import lib.platform.model.ShareParams;
 import lib.ys.YSLog;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.permission.Permission;
@@ -50,15 +45,15 @@ import static lib.ys.util.res.ResLoader.getString;
 public class ShareDialog extends BaseDialog {
 
     @StringDef({
-            LanguageType.English,
-            LanguageType.China,
-            LanguageType.HkMTw,
+            LanguageType.en,
+            LanguageType.cn_simplified,
+            LanguageType.cn,
     })
     @Retention(RetentionPolicy.SOURCE)
     @interface LanguageType {
-        String English = "en_US"; // 英文
-        String China = "zh_CN";  // 中文
-        String HkMTw = "zh_TW";  // 繁体
+        String en = "en_US"; // 英文
+        String cn_simplified = "zh_CN";  // 中文
+        String cn = "zh_TW";  // 繁体
     }
 
     @IntDef({
@@ -70,6 +65,7 @@ public class ShareDialog extends BaseDialog {
         int inland = 0; // 国内
         int overseas = 1; // 海外
     }
+
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
     public static final String KShareError = "分享失败";
@@ -79,19 +75,12 @@ public class ShareDialog extends BaseDialog {
     private String mCoverUrl; // 分享的图片url
 
     //剪切板管理工具
-    private ClipboardManager mClipboadManager;
+    private ClipboardManager mClipboardManager;
 
-    private PlatformActionListener mPlatformActionListener;
     private OnDeleteListener mDeleteListener;
     private OnCopyDuplicateListener mCopyListener;
 
-    public void setDeleteListener(OnDeleteListener listener) {
-        mDeleteListener = listener;
-    }
-
-    public void setCopyListener(OnCopyDuplicateListener l){
-        mCopyListener = l;
-    }
+    private OnClickListener mOnShareClickListener;
 
     public ShareDialog(Context context, String shareTitle, int courseId) {
         super(context);
@@ -99,8 +88,7 @@ public class ShareDialog extends BaseDialog {
         shareSignature(courseId);
     }
 
-
-    public ShareDialog(Context context, int courseId, String shareTitle,String coverUrl) {
+    public ShareDialog(Context context, int courseId, String shareTitle, String coverUrl) {
         super(context);
         shareSignature(courseId);
         mShareTitle = shareTitle;
@@ -109,25 +97,9 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void initData() {
-        mPlatformActionListener = new PlatformActionListener() {
-            @Override
-            public void onComplete(cn.sharesdk.framework.Platform platform, int i, HashMap<String, Object> hashMap) {
-                showToast(R.string.share_success);
-            }
-
-            @Override
-            public void onError(cn.sharesdk.framework.Platform platform, int i, Throwable throwable) {
-                showToast(KShareError.concat(throwable.getMessage()));
-            }
-
-            @Override
-            public void onCancel(cn.sharesdk.framework.Platform platform, int i) {
-                showToast(R.string.share_cancel);
-            }
-        };
-
-        mClipboadManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+        mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
     }
+
 
     @NonNull
     @Override
@@ -141,11 +113,13 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void setViews() {
-        setOnClickListener(R.id.dialog_share_iv_wechat);
-        setOnClickListener(R.id.dialog_share_iv_moment);
-        setOnClickListener(R.id.dialog_share_iv_qq);
-        setOnClickListener(R.id.dialog_share_iv_linkedin);
-        setOnClickListener(R.id.dialog_share_iv_weibo);
+        setOnShareClickListener(R.id.dialog_share_iv_wechat);
+        setOnShareClickListener(R.id.dialog_share_iv_moment);
+        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
+        setOnShareClickListener(R.id.dialog_share_iv_qq);
+        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
+        setOnShareClickListener(R.id.dialog_share_iv_sina);
+
         setOnClickListener(R.id.dialog_share_iv_message);
         setOnClickListener(R.id.dialog_share_iv_copy_link);
         setOnClickListener(R.id.dialog_share_tv_contribute);
@@ -154,73 +128,89 @@ public class ShareDialog extends BaseDialog {
         setOnClickListener(R.id.dialog_share_tv_cancel);
 
         setGravity(Gravity.BOTTOM);
+
+        mOnShareClickListener = v -> {
+            ShareParams param = ShareParams.newBuilder()
+                    .title(mShareTitle)
+                    .text(ResLoader.getString(R.string.share_text))
+                    .url(mShareUrl)
+                    .imageUrl(mCoverUrl)
+                    .build();
+
+            Type type = null;
+            switch (v.getId()) {
+                case R.id.dialog_share_iv_wechat: {
+                    type = Type.wechat;
+                }
+                break;
+                case R.id.dialog_share_iv_moment: {
+                    //微信朋友圈的分享text是不显示的，问了客服
+                    type = Type.wechat_friend;
+                }
+                break;
+                case R.id.dialog_share_iv_qq: {
+                    type = Type.qq;
+                    //这是qq必写的参数，否则发不了，短信只能发文字，链接可以写在文字里面
+//                    shareParams.setTitleUrl(mShareUrl);
+                }
+                break;
+                case R.id.dialog_share_iv_linkedin: {
+                    type = Type.linkedin;
+//                    shareParams.setUrl(mShareUrl);
+                }
+                break;
+                case R.id.dialog_share_iv_sina: {
+                    type = Type.sina;
+                }
+                break;
+                case R.id.dialog_share_iv_message: {
+                    if (PermissionChecker.allow(getContext(), Permission.sms, Permission.storage)) {
+                        type = Type.sms;
+//                        shareParams.setText(mShareUrl);
+                    } else {
+                        showToast(getString(R.string.user_message_permission));
+                    }
+                }
+                break;
+            }
+
+            Platform.share(type, param, new OnShareListener() {
+
+                @Override
+                public void onShareSuccess() {
+                    showToast(R.string.share_success);
+                }
+
+                @Override
+                public void onShareError(String message) {
+                    showToast(KShareError.concat(message));
+                }
+
+                @Override
+                public void onShareCancel() {
+                    showToast(R.string.share_cancel);
+                }
+            });
+        };
+    }
+
+    private void setOnShareClickListener(@IdRes int id) {
+        View v = findView(id);
+        if (v != null) {
+            v.setOnClickListener(mOnShareClickListener);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        ShareParams shareParams = new ShareParams();
-        shareParams.setTitle(mShareTitle);
-        shareParams.setText(ResLoader.getString(R.string.share_text));
-        shareParams.setUrl(mShareUrl);
-        shareParams.setImageUrl(mCoverUrl);
 
-        Platform platform;
+
         switch (v.getId()) {
-            case R.id.dialog_share_iv_wechat: {
-                platform = ShareSDK.getPlatform(Wechat.NAME);
-                //微信的字段
-                shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);
-            }
-            break;
-            case R.id.dialog_share_iv_moment: {
-                //微信朋友圈的分享text是不显示的，问了客服
-                platform = ShareSDK.getPlatform(WechatMoments.NAME);
-                //微信的字段
-                shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);
-            }
-            break;
-            case R.id.dialog_share_iv_qq: {
-                platform = ShareSDK.getPlatform(QQ.NAME);
-                //这是qq必写的参数，否则发不了，短信只能发文字，链接可以写在文字里面
-                shareParams.setTitleUrl(mShareUrl);
-                platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);
-            }
-            break;
-            case R.id.dialog_share_iv_linkedin: {
-                platform = ShareSDK.getPlatform(LinkedIn.NAME);
-                shareParams.setUrl(mShareUrl);
-                platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);
-            }
-            break;
-            case R.id.dialog_share_iv_weibo: {
-                platform = ShareSDK.getPlatform(SinaWeibo.NAME);
-                platform.setPlatformActionListener(mPlatformActionListener);
-                platform.share(shareParams);
-            }
-            break;
-            case R.id.dialog_share_iv_message: {
-                if (PermissionChecker.allow(getContext(), Permission.sms) && PermissionChecker.allow(getContext(), Permission.storage)) {
-                    platform = ShareSDK.getPlatform(ShortMessage.NAME);
-//                    shareParams.setUrl(mShareUrl);
-                    shareParams.setText(mShareUrl);
-                    platform.setPlatformActionListener(mPlatformActionListener);
-                    platform.share(shareParams);
-                } else {
-                    showToast(getString(R.string.user_message_permission));
-                }
-            }
-            break;
             case R.id.dialog_share_iv_copy_link: {
                 //创建一个新的文本clip对象
                 ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
                 //把clip对象放在剪切板中
-                mClipboadManager.setPrimaryClip(clipData);
+                mClipboardManager.setPrimaryClip(clipData);
                 showToast(R.string.copy_success);
             }
             break;
@@ -249,11 +239,14 @@ public class ShareDialog extends BaseDialog {
     }
 
     public interface OnDeleteListener {
+
         void delete();
+
     }
 
-    public interface OnCopyDuplicateListener{
+    public interface OnCopyDuplicateListener {
         void copy();
+
     }
 
     public void shareSignature(int courseId) {
@@ -264,12 +257,12 @@ public class ShareDialog extends BaseDialog {
         // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
         if ("zh".equals(SpApp.inst().getSystemLanguage())) {
             if ("CN".equals(SpApp.inst().getCountry())) {
-                local = LanguageType.China;
+                local = LanguageType.cn_simplified;
             } else {
-                local = LanguageType.HkMTw;
+                local = LanguageType.cn;
             }
         } else {
-            local = LanguageType.English;
+            local = LanguageType.en;
         }
         int abroad;  // 国内版 国外版
         if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
@@ -286,6 +279,14 @@ public class ShareDialog extends BaseDialog {
         } catch (UnsupportedEncodingException e) {
             YSLog.d(TAG, "Share error = " + e.getMessage());
         }
+    }
+
+    public void setDeleteListener(OnDeleteListener listener) {
+        mDeleteListener = listener;
+    }
+
+    public void setCopyListener(OnCopyDuplicateListener l) {
+        mCopyListener = l;
     }
 
 }

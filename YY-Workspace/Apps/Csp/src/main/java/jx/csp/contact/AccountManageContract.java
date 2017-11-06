@@ -4,6 +4,7 @@ import android.view.View.OnClickListener;
 
 import jx.csp.Constants.LoginType;
 import jx.csp.model.Profile.TProfile;
+import lib.platform.Platform.Type;
 import lib.yy.contract.IContract;
 import lib.yy.network.Result;
 
@@ -74,7 +75,7 @@ public interface AccountManageContract {
          * @param gender       性别,解绑时无此参数
          * @param avatar       头像,解绑时无此参数
          */
-        void BindThirdParty(int id,
+        void bindThirdParty(int id,
                             int thirdPartyId,
                             String uniqueId,
                             String nickName,
@@ -86,16 +87,16 @@ public interface AccountManageContract {
          *
          * @param id
          * @param thirdPartyId 1代表微信，2代表微博，3代表facebook,4代表twitter,5代表YaYa医师,解绑操作只需传递此字段
-         * @param tips 解绑提示字段
+         * @param tips         解绑提示字段
          */
         void unBindThirdParty(int id, int thirdPartyId, String tips);
 
         /**
-         * 获取第三方授权
+         * 进行第三方授权
          *
-         * @param platformName
+         * @param type
          */
-        void getPlatformAction(String platformName);
+        void doAuth(Type type);
 
         /**
          * 保存第三方昵称

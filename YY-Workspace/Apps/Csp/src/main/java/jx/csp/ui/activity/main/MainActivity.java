@@ -14,7 +14,7 @@ import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
-import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
+import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetSingleFrag;
@@ -166,7 +166,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
             //清除栈里的activity
-            Intent intent = new Intent(this, ThirdPartyLoginActivity.class);
+            Intent intent = new Intent(this, AuthLoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

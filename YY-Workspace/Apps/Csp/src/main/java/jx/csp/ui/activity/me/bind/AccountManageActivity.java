@@ -8,7 +8,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-import cn.sharesdk.sina.weibo.SinaWeibo;
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.contact.AccountManageContract;
@@ -17,11 +16,11 @@ import jx.csp.model.BindInfoList;
 import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.AccountManagePresenterImpl;
 import jx.csp.util.Util;
+import lib.platform.Platform.Type;
 import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
@@ -38,7 +37,6 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  */
 public class AccountManageActivity extends BaseFormActivity {
 
-    private PlatformAuthorizeUserInfoManager mPlatAuth;
 
     private AccountManageContract.P mPresenter;
     private AccountManageContract.V mView;
@@ -66,7 +64,6 @@ public class AccountManageActivity extends BaseFormActivity {
     @Override
     public void initData() {
         super.initData();
-        mPlatAuth = new PlatformAuthorizeUserInfoManager(this);
 
         mView = new AccountManageViewImpl();
         mPresenter = new AccountManagePresenterImpl(mView);
@@ -84,7 +81,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_wx)
                 .name(R.string.account_wx)
                 .drawable(R.drawable.form_ic_account_wx)
-                .text(Profile.inst().getBindNickName(LoginType.wechat_login))
+                .text(Profile.inst().getBindNickName(LoginType.wechat))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -92,7 +89,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_sina)
                 .name(R.string.account_sina)
                 .drawable(R.drawable.form_ic_account_sina)
-                .text(Profile.inst().getBindNickName(LoginType.weibo_login))
+                .text(Profile.inst().getBindNickName(LoginType.sina))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -131,13 +128,13 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_wx: {
-                // FIXME: 2017/11/2 微信未审核完
+                mPresenter.doAuth(Type.wechat);
             }
             break;
             case RelatedId.bind_sina: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.weibo_login))) {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.sina))) {
                     refresh(RefreshWay.dialog);
-                    mPresenter.getPlatformAction(SinaWeibo.NAME);
+                    mPresenter.doAuth(Type.sina);
                 } else {
                     mPresenter.unBindThirdParty(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
                 }

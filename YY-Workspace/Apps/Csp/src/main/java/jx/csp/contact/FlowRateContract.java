@@ -62,6 +62,6 @@ public interface FlowRateContract {
          * @param flow
          * @param channel
          */
-        void confirmPayNetworkReq(int id, int flow, String channel);
+        void confirmPay(int id, int flow, String channel);
     }
 }

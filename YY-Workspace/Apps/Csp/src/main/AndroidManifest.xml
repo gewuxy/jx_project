@@ -47,11 +47,11 @@
 
         <!--登录-->
         <activity
-            android:name=".ui.activity.login.ThirdPartyLoginActivity"
+            android:name=".ui.activity.login.AuthLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
-            android:name=".ui.activity.login.ThirdPartyLoginEnActivity"
+            android:name=".ui.activity.login.AuthLoginEnActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity

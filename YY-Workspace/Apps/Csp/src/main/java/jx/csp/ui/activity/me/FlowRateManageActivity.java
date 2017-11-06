@@ -157,19 +157,19 @@ public class FlowRateManageActivity extends BaseActivity {
                 refresh(RefreshWay.dialog);
                 switch (mPreChannelView.getId()) {
                     case R.id.flow_rate_iv_alipay: {
-                        mPresenter.confirmPayNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
+                        mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.alipay);
                     }
                     break;
                     case R.id.flow_rate_iv_wechat: {
-                        mPresenter.confirmPayNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
+                        mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
                     }
                     break;
                     case R.id.flow_rate_iv_unionpay: {
-                        mPresenter.confirmPayNetworkReq(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
+                        mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
                     }
                     break;
                     case R.id.flow_rate_iv_paypal: {
-                        mPresenter.confirmPayNetworkReq(KPayPalPayCode, mRechargeSum, null);
+                        mPresenter.confirmPay(KPayPalPayCode, mRechargeSum, null);
                     }
                     break;
                 }

@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.login;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  * @since 2017/11/6
  */
 
-abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
+abstract public class BaseAuthLoginActivity extends BaseActivity {
 
     private final int KLoginVideo = 1;
     private final int KDownLoadVideo = 2;
@@ -40,7 +41,6 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
     private String mUrl;
     private String mLocatePath;
 
-    @CallSuper
     @Override
     public void initData() {
         mLocatePath = CacheUtil.getAudioCacheDir() + KFileName;
@@ -57,6 +57,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
         mCustomVideoView = findView(R.id.login_videoview);
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         setOnClickListener(R.id.login_mail);
@@ -68,6 +69,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
         startPlay();
     }
 
+    @CallSuper
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -129,7 +131,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
 
-        if (mCustomVideoView != null && mCustomVideoView.isPlaying()) {
+        if (mCustomVideoView.isPlaying()) {
             mCustomVideoView.stopPlayback();
         }
     }
@@ -163,4 +165,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
         }
     }
 
+    @NonNull
+    @Override
+    abstract public int getContentViewId();
 }

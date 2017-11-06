@@ -39,8 +39,8 @@ public interface Constants extends BaseConstants {
 
     //登录的type
     @IntDef({
-            LoginType.wechat_login,
-            LoginType.weibo_login,
+            LoginType.wechat,
+            LoginType.sina,
             LoginType.facebook_login,
             LoginType.twitter_login,
             LoginType.yaya_login,
@@ -49,8 +49,8 @@ public interface Constants extends BaseConstants {
     })
     @Retention(RetentionPolicy.SOURCE)
     @interface LoginType {
-        int wechat_login = 1;
-        int weibo_login = 2;
+        int wechat = 1;
+        int sina = 2;
         int facebook_login = 3;
         int twitter_login = 4;
         int yaya_login = 5;

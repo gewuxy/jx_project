@@ -25,7 +25,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
     }
 
     @Override
-    public void confirmPayNetworkReq(int id, int flow, String channel) {
+    public void confirmPay(int id, int flow, String channel) {
         if (id == KPayPalPayCode) {
             exeNetworkReq(KPayPalPayCode, PayAPI.paypalPay(flow).build());
         } else {

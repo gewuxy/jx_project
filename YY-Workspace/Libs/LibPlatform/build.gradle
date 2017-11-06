@@ -31,4 +31,5 @@ android {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly project(deps.ys.core)
+    annotationProcessor project(deps.ys.compiler)
 } 
