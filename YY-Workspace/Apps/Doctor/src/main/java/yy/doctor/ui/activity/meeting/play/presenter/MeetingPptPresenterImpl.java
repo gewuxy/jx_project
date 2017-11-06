@@ -22,6 +22,8 @@ import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
 import yy.doctor.util.NetPlayer;
+import yy.doctor.util.Time;
+import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -147,12 +149,6 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         mCountDown.start(KDuration);
     }
 
-    protected String getTime(long millisecond) {
-        int second = Math.round(millisecond / 1000.0f); // 四舍五入
-        YSLog.d("media", "getTime:" + second);
-        return TimeFormatter.second(second, TimeFormatter.TimeFormat.from_m);
-    }
-
     @Override
     public void onDownProgress(int progress) {
 
@@ -165,7 +161,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         getView().onPlayState(true);
         Course course = mCourses.get(mPosition);
         course.put(TCourse.play, true); // 播放
-        course.put(TCourse.time, getTime(mAllMillisecond));
+        course.put(TCourse.time, Time.getTime(mAllMillisecond));
         getView().invalidate(mPosition);
     }
 
@@ -178,7 +174,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     @Override
     public void onProgress(long currMilliseconds, int progress) {
         Course course = mCourses.get(mPosition);
-        course.put(TCourse.time, getTime(mAllMillisecond - currMilliseconds));
+        course.put(TCourse.time, Time.getTime(mAllMillisecond - currMilliseconds));
         getView().invalidate(mPosition);
     }
 
