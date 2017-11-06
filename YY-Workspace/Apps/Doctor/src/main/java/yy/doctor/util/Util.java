@@ -2,6 +2,7 @@ package yy.doctor.util;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -187,6 +188,19 @@ public class Util extends BaseUtil {
                     .fileId(id)
                     .type(fromType)
                     .route(App.getContext());
+        }
+    }
+
+    public static boolean checkApkExist(String packageName) {
+        if (TextUtil.isEmpty(packageName))
+            return false;
+        try {
+            App.getContext().getPackageManager()
+                    .getApplicationInfo(packageName,
+                            PackageManager.GET_UNINSTALLED_PACKAGES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
         }
     }
 }

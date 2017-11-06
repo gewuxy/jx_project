@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import lib.network.model.NetworkError;
+import lib.platform.Platform;
 import lib.ys.YSLog;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.yy.network.BaseJsonParser.ErrorCode;
@@ -14,11 +16,13 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.ForgetPwdDialog;
 import yy.doctor.dialog.HintDialogMain;
+import yy.doctor.dialog.HintDialogSec;
 import yy.doctor.model.Profile;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.user.register.RegisterActivity;
+import yy.doctor.util.Util;
 
 //import lib.wx.WXLoginApi;
 
@@ -87,9 +91,9 @@ public class LoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.login_layout_wechat: {
-                /*WXLoginApi.create(LoginActivity.this, Constants.KAppId);
-                if (WXLoginApi.isWXAppInstalled()) {
-                    WXLoginApi.sendReq(WXType.login);
+                boolean exist = Util.checkApkExist("com.tencent.mm");
+                if (exist) {
+//                    Platform.auth(Platform.Type.wechat, new Listener(KIdWechatLogin, LoginType.wechat));
                 } else {
                     // 未安装微信
                     HintDialogSec d = new HintDialogSec(LoginActivity.this);
@@ -97,6 +101,12 @@ public class LoginActivity extends BaseLoginActivity {
                     d.setSecHint(R.string.wx_check_normal);
                     d.addBlueButton(R.string.affirm);
                     d.show();
+                }
+                /*WXLoginApi.create(LoginActivity.this, Constants.KAppId);
+                if (WXLoginApi.isWXAppInstalled()) {
+                    WXLoginApi.sendReq(WXType.login);
+                } else {
+
                 }*/
             }
             break;
