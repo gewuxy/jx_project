@@ -16,6 +16,7 @@ public class YaYaAuthorizeLoginActivity extends BaseYaYaLoginActivity {
     public void setViews() {
         super.setViews();
         mEtUsername.setText(SpApp.inst().getUserName());
+        mEtUsername.setSelection(SpApp.inst().getUserName().length());
         // 清空用户信息
         Profile.inst().clear();
     }

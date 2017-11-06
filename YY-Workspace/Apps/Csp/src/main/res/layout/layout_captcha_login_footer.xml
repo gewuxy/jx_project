@@ -15,6 +15,7 @@
 
         <TextView
             android:id="@+id/have_agree_to"
+            android:text="注册表示您已阅读，并同意"
             style="@style/tv.agree.protocol"/>
 
         <TextView
