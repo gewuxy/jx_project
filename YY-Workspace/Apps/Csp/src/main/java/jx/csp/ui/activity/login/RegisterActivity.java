@@ -95,7 +95,7 @@ public class RegisterActivity extends BaseLoginActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.service_agreement: {
-                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }
             break;

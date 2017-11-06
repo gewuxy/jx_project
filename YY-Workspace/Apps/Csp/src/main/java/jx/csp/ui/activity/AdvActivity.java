@@ -12,7 +12,7 @@ import jx.csp.model.login.Advert;
 import jx.csp.model.login.Advert.TAdvert;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.AdvertAPI;
-import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
+import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.NetworkResp;
 import lib.ys.network.image.NetworkImageView;
@@ -37,7 +37,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
             LaunchUtil.startActivity(context, MainActivity.class);
         } else {
             // 未登录,退出登录
-            LaunchUtil.startActivity(context, ThirdPartyLoginActivity.class);
+            LaunchUtil.startActivity(context, AuthLoginActivity.class);
         }
     }
 
@@ -90,7 +90,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
         switch (v.getId()) {
             case R.id.adv_iv: {
                 //点击广告跳到h5页面
-                AdWebViewActivityRouter.create("...", mPageUrl).route(this);
+                AdWebViewActivityRouter.create(mPageUrl).route(this);
             }
             break;
             case R.id.adv_skip: {

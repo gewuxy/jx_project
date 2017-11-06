@@ -113,15 +113,21 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.update_log: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_update_log), UrlUtil.getUrlUpdateLog()).route(this);
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlUpdateLog())
+                        .name(getString(R.string.help_and_feedback_update_log))
+                        .route(this);
             }
             break;
             case RelatedId.service_agreement: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_service_agreement), UrlUtil.getUrlDisclaimer()).route(this);
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer())
+                        .name(getString(R.string.help_and_feedback_service_agreement))
+                        .route(this);
             }
             break;
             case RelatedId.help: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_help), UrlUtil.getUrlHelp()).route(this);
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlHelp())
+                        .name(getString(R.string.help_and_feedback_help))
+                        .route(this);
             }
             break;
             case RelatedId.opinion_feedback: {
@@ -133,7 +139,9 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.about_us: {
-                CommonWebViewActivityRouter.create(getString(R.string.help_and_feedback_about_us), UrlUtil.getUrlAboutUs()).route(this);
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlAboutUs())
+                        .name(getString(R.string.help_and_feedback_about_us))
+                        .route(this);
             }
             break;
         }

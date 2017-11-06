@@ -78,7 +78,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
             }
             break;
             case R.id.login_protocol: {
-                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }
             break;

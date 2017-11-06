@@ -117,7 +117,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.protocol: {
-                CommonWebViewActivityRouter.create(getString(R.string.service_agreement), UrlUtil.getUrlDisclaimer())
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }
             break;
