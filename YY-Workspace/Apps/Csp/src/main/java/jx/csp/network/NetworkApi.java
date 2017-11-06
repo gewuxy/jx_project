@@ -302,13 +302,14 @@ public class NetworkApi {
         @Post("delete")
         void delete(int id);
 
-        /**
+        /***
          * 进入会议检测
          *
          * @param courseId
+         * @param liveType 0表示课件讲解 1表示视频直播
          */
         @Get("join/check")
-        void joinCheck(String courseId);
+        void joinCheck(String courseId, int liveType);
     }
 
     @Api("charge")
