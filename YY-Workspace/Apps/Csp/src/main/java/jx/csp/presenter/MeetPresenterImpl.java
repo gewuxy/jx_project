@@ -45,6 +45,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private final int KJoinRecordCheckRedId = 1;
     private final int KJoinLiveRoomCheckRedId = 2;
     private final int KDeleteReqId = 3;
+    private final int KCopyReqId = 4;
     private boolean mJoinLiveRoom = false; // 是否进入直播间 为了区分PlayType.video的时候进入的是直播视频还是音频
 
     private Context mContext;
@@ -128,7 +129,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mId).build());
         });
         shareDialog.setCopyListener(() -> {
-            Notifier.inst().notify(NotifyType.copy_duplicate, mId);
+            exeNetworkReq(KCopyReqId, MeetingAPI.copy(mId,item.getString(TMeet.title)).build());
         });
         shareDialog.show();
     }
@@ -235,6 +236,15 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 }
             }
             break;
+            case KCopyReqId:{
+                Result r = (Result) result;
+                if (r.isSucceed()) {
+                    showToast(R.string.copy_duplicate_success);
+                    Notifier.inst().notify(NotifyType.copy_duplicate, mId);
+                }else {
+                    onNetworkError(id,r.getError());
+                }
+            }
         }
     }
 

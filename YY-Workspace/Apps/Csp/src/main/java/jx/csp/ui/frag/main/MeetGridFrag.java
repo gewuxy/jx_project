@@ -135,12 +135,12 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
         mPresenter.disagreeJoin();
     }
 
-    /*@Override
-    protected void onInvisible() {
-        super.onInvisible();
+    @Override
+    public void invalidate() {
+        super.invalidate();
 
         if (mListener != null) {
             mListener.onMeetRefresh(getData());
         }
-    }*/
+    }
 }

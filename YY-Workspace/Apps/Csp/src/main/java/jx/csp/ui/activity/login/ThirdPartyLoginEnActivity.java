@@ -14,7 +14,6 @@ import cn.sharesdk.twitter.Twitter;
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import lib.ys.ui.other.NavBar;
 
 /**
  * @auther WangLan
@@ -22,27 +21,14 @@ import lib.ys.ui.other.NavBar;
  */
 
 public class ThirdPartyLoginEnActivity extends BaseThirdPartyLoginActivity {
+
     private final int KFaceBookLogin = 1;
     private final int KTwitterLogin = 2;
-
-    @Override
-    public void initData() {
-    }
 
     @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_login_en;
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-
-    }
-
-    @Override
-    public void findViews() {
-
     }
 
     @Override
@@ -55,6 +41,7 @@ public class ThirdPartyLoginEnActivity extends BaseThirdPartyLoginActivity {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.login_facebook: {
                 Platform facebook = ShareSDK.getPlatform(Facebook.NAME);
@@ -126,6 +113,7 @@ public class ThirdPartyLoginEnActivity extends BaseThirdPartyLoginActivity {
                 twitter.authorize();
             }
             break;
+
         }
     }
 }

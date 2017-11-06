@@ -136,6 +136,7 @@
     <string name="on_solive">直播中</string>
     <string name="on_record">录播中</string>
     <string name="delete_success">删除成功</string>
+    <string name="copy_duplicate_success">复制副本成功</string>
     <string name="service_agreement">CSPmeeting服务协议</string>
     <string name="click_again_exit">再按一次退出</string>
     <string name="duplicate">-副本</string>

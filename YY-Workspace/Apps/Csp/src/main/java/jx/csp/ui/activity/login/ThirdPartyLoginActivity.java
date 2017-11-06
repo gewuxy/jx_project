@@ -38,10 +38,6 @@ public class ThirdPartyLoginActivity extends BaseThirdPartyLoginActivity {
     private String mUrl;
     private String mLocatePath;
 
-    @Override
-    public void initData() {
-    }
-
     @NonNull
     @Override
     public int getContentViewId() {
@@ -53,17 +49,13 @@ public class ThirdPartyLoginActivity extends BaseThirdPartyLoginActivity {
     }
 
     @Override
-    public void findViews() {
-    }
-
-
-    @Override
     public void setViews() {
         super.setViews();
         setOnClickListener(R.id.layout_login_wechat);
         setOnClickListener(R.id.layout_login_sina);
         setOnClickListener(R.id.login_mobile);
         setOnClickListener(R.id.language_transform);
+        setOnClickListener(R.id.layout_login_jx);
     }
 
     @Override
@@ -118,6 +110,10 @@ public class ThirdPartyLoginActivity extends BaseThirdPartyLoginActivity {
             break;
             case R.id.language_transform: {
                 startActivity(ThirdPartyLoginEnActivity.class);
+            }
+            break;
+            case R.id.layout_login_jx: {
+                startActivity(YaYaAuthorizeLoginActivity.class);
             }
             break;
         }

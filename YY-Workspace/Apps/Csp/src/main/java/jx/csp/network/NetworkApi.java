@@ -302,6 +302,9 @@ public class NetworkApi {
         @Post("delete")
         void delete(int id);
 
+        @Post("share/copy")
+        void copy(int courseId,String title);
+
         /***
          * 进入会议检测
          *

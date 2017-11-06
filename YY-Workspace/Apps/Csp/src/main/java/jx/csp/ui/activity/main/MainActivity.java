@@ -34,6 +34,7 @@ import lib.yy.ui.activity.base.BaseVpActivity;
 
 /**
  * 首页
+ *
  * @auther WangLan
  * @since 2017/9/30
  */
@@ -57,7 +58,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         // 网格
         mGridFrag = new MeetGridFrag();
 
-        mGridFrag.setListener(data -> mVpFrag.setData(data));
+        mGridFrag.setListener(data -> {
+            mVpFrag.setData(data);
+            mVpFrag.invalidate();
+        });
         add(mGridFrag);
         add(mVpFrag);
         mFlag = true;
@@ -70,7 +74,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void initNavBar(NavBar bar) {
-
         View view = inflate(R.layout.layout_main_user);
         NetworkImageView iv = view.findViewById(R.id.main_ic_user);
         iv.placeHolder(R.drawable.ic_default_user_header)
@@ -168,7 +171,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             startActivity(intent);
             finish();
         } else if (type == NotifyType.delete_meeting) {
-           Integer id = (Integer) data;
+            Integer id = (Integer) data;
             YSLog.d(TAG, id + "删除接收通知");
             for (Meet meet : mGridFrag.getData()) {
                 if (id == meet.getInt(TMeet.id)) {

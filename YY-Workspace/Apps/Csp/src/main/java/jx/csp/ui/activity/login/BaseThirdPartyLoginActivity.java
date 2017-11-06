@@ -1,6 +1,6 @@
 package jx.csp.ui.activity.login;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.CallSuper;
 import android.view.View;
 
 import java.io.File;
@@ -40,6 +40,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
     private String mUrl;
     private String mLocatePath;
 
+    @CallSuper
     @Override
     public void initData() {
         mLocatePath = CacheUtil.getAudioCacheDir() + KFileName;
@@ -50,6 +51,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
 
     }
 
+    @CallSuper
     @Override
     public void findViews() {
         mCustomVideoView = findView(R.id.login_videoview);
@@ -58,7 +60,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
     @Override
     public void setViews() {
         setOnClickListener(R.id.login_mail);
-        setOnClickListener(R.id.layout_login_jx);
+
         setOnClickListener(R.id.login_protocol);
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
@@ -68,13 +70,9 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.login_mail:{
+        switch (v.getId()) {
+            case R.id.login_mail: {
                 startActivity(EmailLoginActivity.class);
-            }
-            break;
-            case R.id.login_jx:{
-                startActivity(YaYaAuthorizeLoginActivity.class);
             }
             break;
             case R.id.login_protocol: {
@@ -131,7 +129,7 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
 
-        if (mCustomVideoView.isPlaying()) {
+        if (mCustomVideoView != null && mCustomVideoView.isPlaying()) {
             mCustomVideoView.stopPlayback();
         }
     }
@@ -165,7 +163,4 @@ abstract public class BaseThirdPartyLoginActivity extends BaseActivity {
         }
     }
 
-    @NonNull
-    @Override
-    abstract public int getContentViewId();
 }
