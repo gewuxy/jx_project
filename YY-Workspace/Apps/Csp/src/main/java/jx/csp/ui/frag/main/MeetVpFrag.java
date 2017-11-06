@@ -18,7 +18,6 @@ import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.presenter.VPEffectPresenterImpl;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseVPFrag;
 
 /**
@@ -172,10 +171,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     }
 
     @Override
-    public void onNotify(int type, Object data) {
-        if (type == NotifyType.vp_frag_delete_meeting || type == NotifyType.vp_frag_copy_duplicate) {
-            invalidate();
-        }
+    public void invalidate() {
+        super.invalidate();
     }
 
     @Override

@@ -300,7 +300,7 @@ public class NetworkApi {
         void scan(String courseId);
 
         @Post("delete")
-        void delete(String id);
+        void delete(int id);
 
         /**
          * 进入会议检测

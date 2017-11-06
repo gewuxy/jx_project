@@ -11,11 +11,9 @@ import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
-import inject.annotation.router.Route;
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.model.Profile;
-import jx.csp.model.authorize.PlatformAuthorizeUserInfoManager;
 import jx.csp.model.login.LoginVideo;
 import jx.csp.model.login.LoginVideo.TLoginVideo;
 import jx.csp.network.JsonParser;
@@ -26,7 +24,6 @@ import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.CacheUtil;
-import jx.csp.util.Util;
 import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
 import lib.ys.ui.other.NavBar;
@@ -41,7 +38,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  * @auther WangLan
  * @since 2017/9/27
  */
-@Route
+
 public class ThirdPartyLoginActivity extends BaseActivity {
 
     private final int KWechatLogin = 1;
@@ -50,21 +47,15 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     private final int KDownLoadVideo = 4;
 
     private final int KInitVersion = 0; // 首次访问此接口，version= 0
-
-
-    private PlatformAuthorizeUserInfoManager mPlatAuth;
+    private final String KFileName = "login_background_video.mp4";
 
     private CustomVideoView mCustomVideoView;
     private String mUrl;
     private String mLocatePath;
-    private String mFileName;
-
 
     @Override
     public void initData() {
-        mPlatAuth = new PlatformAuthorizeUserInfoManager(this);
-        mFileName = "login_background_video.mp4";
-        mLocatePath = CacheUtil.getAudioCacheDir() + File.separator  + mFileName;
+        mLocatePath = CacheUtil.getAudioCacheDir() + KFileName;
     }
 
     @NonNull
@@ -82,7 +73,6 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         mCustomVideoView = findView(R.id.login_videoview);
     }
 
-
     @Override
     public void setViews() {
         setOnClickListener(R.id.layout_login_wechat);
@@ -94,19 +84,9 @@ public class ThirdPartyLoginActivity extends BaseActivity {
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
 
-        if (Util.noNetwork()) {
-            //没网的时候，从本地获取视频,读文件是否存在，不存在则空，存在则播放
-            try {
-                File file = new File(mLocatePath);
-                if (file.exists()) {
-                    startPlay();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        // 从本地获取视频,是否存在，存在则播放
+        startPlay();
     }
-
 
     @Override
     public void onClick(View v) {
@@ -193,26 +173,12 @@ public class ThirdPartyLoginActivity extends BaseActivity {
                 mUrl = data.getString(TLoginVideo.videoUrl);
 
                 //当有视频跟新的时候，url和version都有值，此时新版本肯定比旧版本大，如果没有更新，没有返回数据
-                if (TextUtil.isNotEmpty(mUrl)&&newVersion > oldVersion) {
-//                    startPlay();
-                    mCustomVideoView.setVideoPath(mUrl);
-                    mCustomVideoView.start();
-                    mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
-
-                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(mLocatePath, mFileName, mUrl).build());
+                if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
+                    // fixme:在服务下载
+                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(CacheUtil.getAudioCacheDir(), KFileName, mUrl).build());
                     SpApp.inst().saveLoginVideoVersion(newVersion);
-                } else {
-                    //从本地获取视频,读文件是否存在
-                    try {
-                        File file = new File(mLocatePath);
-                        if (file.exists()) {
-                            startPlay();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
-            }else {
+            } else {
                 onNetworkError(id, r.getError());
             }
         } else if (id == KWeiboLogin || id == KWechatLogin) {
@@ -232,6 +198,7 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+
         startPlay();
     }
 
@@ -239,15 +206,29 @@ public class ThirdPartyLoginActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mCustomVideoView.stopPlayback();
+
+        if (mCustomVideoView.isPlaying()) {
+            mCustomVideoView.stopPlayback();
+        }
     }
 
-    public void startPlay(){
-        if (mLocatePath != null) {
-            mCustomVideoView.setVideoPath(mLocatePath);
-            mCustomVideoView.start();
-            mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+    public void startPlay() {
+        if (TextUtil.isEmpty(mLocatePath)) {
+            return;
         }
+        File file = new File(mLocatePath);
+        if (!file.exists()) {
+            return;
+        }
+
+        if (mCustomVideoView == null) {
+            return;
+        }
+
+        mCustomVideoView.setVideoPath(mLocatePath);
+        mCustomVideoView.setOnErrorListener((mediaPlayer, i, i1) -> false);
+        mCustomVideoView.setOnPreparedListener(mediaPlayer -> mCustomVideoView.start());
+        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
     }
 
     @Override

@@ -34,7 +34,6 @@ import jx.csp.ui.activity.me.ContributePlatformActivity;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.util.PackageUtil;
-import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
@@ -71,19 +70,17 @@ public class ShareDialog extends BaseDialog {
         int inland = 0; // 国内
         int overseas = 1; // 海外
     }
-
-    private final String KShareText = "CSPmeeting，简单易用的会议录制工具。让你的智慧，被更多人看见！";
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
     public static final String KShareError = "分享失败";
 
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
+    private String mCoverUrl; // 分享的图片url
 
     //剪切板管理工具
     private ClipboardManager mClipboadManager;
 
-    //    private ShareResult mShareResult;
     private PlatformActionListener mPlatformActionListener;
     private OnDeleteListener mDeleteListener;
     private OnCopyDuplicateListener mCopyListener;
@@ -99,46 +96,18 @@ public class ShareDialog extends BaseDialog {
     public ShareDialog(Context context, String shareTitle, int courseId) {
         super(context);
         mShareTitle = shareTitle;
-        // 拼接加密字符串
-        String local; // 系统语言
-        YSLog.d(TAG, "app language = " + SpApp.inst().getSystemLanguage());
-        YSLog.d(TAG, "app country = " + SpApp.inst().getCountry());
-        // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
-        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
-            if ("CN".equals(SpApp.inst().getCountry())) {
-                local = LanguageType.China;
-            } else {
-                local = LanguageType.HkMTw;
-            }
-        } else {
-            local = LanguageType.English;
-        }
-        int abroad;  // 国内版 国外版
-        if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
-            abroad = VersionType.inland;
-        } else {
-            abroad = VersionType.overseas;
-        }
-        String param = "id=" + courseId + "&_local=" + local + "&abroad=" + abroad;
-        Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
-        String http = BuildConfig.TEST ? des.hostDebuggable() : des.host();
-        try {
-            mShareUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, param), "utf-8");
-            YSLog.d(TAG, "ShareUrl = " + mShareUrl);
-        } catch (UnsupportedEncodingException e) {
-            YSLog.d(TAG, "Share error = " + e.getMessage());
-        }
+        shareSignature(courseId);
     }
 
-    public ShareDialog(Context context, String shareUrl, String shareTitle) {
+
+    public ShareDialog(Context context, int courseId, String shareTitle,String coverUrl) {
         super(context);
-        mShareUrl = shareUrl;
+        shareSignature(courseId);
         mShareTitle = shareTitle;
     }
 
     @Override
     public void initData() {
-//        mShareResult = new ShareResult();
         mPlatformActionListener = new PlatformActionListener() {
             @Override
             public void onComplete(cn.sharesdk.framework.Platform platform, int i, HashMap<String, Object> hashMap) {
@@ -190,17 +159,16 @@ public class ShareDialog extends BaseDialog {
     public void onClick(View v) {
         ShareParams shareParams = new ShareParams();
         shareParams.setTitle(mShareTitle);
-        shareParams.setText(KShareText);
+        shareParams.setText(ResLoader.getString(R.string.share_text));
         shareParams.setUrl(mShareUrl);
+        shareParams.setImageUrl(mCoverUrl);
 
         Platform platform;
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat: {
-//                Share.share();
                 platform = ShareSDK.getPlatform(Wechat.NAME);
                 //微信的字段
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.share_csp_logo)));
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -210,7 +178,6 @@ public class ShareDialog extends BaseDialog {
                 platform = ShareSDK.getPlatform(WechatMoments.NAME);
                 //微信的字段
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                shareParams.setImageData(BmpUtil.drawableToBitmap(ResLoader.getDrawable(R.mipmap.share_csp_logo)));
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
             }
@@ -218,7 +185,6 @@ public class ShareDialog extends BaseDialog {
             case R.id.dialog_share_iv_qq: {
                 platform = ShareSDK.getPlatform(QQ.NAME);
                 //这是qq必写的参数，否则发不了，短信只能发文字，链接可以写在文字里面
-                // FIXME: 2017/11/1 除了微信的图片有字段，其他的平台还没字段，图片传的是ppt第一页的图片
                 shareParams.setTitleUrl(mShareUrl);
                 platform.setPlatformActionListener(mPlatformActionListener);
                 platform.share(shareParams);
@@ -262,11 +228,9 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_tv_copy_replica: {
-                //Fixme:提示，实际需求没有，一下皆同，记得删
                 if (mCopyListener != null) {
                     mCopyListener.copy();
                 }
-                showToast("复制副本");
             }
             break;
             case R.id.dialog_share_tv_delete: {
@@ -291,21 +255,36 @@ public class ShareDialog extends BaseDialog {
         void copy();
     }
 
-   /* private class ShareResult extends ShareCallback {
-
-        @Override
-        public void shareComplete() {
-
+    public void shareSignature(int courseId) {
+        // 拼接加密字符串
+        String local; // 系统语言
+        YSLog.d(TAG, "app language = " + SpApp.inst().getSystemLanguage());
+        YSLog.d(TAG, "app country = " + SpApp.inst().getCountry());
+        // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
+        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+            if ("CN".equals(SpApp.inst().getCountry())) {
+                local = LanguageType.China;
+            } else {
+                local = LanguageType.HkMTw;
+            }
+        } else {
+            local = LanguageType.English;
         }
-
-        @Override
-        public void shareError() {
-
+        int abroad;  // 国内版 国外版
+        if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
+            abroad = VersionType.inland;
+        } else {
+            abroad = VersionType.overseas;
         }
-
-        @Override
-        public void shareCancel() {
-
+        String param = "id=" + courseId + "&_local=" + local + "&abroad=" + abroad;
+        Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
+        String http = BuildConfig.TEST ? des.hostDebuggable() : des.host();
+        try {
+            mShareUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, param), "utf-8");
+            YSLog.d(TAG, "ShareUrl = " + mShareUrl);
+        } catch (UnsupportedEncodingException e) {
+            YSLog.d(TAG, "Share error = " + e.getMessage());
         }
-    }*/
+    }
+
 }

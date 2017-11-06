@@ -13,18 +13,19 @@ import lib.yy.R;
 import lib.yy.network.BaseJsonParser;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.notify.Notifier.OnNotify;
 
 /**
  * @author CaiXiang
  * @since 2017/9/22
  */
 
-abstract public class BaseSRRecyclerFrag<T, A extends IAdapter<T>> extends SRRecyclerFragEx<T, A> {
+abstract public class BaseSRRecyclerFrag<T, A extends IAdapter<T>> extends SRRecyclerFragEx<T, A> implements OnNotify {
     private TextView mTvEmpty;
 
     @Override
     protected void afterInitCompleted() {
-        Notifier.inst().add(this::notify);
+        Notifier.inst().add(this);
 
         // 不想影响子类的findView重写
         mTvEmpty = findView(R.id.empty_footer_tv);
@@ -36,7 +37,7 @@ abstract public class BaseSRRecyclerFrag<T, A extends IAdapter<T>> extends SRRec
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Notifier.inst().remove(this::notify);
+        Notifier.inst().remove(this);
     }
 
     protected void notify(@NotifyType int type, Object data) {

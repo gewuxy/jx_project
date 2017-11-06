@@ -250,7 +250,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             finish();
         } else if (type == NotifyType.fetch_message_captcha) {
             form.enable(true);
-            refreshItem(form);
+            refreshItem(form); // 发送了Notify,fetch_message_captcha
         } else if (type == NotifyType.disable_fetch_message_captcha) {
             form.enable(false);
             refreshItem(form);

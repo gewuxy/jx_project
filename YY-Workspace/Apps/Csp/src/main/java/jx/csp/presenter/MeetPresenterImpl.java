@@ -48,7 +48,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private WebSocketServRouter mWebSocketServRouter;
     private CountdownDialog mCountdownDialog;
 
-    private String mId;
+    private int mId;
 
     public MeetPresenterImpl(V v, Context context) {
         super(v);
@@ -113,13 +113,16 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void onShareClick(Meet item) {
-        mId = item.getString(TMeet.id);
-        //Fixme:传个假的url
-        ShareDialog shareDialog = new ShareDialog(mContext, "http://blog.csdn.net/happy_horse/article/details/51164262", "哈哈");
-        shareDialog.setDeleteListener(() -> exeNetworkReq(MeetingAPI.delete(mId).build()));
+        mId = item.getInt(TMeet.id);
+        ShareDialog shareDialog = new ShareDialog(mContext,
+                item.getInt(TMeet.id),
+                String.format(ResLoader.getString(R.string.share_title), item.getString(TMeet.title)),
+                item.getString(TMeet.coverUrl));
+        shareDialog.setDeleteListener(() -> {
+            exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mId).build());
+        });
         shareDialog.setCopyListener(() -> {
             Notifier.inst().notify(NotifyType.copy_duplicate, mId);
-            YSLog.d("ooooooooooo", mId + "dddd");
         });
         shareDialog.show();
     }
@@ -220,9 +223,11 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 Result r = (Result) result;
                 if (r.isSucceed()) {
                     showToast(R.string.delete_success);
-                    //Fixme:还要通知列表删除？
+                    Notifier.inst().notify(NotifyType.delete_meeting, mId);
+                    YSLog.d(TAG, mId + "发送删除通知");
                 } else {
                     onNetworkError(id, r.getError());
+                    YSLog.d(TAG, mId + "失败");
                 }
             }
             break;
@@ -285,4 +290,5 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private void showToast(@StringRes int... ids) {
         App.showToast(ids);
     }
+
 }

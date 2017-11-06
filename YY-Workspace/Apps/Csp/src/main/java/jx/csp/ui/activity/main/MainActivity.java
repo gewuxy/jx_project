@@ -11,6 +11,7 @@ import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.login.ThirdPartyLoginActivity;
@@ -168,6 +169,29 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
+        } else if (type == NotifyType.delete_meeting) {
+           Integer id = (Integer) data;
+            YSLog.d(TAG, id + "删除接收通知");
+            for (Meet meet : mGridFrag.getData()) {
+                if (id == meet.getInt(TMeet.id)) {
+                    mGridFrag.getData().remove(meet);
+                    mGridFrag.invalidate();
+//                    mVpFrag.invalidate();
+                    break;
+                }
+            }
+        } else if (type == NotifyType.copy_duplicate) {
+            Integer id = (Integer) data;
+            for (Meet meet : mGridFrag.getData()) {
+                if (id == meet.getInt(TMeet.id)) {
+                    Meet m = (Meet) meet.clone();
+                    m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
+                    mGridFrag.addItem(m);
+                    mGridFrag.invalidate();
+//                    mVpFrag.invalidate();
+                    break;
+                }
+            }
         }
     }
 
@@ -176,7 +200,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         if (enableExit()) {
             super.onBackPressed();
         } else {
-            showToast("再按一次退出");
+            showToast(R.string.click_again_exit);
         }
     }
 }

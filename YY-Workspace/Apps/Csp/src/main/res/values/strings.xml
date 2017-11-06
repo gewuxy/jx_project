@@ -105,6 +105,8 @@
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失败</string>
     <string name="share_cancel">分享取消</string>
+    <string name="share_title">我正在用CSPmeeting讲《%s》</string>
+    <string name="share_text">用手机讲PPT，随讲随录随分享，你的智慧将被更多人看见！</string>
 
     <!--首页-->
     <string name="living">直播会议正在进行中...</string>
@@ -128,6 +130,8 @@
     <string name="on_record">录播</string>
     <string name="delete_success">删除成功</string>
     <string name="service_agreement">CSPmeeting服务协议</string>
+    <string name="click_again_exit">再按一次退出</string>
+    <string name="duplicate">-副本</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>
