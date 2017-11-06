@@ -44,6 +44,7 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.login_twitter);
         setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.login_jx);
+        setOnClickListener(R.id.language_transform_en);
     }
 
     @Override
@@ -57,6 +58,14 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
             break;
             case R.id.login_twitter: {
                 Platform.auth(Type.twitter, newListener(KIdTwitter, LoginType.twitter_login));
+            }
+            break;
+            case R.id.login_jx: {
+                startActivity(YaYaAuthorizeLoginActivity.class);
+            }
+            break;
+            case R.id.language_transform_en: {
+                startActivity(AuthLoginActivity.class);
             }
             break;
         }

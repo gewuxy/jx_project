@@ -55,6 +55,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
     private EditText mEtEmail;
     private EditText mEtPwd;
+    private View mLayout;
     private int mCount = 0;
 
     @Override
@@ -76,6 +77,12 @@ public class EmailLoginActivity extends BaseLoginActivity {
     }
 
     @Override
+    public void findViews() {
+        super.findViews();
+        mLayout = findView(R.id.layout_email_login);
+    }
+
+    @Override
     public void setViews() {
         super.setViews();
 
@@ -92,6 +99,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         mEtEmail.setText(SpApp.inst().getUserEmail());
         mEtEmail.setSelection(getEmail().length());
+        showView(mLayout);
     }
 
     @Override
@@ -173,11 +181,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
         } else {
             showToast(error.getMessage());
         }
-    }
-
-    @Override
-    protected int getFooterResId() {
-        return R.layout.layout_email_login_footer;
     }
 
     @Override

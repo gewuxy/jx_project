@@ -20,6 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/language_transform_en"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="20dp"

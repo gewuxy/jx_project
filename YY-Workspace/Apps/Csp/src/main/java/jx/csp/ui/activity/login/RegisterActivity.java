@@ -50,6 +50,7 @@ public class RegisterActivity extends BaseLoginActivity {
     private EditText mEtEmail;
     private EditText mEtPwd;
     private EditText mEtNickname;
+    private View mLayout;
 
     @Override
     public void initData() {
@@ -76,6 +77,12 @@ public class RegisterActivity extends BaseLoginActivity {
     }
 
     @Override
+    public void findViews() {
+        super.findViews();
+        mLayout = findView(R.id.linea_layout_protocol);
+    }
+
+    @Override
     public void setViews() {
         super.setViews();
         mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
@@ -88,6 +95,8 @@ public class RegisterActivity extends BaseLoginActivity {
         mEtNickname.addTextChangedListener(this);
 
         setOnClickListener(R.id.service_agreement);
+
+        showView(mLayout);
     }
 
     @Override
@@ -149,11 +158,6 @@ public class RegisterActivity extends BaseLoginActivity {
         } else {
             onNetworkError(id, r.getError());
         }
-    }
-
-    @Override
-    protected int getFooterResId() {
-        return R.layout.layout_captcha_login_footer;
     }
 
     @Override

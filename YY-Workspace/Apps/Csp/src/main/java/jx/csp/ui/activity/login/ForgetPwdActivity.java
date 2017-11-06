@@ -81,11 +81,6 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected int getFooterResId() {
-        return 0;
-    }
-
-    @Override
     public void afterTextChanged(Editable s) {
         setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)));
     }

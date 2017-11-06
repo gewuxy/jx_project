@@ -1,18 +1,17 @@
 package jx.csp.ui.activity.login;
 
 import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import lib.network.model.NetworkResp;
-import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseFormActivity;
 import jx.csp.R;
 import jx.csp.network.JsonParser;
 import jx.csp.util.Util;
+import lib.network.model.NetworkResp;
+import lib.ys.ui.other.NavBar;
+import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
  * @auther : GuoXuan
@@ -70,6 +69,10 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         }
     }
 
+    public int getFooterResId(){
+        return 0;
+    }
+
     @Deprecated
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,9 +110,5 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
      * 点击按钮的操作
      */
     abstract protected void toSet();
-
-    @LayoutRes
-    abstract protected int getFooterResId();
-
 
 }

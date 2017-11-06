@@ -5,13 +5,18 @@ import android.view.View;
 
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.sp.SpApp;
+import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.view.CustomVideoView;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
 import lib.ys.ui.other.NavBar;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
 /**
@@ -23,8 +28,8 @@ import lib.yy.notify.Notifier.NotifyType;
 
 public class AuthLoginActivity extends BaseAuthLoginActivity {
 
-    private final int KIdWechatLogin = 1;
-    private final int KIdSinaLogin = 2;
+    private final int KIdWechatLogin = 3;
+    private final int KIdSinaLogin = 4;
     private final int KLoginVideo = 3;
     private final int KDownLoadVideo = 4;
 
@@ -34,6 +39,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
     private CustomVideoView mCustomVideoView;
     private String mUrl;
     private String mLocatePath;
+    private String mUserName;
 
     @Override
     public void initData() {
@@ -57,6 +63,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.layout_login_sina);
         setOnClickListener(R.id.login_mobile);
         setOnClickListener(R.id.language_transform);
+        setOnClickListener(R.id.layout_login_jx);
     }
 
     @Override
@@ -83,6 +90,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
             case R.id.layout_login_jx: {
                 startActivity(YaYaAuthorizeLoginActivity.class);
             }
+            break;
         }
     }
 
@@ -94,14 +102,15 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
                 String userGender = params.getGender();
                 String icon = params.getIcon();
                 String userId = params.getId();
-                String userName = params.getName();
+                mUserName = params.getName();
 
                 exeNetworkReq(id, UserAPI.login(type)
                         .uniqueId(userId)
-                        .nickName(userName)
+                        .nickName(mUserName)
                         .gender(userGender)
                         .avatar(icon)
                         .build());
+                showToast("授权成功");
             }
 
             @Override
@@ -113,6 +122,23 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
             public void onAuthCancel() {
             }
         };
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+        if (id == KIdWechatLogin || id == KIdSinaLogin) {
+            Result<Profile> r = (Result<Profile>) result;
+            if (r.isSucceed()) {
+                SpApp.inst().saveUserName(mUserName);
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+                startActivity(MainActivity.class);
+                finish();
+            }else {
+                onNetworkError(id, r.getError());
+            }
+        }
     }
 
     @Override

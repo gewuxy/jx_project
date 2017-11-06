@@ -208,6 +208,11 @@ public class MobProvider implements Provider {
         cn.sharesdk.framework.Platform p = null;
 
         cn.sharesdk.framework.Platform.ShareParams shareParams = new cn.sharesdk.framework.Platform.ShareParams();
+        shareParams.setImageUrl(param.getImageUrl());
+        shareParams.setText(param.getText());
+        shareParams.setTitle(param.getTitle());
+        shareParams.setUrl(param.getUrl());
+
         switch (type) {
             case wechat_friend: {
                 p = ShareSDK.getPlatform(WechatMoments.NAME);
@@ -219,6 +224,31 @@ public class MobProvider implements Provider {
                 shareParams.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE);
             }
             break;
+            case sina: {
+                p = ShareSDK.getPlatform(SinaWeibo.NAME);
+            }
+            break;
+            case qq: {
+                p = ShareSDK.getPlatform(QQ.NAME);
+                shareParams.setTitleUrl(param.getUrl());
+            }
+            break;
+            case qzone: {
+                p = ShareSDK.getPlatform(QZone.NAME);
+            }
+            break;
+            case linkedin: {
+                p = ShareSDK.getPlatform(LinkedIn.NAME);
+            }
+            break;
+            case sms: {
+                p = ShareSDK.getPlatform(ShortMessage.NAME);
+            }
+            break;
+        }
+
+        if (p == null) {
+            return;
         }
 
         p.setPlatformActionListener(new PlatformActionListener() {

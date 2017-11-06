@@ -113,12 +113,6 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void setViews() {
-        setOnShareClickListener(R.id.dialog_share_iv_wechat);
-        setOnShareClickListener(R.id.dialog_share_iv_moment);
-        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
-        setOnShareClickListener(R.id.dialog_share_iv_qq);
-        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
-        setOnShareClickListener(R.id.dialog_share_iv_sina);
 
         setOnClickListener(R.id.dialog_share_iv_message);
         setOnClickListener(R.id.dialog_share_iv_copy_link);
@@ -192,6 +186,12 @@ public class ShareDialog extends BaseDialog {
                 }
             });
         };
+        setOnShareClickListener(R.id.dialog_share_iv_wechat);
+        setOnShareClickListener(R.id.dialog_share_iv_moment);
+//        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
+//        setOnShareClickListener(R.id.dialog_share_iv_qq);
+        setOnShareClickListener(R.id.dialog_share_iv_sina);
+
     }
 
     private void setOnShareClickListener(@IdRes int id) {

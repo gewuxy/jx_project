@@ -44,6 +44,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
 
     private EditText mEtNickName;
     private LinearLayout mLinearLayoutProtocol;
+    private View mLayout;
 
     @Override
     public void initData() {
@@ -59,6 +60,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     public void findViews() {
         super.findViews();
         mLinearLayoutProtocol = findView(R.id.linea_layout_protocol);
+        mLayout = findView(R.id.linea_layout_protocol);
     }
 
     @Override
@@ -72,6 +74,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         LinearLayout.LayoutParams lp = (LayoutParams) mLinearLayoutProtocol.getLayoutParams();
         lp.setMargins(75,331,75,27);
         mLinearLayoutProtocol.setLayoutParams(lp);
+        showView(mLayout);
     }
 
     @Override
@@ -120,11 +123,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         }else {
             onNetworkError(id,r.getError());
         }
-    }
-
-    @Override
-    protected int getFooterResId() {
-        return R.layout.layout_captcha_login_footer;
     }
 
     @Override

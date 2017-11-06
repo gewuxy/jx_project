@@ -63,6 +63,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     private EditText mEtPhoneNumber;
     private EditText mEtCaptcha;
+    private View mLayout;
     private int mCount; // 计算点击多少次
     private long mStartTime; // 开始计算10分钟间隔的时间
 
@@ -85,6 +86,12 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 .drawable(R.drawable.login_ic_pwd)
                 .enable(false);
         addItem(Form.create(FormType.divider_margin));
+    }
+
+    @Override
+    public void findViews() {
+        super.findViews();
+        mLayout = findView(R.id.linea_layout_protocol);
     }
 
     @Override
@@ -111,6 +118,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         refreshItem(getRelatedItem(RelatedId.captcha));
 
         setOnClickListener(R.id.service_agreement);
+        showView(mLayout);
     }
 
     @Override
@@ -216,12 +224,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             }
         }
     }
-
-    @Override
-    protected int getFooterResId() {
-        return R.layout.layout_captcha_login_footer;
-    }
-
 
     @Override
     public void afterTextChanged(Editable s) {

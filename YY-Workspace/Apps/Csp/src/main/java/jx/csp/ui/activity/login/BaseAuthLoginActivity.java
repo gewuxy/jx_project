@@ -48,7 +48,6 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-
     }
 
     @CallSuper
@@ -96,8 +95,8 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        stopRefresh();
         if (id == KLoginVideo) {
+            stopRefresh();
             Result<LoginVideo> r = (Result<LoginVideo>) result;
             if (r.isSucceed()) {
                 LoginVideo data = r.getData();
@@ -159,7 +158,6 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mCustomVideoView != null) {
-            //百度的两个释放的方法，也不知道哪个
             mCustomVideoView.suspend();
             mCustomVideoView.stopPlayback();
         }
