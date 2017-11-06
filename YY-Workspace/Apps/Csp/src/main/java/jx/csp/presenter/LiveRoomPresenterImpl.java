@@ -41,7 +41,7 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
     public LiveRoomPresenterImpl(LiveRoomContract.View view) {
         super(view);
 
-        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.userName));
+        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.uid), Profile.inst().getString(TProfile.userName));
         mZegoCallbackImpl = new LiveCallbackImpl();
     }
 
@@ -127,12 +127,12 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
         @Override
         public void onLoginCompletion(int i, String stream) {
             // i   0:成功, 其它:失败
-            YSLog.d(TAG, "i" + i);
+            YSLog.d(TAG, "live pre i" + i);
         }
 
         @Override
         public void onKickOut() {
-            // FIXME: 2017/10/26 因为登陆抢占原因等被挤出房间
+            getView().onFinish();
         }
 
         @Override

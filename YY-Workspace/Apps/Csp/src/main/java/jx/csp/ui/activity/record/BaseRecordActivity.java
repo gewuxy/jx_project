@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import inject.annotation.router.Arg;
 import jx.csp.R;
 import jx.csp.dialog.ShareDialog;
-import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -80,10 +79,10 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
 
     protected JoinMeeting mJoinMeeting; // 全部数据
-    protected Course mCourseMsg;
     protected ArrayList<CourseDetail> mCourseDetailList;
 
     private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
+    private LinkedList<String> mUploadFilePathList; // 直播时上传音频地址列表，上传完删除
     private boolean mUploadState = false; // 是否在上传音频
     protected int mWsPosition = 0;  // websocket接收到的页数
     protected WebSocketServRouter mWebSocketServRouter;
@@ -155,7 +154,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
         mUploadList = new LinkedList<>();
-        //setPageTransformer(false, new ScaleTransformer(KVpScale));
+        mUploadFilePathList = new LinkedList<>();
     }
 
     @Override
@@ -316,6 +315,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
                     .file(bytes)
                     .build();
             mUploadList.addLast(req);
+            if (type == PlayType.live || type == PlayType.video) {
+                mUploadFilePathList.addLast(audioFilePath);
+            }
             upload();
         }
     }
@@ -338,6 +340,11 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnPag
         if (id == KUploadAudioReqId) {
             YSLog.d(TAG, "移除任务");
             mUploadList.removeFirst();
+            if (mUploadFilePathList != null && mUploadFilePathList.size() > 0) {
+                boolean b = FileUtil.delFile(new File(mUploadFilePathList.getFirst()));
+                YSLog.d(TAG, "直播音频文件删除成功？ = " + b);
+                mUploadFilePathList.removeFirst();
+            }
             mUploadState = false;
             upload();
         }

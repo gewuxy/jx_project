@@ -28,7 +28,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         email,      //邮箱
         mobile,     //手机
         nickName,   //昵称
-        uid,        // yaya医师单位号用户id
+        uid,        // 用户id
         country,    //国家
         province,   // 省份
         city,       // 城市

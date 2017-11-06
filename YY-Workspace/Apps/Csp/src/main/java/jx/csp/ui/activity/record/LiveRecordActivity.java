@@ -16,7 +16,6 @@ import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
-import jx.csp.model.meeting.Live;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
@@ -65,7 +64,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
     long mRealStopTime;
 
     private View mView;
-    private Live mLiveMsg;
     private String mFilePath; // 正在录制的音频文件名字
 
     @Override
@@ -73,7 +71,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         super.initData();
         mRealStopTime = mStopTime + 15 * 60 * 1000;
         mView = new View();
-        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView);
+        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView, mCourseId);
     }
 
     @Override

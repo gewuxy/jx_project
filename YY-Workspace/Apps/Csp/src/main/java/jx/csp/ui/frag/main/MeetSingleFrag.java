@@ -93,35 +93,44 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mTvTitle.setText(mMeet.getString(TMeet.title));
         mTvTotalPage.setText(mMeet.getString(TMeet.pageCount));
 
-        if (mMeet.getInt(TMeet.playType) == PlayType.reb) {
-            mTvTime.setText(mMeet.getString(TMeet.playTime));
-            mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
-
-            if (mMeet.getInt(TMeet.playState) == PlayState.un_start) {
-                mTvState.setText(R.string.record);
-            } else if (mMeet.getInt(TMeet.playState) == PlayState.record) {
-                mTvState.setText(R.string.on_record);
-            } else {
-                goneView(mTvState);
-            }
-            goneView(mIvLive);
-        } else {
-            mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
-
-            if (mMeet.getInt(TMeet.liveState) == LiveState.un_start) {
-                mTvState.setText(R.string.solive);
-
-                //直播的开始时间转换
-                Date d = new Date(Long.parseLong(mMeet.getString(TMeet.startTime)));
-                SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
-                mTvTime.setText(data.format(d));
-            } else if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
-                mTvState.setText(R.string.on_solive);
+        long startTime = mMeet.getLong(TMeet.startTime);
+        long stopTime = mMeet.getLong(TMeet.endTime);
+        switch (mMeet.getInt(TMeet.playType)) {
+            case PlayType.reb: {
                 mTvTime.setText(mMeet.getString(TMeet.playTime));
-            } else {
-                mTvState.setText(R.string.on_solive);
-                mTvTime.setText(mMeet.getString(TMeet.playTime));
+                mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
+
+                if (startTime > System.currentTimeMillis()) {
+                    mTvState.setText(R.string.record);
+                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
+                    mTvState.setText(R.string.on_record);
+                } else {
+                    goneView(mTvState);
+                }
+                goneView(mIvLive);
             }
+            break;
+            case PlayType.live:
+            case PlayType.video: {
+                if (mMeet.getInt(TMeet.playType) == PlayType.live) {
+                    goneView(mIvLive);
+                }
+                mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
+                if (startTime > System.currentTimeMillis()) {
+                    mTvState.setText(R.string.solive);
+                    //直播的开始时间转换
+                    Date d = new Date(Long.parseLong(mMeet.getString(TMeet.startTime)));
+                    SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
+                    mTvTime.setText(data.format(d));
+                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
+                    mTvState.setText(R.string.on_solive);
+                    mTvTime.setText(mMeet.getString(TMeet.playTime));
+                } else {
+                    mTvState.setText(R.string.on_solive);
+                    mTvTime.setText(mMeet.getString(TMeet.playTime));
+                }
+            }
+            break;
         }
     }
 

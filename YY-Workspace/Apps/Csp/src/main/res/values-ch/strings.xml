@@ -125,7 +125,7 @@
     <string name="live_not_start">直播还没开始，请稍等</string>
     <string name="live_have_end">直播已结束</string>
     <string name="on_solive">直播中</string>
-    <string name="on_record">录播</string>
+    <string name="on_record">录播中</string>
     <string name="delete_success">删除成功</string>
 
     <!-- 个人中心 -->

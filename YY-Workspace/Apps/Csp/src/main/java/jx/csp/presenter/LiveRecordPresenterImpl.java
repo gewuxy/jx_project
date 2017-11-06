@@ -46,7 +46,6 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private boolean mOverFifteen = false;  // 是否在录制超过15分钟的音频
     private int mNum = 0;
 
-    private Message mMsg;
     private String mFilePath;
     private LiveCallbackImpl mLiveCallbackImpl;
 
@@ -79,16 +78,16 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         }
     };
 
-    public LiveRecordPresenterImpl(LiveRecordContract.V view) {
+    public LiveRecordPresenterImpl(LiveRecordContract.V view, String roomId) {
         super(view);
 
         mMediaRecorder = new MediaRecorder();
         mLiveCallbackImpl = new LiveCallbackImpl();
-        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.id) + "666", Profile.inst().getString(TProfile.userName));
+        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.uid) + "6789", Profile.inst().getString(TProfile.userName));
         //测试
         LiveApi.getInst().setTest(BuildConfig.TEST);
         LiveApi.getInst().setRoomConfig(true, true);
-        LiveApi.getInst().setCallback("789", UserType.audience, mLiveCallbackImpl);
+        LiveApi.getInst().setCallback(roomId, UserType.audience, mLiveCallbackImpl);
     }
 
     @Override
@@ -178,7 +177,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         @Override
         public void onLoginCompletion(int i, String stream) {
             // i   0:成功, 其它:失败
-            YSLog.d(TAG, "i" + i);
+            YSLog.d(TAG, "login room i" + i);
         }
 
         @Override

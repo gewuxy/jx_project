@@ -164,6 +164,9 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
         int id = v.getId();
         switch (id) {
             case R.id.live_iv_back: {
+                if (mLiveState) {
+                    mPresenter.stopLive();
+                }
                 finish();
             }
             break;
@@ -382,6 +385,9 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify{
 
         @Override
         public void onFinish() {
+            if (mLiveState) {
+                mPresenter.stopLive();
+            }
             finish();
         }
 
