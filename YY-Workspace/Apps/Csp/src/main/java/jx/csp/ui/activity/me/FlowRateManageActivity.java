@@ -250,6 +250,7 @@ public class FlowRateManageActivity extends BaseActivity {
         @Override
         public void setSurplusFlowRate() {
             mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / KFlowConversion + KSurplusFlowUnit);
+            mEtFlowRate.setText("");
         }
 
         @Override
