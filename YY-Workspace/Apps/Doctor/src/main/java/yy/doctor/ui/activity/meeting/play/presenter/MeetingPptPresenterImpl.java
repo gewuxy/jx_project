@@ -119,9 +119,11 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     @Override
     public void stopMedia() {
-        NetPlayer.inst().stop();
-        mCourses.get(mPosition).put(TCourse.play, false);
-        getView().invalidate(mPosition);
+        NetPlayer.inst().pause();
+        if (mCourses != null) {
+            mCourses.get(mPosition).put(TCourse.play, false);
+            getView().invalidate(mPosition);
+        }
     }
 
     @Override
@@ -145,9 +147,9 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         mCountDown.start(KDuration);
     }
 
-    private String getTime(long millisecond) {
+    protected String getTime(long millisecond) {
         int second = Math.round(millisecond / 1000.0f); // 四舍五入
-        YSLog.d(TAG, "getTime:" + second);
+        YSLog.d("media", "getTime:" + second);
         return TimeFormatter.second(second, TimeFormatter.TimeFormat.from_m);
     }
 
@@ -156,6 +158,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     }
 
+    @CallSuper
     @Override
     public void onPreparedSuccess(long allMillisecond) {
         mAllMillisecond = allMillisecond;
@@ -171,6 +174,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     }
 
+    @CallSuper
     @Override
     public void onProgress(long currMilliseconds, int progress) {
         Course course = mCourses.get(mPosition);
@@ -178,16 +182,19 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         getView().invalidate(mPosition);
     }
 
+    @CallSuper
     @Override
     public void onPlayState(boolean state) {
         getView().onPlayState(state);
     }
 
+    @CallSuper
     @Override
     public void onCompletion() {
         mCourses.get(mPosition).put(TCourse.play, false);
         getView().invalidate(mPosition);
         getView().setNextItem();
+        getView().onPlayState(false);
     }
 
     @Override

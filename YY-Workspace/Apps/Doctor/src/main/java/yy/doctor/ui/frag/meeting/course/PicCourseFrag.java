@@ -3,7 +3,6 @@ package yy.doctor.ui.frag.meeting.course;
 import android.graphics.Color;
 
 import inject.annotation.router.Route;
-import lib.ys.ConstantsEx;
 import yy.doctor.model.meet.Submit.TSubmit;
 
 /**
@@ -28,10 +27,5 @@ public class PicCourseFrag extends PicAudioCourseFrag {
         super.loadFinish();
 
         getSubmit().put(TSubmit.finished, true); // 图片加载完成就算完成
-    }
-
-    @Override
-    public String getUrl() {
-        return ConstantsEx.KEmpty;
     }
 }

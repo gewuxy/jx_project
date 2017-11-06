@@ -1,36 +1,11 @@
 package yy.doctor.adapter.meeting;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
-import android.support.annotation.Nullable;
-import android.widget.ImageView;
 
-import com.facebook.imageutils.BitmapUtil;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.concurrent.Callable;
-
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.fitter.DpFitter;
-import lib.ys.network.image.ImageInfo;
-import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.util.DeviceUtil;
-import lib.ys.util.FileUtil;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.CourseVH;
 import yy.doctor.model.meet.ppt.Course;
@@ -48,43 +23,20 @@ public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> 
     private final int KW = 129;
     private final int KH = 96;
 
-    private ImageView mIvVideo;
-
     @Override
     protected void refreshView(int position, CourseVH holder) {
         int type = getItem(position).getType();
-        ImageView ivVideo = holder.getIvVideo();
         NetworkImageView ivPPT = holder.getIvPPT();
-        if (type != CourseType.video) {
-            // 复用重置
-            goneView(ivVideo);
-            showView(ivPPT);
-        }
         switch (type) {
             case CourseType.video: {
-                if (ivVideo != mIvVideo) {
-                    // 同一个不刷新
-                    ivVideo.setImageResource(R.drawable.ic_default_breviary_video);
-                    mIvVideo = ivVideo;
-
-                    Observable.fromCallable(() -> getFirstFrame(position))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                if (bitmap == null) {
-                                    return;
-                                }
-                                ivVideo.setImageBitmap(bitmap);
-                            });
-                }
-
-                showView(ivVideo);
-                goneView(ivPPT);
+                ivPPT.res(R.drawable.ic_default_breviary_video)
+                        .url(getItem(position).getString(TCourse.imgUrl))
+                        .resize(DpFitter.dp(KW), DpFitter.dp(KH))
+                        .load();
             }
             break;
             case CourseType.audio: {
-                ivPPT.res(R.drawable.ic_default_breviary_audio)
-                        .load();
+                ivPPT.res(R.drawable.ic_default_breviary_audio).load();
             }
             break;
             case CourseType.pic_audio:
@@ -103,7 +55,7 @@ public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> 
             goneView(holder.getLayoutMedia());
         }
 
-        if (getItem(position).getBoolean(TCourse.play)) {
+        if (getItem(position).getBoolean(TCourse.play) && type != CourseType.video) {
             nativeAnimation(holder, true);
         } else {
             nativeAnimation(holder, false);
@@ -113,18 +65,6 @@ public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> 
     @Override
     protected int getConvertViewResId() {
         return R.layout.layout_ppt_breviary_item;
-    }
-
-    @Nullable
-    private Bitmap getFirstFrame(int position) {
-        if (!DeviceUtil.isNetworkEnabled()) {
-            return null;
-        }
-        MediaMetadataRetriever r = new MediaMetadataRetriever();
-        r.setDataSource(getItem(position).getString(TCourse.videoUrl), new HashMap());
-        Bitmap bitmap = r.getFrameAtTime(1);
-        r.release();
-        return bitmap;
     }
 
     private void nativeAnimation(CourseVH holder, boolean state) {

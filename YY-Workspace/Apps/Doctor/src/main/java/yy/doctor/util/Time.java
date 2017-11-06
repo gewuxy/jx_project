@@ -2,6 +2,8 @@ package yy.doctor.util;
 
 import java.util.concurrent.TimeUnit;
 
+import lib.ys.YSLog;
+import lib.ys.util.TimeFormatter;
 import yy.doctor.Constants.DateUnit;
 
 /**
@@ -108,5 +110,11 @@ public class Time {
         }
 
         return sb.toString();
+    }
+
+    public static String getTime(long millisecond) {
+        int second = Math.round(millisecond / 1000.0f); // 四舍五入
+        YSLog.d("media", "getTime:" + second);
+        return TimeFormatter.second(second, TimeFormatter.TimeFormat.from_m);
     }
 }

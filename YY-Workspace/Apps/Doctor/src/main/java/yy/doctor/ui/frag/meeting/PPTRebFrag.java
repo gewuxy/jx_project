@@ -1,22 +1,25 @@
 package yy.doctor.ui.frag.meeting;
 
+import android.content.res.Configuration;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
-import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
 import yy.doctor.model.meet.ppt.CourseInfo;
@@ -60,8 +63,13 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
     private OnFragClickListener mListener;
     private boolean mDispatch; // 是否处理触摸事件
+
     private View mLayoutNew;
     private TextView mTvNew;
+    private View mLayoutMedia;
+    private ImageView mIvMedia;
+    private TextView mTvMedia;
+    private View mLayoutL;
 
     public void addOnPageChangeListener(OnPageChangeListener listener) {
         setOnPageChangeListener(listener); // 外部添加
@@ -75,6 +83,13 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         mPPT = ppt;
 
         mStartTime = System.currentTimeMillis();
+    }
+
+    /**
+     * 是否拦截触摸事件
+     */
+    public void setDispatch(boolean dispatch) {
+        mDispatch = dispatch;
     }
 
     @Override
@@ -100,6 +115,11 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
         mLayoutNew = findView(R.id.ppt_layout);
         mTvNew = findView(R.id.ppt_tv_num);
+
+        mLayoutMedia = findView(R.id.ppt_layout_media);
+        mIvMedia = findView(R.id.ppt_iv_media);
+        mTvMedia = findView(R.id.ppt_tv_media);
+        mLayoutL = findView(R.id.ppt_layout_landscape);
     }
 
     @Override
@@ -110,6 +130,8 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         setScrollDuration(KDuration);
         setOnPageChangeListener(this);
         setOnClickListener(R.id.ppt_layout);
+        setOnClickListener(R.id.ppt_iv_left_landscape);
+        setOnClickListener(R.id.ppt_iv_right_landscape);
     }
 
     @Override
@@ -125,6 +147,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
         mLastPosition = position;
 
+        mediaVisibility(false);
+        mTvMedia.setText("加载中");
+
 //        NetworkImageView.clearMemoryCache(getContext());
     }
 
@@ -133,58 +158,39 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         // do nothing
     }
 
-    /**
-     * 记录上一页的学习时间
-     */
-    public void saveStudyTime() {
-        Submit submit = mSubmits.get(mLastPosition);
-        if (submit == null) {
-            if (getItem(mLastPosition) == null) {
-                return; // 未初始化成功
-            }
-            submit = getItem(mLastPosition).getSubmit();
-            mSubmits.put(Integer.valueOf(mLastPosition), submit);
+    @Override
+    public void onClick() {
+        if (mListener != null) {
+            mListener.onClick();
         }
-        long studyTime = submit.getLong(TSubmit.usedtime, 0);
-        long curTime = System.currentTimeMillis();
-        // 加上原来记录
-        curTime += studyTime - mStartTime;
-        submit.put(TSubmit.usedtime, curTime);
-        mStartTime = System.currentTimeMillis();
     }
 
-    /**
-     * 根据类型添加的frag
-     */
-    @Nullable
-    private BaseCourseFrag getPPTFrag(Course course) {
-        BaseCourseFrag frag = null;
-        String meetId = mPPT.getString(TPPT.meetId);
-        switch (course.getType()) {
-            case CourseType.audio: {
-                frag = AudioCourseFragRouter.create(course, meetId).route();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ppt_layout: {
+                setCurrentItem();
+                newVisibility(false);
             }
             break;
-            case CourseType.video: {
-                frag = VideoCourseFragRouter.create(course, meetId).route();
+            case R.id.ppt_iv_left_landscape: {
+                setCurrentItem(-1, getString(R.string.course_first));
             }
             break;
-            case CourseType.pic: {
-                frag = PicCourseFragRouter.create(course, meetId).route();
-            }
-            break;
-            case CourseType.pic_audio: {
-                frag = PicAudioCourseFragRouter.create(course, meetId).route();
+            case R.id.ppt_iv_right_landscape: {
+                setCurrentItem(1, getString(R.string.course_last));
             }
             break;
         }
-        return frag;
     }
 
     /**
      * 追加新的ppt
      */
     public void addCourse(Course course) {
+        if (course == null) {
+            return;
+        }
         BaseCourseFrag f = getPPTFrag(course);
         mCourses.add(course);
         if (f != null) {
@@ -257,30 +263,62 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
     }
 
-    public void setTextNew(CharSequence c) {
-        mTvNew.setText(c);
-    }
-
-    public void newVisibility(boolean visibility) {
-        if (visibility) {
-            showView(mLayoutNew);
-        } else {
-            goneView(mLayoutNew);
+    /**
+     * 当前ppt缩放至原来
+     */
+    public void refreshCurrentItem() {
+        BaseCourseFrag item = getItem(getCurrentItem());
+        if (item instanceof PicAudioCourseFrag) {
+            PicAudioCourseFrag f = (PicAudioCourseFrag) item;
+            f.setScale();
         }
     }
 
-    @Override
-    public void onDestroy() {
-        saveStudyTime();
+    /**
+     * 开始播放
+     */
+    public void startPlay() {
+        NetPlayer.inst().stop();
+        BaseCourseFrag frag = getItem(getCurrentItem());
+        if (frag instanceof VideoCourseFrag) {
+            VideoCourseFrag f = (VideoCourseFrag) frag;
+            NetPlayer.inst().setVideo(f.getTextureView());
+        } else {
+            NetPlayer.inst().setAudio();
+        }
+        String url = frag.getUrl();
+        if (TextUtil.isEmpty(url)) {
+            setTextMedia("录音中");
+        } else {
+            NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), url);
+        }
+    }
 
-        // 把需要的对象传给服务提交(失败再次提交)
-        CommonServRouter.create()
-                .type(CommonServ.ReqType.course)
-                .submit(getSubmit(mSubmits))
-                .route(getContext());
+    /**
+     * 停止播放
+     */
+    public void stopPlay() {
+        NetPlayer.inst().stop();
+    }
 
-        // 保持调用顺序
-        super.onDestroy();
+    /**
+     * 记录上一页的学习时间
+     */
+    public void saveStudyTime() {
+        Submit submit = mSubmits.get(mLastPosition);
+        if (submit == null) {
+            if (getItem(mLastPosition) == null) {
+                return; // 未初始化成功
+            }
+            submit = getItem(mLastPosition).getSubmit();
+            mSubmits.put(Integer.valueOf(mLastPosition), submit);
+        }
+        long studyTime = submit.getLong(TSubmit.usedtime, 0);
+        long curTime = System.currentTimeMillis();
+        // 加上原来记录
+        curTime += studyTime - mStartTime;
+        submit.put(TSubmit.usedtime, curTime);
+        mStartTime = System.currentTimeMillis();
     }
 
     public Submit getSubmit(Map<Integer, Submit> p) {
@@ -312,51 +350,90 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         return submit;
     }
 
-    @Override
-    public void onClick() {
-        if (mListener != null) {
-            mListener.onClick();
+    public void setTextNew(CharSequence c) {
+        mTvNew.setText(c);
+        newVisibility(true);
+    }
+
+    public void setTextMedia(CharSequence c) {
+        mTvMedia.setText(c);
+        mediaVisibility(true);
+    }
+
+    public void animation(boolean state) {
+        mediaVisibility(true);
+        Drawable drawable = mIvMedia.getDrawable();
+        if (drawable instanceof AnimationDrawable) {
+            AnimationDrawable animation = (AnimationDrawable) drawable;
+            if (state == animation.isRunning()) {
+                return;
+            }
+            if (state) {
+                animation.start();
+            } else {
+                animation.stop();
+            }
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ppt_layout: {
-                setCurrentItem();
-                newVisibility(false);
+    /**
+     * 横屏左右按钮
+     */
+    public void landscapeVisibility(boolean visibility) {
+        viewVisibility(mLayoutL, visibility);
+    }
+
+    /**
+     * 右上角最新页
+     */
+    public void newVisibility(boolean visibility) {
+        viewVisibility(mLayoutNew, visibility);
+    }
+
+    /**
+     * 右下角音频动画
+     */
+    public void mediaVisibility(boolean visibility) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || !visibility) {
+            // 竖屏或者需要隐藏的时候
+            viewVisibility(mLayoutMedia, visibility);
+        }
+    }
+
+    private void viewVisibility(View v, boolean visibility) {
+        if (visibility) {
+            showView(v);
+        } else {
+            goneView(v);
+        }
+    }
+
+    /**
+     * 根据类型添加的frag
+     */
+    @Nullable
+    private BaseCourseFrag getPPTFrag(Course course) {
+        BaseCourseFrag frag = null;
+        String meetId = mPPT.getString(TPPT.meetId);
+        switch (course.getType()) {
+            case CourseType.audio: {
+                frag = AudioCourseFragRouter.create(course, meetId).route();
+            }
+            break;
+            case CourseType.video: {
+                frag = VideoCourseFragRouter.create(course, meetId).route();
+            }
+            break;
+            case CourseType.pic: {
+                frag = PicCourseFragRouter.create(course, meetId).route();
+            }
+            break;
+            case CourseType.pic_audio: {
+                frag = PicAudioCourseFragRouter.create(course, meetId).route();
             }
             break;
         }
-    }
-
-    /**
-     * 开始播放
-     */
-    public void startPlay() {
-        NetPlayer.inst().stop();
-        BaseCourseFrag frag = getItem(getCurrentItem());
-        if (frag instanceof VideoCourseFrag) {
-            VideoCourseFrag f = (VideoCourseFrag) frag;
-            NetPlayer.inst().setVideo(f.getTextureView());
-        } else {
-            NetPlayer.inst().setAudio();
-        }
-        NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), frag.getUrl());
-    }
-
-    /**
-     * 停止播放
-     */
-    public void stopPlay() {
-        NetPlayer.inst().stop();
-    }
-
-    /**
-     * 是否拦截触摸事件
-     */
-    public void setDispatch(boolean dispatch) {
-        mDispatch = dispatch;
+        return frag;
     }
 
     @Override
@@ -368,14 +445,17 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
     }
 
-    /**
-     * 当前ppt缩放至原来
-     */
-    public void refreshCurrentItem() {
-        BaseCourseFrag item = getItem(getCurrentItem());
-        if (item instanceof PicAudioCourseFrag) {
-            PicAudioCourseFrag f = (PicAudioCourseFrag) item;
-            f.setScale();
-        }
+    @Override
+    public void onDestroy() {
+        saveStudyTime();
+
+        // 把需要的对象传给服务提交(失败再次提交)
+        CommonServRouter.create()
+                .type(CommonServ.ReqType.course)
+                .submit(getSubmit(mSubmits))
+                .route(getContext());
+
+        // 保持调用顺序
+        super.onDestroy();
     }
 }

@@ -3,23 +3,22 @@ package yy.doctor.ui.activity.meeting.play;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
 import inject.annotation.router.Route;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.model.EVal;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import yy.doctor.R;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
-import yy.doctor.model.meet.ppt.Live;
-import yy.doctor.model.meet.ppt.Live.TLive;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
@@ -132,6 +131,9 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if (position == mFragPpt.getCount() - 1) {
+                    mFragPpt.newVisibility(false);
+                }
                 if (mPlayType == PlayType.ppt && mPlay) {
                     // 在播放ppt
                     mFragPpt.startPlay();
@@ -169,6 +171,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     protected void onClick(int id) {
         switch (id) {
             case R.id.meet_live_layout_live: {
+                mFragPpt.landscapeVisibility(false);
                 if (mPlayType == PlayType.live || !mPlay) {
                     // 直播状态
                     return;
@@ -178,6 +181,12 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                 mFragPpt.stopPlay();
                 // 播放直播
                 mFragLive.startAudio();
+            }
+            break;
+            case R.id.meet_live_layout_ppt: {
+                if (orientationLandscape()) {
+                    mFragPpt.landscapeVisibility(true);
+                }
             }
             break;
         }
@@ -225,15 +234,15 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             }
 
         });
-        if (mPlayType == PlayType.live) {
-            mLandscapeSwitch.setViewB(mViewLive);
-            mFragPpt.setDispatch(true);
-        } else {
-            mLandscapeSwitch.setViewB(mViewPpt);
-            mFragPpt.setDispatch(false);
-        }
+        // 默认要放直播
+        mLandscapeSwitch.setViewB(mViewLive);
+        mFragPpt.setDispatch(true);
+        mViewLive.performClick();
+
         mLandscapeSwitch.setDispatch(true);
         goneView(R.id.meet_live_layout_p);
+        showLandscapeView();
+        mFragPpt.mediaVisibility(false);
     }
 
     @Override
@@ -259,6 +268,44 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         return R.drawable.meet_play_live_select_control;
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (orientationLandscape()) {
+            showLandscapeView();
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    private void showLandscapeView() {
+        mPresenter.starCount();
+        showView(getNavBar());
+        if (mPlayType == PlayType.ppt) {
+            mFragPpt.landscapeVisibility(true);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mFragLive.startPullStream();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mFragLive.stopPullStream();
+        mPresenter.mediaStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mPresenter.onDestroy();
+    }
+
     private class MeetingLiveViewImpl extends BaseViewImpl implements MeetingLiveContract.View {
 
         @Override
@@ -269,8 +316,6 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             setViewState(ViewState.normal);
 
             setTextComment(ppt.getInt(TPPT.count));
-            CourseInfo courseInfo = ppt.get(TPPT.course);
-            setTextTitle(courseInfo.getString(TCourseInfo.title));
 
             String roomId = ppt.getString(TPPT.courseId);
             mFragLive.loginRoom(roomId);
@@ -282,38 +327,71 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             mFragPpt.setPPT(ppt);
             mFragPpt.addCourses();
 
-            Live live = ppt.get(TPPT.videoLive);
-            if (live == null) {
+            CourseInfo courseInfo = ppt.get(TPPT.course);
+
+            if (courseInfo == null) {
                 return;
             }
-            int page = live.getInt(TLive.livePage, 1);
-            setTextCur(page);
-            setTextAll(page);
+
+            setTextTitle(courseInfo.getString(TCourseInfo.title));
+            List<Course> courses = courseInfo.getList(TCourseInfo.details);
+            if (courses == null) {
+                return;
+            }
+            int size = courses.size();
+            setTextCur(size);
+            setTextAll(size);
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    mFragPpt.setCurrentItem(page - 1);
+                    mFragPpt.setCurrentItem(size - 1);
                     removeOnGlobalLayoutListener(this);
                 }
             });
         }
 
         @Override
-        public void addCourse(Course course) {
-            mFragPpt.addCourse(course);
-            if (mPlayType == PlayType.live) {
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+        public void addCourse(Course course, int index) {
+            if (course != null) {
+                mFragPpt.addCourse(course);
+                int count = getPptFrag().getCount();
+                setTextAll(count);
+                if (count != getPptFrag().getCurrentItem()) {
+                    // 不在最新页提示新的一页完成
+                    getPptFrag().setTextNew(String.valueOf(count));
+                    if (mPlayType == PlayType.live) {
+                        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                    @Override
-                    public void onGlobalLayout() {
-                        mFragPpt.setCurrentItem();
-                        removeOnGlobalLayoutListener(this);
+                            @Override
+                            public void onGlobalLayout() {
+                                mFragPpt.setCurrentItem();
+                                mPlayType = PlayType.live;
+                                removeOnGlobalLayoutListener(this);
+                            }
+
+                        });
                     }
 
-                });
-            } else {
-                // 提示新的一页完成
+                } else {
+                    getPptFrag().startPlay();
+                }
             }
+        }
+
+        @Override
+        public void finishCount() {
+            MeetingLiveActivity.this.goneView(getNavBar());
+            mFragPpt.landscapeVisibility(false);
+        }
+
+        @Override
+        public PPTRebFrag getPptFrag() {
+            return mFragPpt;
+        }
+
+        @Override
+        public void setTextOnline(int onlineNum) {
+            MeetingLiveActivity.this.setTextOnline(onlineNum);
         }
     }
 

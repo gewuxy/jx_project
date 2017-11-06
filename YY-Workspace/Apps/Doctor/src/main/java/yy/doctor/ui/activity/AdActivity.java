@@ -10,7 +10,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
-import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.ui.activity.user.login.LoginActivity;
@@ -81,7 +80,7 @@ public class AdActivity extends BaseActivity {
         setOnClickListener(mTvPass);
 
         // fixme:从配置中获取
-        int count = 2;
+        int count = 0;
         if (count <= 0) {
             mTvPass.performClick();
         } else {
