@@ -3,16 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"/>
+
+    <lib.ys.view.CornerView
         android:id="@+id/main_meet_layout"
-        android:layout_width="172dp"
+        android:layout_width="160dp"
         android:layout_height="188dp"
-        android:layout_marginBottom="12dp">
+        app:corner_radius="6dp"
+        app:corner_useStroke="false">
 
         <LinearLayout
-            android:layout_width="172dp"
+            android:layout_width="match_parent"
             android:layout_height="188dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_main_item"
@@ -20,14 +26,14 @@
 
             <lib.ys.network.image.NetworkImageView
                 android:id="@+id/iv_head"
-                android:layout_width="172dp"
+                android:layout_width="match_parent"
                 android:layout_height="110dp"/>
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="140dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="7dp"
                 android:ellipsize="end"
                 android:singleLine="true"
@@ -43,7 +49,7 @@
                     android:id="@+id/main_play_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:text="00'00"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/text_7b7a80"
@@ -54,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="35dp"
+                    android:layout_marginRight="30dp"
                     android:text="0"
                     android:layout_marginTop="1dp"
                     android:textColor="@color/text_167afe"
@@ -66,7 +72,7 @@
                     android:layout_height="9dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="25dp"
                     android:layout_marginTop="18dp"
                     android:background="@color/color_db"/>
 
@@ -75,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="18dp"
+                    android:layout_marginRight="8dp"
                     android:text="21"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/text_7b7a80"
@@ -92,7 +98,7 @@
                     android:id="@+id/current_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:text="录播中"
                     android:textColor="@color/text_167afe"
                     android:textSize="10dp"/>
@@ -103,7 +109,7 @@
                     android:layout_width="28dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="49dp"
+                    android:layout_marginRight="29dp"
                     android:src="@drawable/main_ic_live"/>
 
                 <ImageView
@@ -112,11 +118,13 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="6dp"
                     android:src="@drawable/main_ic_share"/>
+
             </RelativeLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+    </lib.ys.view.CornerView>
 
 </LinearLayout>

@@ -137,6 +137,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     public void onLiveClick(Meet item) {
         // 先判断是否有人在直播视频
         mJoinLiveRoom = true;
+        mMeet = item;
         exeNetworkReq(KJoinLiveRoomCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
     }
 
