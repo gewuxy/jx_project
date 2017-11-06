@@ -47,14 +47,17 @@
     <string name="adv_skip">跳过</string>
 
     <!--登录-->
-    <string name="language_transform">中文</string>
+    <string name="language_transform_cn">中文</string>
+    <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信登录</string>
     <string name="login_sina">微博登录</string>
     <string name="login_jx">敬信数字平台登录</string>
     <string name="have_agree_to">登录即表示您已同意</string>
     <string name="protocol">《CSPmeeting服务协议》</string>
+    <string name="protocol_en">CSPmeeting Terms of Service</string>
     <string name="other_login_type">其他登录方式</string>
+    <string name="other_login_type_en">or</string>
     <string name="mobilephone">手机</string>
     <string name="email">邮箱</string>
     <string name="facebook">Facebook</string>
@@ -97,7 +100,11 @@
     <string name="QQ">QQ</string>
     <string name="linkedin">领英</string>
     <string name="weibo">微博</string>
-    <string name="message">短信</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="Line">Line</string>
+    <string name="LinkedIn">LinkedIn</string>
+    <string name="SMS">SMS</string>
+    <string name="Copy_Link">Copy Link</string>
     <string name="copy_link">复制链接</string>
     <string name="contribute">立即投稿</string>
     <string name="copy_replica">复制副本</string>

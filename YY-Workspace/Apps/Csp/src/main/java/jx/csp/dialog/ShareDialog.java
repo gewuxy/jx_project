@@ -104,6 +104,7 @@ public class ShareDialog extends BaseDialog {
         super(context);
         shareSignature(courseId);
         mShareTitle = shareTitle;
+        mCoverUrl = coverUrl;
     }
 
     @Override

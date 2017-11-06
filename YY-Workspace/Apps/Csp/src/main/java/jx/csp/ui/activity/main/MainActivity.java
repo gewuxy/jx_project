@@ -176,7 +176,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 if (id == meet.getInt(TMeet.id)) {
                     mGridFrag.getData().remove(meet);
                     mGridFrag.invalidate();
-//                    mVpFrag.invalidate();
                     break;
                 }
             }
@@ -188,7 +187,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
                     mGridFrag.addItem(m);
                     mGridFrag.invalidate();
-//                    mVpFrag.invalidate();
                     break;
                 }
             }

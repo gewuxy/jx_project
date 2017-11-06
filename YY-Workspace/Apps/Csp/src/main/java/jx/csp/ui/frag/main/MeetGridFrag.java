@@ -124,7 +124,14 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter>
 
     @Override
     public void onStopRefresh() {
-
     }
 
+    /*@Override
+    protected void onInvisible() {
+        super.onInvisible();
+
+        if (mListener != null) {
+            mListener.onMeetRefresh(getData());
+        }
+    }*/
 }

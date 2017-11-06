@@ -54,12 +54,16 @@
     <color name="text_focus">#3998db</color>
     <color name="text_dce3ea">#dce3ea</color>
     <color name="text_b4b9c0">#b4b9c0</color>
+    <color name="text_3c5a96">#3c5a96</color>
+    <color name="text_59adeb">#59adeb</color>
+    <color name="text_0a0000">#0a0000</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>
 
     <!--分割线-->
     <color name="short_divider">#f1f1f1</color>
+    <color name="other_login_divider">#edf3f9</color>
 
     <!-- 普通按按下钮效果 -->
     <color name="btn_bg_blue">#167afe</color>

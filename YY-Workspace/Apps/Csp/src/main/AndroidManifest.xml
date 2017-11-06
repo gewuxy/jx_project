@@ -51,6 +51,10 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
+            android:name=".ui.activity.login.ThirdPartyLoginEnActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity
             android:name=".ui.activity.login.EmailLoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
@@ -161,10 +165,10 @@
 
         <activity
             android:name="jx.csp.wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
 
         <!-- service -->
