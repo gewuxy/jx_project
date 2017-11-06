@@ -24,8 +24,5 @@ public class PPT extends EVal<TPPT> {
 
         socketUrl,
 
-        @Bind(Live.class)
-        videoLive,
-
     }
 }

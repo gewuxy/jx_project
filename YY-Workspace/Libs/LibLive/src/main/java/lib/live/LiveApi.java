@@ -179,8 +179,8 @@ public class LiveApi {
         mZegoLive.enableSpeaker(b);
     }
 
-    public void startPullStream(String streamID, Object view) {
-        mZegoLive.startPlayingStream(streamID, view);
+    public boolean startPullStream(String streamID, Object view) {
+        return mZegoLive.startPlayingStream(streamID, view);
     }
 
     public void stopPullStream(String streamID) {

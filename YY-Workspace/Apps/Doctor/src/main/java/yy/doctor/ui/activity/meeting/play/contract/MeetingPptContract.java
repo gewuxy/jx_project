@@ -45,6 +45,8 @@ public interface MeetingPptContract {
          * 计时结束
          */
         void finishCount();
+
+        void setTextOnline(int onlineNum);
     }
 
     interface Presenter extends IContract.Presenter<View> {

@@ -41,7 +41,9 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
  * @auther : GuoXuan
  * @since : 2017/4/24
  */
-abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, P extends MeetingPptContract.Presenter> extends BaseMeetingPlayActivity {
+abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, P extends MeetingPptContract.Presenter>
+        extends BaseMeetingPlayActivity
+        implements ViewPager.OnPageChangeListener {
 
     private View mLayoutFrag;
     private PPTRebFrag mFragReb;
@@ -96,45 +98,41 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
 
         setOnClickListener(R.id.meet_play_iv_left);
         setOnClickListener(R.id.meet_play_iv_right);
-        setOnClickListener(R.id.meet_play_iv_left_l);
-        setOnClickListener(R.id.meet_play_iv_right_l);
 
         set();
 
         refresh(RefreshWay.embed);
         mPresenter.exeNetworkReq(NetworkApiDescriptor.MeetAPI.toCourse(mMeetId, mModuleId).build());
 
-        mFragReb.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mFragReb.addOnPageChangeListener(this);
+    }
 
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // do nothing
-            }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        // do nothing
+    }
 
-            @Override
-            public void onPageSelected(int position) {
-                NetworkImageView.clearMemoryCache(BaseMeetingPptActivity.this);
+    @Override
+    public void onPageSelected(int position) {
+        NetworkImageView.clearMemoryCache(BaseMeetingPptActivity.this);
 
-                mHandler.removeMessages(0);
-                Message message = Message.obtain();
-                message.obj = position;
-                message.what = 0;
-                mHandler.sendMessageDelayed(message, 500);
-                setTextCur(position + 1);
-                mRvP.smoothScrollToPosition(position);
-            }
+        mHandler.removeMessages(0);
+        Message message = Message.obtain();
+        message.obj = position;
+        message.what = 0;
+        mHandler.sendMessageDelayed(message, 500);
+        setTextCur(position + 1);
+        mRvP.smoothScrollToPosition(position);
+    }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                // do nothing
-            }
-
-        });
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        // do nothing
     }
 
     @Override
     protected void portrait() {
-        goneView(R.id.meet_ppt_layout_l);
+        mFragReb.landscapeVisibility(false);
         showView(R.id.meet_ppt_layout_p);
 
         if (mParamP == null) {
@@ -146,8 +144,8 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
 
     @Override
     protected void landscape() {
+        mFragReb.landscapeVisibility(true);
         goneView(R.id.meet_ppt_layout_p);
-        showView(R.id.meet_ppt_layout_l);
 
         if (mParamL == null) {
             mParamL = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
@@ -164,20 +162,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     @Override
     protected int getControlResId() {
         return R.drawable.meet_play_reb_select_control;
-    }
-
-    @Override
-    public void onClick(int id) {
-        switch (id) {
-            case R.id.meet_play_iv_left_l: {
-                toLeft();
-            }
-            break;
-            case R.id.meet_play_iv_right_l: {
-                toRight();
-            }
-            break;
-        }
     }
 
     @Override
@@ -218,14 +202,14 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     protected void onDestroy() {
         super.onDestroy();
 
+        mHandler.removeCallbacksAndMessages(null);
         mPresenter.onDestroy();
     }
 
     private void showLandscapeView() {
         mPresenter.starCount();
         showView(getNavBar());
-        showView(R.id.meet_play_iv_left_l);
-        showView(R.id.meet_play_iv_right_l);
+        mFragReb.landscapeVisibility(true);
     }
 
     /**
@@ -318,8 +302,12 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
         @Override
         public void finishCount() {
             BaseMeetingPptActivity.this.goneView(getNavBar());
-            BaseMeetingPptActivity.this.goneView(R.id.meet_play_iv_left_l);
-            BaseMeetingPptActivity.this.goneView(R.id.meet_play_iv_right_l);
+            mFragReb.landscapeVisibility(false);
+        }
+
+        @Override
+        public void setTextOnline(int onlineNum) {
+            BaseMeetingPptActivity.this.setTextOnline(onlineNum);
         }
 
     }

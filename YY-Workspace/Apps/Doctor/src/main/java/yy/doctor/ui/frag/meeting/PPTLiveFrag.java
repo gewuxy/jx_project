@@ -54,6 +54,8 @@ public class PPTLiveFrag extends BaseFrag {
 
     private OnLiveListener mListener;
 
+    private String mStream;
+
     public void setListener(OnLiveListener listener) {
         mListener = listener;
     }
@@ -91,8 +93,9 @@ public class PPTLiveFrag extends BaseFrag {
         LiveApi.getInst().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
         if (BuildConfig.TEST) {
             LiveApi.getInst().setTest(true);
-            roomId = "789";
+//            roomId = "789";
         }
+        LiveApi.getInst().setTest(true);
         LiveApi.getInst().setCallback(roomId, UserType.audience, mZegoCallbackImpl);
     }
 
@@ -102,6 +105,20 @@ public class PPTLiveFrag extends BaseFrag {
 
     public void stopAudio() {
         LiveApi.getInst().audio(false);
+    }
+
+    public void startPullStream() {
+        if (TextUtil.isEmpty(mStream) || mViewLive == null) {
+            return;
+        }
+        setLiveState(LiveType.loading);
+        if (LiveApi.getInst().startPullStream(mStream, mViewLive)) {
+            setLiveState(LiveType.living);
+        }
+    }
+
+    public void stopPullStream() {
+        LiveApi.getInst().stopPullStream(mStream);
     }
 
     @Override
@@ -155,8 +172,10 @@ public class PPTLiveFrag extends BaseFrag {
                     // 直播未开始
                     setLiveState(LiveType.no_live);
                 } else {
-                    setLiveState(LiveType.living);
-                    LiveApi.getInst().startPullStream(stream, mViewLive);
+                    if (LiveApi.getInst().startPullStream(stream, mViewLive)) {
+                        setLiveState(LiveType.living);
+                        mStream = stream;
+                    }
                 }
             } else {
                 // 登录失败
@@ -178,6 +197,7 @@ public class PPTLiveFrag extends BaseFrag {
                 if (TextUtil.isNotEmpty(stream)) {
                     LiveApi.getInst().startPullStream(stream, mViewLive);
                     setLiveState(LiveType.living);
+                    mStream = stream;
                 }
             } else if (i == ILiveCallback.Constants.KStreamDel) {
                 YSLog.d(TAG, "onStreamUpdated:stop");

@@ -1,44 +1,71 @@
 package yy.doctor.ui.activity.meeting.play.presenter;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.os.Handler;
+import android.os.Message;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
-import lib.ys.util.UtilEx;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
-import okhttp3.Response;
 import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import okio.ByteString;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.TCourse;
+import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
+import yy.doctor.ui.activity.meeting.play.MeetWebSocketListener;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
-import yy.doctor.util.Util;
+import yy.doctor.util.NetPlayer;
+import yy.doctor.util.Time;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/10/16
  */
 
-public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContract.View> implements MeetingLiveContract.Presenter {
+public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContract.View> implements MeetingLiveContract.Presenter, NetPlayer.OnPlayerListener {
 
     private PPT mPpt;
+    private WebSocket mWebSocket;
+    private long mAllMillisecond;
+
+    private Handler mHandler;
+    private List<Course> mCourses;
 
     public MeetingLivePresenterImpl(MeetingLiveContract.View view) {
         super(view);
+        NetPlayer.inst().setListener(this);
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                getView().finishCount();
+            }
+
+        };
     }
 
     @Override
     public void getDataFromNet(String meetId, String moduleId) {
         exeNetworkReq(MeetAPI.toCourse(meetId, moduleId).build());
+    }
+
+    @Override
+    public void starCount() {
+        mHandler.removeMessages(0);
+        mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(3));
+    }
+
+    @Override
+    public void mediaStop() {
+        mHandler.removeMessages(0);
+        NetPlayer.inst().pause();
     }
 
     @Override
@@ -59,82 +86,101 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
             if (TextUtil.isEmpty(url)) {
                 return;
             }
-            exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
+            mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
         } else {
             onNetworkError(id, r.getError());
         }
     }
 
-    public class WebSocketImpl extends WebSocketListener {
+    @Override
+    public void onDownProgress(int progress) {
+
+    }
+
+    @Override
+    public void onPreparedSuccess(long allMillisecond) {
+        mAllMillisecond = allMillisecond;
+        getView().getPptFrag().mediaVisibility(true);
+        getView().getPptFrag().animation(true);
+    }
+
+    @Override
+    public void onPreparedError() {
+
+    }
+
+    @Override
+    public void onProgress(long currMilliseconds, int progress) {
+        getView().getPptFrag().setTextMedia(Time.getTime(mAllMillisecond - currMilliseconds));
+    }
+
+    @Override
+    public void onPlayState(boolean state) {
+        getView().getPptFrag().animation(state);
+    }
+
+    @Override
+    public void onCompletion() {
+        getView().getPptFrag().animation(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mWebSocket != null) {
+            mWebSocket.close(1000, "close");
+        }
+        mHandler.removeCallbacksAndMessages(null);
+        NetPlayer.inst().recycle();
+
+    }
+
+    public class WebSocketImpl extends MeetWebSocketListener {
 
         @Override
-        public void onOpen(WebSocket webSocket, Response response) {
-            YSLog.d(TAG, "onOpen:" + response.message());
+        protected void online(int onlineNum) {
+            getView().setTextOnline(onlineNum);
         }
 
         @Override
-        public void onMessage(WebSocket webSocket, String text) {
-            YSLog.d(TAG, "onMessage:String" + text);
-            UtilEx.runOnUIThread(() -> {
-                try {
-                    JSONObject object = new JSONObject(text);
-                    int position = object.optInt("pageNum");
-
-                    int order = object.optInt("order");
-                    if (order == 0) {
-                        // 直播
-                        /*CourseInfo courseInfo = mPpt.get(TPPT.course);
-                        if (courseInfo == null) {
-                            return;
-                        }
-                        List<Course> courses = courseInfo.getList(TCourseInfo.details);
-                        if (courses == null) {
-                            return;
-                        }
-                        courses.get(position).put(TCourse.audioUrl, object.optString("audioUrl"));*/
-                    } else {
-                        // 同步
-//                        mView.addCourse(position);
+        public void onMessage(int order, int index, Course course) {
+            if (order == OrderType.live) {
+                // 直播
+                if (mCourses == null) {
+                    CourseInfo courseInfo = mPpt.get(TPPT.course);
+                    if (courseInfo == null) {
+                        return;
                     }
-                    // FIXME:先不考虑2
-                } catch (JSONException e) {
-                    YSLog.d(TAG, "onMessage:" + e.getMessage());
+
+                    mCourses = courseInfo.getList(CourseInfo.TCourseInfo.details);
+                    if (mCourses == null) {
+                        return;
+                    }
                 }
-            });
-        }
 
-        @Override
-        public void onMessage(WebSocket webSocket, ByteString bytes) {
-            YSLog.d(TAG, "onMessage:ByteString" + bytes);
-        }
-
-        @Override
-        public void onClosing(WebSocket webSocket, int code, String reason) {
-            YSLog.d(TAG, "onClosing:" + reason);
-        }
-
-        @Override
-        public void onClosed(WebSocket webSocket, int code, String reason) {
-            YSLog.d(TAG, "onClosed:" + reason);
-        }
-
-        @Override
-        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            YSLog.d(TAG, "onFailure:");
-            // 2S秒后重连
-            UtilEx.runOnUIThread(() -> {
-                if (Util.noNetwork()) {
+                if (index > mCourses.size() - 1) {
                     return;
                 }
 
-                // 重连
-                if (mPpt != null) {
-                    String url = mPpt.getString(TPPT.socketUrl);
-                    exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
-                }
-            }, TimeUnit.SECONDS.toMillis(2));
-
+                Course c = mCourses.get(index);
+                c.put(TCourse.audioUrl, course.getString(TCourse.audioUrl));
+                getView().addCourse(null, index);
+            } else if (order == OrderType.synchronize) {
+                // 同步
+                getView().addCourse(course, index);
+            }
         }
-    }
 
+        @Override
+        public void reconnect() {
+            if (mPpt != null) {
+                String url = mPpt.getString(TPPT.socketUrl);
+                if (mWebSocket == null) {
+                    mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
+                }
+            }
+        }
+
+    }
 }
