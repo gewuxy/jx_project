@@ -32,20 +32,21 @@ public class ChangePwdActivity extends BaseSetActivity{
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.change_old_pwd)
                 .hint(R.string.setting_old_pwd)
-                .drawable(R.drawable.login_pwd_selector)
+                .drawable(R.drawable.login_selector_visible)
                 .limit(KLengthMax));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.change_new_pwd)
                 .hint(R.string.setting_new_pwd)
-                .drawable(R.drawable.login_pwd_selector)
+                .drawable(R.drawable.login_selector_visible)
                 .limit(KLengthMax));
     }
 
     @Override
     public void setViews() {
         super.setViews();
+
         mEtPwdOld = getRelatedItem(RelatedId.change_old_pwd).getHolder().getEt();
         mEtPwdNew = getRelatedItem(RelatedId.change_new_pwd).getHolder().getEt();
 

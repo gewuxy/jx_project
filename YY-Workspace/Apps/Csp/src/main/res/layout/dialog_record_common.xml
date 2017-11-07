@@ -25,7 +25,7 @@
             android:id="@+id/dialog_record_common_cb"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:background="@drawable/selector_record_dialog_choice"
+            android:background="@drawable/record_selector_dialog_choice"
             android:button="@color/transparent"
             android:clickable="true"/>
 

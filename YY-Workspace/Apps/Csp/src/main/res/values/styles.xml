@@ -9,7 +9,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_167afe</item>
         <item name="android:textSize">10dp</item>
-        <item name="android:background">@drawable/auth_selector_login_common</item>
+        <item name="android:background">@drawable/login_btn_selector_type_common</item>
     </style>
 
     <style name="tv.third.type">
@@ -50,7 +50,7 @@
         <item name="android:layout_height">44dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/auth_selector_login_common</item>
+        <item name="android:background">@drawable/login_btn_selector_type_common</item>
 
     </style>
 
@@ -84,7 +84,7 @@
         <item name="android:height">40dp</item>
         <item name="android:paddingBottom">9dp</item>
         <item name="android:paddingTop">9dp</item>
-        <item name="android:background">@drawable/selector_flow_rate</item>
+        <item name="android:background">@drawable/flow_rate_selector</item>
         <!--<item name="app:layout_columnWeight">1</item>--> <!--不支持-->
     </style>
 

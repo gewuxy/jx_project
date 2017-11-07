@@ -383,7 +383,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
 
         @Override
         public void changeLiveIvRes() {
-            mIvLive.setImageResource(R.drawable.selector_live_state_warm);
+            mIvLive.setImageResource(R.drawable.live_selector_video_state_warning);
             mIvLive.setSelected(mLiveState);
         }
 

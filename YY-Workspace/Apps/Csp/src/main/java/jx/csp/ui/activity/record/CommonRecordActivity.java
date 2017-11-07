@@ -157,7 +157,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         mRecordPresenter.stopPlay();
         // 如果页面是视频页 要录音状态图片要变且不能点击
         if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
-            mIvRecordState.setImageResource(R.drawable.selector_record_state);
+            mIvRecordState.setImageResource(R.drawable.record_selector_state);
             mIvRecordState.setClickable(true);
         } else {
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);

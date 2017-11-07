@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="229dp"
-                android:button="@drawable/login_checkbox_visible_selector"/>
+                android:button="@drawable/login_selector_visible"/>
 
             <ImageView
                 android:id="@+id/yaya_pwd_clean"

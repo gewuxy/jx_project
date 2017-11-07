@@ -412,7 +412,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         @Override
         public void changeRecordIvRes() {
             mStopCountDown = true;
-            mIvRecordState.setImageResource(R.drawable.selector_record_live_state_warm);
+            mIvRecordState.setImageResource(R.drawable.record_selector_live_state_warm);
             mTvRecordState.setTextColor(ResLoader.getColor(R.color.text_d0011b));
             mTvNavBar.setTextColor(ResLoader.getColor(R.color.text_d0011b));
             if (mLiveState) {

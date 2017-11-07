@@ -72,7 +72,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
                 .hint(R.string.input_pwd)
-                .drawable(R.drawable.login_pwd_selector);
+                .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
     }
 

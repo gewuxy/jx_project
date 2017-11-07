@@ -63,7 +63,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_yaya_login;
+        return R.layout.activity_login_jx;
     }
 
     @Override
