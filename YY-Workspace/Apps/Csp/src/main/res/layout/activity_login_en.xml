@@ -49,7 +49,7 @@
         android:layout_marginTop="35dp"
         android:background="@drawable/login_btn_selector_type_facebook"
         android:gravity="center"
-        android:text="Login with Facebook"
+        android:text="@string/Login_with_Facebook"
         android:textColor="@color/white"
         android:textSize="16dp"/>
 
@@ -61,7 +61,7 @@
         android:layout_marginTop="35dp"
         android:background="@drawable/login_btn_selector_type_twitter"
         android:gravity="center"
-        android:text="Login with Twitter"
+        android:text="@string/Login_with_Twitter"
         android:textColor="@color/white"
         android:textSize="16dp"/>
 

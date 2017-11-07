@@ -122,7 +122,7 @@
 
             <TextView
                 style="@style/tv.share"
-                android:text="@string/Copy_Link"/>
+                android:text="@string/copy_link"/>
 
         </LinearLayout>
 

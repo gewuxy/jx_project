@@ -68,7 +68,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addCloseIcon(bar, getString(R.string.yaya_authorization_login), this);
+        Util.addCloseIcon(bar, null, this);
     }
 
     @Override

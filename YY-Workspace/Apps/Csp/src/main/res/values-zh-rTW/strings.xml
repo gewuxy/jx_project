@@ -79,11 +79,11 @@
     <string name="register">註冊</string>
     <string name="immediately_register">立即註冊</string>
     <string name="pwd_err">密碼錯誤</string>
-    <string name="get_captcha_frequently">獲取驗證碼太頻繁</string>
+    <string name="get_captcha_frequently">獲取驗證碼次數頻繁,請稍後</string>
     <string name="send_captcha">已發送驗證碼</string>
     <string name="phone_have_been_register">该手机已注册，是否立即登录？</string>
     <string name="email_have_been_register">該郵箱已註冊，是否立即登錄？</string>
-    <string name="immediately_login">立即登陸</string>
+    <string name="immediately_login">立即登錄</string>
     <string name="input_special_symbol">请不要输入特殊字符</string>
     <string name="input_right_pwd_num">請輸入6〜24位密碼</string>
     <string name="reset_pwd_to_email">重置密碼鏈接已發送至您的郵箱，請設置密碼後再重新登錄</string>
@@ -94,6 +94,8 @@
     <string name="pwd">密碼</string>
     <string name="authorization_login">授權並登錄</string>
     <string name="yaya_authorization_login">敬信數字平台授權登錄</string>
+    <string name="Login_with_Facebook">Login with Facebook</string>
+    <string name="Login_with_Twitter">Login with Twitter</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>
@@ -106,16 +108,15 @@
     <string name="Line">Line</string>
     <string name="LinkedIn">LinkedIn</string>
     <string name="SMS">SMS</string>
-    <string name="Copy_Link">Copy Link</string>
-    <string name="copy_link">复制链接</string>
+    <string name="copy_link">複製鏈接</string>
     <string name="contribute">立即投稿</string>
     <string name="copy_replica">複製副本</string>
     <string name="delete_speech">刪除演講稿</string>
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失敗</string>
     <string name="share_cancel">分享取消</string>
-    <string name="share_title">我正在用CSPmeeting讲《%s》</string>
-    <string name="share_text">用手机讲PPT，随讲随录随分享，你的智慧将被更多人看见！</string>
+    <string name="share_title">我正在用CSPmeeting講《%s》</string>
+    <string name="share_text">用手機講PPT,隨講隨錄隨分享,你的智慧將被更多人看的見!</string>
 
     <!--首页-->
     <string name="living">直播會議正在進行中...</string>
@@ -136,7 +137,7 @@
     <string name="live_not_start">直播還沒開始，請稍等</string>
     <string name="live_have_end">直播已結束</string>
     <string name="on_solive">直播中</string>
-    <string name="on_record">錄播</string>
+    <string name="on_record">錄播中</string>
     <string name="delete_success">刪除成功</string>
     <string name="copy_duplicate_success">复制副本成功</string>
     <string name="service_agreement">CSPmeeting服务协议</string>

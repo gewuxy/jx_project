@@ -230,11 +230,13 @@ public class MobProvider implements Provider {
             break;
             case qq: {
                 p = ShareSDK.getPlatform(QQ.NAME);
+                //这是qq必写的参数，否则发不了
                 shareParams.setTitleUrl(param.getUrl());
             }
             break;
             case qzone: {
                 p = ShareSDK.getPlatform(QZone.NAME);
+                shareParams.setTitleUrl(param.getUrl());
             }
             break;
             case linkedin: {
@@ -243,6 +245,8 @@ public class MobProvider implements Provider {
             break;
             case sms: {
                 p = ShareSDK.getPlatform(ShortMessage.NAME);
+                //短信只能发文字，链接可以写在text里面
+                shareParams.setText(param.getUrl());
             }
             break;
         }

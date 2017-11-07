@@ -114,7 +114,6 @@ public class ShareDialog extends BaseDialog {
     @Override
     public void setViews() {
 
-        setOnClickListener(R.id.dialog_share_iv_message);
         setOnClickListener(R.id.dialog_share_iv_copy_link);
         setOnClickListener(R.id.dialog_share_tv_contribute);
         setOnClickListener(R.id.dialog_share_tv_copy_replica);
@@ -144,13 +143,10 @@ public class ShareDialog extends BaseDialog {
                 break;
                 case R.id.dialog_share_iv_qq: {
                     type = Type.qq;
-                    //这是qq必写的参数，否则发不了，短信只能发文字，链接可以写在文字里面
-//                    shareParams.setTitleUrl(mShareUrl);
                 }
                 break;
                 case R.id.dialog_share_iv_linkedin: {
                     type = Type.linkedin;
-//                    shareParams.setUrl(mShareUrl);
                 }
                 break;
                 case R.id.dialog_share_iv_sina: {
@@ -160,7 +156,6 @@ public class ShareDialog extends BaseDialog {
                 case R.id.dialog_share_iv_message: {
                     if (PermissionChecker.allow(getContext(), Permission.sms, Permission.storage)) {
                         type = Type.sms;
-//                        shareParams.setText(mShareUrl);
                     } else {
                         showToast(getString(R.string.user_message_permission));
                     }
@@ -189,9 +184,9 @@ public class ShareDialog extends BaseDialog {
         setOnShareClickListener(R.id.dialog_share_iv_wechat);
         setOnShareClickListener(R.id.dialog_share_iv_moment);
 //        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
-//        setOnShareClickListener(R.id.dialog_share_iv_qq);
+        setOnShareClickListener(R.id.dialog_share_iv_qq);
         setOnShareClickListener(R.id.dialog_share_iv_sina);
-
+        setOnShareClickListener(R.id.dialog_share_iv_message);
     }
 
     private void setOnShareClickListener(@IdRes int id) {
