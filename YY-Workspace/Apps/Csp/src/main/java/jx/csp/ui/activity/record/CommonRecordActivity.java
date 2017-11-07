@@ -542,5 +542,10 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         public void onStopRefresh() {
 
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

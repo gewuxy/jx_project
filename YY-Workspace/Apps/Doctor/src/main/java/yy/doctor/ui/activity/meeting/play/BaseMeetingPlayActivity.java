@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.other.NavBar;
@@ -283,7 +284,12 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
         @Override
         public void onStopRefresh() {
+            BaseMeetingPlayActivity.this.stopRefresh();
+        }
 
+        @Override
+        public void setViewState(@ViewState int state) {
+            BaseMeetingPlayActivity.this.setViewState(state);
         }
     }
 

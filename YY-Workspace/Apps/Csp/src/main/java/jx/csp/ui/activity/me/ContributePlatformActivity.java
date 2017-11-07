@@ -133,5 +133,10 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         public void onStopRefresh() {
             stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

@@ -1,6 +1,7 @@
 package lib.yy.contract;
 
 import lib.network.model.NetworkReq;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
@@ -15,6 +16,8 @@ public interface IContract {
          * 停止网络刷新
          */
         void onStopRefresh();
+
+        void setViewState(@ViewState int state);
     }
 
     interface Presenter<V extends View> {

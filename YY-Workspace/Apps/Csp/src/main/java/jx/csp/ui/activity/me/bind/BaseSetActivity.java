@@ -210,5 +210,9 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
         public void onStopRefresh() {
             stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {
+        }
     }
 }

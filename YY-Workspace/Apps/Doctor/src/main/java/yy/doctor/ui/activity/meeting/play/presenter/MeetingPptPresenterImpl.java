@@ -6,9 +6,8 @@ import java.util.List;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
-import lib.ys.YSLog;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
-import lib.ys.util.TimeFormatter;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
 import lib.yy.util.CountDown;
@@ -23,7 +22,6 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
 import yy.doctor.util.NetPlayer;
 import yy.doctor.util.Time;
-import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -59,6 +57,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     @CallSuper
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        getView().onStopRefresh();
         Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
             mPpt = r.getData();
@@ -77,12 +76,16 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
             getView().portraitInit(mPpt, mCourses);
         } else {
             onNetworkError(id, r.getError());
+            getView().showToast(r.getMessage());
         }
     }
 
     @Override
     public void onNetworkError(int id, NetworkError error) {
-        getView().showToast(error.getMessage());
+        super.onNetworkError(id, error);
+
+        getView().onStopRefresh();
+        getView().setViewState(ViewState.error);
     }
 
     @Override

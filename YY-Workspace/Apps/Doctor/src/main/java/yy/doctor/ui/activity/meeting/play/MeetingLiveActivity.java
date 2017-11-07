@@ -149,6 +149,15 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         });
     }
 
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
+            mPresenter.getDataFromNet(mMeetId, mModuleId);
+        }
+        return true;
+    }
+
     /**
      * 播放ppt
      */
@@ -311,6 +320,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         @Override
         public void initView(PPT ppt) {
             if (ppt == null) {
+                setViewState(ViewState.error);
                 return;
             }
             setViewState(ViewState.normal);
@@ -330,12 +340,14 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             CourseInfo courseInfo = ppt.get(TPPT.course);
 
             if (courseInfo == null) {
+                setViewState(ViewState.error);
                 return;
             }
 
             setTextTitle(courseInfo.getString(TCourseInfo.title));
             List<Course> courses = courseInfo.getList(TCourseInfo.details);
             if (courses == null) {
+                setViewState(ViewState.error);
                 return;
             }
             int size = courses.size();

@@ -405,5 +405,10 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
         public void onStopRefresh() {
 
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

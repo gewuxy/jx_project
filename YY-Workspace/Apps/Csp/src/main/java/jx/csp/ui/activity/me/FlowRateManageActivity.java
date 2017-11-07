@@ -305,5 +305,10 @@ public class FlowRateManageActivity extends BaseActivity {
         public void onStopRefresh() {
             stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

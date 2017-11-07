@@ -434,5 +434,10 @@ public class LiveRecordActivity extends BaseRecordActivity {
         public void onStopRefresh() {
 
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

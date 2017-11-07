@@ -12,7 +12,6 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 
 import java.util.List;
 
-import inject.annotation.router.Route;
 import lib.ys.adapter.recycler.OnRecyclerItemClickListener;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -222,15 +221,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     abstract protected P createPresenter(V v);
 
     protected class MeetingPptViewImpl extends BaseViewImpl implements MeetingPptContract.View {
-
-        @Override
-        public void showToast(String content) {
-            if (getViewState() == ViewState.loading) {
-                // 网络成功服务器错误回调
-                setViewState(ViewState.normal);
-            }
-            super.showToast(content);
-        }
 
         @Override
         public void portraitInit(PPT ppt, List<Course> courses) {

@@ -6,7 +6,9 @@ import android.os.Message;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
@@ -75,6 +77,7 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
+        getView().onStopRefresh();
         Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
             mPpt = r.getData();
@@ -89,7 +92,16 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
             mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
         } else {
             onNetworkError(id, r.getError());
+            getView().showToast(r.getMessage());
         }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetworkError error) {
+        super.onNetworkError(id, error);
+
+        getView().onStopRefresh();
+        getView().setViewState(ViewState.error);
     }
 
     @Override

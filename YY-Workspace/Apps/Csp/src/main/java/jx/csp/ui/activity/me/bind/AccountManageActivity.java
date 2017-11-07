@@ -231,5 +231,10 @@ public class AccountManageActivity extends BaseFormActivity {
         public void onStopRefresh() {
             stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

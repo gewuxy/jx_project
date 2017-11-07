@@ -74,5 +74,10 @@ public class ClipImageActivity extends BaseClipImageActivity {
         public void onStopRefresh() {
             stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

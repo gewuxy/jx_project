@@ -220,5 +220,10 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
         public void onStopRefresh() {
             stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

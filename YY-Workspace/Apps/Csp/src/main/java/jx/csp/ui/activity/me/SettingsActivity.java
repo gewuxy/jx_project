@@ -189,5 +189,10 @@ public class SettingsActivity extends BaseFormActivity {
         public void onStopRefresh() {
 
         }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }
