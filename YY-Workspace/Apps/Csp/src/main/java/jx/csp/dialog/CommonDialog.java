@@ -30,7 +30,7 @@ import lib.yy.dialog.BaseDialog;
 public class CommonDialog extends BaseDialog {
 
     private LinearLayout mLayoutHint; // 提示语
-    private LinearLayout mLayoutButton; // 底部按钮的容器
+    protected LinearLayout mLayoutButton; // 底部按钮的容器
 
     public CommonDialog(Context context) {
         super(context);
@@ -75,8 +75,8 @@ public class CommonDialog extends BaseDialog {
      * @param view
      */
     public void addButtons(View... view) {
-        LayoutParams params = LayoutUtil.getLinearParams(0, LayoutUtil.MATCH_PARENT);
-        LayoutParams dividerParams = LayoutUtil.getLinearParams(DpFitter.dp(1), LayoutUtil.MATCH_PARENT);
+        LayoutParams params = getButtonParams();
+        LayoutParams dividerParams = getDividerParams();
         params.weight = 1;
         params.gravity = Gravity.CENTER;
         View divider;
@@ -101,6 +101,16 @@ public class CommonDialog extends BaseDialog {
             LayoutFitter.fit(view[i]);
             mLayoutButton.addView(view[i], params);
         }
+    }
+
+    @NonNull
+    protected LayoutParams getButtonParams() {
+        return LayoutUtil.getLinearParams(0, LayoutUtil.MATCH_PARENT);
+    }
+
+    @NonNull
+    protected LayoutParams getDividerParams() {
+        return LayoutUtil.getLinearParams(DpFitter.dp(1), LayoutUtil.MATCH_PARENT);
     }
 
     /**

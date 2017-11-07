@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="44dp"
+        app:corner_radius="3dp"
+        app:corner_useStroke="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/dialog_layout_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="vertical"/>
+
+            <View
+                style="@style/divider"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:id="@id/dialog_layout_button"
+                style="@style/v.dialog"
+                android:layout_width="match_parent"/>
+        </LinearLayout>
+
+    </lib.ys.view.CornerView>
+
+</LinearLayout>
