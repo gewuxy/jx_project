@@ -27,7 +27,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_third_part_login_cn"
                 android:gravity="center"
-                android:text="@string/language_transform_en"
+                android:text="@string/language_transform"
                 android:textColor="@color/white"
                 android:textSize="10dp"/>
 
@@ -83,7 +83,7 @@
             android:layout_marginLeft="29dp"
             android:layout_marginRight="29dp"
             android:layout_marginTop="48dp"
-            android:text="@string/other_login_type_en"
+            android:text="@string/other_login_type"
             android:textColor="@color/text_7a8b9f"
             android:textSize="12dp"/>
 
@@ -134,7 +134,7 @@
             android:id="@+id/login_en_protocol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/protocol_en"
+            android:text="@string/protocol"
             android:layout_gravity="center"
             android:textSize="10dp"
             android:textColor="@color/text_167afe"/>

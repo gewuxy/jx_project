@@ -55,8 +55,8 @@ android {
         debug {
             buildConfigField "boolean", "DEBUG_LOG", "true"
             buildConfigField "boolean", "DEBUG_NETWORK", "true"
-            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "true"
-            buildConfigField "boolean", "TEST", "true"
+            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "false"
+            buildConfigField "boolean", "TEST", "false"
 
             signingConfig signingConfigs.release
 
@@ -180,11 +180,11 @@ android {
 
     //在生成的apk文件，修改下命名
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
+        variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 前段
-                def fileName = outputFile.name.replace("Doctor", "${productFlavors.manifestPlaceholders.app_name}")
+                def fileName = outputFile.name.replace("Csp", "${productFlavors.manifestPlaceholders.app_name}")
                 // 中段
                 fileName = fileName.replace("-flavors_debug", "")
                 fileName = fileName.replace("-debug", "(test)")
@@ -195,7 +195,7 @@ android {
                 // 尾端
                 fileName = fileName.replace(".apk", "_v${defaultConfig.versionName}.apk")
 
-//                output.outputFile = new File(outputFile.parent, fileName)
+                outputFileName = fileName
             }
         }
     }

@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.List;
-
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
@@ -47,7 +45,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     private ImageView mIvShift;
 
-    private boolean mFlag;
+//    private boolean mFlag;
     private MeetVpFrag mVpFrag;
     private MeetGridFrag mGridFrag;
 
@@ -65,7 +63,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         });
         add(mGridFrag);
         add(mVpFrag);
-        mFlag = true;
     }
 
     @Override
@@ -85,19 +82,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         bar.addTextViewMid(getString(R.string.CSPmeeting));
 
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
-            mIvShift.setSelected(mFlag);
-            mFlag = !mFlag;
-            if (mFlag) {
+            boolean flag = getCurrentItem() == KPageGrid;
+            mIvShift.setSelected(!flag);
+            if (!flag) {
                 // 网格
-                setCurrentItem(KPageGrid);
+                setCurrentItem(KPageGrid, false);
                 mGridFrag.setPosition(mVpFrag.getPosition());
             } else {
                 // 列表
-                setCurrentItem(KPageVp);
+                setCurrentItem(KPageVp, false);
                 mVpFrag.setPosition(mGridFrag.getPosition());
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
+        mIvShift.setSelected(true);
     }
 
     @Override

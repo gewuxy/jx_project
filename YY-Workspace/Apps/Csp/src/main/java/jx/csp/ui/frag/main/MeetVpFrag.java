@@ -134,21 +134,21 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
         if (data == null) {
             goneView(mSlideDataLayout);
             add(new EmptyFrag());
+            invalidate();
         } else {
             int size = data.size();
             for (int i = 0; i < size; ++i) {
                 add(MeetSingleFragRouter.create(data.get(i)).route());
-
             }
 
             if (index > size) {
                 index = 0;
             }
+            invalidate();
             setCurrentItem(index);
 
             mTvTotalPage.setText(String.valueOf(data.size()));
         }
-        invalidate();
     }
 
     public Fragment getItem() {

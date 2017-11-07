@@ -48,7 +48,6 @@
 
     <!--登录-->
     <string name="language_transform">中文</string>
-    <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信登錄</string>
     <string name="login_sina">微博登錄</string>
@@ -79,6 +78,7 @@
     <string name="pwd_err">密碼錯誤</string>
     <string name="get_captcha_frequently">獲取驗證碼太頻繁</string>
     <string name="send_captcha">已發送驗證碼</string>
+    <string name="phone_have_been_register">该手机已注册，是否立即登录？</string>
     <string name="email_have_been_register">該郵箱已註冊，是否立即登錄？</string>
     <string name="immediately_login">立即登陸</string>
     <string name="input_special_symbol">请不要输入特殊字符</string>
@@ -128,6 +128,10 @@
     <string name="on_solive">直播中</string>
     <string name="on_record">錄播</string>
     <string name="delete_success">刪除成功</string>
+    <string name="copy_duplicate_success">复制副本成功</string>
+    <string name="service_agreement">CSPmeeting服务协议</string>
+    <string name="click_again_exit">再按一次退出</string>
+    <string name="duplicate">-副本</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>
@@ -175,7 +179,7 @@
     <string name="setting_bind_email_succeed">發送成功</string>
     <string name="setting_bind_text">修改密碼需綁定郵箱後才能繼續操作</string>
     <string name="setting_certification_text">認證鏈接已發送，請查收郵件</string>
-    
+
     <!-- 账号管理 -->
     <string name="account_manage">賬號管理</string>
     <string name="account_not_bind">未綁定</string>

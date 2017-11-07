@@ -48,16 +48,13 @@
 
     <!--登录-->
     <string name="language_transform">中文</string>
-    <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信登录</string>
     <string name="login_sina">微博登录</string>
     <string name="login_jx">敬信数字平台登录</string>
     <string name="have_agree_to">登录即表示您已同意</string>
     <string name="protocol">《CSPmeeting服务协议》</string>
-    <string name="protocol_en">CSPmeeting Terms of Service</string>
     <string name="other_login_type">其他登录方式</string>
-    <string name="other_login_type_en">or</string>
     <string name="mobilephone">手机</string>
     <string name="email">邮箱</string>
     <string name="facebook">Facebook</string>
@@ -81,6 +78,7 @@
     <string name="pwd_err">密码错误</string>
     <string name="get_captcha_frequently">获取验证码太频繁</string>
     <string name="send_captcha">已发送验证码</string>
+    <string name="phone_have_been_register">该手机已注册，是否立即登录？</string>
     <string name="email_have_been_register">该邮箱已注册，是否立即登录？</string>
     <string name="immediately_login">立即登陆</string>
     <string name="input_special_symbol">请不要输入特殊字符</string>
