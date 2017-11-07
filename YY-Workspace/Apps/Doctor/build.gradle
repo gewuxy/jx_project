@@ -36,7 +36,7 @@ android {
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibPlayer/proguard-player.pro',
-//                '../../Libs/LibWX/proguard-wx.pro',
+                '../../Libs/LibWX/proguard-wx.pro',
                 '../../Libs/LibLive/proguard-live.pro',
                 '../../Libs/LibShare/proguard-share.pro',
                 // 本身的混淆
@@ -196,7 +196,7 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibYY')
     implementation project(':YY-Workspace:Libs:LibPay')
     implementation project(':YY-Workspace:Libs:LibJG')
-    //    implementation project(':YY-Workspace:Libs:LibWX')
+//    implementation project(':YY-Workspace:Libs:LibWX')
     implementation project(':YY-Workspace:Libs:LibPlatform')
     implementation project(':YY-Workspace:Libs:LibLive')
     /**
@@ -204,6 +204,7 @@ dependencies {
      */
     implementation 'com.mylhyl:zxingscanner:1.5.1'
     implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.3.4'
     /**
      * leakcanary
      */
