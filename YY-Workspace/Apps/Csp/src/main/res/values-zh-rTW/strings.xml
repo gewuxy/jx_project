@@ -99,13 +99,20 @@
     <string name="linkedin">領英</string>
     <string name="weibo">微博</string>
     <string name="message">短信</string>
-    <string name="copy_link">複製鏈接</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="Line">Line</string>
+    <string name="LinkedIn">LinkedIn</string>
+    <string name="SMS">SMS</string>
+    <string name="Copy_Link">Copy Link</string>
+    <string name="copy_link">复制链接</string>
     <string name="contribute">立即投稿</string>
     <string name="copy_replica">複製副本</string>
     <string name="delete_speech">刪除演講稿</string>
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失敗</string>
     <string name="share_cancel">分享取消</string>
+    <string name="share_title">我正在用CSPmeeting讲《%s》</string>
+    <string name="share_text">用手机讲PPT，随讲随录随分享，你的智慧将被更多人看见！</string>
 
     <!--首页-->
     <string name="living">直播會議正在進行中...</string>
