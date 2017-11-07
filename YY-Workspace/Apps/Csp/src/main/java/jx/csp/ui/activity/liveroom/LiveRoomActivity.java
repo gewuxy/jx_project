@@ -383,6 +383,16 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
         }
 
         @Override
+        public void liveFailState() {
+            mLiveState = false;
+            showView(mTvStart);
+            mTvState.setText(R.string.live_fail);
+            mIvState.setSelected(mLiveState);
+            mIvLive.setSelected(mLiveState);
+            showToast(R.string.live_fail);
+        }
+
+        @Override
         public void changeLiveIvRes() {
             mIvLive.setImageResource(R.drawable.live_selector_video_state_warning);
             mIvLive.setSelected(mLiveState);

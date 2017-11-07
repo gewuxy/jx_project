@@ -23,8 +23,6 @@ public interface LiveRecordContract {
 
         void stopRecordState();
 
-        void setOnlineTv(String str);
-
         /**
          * 直播倒计时
          */

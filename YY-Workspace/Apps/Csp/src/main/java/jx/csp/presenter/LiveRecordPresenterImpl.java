@@ -11,18 +11,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import jx.csp.App;
-import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.util.Util;
-import lib.live.ILiveCallback;
-import lib.live.ILiveCallback.UserType;
-import lib.live.LiveApi;
 import lib.ys.YSLog;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
@@ -47,7 +40,6 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private int mNum = 0;
 
     private String mFilePath;
-    private LiveCallbackImpl mLiveCallbackImpl;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -82,12 +74,6 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         super(view);
 
         mMediaRecorder = new MediaRecorder();
-        mLiveCallbackImpl = new LiveCallbackImpl();
-        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.uid) + "6789", Profile.inst().getString(TProfile.userName));
-        //测试
-        LiveApi.getInst().setTest(BuildConfig.TEST);
-        LiveApi.getInst().setRoomConfig(true, true);
-        LiveApi.getInst().setCallback(roomId, UserType.audience, mLiveCallbackImpl);
     }
 
     @Override
@@ -149,7 +135,6 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
             mCountDown.recycle();
         }
         mHandler.removeCallbacksAndMessages(null);
-        LiveApi.getInst().logoutRoom();
     }
 
     @Override
@@ -172,17 +157,4 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     public void onCountDownErr() {
     }
 
-    private class LiveCallbackImpl extends ILiveCallback {
-
-        @Override
-        public void onLoginCompletion(int i, String stream) {
-            // i   0:成功, 其它:失败
-            YSLog.d(TAG, "login room i" + i);
-        }
-
-        @Override
-        public void onUserUpdate(int number) {
-            getView().setOnlineTv(String.valueOf(number));
-        }
-    }
 }

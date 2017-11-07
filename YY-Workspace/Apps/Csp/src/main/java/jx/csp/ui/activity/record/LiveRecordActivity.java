@@ -306,6 +306,11 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 switchDevice();
             }
             break;
+            case LiveNotifyType.onlineNum: {
+                int num = (int) data;
+                mTvOnlineNum.setText(String.valueOf(num));
+            }
+            break;
         }
     }
 
@@ -379,11 +384,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
             mLiveState = false;
             mIvRecordState.setSelected(false);
             mTvRecordState.setText(R.string.record_live_start);
-        }
-
-        @Override
-        public void setOnlineTv(String str) {
-            mTvOnlineNum.setText(str);
         }
 
         @Override

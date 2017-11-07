@@ -13,7 +13,6 @@ import jx.csp.util.Util;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
 import lib.live.LiveApi;
-import lib.ys.YSLog;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -47,7 +46,6 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
 
     @Override
     public void initLiveRoom(String roomId) {
-        YSLog.d(TAG, "init time = " + System.currentTimeMillis());
         LiveApi.getInst()
                 .setTest(BuildConfig.TEST)  // 测试
                 .toggleAVConfig()
@@ -124,10 +122,20 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
 
     private class LiveCallbackImpl extends ILiveCallback {
 
+        private final int KSuccess = 0; // 成功
+
         @Override
         public void onLoginCompletion(int i, String stream) {
-            // i   0:成功, 其它:失败
-            YSLog.d(TAG, "live pre i" + i);
+            // i  登陆房间是否成功  0:成功, 其它:失败
+            // if (i != KSuccess) {}
+        }
+
+        @Override
+        public void onPublishStateUpdate(int i) {
+            // i  推流是否成功  0:成功, 其它:失败
+            if (i != KSuccess) {
+                getView().liveFailState();
+            }
         }
 
         @Override

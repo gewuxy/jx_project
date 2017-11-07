@@ -123,6 +123,11 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify{
                             WebSocketServ.this.notify(LiveNotifyType.reject);
                         }
                         break;
+                        case WsOrderType.onlineNum: {
+                            // 接收到直播间人数指令
+                            WebSocketServ.this.notify(LiveNotifyType.onlineNum, ob.getInt("onLines"));
+                        }
+                        break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

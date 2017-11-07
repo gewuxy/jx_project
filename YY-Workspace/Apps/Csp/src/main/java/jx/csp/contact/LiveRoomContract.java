@@ -24,6 +24,8 @@ public interface LiveRoomContract {
 
         void stopLiveState();
 
+        void liveFailState();
+
         void changeLiveIvRes();
 
         void setSilenceIvSelected(boolean b);

@@ -198,7 +198,7 @@ public class LiveApi {
 
     public LiveApi setCallback(String roomID, int role, ILiveCallback callback) {
         mZegoLive.loginRoom(roomID, role, (i, zegoStreamInfos) -> {
-            YSLog.d(TAG, "live api login room i = " + i);
+            YSLog.d(TAG, "登陆房间 0:成功, 其它:失败  i = " + i);
             if (callback != null) {
                 callback.onLoginCompletion(i, getStream(zegoStreamInfos));
             }
@@ -208,7 +208,7 @@ public class LiveApi {
             @Override
             public void onPublishStateUpdate(int i, String s, HashMap<String, Object> hashMap) {
                 // i   0:成功, 其它:失败
-                Log.d(TAG, "推流状态更新" + i);
+                Log.d(TAG, "推流状态更新  0:成功, 其它:失败 i = " + i);
                 YSLog.d(TAG, "login time = " + System.currentTimeMillis());
                 if (callback != null) {
                     callback.onPublishStateUpdate(i);

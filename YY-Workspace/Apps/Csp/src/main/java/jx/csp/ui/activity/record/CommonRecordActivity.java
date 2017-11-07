@@ -60,7 +60,6 @@ import lib.yy.util.CountDown.OnCountDownListener;
 @Route
 public class CommonRecordActivity extends BaseRecordActivity implements onGestureViewListener {
 
-    private final int KExitReqId = 50;
     private boolean mRecordState = false; // 是否在录制中
     private boolean mShowVoiceLine = false; // 声波曲线是否显示
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
