@@ -21,6 +21,9 @@
     <string name="no_camera_permission">摄像头未开启\n请确认是否授权成功</string>
     <string name="live_stop_remind_minute">还有%d分钟，直播将自动关闭</string>
     <string name="live_stop_remind_second">还有%d秒，直播将自动关闭</string>
+    <string name="live_stream_insufficient">流量不足，即将关闭视频直播！</string>
+    <string name="recharge">充值</string>
+    <string name="OK">知道了</string>
 
     <!-- 录音 -->
     <string name="first_page">已是第一页</string>

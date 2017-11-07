@@ -21,10 +21,13 @@
     <string name="no_camera_permission">Camera off.\nPlease-check the authorization</string>
     <string name="live_stop_remind_minute">Live stream will be over in %d minutes</string>
     <string name="live_stop_remind_second">Live stream will be over in %d seconds</string>
+    <string name="live_stream_insufficient">Video live stream is closing due to network flow insufficiency</string>
+    <string name="recharge">Recharge</string>
+    <string name="OK">OK</string>
 
     <!-- 录音 -->
-    <string name="first_page">已经是第一页</string>
-    <string name="last_page">已经是最后一页</string>
+    <string name="first_page">No more pages ahead</string>
+    <string name="last_page">No more pages behind</string>
     <string name="record_live_start">Start Live Stream</string>
     <string name="record_live_stop">结束直播</string>
     <string name="meeting_no_start_remain">Please proceed your live stream within the time set</string>
@@ -33,15 +36,15 @@
     <string name="skip_to_next_page">Move to next page and continue to record?</string>
     <string name="skip_to_last_page">Move to last page and continue to record?</string>
     <string name="record_again">Re-recording will replace the existing audio.</string>
-    <string name="never_remain">不再提示</string>
+    <string name="never_remain">Don\'t show again.</string>
     <string name="play_fail">play failed</string>
     <string name="record_fail">record failed</string>
-    <string name="switch_live_record_device">有另一台设备尝试主持直播!</string>
+    <string name="switch_live_record_device">Another device is trying to preside at your meeting!</string>
     <string name="switch_common_record_device">有另一台设备尝试主持录播!</string>
-    <string name="continue_host">继续主持</string>
+    <string name="continue_host">Retain Presidence</string>
     <string name="continue_record">继续录播</string>
-    <string name="affirm_exit">确认退出(%ds)</string>
-    <string name="join_fail">进入失败</string>
+    <string name="affirm_exit">Exit Now (%ds)</string>
+    <string name="join_fail">Fail to enter</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
@@ -125,11 +128,11 @@
     <string name="ready">Ready！</string>
     <string name="copy_success">复制成功</string>
     <string name="main_record_dialog">会议正在录播中，确定继续将中断其他客户端的进度</string>
-    <string name="main_live_dialog">会议正在直播中，确定继续将中断其他客户端的进度</string>
+    <string name="main_live_dialog">Live stream is in progress. Other clients will be break off. Continue?</string>
     <string name="confirm_continue">确定继续</string>
-    <string name="choice_contents">请选择您要进行的内容</string>
-    <string name="explain_meeting">讲解会议</string>
-    <string name="live_video">视频直播</string>
+    <string name="choice_contents">I would like to...</string>
+    <string name="explain_meeting">Deliver my lecture</string>
+    <string name="live_video">shoot for live stream</string>
     <string name="live_not_start">直播还没开始，请稍等</string>
     <string name="live_have_end">直播已结束</string>
     <string name="on_solive">直播中</string>
