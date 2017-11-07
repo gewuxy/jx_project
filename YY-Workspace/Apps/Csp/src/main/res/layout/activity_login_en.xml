@@ -66,33 +66,14 @@
         android:textSize="16dp"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
+        android:layout_marginTop="55dp">
 
-        <View
-            android:layout_width="98dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="55dp"
-            android:layout_marginLeft="47dp"
-            android:background="@color/divider"/>
+        <include layout="@layout/layout_login_part_type"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
-            android:layout_marginRight="29dp"
-            android:layout_marginTop="48dp"
-            android:text="@string/other_login_type"
-            android:textColor="@color/text_7a8b9f"
-            android:textSize="12dp"/>
-
-        <View
-            android:layout_width="98dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="55dp"
-            android:layout_marginRight="47dp"
-            android:background="@color/divider"/>
     </LinearLayout>
 
     <LinearLayout
@@ -123,21 +104,21 @@
         android:layout_marginTop="30dp"
         android:orientation="vertical">
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="By tapping “Login” you are agreeing to the"
-          android:textSize="10dp"
-          android:textColor="@color/text_7a8b9f"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="By tapping “Login” you are agreeing to the"
+            android:textColor="@color/text_7a8b9f"
+            android:textSize="10dp"/>
 
         <TextView
             android:id="@+id/login_en_protocol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/protocol"
             android:layout_gravity="center"
-            android:textSize="10dp"
-            android:textColor="@color/text_167afe"/>
+            android:text="@string/protocol"
+            android:textColor="@color/text_167afe"
+            android:textSize="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -10,7 +10,6 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
-import jx.csp.view.CustomVideoView;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
@@ -33,12 +32,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
     private final int KLoginVideo = 3;
     private final int KDownLoadVideo = 4;
 
-    private final int KInitVersion = 0; // 首次访问此接口，version= 0
-    private final String KFileName = "login_background_video.mp4";
-
-    private CustomVideoView mCustomVideoView;
-    private String mUrl;
-    private String mLocatePath;
     private String mUserName;
 
     @Override

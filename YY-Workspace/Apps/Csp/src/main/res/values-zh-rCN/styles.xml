@@ -1,6 +1,7 @@
 <resources>
     <!--登录-->
     <style name="tv.third"/>
+
     <style name="tv.third.login">
         <item name="android:layout_width">280dp</item>
         <item name="android:layout_height">44dp</item>
@@ -20,15 +21,9 @@
         <item name="android:textSize">14dp</item>
     </style>
 
-    <style name="divider.third"/>
-    <style name="divider.third.login">
-        <item name="android:layout_width">78dp</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginTop">44dp</item>
-    </style>
-
     <style name="iv.login">
-        i<item name="android:id">@id/form_iv</item>
+        i
+        <item name="android:id">@id/form_iv</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
 
@@ -42,8 +37,9 @@
     </style>
 
     <style name="tv.agree"/>
+
     <style name="tv.agree.protocol">
-        <item name= "android:layout_gravity">center</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:text">@string/have_agree_to</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">10dp</item>
@@ -94,18 +90,19 @@
 
     <!--分享-->
     <style name="v.share">
-        <item name= "android:layout_weight">1</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="tv.share">
-        <item name= "android:layout_marginTop">11dp</item>
+        <item name="android:layout_marginTop">11dp</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">12dp</item>
     </style>
 
     <style name="tv.dialog"/>
+
     <style name="tv.dialog.share">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>
@@ -115,10 +112,12 @@
     </style>
 
     <style name="tv.liveRoom"/>
+
     <style name="tv.liveRoom.online">
         <item name="android:textSize">8dp</item>
         <item name="android:layout_marginBottom">2dp</item>
     </style>
+
     <style name="tv.liveRoom.start">
         <item name="android:textSize">10dp</item>
         <item name="android:paddingBottom">17dp</item>
