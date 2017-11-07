@@ -248,6 +248,8 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mFragPpt.setDispatch(true);
         mViewLive.performClick();
 
+        mFragPpt.refreshCurrentItem();
+
         mLandscapeSwitch.setDispatch(true);
         goneView(R.id.meet_live_layout_p);
         showLandscapeView();

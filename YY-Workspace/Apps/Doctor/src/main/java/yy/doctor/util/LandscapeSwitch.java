@@ -167,6 +167,7 @@ public class LandscapeSwitch implements View.OnTouchListener {
 
                 if ((Math.abs(f1 - mPoint.x) > KDistanceX) || (Math.abs(f2 - mPoint.y) > KDistanceY)) {
                     AnimateUtil.translate(v, f1 - v.getWidth() / 2 - mLocation[0], f2 - v.getHeight() / 2 - mLocation[1], 0L);
+                    v.setAlpha(0.5f);
                     mScroll = true;
                 }
             }
@@ -213,6 +214,7 @@ public class LandscapeSwitch implements View.OnTouchListener {
             }
         }
         mViewS.bringToFront();
+        mViewS.setAlpha(0);
         AnimateUtil.translate(mViewS, i, j, duration);
 
     }
