@@ -31,6 +31,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".ui.activity.AdWebViewActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".ui.activity.liveroom.LiveRoomActivity"
             android:screenOrientation="landscape"/>
         <activity
