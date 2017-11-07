@@ -13,7 +13,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRoomContract;
-import jx.csp.dialog.CommonDialog2;
+import jx.csp.dialog.BigButtonDialog;
 import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
@@ -25,6 +25,7 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.res.ResLoader;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -287,8 +288,8 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
 
     private void switchLiveDevice() {
         YSLog.d(TAG, "直播间是否切换直播设备");
-        CommonDialog2 dialog = new CommonDialog2(this);
-        dialog.setHint(R.string.switch_live_record_device);
+        BigButtonDialog dialog = new BigButtonDialog(this);
+        dialog.setTextHint(ResLoader.getString(R.string.switch_live_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
         dialog.addBlackButton(R.string.continue_host, view -> {
