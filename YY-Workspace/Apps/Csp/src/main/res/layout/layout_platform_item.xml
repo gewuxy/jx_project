@@ -17,7 +17,7 @@
             android:id="@+id/platform_item_iv_select"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:background="@drawable/selector_platform_select"
+            android:background="@drawable/platform_selector"
             android:layout_marginLeft="@dimen/margin"/>
 
         <lib.ys.network.image.NetworkImageView
