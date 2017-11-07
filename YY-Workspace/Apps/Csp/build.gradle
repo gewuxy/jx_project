@@ -55,8 +55,8 @@ android {
         debug {
             buildConfigField "boolean", "DEBUG_LOG", "true"
             buildConfigField "boolean", "DEBUG_NETWORK", "true"
-            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "false"
-            buildConfigField "boolean", "TEST", "false"
+            buildConfigField "boolean", "SWIPE_BACK_ENABLE", "true"
+            buildConfigField "boolean", "TEST", "true"
 
             signingConfig signingConfigs.release
 
@@ -214,7 +214,7 @@ android {
                 // 尾端
                 fileName = fileName.replace(".apk", "_v${defaultConfig.versionName}.apk")
 
-//                outputFileName = fileName
+                outputFileName = fileName
             }
         }
     }

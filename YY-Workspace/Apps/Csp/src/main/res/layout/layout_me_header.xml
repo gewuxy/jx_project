@@ -12,7 +12,7 @@
         android:id="@+id/layout_me_header"
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:background="@drawable/item_csp_selector"
+        android:background="@drawable/item_selector"
         android:gravity="center_vertical">
 
         <lib.ys.network.image.NetworkImageView

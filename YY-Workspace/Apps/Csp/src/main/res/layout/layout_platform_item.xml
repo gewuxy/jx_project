@@ -9,7 +9,7 @@
         android:id="@+id/platform_item_layout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/item_csp_selector"
+        android:background="@drawable/item_selector"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

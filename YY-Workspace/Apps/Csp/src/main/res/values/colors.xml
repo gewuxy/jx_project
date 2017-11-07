@@ -8,13 +8,10 @@
     <color name="nav_bar_text_focus">#64000000</color>
     <drawable name="nav_bar_bg_focus">#64000000</drawable>
 
-    <color name="csp_item_focus">#e8e8e8</color>
-    <drawable name="csp_item_focus">#e8e8e8</drawable>
-
     <color name="item_focus">#e8e8e8</color>
     <drawable name="item_focus">#e8e8e8</drawable>
 
-    <color name="csp_divider">#f1f2f6</color>
+    <color name="divider">#f1f2f6</color>
 
     <!--mask模糊-->
     <color name="mask_bg">#4d000000</color>

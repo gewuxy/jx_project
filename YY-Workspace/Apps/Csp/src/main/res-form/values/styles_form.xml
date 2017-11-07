@@ -6,7 +6,7 @@
         <item name="android:layout_height">@dimen/form_height</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:background">@drawable/item_csp_selector</item>
+        <item name="android:background">@drawable/item_selector</item>
     </style>
 
     <!-- 适配英文版-->
@@ -19,12 +19,12 @@
     </style>
 
     <style name="divider.form.large">
-        <item name="android:background">@color/csp_divider</item>
+        <item name="android:background">@color/divider</item>
         <item name="android:layout_height">@dimen/margin_large</item>
     </style>
 
     <style name="divider.form.match">
-        <item name="android:background">@color/csp_divider</item>
+        <item name="android:background">@color/divider</item>
         <item name="android:layout_marginRight">@dimen/margin</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
     </style>
