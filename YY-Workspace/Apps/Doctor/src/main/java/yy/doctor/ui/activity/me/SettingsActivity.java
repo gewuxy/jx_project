@@ -26,6 +26,7 @@ import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
+import yy.doctor.Constants;
 import yy.doctor.R;
 import yy.doctor.dialog.BottomDialog;
 import yy.doctor.dialog.HintDialogMain;
@@ -49,6 +50,7 @@ import yy.doctor.ui.activity.me.set.BindEmailActivity;
 import yy.doctor.ui.activity.me.set.BindPhoneActivity;
 import yy.doctor.ui.activity.me.set.ChangePwdActivity;
 import yy.doctor.ui.activity.user.login.LoginActivity;
+import yy.doctor.ui.activity.user.login.WXLoginApi;
 import yy.doctor.util.CacheUtil;
 import yy.doctor.util.Util;
 
@@ -205,12 +207,12 @@ public class SettingsActivity extends BaseFormActivity {
                         return;
                     }
 
-                    /*WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
+                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
                     if (WXLoginApi.isWXAppInstalled()) {
-                        WXLoginApi.sendReq(WXType.bind);
+                        WXLoginApi.sendReq(Constants.WXType.bind);
                     } else {
                         notInstallWx();
-                    }*/
+                    }
                 } else {
                     // 已绑定
                     unBind("是否解除绑定微信号", v1 -> {
@@ -417,7 +419,7 @@ public class SettingsActivity extends BaseFormActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-//        WXLoginApi.detach();
+        WXLoginApi.detach();
     }
 
     @Override

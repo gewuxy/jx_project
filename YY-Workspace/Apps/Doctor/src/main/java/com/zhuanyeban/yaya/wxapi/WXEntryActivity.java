@@ -1,36 +1,40 @@
 package com.zhuanyeban.yaya.wxapi;
 
 import android.content.Intent;
-import android.widget.Toast;
+import android.support.annotation.NonNull;
 
-import cn.sharesdk.wechat.utils.WXAppExtendObject;
-import cn.sharesdk.wechat.utils.WXMediaMessage;
-import cn.sharesdk.wechat.utils.WechatHandlerActivity;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbase.BaseResp.ErrCode;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
+import lib.network.model.NetworkResp;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier.NotifyType;
+import lib.yy.ui.activity.base.BaseActivity;
+import yy.doctor.Constants;
+import yy.doctor.Constants.WXType;
+import yy.doctor.R;
+import yy.doctor.model.Profile;
+import yy.doctor.model.Profile.TProfile;
+import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetworkApiDescriptor;
+import yy.doctor.sp.SpUser;
+import yy.doctor.ui.activity.MainActivity;
+import yy.doctor.ui.activity.user.login.WXLoginActivity;
+import yy.doctor.ui.activity.user.login.WXLoginApi;
 
 /**
  * 微信的回调, (根据applicationId回调)
  */
-public class WXEntryActivity extends WechatHandlerActivity {
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
-    @Override
-    public void onGetMessageFromWXReq(WXMediaMessage msg) {
-        if (msg != null) {
-            Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
-            startActivity(iLaunchMyself);
-        }
-    }
-
-    @Override
-    public void onShowMessageFromWXReq(WXMediaMessage msg) {
-        if (msg != null && msg.mediaObject != null
-                && (msg.mediaObject instanceof WXAppExtendObject)) {
-            WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
-            Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    /*private static final String TAG = WXEntryActivity.class.getSimpleName().toString();
+    private static final String TAG = WXEntryActivity.class.getSimpleName().toString();
     private final int KLogin = 0;
     private final int KBind = 1;
 
@@ -38,7 +42,7 @@ public class WXEntryActivity extends WechatHandlerActivity {
 
     @Override
     public void initData() {
-//        mApi = WXLoginApi.create(this, Constants.KAppId);
+        mApi = WXLoginApi.create(this, Constants.KAppId);
 
         try {
             mApi.handleIntent(getIntent(), this);
@@ -89,9 +93,9 @@ public class WXEntryActivity extends WechatHandlerActivity {
                     String code = r.code;
                     String state = r.state;
                     if (state.equals(WXType.login)) {
-                        exeNetworkReq(KLogin, UserAPI.checkWxBind(code).build());
+                        exeNetworkReq(KLogin, NetworkApiDescriptor.UserAPI.checkWxBind(code).build());
                     } else {
-                        exeNetworkReq(KBind, UserAPI.bindWX().code(code).build());
+                        exeNetworkReq(KBind, NetworkApiDescriptor.UserAPI.bindWX().code(code).build());
                     }
                 }
                 break;
@@ -102,18 +106,24 @@ public class WXEntryActivity extends WechatHandlerActivity {
                 break;
             }
         } else {
-            // 微信分享
             switch (resp.errCode) {
-                case ErrCode.ERR_OK:
-                    showToast(ShareDialog.KShareSuccess);
-                    break;
-                case ErrCode.ERR_USER_CANCEL:
-                    showToast(ShareDialog.KShareCancel);
-                    break;
-                case ErrCode.ERR_SENT_FAILED:
-                    showToast(ShareDialog.KShareError.concat(resp.errStr));
-                    break;
+                case ErrCode.ERR_OK: {
+                    // 同意
+                    showToast("分享成功");
+                }
+                break;
+                case ErrCode.ERR_USER_CANCEL: {
+                    // 取消
+                    showToast("取消分享");
+                }
+                break;
+                case ErrCode.ERR_AUTH_DENIED: {
+                    // 失败
+                    showToast("分享失败");
+                }
+                break;
             }
+            // 微信分享
             finish();
         }
     }
@@ -157,6 +167,6 @@ public class WXEntryActivity extends WechatHandlerActivity {
             }
         }
         finish();
-    }*/
+    }
 
 }
