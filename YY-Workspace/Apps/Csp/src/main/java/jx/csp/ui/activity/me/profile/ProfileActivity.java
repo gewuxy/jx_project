@@ -193,14 +193,13 @@ public class ProfileActivity extends BaseFormActivity {
 
         @Override
         public void getPhotoFromAlbum() {
-            PhotoUtil.fromAlbum(ProfileActivity.class, KCodeAlbum);
-
+            PhotoUtil.fromAlbum(ProfileActivity.this, KCodeAlbum);
         }
 
         @Override
         public void getPhotoFromCamera() {
             mStrPhotoPath = CacheUtil.getUploadCacheDir() + KPhotoCameraPrefix + System.currentTimeMillis() + FileSuffix.jpg;
-            PhotoUtil.fromCamera(ProfileActivity.class, mStrPhotoPath, KCodePhotograph);
+            PhotoUtil.fromCamera(ProfileActivity.this, mStrPhotoPath, KCodePhotograph);
         }
 
         @Override

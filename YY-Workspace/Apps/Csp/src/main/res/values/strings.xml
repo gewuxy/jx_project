@@ -225,7 +225,7 @@
                                                 \nhave turned on "Contribution Box" in
                                                 \n"Resource Platform".</string>
     <string name="contribute_confirm">Complete Contribution</string>
-    <string name="contribute_platform_succeed">投稿成功</string>
+    <string name="contribute_platform_succeed">Contributed successfully</string>
     <string name="contribute_not_submit_records_footer">- 无投稿记录 -</string>
     <string name="page_num">%s页</string>
     <string name="record">录播</string>
