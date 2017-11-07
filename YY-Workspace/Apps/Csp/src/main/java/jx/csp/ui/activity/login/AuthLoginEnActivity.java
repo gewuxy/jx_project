@@ -66,6 +66,7 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
             break;
             case R.id.language_transform_en: {
                 startActivity(AuthLoginActivity.class);
+                finish();
             }
             break;
         }

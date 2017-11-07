@@ -78,6 +78,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
             break;
             case R.id.language_transform: {
                 startActivity(AuthLoginEnActivity.class);
+                finish();
             }
             break;
             case R.id.layout_login_jx: {
