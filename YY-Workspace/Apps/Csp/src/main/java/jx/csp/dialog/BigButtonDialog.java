@@ -36,7 +36,7 @@ public class BigButtonDialog extends CommonDialog {
     protected LinearLayout.LayoutParams getDividerParams() {
         LinearLayout.LayoutParams params;
         if (mLayoutButton.getOrientation() == LinearLayout.HORIZONTAL) {
-            params = LayoutUtil.getLinearParams(DpFitter.dp(1), LayoutUtil.MATCH_PARENT);
+            params = super.getDividerParams();
         } else {
             params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, DpFitter.dp(1));
         }
@@ -47,7 +47,7 @@ public class BigButtonDialog extends CommonDialog {
     protected LinearLayout.LayoutParams getButtonParams() {
         LinearLayout.LayoutParams params;
         if (mLayoutButton.getOrientation() == LinearLayout.HORIZONTAL) {
-            params = LayoutUtil.getLinearParams(0, LayoutUtil.MATCH_PARENT);
+            params = super.getButtonParams();
         } else {
             params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, DpFitter.dp(46));
         }

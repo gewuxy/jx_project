@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.CommonRecordContract;
+import jx.csp.dialog.BigButtonDialog;
 import jx.csp.dialog.CommonDialog;
-import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -45,6 +45,7 @@ import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.res.ResLoader;
 import lib.yy.network.Result;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.util.CountDown;
@@ -151,24 +152,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     }
 
     @Override
-    public void onPageSelected(int position) {
-        super.onPageSelected(position);
-        //切换页面的时候如果在播放要停止
-        mRecordPresenter.stopPlay();
-        // 如果页面是视频页 要录音状态图片要变且不能点击
-        if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
-            mIvRecordState.setImageResource(R.drawable.record_selector_state);
-            mIvRecordState.setClickable(true);
-        } else {
-            mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
-            mIvRecordState.setClickable(false);
-        }
-        if (position != mWsPosition) {
-            notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
-        }
-    }
-
-    @Override
     public void moveLast() {
         if (mRecordState) {
             if (getCurrentItem() == 0) {
@@ -240,6 +223,23 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         mRecordPresenter.onDestroy();
         if (mAnimationRecord.isRunning()) {
             mAnimationRecord.stop();
+        }
+    }
+
+    @Override
+    protected void pageSelected(int position) {
+        //切换页面的时候如果在播放要停止
+        mRecordPresenter.stopPlay();
+        // 如果页面是视频页 要录音状态图片要变且不能点击
+        if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
+            mIvRecordState.setImageResource(R.drawable.record_selector_state);
+            mIvRecordState.setClickable(true);
+        } else {
+            mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
+            mIvRecordState.setClickable(false);
+        }
+        if (position != mWsPosition) {
+            notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
         }
     }
 
@@ -318,8 +318,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
 
     @Override
     protected void switchDevice() {
-        CommonDialog2 dialog = new CommonDialog2(this);
-        dialog.setHint(R.string.switch_common_record_device);
+        BigButtonDialog dialog = new BigButtonDialog(this);
+        dialog.setTextHint(ResLoader.getString(R.string.switch_common_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
         dialog.addBlackButton(R.string.continue_record, view -> {

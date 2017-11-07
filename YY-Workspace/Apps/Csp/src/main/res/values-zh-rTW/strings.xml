@@ -24,6 +24,7 @@
     <string name="live_stream_insufficient">流量不足，即將關閉視頻直播！</string>
     <string name="recharge">充值</string>
     <string name="OK">知道了</string>
+    <string name="live_exit_success">退出成功</string>
 
     <!-- 录音 -->
     <string name="first_page">已是第一頁</string>

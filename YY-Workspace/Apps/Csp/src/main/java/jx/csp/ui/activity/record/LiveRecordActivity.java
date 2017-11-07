@@ -9,7 +9,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
-import jx.csp.dialog.CommonDialog2;
+import jx.csp.dialog.BigButtonDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -146,8 +146,13 @@ public class LiveRecordActivity extends BaseRecordActivity {
     }
 
     @Override
-    public void onPageSelected(int position) {
-        super.onPageSelected(position);
+    protected void onDestroy() {
+        super.onDestroy();
+        mLiveRecordPresenterImpl.onDestroy();
+    }
+
+    @Override
+    protected void pageSelected(int position) {
         // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音
         if (mLiveState) {
             // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
@@ -183,12 +188,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
         // 记录位置
         mLastPage = position;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLiveRecordPresenterImpl.onDestroy();
     }
 
     @Override
@@ -238,8 +237,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     protected void switchDevice() {
         YSLog.d(TAG, "是否切换直播设备");
-        CommonDialog2 dialog = new CommonDialog2(this);
-        dialog.setHint(R.string.switch_live_record_device);
+        BigButtonDialog dialog = new BigButtonDialog(this);
+        dialog.setTextHint(ResLoader.getString(R.string.switch_live_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
         dialog.addBlackButton(R.string.continue_host, view -> {

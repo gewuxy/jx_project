@@ -24,6 +24,7 @@
     <string name="live_stream_insufficient">流量不足，即将关闭视频直播！</string>
     <string name="recharge">充值</string>
     <string name="OK">知道了</string>
+    <string name="live_exit_success">退出成功</string>
 
     <!-- 录音 -->
     <string name="first_page">已是第一页</string>
@@ -93,6 +94,7 @@
     <string name="username">用户名</string>
     <string name="pwd">密码</string>
     <string name="authorization_login">授权并登录</string>
+    <string name="yaya_authorization_login">敬信数字平台授权登陆</string>
     <string name="Login_with_Facebook">Login with Facebook</string>
     <string name="Login_with_Twitter">Login with Twitter</string>
 

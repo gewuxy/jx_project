@@ -11,6 +11,7 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
+import jx.csp.dialog.BigButtonDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
@@ -96,9 +97,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 if (startTime > currentTime) {
                     showToast(R.string.live_not_start);
                 } else if (startTime < currentTime && endTime > currentTime) {
-                    // 选择进入视频直播还是音频直播
-                    CommonDialog2 d = new CommonDialog2(mContext);
-                    d.setHint(ResLoader.getString(R.string.choice_contents));
+                    // 选择进入视频直播还是音频直播  中文版和英文版的dialog不一样
+                    BigButtonDialog d = new BigButtonDialog(mContext);
+                    d.setTextHint(ResLoader.getString(R.string.choice_contents));
                     d.addGrayButton(R.string.explain_meeting, view -> {
                         // 先判断是否有人在直播音频
                         mJoinLiveRoom = false;

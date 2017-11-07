@@ -24,6 +24,7 @@
     <string name="live_stream_insufficient">Video live stream is closing due to network flow insufficiency</string>
     <string name="recharge">Recharge</string>
     <string name="OK">OK</string>
+    <string name="live_exit_success">Exit Successfully</string>
 
     <!-- 录音 -->
     <string name="first_page">No more pages ahead</string>
@@ -50,7 +51,7 @@
     <string name="adv_skip">跳过</string>
 
     <!--登录-->
-    <string name="language_transform">CN</string>
+    <string name="language_transform">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信授权登录</string>
     <string name="login_sina">微博授权登录</string>
@@ -93,6 +94,7 @@
     <string name="username">用户名</string>
     <string name="pwd">密码</string>
     <string name="authorization_login">Authorize &amp; Login</string>
+    <string name="yaya_authorization_login">敬信数字平台授权登陆</string>
     <string name="Login_with_Facebook">Login with Facebook</string>
     <string name="Login_with_Twitter">Login with Twitter</string>
 
