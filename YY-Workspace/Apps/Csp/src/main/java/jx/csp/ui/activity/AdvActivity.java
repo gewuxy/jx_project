@@ -31,21 +31,13 @@ import lib.yy.util.CountDown.OnCountDownListener;
  */
 public class AdvActivity extends ActivityEx implements OnClickListener, OnCountDownListener {
 
-    public static void afterAd(Context context) {
-        if (Profile.inst().isLogin()) {
-            // 登录有效(登录过且没有退出)
-            LaunchUtil.startActivity(context, MainActivity.class);
-        } else {
-            // 未登录,退出登录
-            LaunchUtil.startActivity(context, AuthLoginActivity.class);
-        }
-    }
-
     private final int KDelayTime = 3; // 3秒跳转
 
     private CountDown mCountDown;
+
     private NetworkImageView mIv;
     private String mPageUrl;
+
 
     @Override
     public void initData() {
@@ -74,14 +66,15 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
         setOnClickListener(R.id.adv_skip);
 
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
             @Override
             public void onGlobalLayout() {
                 mCountDown.start(KDelayTime);
                 removeOnGlobalLayoutListener(this);
             }
         });
-        exeNetworkReq(AdvertAPI.advert().build());
 
+        exeNetworkReq(AdvertAPI.advert().build());
     }
 
     @Override
@@ -134,5 +127,15 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
         super.onDestroy();
 
         mCountDown.recycle();
+    }
+
+    public static void afterAd(Context context) {
+        if (Profile.inst().isLogin()) {
+            // 登录有效(登录过且没有退出)
+            LaunchUtil.startActivity(context, MainActivity.class);
+        } else {
+            // 未登录,退出登录
+            LaunchUtil.startActivity(context, AuthLoginActivity.class);
+        }
     }
 }

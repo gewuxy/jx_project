@@ -7,8 +7,7 @@
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/adv_iv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/splash_ic_bg"/>
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/adv_skip"
@@ -20,6 +19,6 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/bg_adv_skip"
         android:gravity="center"
-        android:text= "@string/adv_skip"
+        android:text="@string/adv_skip"
         android:textColor="@color/white"/>
 </RelativeLayout>
