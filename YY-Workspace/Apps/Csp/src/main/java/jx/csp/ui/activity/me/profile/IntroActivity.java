@@ -68,6 +68,6 @@ public class IntroActivity extends BaseMyMessageActivity {
 
     @Override
     protected void doSet() {
-        mPresenter.saveModifyNetworkReq(KInfoCode, mEt.getText().toString());
+        mPresenter.savePersonMessage(KInfoCode, mEt.getText().toString());
     }
 }

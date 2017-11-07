@@ -193,14 +193,14 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
                 SpApp.inst().saveUserName(getUserName());
                 if (Profile.inst().isLogin()) {
                     exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
-                            .thirdPartyId(LoginType.yaya_login)
+                            .thirdPartyId(LoginType.yaya)
                             .uniqueId(profile.getString(TProfile.uid))
                             .nickName(mNickName)
                             .gender(profile.getString(TProfile.gender))
                             .avatar(profile.getString(TProfile.avatar))
                             .build());
                 } else {
-                    exeNetworkReq(KIdLogin, UserAPI.login(LoginType.yaya_login)
+                    exeNetworkReq(KIdLogin, UserAPI.login(LoginType.yaya)
                             .uniqueId(profile.getString(TProfile.uid))
                             .email(profile.getString(TProfile.email))
                             .mobile(profile.getString(TProfile.mobile))
@@ -242,20 +242,20 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         }
         boolean flag = true;
         for (BindInfoList list : infoList) {
-            if (list.getInt(TBindInfo.thirdPartyId) == LoginType.yaya_login) {
+            if (list.getInt(TBindInfo.thirdPartyId) == LoginType.yaya) {
                 list.put(TBindInfo.nickName, nickName);
                 flag = false;
             }
         }
         if (flag) {
             BindInfoList bindInfoList = new BindInfoList();
-            bindInfoList.put(TBindInfo.thirdPartyId, LoginType.yaya_login);
+            bindInfoList.put(TBindInfo.thirdPartyId, LoginType.yaya);
             bindInfoList.put(TBindInfo.nickName, nickName);
             infoList.add(bindInfoList);
         }
         Profile.inst().put(TProfile.bindInfoList, infoList);
         Profile.inst().saveToSp();
-        notify(NotifyType.bind_yaya, Profile.inst().getBindNickName(LoginType.yaya_login));
+        notify(NotifyType.bind_yaya, Profile.inst().getBindNickName(LoginType.yaya));
     }
 
     public String getUserName() {

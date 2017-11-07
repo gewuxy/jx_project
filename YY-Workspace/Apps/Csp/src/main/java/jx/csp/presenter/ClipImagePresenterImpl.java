@@ -50,7 +50,7 @@ public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.
     }
 
     @Override
-    public void upLoadAvatarNetworkReq(Bitmap bitmap) {
+    public void upLoadAvatar(Bitmap bitmap) {
         exeNetworkReq(UserAPI.upload(BmpUtil.toBytes(bitmap)).build());
     }
 }

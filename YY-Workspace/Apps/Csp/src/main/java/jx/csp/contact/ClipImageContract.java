@@ -34,6 +34,6 @@ public interface ClipImageContract {
          *
          * @param bitmap
          */
-        void upLoadAvatarNetworkReq(Bitmap bitmap);
+        void upLoadAvatar(Bitmap bitmap);
     }
 }

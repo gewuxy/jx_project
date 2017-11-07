@@ -68,7 +68,7 @@ public interface SetBindContract {
          * @param userName
          * @param num
          */
-        void confirmBindNetworkReq(int id, String userName, String num);
+        void confirmBindAccount(int id, String userName, String num);
 
         /**
          * 获取验证码
@@ -76,7 +76,7 @@ public interface SetBindContract {
          * @param userName
          * @param type
          */
-        void getCaptchaNetworkReq(int id, String userName, String type);
+        void getCaptcha(int id, String userName, String type);
 
         /**
          * 修改密码
@@ -84,12 +84,12 @@ public interface SetBindContract {
          * @param oldPwd
          * @param newPwd
          */
-        void changePwdNetworkReq(int id, String oldPwd, String newPwd);
+        void modifyPwd(int id, String oldPwd, String newPwd);
 
         /**
          * 绑定手机号成功
          */
-        void setSaveBindPhone();
+        void saveBindPhone();
 
         /**
          * 校对是否有手机号

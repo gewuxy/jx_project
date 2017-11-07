@@ -63,7 +63,7 @@ public class BindEmailActivity extends BaseSetActivity {
     @Override
     protected void doSet() {
         mPresenter.checkPwd(mEtPwd);
-        mPresenter.confirmBindNetworkReq(RelatedId.bind_email, getEmail(), getUserPwd());
+        mPresenter.confirmBindAccount(RelatedId.bind_email, getEmail(), getUserPwd());
     }
 
     @Override

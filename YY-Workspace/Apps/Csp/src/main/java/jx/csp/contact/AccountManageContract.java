@@ -32,18 +32,13 @@ public interface AccountManageContract {
          * @param data 传递的数据
          * @param id   传递的Id
          */
-        void bindSuccess(String data, int id);
+        void bindRefreshItem(String data, int id);
 
         /**
-         * 解绑成功
-         *
-         * @param r
+         * 解绑刷新item
          * @param id
-         * @param key
          */
-        void unBind(Result r, int id, TProfile key);
-
-        void unBindThirdParty(Result r, int id);
+        void unBindRefreshItem(int id);
 
         /**
          * 确定是否解绑
@@ -58,12 +53,11 @@ public interface AccountManageContract {
     interface P extends IContract.Presenter<V> {
 
         /**
-         * 解绑邮箱, 手机号
+         * 进行第三方授权
          *
-         * @param id
          * @param type
          */
-        void unBindMobileAndEmail(int id, int type);
+        void doAuth(Type type, int id);
 
         /**
          * 绑定第三方账号
@@ -83,22 +77,6 @@ public interface AccountManageContract {
                             String avatar);
 
         /**
-         * 解绑第三方账号
-         *
-         * @param id
-         * @param thirdPartyId 1代表微信，2代表微博，3代表facebook,4代表twitter,5代表YaYa医师,解绑操作只需传递此字段
-         * @param tips         解绑提示字段
-         */
-        void unBindThirdParty(int id, int thirdPartyId, String tips);
-
-        /**
-         * 进行第三方授权
-         *
-         * @param type
-         */
-        void doAuth(Type type);
-
-        /**
          * 保存第三方昵称
          *
          * @param r
@@ -107,5 +85,32 @@ public interface AccountManageContract {
          * @param bindType
          */
         void setSaveThirdPartyNickName(Result r, int id, String nickName, @LoginType int bindType);
+
+        /**
+         * 解绑邮箱, 手机号
+         *
+         * @param id
+         * @param type
+         */
+        void unBindMobileOrEmailReq(int id, int type);
+
+        /**
+         * 解绑第三方账号
+         *
+         * @param id
+         * @param thirdPartyId 1代表微信，2代表微博，3代表facebook,4代表twitter,5代表YaYa医师,解绑操作只需传递此字段
+         * @param tips         解绑提示字段
+         */
+        void unBindThirdPartyReq(int id, int thirdPartyId, String tips);
+
+        /**
+         * 成功解绑账号
+         *
+         * @param r
+         * @param id
+         * @param key
+         */
+        void unBindEmailOrMobileSuccess(Result r, int id, TProfile key);
+        void unBindThirdPartySuccess(Result r, int id);
     }
 }

@@ -41,21 +41,21 @@ public interface Constants extends BaseConstants {
     @IntDef({
             LoginType.wechat,
             LoginType.sina,
-            LoginType.facebook_login,
-            LoginType.twitter_login,
-            LoginType.yaya_login,
-            LoginType.phone_login,
-            LoginType.email_login,
+            LoginType.facebook,
+            LoginType.twitter,
+            LoginType.yaya,
+            LoginType.phone,
+            LoginType.email,
     })
     @Retention(RetentionPolicy.SOURCE)
     @interface LoginType {
         int wechat = 1;
         int sina = 2;
-        int facebook_login = 3;
-        int twitter_login = 4;
-        int yaya_login = 5;
-        int phone_login = 6;
-        int email_login = 7;
+        int facebook = 3;
+        int twitter = 4;
+        int yaya = 5;
+        int phone = 6;
+        int email = 7;
     }
 
     interface PageConstants {

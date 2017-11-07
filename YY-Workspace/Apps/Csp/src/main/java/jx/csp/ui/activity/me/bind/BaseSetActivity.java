@@ -185,7 +185,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
                         mCount = 1;
                     }
                 }
-                mPresenter.getCaptchaNetworkReq(RelatedId.bind_captcha, BindPhoneActivity.getPhone(), CaptchaType.re_fetch);
+                mPresenter.getCaptcha(RelatedId.bind_captcha, BindPhoneActivity.getPhone(), CaptchaType.re_fetch);
             });
             dialog.show();
         }

@@ -183,7 +183,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdLogin, UserAPI.login(LoginType.phone_login).mobile(getPhone()).captcha(getCaptcha()).build());
+        exeNetworkReq(KIdLogin, UserAPI.login(LoginType.phone).mobile(getPhone()).captcha(getCaptcha()).build());
     }
 
     @Override

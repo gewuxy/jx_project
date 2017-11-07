@@ -31,14 +31,14 @@ public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.
         Result r = (Result) result;
         getView().onStopRefresh();
         if (r.isSucceed()) {
-            getView().saveModifySuccess();
+            getView().saveRevisedData();
         } else {
             onNetworkError(id, r.getError());
         }
     }
 
     @Override
-    public void saveModifyNetworkReq(int id, String text) {
+    public void savePersonMessage(int id, String text) {
         switch (id) {
             case KNickNameCode: {
                 exeNetworkReq(id, UserAPI.modify().nickName(text).build());

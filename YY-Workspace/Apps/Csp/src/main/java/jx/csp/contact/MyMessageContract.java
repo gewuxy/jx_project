@@ -33,7 +33,7 @@ public interface MyMessageContract {
         /**
          * 保存数据
          */
-        void saveModifySuccess();
+        void saveRevisedData();
 
         /**
          * 获取输入框数据
@@ -81,6 +81,6 @@ public interface MyMessageContract {
          * @param id
          * @param text
          */
-        void saveModifyNetworkReq(int id, String text);
+        void savePersonMessage(int id, String text);
     }
 }

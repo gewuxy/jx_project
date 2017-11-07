@@ -53,11 +53,11 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
 
         switch (v.getId()) {
             case R.id.login_facebook: {
-                Platform.auth(Type.facebook, newListener(KIdFaceBook, LoginType.facebook_login));
+                Platform.auth(Type.facebook, newListener(KIdFaceBook, LoginType.facebook));
             }
             break;
             case R.id.login_twitter: {
-                Platform.auth(Type.twitter, newListener(KIdTwitter, LoginType.twitter_login));
+                Platform.auth(Type.twitter, newListener(KIdTwitter, LoginType.twitter));
             }
             break;
             case R.id.login_jx: {

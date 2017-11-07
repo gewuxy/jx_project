@@ -56,7 +56,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             break;
             case KBindPhoneCode: {
                 if (r.isSucceed()) {
-                    setSaveBindPhone();
+                    saveBindPhone();
                     getView().onFinish();
                 } else {
                     App.showToast(r.getMessage());
@@ -93,7 +93,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
     }
 
     @Override
-    public void confirmBindNetworkReq(int id, String userName, String num) {
+    public void confirmBindAccount(int id, String userName, String num) {
         if (id == KBindEmailCode) {
             exeNetworkReq(id, UserAPI.bindEmail(userName, num).build());
         } else {
@@ -102,17 +102,17 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
     }
 
     @Override
-    public void getCaptchaNetworkReq(int id, String userName, String type) {
+    public void getCaptcha(int id, String userName, String type) {
         exeNetworkReq(id, UserAPI.sendCaptcha(userName, type).build());
     }
 
     @Override
-    public void changePwdNetworkReq(int id, String oldPwd, String newPwd) {
+    public void modifyPwd(int id, String oldPwd, String newPwd) {
         exeNetworkReq(id, UserAPI.changePwd(oldPwd, newPwd).build());
     }
 
     @Override
-    public void setSaveBindPhone() {
+    public void saveBindPhone() {
         Profile.inst().put(TProfile.mobile, BindPhoneActivity.getPhone());
         Profile.inst().saveToSp();
         Notifier.inst().notify(NotifyType.profile_change, BindPhoneActivity.getPhone());

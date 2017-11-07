@@ -75,7 +75,7 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @Override
     protected void doSet() {
-        mPresenter.confirmBindNetworkReq(RelatedId.bind_phone_number, getPhone(), getCaptcha());
+        mPresenter.confirmBindAccount(RelatedId.bind_phone_number, getPhone(), getCaptcha());
     }
 
     @Override

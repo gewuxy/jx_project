@@ -6,14 +6,11 @@ import android.view.View.OnClickListener;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.List;
 
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.dialog.CommonDialog2;
-import jx.csp.model.BindInfoList;
-import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.def.FormType;
@@ -25,7 +22,6 @@ import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
@@ -105,7 +101,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 .related(RelatedId.bind_jingxin)
                 .name(R.string.account_jingxin)
                 .drawable(R.drawable.form_ic_account_jingxin)
-                .text(Profile.inst().getBindNickName(LoginType.yaya_login))
+                .text(Profile.inst().getBindNickName(LoginType.yaya))
                 .hint(R.string.account_not_bind));
     }
 
@@ -123,28 +119,33 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_email: {
-                // FIXME: 2017/10/23 测试极光推送，接受绑定消息
+                // FIXME: 2017/11/7 等待长玲修改极光的设置
                 mView.judgeBindStatus(RelatedId.bind_email, getString(R.string.account_unbind_email), TProfile.email);
             }
             break;
             case RelatedId.bind_wx: {
-                mPresenter.doAuth(Type.wechat);
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.wechat))) {
+                    refresh(RefreshWay.dialog);
+                    mPresenter.doAuth(Type.wechat, RelatedId.bind_wx);
+                } else {
+                    mPresenter.unBindThirdPartyReq(RelatedId.bind_wx, RelatedId.bind_wx, getString(R.string.account_unbind_wx));
+                }
             }
             break;
             case RelatedId.bind_sina: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.sina))) {
                     refresh(RefreshWay.dialog);
-                    mPresenter.doAuth(Type.sina);
+                    mPresenter.doAuth(Type.sina, RelatedId.bind_sina);
                 } else {
-                    mPresenter.unBindThirdParty(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
+                    mPresenter.unBindThirdPartyReq(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
                 }
             }
             break;
             case RelatedId.bind_jingxin: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.yaya_login))) {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.yaya))) {
                     startActivity(YaYaAuthorizeBindActivity.class);
                 } else {
-                    mPresenter.unBindThirdParty(RelatedId.bind_jingxin, RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya));
+                    mPresenter.unBindThirdPartyReq(RelatedId.bind_jingxin, RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya));
                 }
             }
             break;
@@ -155,23 +156,23 @@ public class AccountManageActivity extends BaseFormActivity {
     public void onNotify(@NotifyType int type, Object data) {
         switch (type) {
             case NotifyType.bind_phone: {
-                mView.bindSuccess((String) data, RelatedId.bind_phone);
+                mView.bindRefreshItem((String) data, RelatedId.bind_phone);
             }
             break;
             case NotifyType.bind_wx: {
-                mView.bindSuccess((String) data, RelatedId.bind_wx);
+                mView.bindRefreshItem((String) data, RelatedId.bind_wx);
             }
             break;
             case NotifyType.bind_sina: {
-                mView.bindSuccess((String) data, RelatedId.bind_sina);
+                mView.bindRefreshItem((String) data, RelatedId.bind_sina);
             }
             break;
             case NotifyType.bind_email: {
-                mView.bindSuccess(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
+                mView.bindRefreshItem(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
             }
             break;
             case NotifyType.bind_yaya: {
-                mView.bindSuccess((String) data, RelatedId.bind_jingxin);
+                mView.bindRefreshItem((String) data, RelatedId.bind_jingxin);
             }
             break;
         }
@@ -199,62 +200,22 @@ public class AccountManageActivity extends BaseFormActivity {
                         return;
                     }
                     refresh(RefreshWay.dialog);
-                    mPresenter.unBindMobileAndEmail(id, id);
+                    mPresenter.unBindMobileOrEmailReq(id, id);
                 });
             }
         }
 
         @Override
-        public void bindSuccess(String data, int id) {
+        public void bindRefreshItem(String data, int id) {
             getRelatedItem(id).save(data, data);
             refreshRelatedItem(id);
             showToast(R.string.account_bind_succeed);
         }
 
         @Override
-        public void unBind(Result r, int id, TProfile key) {
-            if (r.isSucceed()) {
-                showToast(R.string.account_unbind_succeed);
-
-                getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
-                refreshRelatedItem(id);
-
-                Profile.inst().put(key, ConstantsEx.KEmpty);
-                Profile.inst().saveToSp();
-                AccountManageActivity.this.notify(NotifyType.profile_change);
-            } else {
-                showToast(r.getMessage());
-            }
-        }
-
-        @Override
-        public void unBindThirdParty(Result r, int id) {
-            if (r.isSucceed()) {
-                showToast(R.string.account_unbind_succeed);
-
-                List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
-                boolean flag = true;
-                for (BindInfoList list : infoList) {
-                    if (list.getInt(TBindInfo.thirdPartyId) == id) {
-                        list.clear();
-                        flag = false;
-                    }
-                }
-                if (flag) {
-                    BindInfoList bindInfoList = new BindInfoList();
-                    bindInfoList.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
-                    bindInfoList.put(TBindInfo.nickName, ConstantsEx.KEmpty);
-                    infoList.add(bindInfoList);
-                }
-
-                getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
-                refreshRelatedItem(id);
-
-                Profile.inst().put(TProfile.bindInfoList, infoList);
-                Profile.inst().saveToSp();
-            } else {
-                showToast(r.getMessage());
-            }
+        public void unBindRefreshItem(int id) {
+            getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
+            refreshRelatedItem(id);
         }
 
         @Override

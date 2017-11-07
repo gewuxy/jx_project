@@ -82,6 +82,6 @@ public class NickNameActivity extends BaseMyMessageActivity {
 
     @Override
     protected void doSet() {
-        mPresenter.saveModifyNetworkReq(KNickNameCode, mEt.getText().toString());
+        mPresenter.savePersonMessage(KNickNameCode, mEt.getText().toString());
     }
 }

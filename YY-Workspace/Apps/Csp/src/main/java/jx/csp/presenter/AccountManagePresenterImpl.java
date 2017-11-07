@@ -5,6 +5,7 @@ import java.util.List;
 
 import jx.csp.App;
 import jx.csp.Constants.LoginType;
+import jx.csp.R;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.model.BindInfoList;
 import jx.csp.model.BindInfoList.TBindInfo;
@@ -12,13 +13,13 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.ui.activity.me.bind.AccountManageActivity.RelatedId;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
@@ -41,8 +42,33 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void unBindMobileAndEmail(int id, int type) {
-        exeNetworkReq(id, UserAPI.unBind(type).build());
+    public void doAuth(Type type, int id) {
+        Platform.auth(type, new OnAuthListener() {
+
+            @Override
+            public void onAuthSuccess(AuthParams params) {
+                String userGender = params.getGender();
+                String icon = params.getIcon();
+                String userId = params.getId();
+                mNickName = params.getName();
+
+                bindThirdParty(id, id, userId, mNickName, userGender, icon);
+
+                App.showToast("授权成功");
+            }
+
+            @Override
+            public void onAuthError(String message) {
+                getView().onStopRefresh();
+                App.showToast("失败: " + message);
+            }
+
+            @Override
+            public void onAuthCancel() {
+                getView().onStopRefresh();
+                App.showToast("取消");
+            }
+        });
     }
 
     @Override
@@ -60,47 +86,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 .avatar(avatar)
                 .build());
         YSLog.d(TAG, "wwwww" + nickName);
-    }
-
-    @Override
-    public void unBindThirdParty(int id, int thirdPartyId, String tips) {
-        //已绑定, 解绑请求
-        getView().confirmUnBindDialog(tips, v -> {
-            if (Util.noNetwork()) {
-                return;
-            }
-            exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(thirdPartyId).build());
-        });
-    }
-
-    @Override
-    public void doAuth(Type type) {
-        Platform.auth(type, new OnAuthListener() {
-
-            @Override
-            public void onAuthSuccess(AuthParams params) {
-                String userGender = params.getGender();
-                String icon = params.getIcon();
-                String userId = params.getId();
-                mNickName = params.getName();
-
-                bindThirdParty(RelatedId.bind_sina, RelatedId.bind_sina, userId, mNickName, userGender, icon);
-
-                App.showToast("授权成功");
-            }
-
-            @Override
-            public void onAuthError(String message) {
-                getView().onStopRefresh();
-                App.showToast("失败: " + message);
-            }
-
-            @Override
-            public void onAuthCancel() {
-                getView().onStopRefresh();
-                App.showToast("取消");
-            }
-        });
     }
 
     @Override
@@ -136,6 +121,64 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
+    public void unBindMobileOrEmailReq(int id, int type) {
+        exeNetworkReq(id, UserAPI.unBind(type).build());
+    }
+
+    @Override
+    public void unBindThirdPartyReq(int id, int thirdPartyId, String tips) {
+        //已绑定, 解绑请求
+        getView().confirmUnBindDialog(tips, v -> {
+            if (Util.noNetwork()) {
+                return;
+            }
+            exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(thirdPartyId).build());
+        });
+    }
+
+    @Override
+    public void unBindEmailOrMobileSuccess(Result r, int id, TProfile key) {
+        if (r.isSucceed()) {
+            App.showToast(R.string.account_unbind_succeed);
+            getView().unBindRefreshItem(id);
+
+            Profile.inst().put(key, ConstantsEx.KEmpty);
+            Profile.inst().saveToSp();
+            Notifier.inst().notify(NotifyType.profile_change);
+        } else {
+            App.showToast(r.getMessage());
+        }
+    }
+
+    @Override
+    public void unBindThirdPartySuccess(Result r, int id) {
+        if (r.isSucceed()) {
+            App.showToast(R.string.account_unbind_succeed);
+
+            List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+            boolean flag = true;
+            for (BindInfoList list : infoList) {
+                if (list.getInt(TBindInfo.thirdPartyId) == id) {
+                    list.clear();
+                    flag = false;
+                }
+            }
+            if (flag) {
+                BindInfoList bindInfoList = new BindInfoList();
+                bindInfoList.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
+                bindInfoList.put(TBindInfo.nickName, ConstantsEx.KEmpty);
+                infoList.add(bindInfoList);
+            }
+
+            getView().unBindRefreshItem(id);
+            Profile.inst().put(TProfile.bindInfoList, infoList);
+            Profile.inst().saveToSp();
+        } else {
+            App.showToast(r.getMessage());
+        }
+    }
+
+    @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         return JsonParser.error(r.getText());
     }
@@ -146,11 +189,19 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
         // 绑定的
         Result r = (Result) result;
         switch (id) {
-            case RelatedId.bind_wx: {
-                getView().unBindThirdParty(r, id);
+            case LoginType.wechat: {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.wechat))) {
+                    if (r.isSucceed()) {
+                        setSaveThirdPartyNickName(r, id, mNickName, LoginType.wechat);
+                    } else {
+                        onNetworkError(id, r.getError());
+                    }
+                } else {
+                    unBindThirdPartySuccess(r, id);
+                }
             }
             break;
-            case RelatedId.bind_sina: {
+            case LoginType.sina: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.sina))) {
                     if (r.isSucceed()) {
                         setSaveThirdPartyNickName(r, id, mNickName, LoginType.sina);
@@ -158,20 +209,20 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                         onNetworkError(id, r.getError());
                     }
                 } else {
-                    getView().unBindThirdParty(r, id);
+                    unBindThirdPartySuccess(r, id);
                 }
             }
             break;
-            case RelatedId.bind_jingxin: {
-                getView().unBindThirdParty(r, id);
+            case LoginType.yaya: {
+                unBindThirdPartySuccess(r, id);
             }
             break;
-            case RelatedId.bind_phone: {
-                getView().unBind(r, id, TProfile.mobile);
+            case LoginType.phone: {
+                unBindEmailOrMobileSuccess(r, id, TProfile.mobile);
             }
             break;
-            case RelatedId.bind_email: {
-                getView().unBind(r, id, TProfile.email);
+            case LoginType.email: {
+                unBindEmailOrMobileSuccess(r, id, TProfile.email);
             }
             break;
         }

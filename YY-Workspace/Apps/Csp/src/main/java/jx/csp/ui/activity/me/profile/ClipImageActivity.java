@@ -45,7 +45,7 @@ public class ClipImageActivity extends BaseClipImageActivity {
     @Override
     protected void afterClip() {
         refresh(RefreshWay.dialog);
-        mPresenter.upLoadAvatarNetworkReq(mBmp);
+        mPresenter.upLoadAvatar(mBmp);
     }
 
     private class ClipImageViewImpl implements ClipImageContract.V {

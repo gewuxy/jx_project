@@ -129,7 +129,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
         }
 
         @Override
-        public void saveModifySuccess() {
+        public void saveRevisedData() {
             String text = Util.getEtString(getEt());
             Profile.inst().put(mAttr, text);
             Profile.inst().saveToSp();
