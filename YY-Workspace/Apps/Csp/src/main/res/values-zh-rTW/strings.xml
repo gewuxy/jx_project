@@ -203,8 +203,6 @@
     <string name="account_facebook">Facebook</string>
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">敬信數字平台</string>
-    <string name="account_accredit_error">授權失敗</string>
-    <string name="account_wx_check_normal">檢查“微信”是否正常啟動</string>
 
     <string name="account_bind_succeed">綁定成功</string>
     <string name="account_bind_error">綁定失敗</string>

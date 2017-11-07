@@ -202,8 +202,6 @@
     <string name="account_facebook">Facebook</string>
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">Jingxin Digital Platform</string>
-    <string name="account_accredit_error">授权失败</string>
-    <string name="account_wx_check_normal">检查“微信”是否正常启动</string>
 
     <string name="account_bind_succeed">绑定成功</string>
     <string name="account_bind_error">绑定失败</string>

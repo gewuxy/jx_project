@@ -256,7 +256,7 @@ public class FlowRateManageActivity extends BaseActivity {
         public void setPayPalPay(String orderId) {
             mReqCode = KPayPalPayCode;
             mOrderId = orderId;
-            PayAction.payPalPay(FlowRateManageActivity.this, String.valueOf(mRechargeSum));
+            PayAction.payPalPay(FlowRateManageActivity.this, String.valueOf(mRechargeSum * 2));
         }
 
         @Override

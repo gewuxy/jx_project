@@ -195,7 +195,7 @@ public class AccountManageActivity extends BaseFormActivity {
                 }
             } else {
                 // 已绑定
-                mView.confirmUnBindDialog(tips, v -> {
+                confirmUnBindDialog(tips, v -> {
                     if (Util.noNetwork()) {
                         return;
                     }
