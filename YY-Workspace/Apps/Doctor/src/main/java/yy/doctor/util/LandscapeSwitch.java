@@ -214,7 +214,7 @@ public class LandscapeSwitch implements View.OnTouchListener {
             }
         }
         mViewS.bringToFront();
-        mViewS.setAlpha(0);
+        mViewS.setAlpha(1);
         AnimateUtil.translate(mViewS, i, j, duration);
 
     }
