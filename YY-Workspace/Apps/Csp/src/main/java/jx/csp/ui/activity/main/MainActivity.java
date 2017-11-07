@@ -45,7 +45,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     private ImageView mIvShift;
 
-//    private boolean mFlag;
     private MeetVpFrag mVpFrag;
     private MeetGridFrag mGridFrag;
 
