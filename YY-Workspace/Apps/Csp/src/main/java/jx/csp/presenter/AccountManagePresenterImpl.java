@@ -113,10 +113,23 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
         Profile.inst().put(TProfile.bindInfoList, infoList);
         Profile.inst().saveToSp();
 
-        if (bindType == LoginType.sina) {
-            Notifier.inst().notify(NotifyType.bind_sina, Profile.inst().getBindNickName(LoginType.sina));
-        } else {
-            Notifier.inst().notify(NotifyType.bind_wx, Profile.inst().getBindNickName(LoginType.wechat));
+        switch (bindType) {
+            case LoginType.wechat: {
+                Notifier.inst().notify(NotifyType.bind_wx, Profile.inst().getBindNickName(LoginType.wechat));
+            }
+            break;
+            case LoginType.sina: {
+                Notifier.inst().notify(NotifyType.bind_sina, Profile.inst().getBindNickName(LoginType.sina));
+            }
+            break;
+            case LoginType.facebook: {
+                Notifier.inst().notify(NotifyType.bind_fackbook, Profile.inst().getBindNickName(LoginType.facebook));
+            }
+            break;
+            case LoginType.twitter: {
+                Notifier.inst().notify(NotifyType.bind_twitter, Profile.inst().getBindNickName(LoginType.twitter));
+            }
+            break;
         }
     }
 

@@ -8,12 +8,11 @@ import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 
 /**
- * 账号管理
- *
  * @auther Huoxuyu
- * @since 2017/9/26
+ * @since 2017/11/8
  */
-public class AccountManageActivity extends BaseAccountActivity {
+
+public class AccountManageEnActivity extends BaseAccountActivity{
 
     @Override
     public void initData() {
@@ -21,26 +20,18 @@ public class AccountManageActivity extends BaseAccountActivity {
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_phone)
-                .name(R.string.account_phone)
-                .drawable(R.drawable.form_ic_account_phone)
-                .text(Profile.inst().getString(TProfile.mobile))
+                .related(RelatedId.bind_facebook)
+                .name(R.string.account_facebook)
+                .drawable(R.drawable.form_ic_account_facebook)
+                .text(Profile.inst().getBindNickName(LoginType.facebook))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_wx)
-                .name(R.string.account_wx)
-                .drawable(R.drawable.form_ic_account_wx)
-                .text(Profile.inst().getBindNickName(LoginType.wechat))
-                .hint(R.string.account_not_bind));
-
-        addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_sina)
-                .name(R.string.account_sina)
-                .drawable(R.drawable.form_ic_account_sina)
-                .text(Profile.inst().getBindNickName(LoginType.sina))
+                .related(RelatedId.bind_twitter)
+                .name(R.string.account_twitter)
+                .drawable(R.drawable.form_ic_account_twitter)
+                .text(Profile.inst().getBindNickName(LoginType.twitter))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -59,5 +50,4 @@ public class AccountManageActivity extends BaseAccountActivity {
                 .text(Profile.inst().getBindNickName(LoginType.yaya))
                 .hint(R.string.account_not_bind));
     }
-
 }

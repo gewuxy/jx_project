@@ -14,6 +14,7 @@ import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
+import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.util.Util;
 import lib.ys.network.image.NetworkImageView;
@@ -146,7 +147,11 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.account: {
-                startActivity(AccountManageActivity.class);
+                if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+                    startActivity(AccountManageActivity.class);
+                } else {
+                    startActivity(AccountManageEnActivity.class);
+                }
             }
             break;
             case RelatedId.setting: {

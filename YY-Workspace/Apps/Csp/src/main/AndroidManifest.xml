@@ -108,6 +108,9 @@
             android:name=".ui.activity.me.bind.AccountManageActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.activity.me.bind.AccountManageEnActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.activity.me.ContributePlatformActivity"
             android:screenOrientation="portrait"/>
         <activity
