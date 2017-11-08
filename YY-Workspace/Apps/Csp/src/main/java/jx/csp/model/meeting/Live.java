@@ -31,6 +31,7 @@ public class Live extends EVal<TLive> {
         courseId, // 	课件id
         startTime, // 开始时间
         endTime, // 结束时间
+        livePage, // 上次直播的页面下标
 
         /**
          * {@link LiveState}

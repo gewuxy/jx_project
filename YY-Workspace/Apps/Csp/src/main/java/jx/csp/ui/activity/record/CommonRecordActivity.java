@@ -2,6 +2,7 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
+import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Record;
-import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.model.meeting.Record.TRecord;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
@@ -89,7 +89,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
 
     @Override
     public void initData() {
-        //mCourseId = "14379";
         super.initData();
 
         mRecordPresenter = new CommonRecordPresenterImpl(new View());
@@ -140,7 +139,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 if ((f.exists() || f3.exists()) && SpUser.inst().showRecordAgainDialog()) {
                     showRecordAgainDialog(filePath, mp3FilePath);
                 } else {
-                    mRecordPresenter.startRecord(filePath);
+                    mRecordPresenter.startRecord(filePath, getCurrentItem());
                     // 隐藏播放按钮
                     ((RecordImgFrag) getItem(getCurrentItem())).goneLayoutAudio();
                     goneView(mVoiceLine);
@@ -257,6 +256,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             Result<JoinMeeting> r = (Result<JoinMeeting>) result;
             if (r.isSucceed()) {
                 mJoinMeeting = r.getData();
+                SparseArray<Integer> recordTimeArray = new SparseArray<>();  // 存放录制过的的ppt对应的时长
                 String wsUrl= mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
                 mTitle = mJoinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
@@ -274,7 +274,11 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                         frag.setPlayerListener(mRecordPresenter);
                         add(frag);
                         if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {
-                            mBeforeRecordTime += courseDetail.getInt(TCourseDetail.duration);
+                            int duration = courseDetail.getInt(TCourseDetail.duration);
+                            mBeforeRecordTime += duration;
+                            recordTimeArray.put(i, duration);
+                        } else {
+                            recordTimeArray.put(i, 0);
                         }
                     } else {
                         add(RecordVideoFragRouter
@@ -283,7 +287,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                                 .route());
                     }
                 }
-                mRecordPresenter.setBeforeRecordTime(mBeforeRecordTime);
+                mRecordPresenter.setBeforeRecordTime(mBeforeRecordTime, recordTimeArray);
                 // 判断第一页是不是视频
                 if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
                     mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
@@ -291,9 +295,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 }
                 // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
                 Record record = (Record) mJoinMeeting.getObject(TJoinMeeting.record);
-                YSLog.d(TAG, "playState = " + record.getInt(TRecord.playState));
-                YSLog.d(TAG, "playPage = " + record.getString(TRecord.playPage));
-                if (record.getInt(TRecord.playState) == PlayState.record && record.getInt(TRecord.playPage) != 0) {
+                if (record.getInt(TRecord.playPage) != 0) {
                     addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                         @Override
@@ -451,7 +453,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             if (checkBox.isChecked()) {
                 SpUser.inst().neverShowRecordAgainDialog();
             }
-            mRecordPresenter.startRecord(filePath);
+            mRecordPresenter.startRecord(filePath, getCurrentItem());
             // 隐藏播放按钮
             ((RecordImgFrag) getItem(getCurrentItem())).goneLayoutAudio();
             goneView(mVoiceLine);

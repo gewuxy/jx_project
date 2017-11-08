@@ -1,6 +1,7 @@
 package jx.csp.contact;
 
 import android.support.annotation.StringRes;
+import android.util.SparseArray;
 
 import lib.yy.contract.IContract;
 
@@ -36,9 +37,9 @@ public interface CommonRecordContract {
 
     interface Presenter extends IContract.Presenter<View> {
 
-        void setBeforeRecordTime(int t);
+        void setBeforeRecordTime(int t, SparseArray<Integer> recordTimeArray);
 
-        void startRecord(String filePath);
+        void startRecord(String filePath, int pos);
 
         void stopRecord();
     }

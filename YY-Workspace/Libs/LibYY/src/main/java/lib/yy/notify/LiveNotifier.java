@@ -22,7 +22,7 @@ public class LiveNotifier extends NotifierEx<OnLiveNotify> {
             LiveNotifyType.accept,
             LiveNotifyType.inquired,
             LiveNotifyType.send_msg,
-            LiveNotifyType.onlineNum,
+            LiveNotifyType.online_num,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface LiveNotifyType {
@@ -31,7 +31,7 @@ public class LiveNotifier extends NotifierEx<OnLiveNotify> {
         int accept = 3;   // 收到同意被踢指令  首页、扫描页接收
         int inquired = 4;  // 当前客户端收到被被踢的询问   直播、录播页面接收
         int send_msg = 5;  // 客户端发送websocket的指令
-        int onlineNum = 6;  // 直播间在线人数 用于语音直播间
+        int online_num = 6;  // 直播间在线人数 用于语音直播间
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioEncoder;
 import android.media.MediaRecorder.OutputFormat;
+import android.util.SparseArray;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,8 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
     private long mTotalTime = 0; // 录制的总共时间 单位秒
     private long mTime; // 录制的时间 单位秒
     private CountDown mCountDown;
+    private SparseArray<Integer> mRecordTimeArray;
+    private int mPos; // 当前录制的ppt页面下标
 
     public CommonRecordPresenterImpl(CommonRecordContract.View view) {
         super(view);
@@ -44,13 +47,20 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
     }
 
     @Override
-    public void setBeforeRecordTime(int t) {
+    public void setBeforeRecordTime(int t, SparseArray<Integer> recordTimeArray) {
         mTotalTime = t;
+        mRecordTimeArray = recordTimeArray;
         getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
     }
 
     @Override
-    public void startRecord(String filePath) {
+    public void startRecord(String filePath, int pos) {
+        mPos = pos;
+        // 先减去以前录制过的时间 重新设置录制总时间
+        if (mTotalTime != 0 && mRecordTimeArray != null) {
+            mTotalTime -= mRecordTimeArray.get(pos);
+            getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
+        }
         mTime = 0;
         if (mCountDown == null) {
             mCountDown = new CountDown();
@@ -74,6 +84,8 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
 
     @Override
     public void stopRecord() {
+        // 保存录制的时间
+        mRecordTimeArray.put(mPos, (int) mTime);
         mTotalTime += mTime;
         getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
         getView().stopRecordState();

@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.record;
 
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.io.File;
@@ -16,6 +17,8 @@ import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
+import jx.csp.model.meeting.Live;
+import jx.csp.model.meeting.Live.TLive;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
@@ -222,6 +225,18 @@ public class LiveRecordActivity extends BaseRecordActivity {
                                 .route());
                     }
                 }
+                // 先判断以前是否直播过，直播过的话要跳到对应的页面
+                Live live = (Live) mJoinMeeting.getObject(TJoinMeeting.live);
+                if (live.getInt(TLive.livePage) != 0) {
+                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                        @Override
+                        public void onGlobalLayout() {
+                            setCurrentItem(live.getInt(TLive.livePage));
+                            removeOnGlobalLayoutListener(this);
+                        }
+                    });
+                }
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {
@@ -306,7 +321,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 switchDevice();
             }
             break;
-            case LiveNotifyType.onlineNum: {
+            case LiveNotifyType.online_num: {
                 int num = (int) data;
                 mTvOnlineNum.setText(String.valueOf(num));
             }
