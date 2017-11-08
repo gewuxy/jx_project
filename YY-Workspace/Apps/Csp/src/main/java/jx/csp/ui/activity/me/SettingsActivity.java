@@ -15,7 +15,9 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.AuthLoginActivity;
+import jx.csp.ui.activity.login.AuthLoginEnActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
@@ -178,7 +180,11 @@ public class SettingsActivity extends BaseFormActivity {
             d.addBlackButton(getString(R.string.setting_exit), v -> {
                 mPresenter.startLogoutService(SettingsActivity.this);
 
-                startActivity(AuthLoginActivity.class);
+                if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
+                    startActivity(AuthLoginActivity.class);
+                }else {
+                    startActivity(AuthLoginEnActivity.class);
+                }
                 finish();
             });
             d.addBlueButton(R.string.cancel);
