@@ -60,7 +60,7 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
     }
 
     @Override
-    public  void onClick(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.base_set_tv_set: {
                 toSet();
@@ -69,7 +69,7 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         }
     }
 
-    public int getFooterResId(){
+    public int getFooterResId() {
         return 0;
     }
 

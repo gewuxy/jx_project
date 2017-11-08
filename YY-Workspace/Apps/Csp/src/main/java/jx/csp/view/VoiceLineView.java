@@ -110,6 +110,7 @@ public class VoiceLineView extends View {
 
     /**
      * 画中间线
+     *
      * @param canvas
      */
     private void drawMiddleLine(Canvas canvas) {
@@ -125,6 +126,7 @@ public class VoiceLineView extends View {
 
     /**
      * 画线型声波
+     *
      * @param canvas
      */
     private void drawVoiceLine(Canvas canvas) {
@@ -164,6 +166,7 @@ public class VoiceLineView extends View {
 
     /**
      * 画矩形声波
+     *
      * @param canvas
      */
     private void drawVoiceRect(Canvas canvas) {

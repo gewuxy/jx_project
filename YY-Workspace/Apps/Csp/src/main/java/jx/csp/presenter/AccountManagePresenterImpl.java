@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jx.csp.App;
-import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.constant.LoginType;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.model.BindInfoList;
 import jx.csp.model.BindInfoList.TBindInfo;

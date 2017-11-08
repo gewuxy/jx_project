@@ -1,10 +1,10 @@
 package jx.csp.ui.activity.me.bind;
 
-import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.constant.FormType;
+import jx.csp.constant.LoginType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 
 /**
@@ -12,7 +12,7 @@ import jx.csp.model.form.Form;
  * @since 2017/11/8
  */
 
-public class AccountManageEnActivity extends BaseAccountActivity{
+public class AccountManageEnActivity extends BaseAccountActivity {
 
     @Override
     public void initData() {

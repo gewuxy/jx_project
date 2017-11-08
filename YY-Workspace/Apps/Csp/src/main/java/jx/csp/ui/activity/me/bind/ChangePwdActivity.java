@@ -4,7 +4,7 @@ import android.text.Editable;
 import android.widget.EditText;
 
 import jx.csp.R;
-import jx.csp.model.def.FormType;
+import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.util.Util;
 import lib.ys.util.TextUtil;
@@ -16,7 +16,7 @@ import lib.ys.util.TextUtil;
  * @since 2017/9/25
  */
 
-public class ChangePwdActivity extends BaseSetActivity{
+public class ChangePwdActivity extends BaseSetActivity {
 
     private final int KLengthMax = 24; // 密码最大长度
     private final int KLengthMin = 6; // 密码最小长度

@@ -17,12 +17,14 @@ public interface ContributePlatformContract {
 
         /**
          * 点击图标, 提示文字
+         *
          * @param bar
          */
         void showDialog(NavBar bar);
 
         /**
          * 设置单位号条目
+         *
          * @param position
          * @param isSelected
          */

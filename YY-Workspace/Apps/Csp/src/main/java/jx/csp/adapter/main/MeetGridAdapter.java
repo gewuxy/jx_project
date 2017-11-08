@@ -52,7 +52,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                    /* Date d = new Date(Long.parseLong(item.getString(TMeet.startTime)));
                     SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
                     holder.getTvTime().setText(data.format(d));*/
-                    holder.getTvTime().setText(TimeFormatter.milli(item.getString(TMeet.startTime),TimeFormat.form_MM_dd_24));
+                    holder.getTvTime().setText(TimeFormatter.milli(item.getString(TMeet.startTime), TimeFormat.form_MM_dd_24));
                 } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
                     holder.getTvPlayState().setText(R.string.live);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));

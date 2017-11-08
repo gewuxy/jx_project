@@ -15,6 +15,7 @@ public interface ClipImageContract {
 
         /**
          * 头部的设置
+         *
          * @param bar
          */
         void setNavBar(NavBar bar);

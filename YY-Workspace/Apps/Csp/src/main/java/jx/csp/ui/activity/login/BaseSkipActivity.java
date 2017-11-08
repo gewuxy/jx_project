@@ -56,8 +56,8 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.tv_back_login:{
+        switch (v.getId()) {
+            case R.id.tv_back_login: {
                 finish();
             }
             break;
@@ -66,7 +66,7 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
 
     @Override
     public void onCountDown(long remainCount) {
-        String s = String.format(getString(R.string.back_to_login),remainCount);
+        String s = String.format(getString(R.string.back_to_login), remainCount);
         mTvBack.setText(s);
         if (remainCount == 0) {
             finish();

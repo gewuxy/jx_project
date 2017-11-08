@@ -14,7 +14,7 @@ import lib.ys.adapter.AdapterEx;
  * @since 2017/10/13
  */
 
-public class HistoryAdapter extends AdapterEx<History,HistoryVH> {
+public class HistoryAdapter extends AdapterEx<History, HistoryVH> {
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_contribute_history_hkmovie_item;
@@ -26,13 +26,13 @@ public class HistoryAdapter extends AdapterEx<History,HistoryVH> {
         holder.getIvHead().url(item.getString(THistory.headimg)).load();
         holder.getTvName().setText(item.getString(THistory.acceptName));
         holder.getTvInfo().setText(item.getString(THistory.sign));
-        setOnViewClickListener(position,holder.getItemLayout());
+        setOnViewClickListener(position, holder.getItemLayout());
     }
 
     @Override
     protected void onViewClick(int position, View v) {
         History item = getItem(position);
-        ContributeHistoryDetailActivityRouter.create(item.getInt(THistory.acceptId),item.getString(THistory.acceptName))
+        ContributeHistoryDetailActivityRouter.create(item.getInt(THistory.acceptId), item.getString(THistory.acceptName))
                 .route(getContext());
     }
 }

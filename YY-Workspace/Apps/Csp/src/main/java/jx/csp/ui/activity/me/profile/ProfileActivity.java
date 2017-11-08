@@ -10,11 +10,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.FormType;
 import jx.csp.contact.ProfileContract;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.text.IntentForm.IntentType;
 import jx.csp.presenter.ProfilePresenterImpl;

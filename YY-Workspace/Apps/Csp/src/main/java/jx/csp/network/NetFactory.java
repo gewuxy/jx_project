@@ -3,11 +3,9 @@ package jx.csp.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import jx.csp.Constants.LanguageType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.sp.SpApp;
-import jx.csp.util.Util;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
@@ -50,8 +48,7 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KDevice, "android"));
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
-
-        ps.add(newPair(CommonParam.KLocal, SpApp.inst().getSystemLanguage()));
+        ps.add(newPair(CommonParam.KLocal, SpApp.inst().getLanguageType().define()));
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));

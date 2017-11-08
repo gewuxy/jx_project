@@ -13,7 +13,7 @@ import lib.ys.util.res.ResLoader;
  * @since 2017/10/16
  */
 
-public class HistoryDetailAdapter extends AdapterEx<HistoryDetail,HistoryDetailVH> {
+public class HistoryDetailAdapter extends AdapterEx<HistoryDetail, HistoryDetailVH> {
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_contribute_history_detail_item;
@@ -23,11 +23,11 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail,HistoryDetailV
     protected void refreshView(int position, HistoryDetailVH holder) {
         //总页数
         HistoryDetail item = getItem(position);
-        String s = String.format(ResLoader.getString(R.string.page_num),item.getString(THistoryDetail.pageCount));
+        String s = String.format(ResLoader.getString(R.string.page_num), item.getString(THistoryDetail.pageCount));
 
         //录播的总时长
         String duration = item.getString(THistoryDetail.duration);
-        String timeStr = duration +"''";
+        String timeStr = duration + "''";
         long seconds = Long.parseLong(duration);
 
         holder.getIvHead().url(item.getString(THistoryDetail.coverUrl)).load();
@@ -36,13 +36,13 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail,HistoryDetailV
         if (item.getInt(THistoryDetail.playType) == PlayType.reb) {
             holder.getTvState().setText(ResLoader.getString(R.string.record));
 
-            if (seconds > 60){
+            if (seconds > 60) {
                 long second = seconds % 60;
                 long min = seconds / 60;
-                timeStr = min + "'" +second+"''";
+                timeStr = min + "'" + second + "''";
             }
             holder.getTvTime().setText(timeStr);
-        }else{
+        } else {
             holder.getTvState().setText(ResLoader.getString(R.string.solive));
 
             //直播的开始时间转换

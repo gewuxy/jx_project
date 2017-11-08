@@ -4,8 +4,8 @@ import android.content.Context;
 
 import java.util.Observable;
 
-import lib.ys.util.sp.SpBase;
 import jx.csp.App;
+import lib.ys.util.sp.SpBase;
 
 /**
  * @auther yuansui

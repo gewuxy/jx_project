@@ -48,15 +48,15 @@ public class MeetGridVH extends RecyclerViewHolderEx {
         return getView(R.id.current_state);
     }
 
-    public ImageView getIvLive(){
+    public ImageView getIvLive() {
         return getView(R.id.main_meet_iv_live);
     }
 
-    public ImageView getIvShare(){
+    public ImageView getIvShare() {
         return getView(R.id.main_meet_iv_share);
     }
 
-    public View getVDivider(){
+    public View getVDivider() {
         return getView(R.id.square_divider);
     }
 }

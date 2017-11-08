@@ -5,9 +5,9 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
-import jx.csp.Constants;
-import lib.ys.util.sp.SpBase;
 import jx.csp.App;
+import jx.csp.constant.LanguageType;
+import lib.ys.util.sp.SpBase;
 
 /**
  * @author CaiXiang
@@ -36,7 +36,7 @@ public class SpApp extends SpBase {
         String KUserName = "user_name";
         String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
-        String KSystemLanguage = "language";
+        String KSystemLanguage = "app_type";
         String KLoginVideoVersion = "version";
     }
 
@@ -84,19 +84,22 @@ public class SpApp extends SpBase {
 
     /**
      * 保存登录视频的版本
-      * @param version
+     *
+     * @param version
      */
-    public void saveLoginVideoVersion(int version){
-        save(SpAppKey.KLoginVideoVersion,version);
+    public void saveLoginVideoVersion(int version) {
+        save(SpAppKey.KLoginVideoVersion, version);
     }
 
     /**
      * 获取版本
+     *
      * @return
      */
     public int getLoginVideoVersion() {
-        return getInt(SpAppKey.KLoginVideoVersion,KDefaultVersion);
+        return getInt(SpAppKey.KLoginVideoVersion, KDefaultVersion);
     }
+
     /**
      * 是否需要检查app有没有更新, 暂定间隔为2天
      *
@@ -122,19 +125,13 @@ public class SpApp extends SpBase {
     /**
      * 保存系统语言
      *
-     * @param s
+     * @param type
      */
-    public void saveSystemLanguage(String s) {
-        save(SpAppKey.KSystemLanguage, s);
+    public void saveSystemLanguage(LanguageType type) {
+        save(SpAppKey.KSystemLanguage, type.ordinal());
     }
 
-    /**
-     * 获取系统语言
-     *
-     * @return
-     */
-    public String getSystemLanguage() {
-        return getString(SpAppKey.KSystemLanguage, Constants.LanguageType.en);
+    public LanguageType getLanguageType() {
+        return LanguageType.values()[getInt(SpAppKey.KSystemLanguage, LanguageType.en.ordinal())];
     }
-
 }

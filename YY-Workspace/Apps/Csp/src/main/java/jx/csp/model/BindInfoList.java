@@ -1,6 +1,6 @@
 package jx.csp.model;
 
-import jx.csp.Constants.LoginType;
+import jx.csp.constant.LoginType;
 import jx.csp.model.BindInfoList.TBindInfo;
 import lib.ys.model.EVal;
 

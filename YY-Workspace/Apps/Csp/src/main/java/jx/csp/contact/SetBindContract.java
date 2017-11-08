@@ -11,7 +11,7 @@ import lib.yy.contract.IContract;
 
 public interface SetBindContract {
 
-    interface V extends IContract.View{
+    interface V extends IContract.View {
 
         /**
          * 设置按钮状态
@@ -42,6 +42,7 @@ public interface SetBindContract {
 
         /**
          * 获取item文本
+         *
          * @param relatedId
          */
         String getItemText(int relatedId);
@@ -54,16 +55,18 @@ public interface SetBindContract {
         void onFinish();
     }
 
-    interface P extends IContract.Presenter<V>{
+    interface P extends IContract.Presenter<V> {
 
         /**
          * 检查密码规则
+         *
          * @param et
          */
         void checkPwd(EditText et);
 
         /**
          * 确认绑定
+         *
          * @param id
          * @param userName
          * @param num
@@ -72,6 +75,7 @@ public interface SetBindContract {
 
         /**
          * 获取验证码
+         *
          * @param id
          * @param userName
          * @param type
@@ -80,6 +84,7 @@ public interface SetBindContract {
 
         /**
          * 修改密码
+         *
          * @param id
          * @param oldPwd
          * @param newPwd

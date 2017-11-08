@@ -9,10 +9,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.FormType;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
@@ -27,6 +27,7 @@ import lib.yy.network.Result;
 
 /**
  * 注册
+ *
  * @auther WangLan
  * @since 2017/9/26
  */

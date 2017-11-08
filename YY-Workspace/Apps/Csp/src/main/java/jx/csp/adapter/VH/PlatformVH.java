@@ -14,7 +14,7 @@ import lib.ys.network.image.NetworkImageView;
  * @since 2017/9/28
  */
 
-public class PlatformVH extends ViewHolderEx{
+public class PlatformVH extends ViewHolderEx {
 
     public PlatformVH(@NonNull View convertView) {
         super(convertView);
@@ -24,7 +24,7 @@ public class PlatformVH extends ViewHolderEx{
         return getView(R.id.platform_item_layout);
     }
 
-    public ImageView getIvSelect(){
+    public ImageView getIvSelect() {
         return getView(R.id.platform_item_iv_select);
     }
 

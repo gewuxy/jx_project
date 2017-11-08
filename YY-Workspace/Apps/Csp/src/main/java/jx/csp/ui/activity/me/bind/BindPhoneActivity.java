@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import jx.csp.R;
-import jx.csp.model.def.FormType;
+import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.util.Util;
 import lib.ys.util.TextUtil;

@@ -8,9 +8,9 @@ import lib.ys.model.EVal;
  * @since 2017/10/12
  */
 
-public class PayPalPayRecharge extends EVal<TPayPalPayRecharge>{
+public class PayPalPayRecharge extends EVal<TPayPalPayRecharge> {
 
-    public enum TPayPalPayRecharge{
+    public enum TPayPalPayRecharge {
         orderId
     }
 }

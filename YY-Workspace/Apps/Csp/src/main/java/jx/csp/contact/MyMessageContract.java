@@ -20,9 +20,11 @@ public interface MyMessageContract {
 
         /**
          * 设置头部
+         *
          * @param bar
          */
         void setNavBar(NavBar bar);
+
         void setNavBarTextColor();
 
         /**
@@ -42,6 +44,7 @@ public interface MyMessageContract {
 
         /**
          * 基类输入框的监听
+         *
          * @param et
          * @param ivClear
          */
@@ -49,6 +52,7 @@ public interface MyMessageContract {
 
         /**
          * 昵称输入框的规则
+         *
          * @param s
          * @param et
          * @param watcher
@@ -57,18 +61,21 @@ public interface MyMessageContract {
 
         /**
          * 设置昵称的清除
+         *
          * @param et
          */
         void setClear(EditText et);
 
         /**
          * 设置简介的文本长度
+         *
          * @param length
          */
         void setIntroTextLength(int length, TextView tv);
 
         /**
          * 改变简介文本的长度
+         *
          * @param s
          */
         void setIntroChangedTextLength(Editable s, TextView tv);
@@ -78,6 +85,7 @@ public interface MyMessageContract {
 
         /**
          * 保存个人信息
+         *
          * @param id
          * @param text
          */

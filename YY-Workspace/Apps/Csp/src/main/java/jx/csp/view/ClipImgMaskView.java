@@ -11,10 +11,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import jx.csp.R;
 import lib.ys.fitter.DpFitter;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
-import jx.csp.R;
 
 /**
  * @author CaiXiang

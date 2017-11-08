@@ -8,8 +8,8 @@ import lib.ys.model.EVal;
  * @since 2017/9/26
  */
 
-public class Copy extends EVal<TCopy>{
+public class Copy extends EVal<TCopy> {
     public enum TCopy {
-       id,
+        id,
     }
 }

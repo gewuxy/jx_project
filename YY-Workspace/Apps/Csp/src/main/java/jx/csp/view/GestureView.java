@@ -12,6 +12,7 @@ import lib.ys.YSLog;
 
 /**
  * 监听左右滑动手势
+ *
  * @author CaiXiang
  * @since 2017/10/12
  */
@@ -60,6 +61,7 @@ public class GestureView extends RelativeLayout {
 
     public interface onGestureViewListener {
         void moveLast();
+
         void moveNext();
     }
 

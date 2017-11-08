@@ -7,12 +7,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.FormType;
+import jx.csp.constant.LanguageType;
 import jx.csp.contact.SettingsContract;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
 import jx.csp.sp.SpApp;
@@ -180,10 +181,10 @@ public class SettingsActivity extends BaseFormActivity {
             d.addBlackButton(getString(R.string.setting_exit), v -> {
                 mPresenter.startLogoutService(SettingsActivity.this);
 
-                if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
-                    startActivity(AuthLoginActivity.class);
-                }else {
+                if (SpApp.inst().getLanguageType() == LanguageType.en) {
                     startActivity(AuthLoginEnActivity.class);
+                } else {
+                    startActivity(AuthLoginActivity.class);
                 }
                 finish();
             });

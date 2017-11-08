@@ -2,9 +2,9 @@ package jx.csp.adapter;
 
 import android.text.SpannableString;
 
+import jx.csp.R;
 import jx.csp.adapter.VH.BottomVH;
 import lib.ys.adapter.AdapterEx;
-import jx.csp.R;
 
 /**
  * @auther : GuoXuan

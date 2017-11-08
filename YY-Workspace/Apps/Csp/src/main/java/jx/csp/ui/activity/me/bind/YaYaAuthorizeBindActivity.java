@@ -8,7 +8,7 @@ import jx.csp.ui.activity.login.BaseYaYaLoginActivity;
  * @since 2017/10/30
  */
 
-public class YaYaAuthorizeBindActivity extends BaseYaYaLoginActivity{
+public class YaYaAuthorizeBindActivity extends BaseYaYaLoginActivity {
 
     @Override
     public void setViews() {

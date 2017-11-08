@@ -1,7 +1,6 @@
 package jx.csp.util;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.util.Base64;
 import android.view.View;
@@ -112,8 +111,8 @@ public class Util extends BaseUtil {
      * 得到指定格式的时间字符串
      *
      * @param l
-     * @param mFormat  分后面的字符
-     * @param sFormat  秒后面的字符
+     * @param mFormat 分后面的字符
+     * @param sFormat 秒后面的字符
      * @return
      */
     public static String getSpecialTimeFormat(long l, String mFormat, String sFormat) {

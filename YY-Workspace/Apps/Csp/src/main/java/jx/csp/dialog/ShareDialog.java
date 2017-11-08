@@ -20,8 +20,11 @@ import java.util.Map;
 
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
-import jx.csp.Constants.VersionType;
 import jx.csp.R;
+import jx.csp.constant.AppType;
+import jx.csp.constant.Constants;
+import jx.csp.constant.LanguageType;
+import jx.csp.constant.MetaValue;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.ContributePlatformActivity;
@@ -45,11 +48,9 @@ import static lib.ys.util.res.ResLoader.getString;
  * @since 2017/10/12
  */
 
-public class ShareDialog extends BaseDialog{
+public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
-
-    public static final String KShareError = "分享失败";
 
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
@@ -226,29 +227,36 @@ public class ShareDialog extends BaseDialog{
 
     public void shareSignature(int courseId) {
         // 拼接加密字符串
-        String local; // 系统语言
-        YSLog.d(TAG, "app language = " + SpApp.inst().getSystemLanguage());
+        LanguageType type = SpApp.inst().getLanguageType(); // 系统语言
+        YSLog.d(TAG, "app app_type = " + type);
         // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
-        local = SpApp.inst().getSystemLanguage();
-        int abroad;  // 国内版 国外版
-        if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
-            abroad = VersionType.inland;
+        @AppType int appType;  // 国内版 国外版
+        if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+            appType = AppType.inland;
         } else {
-            abroad = VersionType.overseas;
+            appType = AppType.overseas;
         }
-        String param = "id=" + courseId + "&_local=" + local + "&abroad=" + abroad;
+
+        StringBuffer paramBuffer = new StringBuffer();
+        paramBuffer.append("id=")
+                .append(courseId)
+                .append("&_local=")
+                .append(type.define())
+                .append("&abroad=")
+                .append(appType);
         Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
         String http = BuildConfig.TEST ? des.hostDebuggable() : des.host();
         try {
-            mShareUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, param), "utf-8");
+            mShareUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, paramBuffer.toString()), Constants.KEncoding_utf8);
             YSLog.d(TAG, "ShareUrl = " + mShareUrl);
         } catch (UnsupportedEncodingException e) {
-            YSLog.d(TAG, "Share error = " + e.getMessage());
+            YSLog.e(TAG, "shareSignature", e);
+            // TODO: url= 官网??
         }
     }
 
     public void judge() {
-        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+        if (SpApp.inst().getLanguageType() != LanguageType.en) {
             List<Map<String, Object>> dataCn;
             SimpleAdapter adapter;
             GridView mGridView = findView(R.id.share_gridview);
@@ -278,8 +286,8 @@ public class ShareDialog extends BaseDialog{
             adapter = new SimpleAdapter(getContext(), dataCn, R.layout.activty_dialog_share_pltatform_item, from, to);
             mGridView.setAdapter(adapter);
             mGridView.setOnItemClickListener((adapterView, view, i, l) -> {
-                switch (i){
-                    case 0:{
+                switch (i) {
+                    case 0: {
 
                     }
                     break;

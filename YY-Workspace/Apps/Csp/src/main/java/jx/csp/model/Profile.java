@@ -3,7 +3,7 @@ package jx.csp.model;
 import java.util.List;
 import java.util.Observable;
 
-import jx.csp.Constants.LoginType;
+import jx.csp.constant.LoginType;
 import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.sp.SpUser;
@@ -80,7 +80,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
     }
 
     public String getBindNickName(@LoginType int id) {
-        List<BindInfoList> list =  getList(TProfile.bindInfoList);
+        List<BindInfoList> list = getList(TProfile.bindInfoList);
         if (list != null) {
             for (BindInfoList bindInfo : list) {
                 if (bindInfo.getInt(TBindInfo.thirdPartyId) == id) {

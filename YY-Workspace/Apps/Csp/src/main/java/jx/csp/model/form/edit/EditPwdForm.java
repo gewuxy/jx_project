@@ -5,12 +5,12 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 
-import lib.ys.ConstantsEx;
-import lib.ys.network.image.NetworkImageView;
-import lib.yy.adapter.VH.FormVH;
 import jx.csp.R;
 import jx.csp.util.UISetter;
 import jx.csp.util.input.InputFilterSpaCN;
+import lib.ys.ConstantsEx;
+import lib.ys.network.image.NetworkImageView;
+import lib.yy.adapter.VH.FormVH;
 
 /**
  * @author GuoXuan

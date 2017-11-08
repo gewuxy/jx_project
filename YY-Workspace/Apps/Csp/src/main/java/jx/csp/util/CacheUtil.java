@@ -15,10 +15,15 @@ public class CacheUtil extends CacheUtilEx {
     private static final String KBmpCacheDef = KHomeDir + "cache/bmp/";
     private static final String KUploadCacheDef = KHomeDir + "upload/tmp/";
     private static final String KAudioCacheDef = KHomeDir + "audio/";
+    private static final String KVideoCacheDef = KHomeDir + "video/";
+
+    private static final String KVideoFileNameLogin = "login";
+
 
     private static String mBmpCacheDir;
     private static String mUploadCacheDir;
     private static String mAudioCacheDir;
+    private static String mVideoCacheDir;
 
     static {
         init(KHomeDir);
@@ -26,6 +31,7 @@ public class CacheUtil extends CacheUtilEx {
         mBmpCacheDir = makeDir(KBmpCacheDef);
         mUploadCacheDir = makeDir(KUploadCacheDef);
         mAudioCacheDir = makeDir(KAudioCacheDef);
+        mVideoCacheDir = makeDir(KVideoCacheDef);
     }
 
     public static String getBmpCacheDir() {
@@ -40,7 +46,15 @@ public class CacheUtil extends CacheUtilEx {
         return mAudioCacheDir;
     }
 
+    public static String getVideoCacheDir() {
+        return mVideoCacheDir;
+    }
+
     public static String getAudioPath(String courseId, int page) {
         return mAudioCacheDir + courseId + File.separator + (page + 1) + FileSuffix.amr;
+    }
+
+    public static String getVideoLoginFileName(int version) {
+        return KVideoFileNameLogin + version + FileSuffix.mp4;
     }
 }

@@ -11,8 +11,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.FormType;
 import jx.csp.model.Profile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
@@ -28,6 +28,7 @@ import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 手机登录之后没有昵称的跳出的输入昵称
+ *
  * @auther WangLan
  * @since 2017/9/28
  */
@@ -72,7 +73,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         setOnClickListener(R.id.service_agreement);
         //Fixme:没见到效果，什么鬼
         LinearLayout.LayoutParams lp = (LayoutParams) mLinearLayoutProtocol.getLayoutParams();
-        lp.setMargins(75,331,75,27);
+        lp.setMargins(75, 331, 75, 27);
         mLinearLayoutProtocol.setLayoutParams(lp);
         showView(mLayout);
     }
@@ -92,7 +93,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.service_agreement: {
-                CommonWebViewActivityRouter.create( UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }
             break;
@@ -120,8 +121,8 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
             notify(NotifyType.login);
             startActivity(MainActivity.class);
             finish();
-        }else {
-            onNetworkError(id,r.getError());
+        } else {
+            onNetworkError(id, r.getError());
         }
     }
 

@@ -80,7 +80,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
                     // 获取验证码
                     getView().getCaptcha();
                     App.showToast(R.string.account_send_captcha);
-                }else {
+                } else {
                     App.showToast(r.getMessage());
                 }
             }

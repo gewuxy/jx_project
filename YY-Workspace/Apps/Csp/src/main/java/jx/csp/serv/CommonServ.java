@@ -31,7 +31,7 @@ import lib.yy.notify.Notifier.NotifyType;
  * @since 2017/10/16
  */
 @Route
-public class CommonServ extends ServiceEx{
+public class CommonServ extends ServiceEx {
 
     @Arg(opt = true)
     @ReqType
@@ -44,11 +44,11 @@ public class CommonServ extends ServiceEx{
     String mCourseId;
     @Arg(opt = true)
     int mPageNum;
-    @Arg(opt = true )
+    @Arg(opt = true)
     int mOverType;
-    @Arg(opt = true )
+    @Arg(opt = true)
     String mUrl;
-    @Arg(opt = true )
+    @Arg(opt = true)
     String mFileName;
     @Arg(opt = true)
     int mNewVersion;
@@ -82,8 +82,8 @@ public class CommonServ extends ServiceEx{
                 exeNetworkReq(MeetingAPI.exitRecord(mCourseId, mPageNum, mOverType).build());
             }
             break;
-            case ReqType.login_video:{
-                exeNetworkReq(mType,UserAPI.downLoad(CacheUtil.getAudioCacheDir(), mFileName, mUrl).build());
+            case ReqType.login_video: {
+                exeNetworkReq(mType, UserAPI.downLoad(CacheUtil.getAudioCacheDir(), mFileName, mUrl).build());
             }
             break;
         }
@@ -125,10 +125,10 @@ public class CommonServ extends ServiceEx{
                 }
             }
             break;
-            case ReqType.login_video:{
+            case ReqType.login_video: {
                 if (r.isSucceed()) {
                     SpApp.inst().saveLoginVideoVersion(mNewVersion);
-                }else {
+                } else {
                     onNetworkError(id, r.getError());
                 }
             }

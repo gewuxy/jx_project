@@ -31,6 +31,7 @@ public interface FlowRateContract {
 
         /**
          * 设置高亮
+         *
          * @param id
          */
         void setHighlight(@IdRes int id);
@@ -45,6 +46,7 @@ public interface FlowRateContract {
          * ping++ or paypal
          */
         void setPayPalPay(String orderId);
+
         void setPingPay(String info);
 
         /**

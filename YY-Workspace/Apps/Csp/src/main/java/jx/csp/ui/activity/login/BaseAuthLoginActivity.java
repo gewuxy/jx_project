@@ -2,6 +2,7 @@ package jx.csp.ui.activity.login;
 
 import android.support.annotation.CallSuper;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.io.File;
 
@@ -33,18 +34,18 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private final int KLoginVideo = 1;
     private final int KDownLoadVideo = 2;
 
-    private final int KInitVersion = 0; // 首次访问此接口，version= 0
+    private final int KInitVersion = 0; // 首次访问此接口，version = 0
 
     private CustomVideoView mCustomVideoView;
 
     private String mUrl;
-    private String mLocatePath;
-    private String KFileName;
+    private String mFilePath;
+    private String mFileName;
 
     @Override
     public void initData() {
-        KFileName = SpApp.inst().getLoginVideoVersion()+"login_background_video.mp4";
-        mLocatePath = CacheUtil.getAudioCacheDir() + KFileName;
+        mFileName = CacheUtil.getVideoLoginFileName(SpApp.inst().getLoginVideoVersion());
+        mFilePath = CacheUtil.getVideoCacheDir() + mFileName;
     }
 
     @Override
@@ -66,9 +67,16 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(SpApp.inst().getLoginVideoVersion()).build());
         int loginVideoVersion = SpApp.inst().getLoginVideoVersion();
-        YSLog.d(TAG,"loginVideoVersion"+loginVideoVersion);
+        YSLog.d(TAG, "loginVideoVersion" + loginVideoVersion);
 
-        startPlay();
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                startPlay();
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @CallSuper
@@ -109,10 +117,10 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
                 if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
                     // fixme:在服务下载
-                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(CacheUtil.getAudioCacheDir(), KFileName, mUrl).build());
-//                    CommonServRouter.create().fileName(KFileName).newVersion(newVersion).url(mUrl).route(this);
-            }
-        } else {
+                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(CacheUtil.getVideoCacheDir(), mFileName, mUrl).build());
+//                    CommonServRouter.create().fileName(mFileName).newVersion(newVersion).url(mUrl).route(this);
+                }
+            } else {
                 onNetworkError(id, r.getError());
             }
         }
@@ -137,10 +145,10 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     }
 
     public void startPlay() {
-        if (TextUtil.isEmpty(mLocatePath)) {
+        if (TextUtil.isEmpty(mFilePath)) {
             return;
         }
-        File file = new File(mLocatePath);
+        File file = new File(mFilePath);
         if (!file.exists()) {
             // 如果文件不存在，则还原到低版本
             SpApp.inst().saveLoginVideoVersion(KInitVersion);
@@ -151,7 +159,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
             return;
         }
 
-        mCustomVideoView.setVideoPath(mLocatePath);
+        mCustomVideoView.setVideoPath(mFilePath);
         mCustomVideoView.setOnErrorListener((mediaPlayer, i, i1) -> false);
         mCustomVideoView.setOnPreparedListener(mediaPlayer -> mCustomVideoView.start());
         mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());

@@ -2,10 +2,10 @@ package jx.csp.model.form.edit;
 
 import android.widget.TextView;
 
+import jx.csp.R;
 import lib.ys.ConstantsEx;
 import lib.ys.view.CaptchaView;
 import lib.yy.adapter.VH.FormVH;
-import jx.csp.R;
 
 /**
  * @auther WangLan

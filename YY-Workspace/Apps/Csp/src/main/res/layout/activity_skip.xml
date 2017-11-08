@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white">
+
     <TextView
         android:id="@+id/tv_skip"
         android:layout_width="258dp"
@@ -13,6 +14,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginTop="57dp"/>
+
     <TextView
         android:id="@+id/tv_back_login"
         android:layout_width="283dp"

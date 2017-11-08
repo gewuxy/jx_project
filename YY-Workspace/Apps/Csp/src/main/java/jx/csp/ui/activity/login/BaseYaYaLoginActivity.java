@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.constant.LoginType;
 import jx.csp.model.BindInfoList;
 import jx.csp.model.BindInfoList.TBindInfo;
 import jx.csp.model.Profile;

@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
-import jx.csp.model.def.FormType;
+import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;

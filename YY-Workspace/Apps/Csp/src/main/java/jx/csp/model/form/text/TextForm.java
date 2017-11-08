@@ -15,7 +15,7 @@ import lib.yy.model.form.BaseForm;
  * @since 2017/9/21
  */
 
-public class TextForm extends BaseForm{
+public class TextForm extends BaseForm {
 
     @Override
     public boolean check() {

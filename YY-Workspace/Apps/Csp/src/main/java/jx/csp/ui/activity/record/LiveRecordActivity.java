@@ -240,8 +240,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {
-                     mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
-                     mWebSocketServRouter.route(this);
+                    mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
+                    mWebSocketServRouter.route(this);
                 }
             }
         } else {

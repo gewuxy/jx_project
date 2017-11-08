@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import lib.ys.adapter.VH.ViewHolderEx;
 import jx.csp.R;
+import lib.ys.adapter.VH.ViewHolderEx;
 
 /**
  * @auther : GuoXuan

@@ -42,16 +42,24 @@ public class UrlUtil {
         String KModify = "user/updateInfo";
     }
 
-    public static String getYaYaLogin(){
+    public static String getYaYaLogin() {
         return mYaYaAuthorize;
     }
 
-    public static String getUrlUpdateLog(){return mUrlUpdateLog;}
+    public static String getUrlUpdateLog() {
+        return mUrlUpdateLog;
+    }
 
-    public static String getUrlHelp(){return mUrlHelp;}
+    public static String getUrlHelp() {
+        return mUrlHelp;
+    }
 
-    public static String getUrlDisclaimer(){return mUrlDisclaimer;}
+    public static String getUrlDisclaimer() {
+        return mUrlDisclaimer;
+    }
 
-    public static String getUrlAboutUs(){return mUrlAboutUs;}
+    public static String getUrlAboutUs() {
+        return mUrlAboutUs;
+    }
 
 }

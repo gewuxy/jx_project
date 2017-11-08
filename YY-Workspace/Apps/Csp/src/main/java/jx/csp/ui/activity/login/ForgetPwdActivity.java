@@ -8,8 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
-import jx.csp.model.def.FormType;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.util.Util;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -18,6 +18,7 @@ import lib.yy.network.Result;
 
 /**
  * 忘记密码
+ *
  * @auther WangLan
  * @since 2017/9/25
  */
@@ -75,8 +76,8 @@ public class ForgetPwdActivity extends BaseLoginActivity {
         if (r.isSucceed()) {
             startActivity(ForgetPwdSkipActivity.class);
             finish();
-        }else {
-            onNetworkError(id,r.getError());
+        } else {
+            onNetworkError(id, r.getError());
         }
     }
 

@@ -32,7 +32,7 @@ import static lib.ys.util.UtilEx.runOnUIThread;
  * @since 2017/10/31
  */
 @Route
-public class WebSocketServ extends ServiceEx implements OnLiveNotify{
+public class WebSocketServ extends ServiceEx implements OnLiveNotify {
 
     private static final int KWebSocketCloseNormal = 1000; //  1000表示正常关闭
 

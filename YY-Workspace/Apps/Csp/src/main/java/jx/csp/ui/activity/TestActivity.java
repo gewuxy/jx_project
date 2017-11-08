@@ -2,9 +2,9 @@ package jx.csp.ui.activity;
 
 import android.content.Intent;
 
+import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.CaptchaLoginActivity;
 import jx.csp.ui.activity.login.EmailLoginActivity;
-import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import lib.yy.test.BaseTestActivity;

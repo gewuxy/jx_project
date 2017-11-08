@@ -1,7 +1,7 @@
 package jx.csp.model.login;
 
-import lib.ys.model.EVal;
 import jx.csp.model.login.Login.TLogin;
+import lib.ys.model.EVal;
 
 /**
  * @auther WangLan
@@ -9,7 +9,7 @@ import jx.csp.model.login.Login.TLogin;
  */
 
 public class Login extends EVal<TLogin> {
-    public enum TLogin{
+    public enum TLogin {
         id,
         userName, // 真实姓名
         nickName, // 昵称

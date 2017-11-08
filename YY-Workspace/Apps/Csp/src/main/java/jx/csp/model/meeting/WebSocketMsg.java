@@ -19,8 +19,8 @@ import lib.ys.model.EVal;
 public class WebSocketMsg extends EVal<TWebSocketMsg> {
 
     @StringDef({
-       WsOrderFrom.app,
-       WsOrderFrom.web
+            WsOrderFrom.app,
+            WsOrderFrom.web
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface WsOrderFrom {

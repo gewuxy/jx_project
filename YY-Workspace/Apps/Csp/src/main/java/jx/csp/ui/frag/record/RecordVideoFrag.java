@@ -31,7 +31,8 @@ public class RecordVideoFrag extends BaseFrag {
     String mVideoUrl;   // http://139.199.170.178/course/14078/video/17062416023914941915.mp4
 
     @Override
-    public void initData() {}
+    public void initData() {
+    }
 
     @NonNull
     @Override
@@ -40,7 +41,8 @@ public class RecordVideoFrag extends BaseFrag {
     }
 
     @Override
-    public void initNavBar(NavBar bar) {}
+    public void initNavBar(NavBar bar) {
+    }
 
     @Override
     public void findViews() {
@@ -98,7 +100,7 @@ public class RecordVideoFrag extends BaseFrag {
 
     @Override
     protected void onInvisible() {
-        if ( mTextureView != null && mTextureView.isPlaying()) {
+        if (mTextureView != null && mTextureView.isPlaying()) {
             mTextureView.stopPlayback();
             showView(mIvPlay);
             showView(mIvBg);
@@ -107,7 +109,7 @@ public class RecordVideoFrag extends BaseFrag {
         }
     }
 
-    public int  getFragType() {
+    public int getFragType() {
         return FragType.video;
     }
 }

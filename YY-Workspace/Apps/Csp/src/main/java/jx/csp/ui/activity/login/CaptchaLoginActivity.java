@@ -10,13 +10,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
-import jx.csp.Constants.CaptchaType;
-import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.constant.CaptchaType;
+import jx.csp.constant.FormType;
+import jx.csp.constant.LoginType;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.network.JsonParser;
@@ -37,6 +37,7 @@ import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 验证码登录，又称手机登录
+ *
  * @auther WangLan
  * @since 2017/9/25
  */
@@ -111,7 +112,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
         if (TextUtil.isNotEmpty(mEtCaptcha.getText())) {
             getRelatedItem(RelatedId.captcha).enable(true);
-        }else {
+        } else {
             getRelatedItem(RelatedId.captcha).enable(false);
         }
         refreshItem(getRelatedItem(RelatedId.captcha));
@@ -135,7 +136,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.service_agreement: {
-                CommonWebViewActivityRouter.create( UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }
             break;

@@ -212,8 +212,8 @@
             android:name="APP_NAME"
             android:value="${app_name}"/>
         <meta-data
-            android:name="JX_LANGUAGE"
-            android:value="${language}"/>
+            android:name="APP_TYPE"
+            android:value="${app_type}"/>
         <meta-data
             android:name="WX_ID"
             android:value="${wx_id}"/>

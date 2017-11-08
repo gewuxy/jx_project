@@ -107,7 +107,7 @@ android {
         flavors_debug {
             manifestPlaceholders = [
                     app_name          : "CSP(B)",
-                    language          : "cn",
+                    app_type          : "cn",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
                     sina_appkey       : "\\2989630614",
@@ -125,7 +125,7 @@ android {
         flavors_alpha {
             manifestPlaceholders = [
                     app_name          : "CSP(A)",
-                    language          : "cn",
+                    app_type          : "cn",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
                     sina_appkey       : "\\2989630614",
@@ -143,7 +143,7 @@ android {
         flavors_alpha_en {
             manifestPlaceholders = [
                     app_name          : "CSP(A_EN)",
-                    language          : "en",
+                    app_type          : "en",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
                     sina_appkey       : "\\2989630614",
@@ -162,7 +162,7 @@ android {
         flavors_release {
             manifestPlaceholders = [
                     app_name          : "CSP",
-                    language          : "cn",
+                    app_type          : "cn",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
                     sina_appkey       : "\\2989630614",
@@ -180,7 +180,7 @@ android {
         flavors_release_en {
             manifestPlaceholders = [
                     app_name          : "CSP(EN)",
-                    language          : "en",
+                    app_type          : "en",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "bc67cd82b0656e85f9a924f7679d75f7",
                     sina_appkey       : "\\2989630614",

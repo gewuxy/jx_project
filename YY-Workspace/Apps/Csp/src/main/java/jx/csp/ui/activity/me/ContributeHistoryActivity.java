@@ -12,6 +12,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 
 /**
  * 投稿历史
+ *
  * @auther WangLan
  * @since 2017/10/13
  */

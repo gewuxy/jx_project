@@ -10,8 +10,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
-import jx.csp.Constants.CaptchaType;
 import jx.csp.R;
+import jx.csp.constant.CaptchaType;
 import jx.csp.contact.SetBindContract;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.model.form.edit.EditCaptchaForm;

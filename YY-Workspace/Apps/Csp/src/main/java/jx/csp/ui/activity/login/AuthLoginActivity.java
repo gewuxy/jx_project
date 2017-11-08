@@ -3,8 +3,8 @@ package jx.csp.ui.activity.login;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.constant.LoginType;
 import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
@@ -124,7 +124,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
                 SpUser.inst().updateProfileRefreshTime();
                 startActivity(MainActivity.class);
                 finish();
-            }else {
+            } else {
                 onNetworkError(id, r.getError());
             }
         }

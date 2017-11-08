@@ -175,7 +175,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 

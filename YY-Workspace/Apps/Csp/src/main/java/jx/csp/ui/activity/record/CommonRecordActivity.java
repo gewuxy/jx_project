@@ -207,7 +207,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     protected void onDestroy() {
         super.onDestroy();
         int overType;
-        if (mCourseDetailList != null &&getCurrentItem() == (mCourseDetailList.size() - KOne)) {
+        if (mCourseDetailList != null && getCurrentItem() == (mCourseDetailList.size() - KOne)) {
             overType = OverType.over;
         } else {
             overType = OverType.no;
@@ -257,7 +257,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             if (r.isSucceed()) {
                 mJoinMeeting = r.getData();
                 SparseArray<Integer> recordTimeArray = new SparseArray<>();  // 存放录制过的的ppt对应的时长
-                String wsUrl= mJoinMeeting.getString(TJoinMeeting.wsUrl);
+                String wsUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
                 mTitle = mJoinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
                 mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));

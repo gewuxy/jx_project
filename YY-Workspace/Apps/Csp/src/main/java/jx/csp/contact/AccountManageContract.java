@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import android.view.View.OnClickListener;
 
-import jx.csp.Constants.LoginType;
+import jx.csp.constant.LoginType;
 import jx.csp.model.Profile.TProfile;
 import lib.platform.Platform.Type;
 import lib.yy.contract.IContract;
@@ -36,6 +36,7 @@ public interface AccountManageContract {
 
         /**
          * 解绑刷新item
+         *
          * @param id
          */
         void unBindRefreshItem(int id);
@@ -111,6 +112,7 @@ public interface AccountManageContract {
          * @param key
          */
         void unBindEmailOrMobileSuccess(Result r, int id, TProfile key);
+
         void unBindThirdPartySuccess(Result r, int id);
     }
 }

@@ -7,8 +7,8 @@ import android.view.View.OnClickListener;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.constant.LoginType;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
@@ -28,7 +28,7 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  * @since 2017/11/8
  */
 
-abstract public class BaseAccountActivity extends BaseFormActivity{
+abstract public class BaseAccountActivity extends BaseFormActivity {
 
     protected AccountManageContract.P mPresenter;
     protected AccountManageContract.V mView;

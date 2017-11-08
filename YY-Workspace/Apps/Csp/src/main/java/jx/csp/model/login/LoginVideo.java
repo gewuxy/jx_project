@@ -8,7 +8,7 @@ import lib.ys.model.EVal;
  * @since 2017/9/26
  */
 
-public class LoginVideo extends EVal<TLoginVideo>{
+public class LoginVideo extends EVal<TLoginVideo> {
     public enum TLoginVideo {
         id, // 视频记录Id
         version, // 版本号

@@ -1,4 +1,4 @@
-package jx.csp.model.def;
+package jx.csp.constant;
 
 import android.support.annotation.IntDef;
 

@@ -8,9 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.FormType;
+import jx.csp.constant.LanguageType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.def.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
@@ -139,18 +140,18 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
-                    startActivity(FlowRateManageActivity.class);
-                } else {
+                if (SpApp.inst().getLanguageType() == LanguageType.en) {
                     startActivity(FlowRateManageEnActivity.class);
+                } else {
+                    startActivity(FlowRateManageActivity.class);
                 }
             }
             break;
             case RelatedId.account: {
-                if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
-                    startActivity(AccountManageActivity.class);
-                } else {
+                if (SpApp.inst().getLanguageType() == LanguageType.en) {
                     startActivity(AccountManageEnActivity.class);
+                } else {
+                    startActivity(AccountManageActivity.class);
                 }
             }
             break;

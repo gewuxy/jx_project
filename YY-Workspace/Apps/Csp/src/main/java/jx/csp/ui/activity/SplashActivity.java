@@ -1,11 +1,12 @@
 package jx.csp.ui.activity;
 
 import jx.csp.BuildConfig;
-import lib.ys.ui.activity.SplashActivityEx;
 import jx.csp.R;
+import lib.ys.ui.activity.SplashActivityEx;
 
 /**
  * 启动页
+ *
  * @auther yuansui
  * @since 2017/9/20
  */
