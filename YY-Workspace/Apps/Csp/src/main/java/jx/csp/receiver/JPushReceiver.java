@@ -2,8 +2,8 @@ package jx.csp.receiver;
 
 import android.content.Context;
 
-import jx.csp.constant.MsgType;
 import jx.csp.model.JPushMsg;
+import jx.csp.model.JPushMsg.MsgType;
 import jx.csp.model.JPushMsg.TJPushMsg;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;

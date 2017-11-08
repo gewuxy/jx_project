@@ -54,19 +54,17 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
                 bindThirdParty(id, id, userId, mNickName, userGender, icon);
 
-                App.showToast("授权成功");
+                App.showToast(R.string.account_authorization_success);
             }
 
             @Override
             public void onAuthError(String message) {
                 getView().onStopRefresh();
-                App.showToast("失败: " + message);
             }
 
             @Override
             public void onAuthCancel() {
                 getView().onStopRefresh();
-                App.showToast("取消");
             }
         });
     }

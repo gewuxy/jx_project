@@ -200,6 +200,7 @@
     <string name="account_manage">Account</string>
     <string name="account_not_bind">Not Bound</string>
     <string name="account_confirm_bind">Confirm Bind</string>
+    <string name="account_authorization_success">授权成功</string>
 
     <string name="account_phone">手机</string>
     <string name="account_email">E-mail</string>
