@@ -3,8 +3,11 @@ package jx.csp.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import jx.csp.Constants.LanguageType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.sp.SpApp;
+import jx.csp.util.Util;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
 import lib.network.model.param.CommonPair;
@@ -38,6 +41,7 @@ public class NetFactory {
         String KDevice = "os_type";
         String KAppVersion = "app_version";
         String KToken = "token";
+        String KLocal = "_local";
     }
 
     public static List<CommonPair> getBaseHeader() {
@@ -46,6 +50,15 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KDevice, "android"));
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
+        if ("zh".equals(Util.getLanguage())) {
+            if ("CN".equals(SpApp.inst().getCountry())) {
+                ps.add(newPair(CommonParam.KLocal, LanguageType.cn_simplified));
+            } else {
+                ps.add(newPair(CommonParam.KLocal, LanguageType.cn));
+            }
+        } else {
+            ps.add(newPair(CommonParam.KLocal, LanguageType.en));
+        }
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));

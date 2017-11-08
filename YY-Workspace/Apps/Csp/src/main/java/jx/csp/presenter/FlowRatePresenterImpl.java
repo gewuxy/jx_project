@@ -44,10 +44,10 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
 
     @Override
     public void onNetworkSuccess(int id, Object result) {
-        getView().onStopRefresh();
         if (id == KPayPalPayCode) {
             Result<PayPalPayRecharge> r = (Result<PayPalPayRecharge>) result;
             if (r.isSucceed()) {
+                getView().onStopRefresh();
                 PayPalPayRecharge recharge = r.getData();
                 String orderId = recharge.getString(TPayPalPayRecharge.orderId);
 
@@ -58,6 +58,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
         } else {
             Result<PingPayRecharge> r = (Result<PingPayRecharge>) result;
             if (r.isSucceed()) {
+                getView().onStopRefresh();
                 PingPayRecharge recharge = r.getData();
                 String charge = recharge.getString(TPingPayRecharge.charge);
 

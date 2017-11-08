@@ -4,9 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.net.URLEncoder;
 
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
+import jx.csp.Constants.VersionType;
 import jx.csp.R;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
@@ -46,28 +43,6 @@ import static lib.ys.util.res.ResLoader.getString;
  */
 
 public class ShareDialog extends BaseDialog {
-
-    @StringDef({
-            LanguageType.en,
-            LanguageType.cn_simplified,
-            LanguageType.cn,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface LanguageType {
-        String en = "en_US"; // 英文
-        String cn_simplified = "zh_CN";  // 中文
-        String cn = "zh_TW";  // 繁体
-    }
-
-    @IntDef({
-            VersionType.inland,
-            VersionType.overseas
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface VersionType {
-        int inland = 0; // 国内
-        int overseas = 1; // 海外
-    }
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
@@ -253,15 +228,7 @@ public class ShareDialog extends BaseDialog {
         YSLog.d(TAG, "app language = " + SpApp.inst().getSystemLanguage());
         YSLog.d(TAG, "app country = " + SpApp.inst().getCountry());
         // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
-        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
-            if ("CN".equals(SpApp.inst().getCountry())) {
-                local = LanguageType.cn_simplified;
-            } else {
-                local = LanguageType.cn;
-            }
-        } else {
-            local = LanguageType.en;
-        }
+        local = Util.getLanguage();
         int abroad;  // 国内版 国外版
         if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
             abroad = VersionType.inland;

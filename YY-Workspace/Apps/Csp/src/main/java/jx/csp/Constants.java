@@ -62,4 +62,26 @@ public interface Constants extends BaseConstants {
         int KPage = 1;  // 起始页页数
         int KPageSize = 20;  //分页加载时 每页加载的条目数
     }
+
+    @StringDef({
+            LanguageType.en,
+            LanguageType.cn_simplified,
+            LanguageType.cn,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface LanguageType {
+        String en = "en_US"; // 英文
+        String cn_simplified = "zh_CN";  // 中文
+        String cn = "zh_TW";  // 繁体
+    }
+
+    @IntDef({
+            VersionType.inland,
+            VersionType.overseas
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface VersionType {
+        int inland = 0; // 国内
+        int overseas = 1; // 海外
+    }
 }

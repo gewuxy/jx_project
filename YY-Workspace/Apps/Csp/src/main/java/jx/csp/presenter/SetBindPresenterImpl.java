@@ -41,14 +41,14 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
-        getView().onStopRefresh();
         switch (id) {
             case KBindEmailCode: {
                 if (r.isSucceed()) {
-                    App.showToast(R.string.setting_bind_email_succeed);
+                    getView().onStopRefresh();
 
                     getView().setBindEmailSuccessJump();
                     getView().onFinish();
+                    App.showToast(R.string.setting_bind_email_succeed);
                 } else {
                     App.showToast(r.getMessage());
                 }
@@ -56,6 +56,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             break;
             case KBindPhoneCode: {
                 if (r.isSucceed()) {
+                    getView().onStopRefresh();
                     saveBindPhone();
                     getView().onFinish();
                 } else {
@@ -65,8 +66,9 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             break;
             case KChangePwdCode: {
                 if (r.isSucceed()) {
-                    App.showToast(R.string.setting_change_pwd_succeed);
+                    getView().onStopRefresh();
                     getView().onFinish();
+                    App.showToast(R.string.setting_change_pwd_succeed);
                 } else {
                     App.showToast(r.getMessage());
                 }
@@ -74,6 +76,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             break;
             case KCaptchaCode: {
                 if (r.isSucceed()) {
+                    getView().onStopRefresh();
                     // 获取验证码
                     getView().getCaptcha();
                     App.showToast(R.string.account_send_captcha);

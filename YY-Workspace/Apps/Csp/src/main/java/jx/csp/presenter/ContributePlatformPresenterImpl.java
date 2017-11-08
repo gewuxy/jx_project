@@ -50,13 +50,12 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
-        getView().onStopRefresh();
         if (r.isSucceed()) {
+            getView().onStopRefresh();
             getView().onFinish();
             App.showToast(R.string.contribute_platform_succeed);
         } else {
             onNetworkError(id, r.getError());
-            App.showToast(r.getMessage());
         }
     }
 }

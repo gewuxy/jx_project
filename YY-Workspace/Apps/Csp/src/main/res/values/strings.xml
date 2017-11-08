@@ -164,8 +164,8 @@
     <string name="my_message_input_nick_name">Your Name</string>
     <string name="my_message_save">Save</string>
     <string name="my_message_save_success">Save Success</string>
-    <string name="my_message_take_photo">拍照</string>
-    <string name="my_message_from_album_select">从相册选择</string>
+    <string name="my_message_take_photo">Take Photos</string>
+    <string name="my_message_from_album_select">Album</string>
 
     <!-- 设置 -->
     <string name="setting">Settings</string>
@@ -175,28 +175,28 @@
     <string name="setting_exit_current_account">Log out?</string>
     <string name="setting_exit_account">Log Out</string>
     <string name="setting_exit">Yes</string>
-    <string name="setting_clear_succeed">清理成功</string>
-    <string name="setting_clear_error">清理失败</string>
+    <string name="setting_clear_succeed">Clear Successfully</string>
+    <string name="setting_clear_error">Clear Error</string>
     <!-- 设置 修改密码-->
     <string name="setting_change_pwd">Change Password</string>
     <string name="setting_confirm_change">Confirm New Password</string>
     <string name="setting_old_pwd">Original password</string>
     <string name="setting_new_pwd">New password</string>
-    <string name="setting_change_pwd_succeed">密码修改成功</string>
+    <string name="setting_change_pwd_succeed">Change Password Successfully</string>
     <!-- 设置 绑定邮箱-->
     <string name="setting_bind_email">E-mail Binding</string>
     <string name="setting_change_pwd_bind_email">Bind E-mail Address</string>
     <string name="setting_input_email_address">E-mail Address</string>
     <string name="setting_change_email_address">Change E-mail Address</string>
     <string name="setting_certification_email">Verify E-mail Address</string>
-    <string name="setting_bind_email_succeed">发送成功</string>
+    <string name="setting_bind_email_succeed">Send Successfully</string>
     <string name="setting_bind_text">Please bind your e-mail address before changing the password.</string>
     <string name="setting_certification_text">Verification link has been sent. \nPlease check your e-mail.</string>
     
     <!-- 账号管理 -->
     <string name="account_manage">Account</string>
     <string name="account_not_bind">Not Bound</string>
-    <string name="account_confirm_bind">确认绑定</string>
+    <string name="account_confirm_bind">Confirm Bind</string>
 
     <string name="account_phone">手机</string>
     <string name="account_email">E-mail</string>
@@ -206,19 +206,19 @@
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">Jingxin Digital Platform</string>
 
-    <string name="account_bind_succeed">绑定成功</string>
-    <string name="account_bind_error">绑定失败</string>
-    <string name="account_unbind_succeed">解绑成功</string>
+    <string name="account_bind_succeed">Bind Successfully</string>
+    <string name="account_bind_error">Bind Error</string>
+    <string name="account_unbind_succeed">Unbind Successfully</string>
     <string name="account_bind_phone">绑定手机</string>
     <string name="account_is_bind">该手机号已绑定</string>
     <string name="account_send_captcha">已发送验证码</string>
-    <string name="account_unbind_email">是否解除绑定邮箱</string>
+    <string name="account_unbind_email">Unbind E-mail?</string>
     <string name="account_unbind_phone">是否解除手机号码</string>
     <string name="account_unbind_wx">是否解除绑定微信号</string>
     <string name="account_unbind_sina">是否解除绑定新浪微博</string>
-    <string name="account_unbind_facebook">是否解除绑定Facebook</string>
-    <string name="account_unbind_twitter">是否解除绑定Twitter</string>
-    <string name="account_unbind_yaya">是否解除绑定YaYa医师</string>
+    <string name="account_unbind_facebook">Unbind Facebook?</string>
+    <string name="account_unbind_twitter">Unbind Twitter?</string>
+    <string name="account_unbind_yaya">Unbind Jingxin Digital Platform?</string>
 
     <!-- 投稿 -->
     <string name="contribute_platform">Contribute to</string>
@@ -238,15 +238,15 @@
     <!-- 流量支付 -->
     <string name="flow_rate_manage">Network Flow</string>
     <string name="flow_rate_pay">Confirm</string>
-    <string name="flow_rate_pay_success">支付成功</string>
-    <string name="flow_rate_pay_fail">支付失败</string>
+    <string name="flow_rate_pay_success">Payoff</string>
+    <string name="flow_rate_pay_fail">Payment Failure</string>
     <string name="flow_rate_payment_proportion">1 GB = 1 USD</string>
     <string name="flow_rate_surplus">Network Flow Balance</string>
     <string name="flow_rate_recharge">Recharge Network Flow</string>
     <string name="flow_rate_actual_pay">Payment: </string>
     <string name="flow_rate_amount">%d</string>
     <string name="flow_rate_unit">USD</string>
-    <string name="flow_rate_input_top_up">请输入充值流量</string>
+    <string name="flow_rate_input_top_up">Input Recharge Network Flow</string>
 
     <!-- 帮助与反馈-->
     <string name="help_and_feedback_update_log">Update Log</string>
