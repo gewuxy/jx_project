@@ -34,6 +34,7 @@ android {
                 '../../../Android/Libs/LibBD/proguard-baidu.pro',
 
                 // YaYa-Libs 里的混淆, 相对路径为2级
+                '../../Libs/LibYY/proguard-yy.pro',
                 '../../Libs/LibJG/proguard-jg.pro',
                 '../../Libs/LibLive/proguard-live.pro',
                 '../../Libs/LibPay/proguard-pay.pro',
