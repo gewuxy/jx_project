@@ -239,7 +239,7 @@
     <string name="flow_rate_pay">Confirm</string>
     <string name="flow_rate_pay_success">支付成功</string>
     <string name="flow_rate_pay_fail">支付失败</string>
-    <string name="flow_rate_payment_proportion">1 GB = 2 USD</string>
+    <string name="flow_rate_payment_proportion">1 GB = 1 USD</string>
     <string name="flow_rate_surplus">Network Flow Balance</string>
     <string name="flow_rate_recharge">Recharge Network Flow</string>
     <string name="flow_rate_actual_pay">Payment: </string>
@@ -253,6 +253,6 @@
     <string name="help_and_feedback_help">Help</string>
     <string name="help_and_feedback_opinion_feedback">Feedback</string>
     <string name="help_and_feedback_about_us">About Us</string>
-    <string name="help_and_feedback_email_subject">CSPMeeting--意见反馈</string>
+    <string name="help_and_feedback_email_subject">CSPMeeting--Feedback</string>
 
 </resources>

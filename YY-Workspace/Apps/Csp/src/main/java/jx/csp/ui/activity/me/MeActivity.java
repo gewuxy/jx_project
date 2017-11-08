@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -137,7 +138,11 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                startActivity(FlowRateManageActivity.class);
+                if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+                    startActivity(FlowRateManageActivity.class);
+                }else {
+                    startActivity(FlowRateManageEnActivity.class);
+                }
             }
             break;
             case RelatedId.account: {

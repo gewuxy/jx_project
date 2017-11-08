@@ -105,8 +105,18 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
         public void setNavBar(NavBar bar) {
             Util.addBackIcon(bar, R.string.my_message, BaseMyMessageActivity.this);
             mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
-                refresh(RefreshWay.dialog);
-                doSet();
+                if (mFlag == false) {
+                    if (TextUtil.isEmpty(getEt().getText())) {
+                        showToast("不可保存为空");
+                    } else {
+                        refresh(RefreshWay.dialog);
+                        doSet();
+                    }
+                } else {
+                    refresh(RefreshWay.dialog);
+                    doSet();
+
+                }
             });
         }
 
@@ -117,15 +127,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
         @Override
         public void setTextButtonStatus() {
-            if (mFlag == false) {
-                if (TextUtil.isEmpty(getEt().getText())) {
-                    mTv.setEnabled(false);
-                } else {
-                    mTv.setEnabled(true);
-                }
-            } else {
-                mTv.setEnabled(true);
-            }
+            mTv.setEnabled(true);
         }
 
         @Override

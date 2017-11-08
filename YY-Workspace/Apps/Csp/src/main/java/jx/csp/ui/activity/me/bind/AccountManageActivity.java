@@ -119,7 +119,6 @@ public class AccountManageActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_email: {
-                // FIXME: 2017/11/7 等待长玲修改极光的设置
                 mView.judgeBindStatus(RelatedId.bind_email, getString(R.string.account_unbind_email), TProfile.email);
             }
             break;

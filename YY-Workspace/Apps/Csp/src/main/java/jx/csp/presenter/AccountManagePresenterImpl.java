@@ -85,7 +85,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 .gender(gender)
                 .avatar(avatar)
                 .build());
-        YSLog.d(TAG, "wwwww" + nickName);
+        YSLog.d(TAG, "www = " + nickName);
     }
 
     @Override
