@@ -8,8 +8,11 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
@@ -73,6 +76,7 @@ public class ShareDialog extends BaseDialog {
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
     private String mCoverUrl; // 分享的图片url
+    private LinearLayout mLayout; //
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -98,6 +102,7 @@ public class ShareDialog extends BaseDialog {
     @Override
     public void initData() {
         mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+        judgeLanguage();
     }
 
 
@@ -109,6 +114,7 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
+        mLayout = findView(R.id.layout_share);
     }
 
     @Override
@@ -270,6 +276,24 @@ public class ShareDialog extends BaseDialog {
             YSLog.d(TAG, "ShareUrl = " + mShareUrl);
         } catch (UnsupportedEncodingException e) {
             YSLog.d(TAG, "Share error = " + e.getMessage());
+        }
+    }
+
+    public void judgeLanguage(){
+        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+           // 系统语言是中文，包括简体中文和繁体中文
+            mLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_share_platform_cn,null);
+            view.setLayoutParams(lp);
+            mLayout.addView(view);
+        } else {
+            // 英文版
+            mLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_share_platform_en,null);
+            view.setLayoutParams(lp);
+            mLayout.addView(view);
         }
     }
 

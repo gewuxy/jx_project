@@ -25,6 +25,7 @@ import lib.ys.impl.SingletonImpl;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.ys.util.permission.Permission;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -120,7 +121,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onClick(View v) {
-        startActivity(ScanActivity.class);
+        if (checkPermission(0, Permission.camera)) {
+            startActivityForResult(ScanActivity.class, 0);
+        }
     }
 
     @Override
