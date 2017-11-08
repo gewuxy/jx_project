@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
+import jx.csp.Constants;
 import lib.ys.util.sp.SpBase;
 import jx.csp.App;
 
@@ -36,7 +37,6 @@ public class SpApp extends SpBase {
         String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
         String KSystemLanguage = "language";
-        String KCountry = "country";
         String KLoginVideoVersion = "version";
     }
 
@@ -134,24 +134,7 @@ public class SpApp extends SpBase {
      * @return
      */
     public String getSystemLanguage() {
-        return getString(SpAppKey.KSystemLanguage, "zh");
+        return getString(SpAppKey.KSystemLanguage, Constants.LanguageType.en);
     }
 
-    /**
-     * 保存国家
-     *
-     * @param s
-     */
-    public void saveCountry(String s) {
-        save(SpAppKey.KCountry, s);
-    }
-
-    /**
-     * 获取国家
-     *
-     * @return
-     */
-    public String getCountry() {
-        return getString(SpAppKey.KCountry, "CN");
-    }
 }

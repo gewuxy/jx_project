@@ -16,9 +16,7 @@ import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
 import jx.csp.App;
-import jx.csp.Constants.LanguageType;
 import jx.csp.R;
-import jx.csp.sp.SpApp;
 import lib.network.Network;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
@@ -184,21 +182,6 @@ public class Util extends BaseUtil {
         DESKeySpec dks = new DESKeySpec(key.getBytes());
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
         return keyFactory.generateSecret(dks);
-    }
-
-    @NonNull
-    public static String getLanguage() {
-        String local;
-        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
-            if ("CN".equals(SpApp.inst().getCountry())) {
-                local = LanguageType.cn_simplified;
-            } else {
-                local = LanguageType.cn;
-            }
-        } else {
-            local = LanguageType.en;
-        }
-        return local;
     }
 
 }

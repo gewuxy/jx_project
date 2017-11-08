@@ -5,6 +5,7 @@ import android.support.multidex.MultiDex;
 
 import java.util.Locale;
 
+import jx.csp.Constants.LanguageType;
 import jx.csp.Constants.PageConstants;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
@@ -114,10 +115,20 @@ public class App extends BaseApp {
         } else {
             DeviceUtil.setResLocale(this, Locale.getDefault());
         }
+
+        // 区分语言
+        String local;
+        if ("zh".equals(Locale.getDefault().getLanguage())) {
+            if ("CN".equals(Locale.getDefault().getCountry())) {
+                local = LanguageType.cn_simplified;
+            } else {
+                local = LanguageType.cn;
+            }
+        } else {
+            local = LanguageType.en;
+        }
         // 保存系统语言
-        SpApp.inst().saveSystemLanguage(Locale.getDefault().getLanguage());
-        // 保存国家 为了区分简繁体
-        SpApp.inst().saveCountry(Locale.getDefault().getCountry());
+        SpApp.inst().saveSystemLanguage(local);
     }
 
     @Override

@@ -55,7 +55,8 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     private LayoutParams mParamP;
     private LayoutParams mParamL;
 
-    private Handler mHandler;
+    protected Handler mHandler;
+    private final int KWhatPlay = 0;
 
     public PPTRebFrag getFragPpt() {
         return mFragReb;
@@ -69,11 +70,24 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
             @Override
             public void handleMessage(Message msg) {
                 int position = (int) msg.obj;
-                mPresenter.playMedia(position);
+                switch (position) {
+                    case KWhatPlay: {
+                        mPresenter.playMedia(position);
+                    }
+                    break;
+                    default: {
+                        handler(position);
+                    }
+                    break;
+                }
             }
         };
         mView = createView();
         mPresenter = createPresenter(mView);
+    }
+
+    protected void handler(int what) {
+
     }
 
     @Override
@@ -115,10 +129,10 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     public void onPageSelected(int position) {
         NetworkImageView.clearMemoryCache(BaseMeetingPptActivity.this);
 
-        mHandler.removeMessages(0);
+        mHandler.removeMessages(KWhatPlay);
         Message message = Message.obtain();
         message.obj = position;
-        message.what = 0;
+        message.what = KWhatPlay;
         mHandler.sendMessageDelayed(message, 500);
         setTextCur(position + 1);
         mRvP.smoothScrollToPosition(position);

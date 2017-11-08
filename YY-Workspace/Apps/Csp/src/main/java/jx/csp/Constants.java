@@ -14,18 +14,6 @@ import lib.yy.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
-    String KAppId = "wx83d3ea20a714b660";
-
-    @StringDef({
-            WXType.login,
-            WXType.bind,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface WXType {
-        String login = "login";
-        String bind = "bind";
-    }
-
     //获取验证码，登录的type= 0 ，个人中心的type = 1，为string类型
     @StringDef({
             CaptchaType.fetch,

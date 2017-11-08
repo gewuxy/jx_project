@@ -1,17 +1,43 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import java.util.concurrent.TimeUnit;
+
 import inject.annotation.router.Route;
 import yy.doctor.R;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
 import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptPresenterImpl;
+import yy.doctor.ui.frag.meeting.course.PicCourseFrag;
 
 /**
  * 录播界面
+ *
  * @auther : GuoXuan
  * @since : 2017/10/30
  */
 @Route
 public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContract.View, MeetingPptContract.Presenter> {
+
+    private final int KWhatPass = 1;
+
+    @Override
+    public void onPageSelected(int position) {
+        super.onPageSelected(position);
+
+        if (getFragPpt().getItem(position) instanceof PicCourseFrag) {
+            mHandler.removeMessages(KWhatPass);
+            mHandler.sendEmptyMessageDelayed(KWhatPass, TimeUnit.SECONDS.toMillis(3));
+        }
+    }
+
+    @Override
+    protected void handler(int what) {
+        switch (what) {
+            case KWhatPass: {
+                getFragPpt().setCurrentItem(1, getString(R.string.course_last));
+            }
+            break;
+        }
+    }
 
     @Override
     protected void set() {

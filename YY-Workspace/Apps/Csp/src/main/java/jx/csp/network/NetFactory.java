@@ -50,15 +50,8 @@ public class NetFactory {
         ps.add(newPair(CommonParam.KDevice, "android"));
         ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
         ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
-        if ("zh".equals(Util.getLanguage())) {
-            if ("CN".equals(SpApp.inst().getCountry())) {
-                ps.add(newPair(CommonParam.KLocal, LanguageType.cn_simplified));
-            } else {
-                ps.add(newPair(CommonParam.KLocal, LanguageType.cn));
-            }
-        } else {
-            ps.add(newPair(CommonParam.KLocal, LanguageType.en));
-        }
+
+        ps.add(newPair(CommonParam.KLocal, SpApp.inst().getSystemLanguage()));
 
         if (Profile.inst().isLogin()) {
             ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));

@@ -226,9 +226,8 @@ public class ShareDialog extends BaseDialog {
         // 拼接加密字符串
         String local; // 系统语言
         YSLog.d(TAG, "app language = " + SpApp.inst().getSystemLanguage());
-        YSLog.d(TAG, "app country = " + SpApp.inst().getCountry());
         // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
-        local = Util.getLanguage();
+        local = SpApp.inst().getSystemLanguage();
         int abroad;  // 国内版 国外版
         if ("cn".equals(PackageUtil.getMetaValue("JX_LANGUAGE"))) {
             abroad = VersionType.inland;
