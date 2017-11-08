@@ -10,8 +10,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 7132
-        versionName "7.1.32"
+        versionCode 7152
+        versionName "7.1.52"
 
         multiDexEnabled true
 
@@ -30,15 +30,14 @@ android {
                 '../../../Android/Libs/LibYS_Rx/proguard-lambda.pro',
 
                 '../../../Android/Libs/LibNetwork_Rx/proguard-network.pro',
-                '../../../Android/DI-compiler/proguard-injection.pro',
+                '../../../Android/Di/Compiler/proguard-injection.pro',
                 '../../../Android/Libs/LibBD/proguard-baidu.pro',
 
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
-                '../../Libs/LibPlayer/proguard-player.pro',
-                '../../Libs/LibWX/proguard-wx.pro',
                 '../../Libs/LibLive/proguard-live.pro',
-                '../../Libs/LibShare/proguard-share.pro',
+                '../../Libs/LibPay/proguard-pay.pro',
+                '../../Libs/LibPlatform/proguard-platform.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
@@ -157,7 +156,7 @@ android {
 
     //在生成的apk文件，修改下命名
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
+        variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 前段
@@ -172,7 +171,7 @@ android {
                 // 尾端
                 fileName = fileName.replace(".apk", "_v${defaultConfig.versionName}.apk")
 
-//                output.outputFile = new File(outputFile.parent, fileName)
+                outputFileName = fileName
             }
         }
     }

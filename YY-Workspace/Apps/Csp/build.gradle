@@ -10,8 +10,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 1
-        versionName "0.1"
+        versionCode 3
+        versionName "0.3"
 
         multiDexEnabled true
 
@@ -30,14 +30,14 @@ android {
                 '../../../Android/Libs/LibYS_Rx/proguard-lambda.pro',
 
                 '../../../Android/Libs/LibNetwork_Rx/proguard-network.pro',
-                '../../../Android/DI-compiler/proguard-injection.pro',
+                '../../../Android/Di/Compiler/proguard-injection.pro',
                 '../../../Android/Libs/LibBD/proguard-baidu.pro',
 
                 // YaYa-Libs 里的混淆, 相对路径为2级
                 '../../Libs/LibJG/proguard-jg.pro',
-                '../../Libs/LibWX/proguard-share.pro',
-                '../../Libs/LibZEGO/proguard-live.pro',
-                '../../Libs/LibZEGO/proguard-pay.pro',
+                '../../Libs/LibLive/proguard-live.pro',
+                '../../Libs/LibPay/proguard-pay.pro',
+                '../../Libs/LibPlatform/proguard-platform.pro',
                 // 本身的混淆
                 'proguard-rules.pro'
     }
