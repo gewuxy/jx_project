@@ -5,12 +5,16 @@ import android.view.View;
 
 import jx.csp.Constants.LoginType;
 import jx.csp.R;
+import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.sp.SpApp;
+import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.main.MainActivity;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
-import lib.ys.ui.other.NavBar;
+import lib.yy.network.Result;
 
 /**
  * @auther WangLan
@@ -18,22 +22,15 @@ import lib.ys.ui.other.NavBar;
  */
 public class AuthLoginEnActivity extends BaseAuthLoginActivity {
 
-    private final int KIdFaceBook = 1;
-    private final int KIdTwitter = 2;
+    private final int KIdFaceBook = 3;
+    private final int KIdTwitter = 4;
 
-    @Override
-    public void initData() {
-    }
+    private String mUserName;
 
     @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_login_en;
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-
     }
 
     @Override
@@ -45,6 +42,11 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.login_jx);
         setOnClickListener(R.id.language_transform_en);
+    }
+
+    @Override
+    protected int getVideoViewId() {
+        return R.id.login_videoview;
     }
 
     @Override
@@ -80,14 +82,15 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
                 String userGender = params.getGender();
                 String icon = params.getIcon();
                 String userId = params.getId();
-                String userName = params.getName();
+                mUserName = params.getName();
 
                 exeNetworkReq(id, UserAPI.login(type)
                         .uniqueId(userId)
-                        .nickName(userName)
+                        .nickName(mUserName)
                         .gender(userGender)
                         .avatar(icon)
                         .build());
+                showToast("授权成功");
             }
 
             @Override
@@ -100,5 +103,22 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
                 showToast("取消");
             }
         };
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        super.onNetworkSuccess(id, result);
+        if (id == KIdFaceBook || id == KIdTwitter) {
+            Result<Profile> r = (Result<Profile>) result;
+            if (r.isSucceed()) {
+                SpApp.inst().saveUserName(mUserName);
+                Profile.inst().update(r.getData());
+                SpUser.inst().updateProfileRefreshTime();
+                startActivity(MainActivity.class);
+                finish();
+            }else {
+                onNetworkError(id, r.getError());
+            }
+        }
     }
 }

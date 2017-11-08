@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.login;
 
 import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import java.io.File;
@@ -18,6 +17,7 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
+import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.network.Result;
@@ -33,16 +33,17 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private final int KLoginVideo = 1;
     private final int KDownLoadVideo = 2;
 
-    private final String KFileName = "login_background_video.mp4";
     private final int KInitVersion = 0; // 首次访问此接口，version= 0
 
     private CustomVideoView mCustomVideoView;
 
     private String mUrl;
     private String mLocatePath;
+    private String KFileName;
 
     @Override
     public void initData() {
+        KFileName = SpApp.inst().getLoginVideoVersion()+"login_background_video.mp4";
         mLocatePath = CacheUtil.getAudioCacheDir() + KFileName;
     }
 
@@ -53,7 +54,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     @CallSuper
     @Override
     public void findViews() {
-        mCustomVideoView = findView(R.id.login_videoview);
+        mCustomVideoView = findView(getVideoViewId());
     }
 
     @CallSuper
@@ -63,7 +64,9 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
         setOnClickListener(R.id.login_protocol);
 
-        exeNetworkReq(KLoginVideo, UserAPI.loginVideo(KInitVersion).build());
+        exeNetworkReq(KLoginVideo, UserAPI.loginVideo(SpApp.inst().getLoginVideoVersion()).build());
+        int loginVideoVersion = SpApp.inst().getLoginVideoVersion();
+        YSLog.d(TAG,"loginVideoVersion"+loginVideoVersion);
 
         startPlay();
     }
@@ -104,14 +107,12 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
                 int oldVersion = SpApp.inst().getLoginVideoVersion(); // 保存本地
                 mUrl = data.getString(TLoginVideo.videoUrl);
 
-                //当有视频跟新的时候，url和version都有值，此时新版本肯定比旧版本大，如果没有更新，没有返回数据
                 if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
                     // fixme:在服务下载
                     exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(CacheUtil.getAudioCacheDir(), KFileName, mUrl).build());
-//                    LoginVideoDownLoadServRouter.create(mUrl).route(this);
-                    SpApp.inst().saveLoginVideoVersion(newVersion);
-                }
-            } else {
+//                    CommonServRouter.create().fileName(KFileName).newVersion(newVersion).url(mUrl).route(this);
+            }
+        } else {
                 onNetworkError(id, r.getError());
             }
         }
@@ -141,6 +142,8 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         }
         File file = new File(mLocatePath);
         if (!file.exists()) {
+            // 如果文件不存在，则还原到低版本
+            SpApp.inst().saveLoginVideoVersion(KInitVersion);
             return;
         }
 
@@ -163,7 +166,5 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         }
     }
 
-    @NonNull
-    @Override
-    abstract public int getContentViewId();
+    abstract protected int getVideoViewId();
 }

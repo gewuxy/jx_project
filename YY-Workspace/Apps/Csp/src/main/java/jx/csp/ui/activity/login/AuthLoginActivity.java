@@ -14,7 +14,6 @@ import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
-import lib.ys.ui.other.NavBar;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
@@ -29,23 +28,13 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
 
     private final int KIdWechatLogin = 3;
     private final int KIdSinaLogin = 4;
-    private final int KLoginVideo = 3;
-    private final int KDownLoadVideo = 4;
 
     private String mUserName;
-
-    @Override
-    public void initData() {
-    }
 
     @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_login;
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
     }
 
     @Override
@@ -57,6 +46,11 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.login_mobile);
         setOnClickListener(R.id.language_transform);
         setOnClickListener(R.id.layout_login_jx);
+    }
+
+    @Override
+    protected int getVideoViewId() {
+        return R.id.login_videoview;
     }
 
     @Override
@@ -114,6 +108,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
 
             @Override
             public void onAuthCancel() {
+                showToast("取消");
             }
         };
     }

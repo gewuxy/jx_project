@@ -35,7 +35,6 @@ public class SpApp extends SpBase {
         String KUserName = "user_name";
         String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
-        String KUserMobile = "mobile";
         String KSystemLanguage = "language";
         String KCountry = "country";
         String KLoginVideoVersion = "version";
@@ -82,23 +81,6 @@ public class SpApp extends SpBase {
         return getString(SpAppKey.KUserEmail);
     }
 
-    /**
-     * 保存用户名
-     *
-     * @param userMobile
-     */
-    public void saveUserMobile(String userMobile) {
-        save(SpAppKey.KUserMobile, userMobile);
-    }
-
-    /**
-     * 获取用户名
-     *
-     * @return
-     */
-    public String getUserMobile() {
-        return getString(SpAppKey.KUserMobile);
-    }
 
     /**
      * 保存登录视频的版本

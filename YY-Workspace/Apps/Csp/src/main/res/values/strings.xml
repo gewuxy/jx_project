@@ -118,6 +118,7 @@
     <string name="share_cancel">分享取消</string>
     <string name="share_title">我正在用CSPmeeting讲《%s》</string>
     <string name="share_text">用手机讲PPT，随讲随录随分享，你的智慧将被更多人看见！</string>
+    <string name="ensure_delete">Delete?</string>
 
     <!--首页-->
     <string name="living">Live stream is proceeding...</string>

@@ -183,7 +183,7 @@ public class ShareDialog extends BaseDialog {
         };
         setOnShareClickListener(R.id.dialog_share_iv_wechat);
         setOnShareClickListener(R.id.dialog_share_iv_moment);
-//        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
+        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
         setOnShareClickListener(R.id.dialog_share_iv_qq);
         setOnShareClickListener(R.id.dialog_share_iv_sina);
         setOnShareClickListener(R.id.dialog_share_iv_message);
@@ -234,14 +234,11 @@ public class ShareDialog extends BaseDialog {
     }
 
     public interface OnDeleteListener {
-
         void delete();
-
     }
 
     public interface OnCopyDuplicateListener {
         void copy();
-
     }
 
     public void shareSignature(int courseId) {

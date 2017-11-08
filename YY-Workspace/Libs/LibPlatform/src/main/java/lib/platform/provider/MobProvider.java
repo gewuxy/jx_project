@@ -67,8 +67,8 @@ public class MobProvider implements Provider {
             case qq: {
                 name = QQ.NAME;
                 id = "2";
-                hashMap.put("AppKey", key);
-                hashMap.put("AppId", secret);
+                hashMap.put("AppKey", secret);
+                hashMap.put("AppId", key);
                 hashMap.put("ShareByAppClient", "true");
             }
             break;
@@ -90,6 +90,10 @@ public class MobProvider implements Provider {
             case linkedin: {
                 name = LinkedIn.NAME;
                 id = "5";
+                hashMap.put("ApiKey", key);
+                hashMap.put("SecretKey", secret);
+                hashMap.put("RedirectUrl", "http://sharesdk.cn");
+                hashMap.put("ShareByAppClient", "true");
             }
             break;
             case line: {
@@ -109,6 +113,15 @@ public class MobProvider implements Provider {
                 id = "8";
             }
             break;
+            case facebook:{
+                name = Facebook.NAME;
+                id = "9";
+                // FIXME: 2017/11/7 得到的字段有出入，facebook账号被封了，没法查证，也没写到build里面
+                hashMap.put("ConsumerKey",key);
+                hashMap.put("ConsumerSecret",secret);
+                hashMap.put("RedirectUrl", "https://mob.com");
+                hashMap.put("ShareByAppClient", "true");
+            }
         }
 
         hashMap.put("Id", id);

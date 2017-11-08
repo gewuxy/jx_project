@@ -1,14 +1,13 @@
 package jx.csp.adapter.main;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetGridVH;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 
 /**
  * @auther WangLan
@@ -50,9 +49,10 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 if (startTime > System.currentTimeMillis()) {
                     holder.getTvPlayState().setText(R.string.solive);
                     //直播未开始状态的开始时间转换
-                    Date d = new Date(Long.parseLong(item.getString(TMeet.startTime)));
+                   /* Date d = new Date(Long.parseLong(item.getString(TMeet.startTime)));
                     SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
-                    holder.getTvTime().setText(data.format(d));
+                    holder.getTvTime().setText(data.format(d));*/
+                    holder.getTvTime().setText(TimeFormatter.milli(item.getString(TMeet.startTime),TimeFormat.form_MM_dd_24));
                 } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
                     holder.getTvPlayState().setText(R.string.live);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));

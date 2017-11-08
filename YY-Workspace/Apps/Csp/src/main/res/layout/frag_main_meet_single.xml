@@ -38,18 +38,20 @@
                 android:textSize="14dp"/>
 
             <ImageView
+                android:padding="5dp"
                 android:id="@+id/main_meet_single_iv_live"
-                android:layout_width="14dp"
-                android:layout_height="10dp"
+                android:layout_width="24dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="41dp"
                 android:src="@drawable/main_ic_live"/>
 
             <ImageView
+                android:padding="5dp"
                 android:id="@+id/main_meet_single_iv_share"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"

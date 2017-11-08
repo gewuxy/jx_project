@@ -3,6 +3,8 @@ package jx.csp.presenter;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,6 +14,7 @@ import jx.csp.R;
 import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
 import jx.csp.dialog.BigButtonDialog;
+import jx.csp.dialog.CommonDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
@@ -127,11 +130,14 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 String.format(ResLoader.getString(R.string.share_title), item.getString(TMeet.title)),
                 item.getString(TMeet.coverUrl));
         shareDialog.setDeleteListener(() -> {
-            exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mId).build());
+            CommonDialog dialog = new CommonDialog(mContext);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
+            dialog.addHintView(view);
+            dialog.addBlueButton(R.string.confirm, v1 -> exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mId).build()));
+            dialog.addGrayButton(R.string.cancel);
+            dialog.show();
         });
-        shareDialog.setCopyListener(() -> {
-            exeNetworkReq(KCopyReqId, MeetingAPI.copy(mId,item.getString(TMeet.title)).build());
-        });
+        shareDialog.setCopyListener(() -> exeNetworkReq(KCopyReqId, MeetingAPI.copy(mId, item.getString(TMeet.title)).build()));
         shareDialog.show();
     }
 
@@ -237,13 +243,13 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 }
             }
             break;
-            case KCopyReqId:{
+            case KCopyReqId: {
                 Result r = (Result) result;
                 if (r.isSucceed()) {
                     showToast(R.string.copy_duplicate_success);
                     Notifier.inst().notify(NotifyType.copy_duplicate, mId);
-                }else {
-                    onNetworkError(id,r.getError());
+                } else {
+                    onNetworkError(id, r.getError());
                 }
             }
         }
