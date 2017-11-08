@@ -1,4 +1,3 @@
 # 七牛的 SDK
--keep class com.qiniu.**{*;}
--keep class com.qiniu.**{public <init>();}
--ignorewarnings
+-keep class com.pili.pldroid.player.** { *; }
+-keep class tv.danmaku.ijk.media.player.** {*;}

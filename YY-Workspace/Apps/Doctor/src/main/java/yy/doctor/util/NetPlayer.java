@@ -303,6 +303,7 @@ public class NetPlayer implements
                 YSLog.e(TAG, "preparePlay:", e);
             }
         } else {
+            mVideoPlay.releaseSurfactexture();
             AVOptions options = new AVOptions();
             options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
             mVideoPlay.setAVOptions(options);
