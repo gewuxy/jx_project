@@ -20,6 +20,8 @@ import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.meeting.Copy;
+import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Scan;
 import jx.csp.model.meeting.Scan.DuplicateType;
@@ -58,6 +60,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private CountdownDialog mCountdownDialog;
     private int mId;
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
+    private int mCopyId; // 后台返回的复制副本的id
 
     @IntDef({
             LiveType.ppt,
@@ -133,7 +136,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             CommonDialog dialog = new CommonDialog(mContext);
             View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
             dialog.addHintView(view);
-            dialog.addBlueButton(R.string.confirm, v1 -> exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mId).build()));
+            dialog.addBlueButton(R.string.confirm, v1 -> {
+                exeNetworkReq(KDeleteReqId, MeetingAPI.delete((item.getString(TMeet.title).contains(ResLoader.getString(R.string.duplicate))) ? mCopyId : mId).build());
+            });
             dialog.addGrayButton(R.string.cancel);
             dialog.show();
         });
@@ -244,9 +249,11 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             }
             break;
             case KCopyReqId: {
-                Result r = (Result) result;
+                Result<Copy> r = (Result<Copy>) result;
                 if (r.isSucceed()) {
                     showToast(R.string.copy_duplicate_success);
+                    Copy data = r.getData();
+                    mCopyId = data.getInt(TCopy.id);
                     Notifier.inst().notify(NotifyType.copy_duplicate, mId);
                 } else {
                     onNetworkError(id, r.getError());

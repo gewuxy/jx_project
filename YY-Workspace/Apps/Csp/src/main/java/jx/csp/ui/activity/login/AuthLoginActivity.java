@@ -98,17 +98,17 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
                         .gender(userGender)
                         .avatar(icon)
                         .build());
-                showToast("授权成功");
+                showToast(R.string.auth_success);
             }
 
             @Override
             public void onAuthError(String message) {
-                showToast("失败: " + message);
+                showToast(R.string.auth_fail + message);
             }
 
             @Override
             public void onAuthCancel() {
-                showToast("取消");
+                showToast(R.string.auth_cancel);
             }
         };
     }

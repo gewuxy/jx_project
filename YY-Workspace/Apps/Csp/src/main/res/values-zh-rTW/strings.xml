@@ -97,6 +97,9 @@
     <string name="yaya_authorization_login">敬信數字平台授權登錄</string>
     <string name="Login_with_Facebook">Login with Facebook</string>
     <string name="Login_with_Twitter">Login with Twitter</string>
+    <string name="auth_success">授權成功</string>
+    <string name="auth_fail">授權失敗</string>
+    <string name="auth_cancel">授權取消</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>

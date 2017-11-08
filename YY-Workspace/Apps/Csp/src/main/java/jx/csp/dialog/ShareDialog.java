@@ -6,14 +6,17 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.GridView;
+import android.widget.SimpleAdapter;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
@@ -42,7 +45,7 @@ import static lib.ys.util.res.ResLoader.getString;
  * @since 2017/10/12
  */
 
-public class ShareDialog extends BaseDialog {
+public class ShareDialog extends BaseDialog{
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
@@ -51,7 +54,7 @@ public class ShareDialog extends BaseDialog {
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
     private String mCoverUrl; // 分享的图片url
-    private LinearLayout mLayout; //
+//    private GridView mGridView;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -77,7 +80,7 @@ public class ShareDialog extends BaseDialog {
     @Override
     public void initData() {
         mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
-        judgeLanguage();
+        judge();
     }
 
 
@@ -89,7 +92,7 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-        mLayout = findView(R.id.layout_share);
+//        mGridView = findView(R.id.share_gridview);
     }
 
     @Override
@@ -153,7 +156,7 @@ public class ShareDialog extends BaseDialog {
 
                 @Override
                 public void onShareError(String message) {
-                    showToast(KShareError.concat(message));
+                    showToast(R.string.share_fail);
                 }
 
                 @Override
@@ -179,7 +182,6 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-
 
         switch (v.getId()) {
             case R.id.dialog_share_iv_copy_link: {
@@ -245,21 +247,46 @@ public class ShareDialog extends BaseDialog {
         }
     }
 
-    public void judgeLanguage(){
-        if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
-           // 系统语言是中文，包括简体中文和繁体中文
-            mLayout.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_share_platform_cn,null);
-            view.setLayoutParams(lp);
-            mLayout.addView(view);
+    public void judge() {
+        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+            List<Map<String, Object>> dataCn;
+            SimpleAdapter adapter;
+            GridView mGridView = findView(R.id.share_gridview);
+            int[] icon = {R.drawable.share_ic_wechat,
+                    R.drawable.share_ic_moment,
+                    R.drawable.share_ic_qq,
+                    R.drawable.share_ic_linkedin,
+                    R.drawable.share_ic_weibo,
+                    R.drawable.share_ic_message,
+                    R.drawable.share_ic_copy};
+            String[] platform = {getString(R.string.wechat),
+                    getString(R.string.moment),
+                    getString(R.string.QQ),
+                    getString(R.string.linkedin),
+                    getString(R.string.weibo),
+                    getString(R.string.message),
+                    getString(R.string.moment)};
+            dataCn = new ArrayList<Map<String, Object>>();
+            for (int i = 0; i < icon.length; i++) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("image", icon[i]);
+                map.put("text", platform);
+                dataCn.add(map);
+            }
+            String[] from = {"image", "text"};
+            int[] to = {R.id.dialog_share_iv_wechat, R.id.dialog_share_tv_wechat};
+            adapter = new SimpleAdapter(getContext(), dataCn, R.layout.activty_dialog_share_pltatform_item, from, to);
+            mGridView.setAdapter(adapter);
+            mGridView.setOnItemClickListener((adapterView, view, i, l) -> {
+                switch (i){
+                    case 0:{
+
+                    }
+                    break;
+                }
+            });
         } else {
-            // 英文版
-            mLayout.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_share_platform_en,null);
-            view.setLayoutParams(lp);
-            mLayout.addView(view);
+
         }
     }
 
@@ -270,5 +297,4 @@ public class ShareDialog extends BaseDialog {
     public void setCopyListener(OnCopyDuplicateListener l) {
         mCopyListener = l;
     }
-
 }
