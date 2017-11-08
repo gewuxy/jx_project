@@ -7,21 +7,21 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.R;
+import jx.csp.model.Profile;
+import jx.csp.model.Profile.TProfile;
+import jx.csp.model.def.FormType;
+import jx.csp.model.form.Form;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
+import jx.csp.ui.activity.me.profile.ProfileActivity;
+import jx.csp.util.Util;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
-import jx.csp.R;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
-import jx.csp.model.form.Form;
-import jx.csp.model.def.FormType;
-import jx.csp.ui.activity.me.profile.ProfileActivity;
-import jx.csp.util.Util;
 
 /**
  * 个人中心
@@ -140,7 +140,7 @@ public class MeActivity extends BaseFormActivity {
             case RelatedId.flow: {
                 if ("zh".equals(SpApp.inst().getSystemLanguage())) {
                     startActivity(FlowRateManageActivity.class);
-                }else {
+                } else {
                     startActivity(FlowRateManageEnActivity.class);
                 }
             }
