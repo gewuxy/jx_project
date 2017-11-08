@@ -246,7 +246,7 @@ public class ShareDialog extends BaseDialog {
     }
 
     public void judgeLanguage(){
-        if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+        if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
            // 系统语言是中文，包括简体中文和繁体中文
             mLayout.setOrientation(LinearLayout.VERTICAL);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);

@@ -139,7 +139,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+                if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
                     startActivity(FlowRateManageActivity.class);
                 } else {
                     startActivity(FlowRateManageEnActivity.class);
@@ -147,7 +147,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.account: {
-                if ("zh".equals(SpApp.inst().getSystemLanguage())) {
+                if (SpApp.inst().getSystemLanguage().startsWith("zh")) {
                     startActivity(AccountManageActivity.class);
                 } else {
                     startActivity(AccountManageEnActivity.class);
