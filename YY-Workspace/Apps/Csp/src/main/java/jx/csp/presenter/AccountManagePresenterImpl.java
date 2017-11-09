@@ -137,14 +137,8 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void unBindThirdPartyReq(int id, int thirdPartyId, String tips) {
-        //已绑定, 解绑请求
-        getView().confirmUnBindDialog(tips, v -> {
-            if (Util.noNetwork()) {
-                return;
-            }
-            exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(thirdPartyId).build());
-        });
+    public void unBindThirdPartyReq(int id, int thirdPartyId) {
+        exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(thirdPartyId).build());
     }
 
     @Override

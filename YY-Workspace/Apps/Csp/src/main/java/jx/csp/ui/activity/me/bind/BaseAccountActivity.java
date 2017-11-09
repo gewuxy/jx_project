@@ -83,7 +83,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                     refresh(RefreshWay.dialog);
                     mPresenter.doAuth(Type.wechat, RelatedId.bind_wx);
                 } else {
-                    mPresenter.unBindThirdPartyReq(RelatedId.bind_wx, RelatedId.bind_wx, getString(R.string.account_unbind_wx));
+                    mView.unBindDialog(RelatedId.bind_wx, RelatedId.bind_wx, getString(R.string.account_unbind_wx));
                 }
             }
             break;
@@ -92,7 +92,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                     refresh(RefreshWay.dialog);
                     mPresenter.doAuth(Type.sina, RelatedId.bind_sina);
                 } else {
-                    mPresenter.unBindThirdPartyReq(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
+                    mView.unBindDialog(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
                 }
             }
             break;
@@ -101,7 +101,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                     refresh(RefreshWay.dialog);
                     mPresenter.doAuth(Type.facebook, RelatedId.bind_facebook);
                 } else {
-                    mPresenter.unBindThirdPartyReq(RelatedId.bind_facebook, RelatedId.bind_facebook, getString(R.string.account_unbind_facebook));
+                    mView.unBindDialog(RelatedId.bind_facebook, RelatedId.bind_facebook, getString(R.string.account_unbind_facebook));
                 }
             }
             break;
@@ -110,7 +110,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                     refresh(RefreshWay.dialog);
                     mPresenter.doAuth(Type.twitter, RelatedId.bind_twitter);
                 } else {
-                    mPresenter.unBindThirdPartyReq(RelatedId.bind_twitter, RelatedId.bind_twitter, getString(R.string.account_unbind_twitter));
+                    mView.unBindDialog(RelatedId.bind_twitter, RelatedId.bind_twitter, getString(R.string.account_unbind_twitter));
                 }
             }
             break;
@@ -118,7 +118,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.yaya))) {
                     startActivity(YaYaAuthorizeBindActivity.class);
                 } else {
-                    mPresenter.unBindThirdPartyReq(RelatedId.bind_jingxin, RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya));
+                    mView.unBindDialog(RelatedId.bind_jingxin, RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya));
                 }
             }
             break;
@@ -185,6 +185,17 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                     mPresenter.unBindMobileOrEmailReq(id, id);
                 });
             }
+        }
+
+        @Override
+        public void unBindDialog(int id, int thirdPartyId, String tips) {
+            confirmUnBindDialog(tips, v -> {
+                if (Util.noNetwork()) {
+                    return;
+                }
+                refresh(RefreshWay.dialog);
+                mPresenter.unBindThirdPartyReq(id, thirdPartyId);
+            });
         }
 
         @Override

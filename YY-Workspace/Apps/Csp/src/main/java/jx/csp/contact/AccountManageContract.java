@@ -25,6 +25,7 @@ public interface AccountManageContract {
          * @param key  区分的字段
          */
         void judgeBindStatus(int id, String tips, TProfile key);
+        void unBindDialog(int id, int thirdPartyId, String tips);
 
         /**
          * 绑定成功
@@ -100,9 +101,8 @@ public interface AccountManageContract {
          *
          * @param id
          * @param thirdPartyId 1代表微信，2代表微博，3代表facebook,4代表twitter,5代表YaYa医师,解绑操作只需传递此字段
-         * @param tips         解绑提示字段
          */
-        void unBindThirdPartyReq(int id, int thirdPartyId, String tips);
+        void unBindThirdPartyReq(int id, int thirdPartyId);
 
         /**
          * 成功解绑账号
