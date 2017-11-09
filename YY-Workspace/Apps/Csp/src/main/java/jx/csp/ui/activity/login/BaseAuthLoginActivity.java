@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -21,6 +22,7 @@ import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.ys.util.UIUtil;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 
@@ -41,6 +43,13 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private String mUrl;
     private String mFilePath;
     private String mFileName;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        UIUtil.setFlatBar(getWindow());
+    }
 
     @Override
     public void initData() {

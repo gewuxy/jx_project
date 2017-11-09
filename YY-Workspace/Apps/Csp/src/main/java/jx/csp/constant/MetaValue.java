@@ -14,6 +14,6 @@ import java.lang.annotation.RetentionPolicy;
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface MetaValue {
-    String app_type = "JX_LANGUAGE";
+    String app_type = "APP_TYPE";
     String app_name = "APP_NAME";
 }
