@@ -115,7 +115,7 @@
     <string name="copy_link">複製鏈接</string>
     <string name="contribute">立即投稿</string>
     <string name="copy_replica">複製副本</string>
-    <string name="delete_speech">刪除演講稿</string>
+    <string name="delete_speech">刪除</string>
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失敗</string>
     <string name="share_cancel">分享取消</string>
