@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.adapter.PlatformAdapter;
 import jx.csp.adapter.PlatformAdapter.OnPlatformCheckedListener;
@@ -24,7 +26,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
  * @auther Huoxuyu
  * @since 2017/9/28
  */
-
+@Route
 public class ContributePlatformActivity extends BaseSRListActivity<Platform, PlatformAdapter>
         implements OnPlatformCheckedListener {
 
@@ -39,6 +41,9 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     private P mPresenter;
     private ContributePlatformContract.V mView;
+
+    @Arg
+    int mCourseId;
 
     @Override
     public void initData() {

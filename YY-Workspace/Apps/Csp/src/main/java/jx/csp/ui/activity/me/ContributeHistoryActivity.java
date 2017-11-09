@@ -38,7 +38,7 @@ public class ContributeHistoryActivity extends BaseSRListActivity<History, Histo
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(DeliveryAPI.history("99efb894ecac41ccab822811ffc79276").pageNum(getOffset()).pageSize(getLimit()).build());
+        exeNetworkReq(DeliveryAPI.history().pageNum(getOffset()).pageSize(getLimit()).build());
     }
 
     @Override

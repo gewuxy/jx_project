@@ -181,7 +181,7 @@ public class NetworkApi {
          */
         @Get("paginate")
         void history(@Query(opt = true) int pageNum,
-                     @Query(opt = true) int pageSize, String token);
+                     @Query(opt = true) int pageSize);
 
         /**
          * 投稿历史 指定单位号
@@ -189,7 +189,7 @@ public class NetworkApi {
          * @param acceptId 接收者id
          */
         @Get("user/detail")
-        void historyDetail(int acceptId, String token);
+        void historyDetail(int acceptId);
 
         /**
          * 投稿

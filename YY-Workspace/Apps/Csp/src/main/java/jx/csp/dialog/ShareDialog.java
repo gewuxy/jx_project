@@ -3,31 +3,30 @@ package jx.csp.dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.GridView;
-import android.widget.SimpleAdapter;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
+import jx.csp.adapter.main.ShareAdapter;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
 import jx.csp.constant.MetaValue;
+import jx.csp.constant.ShareType;
+import jx.csp.model.main.Share;
+import jx.csp.model.main.Share.TShare;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.me.ContributePlatformActivity;
+import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
@@ -55,7 +54,7 @@ public class ShareDialog extends BaseDialog {
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题
     private String mCoverUrl; // 分享的图片url
-//    private GridView mGridView;
+    private int mId;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -63,25 +62,23 @@ public class ShareDialog extends BaseDialog {
     private OnDeleteListener mDeleteListener;
     private OnCopyDuplicateListener mCopyListener;
 
-    private OnClickListener mOnShareClickListener;
-
     public ShareDialog(Context context, String shareTitle, int courseId) {
-        super(context);
-        mShareTitle = shareTitle;
-        shareSignature(courseId);
+        this(context, courseId, shareTitle, "");
+        mId = courseId;
     }
 
     public ShareDialog(Context context, int courseId, String shareTitle, String coverUrl) {
         super(context);
+
         shareSignature(courseId);
         mShareTitle = shareTitle;
         mCoverUrl = coverUrl;
+        mId = courseId;
     }
 
     @Override
     public void initData() {
         mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
-        judge();
     }
 
 
@@ -93,108 +90,36 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-//        mGridView = findView(R.id.share_gridview);
+        judge();
     }
 
     @Override
     public void setViews() {
 
-        setOnClickListener(R.id.dialog_share_iv_copy_link);
+//        setOnClickListener(R.id.dialog_share_iv_copy_link);
         setOnClickListener(R.id.dialog_share_tv_contribute);
         setOnClickListener(R.id.dialog_share_tv_copy_replica);
         setOnClickListener(R.id.dialog_share_tv_delete);
         setOnClickListener(R.id.dialog_share_tv_cancel);
 
         setGravity(Gravity.BOTTOM);
-
-        mOnShareClickListener = v -> {
-            ShareParams param = ShareParams.newBuilder()
-                    .title(mShareTitle)
-                    .text(ResLoader.getString(R.string.share_text))
-                    .url(mShareUrl)
-                    .imageUrl(mCoverUrl)
-                    .build();
-
-            Type type = null;
-            switch (v.getId()) {
-                case R.id.dialog_share_iv_wechat: {
-                    type = Type.wechat;
-                }
-                break;
-                case R.id.dialog_share_iv_moment: {
-                    //微信朋友圈的分享text是不显示的，问了客服
-                    type = Type.wechat_friend;
-                }
-                break;
-                case R.id.dialog_share_iv_qq: {
-                    type = Type.qq;
-                }
-                break;
-                case R.id.dialog_share_iv_linkedin: {
-                    type = Type.linkedin;
-                }
-                break;
-                case R.id.dialog_share_iv_sina: {
-                    type = Type.sina;
-                }
-                break;
-                case R.id.dialog_share_iv_message: {
-                    if (PermissionChecker.allow(getContext(), Permission.sms, Permission.storage)) {
-                        type = Type.sms;
-                    } else {
-                        showToast(getString(R.string.user_message_permission));
-                    }
-                }
-                break;
-            }
-
-            Platform.share(type, param, new OnShareListener() {
-
-                @Override
-                public void onShareSuccess() {
-                    showToast(R.string.share_success);
-                }
-
-                @Override
-                public void onShareError(String message) {
-                    showToast(R.string.share_fail);
-                }
-
-                @Override
-                public void onShareCancel() {
-                    showToast(R.string.share_cancel);
-                }
-            });
-        };
-        setOnShareClickListener(R.id.dialog_share_iv_wechat);
-        setOnShareClickListener(R.id.dialog_share_iv_moment);
-        setOnShareClickListener(R.id.dialog_share_iv_linkedin);
-        setOnShareClickListener(R.id.dialog_share_iv_qq);
-        setOnShareClickListener(R.id.dialog_share_iv_sina);
-        setOnShareClickListener(R.id.dialog_share_iv_message);
-    }
-
-    private void setOnShareClickListener(@IdRes int id) {
-        View v = findView(id);
-        if (v != null) {
-            v.setOnClickListener(mOnShareClickListener);
-        }
     }
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.dialog_share_iv_copy_link: {
+            /*case R.id.dialog_share_iv_copy_link: {
                 //创建一个新的文本clip对象
                 ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
                 //把clip对象放在剪切板中
                 mClipboardManager.setPrimaryClip(clipData);
                 showToast(R.string.copy_success);
             }
-            break;
+            break;*/
             case R.id.dialog_share_tv_contribute: {
-                startActivity(ContributePlatformActivity.class);
+//                startActivity(ContributePlatformActivity.class);
+                ContributePlatformActivityRouter.create(mId).route(getContext());
             }
             break;
             case R.id.dialog_share_tv_copy_replica: {
@@ -225,7 +150,7 @@ public class ShareDialog extends BaseDialog {
         void copy();
     }
 
-    public void shareSignature(int courseId) {
+    private void shareSignature(int courseId) {
         // 拼接加密字符串
         LangType type = SpApp.inst().getLangType(); // 系统语言
         YSLog.d(TAG, "app app_type = " + type);
@@ -255,47 +180,176 @@ public class ShareDialog extends BaseDialog {
         }
     }
 
-    public void judge() {
+    private void judge() {
+        GridView gridView = findView(R.id.share_gridview);
+        ShareAdapter adapter = new ShareAdapter();
+        List<Share> shareList = new ArrayList<>();
+        int[] icons;
+        String[] names;
+        int[] types;
         if (SpApp.inst().getLangType() != LangType.en) {
-            List<Map<String, Object>> dataCn;
-            SimpleAdapter adapter;
-            GridView mGridView = findView(R.id.share_gridview);
-            int[] icon = {R.drawable.share_ic_wechat,
+            icons = new int[]{
+                    R.drawable.share_ic_wechat,
                     R.drawable.share_ic_moment,
                     R.drawable.share_ic_qq,
                     R.drawable.share_ic_linkedin,
                     R.drawable.share_ic_weibo,
                     R.drawable.share_ic_message,
-                    R.drawable.share_ic_copy};
-            String[] platform = {getString(R.string.wechat),
+                    R.drawable.share_ic_copy
+            };
+
+            names = new String[]{
+                    getString(R.string.wechat),
                     getString(R.string.moment),
                     getString(R.string.QQ),
                     getString(R.string.linkedin),
                     getString(R.string.weibo),
                     getString(R.string.message),
-                    getString(R.string.moment)};
-            dataCn = new ArrayList<Map<String, Object>>();
-            for (int i = 0; i < icon.length; i++) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("image", icon[i]);
-                map.put("text", platform);
-                dataCn.add(map);
-            }
-            String[] from = {"image", "text"};
-            int[] to = {R.id.dialog_share_iv_wechat, R.id.dialog_share_tv_wechat};
-            adapter = new SimpleAdapter(getContext(), dataCn, R.layout.activty_dialog_share_pltatform_item, from, to);
-            mGridView.setAdapter(adapter);
-            mGridView.setOnItemClickListener((adapterView, view, i, l) -> {
-                switch (i) {
-                    case 0: {
+                    getString(R.string.copy_link)
+            };
 
+            types = new int[]{
+                    ShareType.wechat,
+                    ShareType.wechat_friend,
+                    ShareType.qq,
+                    ShareType.linkedin,
+                    ShareType.sina,
+                    ShareType.sms,
+                    ShareType.copy,
+            };
+        } else {
+            icons = new int[]{
+                    R.drawable.share_ic_facebook,
+                    R.drawable.share_ic_twitter,
+                    R.drawable.share_ic_whatsapp,
+                    R.drawable.share_ic_line,
+                    R.drawable.share_ic_linkedin,
+                    R.drawable.share_ic_sms,
+                    R.drawable.share_ic_copy
+            };
+
+            names = new String[]{
+                    getString(R.string.facebook),
+                    getString(R.string.twitter),
+                    getString(R.string.whatsapp),
+                    getString(R.string.Line),
+                    getString(R.string.linkedin),
+                    getString(R.string.SMS),
+                    getString(R.string.copy_link)
+            };
+
+            types = new int[]{
+                    ShareType.facebook,
+                    ShareType.twitter,
+                    ShareType.whatsapp,
+                    ShareType.line,
+                    ShareType.linkedin,
+                    ShareType.sms,
+                    ShareType.copy,
+            };
+        }
+        shareList = toShare(icons, names, types);
+        adapter.setData(shareList);
+        gridView.setAdapter(adapter);
+
+        OnShareListener listener = new OnShareListener() {
+
+            @Override
+            public void onShareSuccess() {
+                showToast(R.string.share_success);
+            }
+
+            @Override
+            public void onShareError(String message) {
+                showToast(R.string.share_fail);
+            }
+
+            @Override
+            public void onShareCancel() {
+                showToast(R.string.share_cancel);
+            }
+        };
+        ShareParams param = ShareParams.newBuilder()
+                .title(mShareTitle)
+                .text(ResLoader.getString(R.string.share_text))
+                .url(mShareUrl)
+                .imageUrl(mCoverUrl)
+                .build();
+        gridView.setOnItemClickListener((adapterView, view, position, l) -> {
+            int type = adapter.getItemViewType(position);
+            if (type == ShareType.copy) {
+                //创建一个新的文本clip对象
+                ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
+                //把clip对象放在剪切板中
+                mClipboardManager.setPrimaryClip(clipData);
+                showToast(R.string.copy_success);
+            } else {
+                Type t = Type.qq;
+                switch (type) {
+                    case ShareType.wechat: {
+                        t = Type.wechat;
+                    }
+                    break;
+                    case ShareType.wechat_friend: {
+                        t = Type.wechat_friend;
+                    }
+                    break;
+                    case ShareType.qq: {
+                        t = Type.qq;
+                    }
+                    break;
+                    case ShareType.linkedin: {
+                        t = Type.linkedin;
+                    }
+                    break;
+                    case ShareType.sina: {
+                        t = Type.sina;
+                    }
+                    break;
+                    case ShareType.facebook: {
+                        t = Type.facebook;
+                    }
+                    break;
+                    case ShareType.twitter: {
+                        t = Type.twitter;
+                    }
+                    break;
+                    case ShareType.whatsapp: {
+                        t = Type.whatsapp;
+                    }
+                    break;
+                    case ShareType.line: {
+                        t = Type.line;
+                    }
+                    break;
+                    case ShareType.sms: {
+                        if (PermissionChecker.allow(getContext(), Permission.sms, Permission.storage)) {
+                            t = Type.sms;
+                        } else {
+                            showToast(getString(R.string.user_message_permission));
+                        }
                     }
                     break;
                 }
-            });
-        } else {
+                Platform.share(t, param, listener);
+            }
+        });
+    }
 
+    private List<Share> toShare(int[] icons, String[] names, int[] types) {
+        List<Share> list = new ArrayList<>();
+        if (icons == null || names == null || types == null) {
+            return list;
         }
+        int length = Math.min(Math.min(icons.length, names.length), types.length);
+        for (int i = 0; i < length; i++) {
+            Share share = new Share();
+            share.put(TShare.icon, icons[i]);
+            share.put(TShare.name, names[i]);
+            share.put(TShare.type, types[i]);
+            list.add(share);
+        }
+        return list;
     }
 
     public void setDeleteListener(OnDeleteListener listener) {
@@ -306,3 +360,4 @@ public class ShareDialog extends BaseDialog {
         mCopyListener = l;
     }
 }
+

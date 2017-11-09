@@ -60,7 +60,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private CountdownDialog mCountdownDialog;
     private int mId;
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
-    private int mCopyId; // 后台返回的复制副本的id
 
     @IntDef({
             LiveType.ppt,
@@ -128,22 +127,27 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onShareClick(Meet item) {
         mId = item.getInt(TMeet.id);
+        mMeet = item;
         ShareDialog shareDialog = new ShareDialog(mContext,
                 item.getInt(TMeet.id),
                 String.format(ResLoader.getString(R.string.share_title), item.getString(TMeet.title)),
                 item.getString(TMeet.coverUrl));
         shareDialog.setDeleteListener(() -> {
-            CommonDialog dialog = new CommonDialog(mContext);
-            View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
-            dialog.addHintView(view);
-            dialog.addBlueButton(R.string.confirm, v1 -> {
-                exeNetworkReq(KDeleteReqId, MeetingAPI.delete((item.getString(TMeet.title).contains(ResLoader.getString(R.string.duplicate))) ? mCopyId : mId).build());
-            });
-            dialog.addGrayButton(R.string.cancel);
-            dialog.show();
+            deleteDialog(KDeleteReqId,mId);
         });
         shareDialog.setCopyListener(() -> exeNetworkReq(KCopyReqId, MeetingAPI.copy(mId, item.getString(TMeet.title)).build()));
         shareDialog.show();
+    }
+
+    public void deleteDialog(int kId,int courseId) {
+        CommonDialog dialog = new CommonDialog(mContext);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
+        dialog.addHintView(view);
+        dialog.addBlueButton(R.string.confirm, v1 -> {
+            exeNetworkReq(kId, MeetingAPI.delete(courseId).build());
+        });
+        dialog.addGrayButton(R.string.cancel);
+        dialog.show();
     }
 
     @Override
@@ -179,7 +183,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KJoinRecordCheckRedId || id == KJoinLiveRoomCheckRedId) {
             return JsonParser.ev(r.getText(), Scan.class);
-        } else {
+        } else if (id == KCopyReqId) {
+            return JsonParser.ev(r.getText(), Copy.class);
+        }else {
             return JsonParser.error(r.getText());
         }
     }
@@ -253,7 +259,10 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 if (r.isSucceed()) {
                     showToast(R.string.copy_duplicate_success);
                     Copy data = r.getData();
-                    mCopyId = data.getInt(TCopy.id);
+                    int copyId = data.getInt(TCopy.id);
+
+                    Meet m = (Meet) mMeet.clone();
+                    m.put(TMeet.id,copyId);
                     Notifier.inst().notify(NotifyType.copy_duplicate, mId);
                 } else {
                     onNetworkError(id, r.getError());

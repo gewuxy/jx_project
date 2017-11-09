@@ -26,6 +26,7 @@ public class Platform {
         qzone,
         sms,
         facebook,
+        whatsapp,
     }
 
     private static Provider mProvider;

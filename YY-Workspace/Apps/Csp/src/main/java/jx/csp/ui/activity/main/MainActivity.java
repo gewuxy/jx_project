@@ -26,6 +26,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionResult;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -206,5 +207,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         LiveNotifier.inst().remove(this);
         SingletonImpl.inst().freeAll();
+    }
+
+    @Override
+    public void onPermissionResult(int code, @PermissionResult int result) {
+        switch (result) {
+            case PermissionResult.granted: {
+                startActivityForResult(ScanActivity.class, 0);
+            }
+            break;
+            case PermissionResult.denied:
+            case PermissionResult.never_ask: {
+                showToast(getString(R.string.user_photo_permission));
+            }
+            break;
+        }
     }
 }

@@ -27,7 +27,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_third_part_login_cn"
                 android:gravity="center"
-                android:text="@string/language_transform"
+                android:text="@string/language_transform_en"
                 android:textColor="@color/white"
                 android:textSize="10dp"/>
 

@@ -52,6 +52,7 @@
 
     <!--登录-->
     <string name="language_transform">EN</string>
+    <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信授权登录</string>
     <string name="login_sina">微博授权登录</string>
@@ -105,7 +106,7 @@
     <string name="wechat">微信好友</string>
     <string name="moment">微信朋友圈</string>
     <string name="QQ">QQ</string>
-    <string name="linkedin">领英</string>
+    <string name="linkedin">LinkedIn</string>
     <string name="weibo">微博</string>
     <string name="message">短信</string>
     <string name="whatsapp">WhatsApp</string>

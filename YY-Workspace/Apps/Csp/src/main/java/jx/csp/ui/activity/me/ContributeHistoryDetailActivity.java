@@ -41,6 +41,6 @@ public class ContributeHistoryDetailActivity extends BaseSRListActivity<HistoryD
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(DeliveryAPI.historyDetail(mAcceptId, "99efb894ecac41ccab822811ffc79276").build());
+        exeNetworkReq(DeliveryAPI.historyDetail(mAcceptId).build());
     }
 }

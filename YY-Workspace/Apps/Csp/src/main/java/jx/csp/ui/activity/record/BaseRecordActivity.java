@@ -126,6 +126,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         Util.addBackIcon(bar, this);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
             ShareDialog dialog = new ShareDialog(this, mTitle, Integer.valueOf(mCourseId));
+            dialog.setDeleteListener(()->{
+
+            });
             dialog.show();
         });
     }

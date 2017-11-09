@@ -19,6 +19,7 @@ import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import cn.sharesdk.whatsapp.WhatsApp;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.listener.OnShareListener;
@@ -99,6 +100,8 @@ public class MobProvider implements Provider {
             case line: {
                 name = Line.NAME;
                 id = "6";
+                hashMap.put("ChannelID",key);
+                hashMap.put("ChannelSecret",secret);
             }
             break;
             case wechat_friend: {
@@ -122,6 +125,12 @@ public class MobProvider implements Provider {
                 hashMap.put("RedirectUrl", "https://mob.com");
                 hashMap.put("ShareByAppClient", "true");
             }
+            break;
+            case whatsapp: {
+                name = WhatsApp.NAME;
+                id = "10";
+            }
+            break;
         }
 
         hashMap.put("Id", id);

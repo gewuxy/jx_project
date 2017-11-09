@@ -52,6 +52,7 @@
 
     <!--登录-->
     <string name="language_transform">中文</string>
+    <string name="language_transform_en">中文</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信登錄</string>
     <string name="login_sina">微博登錄</string>
