@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.meeting;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.Html;
@@ -48,6 +50,7 @@ import yy.doctor.network.UrlUtil;
 import yy.doctor.network.UrlUtil.UrlMeet;
 import yy.doctor.serv.CommonServ.ReqType;
 import yy.doctor.serv.CommonServRouter;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.me.unitnum.UnitNumDetailActivityRouter;
 import yy.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import yy.doctor.util.Time;
@@ -120,6 +123,8 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     //资料
     private MaterialView mMaterialView;
 
+    private boolean mFromWeb; // 是否从网页打开
+
     @NonNull
     @Override
     public int getContentViewId() {
@@ -128,12 +133,33 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
 
     @Override
     public void initData() {
+        Intent i = getIntent();
+        if (i != null) {
+            Uri uri = i.getData();
+            if (uri != null) {
+                mMeetId = uri.getQueryParameter("meetId");
+                mMeetName = uri.getQueryParameter("title");
+                mFromWeb = true;
+                YSLog.d(TAG, "initData:" + mMeetId);
+                YSLog.d(TAG, "initData:" + mMeetName);
+            } else {
+                mFromWeb = false;
+            }
+        }
         mMeetTime = 0;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.meeting_detail, this);
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, null, v -> {
+            finish();
+            if (mFromWeb) {
+                startActivity(MainActivity.class);
+            }
+        });
+
+        bar.addTextViewMid(R.string.meeting_detail);
+
         // 收藏
         ViewGroup group = bar.addViewRight(R.drawable.collection_selector, v -> {
             // 无网
