@@ -1,6 +1,8 @@
 package jx.csp;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import java.util.Locale;
@@ -106,6 +108,12 @@ public class App extends BaseApp {
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
 
         Platform.init(this, "21454499cef00", "da83f1b9d28a32e0d57004d58e1eb318");
+
+        // 临时的
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
 
         Locale l = Locale.getDefault();
         LangType langType = LangType.en;
