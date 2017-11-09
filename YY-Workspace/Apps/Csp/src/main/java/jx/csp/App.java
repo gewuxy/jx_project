@@ -5,10 +5,8 @@ import android.support.multidex.MultiDex;
 
 import java.util.Locale;
 
-import jx.csp.constant.Constants;
 import jx.csp.constant.Constants.PageConstants;
 import jx.csp.constant.LanguageType;
-import jx.csp.constant.MetaValue;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
@@ -26,8 +24,6 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
-import lib.ys.util.DeviceUtil;
-import lib.ys.util.PackageUtil;
 import lib.yy.BaseApp;
 
 /**
@@ -111,20 +107,14 @@ public class App extends BaseApp {
 
         Platform.init(this, "21454499cef00", "da83f1b9d28a32e0d57004d58e1eb318");
 
-        String appType = PackageUtil.getMetaValue(MetaValue.app_type);
+        Locale l = Locale.getDefault();
         LanguageType languageType = LanguageType.en;
-        if (appType.equals(Constants.KAppTypeCn)) {
-            Locale l = Locale.getDefault();
-            DeviceUtil.setResLocale(this, l);
-
-            if (Locale.SIMPLIFIED_CHINESE.getCountry().equals(l.getCountry())) {
-                languageType = LanguageType.cn_simplified;
-            } else {
-                languageType = LanguageType.cn;
-            }
-
-        } else {
-            DeviceUtil.setResLocale(this, Locale.ENGLISH);
+        if (l.equals(Locale.SIMPLIFIED_CHINESE)) {
+            // 简体中文
+            languageType = LanguageType.cn_simplified;
+        } else if (l.equals(Locale.TRADITIONAL_CHINESE)) {
+            // 繁体中文
+            languageType = LanguageType.cn;
         }
         // 保存系统语言
         SpApp.inst().saveSystemLanguage(languageType);
